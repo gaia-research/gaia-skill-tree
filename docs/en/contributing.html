@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contributing — Gaia Docs</title>
+  <meta name="description" content="Three contributor paths: submitting skills via gaia push, curating with /gaia-curate-chain, or direct CLI meta shifts. Covers branch naming, PR checklist, and automated maintenance.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg, #030712);
+      color: var(--text, #e2e8f0);
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    a { color: var(--tier-basic, #38bdf8); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    .docs-nav {
+      border-bottom: 1px solid var(--border, #1e293b);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      background: rgba(3, 7, 18, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text, #e2e8f0);
+      letter-spacing: .02em;
+    }
+    .nav-logo span { color: var(--tier-ultimate, #f59e0b); }
+    .nav-sep { color: var(--muted, #64748b); font-size: 0.85rem; }
+    .nav-crumb { font-size: 0.82rem; color: var(--muted, #64748b); }
+    .nav-crumb:hover { color: var(--text, #e2e8f0); text-decoration: none; }
+    .nav-crumb.current { color: var(--text, #e2e8f0); }
+    .nav-spacer { flex: 1; }
+    .nav-version {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted, #64748b);
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 4px;
+    }
+
+    /* ── Layout ── */
+    .page-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky;
+      top: 52px;
+      height: calc(100vh - 52px);
+      overflow-y: auto;
+      padding: 2rem 0 2rem 1.5rem;
+      border-right: 1px solid var(--border, #1e293b);
+      scrollbar-width: thin;
+      scrollbar-color: var(--border, #1e293b) transparent;
+    }
+    .sidebar-group { margin-bottom: 1.75rem; }
+    .sidebar-group-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted, #64748b);
+      margin-bottom: 0.5rem;
+    }
+    .sidebar-links { list-style: none; display: flex; flex-direction: column; gap: 0.1rem; }
+    .sidebar-links a {
+      display: block;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.84rem;
+      color: var(--muted, #64748b);
+      border-radius: 4px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .sidebar-links a:hover {
+      color: var(--text, #e2e8f0);
+      background: rgba(255,255,255,0.04);
+      text-decoration: none;
+    }
+    .sidebar-links a.active {
+      color: var(--tier-basic, #38bdf8);
+      background: rgba(56,189,248,0.07);
+    }
+
+    /* ── Main ── */
+    .main-content {
+      padding: 2.5rem 3rem 4rem 3rem;
+      max-width: 820px;
+      min-width: 0;
+    }
+    .page-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 2.4rem;
+      font-weight: 500;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+      color: var(--text, #e2e8f0);
+    }
+    .page-lead {
+      font-size: 1.05rem;
+      color: var(--muted, #64748b);
+      max-width: 580px;
+      line-height: 1.65;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── Sections ── */
+    .section { margin-bottom: 3.5rem; }
+    .section-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.7rem;
+      font-weight: 500;
+      color: var(--text, #e2e8f0);
+      margin-bottom: 0.5rem;
+      padding-top: 0.5rem;
+    }
+    .section-body {
+      font-size: 0.95rem;
+      color: var(--muted, #64748b);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .section-body p { margin-bottom: 0.85rem; }
+    .section-body p:last-child { margin-bottom: 0; }
+
+    h3 {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--text, #e2e8f0);
+      margin: 1.75rem 0 0.6rem;
+    }
+
+    /* ── Path cards ── */
+    .path-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    @media (max-width: 860px) {
+      .path-grid { grid-template-columns: 1fr; }
+      .page-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+    }
+    .path-card {
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 10px;
+      padding: 1.25rem;
+      background: var(--surface, #0f172a);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .path-card.recommended {
+      border-color: rgba(56,189,248,0.3);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.08) inset;
+    }
+    .path-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted, #64748b);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .path-label .badge {
+      background: rgba(56,189,248,0.15);
+      color: var(--tier-basic, #38bdf8);
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      font-size: 0.62rem;
+    }
+    .path-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text, #e2e8f0);
+    }
+    .path-desc {
+      font-size: 0.845rem;
+      color: var(--muted, #64748b);
+      line-height: 1.55;
+      flex: 1;
+    }
+    .path-cmd {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--tier-basic, #38bdf8);
+      background: rgba(56,189,248,0.07);
+      border: 1px solid rgba(56,189,248,0.15);
+      border-radius: 4px;
+      padding: 0.35rem 0.6rem;
+      margin-top: 0.25rem;
+    }
+
+    /* ── Data table ── */
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin: 1rem 0; }
+    .data-table th {
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.64rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted, #64748b);
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--border, #1e293b);
+    }
+    .data-table td {
+      padding: 0.55rem 0.75rem;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(30,41,59,0.5);
+      color: var(--muted, #64748b);
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text, #e2e8f0);
+      white-space: nowrap;
+    }
+    .data-table code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      background: rgba(255,255,255,0.06);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+      color: var(--text, #e2e8f0);
+    }
+
+    /* ── Code fence ── */
+    .code-fence {
+      background: #06080f;
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+    .code-fence-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted, #64748b);
+      padding: 0.45rem 1rem;
+      border-bottom: 1px solid var(--border, #1e293b);
+      background: rgba(255,255,255,0.015);
+    }
+    .code-fence pre {
+      padding: 0.85rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: #c9d1d9;
+      overflow-x: auto;
+    }
+    .code-fence pre .c { color: #6b7280; }
+    .code-fence pre .kw { color: #7dd3fc; }
+    .code-fence pre .str { color: #86efac; }
+    .code-fence pre .flag { color: #c084fc; }
+
+    /* ── Callout ── */
+    .callout {
+      border-left: 3px solid;
+      padding: 0.85rem 1rem;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      margin: 1rem 0;
+    }
+    .callout.info {
+      border-color: var(--tier-basic, #38bdf8);
+      background: rgba(56,189,248,0.07);
+      color: #bae6fd;
+    }
+    .callout.warn {
+      border-color: #f59e0b;
+      background: rgba(245,158,11,0.07);
+      color: #fde68a;
+    }
+    .callout.tip {
+      border-color: #34d399;
+      background: rgba(52,211,153,0.07);
+      color: #6ee7b7;
+    }
+    .callout strong { font-weight: 600; }
+    .callout code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      background: rgba(255,255,255,0.08);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+    }
+
+    /* ── Checklist ── */
+    .checklist { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0; }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      font-size: 0.9rem;
+      color: var(--muted, #64748b);
+      line-height: 1.55;
+    }
+    .checklist li::before {
+      content: "☐";
+      font-size: 0.9rem;
+      color: var(--muted, #64748b);
+      flex-shrink: 0;
+      margin-top: 0.05rem;
+    }
+    .checklist li code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      background: rgba(255,255,255,0.06);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+      color: var(--text, #e2e8f0);
+    }
+
+    /* ── Step list ── */
+    .step-list { list-style: none; display: flex; flex-direction: column; gap: 0; margin: 1rem 0; counter-reset: step; }
+    .step-list li {
+      display: flex;
+      gap: 1rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid rgba(30,41,59,0.5);
+      font-size: 0.9rem;
+      color: var(--muted, #64748b);
+      line-height: 1.6;
+      counter-increment: step;
+    }
+    .step-list li:last-child { border-bottom: none; }
+    .step-list li::before {
+      content: counter(step);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--tier-basic, #38bdf8);
+      background: rgba(56,189,248,0.1);
+      border: 1px solid rgba(56,189,248,0.2);
+      border-radius: 50%;
+      width: 1.6rem;
+      height: 1.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+    .step-list li strong { color: var(--text, #e2e8f0); font-weight: 600; }
+    .step-list li code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      background: rgba(255,255,255,0.06);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+      color: var(--text, #e2e8f0);
+    }
+
+    /* ── Footer ── */
+    .page-footer {
+      border-top: 1px solid var(--border, #1e293b);
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--muted, #64748b);
+    }
+    .page-footer a { color: var(--muted, #64748b); }
+    .page-footer a:hover { color: var(--text, #e2e8f0); }
+
+    code { font-family: 'JetBrains Mono', monospace; font-size: 0.82em; background: rgba(255,255,255,0.06); padding: 0.1em 0.35em; border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="docs-nav">
+    <a class="nav-logo" href="../index.html">Gaia <span>◆</span></a>
+    <span class="nav-sep">/</span>
+    <a class="nav-crumb" href="index.html">Docs</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-crumb current">Contributing</span>
+    <span class="nav-spacer"></span>
+    <span class="nav-version">v4.7.0</span>
+  </nav>
+
+  <!-- Layout -->
+  <div class="page-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">On this page</div>
+        <ul class="sidebar-links">
+          <li><a href="#pick-workflow">Pick your workflow</a></li>
+          <li><a href="#path-a">Path A — gaia push</a></li>
+          <li><a href="#path-b">Path B — Curation chain</a></li>
+          <li><a href="#path-c">Path C — Direct CLI</a></li>
+          <li><a href="#source-truth">Source of truth</a></li>
+          <li><a href="#branch-naming">Branch naming</a></li>
+          <li><a href="#pr-checklist">PR checklist</a></li>
+          <li><a href="#automated">Automated maintenance</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">See also</div>
+        <ul class="sidebar-links">
+          <li><a href="getting-started.html">Getting Started</a></li>
+          <li><a href="named-skills.html">Named Skills</a></li>
+          <li><a href="cli-reference.html">CLI Reference</a></li>
+          <li><a href="skill-hierarchy.html">Skill Hierarchy</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+      <h1 class="page-title">Contributing</h1>
+      <p class="page-lead">Three paths to expand the registry — choose by role. Every mutation goes through the same <code>gaia dev</code> verbs; the paths differ in how much gating they add.</p>
+
+      <!-- Pick workflow -->
+      <section class="section" id="pick-workflow">
+        <h2 class="section-title">Pick your workflow</h2>
+        <div class="section-body">
+          <p>Choose the path that matches what you're doing. All three routes land in the same registry — the difference is gating and scale.</p>
+        </div>
+
+        <div class="path-grid">
+          <div class="path-card">
+            <div class="path-label">Path A</div>
+            <div class="path-name">Submit discovered skills</div>
+            <div class="path-desc">You found a SKILL.md in the wild and want to propose it for the registry. Runs the scanner and opens a draft intake batch for reviewer approval.</div>
+            <div class="path-cmd">gaia push</div>
+          </div>
+          <div class="path-card recommended">
+            <div class="path-label">Path B <span class="badge">recommended</span></div>
+            <div class="path-name">Curate with gates</div>
+            <div class="path-desc">Reviewer-run pipeline with six gated links — scope, research, design, human review, mutate, ship. Schema and DAG are checked before any mutation touches the registry.</div>
+            <div class="path-cmd">/gaia-curate-chain &lt;topic&gt;</div>
+          </div>
+          <div class="path-card">
+            <div class="path-label">Path C</div>
+            <div class="path-name">Direct CLI meta shifts</div>
+            <div class="path-desc">One-off corrections — single merge, split, reclassify, or evidence add. Requires Verifier authorization. Run <code>gaia validate</code> after every change.</div>
+            <div class="path-cmd">gaia dev merge / split / add</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Path A -->
+      <section class="section" id="path-a">
+        <h2 class="section-title">Path A — <code>gaia push</code></h2>
+        <div class="section-body">
+          <p>Use this when you've found or built a skill and want to propose it. The command scans your repository, writes a draft intake batch to <code>registry-for-review/skill-batches/</code>, and opens a GitHub issue for reviewer sign-off.</p>
+          <p>Proposed skills are not in the registry until a maintainer promotes them. The intake batch is a review artifact only.</p>
+        </div>
+
+        <div class="code-fence">
+          <div class="code-fence-label">bash</div>
+          <pre><span class="c"># Standard push — opens a GitHub issue with proposed skills</span>
+gaia push
+
+<span class="c"># Dry run — shows the batch without creating anything</span>
+gaia push --dry-run
+
+<span class="c"># Skip creating a GitHub issue (useful in CI or draft review)</span>
+gaia push --no-issue
+
+<span class="c"># Validate the intake batch after pushing</span>
+python3 scripts/validate_intake.py</pre>
+        </div>
+
+        <div class="callout warn">
+          <strong>Always dry-run first.</strong> <code>gaia push</code> opens a public GitHub issue. Use <code>--dry-run</code> to review the proposed skill list before committing.
+        </div>
+      </section>
+
+      <!-- Path B -->
+      <section class="section" id="path-b">
+        <h2 class="section-title">Path B — <code>/gaia-curate-chain</code></h2>
+        <div class="section-body">
+          <p>The recommended path for maintainer-run registry expansion. Runs as six gated links with one sub-agent per link. A programmatic check runs between each link — schema shapes and the prerequisite DAG are verified before any mutation touches the registry, and <code>gaia validate</code> must pass before the branch ships.</p>
+        </div>
+
+        <div class="code-fence">
+          <div class="code-fence-label">claude code</div>
+          <pre>/gaia-curate-chain &lt;topic-or-source-url&gt;</pre>
+        </div>
+
+        <h3>Six links</h3>
+        <ol class="step-list">
+          <li><strong>Scope</strong> — define the skill domain and boundaries, reject off-scope candidates early.</li>
+          <li><strong>Research</strong> — verify source URLs are resolvable, collect evidence, check for existing canonical coverage.</li>
+          <li><strong>Design</strong> — shape the skill graph: IDs, prerequisites, tier assignment, evidence class.</li>
+          <li><strong>Human review</strong> — gated pause for maintainer sign-off before mutations begin.</li>
+          <li><strong>Mutate</strong> — run <code>gaia dev add</code> / <code>evidence</code> / <code>link</code> commands to write to the registry.</li>
+          <li><strong>Ship</strong> — run <code>gaia validate</code>, open the PR, verify CI.</li>
+        </ol>
+
+        <div class="callout info">
+          The flat <code>/gaia-curate</code> skill (single linear pass) is available for small, trusted, low-stakes batches — but it is less gated. Prefer <code>/gaia-curate-chain</code> when evidence quality and schema correctness matter.
+        </div>
+      </section>
+
+      <!-- Path C -->
+      <section class="section" id="path-c">
+        <h2 class="section-title">Path C — Direct CLI meta shifts</h2>
+        <div class="section-body">
+          <p>Use for one-off corrections. All meta shifts — adding, merging, splitting, evidence — must go through <code>gaia dev</code> commands, never direct JSON edits. The CLI writes timeline events automatically.</p>
+          <p>Mutating <code>gaia dev</code> subcommands require <strong>Verifier authorization</strong>. Run <code>gaia whoami</code> to check your current authorization path.</p>
+        </div>
+
+        <div class="code-fence">
+          <div class="code-fence-label">bash — common meta shifts</div>
+          <pre><span class="c"># List skills — find targets before mutating</span>
+gaia dev list --generic
+
+<span class="c"># Add a new skill</span>
+gaia dev add "New Skill Name" \
+  --type basic \
+  --description "At least 10 chars description"
+
+<span class="c"># Merge skills (target inherits from sources)</span>
+gaia dev merge target-id source-id-1 source-id-2
+
+<span class="c"># Split a skill into two</span>
+gaia dev split source-id target-id-1 target-id-2
+
+<span class="c"># Add evidence</span>
+gaia dev evidence skill-id "https://github.com/owner/repo/blob/main/SKILL.md" \
+  --class B --notes "Reproducible demo"
+
+<span class="c"># Calibrate stars</span>
+gaia dev calibrate skill-id "3★"
+
+<span class="c"># Link prerequisites</span>
+gaia dev link target-id prereq-id-1,prereq-id-2
+
+<span class="c"># Validate after any change</span>
+gaia validate</pre>
+        </div>
+
+        <div class="callout tip">
+          <strong>Batch tip:</strong> Most <code>gaia dev</code> commands accept <code>--no-build</code>. Use this during batch operations to skip expensive documentation/graph regeneration on every step — run <code>gaia dev build</code> once at the end.
+        </div>
+
+        <h3>Authorization paths</h3>
+        <table class="data-table">
+          <thead>
+            <tr><th>via</th><th>Condition</th><th>Who</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>verifier</td>
+              <td>Contributor holds a 4★+ Named Skill in the registry</td>
+              <td>Human maintainers</td>
+            </tr>
+            <tr>
+              <td>override</td>
+              <td><code>GAIA_OPERATOR_OVERRIDE=1</code> env var is set</td>
+              <td>CI runners, bots, automation</td>
+            </tr>
+            <tr>
+              <td>bootstrap</td>
+              <td>No 4★ Verifiers exist in the registry yet</td>
+              <td>Fresh / empty registries</td>
+            </tr>
+            <tr>
+              <td>denied</td>
+              <td>None of the above</td>
+              <td>Unauthorized</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Source of truth -->
+      <section class="section" id="source-truth">
+        <h2 class="section-title">Source of truth</h2>
+        <div class="section-body">
+          <p>Know which files you should touch and which you should never edit directly.</p>
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>File / directory</th><th>Status</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>registry/nodes/**/*.json</td>
+              <td>✅ Edit via CLI</td>
+              <td>Managed programmatically by <code>gaia dev</code> commands</td>
+            </tr>
+            <tr>
+              <td>registry-for-review/skill-batches/*.json</td>
+              <td>✅ Edit via push</td>
+              <td>Intake batches written by <code>gaia push</code></td>
+            </tr>
+            <tr>
+              <td>registry/gaia.json</td>
+              <td>❌ Never hand-edit</td>
+              <td>Auto-generated artifact; assembled by the build pipeline</td>
+            </tr>
+            <tr>
+              <td>docs/graph/gaia.json</td>
+              <td>❌ Never hand-edit</td>
+              <td>Generated graph projection; regenerated on every build</td>
+            </tr>
+            <tr>
+              <td>registry/nodes/*.json</td>
+              <td>⚠️ Fix typos only</td>
+              <td>Prefer CLI for all structural changes</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Branch naming -->
+      <section class="section" id="branch-naming">
+        <h2 class="section-title">Branch naming</h2>
+        <div class="section-body">
+          <p>CI enforces scope via <code>.github/workflows/branch-scope.yml</code>. Schema changes (<code>registry/schema/</code>) must use a <code>schema/</code> branch. Add label <code>skip-scope-check</code> to bypass in emergencies.</p>
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Prefix</th><th>Use for</th><th>Scope</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>schema/…</td><td>Nomenclature / terminology changes</td><td><code>registry/schema/</code>, <code>*.md</code></td></tr>
+            <tr><td>cli/…</td><td>CLI source changes</td><td><code>src/</code>, <code>packages/</code>, <code>tests/</code>, <code>*.md</code></td></tr>
+            <tr><td>docs/…</td><td>Documentation</td><td><code>docs/</code>, <code>*.md</code></td></tr>
+            <tr><td>design/…</td><td>Website design</td><td><code>docs/</code> (HTML/CSS/JS), <code>*.md</code></td></tr>
+            <tr><td>review/gaia-push/…</td><td>Intake layer (<code>gaia push</code>)</td><td><code>registry-for-review/</code>, <code>*.md</code></td></tr>
+            <tr><td>review/meta/…</td><td>Registry curation / promotion</td><td><code>registry/</code>, <code>*.md</code></td></tr>
+            <tr><td>infra/…</td><td>CI / tooling changes</td><td><code>.github/</code>, <code>scripts/</code>, <code>docs/*.html</code>, <code>*.md</code></td></tr>
+            <tr><td>dev/… claude/… codex/…</td><td>Experimental (unrestricted)</td><td>any</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout info">
+          <strong>Copy-paste template:</strong> <code>git checkout -b review/meta/your-skill-name origin/main</code>
+        </div>
+      </section>
+
+      <!-- PR checklist -->
+      <section class="section" id="pr-checklist">
+        <h2 class="section-title">PR checklist</h2>
+        <div class="section-body">
+          <p>Every registry PR should pass all of these before requesting review.</p>
+        </div>
+
+        <ul class="checklist">
+          <li>Correct branch prefix for scope (see Branch naming above)</li>
+          <li>Only source-of-truth files edited — no hand-edits to generated artifacts</li>
+          <li><code>gaia validate</code> passes with no errors</li>
+          <li>Evidence meets the level / type requirements for the proposed star rating</li>
+          <li>PR title format: <code>[type] skill-name — short description</code></li>
+          <li>Timeline events written for any rank change (demotion / promotion)</li>
+          <li>No rarity references in any copy (deprecated axis)</li>
+          <li>Named Skill <code>links.github</code> uses <code>blob/branch/subpath</code> URL format — not <code>tree/</code></li>
+        </ul>
+
+        <h3>PR title examples</h3>
+        <div class="code-fence">
+          <div class="code-fence-label">examples</div>
+          <pre>[basic] parse-csv — add CSV parsing primitive
+[extra] autonomous-debug — compose debug workflow
+[reclassify] web-scrape — promote with new evidence
+[evidence] karpathy/web-scrape — add Class B source
+[merge] extract-data ← parse-table + extract-table</pre>
+        </div>
+      </section>
+
+      <!-- Automated maintenance -->
+      <section class="section" id="automated">
+        <h2 class="section-title">Automated maintenance</h2>
+        <div class="section-body">
+          <p>You don't need to run build scripts manually. CI handles regeneration on every push. The following automations run on every PR and merge.</p>
+        </div>
+
+        <h3>Auto-Sync</h3>
+        <div class="section-body">
+          <p>On every push, a GitHub Action runs versioning and regeneration scripts. <code>registry/gaia.json</code> and the docs graph are rebuilt automatically.</p>
+        </div>
+
+        <h3>Validation</h3>
+        <div class="section-body">
+          <p>Every PR is automatically validated for schema correctness, DAG integrity, and evidence quality. You can run the same checks locally:</p>
+        </div>
+
+        <div class="code-fence">
+          <div class="code-fence-label">bash</div>
+          <pre>gaia validate            <span class="c"># full validation pass</span>
+gaia validate --intake   <span class="c"># validate intake batch too</span></pre>
+        </div>
+
+        <h3>Transparency Gate</h3>
+        <div class="section-body">
+          <p>Enforces the transparency mandate — every rank change must leave a timeline event explaining why. A silent demotion or promotion (rank change with no <code>demote</code> / <code>rank_up</code> event) fails the build.</p>
+          <p>Reconcile drift with the <code>/gaia-trace-timeline</code> skill, or run <code>scripts/trace_timeline.py --all --apply</code>.</p>
+        </div>
+
+        <h3>Meta Guard</h3>
+        <div class="section-body">
+          <p>PRs that mutate registry files from an unauthorized actor are blocked by <code>.github/workflows/meta-guard.yml</code>. Bot actors (<code>*[bot]</code>, <code>jules</code>, <code>codex</code>, <code>claude-bot</code>, <code>gemini-bot</code>) are always allowlisted. Add the <code>skip-meta-guard</code> label for maintainer overrides.</p>
+        </div>
+
+        <h3>Monthly Meta Sweep</h3>
+        <div class="section-body">
+          <p>On the first Monday of each month, a designated maintainer runs <code>/gaia-meta-sweep</code> to audit the entire registry against <a href="https://github.com/mbtiongson1/gaia-skill-tree/blob/main/META.md">META.md</a>. The sweep produces an HTML report at <code>docs/meta/reports/YYYY-MM-DD-meta-audit.html</code> plus machine-readable JSON.</p>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="section" id="faq">
+        <h2 class="section-title">FAQ</h2>
+
+        <h3>I ran <code>gaia push</code>. Are my skills in the registry?</h3>
+        <div class="section-body">
+          <p>No. Intake batches are review artifacts until a maintainer promotes accepted skills into <code>registry/gaia.json</code>. Watch the GitHub issue created by <code>gaia push</code> for reviewer feedback.</p>
+        </div>
+
+        <h3>Where does long-form guidance go?</h3>
+        <div class="section-body">
+          <p>Review standards, curation heuristics, edge cases, and troubleshooting live in the <a href="https://github.com/mbtiongson1/gaia-skill-tree/wiki">GitHub Wiki</a>. Keep PRs and code comments focused on the specific change.</p>
+        </div>
+
+        <h3>Can I edit <code>registry/nodes/*.json</code> directly?</h3>
+        <div class="section-body">
+          <p>Only for typo fixes. All structural changes — adding, merging, splitting, evidence, calibration — must go through <code>gaia dev</code> commands so the CLI can write timeline events automatically. Manual edits bypass timeline logging and risk schema drift.</p>
+        </div>
+
+        <h3>My PR touches files in two scopes. Which branch prefix do I use?</h3>
+        <div class="section-body">
+          <p>Use the primary scope prefix. If your changes unavoidably span scopes, add the <code>skip-scope-check</code> label and explain why in the PR description. CI will still validate content; the label only bypasses the file-scope check.</p>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <span>Gaia v4.7.0 — <a href="https://github.com/mbtiongson1/gaia-skill-tree">mbtiongson1/gaia-skill-tree</a></span>
+        <a href="index.html">← Back to Docs</a>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Sidebar scroll-spy
+    const links = document.querySelectorAll('.sidebar-links a');
+    const sections = [...document.querySelectorAll('.section[id]')];
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`.sidebar-links a[href="#${e.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    sections.forEach(s => observer.observe(s));
+  </script>
+</body>
+</html>

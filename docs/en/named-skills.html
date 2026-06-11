@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Named Skills — Gaia Docs</title>
+  <meta name="description" content="What Named Skills are, how they differ from generic (starless) references, the lifecycle from scan to 4★ Verifier, and the PR flow for claiming origin.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg, #030712);
+      color: var(--text, #e2e8f0);
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    a { color: var(--tier-basic, #38bdf8); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    .docs-nav {
+      border-bottom: 1px solid var(--border, #1e293b);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      background: rgba(3, 7, 18, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text, #e2e8f0);
+      letter-spacing: .02em;
+    }
+    .nav-logo span { color: var(--tier-ultimate, #f59e0b); }
+    .nav-sep { color: var(--muted, #64748b); font-size: 0.85rem; }
+    .nav-crumb { font-size: 0.82rem; color: var(--muted, #64748b); }
+    .nav-crumb:hover { color: var(--text, #e2e8f0); text-decoration: none; }
+    .nav-crumb.current { color: var(--text, #e2e8f0); }
+    .nav-spacer { flex: 1; }
+    .nav-version {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted, #64748b);
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 4px;
+    }
+
+    /* ── Layout ── */
+    .page-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky;
+      top: 52px;
+      height: calc(100vh - 52px);
+      overflow-y: auto;
+      padding: 2rem 0 2rem 1.5rem;
+      border-right: 1px solid var(--border, #1e293b);
+      scrollbar-width: thin;
+      scrollbar-color: var(--border, #1e293b) transparent;
+    }
+    .sidebar-group { margin-bottom: 1.75rem; }
+    .sidebar-group-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted, #64748b);
+      margin-bottom: 0.5rem;
+    }
+    .sidebar-links { list-style: none; display: flex; flex-direction: column; gap: 0.1rem; }
+    .sidebar-links a {
+      display: block;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.84rem;
+      color: var(--muted, #64748b);
+      border-radius: 4px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .sidebar-links a:hover {
+      color: var(--text, #e2e8f0);
+      background: rgba(255,255,255,0.04);
+      text-decoration: none;
+    }
+    .sidebar-links a.active {
+      color: var(--tier-basic, #38bdf8);
+      background: rgba(56,189,248,0.07);
+    }
+
+    /* ── Main ── */
+    .main-content {
+      padding: 2.5rem 3rem 4rem 3rem;
+      max-width: 820px;
+      min-width: 0;
+    }
+    .page-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 2.4rem;
+      font-weight: 500;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+      color: var(--text, #e2e8f0);
+    }
+    .page-lead {
+      font-size: 1.05rem;
+      color: var(--muted, #64748b);
+      max-width: 580px;
+      line-height: 1.65;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── Sections ── */
+    .section { margin-bottom: 3.5rem; }
+    .section-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.7rem;
+      font-weight: 500;
+      color: var(--text, #e2e8f0);
+      margin-bottom: 0.5rem;
+      padding-top: 0.5rem;
+    }
+    .section-body {
+      font-size: 0.95rem;
+      color: var(--muted, #64748b);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .section-body p { margin-bottom: 0.85rem; }
+    .section-body p:last-child { margin-bottom: 0; }
+
+    h3 {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--text, #e2e8f0);
+      margin: 1.75rem 0 0.6rem;
+    }
+
+    /* ── Comparison panel ── */
+    .compare-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    @media (max-width: 860px) {
+      .compare-panel { grid-template-columns: 1fr; }
+      .page-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+    }
+    .compare-card {
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 10px;
+      padding: 1.25rem;
+      background: var(--surface, #0f172a);
+    }
+    .compare-card.generic { border-left: 3px solid #475569; }
+    .compare-card.named   { border-left: 3px solid #dc2626; }
+
+    .compare-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin-bottom: 0.6rem;
+    }
+    .compare-card.generic .compare-label { color: #64748b; }
+    .compare-card.named   .compare-label { color: #f87171; }
+
+    .compare-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text, #e2e8f0);
+      margin-bottom: 0.85rem;
+    }
+    .compare-attrs { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+    .compare-attrs li {
+      font-size: 0.855rem;
+      color: var(--muted, #64748b);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      line-height: 1.5;
+    }
+    .compare-attrs li::before { content: "–"; color: #475569; flex-shrink: 0; }
+    .compare-card.named .compare-attrs li::before { color: #dc2626; }
+    .compare-attrs strong { color: var(--text, #e2e8f0); }
+
+    /* ── Lifecycle diagram ── */
+    .lifecycle {
+      margin: 1.5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .lifecycle-step {
+      display: flex;
+      gap: 1.25rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(30,41,59,0.5);
+    }
+    .lifecycle-step:last-child { border-bottom: none; }
+    .lifecycle-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--tier-basic, #38bdf8);
+      background: rgba(56,189,248,0.1);
+      border: 1px solid rgba(56,189,248,0.2);
+      border-radius: 50%;
+      width: 1.8rem;
+      height: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+    .lifecycle-body { flex: 1; }
+    .lifecycle-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text, #e2e8f0);
+      margin-bottom: 0.3rem;
+    }
+    .lifecycle-desc {
+      font-size: 0.875rem;
+      color: var(--muted, #64748b);
+      line-height: 1.6;
+    }
+    .lifecycle-rank {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 0.35rem;
+    }
+    .rank-0 { background: rgba(100,116,139,0.15); color: #94a3b8; }
+    .rank-1 { background: rgba(56,189,248,0.1);   color: #38bdf8; }
+    .rank-2 { background: rgba(45,212,191,0.1);   color: #2dd4bf; }
+    .rank-3 { background: rgba(167,139,250,0.1);  color: #a78bfa; }
+    .rank-4 { background: rgba(232,121,249,0.1);  color: #e879f9; }
+
+    /* ── Evidence grades ── */
+    .grade-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin: 1rem 0; }
+    .grade-table th {
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.64rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted, #64748b);
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--border, #1e293b);
+    }
+    .grade-table td {
+      padding: 0.55rem 0.75rem;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(30,41,59,0.5);
+      color: var(--muted, #64748b);
+    }
+    .grade-table tr:last-child td { border-bottom: none; }
+    .grade-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .g-s { background: rgba(168,85,247,0.15); color: #c084fc; border: 1px solid rgba(168,85,247,0.3); }
+    .g-a { background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
+    .g-b { background: rgba(167,139,250,0.12); color: #a78bfa; border: 1px solid rgba(167,139,250,0.3); }
+    .g-c { background: rgba(148,163,184,0.12); color: #94a3b8; border: 1px solid rgba(148,163,184,0.3); }
+
+    /* ── Origin bucket diagram ── */
+    .bucket-diagram {
+      background: var(--surface, #0f172a);
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1.25rem 0;
+    }
+    .bucket-header {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted, #64748b);
+      margin-bottom: 1rem;
+    }
+    .bucket-generic {
+      border: 1px solid #475569;
+      border-radius: 6px;
+      padding: 0.65rem 0.9rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: #64748b;
+      font-style: italic;
+      margin-bottom: 0.75rem;
+    }
+    .bucket-entries { display: flex; flex-direction: column; gap: 0.5rem; padding-left: 1.25rem; border-left: 2px solid var(--border, #1e293b); }
+    .bucket-entry {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 0.855rem;
+    }
+    .bucket-role {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .role-origin  { background: rgba(220,38,38,0.15); color: #f87171; border: 1px solid rgba(220,38,38,0.3); }
+    .role-variant { background: rgba(100,116,139,0.12); color: #94a3b8; border: 1px solid rgba(100,116,139,0.25); }
+    .bucket-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text, #e2e8f0);
+    }
+    .bucket-stars { color: var(--muted, #64748b); font-size: 0.78rem; }
+
+    /* ── Code fence ── */
+    .code-fence {
+      background: #06080f;
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+    .code-fence-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted, #64748b);
+      padding: 0.45rem 1rem;
+      border-bottom: 1px solid var(--border, #1e293b);
+      background: rgba(255,255,255,0.015);
+    }
+    .code-fence pre {
+      padding: 0.85rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: #c9d1d9;
+      overflow-x: auto;
+    }
+    .code-fence pre .c  { color: #6b7280; }
+    .code-fence pre .kw { color: #7dd3fc; }
+    .code-fence pre .str { color: #86efac; }
+    .code-fence pre .flag { color: #c084fc; }
+
+    /* ── Callout ── */
+    .callout {
+      border-left: 3px solid;
+      padding: 0.85rem 1rem;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      margin: 1rem 0;
+    }
+    .callout.info {
+      border-color: var(--tier-basic, #38bdf8);
+      background: rgba(56,189,248,0.07);
+      color: #bae6fd;
+    }
+    .callout.warn {
+      border-color: #f59e0b;
+      background: rgba(245,158,11,0.07);
+      color: #fde68a;
+    }
+    .callout.origin {
+      border-color: #dc2626;
+      background: rgba(220,38,38,0.07);
+      color: #fca5a5;
+    }
+    .callout strong { font-weight: 600; }
+    .callout code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      background: rgba(255,255,255,0.08);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+    }
+
+    /* ── Installability table ── */
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin: 1rem 0; }
+    .data-table th {
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.64rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted, #64748b);
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--border, #1e293b);
+    }
+    .data-table td {
+      padding: 0.55rem 0.75rem;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(30,41,59,0.5);
+      color: var(--muted, #64748b);
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text, #e2e8f0);
+      white-space: nowrap;
+    }
+    .data-table code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      background: rgba(255,255,255,0.06);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+      color: var(--text, #e2e8f0);
+    }
+    .ok   { color: #34d399; }
+    .warn { color: #f59e0b; }
+    .err  { color: #f87171; }
+
+    /* ── Footer ── */
+    .page-footer {
+      border-top: 1px solid var(--border, #1e293b);
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--muted, #64748b);
+    }
+    .page-footer a { color: var(--muted, #64748b); }
+    .page-footer a:hover { color: var(--text, #e2e8f0); }
+
+    code { font-family: 'JetBrains Mono', monospace; font-size: 0.82em; background: rgba(255,255,255,0.06); padding: 0.1em 0.35em; border-radius: 3px; }
+    em.generic { font-style: italic; color: #64748b; }
+    strong.origin { color: #f87171; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="docs-nav">
+    <a class="nav-logo" href="../index.html">Gaia <span>◆</span></a>
+    <span class="nav-sep">/</span>
+    <a class="nav-crumb" href="index.html">Docs</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-crumb current">Named Skills</span>
+    <span class="nav-spacer"></span>
+    <span class="nav-version">v4.7.0</span>
+  </nav>
+
+  <!-- Layout -->
+  <div class="page-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">On this page</div>
+        <ul class="sidebar-links">
+          <li><a href="#what-is">What is a Named Skill</a></li>
+          <li><a href="#generic-vs-named">Generic vs Named</a></li>
+          <li><a href="#origin-bucket">Origin &amp; variants</a></li>
+          <li><a href="#lifecycle">Lifecycle</a></li>
+          <li><a href="#evidence">Evidence system</a></li>
+          <li><a href="#claiming">Claiming a Named Skill</a></li>
+          <li><a href="#verifier">Verifier threshold</a></li>
+          <li><a href="#installability">Installability</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">See also</div>
+        <ul class="sidebar-links">
+          <li><a href="skill-hierarchy.html">Skill Hierarchy</a></li>
+          <li><a href="contributing.html">Contributing</a></li>
+          <li><a href="cli-reference.html">CLI Reference</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+      <h1 class="page-title">Named Skills</h1>
+      <p class="page-lead">A Named Skill is a canonical skill attached to a real contributor. This page explains the distinction from generic references, the five-step lifecycle from scan to 4★ Verifier, and how to claim origin.</p>
+
+      <!-- What is a Named Skill -->
+      <section class="section" id="what-is">
+        <h2 class="section-title">What is a Named Skill?</h2>
+        <div class="section-body">
+          <p>A <strong>Named Skill</strong> is a canonical registry skill that has been claimed by a real contributor with at least Class C evidence (first sighting). At the moment of naming, the skill ranks up to <strong>2★ (Named)</strong> and the contributor becomes its <strong>Origin Contributor</strong> — a permanent, auditable record in the graph.</p>
+          <p>Named Skills display in <strong style="color:#dc2626;">honor red</strong> in the CLI and the Atlas. The Origin Contributor field is one-per-skill and immutable after the naming PR merges — re-attribution requires a maintainer decision with a timeline event.</p>
+        </div>
+
+        <div class="callout origin">
+          <strong>Not to be confused with "unlocked skills."</strong> A player's <code>skill-tree.json</code> tracks which skills a user has unlocked in their own tree. Named Skills are a registry concept — they live in <code>registry/named/</code> and describe public, contributor-attributed implementations of canonical skill IDs.
+        </div>
+      </section>
+
+      <!-- Generic vs Named -->
+      <section class="section" id="generic-vs-named">
+        <h2 class="section-title">Generic references vs Named Skills</h2>
+        <div class="section-body">
+          <p>The registry uses two distinct concepts that developers sometimes conflate. Understanding the difference matters for curation and for reading CLI output.</p>
+        </div>
+
+        <div class="compare-panel">
+          <div class="compare-card generic">
+            <div class="compare-label">Generic (starless) reference</div>
+            <div class="compare-title"><em class="generic">web-scrape</em></div>
+            <ul class="compare-attrs">
+              <li>A taxonomy node — a slot in the capability graph</li>
+              <li>Carries <strong>no stars of its own</strong>; stars live only on its named children</li>
+              <li><strong>Effective rank</strong> = highest star among named implementations</li>
+              <li>Holds capability-level (Class A / academic) evidence that all named children inherit</li>
+              <li>Renders as <em>generic</em>, italic, greyed-out in the UI</li>
+              <li>Created via <code>gaia dev add</code>, no contributor required</li>
+            </ul>
+          </div>
+          <div class="compare-card named">
+            <div class="compare-label">Named Skill</div>
+            <div class="compare-title"><strong class="origin">★ karpathy/web-scrape</strong></div>
+            <ul class="compare-attrs">
+              <li>An implementation of a generic reference, attributed to a contributor</li>
+              <li>Has its own stars (2★ minimum on claiming)</li>
+              <li>Carries implementation-specific evidence on top of the inherited base</li>
+              <li>Has a SKILL.md at a public GitHub URL (<code>links.github</code>)</li>
+              <li>Renders with contributor name in honor red</li>
+              <li>Created via naming PR — contributor must have Class C evidence or better</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="callout info">
+          <strong>Key rule:</strong> never assign stars directly to a generic reference. Stars belong to named implementations. Leave ranking to the named children.
+        </div>
+      </section>
+
+      <!-- Origin and bucket -->
+      <section class="section" id="origin-bucket">
+        <h2 class="section-title">Origin &amp; variants</h2>
+        <div class="section-body">
+          <p>Each generic reference can have multiple Named Skill implementations — this is the "bucket." Within a bucket, one implementation carries the <code>origin: true</code> flag — it is the <strong>Origin</strong>, the first and most canonical implementation of that capability. All others are <strong>variants</strong>.</p>
+          <p>An Origin implementation typically has the strongest evidence and the highest stars in the bucket. The CLI and the UI both surface the role distinction.</p>
+        </div>
+
+        <div class="bucket-diagram">
+          <div class="bucket-header">Example bucket — generic: web-scrape</div>
+          <div class="bucket-generic">web-scrape &nbsp; <em>(starless, generic)</em></div>
+          <div class="bucket-entries">
+            <div class="bucket-entry">
+              <span class="bucket-role role-origin">★ origin</span>
+              <span class="bucket-id">karpathy/web-scrape</span>
+              <span class="bucket-stars">3★ · Firecrawl-backed deep scraper</span>
+            </div>
+            <div class="bucket-entry">
+              <span class="bucket-role role-variant">variant</span>
+              <span class="bucket-id">johndoe/web-scrape-stealth</span>
+              <span class="bucket-stars">2★ · Stealth-mode scraper with rotation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout info">
+          <strong>CLI command (when implemented):</strong> <code>gaia lookup web-scrape</code> lists all bucket entries with role labels. See <a href="https://github.com/mbtiongson1/gaia-skill-tree/issues/71">issue #71</a> for the full spec.
+        </div>
+
+        <h3>Frontmatter fields</h3>
+        <div class="code-fence">
+          <div class="code-fence-label">registry/named/karpathy/web-scrape.md</div>
+          <pre><span class="c">---</span>
+id: karpathy/web-scrape
+name: Web Scrape
+contributor: karpathy
+<span class="kw">origin: true</span>                   <span class="c"># this implementation is the bucket origin</span>
+genericSkillRef: web-scrape    <span class="c"># parent generic node</span>
+status: named
+level: <span class="str">"3★"</span>
+links:
+  github: https://github.com/karpathy/myagent/blob/main/skills/web-scrape/SKILL.md
+<span class="c">---</span></pre>
+        </div>
+      </section>
+
+      <!-- Lifecycle -->
+      <section class="section" id="lifecycle">
+        <h2 class="section-title">Lifecycle</h2>
+        <div class="section-body">
+          <p>A Named Skill moves through five states from first detection to Verifier status. Each transition requires evidence — stars are never declared, only derived.</p>
+        </div>
+
+        <div class="lifecycle">
+          <div class="lifecycle-step">
+            <div class="lifecycle-num">1</div>
+            <div class="lifecycle-body">
+              <div class="lifecycle-rank rank-0">0★ — Unawakened (generic)</div>
+              <div class="lifecycle-title">Detected by scanner</div>
+              <div class="lifecycle-desc"><code>gaia scan</code> finds a <code>SKILL.md</code> in a project. A promotion candidate is written to <code>generated-output/promotion-candidates.json</code>. No registry entry exists yet — the skill is visible only in the local context.</div>
+            </div>
+          </div>
+          <div class="lifecycle-step">
+            <div class="lifecycle-num">2</div>
+            <div class="lifecycle-body">
+              <div class="lifecycle-rank rank-1">1★ — Awakened</div>
+              <div class="lifecycle-title">Promoted to the canonical graph</div>
+              <div class="lifecycle-desc">A reviewer runs <code>gaia dev add</code> (or a curation pipeline) to create a generic registry entry. The skill is now in the public graph at 1★, starless. No contributor is attributed yet.</div>
+            </div>
+          </div>
+          <div class="lifecycle-step">
+            <div class="lifecycle-num">3</div>
+            <div class="lifecycle-body">
+              <div class="lifecycle-rank rank-2">2★ — Named</div>
+              <div class="lifecycle-title">Claimed with Class C evidence</div>
+              <div class="lifecycle-desc">A contributor opens a naming PR with at least <strong>Class C evidence</strong> (first sighting — a <code>SKILL.md</code> at a public URL). The PR creates or updates <code>registry/named/&lt;contributor&gt;/&lt;skill-name&gt;.md</code> with <code>origin: true</code> and <code>level: "2★"</code>. The contributor becomes the Origin Contributor permanently.</div>
+            </div>
+          </div>
+          <div class="lifecycle-step">
+            <div class="lifecycle-num">4</div>
+            <div class="lifecycle-body">
+              <div class="lifecycle-rank rank-3">3★ — Evolved</div>
+              <div class="lifecycle-title">Reproducible evidence added</div>
+              <div class="lifecycle-desc">The contributor adds <strong>Class B evidence</strong> — a reproducible, documented demonstration. The PR runs <code>gaia dev evidence skill-id "url" --class B</code> and calibrates to 3★. A <code>links.github</code> URL pointing to a public repository is mandatory at this level.</div>
+            </div>
+          </div>
+          <div class="lifecycle-step">
+            <div class="lifecycle-num">5</div>
+            <div class="lifecycle-body">
+              <div class="lifecycle-rank rank-4">4★ — Hardened (Verifier threshold)</div>
+              <div class="lifecycle-title">Battle-tested, peer-reviewed</div>
+              <div class="lifecycle-desc">Reaching 4★ requires <strong>Class A evidence</strong> — peer review or battle-tested production use. At this rank the contributor becomes a <strong>Verifier</strong>, authorized to review and approve other contributors' naming PRs via <code>gaia whoami</code> → <code>verifier</code> path.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Evidence system -->
+      <section class="section" id="evidence">
+        <h2 class="section-title">Evidence system</h2>
+        <div class="section-body">
+          <p>The evidence system is being upgraded from a single axis (Evidence Class) to a two-axis model (Evidence Type + Evidence Grade). Both coexist in the schema during the transition.</p>
+        </div>
+
+        <h3>Legacy: Evidence Class (deprecated)</h3>
+        <div class="section-body">
+          <p>The original single axis conflated provenance and quality into one letter. It remains valid in the schema until the next major release but should not be used for new evidence entries.</p>
+        </div>
+
+        <table class="grade-table">
+          <thead>
+            <tr><th>Class</th><th>Meaning</th><th>Example</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="grade-badge g-a">A</span></td>
+              <td>Battle-tested, peer-reviewed</td>
+              <td>Academic paper, public benchmark, production audit</td>
+            </tr>
+            <tr>
+              <td><span class="grade-badge g-b">B</span></td>
+              <td>Reproducible, documented</td>
+              <td>Public SKILL.md with a working implementation</td>
+            </tr>
+            <tr>
+              <td><span class="grade-badge g-c">C</span></td>
+              <td>First sighting — minimum for naming</td>
+              <td>A SKILL.md file found in a contributor's repository</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout warn">
+          <strong>Class ≠ Grade.</strong> Evidence Class letters (A/B/C) are not the same as the new Evidence Grade letters (S/A/B/C). Never read one axis as the other. The Grade axis runs S (Platinum) → A (Gold) → B (Silver) → C (Bronze).
+        </div>
+
+        <h3>Current: Evidence Type + Grade</h3>
+        <div class="section-body">
+          <p>New evidence should carry a <strong>Type</strong> (where a demonstration comes from) and a <strong>Grade</strong> (how strong it is), derived from an underlying trust number. An <strong>Overall Trust Grade</strong> accumulates all evidence for a skill to establish confidence beyond reasonable doubt.</p>
+        </div>
+
+        <table class="grade-table">
+          <thead>
+            <tr><th>Grade</th><th>Label</th><th>Trust number threshold</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="grade-badge g-s">S</span></td><td>Platinum</td><td>≥ 90</td></tr>
+            <tr><td><span class="grade-badge g-a">A</span></td><td>Gold</td><td>≥ 80</td></tr>
+            <tr><td><span class="grade-badge g-b">B</span></td><td>Silver</td><td>≥ 60</td></tr>
+            <tr><td><span class="grade-badge g-c">C</span></td><td>Bronze</td><td>≥ 40</td></tr>
+            <tr>
+              <td><span style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:#64748b;">ungraded</span></td>
+              <td>Below threshold</td>
+              <td>&lt; 40 — on the record but counts toward no gate</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="section-body">
+          <p>Evidence types currently supported: <code>arxiv</code>, <code>repo</code>, <code>github-stars</code>. New types extend the list in <code>meta.json</code> without a schema change. GitHub stars are treated as proxy (secondary) evidence — they supplement, never replace, primary evidence.</p>
+        </div>
+
+        <h3>Adding evidence via CLI</h3>
+        <div class="code-fence">
+          <div class="code-fence-label">bash</div>
+          <pre><span class="c"># Add evidence — still accepted for Class B/A if transitional</span>
+gaia dev evidence skill-id "https://github.com/owner/repo/blob/main/SKILL.md" \
+  <span class="flag">--class B</span> \
+  --notes "Reproducible demo with tool-call trace"
+
+<span class="c"># Verify an evidence entry (requires Verifier authorization)</span>
+<span class="c"># Sets evidence.verified: true in the node</span>
+gaia dev verify skill-id 0   <span class="c"># index of the evidence entry</span></pre>
+        </div>
+      </section>
+
+      <!-- Claiming -->
+      <section class="section" id="claiming">
+        <h2 class="section-title">Claiming a Named Skill</h2>
+        <div class="section-body">
+          <p>Claiming attaches your GitHub identity to a canonical skill as its Origin Contributor. The claim is permanent — re-attribution requires a maintainer decision. Do not claim skills you did not originate.</p>
+        </div>
+
+        <h3>What you need</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;margin:0.75rem 0 1.25rem;font-size:0.9rem;color:var(--muted,#64748b);">
+          <li style="display:flex;gap:0.6rem;align-items:flex-start;"><span style="color:#34d399;flex-shrink:0;">✓</span> A <code>SKILL.md</code> file in a public GitHub repository (minimum Class C evidence)</li>
+          <li style="display:flex;gap:0.6rem;align-items:flex-start;"><span style="color:#34d399;flex-shrink:0;">✓</span> A <code>links.github</code> URL using the <code>blob/branch/subpath</code> format — never <code>tree/</code></li>
+          <li style="display:flex;gap:0.6rem;align-items:flex-start;"><span style="color:#34d399;flex-shrink:0;">✓</span> A <code>review/meta/</code> branch (schema changes require <code>schema/</code>)</li>
+          <li style="display:flex;gap:0.6rem;align-items:flex-start;"><span style="color:#34d399;flex-shrink:0;">✓</span> <code>gaia validate</code> passing with no errors</li>
+        </ul>
+
+        <h3>Step-by-step</h3>
+        <div class="code-fence">
+          <div class="code-fence-label">bash — naming PR workflow</div>
+          <pre><span class="c"># 1. Create your branch</span>
+git checkout -b review/meta/karpathy-web-scrape origin/main
+
+<span class="c"># 2. Ensure the generic node exists (creates it at 1★ if not)</span>
+gaia dev list --generic | grep web-scrape
+<span class="c"># If missing:</span>
+gaia dev add "Web Scrape" --type basic \
+  --description "Drives a browser to scrape structured data from web pages" \
+  --no-build
+
+<span class="c"># 3. Add the Named Skill frontmatter</span>
+<span class="c"># Create: registry/named/karpathy/web-scrape.md</span>
+<span class="c"># (See the frontmatter example above — manually create this file)</span>
+
+<span class="c"># 4. Add Class C evidence (first sighting)</span>
+gaia dev evidence web-scrape \
+  "https://github.com/karpathy/myagent/blob/main/skills/web-scrape/SKILL.md" \
+  --class C --notes "Origin SKILL.md, first documented implementation" \
+  --no-build
+
+<span class="c"># 5. Set level and regenerate index</span>
+gaia dev calibrate web-scrape "2★" --no-build
+python3 scripts/generateNamedIndex.py
+
+<span class="c"># 6. Final build + validate</span>
+gaia dev build
+gaia validate
+
+<span class="c"># 7. Commit and push</span>
+git add registry/named/karpathy/ registry/named-skills.json
+git commit -m "[named] karpathy/web-scrape — claim origin, Class C evidence"
+git push -u origin review/meta/karpathy-web-scrape</pre>
+        </div>
+
+        <div class="callout warn">
+          <strong>Never run <code>gaia push</code> without <code>--dry-run</code> first.</strong> The push command opens a public GitHub issue. Dry-run lets you review the proposed batch before committing.
+        </div>
+      </section>
+
+      <!-- Verifier threshold -->
+      <section class="section" id="verifier">
+        <h2 class="section-title">Verifier threshold</h2>
+        <div class="section-body">
+          <p>A contributor who holds any Named Skill at <strong>4★ or above</strong> becomes a <strong>Verifier</strong> — they are authorized to run mutating <code>gaia dev</code> subcommands and to approve other contributors' naming PRs.</p>
+          <p>Verifier status is checked at runtime by reading <code>registry/named-skills.json</code>. It is automatic — no manual assignment needed. Run <code>gaia whoami</code> to see which authorization path applies to you.</p>
+        </div>
+
+        <div class="code-fence">
+          <div class="code-fence-label">bash</div>
+          <pre>gaia whoami
+
+<span class="c"># Example output:</span>
+<span class="c"># contributor: karpathy</span>
+<span class="c"># via: verifier</span>
+<span class="c"># 4★+ named skills: [web-scrape (4★), autoresearch (5★)]</span></pre>
+        </div>
+
+        <div class="callout info">
+          <strong>Bootstrap mode:</strong> a registry with zero Verifiers auto-allows all actors. Gating activates automatically once the first 4★ Named Skill lands. Set <code>GAIA_OPERATOR_OVERRIDE=1</code> in CI pipelines that must mutate the registry after gating is active.
+        </div>
+      </section>
+
+      <!-- Installability -->
+      <section class="section" id="installability">
+        <h2 class="section-title">Installability</h2>
+        <div class="section-body">
+          <p>Named Skills are installable if they have a valid <code>links.github</code> field pointing to a public repository with a <code>SKILL.md</code>. The install pipeline reads <em>only</em> <code>links.github</code> — other link keys are ignored.</p>
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Stars</th><th>No <code>links.github</code></th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>0★ – 2★</td>
+              <td class="ok">Allowed</td>
+              <td>Tag <code>installable: false</code> in frontmatter — registry-only</td>
+            </tr>
+            <tr>
+              <td>3★+</td>
+              <td class="err">Not allowed</td>
+              <td>Demote to 2★ until a verified link is confirmed</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>URL format</h3>
+        <div class="code-fence">
+          <div class="code-fence-label">yaml frontmatter</div>
+          <pre><span class="c"># ✅ Correct — installer extracts subpath</span>
+links:
+  github: https://github.com/owner/repo/<span class="kw">blob</span>/main/.agents/skills/my-skill
+
+<span class="c"># ❌ Broken — bare repo root, skill is undiscoverable</span>
+links:
+  github: https://github.com/owner/repo
+
+<span class="c"># ❌ Broken — tree/ not recognised by _parse_github_url</span>
+links:
+  github: https://github.com/owner/repo/<span class="err">tree</span>/main/.agents/skills/my-skill</pre>
+        </div>
+
+        <h3>Wrong key names</h3>
+        <table class="data-table">
+          <thead>
+            <tr><th>Wrong key</th><th>Fix</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>links.repo</td><td>Rename to <code>links.github</code></td></tr>
+            <tr><td>links.docs</td><td>Rename to <code>links.github</code> (strip any <code>#fragment</code>)</td></tr>
+            <tr><td>links.arxiv</td><td>Add <code>links.github</code> alongside — keep arxiv</td></tr>
+            <tr><td>origin: https://…</td><td>Move URL to <code>links.github</code>, set <code>origin: false</code></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Suites are always exempt</h3>
+        <div class="section-body">
+          <p>Skills with a <code>suiteComponents</code> list (e.g. <code>garrytan/gstack</code>) install by iterating their components. They do not need <code>links.github</code> at the suite level. Never flag suites as uninstallable.</p>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <span>Gaia v4.7.0 — <a href="https://github.com/mbtiongson1/gaia-skill-tree">mbtiongson1/gaia-skill-tree</a></span>
+        <a href="index.html">← Back to Docs</a>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Sidebar scroll-spy
+    const links = document.querySelectorAll('.sidebar-links a');
+    const sections = [...document.querySelectorAll('.section[id]')];
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`.sidebar-links a[href="#${e.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    sections.forEach(s => observer.observe(s));
+  </script>
+</body>
+</html>

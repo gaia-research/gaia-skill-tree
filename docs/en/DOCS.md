@@ -22,8 +22,8 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 | 2 | `getting-started.html` | Getting Started | ✅ Done | 001 |
 | 3 | `cli-reference.html` | CLI Reference | ✅ Done | 002 |
 | 4 | `skill-hierarchy.html` | Skill Hierarchy | ✅ Done | 002 |
-| 5 | `contributing.html` | Contributing | Planned | 003 |
-| 6 | `named-skills.html` | Named Skills & Origin | Planned | 003 |
+| 5 | `contributing.html` | Contributing | ✅ Done | 003 |
+| 6 | `named-skills.html` | Named Skills & Origin | ✅ Done | 003 |
 | 7 | `evidence-classes.html` | Evidence Classes | Planned | 004 |
 | 8 | `fusion.html` | Skill Fusion | Planned | 004 |
 | 9 | `mcp-server.html` | MCP Server | Planned | 005 |
