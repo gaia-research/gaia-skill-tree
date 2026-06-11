@@ -188,7 +188,6 @@ from gaia_cli.redaction import (  # noqa: E402
     COLOR_REDACTED,
     REDACTED_BLOCK,
     is_redacted,
-    level_num as _level_num,
 )
 
 

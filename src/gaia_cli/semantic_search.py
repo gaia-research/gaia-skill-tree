@@ -99,10 +99,55 @@ def search_precomputed(query_vector, embeddings, top_k=10):
     Returns:
         list of {"id": str, "score": float} sorted by score descending
     """
+    entries = embeddings.get("entries", [])
+    if not entries:
+        return []
+
     results = []
-    for entry in embeddings.get("entries", []):
-        score = cosine_similarity(query_vector, entry["vector"])
-        results.append({"id": entry["id"], "score": score})
+
+    try:
+        import numpy as np
+
+        q_arr = np.array(query_vector, dtype=float)
+        norm_q = np.linalg.norm(q_arr)
+        if norm_q == 0.0:
+            return []
+
+        # Get all vectors as matrix
+        vectors = np.array([e["vector"] for e in entries], dtype=float)
+
+        # Calculate norms of all vectors
+        norms = np.linalg.norm(vectors, axis=1)
+
+        # Mask out zero vectors
+        valid_mask = norms > 0.0
+
+        # Dot products
+        dot_products = np.dot(vectors[valid_mask], q_arr)
+
+        # Cosine similarities
+        scores = dot_products / (norm_q * norms[valid_mask])
+
+        # Map back to IDs
+        valid_indices = np.where(valid_mask)[0]
+        for i, score in zip(valid_indices, scores):
+            results.append({"id": entries[i]["id"], "score": float(score)})
+
+    except ImportError:
+        # Optimized pure python fallback
+        norm_q = math.sqrt(sum(x * x for x in query_vector))
+        if norm_q == 0.0:
+            return []
+
+        for entry in entries:
+            vector = entry["vector"]
+            norm_v = math.sqrt(sum(x * x for x in vector))
+            if norm_v == 0.0:
+                continue
+
+            dot = sum(x * y for x, y in zip(query_vector, vector))
+            score = dot / (norm_q * norm_v)
+            results.append({"id": entry["id"], "score": score})
 
     results.sort(key=lambda x: x["score"], reverse=True)
     return results[:top_k]

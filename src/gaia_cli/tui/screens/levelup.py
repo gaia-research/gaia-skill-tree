@@ -11,7 +11,6 @@ from textual.binding import Binding
 from textual.screen import ModalScreen
 from textual.widgets import Static
 from textual.reactive import reactive
-from textual import on
 from rich.text import Text
 from rich.align import Align
 

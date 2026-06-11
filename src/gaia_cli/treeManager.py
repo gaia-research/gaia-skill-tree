@@ -211,7 +211,7 @@ def _rainbow_text(text):
 
 
 def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, is_unowned=False, is_custom=False, is_origin=False, is_fused=False):
-    from gaia_cli.cardRenderer import fg, reset, bold, _use_color, TIER_COLORS, RANK_COLORS, COLOR_CONTRIBUTOR, COLOR_LOCAL_USER, COLOR_REDACTED, REDACTED_BLOCK
+    from gaia_cli.cardRenderer import fg, reset, bold, _use_color, TIER_COLORS, RANK_COLORS, COLOR_CONTRIBUTOR, COLOR_LOCAL_USER
     
     if not _use_color():
         return f"{symbol} {plain_label}"
@@ -617,7 +617,7 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
 
     reveal_unowned = not known_only and (canon or mode == "named")
 
-    from gaia_cli.formatting import _fg, _reset, COLOR_CONTRIBUTOR
+    from gaia_cli.formatting import COLOR_CONTRIBUTOR
     # Use a direct ANSI code to ensure color even if _use_color() fails in a subshell/pipe
     username_colored = f"\033[38;2;{COLOR_CONTRIBUTOR[0]};{COLOR_CONTRIBUTOR[1]};{COLOR_CONTRIBUTOR[2]}m{username}\033[0m"
     print(username_colored)
@@ -646,7 +646,7 @@ def show_color_check():
 
     Run via ``gaia tree --check``.
     """
-    from gaia_cli.cardRenderer import fg, reset, bold, _use_color, TIER_COLORS, RANK_COLORS
+    from gaia_cli.cardRenderer import fg, reset, _use_color, TIER_COLORS, RANK_COLORS
 
     TIER_GLYPHS = {
         "ultimate": "◆",

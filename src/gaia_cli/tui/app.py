@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import os
 
-from textual.app import App, ComposeResult
+from textual.app import App
 
 from gaia_cli.tui import tokens
 from gaia_cli.tui.screens.hero import HeroScreen

@@ -10,13 +10,10 @@ from io import StringIO
 from pathlib import Path
 
 from gaia_cli.scanner import (
-    scan_repo,
-    scan_repo_detailed,
     load_config,
     scan_skill_mds,
     match_skill_to_canonical,
 )
-from gaia_cli.resolver import resolve_skills
 from gaia_cli.combinator import get_combinations
 from gaia_cli.treeManager import load_tree, save_tree, show_status, show_tree
 from gaia_cli.prWriter import open_pr, open_intake_issue
@@ -28,14 +25,13 @@ from gaia_cli.push import (
     NonPublicRepoError,
 )
 from gaia_cli.embeddings import generate_embeddings
-from gaia_cli.semantic_search import search as semantic_search, load_embeddings
-from gaia_cli.name import find_awakened_skill, promote_to_named, update_batch_lifecycle
+from gaia_cli.semantic_search import search as semantic_search
+from gaia_cli.name import promote_to_named, update_batch_lifecycle
 from gaia_cli.install import (
     install_skill,
     install_suite,
     update_skills,
     uninstall_skill,
-    list_installed,
     interactive_install,
     list_available,
 )
@@ -63,7 +59,6 @@ from gaia_cli.commands.dev import (
 from gaia_cli.registry import (
     generated_output_dir,
     embeddings_path,
-    named_skills_dir,
     named_skills_index_path,
     promotion_candidates_path,
     registry_graph_path,
@@ -79,40 +74,27 @@ from gaia_cli.pathEngine import (
     save_paths,
     diff_paths,
     render_unlock_path,
-    _path_tree_to_dict,
-    unlock_path,
 )
 from gaia_cli.cardRenderer import (
-    render_card,
     render_appraise_card,
     render_unlock_card,
     render_path_summary,
-    render_promotion_prompt,
-    load_and_render,
 )
 from gaia_cli.promotion import (
-    check_promotion_eligibility,
-    detect_unique_candidates,
     load_promotion_candidates,
     promote_from_candidates,
-    promote_skill,
     promotable_candidates,
     promotion_state,
-    write_promotion_candidates,
-    next_level,
     LEVEL_NAMES,
 )
 from gaia_cli.hook import hook_entry
 from gaia_cli.formatting import (
     format_skill_plain,
     format_skill_colored,
-    format_type_label,
     format_type_colored,
     format_level_colored,
-    fusion_equation,
     TIER_COLORS,
     RANK_COLORS,
-    TYPE_SYMBOLS,
     COLOR_CONTRIBUTOR,
     COLOR_LOCAL_USER,
     COLOR_GREY,
@@ -139,8 +121,6 @@ from gaia_cli.interactive import (
     select_fusion_to_edit,
     _has_interactive,
     select_push_batch,
-    select_text_input,
-    questionary_style,
     fuse_style,
     FuseCancelled,
 )
@@ -2246,12 +2226,6 @@ def _resolve_install_location(args) -> str:
 
 
 def install_command(args):
-    from gaia_cli.install import (
-        interactive_install,
-        install_skill,
-        install_suite,
-        update_skills,
-    )
     from gaia_cli.share import _looks_like_bundle_ref, install_bundle
 
     location = _resolve_install_location(args)
@@ -2287,7 +2261,6 @@ def install_command(args):
 
 
 def uninstall_command(args):
-    from gaia_cli.install import uninstall_skill
 
     success = uninstall_skill(args.skill_id.lstrip("/"))
     if not success:
@@ -2371,13 +2344,6 @@ def _pending_skills(registry_path: str, username: str | None = None) -> list[dic
 
 
 def skills_command(args):
-    from gaia_cli.install import (
-        list_available,
-        install_skill,
-        install_suite,
-        uninstall_skill,
-        update_skills,
-    )
 
     config = load_config() or {}
     username = config.get("gaiaUser") or config.get("username")
@@ -2527,7 +2493,7 @@ def fetch_command(args):
     gaia_json_url = "https://raw.githubusercontent.com/mbtiongson1/gaia-skill-tree/main/registry/gaia.json"
     named_skills_url = "https://raw.githubusercontent.com/mbtiongson1/gaia-skill-tree/main/registry/named-skills.json"
 
-    print(f"Fetching latest canonical registry from mbtiongson1/gaia-skill-tree...")
+    print("Fetching latest canonical registry from mbtiongson1/gaia-skill-tree...")
     try:
         urllib.request.urlretrieve(gaia_json_url, registry_dir / "gaia.json")
         urllib.request.urlretrieve(named_skills_url, registry_dir / "named-skills.json")

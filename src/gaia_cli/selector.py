@@ -12,7 +12,6 @@ import os
 import sys
 import time
 from dataclasses import dataclass, field
-from typing import Callable
 
 from gaia_cli.interactive import _has_interactive
 
@@ -308,7 +307,7 @@ def _menu_fragments(frame: _MenuFrame, is_flag_frame: bool = False) -> list[tupl
         parent = frame.parent_item
         frags.append((f"fg:{GOLD} bold", f"  {parent.label}  "))
         frags.append((f"fg:{DIM}", "flags\n"))
-        frags.append((f"fg:{DIM}", f"  Toggle flags then press ⏎ to run\n\n"))
+        frags.append((f"fg:{DIM}", "  Toggle flags then press ⏎ to run\n\n"))
     elif frame.title and frame.groups is None:
         frags.append((f"fg:{GOLD} bold", f"  {frame.title}\n\n"))
 
@@ -348,12 +347,12 @@ def _append_item_row(
         check = "◉" if toggled else "○"
         check_color = GOLD if toggled else DIM
         if selected:
-            frags.append((f"fg:{GOLD} bold", f"  ❯ "))
+            frags.append((f"fg:{GOLD} bold", "  ❯ "))
             frags.append((f"fg:{check_color} bold", f"{check} "))
             frags.append((f"fg:{WHITE} bold", f"{item.label:<16}"))
             frags.append((f"fg:{DIM}", f" {item.desc}"))
         else:
-            frags.append(("", f"      "))
+            frags.append(("", "      "))
             frags.append((f"fg:{check_color}", f"{check} "))
             frags.append((f"fg:{WHITE}", f"{item.label:<16}"))
             frags.append((f"fg:{DIM}", f" {item.desc}"))
@@ -363,7 +362,7 @@ def _append_item_row(
         if selected:
             frags.append((f"fg:{GOLD} bold", "  ❯ "))
             frags.append((f"fg:{rank_color} bold", f"{item.label:<16}"))
-            frags.append((f"fg:#94a3b8", f" {item.desc}"))
+            frags.append(("fg:#94a3b8", f" {item.desc}"))
             frags.append((f"fg:{DIM}", arrow))
         else:
             frags.append(("", "    "))

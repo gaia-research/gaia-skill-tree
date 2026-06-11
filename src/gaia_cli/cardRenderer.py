@@ -701,15 +701,15 @@ def render_unlock_card(
         f"{gc}    ✦  │ {tc_fg}{glyph}{glyph}{glyph}{glyph}{gc} │  ✦    {r}",
         f"{gc}     ·  ╲────╱  ·     {r}",
         f"{gc}        ✦  ·  ✦        {r}",
-        f"",
+        "",
         f"    {b}{gc}═══ SKILL UNLOCKED ═══{r}",
-        f"",
+        "",
         f"    {tc_fg}{b}{glyph}{r} {name_colored}",
         f"    {fg(*COLOR_MUTED)}Level {level} • {tier.capitalize()}{r}",
     ]
 
     if new_paths:
-        art.append(f"")
+        art.append("")
         art.append(f"    {fg(*COLOR_TEXT)}New paths opened:{r}")
         for p in new_paths[:4]:
             if isinstance(p, dict):
