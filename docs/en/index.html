@@ -286,6 +286,48 @@
 
     .docs-footer-right a:hover { color: var(--text, #e2e8f0); text-decoration: none; }
 
+    /* ── What's New banner ── */
+    .whats-new {
+      max-width: 1000px;
+      margin: 2.5rem auto 0;
+      padding: 0 2rem;
+    }
+    .whats-new-inner {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(56,189,248,0.05);
+      border: 1px solid rgba(56,189,248,0.18);
+      border-radius: 8px;
+      padding: 0.85rem 1.25rem;
+      flex-wrap: wrap;
+    }
+    .whats-new-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--tier-basic, #38bdf8);
+      background: rgba(56,189,248,0.12);
+      border: 1px solid rgba(56,189,248,0.25);
+      border-radius: 3px;
+      padding: 0.15rem 0.5rem;
+      flex-shrink: 0;
+    }
+    .whats-new-text {
+      font-size: 0.875rem;
+      color: var(--muted, #64748b);
+      flex: 1;
+      min-width: 200px;
+    }
+    .whats-new-text strong { color: var(--text, #e2e8f0); }
+    .whats-new-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--tier-basic, #38bdf8);
+      white-space: nowrap;
+    }
+
     @media (max-width: 640px) {
       .docs-hero { margin-top: 3rem; }
       .docs-grid { grid-template-columns: 1fr; }
@@ -301,7 +343,7 @@
     <span class="docs-nav-sep">/</span>
     <a href="index.html" class="docs-nav-link active">Docs</a>
     <div class="docs-nav-spacer"></div>
-    <span class="docs-nav-version" id="ver">v4.4.0</span>
+    <span class="docs-nav-version" id="ver">v4.7.1</span>
   </nav>
 
   <!-- hero -->
@@ -313,6 +355,20 @@
       first Named Skill, and contribute to the registry.
     </p>
   </header>
+
+  <!-- what's new -->
+  <div class="whats-new">
+    <div class="whats-new-inner">
+      <span class="whats-new-tag">v4.7.1</span>
+      <span class="whats-new-text">
+        <strong>Semantic search is ~2.5× faster.</strong>
+        PR #663 batched cosine-similarity into a NumPy matrix operation —
+        search time on 1 000 embeddings dropped from ~0.63 s to ~0.26 s.
+        Pure-Python fallback retained for environments without NumPy.
+      </span>
+      <a class="whats-new-link" href="cli-reference.html#skills-search">gaia skills search →</a>
+    </div>
+  </div>
 
   <!-- start here -->
   <div class="docs-section-label" style="margin-top:3.5rem;">
@@ -356,17 +412,17 @@
       <span class="docs-card-desc">How to claim origin status on a skill you've demonstrated, earn honor-red attribution, and reach 2★ Named rank.</span>
       <span class="docs-card-badge new">● New</span>
     </a>
-    <a class="docs-card" href="evidence-classes.html" style="opacity:0.7;pointer-events:auto;">
+    <a class="docs-card" href="evidence-classes.html">
       <span class="docs-card-icon">🔬</span>
       <span class="docs-card-title">Evidence Classes</span>
-      <span class="docs-card-desc">Class C, B, and A evidence — what each means, how to attach it, and how it drives star progression.</span>
-      <span class="docs-card-badge planned">○ Coming soon</span>
+      <span class="docs-card-desc">Class C, B, and A evidence — what each means, how to attach it, and how the new Type + Grade model drives star progression.</span>
+      <span class="docs-card-badge new">● New</span>
     </a>
-    <a class="docs-card" href="fusion.html" style="opacity:0.7;pointer-events:auto;">
+    <a class="docs-card" href="fusion.html">
       <span class="docs-card-icon">◇</span>
       <span class="docs-card-title">Skill Fusion</span>
       <span class="docs-card-desc">Combine two or more skills into an Extra or Ultimate. How <code>gaia fuse</code> works and when to open a fusion PR.</span>
-      <span class="docs-card-badge planned">○ Coming soon</span>
+      <span class="docs-card-badge new">● New</span>
     </a>
   </div>
 
@@ -463,6 +519,11 @@
           <ul>
             <li><a href="index.html" style="color: var(--tier-basic, #38bdf8);">Docs Home</a></li>
             <li><a href="getting-started.html">Getting Started</a></li>
+            <li><a href="cli-reference.html">CLI Reference</a></li>
+            <li><a href="skill-hierarchy.html">Skill Hierarchy</a></li>
+            <li><a href="contributing.html">Contributing</a></li>
+            <li><a href="evidence-classes.html">Evidence Classes</a></li>
+            <li><a href="fusion.html">Skill Fusion</a></li>
           </ul>
         </div>
 
@@ -483,7 +544,7 @@
     <div class="footer-bottom">
       <span>MIT License</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
-      <span id="footerVersion">v4.6.0</span>
+      <span id="footerVersion">v4.7.1</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
       <span>© 2026 Gaia</span>
     </div>
