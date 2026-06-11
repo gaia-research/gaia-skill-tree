@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skill Fusion — Gaia Docs</title>
+  <meta name="description" content="Skill Fusion in Gaia: how combining Basic Skills produces Extra Skills, how gaia fuse works, prerequisites, proposing new fusions, and registry-level merges via gaia dev merge.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg, #030712);
+      color: var(--text, #e2e8f0);
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    a { color: var(--tier-basic, #38bdf8); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    .docs-nav {
+      border-bottom: 1px solid var(--border, #1e293b);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      background: rgba(3, 7, 18, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text, #e2e8f0);
+      letter-spacing: .02em;
+    }
+    .nav-logo span { color: var(--tier-ultimate, #f59e0b); }
+    .nav-sep { color: var(--muted, #64748b); font-size: 0.85rem; }
+    .nav-crumb { font-size: 0.82rem; color: var(--muted, #64748b); }
+    .nav-crumb:hover { color: var(--text, #e2e8f0); text-decoration: none; }
+    .nav-crumb.current { color: var(--text, #e2e8f0); }
+    .nav-spacer { flex: 1; }
+    .nav-version {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted, #64748b);
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 4px;
+    }
+
+    /* ── Layout ── */
+    .page-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky;
+      top: 52px;
+      height: calc(100vh - 52px);
+      overflow-y: auto;
+      padding: 2rem 0 2rem 1.5rem;
+      border-right: 1px solid var(--border, #1e293b);
+      scrollbar-width: thin;
+      scrollbar-color: var(--border, #1e293b) transparent;
+    }
+    .sidebar-group { margin-bottom: 1.75rem; }
+    .sidebar-group-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted, #64748b);
+      margin-bottom: 0.5rem;
+    }
+    .sidebar-links { list-style: none; display: flex; flex-direction: column; gap: 0.1rem; }
+    .sidebar-links a {
+      display: block;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.84rem;
+      color: var(--muted, #64748b);
+      border-radius: 4px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .sidebar-links a:hover {
+      color: var(--text, #e2e8f0);
+      background: rgba(255,255,255,0.04);
+      text-decoration: none;
+    }
+    .sidebar-links a.active {
+      color: var(--tier-basic, #38bdf8);
+      background: rgba(56,189,248,0.07);
+    }
+
+    /* ── Main ── */
+    .main-content {
+      padding: 2.5rem 3rem 4rem 3rem;
+      max-width: 820px;
+      min-width: 0;
+    }
+    .page-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 2.4rem;
+      font-weight: 500;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+      color: var(--text, #e2e8f0);
+    }
+    .page-lead {
+      font-size: 1.05rem;
+      color: var(--muted, #64748b);
+      max-width: 580px;
+      line-height: 1.65;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── Sections ── */
+    .section { margin-bottom: 3.5rem; }
+    .section-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.7rem;
+      font-weight: 500;
+      color: var(--text, #e2e8f0);
+      margin-bottom: 0.5rem;
+      padding-top: 0.5rem;
+    }
+    .section-body {
+      font-size: 0.95rem;
+      color: var(--muted, #64748b);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .section-body p { margin-bottom: 0.85rem; }
+    .section-body p:last-child { margin-bottom: 0; }
+
+    h3 {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--text, #e2e8f0);
+      margin: 1.75rem 0 0.6rem;
+    }
+
+    /* ── Code ── */
+    .code-block {
+      background: #08080a;
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 1.25rem 0;
+    }
+    .code-block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid var(--border, #1e293b);
+      background: rgba(255,255,255,0.02);
+    }
+    .code-block-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted, #64748b);
+    }
+    .code-block pre {
+      padding: 1.1rem 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: #c9d1d9;
+      overflow-x: auto;
+    }
+    .code-block pre .c { color: var(--muted, #64748b); }
+    .code-block pre .cmd { color: #86efac; }
+    .code-block pre .kw { color: var(--tier-basic, #38bdf8); }
+    .code-block pre .str { color: var(--tier-extra, #c084fc); }
+    .code-block pre .val { color: #f59e0b; }
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85em;
+      background: rgba(255,255,255,0.06);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+      color: var(--text, #e2e8f0);
+    }
+
+    /* ── Callouts ── */
+    .callout {
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1.25rem 0;
+      font-size: 0.9rem;
+      line-height: 1.65;
+    }
+    .callout-warn {
+      background: rgba(251, 191, 36, 0.07);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      color: #fcd34d;
+    }
+    .callout-info {
+      background: rgba(56, 189, 248, 0.06);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      color: var(--tier-basic, #38bdf8);
+    }
+    .callout-purple {
+      background: rgba(192, 132, 252, 0.06);
+      border: 1px solid rgba(192, 132, 252, 0.2);
+      color: #c084fc;
+    }
+    .callout-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+    .callout p { color: inherit; margin-bottom: 0.4rem; }
+    .callout p:last-child { margin-bottom: 0; }
+    .callout strong { color: #fff; }
+
+    /* ── Fusion diagram ── */
+    .fusion-diagram {
+      background: var(--surface, #0f172a);
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 10px;
+      padding: 1.75rem 2rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+    .fusion-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+    .fusion-row:last-child { margin-bottom: 0; }
+    .skill-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      border: 1px solid;
+      white-space: nowrap;
+    }
+    .pill-basic {
+      background: rgba(56,189,248,0.1);
+      border-color: rgba(56,189,248,0.3);
+      color: #38bdf8;
+    }
+    .pill-extra {
+      background: rgba(192,132,252,0.1);
+      border-color: rgba(192,132,252,0.3);
+      color: #c084fc;
+    }
+    .pill-unique {
+      background: rgba(124,58,237,0.12);
+      border-color: rgba(124,58,237,0.4);
+      color: #a78bfa;
+    }
+    .pill-ultimate {
+      background: rgba(245,158,11,0.1);
+      border-color: rgba(245,158,11,0.35);
+      color: #f59e0b;
+    }
+    .fusion-op {
+      color: var(--muted, #64748b);
+      font-size: 1.1rem;
+      font-weight: 300;
+    }
+    .fusion-arrow {
+      color: var(--muted, #64748b);
+      font-size: 0.95rem;
+    }
+    .fusion-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted, #64748b);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      align-self: flex-end;
+      margin-left: auto;
+    }
+
+    /* ── Prerequisites table ── */
+    .prereq-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      margin: 1.25rem 0;
+    }
+    .prereq-table th {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted, #64748b);
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border, #1e293b);
+    }
+    .prereq-table td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid rgba(30,41,59,0.6);
+      color: var(--muted, #64748b);
+      vertical-align: top;
+    }
+    .prereq-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--text, #e2e8f0);
+    }
+    .prereq-table tr:last-child td { border-bottom: none; }
+    .check { color: #86efac; }
+    .cross { color: #f87171; }
+
+    /* ── Journey steps ── */
+    .journey {
+      display: flex;
+      gap: 0;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+    .journey-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      flex: 1;
+      min-width: 80px;
+      position: relative;
+    }
+    .journey-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 16px;
+      width: 50%;
+      height: 1px;
+      background: var(--border, #1e293b);
+    }
+    .journey-step:not(:first-child)::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 16px;
+      width: 50%;
+      height: 1px;
+      background: var(--border, #1e293b);
+    }
+    .journey-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--surface, #0f172a);
+      border: 1px solid var(--border, #1e293b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      position: relative;
+      z-index: 1;
+    }
+    .journey-step.active .journey-dot {
+      border-color: rgba(192,132,252,0.5);
+      background: rgba(192,132,252,0.1);
+    }
+    .journey-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--muted, #64748b);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      text-align: center;
+    }
+    .journey-step.active .journey-name { color: #c084fc; }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      .page-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .main-content { padding: 2rem 1.5rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- nav -->
+  <nav class="docs-nav">
+    <a href="../index.html" class="nav-logo">Gaia <span>◆</span></a>
+    <span class="nav-sep">/</span>
+    <a href="index.html" class="nav-crumb">Docs</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-crumb current">Skill Fusion</span>
+    <div class="nav-spacer"></div>
+    <span class="nav-version">v4.7.1</span>
+  </nav>
+
+  <div class="page-layout">
+
+    <!-- sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">On this page</div>
+        <ul class="sidebar-links">
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#paths">Fusion Paths</a></li>
+          <li><a href="#prerequisites">Prerequisites</a></li>
+          <li><a href="#gaia-fuse">gaia fuse Walkthrough</a></li>
+          <li><a href="#propose">Proposing a New Fusion</a></li>
+          <li><a href="#registry">Registry-Level Fusion</a></li>
+          <li><a href="#player-vs-registry">Player vs Registry Fusion</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Also in Contribute</div>
+        <ul class="sidebar-links">
+          <li><a href="contributing.html">Contributing</a></li>
+          <li><a href="named-skills.html">Named Skills &amp; Origin</a></li>
+          <li><a href="evidence-classes.html">Evidence Classes</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- main -->
+    <main class="main-content">
+
+      <h1 class="page-title">Skill Fusion</h1>
+      <p class="page-lead">
+        Fusion is the act of combining two or more skills into a single higher-complexity
+        skill — formalised in the registry via <code>gaia fuse</code>. This page covers every
+        fusion path, the prerequisites, how to run the interactive workflow, and how to propose
+        an entirely new fusion to the registry.
+      </p>
+
+      <!-- Overview -->
+      <section class="section" id="overview">
+        <h2 class="section-title">Overview</h2>
+        <div class="section-body">
+          <p>
+            The Gaia skill graph has two axes: tier and stars. Fusion moves skills along the
+            <strong>tier axis</strong> — upward from Basic to Extra, or from Extra to Ultimate.
+            It is distinct from ranking up (which moves along the stars axis via evidence).
+          </p>
+          <p>
+            Fusion happens at two levels that are entirely separate:
+          </p>
+          <ul style="font-size:0.95rem;color:var(--muted);padding-left:1.25rem;line-height:1.75;margin-bottom:0.75rem;">
+            <li><strong style="color:var(--text);">Player-level fusion</strong> — <code>gaia fuse</code> lets you fuse skills you own in your personal skill tree.</li>
+            <li><strong style="color:var(--text);">Registry-level fusion</strong> — <code>gaia dev merge</code> (Verifier-gated) proposes that two canonical nodes should become one.</li>
+          </ul>
+          <p>
+            Running <code>gaia fuse</code> does not add a new node to the public registry — it
+            records the fusion in your <code>skill-trees/&lt;username&gt;/skill-tree.json</code>
+            and writes a timeline event. Registry merges are separate, PR-driven operations.
+          </p>
+        </div>
+
+        <!-- Hero's Journey diagram — Fuse step highlighted -->
+        <p style="font-size:0.8rem;color:var(--muted);margin-bottom:0.5rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.08em;">Ascension Cycle — Fuse is step 5</p>
+        <div class="journey">
+          <div class="journey-step">
+            <div class="journey-dot">📥</div>
+            <span class="journey-name">Register</span>
+          </div>
+          <div class="journey-step">
+            <div class="journey-dot">🔍</div>
+            <span class="journey-name">Scan</span>
+          </div>
+          <div class="journey-step">
+            <div class="journey-dot">⬆</div>
+            <span class="journey-name">Rank up</span>
+          </div>
+          <div class="journey-step">
+            <div class="journey-dot">★</div>
+            <span class="journey-name">Name</span>
+          </div>
+          <div class="journey-step active">
+            <div class="journey-dot">◇</div>
+            <span class="journey-name">Fuse</span>
+          </div>
+          <div class="journey-step">
+            <div class="journey-dot">◆</div>
+            <span class="journey-name">Apex</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Fusion Paths -->
+      <section class="section" id="paths">
+        <h2 class="section-title">Fusion Paths</h2>
+        <div class="section-body">
+          <p>
+            Three canonical fusion paths exist. Fusion is not restricted to a fixed recipe
+            list — the registry models which skill IDs are valid inputs for a given Extra or
+            Ultimate output, and <code>gaia fuse</code> validates against that model at
+            runtime.
+          </p>
+        </div>
+
+        <div class="fusion-diagram">
+
+          <div class="fusion-row">
+            <span class="skill-pill pill-basic">○ Basic Skill A</span>
+            <span class="fusion-op">+</span>
+            <span class="skill-pill pill-basic">○ Basic Skill B</span>
+            <span class="fusion-arrow">→</span>
+            <span class="skill-pill pill-extra">◇ Extra Skill</span>
+            <span class="fusion-label">Path 1</span>
+          </div>
+
+          <div class="fusion-row">
+            <span class="skill-pill pill-extra">◇ Extra Skill A</span>
+            <span class="fusion-op">+</span>
+            <span class="skill-pill pill-extra">◇ Extra Skill B</span>
+            <span class="fusion-arrow">→</span>
+            <span class="skill-pill pill-extra">◇ Extra Skill (complex)</span>
+            <span class="fusion-label">Path 2</span>
+          </div>
+
+          <div class="fusion-row">
+            <span class="skill-pill pill-extra">◇ Extra Skill</span>
+            <span class="fusion-op">+</span>
+            <span class="skill-pill pill-extra">◇ Extra Skill</span>
+            <span class="fusion-arrow">→</span>
+            <span class="skill-pill pill-ultimate">◆ Ultimate Skill</span>
+            <span class="fusion-label">Path 3</span>
+          </div>
+
+        </div>
+
+        <div class="callout callout-purple">
+          <span class="callout-label">◉ Unique Skills — depth over breadth</span>
+          <p>
+            A <strong>Unique Skill</strong> (◉) is a graph-isolated Basic Skill that reached
+            elite mastery through depth alone, with no fusion path forward. Uniques do not
+            participate in fusion and cannot be fused into an Extra or Ultimate.
+          </p>
+        </div>
+
+        <h3>Path 1: Basic → Extra</h3>
+        <div class="section-body">
+          <p>
+            The most common fusion. Two or more Basic Skills (○) whose capabilities combine
+            into a qualitatively new emergent capability produce an Extra Skill (◇). The Extra
+            must be defined in the registry beforehand — <code>gaia fuse</code> matches your
+            unlocked skill set against known fusion recipes.
+          </p>
+        </div>
+
+        <h3>Path 2: Extra + Extra → Extra</h3>
+        <div class="section-body">
+          <p>
+            An Extra Skill can fuse with another Extra to produce a more complex Extra. This
+            path is valid when the resulting skill is compositionally richer but does not yet
+            cross the Ultimate complexity bar. Common in reasoning and multi-step planning chains.
+          </p>
+        </div>
+
+        <h3>Path 3: Extra + Extra → Ultimate</h3>
+        <div class="section-body">
+          <p>
+            When two Extra Skills combine into a capability that crosses the Ultimate complexity
+            threshold — full autonomy, cross-domain synthesis, or long-horizon orchestration —
+            the result is an Ultimate Skill (◆). Ultimate Skills sit at the apex of the tier
+            hierarchy; they cannot fuse further.
+          </p>
+        </div>
+      </section>
+
+      <!-- Prerequisites -->
+      <section class="section" id="prerequisites">
+        <h2 class="section-title">Prerequisites</h2>
+        <div class="section-body">
+          <p>
+            Before running <code>gaia fuse</code>, three conditions must hold:
+          </p>
+        </div>
+
+        <table class="prereq-table">
+          <thead>
+            <tr>
+              <th>Condition</th>
+              <th>What it means</th>
+              <th>How to check</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Input skills unlocked</td>
+              <td>All source skills are in your <code>skill-tree.json</code> at ≥ 1★</td>
+              <td><code>gaia tree</code></td>
+            </tr>
+            <tr>
+              <td>Fusion recipe exists</td>
+              <td>The registry defines an Extra or Ultimate that lists those inputs as <code>components</code></td>
+              <td><code>gaia dev list --generic</code></td>
+            </tr>
+            <tr>
+              <td>Fresh scan (optional but recommended)</td>
+              <td>Running <code>gaia scan</code> first surfaces all fusion candidates that match your repo's evidence</td>
+              <td><code>gaia scan</code> then check promotion-candidates.json</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout callout-warn">
+          <span class="callout-label">⏱ Candidate expiry</span>
+          <p>
+            Promotion candidates written by <code>gaia scan</code> expire after <strong>24 hours</strong>.
+            If your candidate file is stale, run <code>gaia scan</code> again before attempting
+            <code>gaia fuse</code>.
+          </p>
+        </div>
+      </section>
+
+      <!-- gaia fuse walkthrough -->
+      <section class="section" id="gaia-fuse">
+        <h2 class="section-title">gaia fuse Walkthrough</h2>
+        <div class="section-body">
+          <p>
+            <code>gaia fuse &lt;skillId&gt;</code> opens an interactive terminal flow. It checks your
+            unlocked skills against every known fusion recipe and presents only the ones you qualify
+            for. Select the target fusion, confirm, and the CLI writes both the fused skill entry and
+            a timeline event to your skill tree.
+          </p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-label">shell</span>
+          </div>
+          <pre><span class="c"># Scan first to surface current candidates (recommended)</span>
+<span class="cmd">gaia scan</span>
+
+<span class="c"># Fuse by target skill ID (the Extra or Ultimate you want to unlock)</span>
+<span class="cmd">gaia fuse</span> <span class="str">multi-step-tool-orchestration</span>
+
+<span class="c"># Or launch the interactive menu (no argument = pick from all eligible fusions)</span>
+<span class="cmd">gaia fuse</span></pre>
+        </div>
+
+        <h3>What the CLI does under the hood</h3>
+        <div class="section-body">
+          <p>
+            1. Loads <code>registry/gaia.json</code> to find skills with a <code>components</code>
+            list (fusion recipes).<br>
+            2. Cross-references that list against <code>skill-trees/&lt;you&gt;/skill-tree.json</code>
+            to filter down to fusions where you own all inputs.<br>
+            3. Presents eligible fusions in an interactive selector.<br>
+            4. On confirmation: appends the fused skill to <code>unlockedSkills</code> and writes
+            a <code>fuse</code> timeline event with current UTC timestamp.
+          </p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-label">skill-tree.json — after fusion</span>
+          </div>
+          <pre>{
+  <span class="str">"unlockedSkills"</span>: {
+    <span class="str">"multi-step-tool-orchestration"</span>: {
+      <span class="str">"level"</span>: <span class="val">2</span>,
+      <span class="str">"type"</span>: <span class="str">"extra"</span>,
+      <span class="str">"fusedFrom"</span>: [<span class="str">"tool-call-chaining"</span>, <span class="str">"context-window-management"</span>]
+    }
+  },
+  <span class="str">"timeline"</span>: [
+    {
+      <span class="str">"skillId"</span>: <span class="str">"multi-step-tool-orchestration"</span>,
+      <span class="str">"action"</span>: <span class="str">"fuse"</span>,
+      <span class="str">"timestamp"</span>: <span class="str">"2026-06-11T17:30:00Z"</span>,
+      <span class="str">"details"</span>: <span class="str">"Fused from: tool-call-chaining + context-window-management"</span>
+    }
+  ]
+}</pre>
+        </div>
+
+        <div class="callout callout-info">
+          <span class="callout-label">💡 View your tree after fusing</span>
+          <p>
+            Run <code>gaia tree</code> immediately after fusion to confirm the Extra or Ultimate
+            appears with its new tier glyph (◇ or ◆) and fused-from attribution.
+          </p>
+        </div>
+      </section>
+
+      <!-- Proposing a New Fusion -->
+      <section class="section" id="propose">
+        <h2 class="section-title">Proposing a New Fusion</h2>
+        <div class="section-body">
+          <p>
+            If no fusion recipe exists for the combination you believe is real, you can propose
+            one to the registry. A proposal requires:
+          </p>
+          <ul style="font-size:0.95rem;color:var(--muted);padding-left:1.25rem;line-height:1.75;margin-bottom:0.75rem;">
+            <li>A clearly named target skill (Extra or Ultimate) that does not yet exist in the registry.</li>
+            <li>At least two source skill IDs already present in the registry.</li>
+            <li>An argument for why the combination produces a qualitatively new emergent capability.</li>
+            <li>At least one piece of Class C evidence or better attached to the proposed target.</li>
+          </ul>
+          <p>
+            The workflow is a <code>gaia push</code> with a new skill batch, followed by a PR
+            against the intake layer. A Verifier then runs <code>gaia dev merge</code> to promote
+            the proposal into the canonical registry.
+          </p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-label">shell — proposing a new Extra Skill</span>
+          </div>
+          <pre><span class="c"># Step 1: Dry-run to see what gaia push would submit</span>
+<span class="cmd">gaia push</span> <span class="kw">--dry-run</span>
+
+<span class="c"># Step 2: Push the batch to the intake layer (opens a PR)</span>
+<span class="cmd">gaia push</span>
+
+<span class="c"># In your push batch, include a skill with type: "extra"</span>
+<span class="c"># and a components[] list referencing the source skill IDs</span></pre>
+        </div>
+
+        <h3>Batch format for an Extra Skill</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-label">YAML — gaia push batch snippet</span>
+          </div>
+          <pre><span class="kw">name</span>: <span class="str">Multi-Step Tool Orchestration</span>
+<span class="kw">type</span>: <span class="str">extra</span>
+<span class="kw">description</span>: <span class="str">&gt;
+  Chains multiple tool calls across context turns while maintaining
+  state — an emergent capability not reducible to either component.</span>
+<span class="kw">components</span>:
+  - <span class="str">tool-call-chaining</span>
+  - <span class="str">context-window-management</span>
+<span class="kw">evidence</span>:
+  - <span class="kw">url</span>: <span class="str">"https://github.com/you/agent-demo"</span>
+    <span class="kw">class</span>: <span class="str">C</span></pre>
+        </div>
+
+        <div class="callout callout-warn">
+          <span class="callout-label">⚠ Always dry-run first</span>
+          <p>
+            Run <code>gaia push --dry-run</code> before a real push. The dry run validates your
+            batch schema and shows you exactly which skills would be submitted without touching
+            the intake layer.
+          </p>
+        </div>
+      </section>
+
+      <!-- Registry-Level Fusion -->
+      <section class="section" id="registry">
+        <h2 class="section-title">Registry-Level Fusion</h2>
+        <div class="section-body">
+          <p>
+            Registry-level fusion merges two canonical nodes into one. This is a Verifier-only
+            operation that requires <code>gaia whoami</code> to return <code>verifier</code> or
+            <code>override</code> authorization. It is the mechanism Verifiers use when approving
+            a fusion proposal from the intake layer.
+          </p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-label">shell — Verifier-only</span>
+          </div>
+          <pre><span class="c"># Check authorization first</span>
+<span class="cmd">gaia whoami</span>
+
+<span class="c"># Merge source nodes into a target node</span>
+<span class="c"># target-id must already exist in the registry (or be the new node)</span>
+<span class="cmd">gaia dev merge</span> <span class="str">target-id</span> <span class="str">source-id-1</span> <span class="str">source-id-2</span>
+
+<span class="c"># Example: promote a fusion proposal from intake</span>
+<span class="cmd">gaia dev merge</span> <span class="str">multi-step-tool-orchestration</span> \
+  <span class="str">tool-call-chaining</span> <span class="str">context-window-management</span></pre>
+        </div>
+
+        <div class="callout callout-warn">
+          <span class="callout-label">⚠ Programmatic-first policy</span>
+          <p>
+            All registry mutations — including fusion — <strong>must</strong> go through
+            <code>gaia dev merge</code>. Direct edits to <code>registry/nodes/</code> are
+            deprecated and will fail the Meta Guard CI check.
+          </p>
+        </div>
+      </section>
+
+      <!-- Player vs Registry Fusion -->
+      <section class="section" id="player-vs-registry">
+        <h2 class="section-title">Player vs Registry Fusion</h2>
+        <div class="section-body">
+          <p>
+            The two fusion surfaces are independent — knowing when to use each prevents confusion:
+          </p>
+        </div>
+
+        <table class="prereq-table">
+          <thead>
+            <tr>
+              <th>Dimension</th>
+              <th>Player fusion (<code>gaia fuse</code>)</th>
+              <th>Registry fusion (<code>gaia dev merge</code>)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Who</td>
+              <td>Any registered contributor</td>
+              <td>Verifier (4★) or CI with GAIA_OPERATOR_OVERRIDE</td>
+            </tr>
+            <tr>
+              <td>What changes</td>
+              <td><code>skill-trees/&lt;username&gt;/skill-tree.json</code></td>
+              <td><code>registry/nodes/</code> and <code>registry/gaia.json</code></td>
+            </tr>
+            <tr>
+              <td>Requires PR</td>
+              <td><span class="cross">✗</span> local-only</td>
+              <td><span class="check">✓</span> always a PR</td>
+            </tr>
+            <tr>
+              <td>Visible to others</td>
+              <td>Only if you push your skill tree branch</td>
+              <td><span class="check">✓</span> public after merge</td>
+            </tr>
+            <tr>
+              <td>Timeline event</td>
+              <td><span class="check">✓</span> written automatically</td>
+              <td><span class="check">✓</span> written by the merge command</td>
+            </tr>
+            <tr>
+              <td>Recipe must exist first</td>
+              <td><span class="check">✓</span> registry must already have the Extra/Ultimate node</td>
+              <td><span class="cross">✗</span> the merge can create it</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout callout-info">
+          <span class="callout-label">💡 The typical flow</span>
+          <p>
+            A contributor proposes a new fusion via <code>gaia push</code> → a Verifier reviews the
+            intake PR → Verifier runs <code>gaia dev merge</code> to add it to the canonical registry
+            → any contributor can now run <code>gaia fuse</code> to claim it in their personal tree.
+          </p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- footer -->
+  <footer class="footer-v2">
+    <div class="footer-inner">
+      <div class="footer-brand-col">
+        <div class="footer-brand-mark">
+          <svg class="ico footer-seal" aria-hidden="true" focusable="false">
+            <use href="../assets/icons.svg#seal-diamond"/>
+          </svg>
+          <span class="footer-wordmark">Gaia</span>
+        </div>
+        <p class="footer-tagline">An evidence-backed atlas<br>of agent capabilities.</p>
+      </div>
+      <nav class="footer-cols" aria-label="Site navigation">
+        <div class="footer-col">
+          <span class="footer-col-heading">Registry</span>
+          <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../index.html">Skill Tree</a></li>
+            <li><a href="../starless.html">Starless</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-heading">Docs</span>
+          <ul>
+            <li><a href="index.html">Docs Home</a></li>
+            <li><a href="getting-started.html">Getting Started</a></li>
+            <li><a href="cli-reference.html">CLI Reference</a></li>
+            <li><a href="contributing.html">Contributing</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-heading">Contribute</span>
+          <ul>
+            <li><a href="named-skills.html">Named Skills</a></li>
+            <li><a href="evidence-classes.html">Evidence Classes</a></li>
+            <li><a href="fusion.html" style="color:var(--tier-basic,#38bdf8);">Skill Fusion</a></li>
+            <li><a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener" class="footer-ext">GitHub</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>MIT License</span>
+      <span class="footer-bottom-sep" aria-hidden="true">·</span>
+      <span>v4.7.1</span>
+      <span class="footer-bottom-sep" aria-hidden="true">·</span>
+      <span>© 2026 Gaia</span>
+    </div>
+  </footer>
+
+  <script>
+    /* Sidebar scroll-spy */
+    (function () {
+      const links = document.querySelectorAll('.sidebar-links a[href^="#"]');
+      const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+          }
+        });
+      }, { rootMargin: '-20% 0px -70% 0px' });
+      sections.forEach(s => obs.observe(s));
+    })();
+  </script>
+</body>
+</html>
