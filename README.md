@@ -197,9 +197,7 @@ Any MCP-compatible client. See [packages/mcp/](packages/mcp/) for config example
 
 ---
 
-## Terminal UI (experimental)
-
-> **New.** Agent-first interface designed for Claude Code, Codex, and other AI agents.
+## Interactive TUI
 
 After step 1, launch with no arguments:
 
