@@ -65,6 +65,21 @@ Reviewed open issues for writing priorities:
 - `docs/en/DOCS.md` ← updated (pages 5–6 marked done)
 - `docs/en/MEMORY.md` ← this entry
 
+### Merged
+
+PR #662 squash-merged to main (commit d608b7b). All CI passed. Cloudflare deploy confirmed green.
+
+### Standing habit — fact-check on every routine
+
+When spare capacity exists at the start or end of any routine, sweep existing pages for stale content:
+- Package names and install commands (e.g. `gaia-registry` → `gaia-cli`)
+- Version numbers hard-coded in code blocks
+- CLI flag names and command signatures (compare against live `gaia --help` output or README)
+- Links to sections that may have been renamed or removed
+- Vocabulary drift vs CONTEXT.md (banned synonyms, deprecated axes like rarity)
+
+Log every correction found, even minor ones, in the MEMORY.md entry for that routine.
+
 ### Planned next (Routine 004)
 
 - `docs/en/evidence-classes.html` — full evidence system explainer (Class → Type + Grade transition, trust numbers, verification states)
