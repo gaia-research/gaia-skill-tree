@@ -305,7 +305,17 @@ def _apply_cache_busting(text: str, version: str) -> str:
 def build_html_cache_busting(check: bool) -> bool:
     version = _read_version()
     changed = False
-    for filename in ("index.html", "codex.html", "badges/index.html"):
+    for filename in (
+        "index.html",
+        "about.html",
+        "codex.html",
+        "meta.html",
+        "privacy.html",
+        "starless.html",
+        "badges/index.html",
+        "named/index.html",
+        "u/index.html",
+    ):
         path = ROOT / "docs" / filename
         if not path.exists():
             continue
