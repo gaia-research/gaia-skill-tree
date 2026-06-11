@@ -108,4 +108,13 @@
         '</ul>' +
       '</li>' +
     '</ul>';
+
+  // Skill Graph button: on the home page skill-graph.js owns [data-graph-trigger].
+  // On any other page, navigate to home with ?field=1 which hud-toggle.js picks up.
+  var graphBtn = el.querySelector('[data-graph-trigger]');
+  if (graphBtn && root !== '') {
+    graphBtn.addEventListener('click', function () {
+      window.location.href = root + 'index.html?field=1';
+    });
+  }
 })();
