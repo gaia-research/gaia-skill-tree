@@ -6,7 +6,6 @@ Orchestrates scan → path computation → unlock/promotion notifications.
 
 import json
 import os
-import sys
 
 from gaia_cli.scanner import load_config, scan_repo_detailed
 from gaia_cli.resolver import resolve_skills

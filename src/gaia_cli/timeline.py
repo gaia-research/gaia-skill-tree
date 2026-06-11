@@ -1,10 +1,8 @@
 import datetime
 import json
-import os
 from pathlib import Path
 
-from gaia_cli.registry import registry_graph_path
-from gaia_cli.treeManager import user_tree_path, load_tree, save_tree
+from gaia_cli.treeManager import load_tree, save_tree
 
 def get_utc_now_iso():
     return datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")

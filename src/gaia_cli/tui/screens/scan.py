@@ -6,7 +6,6 @@ import os
 import re
 import subprocess
 import sys
-from typing import Iterator
 
 from textual.app import ComposeResult
 from textual.binding import Binding

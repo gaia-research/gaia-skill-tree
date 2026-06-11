@@ -569,7 +569,7 @@ def _fusion_flowchart_frags(
     with 11 spaces so they align with line 1's content when _pt_select prepends
     the 3-char pointer column:  3 (pointer) + 6 ([EDIT]) + 2 (gap) = 11.
     """
-    from gaia_cli.formatting import RANK_COLORS, rank_hex
+    from gaia_cli.formatting import rank_hex
 
     purple = FUSE_HEX
     red = _CONTRIBUTOR_HEX

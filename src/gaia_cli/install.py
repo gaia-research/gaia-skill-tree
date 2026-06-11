@@ -5,7 +5,6 @@ into agent-accessible directories (.agents/skills or .claude/skills).
 Supports explicit suite dependencies and recursive installation.
 """
 
-import hashlib
 import json
 import os
 import re
@@ -13,9 +12,8 @@ import shutil
 import subprocess
 import sys
 from datetime import datetime, timezone
-from pathlib import Path
 
-from gaia_cli.registry import named_skills_dir, registry_graph_path
+from gaia_cli.registry import named_skills_dir
 from gaia_cli.formatting import _fg, _reset, get_harness_color
 
 

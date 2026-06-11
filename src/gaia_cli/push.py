@@ -9,7 +9,7 @@ from urllib.parse import urlparse
 try:
     from gaia_cli.resolver import load_canonical_skills
 except ModuleNotFoundError:
-    from gaia_cli.resolver import load_canonical_skills
+    pass
 
 from gaia_cli.registry import registry_graph_path, skill_batches_dir
 

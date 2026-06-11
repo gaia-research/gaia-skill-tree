@@ -6,16 +6,12 @@ Arrow-key navigate, Enter to install, Tab to multi-select.
 
 from __future__ import annotations
 
-import os
-import sys
-from typing import Any
 
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.screen import Screen, ModalScreen
 from textual.widgets import Input, ListView, ListItem, Label, Static, RichLog, Button
 from textual.reactive import reactive
-from textual.message import Message
 from textual import events, on, work
 from rich.text import Text
 
@@ -218,7 +214,7 @@ class InstallModal(ModalScreen):
                 log.write(f"[green]✓ Installed {sid}[/]")
                 self.app.call_from_thread(self.dismiss, True)
             else:
-                log.write(f"[red]✗ Install failed — see above[/]")
+                log.write("[red]✗ Install failed — see above[/]")
                 self.app.call_from_thread(
                     lambda: setattr(self.query_one("#btn-cancel", Button), "disabled", False)
                 )

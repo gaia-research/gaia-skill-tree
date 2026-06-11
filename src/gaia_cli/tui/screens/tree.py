@@ -12,9 +12,9 @@ from typing import Any
 
 from textual.app import ComposeResult
 from textual.binding import Binding
-from textual.containers import Container, Vertical, ScrollableContainer
+from textual.containers import Container, ScrollableContainer
 from textual.screen import Screen
-from textual.widgets import Tree, Static, Label, Rule, Input
+from textual.widgets import Tree, Static, Input
 from textual.widgets.tree import TreeNode
 from textual.reactive import reactive
 from textual import events, on
