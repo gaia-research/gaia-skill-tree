@@ -2,6 +2,94 @@
 
 ---
 
+## 2026-06-11 — Routine 004
+
+**Branch:** `docs/routines/004`
+**Task chosen:** Task 2 (write about a feature — Evidence Classes + Skill Fusion) + Task 4 (write about recent PR updates — PR #663 semantic search speedup)
+
+### Trigger
+
+PR #663 (`cli/bolt-semantic-search`) merged at 17:27 UTC. The PR optimised
+`search_precomputed` in `src/gaia_cli/semantic_search.py` by batching cosine-similarity
+calculations into a single NumPy matrix operation, dropping 1 000-item search time
+from ~0.63 s to ~0.26 s (~2.5×). A pure-Python fallback (query-norm extracted outside
+the loop) was retained for environments without NumPy. Version bumped 4.3.12 → 4.7.1.
+
+Routine 003 confirmed merged (PR #662). Created `docs/routines/004` from `origin/main`.
+
+### What I did
+
+1. **Created `docs/en/evidence-classes.html`** — full evidence system deep-dive:
+   - Overview callout: Class letters ≠ Grade letters warning (from CONTEXT.md)
+   - Legacy Class system: C (first sighting), B (reproducible), A (battle-tested)
+   - Migration path callout: when to use legacy `--class` vs new `--type` + `--grade`
+   - Evidence Type: provenance axis (arxiv / repo / github-stars), kebab-case, list-driven
+   - Evidence Grade: S / A / B / C × Platinum / Gold / Silver / Bronze
+   - Grade cards with trust-number thresholds (S ≥ 90, A ≥ 80, B ≥ 60, C ≥ 40)
+   - Trust Numbers section: internal 0–100 score, gradeThresholds meta.json snippet
+   - Overall Trust Grade: aggregate, computed at build time, never stored on nodes
+   - Verification States: Unverified / Verified (4★+ Verifier) / Disputed — with pill UI
+   - Orthogonality callout: verification ≠ grading
+   - CLI usage: legacy `--class` and new `--type --grade` examples, `rm-evidence`, `dev list`
+   - Stars gate table: 0★–6★ with evidence requirements per level
+   - Starless references info callout: effective rank = top named variant
+
+2. **Created `docs/en/fusion.html`** — comprehensive fusion mechanics:
+   - Overview: two-axis model (tier vs stars), fusion moves along the tier axis
+   - Player-level fusion (`gaia fuse`) vs Registry-level fusion (`gaia dev merge`) distinction upfront
+   - Ascension Cycle diagram: Register → Scan → Rank up → Name → **Fuse** → Apex (Fuse step highlighted)
+   - Fusion Paths diagram: three canonical paths with colored tier pills
+     - Path 1: Basic + Basic → Extra
+     - Path 2: Extra + Extra → Extra (complex)
+     - Path 3: Extra + Extra → Ultimate
+   - Unique Skills callout: depth-only, no fusion path (◉)
+   - Prerequisites table: unlocked inputs, recipe existence, fresh scan
+   - 24-hour candidate expiry warning
+   - `gaia fuse` walkthrough with under-the-hood explanation
+   - skill-tree.json output example with fused entry and timeline event
+   - Proposing a new fusion: requirements, push workflow, YAML batch snippet
+   - Always-dry-run-first callout
+   - Registry-level fusion: `gaia dev merge` command, Programmatic-first policy callout
+   - Player vs Registry comparison table: 6 dimensions
+
+3. **Updated `docs/en/index.html`**:
+   - Added "What's New" banner (v4.7.1) about the semantic search speedup with link to CLI reference
+   - Promoted Evidence Classes card: removed `opacity:0.7`, changed badge from "○ Coming soon" to "● New"
+   - Promoted Skill Fusion card: same treatment
+   - Updated nav version chip: v4.4.0 → v4.7.1
+   - Updated footer version: v4.6.0 → v4.7.1
+   - Expanded footer Docs column: added CLI Reference, Skill Hierarchy, Contributing, Evidence Classes, Skill Fusion
+
+4. **Updated `docs/en/DOCS.md`** — marked pages 7 and 8 as ✅ Done / Routine 004.
+
+### Design decisions
+
+- Both new pages follow the identical layout contract (sticky nav, sidebar scroll-spy, main content, footer).
+- evidence-classes.html introduces: grade cards (4-column grid with per-grade border colors), state pills row, gate table (7 rows 0★–6★).
+- fusion.html introduces: fusion diagram with colored tier pills, Ascension Cycle journey bar, prerequisites/comparison tables.
+- "What's New" banner on index.html uses a subtle sky-blue tint matching `--tier-basic` — reads as a system notice, not a marketing callout.
+- All vocabulary cross-checked against CONTEXT.md: "Evidence Type" (never bare "type"), "Overall Trust Grade" (never stored on node), "Unique Skill" (never "fuses further"), "fusion" (never "merge" or "combine" in user copy).
+
+### Issues addressed
+
+- PR #663 semantic search speedup — documented in index.html "What's New" banner, referencing `gaia skills search` in CLI reference.
+- Routine 004 planned pages (DOCS.md pages 7–8) — delivered on schedule.
+
+### Files created / modified
+
+- `docs/en/evidence-classes.html` ← new
+- `docs/en/fusion.html` ← new
+- `docs/en/index.html` ← updated (What's New banner, two cards promoted, version bumped, footer expanded)
+- `docs/en/DOCS.md` ← updated (pages 7–8 marked done)
+- `docs/en/MEMORY.md` ← this entry
+
+### Planned next (Routine 005)
+
+- `docs/en/mcp-server.html` — `@gaia-registry/mcp-server` integration guide
+- `docs/en/faq.html` — FAQ consolidating the most common user questions from open issues
+
+---
+
 ## 2026-06-11 — Routine 003
 
 **Branch:** `docs/routines/003`
