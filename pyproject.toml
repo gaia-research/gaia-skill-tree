@@ -42,6 +42,12 @@ interactive = []
 tui = [
     "textual>=0.50.0",
 ]
+# Optional OS-keychain backend for `gaia login` token storage (PRD #155).
+# Without it, the token falls back to a chmod-600 file under GAIA_HOME — login
+# still works, it just doesn't use the system keyring.
+auth = [
+    "keyring>=24.0",
+]
 # Minimum set required to run `gaia docs build` end-to-end.
 # scripts/build_layouts_3d.py (invoked by scripts/generateProjections.py
 # during tree.md regen) needs numpy + scipy.linalg for the 3D layout solve.

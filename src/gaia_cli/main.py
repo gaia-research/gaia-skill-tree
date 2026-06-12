@@ -173,6 +173,8 @@ Share:
 
 Utilities:
   {_fg(*C2)}gaia whoami{_reset()}
+  {_fg(*COLOR_LOCAL_USER)}gaia login{_reset()}                    Sign in with GitHub (device flow)
+  {_fg(*COLOR_GREY)}gaia logout{_reset()}                   Sign out and revoke the token
   {_fg(*C1)}gaia version{_reset()}
   {_fg(*C3)}gaia update{_reset()}
   {_fg(*HARNESS_COLORS["claude"])}gaia mcp{_reset()}
@@ -235,6 +237,8 @@ PUBLIC_COMMANDS = (
     "propose",
     "version",
     "whoami",
+    "login",
+    "logout",
     "reset",
     "mcp",
     "release",
@@ -356,6 +360,117 @@ def whoami_command(args):
         print("Read-only dev commands available:  gaia dev list / audit / diff")
         print("Mutating dev commands are blocked until you hold a 4★+ named skill.")
         print(f"CI/bots may bypass via {OPERATOR_OVERRIDE_ENV}=1 (always shown here).")
+
+    # GitHub sign-in status (PRD #155) — read-only, never blocks the above.
+    from gaia_cli.auth import TokenStore
+
+    print()
+    creds = TokenStore().load()
+    if creds and creds.login:
+        suffix = "  (session token via env)" if creds.source == "env" else ""
+        print(f"GitHub:    signed in as {_fg(*COLOR_LOCAL_USER)}{creds.login}{_reset()}{suffix}")
+    elif creds:
+        print("GitHub:    signed in (handle unknown — run `gaia login` to refresh)")
+    else:
+        print("GitHub:    not signed in  (run `gaia login`)")
+
+
+def login_command(args):
+    """Sign in to GitHub via the device flow and persist the token (PRD #155)."""
+    from gaia_cli import auth
+
+    config = load_config() or {}
+    client_id = auth.resolve_client_id(config)
+
+    if not auth.is_configured(client_id):
+        print("GitHub sign-in isn't configured yet.", file=sys.stderr)
+        print(
+            f"  Set {auth.CLIENT_ID_ENV}=<oauth-app-client-id> (or add "
+            "`oauthClientId = \"...\"` to .gaia/config.toml).",
+            file=sys.stderr,
+        )
+        print(
+            "  The client_id is public — register a Device-Flow OAuth app under "
+            "GitHub → Settings → Developer settings.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    try:
+        device = auth.request_device_code(client_id)
+    except auth.AuthError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        sys.exit(1)
+
+    print("To sign in, open this URL in your browser:")
+    print(f"  {_fg(*C2)}{device.verification_uri}{_reset()}")
+    print("and enter the code:")
+    print(f"  {_fg(*COLOR_LOCAL_USER)}{device.user_code}{_reset()}")
+    print()
+    print("Waiting for authorization…")
+
+    try:
+        token = auth.poll_for_token(client_id, device)
+        profile = auth.fetch_user(token)
+    except auth.AuthDenied:
+        print("Sign-in was denied.", file=sys.stderr)
+        sys.exit(1)
+    except auth.AuthTimeout:
+        print("Sign-in timed out before you authorized. Try `gaia login` again.", file=sys.stderr)
+        sys.exit(1)
+    except auth.AuthError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        sys.exit(1)
+
+    login = profile.get("login", "")
+    creds = auth.Credentials(token=token, login=login, scope=auth.DEFAULT_SCOPE)
+
+    backend = "skipped"
+    if not getattr(args, "no_store", False):
+        backend = auth.TokenStore().save(creds)
+
+    print(f"\n✓ Signed in as {_fg(*COLOR_LOCAL_USER)}{login}{_reset()}")
+    if backend == "keyring":
+        print("  Token stored in your OS keychain.")
+    elif backend == "file":
+        print("  Token stored in a chmod-600 file under GAIA_HOME.")
+    else:
+        print("  Token not stored (--no-store); this session only.")
+
+    repo = getattr(args, "repo", None)
+    if repo:
+        if "/" not in repo:
+            print(f"  (skipping ownership check — expected owner/repo, got {repo!r})")
+        else:
+            owner, _, name = repo.partition("/")
+            owned = auth.verify_repo_ownership(token, owner, name)
+            mark = "✓ verified" if owned else "✗ not verified"
+            print(f"  Ownership of {repo}: {mark}")
+
+
+def logout_command(args):
+    """Delete the stored GitHub token and best-effort revoke it (PRD #155)."""
+    from gaia_cli import auth
+
+    store = auth.TokenStore()
+    creds = store.load()
+    if not creds:
+        print("Not signed in — nothing to do.")
+        return
+
+    revoked = False
+    if not getattr(args, "no_revoke", False) and creds.source != "env":
+        config = load_config() or {}
+        client_id = auth.resolve_client_id(config)
+        revoked = auth.revoke_token(client_id, creds.token)
+
+    if creds.source == "env":
+        print("Signed in via an environment token — unset it to fully sign out.")
+
+    store.delete()
+    handle = f" ({creds.login})" if creds.login else ""
+    revoke_note = "revoked + " if revoked else ""
+    print(f"✓ Signed out{handle}. Token {revoke_note}cleared locally.")
 
 
 def reset_command(args):
@@ -2899,6 +3014,26 @@ def get_parser():
     subparsers.add_parser(
         "whoami", help="Show your Gaia identity and Verifier/operator status"
     )
+    login_parser = subparsers.add_parser(
+        "login", help="Sign in with GitHub via the device flow"
+    )
+    login_parser.add_argument(
+        "--repo",
+        help="Verify ownership of this owner/repo after signing in",
+    )
+    login_parser.add_argument(
+        "--no-store",
+        action="store_true",
+        help="Authenticate for this session only; do not persist the token",
+    )
+    logout_parser = subparsers.add_parser(
+        "logout", help="Sign out of GitHub and revoke the stored token"
+    )
+    logout_parser.add_argument(
+        "--no-revoke",
+        action="store_true",
+        help="Delete the local token without calling GitHub to revoke it",
+    )
     reset_parser = subparsers.add_parser(
         "reset", help="Clear your skill tree and local state for a fresh start"
     )
@@ -3546,6 +3681,10 @@ def main():
         version_command(args)
     elif args.command == "whoami":
         whoami_command(args)
+    elif args.command == "login":
+        login_command(args)
+    elif args.command == "logout":
+        logout_command(args)
     elif args.command == "reset":
         reset_command(args)
     elif args.command == "mcp":
