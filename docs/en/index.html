@@ -343,7 +343,7 @@
     <span class="docs-nav-sep">/</span>
     <a href="index.html" class="docs-nav-link active">Docs</a>
     <div class="docs-nav-spacer"></div>
-    <span class="docs-nav-version" id="ver">v4.7.1</span>
+    <span class="docs-nav-version" id="ver">v4.7.6</span>
   </nav>
 
   <!-- hero -->
@@ -359,14 +359,15 @@
   <!-- what's new -->
   <div class="whats-new">
     <div class="whats-new-inner">
-      <span class="whats-new-tag">v4.7.1</span>
+      <span class="whats-new-tag">v4.7.6</span>
       <span class="whats-new-text">
-        <strong>Semantic search is ~2.5× faster.</strong>
-        PR #663 batched cosine-similarity into a NumPy matrix operation —
-        search time on 1 000 embeddings dropped from ~0.63 s to ~0.26 s.
-        Pure-Python fallback retained for environments without NumPy.
+        <strong>Scanner match is ~6× faster.</strong>
+        PR #670 caches word-set computation per canonical skill in an external
+        function attribute — matching 200 custom skills against 2 000 canonicals
+        dropped from ~3.5 s to ~0.6 s. JSON serialization is now safe (sets never
+        stored in-place on the data dict).
       </span>
-      <a class="whats-new-link" href="cli-reference.html#skills-search">gaia skills search →</a>
+      <a class="whats-new-link" href="faq.html#scan-promote">Scan &amp; Promote FAQ →</a>
     </div>
   </div>
 
@@ -414,8 +415,8 @@
     </a>
     <a class="docs-card" href="evidence-classes.html">
       <span class="docs-card-icon">🔬</span>
-      <span class="docs-card-title">Evidence Classes</span>
-      <span class="docs-card-desc">Class C, B, and A evidence — what each means, how to attach it, and how the new Type + Grade model drives star progression.</span>
+      <span class="docs-card-title">Evidence &amp; Trust</span>
+      <span class="docs-card-desc">Evidence Type, Grade, and Overall Trust Grade — how the two-axis trust model supersedes deprecated Evidence Class and gates star progression.</span>
       <span class="docs-card-badge new">● New</span>
     </a>
     <a class="docs-card" href="fusion.html">
@@ -431,17 +432,23 @@
     <h2>Integrations</h2>
   </div>
   <div class="docs-grid" style="margin-top:1.25rem;">
-    <a class="docs-card" href="mcp-server.html" style="opacity:0.7;pointer-events:auto;">
+    <a class="docs-card" href="mcp-server.html">
       <span class="docs-card-icon">🔌</span>
       <span class="docs-card-title">MCP Server</span>
       <span class="docs-card-desc">Use <code>@gaia-registry/mcp-server</code> to give any MCP-compatible agent access to the skill graph at runtime.</span>
-      <span class="docs-card-badge planned">○ Coming soon</span>
+      <span class="docs-card-badge new">● New</span>
     </a>
-    <a class="docs-card" href="faq.html" style="opacity:0.7;pointer-events:auto;">
+    <a class="docs-card" href="share-bundles.html">
+      <span class="docs-card-icon">📦</span>
+      <span class="docs-card-title">Share Bundles</span>
+      <span class="docs-card-desc">Export your skill tree as a self-contained JSON bundle. Anyone with the file or URL can preview your skills and install the ones they want.</span>
+      <span class="docs-card-badge new">● New</span>
+    </a>
+    <a class="docs-card" href="faq.html">
       <span class="docs-card-icon">❓</span>
       <span class="docs-card-title">FAQ</span>
       <span class="docs-card-desc">Answers to the most common questions about gaia init outside a repo, gaia push, and the local-first design.</span>
-      <span class="docs-card-badge planned">○ Coming soon</span>
+      <span class="docs-card-badge new">● New</span>
     </a>
   </div>
 
@@ -522,8 +529,9 @@
             <li><a href="cli-reference.html">CLI Reference</a></li>
             <li><a href="skill-hierarchy.html">Skill Hierarchy</a></li>
             <li><a href="contributing.html">Contributing</a></li>
-            <li><a href="evidence-classes.html">Evidence Classes</a></li>
+            <li><a href="evidence-classes.html">Evidence &amp; Trust</a></li>
             <li><a href="fusion.html">Skill Fusion</a></li>
+            <li><a href="share-bundles.html">Share Bundles</a></li>
           </ul>
         </div>
 
@@ -544,7 +552,7 @@
     <div class="footer-bottom">
       <span>MIT License</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
-      <span id="footerVersion">v4.7.1</span>
+      <span id="footerVersion">v4.7.6</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
       <span>© 2026 Gaia</span>
     </div>

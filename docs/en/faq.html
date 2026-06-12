@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ — Gaia Docs</title>
+  <meta name="description" content="Frequently asked questions about Gaia: CLI setup, skill hierarchy, the MCP server, scan and promote workflow, share bundles, and contributing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg, #030712);
+      color: var(--text, #e2e8f0);
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    a { color: var(--tier-basic, #38bdf8); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    .docs-nav {
+      border-bottom: 1px solid var(--border, #1e293b);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      background: rgba(3, 7, 18, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    .nav-logo { font-family: 'EB Garamond', Georgia, serif; font-size: 1.1rem; font-weight: 500; color: var(--text, #e2e8f0); letter-spacing: .02em; }
+    .nav-logo span { color: var(--tier-ultimate, #f59e0b); }
+    .nav-sep { color: var(--muted, #64748b); font-size: 0.85rem; }
+    .nav-crumb { font-size: 0.82rem; color: var(--muted, #64748b); }
+    .nav-crumb:hover { color: var(--text, #e2e8f0); text-decoration: none; }
+    .nav-crumb.current { color: var(--text, #e2e8f0); }
+    .nav-spacer { flex: 1; }
+    .nav-version { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--muted, #64748b); padding: 0.2rem 0.5rem; border: 1px solid var(--border, #1e293b); border-radius: 4px; }
+
+    /* ── Layout ── */
+    .page-layout { display: grid; grid-template-columns: 220px 1fr; max-width: 1120px; margin: 0 auto; }
+
+    /* ── Sidebar ── */
+    .sidebar { position: sticky; top: 52px; height: calc(100vh - 52px); overflow-y: auto; padding: 2rem 0 2rem 1.5rem; border-right: 1px solid var(--border, #1e293b); scrollbar-width: thin; scrollbar-color: var(--border, #1e293b) transparent; }
+    .sidebar-group { margin-bottom: 1.75rem; }
+    .sidebar-group-label { font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted, #64748b); margin-bottom: 0.5rem; }
+    .sidebar-links { list-style: none; display: flex; flex-direction: column; gap: 0.1rem; }
+    .sidebar-links a { display: block; padding: 0.25rem 0.6rem; font-size: 0.84rem; color: var(--muted, #64748b); border-radius: 4px; transition: color 0.15s, background 0.15s; }
+    .sidebar-links a:hover { color: var(--text, #e2e8f0); background: rgba(255,255,255,0.04); text-decoration: none; }
+    .sidebar-links a.active { color: var(--tier-basic, #38bdf8); background: rgba(56,189,248,0.07); }
+
+    /* ── Main ── */
+    .main-content { padding: 2.5rem 3rem 4rem 3rem; max-width: 820px; min-width: 0; }
+    .page-title { font-family: 'EB Garamond', Georgia, serif; font-size: 2.4rem; font-weight: 500; line-height: 1.2; margin-bottom: 0.75rem; color: var(--text, #e2e8f0); }
+    .page-lead { font-size: 1.05rem; color: var(--muted, #64748b); max-width: 580px; line-height: 1.65; margin-bottom: 2.5rem; }
+
+    /* ── Category header ── */
+    .cat-header {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--muted, #64748b);
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border, #1e293b);
+      margin-bottom: 0.25rem;
+      margin-top: 3rem;
+    }
+    .cat-header:first-of-type { margin-top: 0; }
+
+    /* ── FAQ items ── */
+    .faq-list { display: flex; flex-direction: column; gap: 0; }
+    .faq-item {
+      border-bottom: 1px solid rgba(30, 41, 59, 0.6);
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--text, #e2e8f0);
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      text-align: left;
+      padding: 1.1rem 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      line-height: 1.35;
+      transition: color 0.15s;
+    }
+    .faq-question:hover { color: var(--tier-basic, #38bdf8); }
+    .faq-question[aria-expanded="true"] { color: var(--tier-basic, #38bdf8); }
+    .faq-chevron {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      color: var(--muted, #64748b);
+      transition: transform 0.2s, border-color 0.15s;
+    }
+    .faq-question[aria-expanded="true"] .faq-chevron {
+      transform: rotate(180deg);
+      border-color: rgba(56,189,248,0.4);
+      color: var(--tier-basic, #38bdf8);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.28s ease;
+    }
+    .faq-answer-inner {
+      padding: 0 0 1.4rem 0;
+      font-size: 0.93rem;
+      color: var(--muted, #64748b);
+      line-height: 1.75;
+    }
+    .faq-answer-inner p { margin-bottom: 0.85rem; }
+    .faq-answer-inner p:last-child { margin-bottom: 0; }
+    .faq-answer-inner ul, .faq-answer-inner ol { padding-left: 1.25rem; margin-bottom: 0.85rem; }
+    .faq-answer-inner li { margin-bottom: 0.35rem; }
+
+    /* ── Code ── */
+    .code-block { background: #08080a; border: 1px solid var(--border, #1e293b); border-radius: 8px; overflow: hidden; margin: 1rem 0; }
+    .code-block-header { display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 1rem; border-bottom: 1px solid var(--border, #1e293b); background: rgba(255,255,255,0.02); }
+    .code-block-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--muted, #64748b); }
+    .code-block pre { padding: 1.1rem 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; line-height: 1.7; color: #c9d1d9; overflow-x: auto; }
+    .code-block pre .c  { color: var(--muted, #64748b); }
+    .code-block pre .cmd{ color: #86efac; }
+    .code-block pre .kw { color: var(--tier-basic, #38bdf8); }
+    .code-block pre .str{ color: var(--tier-extra, #c084fc); }
+    code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; background: rgba(255,255,255,0.06); padding: 0.1em 0.35em; border-radius: 3px; color: var(--text, #e2e8f0); }
+
+    /* ── Callouts ── */
+    .callout { border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0; font-size: 0.88rem; line-height: 1.65; }
+    .callout-warn { background: rgba(251,191,36,0.07); border: 1px solid rgba(251,191,36,0.25); color: #fcd34d; }
+    .callout-info { background: rgba(56,189,248,0.06); border: 1px solid rgba(56,189,248,0.2); color: var(--tier-basic, #38bdf8); }
+    .callout-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 0.4rem; display: block; }
+    .callout p { color: inherit; margin-bottom: 0.4rem; }
+    .callout p:last-child { margin-bottom: 0; }
+    .callout strong { color: #fff; }
+
+    /* ── Tier pills ── */
+    .tier-pill { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.78rem; font-weight: 500; border: 1px solid; white-space: nowrap; vertical-align: middle; }
+    .pill-basic { background: rgba(56,189,248,0.1); border-color: rgba(56,189,248,0.3); color: #38bdf8; }
+    .pill-extra { background: rgba(192,132,252,0.1); border-color: rgba(192,132,252,0.3); color: #c084fc; }
+    .pill-unique { background: rgba(124,58,237,0.12); border-color: rgba(124,58,237,0.4); color: #a78bfa; }
+    .pill-ultimate { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: #f59e0b; }
+
+    /* ── Footer ── */
+    .footer-v2 { border-top: 1px solid var(--border, #1e293b); margin-top: 5rem; padding: 3rem 2rem 2rem; max-width: 1120px; margin-left: auto; margin-right: auto; }
+    .footer-inner { display: flex; gap: 3rem; align-items: flex-start; flex-wrap: wrap; }
+    .footer-brand-col { flex: 0 0 180px; }
+    .footer-brand-mark { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .footer-wordmark { font-family: 'EB Garamond', Georgia, serif; font-size: 1.1rem; color: var(--text, #e2e8f0); }
+    .footer-tagline { font-size: 0.82rem; color: var(--muted, #64748b); line-height: 1.6; }
+    .footer-cols { flex: 1; display: flex; gap: 3rem; flex-wrap: wrap; }
+    .footer-col { display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col-heading { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted, #64748b); }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+    .footer-col a { font-size: 0.85rem; color: var(--muted, #64748b); }
+    .footer-col a:hover { color: var(--text, #e2e8f0); text-decoration: none; }
+    .footer-bottom { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border, #1e293b); display: flex; gap: 1rem; align-items: center; font-size: 0.78rem; color: var(--muted, #64748b); }
+    .footer-bottom-sep { opacity: 0.4; }
+
+    @media (max-width: 768px) {
+      .page-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .main-content { padding: 1.5rem 1.25rem 3rem; }
+    }
+
+    @media (max-width: 480px) {
+      .main-content { padding: 1.25rem 0.75rem 2.5rem; }
+      .faq-question { padding: 0.85rem 0; gap: 0.6rem; font-size: 0.95rem; }
+      .faq-chevron { flex-shrink: 0; width: 16px; height: 16px; font-size: 0.6rem; }
+      .faq-answer-inner { padding: 0 0 1rem 0; font-size: 0.85rem; }
+      code { overflow-wrap: break-word; word-break: break-word; }
+    }
+
+    @media (max-width: 360px) {
+      .faq-question { font-size: 0.9rem; padding: 0.75rem 0; }
+      .faq-answer-inner { font-size: 0.8rem; }
+      code { font-size: 0.75rem; overflow-wrap: break-word; word-break: break-word; }
+      .page-title { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- nav -->
+  <nav class="docs-nav">
+    <a href="../index.html" class="nav-logo">Gaia <span>◆</span></a>
+    <span class="nav-sep">/</span>
+    <a href="index.html" class="nav-crumb">Docs</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-crumb current">FAQ</span>
+    <span class="nav-spacer"></span>
+    <span class="nav-version">v4.7.6</span>
+  </nav>
+
+  <div class="page-layout">
+
+    <!-- sidebar -->
+    <aside class="sidebar" aria-label="Page sections">
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Categories</div>
+        <ul class="sidebar-links">
+          <li><a href="#cli">CLI &amp; Setup</a></li>
+          <li><a href="#skills">Skills &amp; Hierarchy</a></li>
+          <li><a href="#scan-promote">Scan &amp; Promote</a></li>
+          <li><a href="#mcp">MCP Server</a></li>
+          <li><a href="#contributing">Contributing</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Docs</div>
+        <ul class="sidebar-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="getting-started.html">Getting Started</a></li>
+          <li><a href="cli-reference.html">CLI Reference</a></li>
+          <li><a href="skill-hierarchy.html">Skill Hierarchy</a></li>
+          <li><a href="contributing.html">Contributing</a></li>
+          <li><a href="named-skills.html">Named Skills</a></li>
+          <li><a href="evidence-classes.html">Evidence Classes</a></li>
+          <li><a href="fusion.html">Skill Fusion</a></li>
+          <li><a href="mcp-server.html">MCP Server</a></li>
+          <li><a href="faq.html" class="active">FAQ</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- main -->
+    <main class="main-content">
+      <h1 class="page-title">FAQ</h1>
+      <p class="page-lead">
+        Common questions about the CLI, the skill system, scan and promote, the MCP server,
+        and contributing. Sourced from open GitHub issues and recurring support threads.
+      </p>
+
+      <!-- ── CLI & Setup ── -->
+      <p class="cat-header" id="cli">CLI &amp; Setup</p>
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            I ran <code>gaia init</code> and <code>gaia scan</code> outside a Git repo — why won't <code>gaia push</code> work?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <p>
+                <code>gaia init</code> and <code>gaia scan</code> run successfully in any directory, but
+                <code>gaia push</code> requires a Git repository root because it needs to detect your
+                project's skill signals and associate the batch with a source repo URL.
+                Running outside a repo creates the impression that push will work — it won't, and
+                the CLI will exit with an error when it tries to resolve the repo origin.
+              </p>
+              <p>
+                <strong>Workaround:</strong> Run Gaia inside a Git-tracked project directory.
+                If your environment (Hermes, OpenClaw, a cloud shell) isn't backed by a repo,
+                <code>gaia scan</code> and <code>gaia tree</code> are still useful for local
+                introspection — just don't expect push to open a GitHub PR.
+              </p>
+              <div class="callout callout-info">
+                <span class="callout-label">📌 Tracked in issue #624</span>
+                <p>An upstream fix to surface a clear warning at <code>gaia push</code> time (rather than at scan time) is open. Non-repo tree/graph views are under consideration as a future feature.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Why does <code>gaia tree</code> show canonical registry skills instead of my local ones?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <p>
+                Several commands — <code>gaia tree</code>, <code>gaia graph</code>, <code>gaia stats</code>,
+                <code>gaia lookup</code> — default to canonical registry data rather than your
+                local or custom skills. This is a known design gap; the intended local-first behavior
+                hasn't been fully implemented yet.
+              </p>
+              <p>
+                <strong>For now:</strong> pass <code>--custom</code> to <code>gaia tree</code> and
+                <code>gaia graph</code> to narrow output to project-local skill files. For a view
+                of your personal progression, <code>gaia tree</code> shows your <code>skill-tree.json</code>
+                slots, not arbitrary local skill files.
+              </p>
+              <div class="code-block">
+                <div class="code-block-header"><span class="code-block-label">bash</span></div>
+                <pre><span class="cmd">gaia tree</span> --custom      <span class="c"># local custom skills only</span>
+<span class="cmd">gaia graph</span> --custom    <span class="c"># graph of local custom skills</span>
+<span class="cmd">gaia tree</span>              <span class="c"># your personal skill-tree.json</span>
+<span class="cmd">gaia tree</span> --canon      <span class="c"># full canonical registry</span></pre>
+              </div>
+              <div class="callout callout-info">
+                <span class="callout-label">📌 Tracked in issue #637</span>
+                <p>
+                  A future version will default non-dev commands to local-first context, with
+                  <code>--canon</code> opting into the global registry view.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            How do I check my authorization status before running <code>gaia dev</code> commands?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <p>
+                Run <code>gaia whoami</code>. It prints your configured username and the authorization
+                path in effect: <code>verifier</code>, <code>override</code>, <code>bootstrap</code>,
+                or <code>denied</code>.
+              </p>
+              <div class="code-block">
+                <div class="code-block-header"><span class="code-block-label">bash</span></div>
+                <pre><span class="cmd">gaia whoami</span>
+<span class="c"># → user: yourname | via: verifier</span>
+<span class="c"># → user: yourname | via: denied  (need a 4★ named skill)</span></pre>
+              </div>
+              <p>
+                Mutating <code>gaia dev</code> subcommands (add, merge, split, evidence, etc.)
+                require the <code>verifier</code> or <code>override</code> path.
+                In CI, set <code>GAIA_OPERATOR_OVERRIDE=1</code> to bypass the check.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            I ran <code>gaia push</code> once. Now there's a duplicate proposal when I run it again.
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <p>
+                <code>gaia push</code> scans your repo and creates a new intake batch every time it
+                runs. It doesn't yet check for existing open issues from the same source repo, so
+                re-running after adding new skills creates a second batch containing all skills —
+                including ones already pending review.
+              </p>
+              <p>
+                <strong>Workaround:</strong> Before re-running, check for open issues tagged
+                <code>draft-skills</code> with your repo in the title. Close the stale batch manually,
+                then push again. A future <code>--update</code> flag (issue #611) will filter already-pushed
+                skills automatically.
+              </p>
+              <div class="callout callout-info">
+                <span class="callout-label">📌 Tracked in issue #611</span>
+                <p><code>gaia push --update</code> will detect previous batches for your repo and push only newly detected skills.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /faq-list -->
+
+      <!-- ── Skills & Hierarchy ── -->
+      <p class="cat-header" id="skills">Skills &amp; Hierarchy</p>
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            What's the difference between Basic, Extra, Unique, and Ultimate skills?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <p>
+                The tier axis describes the <em>structural role</em> of a skill in the registry graph:
+              </p>
+              <ul>
+                <li>
+                  <span class="tier-pill pill-basic">○ Basic</span> — a standalone atomic capability (web scraping, code generation). No prerequisites. Can fuse with other Basics to produce an Extra.
+                </li>
+                <li>
+                  <span class="tier-pill pill-extra">◇ Extra</span> — a composite skill produced by fusing two or more Basic Skills (or Extra Skills). Qualitatively richer than any single input.
+                </li>
+                <li>
+                  <span class="tier-pill pill-unique">◉ Unique</span> — a depth-only Basic that reached elite mastery without a fusion path. Does not fuse into an Extra or Ultimate. Reserved for narrow-but-deep specializations.
+                </li>
+                <li>
+                  <span class="tier-pill pill-ultimate">◆ Ultimate</span> — a top-of-tree composite that crosses the full-autonomy threshold. Cannot fuse further. Highest tier in the graph.
+                </li>
+              </ul>
+              <p>
+                Tier and stars (0★–6★) are independent axes. A Basic can reach 6★; an Ultimate can sit at 0★.
+                See <a href="skill-hierarchy.html">Skill Hierarchy</a> for the full two-axis model.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            What are the rank names for each star level?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <p>Each star level has a named rank on the progression axis:</p>
+              <table style="width:100%; border-collapse:collapse; font-size:0.88rem; margin:0.75rem 0;">
+                <thead>
+                  <tr style="border-bottom:1px solid var(--border,#1e293b);">
+                    <th style="text-align:left; padding:0.4rem 0.6rem; font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--muted,#64748b);">Stars</th>
+                    <th style="text-align:left; padding:0.4rem 0.6rem; font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--muted,#64748b);">Rank name</th>
+                    <th style="text-align:left; padding:0.4rem 0.6rem; font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--muted,#64748b);">Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom:1px solid rgba(30,41,59,0.5);">
+                    <td style="padding:0.45rem 0.6rem; color:var(--text,#e2e8f0);">0★</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Unawakened</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Generic / starless reference</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid rgba(30,41,59,0.5);">
+                    <td style="padding:0.45rem 0.6rem; color:var(--text,#e2e8f0);">1★</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Awakened</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">First sighting / Class C evidence</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid rgba(30,41,59,0.5);">
+                    <td style="padding:0.45rem 0.6rem; color:var(--text,#e2e8f0);">2★</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Named</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Claimed by a real contributor (Class C+ evidence)</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid rgba(30,41,59,0.5);">
+                    <td style="padding:0.45rem 0.6rem; color:var(--text,#e2e8f0);">3★</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Evolved</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Reproducible evidence (Class B)</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid rgba(30,41,59,0.5);">
+                    <td style="padding:0.45rem 0.6rem; color:var(--text,#e2e8f0);">4★</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Hardened</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Verifier threshold — peer-reviewed or battle-tested (Class A)</td>
+                  </tr>
+                  <tr style="border-bottom:1px solid rgba(30,41,59,0.5);">
+                    <td style="padding:0.45rem 0.6rem; color:var(--text,#e2e8f0);">5★</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Transcendent</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);"></td>
+                  </tr>
+                  <tr>
+                    <td style="padding:0.45rem 0.6rem; color:var(--text,#e2e8f0);">6★</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Transcendent ★</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Apex — highest attainable rank</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            What's a "Named Skill" versus a generic (starless) skill?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <p>
+                A <strong>generic skill</strong> (starless / 0★) is a registry node that captures
+                the abstract capability — <code>web-scrape</code>, <code>rag-pipeline</code> — without
+                being tied to any specific contributor or implementation.
+              </p>
+              <p>
+                A <strong>Named Skill</strong> is a concrete implementation of that generic, authored
+                by a real contributor (e.g. <code>karpathy/web-scrape</code>). It lives in
+                <code>registry/named/</code>, carries its own star level based on evidence, and can
+                be installed into a project via <code>gaia skills install karpathy/web-scrape</code>.
+              </p>
+              <p>
+                A generic can have multiple Named Skills in its "bucket" — one is the <strong>origin</strong>
+                (earliest or highest-starred), others are variants. See <a href="named-skills.html">Named Skills</a>
+                for the full lifecycle.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            What's the difference between Evidence Class (A/B/C) and Evidence Grade (S/A/B/C)?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <div class="callout callout-warn" style="margin:0 0 0.85rem;">
+                <span class="callout-label">⚠ The letter sets are not equivalent</span>
+                <p>Evidence Class B ≠ Evidence Grade B. The Class system and the Grade system use the same letters for different axes.</p>
+              </div>
+              <ul>
+                <li><strong>Evidence Class (legacy)</strong> — provenance tier. <code>C</code> = first sighting; <code>B</code> = reproducible; <code>A</code> = battle-tested, peer-reviewed. Added via <code>--class C|B|A</code>.</li>
+                <li><strong>Evidence Grade (new)</strong> — trust score tier. <code>S</code> ≥ 90; <code>A</code> ≥ 80; <code>B</code> ≥ 60; <code>C</code> ≥ 40. Added via <code>--grade S|A|B|C</code>. Paired with a <strong>Grade Type</strong> (arxiv, repo, github-stars, etc.) added via <code>--type</code>.</li>
+              </ul>
+              <p>
+                The overall <strong>Trust Grade</strong> per skill is aggregated from all grade entries at build time.
+                It is never stored on the node itself — you read it from the generated catalog.
+                See <a href="evidence-classes.html">Evidence Classes</a> for the full breakdown.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /faq-list -->
+
+      <!-- ── Scan & Promote ── -->
+      <p class="cat-header" id="scan-promote">Scan &amp; Promote</p>
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            How does <code>gaia scan</code> decide what skills I have?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <p>
+                The scanner walks your project tree looking for <code>SKILL.md</code> files (in
+                <code>.claude/skills/</code>, <code>.cursor/skills/</code>, <code>.agents/skills/</code>,
+                and similar standard paths). It also checks <code>package.json</code>, lock files,
+                config files, and source patterns to infer capabilities.
+              </p>
+              <p>
+                Each detected signal is matched against the canonical registry using a word-set
+                similarity function. Matches above a confidence threshold are written to
+                <code>generated-output/promotion-candidates.json</code>.
+              </p>
+              <p>
+                The match function caches word-set computations per canonical skill — on large
+                registries (2 000+ skills) this cache reduces scan time from ~3.5 s to ~0.6 s.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            My promotion candidates disappeared. Why is <code>gaia promote</code> failing?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <p>
+                Promotion candidates expire <strong>24 hours</strong> after the scan that produced them.
+                If your candidate file is stale, <code>gaia promote</code> rejects it.
+              </p>
+              <div class="code-block">
+                <div class="code-block-header"><span class="code-block-label">fix</span></div>
+                <pre><span class="cmd">gaia scan</span>               <span class="c"># regenerate candidates</span>
+<span class="cmd">gaia promote</span> &lt;skillId&gt;  <span class="c"># promote within 24 h</span></pre>
+              </div>
+              <p>
+                The <code>promote</code> command also only accepts skill IDs listed in the most
+                recent candidate file — you can't promote arbitrary skill IDs by hand.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            What's the difference between <code>gaia push</code> and <code>gaia promote</code>?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <ul>
+                <li>
+                  <strong><code>gaia promote &lt;skillId&gt;</code></strong> — writes a rank-up to
+                  <em>your local</em> <code>skill-tree.json</code>. This is a personal progression
+                  action; it doesn't touch the shared registry. Always run <code>gaia scan</code> first.
+                </li>
+                <li>
+                  <strong><code>gaia push</code></strong> — submits a batch of detected skills
+                  to the canonical registry for Verifier review. This opens a GitHub issue tagged
+                  <code>draft-skills</code>. Always dry-run first: <code>gaia push --dry-run</code>.
+                </li>
+              </ul>
+              <div class="callout callout-warn">
+                <span class="callout-label">⚠ Always dry-run push first</span>
+                <p><code>gaia push --dry-run</code> shows exactly what would be submitted without opening a GitHub issue.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /faq-list -->
+
+      <!-- ── MCP Server ── -->
+      <p class="cat-header" id="mcp">MCP Server</p>
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <code>gaia_my_tree</code> returns "no user configured" even though I set up <code>~/.gaia/config.json</code>.
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <p>
+                The MCP server resolves identity relative to <code>process.cwd()</code>, not the
+                script's own directory. When an MCP host (Claude Code, Cursor, VS Code) spawns
+                the server, the working directory may not be your project root — so
+                <code>.gaia/config.json</code> is never found.
+              </p>
+              <p>
+                <strong>Fix:</strong> Set <code>GAIA_USER</code> in the server's <code>env</code>
+                block. It is checked before any file-based resolution and is unaffected by CWD.
+              </p>
+              <div class="code-block">
+                <div class="code-block-header"><span class="code-block-label">.claude/settings.json</span></div>
+                <pre><span class="str">"env"</span>: {
+  <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>
+}</pre>
+              </div>
+              <div class="callout callout-info">
+                <span class="callout-label">📌 Tracked in issue #212</span>
+                <p>A future fix will resolve the config path from the server's own install location instead of CWD.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Does the MCP server need a running <code>gaia</code> CLI on the machine?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <p>
+                No — for the core tools (<code>gaia_lookup</code>, <code>gaia_suggest</code>,
+                <code>gaia_my_tree</code>, <code>gaia_propose</code>), the server is self-contained.
+                It fetches registry data directly from GitHub.
+              </p>
+              <p>
+                The one exception: <code>gaia_scan_context</code> with <code>deepScan: true</code>
+                invokes the local <code>gaia</code> CLI binary for a full source-code scan.
+                If the CLI isn't installed, <code>deepScan</code> will fail; the default
+                (signal-based) scan mode still works without it.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            What is <code>GITHUB_TOKEN</code> used for?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <p>
+                Only <code>gaia_propose</code> requires <code>GITHUB_TOKEN</code>. It opens a
+                pull request on <code>mbtiongson1/gaia-skill-tree</code> to claim a fusion or
+                propose a new skill. All read-only tools work without a token.
+              </p>
+              <p>
+                Create a personal access token with <code>repo</code> scope and set it as
+                <code>GITHUB_TOKEN</code> or <code>GH_TOKEN</code> in the server's <code>env</code> block.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /faq-list -->
+
+      <!-- ── Contributing ── -->
+      <p class="cat-header" id="contributing">Contributing</p>
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            How do I claim a Named Skill for myself?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <ol>
+                <li>Create a <code>SKILL.md</code> in your repo at a stable path (e.g. <code>.claude/skills/web-scrape/SKILL.md</code>).</li>
+                <li>Run <code>gaia push --dry-run</code> to verify the skill is detected.</li>
+                <li>Run <code>gaia push</code> to open a draft intake issue.</li>
+                <li>A Verifier reviews and promotes it. Once promoted to 2★+, your named skill appears in <code>registry/named/</code>.</li>
+              </ol>
+              <p>
+                The installed path must use <code>blob/&lt;branch&gt;/&lt;subpath&gt;</code> format in
+                <code>links.github</code> — the installer rejects bare repo URLs and <code>tree/</code>
+                paths. See <a href="named-skills.html">Named Skills</a> for the full flow.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Can I edit <code>registry/nodes/</code> or <code>registry/gaia.json</code> directly?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <p>
+                Manual edits to registry files are deprecated. All meta changes must go through the CLI:
+              </p>
+              <div class="code-block">
+                <div class="code-block-header"><span class="code-block-label">bash</span></div>
+                <pre><span class="cmd">gaia dev add</span> "Skill Name" --type basic --description "..."
+<span class="cmd">gaia dev merge</span> target-id source-id1 source-id2
+<span class="cmd">gaia dev evidence</span> skill-id "url" --class B
+<span class="cmd">gaia dev split</span> source-id target-id1 target-id2</pre>
+              </div>
+              <p>
+                CLI commands write proper timeline entries and maintain schema integrity.
+                Direct file edits skip these checks and will fail CI validation. If you discover a
+                CLI gap that forces a direct edit, document it in the PR description.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            How do I install a Named Skill from another contributor's repo?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <p>
+                Use <code>gaia skills install</code> with the contributor/skill-name format:
+              </p>
+              <div class="code-block">
+                <div class="code-block-header"><span class="code-block-label">bash</span></div>
+                <pre><span class="c"># Install a known named skill from the registry</span>
+<span class="cmd">gaia skills install</span> karpathy/web-scrape
+
+<span class="c"># Browse available named skills first</span>
+<span class="cmd">gaia skills list</span>
+<span class="cmd">gaia skills search</span> "web scraping"
+
+<span class="c"># Install from a share bundle (URL or .json path)</span>
+<span class="cmd">gaia install</span> path/to/bundle.json</pre>
+              </div>
+              <p>
+                The installer resolves the <code>links.github</code> URL from the named skill's
+                metadata and symlinks it into your project's skill directory.
+                Suite skills (those with <code>suiteComponents</code>) install all components;
+                they don't need their own <code>links.github</code>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            What branch naming convention should I use?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <p>CI enforces branch scope via <code>.github/workflows/branch-scope.yml</code>. Use the right prefix or CI will block your PR:</p>
+              <table style="width:100%; border-collapse:collapse; font-size:0.87rem; margin:0.75rem 0;">
+                <thead>
+                  <tr style="border-bottom:1px solid var(--border,#1e293b);">
+                    <th style="text-align:left; padding:0.4rem 0.6rem; font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--muted,#64748b);">Prefix</th>
+                    <th style="text-align:left; padding:0.4rem 0.6rem; font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--muted,#64748b);">What it covers</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom:1px solid rgba(30,41,59,0.5);"><td style="padding:0.4rem 0.6rem; color:#38bdf8; font-family:'JetBrains Mono',monospace;">cli/…</td><td style="padding:0.4rem 0.6rem; color:var(--muted,#64748b);"><code>src/</code>, <code>packages/</code>, <code>tests/</code></td></tr>
+                  <tr style="border-bottom:1px solid rgba(30,41,59,0.5);"><td style="padding:0.4rem 0.6rem; color:#38bdf8; font-family:'JetBrains Mono',monospace;">review/meta/…</td><td style="padding:0.4rem 0.6rem; color:var(--muted,#64748b);"><code>registry/</code> curation</td></tr>
+                  <tr style="border-bottom:1px solid rgba(30,41,59,0.5);"><td style="padding:0.4rem 0.6rem; color:#38bdf8; font-family:'JetBrains Mono',monospace;">docs/…</td><td style="padding:0.4rem 0.6rem; color:var(--muted,#64748b);">Documentation in <code>docs/</code></td></tr>
+                  <tr style="border-bottom:1px solid rgba(30,41,59,0.5);"><td style="padding:0.4rem 0.6rem; color:#38bdf8; font-family:'JetBrains Mono',monospace;">schema/…</td><td style="padding:0.4rem 0.6rem; color:var(--muted,#64748b);"><code>registry/schema/</code> changes only</td></tr>
+                  <tr style="border-bottom:1px solid rgba(30,41,59,0.5);"><td style="padding:0.4rem 0.6rem; color:#38bdf8; font-family:'JetBrains Mono',monospace;">infra/…</td><td style="padding:0.4rem 0.6rem; color:var(--muted,#64748b);">CI, <code>.github/</code>, tooling</td></tr>
+                  <tr><td style="padding:0.4rem 0.6rem; color:#38bdf8; font-family:'JetBrains Mono',monospace;">claude/… · dev/…</td><td style="padding:0.4rem 0.6rem; color:var(--muted,#64748b);">Experimental — unrestricted scope</td></tr>
+                </tbody>
+              </table>
+              <p>Add the <code>skip-scope-check</code> label to bypass in emergencies (maintainer only).</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /faq-list -->
+
+    </main>
+  </div>
+
+  <!-- footer -->
+  <footer class="footer-v2">
+    <div class="footer-inner">
+      <div class="footer-brand-col">
+        <div class="footer-brand-mark">
+          <svg class="ico footer-seal" aria-hidden="true" focusable="false" width="20" height="20">
+            <use href="../assets/icons.svg#seal-diamond"/>
+          </svg>
+          <span class="footer-wordmark">Gaia</span>
+        </div>
+        <p class="footer-tagline">An evidence-backed atlas<br>of agent capabilities.</p>
+      </div>
+      <nav class="footer-cols" aria-label="Site navigation">
+        <div class="footer-col">
+          <span class="footer-col-heading">Registry</span>
+          <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../index.html">Skill Tree</a></li>
+            <li><a href="../starless.html">Starless</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-heading">Docs</span>
+          <ul>
+            <li><a href="index.html">Docs Home</a></li>
+            <li><a href="getting-started.html">Getting Started</a></li>
+            <li><a href="cli-reference.html">CLI Reference</a></li>
+            <li><a href="skill-hierarchy.html">Skill Hierarchy</a></li>
+            <li><a href="contributing.html">Contributing</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-heading">More</span>
+          <ul>
+            <li><a href="named-skills.html">Named Skills</a></li>
+            <li><a href="evidence-classes.html">Evidence Classes</a></li>
+            <li><a href="fusion.html">Skill Fusion</a></li>
+            <li><a href="mcp-server.html">MCP Server</a></li>
+            <li><a href="faq.html" style="color:var(--tier-basic,#38bdf8);">FAQ</a></li>
+            <li><a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener">GitHub</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>MIT License</span>
+      <span class="footer-bottom-sep" aria-hidden="true">·</span>
+      <span>v4.7.6</span>
+      <span class="footer-bottom-sep" aria-hidden="true">·</span>
+      <span>© 2026 Gaia</span>
+    </div>
+  </footer>
+
+  <script>
+    /* Sidebar scroll-spy */
+    (function () {
+      const links = document.querySelectorAll('.sidebar-links a[href^="#"]');
+      const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            links.forEach(l => l.classList.remove('active'));
+            const active = document.querySelector(`.sidebar-links a[href="#${e.target.id}"]`);
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-25% 0px -65% 0px' });
+      sections.forEach(s => obs.observe(s));
+    })();
+
+    /* FAQ accordion */
+    (function () {
+      document.querySelectorAll('.faq-question').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const expanded = btn.getAttribute('aria-expanded') === 'true';
+          const answer = btn.nextElementSibling;
+          if (expanded) {
+            btn.setAttribute('aria-expanded', 'false');
+            answer.style.maxHeight = '0';
+          } else {
+            btn.setAttribute('aria-expanded', 'true');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -2,6 +2,174 @@
 
 ---
 
+## 2026-06-12 — Routine 006
+
+**Branch:** `docs/routines/005` (continued — PR #671 still open)
+
+**Task chosen:** Task 2 (write about a feature — Share Bundles)
+
+### Trigger
+
+Resumed from a context-compacted session. PR #671 is open but the Cloudflare Workers
+build has been failing since commit `dd96681` (another agent's consolidation commit).
+The failure is instant (started_at == completed_at) suggesting a Cloudflare-side
+pre-build issue, not a code error. Commits `56e7e4a` (my original routine-005 push)
+deployed successfully; subsequent commits failed. Possible causes: rate limiting,
+Cloudflare transient issue, or interaction between the `docs/js/site-nav.js` token
+change (`'#38bdf8'` → `'var(--tier-basic)'`) and Cloudflare's build pipeline.
+Cannot access Cloudflare build logs directly (Cloudflare-native check, not GitHub Actions).
+Pushing this commit to trigger a fresh build and test if the issue self-resolves.
+
+### What I did
+
+1. **Created `docs/en/share-bundles.html`** — comprehensive Share Bundles guide:
+   - Overview: what a share bundle is, producer-heavy / consumer-light design
+   - Bundle anatomy: three-card layout explaining the three payloads (tree snapshot,
+     install manifest, skill metadata)
+   - gaia share: command reference, two-pass build process (resolve metadata → translate
+     prereqs → build manifest), `--stdout` flag for piping
+   - Install flow: [A]ll / [P]ick / [V]iew only / [Q]uit table with example session
+   - Non-TTY / automation: automatic view-only default explained
+   - Resolution strategy: registry-first → direct source URL → unresolved table
+   - Bundle format reference: full JSON field tables for top level, tree, skillMeta, install
+   - Known issues: Issue #128 (static copy-link page deferred), private-repo unresolved,
+     suite skills with no directory
+
+2. **Updated `docs/en/index.html`**:
+   - Added Share Bundles card (📦) in Integrations section
+   - Added Share Bundles link to footer Docs column
+
+3. **Updated `docs/en/DOCS.md`** — added page 11 (share-bundles.html) as ✅ Done / Routine 006.
+
+### Files created / modified
+
+- `docs/en/share-bundles.html` ← new
+- `docs/en/index.html` ← Share Bundles card + footer link
+- `docs/en/DOCS.md` ← page 11 added
+- `docs/en/MEMORY.md` ← this entry
+
+### Planned next (Routine 007)
+
+- Maintain existing pages (Task 1): cli-reference.html — audit against current CLI shape
+  (share command, gaia install bundle detection not documented yet)
+- Research (Task 3): Timeline audit guide — gaia dev timeline, the gap around --user flag,
+  validate_timelines.py output
+
+---
+
+## 2026-06-12 — Consolidation (routines 003–005)
+
+**Branch:** `docs/routines/005` (single converging PR)
+
+PR #668 (routines 003–004) had forked from `v4.7.0` *before* the same routines
+independently landed on `main` (commits `d608b7b`, `ca08170`) and before the
+v4.7.1→v4.7.6 bumps, so it had drifted: its `contributing.html`,
+`named-skills.html`, and `getting-started.html` were byte-identical to main
+(no-ops), it would have **deleted** `fusion.html`, and it downgraded version
+strings to v4.7.0.
+
+The only substantive contribution of #668 was the **`evidence-classes.html`
+rewrite** — recast as *Evidence & Trust*, with the Evidence Class deprecation
+banner, the Type + Grade two-axis model, the trust meter, and the Class→Type+Grade
+migration guide. Trust is the accurate forward model (Class is being deprecated),
+so that rewrite was adopted here on top of #671's clean routine-005 base:
+
+- Adopted `docs/en/evidence-classes.html` from #668; bumped its nav version
+  v4.7.0 → v4.7.6.
+- Renamed the Docs Home card and footer link "Evidence Classes" → "Evidence & Trust".
+- `DOCS.md` page 7 retitled to "Evidence & Trust".
+- **Kept** `fusion.html` and all v4.7.6 version strings (no drift, no feature loss).
+
+PR #668 superseded by this branch and closed.
+
+---
+
+## 2026-06-12 — Routine 005
+
+**Branch:** `docs/routines/005`
+**Task chosen:** Task 2 (write about a feature — MCP Server) + Task 1 (maintain existing pages — FAQ) + Task 4 (recent PR update — PR #670 scanner optimization)
+
+### Trigger
+
+PR #670 (`feat/bolt-optimize-skill-matching`) merged at 13:19 UTC. The PR caches `_word_set`
+computation per canonical skill in an external function attribute (`match_skill_to_canonical._word_cache`)
+instead of mutating the data dict in-place (which would cause JSON serialization errors). Matching
+200 custom skills against 2 000 canonical skills dropped from ~3.5 s to ~0.6 s (~6×).
+
+Routine 004 confirmed merged (PR #665). Created `docs/routines/005` from `origin/main`.
+
+### What I did
+
+1. **Created `docs/en/mcp-server.html`** — comprehensive MCP server integration guide:
+   - Overview: what the server does, stateless+read-heavy design, ETag-cached registry fetch
+   - One-liner quickstart callout for Claude Code
+   - Platform-tab installation UI (Claude Code, Claude Desktop, Cursor, VS Code, Gemini, Other)
+     — all configs with annotated JSON; each tab shows the platform-specific file path
+   - GAIA_USER-in-env warning callout (cross-links to known-issues section)
+   - Tools section: five tool cards (gaia_lookup, gaia_suggest, gaia_scan_context, gaia_my_tree,
+     gaia_propose) with full parameter tables, required/optional badges
+   - Resources section: gaia://registry and gaia://tree/{username} with format notes
+   - Configuration priority table: GAIA_USER env → project config → global config
+   - Example prompts: seven copy-paste prompt strings for common agent tasks
+   - Architecture diagram: annotated src/ tree with highlighted entry points per tool
+   - Known issues: issue #212 (CWD-based identity resolution) with workaround and fix
+
+2. **Created `docs/en/faq.html`** — accordion FAQ across five categories:
+   - CLI & Setup (4 items): gaia init outside a repo (#624), gaia tree shows canonical not local (#637),
+     checking authorization via `gaia whoami`, duplicate push proposals (#611)
+   - Skills & Hierarchy (4 items): tier differences (Basic/Extra/Unique/Ultimate with colored pills),
+     rank name table (0★–6★), Named vs generic skills, Evidence Class vs Evidence Grade warning
+   - Scan & Promote (3 items): how gaia scan works (includes PR #670 word-set cache note),
+     candidate expiry and fix, gaia push vs gaia promote distinction
+   - MCP Server (3 items): identity resolution CWD issue (#212), whether CLI is required,
+     GITHUB_TOKEN scope
+   - Contributing (4 items): claiming a Named Skill step-by-step, CLI-only policy for registry edits,
+     installing a Named Skill from another contributor, branch naming table
+
+3. **Updated `docs/en/index.html`**:
+   - What's New banner: v4.7.1 → v4.7.6, content updated to PR #670 scanner speedup (6×)
+   - MCP Server card: removed `opacity:0.7`, changed badge from "○ Coming soon" to "● New"
+   - FAQ card: same treatment
+   - Nav version chip: v4.7.1 → v4.7.6
+   - Footer version: v4.7.1 → v4.7.6
+
+4. **Updated `docs/en/DOCS.md`** — marked pages 9 and 10 as ✅ Done / Routine 005.
+
+### Design decisions
+
+- `mcp-server.html` introduces: platform-tab component (JS-driven, no JS framework), tool-card
+  component (dark surface with per-param rows), architecture diagram (monospace block with colored spans).
+- `faq.html` introduces: accordion FAQ (CSS max-height transition + aria-expanded), category header
+  labels, and inline tier pills inside answer text for quick visual scanning.
+- PR #670 surfaced in two places: the What's New banner (index.html) and the FAQ answer for
+  "How does gaia scan decide what skills I have?" — both reference the 6× improvement figure
+  and the JSON serialization safety rationale.
+- All vocabulary cross-checked: "fusion" not "merge", no rarity references, "stars" not "rank".
+
+### Issues referenced
+
+- Issue #624 (gaia init outside repo) — documented in FAQ with workaround and upstream fix note
+- Issue #637 (local-first defaults) — FAQ explains --custom flag, links to planned --canon flip
+- Issue #611 (duplicate push proposals) — FAQ documents workaround, links to planned --update flag
+- Issue #212 (MCP identity CWD) — documented in mcp-server.html known-issues + FAQ MCP section
+- PR #670 (scanner word-set cache) — What's New banner + FAQ scan mechanics section
+
+### Files created / modified
+
+- `docs/en/mcp-server.html` ← new
+- `docs/en/faq.html` ← new
+- `docs/en/index.html` ← updated (What's New banner, two cards promoted, version bumped)
+- `docs/en/DOCS.md` ← updated (pages 9–10 marked done)
+- `docs/en/MEMORY.md` ← this entry
+
+### Planned next (Routine 006)
+
+- Research new page ideas from trends (Task 3): possible candidates —
+  Share Bundles guide (`gaia share` / `gaia install <bundle>`), Timeline audit guide, Agent workflows integration
+- Maintain existing pages (Task 1): update cli-reference.html to add any new commands since v4.4.0 audit
+
+---
+
 ## 2026-06-11 — Routine 004
 
 **Branch:** `docs/routines/004`
