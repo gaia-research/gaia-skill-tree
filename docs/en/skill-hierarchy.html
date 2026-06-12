@@ -443,6 +443,25 @@
       .main-content { padding: 1.5rem 1.25rem 3rem; }
       .tier-grid { grid-template-columns: 1fr; }
     }
+
+    @media (max-width: 480px) {
+      .nav-version {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.35rem;
+      }
+      .axes-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .generic-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .nav-version {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -509,9 +528,9 @@
         </div>
 
         <!-- quick reference axes -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.25rem;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.25rem;" class="axes-grid">
           <div style="background:var(--surface,#0f172a);border:1px solid var(--border,#1e293b);border-radius:8px;padding:1.25rem;">
-            <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted,#64748b);margin-bottom:0.75rem;">Tier axis — what kind</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted,#64748b);margin-bottom:0.75rem;overflow-wrap:break-word;">Tier axis — what kind</div>
             <div style="display:flex;flex-direction:column;gap:0.4rem;">
               <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.875rem;">
                 <span style="color:var(--tier-basic,#38bdf8);font-size:1rem;">○</span>
@@ -536,7 +555,7 @@
             </div>
           </div>
           <div style="background:var(--surface,#0f172a);border:1px solid var(--border,#1e293b);border-radius:8px;padding:1.25rem;">
-            <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted,#64748b);margin-bottom:0.75rem;">Stars axis — how mature</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted,#64748b);margin-bottom:0.75rem;overflow-wrap:break-word;">Stars axis — how mature</div>
             <div style="display:flex;flex-direction:column;gap:0.4rem;">
               <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;">
                 <span class="r0" style="font-family:'JetBrains Mono',monospace;width:22px;">0★</span>
@@ -940,14 +959,14 @@
           </p>
         </div>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:0.5rem;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:0.5rem;" class="generic-grid">
           <div style="background:var(--surface,#0f172a);border:1px solid var(--border,#1e293b);border-radius:8px;padding:1rem;">
-            <div style="font-size:0.78rem;color:var(--muted,#64748b);margin-bottom:0.5rem;font-style:italic;">generic (starless)</div>
+            <div style="font-size:0.78rem;color:var(--muted,#64748b);margin-bottom:0.5rem;font-style:italic;overflow-wrap:break-word;">generic (starless)</div>
             <div style="font-size:0.9rem;color:#94a3b8;font-style:italic;">web-search</div>
             <div style="font-size:0.78rem;color:var(--muted,#64748b);margin-top:0.4rem;">No stars of its own. Effective rank = top named child.</div>
           </div>
           <div style="background:var(--surface,#0f172a);border:1px solid var(--border,#1e293b);border-radius:8px;padding:1rem;">
-            <div style="font-size:0.78rem;color:var(--muted,#64748b);margin-bottom:0.5rem;">named implementation</div>
+            <div style="font-size:0.78rem;color:var(--muted,#64748b);margin-bottom:0.5rem;overflow-wrap:break-word;">named implementation</div>
             <div style="display:flex;align-items:center;gap:0.5rem;">
               <span style="font-size:0.9rem;color:#ef4444;font-weight:600;">karpathy</span>
               <span style="font-size:0.9rem;color:var(--text,#e2e8f0);">/web-search</span>

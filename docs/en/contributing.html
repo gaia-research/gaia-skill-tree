@@ -400,6 +400,18 @@
     .page-footer a:hover { color: var(--text, #e2e8f0); }
 
     code { font-family: 'JetBrains Mono', monospace; font-size: 0.82em; background: rgba(255,255,255,0.06); padding: 0.1em 0.35em; border-radius: 3px; }
+
+    /* ── Mobile fixes ── */
+    @media (max-width: 480px) {
+      .main-content { padding: 1.5rem 1rem 2rem 1rem; }
+      .data-table { overflow-x: auto; display: block; margin-left: -1rem; margin-right: -1rem; padding-left: 1rem; padding-right: 1rem; }
+      .data-table td:first-child { word-break: break-word; overflow-wrap: break-word; }
+      .data-table code { font-size: 0.75rem; overflow-wrap: break-word; word-break: break-word; }
+      .nav-version { font-size: 0.6rem; padding: 0.15rem 0.35rem; }
+    }
+    @media (max-width: 360px) {
+      .nav-version { display: none; }
+    }
   </style>
 </head>
 <body>

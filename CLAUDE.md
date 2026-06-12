@@ -4,7 +4,7 @@ Guidance for AI coding agents working in this repository.
 
 ## Git Workflow
 
-Never push directly to main. Always create a feature branch and open a PR for changes.
+Never push directly to main.
 
 ## Testing
 
