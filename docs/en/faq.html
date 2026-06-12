@@ -187,6 +187,21 @@
       .sidebar { display: none; }
       .main-content { padding: 1.5rem 1.25rem 3rem; }
     }
+
+    @media (max-width: 480px) {
+      .main-content { padding: 1.25rem 0.75rem 2.5rem; }
+      .faq-question { padding: 0.85rem 0; gap: 0.6rem; font-size: 0.95rem; }
+      .faq-chevron { flex-shrink: 0; width: 16px; height: 16px; font-size: 0.6rem; }
+      .faq-answer-inner { padding: 0 0 1rem 0; font-size: 0.85rem; }
+      code { overflow-wrap: break-word; word-break: break-word; }
+    }
+
+    @media (max-width: 360px) {
+      .faq-question { font-size: 0.9rem; padding: 0.75rem 0; }
+      .faq-answer-inner { font-size: 0.8rem; }
+      code { font-size: 0.75rem; overflow-wrap: break-word; word-break: break-word; }
+      .page-title { font-size: 1.8rem; }
+    }
   </style>
 </head>
 <body>

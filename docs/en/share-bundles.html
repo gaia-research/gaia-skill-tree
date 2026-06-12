@@ -246,6 +246,29 @@
       .sidebar { display: none; }
       .main-content { padding: 1.5rem 1.25rem 3rem; }
     }
+
+    @media (max-width: 480px) {
+      .field-table, .choice-table, .res-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border: none;
+      }
+      .field-table thead, .choice-table thead, .res-table thead {
+        display: table;
+      }
+      .field-table tbody, .choice-table tbody, .res-table tbody {
+        display: table;
+      }
+      .field-table tr, .choice-table tr, .res-table tr {
+        display: table-row;
+      }
+      .field-table th, .field-table td, .choice-table th, .choice-table td, .res-table th, .res-table td {
+        display: table-cell;
+        white-space: nowrap;
+      }
+      code { overflow-wrap: break-word; word-break: break-word; }
+    }
   </style>
 </head>
 <body>
