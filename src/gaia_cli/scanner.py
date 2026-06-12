@@ -445,16 +445,28 @@ def match_skill_to_canonical(skill_id, skill_name, skill_description, canonical_
     # Check starless (generic) skills with threshold
     best_generic_id = None
     best_generic_score = threshold
+
+    # Define an external cache to avoid mutating canonical_skills (which can cause JSON serialization errors)
+    if not hasattr(match_skill_to_canonical, "_word_cache"):
+        match_skill_to_canonical._word_cache = {}
+
     for canon in canonical_skills:
-        canon_text = f"{canon.get('id', '')} {canon.get('name', '')} {canon.get('description', '')}"
-        target_words = _word_set(canon_text)
+        canon_id = canon["id"]
+        if canon_id not in match_skill_to_canonical._word_cache:
+            canon_text = f"{canon.get('id', '')} {canon.get('name', '')} {canon.get('description', '')}"
+            match_skill_to_canonical._word_cache[canon_id] = _word_set(canon_text)
+
+        target_words = match_skill_to_canonical._word_cache[canon_id]
         if not target_words:
             continue
-        shared = query_words & target_words
-        score = len(shared) / len(query_words)
+
+        # Compute intersection efficiently
+        shared_count = len(query_words.intersection(target_words))
+        score = shared_count / len(query_words)
+
         if score > best_generic_score:
             best_generic_score = score
-            best_generic_id = canon["id"]
+            best_generic_id = canon_id
 
     if best_generic_id:
         return (best_generic_id, round(best_generic_score, 3), "generic")
