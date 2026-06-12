@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Share Bundles — Gaia Docs</title>
+  <meta name="description" content="Export a self-contained snapshot of your skill tree and share it with anyone — gaia share produces the bundle, gaia install consumes it.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg, #030712);
+      color: var(--text, #e2e8f0);
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    a { color: var(--tier-basic, #38bdf8); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    .docs-nav {
+      border-bottom: 1px solid var(--border, #1e293b);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      background: rgba(3, 7, 18, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    .nav-logo { font-family: 'EB Garamond', Georgia, serif; font-size: 1.1rem; font-weight: 500; color: var(--text, #e2e8f0); letter-spacing: .02em; }
+    .nav-logo span { color: var(--tier-ultimate, #f59e0b); }
+    .nav-sep { color: var(--muted, #64748b); font-size: 0.85rem; }
+    .nav-crumb { font-size: 0.82rem; color: var(--muted, #64748b); }
+    .nav-crumb:hover { color: var(--text, #e2e8f0); text-decoration: none; }
+    .nav-crumb.current { color: var(--text, #e2e8f0); }
+    .nav-spacer { flex: 1; }
+    .nav-version { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--muted, #64748b); padding: 0.2rem 0.5rem; border: 1px solid var(--border, #1e293b); border-radius: 4px; }
+
+    /* ── Layout ── */
+    .page-layout { display: grid; grid-template-columns: 220px 1fr; max-width: 1120px; margin: 0 auto; }
+
+    /* ── Sidebar ── */
+    .sidebar { position: sticky; top: 52px; height: calc(100vh - 52px); overflow-y: auto; padding: 2rem 0 2rem 1.5rem; border-right: 1px solid var(--border, #1e293b); scrollbar-width: thin; scrollbar-color: var(--border, #1e293b) transparent; }
+    .sidebar-group { margin-bottom: 1.75rem; }
+    .sidebar-group-label { font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted, #64748b); margin-bottom: 0.5rem; }
+    .sidebar-links { list-style: none; display: flex; flex-direction: column; gap: 0.1rem; }
+    .sidebar-links a { display: block; padding: 0.25rem 0.6rem; font-size: 0.84rem; color: var(--muted, #64748b); border-radius: 4px; transition: color 0.15s, background 0.15s; }
+    .sidebar-links a:hover { color: var(--text, #e2e8f0); background: rgba(255,255,255,0.04); text-decoration: none; }
+    .sidebar-links a.active { color: var(--tier-basic, #38bdf8); background: rgba(56,189,248,0.07); }
+
+    /* ── Main ── */
+    .main-content { padding: 2.5rem 3rem 4rem 3rem; max-width: 820px; min-width: 0; }
+    .page-title { font-family: 'EB Garamond', Georgia, serif; font-size: 2.4rem; font-weight: 500; line-height: 1.2; margin-bottom: 0.75rem; color: var(--text, #e2e8f0); }
+    .page-lead { font-size: 1.05rem; color: var(--muted, #64748b); max-width: 580px; line-height: 1.65; margin-bottom: 2.5rem; }
+
+    /* ── Sections ── */
+    .section { margin-top: 3rem; }
+    .section:first-of-type { margin-top: 0; }
+    h2 { font-family: 'EB Garamond', Georgia, serif; font-size: 1.65rem; font-weight: 500; color: var(--text, #e2e8f0); margin-bottom: 1rem; }
+    h3 { font-size: 1.05rem; font-weight: 600; color: var(--text, #e2e8f0); margin-bottom: 0.6rem; margin-top: 1.75rem; }
+    p { color: var(--muted, #64748b); margin-bottom: 1rem; }
+    p strong { color: var(--text, #e2e8f0); }
+
+    /* ── Callouts ── */
+    .callout {
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+    }
+    .callout-tip {
+      background: rgba(56,189,248,0.06);
+      border: 1px solid rgba(56,189,248,0.2);
+      color: var(--muted, #64748b);
+    }
+    .callout-tip strong { color: var(--tier-basic, #38bdf8); }
+    .callout-warn {
+      background: rgba(245,158,11,0.06);
+      border: 1px solid rgba(245,158,11,0.2);
+      color: var(--muted, #64748b);
+    }
+    .callout-warn strong { color: var(--tier-ultimate, #f59e0b); }
+    .callout-note {
+      background: rgba(100,116,139,0.06);
+      border: 1px solid rgba(100,116,139,0.15);
+      color: var(--muted, #64748b);
+    }
+    .callout-note strong { color: var(--text, #e2e8f0); }
+    .callout-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    /* ── Code ── */
+    pre, code { font-family: 'JetBrains Mono', monospace; }
+    code { font-size: 0.88em; background: rgba(255,255,255,0.06); padding: 0.1em 0.4em; border-radius: 3px; color: var(--text, #e2e8f0); }
+    .code-block {
+      background: var(--surface, #0f172a);
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 8px;
+      margin: 1.25rem 0;
+      overflow: hidden;
+    }
+    .code-block-header {
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid var(--border, #1e293b);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .code-block-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted, #64748b);
+    }
+    .code-block pre {
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text, #e2e8f0);
+    }
+    .code-block pre .c { color: var(--muted, #64748b); }
+    .code-block pre .kw { color: var(--tier-basic, #38bdf8); }
+    .code-block pre .str { color: var(--tier-extra, #c084fc); }
+    .code-block pre .num { color: #86efac; }
+    .code-block pre .cmd { color: #86efac; }
+    .code-block pre .key { color: var(--tier-basic, #38bdf8); }
+    .code-block pre .val { color: var(--tier-extra, #c084fc); }
+
+    /* ── Three-part anatomy cards ── */
+    .anatomy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .anatomy-card {
+      background: var(--surface, #0f172a);
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 8px;
+      padding: 1.1rem 1.25rem;
+    }
+    .anatomy-card-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted, #64748b);
+      margin-bottom: 0.35rem;
+    }
+    .anatomy-card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text, #e2e8f0);
+      margin-bottom: 0.4rem;
+    }
+    .anatomy-card-desc {
+      font-size: 0.85rem;
+      color: var(--muted, #64748b);
+      line-height: 1.5;
+    }
+
+    /* ── JSON field table ── */
+    .field-table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.88rem; }
+    .field-table th { text-align: left; padding: 0.5rem 0.75rem; font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: .08em; color: var(--muted, #64748b); border-bottom: 1px solid var(--border, #1e293b); }
+    .field-table td { padding: 0.55rem 0.75rem; border-bottom: 1px solid rgba(30,41,59,0.5); vertical-align: top; }
+    .field-table tr:last-child td { border-bottom: none; }
+    .field-table td:first-child { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--tier-basic, #38bdf8); white-space: nowrap; }
+    .field-table td:nth-child(2) { color: var(--tier-extra, #c084fc); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
+    .field-table td:nth-child(3) { color: var(--muted, #64748b); }
+    .badge-req { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: .06em; padding: 0.1rem 0.35rem; border-radius: 3px; background: rgba(56,189,248,0.12); color: var(--tier-basic, #38bdf8); border: 1px solid rgba(56,189,248,0.25); }
+
+    /* ── Flow steps ── */
+    .flow-steps { margin: 1.5rem 0; display: flex; flex-direction: column; gap: 0; }
+    .flow-step {
+      display: grid;
+      grid-template-columns: 2rem 1fr;
+      gap: 0 1rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--border, #1e293b);
+    }
+    .flow-step:last-child { border-bottom: none; }
+    .flow-step-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted, #64748b);
+      padding-top: 0.1rem;
+    }
+    .flow-step-body { }
+    .flow-step-label { font-size: 0.92rem; font-weight: 600; color: var(--text, #e2e8f0); margin-bottom: 0.25rem; }
+    .flow-step-desc { font-size: 0.875rem; color: var(--muted, #64748b); line-height: 1.5; }
+    .flow-step-desc code { font-size: 0.82em; }
+
+    /* ── Choice table ── */
+    .choice-table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.88rem; }
+    .choice-table th { text-align: left; padding: 0.5rem 0.75rem; font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: .08em; color: var(--muted, #64748b); border-bottom: 1px solid var(--border, #1e293b); }
+    .choice-table td { padding: 0.55rem 0.75rem; border-bottom: 1px solid rgba(30,41,59,0.5); vertical-align: top; }
+    .choice-table tr:last-child td { border-bottom: none; }
+    .choice-table td:first-child { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: #86efac; white-space: nowrap; font-weight: 600; }
+    .choice-table td:nth-child(2) { color: var(--muted, #64748b); }
+
+    /* ── Resolution table ── */
+    .res-table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.88rem; }
+    .res-table th { text-align: left; padding: 0.5rem 0.75rem; font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: .08em; color: var(--muted, #64748b); border-bottom: 1px solid var(--border, #1e293b); }
+    .res-table td { padding: 0.55rem 0.75rem; border-bottom: 1px solid rgba(30,41,59,0.5); vertical-align: top; }
+    .res-table tr:last-child td { border-bottom: none; }
+    .res-table td:nth-child(2) { color: var(--muted, #64748b); }
+    .res-table td:nth-child(3) { color: var(--muted, #64748b); font-size: 0.83rem; }
+
+    /* ── Footer ── */
+    .page-footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border, #1e293b);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .page-footer-left { font-size: 0.8rem; color: var(--muted, #64748b); }
+    .page-footer-right { font-size: 0.8rem; color: var(--muted, #64748b); }
+    .page-footer-right a { color: var(--tier-basic, #38bdf8); }
+
+    @media (max-width: 768px) {
+      .page-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .main-content { padding: 1.5rem 1.25rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- nav -->
+  <nav class="docs-nav">
+    <a href="../index.html" class="nav-logo">Gaia <span>◆</span></a>
+    <span class="nav-sep">/</span>
+    <a href="index.html" class="nav-crumb">Docs</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-crumb current">Share Bundles</span>
+    <div class="nav-spacer"></div>
+    <span class="nav-version">v4.7.6</span>
+  </nav>
+
+  <div class="page-layout">
+
+    <!-- sidebar -->
+    <aside class="sidebar" aria-label="Page sections">
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Overview</div>
+        <ul class="sidebar-links">
+          <li><a href="#what-is-a-bundle">What is a Bundle?</a></li>
+          <li><a href="#anatomy">Bundle Anatomy</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Producer</div>
+        <ul class="sidebar-links">
+          <li><a href="#gaia-share">gaia share</a></li>
+          <li><a href="#share-flags">Flags</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Consumer</div>
+        <ul class="sidebar-links">
+          <li><a href="#gaia-install">gaia install</a></li>
+          <li><a href="#install-flow">Install Flow</a></li>
+          <li><a href="#non-tty">Non-TTY / Automation</a></li>
+          <li><a href="#resolution">Resolution Strategy</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Reference</div>
+        <ul class="sidebar-links">
+          <li><a href="#bundle-format">Bundle Format</a></li>
+          <li><a href="#known-issues">Known Issues</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- main -->
+    <main class="main-content" id="main">
+
+      <h1 class="page-title">Share Bundles</h1>
+      <p class="page-lead">Export a self-contained snapshot of your skill tree as a single JSON file. Anyone with the file or URL can preview your skills and install the ones they want — no registry access required.</p>
+
+      <!-- what is a bundle -->
+      <section class="section" id="what-is-a-bundle">
+        <h2>What is a Bundle?</h2>
+        <p>A <strong>share bundle</strong> is a portable JSON artifact produced by <code>gaia share</code>. It travels anywhere — as a file, a URL, or piped through stdout — and carries everything a recipient needs to see your skills and install them locally.</p>
+        <p>Bundles are <strong>producer-heavy, consumer-light by design</strong>. All resolution work happens at <code>gaia share</code> time. The consumer's renderer trusts the bundle's metadata completely, so the preview always reflects the sharer's actual tree regardless of what the consumer has installed.</p>
+        <p>A bundle can span skills from multiple repositories and still present as one unified tree at the consumer side.</p>
+
+        <div class="callout callout-tip">
+          <strong class="callout-label">Quick start</strong>
+          Generate your bundle and share the file with a teammate:
+          <div class="code-block" style="margin-top:0.75rem;">
+            <div class="code-block-header"><span class="code-block-label">shell</span></div>
+            <pre><span class="cmd">gaia share</span>
+<span class="c"># → generated-output/share/&lt;user&gt;-share-bundle.json</span>
+
+<span class="c"># Teammate installs from the file</span>
+<span class="cmd">gaia install ./marco-share-bundle.json</span>
+
+<span class="c"># Or from a URL</span>
+<span class="cmd">gaia install https://example.com/marco-share-bundle.json</span></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- anatomy -->
+      <section class="section" id="anatomy">
+        <h2>Bundle Anatomy</h2>
+        <p>Every bundle carries three payloads. Understanding them helps when debugging install failures or building tooling on top of bundles.</p>
+
+        <div class="anatomy-grid">
+          <div class="anatomy-card">
+            <div class="anatomy-card-num">Part 1</div>
+            <div class="anatomy-card-title">Tree Snapshot</div>
+            <div class="anatomy-card-desc">The sharer's <code>unlockedSkills</code> array plus stats — a verbatim copy of <code>skill-tree.json</code>. Skills are identified by their canonical or named IDs.</div>
+          </div>
+          <div class="anatomy-card">
+            <div class="anatomy-card-num">Part 2</div>
+            <div class="anatomy-card-title">Install Manifest</div>
+            <div class="anatomy-card-desc">A flat list of installable skills, each pointing to its source repository via a <code>blob/branch/subpath</code> GitHub URL. Only named skills with a resolvable <code>links.github</code> appear here.</div>
+          </div>
+          <div class="anatomy-card">
+            <div class="anatomy-card-num">Part 3</div>
+            <div class="anatomy-card-title">Skill Metadata</div>
+            <div class="anatomy-card-desc">Pre-resolved name, level, type, and prerequisite edges for every skill in the tree. Lets the consumer render a faithful preview without touching the sharer's registry.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- gaia share -->
+      <section class="section" id="gaia-share">
+        <h2>gaia share</h2>
+        <p>Produces the share bundle for the current user. Run it inside a Git repo where you have already run <code>gaia init</code>.</p>
+
+        <div class="code-block">
+          <div class="code-block-header"><span class="code-block-label">shell</span></div>
+          <pre><span class="c"># Write bundle to generated-output/share/&lt;user&gt;-share-bundle.json</span>
+<span class="cmd">gaia share</span>
+
+<span class="c"># Print bundle JSON to stdout (useful for piping)</span>
+<span class="cmd">gaia share --stdout</span>
+
+<span class="c"># Upload to a server and get a sharable URL</span>
+<span class="cmd">gaia share --stdout | curl -X POST https://your-host/api/bundles -d @-</span></pre>
+        </div>
+
+        <p>The two-pass build process:</p>
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-step-num">01</div>
+            <div class="flow-step-body">
+              <div class="flow-step-label">Resolve skill metadata</div>
+              <div class="flow-step-desc">For each unlocked skill, the producer looks up named-skills.json for the named entry, then falls back to gaia.json for the canonical entry. Name, level, type, and genericSkillRef are recorded.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-num">02</div>
+            <div class="flow-step-body">
+              <div class="flow-step-label">Translate prerequisites to owned edges</div>
+              <div class="flow-step-desc">Canonical prerequisite IDs are translated into the IDs actually owned by the sharer (named variants included). This lets the consumer render a realistic dependency tree using only the sharer's skills, not the full registry graph.</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-num">03</div>
+            <div class="flow-step-body">
+              <div class="flow-step-label">Build install manifest</div>
+              <div class="flow-step-desc">Only named skills with a resolvable <code>links.github</code> (or <code>suiteComponents</code>) are included. Tree/directory-view GitHub URLs (<code>/tree/</code>) are automatically normalized to <code>/blob/</code> so the installer can resolve them.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- share flags -->
+      <section class="section" id="share-flags">
+        <h2>Flags</h2>
+
+        <table class="field-table">
+          <thead>
+            <tr>
+              <th>Flag</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>--stdout</td>
+              <td>off</td>
+              <td>Print the bundle JSON to stdout instead of writing to a file. Useful for piping to <code>curl</code>, <code>jq</code>, or other tools.</td>
+            </tr>
+            <tr>
+              <td>--user &lt;handle&gt;</td>
+              <td>whoami</td>
+              <td>Override the username. Defaults to the handle set by <code>gaia init --user</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- gaia install -->
+      <section class="section" id="gaia-install">
+        <h2>gaia install &lt;bundle&gt;</h2>
+        <p><code>gaia install</code> detects a bundle argument by shape: a <code>.json</code> file path or an <code>http(s)://</code> URL is treated as a bundle, not a named-skill ID.</p>
+
+        <div class="code-block">
+          <div class="code-block-header"><span class="code-block-label">shell</span></div>
+          <pre><span class="c"># Install from a local file</span>
+<span class="cmd">gaia install ./marco-share-bundle.json</span>
+
+<span class="c"># Install from a URL</span>
+<span class="cmd">gaia install https://example.com/marco-share-bundle.json</span>
+
+<span class="c"># Named-skill IDs are NOT bundles — they go through the registry</span>
+<span class="cmd">gaia skills install marco/gaia-curate</span></pre>
+        </div>
+
+        <p>When called with a bundle reference, <code>gaia install</code> first renders the sharer's tree preview, then walks the guided install flow.</p>
+      </section>
+
+      <!-- install flow -->
+      <section class="section" id="install-flow">
+        <h2>Install Flow</h2>
+        <p>After rendering the preview, the consumer is prompted with four choices:</p>
+
+        <table class="choice-table">
+          <thead>
+            <tr><th>Key</th><th>Effect</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>[A] All</td>
+              <td>Install every skill in the manifest.</td>
+            </tr>
+            <tr>
+              <td>[P] Pick</td>
+              <td>Enter a space- or comma-separated list of item numbers to install selectively.</td>
+            </tr>
+            <tr>
+              <td>[V] View only</td>
+              <td>Preview the tree without installing anything. Safe default.</td>
+            </tr>
+            <tr>
+              <td>[Q] Quit</td>
+              <td>Exit immediately. Nothing is installed or downloaded.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>After installation completes, a summary line prints with four counts: <strong>installed</strong>, <strong>skipped</strong>, <strong>unresolved</strong>, and <strong>failed</strong>.</p>
+
+        <div class="code-block">
+          <div class="code-block-header"><span class="code-block-label">example session</span></div>
+          <pre><span class="c">Shared skill tree from marco:</span>
+
+marco
+└── ○ research
+    ├── ◇ gaia-curate  2★
+    └── ◇ gaia-curate-chain  3★
+
+<span class="c">3 installable skill(s):</span>
+<span class="c">   1. marco/research        (1★) → https://github.com/mbtiongson1/…</span>
+<span class="c">   2. marco/gaia-curate     (2★) → https://github.com/mbtiongson1/…</span>
+<span class="c">   3. marco/gaia-curate-chain (3★) → https://github.com/mbtiongson1/…</span>
+
+Install? [A]ll  [P]ick  [V]iew only  [Q]uit: <span class="cmd">p</span>
+Enter numbers to install (space/comma separated): <span class="cmd">2 3</span>
+
+Summary:
+  installed:  2  marco/gaia-curate, marco/gaia-curate-chain
+  skipped:    1  marco/research
+  unresolved: 0</pre>
+        </div>
+      </section>
+
+      <!-- non-tty -->
+      <section class="section" id="non-tty">
+        <h2>Non-TTY / Automation</h2>
+        <p>When stdin is not a TTY (CI runners, scripts, piped commands), <code>gaia install</code> automatically defaults to <strong>view-only</strong> mode. No interactive prompt is shown and nothing is installed.</p>
+
+        <div class="callout callout-warn">
+          <strong class="callout-label">Automation note</strong>
+          To install all skills non-interactively in a CI pipeline, you must pass the intent explicitly. The <code>--auto all</code> flag (when available) bypasses the TTY check. Without it, automation always gets view-only output.
+        </div>
+
+        <p>This design prevents accidental installs when bundles are processed in scripts or agent pipelines that pipe bundle JSON through <code>gaia install</code>.</p>
+      </section>
+
+      <!-- resolution strategy -->
+      <section class="section" id="resolution">
+        <h2>Resolution Strategy</h2>
+        <p>For each skill in the install manifest, <code>gaia install</code> tries two paths in order:</p>
+
+        <table class="res-table">
+          <thead>
+            <tr><th>#</th><th>Strategy</th><th>When it applies</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--muted);white-space:nowrap;">1</td>
+              <td><strong style="color:var(--text);">Registry resolution</strong> — reuse <code>gaia skills install</code> path</td>
+              <td>The consumer's registry knows about the skill ID (<code>resolve_named_skill_reference</code> succeeds). Fastest path; works when sharer and consumer share the same registry.</td>
+            </tr>
+            <tr>
+              <td style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--muted);white-space:nowrap;">2</td>
+              <td><strong style="color:var(--text);">Direct source URL</strong> — install from bundle's <code>github</code> field</td>
+              <td>The skill is not in the consumer's registry (foreign skill, multi-repo bundle). The installer fetches directly from the <code>blob/branch/subpath</code> URL stored in the bundle's manifest entry.</td>
+            </tr>
+            <tr>
+              <td style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--muted);white-space:nowrap;">—</td>
+              <td><strong style="color:var(--muted);">Unresolved</strong></td>
+              <td>Neither strategy succeeded (registry miss + no github URL in manifest). Appears in the <em>unresolved</em> summary count. Usually means the source repo is private or the named skill has <code>installable: false</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>Because the direct-URL path reuses the same <code>_install_single</code> code as the registry path, all the same <code>blob/</code> URL requirements apply — <code>tree/</code> URLs in the manifest are automatically normalized to <code>blob/</code> by the producer before the bundle is written.</p>
+      </section>
+
+      <!-- bundle format -->
+      <section class="section" id="bundle-format">
+        <h2>Bundle Format Reference</h2>
+        <p>The top-level shape of a bundle JSON:</p>
+
+        <div class="code-block">
+          <div class="code-block-header"><span class="code-block-label">JSON — top level</span></div>
+          <pre>{
+  <span class="key">"kind"</span>:          <span class="val">"gaia-share-bundle"</span>,   <span class="c">// always this literal</span>
+  <span class="key">"bundleVersion"</span>: <span class="val">"1"</span>,
+  <span class="key">"generatedAt"</span>:   <span class="val">"2026-06-12T13:00:00Z"</span>,
+  <span class="key">"sharer"</span>:        <span class="val">"marco"</span>,
+  <span class="key">"sourceRepo"</span>:    <span class="val">"https://github.com/mbtiongson1/gaia-skill-tree"</span>,
+  <span class="key">"tree"</span>: { … },          <span class="c">// Part 1 — tree snapshot</span>
+  <span class="key">"skillMeta"</span>: { … },    <span class="c">// Part 3 — pre-resolved metadata</span>
+  <span class="key">"install"</span>: [ … ]       <span class="c">// Part 2 — install manifest</span>
+}</pre>
+        </div>
+
+        <h3>tree</h3>
+        <table class="field-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>userId</td><td>string</td><td>GitHub handle of the sharer.</td></tr>
+            <tr><td>updatedAt</td><td>string</td><td>ISO 8601 timestamp from the sharer's skill-tree.json.</td></tr>
+            <tr><td>unlockedSkills</td><td>array</td><td>Array of <code>{ skillId, level }</code> objects — verbatim from the sharer's tree.</td></tr>
+            <tr><td>stats</td><td>object</td><td>Aggregate stats snapshot (skill count, star totals, etc.).</td></tr>
+          </tbody>
+        </table>
+
+        <h3>skillMeta</h3>
+        <p>An object keyed by skill ID. Each value:</p>
+        <table class="field-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>name</td><td>string</td><td>Human-readable display name.</td></tr>
+            <tr><td>level</td><td>string</td><td>Star level (e.g. <code>"2★"</code>).</td></tr>
+            <tr><td>type</td><td>string</td><td>Tier: <code>basic</code>, <code>extra</code>, <code>unique</code>, or <code>ultimate</code>.</td></tr>
+            <tr><td>named</td><td>boolean</td><td>True if this is a Named Skill (contributor/slug ID).</td></tr>
+            <tr><td>genericRef</td><td>string | null</td><td>The canonical skill ID this named skill implements.</td></tr>
+            <tr><td>prereqs</td><td>string[]</td><td>Owned-skill edges (translated from canonical prerequisite IDs to IDs the sharer actually holds).</td></tr>
+          </tbody>
+        </table>
+
+        <h3>install (manifest entry)</h3>
+        <table class="field-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>id</td><td>string</td><td>Named skill ID (e.g. <code>marco/gaia-curate</code>).</td></tr>
+            <tr><td>name</td><td>string</td><td>Display name.</td></tr>
+            <tr><td>level</td><td>string</td><td>Star level.</td></tr>
+            <tr><td>type</td><td>string</td><td>Tier.</td></tr>
+            <tr><td>github</td><td>string</td><td><code>blob/branch/subpath</code> URL for the skill's source. Present on individual (non-suite) skills.</td></tr>
+            <tr><td>suiteComponents</td><td>string[]</td><td>Component skill IDs for suite skills. Absent on individual skills.</td></tr>
+            <tr><td>genericSkillRef</td><td>string</td><td>The canonical ID this implementation fulfills.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- known issues -->
+      <section class="section" id="known-issues">
+        <h2>Known Issues</h2>
+
+        <h3>No static copy-link page (Issue #128)</h3>
+        <p>The planned <code>docs/share/</code> page — a static web UI where you paste a bundle URL and get a shareable copy-link — is a deferred fast-follow tracked in <a href="https://github.com/mbtiongson1/gaia-skill-tree/issues/128" target="_blank" rel="noopener">Issue #128</a>. Until it ships, share bundles must be distributed as raw files or URLs pointing to raw JSON.</p>
+
+        <h3>Private-repo skills resolve as unresolved</h3>
+        <p>If a Named Skill's source repository is private, the direct-URL path fails and the skill lands in the <em>unresolved</em> count. The producer still includes the skill in <code>skillMeta</code> for preview rendering, but the manifest entry is omitted because there is no public source to fetch from.</p>
+
+        <h3>Suite skills have no install directory</h3>
+        <p>A suite skill (one with <code>suiteComponents</code>) installs by iterating its components — it has no directory of its own. Accordingly, the manifest entry carries <code>suiteComponents</code> instead of <code>github</code>. Do not flag suite manifest entries as "missing github URL."</p>
+
+        <div class="callout callout-note">
+          <strong class="callout-label">Note</strong>
+          Skills with <code>installable: false</code> in their registry entry frontmatter are intentionally excluded from the install manifest. They still appear in <code>skillMeta</code> for the preview tree.
+        </div>
+      </section>
+
+      <!-- footer -->
+      <footer class="page-footer">
+        <div class="page-footer-left">
+          Gaia Docs · <span id="footerVersion">v4.7.6</span>
+        </div>
+        <div class="page-footer-right">
+          <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener">Registry →</a>
+        </div>
+      </footer>
+
+    </main>
+  </div><!-- /page-layout -->
+
+  <script>
+    (function () {
+      const links = document.querySelectorAll('.sidebar-links a');
+      const sections = [];
+      links.forEach(function (a) {
+        const id = a.getAttribute('href').replace('#', '');
+        const el = document.getElementById(id);
+        if (el) sections.push({ el: el, a: a });
+      });
+      function onScroll() {
+        let active = sections[0];
+        sections.forEach(function (s) {
+          if (s.el.getBoundingClientRect().top <= 80) active = s;
+        });
+        links.forEach(function (a) { a.classList.remove('active'); });
+        if (active) active.a.classList.add('active');
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      const verEl = document.getElementById('footerVersion');
+      if (window.GAIA_VERSION && verEl) verEl.textContent = 'v' + window.GAIA_VERSION;
+    })();
+  </script>
+
+</body>
+</html>

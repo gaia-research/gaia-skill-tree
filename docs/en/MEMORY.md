@@ -2,6 +2,61 @@
 
 ---
 
+## 2026-06-12 — Routine 006
+
+**Branch:** `docs/routines/005` (continued — PR #671 still open)
+
+**Task chosen:** Task 2 (write about a feature — Share Bundles)
+
+### Trigger
+
+Resumed from a context-compacted session. PR #671 is open but the Cloudflare Workers
+build has been failing since commit `dd96681` (another agent's consolidation commit).
+The failure is instant (started_at == completed_at) suggesting a Cloudflare-side
+pre-build issue, not a code error. Commits `56e7e4a` (my original routine-005 push)
+deployed successfully; subsequent commits failed. Possible causes: rate limiting,
+Cloudflare transient issue, or interaction between the `docs/js/site-nav.js` token
+change (`'#38bdf8'` → `'var(--tier-basic)'`) and Cloudflare's build pipeline.
+Cannot access Cloudflare build logs directly (Cloudflare-native check, not GitHub Actions).
+Pushing this commit to trigger a fresh build and test if the issue self-resolves.
+
+### What I did
+
+1. **Created `docs/en/share-bundles.html`** — comprehensive Share Bundles guide:
+   - Overview: what a share bundle is, producer-heavy / consumer-light design
+   - Bundle anatomy: three-card layout explaining the three payloads (tree snapshot,
+     install manifest, skill metadata)
+   - gaia share: command reference, two-pass build process (resolve metadata → translate
+     prereqs → build manifest), `--stdout` flag for piping
+   - Install flow: [A]ll / [P]ick / [V]iew only / [Q]uit table with example session
+   - Non-TTY / automation: automatic view-only default explained
+   - Resolution strategy: registry-first → direct source URL → unresolved table
+   - Bundle format reference: full JSON field tables for top level, tree, skillMeta, install
+   - Known issues: Issue #128 (static copy-link page deferred), private-repo unresolved,
+     suite skills with no directory
+
+2. **Updated `docs/en/index.html`**:
+   - Added Share Bundles card (📦) in Integrations section
+   - Added Share Bundles link to footer Docs column
+
+3. **Updated `docs/en/DOCS.md`** — added page 11 (share-bundles.html) as ✅ Done / Routine 006.
+
+### Files created / modified
+
+- `docs/en/share-bundles.html` ← new
+- `docs/en/index.html` ← Share Bundles card + footer link
+- `docs/en/DOCS.md` ← page 11 added
+- `docs/en/MEMORY.md` ← this entry
+
+### Planned next (Routine 007)
+
+- Maintain existing pages (Task 1): cli-reference.html — audit against current CLI shape
+  (share command, gaia install bundle detection not documented yet)
+- Research (Task 3): Timeline audit guide — gaia dev timeline, the gap around --user flag,
+  validate_timelines.py output
+
+---
+
 ## 2026-06-12 — Consolidation (routines 003–005)
 
 **Branch:** `docs/routines/005` (single converging PR)
