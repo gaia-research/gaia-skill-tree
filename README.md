@@ -220,7 +220,7 @@ Requires `textual` (included with `pip install gaia-cli`).
 <!-- gaia:cli-start -->
 ```text
 usage: gaia [-h] [--registry REGISTRY] [--global] [--version]
-            {help,init,scan,fetch,pull,update,install,uninstall,share,tree,push,propose,version,whoami,reset,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,path,dev,validate,test,skills}
+            {help,init,scan,fetch,pull,update,install,uninstall,share,tree,push,propose,version,whoami,login,logout,reset,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,path,dev,validate,test,skills}
             ...
 
 Gaia Registry CLI
@@ -267,6 +267,8 @@ Share:
 
 Utilities:
   gaia whoami
+  gaia login                    Sign in with GitHub (device flow)
+  gaia logout                   Sign out and revoke the token
   gaia version
   gaia update
   gaia mcp
