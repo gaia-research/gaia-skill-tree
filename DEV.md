@@ -114,6 +114,17 @@ from helpers import strip_ansi
 assert "Getting started" in strip_ansi(result.stdout)
 ```
 
+**f. Network and clock are injected, never hit (auth tests)**
+`gaia_cli/auth.py` (GitHub sign-in, PRD #155) routes *all* network through a
+single `auth.http_request` function — monkeypatch it to go fully offline (see
+`FakeHTTP` in `tests/test_auth.py`).  `poll_for_token` takes `sleep=`/`now=`
+callables; pass fakes to drive GitHub's device-flow backoff in zero time (these
+are parameters, not module attrs — patching `auth.time.sleep` won't reach the
+bound default).  Token storage degrades gracefully: `keyring` is the optional
+`[auth]` extra; without it the chmod-600 `GAIA_HOME/hosts.json` fallback is used,
+so the suite is green with no keyring installed.  Full design + coverage map:
+`tests/AUTH_TEST_SUITE_HANDOVER.md`.
+
 ---
 
 ## 4. Common CI Failures & Troubleshooting Reference
