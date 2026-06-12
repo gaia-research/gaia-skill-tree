@@ -496,6 +496,19 @@ def build_profile_pages(check: bool) -> bool:
                 print(f"diff docs/u/ (regen failed: rc={rc})")
                 print(output)
             raise RuntimeError(f"docs/u/ regen failed: rc={rc}")
+        # The contributors directory page (u/index.html) has cache-busting
+        # meta/version applied by build_html_cache_busting() in write mode, which
+        # runs *after* this step. generateProfilePages.py strips the no-cache meta
+        # tags, so the raw generated page never matches the post-processed committed
+        # file. Apply the same transform here so --check compares like-for-like
+        # instead of reporting perpetual drift on u/index.html.
+        gen_index = out_dir / "index.html"
+        if gen_index.exists():
+            version = _read_version()
+            gen_index.write_text(
+                _apply_cache_busting(gen_index.read_text(encoding="utf-8"), version),
+                encoding="utf-8",
+            )
         if not committed.exists():
             if check:
                 print("diff docs/u/ (missing)")
