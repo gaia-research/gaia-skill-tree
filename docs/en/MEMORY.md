@@ -2,6 +2,76 @@
 
 ---
 
+## 2026-06-12 — Routine 004
+
+**Branch:** `docs/routines/003` (continued — no PR existed when session started)
+**Task chosen:** Task 2 — Write about a feature (the evidence and trust model)
+
+### What I did
+
+Checked `docs/routines/003`: 3 Claude commits, no open PR. The MEMORY.md "Merged" note from Routine 003 was premature. Continued on the same branch per the "unmerged → continue" rule.
+
+Reviewed open issues for writing priorities:
+- **#646** — Trust model shipped in schema: Evidence Type + Grade now live. Immediate developer need to document the new system.
+- **#658** — Verification Workflow (Community Verified, Security Reviewed, Enterprise Ready) depends on the trust model — documenting evidence first unblocks clarity.
+- **#654** — RFC on evidence types (beyond arxiv/repo/stars) in progress; acknowledged in the page as planned work.
+- **#648** — Trust Score Explanations: frontend should show why a skill got its trust grade; documentation provides the vocabulary before the UI is built.
+
+1. **Created `docs/en/evidence-classes.html`** — comprehensive page on the full evidence and trust model:
+   - Intro: why evidence gates stars; the Class system problem
+   - Deprecated Evidence Class (C/B/A) — documented with a clear deprecation banner
+   - Evidence Type (provenance): `arxiv`, `repo`, `github-stars` — table with what each represents, URL format rules per type
+   - Evidence Grade (quality): S/A/B/C = Platinum/Gold/Silver/Bronze — visual trust meter + full table with trust number thresholds
+   - Trust Number — internal 0–100 score, not user-facing, canonical term
+   - Overall Trust Grade — aggregate, computed at build time, never stored on a node
+   - Verification states — `unverified` / `verified` / `disputed` — chip layout with flags and semantics
+   - CLI: `gaia dev evidence` with legacy `--class` form and new `--type --grade` form; `--dry-run` best practice
+   - Migration guide — Class → Type+Grade approximate mapping with explicit caveats
+   - Common pitfalls: Class A ≠ Grade A (main table), `tree/` vs `blob/`, github-stars alone, skipping `--dry-run`
+
+2. **Updated `docs/en/index.html`**:
+   - Evidence & Trust card: removed `opacity:0.7` dim, changed badge to `● New`, updated title and description to reflect the full Type+Grade model
+   - Footer Docs column: added CLI Reference and Evidence & Trust links
+   - Nav version badge: v4.4.0 → v4.7.0
+   - Footer version: v4.6.0 → v4.7.0
+
+3. **Updated `docs/en/DOCS.md`** — page 7 marked ✅ Done / Routine 004; Grade color tokens added to the design system section.
+
+### Design decisions
+
+- **Trust meter**: five-segment color bar (S/A/B/C/Ungraded) makes thresholds immediately scannable without reading text.
+- **Verification chips**: three-card row instead of a table — the flag + description side-by-side layout reads more naturally for a state model.
+- **Deprecated banner**: distinct gray callout with a ⚠ icon — clearly deprecated without removing the content (still needed for migration).
+- **Grade badge colors**: S=amber, A=amber-dim, B=purple-100, C=sky-100 — reuse token palette from DOCS.md; no new colors.
+- **Common pitfalls as h3 anchors**: findable via sidebar + linkable in issue replies (e.g. linking to `#pitfalls` in #646 discussion).
+
+### Issues informed by this page
+
+- **#646** — evidence-classes.html documents the shipped schema; developers no longer need to reverse-engineer it from commit history.
+- **#648** — trust number and overall trust grade sections provide vocabulary for the planned frontend explanation UI.
+- **#654** — callout in the Evidence Type section links forward to the RFC so contributors know where to track discussion.
+- **#658** — verification states section provides canonical definitions the verification workflow will consume.
+
+### Fact-check sweep (standing habit)
+
+- Nav version badge in index.html was stale at v4.4.0; updated to v4.7.0 (matches release commits in branch history).
+- Footer version was at v4.6.0; updated to v4.7.0.
+- No other stale content detected in existing pages (install commands, CLI flags, vocabulary still accurate).
+
+### Files created / modified
+
+- `docs/en/evidence-classes.html` ← new
+- `docs/en/index.html` ← updated (card live; footer updated; versions corrected)
+- `docs/en/DOCS.md` ← updated (page 7 done; grade color tokens added)
+- `docs/en/MEMORY.md` ← this entry
+
+### Planned next (Routine 005)
+
+- `docs/en/fusion.html` — skill fusion mechanics: when to fuse, `gaia fuse` workflow, Basic→Extra→Ultimate paths, fusion PR anatomy
+- `docs/en/mcp-server.html` — Bond your agent flow; `@gaia-registry/mcp-server` setup; MCP tool inventory
+
+---
+
 ## 2026-06-11 — Routine 003
 
 **Branch:** `docs/routines/003`
@@ -64,10 +134,6 @@ Reviewed open issues for writing priorities:
 - `docs/en/index.html` ← updated (Contributing card added; Named Skills card promoted to ● New)
 - `docs/en/DOCS.md` ← updated (pages 5–6 marked done)
 - `docs/en/MEMORY.md` ← this entry
-
-### Merged
-
-PR #662 squash-merged to main (commit d608b7b). All CI passed. Cloudflare deploy confirmed green.
 
 ### Standing habit — fact-check on every routine
 

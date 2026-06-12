@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evidence &amp; Trust — Gaia Docs</title>
+  <meta name="description" content="How evidence drives star progression in Gaia — the Evidence Type, Grade, and Overall Trust Grade system that superseded the deprecated Class axis.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg, #030712);
+      color: var(--text, #e2e8f0);
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* nav */
+    .docs-nav {
+      border-bottom: 1px solid var(--border, #1e293b);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      background: rgba(3, 7, 18, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    .docs-nav-logo { font-family: 'EB Garamond', Georgia, serif; font-size: 1.1rem; font-weight: 500; letter-spacing: .02em; }
+    .docs-nav-logo span { color: var(--tier-ultimate, #f59e0b); }
+    .docs-nav-sep { color: var(--muted, #64748b); font-size: 0.85rem; }
+    .docs-nav-link { font-size: 0.85rem; color: var(--muted, #64748b); transition: color 0.15s; }
+    .docs-nav-link:hover { color: var(--text, #e2e8f0); text-decoration: none; }
+    .docs-nav-link.active { color: var(--tier-basic, #38bdf8); }
+    .docs-nav-spacer { flex: 1; }
+    .docs-nav-version {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted, #64748b);
+      padding: 0.2rem 0.55rem;
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 4px;
+    }
+
+    /* layout */
+    .docs-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 6rem;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* sidebar */
+    .docs-sidebar {
+      position: sticky;
+      top: 68px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .sidebar-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted, #64748b);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      margin-top: 1.25rem;
+    }
+    .sidebar-label:first-child { margin-top: 0; }
+    .sidebar-link {
+      font-size: 0.82rem;
+      color: var(--muted, #64748b);
+      padding: 0.28rem 0.6rem;
+      border-left: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      display: block;
+    }
+    .sidebar-link:hover { color: var(--text, #e2e8f0); text-decoration: none; }
+    .sidebar-link.active { color: var(--tier-basic, #38bdf8); border-left-color: var(--tier-basic, #38bdf8); }
+
+    /* content */
+    .docs-content h1 {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 500;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+    .docs-content .lead {
+      font-size: 1.05rem;
+      color: var(--muted, #64748b);
+      max-width: 640px;
+      line-height: 1.65;
+      margin-bottom: 2.5rem;
+    }
+    .docs-content h2 {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin-top: 3rem;
+      margin-bottom: 0.9rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border, #1e293b);
+      scroll-margin-top: 80px;
+    }
+    .docs-content h2.no-rule { border-top: none; padding-top: 0; margin-top: 0; }
+    .docs-content h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-top: 1.75rem;
+      margin-bottom: 0.6rem;
+      scroll-margin-top: 80px;
+    }
+    .docs-content p { margin-bottom: 1rem; }
+    .docs-content ul { margin-bottom: 1rem; padding-left: 1.4rem; }
+    .docs-content li { margin-bottom: 0.35rem; }
+    .docs-content code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82em;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 4px;
+      padding: 0.1em 0.35em;
+    }
+
+    /* code block */
+    .code-block { background: #08080a; border: 1px solid var(--border, #1e293b); border-radius: 8px; overflow: hidden; margin: 1.25rem 0; }
+    .code-block-header { display: flex; align-items: center; padding: 0.5rem 1rem; border-bottom: 1px solid var(--border, #1e293b); background: rgba(255,255,255,0.02); }
+    .code-block-label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--muted, #64748b); }
+    .code-block pre { padding: 1.1rem 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; line-height: 1.7; color: #c9d1d9; overflow-x: auto; }
+    .code-block pre .c  { color: var(--muted, #64748b); }
+    .code-block pre .cmd { color: #86efac; }
+    .code-block pre .str { color: var(--tier-extra, #c084fc); }
+    .code-block pre .flag { color: #fbbf24; }
+    .code-block pre .val { color: #f87171; }
+
+    /* callout */
+    .callout { border-radius: 8px; padding: 1rem 1.25rem; margin: 1.5rem 0; font-size: 0.9rem; line-height: 1.6; border-left: 3px solid; }
+    .callout p:last-child { margin-bottom: 0; }
+    .callout.info  { background: rgba(56,189,248,0.07); border-color: var(--tier-basic,#38bdf8); color: #bae6fd; }
+    .callout.warn  { background: rgba(251,191,36,0.08); border-color: #fbbf24; color: #fde68a; }
+    .callout.danger{ background: rgba(239,68,68,0.08); border-color: #ef4444; color: #fca5a5; }
+    .callout strong { font-weight: 700; }
+
+    /* table */
+    .docs-table-wrap { overflow-x: auto; margin: 1.25rem 0; }
+    .docs-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    .docs-table th {
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted, #64748b);
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--border, #1e293b);
+    }
+    .docs-table td { padding: 0.65rem 1rem; border-bottom: 1px solid rgba(30,41,59,0.6); color: var(--text,#e2e8f0); vertical-align: top; }
+    .docs-table tr:last-child td { border-bottom: none; }
+    .docs-table .muted { color: var(--muted,#64748b); }
+
+    /* grade badges */
+    .grade {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700;
+      padding: 0.15rem 0.55rem; border-radius: 4px; border: 1px solid;
+    }
+    .grade-S { background: rgba(251,191,36,0.12); border-color: #fbbf24; color: #fbbf24; }
+    .grade-A { background: rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.5); color: #fde68a; }
+    .grade-B { background: rgba(192,132,252,0.1); border-color: rgba(192,132,252,0.5); color: #e9d5ff; }
+    .grade-C { background: rgba(56,189,248,0.08); border-color: rgba(56,189,248,0.4); color: #bae6fd; }
+    .grade-U { background: rgba(100,116,139,0.1); border-color: rgba(100,116,139,0.35); color: var(--muted,#64748b); }
+
+    /* type pill */
+    .type-pill {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+      padding: 0.1rem 0.5rem; border-radius: 3px;
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border,#1e293b);
+      color: var(--muted,#64748b);
+    }
+
+    /* deprecated banner */
+    .deprecated-banner {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      background: rgba(100,116,139,0.08);
+      border: 1px solid rgba(100,116,139,0.25);
+      border-radius: 8px; padding: 1rem 1.25rem; margin: 1.25rem 0;
+      font-size: 0.875rem; color: var(--muted,#64748b);
+    }
+    .deprecated-banner strong { color: var(--text,#e2e8f0); }
+    .deprecated-banner p:last-child { margin-bottom: 0; }
+
+    /* trust meter */
+    .trust-meter {
+      display: flex; gap: 0; align-items: stretch;
+      margin: 1.25rem 0; border-radius: 6px; overflow: hidden;
+      border: 1px solid var(--border,#1e293b);
+    }
+    .trust-segment {
+      flex: 1; text-align: center; padding: 0.75rem 0.4rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700;
+      display: flex; flex-direction: column; gap: 0.25rem;
+      border-right: 1px solid var(--border,#1e293b);
+    }
+    .trust-segment:last-child { border-right: none; }
+    .trust-segment .seg-name { font-size: 0.65rem; font-weight: 400; opacity: 0.8; }
+    .trust-segment .seg-range { font-size: 0.7rem; font-weight: 400; }
+    .seg-S { background: rgba(251,191,36,0.14); color: #fbbf24; }
+    .seg-A { background: rgba(251,191,36,0.08); color: #fde68a; }
+    .seg-B { background: rgba(192,132,252,0.1); color: #e9d5ff; }
+    .seg-C { background: rgba(56,189,248,0.08); color: #bae6fd; }
+    .seg-U { background: rgba(100,116,139,0.08); color: var(--muted,#64748b); }
+
+    /* verification chips */
+    .verif-chips { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 1.25rem 0; }
+    .verif-chip {
+      display: flex; flex-direction: column; gap: 0.35rem;
+      background: var(--surface,#0f172a); border: 1px solid var(--border,#1e293b);
+      border-radius: 8px; padding: 0.85rem 1.1rem; min-width: 150px; flex: 1;
+    }
+    .verif-chip .chip-label { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 600; }
+    .verif-chip .chip-flag { font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; color: var(--muted,#64748b); }
+    .verif-chip .chip-desc { font-size: 0.8rem; color: var(--muted,#64748b); margin-top: 0.1rem; }
+    .chip-default .chip-label { color: var(--muted,#64748b); }
+    .chip-verified .chip-label { color: #4ade80; }
+    .chip-verified { border-color: rgba(74,222,128,0.25); }
+    .chip-disputed .chip-label { color: #f87171; }
+    .chip-disputed { border-color: rgba(248,113,113,0.25); }
+
+    /* footer */
+    .docs-footer-simple {
+      border-top: 1px solid var(--border,#1e293b);
+      padding: 1.5rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 0.75rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .docs-footer-simple span { font-size: 0.8rem; color: var(--muted,#64748b); }
+    .docs-footer-simple a { font-size: 0.8rem; color: var(--muted,#64748b); transition: color .15s; }
+    .docs-footer-simple a:hover { color: var(--text,#e2e8f0); text-decoration: none; }
+    .docs-footer-links { display: flex; gap: 1.5rem; }
+
+    @media (max-width: 768px) {
+      .docs-layout { grid-template-columns: 1fr; }
+      .docs-sidebar { display: none; }
+      .trust-meter { flex-direction: column; }
+      .trust-segment { border-right: none; border-bottom: 1px solid var(--border,#1e293b); padding: 0.5rem 1rem; flex-direction: row; justify-content: space-between; align-items: center; }
+      .trust-segment:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="docs-nav">
+    <a href="../index.html" class="docs-nav-logo">Gaia <span>◆</span></a>
+    <span class="docs-nav-sep">/</span>
+    <a href="index.html" class="docs-nav-link">Docs</a>
+    <span class="docs-nav-sep">/</span>
+    <span class="docs-nav-link active">Evidence &amp; Trust</span>
+    <div class="docs-nav-spacer"></div>
+    <span class="docs-nav-version" id="ver">v4.7.0</span>
+  </nav>
+
+  <div class="docs-layout">
+
+    <aside class="docs-sidebar" id="sidebar">
+      <span class="sidebar-label">On this page</span>
+      <a class="sidebar-link" href="#overview">Overview</a>
+      <a class="sidebar-link" href="#class-system">Deprecated: Class</a>
+      <a class="sidebar-link" href="#evidence-type">Evidence Type</a>
+      <a class="sidebar-link" href="#evidence-grade">Evidence Grade</a>
+      <a class="sidebar-link" href="#trust-number">Trust Number</a>
+      <a class="sidebar-link" href="#overall-trust">Overall Trust Grade</a>
+      <a class="sidebar-link" href="#verification">Verification states</a>
+      <span class="sidebar-label">Actions</span>
+      <a class="sidebar-link" href="#cli-evidence">Adding evidence via CLI</a>
+      <a class="sidebar-link" href="#migration">Migration guide</a>
+      <span class="sidebar-label">Reference</span>
+      <a class="sidebar-link" href="#pitfalls">Common pitfalls</a>
+    </aside>
+
+    <main class="docs-content">
+
+      <h1>Evidence &amp; Trust</h1>
+      <p class="lead">
+        Every star above 1★ is gated by evidence — not declaration.
+        This page covers the full evidence system: the deprecated single-axis <strong>Evidence Class</strong>,
+        the current two-axis model (<strong>Evidence Type</strong> + <strong>Evidence Grade</strong>),
+        how scores accumulate into an <strong>Overall Trust Grade</strong>, and how to
+        attach evidence to a skill via the CLI.
+      </p>
+
+      <h2 id="overview" class="no-rule">Overview</h2>
+      <p>
+        Gaia uses evidence to verify that a skill is real, reproducible, and battle-tested.
+        Evidence is attached to a skill node and is the primary input to star progression —
+        a skill's stars are <em>derived</em> from its evidence, never declared.
+      </p>
+      <p>
+        The evidence system was revised with the <strong>#646 trust model</strong>.
+        The old single-letter <strong>Evidence Class</strong> conflated two orthogonal questions —
+        <em>where</em> evidence comes from and <em>how good</em> it is — into one field.
+        The new model separates them: <strong>Evidence Type</strong> (provenance)
+        and <strong>Evidence Grade</strong> (quality).
+      </p>
+      <div class="callout warn">
+        <p><strong>Critical:</strong> The deprecated Class letters (C/B/A) and the new Grade letters (S/A/B/C)
+        are <em>not equivalent</em>. Class A ≠ Grade A. See <a href="#pitfalls" style="color:inherit;text-decoration:underline;">Common pitfalls</a>.</p>
+      </div>
+
+      <h2 id="class-system">Deprecated: Evidence Class</h2>
+      <div class="deprecated-banner">
+        <span>⚠</span>
+        <div>
+          <p><strong>This axis is deprecated.</strong> The <code>class</code> field stays valid in the schema for backward compatibility but will be removed in the next major release. New evidence entries should carry an Evidence Type and Evidence Grade instead.</p>
+        </div>
+      </div>
+      <p>The legacy Evidence Class was a single letter covering both provenance and quality:</p>
+      <div class="docs-table-wrap">
+        <table class="docs-table">
+          <thead><tr><th>Class</th><th>Description</th><th>Typical source</th></tr></thead>
+          <tbody>
+            <tr><td><code>C</code></td><td>First sighting — skill observed at least once in the wild.</td><td>GitHub repo, demo, casual reference</td></tr>
+            <tr><td><code>B</code></td><td>Reproducible — reliably reproducible with documentation.</td><td>SKILL.md with examples, recorded benchmarks</td></tr>
+            <tr><td><code>A</code></td><td>Battle-tested, peer-reviewed — widely used and externally validated.</td><td>arXiv paper, widely-used library</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The problem: a GitHub repo (Class B) with 100k stars carries far more confidence than one with 10 —
+        but both mapped to the same letter. The new model separates these signals.
+      </p>
+
+      <h2 id="evidence-type">Evidence Type</h2>
+      <p>
+        <strong>Evidence Type</strong> is the provenance of one demonstration — <em>where</em> it comes from,
+        not how good it is. Types are kebab-case strings driven from <code>meta.json</code> → <code>evidence.types</code>,
+        so new sources extend the list without a schema change.
+      </p>
+      <p>Always write the full phrase <strong>Evidence Type</strong>; never the bare word "type", which refers to the Basic / Extra / Unique / Ultimate taxonomy field.</p>
+      <div class="docs-table-wrap">
+        <table class="docs-table">
+          <thead><tr><th>Type value</th><th>What it represents</th><th>URL format</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="type-pill">arxiv</span></td>
+              <td>A published academic paper on arXiv demonstrating the capability.</td>
+              <td>Abstract URL: <code>https://arxiv.org/abs/&lt;id&gt;</code> — not the PDF link.</td>
+            </tr>
+            <tr>
+              <td><span class="type-pill">repo</span></td>
+              <td>A GitHub repository with a <code>SKILL.md</code> at a <code>blob/</code> path.</td>
+              <td>Must use <code>blob/branch/subpath</code> — never <code>tree/</code>. The installer and evidence resolver only accept the blob form.</td>
+            </tr>
+            <tr>
+              <td><span class="type-pill">github-stars</span></td>
+              <td>Repository star count as a secondary proxy for adoption signal.</td>
+              <td>Bare repo URL: <code>https://github.com/owner/repo</code>. Build pipeline reads the live count at build time.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout info">
+        <p><strong>RFC #654</strong> is tracking additional Evidence Types — community posts, YouTube / social views,
+        and download counts. New types extend <code>meta.json</code> <code>evidence.types</code> without a schema version bump.</p>
+      </div>
+
+      <h2 id="evidence-grade">Evidence Grade</h2>
+      <p>
+        <strong>Evidence Grade</strong> is the quality of one demonstration on an
+        <strong>S / A / B / C</strong> axis —
+        <strong>Platinum</strong> (S), <strong>Gold</strong> (A), <strong>Silver</strong> (B), <strong>Bronze</strong> (C) —
+        derived from a numerical <strong>trust number</strong>. A demonstration whose trust number falls
+        below the C threshold is <strong>ungraded</strong>: on the record but counting toward no gate.
+      </p>
+
+      <div class="trust-meter">
+        <div class="trust-segment seg-S"><span>S</span><span class="seg-name">Platinum</span><span class="seg-range">≥ 90</span></div>
+        <div class="trust-segment seg-A"><span>A</span><span class="seg-name">Gold</span><span class="seg-range">≥ 80</span></div>
+        <div class="trust-segment seg-B"><span>B</span><span class="seg-name">Silver</span><span class="seg-range">≥ 60</span></div>
+        <div class="trust-segment seg-C"><span>C</span><span class="seg-name">Bronze</span><span class="seg-range">≥ 40</span></div>
+        <div class="trust-segment seg-U"><span>—</span><span class="seg-name">Ungraded</span><span class="seg-range">&lt; 40</span></div>
+      </div>
+
+      <div class="docs-table-wrap">
+        <table class="docs-table">
+          <thead><tr><th>Grade</th><th>Label</th><th>Trust #</th><th>What qualifies</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="grade grade-S">S</span></td><td>Platinum</td><td>≥ 90</td>
+              <td>Definitive, peer-reviewed, widely-cited evidence. Reserved for capabilities established beyond reasonable doubt in literature — extremely rare.</td>
+            </tr>
+            <tr>
+              <td><span class="grade grade-A">A</span></td><td>Gold</td><td>≥ 80</td>
+              <td>Battle-tested in production; corroborated by multiple independent sources. A library with 10k+ stars backed by a SKILL.md and a supporting paper qualifies.</td>
+            </tr>
+            <tr>
+              <td><span class="grade grade-B">B</span></td><td>Silver</td><td>≥ 60</td>
+              <td>Reproducible and documented. A SKILL.md with working examples and a verifiable demo at 100+ stars typically lands here.</td>
+            </tr>
+            <tr>
+              <td><span class="grade grade-C">C</span></td><td>Bronze</td><td>≥ 40</td>
+              <td>First sighting — observed at least once, basic documentation present. The minimum to count toward Named (2★) status.</td>
+            </tr>
+            <tr>
+              <td><span class="grade grade-U">—</span></td><td>Ungraded</td><td>&lt; 40</td>
+              <td>On the record but does not count toward any star gate. Useful for logging an observation without making a quality claim.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="trust-number">Trust Number</h2>
+      <p>
+        The <strong>trust number</strong> is an internal 0–100 score that drives grade assignment.
+        It is <em>never user-facing</em> — public surfaces show the grade label (S/A/B/C) that the
+        trust number yields, not the raw score. Do not call it "trust score"; the canonical term is <strong>trust number</strong>.
+      </p>
+      <p>
+        Thresholds live in <code>meta.json</code> → <code>evidence.gradeThresholds</code> and can be
+        recalibrated without a schema change. The trust number is computed by the build pipeline from
+        evidence metadata (type, external signals like star counts, verification state) and is not stored
+        in registry nodes.
+      </p>
+
+      <h2 id="overall-trust">Overall Trust Grade</h2>
+      <p>
+        An individual evidence entry has its own <strong>Evidence Grade</strong>. A skill's
+        <em>aggregate</em> standing is called its <strong>Overall Trust Grade</strong> — the
+        accumulation of all its evidence grades that establishes the capability "beyond reasonable doubt."
+      </p>
+      <ul>
+        <li><strong>Computed at build time</strong> from the full evidence inventory — never stored on a registry node.</li>
+        <li><strong>Materialises only in generated catalogs</strong> (<code>registry/named-skills.json</code>, <code>docs/graph/gaia.json</code>).</li>
+        <li><strong>Distinct from a single entry's grade</strong> — three Bronze entries can yield a Gold Overall Trust Grade in aggregate.</li>
+        <li><strong>Never hand-assigned</strong> — writing this field to a node directly violates Programmatic-First and CI will reject the PR.</li>
+      </ul>
+
+      <h2 id="verification">Verification States</h2>
+      <p>
+        Each evidence entry passes through verification states independently of its grade.
+        Verification attests that a demonstration is <em>real</em>; grading measures how <em>strong</em> it is.
+        The two axes never substitute for each other.
+      </p>
+      <div class="verif-chips">
+        <div class="verif-chip chip-default">
+          <span class="chip-label">unverified</span>
+          <code class="chip-flag">evidence.verified: false (default)</code>
+          <span class="chip-desc">On the record but not yet reviewed by a 4★ Verifier. All new entries start here.</span>
+        </div>
+        <div class="verif-chip chip-verified">
+          <span class="chip-label">verified</span>
+          <code class="chip-flag">evidence.verified: true</code>
+          <span class="chip-desc">Confirmed real by a contributor holding a Hardened (4★) or higher Named Skill. Unlocks the Community Verified certification level.</span>
+        </div>
+        <div class="verif-chip chip-disputed">
+          <span class="chip-label">disputed</span>
+          <code class="chip-flag">evidence.disputed: true</code>
+          <span class="chip-desc">A Verifier has flagged the entry as questionable. It stays on the record with a demerit flag in the catalog until resolved.</span>
+        </div>
+      </div>
+      <div class="callout info">
+        <p>Check your Verifier status with <code>gaia whoami</code>. The <code>via: verifier</code> path means you are authorized to set <code>evidence.verified: true</code> or <code>evidence.disputed: true</code>.</p>
+      </div>
+
+      <h2 id="cli-evidence">Adding Evidence via CLI</h2>
+      <p>Use <code>gaia dev evidence</code> to attach evidence to a skill node. This is a Verifier-gated command — confirm authorization with <code>gaia whoami</code> first.</p>
+
+      <h3>Legacy form (Class — deprecated, still accepted)</h3>
+      <div class="code-block">
+        <div class="code-block-header"><span class="code-block-label">shell</span></div>
+        <pre><span class="cmd">gaia dev evidence</span> <span class="val">registry-curation</span> <span class="str">"https://github.com/owner/repo/blob/main/skills/foo/SKILL.md"</span> <span class="flag">--class</span> B</pre>
+      </div>
+
+      <h3>New form (Type + Grade)</h3>
+      <div class="code-block">
+        <div class="code-block-header"><span class="code-block-label">shell</span></div>
+        <pre><span class="c"># repo evidence at Grade B (Silver) — always use blob/, not tree/</span>
+<span class="cmd">gaia dev evidence</span> <span class="val">registry-curation</span> <span class="str">"https://github.com/owner/repo/blob/main/skills/foo/SKILL.md"</span> \
+  <span class="flag">--type</span> repo \
+  <span class="flag">--grade</span> B
+
+<span class="c"># arXiv paper at Grade A (Gold)</span>
+<span class="cmd">gaia dev evidence</span> <span class="val">multimodal-reasoning</span> <span class="str">"https://arxiv.org/abs/2504.00001"</span> \
+  <span class="flag">--type</span> arxiv \
+  <span class="flag">--grade</span> A
+
+<span class="c"># always dry-run first</span>
+<span class="cmd">gaia dev evidence</span> <span class="val">multimodal-reasoning</span> <span class="str">"https://arxiv.org/abs/2504.00001"</span> \
+  <span class="flag">--type</span> arxiv <span class="flag">--grade</span> A <span class="flag">--dry-run</span>
+
+<span class="c"># verify an entry (Verifier-only)</span>
+<span class="cmd">gaia dev evidence</span> <span class="val">registry-curation</span> <span class="flag">--verify</span> <span class="str">"https://github.com/owner/repo/blob/main/skills/foo/SKILL.md"</span>
+
+<span class="c"># dispute an entry (Verifier-only)</span>
+<span class="cmd">gaia dev evidence</span> <span class="val">registry-curation</span> <span class="flag">--dispute</span> <span class="str">"https://github.com/owner/repo/blob/main/skills/foo/SKILL.md"</span></pre>
+      </div>
+      <div class="callout warn">
+        <p><strong>Always run <code>--dry-run</code> first.</strong> Evidence writes directly to a registry node. A bad URL or wrong skill ID produces invalid JSON that will fail CI.</p>
+      </div>
+
+      <h3>URL format rules per type</h3>
+      <ul>
+        <li><strong><code>repo</code>:</strong> Use <code>blob/branch/subpath</code>. GitHub directory URLs use <code>tree/</code> — convert manually. The resolver rejects <code>tree/</code> with a schema error.</li>
+        <li><strong><code>arxiv</code>:</strong> Use the abstract URL (<code>https://arxiv.org/abs/&lt;id&gt;</code>), not the PDF link. The build pipeline normalises to the abstract for deduplication.</li>
+        <li><strong><code>github-stars</code>:</strong> Bare repo URL (<code>https://github.com/owner/repo</code>). Star count is read live at build time.</li>
+      </ul>
+
+      <h2 id="migration">Migration Guide</h2>
+      <p>
+        When auditing nodes with legacy <code>class: A/B/C</code> and converting to the new model,
+        use this table as a starting point. The mapping is <em>approximate</em> — the correct Grade
+        depends on the actual evidence, not just the old Class letter.
+      </p>
+      <div class="docs-table-wrap">
+        <table class="docs-table">
+          <thead><tr><th>Deprecated Class</th><th>Approx. Type</th><th>Approx. Grade range</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>class: C</code></td>
+              <td><span class="type-pill">repo</span></td>
+              <td><span class="grade grade-C">C</span> Bronze</td>
+              <td>First sighting. Verify the URL still resolves before converting.</td>
+            </tr>
+            <tr>
+              <td><code>class: B</code></td>
+              <td><span class="type-pill">repo</span></td>
+              <td><span class="grade grade-C">C</span> – <span class="grade grade-B">B</span></td>
+              <td>Grade B if repo has examples + demos + ≥100 stars. Grade C if thin. Check star count at migration time.</td>
+            </tr>
+            <tr>
+              <td><code>class: A</code> (arXiv)</td>
+              <td><span class="type-pill">arxiv</span></td>
+              <td><span class="grade grade-B">B</span> – <span class="grade grade-A">A</span></td>
+              <td>Confirm the URL before assigning type. High-citation papers with reproduction evidence can reach Grade A.</td>
+            </tr>
+            <tr>
+              <td><code>class: A</code> (repo)</td>
+              <td><span class="type-pill">repo</span> + <span class="type-pill">github-stars</span></td>
+              <td><span class="grade grade-A">A</span> – <span class="grade grade-S">S</span></td>
+              <td>Battle-tested repos (10k+ stars, independent reproductions). Verify evidence still exists before upgrading.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout danger">
+        <p><strong>Do not auto-migrate.</strong> Converting <code>class: A</code> to <code>grade: A</code> is always wrong — the letters are not equivalent. Each entry must be evaluated individually.</p>
+      </div>
+
+      <h2 id="pitfalls">Common Pitfalls</h2>
+
+      <h3>Class letters ≠ Grade letters</h3>
+      <p>The single most common mistake. The axes share letters but measure different things at different calibrations:</p>
+      <div class="docs-table-wrap">
+        <table class="docs-table">
+          <thead><tr><th>Old Class</th><th>Old meaning</th><th>Grade</th><th>Why they differ</th></tr></thead>
+          <tbody>
+            <tr><td><code>C</code></td><td>First sighting</td><td><span class="grade grade-C">C</span> Bronze</td><td>Closest mapping — both mean first sighting.</td></tr>
+            <tr><td><code>B</code></td><td>Reproducible</td><td><span class="grade grade-B">B</span> Silver</td><td>Similar concept, but Grade B requires a higher trust number than Class B implied.</td></tr>
+            <tr><td><code>A</code></td><td>Battle-tested, peer-reviewed</td><td><span class="grade grade-A">A</span> Gold</td><td>Class A was the top of a 3-rung ladder. Grade A is second-highest on a 5-rung ladder. Converting 1:1 is a downgrade for some skills, an upgrade for others.</td></tr>
+            <tr><td class="muted">—</td><td class="muted">(no equivalent)</td><td><span class="grade grade-S">S</span> Platinum</td><td>Grade S (≥ 90) has no Class equivalent — it represents certainty that Class A rarely achieved.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Using <code>tree/</code> instead of <code>blob/</code></h3>
+      <p>GitHub's directory view uses <code>tree/branch/path</code>. The evidence resolver and installer only accept <code>blob/branch/path</code>. The CLI rejects <code>tree/</code> URLs with a schema error.</p>
+
+      <h3>Using <code>github-stars</code> as sole evidence</h3>
+      <p>Star counts are volatile and subject to farming. Never use <code>github-stars</code> as the sole evidence for a skill — always pair it with at least one <code>repo</code> entry pointing to a SKILL.md.</p>
+
+      <h3>Skipping <code>--dry-run</code></h3>
+      <p><code>gaia dev evidence</code> writes directly to a registry node under Programmatic-First rules. A bad URL or wrong skill ID writes invalid JSON that CI will fail on. Run <code>--dry-run</code> every time before committing.</p>
+
+    </main>
+  </div>
+
+  <footer class="docs-footer-simple">
+    <span>Gaia Docs — Evidence &amp; Trust</span>
+    <div class="docs-footer-links">
+      <a href="index.html">← Docs Home</a>
+      <a href="contributing.html">Contributing →</a>
+      <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const verEl = document.getElementById('ver');
+      if (window.GAIA_VERSION && verEl) verEl.textContent = 'v' + window.GAIA_VERSION;
+
+      const links = document.querySelectorAll('.sidebar-link[href^="#"]');
+      const headings = Array.from(document.querySelectorAll('.docs-content h2[id], .docs-content h3[id]'));
+      function onScroll() {
+        const y = window.scrollY + 90;
+        let active = headings[0];
+        for (const h of headings) { if (h.offsetTop <= y) active = h; else break; }
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + (active && active.id)));
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
+
+</body>
+</html>

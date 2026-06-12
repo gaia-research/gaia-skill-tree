@@ -17,17 +17,17 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 ## Page Map
 
 | # | File | Title | Status | Routine |
-|---|------|--------|--------|---------|
+|---|------|--------|--------|----------|
 | 1 | `index.html` | Docs Home | ✅ Done | 001 |
 | 2 | `getting-started.html` | Getting Started | ✅ Done | 001 |
 | 3 | `cli-reference.html` | CLI Reference | ✅ Done | 002 |
 | 4 | `skill-hierarchy.html` | Skill Hierarchy | ✅ Done | 002 |
 | 5 | `contributing.html` | Contributing | ✅ Done | 003 |
 | 6 | `named-skills.html` | Named Skills & Origin | ✅ Done | 003 |
-| 7 | `evidence-classes.html` | Evidence Classes | Planned | 004 |
-| 8 | `fusion.html` | Skill Fusion | Planned | 004 |
+| 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done | 004 |
+| 8 | `fusion.html` | Skill Fusion | Planned | 005 |
 | 9 | `mcp-server.html` | MCP Server | Planned | 005 |
-| 10 | `faq.html` | FAQ | Planned | 005 |
+| 10 | `faq.html` | FAQ | Planned | 006 |
 
 ---
 
@@ -47,6 +47,13 @@ Color vocabulary:
 
 Rank colors (0★ → 6★): slate → sky-blue → teal → violet → fuchsia → amber → amber-bright.
 
+Evidence Grade colors (evidence-classes.html):
+- Grade S (Platinum): `#fbbf24` (amber — same as Ultimate tier)
+- Grade A (Gold): `#fde68a` (amber-dim)
+- Grade B (Silver): `#e9d5ff` (purple-100)
+- Grade C (Bronze): `#bae6fd` (sky-100)
+- Ungraded: `var(--muted)` `#64748b`
+
 ---
 
 ## Vocabulary Rules (from CONTEXT.md)
@@ -56,7 +63,9 @@ Rank colors (0★ → 6★): slate → sky-blue → teal → violet → fuchsia 
 - Rank names: Unawakened, Awakened, Named, Evolved, Hardened, Transcendent, Transcendent ★
 - Fusion: combining skills. Never "merge", "combine", "compose".
 - Named Skill: a skill claimed by a real contributor with Class C evidence or better.
-- Evidence Class: C (first sighting), B (reproducible), A (battle-tested, peer-reviewed).
+- Evidence Type: provenance axis (arxiv, repo, github-stars). Never bare "type".
+- Evidence Grade: quality axis (S/A/B/C = Platinum/Gold/Silver/Bronze). Grade A ≠ Class A.
+- Overall Trust Grade: aggregate skill-level signal, computed at build time, never stored.
 - Do NOT mention rarity (deprecated axis).
 
 ---
