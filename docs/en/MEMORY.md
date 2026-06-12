@@ -2,6 +2,92 @@
 
 ---
 
+## 2026-06-12 — Routine 005
+
+**Branch:** `docs/routines/005`
+**Task chosen:** Task 2 (write about a feature — MCP Server) + Task 1 (maintain existing pages — FAQ) + Task 4 (recent PR update — PR #670 scanner optimization)
+
+### Trigger
+
+PR #670 (`feat/bolt-optimize-skill-matching`) merged at 13:19 UTC. The PR caches `_word_set`
+computation per canonical skill in an external function attribute (`match_skill_to_canonical._word_cache`)
+instead of mutating the data dict in-place (which would cause JSON serialization errors). Matching
+200 custom skills against 2 000 canonical skills dropped from ~3.5 s to ~0.6 s (~6×).
+
+Routine 004 confirmed merged (PR #665). Created `docs/routines/005` from `origin/main`.
+
+### What I did
+
+1. **Created `docs/en/mcp-server.html`** — comprehensive MCP server integration guide:
+   - Overview: what the server does, stateless+read-heavy design, ETag-cached registry fetch
+   - One-liner quickstart callout for Claude Code
+   - Platform-tab installation UI (Claude Code, Claude Desktop, Cursor, VS Code, Gemini, Other)
+     — all configs with annotated JSON; each tab shows the platform-specific file path
+   - GAIA_USER-in-env warning callout (cross-links to known-issues section)
+   - Tools section: five tool cards (gaia_lookup, gaia_suggest, gaia_scan_context, gaia_my_tree,
+     gaia_propose) with full parameter tables, required/optional badges
+   - Resources section: gaia://registry and gaia://tree/{username} with format notes
+   - Configuration priority table: GAIA_USER env → project config → global config
+   - Example prompts: seven copy-paste prompt strings for common agent tasks
+   - Architecture diagram: annotated src/ tree with highlighted entry points per tool
+   - Known issues: issue #212 (CWD-based identity resolution) with workaround and fix
+
+2. **Created `docs/en/faq.html`** — accordion FAQ across five categories:
+   - CLI & Setup (4 items): gaia init outside a repo (#624), gaia tree shows canonical not local (#637),
+     checking authorization via `gaia whoami`, duplicate push proposals (#611)
+   - Skills & Hierarchy (4 items): tier differences (Basic/Extra/Unique/Ultimate with colored pills),
+     rank name table (0★–6★), Named vs generic skills, Evidence Class vs Evidence Grade warning
+   - Scan & Promote (3 items): how gaia scan works (includes PR #670 word-set cache note),
+     candidate expiry and fix, gaia push vs gaia promote distinction
+   - MCP Server (3 items): identity resolution CWD issue (#212), whether CLI is required,
+     GITHUB_TOKEN scope
+   - Contributing (4 items): claiming a Named Skill step-by-step, CLI-only policy for registry edits,
+     installing a Named Skill from another contributor, branch naming table
+
+3. **Updated `docs/en/index.html`**:
+   - What's New banner: v4.7.1 → v4.7.6, content updated to PR #670 scanner speedup (6×)
+   - MCP Server card: removed `opacity:0.7`, changed badge from "○ Coming soon" to "● New"
+   - FAQ card: same treatment
+   - Nav version chip: v4.7.1 → v4.7.6
+   - Footer version: v4.7.1 → v4.7.6
+
+4. **Updated `docs/en/DOCS.md`** — marked pages 9 and 10 as ✅ Done / Routine 005.
+
+### Design decisions
+
+- `mcp-server.html` introduces: platform-tab component (JS-driven, no JS framework), tool-card
+  component (dark surface with per-param rows), architecture diagram (monospace block with colored spans).
+- `faq.html` introduces: accordion FAQ (CSS max-height transition + aria-expanded), category header
+  labels, and inline tier pills inside answer text for quick visual scanning.
+- PR #670 surfaced in two places: the What's New banner (index.html) and the FAQ answer for
+  "How does gaia scan decide what skills I have?" — both reference the 6× improvement figure
+  and the JSON serialization safety rationale.
+- All vocabulary cross-checked: "fusion" not "merge", no rarity references, "stars" not "rank".
+
+### Issues referenced
+
+- Issue #624 (gaia init outside repo) — documented in FAQ with workaround and upstream fix note
+- Issue #637 (local-first defaults) — FAQ explains --custom flag, links to planned --canon flip
+- Issue #611 (duplicate push proposals) — FAQ documents workaround, links to planned --update flag
+- Issue #212 (MCP identity CWD) — documented in mcp-server.html known-issues + FAQ MCP section
+- PR #670 (scanner word-set cache) — What's New banner + FAQ scan mechanics section
+
+### Files created / modified
+
+- `docs/en/mcp-server.html` ← new
+- `docs/en/faq.html` ← new
+- `docs/en/index.html` ← updated (What's New banner, two cards promoted, version bumped)
+- `docs/en/DOCS.md` ← updated (pages 9–10 marked done)
+- `docs/en/MEMORY.md` ← this entry
+
+### Planned next (Routine 006)
+
+- Research new page ideas from trends (Task 3): possible candidates —
+  Share Bundles guide (`gaia share` / `gaia install <bundle>`), Timeline audit guide, Agent workflows integration
+- Maintain existing pages (Task 1): update cli-reference.html to add any new commands since v4.4.0 audit
+
+---
+
 ## 2026-06-11 — Routine 004
 
 **Branch:** `docs/routines/004`
