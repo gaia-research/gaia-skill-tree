@@ -62,7 +62,7 @@
 
   const dropdown = [
     { type: 'btn',  id: 'treeNavBtn',  label: 'Skill Tree',          color: '#34d399', cls: 'nav-tree' },
-    { type: 'btn',  id: 'navGraphBtn', label: 'Skill Graph',          color: '#38bdf8', cls: 'nav-graph-trigger', attr: 'data-graph-trigger' },
+    { type: 'btn',  id: 'navGraphBtn', label: 'Skill Graph',          color: 'var(--tier-basic)', cls: 'nav-graph-trigger', attr: 'data-graph-trigger' },
     { type: 'link', href: root + 'codex.html',    label: 'The Codex',          color: 'var(--tier-basic)' },
     { type: 'link', href: root + 'starless.html', label: 'Starless',           color: 'var(--muted)' },
     { type: 'link', href: root + 'u/',            label: 'Named Contributors', color: 'var(--honor-red)' },

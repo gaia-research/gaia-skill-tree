@@ -2,6 +2,33 @@
 
 ---
 
+## 2026-06-12 — Consolidation (routines 003–005)
+
+**Branch:** `docs/routines/005` (single converging PR)
+
+PR #668 (routines 003–004) had forked from `v4.7.0` *before* the same routines
+independently landed on `main` (commits `d608b7b`, `ca08170`) and before the
+v4.7.1→v4.7.6 bumps, so it had drifted: its `contributing.html`,
+`named-skills.html`, and `getting-started.html` were byte-identical to main
+(no-ops), it would have **deleted** `fusion.html`, and it downgraded version
+strings to v4.7.0.
+
+The only substantive contribution of #668 was the **`evidence-classes.html`
+rewrite** — recast as *Evidence & Trust*, with the Evidence Class deprecation
+banner, the Type + Grade two-axis model, the trust meter, and the Class→Type+Grade
+migration guide. Trust is the accurate forward model (Class is being deprecated),
+so that rewrite was adopted here on top of #671's clean routine-005 base:
+
+- Adopted `docs/en/evidence-classes.html` from #668; bumped its nav version
+  v4.7.0 → v4.7.6.
+- Renamed the Docs Home card and footer link "Evidence Classes" → "Evidence & Trust".
+- `DOCS.md` page 7 retitled to "Evidence & Trust".
+- **Kept** `fusion.html` and all v4.7.6 version strings (no drift, no feature loss).
+
+PR #668 superseded by this branch and closed.
+
+---
+
 ## 2026-06-12 — Routine 005
 
 **Branch:** `docs/routines/005`
