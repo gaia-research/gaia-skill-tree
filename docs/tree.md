@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  v4.7.8  ·  generated 2026-06-13
+GAIA SKILL TREE  v4.7.9  ·  generated 2026-06-13
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
