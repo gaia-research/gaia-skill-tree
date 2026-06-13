@@ -282,6 +282,8 @@
       background: rgba(255,255,255,0.08);
       padding: 0.1em 0.35em;
       border-radius: 3px;
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
 
     /* ── Gate badge ── */
@@ -339,6 +341,8 @@
       .page-layout { grid-template-columns: 1fr; }
       .sidebar { display: none; }
       .main-content { padding: 1.5rem 1.25rem 3rem; }
+      .flag-table td:first-child { white-space: normal; word-break: break-word; }
+      .cmd-body { padding: 0.85rem 1rem; }
     }
 
     @media (max-width: 360px) {
@@ -374,7 +378,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">CLI Reference</span>
     <div class="nav-spacer"></div>
-    <span class="nav-version">v4.6.0</span>
+    <span class="nav-version">v4.7.7</span>
   </nav>
 
   <div class="page-layout">
@@ -415,6 +419,14 @@
           <li><a href="#whoami"><code>whoami</code></a></li>
           <li><a href="#mcp"><code>mcp</code></a></li>
           <li><a href="#version"><code>version</code></a></li>
+          <li><a href="#validate"><code>validate</code></a></li>
+        </ul>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Sharing</div>
+        <ul class="sidebar-links">
+          <li><a href="#share"><code>share</code></a></li>
+          <li><a href="#install"><code>install</code></a></li>
         </ul>
       </div>
       <div class="sidebar-group">
@@ -1149,8 +1161,191 @@
             </p>
             <div class="example-block">
               <div class="example-label">examples</div>
-              <pre><span class="cmd">gaia version</span>    <span class="c"># → 4.6.0</span>
+              <pre><span class="cmd">gaia version</span>    <span class="c"># → 4.7.7</span>
 <span class="cmd">gaia --version</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- validate -->
+        <div class="cmd-card" id="validate">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia validate</span>
+            <span class="cmd-signature">[--intake] [--meta-sync]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Runs the full registry validation suite. Three checks run in sequence:
+              the canonical graph validator (<code>scripts/validate.py</code>),
+              the redaction gate (proves that pre-named and demoted handles are
+              withheld from public assets), and the Transparency Gate (every rank
+              change must have a corresponding timeline event in
+              <code>skill-trees/</code>). Returns a non-zero exit code if any check
+              fails — safe to use in CI pre-merge hooks.
+            </p>
+            <table class="flag-table">
+              <thead><tr><th>Flag</th><th>Description</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>--intake</td>
+                  <td>Validate intake batches under <code>registry-for-review/skill-batches/</code> instead of the canonical graph.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--meta-sync</td>
+                  <td>Verify <code>meta.json</code> is in sync with <code>gaia.json</code>.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Full validation — canonical graph + redaction + timeline integrity</span>
+<span class="cmd">gaia validate</span>
+
+<span class="c"># Check pending intake batches before a registry promotion</span>
+<span class="cmd">gaia validate</span> <span class="arg">--intake</span>
+
+<span class="c"># Verify meta.json is in sync</span>
+<span class="cmd">gaia validate</span> <span class="arg">--meta-sync</span></pre>
+            </div>
+            <div class="callout info" style="margin-top:0.85rem;">
+              <strong>Used in release CI.</strong> <code>gaia release</code> calls
+              <code>gaia validate</code> internally. Run it locally before filing a
+              registry PR to catch schema or timeline issues early.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-hr">
+
+      <!-- ═══════════════ SHARING ═══════════════ -->
+      <section class="section" id="sharing">
+        <h2 class="section-title">Sharing</h2>
+        <p class="section-desc">Export your skill tree as a self-contained bundle and install skills from bundles others have shared. See <a href="share-bundles.html">Share Bundles</a> for the full guide.</p>
+
+        <!-- share -->
+        <div class="cmd-card" id="share">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia share</span>
+            <span class="cmd-signature">[--user &lt;handle&gt;] [-o &lt;path&gt;] [--stdout]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Exports a <strong>share bundle</strong> — a portable JSON snapshot of your
+              skill tree. The bundle carries three payloads: a tree snapshot (all your
+              unlocked skills with stars and tier), an install manifest (each skill's
+              source URL resolved from <code>links.github</code>), and pre-resolved
+              metadata for re-rendering your tree in the consumer's terminal.
+              Writes to <code>generated-output/share/&lt;user&gt;-share-bundle.json</code>
+              by default.
+            </p>
+            <table class="flag-table">
+              <thead><tr><th>Flag</th><th>Description</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>--user &lt;handle&gt;</td>
+                  <td>GitHub handle whose tree to bundle. Defaults to <code>gaiaUser</code> from config.</td>
+                  <td>config value</td>
+                </tr>
+                <tr>
+                  <td>-o, --output &lt;path&gt;</td>
+                  <td>Write the bundle to this path instead of the default location.</td>
+                  <td>generated-output/share/</td>
+                </tr>
+                <tr>
+                  <td>--stdout</td>
+                  <td>Print the bundle JSON to stdout instead of writing a file. Useful for piping or inspection.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Export your tree as a share bundle (writes to generated-output/share/)</span>
+<span class="cmd">gaia share</span>
+
+<span class="c"># Inspect the bundle JSON without writing a file</span>
+<span class="cmd">gaia share</span> <span class="arg">--stdout</span> <span class="kw">| jq '.install | length'</span>
+
+<span class="c"># Export to a specific path for hosting</span>
+<span class="cmd">gaia share</span> <span class="arg">-o ~/public/my-tree.json</span>
+
+<span class="c"># Share it — anyone with the file can preview and install</span>
+<span class="cmd">gaia install</span> <span class="arg">generated-output/share/alice-share-bundle.json</span>
+<span class="cmd">gaia install</span> <span class="arg">https://example.com/alice-share-bundle.json</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- install (bundle mode) -->
+        <div class="cmd-card" id="install">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia install</span>
+            <span class="cmd-signature">&lt;bundle.json | url | skill_id&gt; [--install-location local|global]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Dual-mode installer. The argument determines which path is taken:
+            </p>
+            <ul style="font-size:0.875rem;color:var(--muted,#64748b);margin:0.6rem 0 1rem 1.25rem;line-height:1.8;">
+              <li><strong>Bundle ref</strong> — a <code>.json</code> file path or an
+                <code>https://</code> URL: launches the guided share-bundle install flow.
+                Shows a preview of the sharer's tree, then prompts
+                <strong>[A]ll / [P]ick / [V]iew only / [Q]uit</strong>.
+                Each chosen skill is resolved registry-first, then falls back to the
+                bundle's embedded source URL.</li>
+              <li><strong>Named skill</strong> — a bare slug (<code>web-search</code>) or a
+                <code>contributor/slug</code> form: installs a single named skill into
+                <code>.agents/skills/</code> (equivalent to
+                <code>gaia skills install &lt;skill&gt;</code>).</li>
+            </ul>
+            <table class="flag-table">
+              <thead><tr><th>Flag</th><th>Description</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>--install-location&nbsp;local|global</td>
+                  <td>Where to install: <code>local</code> places the skill in <code>.agents/skills/</code> (or <code>.claude/skills/</code>); <code>global</code> places it in <code>~/.gaia/skills/</code>.</td>
+                  <td>local</td>
+                </tr>
+                <tr>
+                  <td>--list</td>
+                  <td>Open the interactive skill browser instead of installing a specific skill.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--ultimate, --suite</td>
+                  <td>Batch-install all component skills of a suite skill.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Install from a local share bundle (guided flow)</span>
+<span class="cmd">gaia install</span> <span class="arg">alice-share-bundle.json</span>
+
+<span class="c"># Install from a hosted bundle URL</span>
+<span class="cmd">gaia install</span> <span class="arg">https://example.com/alice-tree.json</span>
+
+<span class="c"># Install a single named skill (same as gaia skills install)</span>
+<span class="cmd">gaia install</span> <span class="arg">karpathy/web-search</span>
+
+<span class="c"># Install a suite of skills (batch)</span>
+<span class="cmd">gaia install</span> <span class="arg">garrytan/gstack --suite</span>
+
+<span class="c"># Non-TTY: defaults to view-only mode (no interactive prompt)</span>
+<span class="cmd">gaia install</span> <span class="arg">alice-share-bundle.json</span> <span class="kw">&lt; /dev/null</span></pre>
+            </div>
+            <div class="callout info" style="margin-top:0.85rem;">
+              <strong>Non-TTY default.</strong> When stdin is not a terminal (CI, piped),
+              <code>gaia install &lt;bundle&gt;</code> defaults to view-only mode — it renders
+              the sharer's tree but installs nothing. Redirect stdin from a TTY or run
+              interactively to use the <strong>[A]ll / [P]ick</strong> prompts.
             </div>
           </div>
         </div>
@@ -1334,7 +1529,7 @@
               <code>--timestamp</code> for backfilling historical events.
             </p>
             <div class="callout warn">
-              <strong>Known gap.</strong> As of v4.6.0, <code>gaia dev timeline</code> without
+              <strong>Known gap.</strong> <code>gaia dev timeline</code> without
               <code>--user</code> writes to the <em>registry node</em>, not the user tree.
               Always pass <code>--user &lt;handle&gt;</code> when appending to a skill tree.
             </div>
@@ -1470,7 +1665,7 @@
 
   <!-- footer -->
   <footer class="docs-footer">
-    <span class="docs-footer-left">Gaia Registry v4.6.0 — open, evidence-backed skill graph for AI agents.</span>
+    <span class="docs-footer-left">Gaia Registry v4.7.7 — open, evidence-backed skill graph for AI agents.</span>
     <div class="docs-footer-right">
       <a href="index.html" style="color:var(--muted,#64748b);">Docs</a>
       <a href="../index.html" style="color:var(--muted,#64748b);">Atlas</a>

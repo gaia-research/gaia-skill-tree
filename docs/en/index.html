@@ -343,7 +343,7 @@
     <span class="docs-nav-sep">/</span>
     <a href="index.html" class="docs-nav-link active">Docs</a>
     <div class="docs-nav-spacer"></div>
-    <span class="docs-nav-version" id="ver">v4.7.6</span>
+    <span class="docs-nav-version" id="ver">v4.7.7</span>
   </nav>
 
   <!-- hero -->
@@ -359,15 +359,16 @@
   <!-- what's new -->
   <div class="whats-new">
     <div class="whats-new-inner">
-      <span class="whats-new-tag">v4.7.6</span>
+      <span class="whats-new-tag">v4.7.7</span>
       <span class="whats-new-text">
-        <strong>Scanner match is ~6× faster.</strong>
-        PR #670 caches word-set computation per canonical skill in an external
-        function attribute — matching 200 custom skills against 2 000 canonicals
-        dropped from ~3.5 s to ~0.6 s. JSON serialization is now safe (sets never
-        stored in-place on the data dict).
+        <strong>Share bundles are now documented.</strong>
+        <code>gaia share</code> exports a portable skill-tree bundle;
+        <code>gaia install &lt;bundle.json&gt;</code> opens the guided install flow.
+        <code>gaia validate</code> runs the full registry validation suite (canonical
+        graph + redaction gate + Transparency Gate). All three commands are now in the
+        CLI Reference.
       </span>
-      <a class="whats-new-link" href="faq.html#scan-promote">Scan &amp; Promote FAQ →</a>
+      <a class="whats-new-link" href="cli-reference.html#sharing">CLI Reference → Sharing</a>
     </div>
   </div>
 
@@ -552,7 +553,7 @@
     <div class="footer-bottom">
       <span>MIT License</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
-      <span id="footerVersion">v4.7.6</span>
+      <span id="footerVersion">v4.7.7</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
       <span>© 2026 Gaia</span>
     </div>

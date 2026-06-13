@@ -2,6 +2,82 @@
 
 ---
 
+## 2026-06-13 — Routine 007
+
+**Branch:** `docs/routines/006`
+**Task chosen:** Task 1 (maintain existing pages — cli-reference.html)
+
+### Trigger
+
+PR #671 confirmed merged (routines 005–006). Created `docs/routines/006` from `origin/main`.
+Planned task from Routine 006 session: audit cli-reference.html against current CLI shape —
+`gaia share`, `gaia install <bundle>`, and `gaia validate` were all missing from the page,
+and the version string was stale (v4.6.0, current is v4.7.7).
+
+### What I did
+
+1. **Updated `docs/en/cli-reference.html`**:
+   - Bumped nav version chip and footer: v4.6.0 → v4.7.7.
+   - Added new **Sharing** sidebar group with `share` and `install` links.
+   - Added `validate` link to the System sidebar group.
+   - Added `gaia validate` command card (System section): three-check validation suite —
+     canonical graph validator, redaction gate, Transparency Gate. Flags: `--intake`, `--meta-sync`.
+     Includes a "Used in release CI" callout.
+   - Added new **Sharing** section (between System and Registry dev) with:
+     - `gaia share` card — bundle anatomy, producer flags (`--user`, `-o/--output`, `--stdout`),
+       examples including pipe-to-jq and hosting workflow.
+     - `gaia install` card — dual-mode detection (bundle ref vs named skill), full flag table,
+       non-TTY default callout, suite install (`--suite`), and examples for each mode.
+   - Removed stale "As of v4.6.0" qualifier from the `gaia dev timeline` known-gap callout.
+   - Updated the `gaia version` example output comment (4.6.0 → 4.7.7).
+   - Added `<a href="share-bundles.html">Share Bundles</a>` cross-link in Sharing section desc.
+
+2. **Updated `docs/en/index.html`**:
+   - What's New banner: v4.7.6 → v4.7.7, content updated to document the three new CLI reference
+     additions (`gaia share`, `gaia install <bundle>`, `gaia validate`). Link updated to
+     `cli-reference.html#sharing`.
+   - Nav version chip and footer: v4.7.6 → v4.7.7.
+
+3. **Updated `docs/en/DOCS.md`** — cli-reference.html row marked "updated 007".
+
+### Design decisions
+
+- The `gaia install` dual-mode design (bundle ref vs named skill slug detection) is documented
+  as a first-class citizen — the detection logic (`_looks_like_bundle_ref`) is not mentioned
+  by name, but the user-visible rule is spelled out (`.json` file path or `https://` URL =
+  bundle mode; everything else = named skill mode). Avoids surprising users who try
+  `gaia install karpathy/web-search` and expect the bundle flow.
+- `gaia validate` is categorized under System (read-safe, open-gated) even though it touches
+  registry files on read — it mutates nothing and exits non-zero if checks fail, which is
+  exactly the CI contract.
+- Sharing section placed between System and Registry dev to signal that sharing is a
+  player-facing workflow (open-gated, no Verifier required), not a dev operation.
+- Non-TTY default callout on `gaia install <bundle>` preempts the most likely CI surprise.
+
+### Issues informed
+
+- Routine 007 planned maintenance task (cli-reference.html audit) — delivered.
+- Addresses the ongoing documentation gap around `gaia share` / `gaia install` noted since
+  the Share Bundles guide was written in Routine 006.
+
+### Files created / modified
+
+- `docs/en/cli-reference.html` ← updated (share + install + validate commands; v4.7.7)
+- `docs/en/index.html` ← What's New banner + version bump
+- `docs/en/DOCS.md` ← cli-reference row updated
+- `docs/en/MEMORY.md` ← this entry
+
+### Planned next (Routine 008)
+
+- Research (Task 3): Browse open issues with `documentation` label; identify a new page
+  or deep-dive topic not yet covered (candidates: Timeline Audit guide, Agent Integration
+  patterns page, or Programmatic-First policy explainer for bot authors).
+- Maintain (Task 1): Audit `getting-started.html` — check whether the install command
+  is still accurate for v4.7.7 (`pip install gaia-cli`) and whether any new flags
+  on `gaia init` need documenting.
+
+---
+
 ## 2026-06-12 — Routine 006
 
 **Branch:** `docs/routines/005` (continued — PR #671 still open)
