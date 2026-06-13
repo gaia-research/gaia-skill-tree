@@ -436,13 +436,13 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
 
 # ─── public entry point ───────────────────────────────────────────────────────
 
-def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", canon=False, custom=False, known_only=True):
+def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", canon=False, custom=False, known_only=True, username=None):
     if not tree_data:
         print("No skill tree found.")
         return
 
     unlocked = tree_data.get("unlockedSkills", [])
-    username = tree_data.get("userId", "unknown")
+    username = username or tree_data.get("userId", "unknown")
 
     skill_map = {}
     if graph_data:
