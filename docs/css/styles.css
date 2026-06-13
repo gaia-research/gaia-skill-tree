@@ -877,7 +877,6 @@ nav.docs-nav:hover .nav-sep {
 .nav-menu-toggle:focus-visible {
   color: var(--text);
   background: rgba(255, 255, 255, .06);
-  outline: none
 }
 
 /* ── HERO ── */
@@ -1404,6 +1403,9 @@ h1 em {
 .hero-audit-btn:focus-visible,
 .propose-cta:focus-visible,
 .meta-btn-close:focus-visible,
+.nav-more-toggle:focus-visible,
+.nav-menu-toggle:focus-visible,
+.review-sim-btn:focus-visible,
 .bd-clear-btn:focus-visible,
 .bd-go-btn:focus-visible,
 .bd-sampler-cycle:focus-visible,
