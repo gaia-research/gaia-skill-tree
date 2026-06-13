@@ -216,6 +216,14 @@ Available gstack skills:
 
 ## Agent-Managed Files (Hermes Ownership)
 
+## Known Badges Issues (Core Implementation)
+
+`docs/badges/index.html` is a **core** page — badge generation is user-facing and must work at all times. Key invariants to maintain:
+
+**`renderRows()` currentState destructuring** (fixed in PR #675, issue #674): `renderRows()` (line ~1378) reads several fields from `currentState` via destructuring. Any new field used inside `renderRows()` **must** be added to that destructuring — or defined with `const <field> = currentState.<field> || <default>` — before use. Silent `ReferenceError`s from missing variables blank the entire badge output with no visible error. Pattern to follow: every other function (`updatePickerActions`, `buildSkillOptions`, `addSkillRow`, button handlers) defines `const namedSkills = currentState.namedSkills || []` at the top. Match this pattern whenever extending `renderRows()`.
+
+**Rule:** after any edit to `docs/badges/index.html`, manually verify `https://gaia.tiongson.co/badges/?u=mattpocock&s=grill-me` renders badge markdown before merging.
+
 ## Known Graph Issues
 
 **`docs/js/skill-graph.js` bootstrap guard** (fixed in PR #365 `9fa66b8`): Any `querySelector(...).addEventListener(...)` call at module bootstrap level will silently abort the entire IIFE if the selector returns null, causing the canvas to fall back to the embedded `FALLBACK_SKILLS` (~18 legacy nodes) instead of fetching `docs/graph/gaia.json`. Always null-check overlay button selectors before wiring events. Grep for `_graphCloseOverlay.querySelector` if the 3D graph regresses to fallback mode.
