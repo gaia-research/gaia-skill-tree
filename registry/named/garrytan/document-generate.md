@@ -19,7 +19,7 @@ tags:
 - tutorials
 - reference-docs
 createdAt: '2026-05-18'
-updatedAt: '2026-06-03'
+updatedAt: '2026-06-14'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T01:43:00Z'
@@ -30,6 +30,11 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: Added B evidence from https://github.com/garrytan/gstack/blob/main/document-generate/SKILL.md
+- timestamp: '2026-06-14T12:32:21Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/garrytan/gstack/blob/main/document-generate/SKILL.md
+    as B (trustNumber: 70.0)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/document-generate/SKILL.md
@@ -37,7 +42,11 @@ evidence:
   date: '2026-06-03'
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Generates
     structured documentation using the Diataxis framework — tutorials, how-to guides,
-    reference materials, and explanations — by thoroughly…
+    reference materials, and explanations — by thoroughly… (backfilled — class-to-type
+    migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 ---
 
 ## Overview

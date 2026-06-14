@@ -20,19 +20,27 @@ tags:
 - markitdown
 - presentations
 createdAt: '2026-04-30'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-14'
 evidence:
 - class: B
   source: https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
   notes: Anthropic /pptx slash command -- extracts, edits, packs, and applies design
-    principles to PowerPoint files using markitdown.
+    principles to PowerPoint files using markitdown. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 timeline:
 - timestamp: '2026-06-02T01:42:58Z'
   action: demote
   contributor: unknown
   details: Origin status removed. Transferred to mattpocock/edit-article.
+- timestamp: '2026-06-14T12:32:17Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

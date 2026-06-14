@@ -18,7 +18,7 @@ tags:
 - llm
 - evaluation
 createdAt: '2026-05-18'
-updatedAt: '2026-06-03'
+updatedAt: '2026-06-14'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -27,12 +27,21 @@ evidence:
   date: '2026-06-03'
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Runs a
     standardised prompt suite across multiple model versions, records latency and
-    quality scores, and produces a ranked comparison table to…
+    quality scores, and produces a ranked comparison table to… (backfilled — class-to-type
+    migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 timeline:
 - timestamp: '2026-06-03T05:51:29Z'
   action: evidence_added
   contributor: unknown
   details: Added B evidence from https://github.com/garrytan/gstack/blob/main/benchmark-models/SKILL.md
+- timestamp: '2026-06-14T12:32:18Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/garrytan/gstack/blob/main/benchmark-models/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

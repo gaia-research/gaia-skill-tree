@@ -23,19 +23,27 @@ tags:
 - vertical-slicing
 - tracer-bullet
 createdAt: '2026-04-30'
-updatedAt: '2026-05-31'
+updatedAt: '2026-06-14'
 timeline:
 - timestamp: '2026-05-31T02:17:00Z'
   action: installation_updated
   contributor: unknown
   details: 'Replaced ## Installation section from /tmp/tdd_install.md'
+- timestamp: '2026-06-14T12:32:16Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md
+    as B (trustNumber: 70.0)'
 evidence:
 - class: B
   source: https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
   notes: Addy Osmani /test-driven-development slash command -- forces strict TDD workflow,
-    stopping agents from skipping tests.
+    stopping agents from skipping tests. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 ---
 
 ## Overview

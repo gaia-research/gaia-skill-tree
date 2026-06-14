@@ -10,7 +10,7 @@ description: Use when needing clinical significance, pathogenicity classificatio
   (e.g., Pathogenic, Benign, VUS), clinical evidence rationales, or finding "hard
   positive" benchmark controls for human genomic variants.
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md
 evidence:
@@ -18,7 +18,17 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind clinvar_database science-skill implementation.
+  notes: Official Google DeepMind clinvar_database science-skill implementation. (backfilled
+    — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:29Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 # ClinVar Database

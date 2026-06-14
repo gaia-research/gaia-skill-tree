@@ -19,18 +19,27 @@ tags:
 - code-generation
 - self-correction
 createdAt: '2026-04-29'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-14'
 evidence:
 - class: B
   source: https://github.com/cognition-labs/devin
   evaluator: mbtiongson1
   date: '2026-05-17'
   notes: Replaced missing seed evidence with live repository from real-skills catalog.
+    (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 timeline:
 - timestamp: '2026-06-02T23:48:17Z'
   action: demote
   contributor: unknown
   details: Calibrated level from 3★ to 1★
+- timestamp: '2026-06-14T12:32:17Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/cognition-labs/devin as B (trustNumber:
+    70.0)'
 ---
 
 ## Overview

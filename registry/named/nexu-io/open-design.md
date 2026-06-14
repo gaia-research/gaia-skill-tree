@@ -17,19 +17,27 @@ tags:
 - ux
 - generation
 createdAt: '2026-05-14'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-14'
 evidence:
 - class: B
   source: https://github.com/nexu-io/open-design
   evaluator: gemini-cli
   date: '2026-05-14'
   notes: Open Design -- local-first design engine generating high-fidelity prototypes
-    and brand assets.
+    and brand assets. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 timeline:
 - timestamp: '2026-06-02T23:48:19Z'
   action: demote
   contributor: unknown
   details: Calibrated level from 3★ to 1★
+- timestamp: '2026-06-14T12:32:46Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/nexu-io/open-design as B (trustNumber:
+    70.0)'
 ---
 
 ## Overview

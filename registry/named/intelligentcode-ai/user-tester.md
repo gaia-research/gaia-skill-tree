@@ -18,14 +18,24 @@ tags:
 - cross-browser
 - user-journey
 - visual-regression
-updatedAt: '2026-05-25'
+updatedAt: '2026-06-14'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
   notes: intelligentcode-ai/skills user-tester — E2E testing specialist with Puppeteer/Playwright
-    automation and cross-browser user journey validation.
+    automation and cross-browser user journey validation. (backfilled — class-to-type
+    migration)
+  type: repo
+  trustNumber: 50.0
+  grade: C
+timeline:
+- timestamp: '2026-06-14T12:32:41Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md
+    as C (trustNumber: 50.0)'
 ---
 
 ## Overview

@@ -18,7 +18,7 @@ tags:
 - hermes-agent
 - monitoring
 createdAt: '2026-05-15'
-updatedAt: '2026-05-15'
+updatedAt: '2026-06-14'
 evidence:
 - class: B
   source: https://github.com/Xquik-dev/hermes-tweet
@@ -26,7 +26,17 @@ evidence:
   date: '2026-05-15'
   notes: Hermes Tweet provides an installable Hermes Agent X/Twitter skill and plugin
     for searching tweets, reading replies, looking up users, monitoring tweets, exporting
-    followers, and gating post, reply, and DM actions.
+    followers, and gating post, reply, and DM actions. (backfilled — class-to-type
+    migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:33:03Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/Xquik-dev/hermes-tweet as B
+    (trustNumber: 70.0)'
 ---
 
 ## Overview

@@ -19,7 +19,7 @@ tags:
 - code-analysis
 - project-structure
 createdAt: '2026-04-30'
-updatedAt: '2026-06-10'
+updatedAt: '2026-06-14'
 timeline:
 - timestamp: '2026-06-02T23:33:02Z'
   action: demote
@@ -29,13 +29,21 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: Added B evidence from https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md
+- timestamp: '2026-06-14T12:32:27Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md
+    as B (trustNumber: 70.0)'
 evidence:
 - class: B
   source: https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-10'
   notes: Published implementation in the GLINCKER Claude Code Marketplace; reproducible
-    from SKILL.md.
+    from SKILL.md. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 ---
 
 ## Overview

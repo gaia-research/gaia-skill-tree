@@ -12,7 +12,7 @@ description: Searches for homologous protein sequences using MMseqs2 (fast, defa
   infer protein function based on sequence similarity, but not when the user wants
   to infer protein function based on structural similarity.
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md
 evidence:
@@ -21,12 +21,30 @@ evidence:
   evaluator: unknown
   date: '2026-05-23'
   notes: Foundational canonical generic skill for Bioinformatic Sequence Analysis.
+    (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 - class: B
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
   notes: Official Google DeepMind protein_sequence_similarity_search science-skill
-    implementation.
+    implementation. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:36Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills
+    as B (trustNumber: 70.0)'
+- timestamp: '2026-06-14T12:32:36Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Prerequisites

@@ -11,7 +11,7 @@ description: Use when you want to look up, map, and search for short genetic var
   in VCF format, and HGVS strings. For an rsID, returns variant type, gene associations,
   clinical significance, allele frequencies, and genomic coordinates (GRCh38).
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md
 evidence:
@@ -19,7 +19,17 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind dbsnp_database science-skill implementation.
+  notes: Official Google DeepMind dbsnp_database science-skill implementation. (backfilled
+    — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:29Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 # dbSNP Database Integration
