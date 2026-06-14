@@ -3454,6 +3454,17 @@ def get_parser():
     dev_evidence.add_argument("skill_id", help="Skill ID to add evidence to")
     dev_evidence.add_argument("source", help="URL to the evidence source")
     dev_evidence.add_argument(
+        "--index",
+        type=int,
+        metavar="N",
+        help=(
+            "Re-grade the existing evidence entry at this index in place "
+            "(0-based) instead of appending a new one. Sets --type/--trust/"
+            "--notes on that entry while preserving its other fields (e.g. "
+            "the deprecated class). Used by the class→grade backfill."
+        ),
+    )
+    dev_evidence.add_argument(
         "--type",
         dest="evidence_type",
         metavar="TYPE",
