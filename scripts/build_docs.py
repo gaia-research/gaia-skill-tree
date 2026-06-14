@@ -393,6 +393,45 @@ def build_css_tokens(check: bool) -> bool:
 # ─────────────────────────────────────────────────────────────────────────────
 
 
+# Volatile release timestamps embedded in generated artifacts. assemble_gaia.py
+# stamps registry/gaia.json's `generatedAt` with wall-clock now() on every build,
+# and that date cascades into named-skills.json and docs/tree.md. Auto-Sync
+# re-stamps it on every main merge, so a feature branch built on a later calendar
+# day shows a date-only diff that is NOT real content drift. In --check mode we
+# normalize these timestamps away so the integrity gate flags genuine changes
+# only; write mode keeps the byte-exact comparison so Auto-Sync still freshens
+# the committed date on main.
+_VOLATILE_DATE_PATTERNS = (
+    # JSON: "generatedAt": "2026-06-13" | "...T..Z" → value blanked
+    (re.compile(r'("generatedAt"\s*:\s*)"[^"]*"'), r'\1"<normalized>"'),
+    # docs/tree.md provenance lines, both forms:
+    #   "GAIA SKILL TREE … · generated 2026-06-13"   (banner header)
+    #   "Generated from gaia.json on 2026-06-13. …"  (footer)
+    (re.compile(r'([Gg]enerated(?: from gaia\.json on)?\s+)'
+                r'\d{4}-\d{2}-\d{2}(?:[T ][\d:.]+Z?)?'),
+     r'\1<normalized>'),
+)
+
+
+def _normalize_dates(text: str) -> str:
+    for pattern, repl in _VOLATILE_DATE_PATTERNS:
+        text = pattern.sub(repl, text)
+    return text
+
+
+def _equal_ignoring_dates(a: Path, b: Path) -> bool:
+    """Compare two text files ignoring volatile release timestamps.
+
+    Falls back to a byte comparison if either file is not valid UTF-8.
+    """
+    try:
+        return _normalize_dates(a.read_text(encoding="utf-8")) == _normalize_dates(
+            b.read_text(encoding="utf-8")
+        )
+    except (OSError, UnicodeDecodeError):
+        return filecmp.cmp(a, b, shallow=False)
+
+
 def _diff_tree(reference: Path, candidate: Path) -> list[str]:
     """Return a list of relative path diffs between two directory trees.
 
@@ -457,12 +496,14 @@ def build_named_index(check: bool) -> bool:
             if check:
                 print("diff registry/named-skills.json (missing committed file)")
             return True
+        if check:
+            if _equal_ignoring_dates(committed, out_path):
+                return False
+            print("diff registry/named-skills.json")
+            return True
         if filecmp.cmp(committed, out_path, shallow=False):
             return False
-        if check:
-            print("diff registry/named-skills.json")
-        else:
-            committed.write_bytes(out_path.read_bytes())
+        committed.write_bytes(out_path.read_bytes())
         return True
 
 
@@ -655,13 +696,15 @@ def build_tree_md(check: bool) -> bool:
             print("diff docs/tree.md (missing committed file)")
         return True
         
+    if check:
+        if _equal_ignoring_dates(committed, generated):
+            return False
+        print("diff docs/tree.md")
+        return True
+
     if filecmp.cmp(committed, generated, shallow=False):
         return False
-        
-    if check:
-        print("diff docs/tree.md")
-    else:
-        committed.write_bytes(generated.read_bytes())
+    committed.write_bytes(generated.read_bytes())
     return True
 
 
