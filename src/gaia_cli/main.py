@@ -297,11 +297,25 @@ _SKILL_CANDIDATES = [
 
 
 def _detect_github_username():
-    """Detect GitHub username from git email or display name."""
+    """Detect GitHub username from git remote URL, email, or display name."""
     import subprocess
     import re
 
-    # Most reliable: noreply GitHub email (e.g. 12345+username@users.noreply.github.com)
+    # Most reliable: parse github.com/USERNAME from origin remote URL
+    try:
+        r = subprocess.run(
+            ["git", "remote", "get-url", "origin"],
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        if r.returncode == 0:
+            m = re.search(r"github\.com[:/]([^/]+?)(?:\.git)?(?:/|$)", r.stdout.strip())
+            if m:
+                return m.group(1)
+    except Exception:
+        pass
+    # Fallback: noreply GitHub email (e.g. 12345+username@users.noreply.github.com)
     try:
         r = subprocess.run(
             ["git", "config", "user.email"], capture_output=True, text=True, timeout=5
