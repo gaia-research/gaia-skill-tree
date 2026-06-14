@@ -1,9 +1,6 @@
 name: "SkillsMP Crawl"
 
-on:
-  schedule:
-    - cron: "0 6 * * 6"  # Saturday 6am UTC
-  workflow_dispatch: {}
+on: [] # Completely disabled for now (being reworked)
 
 jobs:
   crawl:

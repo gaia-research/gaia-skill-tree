@@ -1,9 +1,6 @@
 name: "HuggingFace Crawl"
 
-on:
-  schedule:
-    - cron: "0 6 * * 4"  # Thursday 6am UTC
-  workflow_dispatch: {}
+on: [] # Completely disabled for now (being reworked)
 
 jobs:
   crawl:

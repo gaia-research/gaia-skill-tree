@@ -1,9 +1,6 @@
 name: "Papers Crawl"
 
-on:
-  schedule:
-    - cron: "0 6 * * 0"  # Sunday 6am UTC (weekly)
-  workflow_dispatch: {}
+on: [] # Completely disabled for now (being reworked)
 
 jobs:
   crawl:
