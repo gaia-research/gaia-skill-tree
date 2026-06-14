@@ -3454,11 +3454,23 @@ def get_parser():
     dev_evidence.add_argument("skill_id", help="Skill ID to add evidence to")
     dev_evidence.add_argument("source", help="URL to the evidence source")
     dev_evidence.add_argument(
+        "--type",
+        dest="evidence_type",
+        metavar="TYPE",
+        help="Evidence type (e.g. arxiv, repo, github-stars). Validated against meta.json evidence.types.",
+    )
+    dev_evidence.add_argument(
+        "--trust",
+        type=float,
+        metavar="NUMBER",
+        help="Trust number 0-100. Grade is auto-derived: S≥90, A≥80, B≥60, C≥40; <40=ungraded.",
+    )
+    dev_evidence.add_argument(
         "--class",
         dest="evidence_class",
         choices=("A", "B", "C"),
-        default="C",
-        help="Evidence class (default: C)",
+        default=None,
+        help="[DEPRECATED] Use --trust instead. Evidence class (A/B/C).",
     )
     dev_evidence.add_argument("--evaluator", help="GitHub username of the evaluator")
     dev_evidence.add_argument("--date", help="Date of evaluation (ISO 8601)")

@@ -143,6 +143,15 @@ TIER_COLORS, RANK_COLORS = _load_palette_from_registry()
 
 TYPE_SYMBOLS = {"basic": "○", "extra": "◇", "unique": "◉", "ultimate": "◆"}
 
+# Evidence Grade colors — single source of truth for grade design tokens.
+# Platinum (S) / Gold (A) / Silver (B) / Bronze (C)
+GRADE_COLORS: dict[str, tuple[int, int, int]] = {
+    "S": (226, 232, 240),   # Platinum — #e2e8f0
+    "A": (251, 191, 36),    # Gold     — #fbbf24
+    "B": (148, 163, 184),   # Silver   — #94a3b8
+    "C": (180, 83, 9),      # Bronze   — #b45309
+}
+
 COLOR_CONTRIBUTOR = (239, 68, 68)      # #ef4444 -- red for named contributors
 COLOR_LOCAL_USER  = (134, 239, 172)    # #86efac -- bright green for local/user skills
 COLOR_GREY        = (148, 163, 184)    # #94a3b8 -- slate grey for dev commands
@@ -294,3 +303,9 @@ def fusion_equation(prereqs: list[str], result: str, result_glyph: str = "◇") 
     """Plain text fusion equation: /a + /b -> /result glyph"""
     parts = " + ".join(f"/{p}" for p in prereqs)
     return f"{parts} → /{result} {result_glyph}"
+
+
+def format_grade_colored(grade: str) -> str:
+    """Return colored Evidence Grade badge: e.g. \033[...]S\033[0m."""
+    color = GRADE_COLORS.get(grade, COLOR_GREY)
+    return f"{_fg(*color)}{grade}{_reset()}"
