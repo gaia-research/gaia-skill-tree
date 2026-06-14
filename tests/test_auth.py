@@ -6,12 +6,12 @@ command surface in `main.py`, with zero network and zero real sleeping:
   * client_id resolution + the "not configured" guard
   * `http_request` parsing (fake urlopen, incl. the HTTPError/4xx path)
   * the device flow: request_device_code, poll_for_token (pending/slow_down/
-    expired/denied/timeout/max_attempts), fetch_user, verify_repo_ownership,
-    revoke_token
+    expired/denied/timeout/max_attempts), fetch_user, verify_repo_ownership
   * TokenStore: file roundtrip + chmod, env override precedence, keyring backend
     (fake), delete semantics
   * command integration: login happy-path / unconfigured / denied / timed-out /
-    --no-store / --repo, logout (+revoke), and the whoami GitHub status line
+    --no-store / --repo, logout (clears locally, points to GitHub UI for revoke),
+    and the whoami GitHub status line
 
 Network is injected via `gaia_cli.auth.http_request`; tests monkeypatch it.
 Sleeping is injected into `poll_for_token`. Nothing here opens a socket.
@@ -39,6 +39,8 @@ from gaia_cli.auth import (
     Credentials,
     DeviceCode,
     TokenStore,
+    resolve_client_id,
+    is_configured,
 )
 
 
@@ -322,22 +324,6 @@ class TestIdentity:
         assert auth.verify_repo_ownership("tok", "x", "y") is False
 
 
-class TestRevoke:
-    def test_revoke_success(self, http):
-        http.route("DELETE", "/applications/", 204, {})
-        assert auth.revoke_token("real-id", "tok") is True
-
-    def test_revoke_unconfigured_noop(self, http):
-        assert auth.revoke_token(auth.PLACEHOLDER_CLIENT_ID, "tok") is False
-        assert http.calls == []
-
-    def test_revoke_swallows_errors(self, monkeypatch):
-        def boom(*a, **k):
-            raise RuntimeError("network down")
-        monkeypatch.setattr(auth, "http_request", boom)
-        assert auth.revoke_token("real-id", "tok") is False
-
-
 # ===========================================================================
 # TokenStore
 # ===========================================================================
@@ -524,35 +510,32 @@ class TestLoginCommand:
 class TestLogoutCommand:
     def test_not_signed_in(self, capsys):
         from gaia_cli.main import logout_command
-        logout_command(SimpleNamespace(no_revoke=False))
+        logout_command(SimpleNamespace())
         out, _ = _capture(capsys)
         assert "Not signed in" in out
 
-    def test_logout_revokes_and_clears(self, monkeypatch, capsys):
+    def test_logout_clears_and_points_to_revoke_url(self, monkeypatch, capsys):
         TokenStore().save(Credentials(token="T", login="marco"))
-        monkeypatch.setenv(auth.CLIENT_ID_ENV, "real-id")
-        revoked = {}
-        monkeypatch.setattr(auth, "revoke_token",
-                            lambda cid, tok: revoked.setdefault("hit", True) or True)
+        monkeypatch.setenv(auth.CLIENT_ID_ENV, "Ov23litFvQBfMkwbIxfg")
         from gaia_cli.main import logout_command
-        logout_command(SimpleNamespace(no_revoke=False))
+        logout_command(SimpleNamespace())
         out, _ = _capture(capsys)
         assert "Signed out (marco)" in out
-        assert "revoked" in out
-        assert revoked.get("hit") is True
+        assert "settings/connections/applications/Ov23litFvQBfMkwbIxfg" in out
+        assert "revoked" not in out.lower()
         assert TokenStore().load() is None
 
-    def test_logout_no_revoke(self, monkeypatch, capsys):
+    def test_logout_env_token_message(self, monkeypatch, capsys):
         TokenStore().save(Credentials(token="T", login="marco"))
-        called = {}
-        monkeypatch.setattr(auth, "revoke_token",
-                            lambda *a: called.setdefault("hit", True))
+        monkeypatch.setenv("GAIA_AUTH_TOKEN", "env-token")
+        monkeypatch.setenv(auth.CLIENT_ID_ENV, "Ov23litFvQBfMkwbIxfg")
         from gaia_cli.main import logout_command
-        logout_command(SimpleNamespace(no_revoke=True))
+        logout_command(SimpleNamespace())
         out, _ = _capture(capsys)
-        assert "Signed out" in out
-        assert "hit" not in called  # revoke skipped
-        assert TokenStore().load() is None
+        assert "environment token" in out
+        # Local file is cleared, but env token persists.
+        file_creds = TokenStore().load()
+        assert file_creds.source == "env"
 
 
 class TestWhoamiGitHubLine:
@@ -592,5 +575,5 @@ class TestParserWiring:
         parser, _ = get_parser()
         ns = parser.parse_args(["login", "--repo", "a/b", "--no-store"])
         assert ns.command == "login" and ns.repo == "a/b" and ns.no_store is True
-        ns2 = parser.parse_args(["logout", "--no-revoke"])
-        assert ns2.command == "logout" and ns2.no_revoke is True
+        ns2 = parser.parse_args(["logout"])
+        assert ns2.command == "logout"

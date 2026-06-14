@@ -294,23 +294,6 @@ def verify_repo_ownership(token: str, owner: str, repo: str) -> bool:
     return bool(perms.get("admin"))
 
 
-def revoke_token(client_id: str, token: str) -> bool:
-    """Best-effort revoke of an OAuth token (``DELETE /applications/.../token``).
-
-    Returns True on success, False if the call could not confirm revocation.
-    Never raises — logout should always clear local state even if revoke fails.
-    """
-    if not is_configured(client_id) or not token:
-        return False
-    try:
-        status, _ = http_request(
-            "DELETE",
-            f"{API_ROOT}/applications/{client_id}/token",
-            data={"access_token": token},
-        )
-        return status in (204, 200)
-    except Exception:
-        return False
 
 
 # ---------------------------------------------------------------------------
