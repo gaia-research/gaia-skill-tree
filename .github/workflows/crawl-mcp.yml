@@ -1,9 +1,6 @@
 name: "MCP Registry Crawl"
 
-on:
-  schedule:
-    - cron: "0 6 * * 1"  # Monday 6am UTC
-  workflow_dispatch: {}
+on: [] # Completely disabled for now (being reworked)
 
 jobs:
   crawl:
