@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gaia-cli"
-version = "4.7.15"
+version = "4.7.16"
 description = "Gaia AI Agent Skill Registry CLI"
 readme = "README.md"
 requires-python = ">=3.10"
