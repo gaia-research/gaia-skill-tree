@@ -16,20 +16,26 @@
       "source": "https://arxiv.org/abs/2303.17651",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "Self-Refine (Madaan et al., 2023) â€” iterative self-feedback loop; +20% on code generation and +13% on math reasoning vs single-pass generation."
+      "notes": "Self-Refine (Madaan et al., 2023) â€” iterative self-feedback loop; +20% on code generation and +13% on math reasoning vs single-pass generation. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/madaan/self-refine",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "Self-Refine repo â€” reproducible demos across 7 tasks (code, math, dialogue, sentiment reversal) with evaluation scripts."
+      "notes": "Self-Refine repo â€” reproducible demos across 7 tasks (code, math, dialogue, sentiment reversal) with evaluation scripts. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -39,6 +45,18 @@
       "details": "Skill created as 1★ (provisional)",
       "previousValue": null,
       "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:54Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2303.17651 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:54Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/madaan/self-refine as B (trustNumber: 70.0)"
     }
   ]
 }

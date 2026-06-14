@@ -16,13 +16,16 @@
       "source": "https://github.com/ruvnet/ruflo",
       "evaluator": "mbtiongson1",
       "date": "2026-05-17",
-      "notes": "Replaced missing seed evidence with live repository from real-skills catalog."
+      "notes": "Replaced missing seed evidence with live repository from real-skills catalog. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "title": "Grand Conductor",
   "timeline": [
@@ -57,6 +60,12 @@
       "details": "Calibrated/demoted rank from 5★ to 3★",
       "previousValue": "5★",
       "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:02Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
     }
   ]
 }

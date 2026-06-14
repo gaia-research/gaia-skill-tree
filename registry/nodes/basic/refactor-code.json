@@ -14,13 +14,16 @@
       "source": "https://arxiv.org/abs/2310.06770",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "SWE-bench â€” 2294 real GitHub issues benchmark; agents that resolve issues must safely refactor code while passing existing test suites."
+      "notes": "SWE-bench â€” 2294 real GitHub issues benchmark; agents that resolve issues must safely refactor code while passing existing test suites. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -30,6 +33,12 @@
       "details": "Skill created as 2★ (provisional)",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:53Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2310.06770 as A (trustNumber: 85.0)"
     }
   ]
 }

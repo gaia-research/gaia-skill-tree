@@ -12,20 +12,26 @@
       "source": "https://arxiv.org/abs/2604.20021",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "Continuous Semantic Caching for Low-Cost LLM Serving (2026) -- first rigorous theoretical framework for semantic LLM caching in continuous query space using kernel ridge regression."
+      "notes": "Continuous Semantic Caching for Low-Cost LLM Serving (2026) -- first rigorous theoretical framework for semantic LLM caching in continuous query space using kernel ridge regression. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/vcache-project/vCache",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "vCache -- reliable and efficient semantic prompt caching; active research prototype with published benchmarks."
+      "notes": "vCache -- reliable and efficient semantic prompt caching; active research prototype with published benchmarks. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-05",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -49,6 +55,18 @@
       "action": "type_change",
       "contributor": "unknown",
       "details": "Reclassified from unique to basic"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:54Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2604.20021 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:54Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/vcache-project/vCache as B (trustNumber: 70.0)"
     }
   ]
 }

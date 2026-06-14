@@ -17,20 +17,26 @@
       "source": "https://arxiv.org/abs/2305.10601",
       "evaluator": "mbtiongson1",
       "date": "2026-04-29",
-      "notes": "Yao et al. (2023) â€” Tree of Thoughts: Deliberate Problem Solving with LLMs; +74% on Game of 24 and +4% on Creative Writing vs chain-of-thought baseline."
+      "notes": "Yao et al. (2023) â€” Tree of Thoughts: Deliberate Problem Solving with LLMs; +74% on Game of 24 and +4% on Creative Writing vs chain-of-thought baseline. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/princeton-nlp/tree-of-thought-llm",
       "evaluator": "mbtiongson1",
       "date": "2026-04-29",
-      "notes": "Princeton-NLP ToT repo â€” reproducible breadth-first and depth-first tree search implementations with evaluation scripts for Game of 24 and Mini Crosswords."
+      "notes": "Princeton-NLP ToT repo â€” reproducible breadth-first and depth-first tree search implementations with evaluation scripts for Game of 24 and Mini Crosswords. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-29",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -40,6 +46,18 @@
       "details": "Skill created as 4★ (provisional)",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:06Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2305.10601 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:07Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/princeton-nlp/tree-of-thought-llm as B (trustNumber: 70.0)"
     }
   ]
 }

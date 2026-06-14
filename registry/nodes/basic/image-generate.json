@@ -12,13 +12,16 @@
       "source": "https://arxiv.org/abs/2112.10752",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "Latent Diffusion Models (Rombach et al.) â€” foundational paper for Stable Diffusion; achieves FID 5.11 on LSUN-Beds at 200Ã— less compute than pixel-space diffusion."
+      "notes": "Latent Diffusion Models (Rombach et al.) â€” foundational paper for Stable Diffusion; achieves FID 5.11 on LSUN-Beds at 200Ã— less compute than pixel-space diffusion. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -28,6 +31,12 @@
       "details": "Skill created as 2★ (provisional)",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:51Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2112.10752 as A (trustNumber: 85.0)"
     }
   ]
 }
