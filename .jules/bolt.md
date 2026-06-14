@@ -28,3 +28,7 @@
 ## 2026-06-12 - Optimize skill matching inner loops
 **Learning:** In the skill scanner's `match_skill_to_canonical` fallback loop, string parsing (`_word_set`) on the canonical skills was recalculated redundantly for every custom skill being matched. This created an O(N * M) performance hit when N custom skills are matched against M canonical ones. Directly mutating the `canonical_skills` dictionary objects to cache sets is risky because they may be passed to JSON serializers later, crashing with a TypeError since `set` is not JSON-serializable.
 **Action:** When caching non-serializable objects (like sets) associated with registry data across function calls, use an external cache (e.g., attaching `_word_cache` to the function itself or using a separate dictionary mapping IDs to sets) instead of mutating the data dictionaries in-place.
+
+## 2026-06-12 - Optimize difflib.SequenceMatcher loops
+**Learning:** Instantiating `difflib.SequenceMatcher` inside nested loops is extremely slow. Additionally, recalculating properties of strings like calling `.lower()` repeatedly for the same item causes significant O(N*M) CPU thrash when evaluating Cartesian products (like candidate skills vs. canonical skills).
+**Action:** Pre-compute string lowercasing and other metrics on lists *outside* of similarity loops. Instantiate `SequenceMatcher` objects *once* per candidate, then use `.set_seq2()` to rapidly test inner loop items. Always apply `.real_quick_ratio()` and `.quick_ratio()` early returns before executing `.ratio()`.
