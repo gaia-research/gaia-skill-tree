@@ -2,6 +2,96 @@
 
 ---
 
+## 2026-06-14 — Routine 008
+
+**Branch:** `docs/routines/008`
+**Task chosen:** Task 2 (write about a feature — Timeline Audit & Repair) + Task 1 (maintain — version string audit)
+
+### Trigger
+
+All docs/routines branches merged. Created `docs/routines/008` from `origin/main` (v4.7.12).
+Planned task from Routine 007: research open issues with `documentation` label; identify a new
+page topic. Three open documentation issues found (#644 discoverability, #141 MCP copy-paste,
+#71 bucket variants). Selected Timeline Audit & Repair guide as the highest-value new page —
+explicitly flagged in Routine 007 planned next, and the `/gaia-trace-timeline` skill confirms
+this is a common contributor pain point.
+
+### What I did
+
+1. **Created `docs/en/timeline-audit.html`** — comprehensive Timeline Audit & Repair guide:
+   - Overview: two-file model (registry node vs user tree), Hero's Journey chart, why drift is silent
+   - Drift problem: side-by-side diagram (authoritative registry node vs profile user tree),
+     what each file stores, silent-failure callout
+   - Detect (step 1): `validate_timelines.py` usage, output format (violations + clean),
+     two invariants the gate checks (stale level + missing timeline event)
+   - Trace (step 2): `trace_timeline.py <handle>/<slug>` dry-run, example output,
+     `(from registry node)` vs `(reconciled)` event labels, git log cross-reference tip
+   - Apply (step 3): `--apply` flag, `GAIA_OPERATOR_OVERRIDE=1`, three operations the script
+     performs (append events, set level, rebuild levelHistory)
+   - Manual CLI path: `gaia dev timeline --user` syntax, warning that it omits
+     `previousValue`/`newValue` so rank chart stays flat — prefer `trace_timeline.py`
+   - Known CLI gaps: four-row table (missing --user default, no previousValue/newValue,
+     no gaia demote, no gaia remove-skill), gap logging etiquette callout
+   - After backfill: full shell sequence (docs build → validate → checkout artifact churn →
+     stage only skill-tree → commit), "never commit generated artifact churn" danger callout
+   - Common drift causes: three cause cards (Star-Bar reset, reclassification, evidence rot)
+     with git grep hints per cause
+   - CI enforcement: Transparency Gate in release CI, `gaia validate` three-check suite,
+     bot actor allowlist in meta-guard.yml, `GAIA_OPERATOR_OVERRIDE=1` automation tip
+
+2. **Updated `docs/en/index.html`**:
+   - Nav version chip: v4.7.7 → v4.7.12
+   - Footer version: v4.7.7 → v4.7.12
+   - What's New banner: v4.7.7 → v4.7.12, content updated to PR #680 (gaia tree username fix)
+     and new Timeline Audit guide; link updated to `timeline-audit.html`
+   - Added Timeline Audit card (📋) in Integrations section
+   - Added Timeline Audit link to footer Docs column
+
+3. **Updated `docs/en/getting-started.html`**:
+   - Nav version chip: v4.4.0 → v4.7.12
+
+4. **Updated `docs/en/DOCS.md`** — page 12 (timeline-audit.html) added as ✅ Done / Routine 008.
+
+### Design decisions
+
+- `timeline-audit.html` introduces: drift-diagram (two-column authoritative vs profile-source),
+  step-list (numbered circles for the three-step fix flow), cause-cards (label + detail rows
+  for the three drift causes), gap-note row class for the CLI gaps table.
+- Callout colors signal severity: warning (amber) for silent failure and prefer-trace_timeline,
+  danger (red) for never-commit-generated-artifacts, info (sky-blue) for tips, success (green)
+  for the automation/CI tip.
+- `gaia dev timeline` is documented alongside `trace_timeline.py` rather than hidden —
+  the manual path is valid for non-level events (register, fuse, notes). The rank-chart
+  limitation is called out explicitly so developers don't use the wrong tool for demotions.
+- Version strings: updated only where they were clearly stale (nav chip on index.html and
+  getting-started.html). Individual page footers are left at their creation-time versions —
+  they record when content was last substantively updated, not the current CLI version.
+
+### Issues informed
+
+- Issue #644 ([docs] discoverability) — not closed; this routine adds a new content page, not
+  a nav integration. The nav/footer wiring is a design-scope task deferred to a future routine.
+- Issue #141 (MCP copy-paste) — the existing mcp-server.html platform-tab page covers this;
+  left open pending a possible standalone "agent quickstart" one-pager.
+
+### Files created / modified
+
+- `docs/en/timeline-audit.html` ← new
+- `docs/en/index.html` ← What's New banner + version bump + Timeline Audit card + footer link
+- `docs/en/getting-started.html` ← nav version chip updated
+- `docs/en/DOCS.md` ← page 12 added
+- `docs/en/MEMORY.md` ← this entry
+
+### Planned next (Routine 009)
+
+- Research (Task 3): audit which pages are hardest to find; consider a lightweight
+  "Agent Quickstart" page addressing issue #141 (one-liner MCP setup for Claude Code,
+  Codex, Cursor) as a pure copy-paste reference separate from the full MCP guide.
+- Maintain (Task 1): add `timeline-audit.html` cross-link to `cli-reference.html` in the
+  dev commands section (`gaia dev timeline`), and add it to the sidebar nav on contributing.html.
+
+---
+
 ## 2026-06-13 — Routine 007
 
 **Branch:** `docs/routines/006`

@@ -343,7 +343,7 @@
     <span class="docs-nav-sep">/</span>
     <a href="index.html" class="docs-nav-link active">Docs</a>
     <div class="docs-nav-spacer"></div>
-    <span class="docs-nav-version" id="ver">v4.7.7</span>
+    <span class="docs-nav-version" id="ver">v4.7.12</span>
   </nav>
 
   <!-- hero -->
@@ -359,16 +359,15 @@
   <!-- what's new -->
   <div class="whats-new">
     <div class="whats-new-inner">
-      <span class="whats-new-tag">v4.7.7</span>
+      <span class="whats-new-tag">v4.7.12</span>
       <span class="whats-new-text">
-        <strong>Share bundles are now documented.</strong>
-        <code>gaia share</code> exports a portable skill-tree bundle;
-        <code>gaia install &lt;bundle.json&gt;</code> opens the guided install flow.
-        <code>gaia validate</code> runs the full registry validation suite (canonical
-        graph + redaction gate + Transparency Gate). All three commands are now in the
-        CLI Reference.
+        <strong>Timeline Audit &amp; Repair guide is live.</strong>
+        <code>gaia tree</code> now shows the configured username instead of the stale
+        <code>userId</code> from the tree file (#680). New docs: detect rank drift with
+        <code>validate_timelines.py</code>, bulk-fix with <code>trace_timeline.py --apply</code>,
+        and understand the known CLI gaps for <code>gaia dev timeline</code>.
       </span>
-      <a class="whats-new-link" href="cli-reference.html#sharing">CLI Reference → Sharing</a>
+      <a class="whats-new-link" href="timeline-audit.html">Timeline Audit →</a>
     </div>
   </div>
 
@@ -449,6 +448,12 @@
       <span class="docs-card-icon">❓</span>
       <span class="docs-card-title">FAQ</span>
       <span class="docs-card-desc">Answers to the most common questions about gaia init outside a repo, gaia push, and the local-first design.</span>
+      <span class="docs-card-badge new">● New</span>
+    </a>
+    <a class="docs-card" href="timeline-audit.html">
+      <span class="docs-card-icon">📋</span>
+      <span class="docs-card-title">Timeline Audit</span>
+      <span class="docs-card-desc">Detect rank drift between the registry and user tree, backfill missing demote and rank_up events, and clear the Transparency Gate.</span>
       <span class="docs-card-badge new">● New</span>
     </a>
   </div>
@@ -533,6 +538,7 @@
             <li><a href="evidence-classes.html">Evidence &amp; Trust</a></li>
             <li><a href="fusion.html">Skill Fusion</a></li>
             <li><a href="share-bundles.html">Share Bundles</a></li>
+            <li><a href="timeline-audit.html">Timeline Audit</a></li>
           </ul>
         </div>
 
@@ -553,7 +559,7 @@
     <div class="footer-bottom">
       <span>MIT License</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
-      <span id="footerVersion">v4.7.7</span>
+      <span id="footerVersion">v4.7.12</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
       <span>© 2026 Gaia</span>
     </div>
