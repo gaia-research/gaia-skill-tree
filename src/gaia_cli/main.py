@@ -174,7 +174,7 @@ Share:
 Utilities:
   {_fg(*C2)}gaia whoami{_reset()}
   {_fg(*COLOR_LOCAL_USER)}gaia login{_reset()}                    Sign in with GitHub (device flow)
-  {_fg(*COLOR_GREY)}gaia logout{_reset()}                   Sign out and revoke the token
+  {_fg(*COLOR_GREY)}gaia logout{_reset()}                   Sign out of GitHub (clears the local token)
   {_fg(*C1)}gaia version{_reset()}
   {_fg(*C3)}gaia update{_reset()}
   {_fg(*HARNESS_COLORS["claude"])}gaia mcp{_reset()}
@@ -463,7 +463,13 @@ def login_command(args):
 
 
 def logout_command(args):
-    """Delete the stored GitHub token and best-effort revoke it (PRD #155)."""
+    """Sign out of GitHub by clearing the locally stored token (PRD #155).
+
+    The MVP stores no client secret, and GitHub's revocation endpoint
+    (DELETE /applications/{client_id}/token) requires client_id:client_secret
+    Basic auth — so a server-side revoke isn't possible here. We clear the
+    local token and point the user at GitHub's UI to fully revoke if they want.
+    """
     from gaia_cli import auth
 
     store = auth.TokenStore()
@@ -472,19 +478,20 @@ def logout_command(args):
         print("Not signed in — nothing to do.")
         return
 
-    revoked = False
-    if not getattr(args, "no_revoke", False) and creds.source != "env":
-        config = load_config() or {}
-        client_id = auth.resolve_client_id(config)
-        revoked = auth.revoke_token(client_id, creds.token)
-
     if creds.source == "env":
         print("Signed in via an environment token — unset it to fully sign out.")
 
     store.delete()
     handle = f" ({creds.login})" if creds.login else ""
-    revoke_note = "revoked + " if revoked else ""
-    print(f"✓ Signed out{handle}. Token {revoke_note}cleared locally.")
+    print(f"✓ Signed out{handle}. Local token cleared.")
+
+    config = load_config() or {}
+    client_id = auth.resolve_client_id(config)
+    if auth.is_configured(client_id):
+        print("  To fully revoke this authorization, visit:")
+        print(f"  https://github.com/settings/connections/applications/{client_id}")
+    else:
+        print("  To fully revoke: GitHub → Settings → Applications → Authorized OAuth Apps.")
 
 
 def reset_command(args):
@@ -3040,13 +3047,9 @@ def get_parser():
         action="store_true",
         help="Authenticate for this session only; do not persist the token",
     )
-    logout_parser = subparsers.add_parser(
-        "logout", help="Sign out of GitHub and revoke the stored token"
-    )
-    logout_parser.add_argument(
-        "--no-revoke",
-        action="store_true",
-        help="Delete the local token without calling GitHub to revoke it",
+    subparsers.add_parser(
+        "logout",
+        help="Sign out of GitHub (clears the local token; revoke in GitHub settings)",
     )
     reset_parser = subparsers.add_parser(
         "reset", help="Clear your skill tree and local state for a fresh start"
