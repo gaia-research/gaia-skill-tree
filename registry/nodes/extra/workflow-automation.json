@@ -20,27 +20,36 @@
       "source": "https://github.com/n8n-io/n8n",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "n8n -- fair-code workflow automation with 400+ integrations and native AI capabilities; 90k+ stars, Apache-2 + EE license."
+      "notes": "n8n -- fair-code workflow automation with 400+ integrations and native AI capabilities; 90k+ stars, Apache-2 + EE license. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     },
     {
       "class": "B",
       "source": "https://github.com/activepieces/activepieces",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "Activepieces -- AI agents and workflow automation with 400 MCP servers; MIT license, active community."
+      "notes": "Activepieces -- AI agents and workflow automation with 400 MCP servers; MIT license, active community. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     },
     {
       "class": "B",
       "source": "https://github.com/FlowiseAI/Flowise",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "Flowise -- visual AI agent and workflow builder; 40k+ stars, Apache-2 license, reproducible demos."
+      "notes": "Flowise -- visual AI agent and workflow builder; 40k+ stars, Apache-2 license, reproducible demos. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -50,6 +59,24 @@
       "details": "Skill created as 4★ (provisional)",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:07Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/n8n-io/n8n as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:07Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/activepieces/activepieces as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:07Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/FlowiseAI/Flowise as B (trustNumber: 70.0)"
     }
   ]
 }

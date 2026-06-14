@@ -18,7 +18,7 @@ tags:
 - safety
 - confirmation
 createdAt: '2026-05-18'
-updatedAt: '2026-06-03'
+updatedAt: '2026-06-14'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -27,12 +27,21 @@ evidence:
   date: '2026-06-03'
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Activates
     a conservative execution profile that pauses before irreversible actions, requests
-    explicit confirmation for destructive operations, and…
+    explicit confirmation for destructive operations, and… (backfilled — class-to-type
+    migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 timeline:
 - timestamp: '2026-06-03T05:51:30Z'
   action: evidence_added
   contributor: unknown
   details: Added B evidence from https://github.com/garrytan/gstack/blob/main/careful/SKILL.md
+- timestamp: '2026-06-14T12:32:19Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/garrytan/gstack/blob/main/careful/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

@@ -12,7 +12,7 @@ description: Performs 3D structural searches of proteins against various databas
   structurally similar proteins. Do NOT use if the user only provides a protein sequence,
   gene name, or UniProt ID.
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md
 evidence:
@@ -21,6 +21,16 @@ evidence:
   evaluator: unknown
   date: '2026-05-23'
   notes: Official Google DeepMind foldseek_structural_search science-skill implementation.
+    (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:31Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Prerequisites

@@ -19,14 +19,23 @@ tags:
 - framework-upgrade
 - migration
 createdAt: '2026-04-30'
-updatedAt: '2026-04-30'
+updatedAt: '2026-06-14'
 evidence:
 - class: B
   source: https://github.com/laravel/boost/issues/698
   evaluator: mbtiongson1
   date: '2026-04-30'
   notes: Laravel /upgrade-laravel-v13 slash command -- real-world agentic framework
-    upgrade workflow published by the Laravel team.
+    upgrade workflow published by the Laravel team. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:42Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/laravel/boost/issues/698 as
+    B (trustNumber: 70.0)'
 ---
 
 ## Overview

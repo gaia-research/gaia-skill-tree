@@ -263,6 +263,7 @@
             "add",
             "evidence_added",
             "evidence_removed",
+            "evidence_graded",
             "type_change",
             "verified",
             "disputed"

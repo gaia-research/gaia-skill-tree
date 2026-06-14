@@ -18,20 +18,26 @@
       "source": "https://arxiv.org/abs/2306.08302",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "Pan et al. (2024) â€” Unifying Large Language Models and Knowledge Graphs: A Roadmap; comprehensive survey showing LLM-KG synergy improves downstream tasks by 5-15%."
+      "notes": "Pan et al. (2024) â€” Unifying Large Language Models and Knowledge Graphs: A Roadmap; comprehensive survey showing LLM-KG synergy improves downstream tasks by 5-15%. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/microsoft/graphrag",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "Microsoft GraphRAG â€” production KG construction pipeline; extracts community summaries and entity graphs from corpora, enabling global sensemaking queries."
+      "notes": "Microsoft GraphRAG â€” production KG construction pipeline; extracts community summaries and entity graphs from corpora, enabling global sensemaking queries. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -41,6 +47,18 @@
       "details": "Skill created as 3★ (provisional)",
       "previousValue": null,
       "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:01Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2306.08302 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:01Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/microsoft/graphrag as B (trustNumber: 70.0)"
     }
   ]
 }

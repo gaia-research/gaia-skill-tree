@@ -12,20 +12,26 @@
       "source": "https://arxiv.org/abs/2604.17488",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "AutoVQA-G (ICASSP 2026) — self-improving agentic framework for automated VQA and grounding annotation; uses Chain-of-Thought verification + prompt optimization to generate high-quality VQA-G datasets."
+      "notes": "AutoVQA-G (ICASSP 2026) — self-improving agentic framework for automated VQA and grounding annotation; uses Chain-of-Thought verification + prompt optimization to generate high-quality VQA-G datasets. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "C",
       "source": "https://skillsmp.com/api/v1/skills/search?q=vision-qa",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "SkillsMP: 6+ named entries including visual-qa, vision-qa-workflow, claude-vision-qa, visual-qa-analysis from multiple contributors."
+      "notes": "SkillsMP: 6+ named entries including visual-qa, vision-qa-workflow, claude-vision-qa, visual-qa-analysis from multiple contributors. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -49,6 +55,18 @@
       "details": "Calibrated/demoted rank from 3★ to 2★",
       "previousValue": "3★",
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:56Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2604.17488 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:56Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://skillsmp.com/api/v1/skills/search?q=vision-qa as B (trustNumber: 70.0)"
     }
   ]
 }

@@ -17,13 +17,16 @@
       "source": "https://arxiv.org/abs/2107.03374",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "Codex/HumanEval (Chen et al.) â€” evaluates LLMs on writing Python functions that pass hand-crafted unit tests; pass@1 72.0% for GPT-4."
+      "notes": "Codex/HumanEval (Chen et al.) â€” evaluates LLMs on writing Python functions that pass hand-crafted unit tests; pass@1 72.0% for GPT-4. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -33,6 +36,12 @@
       "details": "Skill created as 2★ (provisional)",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:50Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2107.03374 as A (trustNumber: 85.0)"
     }
   ]
 }

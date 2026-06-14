@@ -12,27 +12,36 @@
       "source": "https://arxiv.org/abs/2604.22783",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "LARS (2026) -- Parameter Efficiency Is Not Memory Efficiency: Rethinking Fine-Tuning on-Device LLM Adaptation; reduces GPU memory footprint 33.54% vs LoRA."
+      "notes": "LARS (2026) -- Parameter Efficiency Is Not Memory Efficiency: Rethinking Fine-Tuning on-Device LLM Adaptation; reduces GPU memory footprint 33.54% vs LoRA. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/huggingface/peft",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "HuggingFace PEFT -- state-of-the-art LoRA/QLoRA/IA3 fine-tuning; 100k+ stars, CI, active maintenance."
+      "notes": "HuggingFace PEFT -- state-of-the-art LoRA/QLoRA/IA3 fine-tuning; 100k+ stars, CI, active maintenance. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     },
     {
       "class": "B",
       "source": "https://github.com/hiyouga/LlamaFactory",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "LlamaFactory (ACL 2024) -- unified efficient fine-tuning of 100+ LLMs and VLMs; 50k+ stars, reproducible benchmarks."
+      "notes": "LlamaFactory (ACL 2024) -- unified efficient fine-tuning of 100+ LLMs and VLMs; 50k+ stars, reproducible benchmarks. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-02",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -48,6 +57,24 @@
       "action": "type_change",
       "contributor": "unknown",
       "details": "Reclassified from unique to basic"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:50Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2604.22783 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:50Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/huggingface/peft as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:50Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/hiyouga/LlamaFactory as B (trustNumber: 70.0)"
     }
   ]
 }

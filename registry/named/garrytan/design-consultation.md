@@ -20,7 +20,7 @@ tags:
 - colors
 - design-tokens
 createdAt: '2026-05-18'
-updatedAt: '2026-06-03'
+updatedAt: '2026-06-14'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T01:43:00Z'
@@ -31,6 +31,11 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: Added B evidence from https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md
+- timestamp: '2026-06-14T12:32:20Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md
+    as B (trustNumber: 70.0)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md
@@ -38,7 +43,11 @@ evidence:
   date: '2026-06-03'
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Builds
     a complete design system by researching the product and competitors, then proposing
-    a coherent package of typography, colours, spacing,…
+    a coherent package of typography, colours, spacing,… (backfilled — class-to-type
+    migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 ---
 
 ## Overview

@@ -16,15 +16,26 @@
       "source": "https://arxiv.org/abs/2305.15334",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "Gorilla (Patil et al.) â€” LLM that generates accurate API calls across TorchHub, TensorFlow Hub, and HuggingFace; 20.43% AST accuracy improvement over GPT-4."
+      "notes": "Gorilla (Patil et al.) â€” LLM that generates accurate API calls across TorchHub, TensorFlow Hub, and HuggingFace; 20.43% AST accuracy improvement over GPT-4. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "summary": "A fundamental skill that enables agents to interact with external services via HTTP API calls.",
   "useCase": "Useful for tasks that require real-time data fetching, invoking external web services, integrating with SaaS platforms (e.g., GitHub, Slack, JIRA), or triggering automated workflows via standard REST or GraphQL endpoints.",
-  "directives": "- Identify the correct HTTP method (GET, POST, PUT, DELETE) and endpoint for the task.\n- Parse the API documentation to construct the required headers, authentication tokens, and request body.\n- Handle API responses gracefully, checking HTTP status codes and parsing JSON or XML payloads.\n- Implement retry logic or error handling for rate limits, timeouts, and unexpected responses."
+  "directives": "- Identify the correct HTTP method (GET, POST, PUT, DELETE) and endpoint for the task.\n- Parse the API documentation to construct the required headers, authentication tokens, and request body.\n- Handle API responses gracefully, checking HTTP status codes and parsing JSON or XML payloads.\n- Implement retry logic or error handling for rate limits, timeouts, and unexpected responses.",
+  "timeline": [
+    {
+      "timestamp": "2026-06-14T07:08:48Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2305.15334 as A (trustNumber: 85.0)"
+    }
+  ]
 }

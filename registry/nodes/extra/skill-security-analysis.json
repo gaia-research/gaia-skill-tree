@@ -19,27 +19,36 @@
       "source": "https://arxiv.org/abs/2603.16572",
       "evaluator": "codex",
       "date": "2026-05-10",
-      "notes": "Malicious Or Not studies agent skill classification and improves detection by comparing skill descriptions with surrounding repository context."
+      "notes": "Malicious Or Not studies agent skill classification and improves detection by comparing skill descriptions with surrounding repository context. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "A",
       "source": "https://arxiv.org/abs/2602.12430",
       "evaluator": "codex",
       "date": "2026-05-10",
-      "notes": "Agent Skills architecture and security survey reports vulnerabilities in community-contributed skills and proposes a governance framework for provenance and deployment permissions."
+      "notes": "Agent Skills architecture and security survey reports vulnerabilities in community-contributed skills and proposes a governance framework for provenance and deployment permissions. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "A",
       "source": "https://arxiv.org/abs/2604.25109",
       "evaluator": "codex",
       "date": "2026-05-10",
-      "notes": "SkillGuard-Robust formulates pre-load auditing for untrusted Agent Skills as cross-file package review over SKILL.md, scripts, references, and repository context, with reported high exact-match and malicious-risk recall."
+      "notes": "SkillGuard-Robust formulates pre-load auditing for untrusted Agent Skills as cross-file package review over SKILL.md, scripts, references, and repository context, with reported high exact-match and malicious-risk recall. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-10",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -63,6 +72,24 @@
       "details": "Calibrated/demoted rank from 4★ to 2★",
       "previousValue": "4★",
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:05Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2603.16572 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:05Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2602.12430 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:05Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2604.25109 as A (trustNumber: 85.0)"
     }
   ]
 }

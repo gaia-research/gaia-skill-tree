@@ -16,19 +16,27 @@ tags:
 - tailwind
 - scraping
 createdAt: '2026-05-14'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-14'
 evidence:
 - class: B
   source: https://github.com/Manavarya09/design-extract
   evaluator: gemini-cli
   date: '2026-05-14'
   notes: Design Extract -- extracts complete design systems (Tailwind, Figma variables,
-    etc.) from any URL.
+    etc.) from any URL. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 timeline:
 - timestamp: '2026-06-02T01:43:00Z'
   action: demote
   contributor: unknown
   details: Origin status set to false.
+- timestamp: '2026-06-14T12:32:08Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/Manavarya09/design-extract
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

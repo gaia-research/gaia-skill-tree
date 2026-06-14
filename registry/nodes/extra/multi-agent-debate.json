@@ -18,20 +18,26 @@
       "source": "https://arxiv.org/abs/2305.14325",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "Du et al. (2023) -- Improving Factuality and Reasoning through Multi-Agent Debate; +14% truthfulness on TruthfulQA and +6% on MMLU Reasoning over single-model greedy decoding baselines."
+      "notes": "Du et al. (2023) -- Improving Factuality and Reasoning through Multi-Agent Debate; +14% truthfulness on TruthfulQA and +6% on MMLU Reasoning over single-model greedy decoding baselines. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "A",
       "source": "https://arxiv.org/abs/2308.07201",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "ChatEval (Chan et al., 2023) -- role-play multi-agent debate framework for open-ended text quality evaluation; outperforms single LLM judges on correlation with human ratings across MT-Bench and Vicuna benchmarks."
+      "notes": "ChatEval (Chan et al., 2023) -- role-play multi-agent debate framework for open-ended text quality evaluation; outperforms single LLM judges on correlation with human ratings across MT-Bench and Vicuna benchmarks. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -55,6 +61,18 @@
       "details": "Calibrated/demoted rank from 4★ to 2★",
       "previousValue": "4★",
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:02Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2305.14325 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:02Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2308.07201 as A (trustNumber: 85.0)"
     }
   ]
 }

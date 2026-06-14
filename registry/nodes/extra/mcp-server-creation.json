@@ -20,20 +20,30 @@
       "source": "https://github.com/anthropics/skills/blob/main/skills/mcp-builder/SKILL.md",
       "evaluator": "codex",
       "date": "2026-05-10",
-      "notes": "Anthropic mcp-builder skill gives a reproducible guide for building high-quality MCP servers in Python FastMCP or the Node/TypeScript MCP SDK."
+      "notes": "Anthropic mcp-builder skill gives a reproducible guide for building high-quality MCP servers in Python FastMCP or the Node/TypeScript MCP SDK. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     },
     {
       "class": "B",
       "source": "https://github.com/modelcontextprotocol/python-sdk",
       "evaluator": "codex",
       "date": "2026-05-10",
-      "notes": "Official MCP Python SDK is active and provides FastMCP server examples for exposing tools, resources, prompts, structured outputs, transports, and inspector-based testing."
+      "notes": "Official MCP Python SDK is active and provides FastMCP server examples for exposing tools, resources, prompts, structured outputs, transports, and inspector-based testing. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     },
     {
       "class": "B",
       "source": "https://raw.githubusercontent.com/sickn33/antigravity-awesome-skills/main/skills/mcp-builder/SKILL.md",
       "evaluator": "codex",
-      "date": "2026-05-27"
+      "date": "2026-05-27",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B",
+      "notes": "(backfilled — class-to-type migration)"
     }
   ],
   "knownAgents": [
@@ -41,7 +51,7 @@
   ],
   "status": "provisional",
   "createdAt": "2026-05-10",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -49,6 +59,24 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added B evidence from https://raw.githubusercontent.com/sickn33/antigravity-awesome-skills/main/skills/mcp-builder/SKILL.md"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:01Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/anthropics/skills/blob/main/skills/mcp-builder/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:01Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/modelcontextprotocol/python-sdk as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:01Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://raw.githubusercontent.com/sickn33/antigravity-awesome-skills/main/skills/mcp-builder/SKILL.md as B (trustNumber: 70.0)"
     }
   ]
 }

@@ -18,7 +18,7 @@ tags:
 - ci
 - quality
 createdAt: '2026-05-18'
-updatedAt: '2026-06-03'
+updatedAt: '2026-06-14'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -27,12 +27,21 @@ evidence:
   date: '2026-06-03'
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Executes
     the full automated test suite, collects pass/fail counts and coverage deltas,
-    and surfaces any newly introduced failures with concise…
+    and surfaces any newly introduced failures with concise… (backfilled — class-to-type
+    migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 timeline:
 - timestamp: '2026-06-03T05:51:27Z'
   action: evidence_added
   contributor: unknown
   details: Added B evidence from https://github.com/garrytan/gstack/blob/main/health/SKILL.md
+- timestamp: '2026-06-14T12:32:22Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/garrytan/gstack/blob/main/health/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

@@ -12,7 +12,7 @@ description: Query the Reactome database (Analysis and Content Services). Use wh
   participants (inputs, outputs), pathway hierarchy (including top-level pathways),
   diagram export, cross-reference mapping, or searching the knowledgebase.
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md
 evidence:
@@ -21,6 +21,16 @@ evidence:
   evaluator: unknown
   date: '2026-05-23'
   notes: Official Google DeepMind reactome_database science-skill implementation.
+    (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:38Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 # Reactome Analysis & Content Service

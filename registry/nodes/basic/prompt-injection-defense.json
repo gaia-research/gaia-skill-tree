@@ -14,27 +14,36 @@
       "source": "https://arxiv.org/abs/2604.10134",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "PlanGuard (2026) — training-free indirect prompt injection defense; planning-based consistency verification reduces InjecAgent attack success rate from 72.8% to 0%."
+      "notes": "PlanGuard (2026) — training-free indirect prompt injection defense; planning-based consistency verification reduces InjecAgent attack success rate from 72.8% to 0%. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/tldrsec/prompt-injection-defenses",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "tldrsec/prompt-injection-defenses (682 stars) — curated, reproducible catalog of defense techniques with implementation references; actively maintained."
+      "notes": "tldrsec/prompt-injection-defenses (682 stars) — curated, reproducible catalog of defense techniques with implementation references; actively maintained. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     },
     {
       "class": "C",
       "source": "https://skillsmp.com/api/v1/skills/search?q=prompt-injection-defense",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "SkillsMP top hit: openclaw/prompt-injection-defense (4,419 stars) — 'Harden agent sessions against prompt injection from untrusted content'; references CaMeL benchmark."
+      "notes": "SkillsMP top hit: openclaw/prompt-injection-defense (4,419 stars) — 'Harden agent sessions against prompt injection from untrusted content'; references CaMeL benchmark. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -44,6 +53,24 @@
       "details": "Skill created as 3★ (provisional)",
       "previousValue": null,
       "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:53Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2604.10134 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:53Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/tldrsec/prompt-injection-defenses as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:53Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://skillsmp.com/api/v1/skills/search?q=prompt-injection-defense as B (trustNumber: 70.0)"
     }
   ]
 }

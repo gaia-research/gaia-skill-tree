@@ -9,7 +9,7 @@ level: 2★
 description: Use when you want to retrieve semi-quantitative protein expression and
   spatial localisation data from the Human Protein Atlas (HPA).
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md
 evidence:
@@ -18,6 +18,16 @@ evidence:
   evaluator: unknown
   date: '2026-05-23'
   notes: Official Google DeepMind human_protein_atlas_database science-skill implementation.
+    (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:32Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 # Human Protein Atlas (HPA) Database Integration

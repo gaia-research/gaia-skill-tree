@@ -14,13 +14,16 @@
       "source": "https://arxiv.org/abs/2308.13418",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "Nougat (Meta AI) â€” visual transformer for scientific PDF parsing; 7.6% edit distance on arXiv papers, handling LaTeX, tables, and equations."
+      "notes": "Nougat (Meta AI) â€” visual transformer for scientific PDF parsing; 7.6% edit distance on arXiv papers, handling LaTeX, tables, and equations. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -30,6 +33,12 @@
       "details": "Skill created as 1★ (provisional)",
       "previousValue": null,
       "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:52Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2308.13418 as A (trustNumber: 85.0)"
     }
   ]
 }

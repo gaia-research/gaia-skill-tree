@@ -12,7 +12,7 @@ description: Retrieve and analyze AlphaFold predicted structures for a protein. 
   the user only has a protein name, gene name, or amino acid sequence — ask for a
   UniProt ID first.
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md
 evidence:
@@ -21,7 +21,16 @@ evidence:
   evaluator: unknown
   date: '2026-05-23'
   notes: Official Google DeepMind alphafold_database_fetch_and_analyze science-skill
-    implementation.
+    implementation. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:28Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 # AlphaFold Database: Fetch and Analyze

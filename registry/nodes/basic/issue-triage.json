@@ -12,20 +12,26 @@
       "source": "https://arxiv.org/abs/2501.18908",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "CASEY system: LLMs automate CWE identification (68% accuracy) and severity assessment (73.6%) for security bug triage."
+      "notes": "CASEY system: LLMs automate CWE identification (68% accuracy) and severity assessment (73.6%) for security bug triage. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "A",
       "source": "https://arxiv.org/abs/2504.18804",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "LLMs transform unstructured bug reports into high-quality structured formats; fine-tuned Qwen 2.5 achieves 77% CTQRS."
+      "notes": "LLMs transform unstructured bug reports into high-quality structured formats; fine-tuned Qwen 2.5 achieves 77% CTQRS. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -35,6 +41,18 @@
       "details": "Skill created as 4★ (provisional)",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:51Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2501.18908 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:51Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2504.18804 as A (trustNumber: 85.0)"
     }
   ]
 }

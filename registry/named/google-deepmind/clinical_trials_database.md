@@ -11,7 +11,7 @@ description: Query ClinicalTrials.gov via APIv2. Use when you want to search for
   check eligibility/inclusion criteria; count trials across conditions or time periods;
   identify a sponsor's trial portfolio; find recruiting trials for patient matching.
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md
 evidence:
@@ -20,6 +20,16 @@ evidence:
   evaluator: unknown
   date: '2026-05-23'
   notes: Official Google DeepMind clinical_trials_database science-skill implementation.
+    (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:29Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 # Clinical Trials Database

@@ -17,13 +17,16 @@
       "source": "https://github.com/addyosmani/agent-skills",
       "evaluator": "mbtiongson1",
       "date": "2026-05-31",
-      "notes": "Addy Osmani's agent-skills repo (47k stars) contains performance-optimization, code-review-and-quality, security-and-hardening and other skills that compose a web quality audit workflow. The prior URL (addyosmani/web-quality-skills) was a non-existent repo — corrected to the verified canonical repo."
+      "notes": "Addy Osmani's agent-skills repo (47k stars) contains performance-optimization, code-review-and-quality, security-and-hardening and other skills that compose a web quality audit workflow. The prior URL (addyosmani/web-quality-skills) was a non-existent repo — corrected to the verified canonical repo. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-24",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -61,6 +64,12 @@
       "action": "evidence_added",
       "contributor": "mbtiongson1",
       "details": "Replaced broken evidence URL (addyosmani/web-quality-skills — non-existent repo) with verified canonical source (addyosmani/agent-skills, 47k stars). Downgraded from Class A to Class B (Class A requires 10k+ stars AND verified repo-level adoption; bare repo URL does not meet §2.1 specificity requirement). Updated description from stub to meaningful copy."
+    },
+    {
+      "timestamp": "2026-06-14T07:09:07Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/addyosmani/agent-skills as B (trustNumber: 70.0)"
     }
   ]
 }

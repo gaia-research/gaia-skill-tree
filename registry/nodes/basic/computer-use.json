@@ -14,20 +14,26 @@
       "source": "https://arxiv.org/abs/2307.13854",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "WebArena (Zhou et al., 2023) â€” realistic 812-task benchmark for autonomous web agents; establishes controlled eval for GUI-based computer use."
+      "notes": "WebArena (Zhou et al., 2023) â€” realistic 812-task benchmark for autonomous web agents; establishes controlled eval for GUI-based computer use. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/xlang-ai/OSWorld",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "OSWorld â€” 369 computer tasks across real OS environments (Windows, macOS, Ubuntu); reproducible VM-based evaluation harness."
+      "notes": "OSWorld â€” 369 computer tasks across real OS environments (Windows, macOS, Ubuntu); reproducible VM-based evaluation harness. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -37,6 +43,18 @@
       "details": "Skill created as 2★ (provisional)",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:49Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2307.13854 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:49Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/xlang-ai/OSWorld as B (trustNumber: 70.0)"
     }
   ]
 }

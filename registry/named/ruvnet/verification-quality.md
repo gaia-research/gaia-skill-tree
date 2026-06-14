@@ -19,7 +19,7 @@ tags:
 - quality-gates
 - completion
 createdAt: '2026-05-19'
-updatedAt: '2026-06-10'
+updatedAt: '2026-06-14'
 suiteRef: ruvnet/ruflo
 evidence:
 - class: B
@@ -27,12 +27,20 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-06-10'
   notes: Part of the Ruflo orchestration platform (public repo); pre-completion quality
-    gates documented in the suite.
+    gates documented in the suite. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 timeline:
 - timestamp: '2026-06-10T05:38:18Z'
   action: evidence_added
   contributor: unknown
   details: Added B evidence from https://github.com/ruvnet/ruflo
+- timestamp: '2026-06-14T12:33:02Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber:
+    70.0)'
 ---
 
 ## Overview

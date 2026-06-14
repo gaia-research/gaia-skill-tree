@@ -14,20 +14,26 @@
       "source": "https://arxiv.org/abs/2109.10282",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "TrOCR (Li et al., 2021) -- transformer-based OCR model achieving SOTA on IIIT-5K (97.9%), SVT (97.0%), and CUTE80 (97.9%) scene-text benchmarks, outperforming CNN+attention baselines across all datasets."
+      "notes": "TrOCR (Li et al., 2021) -- transformer-based OCR model achieving SOTA on IIIT-5K (97.9%), SVT (97.0%), and CUTE80 (97.9%) scene-text benchmarks, outperforming CNN+attention baselines across all datasets. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/JaidedAI/EasyOCR",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "EasyOCR -- production-grade OCR library supporting 80+ languages; 24k+ GitHub stars, reproducible benchmarks, and documented performance across diverse real-world document types."
+      "notes": "EasyOCR -- production-grade OCR library supporting 80+ languages; 24k+ GitHub stars, reproducible benchmarks, and documented performance across diverse real-world document types. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -37,6 +43,18 @@
       "details": "Skill created as 2★ (provisional)",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:52Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2109.10282 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:52Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/JaidedAI/EasyOCR as B (trustNumber: 70.0)"
     }
   ]
 }

@@ -15,20 +15,26 @@
       "source": "https://arxiv.org/abs/2505.01821",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "Edge-Cloud Collaborative Computing on Distributed Intelligence and Model Optimization: A Survey — covers quantization, pruning, distillation, federated learning for edge deployment (IEEE ComST 2026)"
+      "notes": "Edge-Cloud Collaborative Computing on Distributed Intelligence and Model Optimization: A Survey — covers quantization, pruning, distillation, federated learning for edge deployment (IEEE ComST 2026) (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/majiayu000/claude-skill-registry-data/blob/main/ai-ml/edge-model-compression/SKILL.md",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "SKILL.md: Edge Model Compression — quantization, pruning, knowledge distillation, NAS for resource-constrained edge devices (majiayu000)"
+      "notes": "SKILL.md: Edge Model Compression — quantization, pruning, knowledge distillation, NAS for resource-constrained edge devices (majiayu000) (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-03",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -48,6 +54,18 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added B evidence from https://github.com/majiayu000/claude-skill-registry-data/blob/main/ai-ml/edge-model-compression/SKILL.md"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:59Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2505.01821 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:59Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/majiayu000/claude-skill-registry-data/blob/main/ai-ml/edge-model-compression/SKILL.md as B (trustNumber: 70.0)"
     }
   ]
 }

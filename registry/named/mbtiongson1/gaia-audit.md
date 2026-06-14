@@ -10,7 +10,7 @@ description: Performs a focused source-level correction for one target registry 
   — verifying links, checking evidence classes, and filing an inline-diff fix PR with
   full citations.
 createdAt: '2026-05-27'
-updatedAt: '2026-06-01'
+updatedAt: '2026-06-14'
 title: The Source Detective
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/SKILL.md
@@ -28,14 +28,23 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 3★ to 2★
+- timestamp: '2026-06-14T12:32:44Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md
+    as C (trustNumber: 50.0)'
 evidence:
 - class: C
   source: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md
   evaluator: mbtiongson1
   date: '2026-05-20'
-  notes: Self-referential implementation doc inside the gaia repo (seed evidence). Downgraded
-    A->C per META §2.4 — seed / self-referential links are insufficient for Class A —
-    by the 2026-06-02 meta sweep. Credible demo of the codified 7-phase audit workflow.
+  notes: Self-referential implementation doc inside the gaia repo (seed evidence).
+    Downgraded A->C per META §2.4 — seed / self-referential links are insufficient
+    for Class A — by the 2026-06-02 meta sweep. Credible demo of the codified 7-phase
+    audit workflow. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 50.0
+  grade: C
 ---
 
 ## Overview

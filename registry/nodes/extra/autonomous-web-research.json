@@ -18,14 +18,20 @@
       "source": "https://github.com/firecrawl/firecrawl-mcp-server",
       "evaluator": "mbtiongson1",
       "date": "2026-05-14",
-      "notes": "Firecrawl's Map and Crawl logic combined with the firecrawl_agent tool enables autonomous multi-source web research."
+      "notes": "Firecrawl's Map and Crawl logic combined with the firecrawl_agent tool enables autonomous multi-source web research. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     },
     {
       "class": "B",
       "source": "https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "Community reproduction of Karpathy's autoresearch pattern as a universal agent skill, demonstrating generalizability beyond the original repo."
+      "notes": "Community reproduction of Karpathy's autoresearch pattern as a universal agent skill, demonstrating generalizability beyond the original repo. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [
@@ -33,7 +39,7 @@
   ],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -57,6 +63,18 @@
       "details": "Added evidence: https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:58Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/firecrawl/firecrawl-mcp-server as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:58Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill as B (trustNumber: 70.0)"
     }
   ]
 }

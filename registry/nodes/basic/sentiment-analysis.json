@@ -15,69 +15,96 @@
       "source": "https://arxiv.org/abs/1810.04805",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "BERT paper — achieves SOTA on SST-2 sentiment benchmark (93.5% accuracy), foundational evidence for LLM-based sentiment analysis."
+      "notes": "BERT paper — achieves SOTA on SST-2 sentiment benchmark (93.5% accuracy), foundational evidence for LLM-based sentiment analysis. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "A",
       "source": "https://arxiv.org/abs/2202.03829",
       "evaluator": "pexp13",
       "date": "2026-05-17",
-      "notes": "CardiffNLP Twitter-RoBERTa (Barbieri et al., 2022) - SOTA transformer baseline for social-media sentiment analysis; 3-class, multilingual variants available."
+      "notes": "CardiffNLP Twitter-RoBERTa (Barbieri et al., 2022) - SOTA transformer baseline for social-media sentiment analysis; 3-class, multilingual variants available. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://aclanthology.org/S17-2088/",
       "evaluator": "pexp13",
       "date": "2026-05-17",
-      "notes": "SemEval-2017 Task 4 - Standard Twitter sentiment benchmark; establishes macro-F1 as primary metric."
+      "notes": "SemEval-2017 Task 4 - Standard Twitter sentiment benchmark; establishes macro-F1 as primary metric. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://ojs.aaai.org/index.php/ICWSM/article/view/14550",
       "evaluator": "pexp13",
       "date": "2026-05-17",
-      "notes": "VADER (Hutto & Gilbert, 2014) - Canonical lexicon-based baseline; validated on social media corpora."
+      "notes": "VADER (Hutto & Gilbert, 2014) - Canonical lexicon-based baseline; validated on social media corpora. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://huggingface.co/nlptown/bert-base-multilingual-uncased-sentiment",
       "evaluator": "pexp13",
       "date": "2026-05-17",
-      "notes": "NLPTown BERT multilingual - 5-class (star-rating) model fine-tuned on product reviews; direct UGC applicability."
+      "notes": "NLPTown BERT multilingual - 5-class (star-rating) model fine-tuned on product reviews; direct UGC applicability. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     },
     {
       "class": "B",
       "source": "https://github.com/declare-lab/conv-emotion",
       "evaluator": "pexp13",
       "date": "2026-05-17",
-      "notes": "declare-lab/conv-emotion - Sentiment/emotion recognition in conversations (MELD, IEMOCAP); relevant for threaded comment SA."
+      "notes": "declare-lab/conv-emotion - Sentiment/emotion recognition in conversations (MELD, IEMOCAP); relevant for threaded comment SA. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     },
     {
       "class": "C",
       "source": "https://gluebenchmark.com/tasks",
       "evaluator": "pexp13",
       "date": "2026-05-17",
-      "notes": "SST-2 (GLUE benchmark) - Standard binary SA benchmark for cross-model comparison."
+      "notes": "SST-2 (GLUE benchmark) - Standard binary SA benchmark for cross-model comparison. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "C",
       "source": "https://arxiv.org/abs/2203.01054",
       "evaluator": "pexp13",
       "date": "2026-05-17",
-      "notes": "Aspect-Based SA survey (Zhang et al., 2022) - Covers ABSA methods for structured review analysis."
+      "notes": "Aspect-Based SA survey (Zhang et al., 2022) - Covers ABSA methods for structured review analysis. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "C",
       "source": "https://github.com/declare-lab/awesome-sentiment-analysis",
       "evaluator": "pexp13",
       "date": "2026-05-17",
-      "notes": "Curated reading list by DeCLaRe Lab; anchored by Poria et al. (2020) IEEE TAC survey on open challenges."
+      "notes": "Curated reading list by DeCLaRe Lab; anchored by Poria et al. (2020) IEEE TAC survey on open challenges. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "1.0.0",
   "timeline": [
     {
@@ -103,6 +130,60 @@
       "details": "Added evidence: https://ojs.aaai.org/index.php/ICWSM/article/view/14550, https://github.com/declare-lab/conv-emotion and 6 more",
       "previousValue": null,
       "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:54Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/1810.04805 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:54Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2202.03829 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:54Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://aclanthology.org/S17-2088/ as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:54Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://ojs.aaai.org/index.php/ICWSM/article/view/14550 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:54Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://huggingface.co/nlptown/bert-base-multilingual-uncased-sentiment as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:54Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/declare-lab/conv-emotion as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:54Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://gluebenchmark.com/tasks as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:55Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2203.01054 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:55Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/declare-lab/awesome-sentiment-analysis as B (trustNumber: 70.0)"
     }
   ]
 }

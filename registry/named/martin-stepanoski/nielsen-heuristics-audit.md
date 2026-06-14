@@ -20,19 +20,28 @@ tags:
 - heuristics
 - accessibility
 createdAt: '2026-04-30'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-14'
 evidence:
 - class: B
   source: https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
   notes: Martin Stepanoski @mastepanoski/claude-skills -- /nielsen-heuristics-audit
-    audits UI against Nielsen 10 usability heuristics step-by-step.
+    audits UI against Nielsen 10 usability heuristics step-by-step. (backfilled —
+    class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
   action: demote
   contributor: unknown
   details: Origin status removed. Transferred to pbakaus/impeccable.
+- timestamp: '2026-06-14T12:32:42Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

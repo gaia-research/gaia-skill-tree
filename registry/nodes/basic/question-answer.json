@@ -18,20 +18,26 @@
       "source": "https://arxiv.org/abs/1806.03822",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "SQuAD 2.0 — reading comprehension benchmark with 150K questions; modern LLMs exceed human F1 (90.9), providing rigorous reproducible evaluation."
+      "notes": "SQuAD 2.0 — reading comprehension benchmark with 150K questions; modern LLMs exceed human F1 (90.9), providing rigorous reproducible evaluation. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "Garry Tan /office-hours -- Q&A skill grounded in specific document sets and founder context."
+      "notes": "Garry Tan /office-hours -- Q&A skill grounded in specific document sets and founder context. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -57,6 +63,18 @@
       "details": "Added evidence: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:53Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/1806.03822 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:53Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md as B (trustNumber: 70.0)"
     }
   ]
 }

@@ -12,7 +12,7 @@ description: Visualize, analyze, and render protein and molecular structures usi
   or active site residues, color by B-factor/pLDDT, or analyze protein-ligand interactions.
   Do not use for docking, molecular dynamics, or sequence-only analysis.
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md
 evidence:
@@ -20,7 +20,17 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind pymol science-skill implementation.
+  notes: Official Google DeepMind pymol science-skill implementation. (backfilled
+    — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:37Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 # PyMOL

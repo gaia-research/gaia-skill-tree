@@ -17,7 +17,10 @@
       "source": "https://github.com/apache/airflow/blob/main/AGENTS.md",
       "evaluator": "mbtiongson1",
       "date": "2026-05-14",
-      "notes": "Airflow AGENTS.md defines agentic workflow design patterns using the TaskFlow API for dynamic DAG generation."
+      "notes": "Airflow AGENTS.md defines agentic workflow design patterns using the TaskFlow API for dynamic DAG generation. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [
@@ -25,7 +28,7 @@
   ],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -43,6 +46,12 @@
       "details": "Calibrated/demoted rank from 5★ to 3★",
       "previousValue": "5★",
       "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:57Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/apache/airflow/blob/main/AGENTS.md as B (trustNumber: 70.0)"
     }
   ]
 }
