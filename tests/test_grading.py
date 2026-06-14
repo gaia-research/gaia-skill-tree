@@ -306,6 +306,102 @@ class TestUltimateGateDirect:
 
 
 # ---------------------------------------------------------------------------
+# Effective grade — own ∪ inherited (parent → child evidence inheritance)
+# ---------------------------------------------------------------------------
+
+from gaia_cli.evidence import inherited_evidence
+
+
+def _effective_grade(named, generic):
+    """Mirror the catalog computation: grade over own ∪ inherited evidence."""
+    return overall_trust_grade(inherited_evidence(named, generic))
+
+
+class TestEffectiveGradeInheritance:
+    def test_inherits_parent_grade_when_child_ungraded(self):
+        # Child has no graded evidence; parent (generic) carries A.
+        named = {"id": "c/x", "evidence": [{"source": "http://repo", "grade": None}]}
+        generic = {"id": "cap", "evidence": [{"source": "http://arxiv", "grade": "A"}]}
+        assert _effective_grade(named, generic) == "A"
+
+    def test_child_own_exceeds_inherited_floor(self):
+        # Child's own S beats the inherited A — effective = max(own, inherited).
+        named = {"id": "c/x", "evidence": [{"source": "http://repo", "grade": "S"}]}
+        generic = {"id": "cap", "evidence": [{"source": "http://arxiv", "grade": "A"}]}
+        assert _effective_grade(named, generic) == "S"
+
+    def test_inherited_floor_when_child_weaker(self):
+        # Child only B, parent A → effective lifts to the inherited A.
+        named = {"id": "c/x", "evidence": [{"source": "http://repo", "grade": "B"}]}
+        generic = {"id": "cap", "evidence": [{"source": "http://arxiv", "grade": "A"}]}
+        assert _effective_grade(named, generic) == "A"
+
+    def test_no_generic_falls_back_to_own(self):
+        named = {"id": "c/x", "evidence": [{"source": "http://repo", "grade": "B"}]}
+        assert _effective_grade(named, None) == "B"
+
+    def test_dedup_by_source_prefers_child(self):
+        # Same source on both layers; child entry wins (own evidence first).
+        named = {"id": "c/x", "evidence": [{"source": "http://shared", "grade": "S"}]}
+        generic = {"id": "cap", "evidence": [{"source": "http://shared", "grade": "C"}]}
+        assert _effective_grade(named, generic) == "S"
+
+    def test_no_grades_anywhere_is_none(self):
+        named = {"id": "c/x", "evidence": [{"source": "http://repo"}]}
+        generic = {"id": "cap", "evidence": [{"source": "http://arxiv"}]}
+        assert _effective_grade(named, generic) is None
+
+
+class TestSuiteGateByChildEffectiveGrade:
+    """The suite gate must score components by their *named* child effective
+    grade, resolved through a component lookup keyed by named id — not the
+    generic-keyed map (which misses named ids and reads '0/3')."""
+
+    def _lookup(self, comp_effective):
+        """{named_id: component dict with effective evidence}."""
+        return {
+            cid: {"id": cid, "type": "basic",
+                  "evidence": [{"source": f"http://{cid}", "grade": g}] if g else []}
+            for cid, g in comp_effective.items()
+        }
+
+    def _suite(self, component_ids):
+        return {"id": "suite", "type": "ultimate", "suiteComponents": list(component_ids)}
+
+    def test_named_components_resolve_off_zero(self):
+        # Three named components, all graded via effective evidence → not "0/3".
+        lookup = self._lookup({"c/a": "S", "c/b": "A", "c/c": "A"})
+        result = check_ultimate_gate(self._suite(lookup), lookup, GATE_CONFIG)
+        assert result["passes"] is True
+        assert result["details"]["evidencedComponents"] == 3
+
+    def test_inherited_only_components_count(self):
+        # Components graded purely by inheritance (B) still count toward evidenced,
+        # but a suite of all-B fails the S/A pillar — the accurate editorial gap.
+        lookup = self._lookup({"c/a": "B", "c/b": "B", "c/c": "B"})
+        result = check_ultimate_gate(self._suite(lookup), lookup, GATE_CONFIG)
+        assert result["details"]["evidencedComponents"] == 3
+        assert result["passes"] is False
+        assert "S" in result["reason"]  # missing required S, not "0/3"
+
+    def test_ungraded_component_not_counted(self):
+        lookup = self._lookup({"c/a": "S", "c/b": "A", "c/c": None})
+        result = check_ultimate_gate(self._suite(lookup), lookup, GATE_CONFIG)
+        # Only 2 evidenced → fails the minimum, reason names 2/3.
+        assert result["passes"] is False
+        assert "2/3" in result["reason"]
+
+    def test_floor_blocks_below_floor_component(self):
+        gate = {"minEvidencedComponents": 2,
+                "requiredComponentGrades": {"S": 1, "A": 1},
+                "componentFloor": "A"}
+        lookup = self._lookup({"c/a": "S", "c/b": "B"})  # B below A floor
+        result = check_ultimate_gate(self._suite(lookup), lookup, gate)
+        assert result["passes"] is False
+        assert "floor" in result["reason"]
+
+
+# ---------------------------------------------------------------------------
 # CLI integration — --type validation and --trust → grade
 # ---------------------------------------------------------------------------
 
