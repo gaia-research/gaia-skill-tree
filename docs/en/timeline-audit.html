@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timeline Audit &amp; Repair — Gaia Docs</title>
+  <meta name="description" content="Audit and repair Gaia user-tree timelines so every skill's current rank is explained by its Hero's Journey. Covers validate_timelines.py, trace_timeline.py, gaia dev timeline, and known CLI gaps.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg, #030712);
+      color: var(--text, #e2e8f0);
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    a { color: var(--tier-basic, #38bdf8); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    .docs-nav {
+      border-bottom: 1px solid var(--border, #1e293b);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      background: rgba(3, 7, 18, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text, #e2e8f0);
+      letter-spacing: .02em;
+    }
+    .nav-logo span { color: var(--tier-ultimate, #f59e0b); }
+    .nav-sep { color: var(--muted, #64748b); font-size: 0.85rem; }
+    .nav-crumb { font-size: 0.82rem; color: var(--muted, #64748b); }
+    .nav-crumb:hover { color: var(--text, #e2e8f0); text-decoration: none; }
+    .nav-crumb.current { color: var(--text, #e2e8f0); }
+    .nav-spacer { flex: 1; }
+    .nav-version {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted, #64748b);
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 4px;
+    }
+
+    /* ── Layout ── */
+    .page-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky;
+      top: 52px;
+      height: calc(100vh - 52px);
+      overflow-y: auto;
+      padding: 2rem 0 2rem 1.5rem;
+      border-right: 1px solid var(--border, #1e293b);
+      scrollbar-width: thin;
+      scrollbar-color: var(--border, #1e293b) transparent;
+    }
+    .sidebar-group { margin-bottom: 1.75rem; }
+    .sidebar-group-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted, #64748b);
+      margin-bottom: 0.5rem;
+    }
+    .sidebar-links { list-style: none; display: flex; flex-direction: column; gap: 0.1rem; }
+    .sidebar-links a {
+      display: block;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.84rem;
+      color: var(--muted, #64748b);
+      border-radius: 4px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .sidebar-links a:hover {
+      color: var(--text, #e2e8f0);
+      background: rgba(255,255,255,0.04);
+      text-decoration: none;
+    }
+    .sidebar-links a.active {
+      color: var(--tier-basic, #38bdf8);
+      background: rgba(56,189,248,0.07);
+    }
+
+    /* ── Main ── */
+    .main-content {
+      padding: 2.5rem 3rem 4rem 3rem;
+      max-width: 820px;
+      min-width: 0;
+    }
+    .page-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 2.4rem;
+      font-weight: 500;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+    .page-lead {
+      font-size: 1.1rem;
+      color: var(--muted, #64748b);
+      margin-bottom: 2.5rem;
+      max-width: 600px;
+    }
+
+    /* ── Sections ── */
+    section { margin-bottom: 3.5rem; }
+    section h2 {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.65rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      padding-top: 1rem;
+    }
+    section h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-top: 1.75rem;
+      margin-bottom: 0.6rem;
+    }
+    .section-body { margin-bottom: 1rem; }
+    .section-body p { margin-bottom: 0.75rem; }
+    .section-body p:last-child { margin-bottom: 0; }
+
+    /* ── Code blocks ── */
+    .code-block {
+      background: #0a0f1e;
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+    .code-block-header {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid var(--border, #1e293b);
+      background: rgba(255,255,255,0.02);
+    }
+    .code-block-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted, #64748b);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .code-block pre {
+      padding: 1rem 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.84rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .c { color: #64748b; }
+    .cmd { color: #38bdf8; }
+    .str { color: #86efac; }
+    .kw { color: #c084fc; }
+    .pl { color: #fbbf24; }
+    .ok { color: #4ade80; }
+    .err { color: #f87171; }
+    .dim { color: #94a3b8; }
+
+    /* ── Callouts ── */
+    .callout {
+      border-left: 3px solid;
+      padding: 0.9rem 1.1rem;
+      border-radius: 0 6px 6px 0;
+      margin: 1.25rem 0;
+      font-size: 0.93rem;
+    }
+    .callout p { margin: 0; line-height: 1.6; }
+    .callout p + p { margin-top: 0.5rem; }
+    .callout-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      margin-bottom: 0.4rem;
+    }
+    .callout-warning {
+      border-color: #f59e0b;
+      background: rgba(245,158,11,0.06);
+    }
+    .callout-warning .callout-label { color: #f59e0b; }
+    .callout-info {
+      border-color: var(--tier-basic, #38bdf8);
+      background: rgba(56,189,248,0.05);
+    }
+    .callout-info .callout-label { color: var(--tier-basic, #38bdf8); }
+    .callout-danger {
+      border-color: #f87171;
+      background: rgba(248,113,113,0.06);
+    }
+    .callout-danger .callout-label { color: #f87171; }
+    .callout-success {
+      border-color: #4ade80;
+      background: rgba(74,222,128,0.05);
+    }
+    .callout-success .callout-label { color: #4ade80; }
+
+    /* ── Tables ── */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 1rem 0;
+    }
+    .data-table th {
+      text-align: left;
+      padding: 0.6rem 0.8rem;
+      border-bottom: 1px solid var(--border, #1e293b);
+      color: var(--muted, #64748b);
+      font-weight: 500;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .data-table td {
+      padding: 0.65rem 0.8rem;
+      border-bottom: 1px solid rgba(30,41,59,0.5);
+      vertical-align: top;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      background: rgba(255,255,255,0.04);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+    }
+
+    /* ── Step list ── */
+    .step-list { list-style: none; counter-reset: steps; }
+    .step-list li {
+      counter-increment: steps;
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .step-list li::before {
+      content: counter(steps);
+      min-width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(56,189,248,0.12);
+      border: 1px solid rgba(56,189,248,0.3);
+      color: var(--tier-basic, #38bdf8);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+    .step-body p { margin-bottom: 0.5rem; }
+    .step-body p:last-child { margin-bottom: 0; }
+
+    /* ── Drift diagram ── */
+    .drift-diagram {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+    .drift-box {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+    }
+    .drift-box-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted, #64748b);
+      margin-bottom: 0.6rem;
+    }
+    .drift-box-title {
+      font-weight: 600;
+      font-size: 0.92rem;
+      margin-bottom: 0.25rem;
+    }
+    .drift-box-path {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted, #64748b);
+      margin-bottom: 0.6rem;
+    }
+    .drift-box.authoritative { border-color: rgba(56,189,248,0.3); }
+    .drift-box.user-tree { border-color: rgba(196,132,252,0.3); }
+    .drift-box.authoritative .drift-box-label { color: var(--tier-basic, #38bdf8); }
+    .drift-box.user-tree .drift-box-label { color: var(--tier-extra, #c084fc); }
+
+    /* ── Cause card row ── */
+    .cause-cards { display: flex; flex-direction: column; gap: 0.75rem; margin: 1rem 0; }
+    .cause-card {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 1rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+      font-size: 0.9rem;
+    }
+    .cause-card-label {
+      font-weight: 600;
+      color: var(--text, #e2e8f0);
+      font-size: 0.88rem;
+      line-height: 1.4;
+    }
+    .cause-card-detail { color: var(--muted, #64748b); font-size: 0.86rem; line-height: 1.55; }
+
+    /* ── Badge ── */
+    .badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      padding: 0.15em 0.5em;
+      border-radius: 4px;
+      border: 1px solid;
+      vertical-align: middle;
+      margin-left: 0.35rem;
+    }
+    .badge-gated { border-color: rgba(196,132,252,0.4); color: #c084fc; background: rgba(196,132,252,0.08); }
+    .badge-open  { border-color: rgba(74,222,128,0.4);  color: #4ade80; background: rgba(74,222,128,0.07); }
+    .badge-ci    { border-color: rgba(251,191,36,0.4);  color: #fbbf24; background: rgba(251,191,36,0.07); }
+
+    /* ── Gap table note ── */
+    .gap-note {
+      background: rgba(248,113,113,0.05);
+      border: 1px solid rgba(248,113,113,0.2);
+      border-radius: 6px;
+      padding: 0.5rem 0.85rem;
+      font-size: 0.82rem;
+      color: #fca5a5;
+      margin-top: -0.25rem;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 800px) {
+      .page-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .main-content { padding: 1.5rem 1.25rem 3rem; }
+      .drift-diagram { grid-template-columns: 1fr; }
+      .cause-card { grid-template-columns: 1fr; gap: 0.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="docs-nav" aria-label="Docs navigation">
+    <a href="../index.html" class="nav-logo">Gaia <span>◆</span></a>
+    <span class="nav-sep">/</span>
+    <a href="index.html" class="nav-crumb">Docs</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-crumb current">Timeline Audit</span>
+    <div class="nav-spacer"></div>
+    <span class="nav-version">v4.7.12</span>
+  </nav>
+
+  <div class="page-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="Page outline">
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">On this page</div>
+        <ul class="sidebar-links">
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#drift">The drift problem</a></li>
+          <li><a href="#detect">1 — Detect</a></li>
+          <li><a href="#trace">2 — Trace</a></li>
+          <li><a href="#apply">3 — Apply</a></li>
+          <li><a href="#cli-manual">Manual CLI path</a></li>
+          <li><a href="#cli-gaps">Known CLI gaps</a></li>
+          <li><a href="#after">After the backfill</a></li>
+          <li><a href="#causes">Common drift causes</a></li>
+          <li><a href="#ci">CI enforcement</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Related</div>
+        <ul class="sidebar-links">
+          <li><a href="cli-reference.html#dev">CLI → dev timeline</a></li>
+          <li><a href="contributing.html">Contributing</a></li>
+          <li><a href="named-skills.html">Named Skills</a></li>
+          <li><a href="evidence-classes.html">Evidence &amp; Trust</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+
+      <h1 class="page-title">Timeline Audit &amp; Repair</h1>
+      <p class="page-lead">
+        Keep a contributor's Hero's Journey honest — detect rank drift between the
+        registry and the user tree, trace every missing event, and backfill it with
+        the right tooling.
+      </p>
+
+      <!-- Overview -->
+      <section id="overview">
+        <h2>Overview</h2>
+        <div class="section-body">
+          <p>
+            Every contributor's profile page renders a <strong>Hero's Journey</strong> — a rank chart
+            and event list that shows how each Named Skill progressed over time.
+            The source of truth for that chart is the contributor's
+            <strong>user tree</strong> (<code>skill-trees/&lt;owner&gt;/skill-tree.json</code>),
+            specifically its <code>timeline[]</code> and <code>unlockedSkills[]</code> arrays.
+          </p>
+          <p>
+            The <strong>registry node</strong> (<code>registry/named/&lt;contributor&gt;/&lt;skill&gt;.md</code>)
+            is a separate file that records the canonical level of a skill and any level-change
+            events that maintainers have applied (promotions, demotions, reclassifications).
+            These two files are supposed to stay in sync — but the pipeline that applies registry
+            changes doesn't automatically mirror them onto the user tree.
+          </p>
+          <p>
+            The result: a skill can silently chart at its old rank. A 3★ → 1★ demotion that
+            landed on the registry node may never appear as a demote event on the contributor
+            profile, leaving the Hero's Journey misleading or outright wrong.
+          </p>
+          <p>
+            This guide covers three tools that fix the problem:
+          </p>
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Tool</th>
+              <th>Role</th>
+              <th>Gate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>scripts/validate_timelines.py</code></td>
+              <td>CI gate — lists every drifting skill, exits 1 if any found</td>
+              <td><span class="badge badge-ci">CI</span></td>
+            </tr>
+            <tr>
+              <td><code>scripts/trace_timeline.py</code></td>
+              <td>Bulk auditor/fixer — dry-run trace and <code>--apply</code> backfill</td>
+              <td><span class="badge badge-gated">verifier / OPERATOR_OVERRIDE</span></td>
+            </tr>
+            <tr>
+              <td><code>gaia dev timeline</code></td>
+              <td>Manual one-off event append; limited (see <a href="#cli-gaps">CLI gaps</a>)</td>
+              <td><span class="badge badge-gated">verifier / OPERATOR_OVERRIDE</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- The drift problem -->
+      <section id="drift">
+        <h2>The drift problem</h2>
+        <div class="section-body">
+          <p>
+            Rank changes flow from the registry node to the user tree along a path that requires
+            manual intervention. When that step is skipped, the two files disagree:
+          </p>
+        </div>
+
+        <div class="drift-diagram">
+          <div class="drift-box authoritative">
+            <div class="drift-box-label">Authoritative source</div>
+            <div class="drift-box-title">Registry node</div>
+            <div class="drift-box-path">registry/named/&lt;contrib&gt;/&lt;skill&gt;.md</div>
+            <ul style="font-size:0.84rem;color:var(--muted,#64748b);padding-left:1rem;line-height:1.8;">
+              <li>Current canonical level</li>
+              <li>Level-change events (<code>demote</code>, <code>rank_up</code>)</li>
+              <li>Edited by maintainers via <code>gaia dev calibrate</code> / <code>reclassify</code></li>
+            </ul>
+          </div>
+          <div class="drift-box user-tree">
+            <div class="drift-box-label">Profile source</div>
+            <div class="drift-box-title">User tree</div>
+            <div class="drift-box-path">skill-trees/&lt;owner&gt;/skill-tree.json</div>
+            <ul style="font-size:0.84rem;color:var(--muted,#64748b);padding-left:1rem;line-height:1.8;">
+              <li><code>unlockedSkills[].level</code> may be stale</li>
+              <li><code>timeline[]</code> may be missing demote / rank_up events</li>
+              <li>Hero's Journey chart reads from here</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="callout callout-warning">
+          <span class="callout-label">⚠ Silent failure</span>
+          <p>
+            There is no runtime error when the two files disagree. The contributor profile
+            simply renders the wrong rank and omits the rank-change event from the chart.
+            The only way to catch drift is to run <code>validate_timelines.py</code>.
+          </p>
+        </div>
+      </section>
+
+      <!-- Step 1 — Detect -->
+      <section id="detect">
+        <h2>1 — Detect drift</h2>
+        <div class="section-body">
+          <p>
+            Run the validation gate to see every drifting skill across all user trees.
+            This script is also run automatically in release CI as the Transparency Gate.
+          </p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header"><span class="code-block-label">shell</span></div>
+          <pre><span class="cmd">python scripts/validate_timelines.py</span></pre>
+        </div>
+
+        <div class="section-body">
+          <p>
+            For each drifting skill it prints one line per violation. Exit code is <code>0</code>
+            when all timelines are clean, <code>1</code> when any drift is found.
+          </p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header"><span class="code-block-label">example output — drift detected</span></div>
+          <pre><span class="err">✗ marcotngsn/semantic-cache</span>
+    unlockedSkills.level = <span class="pl">3★</span>  registry = <span class="ok">1★</span>  → stale level
+
+<span class="err">✗ marcotngsn/code-generation</span>
+    latest timeline newValue = <span class="pl">2★</span>  registry = <span class="ok">3★</span>  → missing rank_up event
+
+<span class="dim">Checked 1 user tree · 2 drifting skills · exit 1</span></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header"><span class="code-block-label">example output — clean</span></div>
+          <pre><span class="ok">✓ Checked 1 user tree · 0 drifting skills</span></pre>
+        </div>
+
+        <div class="section-body">
+          <p>
+            The gate checks two invariants for each skill a contributor owns in their own tree:
+          </p>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Invariant</th><th>What fails it</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>unlockedSkills[].level</code> == registry level</td>
+              <td>User tree stores a stale level (e.g. still shows 3★ after a 3★→1★ demotion)</td>
+            </tr>
+            <tr>
+              <td>Latest level-bearing timeline event <code>newValue</code> == registry level</td>
+              <td>Timeline exists but is missing the most recent rank change — the demotion or promotion was never appended</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Step 2 — Trace -->
+      <section id="trace">
+        <h2>2 — Trace a skill</h2>
+        <div class="section-body">
+          <p>
+            Before writing anything, inspect what <code>trace_timeline.py</code> would append.
+            The dry-run mode prints each missing event and its source:
+          </p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header"><span class="code-block-label">shell — dry run (safe, no writes)</span></div>
+          <pre><span class="cmd">python scripts/trace_timeline.py &lt;handle&gt;/&lt;slug&gt;</span>
+
+<span class="c"># Examples</span>
+<span class="cmd">python scripts/trace_timeline.py marcotngsn/semantic-cache</span>
+<span class="cmd">python scripts/trace_timeline.py --all</span>   <span class="c"># every drifting skill</span></pre>
+        </div>
+
+        <div class="section-body">
+          <p>
+            Each event in the output is labelled with its provenance:
+          </p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header"><span class="code-block-label">example trace output</span></div>
+          <pre><span class="dim">marcotngsn/semantic-cache</span>
+  registry level : <span class="ok">1★</span>
+  tree level     : <span class="err">3★</span>  (stale)
+
+  would append:
+    demote  <span class="dim">2026-06-02T23:49:18Z</span>  <span class="pl">3★ → 1★</span>  <span class="dim">(from registry node)</span>
+
+<span class="dim">marcotngsn/context-window-mgmt</span>
+  registry level : <span class="ok">2★</span>
+  tree level     : <span class="err">2★</span>  (ok — only timeline missing)
+
+  would append:
+    rank_up  <span class="dim">2026-05-28T11:00:01Z</span>  <span class="pl">1★ → 2★</span>  <span class="dim">(reconciled — no source event in .md)</span></pre>
+        </div>
+
+        <div class="section-body">
+          <p>
+            Two event labels appear in the output:
+          </p>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Label</th><th>Meaning</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>(from registry node)</code></td>
+              <td>The <code>.md</code> file's <code>timeline:</code> frontmatter records this exact level change — the event is mirrored verbatim</td>
+            </tr>
+            <tr>
+              <td><code>(reconciled)</code></td>
+              <td>No source event exists in the <code>.md</code> — the change was applied without documentation. <code>trace_timeline.py</code> synthesizes a clearly labelled event dated one second after the skill's latest existing event</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout callout-info">
+          <span class="callout-label">💡 Tracing the reason</span>
+          <p>
+            For a more accurate note on a reconciled event, cross-reference git history.
+            Demotions usually land in sweep commits:
+          </p>
+          <pre style="margin-top:0.5rem;font-family:'JetBrains Mono',monospace;font-size:0.82rem;line-height:1.7;color:#e2e8f0;">git log --oneline -- registry/named/&lt;handle&gt;/&lt;slug&gt;.md
+git log --oneline --all | grep -iE "demot|star-bar|calibrat|reclassif"</pre>
+        </div>
+      </section>
+
+      <!-- Step 3 — Apply -->
+      <section id="apply">
+        <h2>3 — Apply the fix</h2>
+        <div class="section-body">
+          <p>
+            Once you've reviewed the dry-run output, apply with <code>--apply</code>.
+            Mutating the user tree requires Verifier authorization or the
+            <code>GAIA_OPERATOR_OVERRIDE=1</code> env var (for CI and bots).
+          </p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header"><span class="code-block-label">shell</span></div>
+          <pre><span class="c"># Fix one skill</span>
+<span class="cmd">GAIA_OPERATOR_OVERRIDE=1 python scripts/trace_timeline.py marcotngsn/semantic-cache --apply</span>
+
+<span class="c"># Fix every drifting skill at once</span>
+<span class="cmd">GAIA_OPERATOR_OVERRIDE=1 python scripts/trace_timeline.py --all --apply</span></pre>
+        </div>
+
+        <div class="section-body">
+          <p>
+            The script does three things per drifting skill:
+          </p>
+        </div>
+        <ol class="step-list">
+          <li>
+            <div class="step-body">
+              <p><strong>Appends the missing events</strong> to <code>timeline[]</code> in the user tree,
+              including <code>previousValue</code> and <code>newValue</code> so the rank chart plots them.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-body">
+              <p><strong>Sets <code>unlockedSkills[].level</code></strong> to the current registry level,
+              resolving the stale-level invariant.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-body">
+              <p><strong>Rebuilds <code>levelHistory</code></strong> from the full run of events —
+              register event + all level changes in chronological order.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <!-- Manual CLI path -->
+      <section id="cli-manual">
+        <h2>Manual CLI path</h2>
+        <div class="section-body">
+          <p>
+            For a single hand-authored event, <code>gaia dev timeline</code> can append it directly.
+            Use this when you want to write a custom note rather than mirror the registry node verbatim.
+          </p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header"><span class="code-block-label">shell</span></div>
+          <pre><span class="cmd">gaia dev timeline &lt;handle&gt;/&lt;slug&gt; \
+  --user &lt;owner&gt; \
+  --action demote \
+  --timestamp 2026-06-02T23:48:18Z \
+  --notes "Star-Bar hard reset (META §2.4): installable link was tree/ not blob/"</span></pre>
+        </div>
+
+        <div class="callout callout-warning">
+          <span class="callout-label">⚠ Prefer trace_timeline.py for level changes</span>
+          <p>
+            <code>gaia dev timeline</code> does not write <code>previousValue</code> or
+            <code>newValue</code> fields — those are what the rank chart reads to plot transitions.
+            Without them the event appears in the timeline list but the chart line stays flat.
+            Use <code>trace_timeline.py --apply</code> for any demote or rank_up event.
+            Reserve <code>gaia dev timeline</code> for milestone events (register, fuse, notes)
+            that don't represent rank changes.
+          </p>
+        </div>
+      </section>
+
+      <!-- Known CLI gaps -->
+      <section id="cli-gaps">
+        <h2>Known CLI gaps</h2>
+        <div class="section-body">
+          <p>
+            Several gaps exist in <code>gaia dev timeline</code> as of v4.7.12.
+            Do not silently work around them with hand-edits; flag any gap-forced edit in
+            the PR description and include a <code>"(direct edit — CLI gap)"</code> marker in
+            the event's <code>details</code> string.
+          </p>
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Gap</th>
+              <th>Impact</th>
+              <th>Workaround</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Without <code>--user</code>, writes to the <strong>registry node</strong>, not <code>skill-tree.json</code></td>
+              <td>User-tree timeline cannot be appended via CLI without the flag</td>
+              <td>Always pass <code>--user &lt;handle&gt;</code> when targeting a user tree</td>
+            </tr>
+            <tr>
+              <td>No <code>previousValue</code> / <code>newValue</code> output</td>
+              <td>Level changes don't plot on the rank chart</td>
+              <td>Use <code>trace_timeline.py --apply</code> for demote / rank_up</td>
+            </tr>
+            <tr>
+              <td>No <code>gaia demote</code> command</td>
+              <td>Demotion events can't be written via promote flow</td>
+              <td>Use <code>trace_timeline.py --apply</code> or <code>gaia dev timeline --action demote</code> + manual <code>previousValue</code></td>
+            </tr>
+            <tr>
+              <td>No <code>gaia remove-skill</code> command</td>
+              <td>Stale generic entries can't be removed via CLI</td>
+              <td>Direct JSON edit to remove from <code>unlockedSkills</code>; then log with <code>gaia dev timeline --action demote</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout callout-info">
+          <span class="callout-label">📋 Gap logging etiquette</span>
+          <p>
+            When a gap forces a direct JSON edit: add <code>"(direct edit — CLI gap)"</code>
+            in the <code>details</code> string, document the gap in the PR description, and
+            open or link a tracking issue. An imperfect timeline entry is better than none.
+          </p>
+        </div>
+      </section>
+
+      <!-- After the backfill -->
+      <section id="after">
+        <h2>After the backfill</h2>
+        <div class="section-body">
+          <p>
+            After applying fixes, regenerate the public profile artifacts and re-run the gate
+            to confirm clean state before committing.
+          </p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header"><span class="code-block-label">shell</span></div>
+          <pre><span class="c"># 1. Regenerate profiles and rank charts</span>
+<span class="cmd">GAIA_OPERATOR_OVERRIDE=1 gaia docs build</span>
+
+<span class="c"># 2. Re-run the Transparency Gate — must print ✓</span>
+<span class="cmd">python scripts/validate_timelines.py</span>
+
+<span class="c"># 3. Discard generated-artifact churn before staging</span>
+<span class="cmd">git checkout registry/gaia.json docs/graph/gaia.json registry/gaia.gexf docs/css/tokens.css</span>
+
+<span class="c"># 4. Stage and commit the user-tree change only</span>
+<span class="cmd">git add skill-trees/&lt;owner&gt;/skill-tree.json</span>
+<span class="cmd">git commit -m "fix(timeline): backfill missing demote event for &lt;handle&gt;/&lt;slug&gt;"</span></pre>
+        </div>
+
+        <div class="callout callout-danger">
+          <span class="callout-label">🚫 Never commit generated artifact churn</span>
+          <p>
+            <code>gaia docs build</code> regenerates <code>registry/gaia.json</code>,
+            <code>docs/graph/gaia.json</code>, <code>registry/gaia.gexf</code>, and
+            <code>docs/css/tokens.css</code> with fresh timestamps. These are build artifacts —
+            always <code>git checkout</code> them before staging. Only commit the
+            <code>skill-trees/</code> file(s) you intentionally changed.
+          </p>
+        </div>
+      </section>
+
+      <!-- Common drift causes -->
+      <section id="causes">
+        <h2>Common drift causes</h2>
+        <div class="section-body">
+          <p>
+            Most timeline drift traces to one of three registry-side operations that touch
+            skill levels without triggering a user-tree update:
+          </p>
+        </div>
+
+        <div class="cause-cards">
+          <div class="cause-card">
+            <div class="cause-card-label">Star-Bar hard reset<br><small style="font-weight:400;color:var(--muted,#64748b);">META §2.4</small></div>
+            <div class="cause-card-detail">
+              A 3★+ skill lost or never had a verified GitHub <code>blob/</code> link.
+              The Star-Bar policy hard-resets the skill to 1★. The registry node level
+              drops immediately; the user tree is not updated.
+              <br><br>
+              Look for sweep commits with messages matching <code>star-bar</code> or
+              <code>installable: false</code>.
+            </div>
+          </div>
+          <div class="cause-card">
+            <div class="cause-card-label">Reclassification<br><small style="font-weight:400;color:var(--muted,#64748b);">registry-only change</small></div>
+            <div class="cause-card-detail">
+              A skill's type changes (e.g. Unique → Basic) or it's marked
+              <code>installable: false</code>, which caps the rank. Applied via
+              <code>gaia dev reclassify</code> on the registry node only.
+              <br><br>
+              Search commit history for <code>reclassif</code> or <code>calibrat</code>.
+            </div>
+          </div>
+          <div class="cause-card">
+            <div class="cause-card-label">Evidence rot<br><small style="font-weight:400;color:var(--muted,#64748b);">dead or broken link</small></div>
+            <div class="cause-card-detail">
+              A broken evidence link triggers a demotion demerit on the registry node
+              (applied via <code>gaia dev rm-evidence</code> or an audit sweep).
+              The user tree keeps the old rank.
+              <br><br>
+              Check the skill's <code>.md</code> <code>evidence:</code> block for links
+              that 404 or changed path.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CI enforcement -->
+      <section id="ci">
+        <h2>CI enforcement</h2>
+        <div class="section-body">
+          <p>
+            The Transparency Gate runs as part of the release validation suite triggered by
+            <code>gaia validate</code> and in release CI. PRs that mutate
+            <code>skill-trees/</code> files are checked against the gate automatically via
+            <code>.github/workflows/validate.yml</code>.
+          </p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header"><span class="code-block-label">running all three validation checks locally</span></div>
+          <pre><span class="cmd">gaia validate</span>
+<span class="c"># → canonical graph validator</span>
+<span class="c"># → redaction gate</span>
+<span class="c"># → Transparency Gate (validate_timelines.py)</span>
+
+<span class="c"># Or run the Transparency Gate alone</span>
+<span class="cmd">python scripts/validate_timelines.py</span></pre>
+        </div>
+
+        <div class="section-body">
+          <p>
+            A clean Transparency Gate is required for release. If the gate fails in CI after
+            a curation PR (registry level changed but user tree not updated), use
+            <code>trace_timeline.py --apply</code> to fix the drift in a follow-up commit.
+          </p>
+        </div>
+
+        <div class="callout callout-success">
+          <span class="callout-label">✓ Automation tip</span>
+          <p>
+            In CI pipelines and bots, set <code>GAIA_OPERATOR_OVERRIDE=1</code> before
+            calling <code>trace_timeline.py --apply</code>. This bypasses the Verifier
+            check without needing a 4★ named skill credential.
+            The <code>meta-guard.yml</code> workflow allowlists known bot actors
+            (<code>claude-bot</code>, <code>jules</code>, <code>codex</code>, <code>gemini-bot</code>)
+            so those PRs pass the meta guard automatically.
+          </p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- footer -->
+  <footer class="footer-v2">
+    <div class="footer-inner">
+      <div class="footer-brand-col">
+        <div class="footer-brand-mark">
+          <svg class="ico footer-seal" aria-hidden="true" focusable="false" width="20" height="20">
+            <use href="../assets/icons.svg#seal-diamond"/>
+          </svg>
+          <span class="footer-wordmark">Gaia</span>
+        </div>
+        <p class="footer-tagline">An evidence-backed atlas<br>of agent capabilities.</p>
+      </div>
+      <nav class="footer-cols" aria-label="Site navigation">
+        <div class="footer-col">
+          <span class="footer-col-heading">Registry</span>
+          <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../index.html">Skill Tree</a></li>
+            <li><a href="../starless.html">Starless</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-heading">Docs</span>
+          <ul>
+            <li><a href="index.html">Docs Home</a></li>
+            <li><a href="getting-started.html">Getting Started</a></li>
+            <li><a href="cli-reference.html">CLI Reference</a></li>
+            <li><a href="contributing.html">Contributing</a></li>
+            <li><a href="named-skills.html">Named Skills</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-heading">More</span>
+          <ul>
+            <li><a href="evidence-classes.html">Evidence &amp; Trust</a></li>
+            <li><a href="fusion.html">Skill Fusion</a></li>
+            <li><a href="mcp-server.html">MCP Server</a></li>
+            <li><a href="timeline-audit.html" style="color:var(--tier-basic,#38bdf8);">Timeline Audit</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener">GitHub</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>MIT License</span>
+      <span class="footer-bottom-sep" aria-hidden="true">·</span>
+      <span>v4.7.12</span>
+      <span class="footer-bottom-sep" aria-hidden="true">·</span>
+      <span>© 2026 Gaia</span>
+    </div>
+  </footer>
+
+  <script>
+    /* Sidebar scroll-spy */
+    (function () {
+      const links = document.querySelectorAll('.sidebar-links a[href^="#"]');
+      const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            links.forEach(l => l.classList.remove('active'));
+            const active = document.querySelector(`.sidebar-links a[href="#${e.target.id}"]`);
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-30% 0px -65% 0px' });
+      sections.forEach(s => obs.observe(s));
+    })();
+  </script>
+</body>
+</html>
