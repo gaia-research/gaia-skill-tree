@@ -75,23 +75,50 @@ def sync_docs_graph_assets(root: Path = ROOT) -> None:
         if committed_src.exists():
             layout_nodes = json.loads(committed_src.read_text(encoding="utf-8")).get("nodes", {})
 
+    # Load ultimate gate config for trust grade injection
+    _gate_config: dict = {}
+    _meta_path = root / "registry" / "schema" / "meta.json"
+    if _meta_path.exists():
+        try:
+            _gate_config = json.loads(_meta_path.read_text(encoding="utf-8")).get("evidence", {}).get("ultimateGate", {})
+        except Exception:
+            pass
+
     for rel in required:
         src = root / rel
         dst = docs_graph / src.name
-        if src.name == "gaia.json" and layout_nodes:
+        if src.name == "gaia.json":
             # Enrich the docs copy with per-skill cluster/positions from the
             # generated layout artifact. registry/gaia.json stays schema-clean.
             gaia_data = json.loads(src.read_text(encoding="utf-8"))
             # Generic refs are rank-less — the web graph's rank legend reads the
             # top named-variant star (namedMaxLevel) instead of a generic level.
             named_max = _named_max_levels(root)
-            for skill in gaia_data.get("skills", []):
+            skills_list = gaia_data.get("skills", [])
+            generic_skills_map = {s.get("id"): s for s in skills_list}
+
+            # Import grading functions for Overall Trust Grade injection
+            sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
+            from gaia_cli.grading import overall_trust_grade, check_ultimate_gate  # noqa: E402
+
+            for skill in skills_list:
                 sid = skill.get("id")
-                if sid in layout_nodes:
+                if layout_nodes and sid in layout_nodes:
                     skill["cluster"] = layout_nodes[sid]["cluster"]
                     skill["positions"] = layout_nodes[sid]["positions"]
                 if sid in named_max:
                     skill["namedMaxLevel"] = named_max[sid]
+                # Inject overall trust grade (computed, not stored in nodes)
+                grade = overall_trust_grade(skill.get("evidence") or [])
+                if grade is not None:
+                    skill["overallTrustGrade"] = grade
+                # Inject ultimate gate status for ultimate-type skills
+                if skill.get("type") == "ultimate":
+                    gate = check_ultimate_gate(skill, generic_skills_map, _gate_config)
+                    skill["ultimateGateStatus"] = {
+                        "passes": gate["passes"],
+                        "reason": gate["reason"],
+                    }
             dst.write_text(json.dumps(gaia_data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
             print(f"Synced+enriched {src.relative_to(root)} -> {dst.relative_to(root)}")
         else:
