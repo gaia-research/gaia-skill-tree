@@ -761,7 +761,7 @@ def build_registry(contributors: dict[str, dict]) -> dict:
 def write_registry_json(contributors: dict[str, dict], out_dir: Path) -> None:
     """Write docs/badges/registry.json — the public per-contributor manifest."""
     payload = {
-        "generatedAt": _today_iso(),
+        "generatedAt": _source_generated_at(),
         "schema": "gaia-badges-registry/2",
         "description": (
             "Approved repos per contributor for Gaia README badges. "
@@ -783,6 +783,27 @@ def write_registry_json(contributors: dict[str, dict], out_dir: Path) -> None:
 def _today_iso() -> str:
     from datetime import datetime, timezone
     return datetime.now(timezone.utc).date().isoformat()
+
+
+def _source_generated_at() -> str:
+    """Stamp the badge registry with the source's own ``generatedAt`` so the
+    artifact is reproducible.
+
+    Using wall-clock time here made ``docs/badges/registry.json`` drift every
+    calendar day, which tripped the strict ``build_docs.py --check`` diff on any
+    CI run that happened after the last regeneration. Mirroring the committed
+    ``registry/named-skills.json`` date keeps the output deterministic — it only
+    changes when the source data is regenerated (a committed change in itself).
+    Falls back to today's date if the source lacks the field.
+    """
+    try:
+        data = json.loads(NAMED_JSON.read_text(encoding="utf-8"))
+        stamp = data.get("generatedAt")
+        if isinstance(stamp, str) and stamp:
+            return stamp
+    except (OSError, ValueError):
+        pass
+    return _today_iso()
 
 
 def main(argv: list[str] | None = None) -> int:
