@@ -2332,7 +2332,11 @@
         ],
         "type": "ultimate",
         "installBody": "**Requirements:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Git](https://git-scm.com/), [Bun](https://bun.sh/) v1.0+, [Node.js](https://nodejs.org/) (Windows only)\n\n### Step 1: Install on your machine\n\nOpen Claude Code and paste this. Claude does the rest.\n\n> Install gstack: run **`git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup`** then add a \"gstack\" section to CLAUDE.md that says to use the /browse skill from gstack for all web browsing, never use mcp\\_\\_claude-in-chrome\\_\\_\\* tools, and lists the available skills: /office-hours, /plan-ceo-review, /plan-eng-review, /plan-design-review, /design-consultation, /design-shotgun, /design-html, /review, /ship, /land-and-deploy, /canary, /benchmark, /browse, /connect-chrome, /qa, /qa-only, /design-review, /setup-browser-cookies, /setup-deploy, /setup-gbrain, /retro, /investigate, /document-release, /document-generate, /codex, /cso, /autoplan, /plan-devex-review, /devex-review, /careful, /freeze, /guard, /unfreeze, /gstack-upgrade, /learn. Then ask the user if they also want to add gstack to the current project so teammates get it.\n\n### Step 2: Team mode — auto-update for shared repos (recommended)\n\nFrom inside your repo, paste this. Switches you to team mode, bootstraps the repo so teammates get gstack automatically, and commits the change:\n\n```bash\n(cd ~/.claude/skills/gstack && ./setup --team) && ~/.claude/skills/gstack/bin/gstack-team-init required && git add .claude/ CLAUDE.md && git commit -m \"require gstack for AI-assisted work\"\n```bash\nNo vendored files in your repo, no version drift, no manual upgrades. Every Claude Code session starts with a fast auto-update check (throttled to once/hour, network-failure-safe, completely silent).\n\nSwap `required` for `optional` if you'd rather nudge teammates than block them.\n\n### OpenClaw\n\nOpenClaw spawns Claude Code sessions via ACP, so every gstack skill just works\nwhen Claude Code has gstack installed. Paste this to your OpenClaw agent:\n\n> Install gstack: run `git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup` to install gstack for Claude Code. Then add a \"Coding Tasks\" section to AGENTS.md that says: when spawning Claude Code sessions for coding work, tell the session to use gstack skills. Include these examples — security audit: \"Load gstack. Run /cso\", code review: \"Load gstack. Run /review\", QA test a URL: \"Load gstack. Run /qa https://...\", build a feature end-to-end: \"Load gstack. Run /autoplan, implement the plan, then run /ship\", plan before building: \"Load gstack. Run /office-hours then /autoplan. Save the plan, don't implement.\"\n\n**After setup, just talk to your OpenClaw agent naturally:**\n\n| You say | What happens |\n|---------|-------------|\n| \"Fix the typo in README\" | Simple — Claude Code session, no gstack needed |\n| \"Run a security audit on this repo\" | Spawns Claude Code with `Run /cso` |\n| \"Build me a notifications feature\" | Spawns Claude Code with /autoplan → implement → /ship |\n| \"Help me plan the v2 API redesign\" | Spawns Claude Code with /office-hours → /autoplan, saves plan |\n\nSee [docs/OPENCLAW.md](docs/OPENCLAW.md) for advanced dispatch routing and\nthe gstack-lite/gstack-full prompt templates.\n\n### Native OpenClaw Skills (via ClawHub)\n\nFour methodology skills that work directly in your OpenClaw agent, no Claude Code\nsession needed. Install from ClawHub:\n\n```\nclawhub install gstack-openclaw-office-hours gstack-openclaw-ceo-review gstack-openclaw-investigate gstack-openclaw-retro\n```bash\n| Skill | What it does |\n|-------|-------------|\n| `gstack-openclaw-office-hours` | Product interrogation with 6 forcing questions |\n| `gstack-openclaw-ceo-review` | Strategic challenge with 4 scope modes |\n| `gstack-openclaw-investigate` | Root cause debugging methodology |\n| `gstack-openclaw-retro` | Weekly engineering retrospective |\n\nThese are conversational skills. Your OpenClaw agent runs them directly via chat.\n\n### Other AI Agents\n\ngstack works on 10 AI coding agents, not just Claude. Setup auto-detects which\nagents you have installed:\n\n```bash\ngit clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/gstack\ncd ~/gstack && ./setup\n```\n\nOr target a specific agent with `./setup --host <name>`:\n\n| Agent | Flag | Skills install to |\n|-------|------|-------------------|\n| OpenAI Codex CLI | `--host codex` | `~/.codex/skills/gstack-*/` |\n| OpenCode | `--host opencode` | `~/.config/opencode/skills/gstack-*/` |\n| Cursor | `--host cursor` | `~/.cursor/skills/gstack-*/` |\n| Factory Droid | `--host factory` | `~/.factory/skills/gstack-*/` |\n| Slate | `--host slate` | `~/.slate/skills/gstack-*/` |\n| Kiro | `--host kiro` | `~/.kiro/skills/gstack-*/` |\n| Hermes | `--host hermes` | `~/.hermes/skills/gstack-*/` |\n| GBrain (mod) | `--host gbrain` | `~/.gbrain/skills/gstack-*/` |\n\n**Want to add support for another agent?** See [docs/ADDING_A_HOST.md](docs/ADDING_A_HOST.md).\nIt's one TypeScript config file, zero code changes.",
-        "role": "origin"
+        "role": "origin",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 0/3 components carry graded evidence"
+        }
       }
     ],
     "systematic-debugging": [
@@ -4209,7 +4213,11 @@
         ],
         "type": "ultimate",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "origin"
+        "role": "origin",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 0/3 components carry graded evidence"
+        }
       }
     ],
     "grill-me": [
@@ -4534,7 +4542,11 @@
         ],
         "type": "ultimate",
         "installBody": "Install the full Matt Pocock skills suite with:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.",
-        "role": "origin"
+        "role": "origin",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 0/3 components carry graded evidence"
+        }
       }
     ],
     "prd-generation": [
@@ -5582,7 +5594,11 @@
         ],
         "type": "ultimate",
         "installBody": "Installation differs by harness. If you use more than one, install Superpowers separately for each one.\n\n### Claude Code\n\nSuperpowers is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers)\n\n#### Official Marketplace\n\n- Install the plugin from Anthropic's official marketplace:\n\n  ```bash\n  /plugin install superpowers@claude-plugins-official\n  ```\n\n#### Superpowers Marketplace\n\nThe Superpowers marketplace provides Superpowers and some other related plugins for Claude Code.\n\n- Register the marketplace:\n\n  ```bash\n  /plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin from this marketplace:\n\n  ```bash\n  /plugin install superpowers@superpowers-marketplace\n  ```\n\n### Codex CLI\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- Open the plugin search interface:\n\n  ```bash\n  /plugins\n  ```\n\n- Search for Superpowers:\n\n  ```bash\n  superpowers\n  ```\n\n- Select `Install Plugin`.\n\n### Codex App\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- In the Codex app, click on Plugins in the sidebar.\n- You should see `Superpowers` in the Coding section.\n- Click the `+` next to Superpowers and follow the prompts.\n\n### Factory Droid\n\n- Register the marketplace:\n\n  ```bash\n  droid plugin marketplace add https://github.com/obra/superpowers\n  ```\n\n- Install the plugin:\n\n  ```bash\n  droid plugin install superpowers@superpowers\n  ```\n\n### Gemini CLI\n\n- Install the extension:\n\n  ```bash\n  gemini extensions install https://github.com/obra/superpowers\n  ```\n\n- Update later:\n\n  ```bash\n  gemini extensions update superpowers\n  ```\n\n### OpenCode\n\nOpenCode uses its own plugin install; install Superpowers separately even if you\nalready use it in another harness.\n\n- Tell OpenCode:\n\n  ```\n  Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md\n  ```\n\n- Detailed docs: [docs/README.opencode.md](docs/README.opencode.md)\n\n### Cursor\n\n- In Cursor Agent chat, install from marketplace:\n\n  ```bash\n  /add-plugin superpowers\n  ```\n\n- Or search for \"superpowers\" in the plugin marketplace.\n\n### GitHub Copilot CLI\n\n- Register the marketplace:\n\n  ```bash\n  copilot plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin:\n\n  ```bash\n  copilot plugin install superpowers@superpowers-marketplace\n  ```",
-        "role": "origin"
+        "role": "origin",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 0/3 components carry graded evidence"
+        }
       }
     ],
     "using-git-worktrees": [
@@ -6061,7 +6077,11 @@
         ],
         "type": "ultimate",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin"
+        "role": "origin",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 0/3 components carry graded evidence"
+        }
       }
     ],
     "git-diff-risk-analysis": [
@@ -6901,7 +6921,11 @@
         ],
         "type": "ultimate",
         "installBody": "The quickest path to Ruflo:\n\n```bash\nnpx ruflo@latest init\n```\n\nThis launches an interactive wizard that detects your platform and configures\nthe full Ruflo loop (98 agents, 60+ commands, MCP server, hooks, and daemon).\nFor Claude Code plugin installs, Windows specifics, or the complete options\nreference, see the [full installation guide on GitHub](https://github.com/ruvnet/ruflo#installation).",
-        "role": "origin"
+        "role": "origin",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 0/3 components carry graded evidence"
+        }
       }
     ],
     "agentic-workflow-design": [
