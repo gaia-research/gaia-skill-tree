@@ -1036,6 +1036,20 @@ def meta_evidence_command(args):
         thresholds = load_grade_thresholds(registry_path)
         derived_grade = derive_grade(trust_number, thresholds)
 
+    # --index re-grades an existing entry in place (class→grade backfill);
+    # otherwise a new entry is appended.
+    index = getattr(args, "index", None)
+
+    if index is not None and trust_number is None and evidence_type is None and (
+        not getattr(args, "notes", None)
+    ):
+        print(
+            "Error: --index requires at least one of --trust, --type, or --notes "
+            "to update on the existing entry.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
     evidence: dict = {
         "source": args.source,
         "evaluator": getattr(args, "evaluator", None) or _get_contributor(),
@@ -1054,6 +1068,43 @@ def meta_evidence_command(args):
     if getattr(args, "notes", None):
         evidence["notes"] = args.notes
 
+    def _apply(ev_list: list) -> dict:
+        """Append the new entry, or update the entry at ``index`` in place.
+
+        In-place mode only touches the fields explicitly supplied, preserving
+        the existing entry's other fields (notably the deprecated ``class``,
+        plus ``evaluator``/``date``/``source``). Returns the resulting entry.
+        """
+        if index is None:
+            ev_list.append(evidence)
+            return evidence
+        if index < 0 or index >= len(ev_list):
+            print(
+                f"Error: Evidence index {index} out of range "
+                f"(skill '{skill_id}' has {len(ev_list)} entries).",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        entry = ev_list[index]
+        if evidence_type is not None:
+            entry["type"] = evidence_type
+        if trust_number is not None:
+            entry["trustNumber"] = trust_number
+            # Re-derive grade from scratch; drop a stale grade if now ungraded.
+            if derived_grade is not None:
+                entry["grade"] = derived_grade
+            else:
+                entry.pop("grade", None)
+        if evidence_class is not None:
+            entry["class"] = evidence_class
+        if getattr(args, "notes", None):
+            entry["notes"] = args.notes
+        if getattr(args, "evaluator", None):
+            entry["evaluator"] = args.evaluator
+        if getattr(args, "date", None):
+            entry["date"] = args.date
+        return entry
+
     if "/" in skill_id:
         # Named implementation → write into the named .md frontmatter.
         named_dir = Path(named_skills_dir(registry_path))
@@ -1062,7 +1113,7 @@ def meta_evidence_command(args):
             print(f"Error: Named skill '{skill_id}' not found.")
             sys.exit(1)
         meta, body = _parse_md(named_file)
-        meta.setdefault("evidence", []).append(evidence)
+        result_entry = _apply(meta.setdefault("evidence", []))
         meta["updatedAt"] = datetime.date.today().isoformat()
         _write_md(named_file, meta, body)
     else:
@@ -1084,36 +1135,52 @@ def meta_evidence_command(args):
 
         with open(node_file, "r", encoding="utf-8") as f:
             data = json.load(f)
-        data.setdefault("evidence", []).append(evidence)
+        result_entry = _apply(data.setdefault("evidence", []))
         data["updatedAt"] = datetime.date.today().isoformat()
         with open(node_file, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
             f.write("\n")
 
-    grade_label = derived_grade if derived_grade else "ungraded"
-    type_label = f" [{evidence_type}]" if evidence_type else ""
-    print(f"Added evidence to skill: {skill_id}{type_label} (grade: {grade_label})")
+    grade_label = result_entry.get("grade") or "ungraded"
+    type_label = f" [{result_entry.get('type')}]" if result_entry.get("type") else ""
+    verb = "Re-graded evidence entry" if index is not None else "Added evidence to skill"
+    suffix = f" #{index}" if index is not None else ""
+    print(f"{verb}{suffix}: {skill_id}{type_label} (grade: {grade_label})")
 
     contributor = _get_contributor()
-    append_skill_event(
-        skill_id,
-        "evidence_added",
-        contributor,
-        f"Added evidence from {evidence['source']}"
-        + (f" (type: {evidence_type})" if evidence_type else ""),
-        registry_path=registry_path,
-    )
-
-    # Fire evidence_graded event whenever a grade was derived from a trust number
-    if derived_grade is not None:
+    src = result_entry.get("source")
+    if index is not None:
+        # In-place re-grade: a single evidence_graded event captures the change,
+        # fired whenever a trust number was supplied (graded or ungraded) so the
+        # backfill always leaves an audit trail.
+        if trust_number is not None:
+            append_skill_event(
+                skill_id,
+                "evidence_graded",
+                contributor,
+                f"Re-graded evidence from {src} as {grade_label} "
+                f"(trustNumber: {trust_number})",
+                registry_path=registry_path,
+            )
+    else:
         append_skill_event(
             skill_id,
-            "evidence_graded",
+            "evidence_added",
             contributor,
-            f"Graded evidence from {evidence['source']} as {derived_grade} "
-            f"(trustNumber: {trust_number})",
+            f"Added evidence from {src}"
+            + (f" (type: {evidence_type})" if evidence_type else ""),
             registry_path=registry_path,
         )
+        # Fire evidence_graded whenever a grade was derived from a trust number
+        if derived_grade is not None:
+            append_skill_event(
+                skill_id,
+                "evidence_graded",
+                contributor,
+                f"Graded evidence from {src} as {derived_grade} "
+                f"(trustNumber: {trust_number})",
+                registry_path=registry_path,
+            )
 
     if not getattr(args, "no_build", False):
         print("Regenerating registry and documentation...")

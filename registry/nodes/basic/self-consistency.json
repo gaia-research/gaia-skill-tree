@@ -15,13 +15,16 @@
       "source": "https://arxiv.org/abs/2203.11171",
       "evaluator": "mbtiongson1",
       "date": "2026-04-29",
-      "notes": "Wang et al. (2022) â€” Self-Consistency Improves Chain of Thought Reasoning in Language Models; +17.9% on GSM8K and +11.0% on MATH over greedy CoT decoding."
+      "notes": "Wang et al. (2022) â€” Self-Consistency Improves Chain of Thought Reasoning in Language Models; +17.9% on GSM8K and +11.0% on MATH over greedy CoT decoding. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-29",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -67,6 +70,12 @@
       "details": "Calibrated/demoted rank from 4★ to 2★",
       "previousValue": "4★",
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:53Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2203.11171 as A (trustNumber: 85.0)"
     }
   ]
 }

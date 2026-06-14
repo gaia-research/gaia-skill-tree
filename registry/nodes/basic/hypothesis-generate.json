@@ -15,27 +15,36 @@
       "source": "https://arxiv.org/abs/2304.05376",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "ChemCrow (Bran et al., 2023) â€” LLM augmented with 18 chemistry tools autonomously proposes and validates synthesis routes; GPT-4 outperforms on Chem. benchmark."
+      "notes": "ChemCrow (Bran et al., 2023) â€” LLM augmented with 18 chemistry tools autonomously proposes and validates synthesis routes; GPT-4 outperforms on Chem. benchmark. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "A",
       "source": "https://arxiv.org/abs/2304.05332",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "Coscientist (Boiko et al., 2023) â€” autonomous LLM system designs and executes chemistry experiments; independently re-derived Suzuki coupling conditions."
+      "notes": "Coscientist (Boiko et al., 2023) â€” autonomous LLM system designs and executes chemistry experiments; independently re-derived Suzuki coupling conditions. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/SakanaAI/AI-Scientist",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "The AI Scientist (Sakana AI) â€” end-to-end pipeline generating ideas, running experiments, and writing ML papers; 50+ auto-generated manuscripts reviewed."
+      "notes": "The AI Scientist (Sakana AI) â€” end-to-end pipeline generating ideas, running experiments, and writing ML papers; 50+ auto-generated manuscripts reviewed. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -45,6 +54,24 @@
       "details": "Skill created as 2★ (provisional)",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:50Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2304.05376 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:50Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2304.05332 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:51Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/SakanaAI/AI-Scientist as B (trustNumber: 70.0)"
     }
   ]
 }

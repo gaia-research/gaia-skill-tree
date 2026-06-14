@@ -19,7 +19,7 @@ tags:
 - pr-automation
 - release
 createdAt: '2026-05-18'
-updatedAt: '2026-06-03'
+updatedAt: '2026-06-14'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T23:32:59Z'
@@ -30,6 +30,11 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: Added B evidence from https://github.com/garrytan/gstack/blob/main/ship/SKILL.md
+- timestamp: '2026-06-14T12:32:26Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/garrytan/gstack/blob/main/ship/SKILL.md
+    as B (trustNumber: 70.0)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/ship/SKILL.md
@@ -37,7 +42,11 @@ evidence:
   date: '2026-06-03'
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Automated
     end-to-end deployment workflow that merges the base branch, runs tests, reviews
-    the diff, bumps the VERSION file, updates the CHANGELOG,…
+    the diff, bumps the VERSION file, updates the CHANGELOG,… (backfilled — class-to-type
+    migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 ---
 
 ## Overview

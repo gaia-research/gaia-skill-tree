@@ -15,27 +15,36 @@
       "source": "https://arxiv.org/abs/2504.00428",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "LLM-Assisted Proactive Threat Intelligence for Automated Reasoning — integrates GPT-4o + RAG with CVE/CWE/EPSS/KEV feeds for automated threat synthesis"
+      "notes": "LLM-Assisted Proactive Threat Intelligence for Automated Reasoning — integrates GPT-4o + RAG with CVE/CWE/EPSS/KEV feeds for automated threat synthesis (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "A",
       "source": "https://arxiv.org/abs/2410.20287",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "AI-Driven Cyber Threat Intelligence Automation — GPT-4o fine-tuning for CTI report generation from threat feeds, security logs, dark web forums"
+      "notes": "AI-Driven Cyber Threat Intelligence Automation — GPT-4o fine-tuning for CTI report generation from threat feeds, security logs, dark web forums (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "C",
       "source": "https://skillsmp.com/skills/j4flmao-agent-skills-skills-security-threat-intelligence-skill-md",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "threat-intelligence skill on SkillsMP — IoC/TTP management, threat hunting, MITRE ATT&CK mapping"
+      "notes": "threat-intelligence skill on SkillsMP — IoC/TTP management, threat hunting, MITRE ATT&CK mapping (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-03",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -61,6 +70,24 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added C evidence from https://skillsmp.com/skills/j4flmao-agent-skills-skills-security-threat-intelligence-skill-md"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:06Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2504.00428 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:06Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2410.20287 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:06Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://skillsmp.com/skills/j4flmao-agent-skills-skills-security-threat-intelligence-skill-md as B (trustNumber: 70.0)"
     }
   ]
 }

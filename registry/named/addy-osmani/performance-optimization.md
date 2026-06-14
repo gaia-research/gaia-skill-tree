@@ -11,7 +11,7 @@ description: 'Measurement-driven performance workflow: baseline with Lighthouse 
   blocking, unoptimized images), verify against Core Web Vitals thresholds (LCP ≤2.5s,
   INP ≤200ms, CLS ≤0.1), and guard against regression with perf budgets.'
 createdAt: '2026-05-31'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-14'
 title: The Perf Loop
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
@@ -34,6 +34,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Origin status set to true.
+- timestamp: '2026-06-14T12:32:16Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
+    as B (trustNumber: 70.0)'
 evidence:
 - class: A
   source: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
@@ -42,7 +47,11 @@ evidence:
   notes: Addy Osmani's performance-optimization SKILL.md in agent-skills repo (47.2k
     stars, verified 2026-05-31). Defines a measurement-driven 5-step workflow (Measure
     → Identify → Fix → Verify → Guard) with explicit Core Web Vitals thresholds. Qualifies
-    for Class A per META §2.1 large-scale adoption criterion.
+    for Class A per META §2.1 large-scale adoption criterion. (backfilled — class-to-type
+    migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 ---
 
 ## Installation

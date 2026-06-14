@@ -19,14 +19,24 @@ tags:
 - parallel-execution
 - background-workers
 createdAt: '2026-05-19'
-updatedAt: '2026-05-19'
+updatedAt: '2026-06-14'
 suiteRef: ruvnet/dual-mode
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
   evaluator: mbtiongson1
   date: '2026-05-19'
-  notes: Ruflo orchestration platform — 34k+ GitHub stars.
+  notes: Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type
+    migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:54Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber:
+    70.0)'
 ---
 
 ## Overview

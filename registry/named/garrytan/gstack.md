@@ -23,7 +23,7 @@ tags:
 - orchestration
 - ultimate
 createdAt: '2026-05-18'
-updatedAt: '2026-05-18'
+updatedAt: '2026-06-14'
 suiteComponents:
 - garrytan/benchmark
 - garrytan/benchmark-models
@@ -79,7 +79,17 @@ evidence:
   notes: 'garrytan/gstack — 19 named garrytan skills registered in Gaia across 16
     generic skill buckets; meets the >=5 named-skills threshold for Class A designation.
     Additionally: 98.9k GitHub stars, multi-platform adoption across 8+ runtimes (Claude
-    Code, OpenAI Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes).'
+    Code, OpenAI Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes).
+    (backfilled — class-to-type migration)'
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:22Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/garrytan/gstack as B (trustNumber:
+    70.0)'
 ---
 
 ## Overview

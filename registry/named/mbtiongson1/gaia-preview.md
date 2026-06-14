@@ -10,7 +10,7 @@ description: Generates a preview render of proposed registry changes — showing
   new or modified skill entries will appear on the profile page and in the skill graph
   before the PR is merged.
 createdAt: '2026-05-27'
-updatedAt: '2026-06-10'
+updatedAt: '2026-06-14'
 title: The Change Previewer
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md
@@ -27,13 +27,21 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: Added B evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md
+- timestamp: '2026-06-14T12:32:45Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md
+    as B (trustNumber: 70.0)'
 evidence:
 - class: B
   source: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-10'
   notes: Project-local agent skill driving branch preview deploys via sync-artifacts.yml;
-    implementation public at SKILL.md.
+    implementation public at SKILL.md. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 ---
 
 ## Overview

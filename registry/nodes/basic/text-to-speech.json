@@ -14,13 +14,16 @@
       "source": "https://arxiv.org/abs/2301.02111",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "VALL-E (Microsoft) â€” neural codec language model achieving SOTA speech synthesis with 3-second voice cloning on LibriSpeech."
+      "notes": "VALL-E (Microsoft) â€” neural codec language model achieving SOTA speech synthesis with 3-second voice cloning on LibriSpeech. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -30,6 +33,12 @@
       "details": "Skill created as 2★ (provisional)",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:56Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2301.02111 as A (trustNumber: 85.0)"
     }
   ]
 }

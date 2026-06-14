@@ -16,14 +16,24 @@ tags:
 - concurrency
 - task-execution
 - queue
-updatedAt: '2026-05-25'
+updatedAt: '2026-06-14'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
   notes: intelligentcode-ai/skills parallel-execution — concurrent work item execution
-    with independence verification and configurable concurrency (default 5).
+    with independence verification and configurable concurrency (default 5). (backfilled
+    — class-to-type migration)
+  type: repo
+  trustNumber: 50.0
+  grade: C
+timeline:
+- timestamp: '2026-06-14T12:32:41Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md
+    as C (trustNumber: 50.0)'
 ---
 
 ## Overview

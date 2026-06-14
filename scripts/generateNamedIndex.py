@@ -400,21 +400,53 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
 def _inject_trust_grades(buckets, generic_skills_map, gate_config):
     """Annotate each named-skill bucket entry with overallTrustGrade.
 
-    For ultimate-type entries, also compute ultimateGateStatus (based on their
-    suiteComponents if present, else their direct evidence).
+    A named skill's *effective* evidence is its own implementation-specific
+    evidence unioned with the capability evidence inherited from its generic
+    ref (``inherited_evidence``).  The Overall Trust Grade is derived from that
+    combined pool, so a child can match the inherited floor or exceed it with
+    its own stronger (repo-specific) evidence.
+
+    For ultimate-type entries, ``ultimateGateStatus`` is computed from a
+    component lookup keyed by *named* skill id (``contributor/skill``) — the
+    same ids that appear in ``suiteComponents`` — each resolving to that
+    component's effective (inherited) evidence.  Generic ids remain resolvable
+    too, so mixed suites still work.  Without this, named component ids miss the
+    generic-keyed map and every suite reads "0/3".
+
     Mutates entries in-place; no fields are stored in registry nodes.
     """
     from gaia_cli.grading import overall_trust_grade, check_ultimate_gate
+    from gaia_cli.evidence import inherited_evidence
+
+    def _effective(entry):
+        generic_node = generic_skills_map.get(entry.get("genericSkillRef"))
+        return inherited_evidence(entry, generic_node)
+
+    # Component lookup: start from generic nodes (own evidence, no parent), then
+    # overlay every named skill keyed by its full id with its effective pool.
+    component_lookup = dict(generic_skills_map)
+    for _ref, entries in buckets.items():
+        for entry in entries:
+            component_lookup[entry["id"]] = {
+                "id": entry["id"],
+                "type": entry.get("type"),
+                "evidence": _effective(entry),
+                "suiteComponents": entry.get("suiteComponents"),
+            }
 
     for _ref, entries in buckets.items():
         for entry in entries:
-            ev = entry.get("evidence") or []
-            grade = overall_trust_grade(ev)
+            effective = _effective(entry)
+            grade = overall_trust_grade(effective)
             if grade is not None:
                 entry["overallTrustGrade"] = grade
 
             if entry.get("type") == "ultimate":
-                gate = check_ultimate_gate(entry, generic_skills_map, gate_config)
+                # Score the gate on effective evidence: components via the
+                # named-id lookup, non-suite direct evidence via the entry's
+                # own ∪ inherited pool.
+                gate_skill = {**entry, "evidence": effective}
+                gate = check_ultimate_gate(gate_skill, component_lookup, gate_config)
                 entry["ultimateGateStatus"] = {
                     "passes": gate["passes"],
                     "reason": gate["reason"],

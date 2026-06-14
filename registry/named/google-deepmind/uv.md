@@ -9,7 +9,7 @@ level: 2★
 description: Checks whether the uv Python package manager is installed and installs
   it if missing. Ensures uv is on PATH. Use when another skill requires uv as a prerequisite.
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md
 evidence:
@@ -17,7 +17,17 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind uv science-skill implementation.
+  notes: Official Google DeepMind uv science-skill implementation. (backfilled — class-to-type
+    migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:40Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 # uv (Python Package Manager)

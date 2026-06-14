@@ -19,7 +19,7 @@ tags:
 - discipline
 - multi-skill
 createdAt: '2026-05-18'
-updatedAt: '2026-05-19'
+updatedAt: '2026-06-14'
 suiteComponents:
 - obra/brainstorming
 - obra/dispatching-parallel-agents
@@ -40,7 +40,16 @@ evidence:
   notes: obra/superpowers v5.1.0 — 196k+ GitHub stars, 17.5k forks, multi-platform
     adoption (Claude Code, Codex CLI, Factory Droid, Gemini CLI, OpenCode, Cursor,
     GitHub Copilot CLI). Most widely adopted AI agent discipline framework; confirms
-    landmark methodology status.
+    landmark methodology status. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:48Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/obra/superpowers as B (trustNumber:
+    70.0)'
 ---
 
 ## Overview

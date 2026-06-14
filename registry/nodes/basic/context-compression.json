@@ -14,27 +14,36 @@
       "source": "https://arxiv.org/abs/2403.12968",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "LLMLingua-2 (ACL 2024 Findings) — data-distillation for efficient task-agnostic prompt compression; 3x-6x speed-up, BERT-base token classifier; demonstrates measurable perplexity-based faithfulness."
+      "notes": "LLMLingua-2 (ACL 2024 Findings) — data-distillation for efficient task-agnostic prompt compression; 3x-6x speed-up, BERT-base token classifier; demonstrates measurable perplexity-based faithfulness. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/microsoft/LLMLingua",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "Microsoft LLMLingua — reproducible open-source implementation of LLMLingua-1/2/LongLLMLingua; CI, README, Apache-2.0 license."
+      "notes": "Microsoft LLMLingua — reproducible open-source implementation of LLMLingua-1/2/LongLLMLingua; CI, README, Apache-2.0 license. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     },
     {
       "class": "C",
       "source": "https://skillsmp.com/api/v1/skills/search?q=context-compression",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "SkillsMP top hit: sickn33/antigravity-awesome-skills (35k+ stars), multiple community variants including context-compression-v2."
+      "notes": "SkillsMP top hit: sickn33/antigravity-awesome-skills (35k+ stars), multiple community variants including context-compression-v2. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -44,6 +53,24 @@
       "details": "Skill created as 3★ (provisional)",
       "previousValue": null,
       "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:49Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2403.12968 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:49Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/microsoft/LLMLingua as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:49Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://skillsmp.com/api/v1/skills/search?q=context-compression as B (trustNumber: 70.0)"
     }
   ]
 }

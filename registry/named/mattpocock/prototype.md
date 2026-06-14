@@ -10,7 +10,7 @@ level: 3★
 description: Build throwaway prototypes to answer specific design or logic questions
   before committing to production code.
 createdAt: '2026-05-21'
-updatedAt: '2026-06-04'
+updatedAt: '2026-06-14'
 suiteRef: mattpocock/engineering
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype
@@ -19,7 +19,16 @@ evidence:
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md
   evaluator: mbtiongson1
   date: '2026-05-22'
-  notes: Production interactive prototyping skill.
+  notes: Production interactive prototyping skill. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:43Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Installation

@@ -22,7 +22,7 @@ tags:
 - afk
 - acceptance-criteria
 createdAt: '2026-04-30'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-14'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -30,12 +30,20 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-04-30'
   notes: Production skill implementing tracer-bullet vertical slicing with HITL/AFK
-    classification and issue-tracker publication.
+    classification and issue-tracker publication. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 timeline:
 - timestamp: '2026-06-02T23:33:00Z'
   action: demote
   contributor: unknown
   details: Origin status removed. Transferred to garrytan/garrytan.
+- timestamp: '2026-06-14T12:32:44Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

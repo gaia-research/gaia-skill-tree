@@ -19,7 +19,7 @@ tags:
 - signal-discovery
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-14'
 evidence:
 - class: B
   source: https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md
@@ -27,11 +27,20 @@ evidence:
   date: '2026-05-06'
   notes: Hermes Agent blogwatcher skill monitors blogs and RSS/Atom feeds with feed
     discovery, scraping fallback, OPML import, and read/unread article management.
+    (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 timeline:
 - timestamp: '2026-06-02T23:48:19Z'
   action: demote
   contributor: unknown
   details: Calibrated level from 4★ to 1★
+- timestamp: '2026-06-14T12:32:46Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

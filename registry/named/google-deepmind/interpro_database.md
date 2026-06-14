@@ -12,7 +12,7 @@ description: Identify domains, families, and sites in proteins; find all protein
   Pfam, CDD) into one searchable resource. InterPro-N significantly expands annotation
   and sequence coverage with deep learning. Includes domain architecture (IDA) search.
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md
 evidence:
@@ -21,6 +21,16 @@ evidence:
   evaluator: unknown
   date: '2026-05-23'
   notes: Official Google DeepMind interpro_database science-skill implementation.
+    (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:32Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 # InterPro Database Access

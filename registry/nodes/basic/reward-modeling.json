@@ -15,20 +15,26 @@
       "source": "https://arxiv.org/abs/2203.02155",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "InstructGPT (Ouyang et al., 2022) -- RLHF with reward model trained on 33K human comparisons; 1.3B InstructGPT preferred over 175B GPT-3 by 85% of labelers, demonstrating reward modeling as the key alignment primitive."
+      "notes": "InstructGPT (Ouyang et al., 2022) -- RLHF with reward model trained on 33K human comparisons; 1.3B InstructGPT preferred over 175B GPT-3 by 85% of labelers, demonstrating reward modeling as the key alignment primitive. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/huggingface/trl",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "TRL (HuggingFace) -- production RLHF library with reward model training, PPO, DPO, and GRPO support; 10k+ GitHub stars, reproducible training scripts and documented evaluation pipelines."
+      "notes": "TRL (HuggingFace) -- production RLHF library with reward model training, PPO, DPO, and GRPO support; 10k+ GitHub stars, reproducible training scripts and documented evaluation pipelines. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -38,6 +44,18 @@
       "details": "Skill created as 2★ (provisional)",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:53Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2203.02155 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:53Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/huggingface/trl as B (trustNumber: 70.0)"
     }
   ]
 }

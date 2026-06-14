@@ -15,13 +15,16 @@
       "source": "https://arxiv.org/abs/2201.11903",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "Chain-of-Thought prompting (Wei et al.) â€” few-shot CoT elicits multi-step reasoning; +18% on GSM8K and +15% on SVAMP over standard prompting."
+      "notes": "Chain-of-Thought prompting (Wei et al.) â€” few-shot CoT elicits multi-step reasoning; +18% on GSM8K and +15% on SVAMP over standard prompting. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -31,6 +34,12 @@
       "details": "Skill created as 1★ (provisional)",
       "previousValue": null,
       "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:51Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2201.11903 as A (trustNumber: 85.0)"
     }
   ]
 }

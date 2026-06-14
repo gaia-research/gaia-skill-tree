@@ -21,7 +21,7 @@ tags:
 - regression
 - root-cause-analysis
 createdAt: '2026-04-30'
-updatedAt: '2026-06-10'
+updatedAt: '2026-06-14'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -29,12 +29,20 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-06-10'
   notes: Published implementation in Matt Pocock's skills repository; five-phase debugging
-    discipline documented and reproducible.
+    discipline documented and reproducible. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 timeline:
 - timestamp: '2026-06-10T05:38:16Z'
   action: evidence_added
   contributor: unknown
   details: Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
+- timestamp: '2026-06-14T12:32:42Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

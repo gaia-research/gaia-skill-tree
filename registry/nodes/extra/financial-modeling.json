@@ -15,27 +15,36 @@
       "source": "https://arxiv.org/abs/2412.18563",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "Deep Reinforcement Learning Framework for Dynamic Portfolio Optimization: custom Sharpe-ratio reward function + Actor-Critic algorithms for dynamic asset allocation; bridges DCF-era finance with ML-driven robo-advisory"
+      "notes": "Deep Reinforcement Learning Framework for Dynamic Portfolio Optimization: custom Sharpe-ratio reward function + Actor-Critic algorithms for dynamic asset allocation; bridges DCF-era finance with ML-driven robo-advisory (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "A",
       "source": "https://arxiv.org/abs/2511.18076",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "Reinforcement Learning for Portfolio Optimization with a Financial Goal and Defined Time Horizons: G-Learning/GIRL algorithms improving Sharpe Ratio from 0.42 to 0.483 in volatile markets"
+      "notes": "Reinforcement Learning for Portfolio Optimization with a Financial Goal and Defined Time Horizons: G-Learning/GIRL algorithms improving Sharpe Ratio from 0.42 to 0.483 in volatile markets (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/anthropics/claude-cookbooks/blob/main/skills/custom_skills/creating-financial-models/SKILL.md",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "Official Anthropic cookbook skill covering DCF valuation engine (WACC, terminal value), Monte Carlo simulation, sensitivity analysis, LBO and M&A models; includes dcf_model.py"
+      "notes": "Official Anthropic cookbook skill covering DCF valuation engine (WACC, terminal value), Monte Carlo simulation, sensitivity analysis, LBO and M&A models; includes dcf_model.py (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-03",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -61,6 +70,24 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added B evidence from https://github.com/anthropics/claude-cookbooks/blob/main/skills/custom_skills/creating-financial-models/SKILL.md"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:00Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2412.18563 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:00Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2511.18076 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:00Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/anthropics/claude-cookbooks/blob/main/skills/custom_skills/creating-financial-models/SKILL.md as B (trustNumber: 70.0)"
     }
   ]
 }

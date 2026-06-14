@@ -50,7 +50,21 @@ def _run_generate_named_index():
                 for err in errors:
                     print(f"  {err}")
             else:
-                mod.write_index(buckets, awaiting_classification, by_contributor, output_path, today)
+                # Pass the generic skills map + gate config so write_index runs
+                # _inject_trust_grades — otherwise overallTrustGrade and
+                # ultimateGateStatus are silently dropped from the named index.
+                generic_skills_map = {s["id"]: s for s in gdata.get("skills", [])}
+                gate_config = {}
+                meta_path = os.path.join(repo_root, "registry", "schema", "meta.json")
+                try:
+                    with open(meta_path, "r", encoding="utf-8") as mf:
+                        gate_config = json.load(mf).get("evidence", {}).get("ultimateGate", {})
+                except Exception:
+                    gate_config = {}
+                mod.write_index(
+                    buckets, awaiting_classification, by_contributor, output_path, today,
+                    generic_skills_map=generic_skills_map, gate_config=gate_config,
+                )
                 total = sum(len(v) for v in buckets.values())
                 print(f"Generated named index: {total} skill(s) across "
                       f"{len(buckets)} bucket(s).")

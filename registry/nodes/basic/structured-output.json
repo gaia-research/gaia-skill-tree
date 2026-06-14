@@ -18,20 +18,26 @@
       "source": "https://arxiv.org/abs/2307.09702",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "Willard & Louf (2023) â€” Efficient Guided Generation for LLMs; finite-state machine approach guarantees schema-valid output with <1% throughput overhead."
+      "notes": "Willard & Louf (2023) â€” Efficient Guided Generation for LLMs; finite-state machine approach guarantees schema-valid output with <1% throughput overhead. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/outlines-dev/outlines",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "Outlines library â€” production-grade constrained decoding supporting JSON Schema, regex, and CFG grammars; 2k+ GitHub stars."
+      "notes": "Outlines library â€” production-grade constrained decoding supporting JSON Schema, regex, and CFG grammars; 2k+ GitHub stars. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -41,6 +47,18 @@
       "details": "Skill created as 1★ (provisional)",
       "previousValue": null,
       "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:55Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2307.09702 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:55Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/outlines-dev/outlines as B (trustNumber: 70.0)"
     }
   ]
 }

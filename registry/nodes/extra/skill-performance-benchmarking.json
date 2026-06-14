@@ -20,21 +20,30 @@
       "source": "https://arxiv.org/abs/2603.02176",
       "evaluator": "codex",
       "date": "2026-05-10",
-      "notes": "AgentSkillOS paper introduces ecosystem-scale organization, orchestration, and benchmarking with a 30-task suite spanning data computation, documents, video, design, and web interaction."
+      "notes": "AgentSkillOS paper introduces ecosystem-scale organization, orchestration, and benchmarking with a 30-task suite spanning data computation, documents, video, design, and web interaction. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md",
       "evaluator": "codex",
       "date": "2026-05-10",
-      "notes": "Anthropic skill-creator explicitly includes measuring skill performance, benchmarking with variance analysis, and optimizing skill descriptions for triggering accuracy."
+      "notes": "Anthropic skill-creator explicitly includes measuring skill performance, benchmarking with variance analysis, and optimizing skill descriptions for triggering accuracy. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     },
     {
       "class": "B",
       "source": "https://github.com/ynulihao/AgentSkillOS",
       "evaluator": "codex",
       "date": "2026-05-10",
-      "notes": "AgentSkillOS repository provides the reproducible retrieval/orchestration framework and benchmark implementation for 30 artifact-rich agent-skill tasks with Bradley-Terry scoring."
+      "notes": "AgentSkillOS repository provides the reproducible retrieval/orchestration framework and benchmark implementation for 30 artifact-rich agent-skill tasks with Bradley-Terry scoring. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [
@@ -42,7 +51,7 @@
   ],
   "status": "provisional",
   "createdAt": "2026-05-10",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -52,6 +61,24 @@
       "details": "Skill created as 4★ (provisional)",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:05Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2603.02176 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:05Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:05Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/ynulihao/AgentSkillOS as B (trustNumber: 70.0)"
     }
   ]
 }

@@ -13,7 +13,7 @@ description: Performs multiple sequence alignment of proteins with EBI Clustal O
   BLAST), align non-protein sequences (DNA, RNA), perform structural alignment (use
   Foldseek, PyMOL), or if you only have a single sequence.
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md
 evidence:
@@ -22,6 +22,16 @@ evidence:
   evaluator: unknown
   date: '2026-05-23'
   notes: Official Google DeepMind protein_sequence_msa science-skill implementation.
+    (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:35Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Prerequisites
