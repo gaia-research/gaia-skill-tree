@@ -1,9 +1,6 @@
 name: "GitHub Crawl"
 
-on:
-  schedule:
-    - cron: "0 6 * * 5"  # Friday 6am UTC
-  workflow_dispatch: {}
+on: [] # Completely disabled for now (being reworked)
 
 jobs:
   crawl:

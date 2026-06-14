@@ -1,9 +1,6 @@
 name: "npm Registry Crawl"
 
-on:
-  schedule:
-    - cron: "0 6 * * 2"  # Tuesday 6am UTC
-  workflow_dispatch: {}
+on: [] # Completely disabled for now (being reworked)
 
 jobs:
   crawl:
