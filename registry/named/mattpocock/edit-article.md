@@ -20,7 +20,7 @@ tags:
 - section-structure
 - clarity
 createdAt: '2026-04-30'
-updatedAt: '2026-06-10'
+updatedAt: '2026-06-14'
 suiteRef: mattpocock/personal
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
@@ -31,13 +31,21 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md
+- timestamp: '2026-06-14T12:32:43Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md
+    as B (trustNumber: 70.0)'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-10'
   notes: Published implementation in Matt Pocock's skills repository; DAG-sectioned
-    rewrite workflow documented and reproducible.
+    rewrite workflow documented and reproducible. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 ---
 
 ## Overview

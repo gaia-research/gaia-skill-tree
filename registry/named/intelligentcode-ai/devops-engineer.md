@@ -19,14 +19,24 @@ tags:
 - kubernetes
 - terraform
 - rollback
-updatedAt: '2026-05-25'
+updatedAt: '2026-06-14'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
   notes: intelligentcode-ai/skills devops-engineer — CI/CD pipeline design and deployment
-    automation with build systems and release management.
+    automation with build systems and release management. (backfilled — class-to-type
+    migration)
+  type: repo
+  trustNumber: 50.0
+  grade: C
+timeline:
+- timestamp: '2026-06-14T12:32:41Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md
+    as C (trustNumber: 50.0)'
 ---
 
 ## Overview

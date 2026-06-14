@@ -16,7 +16,7 @@ tags:
 - cost
 - tokens
 createdAt: '2026-05-14'
-updatedAt: '2026-05-14'
+updatedAt: '2026-06-14'
 evidence:
 - class: B
   source: https://github.com/getagentseal/codeburn
@@ -24,7 +24,16 @@ evidence:
   date: '2026-05-14'
   notes: CodeBurn -- provides cost and token observability for AI coding tools; integrated
     with 20 AI tools. Includes TUI dashboard, macOS menubar, optimization and yield
-    analysis commands.
+    analysis commands. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:27Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/getagentseal/codeburn as B
+    (trustNumber: 70.0)'
 ---
 
 ## Overview

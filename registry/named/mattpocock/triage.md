@@ -22,7 +22,7 @@ tags:
 - agent-brief
 - github-issues
 createdAt: '2026-04-30'
-updatedAt: '2026-04-30'
+updatedAt: '2026-06-14'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -30,7 +30,16 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-04-30'
   notes: Production triage skill with state-machine workflow, HITL/AFK routing, and
-    structured agent-brief output.
+    structured agent-brief output. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:44Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

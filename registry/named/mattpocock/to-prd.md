@@ -21,7 +21,7 @@ tags:
 - product-management
 - issue-tracker
 createdAt: '2026-04-30'
-updatedAt: '2026-04-30'
+updatedAt: '2026-06-14'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -29,7 +29,16 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-04-30'
   notes: Production skill that synthesises live conversation context into a fully-structured
-    PRD and publishes it to the issue tracker.
+    PRD and publishes it to the issue tracker. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:44Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

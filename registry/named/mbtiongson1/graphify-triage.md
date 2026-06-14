@@ -10,7 +10,7 @@ description: Analyzes the Gaia skill dependency graph to surface orphaned nodes,
   prerequisites, and structural inconsistencies — producing a prioritized list of
   graph fixes needed.
 createdAt: '2026-05-27'
-updatedAt: '2026-06-01'
+updatedAt: '2026-06-14'
 title: The Graph Surgeon
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md
@@ -28,6 +28,11 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 3★ to 2★
+- timestamp: '2026-06-14T12:32:45Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md
+    as B (trustNumber: 70.0)'
 evidence:
 - class: B
   source: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md
@@ -36,7 +41,10 @@ evidence:
   notes: 'Reproducible playbook: graphify-triage script ingests safishamsi/graphify
     GRAPH_REPORT.md output, parses architectural-debt findings, and converts each
     into a tracked GitHub issue via gh issue create. First implementation of the fusion
-    generic (graphify + triage).'
+    generic (graphify + triage). (backfilled — class-to-type migration)'
+  type: repo
+  trustNumber: 70.0
+  grade: B
 ---
 
 ## Overview

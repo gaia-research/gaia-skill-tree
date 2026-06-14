@@ -17,7 +17,7 @@ tags:
 - freeze
 - release-management
 createdAt: '2026-05-18'
-updatedAt: '2026-06-03'
+updatedAt: '2026-06-14'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -26,12 +26,21 @@ evidence:
   date: '2026-06-03'
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Clears
     the active change-freeze flag and restores normal merge permissions, logging the
-    unfreeze event with a timestamp and justification.
+    unfreeze event with a timestamp and justification. (backfilled — class-to-type
+    migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 timeline:
 - timestamp: '2026-06-03T05:51:30Z'
   action: evidence_added
   contributor: unknown
   details: Added B evidence from https://github.com/garrytan/gstack/blob/main/unfreeze/SKILL.md
+- timestamp: '2026-06-14T12:32:27Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/garrytan/gstack/blob/main/unfreeze/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

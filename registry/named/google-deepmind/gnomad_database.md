@@ -13,7 +13,7 @@ description: Query the Genome Aggregation Database (gnomAD). Use when determinin
   individual patient genomes, tracking somatic mutations in cancer (use COSMIC), or
   requesting raw sequencing reads (use ENA).
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md
 evidence:
@@ -21,7 +21,17 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind gnomad_database science-skill implementation.
+  notes: Official Google DeepMind gnomad_database science-skill implementation. (backfilled
+    — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:31Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 # gnomAD Database

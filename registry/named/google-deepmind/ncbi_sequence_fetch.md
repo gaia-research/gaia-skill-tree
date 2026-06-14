@@ -12,7 +12,7 @@ description: Retrieve protein and nucleotide sequences from NCBI databases using
   search. Use when you need to fetch biological sequences by accession, gene name,
   locus tag, PubMed ID, or patent number.
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md
 evidence:
@@ -21,6 +21,16 @@ evidence:
   evaluator: unknown
   date: '2026-05-23'
   notes: Official Google DeepMind ncbi_sequence_fetch science-skill implementation.
+    (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:34Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 # NCBI Sequence Fetch

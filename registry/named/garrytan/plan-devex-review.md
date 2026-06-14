@@ -20,7 +20,7 @@ tags:
 - api-ux
 - onboarding
 createdAt: '2026-05-18'
-updatedAt: '2026-06-03'
+updatedAt: '2026-06-14'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -29,12 +29,21 @@ evidence:
   date: '2026-06-03'
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Interactive
     multi-pass DX review for developer-facing products — APIs, CLIs, SDKs, and libraries
-    — scoring eight UX dimensions from onboarding to…
+    — scoring eight UX dimensions from onboarding to… (backfilled — class-to-type
+    migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 timeline:
 - timestamp: '2026-06-03T05:51:32Z'
   action: evidence_added
   contributor: unknown
   details: Added B evidence from https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md
+- timestamp: '2026-06-14T12:32:24Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

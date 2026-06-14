@@ -12,7 +12,7 @@ description: Search PubMed for scientific literature, including published clinic
   specific compounds or genes. Verify medical spelling, match raw citations, and cache
   result sets for bulk processing. Interfaces NCBI E-utilities and PMC BioC APIs.
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md
 evidence:
@@ -20,7 +20,17 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind pubmed_database science-skill implementation.
+  notes: Official Google DeepMind pubmed_database science-skill implementation. (backfilled
+    — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:37Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 # PubMed API

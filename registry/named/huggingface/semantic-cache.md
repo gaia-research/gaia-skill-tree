@@ -16,14 +16,17 @@ tags:
 - cost-optimization
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-06-05'
+updatedAt: '2026-06-14'
 evidence:
 - class: B
   source: https://github.com/codefuse-ai/ModelCache
   evaluator: mbtiongson1
   date: '2026-04-30'
   notes: ModelCache -- LLM semantic caching system reducing response time via cached
-    query-result pairs; reproducible, MIT license.
+    query-result pairs; reproducible, MIT license. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 timeline:
 - timestamp: '2026-06-02T23:48:18Z'
   action: demote
@@ -45,6 +48,11 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 4★ to 1★
+- timestamp: '2026-06-14T12:32:40Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/codefuse-ai/ModelCache as B
+    (trustNumber: 70.0)'
 installable: false
 ---
 

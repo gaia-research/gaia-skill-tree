@@ -16,18 +16,27 @@ tags:
 - cdp
 - automation
 createdAt: '2026-05-14'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-14'
 evidence:
 - class: B
   source: https://github.com/browser-use/browser-harness
   evaluator: gemini-cli
   date: '2026-05-14'
   notes: Browser Harness -- self-healing harness connecting LLMs to browser via CDP.
+    (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 timeline:
 - timestamp: '2026-06-02T23:32:59Z'
   action: demote
   contributor: unknown
   details: Origin status removed. Transferred to garrytan/browse.
+- timestamp: '2026-06-14T12:32:17Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/browser-use/browser-harness
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

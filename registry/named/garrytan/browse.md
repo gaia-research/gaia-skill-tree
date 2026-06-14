@@ -18,7 +18,7 @@ tags:
 - navigation
 - qa
 createdAt: '2026-05-18'
-updatedAt: '2026-06-03'
+updatedAt: '2026-06-14'
 suiteRef: garrytan/garrytan
 timeline:
 - timestamp: '2026-06-02T23:32:59Z'
@@ -37,6 +37,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-06-14T12:32:19Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/garrytan/gstack/blob/main/browse/SKILL.md
+    as B (trustNumber: 70.0)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/browse/SKILL.md
@@ -44,7 +49,10 @@ evidence:
   date: '2026-06-03'
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Drives
     a browser to a target URL, navigates multi-step user journeys, and captures screenshots
-    or structured observations for downstream…
+    or structured observations for downstream… (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 ---
 
 ## Overview

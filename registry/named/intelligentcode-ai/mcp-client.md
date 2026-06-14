@@ -17,14 +17,24 @@ tags:
 - model-context-protocol
 - tool-integration
 - cli
-updatedAt: '2026-05-25'
+updatedAt: '2026-06-14'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
   notes: intelligentcode-ai/skills mcp-client — portable CLI MCP client with server
-    enumeration, tool display, and on-demand execution.
+    enumeration, tool display, and on-demand execution. (backfilled — class-to-type
+    migration)
+  type: repo
+  trustNumber: 50.0
+  grade: C
+timeline:
+- timestamp: '2026-06-14T12:32:41Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md
+    as C (trustNumber: 50.0)'
 ---
 
 ## Overview

@@ -21,7 +21,7 @@ tags:
 - plan-stress-test
 - one-question-at-a-time
 createdAt: '2026-04-30'
-updatedAt: '2026-05-15'
+updatedAt: '2026-06-14'
 suiteRef: mattpocock/productivity
 evidence:
 - class: B
@@ -29,7 +29,16 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-05-15'
   notes: Original implementation by Matt Pocock; viral engineering pattern for disciplined
-    agent alignment.
+    agent alignment. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:43Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

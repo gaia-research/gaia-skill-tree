@@ -12,7 +12,7 @@ description: Query and search the EMBL-EBI Ontology Lookup Service (OLS) for bio
   (parents, children, ancestors), look up properties and individuals, get autocomplete
   suggestions, or access ontology metadata and statistics.
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md
 evidence:
@@ -20,7 +20,17 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind embl_ebi_ols science-skill implementation.
+  notes: Official Google DeepMind embl_ebi_ols science-skill implementation. (backfilled
+    — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:30Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 # EMBL-EBI Ontology Lookup Service (OLS)

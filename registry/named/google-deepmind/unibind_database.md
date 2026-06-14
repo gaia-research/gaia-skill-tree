@@ -12,7 +12,7 @@ description: Queries the UniBind database for experimentally validated transcrip
   available datasets by species, cell line, or TF name. Don't use to query specific
   intervals, locations, genes, motif models or expression data.
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md
 evidence:
@@ -20,7 +20,17 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind unibind_database science-skill implementation.
+  notes: Official Google DeepMind unibind_database science-skill implementation. (backfilled
+    — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:39Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 # UniBind Database Skill

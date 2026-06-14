@@ -21,7 +21,7 @@ tags:
 - terminology
 - alignment
 createdAt: '2026-05-15'
-updatedAt: '2026-05-15'
+updatedAt: '2026-06-14'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -29,7 +29,16 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-05-15'
   notes: Original implementation by Matt Pocock; formalizes DDD principles for AI
-    agent contexts.
+    agent contexts. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:44Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

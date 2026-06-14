@@ -16,14 +16,23 @@ tags:
 - multimodal
 - vision
 createdAt: '2026-05-14'
-updatedAt: '2026-05-14'
+updatedAt: '2026-06-14'
 evidence:
 - class: B
   source: https://github.com/bradautomates/claude-video
   evaluator: gemini-cli
   date: '2026-05-14'
   notes: Claude Video -- enables AI agents to watch videos by downloading, frame extraction,
-    and transcription.
+    and transcription. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:17Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/bradautomates/claude-video
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

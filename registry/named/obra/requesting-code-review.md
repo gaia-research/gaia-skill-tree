@@ -19,7 +19,7 @@ tags:
 - pre-merge
 - isolated-context
 createdAt: '2026-05-18'
-updatedAt: '2026-05-18'
+updatedAt: '2026-06-14'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -28,7 +28,16 @@ evidence:
   date: '2026-05-18'
   notes: obra/superpowers — complete software development methodology for coding agents,
     196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode,
-    Cursor, GitHub Copilot CLI.
+    Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:48Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

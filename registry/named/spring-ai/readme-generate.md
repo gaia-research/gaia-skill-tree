@@ -20,19 +20,27 @@ tags:
 - documentation
 - readme
 createdAt: '2026-04-30'
-updatedAt: '2026-06-10'
+updatedAt: '2026-06-14'
 evidence:
 - class: B
   source: https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-10'
   notes: Published implementation in the Spring AI Alibaba examples repository; reproducible
-    from SKILL.md.
+    from SKILL.md. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 timeline:
 - timestamp: '2026-06-10T05:38:19Z'
   action: evidence_added
   contributor: unknown
   details: Added B evidence from https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md
+- timestamp: '2026-06-14T12:33:03Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 ## Overview

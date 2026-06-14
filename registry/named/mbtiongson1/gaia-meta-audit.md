@@ -10,7 +10,7 @@ description: Produces a prioritized review queue of Gaia registry entries needin
   attention — flagging stale evidence, broken links, mis-classified tiers, and naming
   inconsistencies in one structured audit pass.
 createdAt: '2026-05-27'
-updatedAt: '2026-06-01'
+updatedAt: '2026-06-14'
 title: The Triage Director
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-meta-audit/SKILL.md
@@ -35,6 +35,11 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 3★ to 2★
+- timestamp: '2026-06-14T12:32:45Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree
+    as B (trustNumber: 70.0)'
 evidence:
 - class: B
   source: https://github.com/mbtiongson1/gaia-skill-tree
@@ -42,7 +47,10 @@ evidence:
   date: '2026-05-03'
   notes: Derived from registry hygiene work that audits source-backed named skills,
     generated projections, and demotion candidates across canonical and real-skill
-    review surfaces.
+    review surfaces. (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
 ---
 
 ## Overview

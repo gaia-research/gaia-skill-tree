@@ -21,7 +21,7 @@ tags:
 - multi-agent
 - platform
 createdAt: '2026-05-19'
-updatedAt: '2026-05-19'
+updatedAt: '2026-06-14'
 suiteComponents:
 - ruvnet/agentdb
 - ruvnet/agentdb-advanced
@@ -76,7 +76,17 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-05-19'
   notes: 'Ruflo orchestration platform — 34k+ GitHub stars. Meets Class A threshold:
-    ≥5 named skills registered across 6 generic buckets in Gaia.'
+    ≥5 named skills registered across 6 generic buckets in Gaia. (backfilled — class-to-type
+    migration)'
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:58Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber:
+    70.0)'
 ---
 
 ## Overview

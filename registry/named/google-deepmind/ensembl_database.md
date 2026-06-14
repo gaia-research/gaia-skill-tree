@@ -11,7 +11,7 @@ description: Query the Ensembl database to resolve gene, transcript, and protein
   consequence and effect predictions (VEP). Use this skill as a primary ID translator,
   genomic sequence database and variant effect prediction tool.
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md
 evidence:
@@ -19,7 +19,17 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind ensembl_database science-skill implementation.
+  notes: Official Google DeepMind ensembl_database science-skill implementation. (backfilled
+    — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:30Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 # Ensembl Database: ID Mapping and Genomic Features

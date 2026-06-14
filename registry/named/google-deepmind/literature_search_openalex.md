@@ -12,7 +12,7 @@ description: Query the OpenAlex scholarly database for research papers, authors,
   publications, aggregating bibliometric data (citation counts, h-index, impact factor),
   exploring the research taxonomies, or performing DOI lookups.
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-06-14'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md
 evidence:
@@ -21,6 +21,16 @@ evidence:
   evaluator: unknown
   date: '2026-05-23'
   notes: Official Google DeepMind literature_search_openalex science-skill implementation.
+    (backfilled — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  grade: B
+timeline:
+- timestamp: '2026-06-14T12:32:34Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md
+    as B (trustNumber: 70.0)'
 ---
 
 # OpenAlex Skill
