@@ -1001,15 +1001,56 @@ def meta_evidence_command(args):
     evidence that every named implementation inherits. A ``contributor/skill``
     id targets that specific named implementation (e.g. its GitHub repo demo).
     """
+    from gaia_cli.grading import derive_grade, load_grade_thresholds, load_evidence_types
+
     registry_path = args.registry
     skill_id = args.skill_id.lstrip("/")
 
-    evidence = {
-        "class": getattr(args, "evidence_class", "C"),
+    # --class is deprecated; --trust + --type are the new interface.
+    evidence_class = getattr(args, "evidence_class", None)
+    trust_number = getattr(args, "trust", None)
+    evidence_type = getattr(args, "evidence_type", None)
+
+    if evidence_class is not None:
+        print(
+            "Warning: --class is deprecated and will be removed in the next major release. "
+            "Use --trust <0-100> to set a trust number (grade is auto-derived) "
+            "and --type <type> to specify the evidence type.",
+            file=sys.stderr,
+        )
+
+    # Validate --type against meta.json evidence.types
+    if evidence_type is not None:
+        valid_types = load_evidence_types(registry_path)
+        if evidence_type not in valid_types:
+            print(
+                f"Error: unknown evidence type '{evidence_type}'. "
+                f"Valid types: {', '.join(valid_types)}",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+
+    # Derive grade from trust number
+    derived_grade: str | None = None
+    if trust_number is not None:
+        thresholds = load_grade_thresholds(registry_path)
+        derived_grade = derive_grade(trust_number, thresholds)
+
+    evidence: dict = {
         "source": args.source,
         "evaluator": getattr(args, "evaluator", None) or _get_contributor(),
         "date": getattr(args, "date", None) or datetime.date.today().isoformat(),
     }
+    # Write new fields
+    if evidence_type is not None:
+        evidence["type"] = evidence_type
+    if trust_number is not None:
+        evidence["trustNumber"] = trust_number
+    if derived_grade is not None:
+        evidence["grade"] = derived_grade
+    # Legacy field: only written when explicitly passed
+    if evidence_class is not None:
+        evidence["class"] = evidence_class
     if getattr(args, "notes", None):
         evidence["notes"] = args.notes
 
@@ -1049,14 +1090,30 @@ def meta_evidence_command(args):
             json.dump(data, f, indent=2, ensure_ascii=False)
             f.write("\n")
 
-    print(f"Added evidence to skill: {skill_id}")
+    grade_label = derived_grade if derived_grade else "ungraded"
+    type_label = f" [{evidence_type}]" if evidence_type else ""
+    print(f"Added evidence to skill: {skill_id}{type_label} (grade: {grade_label})")
+
+    contributor = _get_contributor()
     append_skill_event(
         skill_id,
         "evidence_added",
-        _get_contributor(),
-        f"Added {evidence['class']} evidence from {evidence['source']}",
+        contributor,
+        f"Added evidence from {evidence['source']}"
+        + (f" (type: {evidence_type})" if evidence_type else ""),
         registry_path=registry_path,
     )
+
+    # Fire evidence_graded event whenever a grade was derived from a trust number
+    if derived_grade is not None:
+        append_skill_event(
+            skill_id,
+            "evidence_graded",
+            contributor,
+            f"Graded evidence from {evidence['source']} as {derived_grade} "
+            f"(trustNumber: {trust_number})",
+            registry_path=registry_path,
+        )
 
     if not getattr(args, "no_build", False):
         print("Regenerating registry and documentation...")

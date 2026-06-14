@@ -397,8 +397,36 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
     return errors, buckets, awaiting_classification, by_contributor
 
 
-def write_index(buckets, awaiting_classification, by_contributor, output_path, today):
+def _inject_trust_grades(buckets, generic_skills_map, gate_config):
+    """Annotate each named-skill bucket entry with overallTrustGrade.
+
+    For ultimate-type entries, also compute ultimateGateStatus (based on their
+    suiteComponents if present, else their direct evidence).
+    Mutates entries in-place; no fields are stored in registry nodes.
+    """
+    from gaia_cli.grading import overall_trust_grade, check_ultimate_gate
+
+    for _ref, entries in buckets.items():
+        for entry in entries:
+            ev = entry.get("evidence") or []
+            grade = overall_trust_grade(ev)
+            if grade is not None:
+                entry["overallTrustGrade"] = grade
+
+            if entry.get("type") == "ultimate":
+                gate = check_ultimate_gate(entry, generic_skills_map, gate_config)
+                entry["ultimateGateStatus"] = {
+                    "passes": gate["passes"],
+                    "reason": gate["reason"],
+                }
+
+
+def write_index(buckets, awaiting_classification, by_contributor, output_path, today,
+                generic_skills_map=None, gate_config=None):
     """Write the named skill index JSON file."""
+    if generic_skills_map is not None:
+        _inject_trust_grades(buckets, generic_skills_map, gate_config or {})
+
     index = {
         "generatedAt": today,
         "buckets": buckets,
@@ -470,7 +498,19 @@ def main():
             print(f"  {i}. {err}")
         sys.exit(1)
 
-    write_index(buckets, awaiting_classification, by_contributor, output_path, today)
+    # Build generic skills map for trust grade injection
+    generic_skills_map = {s["id"]: s for s in graph_data.get("skills", [])}
+
+    # Load ultimate gate config from meta.json
+    try:
+        meta_path = os.path.join(repo_root, "registry", "schema", "meta.json")
+        with open(meta_path, "r", encoding="utf-8") as f:
+            gate_config = json.load(f).get("evidence", {}).get("ultimateGate", {})
+    except Exception:
+        gate_config = {}
+
+    write_index(buckets, awaiting_classification, by_contributor, output_path, today,
+                generic_skills_map=generic_skills_map, gate_config=gate_config)
     total_named = sum(len(v) for v in buckets.values())
     total_awaiting = len(awaiting_classification)
     print(f"\nWrote {output_path}")

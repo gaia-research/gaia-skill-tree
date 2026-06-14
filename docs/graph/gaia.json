@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "4.7.15",
-  "generatedAt": "2026-06-14T03:24:14.437532Z",
+  "version": "4.8.0",
+  "generatedAt": "2026-06-14T06:33:49.848333Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -688,7 +688,11 @@
           -0.08310075066986086
         ]
       },
-      "namedMaxLevel": "5★"
+      "namedMaxLevel": "5★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "agentic-workflow-design",
@@ -4274,7 +4278,11 @@
           -0.0003641207761398695
         ]
       },
-      "namedMaxLevel": "5★"
+      "namedMaxLevel": "5★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "error-interpretation",
@@ -5186,7 +5194,11 @@
           0.0007362920741689845
         ]
       },
-      "namedMaxLevel": "5★"
+      "namedMaxLevel": "5★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "framework-upgrade",
@@ -8075,7 +8087,11 @@
           -0.0008589789963454655
         ]
       },
-      "namedMaxLevel": "6★"
+      "namedMaxLevel": "6★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "multimodal-reasoning",
@@ -12365,7 +12381,11 @@
           -0.0010134133423699554
         ]
       },
-      "namedMaxLevel": "6★"
+      "namedMaxLevel": "6★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "skill-performance-benchmarking",
@@ -12983,7 +13003,11 @@
           -0.07228203771447372
         ]
       },
-      "namedMaxLevel": "5★"
+      "namedMaxLevel": "5★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "supply-chain-optimization",

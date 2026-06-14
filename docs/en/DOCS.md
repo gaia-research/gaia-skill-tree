@@ -29,6 +29,7 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 | 9 | `mcp-server.html` | MCP Server | ✅ Done | 005 |
 | 10 | `faq.html` | FAQ | ✅ Done | 005 |
 | 11 | `share-bundles.html` | Share Bundles | ✅ Done | 006 |
+| 12 | `timeline-audit.html` | Timeline Audit & Repair | ✅ Done | 008 |
 
 ---
 
