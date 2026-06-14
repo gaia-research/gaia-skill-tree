@@ -1,0 +1,32 @@
+---
+id: cross-encoder/nli-minilm2-l6-h768
+name: nli-MiniLM2-L6-H768 (zero-shot-classification)
+contributor: cross-encoder
+origin: false
+genericSkillRef: classify
+status: awakened
+level: 1★
+description: HuggingFace model for zero-shot-classification
+createdAt: '2026-06-14'
+updatedAt: '2026-06-14'
+links:
+  docs: https://huggingface.co/cross-encoder/nli-MiniLM2-L6-H768
+timeline:
+- timestamp: '2026-06-14T04:49:04Z'
+  action: add
+  contributor: unknown
+  details: Added named skill cross-encoder/nli-minilm2-l6-h768
+- timestamp: '2026-06-14T04:49:04Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added C evidence from https://huggingface.co/cross-encoder/nli-MiniLM2-L6-H768
+evidence:
+- class: C
+  source: https://huggingface.co/cross-encoder/nli-MiniLM2-L6-H768
+  evaluator: gaiabot
+  date: '2026-05-21'
+  notes: 'Auto-discovered from huggingface. Evidence score: 57/100.'
+---
+
+## Installation
+Add installation instructions here.
