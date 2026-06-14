@@ -17,13 +17,16 @@
       "source": "https://arxiv.org/abs/2201.11903",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "Wei et al. (2022) â€” Chain-of-Thought Prompting; +18% on GSM8K and +14% on MATH with PaLM 540B vs standard prompting."
+      "notes": "Wei et al. (2022) â€” Chain-of-Thought Prompting; +18% on GSM8K and +14% on MATH with PaLM 540B vs standard prompting. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-02",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -53,6 +56,12 @@
       "action": "evidence_removed",
       "contributor": "unknown",
       "details": "Removed dead/invalid evidence: https://github.com/princeton-nlp/chain-of-thought-hub"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:48Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2201.11903 as A (trustNumber: 85.0)"
     }
   ]
 }

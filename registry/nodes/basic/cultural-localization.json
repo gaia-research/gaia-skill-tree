@@ -11,27 +11,36 @@
       "source": "https://arxiv.org/abs/2603.23301",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "Steering LLMs for Culturally Localized Generation — sparse autoencoders identify cultural features (CuE) enabling white-box steering for cultural faithfulness"
+      "notes": "Steering LLMs for Culturally Localized Generation — sparse autoencoders identify cultural features (CuE) enabling white-box steering for cultural faithfulness (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "A",
       "source": "https://arxiv.org/abs/2602.04729",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "'Be My Cheese?': Cultural Nuance Benchmarking for MT in Multilingual LLMs — 7 models, 15 languages, native-speaker evaluation of idioms, puns, holidays"
+      "notes": "'Be My Cheese?': Cultural Nuance Benchmarking for MT in Multilingual LLMs — 7 models, 15 languages, native-speaker evaluation of idioms, puns, holidays (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "C",
       "source": "https://skillsmp.com/skills/sapraudnynew-intakto-cco-claude-skills-cultural-localization-skill-md",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "cultural-localization skill on SkillsMP — per-country cultural copy profiles synthesizing three cultural frameworks for tone, trust-building, CTA style"
+      "notes": "cultural-localization skill on SkillsMP — per-country cultural copy profiles synthesizing three cultural frameworks for tone, trust-building, CTA style (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-03",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -57,6 +66,24 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added C evidence from https://skillsmp.com/skills/sapraudnynew-intakto-cco-claude-skills-cultural-localization-skill-md"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:49Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2603.23301 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:49Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2602.04729 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:50Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://skillsmp.com/skills/sapraudnynew-intakto-cco-claude-skills-cultural-localization-skill-md as B (trustNumber: 70.0)"
     }
   ]
 }

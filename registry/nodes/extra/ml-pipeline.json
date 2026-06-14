@@ -16,20 +16,26 @@
       "source": "https://arxiv.org/abs/2502.18530",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "Xue et al. (2025) — IMPROVE: Iterative Model Pipeline Refinement and Optimization Leveraging LLM Experts; iterative component-level refinement consistently outperforms single-step zero-shot LLM-based ML pipeline optimization with theoretical convergence guarantees."
+      "notes": "Xue et al. (2025) — IMPROVE: Iterative Model Pipeline Refinement and Optimization Leveraging LLM Experts; iterative component-level refinement consistently outperforms single-step zero-shot LLM-based ML pipeline optimization with theoretical convergence guarantees. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/Jeffallan/claude-skills/blob/main/skills/ml-pipeline/SKILL.md",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "Jeffallan/claude-skills — reproducible ml-pipeline skill: full lifecycle from data validation and feature engineering through distributed training, experiment tracking, model evaluation gates, A/B testing, and automated retraining with DVC/Feast/MLflow/Kubeflow."
+      "notes": "Jeffallan/claude-skills — reproducible ml-pipeline skill: full lifecycle from data validation and feature engineering through distributed training, experiment tracking, model evaluation gates, A/B testing, and automated retraining with DVC/Feast/MLflow/Kubeflow. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -39,6 +45,18 @@
       "details": "Skill created as 4★ (provisional)",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:01Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2502.18530 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:02Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/Jeffallan/claude-skills/blob/main/skills/ml-pipeline/SKILL.md as B (trustNumber: 70.0)"
     }
   ]
 }

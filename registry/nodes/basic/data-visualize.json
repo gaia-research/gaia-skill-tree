@@ -15,13 +15,16 @@
       "source": "https://github.com/microsoft/lida",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "LIDA (Microsoft) â€” open-source LLM-based data visualization tool with reproducible generation pipeline; evaluated on diverse real-world datasets."
+      "notes": "LIDA (Microsoft) â€” open-source LLM-based data visualization tool with reproducible generation pipeline; evaluated on diverse real-world datasets. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -31,6 +34,12 @@
       "details": "Skill created as 2★ (provisional)",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:50Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/microsoft/lida as B (trustNumber: 70.0)"
     }
   ]
 }

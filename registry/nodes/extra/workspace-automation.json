@@ -17,7 +17,10 @@
       "source": "https://hermes-agent.nousresearch.com/docs/skills",
       "evaluator": "gemini-cli",
       "date": "2026-05-17",
-      "notes": "Hermes Skills Hub: Google Workspace integration for unified email, calendar, and drive access."
+      "notes": "Hermes Skills Hub: Google Workspace integration for unified email, calendar, and drive access. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [
@@ -25,7 +28,7 @@
   ],
   "status": "provisional",
   "createdAt": "2026-05-17",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -35,6 +38,12 @@
       "details": "Skill created as 2★ (provisional)",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:07Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://hermes-agent.nousresearch.com/docs/skills as B (trustNumber: 70.0)"
     }
   ]
 }

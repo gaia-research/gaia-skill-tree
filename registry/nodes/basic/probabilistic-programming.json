@@ -11,27 +11,36 @@
       "source": "https://arxiv.org/abs/2509.05877",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "Uncertainty Quantification in Probabilistic Machine Learning Models: Theory, Methods, and Insights — GP-LVM with Random Fourier Features, epistemic/aleatoric uncertainty (EUSIPCO 2025)"
+      "notes": "Uncertainty Quantification in Probabilistic Machine Learning Models: Theory, Methods, and Insights — GP-LVM with Random Fourier Features, epistemic/aleatoric uncertainty (EUSIPCO 2025) (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "A",
       "source": "https://arxiv.org/abs/2407.04967",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "posteriordb: Testing, Benchmarking and Developing Bayesian Inference Algorithms — 120 reference models across Stan, PyMC, Pyro, NumPyro (2024)"
+      "notes": "posteriordb: Testing, Benchmarking and Developing Bayesian Inference Algorithms — 120 reference models across Stan, PyMC, Pyro, NumPyro (2024) (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "SKILL.md: pymc — Bayesian modeling, hierarchical models, MCMC (NUTS), variational inference, LOO/WAIC, probabilistic programming (K-Dense Inc.)"
+      "notes": "SKILL.md: pymc — Bayesian modeling, hierarchical models, MCMC (NUTS), variational inference, LOO/WAIC, probabilistic programming (K-Dense Inc.) (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-03",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -57,6 +66,24 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added B evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:52Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2509.05877 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:52Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2407.04967 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:52Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md as B (trustNumber: 70.0)"
     }
   ]
 }

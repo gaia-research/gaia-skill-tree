@@ -13,13 +13,17 @@
       "class": "A",
       "source": "https://github.com/addyosmani/web-quality-skills",
       "evaluator": "addyosmani",
-      "date": "2026-05-24"
+      "date": "2026-05-24",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B",
+      "notes": "(backfilled — class-to-type migration)"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-24",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -39,6 +43,12 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added A evidence from https://github.com/addyosmani/web-quality-skills"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:07Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/addyosmani/web-quality-skills as B (trustNumber: 70.0)"
     }
   ]
 }

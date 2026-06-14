@@ -18,13 +18,16 @@
       "source": "https://arxiv.org/abs/2507.19113",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "Practical study: LLMs generate Functional Design Specifications and user stories from fragmented requirement sources in an IT consulting deployment."
+      "notes": "Practical study: LLMs generate Functional Design Specifications and user stories from fragmented requirement sources in an IT consulting deployment. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -34,6 +37,12 @@
       "details": "Skill created as 4★ (provisional)",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:02Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2507.19113 as A (trustNumber: 85.0)"
     }
   ]
 }

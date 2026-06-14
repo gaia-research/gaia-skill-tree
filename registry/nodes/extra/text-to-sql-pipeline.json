@@ -16,13 +16,16 @@
       "source": "https://arxiv.org/abs/2304.11015",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "DIN-SQL â€” decomposed in-context learning for text-to-SQL; 82.8% execution accuracy on Spider dev, demonstrating end-to-end pipeline."
+      "notes": "DIN-SQL â€” decomposed in-context learning for text-to-SQL; 82.8% execution accuracy on Spider dev, demonstrating end-to-end pipeline. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -46,6 +49,12 @@
       "details": "Calibrated/demoted rank from 3★ to 2★",
       "previousValue": "3★",
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:06Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2304.11015 as A (trustNumber: 85.0)"
     }
   ]
 }

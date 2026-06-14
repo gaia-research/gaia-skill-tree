@@ -16,13 +16,16 @@
       "source": "https://arxiv.org/abs/2210.08726",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "RARR (Gao et al., 2022) -- retrieval and attribution for LLM outputs; +32 points on the AIS attribution benchmark by revising ungrounded claims using retrieved web evidence."
+      "notes": "RARR (Gao et al., 2022) -- retrieval and attribution for LLM outputs; +32 points on the AIS attribution benchmark by revising ungrounded claims using retrieved web evidence. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-02",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -52,6 +55,12 @@
       "action": "evidence_removed",
       "contributor": "unknown",
       "details": "Removed dead/invalid evidence: https://github.com/shmsw25/FActScoring"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:00Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2210.08726 as A (trustNumber: 85.0)"
     }
   ]
 }

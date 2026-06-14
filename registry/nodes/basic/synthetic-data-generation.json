@@ -11,27 +11,36 @@
       "source": "https://arxiv.org/abs/2210.03205",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "Synthetic Dataset Generation for Privacy-Preserving Machine Learning — layer-wise BN statistics method (Soufleri et al., 2022/2023)"
+      "notes": "Synthetic Dataset Generation for Privacy-Preserving Machine Learning — layer-wise BN statistics method (Soufleri et al., 2022/2023) (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "A",
       "source": "https://arxiv.org/abs/2409.17315",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "KIPPS: Knowledge infusion in Privacy Preserving Synthetic Data Generation — infuses domain/regulatory knowledge from KGs into generative deep learning (2024)"
+      "notes": "KIPPS: Knowledge infusion in Privacy Preserving Synthetic Data Generation — infuses domain/regulatory knowledge from KGs into generative deep learning (2024) (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/omer-metin/skills-for-antigravity/blob/main/skills/synthetic-data/SKILL.md",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "SKILL.md: synthetic-data — LLM-based generation, tabular synthesis, SDV/Gretel, privacy-preserving data (omer-metin)"
+      "notes": "SKILL.md: synthetic-data — LLM-based generation, tabular synthesis, SDV/Gretel, privacy-preserving data (omer-metin) (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-03",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -57,6 +66,24 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added B evidence from https://github.com/omer-metin/skills-for-antigravity/blob/main/skills/synthetic-data/SKILL.md"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:55Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2210.03205 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:55Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2409.17315 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:55Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/omer-metin/skills-for-antigravity/blob/main/skills/synthetic-data/SKILL.md as B (trustNumber: 70.0)"
     }
   ]
 }

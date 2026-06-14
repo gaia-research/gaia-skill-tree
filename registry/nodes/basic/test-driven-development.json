@@ -12,13 +12,16 @@
       "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "Matt Pocock /tdd -- Vertical-slice TDD enforcement with anti-horizontal-slicing rules."
+      "notes": "Matt Pocock /tdd -- Vertical-slice TDD enforcement with anti-horizontal-slicing rules. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -50,6 +53,12 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added A evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:55Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md as B (trustNumber: 70.0)"
     }
   ]
 }

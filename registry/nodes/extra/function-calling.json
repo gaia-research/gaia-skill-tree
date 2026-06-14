@@ -16,20 +16,26 @@
       "source": "https://arxiv.org/abs/2307.16789",
       "evaluator": "rico-favor",
       "date": "2026-04-29",
-      "notes": "ToolLLM / ToolBench demonstrates LLM tool invocation over 16,000+ real-world APIs with documented evaluation tasks and failure analysis, supporting function calling as a schema-driven tool-use pattern."
+      "notes": "ToolLLM / ToolBench demonstrates LLM tool invocation over 16,000+ real-world APIs with documented evaluation tasks and failure analysis, supporting function calling as a schema-driven tool-use pattern. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "A",
       "source": "https://arxiv.org/abs/2305.15334",
       "evaluator": "rico-favor",
       "date": "2026-04-29",
-      "notes": "Gorilla / APIBench evaluates model generation of API calls across large API collections, including accurate endpoint and argument selection."
+      "notes": "Gorilla / APIBench evaluates model generation of API calls across large API collections, including accurate endpoint and argument selection. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-29",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -53,6 +59,18 @@
       "details": "Calibrated/demoted rank from 3★ to 2★",
       "previousValue": "3★",
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:00Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2307.16789 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:00Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2305.15334 as A (trustNumber: 85.0)"
     }
   ]
 }

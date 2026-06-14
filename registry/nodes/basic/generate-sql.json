@@ -15,13 +15,16 @@
       "source": "https://arxiv.org/abs/1809.08887",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "Spider benchmark â€” cross-domain text-to-SQL dataset; LLM baselines reach >85% exact match, establishing reproducible evaluation methodology."
+      "notes": "Spider benchmark â€” cross-domain text-to-SQL dataset; LLM baselines reach >85% exact match, establishing reproducible evaluation methodology. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -31,6 +34,12 @@
       "details": "Skill created as 2★ (provisional)",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:50Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/1809.08887 as A (trustNumber: 85.0)"
     }
   ]
 }

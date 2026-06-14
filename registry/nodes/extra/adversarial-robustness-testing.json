@@ -15,27 +15,36 @@
       "source": "https://arxiv.org/abs/2505.04806",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "Red Teaming the Mind of the Machine — systematic evaluation of 1400+ adversarial prompts across GPT-4/Claude 2/Mistral/Vicuna; roleplay, logic traps, encoding, multi-turn attacks"
+      "notes": "Red Teaming the Mind of the Machine — systematic evaluation of 1400+ adversarial prompts across GPT-4/Claude 2/Mistral/Vicuna; roleplay, logic traps, encoding, multi-turn attacks (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "A",
       "source": "https://arxiv.org/abs/2605.01687",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "MultiBreak: Scalable Multi-turn Jailbreak Benchmark — 10,389 multi-turn adversarial prompts across 2,665 harmful intents via active learning pipeline"
+      "notes": "MultiBreak: Scalable Multi-turn Jailbreak Benchmark — 10,389 multi-turn adversarial prompts across 2,665 harmful intents via active learning pipeline (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "C",
       "source": "https://skillsmp.com/skills/maruakshay-mii-ai-security-skills-adversarial-robustness-skill-md",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "adversarial-robustness skill on SkillsMP — reviews AI resilience against evasion attacks, input perturbation, semantic-preserving transformations"
+      "notes": "adversarial-robustness skill on SkillsMP — reviews AI resilience against evasion attacks, input perturbation, semantic-preserving transformations (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-03",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -61,6 +70,24 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added C evidence from https://skillsmp.com/skills/maruakshay-mii-ai-security-skills-adversarial-robustness-skill-md"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:56Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2505.04806 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:56Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2605.01687 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:57Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://skillsmp.com/skills/maruakshay-mii-ai-security-skills-adversarial-robustness-skill-md as B (trustNumber: 70.0)"
     }
   ]
 }

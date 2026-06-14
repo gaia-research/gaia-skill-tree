@@ -16,13 +16,16 @@
       "source": "https://platform.openai.com/docs/guides/moderation",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "OpenAI Moderation API â€” publicly documented multi-category content classifier with reproducible API calls, category scores, and evaluation methodology."
+      "notes": "OpenAI Moderation API â€” publicly documented multi-category content classifier with reproducible API calls, category scores, and evaluation methodology. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -46,6 +49,12 @@
       "details": "Calibrated/demoted rank from 3★ to 2★",
       "previousValue": "3★",
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:58Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://platform.openai.com/docs/guides/moderation as B (trustNumber: 70.0)"
     }
   ]
 }

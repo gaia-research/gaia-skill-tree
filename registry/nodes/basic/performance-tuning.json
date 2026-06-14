@@ -12,13 +12,16 @@
       "source": "https://github.com/ruvnet/ruflo",
       "evaluator": "mbtiongson1",
       "date": "2026-05-19",
-      "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+      "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
+      "type": "github-stars",
+      "trustNumber": 50.0,
+      "grade": "C"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-19",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -34,6 +37,12 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added A evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:52Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as C (trustNumber: 50.0)"
     }
   ]
 }

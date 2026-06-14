@@ -11,13 +11,16 @@
       "source": "https://github.com/google-deepmind/science-skills",
       "evaluator": "unknown",
       "date": "2026-05-23",
-      "notes": "Foundational canonical generic skill for Genomic Data Retrieval."
+      "notes": "Foundational canonical generic skill for Genomic Data Retrieval. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-23",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -87,6 +90,12 @@
       "details": "Skill created as 2★ (provisional)",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:50Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills as B (trustNumber: 70.0)"
     }
   ]
 }

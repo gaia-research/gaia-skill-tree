@@ -18,13 +18,16 @@
       "source": "https://github.com/rasa/rasa",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "Rasa Open Source â€” production voice agent framework with ASR/TTS integrations; reproducible pipeline with test suite and documented benchmarks."
+      "notes": "Rasa Open Source â€” production voice agent framework with ASR/TTS integrations; reproducible pipeline with test suite and documented benchmarks. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -34,6 +37,12 @@
       "details": "Skill created as 3★ (provisional)",
       "previousValue": null,
       "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:07Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/rasa/rasa as B (trustNumber: 70.0)"
     }
   ]
 }

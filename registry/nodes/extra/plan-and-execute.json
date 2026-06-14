@@ -18,13 +18,16 @@
       "source": "https://github.com/Skyvern-AI/skyvern",
       "evaluator": "mbtiongson1",
       "date": "2026-05-17",
-      "notes": "Replaced missing seed evidence with live repository from real-skills catalog."
+      "notes": "Replaced missing seed evidence with live repository from real-skills catalog. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -42,6 +45,12 @@
       "details": "Added evidence: https://github.com/Skyvern-AI/skyvern",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:02Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/Skyvern-AI/skyvern as B (trustNumber: 70.0)"
     }
   ]
 }

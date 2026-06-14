@@ -17,27 +17,36 @@
       "source": "https://github.com/mattpocock/skills",
       "evaluator": "mbtiongson1",
       "date": "2026-05-22",
-      "notes": "The ultimate Matt Pocock skill suite capstone."
+      "notes": "The ultimate Matt Pocock skill suite capstone. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     },
     {
       "class": "A",
       "source": "https://github.com/mbtiongson1/gaia-skill-tree/pull/352",
       "evaluator": "mbtiongson1",
       "date": "2026-05-22",
-      "notes": "Peer-reviewed ultimate capstone suite consolidation."
+      "notes": "Peer-reviewed ultimate capstone suite consolidation. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     },
     {
       "class": "A",
       "source": "https://github.com/mattpocock/skills",
       "evaluator": "mbtiongson1",
       "date": "2026-05-25",
-      "notes": "Matt Pocock complete agent discipline library with 100k+ GitHub stars across the ecosystem."
+      "notes": "Matt Pocock complete agent discipline library with 100k+ GitHub stars across the ecosystem. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-22",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -99,6 +108,24 @@
       "action": "rename",
       "contributor": "unknown",
       "details": "Renamed from mattpocock-skills to skill-mastery"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:08Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/mattpocock/skills as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:08Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree/pull/352 as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:08Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/mattpocock/skills as B (trustNumber: 70.0)"
     }
   ]
 }

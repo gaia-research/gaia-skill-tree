@@ -19,13 +19,16 @@
       "source": "https://arxiv.org/abs/2310.08560",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "MemGPT â€” virtual context management system enabling LLMs to handle unbounded memory; benchmarked on multi-session dialogue and document QA."
+      "notes": "MemGPT â€” virtual context management system enabling LLMs to handle unbounded memory; benchmarked on multi-session dialogue and document QA. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -43,6 +46,12 @@
       "details": "Type adjusted from basic to extra",
       "previousValue": "basic",
       "newValue": "extra"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:01Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2310.08560 as A (trustNumber: 85.0)"
     }
   ]
 }

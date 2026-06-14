@@ -11,27 +11,36 @@
       "source": "https://arxiv.org/abs/2412.12168",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "A Decomposition Modeling Framework for Seasonal Time-Series Forecasting: Multi-scale Seasonal Decomposition Model (MSSD) decomposes series into Ascending/Peak/Descending; Conv2d + TCN capture global+local features; 10% error reduction over baselines"
+      "notes": "A Decomposition Modeling Framework for Seasonal Time-Series Forecasting: Multi-scale Seasonal Decomposition Model (MSSD) decomposes series into Ascending/Peak/Descending; Conv2d + TCN capture global+local features; 10% error reduction over baselines (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "A",
       "source": "https://arxiv.org/abs/2602.18465",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "Revisiting the Seasonal Trend Decomposition for Enhanced Time Series Forecasting (ICASSP 2026): component-specific normalization strategy; ~10% MSE reduction across four SOTA baselines; validated on USGS hydrological data"
+      "notes": "Revisiting the Seasonal Trend Decomposition for Enhanced Time Series Forecasting (ICASSP 2026): component-specific normalization strategy; ~10% MSE reduction across four SOTA baselines; validated on USGS hydrological data (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "C",
       "source": "https://github.com/unit8co/darts",
       "evaluator": "unknown",
       "date": "2026-06-03",
-      "notes": "darts: 9400+ star Python library for user-friendly forecasting with seasonal decomposition, ensemble methods, anomaly detection; covers ARIMA, Prophet, TFT, NBEATS and more"
+      "notes": "darts: 9400+ star Python library for user-friendly forecasting with seasonal decomposition, ensemble methods, anomaly detection; covers ARIMA, Prophet, TFT, NBEATS and more (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-03",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -57,6 +66,24 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added C evidence from https://github.com/unit8co/darts"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:56Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2412.12168 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:56Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2602.18465 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:56Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/unit8co/darts as B (trustNumber: 70.0)"
     }
   ]
 }

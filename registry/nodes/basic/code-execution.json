@@ -21,20 +21,26 @@
       "source": "https://arxiv.org/abs/2211.10435",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "PAL (Gao et al., 2023) â€” Program-Aided Language Models; delegates computation to Python interpreter, achieving +7% on GSM8K over direct CoT."
+      "notes": "PAL (Gao et al., 2023) â€” Program-Aided Language Models; delegates computation to Python interpreter, achieving +7% on GSM8K over direct CoT. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/reasoning-machines/pal",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "PAL repo â€” reproducible harness across 13 reasoning benchmarks; evaluation scripts and baseline comparisons included."
+      "notes": "PAL repo â€” reproducible harness across 13 reasoning benchmarks; evaluation scripts and baseline comparisons included. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-02",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -78,6 +84,18 @@
       "action": "evidence_removed",
       "contributor": "unknown",
       "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/executeBash.md"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:48Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2211.10435 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:49Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/reasoning-machines/pal as B (trustNumber: 70.0)"
     }
   ]
 }

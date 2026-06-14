@@ -15,7 +15,10 @@
       "source": "https://github.com/excalidraw/excalidraw",
       "evaluator": "gemini-cli",
       "date": "2026-05-17",
-      "notes": "Excalidraw -- virtual whiteboard for sketching hand-drawn like diagrams; widespread adoption for developer documentation."
+      "notes": "Excalidraw -- virtual whiteboard for sketching hand-drawn like diagrams; widespread adoption for developer documentation. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [
@@ -23,7 +26,7 @@
   ],
   "status": "provisional",
   "createdAt": "2026-05-17",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.1.0",
   "timeline": [
     {
@@ -33,6 +36,12 @@
       "details": "Skill created as 2★ (provisional)",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:58Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/excalidraw/excalidraw as B (trustNumber: 70.0)"
     }
   ]
 }

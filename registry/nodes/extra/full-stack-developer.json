@@ -16,27 +16,36 @@
       "source": "https://arxiv.org/abs/2310.06770",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "SWE-bench â€” 2294 real GitHub issues; Claude 3.5 Sonnet (Cognition) resolves 49% on Verified, demonstrating full-cycle autonomous development."
+      "notes": "SWE-bench â€” 2294 real GitHub issues; Claude 3.5 Sonnet (Cognition) resolves 49% on Verified, demonstrating full-cycle autonomous development. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/princeton-nlp/SWE-agent",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "SWE-agent â€” open-source agent with AgentComputer Interface; reproducible harness achieving 12.5% on SWE-bench full with logs and eval scripts."
+      "notes": "SWE-agent â€” open-source agent with AgentComputer Interface; reproducible harness achieving 12.5% on SWE-bench full with logs and eval scripts. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     },
     {
       "class": "A",
       "source": "https://arxiv.org/abs/2402.01030",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "CodeAct â€” executable code action space for LLM agents; +20% task completion vs JSON/text-based actions across 17 programming benchmarks."
+      "notes": "CodeAct â€” executable code action space for LLM agents; +20% task completion vs JSON/text-based actions across 17 programming benchmarks. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "title": "Sovereign Craftsman",
   "timeline": [
@@ -55,6 +64,24 @@
       "details": "Type adjusted from ultimate to extra",
       "previousValue": "ultimate",
       "newValue": "extra"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:00Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2310.06770 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:00Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/princeton-nlp/SWE-agent as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:00Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2402.01030 as A (trustNumber: 85.0)"
     }
   ]
 }

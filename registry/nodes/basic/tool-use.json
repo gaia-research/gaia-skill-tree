@@ -19,20 +19,26 @@
       "source": "https://arxiv.org/abs/2302.04761",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "Toolformer (Schick et al., 2023) â€” self-supervised method teaching LLMs to call APIs; zero-shot tool use surpasses GPT-3 175B on several benchmarks."
+      "notes": "Toolformer (Schick et al., 2023) â€” self-supervised method teaching LLMs to call APIs; zero-shot tool use surpasses GPT-3 175B on several benchmarks. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://github.com/OpenBMB/ToolBench",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "ToolBench â€” open benchmark with 16,000+ real-world APIs; end-to-end tool-use training and evaluation harness."
+      "notes": "ToolBench â€” open benchmark with 16,000+ real-world APIs; end-to-end tool-use training and evaluation harness. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "grade": "B"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-14",
   "version": "0.2.0",
   "timeline": [
     {
@@ -42,6 +48,18 @@
       "details": "Skill created as 1★ (provisional)",
       "previousValue": null,
       "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:56Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2302.04761 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:56Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/OpenBMB/ToolBench as B (trustNumber: 70.0)"
     }
   ]
 }
