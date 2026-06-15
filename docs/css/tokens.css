@@ -80,4 +80,14 @@
   --extra: var(--tier-extra);
   --unique: var(--tier-unique);
   --ultimate: var(--tier-ultimate);
+
+  /* ── Evidence Grade tokens ────────────────────────────────── */
+  --grade-S: #e2e8f0;
+  --grade-S-rgb: 226, 232, 240;
+  --grade-A: #fbbf24;
+  --grade-A-rgb: 251, 191, 36;
+  --grade-B: #94a3b8;
+  --grade-B-rgb: 148, 163, 184;
+  --grade-C: #b45309;
+  --grade-C-rgb: 180, 83, 9;
 }

@@ -182,6 +182,19 @@ def build_tokens_css(gaia: dict) -> str:
     for name in type_colors.keys():
         body.append(f"  --{name}: var(--tier-{name});")
 
+    body.append("")
+    body.append("  /* ── Evidence Grade tokens ────────────────────────────────── */")
+    grade_colors = {
+        "S": "#e2e8f0",
+        "A": "#fbbf24",
+        "B": "#94a3b8",
+        "C": "#b45309"
+    }
+    for grade, hex_val in grade_colors.items():
+        rgb_triplet = _rgb_str(_hex_to_rgb_triplet(hex_val))
+        body.append(f"  --grade-{grade}: {hex_val};")
+        body.append(f"  --grade-{grade}-rgb: {rgb_triplet};")
+
     body.append("}")
     body.append("")
     return "\n".join(body)

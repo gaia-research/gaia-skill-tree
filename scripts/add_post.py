@@ -291,6 +291,61 @@ def md_to_html(md: str) -> str:
             i += 1
             continue
 
+        # Table parsing
+        if line.strip().startswith("|"):
+            flush_list()
+            table_lines: list[str] = []
+            while i < len(lines) and lines[i].strip().startswith("|"):
+                table_lines.append(lines[i].strip())
+                i += 1
+            
+            if len(table_lines) >= 1:
+                def split_row(row: str) -> list[str]:
+                    cells = row.split("|")
+                    if len(cells) > 0 and not cells[0].strip():
+                        cells = cells[1:]
+                    if len(cells) > 0 and not cells[-1].strip():
+                        cells = cells[:-1]
+                    return [c.strip() for c in cells]
+
+                header_cells = split_row(table_lines[0])
+                
+                # Check if second line is a separator row
+                is_separator = False
+                if len(table_lines) > 1:
+                    second_row = split_row(table_lines[1])
+                    is_separator = all(re.match(r"^:?-+:?$", cell) for cell in second_row) if second_row else False
+                
+                start_row_idx = 2 if is_separator else 1
+                
+                thead = "<thead><tr>" + "".join(f"<th>{_inline(c)}</th>" for c in header_cells) + "</tr></thead>"
+                
+                tbody_rows = []
+                for row_line in table_lines[start_row_idx:]:
+                    cells = split_row(row_line)
+                    while len(cells) < len(header_cells):
+                        cells.append("")
+                    tbody_rows.append("<tr>" + "".join(f"<td>{_inline(c)}</td>" for c in cells[:len(header_cells)]) + "</tr>")
+                
+                tbody = "<tbody>" + "".join(tbody_rows) + "</tbody>"
+                out.append(f"<table>{thead}{tbody}</table>")
+            continue
+
+        # Blockquote parsing
+        if line.strip().startswith(">"):
+            flush_list()
+            bq_lines: list[str] = []
+            while i < len(lines) and lines[i].strip().startswith(">"):
+                l = lines[i].strip()
+                if l.startswith("> "):
+                    bq_lines.append(l[2:])
+                else:
+                    bq_lines.append(l[1:])
+                i += 1
+            bq_content = " ".join(bq_lines)
+            out.append(f"<blockquote><p>{_inline(bq_content)}</p></blockquote>")
+            continue
+
         # List item
         m = re.match(r"^[-*] (.+)$", line)
         if m:
@@ -314,7 +369,7 @@ def md_to_html(md: str) -> str:
                 break
             if re.match(r"^#{1,6} ", l) or re.match(r"^[-*] ", l):
                 break
-            if l.strip().startswith("```"):
+            if l.strip().startswith("```") or l.strip().startswith("|") or l.strip().startswith(">"):
                 break
             if re.match(r"^-{3,}$", l.strip()):
                 break
@@ -458,6 +513,7 @@ _REPORT_CSS = """\
     code { font-family: var(--font-mono); background: #f7f7f7; padding: 0.15rem 0.35rem; font-size: 0.85em; border: 1px solid #eee; }
     pre { background: #f7f7f7; border: 1px solid #eee; padding: 1.2rem 1.5rem; overflow-x: auto; margin: 2rem 0; }
     pre code { background: none; border: none; padding: 0; font-size: 0.85rem; }
+    blockquote { border-left: 3px solid #c8a84b; margin: 2rem 0; padding: 1rem 1.5rem; background: #fafaf8; color: #444; font-style: italic; }
     table { width: 100%; border-collapse: collapse; margin: 3rem 0; font-family: var(--font-serif); font-size: 1rem; }
     thead tr { border-top: 2px solid var(--paper-text); border-bottom: 1px solid var(--paper-text); }
     th { font-weight: 600; text-align: left; padding: 0.8rem 0.5rem; font-variant-caps: small-caps; }
@@ -572,7 +628,7 @@ def render_report_html(
         chart_section = (
             '<div class="chart-container">'
             '<canvas id="timelineChart"></canvas>'
-            '<div class="chart-caption">Figure 1: Registry skill distribution over time.</div>'
+            '<div class="chart-caption" id="chartCaption">Figure 1</div>'
             "</div>"
         )
         chart_init = f"""\
@@ -581,23 +637,42 @@ def render_report_html(
         const res = await fetch('{chart_data_file}');
         const data = await res.json();
         const ctx = document.getElementById('timelineChart').getContext('2d');
+        if (data.caption) {{
+          const cap = document.getElementById('chartCaption');
+          if (cap) cap.textContent = data.caption;
+        }}
         new Chart(ctx, {{
-          type: 'line',
+          type: data.type || 'line',
           data: {{
             labels: data.labels,
-            datasets: data.datasets.map(ds => ({{
-              label: ds.label, data: ds.data,
-              borderColor: ds.color, backgroundColor: ds.color + '22',
-              fill: true, tension: 0.3, borderWidth: 2, pointRadius: 0, pointHoverRadius: 5
-            }}))
+            datasets: data.datasets.map(ds => {{
+              const isDoughnut = (data.type === 'doughnut');
+              return {{
+                label: ds.label,
+                data: ds.data,
+                borderColor: isDoughnut ? '#ffffff' : ds.color,
+                backgroundColor: isDoughnut ? ds.color : (ds.color + '22'),
+                borderWidth: 2,
+                fill: !isDoughnut,
+                tension: 0.3,
+                pointRadius: isDoughnut ? undefined : 0,
+                pointHoverRadius: isDoughnut ? undefined : 5
+              }};
+            }})
           }},
           options: {{
             responsive: true,
             plugins: {{
-              legend: {{ position: 'bottom', labels: {{ font: {{ family: 'JetBrains Mono', size: 10 }} }} }},
-              tooltip: {{ mode: 'index', intersect: false }}
+              legend: {{
+                position: (data.type === 'doughnut') ? 'right' : 'bottom',
+                labels: {{ font: {{ family: 'JetBrains Mono', size: 10 }} }}
+              }},
+              tooltip: {{
+                mode: (data.type === 'doughnut') ? 'average' : 'index',
+                intersect: (data.type === 'doughnut')
+              }}
             }},
-            scales: {{
+            scales: (data.type === 'doughnut') ? {{}} : {{
               x: {{ grid: {{ display: false }}, ticks: {{ font: {{ family: 'JetBrains Mono', size: 9 }} }} }},
               y: {{ beginAtZero: true, grid: {{ color: '#eee' }}, ticks: {{ font: {{ family: 'JetBrains Mono', size: 9 }} }} }}
             }}
