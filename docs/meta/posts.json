@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "id": "2026-06-14-the-gaia-trust-methodology-evidence-types-grades-and-inherited-standing",
+      "type": "report",
+      "date": "2026-06-14",
+      "title": "The GAIA Trust Methodology: Evidence Types, Grades, and Inherited Standing",
+      "summary": "How GAIA replaced evidence classes and numeric scores with Types, Grades, and inherited standing.",
+      "label": "Trust Model",
+      "url": "meta/reports/2026-06-14-the-gaia-trust-methodology-evidence-types-grades-and-inherited-standing.html",
+      "author": "Marco Tiongson, Maintainer",
+      "source": "docs/meta/2026-06-trust-methodology.md"
+    },
+    {
       "id": "2026-06-03-chained-curation-thirteen-starless-references-and-a-unique-reclassification",
       "type": "report",
       "date": "2026-06-03",

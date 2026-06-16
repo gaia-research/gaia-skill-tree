@@ -1,0 +1,10 @@
+{
+  "type": "doughnut",
+  "caption": "Figure 1 — Overall Trust Grade distribution across 183 named skills.",
+  "labels": ["Gold (A)", "Silver (B)", "Bronze (C)", "Ungraded"],
+  "datasets": [{
+    "label": "Named Skills",
+    "data": [42, 130, 10, 1],
+    "color": ["#fbbf24", "#94a3b8", "#b45309", "#334155"]
+  }]
+}

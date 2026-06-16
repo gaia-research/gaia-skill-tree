@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+
+<head>
+  <script>window.GAIA_VERSION = "4.8.1";</script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTitle">Skill Trust Report — Gaia</title>
+  <meta name="description" content="Actionable trust report for a named skill in the Gaia registry — evidence inventory, overall grade, and the gap to the next level.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="../css/styles.css?v=4.8.1">
+  <link rel="stylesheet" href="../css/plaque.css?v=4.8.1">
+  <script src="../js/icons.js?v=4.8.1"></script>
+  <script src="../js/atlas-helpers.js?v=4.8.1"></script>
+  <script src="../js/rank-badge.js?v=4.8.1"></script>
+
+  <style>
+    /* ── Grade color tokens (mirrors GRADE_COLORS in src/gaia_cli/formatting.py) ── */
+    :root {
+      --grade-s: #e2e8f0;
+      --grade-s-bg: rgba(226, 232, 240, 0.12);
+      --grade-s-border: rgba(226, 232, 240, 0.35);
+      --grade-a: #fbbf24;
+      --grade-a-bg: rgba(251, 191, 36, 0.12);
+      --grade-a-border: rgba(251, 191, 36, 0.35);
+      --grade-b: #94a3b8;
+      --grade-b-bg: rgba(148, 163, 184, 0.12);
+      --grade-b-border: rgba(148, 163, 184, 0.35);
+      --grade-c: #b45309;
+      --grade-c-bg: rgba(180, 83, 9, 0.12);
+      --grade-c-border: rgba(180, 83, 9, 0.35);
+      --grade-none: #475569;
+      --grade-none-bg: rgba(71, 85, 105, 0.12);
+      --grade-none-border: rgba(71, 85, 105, 0.35);
+
+      --type-repo: #38bdf8;
+      --type-arxiv: #10b981;
+      --type-github-stars: #fbbf24;
+    }
+
+    /* ── Layout ── */
+    .report-page {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      padding-bottom: 6rem;
+    }
+
+    .report-back-row {
+      display: flex;
+      align-items: center;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 0;
+    }
+
+    .report-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.03em;
+      transition: color 0.15s;
+    }
+    .report-back:hover { color: var(--text); }
+
+    .report-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* ── Skill header ── */
+    .report-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+
+    .report-header-orb {
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      border: 1px solid;
+    }
+
+    .report-header-meta {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .report-skill-name {
+      font-size: 1.65rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0 0 0.35rem;
+      font-family: var(--font-display);
+    }
+
+    .report-skill-title {
+      color: var(--honor-red);
+      font-size: 0.88rem;
+      font-family: var(--font-mono);
+      margin: 0 0 0.5rem;
+      letter-spacing: 0.04em;
+    }
+
+    .report-skill-contributor {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .report-contributor-name {
+      color: var(--honor-red);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+
+    .report-header-badges {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    /* ── Cards ── */
+    .report-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 680px) {
+      .report-grid { grid-template-columns: 1fr; }
+      .report-header { flex-direction: column; }
+      .report-header-badges { justify-content: flex-start; }
+    }
+
+    .report-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 1.35rem 1.5rem;
+    }
+
+    .report-card--full {
+      grid-column: 1 / -1;
+    }
+
+    .report-card-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+      font-family: var(--font-mono);
+    }
+
+    /* ── Overall Trust Grade ── */
+    .otg-display {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .otg-badge {
+      font-family: var(--font-mono);
+      font-size: 2.25rem;
+      font-weight: 700;
+      padding: 0.5rem 1.1rem;
+      border-radius: 0.35rem;
+      border: 1.5px solid;
+      line-height: 1;
+      letter-spacing: 0.04em;
+    }
+
+
+
+    .otg-meta { font-size: 0.85rem; }
+    .otg-label { font-weight: 600; font-size: 1rem; margin-bottom: 0.2rem; }
+    .otg-sublabel { color: var(--muted); font-size: 0.8rem; }
+
+    /* ── Tenure ── */
+    .tenure-display {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .tenure-rank-name {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .tenure-since {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 0.4rem;
+    }
+
+    .tenure-since time {
+      color: var(--text);
+    }
+
+    /* ── Evidence table ── */
+    .evidence-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+
+    .evidence-table th {
+      text-align: left;
+      padding: 0 0.75rem 0.6rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .evidence-table td {
+      padding: 0.7rem 0.75rem 0.7rem 0;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+      color: var(--text);
+    }
+
+    .evidence-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Evidence grade inline chip */
+    .ev-grade {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.1rem 0.45rem;
+      border-radius: 0.25rem;
+      border: 1px solid;
+      letter-spacing: 0.04em;
+      vertical-align: middle;
+    }
+
+
+    /* Evidence type chip */
+    .ev-type {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 0.25rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      vertical-align: middle;
+    }
+    .ev-type[data-type="repo"] { color: var(--type-repo); border-color: rgba(56,189,248,.3); }
+    .ev-type[data-type="arxiv"] { color: var(--type-arxiv); border-color: rgba(16,185,129,.3); }
+    .ev-type[data-type="github-stars"] { color: var(--type-github-stars); border-color: rgba(251,191,36,.3); }
+
+    .ev-source-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 240px;
+    }
+    .ev-source-link:hover { color: var(--text); text-decoration: underline; }
+
+    .ev-trust-num {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .ev-notes {
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.5;
+      max-width: 300px;
+    }
+
+    .ev-date {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .no-evidence {
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-style: italic;
+      padding: 0.5rem 0;
+    }
+
+    /* ── Actionable gap ── */
+    .gap-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .gap-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 0.4rem;
+    }
+
+    .gap-row--green { border-color: rgba(16,185,129,.3); }
+    .gap-row--amber { border-color: rgba(251,191,36,.3); }
+    .gap-row--red { border-color: rgba(239,68,68,.25); }
+
+    .gap-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+    .gap-icon--check { background: rgba(16,185,129,.15); color: #10b981; }
+    .gap-icon--next  { background: rgba(251,191,36,.15); color: #fbbf24; }
+    .gap-icon--lock  { background: rgba(148,163,184,.1); color: var(--muted); }
+
+    .gap-body { flex: 1; min-width: 0; }
+    .gap-title { font-weight: 600; font-size: 0.88rem; margin-bottom: 0.2rem; }
+    .gap-desc  { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── Suite gate ── */
+    .gate-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 0.3rem;
+      border: 1px solid;
+      margin-bottom: 0.85rem;
+    }
+    .gate-status--pass { color: #10b981; background: rgba(16,185,129,.08); border-color: rgba(16,185,129,.3); }
+    .gate-status--fail { color: #ef4444; background: rgba(239,68,68,.07); border-color: rgba(239,68,68,.25); }
+
+    .gate-reason {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .gate-reason strong { color: var(--text); }
+
+    /* ── Timeline ── */
+    .timeline-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 0.85rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(30,41,59,.5);
+      font-size: 0.82rem;
+    }
+
+    .timeline-item:last-child { border-bottom: none; }
+
+    .tl-dot {
+      width: 1.4rem;
+      height: 1.4rem;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      flex-shrink: 0;
+      margin-top: 0.05rem;
+    }
+
+    .tl-dot--rank_up   { color: #10b981; border-color: rgba(16,185,129,.4); }
+    .tl-dot--evidence  { color: #fbbf24; border-color: rgba(251,191,36,.4); }
+    .tl-dot--demote    { color: #ef4444; border-color: rgba(239,68,68,.4); }
+
+    .tl-body { flex: 1; min-width: 0; }
+    .tl-action { font-weight: 600; color: var(--text); margin-bottom: 0.1rem; text-transform: capitalize; }
+    .tl-details { color: var(--muted); line-height: 1.45; font-size: 0.78rem; }
+    .tl-date { font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); white-space: nowrap; }
+
+    /* ── Not found ── */
+    .report-not-found {
+      text-align: center;
+      padding: 5rem 1rem;
+    }
+
+    .report-not-found h2 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .report-not-found p { color: var(--muted); font-size: 0.9rem; }
+    .report-not-found a { color: var(--honor-red); text-decoration: none; }
+    .report-not-found a:hover { text-decoration: underline; }
+
+    /* ── Loading ── */
+    .report-loading {
+      text-align: center;
+      padding: 5rem 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* ── Tier orb colors (mirrors typeColors in gaia.json) ── */
+    .report-header-orb[data-type="basic"]    { color: var(--tier-basic);    background: var(--tier-basic-bg);    border-color: var(--tier-basic-border); }
+    .report-header-orb[data-type="extra"]    { color: var(--tier-extra);    background: var(--tier-extra-bg);    border-color: var(--tier-extra-border); }
+    .report-header-orb[data-type="unique"]   { color: var(--tier-unique);   background: var(--tier-unique-bg);   border-color: var(--tier-unique-border); }
+    .report-header-orb[data-type="ultimate"] { color: var(--tier-ultimate); background: var(--tier-ultimate-bg); border-color: var(--tier-ultimate-border); }
+
+    /* ── Inherited evidence label ── */
+    .ev-inherited-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      padding: 0.05rem 0.35rem;
+      border-radius: 0.2rem;
+      background: rgba(148,163,184,.08);
+      border: 1px solid rgba(148,163,184,.2);
+      color: var(--muted);
+      vertical-align: middle;
+      margin-left: 0.3rem;
+    }
+
+    /* ── Stale / Dead-link flags ── */
+    .ev-flag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-family: var(--font-mono);
+      padding: 0.05rem 0.35rem;
+      border-radius: 0.2rem;
+      border: 1px solid;
+      vertical-align: middle;
+      margin-left: 0.25rem;
+    }
+    .ev-flag--stale  { color: #f59e0b; border-color: rgba(245,158,11,.4); background: rgba(245,158,11,.07); }
+    .ev-flag--dead   { color: #ef4444; border-color: rgba(239,68,68,.4);  background: rgba(239,68,68,.07); }
+    .ev-flag--verified   { color: #10b981; border-color: rgba(16,185,129,.4); background: rgba(16,185,129,.07); }
+    .ev-flag--disputed   { color: #f59e0b; border-color: rgba(245,158,11,.4); background: rgba(245,158,11,.07); }
+  </style>
+</head>
+
+<body class="report-page">
+
+  <!-- ─── NAV ─── -->
+  <nav id="site-nav"></nav>
+  <script src="../js/site-nav.js?v=4.8.1"></script>
+
+  <div class="report-back-row">
+    <a class="report-back" href="./index.html" aria-label="Back to Named Skills">
+      <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#arrow-back"/></svg>
+      <span>Named Skills</span>
+    </a>
+  </div>
+
+  <div class="report-wrap">
+    <div id="reportRoot">
+      <div class="report-loading">Loading skill report…</div>
+    </div>
+  </div>
+
+  <!-- ─── FOOTER ─── -->
+  <div id="site-footer-mount"></div>
+  <script src="../js/site-footer.js?v=4.8.1"></script>
+
+  <script>
+  (function () {
+    'use strict';
+
+    /* ── constants ── */
+    var NAMED_INDEX_URL = '../graph/named/index.json';
+
+    var LEVEL_LABELS = {
+      '0': 'Basic', '1': 'Awakened', '2': 'Named',
+      '3': 'Evolved', '4': 'Hardened', '5': 'Transcendent', '6': 'Apex'
+    };
+
+    var TYPE_SYMBOLS = { basic: '○', extra: '◇', unique: '◉', ultimate: '◆' };
+
+    var GRADE_LABELS = { S: 'Platinum', A: 'Gold', B: 'Silver', C: 'Bronze' };
+
+    var GRADE_ORDER = ['S', 'A', 'B', 'C'];
+
+    /* ── helpers ── */
+    function esc(v) {
+      return String(v == null ? '' : v)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function parseLevel(level) {
+      if (!level) return 0;
+      var n = parseInt(String(level).replace(/[^\d]/g, ''), 10);
+      return isNaN(n) ? 0 : Math.max(0, Math.min(6, n));
+    }
+
+    function fmtDate(iso) {
+      if (!iso) return '—';
+      var d = iso.slice(0, 10);
+      try {
+        var parts = d.split('-');
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return months[parseInt(parts[1],10)-1] + ' ' + parseInt(parts[2],10) + ', ' + parts[0];
+      } catch(e) { return d; }
+    }
+
+    function daysAgo(iso) {
+      if (!iso) return null;
+      try {
+        var ms = Date.now() - new Date(iso).getTime();
+        var days = Math.floor(ms / 86400000);
+        if (days < 1) return 'today';
+        if (days === 1) return '1 day ago';
+        if (days < 30) return days + ' days ago';
+        var months = Math.floor(days / 30);
+        if (months < 12) return months + (months === 1 ? ' month' : ' months') + ' ago';
+        var years = Math.floor(months / 12);
+        return years + (years === 1 ? ' year' : ' years') + ' ago';
+      } catch(e) { return null; }
+    }
+
+    /* ── URL param resolution ── */
+    function getSkillId() {
+      var params = new URLSearchParams(location.search);
+      var id = params.get('id') || '';
+      return id;
+    }
+
+    /* ── Find skill in index ── */
+    function findSkill(data, requestedId) {
+      var buckets = data.buckets || {};
+      // Normalize: catalogRef uses '-' not '/', id uses '/'
+      var normalizedDash = requestedId.replace('/', '-');
+      var normalizedSlash = requestedId.replace('-', '/'); // only first dash
+
+      for (var bKey in buckets) {
+        var skills = buckets[bKey] || [];
+        for (var i = 0; i < skills.length; i++) {
+          var s = skills[i];
+          if (s.id === requestedId) return s;
+          if (s.id === normalizedSlash) return s;
+          if (s.catalogRef === requestedId) return s;
+          if (s.catalogRef === normalizedDash) return s;
+        }
+      }
+      return null;
+    }
+
+    /* ── Build a flat lookup map from the index ── */
+    function buildSkillMap(data) {
+      var map = {};
+      var buckets = data.buckets || {};
+      for (var bKey in buckets) {
+        var skills = buckets[bKey] || [];
+        for (var i = 0; i < skills.length; i++) {
+          map[skills[i].id] = skills[i];
+        }
+      }
+      return map;
+    }
+
+    /* ── Compute tenure from timeline ── */
+    function computeTenure(skill) {
+      var level = skill.level || '';
+      var levelNum = parseLevel(level);
+      var timeline = Array.isArray(skill.timeline) ? skill.timeline : [];
+
+      // Find the most recent rank_up event
+      var rankUpEvents = timeline
+        .filter(function(t) { return t.action === 'rank_up' || t.action === 'ascend'; })
+        .sort(function(a, b) {
+          return new Date(b.timestamp || b.date || 0) - new Date(a.timestamp || a.date || 0);
+        });
+
+      var sinceIso = rankUpEvents.length > 0
+        ? (rankUpEvents[0].timestamp || rankUpEvents[0].date)
+        : (skill.createdAt || null);
+
+      return {
+        levelNum: levelNum,
+        rankName: LEVEL_LABELS[String(levelNum)] || level,
+        sinceIso: sinceIso,
+        sinceDisplay: fmtDate(sinceIso),
+        sinceAgo: daysAgo(sinceIso),
+      };
+    }
+
+    /* ── Compute actionable gap ── */
+    function computeGap(skill) {
+      var grade = (skill.overallTrustGrade || '').trim();
+      var isUltimate = skill.type === 'ultimate';
+      var evidence = Array.isArray(skill.evidence) ? skill.evidence : [];
+      var gateStatus = skill.ultimateGateStatus || null;
+
+      var rows = [];
+
+      if (!grade) {
+        // Ungraded
+        rows.push({
+          kind: 'next',
+          title: 'No evidence on record',
+          desc: 'Add at least one evidence source with a trust number ≥ 40 to earn Bronze (C) grade. Use <code>gaia dev evidence</code> to record it.'
+        });
+        return rows;
+      }
+
+      var gradeIdx = GRADE_ORDER.indexOf(grade);
+
+      if (grade === 'S') {
+        rows.push({
+          kind: 'check',
+          title: 'Evidence ceiling reached (Platinum · S)',
+          desc: 'This skill holds the highest possible Evidence Grade. Further improvement comes from accumulating more S-graded sources or gaining stars through verified demonstration.'
+        });
+      } else {
+        var nextGrade = GRADE_ORDER[gradeIdx - 1]; // S > A > B > C → next is one higher
+        var thresholds = { A: 80, B: 60, C: 40 };
+        var nextThresholds = { A: 90, B: 80, C: 60 };
+        var nextLabel = GRADE_LABELS[nextGrade] || nextGrade;
+        var nextMin = nextThresholds[grade] || 80;
+
+        if (grade === 'A') {
+          rows.push({
+            kind: 'next',
+            title: 'To reach Platinum (S): editorial Verifier review required',
+            desc: 'S grade requires a trust number ≥ 90 on at least one evidence source, confirmed by a 4★+ Verifier. Mechanical backfill alone cannot reach S — it demands a real demonstration reviewed by a registry Verifier.'
+          });
+        } else {
+          rows.push({
+            kind: 'next',
+            title: 'To reach ' + nextLabel + ' (' + nextGrade + '): add a stronger evidence source',
+            desc: 'Add an evidence entry with a trust number ≥ ' + nextMin + ' to elevate the Overall Trust Grade from ' + (GRADE_LABELS[grade] || grade) + ' to ' + nextLabel + '. Use <code>gaia dev evidence &lt;skillId&gt; "url" --class ' + nextGrade + '</code>.'
+          });
+        }
+      }
+
+      // Suite gate gap (for ultimates)
+      if (isUltimate && gateStatus) {
+        if (gateStatus.passes) {
+          rows.push({
+            kind: 'check',
+            title: 'Suite gate: eligible for Platinum editorial review',
+            desc: 'All component pillar requirements are met. A 4★+ Verifier may award S grade after reviewing the suite\'s demonstrations end-to-end.'
+          });
+        } else {
+          rows.push({
+            kind: 'lock',
+            title: 'Suite gate not yet cleared',
+            desc: gateStatus.reason || 'Pillar requirements not met. Check the Suite Gate section below for details.'
+          });
+        }
+      }
+
+      // Stars gap vs evidence ceiling
+      var levelNum = parseLevel(skill.level);
+      if (levelNum < 3 && grade === 'B') {
+        rows.push({
+          kind: 'next',
+          title: 'Rank gap: evidence outpaces current stars',
+          desc: 'Silver (B) evidence supports higher rank than ' + (LEVEL_LABELS[String(levelNum)] || skill.level) + '. Run <code>gaia scan</code> to generate promotion candidates, then <code>gaia promote</code> when eligible.'
+        });
+      } else if (levelNum < 4 && grade === 'A') {
+        rows.push({
+          kind: 'next',
+          title: 'Rank gap: Gold evidence supports advancement',
+          desc: 'Gold (A) grade evidence can support progression beyond ' + (LEVEL_LABELS[String(levelNum)] || skill.level) + '. Run <code>gaia scan</code> to check promotion eligibility.'
+        });
+      }
+
+      return rows;
+    }
+
+    /* ── Render functions ── */
+
+    function renderGradeChip(grade, size) {
+      var g = grade || '—';
+      var cls = size === 'large' ? 'otg-badge' : 'ev-grade';
+      return '<span class="' + cls + '" data-grade="' + esc(g) + '">' + esc(g) + '</span>';
+    }
+
+    function renderTypeChip(type) {
+      var t = type || '—';
+      return '<span class="ev-type" data-type="' + esc(t) + '">' + esc(t) + '</span>';
+    }
+
+    function renderHeader(skill) {
+      var type = skill.type || 'basic';
+      var sym = TYPE_SYMBOLS[type] || '○';
+      var levelNum = parseLevel(skill.level);
+      var rankBadgeHtml = (typeof window.rankBadge === 'function')
+        ? window.rankBadge(levelNum, { variant: 'full', size: 'md' })
+        : '<span>' + esc(skill.level || '') + '</span>';
+
+      var tierBadge = '<span style="font-family:var(--font-mono);font-size:0.72rem;padding:.2rem .5rem;border-radius:.25rem;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);text-transform:capitalize;">' + esc(type) + '</span>';
+
+      document.title = esc(skill.name) + ' — Trust Report · Gaia';
+      var titleEl = document.getElementById('pageTitle');
+      if (titleEl) titleEl.textContent = skill.name + ' — Trust Report · Gaia';
+
+      return '<div class="report-header">' +
+        '<div class="report-header-orb" data-type="' + esc(type) + '">' + esc(sym) + '</div>' +
+        '<div class="report-header-meta">' +
+          '<h1 class="report-skill-name">' + esc(skill.name) + '</h1>' +
+          (skill.title ? '<div class="report-skill-title">' + esc(skill.title) + '</div>' : '') +
+          '<div class="report-skill-contributor">' +
+            '<span>by</span>' +
+            '<span class="report-contributor-name">@' + esc(skill.contributor || '?') + '</span>' +
+            (skill.origin ? ' <span style="font-size:.7rem;color:#fbbf24;font-family:var(--font-mono);">★ origin</span>' : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="report-header-badges">' +
+          rankBadgeHtml +
+          tierBadge +
+        '</div>' +
+      '</div>';
+    }
+
+    function renderOTGCard(skill) {
+      var grade = skill.overallTrustGrade || '—';
+      var label = GRADE_LABELS[grade] || 'Ungraded';
+      return '<div class="report-card">' +
+        '<div class="report-card-label">Overall Trust Grade</div>' +
+        '<div class="otg-display">' +
+          renderGradeChip(grade, 'large') +
+          '<div class="otg-meta">' +
+            '<div class="otg-label">' + esc(label) + '</div>' +
+            '<div class="otg-sublabel">Highest single Evidence Grade<br>in the effective pool</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    function renderTenureCard(skill) {
+      var tenure = computeTenure(skill);
+      return '<div class="report-card">' +
+        '<div class="report-card-label">Rank &amp; Tenure</div>' +
+        '<div class="tenure-display">' +
+          '<div>Holds <span class="tenure-rank-name">the ' + esc(tenure.rankName) + ' rank</span>' +
+            '<span style="margin-left:.5rem;">' + (typeof window.rankBadge === 'function' ? window.rankBadge(tenure.levelNum, { variant: 'chip' }) : esc(skill.level || '')) + '</span>' +
+          '</div>' +
+          (tenure.sinceIso
+            ? '<div class="tenure-since">Since <time datetime="' + esc(tenure.sinceIso) + '">' + esc(tenure.sinceDisplay) + '</time>' +
+                (tenure.sinceAgo ? ' <span style="color:var(--muted);font-size:.78rem;">(' + esc(tenure.sinceAgo) + ')</span>' : '') +
+              '</div>'
+            : '<div class="tenure-since" style="font-style:italic;">No rank-up event on record</div>'
+          ) +
+        '</div>' +
+      '</div>';
+    }
+
+    function renderEvidenceCard(skill) {
+      var evidence = Array.isArray(skill.evidence) ? skill.evidence : [];
+      var html = '<div class="report-card report-card--full">' +
+        '<div class="report-card-label">Evidence Inventory</div>';
+
+      if (!evidence.length) {
+        html += '<div class="no-evidence">No evidence recorded for this skill.</div>';
+      } else {
+        html += '<div style="overflow-x:auto;"><table class="evidence-table">' +
+          '<thead><tr>' +
+            '<th>Grade</th>' +
+            '<th>Type</th>' +
+            '<th>Source</th>' +
+            '<th style="min-width:4rem">Trust №</th>' +
+            '<th>Date</th>' +
+          '</tr></thead>' +
+          '<tbody>';
+
+        for (var i = 0; i < evidence.length; i++) {
+          var ev = evidence[i];
+          var grade = ev.grade || '—';
+          var type = ev.type || ev['class'] || '—';
+          var srcUrl = ev.source || '';
+          var srcLabel = srcUrl.replace(/^https?:\/\//, '');
+          var trustNum = ev.trustNumber != null ? Number(ev.trustNumber).toFixed(1) : '—';
+          var evDate = ev.date || '';
+
+          // Stale / dead-link flags (future fields; graceful if absent)
+          var flags = '';
+          if (ev.stale) flags += '<span class="ev-flag ev-flag--stale">stale</span>';
+          if (ev.deadLink) flags += '<span class="ev-flag ev-flag--dead">dead link</span>';
+          if (ev.verified) flags += '<span class="ev-flag ev-flag--verified">verified</span>';
+          if (ev.disputed) flags += '<span class="ev-flag ev-flag--disputed">disputed</span>';
+
+          html += '<tr>' +
+            '<td>' + renderGradeChip(grade) + '</td>' +
+            '<td>' + renderTypeChip(type) + '</td>' +
+            '<td>' +
+              (srcUrl ? '<a class="ev-source-link" href="' + esc(srcUrl) + '" target="_blank" rel="noopener">' + esc(srcLabel) + '</a>' : '<span class="ev-source-link" style="cursor:default;">—</span>') +
+              flags +
+            '</td>' +
+            '<td><span class="ev-trust-num">' + esc(trustNum) + '</span></td>' +
+            '<td><span class="ev-date">' + esc(evDate) + '</span></td>' +
+          '</tr>';
+        }
+
+        html += '</tbody></table></div>';
+      }
+
+      html += '</div>';
+      return html;
+    }
+
+    function renderGapCard(skill) {
+      var gaps = computeGap(skill);
+      var html = '<div class="report-card report-card--full">' +
+        '<div class="report-card-label">Actionable Gap — what would raise this skill</div>' +
+        '<div class="gap-container">';
+
+      for (var i = 0; i < gaps.length; i++) {
+        var g = gaps[i];
+        var modClass = g.kind === 'check' ? 'gap-row--green' : (g.kind === 'next' ? 'gap-row--amber' : '');
+        var iconClass = 'gap-icon--' + g.kind;
+        var iconChar = g.kind === 'check' ? '✓' : (g.kind === 'next' ? '→' : '⊘');
+
+        html += '<div class="gap-row ' + modClass + '">' +
+          '<div class="gap-icon ' + iconClass + '">' + iconChar + '</div>' +
+          '<div class="gap-body">' +
+            '<div class="gap-title">' + esc(g.title) + '</div>' +
+            '<div class="gap-desc">' + g.desc + '</div>' +
+          '</div>' +
+        '</div>';
+      }
+
+      html += '</div></div>';
+      return html;
+    }
+
+    function renderGateCard(skill) {
+      if (skill.type !== 'ultimate') return '';
+      var gate = skill.ultimateGateStatus;
+      if (!gate) return '';
+
+      var components = Array.isArray(skill.suiteComponents) ? skill.suiteComponents : [];
+
+      var html = '<div class="report-card report-card--full">' +
+        '<div class="report-card-label">Suite Gate (' + esc(components.length) + ' components)</div>';
+
+      if (gate.passes) {
+        html += '<div class="gate-status gate-status--pass">✓ Gate passed</div>';
+      } else {
+        html += '<div class="gate-status gate-status--fail">✗ Gate not yet cleared</div>';
+        html += '<div class="gate-reason"><strong>Gap:</strong> ' + esc(gate.reason || 'Pillar requirements not met') + '</div>';
+      }
+
+      html += '<div style="font-size:.82rem;color:var(--muted);">' +
+        'Pillar rule: ≥ 3 components with graded evidence · ≥ 1 graded S · ≥ 2 graded A+ · no component below C.' +
+      '</div>';
+
+      if (components.length) {
+        html += '<div style="margin-top:1rem;font-size:.8rem;color:var(--muted);">' +
+          components.length + ' component' + (components.length !== 1 ? 's' : '') + ' in this suite.' +
+        '</div>';
+      }
+
+      html += '</div>';
+      return html;
+    }
+
+    function renderTimelineCard(skill) {
+      var tl = Array.isArray(skill.timeline) ? skill.timeline : [];
+      if (!tl.length) return '';
+
+      var ACTION_ICON = {
+        rank_up: '↑', ascend: '✦', name: '@', fuse: '⊕',
+        push: '+', evidence: '✓', demote: '↓', propose: '◆',
+        bond: '⊙', register: '◎', commit: '·',
+        verified: '✓', disputed: '⚠', evidence_added: '+', evidence_graded: '≋'
+      };
+
+      var DOT_CLASS = {
+        rank_up: 'tl-dot--rank_up', ascend: 'tl-dot--rank_up',
+        evidence_added: 'tl-dot--evidence', evidence_graded: 'tl-dot--evidence',
+        demote: 'tl-dot--demote',
+      };
+
+      var sorted = tl.slice().sort(function(a, b) {
+        return new Date(b.timestamp || b.date || 0) - new Date(a.timestamp || a.date || 0);
+      });
+
+      var maxItems = 8;
+      var shown = sorted.slice(0, maxItems);
+
+      var html = '<div class="report-card report-card--full">' +
+        '<div class="report-card-label">Timeline (' + tl.length + ' event' + (tl.length !== 1 ? 's' : '') + ')</div>' +
+        '<ul class="timeline-list">';
+
+      for (var i = 0; i < shown.length; i++) {
+        var t = shown[i];
+        var action = t.action || 'commit';
+        var iconChar = ACTION_ICON[action] || '·';
+        var dotClass = DOT_CLASS[action] || '';
+        var dateStr = (t.timestamp || t.date || '').slice(0, 10);
+        var label = action.replace(/_/g, ' ');
+
+        html += '<li class="timeline-item">' +
+          '<div class="tl-dot ' + dotClass + '">' + iconChar + '</div>' +
+          '<div class="tl-body">' +
+            '<div class="tl-action">' + esc(label) + '</div>' +
+            (t.details ? '<div class="tl-details">' + esc(t.details) + '</div>' : '') +
+          '</div>' +
+          '<span class="tl-date">' + esc(dateStr) + '</span>' +
+        '</li>';
+      }
+
+      if (tl.length > maxItems) {
+        html += '<li class="timeline-item" style="color:var(--muted);font-size:.8rem;border-bottom:none;padding-top:.5rem;">' +
+          '… and ' + (tl.length - maxItems) + ' earlier event' + (tl.length - maxItems !== 1 ? 's' : '') +
+        '</li>';
+      }
+
+      html += '</ul></div>';
+      return html;
+    }
+
+    function renderSkill(skill) {
+      var html = renderHeader(skill) +
+        '<div class="report-grid">' +
+          renderOTGCard(skill) +
+          renderTenureCard(skill) +
+        '</div>' +
+        renderEvidenceCard(skill) +
+        renderGapCard(skill) +
+        renderGateCard(skill) +
+        renderTimelineCard(skill);
+      return html;
+    }
+
+    function renderNotFound(id) {
+      return '<div class="report-not-found">' +
+        '<h2>Skill not found</h2>' +
+        '<p>No named skill found for <code>' + esc(id) + '</code>.</p>' +
+        '<p><a href="./index.html">← Browse all named skills</a></p>' +
+      '</div>';
+    }
+
+    function renderNoId() {
+      return '<div class="report-not-found">' +
+        '<h2>No skill specified</h2>' +
+        '<p>Add <code>?id=contributor/skill-name</code> to the URL to view a skill\'s trust report.</p>' +
+        '<p><a href="./index.html">← Browse all named skills</a></p>' +
+      '</div>';
+    }
+
+    /* ── Main ── */
+    function main() {
+      var skillId = getSkillId();
+      var root = document.getElementById('reportRoot');
+
+      if (!skillId) {
+        root.innerHTML = renderNoId();
+        return;
+      }
+
+      fetch(NAMED_INDEX_URL)
+        .then(function(r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+        .then(function(data) {
+          var skill = findSkill(data, skillId);
+          if (!skill) {
+            root.innerHTML = renderNotFound(skillId);
+            return;
+          }
+          var grade = (skill.overallTrustGrade || '—').trim();
+          document.body.setAttribute('data-overall-grade', grade);
+          root.innerHTML = renderSkill(skill);
+        })
+        .catch(function(err) {
+          root.innerHTML = '<div class="report-not-found"><h2>Failed to load data</h2><p>' + esc(String(err)) + '</p><p><a href="./index.html">← Back to Named Skills</a></p></div>';
+        });
+    }
+
+    // Wait for rank-badge helper to be ready (it's synchronous, but defer to
+    // ensure the DOM and scripts are settled).
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', main);
+    } else {
+      main();
+    }
+
+  }());
+  </script>
+
+</body>
+</html>

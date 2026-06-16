@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+
+<head>
+  <script>window.GAIA_VERSION = "4.8.1";</script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evidence Library — Gaia</title>
+  <meta name="description" content="Browse all 354 evidence sources backing the Gaia registry — by type, grade, or search.">
+  <meta name="keywords" content="evidence library, gaia trust model, arxiv, repo, github-stars, AI agent validation">
+  <!-- OG meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Evidence Library — Gaia">
+  <meta property="og:description" content="Browse all 354 evidence sources backing the Gaia registry — by type, grade, or search.">
+  <meta property="og:url" content="https://gaia.tiongson.co/evidence/">
+  <!-- Web fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="../css/styles.css?v=4.8.1">
+  <link rel="stylesheet" href="../css/plaque.css?v=4.8.1">
+  <!-- Scripts -->
+  <script src="../js/icons.js?v=4.8.1"></script>
+  <script src="../js/atlas-helpers.js?v=4.8.1"></script>
+  <script src="../js/rank-badge.js?v=4.8.1"></script>
+  <script src="../js/plaque.js?v=4.8.1"></script>
+
+  <style>
+    /* ── Evidence Library Page Styles ── */
+    .ev-hero {
+      text-align: center;
+      padding: 7.5rem 1.5rem 2.5rem;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+    .ev-hero-kicker {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--rank-3);
+      margin: 0 0 .6rem;
+    }
+    .ev-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 600;
+      margin: 0 0 .85rem;
+    }
+    .ev-hero-lede {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1rem;
+      margin: 0 0 2rem;
+    }
+
+    .ev-stats {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .ev-stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 2rem;
+      min-width: 160px;
+      flex: 1 1 180px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .ev-stat-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--rank-3);
+    }
+    .ev-stat-num {
+      font-size: 2.2rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 0.25rem;
+    }
+    .ev-stat-label {
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .ev-chart-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2.5rem;
+      margin: 2rem auto;
+      max-width: 540px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      flex-wrap: wrap;
+    }
+    .ev-bar-chart {
+      width: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .ev-bar-total-count {
+      font-family: var(--font-mono);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.1;
+      text-align: center;
+    }
+    .ev-bar-total-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+      text-align: center;
+    }
+    .ev-bar-track {
+      width: 100%;
+      height: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      display: flex;
+      overflow: hidden;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .ev-bar-segment {
+      height: 100%;
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .ev-chart-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+    }
+    .ev-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .ev-legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+    }
+
+    .ev-controls {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+    }
+    .ev-controls--sticky {
+      position: sticky;
+      top: 60px;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.85); /* fallback dark bg */
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    /* Detect if body has light background (if variables allow) and adjust sticky controls */
+    @media (prefers-color-scheme: light) {
+      .ev-controls--sticky {
+        background: rgba(255, 255, 255, 0.85);
+      }
+    }
+    .ev-search-wrap {
+      position: relative;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    .ev-search {
+      width: 100%;
+      padding: 0.75rem 1.2rem;
+      font-size: 0.95rem;
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .ev-search:focus {
+      outline: none;
+      border-color: var(--rank-3);
+      box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.25);
+    }
+
+    .ev-filter-row {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ev-filter-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .ev-filter-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+
+    .ev-type-tabs, .ev-grade-tabs {
+      display: flex;
+      gap: 0.35rem;
+      background: var(--surface);
+      padding: 0.25rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .ev-tab {
+      padding: 0.3rem 0.65rem;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      color: var(--muted);
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.15s, color 0.15s;
+    }
+    .ev-tab:hover {
+      color: var(--text);
+    }
+    .ev-tab.active {
+      color: var(--text);
+      background: rgba(167, 139, 250, 0.15); /* rank-3-bg derivative */
+    }
+
+    .ev-sort-wrap select {
+      padding: 0.4rem 1rem;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .ev-sort-wrap select:focus {
+      border-color: var(--rank-3);
+    }
+
+    .ev-index {
+      max-width: 960px;
+      margin: 2rem auto 6rem;
+      padding: 0 1.5rem;
+    }
+    .ev-loading {
+      text-align: center;
+      font-family: var(--font-mono);
+      color: var(--muted);
+      padding: 4rem;
+    }
+    .ev-empty-state {
+      text-align: center;
+      font-family: var(--font-body);
+      color: var(--muted);
+      padding: 4rem;
+      font-size: 1.1rem;
+    }
+
+    .ev-group {
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+    .ev-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.25rem;
+      background: rgba(255, 255, 255, 0.01);
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.15s;
+    }
+    .ev-group-header:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .ev-group-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+    .ev-group-title-generic {
+      font-style: italic;
+      color: var(--muted);
+      font-family: var(--font-display);
+    }
+    .ev-group-title-named {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--honor-red);
+      font-weight: 500;
+    }
+    .ev-group-meta {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .ev-group-toggle-icon {
+      transition: transform 0.2s;
+      color: var(--muted);
+    }
+    .ev-group.collapsed .ev-group-toggle-icon {
+      transform: rotate(-90deg);
+    }
+    .ev-group.collapsed .ev-group-body {
+      display: none;
+    }
+    .ev-group.collapsed {
+      border-bottom-color: var(--border);
+    }
+
+    .ev-group-body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ev-row {
+      display: grid;
+      grid-template-columns: 45px 100px 1fr 130px 100px;
+      gap: 1.5rem;
+      align-items: center;
+      padding: 0.9rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+    .ev-row:last-child {
+      border-bottom: 0;
+    }
+
+    /* Grade pill - 26px circle */
+    .ev-grade-col {
+      display: flex;
+      justify-content: center;
+    }
+    .ev-grade-pill {
+      width: 32px;
+      height: 20px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: #0f172a; /* high contrast on grade colors */
+    }
+
+    /* Type tag */
+    .ev-type-col {
+      display: flex;
+    }
+    .ev-type-pill {
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      text-align: center;
+      width: 100%;
+    }
+    .ev-type-pill.type-repo {
+      background: rgba(56, 189, 248, 0.12); /* --tier-basic-bg */
+      color: #38bdf8; /* --tier-basic */
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+    .ev-type-pill.type-arxiv {
+      background: rgba(192, 132, 252, 0.12); /* --tier-extra-bg */
+      color: #c084fc; /* --tier-extra */
+      border: 1px solid rgba(192, 132, 252, 0.25);
+    }
+    .ev-type-pill.type-github-stars {
+      background: rgba(245, 158, 11, 0.12); /* --tier-ultimate-bg */
+      color: #f59e0b; /* --tier-ultimate */
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+
+    /* Link and meta */
+    .ev-source-col {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .ev-source-link {
+      color: var(--text);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      transition: color 0.15s;
+      border-bottom: 1px dotted var(--border);
+    }
+    .ev-source-link:hover {
+      color: var(--rank-3);
+      border-bottom-color: var(--rank-3);
+    }
+
+    .ev-eval-col {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .ev-eval-link {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .ev-eval-link:hover {
+      color: var(--text);
+    }
+
+    .ev-date-col {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--muted);
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    /* Notes row below */
+    .ev-notes-row {
+      grid-column: 1 / -1;
+      background: rgba(0, 0, 0, 0.12);
+      border-radius: 6px;
+      padding: 0.5rem 0.85rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-style: italic;
+      border-left: 2px solid var(--border);
+      margin: -0.4rem 1.25rem 0.6rem;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .ev-row {
+        grid-template-columns: auto auto 1fr;
+        gap: 0.75rem;
+        align-items: start;
+        padding: 0.8rem 1rem;
+      }
+      .ev-grade-col {
+        grid-column: 1;
+        grid-row: 1;
+      }
+      .ev-type-col {
+        grid-column: 2;
+        grid-row: 1;
+      }
+      .ev-source-col {
+        grid-column: 3;
+        grid-row: 1;
+      }
+      .ev-eval-col {
+        grid-column: 1 / 3;
+        grid-row: 2;
+      }
+      .ev-date-col {
+        grid-column: 3;
+        grid-row: 2;
+        text-align: left;
+      }
+      .ev-notes-row {
+        margin: -0.2rem 1rem 0.4rem;
+      }
+      .ev-chart-wrap {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .ev-controls {
+        padding: 0.75rem;
+      }
+      .ev-filter-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+      }
+      .ev-filter-group {
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+
+<body class="evidence-page">
+  <!-- NAV -->
+  <nav id="site-nav"></nav>
+  <script src="../js/site-nav.js?v=4.8.1"></script>
+
+  <!-- BACK -->
+  <div class="profile-back-row">
+    <a class="profile-back" href="../" aria-label="Back to Home" title="Back to Home">
+      <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#arrow-back"/></svg>
+      <span>Back to Home</span>
+    </a>
+  </div>
+
+  <!-- HERO -->
+  <section class="ev-hero">
+    <p class="ev-hero-kicker">Registry Integrity</p>
+    <h1 class="ev-hero-title">Evidence Library</h1>
+    <p class="ev-hero-lede">Every claim in the Gaia registry is backed by evidence you can inspect. Browse all <strong id="evTotalCount">—</strong> sources below.</p>
+
+    <!-- stat cards — populated by JS -->
+    <div class="ev-stats" id="evStats"></div>
+
+    <!-- inline SVG doughnut — no Chart.js dependency -->
+    <div class="ev-chart-wrap">
+      <div id="evChart"></div>
+      <div class="ev-chart-legend" id="evChartLegend"></div>
+    </div>
+  </section>
+
+  <!-- CONTROLS -->
+  <section class="ev-controls ev-controls--sticky" id="evControls">
+    <div class="ev-search-wrap">
+      <input type="search" id="evSearch" class="ev-search" placeholder="Search evidence, skills, sources…">
+    </div>
+    <div class="ev-filter-row">
+      <div class="ev-filter-group">
+        <span class="ev-filter-label">Evidence Type</span>
+        <div class="ev-type-tabs" id="evTypeTabs" role="tablist">
+          <button class="ev-tab active" data-type="all">All</button>
+          <button class="ev-tab" data-type="repo">repo</button>
+          <button class="ev-tab" data-type="arxiv">arxiv</button>
+          <button class="ev-tab" data-type="github-stars">stars</button>
+        </div>
+      </div>
+      <div class="ev-filter-group">
+        <span class="ev-filter-label">Evidence Grade</span>
+        <div class="ev-grade-tabs" id="evGradeTabs" role="tablist">
+          <button class="ev-tab active" data-grade="all">All</button>
+          <button class="ev-tab" data-grade="S">Platinum</button>
+          <button class="ev-tab" data-grade="A">Gold</button>
+          <button class="ev-tab" data-grade="B">Silver</button>
+          <button class="ev-tab" data-grade="C">Bronze</button>
+        </div>
+      </div>
+      <div class="ev-sort-wrap">
+        <select id="evSort" class="ev-sort">
+          <option value="grade-desc">Grade (high → low)</option>
+          <option value="date-desc">Date (newest)</option>
+          <option value="skill-az">Skill (A–Z)</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- INDEX -->
+  <section class="ev-index" id="evIndex">
+    <div class="ev-loading">Loading evidence library…</div>
+  </section>
+
+  <!-- FOOTER -->
+  <div id="site-footer-mount"></div>
+  <script src="../js/site-footer.js?v=4.8.1"></script>
+
+  <!-- PAGE SCRIPT -->
+  <script src="../js/evidence-library.js?v=4.8.1"></script>
+  <script src="../js/ui.js?v=4.8.1"></script>
+</body>
+
+</html>

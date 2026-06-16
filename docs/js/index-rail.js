@@ -17,7 +17,7 @@
 (function () {
   "use strict";
 
-  if (!window.AlphaRail || !document.getElementById("named")) return;
+  if (!window.AlphaRail || !document.getElementById("paths")) return;
 
   var REDUCED = window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -29,7 +29,8 @@
     { key: "sec:ultimates",      label: "Claim an Ultimate",     targetId: "ultimates" },
     { key: "sec:hall-of-heroes", label: "Hall of Heroes",        targetId: "hall-of-heroes" },
     { key: "sec:ascension",      label: "The Ascension Cycle",   targetId: "ascension" },
-    { key: "sec:named",          label: "Named Skills Explorer", targetId: "named", accent: "red" }
+    { key: "sec:evidence-cycle", label: "The Evidence Grade Cycle", targetId: "evidence-cycle" },
+    { key: "sec:meta-reports",   label: "Meta Reports",          targetId: "meta-reports", accent: "red" }
   ];
 
   var byKey = {};

@@ -91,6 +91,26 @@ A starless ref's *effective rank* (the top star among its named variants) may be
 
 ---
 
+## Evidence Grades
+
+Evidence items are evaluated and assigned quality grades. The grade palette now exposes semantic token labels in `docs/css/tokens.css` (`--evidence-platinum`, `--evidence-gold`, `--evidence-silver`, `--evidence-bronze`) while preserving the legacy `--grade-S` / `--grade-A` / `--grade-B` / `--grade-C` aliases for existing UI hooks.
+
+Their visual representations use horizontal metric bars with the following styling rules:
+
+| Grade | Label | Background Texture | Text Color |
+|---|---|---|---|
+| S | Platinum | Stylized tempered blue-iridescent titanium (`#ecf4ff` to `#a5c7eb`) with radial highlights and animated shimmer sweep | `#0b2545` (Deep navy contrast) |
+| A | Gold | `var(--grade-A)` base with fine linear brush and static polished reflection | `#451a03` (Deep brown) |
+| B | Silver | Darker matte steel/slate grey (`#8a99ad` to `#475569`) with coarser linear brush and matte reflection | `#0f172a` (Dark slate) |
+| C | Bronze | `var(--grade-C)` base with rough linear texture and tarnished, minimal reflection | `#fffbeb` (Light warm) |
+| - | Ungraded | `transparent` with `var(--border)` stroke (no texture) | `var(--muted)` |
+
+> **Note:** The grades utilize multi-layered CSS repeating gradients (radial for Platinum, linear for others) and horizontal SVG fractal noise overlays to achieve a metallic texture that descends in polish and detail according to the grade. Platinum adds an iridescent tempered look (violet, cyan, and gold hints) and an animated shimmer sweep for the highest hierarchy, while Silver is deliberately darkened to maximize contrast against Platinum, and Bronze carries a tarnished, rougher appearance. Evidence bars use `var(--font-mono)` to emphasize their role as metric ledgers.
+>
+> **Design Quirk:** Evidence grade visual elements are strictly rectangular (e.g., metric bars, rectangular badges, or linear tracks) and must **never** be rendered as circular grade badges or circular graphs (such as doughnut charts). This rule applies to all visual representations of evidence, including the main library metrics, individual report badges, and overall distribution charts.
+
+---
+
 ## Level VI — Transcendent ★ Special Rendering
 
 VI nodes bypass `drawNode` entirely and use `drawNodeVI`, which runs every animation frame using the shared `state.t` clock:
