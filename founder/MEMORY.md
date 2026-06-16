@@ -1,0 +1,118 @@
+# Orchestrator Memory
+
+Maintained by the Orchestrator agent. Newest entries first within each section.
+
+## High-Level Goals
+
+1. **Phase 1 — Trust Infrastructure** (milestone #4, due Sep 10, 2026): trust model, security scanner, verification workflow delivered; benchmarks + cert tiers designed. Currently 0/6.
+2. **Immediate Next 30 Days** (milestone #7, due Jul 10, 2026): Trust model RFC settled, then #646 → #648 shipped. Currently 1/4 (the closed item is PR #653).
+3. **Trust model — DECIDED 2026-06-10 (see handovers/TRUST_MODEL_RFC.md v2):** ranks are the trust signal, no skill-level numeric scores; evidence GRADES S/A/B/C (Platinum/Gold/Silver/Bronze colors, from underlying trust number) separate from evidence TYPES (arxiv/repo/stars; expansion RFC = #654, sub-issue of #646); Overall Trust Grade per skill = "beyond reasonable doubt" accumulation; tenure display-only, no regression; everything skill-level — repos only provide evidence; #648 = actionable reports.
+4. **Data layer (from #647 comment):** git-as-database is the strategy; dolt or Supabase next in line; NOT designing for 10k+ skills; migration deferred, scaffolding-level ideation only.
+5. North star: GAIA as the canonical reputation/verification/discovery layer for agent skills. Moat = trusted rankings, verified evidence, contributor prestige, canonical naming, historical attribution.
+
+## Decisions Log
+
+- **2026-06-10** — Phase 1 scope = **hybrid**: milestone #4 umbrella + v2 BUILD sprint order; #649/#650 design-only. (Marco, via question)
+- **2026-06-10** — GitHub access = **gh CLI + PAT** in sandbox. PAT not yet provided.
+- **2026-06-10** — Autonomy = **approve everything**: all GitHub writes drafted, executed only after Marco's explicit approval.
+- **2026-06-10** — #647 dispositioned per Marco's issue comment: migration deferred, git-as-DB strategy, issue stays open for DB-specialist contributors. Label cleanup proposed in Batch 1.
+- **2026-06-10** — Workstream A reframed: no implementation handover until Trust Model RFC settles (ranks + evidence grading vs numeric scores).
+- **2026-06-10** — #637 scope per Marco's comment: #635 covers `gaia tree`/`gaia graph`; everything else except `gaia skills` stays RFC.
+- **2026-06-10** — Trust implementation finalized: bands S≥90/A≥80/B≥60/C≥40/ungraded<40; `class` removed at next major; type values kebab-case (`github-stars`); suite ultimate gate = pillar rule (≥3 evidenced components, ≥1 S + ≥2 A, floor C) with a recalibration RFC due ~1 month post-ship; verification workflow = issue #658 (standalone, tenure 30d).
+
+## State Snapshot (2026-06-16, session 4 — verified via gh + reality-check subagent)
+
+- **Repo:** `mbtiongson1/gaia-skill-tree` on `main` @ `997bd7fa`, version **v4.9.0**.
+- **Milestones:**
+  - **#4 Phase 1** (due Sep 10): pre-hygiene **2/9 closed (22%)**. Open before hygiene: #185, #637, #647, #649, #650, #654, #658 (#699 not yet on milestone). Closed: #128, #155.
+  - **#7 Next-30** (due Jul 10): **6/8 closed (75%)** — closed: #646, #648, #653, #686, #690, #696. Open: #697 (Rising Skills), #698 (Rising Repos).
+  - **#5 Phase 2** / **#6 Phase 3**: untouched.
+- **Trust model:** PR-1 (#659) → PR-2 (#686) → PR-3/PR-2.5 (#690) → PR-4 (#694) all merged; #646 closed 2026-06-16; #648 closed 2026-06-16. Reports + methodology page live.
+- **Auth:** PR #669 (device flow, #155) merged 2026-06-14; PR #682 (honest logout / revoke removal) merged 2026-06-14. **`AUTH_LOGOUT_REVOKE_PATCH.md` was actioned via #682 — not a pending handover anymore.**
+- **Project board #2:** 57 items, 15 Done / 42 Todo. Token in this session has `read:project` (Marco supplied 2026-06-16); use while it's live.
+- **CI:** `python-package.yml` has `pull_request:` trigger but path filter excludes `registry/**` → data-only PRs still silently skip. **Tracked as G1.** Crawler workflows still failing on push despite #693 disable; noise, non-blocking.
+- **Tooling:** gh CLI in sandbox at `~/.local/bin/gh`, authed via GH_TOKEN; sandbox-local, re-provided per session.
+
+## Phase 1 Closeout Plan (active — see `handovers/PHASE1_MASTER.md`)
+
+Replaces the old 8-PR plan (archived to `handovers/done/00_PHASE1_COMPLETION_PLAN.md`). Reality check on 2026-06-16 found:
+
+- **PR-8 (auth logout)** already shipped as #682 — done.
+- **PR-7 (CI fix)** partially landed: `pull_request:` exists but `registry/**` not in path filter. Re-scoped to G1.
+- **PR-1 (rank gates)** floors exist on legacy `class`; new `grade` field not consulted in `_meets_evidence_floor`. Re-scoped to G2 — small translation patch, not greenfield.
+- All 8 old per-PR handovers archived to `handovers/done/`. One unified spec lives at `handovers/PHASE1_MASTER.md`.
+
+| G# | Title | Issue | Effort | Agent | Lane | Blocked by |
+|---|---|---|---|---|---|---|
+| G1 | CI: include `registry/**` in path filter | new (H7A) | XS | Haiku 4.5 | A | — |
+| G2 | Rank gate `class`→`grade` translation | #699 | S | Sonnet 4.6 | A | — |
+| G3 | Security Scanner | #185 | L | Opus 4.8 | C | — |
+| G4 | Verification Workflow (folds #650) | #658 | L | Opus 4.8 | C | G2, G3 |
+| G5 | Share static page | new (fast-follow of closed #128) | M | Sonnet 4.6 | B | — |
+| G6 | Narrow-path tree render | #642 | S | Sonnet 4.6 | B | — |
+| G7 | Benchmark RFC | #649 | M (research) | Opus 4.8 xhigh | D | — |
+
+Lanes A/B/D run in parallel on day 1; Lane C (G3 → G4) runs sequentially after G2 + G3 land.
+
+## Hygiene Batch 2026-06-16 (drafted; awaiting Marco approval)
+
+Full draft at `handovers/HYGIENE_BATCH_2026-06-16.md`. Summary:
+
+- **H1**: fold #650 into #658 (close as duplicate).
+- **H2**: remove #647 from milestone #4 (keep open for DB-specialist contributors).
+- **H3**: post 1-pager comment on #647 (git-as-DB strategy + migration triggers).
+- **H4**: remove #637 from milestone #4 (RFC-only, not a Phase-1 gate).
+- **H5**: move #654 to milestone #5 (Phase 2 scope) + label `phase-2`.
+- **H6**: add #699 to milestone #4 + amend with G2 scope note.
+- **H7A**: open new G1 issue (CI registry path filter).
+- **H7B**: add #642 to milestone #4.
+- **H8**: schedule mid-July recalibration RFC reminder (CronCreate, durable).
+- **H9**: label sweep — add `phase-1` to #185, #642, #649, #658, #699 + new G1 issue.
+
+After execution: milestone #4 contents = exactly {#185, #642, #649, #658, #699, NEW G1} = 6 open items, mapping 1:1 to G1–G7.
+
+## Open Questions / Waiting On (current)
+
+- [ ] **Marco approval on `HYGIENE_BATCH_2026-06-16.md`** — nothing posts to GitHub until approved.
+- [ ] **Marco green-light on `PHASE1_MASTER.md` G1–G7** — including agent-model assignments + parallelization lanes.
+- [ ] **Mid-July recalibration RFC** (H8) — folds in (a) pillar-rule threshold review post ~1 month of grading data, (b) `overall_trust_grade()` MAX-vs-accumulation finding from PR-2 review, (c) any G2/G3/G4 surface findings.
+- [ ] **#155 follow-up** — `gaia logout` server-side revoke is permanently a no-op without client_secret; PR #682 made it honest. Phase 2 decision still pending: do we ever want full revoke (requires Worker / proxy with secret)?
+- [ ] **Token spend logging directive** (PR #695): each agent + this orchestrator session must log model + tokens to the relevant PR/issue at end-of-session. Apply to G1–G7 agent dispatches.
+
+## Assets Inventory (current)
+
+- `handovers/PHASE1_MASTER.md` — **active master plan** for G1–G7 closeout.
+- `handovers/HYGIENE_BATCH_2026-06-16.md` — drafted GitHub-state changes (H1–H9), awaiting approval.
+- `handovers/done/` — archive of 19+ historical handovers (8 obsolete PR-1..PR-8 specs, old plan, RFCs, completed sprint specs, methodology report).
+
+## Session Log
+
+- **2026-06-16 (session 5 — G7 Trust Taxonomy RFC consensus)** — Multi-stage workflow on the trust formula. Two waves: Wave A (`g7-trust-taxonomy-consensus`, 21 agents, 1.12M subagent tokens, 30 min) ran 3 surveyors → 4 distinct-stance proposers (Strict-S / Attainable-S / Fusion-Heavy / Community-Heavy) → 12 adversarial judges (3 lenses × 4 proposals: gameability, corpus-fit, drift-severity) → synthesizer; **drafter died on socket close mid-write**. Synthesis: P4 Community-Heavy as base, hardened with grafts from P1 (verifier/star plateaus, identity-tier creator multipliers) and P3 (only-graded-origins counting, null-on-derank verifier); thresholds reverted to baseline (S=250/A=100/B=50/C=20) so P4's three loosenings don't compound. Eight new mechanics introduced: mothership discount with capped divisor (max 4) + same-product subdivision; same-source dedup; fork-network canonicalization with `links.canonicalRepo` opt-out; sqrt-softened fusion curve (`m = 20 × origins` for ≤10, `200 + 20 × sqrt(origins-10)` for >10); only graded≥C origins count toward fusion; null-on-derank verifier; provisional grade with 6-month grace (PR-gated demotion); rank-floor sanity rule (4★+ cannot land below B without review — **blocks publish** at `gaia validate`). Marco's 10 final decisions captured: GitHub org membership for verifier-cluster; proxy-validation parked as milestone (lenient unverified-flag for now); `gaia dev evidence --cosign-with` flag confirmed for recognized-voice tier; PR-gated demotion at 6-month grace; fork canonicalization opt-out via `links.canonicalRepo`; same-product mothership subdivision; suiteComponents-only for auto-fusion origins; big-bang migration confirmed; stamp report via `gaia-post` skill (type=report, label="Meta-Shift", hero ON, source=`docs/meta/JUN_2026_TRUST_REGRADE.md`); rank-floor blocks publish.
+  - **Wave B** (`g7-rfc-chunked-draft`, 9 agents, 303k tokens) chunked the RFC into 7 parallel section-writers + adversarial reviewer + patcher; **patcher stalled twice** on the same socket-close pattern. Recovered: extracted all 7 cached section results + reviewer's structured patch list from workflow journal/transcripts; assembled raw RFC (75k chars); spawned a single dedicated patcher agent with explicit 8-patch instructions (formula canonicalization, calibration reconciliation across §0/§4/§9/§13, migration PR shape one-PR-three-commit-stages, diversity-gate verifier cap, §10.4 wording, §13.5 same-source dedup example, §11 preamble, §6.5 quarterly-batch wording, plus 2 minor patches). Final RFC at `founder/handovers/G7_TRUST_TAXONOMY_RFC.md` — **958 lines, 80kb**, all reviewer findings resolved.
+  - **Cost so far this session:** ~1.5M total subagent tokens (Opus xhigh dominates). Logging on master-plan tracking issue when opened.
+  - **Op note:** Workflow drafter agents stall on long single-shot writes (>20 page markdown). Pattern that worked: chunked parallel writes (≤3 pages each) + structured review schema + dedicated downstream patcher agent. Avoid single mega-write agents on Bedrock.
+
+- **2026-06-16 (session 4 — Phase 1 closeout reorganization)** — Marco asked for a clean re-org with no chaos. Three parallel audits (handover sweep, GitHub-state audit via gh, repo reality check) caught: (1) memory was 5 minor releases stale (v4.4.2 → actual v4.9.0); (2) **PR-8 from old plan already shipped as #682** on 2026-06-14 (auth honest revoke); (3) **PR-7 (CI fix)** partially landed — `pull_request:` trigger present, but path filter excludes `registry/**` so data-only PRs still skip; (4) **PR-1 (rank gates)** floors exist on legacy `class` field but `_meets_evidence_floor` doesn't read the new `grade` field — so #699 narrows from greenfield to translation patch; (5) milestone #4 had drift items (#637, #647, #654 not Phase-1 acceptance; #650 duplicates #658; #699 had no milestone; #642 had no milestone). Then: archived all 8 obsolete PR-1..PR-8 handovers + old plan to `done/`; wrote **`handovers/PHASE1_MASTER.md`** as the unified plan with G1–G7 numbering, agent-model assignments (Haiku for XS, Sonnet for S/M, Opus for L/research), and parallelization lanes (A=infra+rank-gate sequential, B=share+narrow-tree parallel, C=scanner→verification sequential, D=benchmark RFC any-time); wrote **`handovers/HYGIENE_BATCH_2026-06-16.md`** as a 9-step approve-and-execute draft (fold #650→#658, prune #637/#647/#654 from #4, post #647 git-as-DB 1-pager, set #699/#642 milestone, open new G1 issue, sweep `phase-1` labels, schedule mid-July recalibration RFC). Updated `CLAUDE.md` Key References + Project Facts to point at the new master plan and reflect v4.9.0. Awaiting Marco approval on (a) the master plan including agent assignments + parallel lanes, (b) the hygiene batch.
+
+- **2026-06-16 (session 3, wrap-up)** — Marco requested a final gap analysis. Dispatched an auditing subagent which caught 3 missing code PRs (#642 narrow-tree render, CI trigger fix, #155 revoke patch) and 2 non-code tasks (#647 1-pager, mid-July recalibration RFC). Generated comprehensive handover specs for all 8 Phase 1 completion PRs, numbered them sequentially (PR1–8), and archived all obsolete handovers to `handovers/done/`. The master execution plan (`00_PHASE1_COMPLETION_PLAN.md`) is updated. Session complete; ready to dispatch coding agents next.
+
+- **2026-06-16 (session 3, cont.)** — Spawned an exploring agent to investigate the `gaia-skill-tree` repo for existing logic tying ranking to evidence grades. Findings: `meta.json` and `grading.py` currently implement the **Suite Ultimate Gate** (the pillar rule) and grade thresholds. Additionally, **Issue #658** covers "Enterprise Ready" Verification gating (requiring Grade A + 30-day tenure). However, there is no general gate tying standard skill ranks (e.g., Evolved, Apex) to evidence grades. Drafted an issue to fully set up these general rank gates per Marco's request.
+
+- **2026-06-16 (session 3, final)** — Triage subagent successfully closed duplicates and connected related issues. Filtered out speculative/v2-unrelated ideas into a parking lot. Formulated the prioritized roadmap plan focusing on unfinished Phase 1 tasks (Rank Gates, Security Scanner, Verification Workflow, Benchmark Design, and Share Page) and identified necessary subagent weights for implementation.
+
+- **2026-06-16 (session 3)** — Marco informed me that PR-4 (#694) was merged to main. This resolves #648 and completes the end-to-end trust model implementation described in #646. Drafted tracking operations for Marco's approval: closing #646, updating the project board, and seeding the next sprint issues (Trending / Rising Skills) since Milestone #7 is reaching 100% completion for its first batch of tasks.
+
+- **2026-06-14 (session 2, cont. 3)** — Reviewed + merged **#690** (merge commit `74b2a6ee`) — the consolidated trust-layering PR (superseded closed #687/PR-2.5 + #688/PR-3; **Resolves #689**). Contains: `--index` in-place re-grade CLI + `evidence_graded` schema enum (fixes the live validate regression), 220 generic-node backfill, 173 named-skill backfill, and the **architectural step** — named-skill grade **inheritance** (effective = own ∪ inherited) + suite-gate fix (component lookup keyed by *named* id → kills the universal "0/3 components" artifact) + A3 build-path fix (thread `generic_skills_map`/`gate_config` through `write_index`). **CI gap:** the "Test, Build, and Smoke Test" unit-test workflow **did not run** on the head — compensated by running grading+regrade suites (**55/55**) and **`gaia validate` (all 10 checks, 228 skills)** locally before merging. Board #690→Done, #689→Done/closed, milestone #7. Then: started the trust-methodology meta-report + PR-4 plan expansion (Marco's request). Carryover: effective grade is still a max (recalibration RFC).
+
+- **2026-06-14 (session 2, cont. 2)** — Marco surfaced a **PR-3 blocker** from his pre-PR-3 prep. Verified two gaps in merged PR-2 (#686): (1) `gaia dev evidence` is **append-only** (`evidence.append(...)` in `dev.py`, no source-match/dedup) → re-running over ~220 entries would duplicate them to ~440; (2) `evidence_graded` is fired but **absent from the schema timeline `action` enum** in both `skill.schema.json` + `namedSkill.schema.json` → **live `gaia validate` regression on main**. Resolution (Marco's call, Orchestrator concurs): **fix the CLI first** via two pre-PR-3 patches — Patch A `schema/` (add the enum value; urgent), Patch B `cli/` (in-place re-grade). PR-3 then runs as **pure `review/meta/` data** (resolves the no-CLI-on-review/meta tension). Wrote `handovers/GRADING_CLI_FIXES_HANDOVER.md`; revised `handovers/PR3_BACKFILL_HANDOVER.md` (in-place regrade + patch dependency). **Process note:** my PR-2 review checked that `evidence_graded` fires but not that the schema enum permits it / that `gaia validate` passes — add "grep new timeline actions against the schema enum + run validate" to the review checklist.
+
+- **2026-06-14 (session 2, cont.)** — PR-2 (grading pipeline) landed. Reviewed #686 against the handover — read `grading.py` keystone + `dev.py` evidence wiring + `formatting.py` colors; CI green (full suite ran on head). **Squash-merged** `e6ef540c`, milestone #7; board #686→Done, #646→In progress; review comment 4700932541. Faithful to spec; **one non-blocking semantic flag:** `overall_trust_grade()` = single highest grade (max), not the RFC's accumulation → folded into the recalibration-RFC follow-up. Wrote `handovers/PR4_REPORTS_HANDOVER.md` (#648, design/ branch). Op note: sandbox `/tmp` clears between turns (home/gh persist); relied on CI-green rather than a costly re-clone for the local test re-run.
+
+- **2026-06-14 (session 2)** — Reviewed PR #669 (auth MVP, #155) on Marco's request. Cloned the branch, ran the auth suite (50/50 green, 0.16s). Verdict: usable / merge-ready, faithful to the PRD. Posted a review comment (issue-comment 4700324066, Marco-approved) with three auth findings: (1) `revoke_token` is effectively a no-op against live GitHub — `DELETE /applications/{client_id}/token` needs client_id:client_secret Basic auth, absent by design; the test mocks a 204 and masks it; logout still clears locally and the message stays honest; (2) chmod-600 file write leaves a brief world-readable window (open→chmod); (3) broad env precedence (GH_TOKEN/GITHUB_TOKEN) can silently shadow `gaia login`. Confirmed `load_config` flat-parses a top-level `oauthClientId`, so the config path resolves. Answered Marco: building ahead of the OAuth app is the correct/intended order (client_id env>config>placeholder + fail-fast). His failed attempt was a **GitHub App** (callback required) vs the needed classic **OAuth App** + Enable Device Flow. gstack `/browse` unavailable here (broken symlink → Termux path); Marco chose a manual registration recipe (delivered). OAuth app still unregistered → real end-to-end `gaia login` unverified. gh re-installed in sandbox (apt-get download + dpkg-deb extract to ~/.local/bin; PAT re-provided this session, sandbox-local). Then, on Marco's explicit instruction, ran operations: final review pass (head moved 84900f8→35fa295 via rebase onto newer main; re-verified auth.py + test_auth.py **byte-identical** to review, 50/50 green, CI CLEAN/MERGEABLE) — **flagged 4 bundled non-auth commits** now riding on the branch (infra(badges) registry-date + generateBadges.py; infra(docs) --check fixes in build_docs.py + test_docs_site.py; cli(init) username detection in main.py + treeManager.py); **merged #669** via merge commit `b4d6659d` (REST API, to dodge gh-2.4.0 classic-projects error); set milestone #4; commented #155 + moved board #155→In progress; added #669 to board→Done. Client ID `Ov23litFvQBfMkwbIxfg` live-verified; keychain/file green per Marco.
+
+- **2026-06-10 (session 1, wrap)** — Auth PRD finalized after Marco's inline reviews: persistent tokens (keyring, revised from "none"), offline first-class + remote-repo read selection with worktree-style `.gaia` path, CLI-forever leaning. Badge redesign accepted: generator/registry.json stay (Layer 1 canon), Worker dropped, `gaia badge sign`/`verify` SSH-attestation layer added; docs/badges page design updates added to PRD §6; #494 design comment posted (4675974778). Existing badge infra confirmed in repo: generateBadges.py, docs/badges/_assets/, registry.json v2, dead Worker ?repo= path. NEXT SESSION: PR-2 is critical path; Marco registers OAuth app; #654 brainstorm open.
+
+- **2026-06-10 (session 1)** — Bootstrapped orchestrator workspace. Read roadmaps v1/v2 + GIT.md. Audited GitHub (logged-out web): milestones mapped, #647 label conflict and verification-workflow gap found. Scope/access/autonomy decisions captured. Created CLAUDE.md, MEMORY.md, PHASE1_PLAN.md v1.
+- **2026-06-10 (session 1, cont.)** — PAT received (2nd token worked; 1st lacked read:org). gh installed (arm64). Full comment harvest on 9 issues → major finding: Marco is pivoting away from numeric trust scores toward rank/evidence-grade model; #647 deferred; #128/#155 have actionable design notes awaiting his decisions. Board confirmed healthy (not empty). Plan revised to v2: RFC-first sequencing, Batch 1 ops drafted.
+- **2026-06-10 (session 1, close)** — Marco approved: all Batch 1 ops, #128 option (a) CLI-first, RFC drafting, weekly review. Executed #647 ops (wontfix removed, milestone → #4, verified via gh). Drafted #155/#128 comments — awaiting his text approval before posting. Wrote TRUST_MODEL_RFC.md + GAIA_SHARE_HANDOVER.md. Created `gaia-weekly-review` scheduled task (Mon 09:01).
+- **2026-06-10 (session 1, final)** — Comments posted to #155 + #128 (with Marco's amendments: gaia install exists, #642 relation, backlog PR). Marco resolved all 5 trust-model decisions → RFC v2 accepted. Created #654 (evidence types RFC) + linked as sub-issue of #646 via API. Posted decision summary to #646. Remaining queue: #646/#648 implementation handover draft, verification-workflow issue draft.
