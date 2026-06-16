@@ -230,6 +230,28 @@ Available gstack skills:
 
 **Stale `skills/` root directory** (removed in PR #365 `96c44df`): a pre-merge snapshot (`gaia.json v2.1.4`, 2026-04-30) that carried the legacy id `autonomous-research-agent` at `[VI · Transcendent ★]` with double-misencoded star glyphs. Do not recreate it; canonical data lives under `registry/` and `docs/graph/gaia.json`.
 
+## Known Skill Explorer Issues
+
+`docs/js/skill-explorer.js` is split into **two IIFEs** (lines 1–1862 and 1864–end). They do **not** share lexical scope — bindings in IIFE #2 are invisible to IIFE #1 and vice versa. Anything that needs to be shared has to be re-declared in each IIFE or hung off `window`.
+
+**The cross-IIFE bugs caught in PR #714 (2026-06-17):**
+
+| Bug | Symptom | Fix |
+|---|---|---|
+| `renderDocs` (IIFE #1, line ~619) called `getRootPath()` defined only in IIFE #2 (line ~1982) | "Docs section unavailable" when the modal opened, or — worse — entire render chain dead because the throw cascaded into `renderFlowchart` and `renderTimeline` | Duplicated `function getRootPath()` inside IIFE #1 (right after `findGeneric`). Comment links back to this CLAUDE.md note. |
+| `openTreeDialog` (IIFE #2, line ~1949) referenced an **undeclared** `version` identifier | Skill Tree dialog opened blank or never opened (silent ReferenceError from the click handler) | Added `var version = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';` mirroring the helper at `docs/js/named-skills.js:468` |
+| Snapshot `_seBodyOriginalHTML` lazy-captured the live `.se-body` markup once, then restored it on every subsequent open | Subsequent modal opens missing `#se-docs` / `#se-upgrade` / `#se-changelog` mounts when the captured snapshot was already mid-mutation | Replaced with a constant `SE_BODY_SKELETON` template literal at IIFE #1 top |
+| Render call chain at `openExplorer:1601-1607` had no try/catch | One render throwing (e.g. ReferenceError above) silently aborted every subsequent section so only Hero + Install showed | Wrapped each call in `_safeRender(name, mountId, fn)`. On throw, the affected section shows a 1-line "Section unavailable" notice and DevTools console gets the underlying error. Sibling sections continue to render. |
+
+**Rules going forward:**
+
+1. **Before referencing a top-level function from inside `skill-explorer.js`, confirm it's in the same IIFE.** Grep for the function name and check it's declared above the use in the *same* `(function(){ … })()` block. If it isn't, either duplicate it or expose via `window`.
+2. **No undeclared identifiers — even on the right-hand side of fetch URLs.** A `version` or `prefix` typo throws ReferenceError at click time; the user sees an unresponsive button with no console hint unless they have DevTools open. Lint can't catch this when the file is two IIFEs in one script.
+3. **Render functions in `openExplorer` must remain wrapped in `_safeRender`.** A throw in any of `renderInstall` / `renderDocs` / `renderFlowchart` / `renderTimeline` must not cascade. If you add a sixth section, wrap it.
+4. **Don't snapshot live DOM into a module-level cache and assume it's the original.** Either rebuild from a constant template (preferred) or re-capture every modal open.
+
+**Verification rule:** after any edit to `docs/js/skill-explorer.js` or `docs/named/index.html`, manually open `https://gaia.tiongson.co/named/` (or local equivalent), click any 2★+ skill, and confirm all five sections render: **Hero, Installation, Documentation, Upgrade Path, Evolution Changelog**. Click the topbar **Skill.md**, **Repo**, **Report**, and **Skill Tree** (in nav) buttons — each must open. Watch the DevTools console for `[skill-explorer]` warnings.
+
 ---
 
 ## Curation Guidelines

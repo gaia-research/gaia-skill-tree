@@ -490,6 +490,98 @@
     .ev-flag--dead   { color: #ef4444; border-color: rgba(239,68,68,.4);  background: rgba(239,68,68,.07); }
     .ev-flag--verified   { color: #10b981; border-color: rgba(16,185,129,.4); background: rgba(16,185,129,.07); }
     .ev-flag--disputed   { color: #f59e0b; border-color: rgba(245,158,11,.4); background: rgba(245,158,11,.07); }
+
+    /* ── Links card ── */
+    .links-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .links-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 0.85rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 0.3rem;
+    }
+    .links-row a {
+      color: var(--text);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .links-row a:hover { color: #38bdf8; }
+    .links-kind {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.15rem 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: 0.2rem;
+      flex-shrink: 0;
+    }
+
+    /* ── Upgrade Path card ── */
+    .upgrade-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .upgrade-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .upgrade-row-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .upgrade-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .upgrade-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      padding: 0.3rem 0.6rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 0.3rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .upgrade-chip:hover {
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+    .upgrade-chip--current {
+      background: rgba(251,191,36,0.08);
+      border-color: rgba(251,191,36,0.4);
+      color: #fbbf24;
+      cursor: default;
+    }
+    .upgrade-chip--current:hover { color: #fbbf24; border-color: rgba(251,191,36,0.4); }
+    .upgrade-empty {
+      font-style: italic;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
   </style>
 </head>
 
@@ -522,6 +614,7 @@
 
     /* ── constants ── */
     var NAMED_INDEX_URL = '../graph/named/index.json';
+    var GRAPH_URL = '../graph/gaia.json';
 
     var LEVEL_LABELS = {
       '0': 'Basic', '1': 'Awakened', '2': 'Named',
@@ -965,12 +1058,98 @@
       return html;
     }
 
-    function renderSkill(skill) {
+    function renderLinksCard(skill) {
+      var links = skill.links || {};
+      var rows = [];
+      // Known kinds first (predictable order), then any other custom keys.
+      var KNOWN_ORDER = ['github', 'npm', 'docs', 'homepage', 'arxiv'];
+      var seen = {};
+      KNOWN_ORDER.forEach(function(k) {
+        if (links[k]) { rows.push({ kind: k, url: links[k] }); seen[k] = true; }
+      });
+      Object.keys(links).forEach(function(k) {
+        if (!seen[k] && links[k]) rows.push({ kind: k, url: links[k] });
+      });
+
+      var html = '<div class="report-card report-card--full">' +
+        '<div class="report-card-label">Links</div>';
+
+      if (!rows.length) {
+        html += '<div class="upgrade-empty">No links registered for this skill.</div>';
+      } else {
+        html += '<div class="links-list">';
+        for (var i = 0; i < rows.length; i++) {
+          var r = rows[i];
+          var label = r.url.replace(/^https?:\/\//, '');
+          html += '<div class="links-row">' +
+            '<span class="links-kind">' + esc(r.kind) + '</span>' +
+            '<a href="' + esc(r.url) + '" target="_blank" rel="noopener">' + esc(label) + '</a>' +
+          '</div>';
+        }
+        html += '</div>';
+      }
+      html += '</div>';
+      return html;
+    }
+
+    function renderUpgradeCard(skill, skillMap) {
+      var ref = skill.genericSkillRef;
+      var generic = ref ? (skillMap[ref] || null) : null;
+      var prereqs = (generic && Array.isArray(generic.prerequisites)) ? generic.prerequisites : [];
+      var derivs  = (generic && Array.isArray(generic.derivatives))   ? generic.derivatives   : [];
+
+      function chipFor(id) {
+        var g = skillMap[id];
+        var name = (g && g.name) || id;
+        // Link to the generic ref's first-named report if any; falls back to
+        // the named explorer index when no named impl is on file.
+        var href = './index.html#' + encodeURIComponent(id);
+        return '<a class="upgrade-chip" href="' + esc(href) + '" title="' + esc(id) + '">' +
+          esc(name) +
+        '</a>';
+      }
+
+      function row(label, ids, emptyMsg) {
+        var inner;
+        if (!ids.length) {
+          inner = '<div class="upgrade-empty">' + esc(emptyMsg) + '</div>';
+        } else {
+          inner = '<div class="upgrade-chip-row">' +
+            ids.map(chipFor).join('') +
+          '</div>';
+        }
+        return '<div class="upgrade-row">' +
+          '<div class="upgrade-row-label">' + esc(label) + '</div>' +
+          inner +
+        '</div>';
+      }
+
+      var currentLabel = (generic && generic.name) || skill.name || skill.id;
+      var currentRow = '<div class="upgrade-row">' +
+        '<div class="upgrade-row-label">This skill</div>' +
+        '<div class="upgrade-chip-row">' +
+          '<span class="upgrade-chip upgrade-chip--current">' + esc(currentLabel) + '</span>' +
+        '</div>' +
+      '</div>';
+
+      return '<div class="report-card report-card--full">' +
+        '<div class="report-card-label">Upgrade Path</div>' +
+        '<div class="upgrade-rows">' +
+          row('Prerequisites', prereqs, 'No prerequisites — this is a foundational skill.') +
+          currentRow +
+          row('Unlocks', derivs, 'No derivatives recorded yet.') +
+        '</div>' +
+      '</div>';
+    }
+
+    function renderSkill(skill, skillMap) {
       var html = renderHeader(skill) +
         '<div class="report-grid">' +
           renderOTGCard(skill) +
           renderTenureCard(skill) +
         '</div>' +
+        renderLinksCard(skill) +
+        renderUpgradeCard(skill, skillMap) +
         renderEvidenceCard(skill) +
         renderGapCard(skill) +
         renderGateCard(skill) +
@@ -1004,20 +1183,30 @@
         return;
       }
 
-      fetch(NAMED_INDEX_URL)
-        .then(function(r) {
-          if (!r.ok) throw new Error('HTTP ' + r.status);
+      Promise.all([
+        fetch(NAMED_INDEX_URL).then(function(r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status + ' (named index)');
           return r.json();
-        })
-        .then(function(data) {
+        }),
+        // Graph fetch is best-effort — Upgrade Path degrades to empty if it fails,
+        // every other card still renders.
+        fetch(GRAPH_URL).then(function(r) {
+          return r.ok ? r.json() : { skills: [] };
+        }).catch(function() { return { skills: [] }; }),
+      ]).then(function(results) {
+          var data = results[0];
+          var graph = results[1] || { skills: [] };
           var skill = findSkill(data, skillId);
           if (!skill) {
             root.innerHTML = renderNotFound(skillId);
             return;
           }
+          // Build a generic-skill lookup keyed by id (gaia.json.skills[]).
+          var genericMap = {};
+          (graph.skills || []).forEach(function(s) { if (s && s.id) genericMap[s.id] = s; });
           var grade = (skill.overallTrustGrade || '—').trim();
           document.body.setAttribute('data-overall-grade', grade);
-          root.innerHTML = renderSkill(skill);
+          root.innerHTML = renderSkill(skill, genericMap);
         })
         .catch(function(err) {
           root.innerHTML = '<div class="report-not-found"><h2>Failed to load data</h2><p>' + esc(String(err)) + '</p><p><a href="./index.html">← Back to Named Skills</a></p></div>';
