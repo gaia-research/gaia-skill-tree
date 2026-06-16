@@ -1,0 +1,405 @@
+/*
+ * docs/share/styles.css
+ * Page-specific overrides for gaia.tiongson.co/share/.
+ * Global tokens (--bg, --surface, --border, --text, --muted, tier/rank tokens,
+ * font tokens, honor red, apex gold) come from the linked tokens.css + styles.css.
+ * No new colour values introduced; WCAG AA maintained via existing palette.
+ */
+
+/* ── Page layout ──────────────────────────────────────────── */
+
+.share-page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.share-main {
+  flex: 1;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 6rem 1.25rem 3rem;
+}
+
+/* ── Hero header ──────────────────────────────────────────── */
+
+.share-hero {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.share-hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--text);
+  margin-bottom: .6rem;
+}
+
+.share-hero__subtitle {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+.share-hero__sharer {
+  color: var(--honor-red);
+  font-weight: 600;
+}
+
+/* ── Tree preview block ───────────────────────────────────── */
+
+.share-tree-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+}
+
+.share-tree-block__heading {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.share-tree-block__pre {
+  font-family: var(--font-mono);
+  font-size: .82rem;
+  line-height: 1.6;
+  color: var(--text);
+  white-space: pre;
+  overflow-x: auto;
+  margin: 0;
+}
+
+/* ── Actions bar ──────────────────────────────────────────── */
+
+.share-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin-bottom: 1.5rem;
+}
+
+.share-actions__count {
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  color: var(--muted);
+}
+
+/* Ghost button — transparent bg, border outline.
+   Primary (apex gold) is reserved for apex affordances only per DESIGN.md. */
+.btn-copy-all {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .5rem 1.1rem;
+  font-family: var(--font-body);
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color .18s, color .18s, box-shadow .18s;
+  white-space: nowrap;
+}
+
+.btn-copy-all:hover,
+.btn-copy-all:focus-visible {
+  border-color: var(--tier-basic);
+  color: var(--tier-basic);
+  box-shadow: 0 0 10px rgba(var(--tier-basic-rgb), .18);
+  outline: none;
+}
+
+.btn-copy-all:focus-visible {
+  outline: 2px solid var(--tier-basic);
+  outline-offset: 2px;
+}
+
+.btn-copy-all[data-copied="true"] {
+  border-color: #34d399;
+  color: #34d399;
+}
+
+/* ── Skill rows ───────────────────────────────────────────── */
+
+.share-skill-list {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.share-skill-row {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .75rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  flex-wrap: wrap;
+  transition: border-color .15s;
+}
+
+.share-skill-row:hover {
+  border-color: rgba(var(--tier-basic-rgb), .3);
+}
+
+/* Tier glyph */
+.share-skill-row__glyph {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  flex-shrink: 0;
+  width: 1.25rem;
+  text-align: center;
+}
+
+.share-skill-row__glyph[data-tier="basic"]    { color: var(--tier-basic); }
+.share-skill-row__glyph[data-tier="extra"]    { color: var(--tier-extra); }
+.share-skill-row__glyph[data-tier="unique"]   { color: var(--tier-unique); }
+.share-skill-row__glyph[data-tier="ultimate"] { color: var(--tier-ultimate); }
+
+/* Skill name + contributor, stacked */
+.share-skill-row__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.share-skill-row__name {
+  font-family: var(--font-body);
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Name colour follows stars via data-level */
+.share-skill-row__name[data-level="0"] { color: var(--rank-0); }
+.share-skill-row__name[data-level="1"] { color: var(--rank-1); }
+.share-skill-row__name[data-level="2"] { color: var(--rank-2); }
+.share-skill-row__name[data-level="3"] { color: var(--rank-3); }
+.share-skill-row__name[data-level="4"] { color: var(--rank-4); }
+.share-skill-row__name[data-level="5"] { color: var(--rank-5); }
+.share-skill-row__name[data-level="6"] { color: var(--apex-gold); }
+
+.share-skill-row__contributor {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  color: var(--honor-red);
+  margin-top: .15rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Stars pill */
+.share-skill-row__stars {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  color: var(--muted);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* Copy install button per row */
+.btn-copy-install {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .35rem .8rem;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.btn-copy-install:hover,
+.btn-copy-install:focus-visible {
+  border-color: var(--tier-basic);
+  color: var(--tier-basic);
+  outline: none;
+}
+
+.btn-copy-install:focus-visible {
+  outline: 2px solid var(--tier-basic);
+  outline-offset: 2px;
+}
+
+.btn-copy-install[data-copied="true"] {
+  border-color: #34d399;
+  color: #34d399;
+}
+
+/* ── Empty / error states ─────────────────────────────────── */
+
+.share-state-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  text-align: center;
+  gap: 1rem;
+  padding: 2.5rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.share-state-block__glyph {
+  font-size: 2.4rem;
+  line-height: 1;
+  color: var(--muted);
+}
+
+.share-state-block__title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.share-state-block__body {
+  font-family: var(--font-body);
+  font-size: .9rem;
+  color: var(--muted);
+  max-width: 460px;
+  line-height: 1.6;
+}
+
+.share-state-block__url {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  color: var(--muted);
+  word-break: break-all;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .5rem .85rem;
+  max-width: 100%;
+}
+
+.share-state-block__cmd {
+  font-family: var(--font-mono);
+  font-size: .82rem;
+  color: var(--tier-basic);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .6rem 1rem;
+  white-space: pre;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* ── Footer note ──────────────────────────────────────────── */
+
+.share-footer-note {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.share-footer-note__generated {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  color: var(--muted);
+}
+
+.share-footer-note__link {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color .15s;
+}
+
+.share-footer-note__link:hover {
+  color: var(--tier-basic);
+}
+
+/* ── Loading spinner ──────────────────────────────────────── */
+
+.share-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+}
+
+@keyframes share-spin {
+  to { transform: rotate(360deg); }
+}
+
+.share-loading__ring {
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--border);
+  border-top-color: var(--tier-basic);
+  border-radius: 50%;
+  animation: share-spin .7s linear infinite;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .share-skill-row {
+    align-items: flex-start;
+  }
+  .share-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .share-footer-note {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 360px) {
+  .share-main {
+    padding-left: .75rem;
+    padding-right: .75rem;
+  }
+  .share-tree-block {
+    padding: .9rem 1rem;
+  }
+}
+
+/* ── Reduced motion ───────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .share-loading__ring {
+    animation-duration: 1.5s;
+  }
+}
