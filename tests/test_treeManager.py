@@ -4,7 +4,7 @@ import json
 import os
 import pytest
 
-from gaia_cli.treeManager import load_tree, save_tree, show_tree
+from gaia_cli.treeManager import load_tree, save_tree, show_tree, prune_to_subset
 
 
 # ---------------------------------------------------------------------------
@@ -322,6 +322,193 @@ class TestTreeRenderFixes:
         monkeypatch.setenv("COLORTERM", "truecolor")
         show_tree(tree_data, graph_data=graph_data, registry_path=str(tmp_path))
         out = capsys.readouterr().out
-        
+
         # Owned named skills should show honor red handle (COLOR_CONTRIBUTOR = (239, 68, 68))
         assert "\033[38;2;239;68;68m" in out
+
+
+# ---------------------------------------------------------------------------
+# prune_to_subset — unit tests for the narrowing helper
+# ---------------------------------------------------------------------------
+
+# Graph layout used by subset tests:
+#
+#   ultimate-skill  (ultimate, has two extras as prerequisites)
+#       ├── extra-a  (extra, requires basic-a + basic-b)
+#       │       ├── basic-a  (basic)
+#       │       └── basic-b  (basic)
+#       └── extra-b  (extra, requires basic-c + basic-d)
+#               ├── basic-c  (basic)
+#               └── basic-d  (basic)
+#
+# Total 7 skills: 1 ultimate, 2 extras, 4 basics.
+
+_SUBSET_SKILL_MAP = {
+    "ultimate-skill": {"id": "ultimate-skill", "type": "ultimate", "level": "3★", "prerequisites": ["extra-a", "extra-b"]},
+    "extra-a":        {"id": "extra-a",        "type": "extra",    "level": "2★", "prerequisites": ["basic-a", "basic-b"]},
+    "extra-b":        {"id": "extra-b",        "type": "extra",    "level": "2★", "prerequisites": ["basic-c", "basic-d"]},
+    "basic-a":        {"id": "basic-a",        "type": "basic",    "level": "1★", "prerequisites": []},
+    "basic-b":        {"id": "basic-b",        "type": "basic",    "level": "1★", "prerequisites": []},
+    "basic-c":        {"id": "basic-c",        "type": "basic",    "level": "1★", "prerequisites": []},
+    "basic-d":        {"id": "basic-d",        "type": "basic",    "level": "1★", "prerequisites": []},
+}
+
+_ALL_SKILL_IDS = set(_SUBSET_SKILL_MAP.keys())
+
+
+class TestPruneToSubset:
+    """Unit tests for prune_to_subset — the path-narrowing helper."""
+
+    def test_none_subset_returns_full_set(self):
+        """When path_subset is None the full node_ids set comes back unchanged."""
+        result = prune_to_subset(_ALL_SKILL_IDS, _SUBSET_SKILL_MAP, None)
+        assert result == _ALL_SKILL_IDS
+
+    def test_basic_narrow_three_skill_path(self):
+        """Subset of {ultimate-skill, extra-a, basic-a} keeps them plus the
+        ancestor path from ultimate-skill down through extra-a to basic-a.
+        Sibling branch extra-b and its leaves basic-c / basic-d are absent."""
+        subset = {"ultimate-skill", "extra-a", "basic-a"}
+        result = prune_to_subset(_ALL_SKILL_IDS, _SUBSET_SKILL_MAP, subset)
+        # All three requested nodes must appear.
+        assert "ultimate-skill" in result
+        assert "extra-a" in result
+        assert "basic-a" in result
+        # basic-b is extra-a's sibling leaf — it is NOT in the subset and has no
+        # subset descendant, so it should be absent.
+        assert "basic-b" not in result
+        # entire extra-b branch must be absent
+        assert "extra-b" not in result
+        assert "basic-c" not in result
+        assert "basic-d" not in result
+
+    def test_empty_subset_returns_empty(self):
+        """An empty subset set means no node qualifies — result is empty."""
+        result = prune_to_subset(_ALL_SKILL_IDS, _SUBSET_SKILL_MAP, set())
+        assert result == set()
+
+    def test_full_coverage_subset_equals_full_tree(self):
+        """When the subset equals every node in the tree the result is the full set."""
+        result = prune_to_subset(_ALL_SKILL_IDS, _SUBSET_SKILL_MAP, _ALL_SKILL_IDS)
+        assert result == _ALL_SKILL_IDS
+
+    def test_unrelated_subset_ids_return_empty(self):
+        """IDs that do not appear anywhere in node_ids or skill_map yield nothing."""
+        result = prune_to_subset(_ALL_SKILL_IDS, _SUBSET_SKILL_MAP, {"ghost-skill", "phantom"})
+        assert result == set()
+
+    def test_leaf_only_subset_keeps_full_ancestor_chain(self):
+        """Selecting a single leaf keeps every ancestor node on the path to it."""
+        # basic-a is reachable via: ultimate-skill -> extra-a -> basic-a
+        result = prune_to_subset(_ALL_SKILL_IDS, _SUBSET_SKILL_MAP, {"basic-a"})
+        assert "basic-a" in result
+        assert "extra-a" in result
+        assert "ultimate-skill" in result
+        # sibling branch must be absent
+        assert "extra-b" not in result
+        assert "basic-b" not in result
+        assert "basic-c" not in result
+        assert "basic-d" not in result
+
+
+# ---------------------------------------------------------------------------
+# show_tree with path_subset — integration tests
+# ---------------------------------------------------------------------------
+
+# 3-level graph: root → mid → leaf + a sibling branch root → mid → sibling-leaf
+_NARROW_GRAPH = {
+    "skills": [
+        {"id": "ultimate-skill", "name": "Ultimate",     "type": "ultimate", "level": "3★",
+         "prerequisites": ["extra-a", "extra-b"]},
+        {"id": "extra-a",        "name": "Extra A",      "type": "extra",    "level": "2★",
+         "prerequisites": ["basic-a", "basic-b"]},
+        {"id": "extra-b",        "name": "Extra B",      "type": "extra",    "level": "2★",
+         "prerequisites": ["basic-c", "basic-d"]},
+        {"id": "basic-a",        "name": "Basic A",      "type": "basic",    "level": "1★",
+         "prerequisites": []},
+        {"id": "basic-b",        "name": "Basic B",      "type": "basic",    "level": "1★",
+         "prerequisites": []},
+        {"id": "basic-c",        "name": "Basic C",      "type": "basic",    "level": "1★",
+         "prerequisites": []},
+        {"id": "basic-d",        "name": "Basic D",      "type": "basic",    "level": "1★",
+         "prerequisites": []},
+    ]
+}
+
+_NARROW_TREE = {
+    "userId": "narrowuser",
+    "updatedAt": "2026-01-01",
+    "unlockedSkills": [
+        {"skillId": "ultimate-skill", "level": "3★"},
+        {"skillId": "extra-a",        "level": "2★"},
+        {"skillId": "extra-b",        "level": "2★"},
+        {"skillId": "basic-a",        "level": "1★"},
+        {"skillId": "basic-b",        "level": "1★"},
+        {"skillId": "basic-c",        "level": "1★"},
+        {"skillId": "basic-d",        "level": "1★"},
+    ],
+    "pendingCombinations": [],
+    "stats": {},
+}
+
+
+class TestShowTreePathSubset:
+    """Integration tests for show_tree's path_subset parameter."""
+
+    def test_backward_compat_no_subset(self, tmp_path, monkeypatch, capsys):
+        """Calling show_tree without path_subset renders the full tree (no regression)."""
+        monkeypatch.chdir(tmp_path)
+        show_tree(_NARROW_TREE, graph_data=_NARROW_GRAPH, registry_path=str(tmp_path))
+        out = capsys.readouterr().out
+        assert "/ultimate-skill" in out
+        assert "/extra-a" in out
+        assert "/extra-b" in out
+        assert "/basic-a" in out
+        assert "/basic-c" in out
+
+    def test_narrow_subset_shows_only_path_and_ancestors(self, tmp_path, monkeypatch, capsys):
+        """path_subset={ultimate-skill, extra-a, basic-a} keeps the path branch
+        and drops sibling branch extra-b, basic-b, basic-c, basic-d."""
+        monkeypatch.chdir(tmp_path)
+        subset = {"ultimate-skill", "extra-a", "basic-a"}
+        show_tree(_NARROW_TREE, graph_data=_NARROW_GRAPH, registry_path=str(tmp_path),
+                  path_subset=subset)
+        out = capsys.readouterr().out
+        assert "/ultimate-skill" in out
+        assert "/extra-a" in out
+        assert "/basic-a" in out
+        # sibling branch must be absent
+        assert "/extra-b" not in out
+        assert "/basic-b" not in out
+        assert "/basic-c" not in out
+        assert "/basic-d" not in out
+
+    def test_empty_subset_produces_no_skill_lines(self, tmp_path, monkeypatch, capsys):
+        """path_subset=set() → nothing passes the filter → no tree connectors."""
+        monkeypatch.chdir(tmp_path)
+        show_tree(_NARROW_TREE, graph_data=_NARROW_GRAPH, registry_path=str(tmp_path),
+                  path_subset=set())
+        out = capsys.readouterr().out
+        # No tree connectors means no skill lines were rendered.
+        assert "├" not in out and "└" not in out
+
+    def test_full_subset_equals_unnarrowed_render(self, tmp_path, monkeypatch, capsys):
+        """path_subset equal to all skill IDs produces the same output as no subset."""
+        monkeypatch.chdir(tmp_path)
+        all_ids = {s["id"] for s in _NARROW_GRAPH["skills"]}
+        show_tree(_NARROW_TREE, graph_data=_NARROW_GRAPH, registry_path=str(tmp_path),
+                  path_subset=all_ids)
+        out_narrow = capsys.readouterr().out
+
+        show_tree(_NARROW_TREE, graph_data=_NARROW_GRAPH, registry_path=str(tmp_path))
+        out_full = capsys.readouterr().out
+
+        assert out_narrow == out_full
+
+    def test_unrelated_subset_produces_no_skill_lines(self, tmp_path, monkeypatch, capsys):
+        """path_subset of IDs not in the tree → nothing rendered."""
+        monkeypatch.chdir(tmp_path)
+        show_tree(_NARROW_TREE, graph_data=_NARROW_GRAPH, registry_path=str(tmp_path),
+                  path_subset={"ghost-skill", "phantom"})
+        out = capsys.readouterr().out
+        assert "├" not in out and "└" not in out

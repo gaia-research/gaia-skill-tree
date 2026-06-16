@@ -331,7 +331,7 @@ def _plain_label(skill_id, skill_map, named_by_ref, local_by_ref, mode, canon=Fa
 
 # ─── recursive renderer ───────────────────────────────────────────────────────
 
-def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref, mode, prefix, is_last, seen, unlocked_ids, custom_nodes, canon=False, current_user=None, fusion_nodes=None, origin_ids=None, known_only=False, reveal_unowned=False):
+def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref, mode, prefix, is_last, seen, unlocked_ids, custom_nodes, canon=False, current_user=None, fusion_nodes=None, origin_ids=None, known_only=False, reveal_unowned=False, narrow=False):
     if fusion_nodes is None:
         fusion_nodes = set()
     if origin_ids is None:
@@ -382,6 +382,11 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
             prereqs = [p for p in prereqs if _is_named(p, named_by_ref, local_by_ref) or p in display_ids]
         else:
             prereqs = [p for p in prereqs if p in display_ids]
+    elif narrow:
+        # When narrowing to a path subset, only walk prereqs that survived the
+        # prune_to_subset filter (i.e. are in display_ids). This prevents
+        # sibling leaves of a subset node from appearing in the output.
+        prereqs = [p for p in prereqs if p in display_ids]
 
     owned_prereqs = []
     unowned_prereqs = []
@@ -421,7 +426,8 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
             _render_subtree(
                 child_id, skill_map, display_ids, named_by_ref, local_by_ref,
                 mode, child_prefix, child_is_last, seen, unlocked_ids, custom_nodes, canon=canon, current_user=current_user,
-                fusion_nodes=fusion_nodes, origin_ids=origin_ids, known_only=known_only, reveal_unowned=reveal_unowned
+                fusion_nodes=fusion_nodes, origin_ids=origin_ids, known_only=known_only, reveal_unowned=reveal_unowned,
+                narrow=narrow,
             )
         )
 
@@ -434,9 +440,54 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
     return lines
 
 
+# ─── path-subset narrowing ────────────────────────────────────────────────────
+
+
+def _collect_ancestors(node_id, skill_map, visited=None):
+    """Return the transitive closure of prerequisite IDs for *node_id* (inclusive)."""
+    if visited is None:
+        visited = set()
+    if node_id in visited:
+        return visited
+    visited.add(node_id)
+    for prereq in skill_map.get(node_id, {}).get("prerequisites", []):
+        _collect_ancestors(prereq, skill_map, visited)
+    return visited
+
+
+def prune_to_subset(node_ids, skill_map, path_subset):
+    """Return the subset of *node_ids* that are in the path slice for *path_subset*.
+
+    A node is kept when:
+
+    (a) its ID is directly in *path_subset*, OR
+    (b) at least one transitive prerequisite (i.e. a node further down the tree
+        that this node leads to) is in *path_subset*, making this node an ancestor
+        on the path to a subset member.
+
+    This preserves full ancestor paths so the rendered tree is structurally
+    intact even when sibling branches are dropped.
+
+    When *path_subset* is ``None`` the original *node_ids* collection is returned
+    unchanged — full-tree behaviour is preserved.
+    """
+    if path_subset is None:
+        return node_ids
+
+    kept = set()
+    for nid in node_ids:
+        if nid in path_subset:
+            kept.add(nid)
+            continue
+        closure = _collect_ancestors(nid, skill_map)
+        if closure & path_subset:
+            kept.add(nid)
+    return kept
+
+
 # ─── public entry point ───────────────────────────────────────────────────────
 
-def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", canon=False, custom=False, known_only=True, username=None):
+def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", canon=False, custom=False, known_only=True, username=None, path_subset=None):
     if not tree_data:
         print("No skill tree found.")
         return
@@ -589,6 +640,12 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
     else:
         display_ids = unlocked_ids
 
+    # Narrow the display set when a path_subset is requested.
+    # prune_to_subset keeps only nodes that are in the subset OR are ancestors
+    # of a subset member (i.e. lie on the path to it). Returns display_ids
+    # unchanged when path_subset is None, preserving full-tree behavior.
+    display_ids = prune_to_subset(display_ids, skill_map, path_subset)
+
     # Allow roots to not be strictly filtered by `display_ids` if we are showing full prereqs
     # We still need to find roots based on unlocked skills.
     all_prereqs = set()
@@ -622,10 +679,11 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
     username_colored = f"\033[38;2;{COLOR_CONTRIBUTOR[0]};{COLOR_CONTRIBUTOR[1]};{COLOR_CONTRIBUTOR[2]}m{username}\033[0m"
     print(username_colored)
     seen: set[str] = set()
+    narrowing = path_subset is not None
     for i, entry in enumerate(roots):
         sid = entry["skillId"]
         is_last = i == len(roots) - 1
-        for line in _render_subtree(sid, skill_map, display_ids, named_by_ref, local_by_ref, mode, "", is_last, seen, unlocked_ids, custom_nodes, canon=canon, current_user=username, fusion_nodes=fusion_nodes, origin_ids=origin_ids, known_only=known_only, reveal_unowned=reveal_unowned):
+        for line in _render_subtree(sid, skill_map, display_ids, named_by_ref, local_by_ref, mode, "", is_last, seen, unlocked_ids, custom_nodes, canon=canon, current_user=username, fusion_nodes=fusion_nodes, origin_ids=origin_ids, known_only=known_only, reveal_unowned=reveal_unowned, narrow=narrowing):
             print(line)
 
     if known_only:
