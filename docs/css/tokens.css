@@ -81,13 +81,23 @@
   --unique: var(--tier-unique);
   --ultimate: var(--tier-ultimate);
 
-  /* ── Evidence Grade tokens ────────────────────────────────── */
-  --grade-S: #e2e8f0;
-  --grade-S-rgb: 226, 232, 240;
-  --grade-A: #fbbf24;
-  --grade-A-rgb: 251, 191, 36;
-  --grade-B: #94a3b8;
-  --grade-B-rgb: 148, 163, 184;
-  --grade-C: #b45309;
-  --grade-C-rgb: 180, 83, 9;
+  /* ── Evidence Grade semantic tokens ─────────────────────────── */
+  /* New labels for the evidence-grade philosophy; legacy aliases keep existing UI hooks working. */
+  --evidence-platinum: #e2e8f0;
+  --evidence-platinum-rgb: 226, 232, 240;
+  --evidence-gold: #d4af37;
+  --evidence-gold-rgb: 212, 175, 55;
+  --evidence-silver: #cbd5e1;
+  --evidence-silver-rgb: 203, 213, 225;
+  --evidence-bronze: #b45309;
+  --evidence-bronze-rgb: 180, 83, 9;
+  /* ── Legacy grade aliases ───────────────────────────────────── */
+  --grade-S: var(--evidence-platinum);
+  --grade-S-rgb: var(--evidence-platinum-rgb);
+  --grade-A: var(--evidence-gold);
+  --grade-A-rgb: var(--evidence-gold-rgb);
+  --grade-B: var(--evidence-silver);
+  --grade-B-rgb: var(--evidence-silver-rgb);
+  --grade-C: var(--evidence-bronze);
+  --grade-C-rgb: var(--evidence-bronze-rgb);
 }

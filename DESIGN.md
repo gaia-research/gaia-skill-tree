@@ -93,7 +93,9 @@ A starless ref's *effective rank* (the top star among its named variants) may be
 
 ## Evidence Grades
 
-Evidence items are evaluated and assigned quality grades. Their visual representations use horizontal metric bars with the following styling rules:
+Evidence items are evaluated and assigned quality grades. The grade palette now exposes semantic token labels in `docs/css/tokens.css` (`--evidence-platinum`, `--evidence-gold`, `--evidence-silver`, `--evidence-bronze`) while preserving the legacy `--grade-S` / `--grade-A` / `--grade-B` / `--grade-C` aliases for existing UI hooks.
+
+Their visual representations use horizontal metric bars with the following styling rules:
 
 | Grade | Label | Background Texture | Text Color |
 |---|---|---|---|
