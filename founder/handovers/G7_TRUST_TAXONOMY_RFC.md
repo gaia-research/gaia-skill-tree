@@ -6,6 +6,75 @@
 
 ---
 
+## The Gate (layman's view)
+
+> Read this if nothing else. The RFC below is the legalese; this picture is the contract.
+
+```
+                ╔═══════════════════════════════════════════════════╗
+                ║          ✦ 6★  APEX  —  THE GATE  ✦              ║
+                ║      PR-gated · ≤5 system-wide · no auto-promote  ║
+                ╠═══════════════════════════════════════════════════╣
+                ║  Nine locks. Every one must open. By hand.        ║
+                ║                                                   ║
+                ║   ⚙  ≥12 nested origins (transitive suite tree)   ║
+                ║   ⛓  ≥1 direct component is itself a suite         ║
+                ║   ⤷  ≥1 grandchild reachable ONLY via nesting     ║
+                ║   ◆  Grade S — no phantom rows allowed            ║
+                ║   ✦  ≥8 A-graded skills in the closure            ║
+                ║   ⚐  ≥2 cross-org 4★+ verifier cosigns            ║
+                ║   ⏳  ≥180 days of evidence on the clock           ║
+                ║   ⊛  apex-promotion PR + 2 verifier sign-offs     ║
+                ║   #  system-wide cap respected (≤5)               ║
+                ╚═══════════════════════════════════════════════════╝
+                                      ▲
+                                      │   (climb required)
+                                      │
+                ┌─────────────────────┴─────────────────────────────┐
+                │  5★  TRANSCENDENT                                  │
+                │  Overall Grade ≥ B   ·   rank-floor protects ≥ B  │
+                │  Typically a suite Ultimate with real evidence    │
+                └───────────────────────────────────────────────────┘
+                                      ▲
+                ┌─────────────────────┴─────────────────────────────┐
+                │  4★  HARDENED                                      │
+                │  ≥1 B-grade evidence row                          │
+                │  Rank-floor blocks any sub-B drop without review  │
+                └───────────────────────────────────────────────────┘
+                                      ▲
+                ┌─────────────────────┴─────────────────────────────┐
+                │  3★  EVOLVED                                       │
+                │  ≥1 B-grade evidence row                          │
+                └───────────────────────────────────────────────────┘
+                                      ▲
+                ┌─────────────────────┴─────────────────────────────┐
+                │  2★  NAMED                                         │
+                │  ≥1 C-grade evidence row (any type)               │
+                └───────────────────────────────────────────────────┘
+                                      ▲
+                ┌─────────────────────┴─────────────────────────────┐
+                │  1★  AWAKENED                                      │
+                │  Detected on a user tree by `gaia scan`           │
+                └───────────────────────────────────────────────────┘
+                                      ▲
+                ┌─────────────────────┴─────────────────────────────┐
+                │  0★  BASIC                                         │
+                │  Exists in the canonical graph                    │
+                └───────────────────────────────────────────────────┘
+```
+
+**The five things to remember:**
+
+1. **Stars are earned by evidence, not by claim.** The number on the badge is the floor on what your evidence already supports.
+2. **Grades stack; tiers don't.** A row at S anchors S; you can't average four C rows into a B.
+3. **Phantom rows don't count.** If it's not in the skill's `evidence:` array, it contributes zero. (§10.14 — this rule applies registry-wide, not just at apex.)
+4. **6★ is structurally rare.** Fewer than five at any moment, no auto-promote, two independent verifiers from two different GitHub orgs must sign a PR.
+5. **Demotion is honest.** At G7 cutover, both standing 6★ skills demote to 5★ because they fail the new gate. Re-application is open immediately; the bar is just higher.
+
+A standalone HTML rendering of this gate lives at `founder/handovers/G7_APEX_GATE.html` for sharing.
+
+---
+
 ## §0 Executive Summary
 
 This RFC replaces the legacy `trustNumber` aggregate with **Trust Magnitude** — an unbounded, set-bonus-driven score computed from a fixed taxonomy of ten evidence types. It is the output of the G7 consensus workflow (proposals P1–P4 → synthesis → Marco's ten finals + eight hard constraints). The structural base is P4 Community-Heavy, hardened with P1's verifier/star plateaus and identity-tier creator multipliers, and P3's only-graded-origins fusion counting and null-on-derank verifier rule.
