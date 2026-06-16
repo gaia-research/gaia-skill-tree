@@ -20,17 +20,22 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 - **2026-06-10** — #637 scope per Marco's comment: #635 covers `gaia tree`/`gaia graph`; everything else except `gaia skills` stays RFC.
 - **2026-06-10** — Trust implementation finalized: bands S≥90/A≥80/B≥60/C≥40/ungraded<40; `class` removed at next major; type values kebab-case (`github-stars`); suite ultimate gate = pillar rule (≥3 evidenced components, ≥1 S + ≥2 A, floor C) with a recalibration RFC due ~1 month post-ship; verification workflow = issue #658 (standalone, tenure 30d).
 
-## State Snapshot (2026-06-17, session 7 — verified via gh + four-probe G7 propagation audit `w2co0ee1p`)
+## State Snapshot (2026-06-17, session 8 closeout — PRs #713 + #714 merged)
 
-- **Repo:** `mbtiongson1/gaia-skill-tree` on `main` @ `e278afbd`, version **v4.9.5**.
+- **Repo:** `mbtiongson1/gaia-skill-tree` on `main` @ `10e8c4dd`, version **v4.9.5** (no chore release yet from squash merges; release workflow next run will bump to v4.9.6 per skip-gen pattern).
+- **Just merged 2026-06-17:**
+  - **PR #713** (`bbf7a5d1`) — homepage Evidence Grade Cycle restore + G7 supersession meta-post. Squash merge.
+  - **PR #714** (`10e8c4dd`) — Trust Report Links + Upgrade Path cards; skill-explorer.js IIFE scope-leak fixes; new "Known Skill Explorer Issues" section in `CLAUDE.md`. Squash merge.
+  - Diff vs prior main `e278afbd`: +1010 / -43 across 8 files. All content from both branches preserved (verified via `git diff --stat`).
 - **Milestones:**
   - **#4 Phase 1** (CLOSED 2026-06-16T16:15:53Z): 0 open / 17 closed. G1–G7 all shipped (#703–#709) plus meta-sync #711.
   - **#7 Next-30** (due Jul 10): **6/8 closed**. Open: #697 (Rising Skills), #698 (Rising Repos).
-  - **#5 Phase 2**: holds #654 (evidence-type RFC) — overlaps with G7 §3-§7 10-type taxonomy; needs cross-link.
+  - **#5 Phase 2**: holds #654 (evidence-type RFC) — overlaps with G7 §3-§7 10-type taxonomy; needs cross-link or supersession.
   - **#6 Phase 3**: untouched.
-- **Trust model — DEPLOYED state (legacy / pre-G7):** registry/schema thresholds are S≥90 / A≥80 / B≥60 / C≥40 per-row trust-number; meta.json declares legacy 3 evidence types (arxiv, repo, github-stars); registry/named-skills.json carries `overallTrustGrade` (A/B/C, no S) but no `trustMagnitude` field; `ultimateGateStatus` is the legacy single-component-S check. Live `/named/index.json` and on-disk are byte-identical: 183 skills, level distribution 1★:21 / 2★:93 / 3★:32 / 4★:31 / 5★:4 / **6★:2** (`mattpocock/skills`, `ruvnet/ruflo`). 4-tier verification skeleton shipped via PR #709 but uses `maxGrade` not `trustMagnitude`.
-- **Trust model — RFC state (G7, NOT propagated):** `founder/handovers/G7_TRUST_TAXONOMY_RFC.md` (1119 lines, on this branch only) defines Trust Magnitude with thresholds S≥250 / A≥100 / B≥50 / C≥20, 10-type evidence taxonomy, 9-predicate apex gate (§10.12), anti-auto-mint clause (§10.14), §11.12 disposition table requiring both currently-6★ skills to demote at cutover. **Zero schema, code, registry, or display work has landed against G7.** No GitHub issue tracks G7 implementation; no PR exists for any of the 6 named code touches. Apex slots state: 2 of 5 filled (should be 0 of 5 post-cutover).
-- **Open PR:** #713 `design/homepage-evidence-cycle` — homepage Evidence Grade Cycle restore (3 commits: `cee7c66c` + `07f25788` + `af3d411d`); recalibrates labels to G7 thresholds; meta-post landed at `af3d411d`. Ahead-of-implementation copy edit per audit verdict.
+  - **NEW: Phase 1.5 — G7 Implementation** (proposed, not yet filed) — to host the 6-PR arc per `handovers/G7_IMPLEMENTATION_HANDOVER.md`.
+- **Trust model — DEPLOYED state (legacy / pre-G7):** unchanged from session 7. registry/schema thresholds are S≥90 / A≥80 / B≥60 / C≥40 per-row trust-number; meta.json declares legacy 3 evidence types (arxiv, repo, github-stars); registry/named-skills.json carries `overallTrustGrade` (A/B/C, no S) but no `trustMagnitude` field; `ultimateGateStatus` is the legacy single-component-S check. 183 skills, level distribution 1★:21 / 2★:93 / 3★:32 / 4★:31 / 5★:4 / **6★:2** (`mattpocock/skills`, `ruvnet/ruflo`). 4-tier verification skeleton shipped via PR #709 but uses `maxGrade` not `trustMagnitude`.
+- **Trust model — RFC state (G7, NOT propagated):** `founder/handovers/G7_TRUST_TAXONOMY_RFC.md` (1119 lines, on this branch only) defines Trust Magnitude with thresholds S≥250 / A≥100 / B≥50 / C≥20, 10-type evidence taxonomy, 9-predicate apex gate (§10.12), anti-auto-mint clause (§10.14), §11.12 disposition table requiring both currently-6★ skills to demote at cutover. **Zero schema, code, registry, or display work has landed against G7.** Apex slots state: 2 of 5 filled (should be 0 of 5 post-cutover).
+- **Open PRs:** none. Both #713 + #714 merged. PR #715 will be the first G7-implementation PR (schema/), per the handover.
 - **Closed PR:** #712 (false-restore, `.ev-node` flat tile design + provenance dispute now corrected via apology comment); commits live as deleted-branch ancestors `074c4715` / `025ac91a` (real, unreachable).
 - **Auth:** unchanged from session 4. PR #669 device flow + PR #682 honest-revoke both merged 2026-06-14.
 - **Project board #2:** 22 in Done after Phase 1 closeout (session 6). #128 manually moved; #637 / #647 / #654 left as Todo intentionally per H2/H4/H5.
@@ -97,7 +102,28 @@ After execution: milestone #4 contents = exactly {#185, #642, #649, #658, #699, 
 
 ## Session Log
 
-- **2026-06-17 (session 8 — skill-page restore PR #714, IIFE scope-leak class documented)** — User reported per-skill surfaces (Trust Report page + Skill Explorer modal) showing only the Installation block. Two real bugs fixed in `design/skill-page-restore` → PR #714:
+- **2026-06-17 (session 8 closeout — PRs #713 + #714 merged, G7 implementation handover drafted)** — User direction: "everything works. Merge all, make sure nothing gets lost. Afterwards, review founder/ instructions again and create a handover for the next PRs to implement G7 finally."
+
+  **Merged (squash):**
+  - **PR #713** (`bbf7a5d1`) — homepage Evidence Grade Cycle restore + G7 supersession meta-post (3 commits collapsed: `cee7c66c` + `07f25788` + `af3d411d`).
+  - **PR #714** (`10e8c4dd`) — Trust Report Links + Upgrade Path cards; skill-explorer.js IIFE scope-leak fixes; "Known Skill Explorer Issues" section in `CLAUDE.md` (2 commits collapsed: `b9b88250` + `8aad1656`).
+  - Verified via `git diff --stat e278afbd..origin/main`: +1010 / -43 across 8 files (CLAUDE.md, docs/index.html, docs/js/skill-explorer.js, docs/meta.html, docs/meta/posts.json, docs/meta/2026-06-17-g7-trust-magnitude-supersession.md, docs/meta/reports/2026-06-17...html, docs/named/report.html). All content from both branches preserved; nothing lost.
+  - Both PRs were CI-clean (`mergeStateStatus: CLEAN`, `mergeable: MERGEABLE`); design-system lint guards green; branch-scope check green; Workers Builds green.
+
+  **G7 implementation handover drafted:** `founder/handovers/G7_IMPLEMENTATION_HANDOVER.md` (~13kb, structured like `PHASE1_MASTER.md`). Sequences the six implementation PRs (I1 Schema → I2 CLI computation → I3 Migration script → I4 CI enforcement → I5 Apex cutover → I6 Display layer) with dependency lanes (A/B/C/D/E), agent-model recommendations (mostly Sonnet 4.6, Opus 4.8 for I2 + I3), per-PR specs with acceptance criteria, ≥30-test roster for I2, anti-auto-mint enforcement (RFC §10.14) wired into I2 and I3, apex-cutover plan respecting CLAUDE.md "Never modify data files without approval" by routing through `gaia dev reclassify` + timeline events, ~$11.68 token budget estimate.
+
+  **Three pre-resolved decisions in handover §1:**
+  - **Decision A:** Six staged PRs, NOT one big PR. Big-bang regrade lives inside I3; everything else is staged for review.
+  - **Decision B:** New milestone `Phase 1.5 — G7 Implementation` (#8 proposed); do NOT fold into Phase 2 (#5). Phase 1 closed without G7 propagation — that's a hole in Phase 1, not a Phase 2 deliverable.
+  - **Decision C:** Per-row evidence grades persist verbatim; aggregate (`trustMagnitude`, `overallTrustGrade`, `apexGateStatus`) is re-derived. Anti-auto-mint clause is the only exception (phantom rows removed).
+
+  Marco overrides any decision before dispatch by editing §1 of the handover; the orchestrator's job is to draft, not to decide. The handover §9 Dispatch Checklist is the next-action list once Marco nods.
+
+  **Cross-references handled:** Phase 2 issue #654 (evidence-type RFC) is superseded by I1 (10-type taxonomy lands in schema); H3 in the handover hygiene block closes #654 with a supersession comment. Skill Explorer `#se-description` mount fix (Task #17, design/skill-explorer-mounts) is left as an independent branch. Mid-July recalibration RFC (cron `2076efa7`) folds in I1–I6 surface findings. Hermes-owned files explicitly listed as forbidden territory for any I-task agent.
+
+  **Token spend (session 8 closeout — this turn):** Opus 4.8 orchestrator ~50k in / ~12k out / ~$1.50.
+
+
 
   **(A) `docs/named/report.html` — two new cards.** Trust Report shipped in PR-4 (#694) was missing **Links** and **Upgrade Path** cards (per `GAIA_ROADMAP v2 (BUILD).md` line 268 "score explanation page" — Phase 1 deliverable). New `renderLinksCard` reads `skill.links.{github,npm,docs,homepage,arxiv}`. New `renderUpgradeCard` reads `generic.prerequisites/derivatives` from a best-effort `docs/graph/gaia.json` fetch (every other card still renders if the graph fetch fails). `renderSkill(skill, skillMap)` now takes the generic-skill map built in `main()`; CSS reuses existing `.report-card` patterns plus ~40 lines of `.upgrade-chip-row` / `.links-list` rules.
 
