@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+<head>
+  <script>window.GAIA_VERSION = "4.9.0";</script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shared Skill Tree — Gaia</title>
+  <meta name="description" content="A shared Gaia Skill Tree. Install named skills directly from this link.">
+  <meta name="robots" content="noindex">
+  <!-- Fonts: same stack as the rest of the site. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+  <!-- Site-wide tokens then styles, then page-specific overrides. -->
+  <link rel="stylesheet" href="../css/tokens.css?v=4.9.0">
+  <link rel="stylesheet" href="../css/styles.css?v=4.9.0">
+  <link rel="stylesheet" href="styles.css?v=4.9.0">
+</head>
+
+<body class="share-page">
+
+  <!-- ─── NAV ─── -->
+  <nav id="site-nav"></nav>
+  <script src="../js/site-nav.js?v=4.9.0" defer></script>
+
+  <!-- ─── MAIN ─── -->
+  <main class="share-main" id="share-main">
+
+    <!-- Hero header: populated by share.js once the bundle loads. -->
+    <header class="share-hero">
+      <h1 class="share-hero__title">Shared Skill Tree</h1>
+      <p class="share-hero__subtitle" id="share-subtitle" hidden>
+        by <span class="share-hero__sharer" id="share-sharer" aria-label="Sharer username"></span>
+      </p>
+    </header>
+
+    <!-- Loading indicator: shown until the bundle fetch resolves. -->
+    <div class="share-loading" id="share-loading" aria-label="Loading bundle" role="status">
+      <div class="share-loading__ring" aria-hidden="true"></div>
+    </div>
+
+    <!-- Content: hidden until share.js renders it. -->
+    <div id="share-content" hidden>
+
+      <!-- Tree preview block -->
+      <section class="share-tree-block" id="share-tree-block" hidden aria-label="Skill Tree preview">
+        <p class="share-tree-block__heading">Skill Tree</p>
+        <pre class="share-tree-block__pre" aria-label="ASCII Skill Tree"></pre>
+      </section>
+
+      <!-- Actions bar: count + Copy all button -->
+      <div class="share-actions" id="share-actions" hidden>
+        <span class="share-actions__count" id="share-skill-count" aria-live="polite"></span>
+        <button
+          class="btn-copy-all"
+          id="share-copy-all-btn"
+          type="button"
+          disabled
+          aria-label="Copy all install commands">
+          Copy all
+        </button>
+      </div>
+
+      <!-- Per-skill rows: rendered by share.js -->
+      <div id="share-skill-rows"></div>
+
+      <!-- Footer note: generation date + link to how-to-share -->
+      <footer class="share-footer-note" id="share-footer-note" hidden aria-label="Bundle metadata">
+        <span class="share-footer-note__generated"></span>
+        <a class="share-footer-note__link" href="../en/sharing.html">
+          How to share your Skill Tree →
+        </a>
+      </footer>
+
+    </div><!-- /share-content -->
+
+  </main>
+
+  <!-- ─── FOOTER ─── -->
+  <div id="site-footer-mount"></div>
+  <script src="../js/site-footer.js?v=4.9.0" defer></script>
+
+  <!-- ─── SHARE LOGIC ─── -->
+  <!--
+    DEV NOTE: To test locally without a live bundle URL, set a bundle object
+    on window.SHARE_BUNDLE_OVERRIDE before share.js loads. Example:
+
+      <script>
+        window.SHARE_BUNDLE_OVERRIDE = { ... };  // paste from sample.json
+      </script>
+
+    See docs/share/sample.json for a ready-made fixture.
+    PRODUCTION: the override is never set; share.js reads ?b= from the URL.
+  -->
+  <script src="share.js?v=4.9.0"></script>
+
+</body>
+</html>

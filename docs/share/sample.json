@@ -1,0 +1,113 @@
+{
+  "_comment": "DEV-ONLY fixture. Not loaded by production. Used with window.SHARE_BUNDLE_OVERRIDE for local testing.",
+  "kind": "gaia-share-bundle",
+  "bundleVersion": "1",
+  "generatedAt": "2026-06-16T12:00:00Z",
+  "sharer": "mattpocock",
+  "sourceRepo": "https://github.com/mattpocock/total-typescript-monorepo",
+  "tree": {
+    "userId": "mattpocock",
+    "updatedAt": "2026-06-16T12:00:00Z",
+    "unlockedSkills": [
+      { "skillId": "mattpocock/grill-me",         "level": "3★" },
+      { "skillId": "mattpocock/ts-reset",          "level": "4★" },
+      { "skillId": "mattpocock/total-typescript",  "level": "5★" },
+      { "skillId": "mattpocock/skills",            "level": "2★" },
+      { "skillId": "mattpocock/zod-router",        "level": "2★" },
+      { "skillId": "mattpocock/ts-errors",         "level": "2★" }
+    ],
+    "stats": {}
+  },
+  "skillMeta": {
+    "mattpocock/grill-me": {
+      "name": "Grill Me",
+      "level": "3★",
+      "type": "basic",
+      "named": true,
+      "genericRef": "code-review",
+      "prereqs": []
+    },
+    "mattpocock/ts-reset": {
+      "name": "TypeScript Reset",
+      "level": "4★",
+      "type": "basic",
+      "named": true,
+      "genericRef": "type-safety",
+      "prereqs": []
+    },
+    "mattpocock/total-typescript": {
+      "name": "Total TypeScript",
+      "level": "5★",
+      "type": "ultimate",
+      "named": true,
+      "genericRef": "typescript-mastery",
+      "prereqs": ["mattpocock/grill-me", "mattpocock/ts-reset"]
+    },
+    "mattpocock/skills": {
+      "name": "Skills Suite",
+      "level": "2★",
+      "type": "extra",
+      "named": true,
+      "genericRef": null,
+      "prereqs": []
+    },
+    "mattpocock/zod-router": {
+      "name": "Zod Router",
+      "level": "2★",
+      "type": "basic",
+      "named": true,
+      "genericRef": "type-safe-routing",
+      "prereqs": []
+    },
+    "mattpocock/ts-errors": {
+      "name": "TypeScript Errors",
+      "level": "2★",
+      "type": "basic",
+      "named": true,
+      "genericRef": "error-handling",
+      "prereqs": []
+    }
+  },
+  "install": [
+    {
+      "id": "mattpocock/grill-me",
+      "name": "Grill Me",
+      "level": "3★",
+      "type": "basic",
+      "github": "https://github.com/mattpocock/grill-me/blob/main/.claude/skills/grill-me",
+      "genericSkillRef": "code-review"
+    },
+    {
+      "id": "mattpocock/ts-reset",
+      "name": "TypeScript Reset",
+      "level": "4★",
+      "type": "basic",
+      "github": "https://github.com/mattpocock/ts-reset/blob/main/.claude/skills/ts-reset",
+      "genericSkillRef": "type-safety"
+    },
+    {
+      "id": "mattpocock/total-typescript",
+      "name": "Total TypeScript",
+      "level": "5★",
+      "type": "ultimate",
+      "github": "https://github.com/mattpocock/total-typescript-monorepo/blob/main/.claude/skills/total-typescript",
+      "genericSkillRef": "typescript-mastery"
+    },
+    {
+      "id": "mattpocock/zod-router",
+      "name": "Zod Router",
+      "level": "2★",
+      "type": "basic",
+      "github": "https://github.com/mattpocock/zod-router/blob/main/.claude/skills/zod-router",
+      "genericSkillRef": "type-safe-routing"
+    },
+    {
+      "id": "mattpocock/ts-errors",
+      "name": "TypeScript Errors",
+      "level": "2★",
+      "type": "basic",
+      "github": "https://github.com/mattpocock/ts-errors/blob/main/.claude/skills/ts-errors",
+      "genericSkillRef": "error-handling"
+    }
+  ]
+}
