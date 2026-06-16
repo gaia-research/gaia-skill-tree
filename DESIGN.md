@@ -91,6 +91,22 @@ A starless ref's *effective rank* (the top star among its named variants) may be
 
 ---
 
+## Evidence Grades
+
+Evidence items are evaluated and assigned quality grades. Their visual representations use horizontal metric bars with the following styling rules:
+
+| Grade | Label | Background Color | Text Color |
+|---|---|---|---|
+| S | Platinum | `#f8fafc` | `#020617` (High contrast dark) |
+| A | Gold | `var(--grade-A)` | `#451a03` (Deep brown) |
+| B | Silver | `var(--grade-B)` | `#0f172a` (Dark slate) |
+| C | Bronze | `var(--grade-C)` | `#fffbeb` (Light warm) |
+| - | Ungraded | `transparent` with `var(--border)` stroke | `var(--muted)` |
+
+> **Note:** Platinum intentionally uses `#f8fafc` (near white) rather than its legacy `--grade-S` slate token to guarantee visual separation from Silver (`var(--grade-B)` / `#94a3b8`). Evidence bars use `var(--font-mono)` to emphasize their role as metric ledgers.
+
+---
+
 ## Level VI — Transcendent ★ Special Rendering
 
 VI nodes bypass `drawNode` entirely and use `drawNodeVI`, which runs every animation frame using the shared `state.t` clock:
