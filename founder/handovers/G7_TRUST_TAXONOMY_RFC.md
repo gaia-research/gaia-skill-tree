@@ -31,9 +31,16 @@ This RFC replaces the legacy `trustNumber` aggregate with **Trust Magnitude** �
 7. **Provisional grade with 6-month grace** — skills failing diversity gate at migration get a `provisional` flag; demotion at end of grace is PR-gated, not automatic.
 8. **Rank-floor sanity rule** — 4★+ skills cannot land below B without explicit review. **Blocks publish** at `gaia validate` time on the migration PR.
 
-**Migration is big-bang:** a single major PR re-grades all evidence under the new formula at merge time. Old entries are preserved verbatim; new artifact scores are computed in place. A stamp report (`docs/meta/JUN_2026_TRUST_REGRADE.md`) ships via the `gaia-post` skill (type=report, label="Meta-Shift", hero badge ON). No tenures, no rolling cutover. See §10 for the full migration plan and §10.4 for the rank-floor enforcement hook.
+**Four post-audit additions (2026-06-16, from the 6★-tier audit):**
 
-**Calibration impact** (sample; full table §9): `ruvnet/ruflo` B→S, `garrytan/gstack` B→S, `obra/superpowers` B→S, `mattpocock/skills` B→A *provisional*, `garrytan/cso` stays B (mothership discount protects), `garrytan/benchmark` stays B (rank-floor rule protects 4★+), `obra/dispatching-parallel-agents` 4★→A (avoids 4★>5★ inversions), `agent-memory-learning` B→C (same-source dedup collapses identical-URL stars), `skill-mastery` synthesis A (3 repo-own rows fail diversity, not S).
+9. **§10.11 — Transitive-closure fusion-recipe origins** (REVERSES prior §11 Decision 7). Auto-mint walks `suiteComponents` recursively with skillId-dedup and cycle detection; graded≥C filter applies AFTER traversal; sqrt-softening on the post-filter count. Grade stacking allows a descendant's strongest grade (any evidence type, including descendant fusion-recipe) to bubble up to satisfy the parent's diversity gate.
+10. **§10.12 — 9-predicate hard apex gate (§11.12)**. The 6★ tier requires simultaneous satisfaction of: ≥12 transitive graded≥C origins, ≥1 direct nested suite, ≥1 depth-2-only-reachable node, Overall Grade S under strict-evidence reading, ≥8 A-graded distinct closure members, ≥2 cross-org 4★+ verifier-attestations, ≥180-day tenure, PR-gated promotion (`apex-promotion` label + 2 verifier sign-offs), and a system-wide cap of ≤5 apex skills.
+11. **§10.13 — No grandfathering at G7 cutover**. Every currently-6★ skill is re-evaluated; failures demote to 5★ in the migration PR. Both standing 6★ skills (`mattpocock/skills`, `ruvnet/ruflo`) demote at G7+0; system-wide 6★ count post-cutover = **0 of 5** slots filled.
+12. **§10.14 — Registry-wide anti-auto-mint clause**. Only fusion-recipe is auto-derived (per §10.8). Every other evidence type must be physically present in the skill's `evidence:` frontmatter array to contribute to Trust Magnitude. Phantom rows do not count. Applies across all grades, not just apex.
+
+**Migration is big-bang:** a single major PR re-grades all evidence under the new formula at merge time. Old entries are preserved verbatim; new artifact scores are computed in place. A stamp report (`docs/meta/JUN_2026_TRUST_REGRADE.md`) ships via the `gaia-post` skill (type=report, label="Meta-Shift", hero badge ON), **leading with the apex demotions** per Marco's 2026-06-16 call. No tenures, no rolling cutover. See §10 for the full migration plan and §10.4 for the rank-floor enforcement hook.
+
+**Calibration impact** (sample; full table §9): `ruvnet/ruflo` 6★→5★ A *provisional* (apex demotion under §11.12), `mattpocock/skills` 6★→5★ A *provisional* (apex demotion under §11.12), `garrytan/gstack` B→S, `obra/superpowers` B→S, `garrytan/cso` stays B (mothership discount protects), `garrytan/benchmark` stays B (rank-floor rule protects 4★+), `obra/dispatching-parallel-agents` 4★→A (avoids 4★>5★ inversions), `agent-memory-learning` B→C (same-source dedup collapses identical-URL stars), `skill-mastery` synthesis A (3 repo-own rows fail diversity, not S). **System-wide 6★ count: 2 → 0** at G7 cutover.
 
 ---
 
@@ -668,22 +675,25 @@ Run order: (1) draft `docs/meta/JUN_2026_TRUST_REGRADE.md` body, (2) invoke `gai
 
 The markdown body at `docs/meta/JUN_2026_TRUST_REGRADE.md` must contain, in order:
 
-1. **Abstract** — one paragraph, ≤120 words. State that the registry's evidence-grading formula was rebuilt around 10 typed evidence forms with diversity, mothership, dedup, fusion-curve, and verifier-derank rules; that all evidence was re-graded in a single PR; that `provisional` flags carry a 6-month grace; that the rank-floor rule blocks 4★+ skills from landing below B.
+1. **Apex demotions — lead headline.** Open with the one-sentence verdict: *"At G7 cutover, both standing 6★ skills (`mattpocock/skills`, `ruvnet/ruflo`) demote to 5★ under the new strict apex gate (§11.12). The system-wide 6★ count is 0 at G7+0. The tier remains earnable; it is no longer earned."* Then a per-skill section for each demoted apex listing which §11.12 predicates failed, the strict-evidence regrade outcome (mattpocock/skills: TM 390 → A provisional; ruvnet/ruflo: TM 489 → A provisional), the §10.14 registry-wide anti-auto-mint clause as the central honesty change, and the §11.12.8 PR-gated re-application path. This section MUST lead — Marco's call 2026-06-16: "yes unfortunately the world needs to know." Do not bury under aggregate drift counts. Do not soften with "calibration adjustment" framing.
 
-2. **Executive Summary** — bulleted, ≤8 bullets. Headline numbers (S=250, A=100, B=50, C=20), the 10 evidence types as a one-line list, the four core mechanics (mothership-discount, same-source dedup, fork canonicalization, sqrt-softened fusion), and the migration model (big bang, old entries preserved).
+2. **Abstract** — one paragraph, ≤120 words. State that the registry's evidence-grading formula was rebuilt around 10 typed evidence forms with diversity, mothership, dedup, fusion-curve, and verifier-derank rules; that all evidence was re-graded in a single PR; that `provisional` flags carry a 6-month grace; that the rank-floor rule blocks 4★+ skills from landing below B; that the apex tier (6★) was redefined under a 9-predicate hard gate (§11.12) and both prior holders demoted to 5★; that the registry-wide anti-auto-mint clause (§10.14) requires every non-fusion-recipe evidence row to be physically present in frontmatter.
 
-3. **Findings — drift table.** Reproduce the calibration sample from §7.4 with a fourth column citing the dominant rule that drove each drift (e.g., "fusion sqrt-softening", "rank-floor §10.4", "diversity gate"). Include net-drift percentages.
+3. **Executive Summary** — bulleted, ≤8 bullets. Headline numbers (S=250, A=100, B=50, C=20), the 10 evidence types as a one-line list, the four core mechanics (mothership-discount, same-source dedup, fork canonicalization, sqrt-softened fusion), the migration model (big bang, old entries preserved), and the apex-gate count change (2 → 0 6★ skills system-wide; cap=5).
 
-4. **Methodology** — three subsections:
+4. **Findings — drift table.** Reproduce the calibration sample from §9 with a fourth column citing the dominant rule that drove each drift (e.g., "fusion sqrt-softening", "rank-floor §10.10", "diversity gate", "§10.14 anti-auto-mint", "§11.12 apex gate"). Include net-drift percentages. Apex demotions are highlighted in this table with the same lead-row treatment they got in section 1.
+
+5. **Methodology** — three subsections:
    - **Formula** — fenced code block reproducing the per-evidence magnitude/weight/cap table (§3).
    - **Diversity gate** — reproduce the grade thresholds table (§4).
+   - **Apex gate** — reproduce the §11.12 9-predicate spec verbatim with the disposition table for both demoted skills.
    - **Migration mechanics** — point to §7; do not duplicate prose.
 
-5. **Provisional cohort** — full list of every skill with `provisional: true` and its `provisionalUntil` date, grouped by what evidence type it needs to confirm grade. Linked to the tracking issue opened at migration time.
+6. **Provisional cohort** — full list of every skill with `provisional: true` and its `provisionalUntil` date, grouped by what evidence type it needs to confirm grade. Demoted apex skills appear with their §11.12.8 re-application path noted alongside. Linked to the tracking issue opened at migration time.
 
-6. **References** — link to the RFC (this document), Marco's 10 final decisions thread, the synthesis workflow output, and the migration PR. Cite Anthropic's *Building Effective Agents* and *Introducing dynamic workflows in Claude Code* as agent-architecture inspirations for the consensus pipeline that produced the RFC.
+7. **References** — link to the RFC (this document), Marco's 10 final decisions thread, the synthesis workflow output, the 6★-tier audit workflow output (run wf_f14f7317-972, 2026-06-16), and the migration PR. Cite Anthropic's *Building Effective Agents* and *Introducing dynamic workflows in Claude Code* as agent-architecture inspirations for the consensus pipeline that produced the RFC.
 
-7. **Acknowledgements** — verifiers who cosigned during regrade; agents that ran the consensus workflow.
+8. **Acknowledgements** — verifiers who cosigned during regrade; agents that ran the consensus workflow and the apex-tier audit.
 
 ### 8.4 Hero badge
 
@@ -695,14 +705,14 @@ The stamp report is the canonical citation for any future "why did my skill drif
 
 ## §9 Calibration Table
 
-The drift below applies the full synthesized formula stack: mothership-discount with capped divisor (§3.1), same-source dedup (§3.2), fork-network canonicalization (§3.3), sqrt-softened fusion beyond 10 origins (§3.4), only-graded≥C origins counting toward fusion-recipe (§3.5), null-on-derank verifier (§3.6, see §10.4 for reconciliation), and rank-floor sanity rule for 4★+ skills (§10.10).
+The drift below applies the full synthesized formula stack: mothership-discount with capped divisor (§3.1), same-source dedup (§3.2), fork-network canonicalization (§3.3), sqrt-softened fusion beyond 10 origins (§3.4), only-graded≥C origins counting toward fusion-recipe (§3.5), null-on-derank verifier (§3.6, see §10.4 for reconciliation), rank-floor sanity rule for 4★+ skills (§10.10), the **§10.11 transitive-closure rule for fusion-recipe origins** (reverses prior §11 Decision 7), the **§10.12 nine-predicate apex gate** for the 6★ tier, the **§10.13 no-grandfathering clause** at G7 cutover, and the **§10.14 registry-wide anti-auto-mint clause**.
 
 | skillId | currentRank *(pre-migration registry grade)* | finalTrustMagnitude | finalOverallGrade | driftDirection | rationale | provisional |
 |---|---|---|---|---|---|---|
-| `ruvnet/ruflo` | 5★ | 412 | **S** | B → S | 35-component fusion-recipe with 19 graded≥C origins (sqrt-softened past origin 10: `200 + 20×√9 = 260`, weight 1.5 → 390), plus github-stars-own + repo-own + self-attestation clear the 3-type diversity gate; non-self-producible github-stars-own present | no |
+| `ruvnet/ruflo` | **6★** *(demotes at G7 cutover to 5★ per §10.13 / §11.12)* | 489 | **A** *(provisional)* | 6★ → 5★/A | 47 direct components, transitive closure dedups to 47 distinct skillIds (no cycles), 46 graded≥C origins after stripping ungraded `ruvnet/github-release-management`. Sqrt-softening: m = 200 + 20×√(46-10) = 200 + 20×6 = 320, weighted 1.5 → 480. Mothership-discounted github-stars-own contributes 8.5 (34k stars / divisor=min(47,4)=4). TM = 489. Magnitude clears S=250 floor easily, but S diversity fails: only 2 distinct evidence types at apex (fusion-recipe + github-stars-own); rule 5 grade-bubbling tops out at A across the 47-node closure (no S grade exists anywhere in the descendant tree). Lands at A; 6★-on-A is structural inversion. Demotes 6★→5★ at G7 cutover under §11.12.10 (failed §11.12.4 S-diversity, §11.12.6 cross-org verifier-attestations). Provisional flag opens §5.7 6-month path to S via one S-graded descendant or a non-self-producible S-tier row at parent. | **yes** |
 | `garrytan/gstack` | 5★ | 318 | **S** | B → S | Suite root with 4-type diversity (fusion-recipe via suiteComponents auto-mint per §10.8, github-stars-own, peer-review, social-signal); founder identity tier 1.0× on social-signal; passes S-gate cleanly | no |
 | `obra/superpowers` | 5★ | 287 | **S** | B → S | 11-origin fusion-recipe (just past softening knee), 3 cross-org verifier-attestations, github-stars-own; clears the ≥1 S-tier-evidence-OR-≥3-A-tier rule via verifier stack | no |
-| `mattpocock/skills` | 4★ | 134 | **A** | B → A | Suite with auto-fusion-recipe (§10.8) + repo-own + social-signal at recognized-voice 1.2× — but the three contributing types are all self-producible per §8 diversity rule, so flagged provisional pending one non-self-producible signal within 6 months | **yes** |
+| `mattpocock/skills` | **6★** *(demotes at G7 cutover to 5★ per §10.13 / §11.12)* | 390 | **A** *(provisional)* | 6★ → 5★/A | Under §11.7-NESTED transitive-closure rule, fusion-recipe origins dedup-by-skillId to 19 (every grandchild via mattpocock/engineering, /personal, /productivity is also a direct child); all 19 are graded≥C, sqrt-softens to m=260, weighted 1.5 → 390. But strict-evidence reading (§11.12.4 anti-auto-mint, registry-wide per §10.14) finds the apex frontmatter carries `evidence: []` — distinct types = 1, non-self-producible types = 0, fails S diversity gate on both ≥3 distinct AND ≥1 non-self-producible at magnitude ≥25 post-discount. Lands at A; provisional flag carries §5.7 6-month grace pending one non-self-producible row. Demotes 6★→5★ at G7 cutover under §11.12.10 (failed §11.12.3 depth-2-only-reachable, §11.12.4 strict-evidence S-diversity, §11.12.5 A-graded count, §11.12.6 cross-org verifier-attestations). | **yes** |
 | `garrytan/cso` | 4★ | 78 | **B** | B → B | Mothership-discount with capped divisor (§3.1, divisor=4) keeps github-stars-own from inflating; rank-floor sanity rule (§10.10) protects from sub-B drop; held at B as intended | no |
 | `garrytan/benchmark` | 4★ | 64 | **B** | B → B | Repo-own at 0.6 weight + benchmark-result at 95th percentile; 4★+ rank-floor rule (§10.10) blocks any sub-B landing — the formula alone would have pushed to C, validation gate intervenes | no |
 | `obra/dispatching-parallel-agents` | 4★ | 118 | **A** | 4★ → A | github-stars-own + 1 verifier-attestation + repo-own; previously sat above its own 5★ siblings (inversion), regrade lands at honest A; non-self-producible verifier evidence satisfies diversity | no |
@@ -714,7 +724,7 @@ The drift below applies the full synthesized formula stack: mothership-discount 
 | `gaia-curate-chain` | 3★ | 67 | **B** | C → B | Auto-fusion-recipe via suiteComponents (3 graded≥C origins) + repo-own; clears B-gate; not yet S-capable until verifier or external evidence lands | no |
 | `meta-post` | 2★ | 24 | **C** | C → C | Self-attestation (flat 10) + one repo-own; below B-gate; stable at C, no drift | no |
 
-Provisional rows (`mattpocock/skills`, `founder-mode-orchestration`) carry the 6-month grace marker per §7; PR-gated demotion review fires at grace expiry per §11 Decision 4.
+Provisional rows (`ruvnet/ruflo`, `mattpocock/skills`, `founder-mode-orchestration`) carry the 6-month grace marker per §7; PR-gated demotion review fires at grace expiry per §11 Decision 4. The two formerly-6★ rows (`ruvnet/ruflo`, `mattpocock/skills`) demote to 5★ at G7 cutover under §10.13 / §11.12.10 — apex demotion is **not** a §5.7 grace landing; it is a tier-floor failure under the new §11.12 nine-predicate apex gate. Both can re-apply via the §11.12.8 PR-gated path once missing predicates accumulate.
 
 ## §10 Marco's Hard Constraints (Honored)
 
@@ -767,6 +777,34 @@ CLI surface: `gaia dev evidence --cosign-with <verifier>` accepts ≥2 distinct-
 
 4★+ skills cannot land below B without explicit PR-gated review (§11 Decision 10). Implemented as a `gaia validate` failure on the migration PR rather than a soft warning. Manual override flows through the same PR-gated review path used for provisional demotion (§11 Decision 4). Protects `garrytan/benchmark` and similar 4★+ skills whose raw formula output would otherwise land at C. **Honored.**
 
+### §10.11 Fusion-recipe origin counting is transitive (replaces prior §11 Decision 7)
+
+Auto-mint of the fusion-recipe row on every fused/Ultimate skill (mandatory per §10.2 and §10.8) computes origins as the **full transitive closure** of `suiteComponents`, not the direct-component-only walk specified in the prior §11 Decision 7. The walk dedups by `skillId` (a skill reachable through multiple paths counts once), maintains a visited set for cycle detection (A→B→A leaves A visible once), filters origins by Overall Trust Grade ≥ C **after** traversal (per §3.5), and applies sqrt-softening to the post-dedup-post-filter origin count (per §3.4: `m = 20 × origins` for ≤10 origins, `m = 200 + 20 × √(origins−10)` for >10).
+
+Mothership-discount (§3.1) and same-source dedup (§3.2) continue to apply at the underlying evidence-row level for nested components, not at the fusion-recipe-origin-count level.
+
+**Grade stacking** (rule 5 of the §11.7-NESTED block): a nested component's strongest grade bubbles up through the fusion-recipe channel to satisfy the parent's §4 "≥1 S-tier evidence" diversity gate. The bubbled grade may come from any evidence type on the descendant including fusion-recipe itself — the channel does not exclude descendant fusion-recipe rows. (Marco's call, 2026-06-16: "1 relax." This is the looser of the two readings the synthesis surfaced; closes no loop, admits genuine deep-stack apex paths.) **Honored as strengthened.**
+
+### §10.12 Apex tier (6★) is gated by a 9-predicate hard rule
+
+A user-tree skill at 6★ MUST satisfy §11.12.1–§11.12.9 simultaneously. Failure on any predicate drops the apex claim to 5★ with no partial credit and no curator override outside the §11.12.8 PR-gated review path. The gate exists at three enforcement points: `gaia promote` rejects target_level==`"6★"` with a "open a PR labeled apex-promotion; auto-promotion to apex is disabled" error; `gaia validate` runs the 9 predicates against the migration PR and emits a structured failure list; `meta-guard.yml` enforces the §11.12.9 system-wide cap (≤5) and the §11.12.8 PR-label-plus-2-verifier requirement at merge time.
+
+The advisory `ultimateGateStatus` block in `registry/named-skills.json` is renamed `apexGateStatus` and now carries per-predicate pass/fail rather than the single direct-component check. **Honored.**
+
+### §10.13 No grandfathering at the G7 migration boundary
+
+Every currently-6★ skill is re-evaluated against §10.12 at G7 cutover. Skills failing any predicate are demoted to 5★ in the migration PR with `(demoted at G7 cutover — failed apex predicate N)` in the timeline `details` field. The §5.7 6-month provisional grace does NOT apply to apex demotion (§5.7 covers borderline grade landings, not tier-floor failures). Demoted skills can re-apply for 6★ via the §11.12.8 PR-gated path once missing predicates are accumulated.
+
+At G7+0, both currently-6★ skills (`mattpocock/skills`, `ruvnet/ruflo`) demote to 5★ per the disposition table in §11.12. System-wide 6★ count post-cutover: **0 of 5** slots filled. **Honored.**
+
+### §10.14 Registry-wide anti-auto-mint clause
+
+The strict-evidence reading codified for the apex tier in §11.12.4 applies **registry-wide**, not apex-only (Marco's call, 2026-06-16: "registry-wide of course"). Across every grade (S, A, B, C), only the fusion-recipe row may be auto-derived (per §10.8 because Ultimates hard-require it). Every other evidence type — `github-stars-own`, `repo-own`, `self-attestation`, `verifier-attestation`, `arxiv`, `peer-review`, `proxy-containment`, `social-signal`, `benchmark-result` — MUST be physically present in the skill's `evidence:` frontmatter array to contribute to Trust Magnitude. Phantom rows lifted from upstream calibration sketches, draft notes, or comments do not count.
+
+**Migration impact.** The G7 migration PR re-evaluates every Overall Trust Grade across the full registry under strict-evidence reading. Skills whose pre-migration grade was supported by phantom rows drift downward in the §9 calibration table; skills whose evidence was already faithful to frontmatter are unaffected. The blast radius is bounded by the migration PR's atomic merge (§10.6 big bang) and the regrade tooling at `scripts/migrate_trust_magnitude.py`, which is extended to flag every row whose source path doesn't match `registry/named/<owner>/<skill>.md` frontmatter or `registry/nodes/<id>.json` evidence array.
+
+This is the central anti-honesty-failure predicate: it locks down the auto-mint vulnerability the G7 audit surfaced on `mattpocock/skills` (where the regrader silently credited the apex with `github-stars-own + repo-own + self-attestation` rows that don't physically exist). The clause prevents the same failure from inflating any grade going forward. **Honored.**
+
 ## §11 Open Questions & Decisions
 
 *§11.1–11.9 resolve Marco's 10 final decisions (decisions #1–#9 below; #10 is in §11.11 as a reconciliation note). §11.10 records the null-on-derank reconciliation against hard-constraint #4.*
@@ -803,10 +841,11 @@ The synthesis surfaced ten open questions. Marco resolved each in a second conse
 **A.** No. Same parent org is **not sufficient** — products must share a package-name root or a declared `product` field on the repo. `tensorflow` ≠ `jax` even under the same org.
 **Action.** Mothership detection reuses the existing org-disambiguation pattern from `gaia scan`; extend it to compare `product` fields and package-name roots before pooling.
 
-### 11.7 Auto-minted fusion-recipe origins for Ultimates
+### 11.7 Auto-minted fusion-recipe origins for Ultimates *(REVERSED 2026-06-16 — see §10.11 / §11.12-NESTED for the new transitive-closure rule)*
 **Q.** When an Ultimate is auto-minted, do its fusion-recipe origins include transitive prerequisites?
-**A.** **`suiteComponents` only.** Transitive prerequisites do not count.
-**Action.** Auto-mint logic in `gaia fuse` reads `suiteComponents` directly; do not walk `prerequisites`.
+**A (struck through; preserved for audit history):** ~~**`suiteComponents` only.** Transitive prerequisites do not count.~~
+**Action (struck through):** ~~Auto-mint logic in `gaia fuse` reads `suiteComponents` directly; do not walk `prerequisites`.~~
+**New resolution (effective G7 cutover):** Full transitive closure of `suiteComponents`, dedup-by-skillId, cycle-safe, graded≥C filter applied AFTER traversal, sqrt-softening on the post-filter count. Grade stacking via the fusion-recipe channel admits descendant rows of any type including fusion-recipe itself (per Marco's "1 relax" call). Codified in §10.11; 9-predicate apex gate that exploits the new rule lives at §11.12.
 
 ### 11.8 Migration cutover strategy
 **Q.** Phased re-grade or single cutover?
@@ -827,6 +866,59 @@ The synthesis surfaced ten open questions. Marco resolved each in a second conse
 **Q.** Where does the "4★+ skills cannot land below B without explicit review" rule fire?
 **A.** **At `gaia validate`.** Blocks publish on the migration PR. Manual override requires a PR-gated review (per §11.4 pattern).
 **Action.** New validator `validate_rank_floor.py` in `scripts/`; wired into `gaia validate` and the release workflow.
+
+### 11.12 Strict 6★ apex gate (replaces all prior 6★ gating)
+
+**Q.** What does it actually take to land a skill at 6★ under the post-nested-suiteRef regime (§10.11)?
+
+**A.** Nine simultaneous hard predicates. No partial credit. No curator override outside the §11.12.8 PR-gated path. The current gate (deprecated `class:"A"` evidence-row check in `promotion.py::_meets_evidence_floor` + advisory direct-component grade check in `grading.py::check_ultimate_gate` + unused `meta.json` `apexPath` declaration) is replaced wholesale.
+
+#### §11.12.1 Fusion-recipe origin floor (transitive)
+Apex MUST carry an auto-derived `fusion-recipe` evidence row with **origins_graded ≥ 12** under the §10.11 transitive-closure rule. Twelve forces the gate to land at least 2 origins inside the §3.4 sqrt-softened regime (knee at 10) so magnitude cannot be gamed by stopping at exactly 10 flat-band origins (m=200 weighted 300) to dodge softening.
+
+#### §11.12.2 Non-trivial direct nesting
+At least **one direct component** of the apex MUST itself have non-empty `suiteComponents`. Structural predicate read directly from frontmatter; no inference.
+
+#### §11.12.3 Depth ≥ 2 stack (not collapsed by dedup)
+The transitive walk MUST visit at least one node at depth 2 that is NOT also a direct (depth-1) component of the apex. Formal predicate: `∃ s ∈ closure(apex) : minDepth(s, apex) = 2`. This blocks the `mattpocock/skills` failure mode where every grandchild is also a direct child — under §10.11 dedup that collapses to a flat structure with cosmetic nesting. Real "stack on top of 5★ infrastructure" must contribute at least one skillId reachable ONLY through a nested suite.
+
+#### §11.12.4 Overall Trust Grade S with anti-auto-mint teeth (registry-wide per §10.14)
+Apex Overall Trust Grade MUST equal **S** under §4, evaluated with **no auto-minted evidence rows** beyond fusion-recipe itself (which is auto-derived per §10.8 because Ultimates hard-require it). All other rows MUST be physically present in the apex's `evidence:` frontmatter array per §10.14 (registry-wide clause). Specifically:
+- TM ≥ 250 from actual rows (fusion-recipe + physically-present rows only).
+- ≥ 3 distinct evidence types present at the apex node.
+- ≥ 1 non-self-producible row of magnitude ≥ 25 AFTER §3.1 mothership-discount and §3.2 same-source dedup. (Calibrated against the divisor-cap-4 mothership baseline: requires pre-discount row ≥ 100, e.g., ≥100k github-stars OR a verifier-attestation cluster OR a benchmark-result.)
+- ≥ 1 S-tier evidence may be satisfied by §10.11 grade-bubbling from any descendant evidence type (including descendant fusion-recipe rows, per Marco's "1 relax" call).
+
+#### §11.12.5 Component grade depth
+At least **M = 8** distinct skillIds in the transitive closure MUST hold Overall Trust Grade ≥ A. Calibrated as ~⅔ of the §11.12.1 origin floor — apex cannot ride sqrt-softening on mostly B-graded substrate.
+
+#### §11.12.6 Cross-org verifier-attestation floor
+Apex MUST carry **K = 2** `verifier-attestation` rows authored by 4★+ verifiers from at least **2 distinct GitHub organizations** (counted by repo owner of the verifier's home skill, per §11.1). Same-org cosigns count once.
+
+(Marco's call, 2026-06-16: K=2 starting point. Synthesis recommended K=3 with relax-to-K=2 amendment if no skill clears within 6 months; Marco picked the looser starting point. Tightening to K=3 may follow under evidence if the registry shows coordinated 2-cosign apex landings undermining tier credibility.)
+
+#### §11.12.7 Tenure
+Apex's earliest evidence row (by `addedAt` ISO timestamp UTC) MUST be ≥ **180 calendar days** before promotion. Aligned with §5.7 6-month provisional grace so the same clock can carry a provisional-S skill into apex eligibility without double-counting.
+
+#### §11.12.8 PR-gated promotion (no auto-promote)
+At G7 and forever after, `gaia promote` REJECTS target_level==`"6★"` at the CLI layer. Apex requires a manually-opened PR labeled `apex-promotion`, blocked by `meta-guard.yml` until ≥ 2 distinct 4★+ verifiers (per §11.12.6 cross-org rule) leave approving reviews. The promote command emits a stub PR template with all 9 predicates and their measured values; verifiers tick or strike each.
+
+#### §11.12.9 System-wide scarcity cap
+**≤ 5** skills at 6★ at any moment. Enforced at PR-merge time by `meta-guard.yml` counting `level: "6★"` across `registry/named-skills.json`. A sixth 6★ landing requires either (a) prior demotion of an existing 6★ via the same PR-gated path with `apex-demotion` label and ≥ 2 verifier sign-offs, or (b) cap raise via RFC amendment with maintainer quorum. Five is `2 × current-count + 1` — generous enough to admit 3 more apex landings post-migration while preserving the "you can name them all from memory" property that makes the tier socially legible.
+
+#### §11.12.10 No grandfathering at G7 (codified in §10.13)
+At G7 cutover, every currently-6★ skill is re-evaluated against §11.12.1–§11.12.9 inside the migration PR. Failures demote to 5★ with `(demoted at G7 cutover — failed apex predicate N)` in the timeline `details` field. §5.7 6-month grace does NOT apply (it covers borderline grade landings, not tier-floor failures). Re-application allowed immediately via the §11.12.8 PR-gated path; no cooldown on re-litigation (Marco's default, 2026-06-16).
+
+**Per-skill migration disposition (computed against the 9 predicates at G7+0):**
+
+| skillId | §11.12.1 origins ≥ 12 | §11.12.2 direct nest | §11.12.3 depth-2-only | §11.12.4 S w/ anti-mint | §11.12.5 ≥ 8 A-graded | §11.12.6 ≥ 2 cross-org cosigns | §11.12.7 tenure ≥ 180d | Disposition |
+|---|---|---|---|---|---|---|---|---|
+| `mattpocock/skills` | ✓ (19) | ✓ (3 of 19) | **✗** (every grandchild also direct) | **✗** (apex `evidence: []`; strict-evidence: 1 type, 0 non-self-producible) | **✗** (6 A-graded, need 8) | **✗** (0 cosigns) | n/a (PR-gated) | **6★ → 5★** |
+| `ruvnet/ruflo` | ✓ (46) | ✓ (6 of 47) | ✓ (path 76 vs distinct 47 implies depth-2-only nodes; verifier confirms at apex-promotion PR review) | **✗** (2 distinct types: fusion-recipe + 1 mothership-discounted github-stars-own at 8.5; no S anywhere in closure) | ✓ (5 A-graded named in audit; needs verification of full 8 at PR review) | **✗** (0 cosigns) | n/a (PR-gated) | **6★ → 5★** |
+
+Both demote at G7 cutover. System-wide 6★ count post-cutover: **0 of 5** slots filled. The tier remains earnable; it is no longer earned.
+
+**Action.** (1) `meta.json` `levels.evidenceFloors."6★"` deprecated; replace with `levels.apexGate` block carrying the 9-predicate spec; legacy `alternativePathways."6★".apexPath` removed. (2) `src/gaia_cli/promotion.py::_meets_evidence_floor` extended into `_passes_apex_gate(graph_skill, target_level, user_tree, named_skills_index)`; CLI rejects target_level==`"6★"` with apex-promotion-PR error. (3) `src/gaia_cli/grading.py::check_ultimate_gate` superseded by `check_apex_gate`; `ultimateGateStatus` renamed `apexGateStatus` with per-predicate pass/fail. (4) `.github/workflows/meta-guard.yml` extended to count system-wide 6★ skills, reject above-cap merges, and require `apex-promotion` label + 2 verifier approvals for any 6★ landing. (5) `scripts/audit_apex_at_g7.py` runs the gate over current 6★ holders during migration; emits demotion entries for the migration PR with timeline notes per §11.12.10. (6) Stamp report (§8) leads with apex demotion section per Marco's 2026-06-16 call.
 
 ---
 
