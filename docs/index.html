@@ -146,6 +146,98 @@
     margin-top: 1rem;
     gap: 1rem;
   }
+
+  /* ── EVIDENCE GRADE CYCLE ── */
+  .evidence-cycle-section {
+    text-align: center;
+  }
+  .evidence-track {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+    margin: 2.5rem auto;
+    max-width: 960px;
+  }
+  .ev-stage {
+    display: flex;
+    align-items: center;
+  }
+  .ev-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.1rem 1.25rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.02);
+    min-width: 10.5rem;
+    max-width: 12.5rem;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .ev-node.grade-c:hover { border-color: var(--grade-C); transform: translateY(-2px); }
+  .ev-node.grade-b:hover { border-color: var(--grade-B); transform: translateY(-2px); }
+  .ev-node.grade-a:hover { border-color: var(--grade-A); transform: translateY(-2px); }
+  .ev-node.grade-s:hover { border-color: var(--grade-S); transform: translateY(-2px); }
+  .ev-label {
+    font-size: 0.85rem;
+    color: var(--text);
+    font-weight: 600;
+    font-family: var(--font-display);
+  }
+  .ev-sub {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .ev-grade-badge {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+  }
+  .ev-desc {
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.4;
+    margin: 0;
+  }
+  .ev-arrow {
+    padding: 0 0.5rem;
+    color: var(--muted);
+    font-size: 0.875rem;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 992px) {
+    .evidence-track {
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .ev-stage {
+      flex-direction: column;
+    }
+    .ev-arrow {
+      transform: rotate(90deg);
+      padding: 0.5rem 0;
+    }
+    .ev-node {
+      min-width: 16rem;
+      max-width: 100%;
+    }
+  }
   </style>
 </head>
 
@@ -528,6 +620,57 @@
 
   <div class="section-divider"></div>
 
+  <!-- ─── EVIDENCE GRADE CYCLE ─── -->
+  <section id="evidence-cycle" class="reveal evidence-cycle-section" data-section="evidence-cycle">
+    <h2>The Evidence Grade Cycle</h2>
+    <p class="section-sub">Demonstrations are mechanically graded by quality and verified by human consensus.</p>
+    <div class="evidence-track" data-pattern="journey">
+      <div class="ev-stage">
+        <div class="ev-node grade-c">
+          <span class="ev-label">Bronze (C)</span>
+          <span class="ev-sub"><span class="ev-grade-badge" style="background: var(--grade-C); color: #0f172a;">C</span> &ge; 40</span>
+          <p class="ev-desc">Credible demonstration or baseline codebase.</p>
+        </div>
+        <span class="ev-arrow">→</span>
+      </div>
+      <div class="ev-stage">
+        <div class="ev-node grade-b">
+          <span class="ev-label">Silver (B)</span>
+          <span class="ev-sub"><span class="ev-grade-badge" style="background: var(--grade-B); color: #0f172a;">B</span> &ge; 60</span>
+          <p class="ev-desc">Reproducible repository or custom implementation.</p>
+        </div>
+        <span class="ev-arrow">→</span>
+      </div>
+      <div class="ev-stage">
+        <div class="ev-node grade-a">
+          <span class="ev-label">Gold (A)</span>
+          <span class="ev-sub"><span class="ev-grade-badge" style="background: var(--grade-A); color: #0f172a;">A</span> &ge; 80</span>
+          <p class="ev-desc">Academic preprint or peer-reviewed publication.</p>
+        </div>
+        <span class="ev-arrow">→</span>
+      </div>
+      <div class="ev-stage">
+        <div class="ev-node grade-s">
+          <span class="ev-label">Platinum (S)</span>
+          <span class="ev-sub"><span class="ev-grade-badge" style="background: var(--grade-S); color: #0f172a;">S</span> &ge; 90</span>
+          <p class="ev-desc">Editorial validation from 4★+ Verifier reviewing a live demo.</p>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 2.5rem; text-align: center; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <a href="evidence/" class="btn btn-ghost" style="text-decoration:none;font-size:13px;display:inline-flex;align-items:center;gap:0.4rem;">
+        <svg class="ico" width="13" height="13" aria-hidden="true"><use href="assets/icons.svg#seal-diamond"></use></svg>
+        Evidence Library →
+      </a>
+      <a href="meta/reports/2026-06-15-the-gaia-trust-methodology-evidence-types-grades-and-inherited-standing.html" class="btn btn-ghost" style="text-decoration:none;font-size:13px;display:inline-flex;align-items:center;gap:0.4rem;" target="_blank">
+        <svg class="ico" width="13" height="13" aria-hidden="true"><use href="assets/icons.svg#info"></use></svg>
+        Read Trust Methodology →
+      </a>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
   <!-- ─── META REPORTS ─── -->
   <!-- Lifted out of #paths so the home page reads top-down as
        hero → paths → heroes → ascension → meta. The list itself is
@@ -668,6 +811,7 @@
   <!-- Universal AlphaRail component + page-wide integration (section markers
        above the explorer; dynamic type/letter/tier markers inside it). -->
   <script src="js/alpha-rail.js?v=4.9.5"></script>
+  <script src="js/index-rail.js?v=4.9.5"></script>
   <script src="js/ui.js?v=4.9.5"></script>
   <script src="js/page-ia.js?v=4.9.5"></script>
   <script src="js/plaque-reveal.js?v=4.9.5" defer></script>
