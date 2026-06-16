@@ -250,3 +250,113 @@ def write_skill_batch(batch, registry_root):
         json.dump(batch, f, indent=2)
         f.write("\n")
     return batch_path
+
+
+_SKILL_MD_CANDIDATES = ("skill.md", "SKILL.md", "README.md", "readme.md")
+
+
+def collectBatchSkillPaths(batch, registryRoot="."):
+    """Return absolute paths to named-skill markdown files referenced by ``batch``.
+
+    The push pipeline does not embed markdown in the batch JSON; instead it
+    references skills by ID and pulls bodies from the local install manifest
+    or the canonical ``registry/named/`` tree.  This helper collects the
+    markdown paths so the security scanner has something to scan.
+
+    The returned list is deduplicated and skips paths that do not exist.
+    """
+    paths: list[str] = []
+    seen: set[str] = set()
+
+    def addPath(candidate: str) -> None:
+        if not candidate:
+            return
+        absPath = os.path.abspath(candidate)
+        if absPath in seen:
+            return
+        if not os.path.isfile(absPath):
+            return
+        seen.add(absPath)
+        paths.append(absPath)
+
+    manifestPath = os.path.join(".gaia", "install-manifest.json")
+    manifestEntries: list = []
+    if os.path.exists(manifestPath):
+        try:
+            with open(manifestPath, "r", encoding="utf-8") as f:
+                manifestEntries = json.load(f).get("installed", []) or []
+        except (OSError, json.JSONDecodeError):
+            manifestEntries = []
+
+    for entry in manifestEntries:
+        localPath = entry.get("localPath") or ""
+        if localPath and os.path.isdir(localPath):
+            for candidate in _SKILL_MD_CANDIDATES:
+                addPath(os.path.join(localPath, candidate))
+        sourceRef = entry.get("sourceRef") or ""
+        if sourceRef:
+            addPath(os.path.join(registryRoot, sourceRef))
+        sid = entry.get("id") or ""
+        if "/" in sid:
+            contrib, name = sid.split("/", 1)
+            addPath(os.path.join(registryRoot, "registry", "named", contrib, f"{name}.md"))
+
+    namedRoot = os.path.join(registryRoot, "registry", "named")
+    for known in batch.get("knownSkills", []) or []:
+        sid = (known.get("skillId") or "").lstrip("/")
+        localId = (known.get("localId") or "").lstrip("/")
+        for tail in (sid, localId):
+            if not tail or "/" not in tail:
+                continue
+            contrib, name = tail.split("/", 1)
+            addPath(os.path.join(namedRoot, contrib, f"{name}.md"))
+
+    return paths
+
+
+def scanProposedSkillDescriptions(batch):
+    """Scan inline strings (descriptions, names) carried in the batch JSON itself.
+
+    Some attacks land in skill metadata before any markdown file exists yet
+    (e.g. injection in ``description``).  This synthesizes a virtual path so
+    findings still locate cleanly in the report.
+    """
+    from gaia_cli.securityScanner import scanSkillContent
+
+    findings = []
+    for proposed in batch.get("proposedSkills", []) or []:
+        sid = proposed.get("id", "unknown")
+        text = "\n".join(
+            str(proposed.get(k, ""))
+            for k in ("name", "description", "summary", "notes")
+            if proposed.get(k)
+        )
+        if not text.strip():
+            continue
+        findings.extend(scanSkillContent(text, f"<batch:proposed:{sid}>"))
+    return findings
+
+
+def scanBatchForSecurity(batch, registryRoot="."):
+    """Run the full security scanner against everything ``batch`` references.
+
+    Returns a list of findings combining markdown bodies pulled from the
+    install manifest / canonical tree plus inline batch JSON strings.
+    """
+    from gaia_cli.securityScanner import (
+        SEVERITY_ORDER,
+        scanNamedSkillFiles,
+    )
+
+    findings = list(scanNamedSkillFiles(collectBatchSkillPaths(batch, registryRoot)))
+    findings.extend(scanProposedSkillDescriptions(batch))
+    findings.sort(
+        key=lambda f: (
+            SEVERITY_ORDER.get(f.severity, 99),
+            f.category,
+            f.filePath,
+            f.lineNumber,
+            f.rule,
+        )
+    )
+    return findings

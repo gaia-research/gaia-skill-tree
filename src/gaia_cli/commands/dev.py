@@ -81,6 +81,27 @@ def meta_verify_command(args):
         )
         sys.exit(1)
 
+    # Defensive scan — surface any hostile content in the named-skill markdown
+    # before the verifier signs off on an evidence claim.  This is read-only:
+    # findings are printed but never block the verify action.
+    try:
+        from gaia_cli.securityScanner import (
+            formatFindings,
+            scanNamedSkillFiles,
+        )
+
+        named_dir_for_scan = Path(named_skills_dir(registry_path))
+        scanTargets = []
+        scanTarget = _find_named_file(named_dir_for_scan, skill_id)
+        if scanTarget:
+            scanTargets.append(str(scanTarget))
+        if scanTargets:
+            scanFindings = scanNamedSkillFiles(scanTargets)
+            if scanFindings:
+                print(formatFindings(scanFindings))
+    except Exception as exc:  # pragma: no cover - defensive
+        print(f"Security scanner skipped: {exc}")
+
     # 1. Check generic nodes
     nodes_dir = Path(registry_nodes_dir(registry_path))
     node_file = None

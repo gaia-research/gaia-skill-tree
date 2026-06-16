@@ -2260,6 +2260,42 @@ def push_command(args):
         print(json.dumps(batch, indent=2))
         return
 
+    # Security scanner — runs after the batch is finalised but before we
+    # persist anything.  Blocks on high-severity findings unless the caller
+    # supplies --allow-unsafe AND --reason (audit trail).  Medium/low
+    # findings are surfaced as warnings only.
+    from gaia_cli.push import scanBatchForSecurity
+    from gaia_cli.securityScanner import (
+        formatFindings,
+        hasHighSeverity,
+    )
+
+    findings = scanBatchForSecurity(batch, args.registry)
+    if findings:
+        print(formatFindings(findings), file=sys.stderr)
+        if hasHighSeverity(findings):
+            allowUnsafe = getattr(args, "allowUnsafe", False)
+            overrideReason = (getattr(args, "overrideReason", "") or "").strip()
+            highCount = sum(1 for f in findings if f.severity == "high")
+            if not allowUnsafe:
+                print(
+                    f"Security scanner blocked {highCount} high-severity finding(s). "
+                    f"Re-run with --allow-unsafe and --reason \"<text>\" to override.",
+                    file=sys.stderr,
+                )
+                sys.exit(2)
+            if not overrideReason:
+                print(
+                    "Use --reason to document override (required for audit trail).",
+                    file=sys.stderr,
+                )
+                sys.exit(2)
+            print(
+                f"Security scanner override accepted: {highCount} high-severity "
+                f"finding(s) bypassed. Reason: {overrideReason}",
+                file=sys.stderr,
+            )
+
     if sys.stdin.isatty() and not getattr(args, "yes", False):
         try:
             if _use_color():
@@ -3015,6 +3051,19 @@ def get_parser():
     )  # backward compat alias
     push_parser.add_argument(
         "--yes", "-y", "--y", action="store_true", dest="yes", help="Skip confirmation prompts"
+    )
+    push_parser.add_argument(
+        "--allow-unsafe",
+        action="store_true",
+        dest="allowUnsafe",
+        help="Override the security scanner block on high-severity findings (requires --reason)",
+    )
+    push_parser.add_argument(
+        "--reason",
+        type=str,
+        default="",
+        dest="overrideReason",
+        help="Document an --allow-unsafe override for the audit trail",
     )
     propose_parser = subparsers.add_parser(
         "propose", help="Propose a single canonical skill as a named PR"
