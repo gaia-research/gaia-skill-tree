@@ -38,3 +38,7 @@
 ## 2026-06-13 - App-Wide Focus Ring for Navigation Toggles and Simulator Button
 **Learning:** Found that `.nav-more-toggle`, `.nav-menu-toggle`, and `.review-sim-btn` interactive elements were missing keyboard focus indicators. The codebase has an established focus ring pattern using `outline: 2px solid var(--tier-extra); outline-offset: 2px;`, which should be explicitly extended to all interactive generic buttons and controls. Furthermore, `.nav-menu-toggle:focus-visible` was explicitly removing outline `outline: none`, overriding accessibility.
 **Action:** Added these missing selectors to the app-wide focus ring block in `docs/css/styles.css` and removed `outline: none` from `.nav-menu-toggle:focus-visible` to maintain a consistent and accessible keyboard navigation experience.
+
+## 2026-06-25 - App-Wide Focus Ring for Share Modal Components
+**Learning:** Found that multiple interactive elements (`.share-action`, `.share-modal__close`) in the share modal were missing keyboard focus indicators. The codebase has an established focus ring pattern using `outline: 2px solid var(--tier-extra); outline-offset: 2px;`, which should be explicitly extended to all interactive generic buttons and controls, including new modal specific elements.
+**Action:** Added these missing selectors to the app-wide focus ring block in `docs/css/plaque.css` to maintain a consistent and accessible keyboard navigation experience.
