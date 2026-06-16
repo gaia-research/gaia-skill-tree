@@ -18,7 +18,7 @@ on:
       - 'src/**'
       - 'packages/cli-npm/cli/**'
       - 'tests/**'
-      - '.github/workflows/python-package.yml'
+      - '.github/workflows/**'
   workflow_dispatch: {}
 
 permissions:

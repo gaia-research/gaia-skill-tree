@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <script>window.GAIA_VERSION = "4.8.1";</script>
+  <script>window.GAIA_VERSION = "4.8.3";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -10,299 +10,142 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gaia: AI Agent Skill Registry</title>
   <meta name="description" content="An evidence-backed atlas of agent capabilities. Bring your repo, claim your name.">
-  <meta name="keywords"
-    content="AI agent skills, skill registry, LLM operations, agent framework, AI capabilities, skill graph, agent skills, capability registry">
+  <meta name="keywords" content="AI agent skills, skill registry, LLM operations, agent framework, AI capabilities, skill graph, agent skills, capability registry">
   <!-- Stage 1 — Web fonts (EB Garamond display, Bricolage body, JetBrains Mono fallback). -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="assets/marks/diamond-seal.svg">
-  <link rel="stylesheet" href="css/styles.css?v=4.8.1">
-  <link rel="stylesheet" href="css/plaque.css?v=4.8.1">
+  <link rel="stylesheet" href="css/styles.css?v=4.8.3">
+  <link rel="stylesheet" href="css/plaque.css?v=4.8.3">
   <!-- Universal AlphaRail (page-wide section + explorer index). -->
-  <link rel="stylesheet" href="css/alpha-rail.css?v=4.8.1">
+  <link rel="stylesheet" href="css/alpha-rail.css?v=4.8.3">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
-  <script src="js/icons.js?v=4.8.1"></script>
+  <script src="js/icons.js?v=4.8.3"></script>
   <!-- Stage 2 — shared rank-badge primitive, loaded after icons. -->
-  <script src="js/rank-badge.js?v=4.8.1"></script>
+  <script src="js/rank-badge.js?v=4.8.3"></script>
   <!-- Stage 3 — plaque component family, loaded after rank-badge. -->
-  <script src="js/plaque.js?v=4.8.1"></script>
+  <script src="js/plaque.js?v=4.8.3"></script>
   <style>
-    /* Review Section & Side-by-Side Simulator styling */
-    .review-showcase-section {
-      max-width: 1100px;
-      margin: 3rem auto;
-    }
+  /* Review Section & Side-by-Side Simulator styling */
+  .review-showcase-section {
+    max-width: 1100px;
+    margin: 3rem auto;
+  }
 
+  .review-sim-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  @media (max-width: 860px) {
     .review-sim-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-      margin-bottom: 2.5rem;
+      grid-template-columns: 1fr;
     }
+  }
 
-    @media (max-width: 860px) {
-      .review-sim-layout {
-        grid-template-columns: 1fr;
-      }
-    }
+  .review-sim-wrapper {
+    background: #08080a;
+    border: 1px solid var(--border, #222);
+    border-radius: 12px;
+    overflow: hidden;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+  }
 
-    .review-sim-wrapper {
-      background: #08080a;
-      border: 1px solid var(--border, #222);
-      border-radius: 12px;
-      overflow: hidden;
-      font-family: var(--font-mono, ui-monospace, monospace);
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
-      display: flex;
-      flex-direction: column;
-    }
+  .review-sim-header {
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid var(--border, #222);
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-    .review-sim-header {
-      background: rgba(255, 255, 255, 0.02);
-      border-bottom: 1px solid var(--border, #222);
-      padding: 0.75rem 1.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+  .review-sim-dots {
+    display: flex;
+    gap: 6px;
+  }
 
-    .review-sim-dots {
-      display: flex;
-      gap: 6px;
-    }
+  .review-sim-dots .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .review-sim-dots .dot.red { background: #ef4444; }
+  .review-sim-dots .dot.yellow { background: #fbbf24; }
+  .review-sim-dots .dot.green { background: #22c55e; }
 
-    .review-sim-dots .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
+  .review-sim-title {
+    font-size: 0.8rem;
+    color: var(--muted, #666);
+  }
 
-    .review-sim-dots .dot.red {
-      background: #ef4444;
-    }
+  .review-sim-body {
+    padding: 1.25rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    height: 320px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    color: #c9d1d9;
+    scroll-behavior: smooth;
+  }
 
-    .review-sim-dots .dot.yellow {
-      background: #fbbf24;
-    }
+  .review-sim-body .line { word-break: break-all; }
+  .review-sim-body .line.system { color: #8b949e; }
+  .review-sim-body .line.cmd { color: #58a6ff; font-weight: bold; }
+  .review-sim-body .line.check-run { color: #58a6ff; }
+  .review-sim-body .line.pass { color: #34d399; }
+  .review-sim-body .line.fail { color: #f85149; }
+  .review-sim-body .line.user { color: #fbbf24; }
+  .review-sim-body pre { margin: 0; line-height: 1.2; color: #a78bfa; font-size: 0.76rem; }
 
-    .review-sim-dots .dot.green {
-      background: #22c55e;
-    }
+  .review-sim-controls {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
 
-    .review-sim-title {
-      font-size: 0.8rem;
-      color: var(--muted, #666);
-    }
+  .review-sim-btn {
+    margin: 0;
+    font-size: 0.85rem;
+    padding: 0.5rem 1.5rem;
+    border-radius: 6px;
+    background: var(--tier-basic, #38bdf8);
+    border: none;
+    color: #000;
+    cursor: pointer;
+    font-family: var(--font-body, system-ui, sans-serif);
+    font-weight: 700;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+  }
 
-    .review-sim-body {
-      padding: 1.25rem;
-      font-size: 0.82rem;
-      line-height: 1.5;
-      height: 320px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      color: #c9d1d9;
-      scroll-behavior: smooth;
-    }
+  .review-sim-btn:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
 
-    .review-sim-body .line {
-      word-break: break-all;
-    }
+  .review-sim-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
 
-    .review-sim-body .line.system {
-      color: #8b949e;
-    }
-
-    .review-sim-body .line.cmd {
-      color: #58a6ff;
-      font-weight: bold;
-    }
-
-    .review-sim-body .line.check-run {
-      color: #58a6ff;
-    }
-
-    .review-sim-body .line.pass {
-      color: #34d399;
-    }
-
-    .review-sim-body .line.fail {
-      color: #f85149;
-    }
-
-    .review-sim-body .line.user {
-      color: #fbbf24;
-    }
-
-    .review-sim-body pre {
-      margin: 0;
-      line-height: 1.2;
-      color: #a78bfa;
-      font-size: 0.76rem;
-    }
-
-    .review-sim-controls {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .review-sim-btn {
-      margin: 0;
-      font-size: 0.85rem;
-      padding: 0.5rem 1.5rem;
-      border-radius: 6px;
-      background: var(--tier-basic, #38bdf8);
-      border: none;
-      color: #000;
-      cursor: pointer;
-      font-family: var(--font-body, system-ui, sans-serif);
-      font-weight: 700;
-      transition: all 0.2s ease;
-      box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
-    }
-
-    .review-sim-btn:hover:not(:disabled) {
-      opacity: 0.9;
-      transform: translateY(-1px);
-    }
-
-    .review-sim-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-
-    .review-sim-cta-container {
-      display: flex;
-      justify-content: center;
-      margin-top: 1rem;
-      gap: 1rem;
-    }
-
-    /* ── EVIDENCE GRADE CYCLE ── */
-    .evidence-cycle-section {
-      text-align: center;
-    }
-
-    .evidence-track {
-      display: flex;
-      align-items: stretch;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0;
-      margin: 2.5rem auto;
-      max-width: 960px;
-    }
-
-    .ev-stage {
-      display: flex;
-      align-items: center;
-    }
-
-    .ev-node {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 1.1rem 1.25rem;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.02);
-      min-width: 10.5rem;
-      max-width: 12.5rem;
-      text-align: center;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-
-    .ev-node.grade-c:hover {
-      border-color: var(--grade-C);
-      transform: translateY(-2px);
-    }
-
-    .ev-node.grade-b:hover {
-      border-color: var(--grade-B);
-      transform: translateY(-2px);
-    }
-
-    .ev-node.grade-a:hover {
-      border-color: var(--grade-A);
-      transform: translateY(-2px);
-    }
-
-    .ev-node.grade-s:hover {
-      border-color: var(--grade-S);
-      transform: translateY(-2px);
-    }
-
-    .ev-label {
-      font-size: 0.85rem;
-      color: var(--text);
-      font-weight: 600;
-      font-family: var(--font-display);
-    }
-
-    .ev-sub {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .ev-grade-badge {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.72rem;
-      font-family: var(--font-mono);
-    }
-
-    .ev-desc {
-      font-size: 0.72rem;
-      color: var(--muted);
-      line-height: 1.4;
-      margin: 0;
-    }
-
-    .ev-arrow {
-      padding: 0 0.5rem;
-      color: var(--muted);
-      font-size: 0.875rem;
-      flex-shrink: 0;
-    }
-
-    @media (max-width: 992px) {
-      .evidence-track {
-        flex-direction: column;
-        gap: 0.75rem;
-        align-items: center;
-      }
-
-      .ev-stage {
-        flex-direction: column;
-      }
-
-      .ev-arrow {
-        transform: rotate(90deg);
-        padding: 0.5rem 0;
-      }
-
-      .ev-node {
-        min-width: 16rem;
-        max-width: 100%;
-      }
-    }
+  .review-sim-cta-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    gap: 1rem;
+  }
   </style>
 </head>
 
@@ -310,12 +153,11 @@
 
   <!-- ─── NAV ─── -->
   <nav id="site-nav"></nav>
-  <script src="js/site-nav.js?v=4.8.1"></script>
+  <script src="js/site-nav.js?v=4.8.3"></script>
 
   <!-- ─── HERO ─── -->
   <section id="hero">
-    <canvas id="canvas3d"
-      aria-label="4D semantic skill graph of 200 skills across tier and cluster dimensions"></canvas>
+    <canvas id="canvas3d" aria-label="4D semantic skill graph of 200 skills across tier and cluster dimensions"></canvas>
     <div class="hero-mobile-graph" aria-hidden="true">
       <img src="graph/gaia.svg" alt="" width="600" height="600">
     </div>
@@ -323,10 +165,7 @@
     <div class="hero-glass-noise"></div>
     <div class="hero-content">
       <div class="hero-pills">
-        <button class="field-trigger" type="button" id="hudToggleBtn" aria-pressed="false"
-          aria-label="Toggle field view"><svg class="ico" width="14" height="14" aria-hidden="true">
-            <use href="assets/icons.svg#hud-toggle" />
-          </svg> Field view</button>
+        <button class="field-trigger" type="button" id="hudToggleBtn" aria-pressed="false" aria-label="Toggle field view"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#hud-toggle"/></svg> Field view</button>
       </div>
       <h1 class="hero-title">
         Skills are catalogued.<br>
@@ -366,20 +205,15 @@
       </div>
     </div>
     <!-- gaia-hero-post-start -->
-    <a href="meta/reports/2026-06-14-the-gaia-trust-methodology-evidence-types-grades-and-inherited-standing.html"
-      class="hero-audit-btn" target="_blank" aria-label="View Trust Model">
-      <svg class="ico" width="14" height="14" aria-hidden="true">
-        <use href="assets/icons.svg#info" />
-      </svg>
-      <span>Trust Model</span>
+    <a href="meta/reports/2026-06-03-chained-curation-thirteen-starless-references-and-a-unique-reclassification.html" class="hero-audit-btn" target="_blank" aria-label="View Curation Pass">
+      <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#info"/></svg>
+      <span>Curation Pass</span>
       <span class="hero-audit-btn-arrow">↗</span>
     </a>
     <!-- gaia-hero-post-end -->
     <div class="scroll-hint">
       <span>scroll</span>
-      <svg class="ico" aria-hidden="true">
-        <use href="assets/icons.svg#chevron-down" />
-      </svg>
+      <svg class="ico" aria-hidden="true"><use href="assets/icons.svg#chevron-down"/></svg>
     </div>
   </section>
 
@@ -421,29 +255,21 @@
             </div>
             <div class="rite-term">
               <div class="os-tabs" role="tablist" aria-label="Operating System selection">
-                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab"
-                  aria-selected="true">macOS · Linux</button>
-                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab"
-                  aria-selected="false">Windows</button>
-                <button type="button" class="os-tab" data-os="pipx" onclick="switchOsTab(this)" role="tab"
-                  aria-selected="false">pipx (Python)</button>
+                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
+                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
+                <button type="button" class="os-tab" data-os="pipx" onclick="switchOsTab(this)" role="tab" aria-selected="false">pipx (Python)</button>
               </div>
               <div class="os-panel active" data-os="unix" role="tabpanel">
                 <pre><span class="cmd">curl -fsSL</span> https://gaia.tiongson.co/install.sh | sh</pre>
               </div>
               <div class="os-panel" data-os="win" role="tabpanel">
                 <pre><span class="cmd">py -m pip install</span> gaia-cli</pre>
-                <pre
-                  class="mt-sm"><span class="cmd">$env:PATH</span> += <span class="str">";"</span> + (python -c <span class="str">"import sysconfig; print(sysconfig.get_path('scripts', 'nt_user'))"</span>)</pre>
-                <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Run the second command if
-                    <code>gaia</code> isn't found after install — it adds the Python user Scripts directory to your
-                    current PowerShell session's PATH.</span></div>
+                <pre class="mt-sm"><span class="cmd">$env:PATH</span> += <span class="str">";"</span> + (python -c <span class="str">"import sysconfig; print(sysconfig.get_path('scripts', 'nt_user'))"</span>)</pre>
+                <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Run the second command if <code>gaia</code> isn't found after install — it adds the Python user Scripts directory to your current PowerShell session's PATH.</span></div>
               </div>
               <div class="os-panel" data-os="pipx" role="tabpanel">
                 <pre><span class="cmd">pipx install</span> gaia-cli</pre>
-                <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Installs <code>gaia</code> in an
-                    isolated virtual environment and automatically handles PATH configurations. Requires Python 3.8+ and
-                    <code>pipx</code>.</span></div>
+                <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Installs <code>gaia</code> in an isolated virtual environment and automatically handles PATH configurations. Requires Python 3.8+ and <code>pipx</code>.</span></div>
               </div>
             </div>
           </li>
@@ -457,10 +283,8 @@
             </div>
             <div class="rite-term">
               <div class="os-tabs" role="tablist" aria-label="Operating System selection">
-                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab"
-                  aria-selected="true">macOS · Linux</button>
-                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab"
-                  aria-selected="false">Windows</button>
+                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
+                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
               </div>
               <div class="os-panel active" data-os="unix" role="tabpanel">
                 <pre><span class="cmd">gaia init</span></pre>
@@ -480,10 +304,8 @@
             </div>
             <div class="rite-term">
               <div class="os-tabs" role="tablist" aria-label="Operating System selection">
-                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab"
-                  aria-selected="true">macOS · Linux</button>
-                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab"
-                  aria-selected="false">Windows</button>
+                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
+                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
               </div>
               <div class="os-panel active" data-os="unix" role="tabpanel">
                 <pre><span class="cmd">gaia scan</span></pre>
@@ -503,10 +325,8 @@
             </div>
             <div class="rite-term">
               <div class="os-tabs" role="tablist" aria-label="Operating System selection">
-                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab"
-                  aria-selected="true">macOS · Linux</button>
-                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab"
-                  aria-selected="false">Windows</button>
+                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
+                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
               </div>
               <div class="os-panel active" data-os="unix" role="tabpanel">
                 <pre><span class="cmd">gaia push</span></pre>
@@ -522,48 +342,41 @@
         <details class="rite-steps-after">
           <summary>After you've registered <span class="rite-after-hint">— optional follow-ups</span></summary>
           <ol class="rite-steps rite-steps--after" start="5">
-            <li class="rite-step">
-              <div class="rite-meta">
-                <span class="rite-numeral" aria-hidden="true">V.</span>
-                <div class="rite-desc">
-                  <strong>Bond your agent MCP</strong>
-                  <p>Wire Gaia to Claude Code in one command.</p>
-                </div>
+          <li class="rite-step">
+            <div class="rite-meta">
+              <span class="rite-numeral" aria-hidden="true">V.</span>
+              <div class="rite-desc">
+                <strong>Bond your agent MCP</strong>
+                <p>Wire Gaia to Claude Code in one command.</p>
               </div>
-              <div class="rite-term">
-                <pre><span class="cmd">claude mcp add</span> <span class="str">gaia</span> -- <span class="cmd">npx</span> <span class="str">@gaia-registry/mcp-server</span></pre>
-                <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Any MCP-compatible agent: use
-                    <code>npx @gaia-registry/mcp-server</code>. See <a
-                      href="https://github.com/mbtiongson1/gaia-skill-tree/tree/main/packages/mcp" target="_blank"
-                      class="text-tier-basic">packages/mcp</a> for config-file examples.</span></div>
+            </div>
+            <div class="rite-term">
+              <pre><span class="cmd">claude mcp add</span> <span class="str">gaia</span> -- <span class="cmd">npx</span> <span class="str">@gaia-registry/mcp-server</span></pre>
+              <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Any MCP-compatible agent: use <code>npx @gaia-registry/mcp-server</code>. See <a href="https://github.com/mbtiongson1/gaia-skill-tree/tree/main/packages/mcp" target="_blank" class="text-tier-basic">packages/mcp</a> for config-file examples.</span></div>
+            </div>
+          </li>
+          <li class="rite-step">
+            <div class="rite-meta">
+              <span class="rite-numeral" aria-hidden="true">VI.</span>
+              <div class="rite-desc">
+                <strong>Explore interactively (optional)</strong>
+                <p>Launch the agent-first Terminal UI with no arguments.</p>
               </div>
-            </li>
-            <li class="rite-step">
-              <div class="rite-meta">
-                <span class="rite-numeral" aria-hidden="true">VI.</span>
-                <div class="rite-desc">
-                  <strong>Explore interactively (optional)</strong>
-                  <p>Launch the agent-first Terminal UI with no arguments.</p>
-                </div>
+            </div>
+            <div class="rite-term">
+              <div class="os-tabs" role="tablist" aria-label="Operating System selection">
+                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
+                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
               </div>
-              <div class="rite-term">
-                <div class="os-tabs" role="tablist" aria-label="Operating System selection">
-                  <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab"
-                    aria-selected="true">macOS · Linux</button>
-                  <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab"
-                    aria-selected="false">Windows</button>
-                </div>
-                <div class="os-panel active" data-os="unix" role="tabpanel">
-                  <pre><span class="cmd">gaia</span></pre>
-                </div>
-                <div class="os-panel" data-os="win" role="tabpanel">
-                  <pre><span class="cmd">py -m gaia_cli</span></pre>
-                </div>
-                <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>The Terminal UI is new and
-                    experimental — designed for AI agents like Claude Code and Codex. Keyboard-native, fuzzy searchable,
-                    no CLI memorization required.</span></div>
+              <div class="os-panel active" data-os="unix" role="tabpanel">
+                <pre><span class="cmd">gaia</span></pre>
               </div>
-            </li>
+              <div class="os-panel" data-os="win" role="tabpanel">
+                <pre><span class="cmd">py -m gaia_cli</span></pre>
+              </div>
+              <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>The Terminal UI is new and experimental — designed for AI agents like Claude Code and Codex. Keyboard-native, fuzzy searchable, no CLI memorization required.</span></div>
+            </div>
+          </li>
           </ol>
         </details>
       </div>
@@ -572,23 +385,17 @@
       <div class="path-b" id="ultimates">
         <div class="path-plate-num">Path B — Unclaimed Ultimates</div>
         <h2>Claim an Ultimate</h2>
-        <p class="path-intro mt-sm">The highest-tier skills in the registry. If you own an ultimate, claim your badge
-          for your README — or implement a new one to get on the list.</p>
+        <p class="path-intro mt-sm">The highest-tier skills in the registry. If you own an ultimate, claim your badge for your README — or implement a new one to get on the list.</p>
         <div class="ultimates-list" id="ultimatesList" aria-live="polite">
           <div class="ult-loading">Loading ultimates…</div>
         </div>
         <div class="path-cta" style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;">
-          <a href="https://github.com/mbtiongson1/gaia-skill-tree/issues" target="_blank" rel="noopener"
-            class="btn btn-ghost propose-cta text-sm">
-            <svg class="ico propose-gh" width="14" height="14" aria-hidden="true">
-              <use href="assets/icons.svg#github" />
-            </svg>
+          <a href="https://github.com/mbtiongson1/gaia-skill-tree/issues" target="_blank" rel="noopener" class="btn btn-ghost propose-cta text-sm">
+            <svg class="ico propose-gh" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#github"/></svg>
             Propose a new Ultimate →
           </a>
           <a href="badges/" class="btn btn-ghost propose-cta text-sm">
-            <svg class="ico propose-gh" width="14" height="14" aria-hidden="true">
-              <use href="assets/icons.svg#seal-diamond" />
-            </svg>
+            <svg class="ico propose-gh" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#seal-diamond"/></svg>
             Get Badges →
           </a>
         </div>
@@ -602,8 +409,7 @@
 
   <section class="reveal review-showcase-section" data-section="review-showcase">
     <h2>How Your Skills Get Reviewed</h2>
-    <p class="section-sub">Every contribution undergoes rigorous programmatic and contributor checks before merge,
-      ensuring registry integrity. Click "Simulate Review" below to see it in action.</p>
+    <p class="section-sub">Every contribution undergoes rigorous programmatic and contributor checks before merge, ensuring registry integrity. Click "Simulate Review" below to see it in action.</p>
 
     <!-- Simulator Button Control -->
     <div class="review-sim-controls">
@@ -679,92 +485,44 @@
       <div class="asc-stage">
         <div class="asc-node">
           <span class="asc-label">Awakened</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="1" data-variant="chip" role="img"
-              aria-label="Rank 1 of 6"><span class="rank-badge__chip">1★</span></span></span>
+          <span class="asc-sub"><span class="rank-badge" data-level="1" data-variant="chip" role="img" aria-label="Rank 1 of 6"><span class="rank-badge__chip">1★</span></span></span>
         </div>
         <span class="asc-arrow">→</span>
       </div>
       <div class="asc-stage">
         <div class="asc-node">
           <span class="asc-label">Named</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="2" data-variant="chip" role="img"
-              aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span> · Class C</span>
+          <span class="asc-sub"><span class="rank-badge" data-level="2" data-variant="chip" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span> · Class C</span>
         </div>
         <span class="asc-arrow">→</span>
       </div>
       <div class="asc-stage">
         <div class="asc-node">
           <span class="asc-label">Evolved</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="3" data-variant="chip" role="img"
-              aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span></span> · Class B</span>
+          <span class="asc-sub"><span class="rank-badge" data-level="3" data-variant="chip" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span></span> · Class B</span>
         </div>
         <span class="asc-arrow">→</span>
       </div>
       <div class="asc-stage">
         <div class="asc-node">
           <span class="asc-label">Hardened</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="4" data-variant="chip" role="img"
-              aria-label="Rank 4 of 6"><span class="rank-badge__chip">4★</span></span> · Class B/A</span>
+          <span class="asc-sub"><span class="rank-badge" data-level="4" data-variant="chip" role="img" aria-label="Rank 4 of 6"><span class="rank-badge__chip">4★</span></span> · Class B/A</span>
         </div>
         <span class="asc-arrow">→</span>
       </div>
       <div class="asc-stage">
         <div class="asc-node">
           <span class="asc-label">Transcendent</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="5" data-variant="chip" role="img"
-              aria-label="Rank 5 of 6"><span class="rank-badge__chip">5★</span></span> · Class B/A</span>
+          <span class="asc-sub"><span class="rank-badge" data-level="5" data-variant="chip" role="img" aria-label="Rank 5 of 6"><span class="rank-badge__chip">5★</span></span> · Class B/A</span>
         </div>
         <span class="asc-arrow">→</span>
       </div>
       <div class="asc-stage">
         <div class="asc-node is-apex">
           <span class="asc-label">Apex</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="6" data-variant="chip" role="img"
-              aria-label="Rank 6 of 6"><span class="rank-badge__chip">6★</span></span> · Class A</span>
+          <span class="asc-sub"><span class="rank-badge" data-level="6" data-variant="chip" role="img" aria-label="Rank 6 of 6"><span class="rank-badge__chip">6★</span></span> · Class A</span>
         </div>
       </div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ─── EVIDENCE GRADE ─── -->
-  <section id="evidence-cycle" class="reveal evidence-cycle-section" data-section="evidence-cycle">
-    <h2>Evidence Grade</h2>
-    <p class="section-sub">Quality grades for evidence.</p>
-    <div class="grade-bar">
-      <div class="grade-row">
-        <div class="grade-segment grade-plat"><span class="grade-label">Platinum (S) ≥ 90%</span></div>
-      </div>
-      <div class="grade-row">
-        <div class="grade-segment grade-gold"><span class="grade-label">Gold (A) ≥ 80%</span></div>
-      </div>
-      <div class="grade-row">
-        <div class="grade-segment grade-silver"><span class="grade-label">Silver (B) ≥ 60%</span></div>
-      </div>
-      <div class="grade-row">
-        <div class="grade-segment grade-bronze"><span class="grade-label">Bronze (C) ≥ 40%</span></div>
-      </div>
-      <div class="grade-row">
-        <div class="grade-segment grade-ungraded"><span class="grade-label">Ungraded</span></div>
-      </div>
-    </div>
-    <div style="margin-top:2.5rem;text-align:center;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-      <a href="evidence/" class="btn btn-ghost"
-        style="text-decoration:none;font-size:13px;display:inline-flex;align-items:center;gap:0.4rem;">
-        <svg class="ico" width="13" height="13" aria-hidden="true">
-          <use href="assets/icons.svg#seal-diamond"></use>
-        </svg>
-        Evidence Library →
-      </a>
-      <a href="meta/reports/2026-06-15-the-gaia-trust-methodology-evidence-types-grades-and-inherited-standing.html"
-        class="btn btn-ghost"
-        style="text-decoration:none;font-size:13px;display:inline-flex;align-items:center;gap:0.4rem;" target="_blank">
-        <svg class="ico" width="13" height="13" aria-hidden="true">
-          <use href="assets/icons.svg#info"></use>
-        </svg>
-        Read Trust Methodology →
-      </a>
     </div>
   </section>
 
@@ -779,36 +537,27 @@
     <p class="section-sub">Recent registry curation, schema migrations, and audit passes.</p>
     <div class="path-meta-queue" id="meta-report-callout">
       <!-- gaia-posts-start -->
-      <a href="meta/reports/2026-06-14-the-gaia-trust-methodology-evidence-types-grades-and-inherited-standing.html"
-        class="pmq-post">
-        <span class="pmq-label">Trust Model</span>
-        <h4 class="pmq-title">The GAIA Trust Methodology: Evidence Types, Grades, and Inherited Standing <span
-            class="meta-peek-arrow" style="float: right;">↗</span></h4>
-        <p class="pmq-summary">How GAIA replaced evidence classes and numeric scores with Types, Grades, and inherited
-          standing.</p>
-      </a>
-      <a href="meta/reports/2026-06-03-chained-curation-thirteen-starless-references-and-a-unique-reclassification.html"
-        class="pmq-post">
+      <a href="meta/reports/2026-06-03-chained-curation-thirteen-starless-references-and-a-unique-reclassification.html" class="pmq-post">
         <span class="pmq-label">Curation Pass</span>
-        <h4 class="pmq-title">Chained Curation: Thirteen Starless References and a Unique Reclassification <span
-            class="meta-peek-arrow" style="float: right;">↗</span></h4>
-        <p class="pmq-summary">Gated chain adds 13 starless references; feed-monitoring reclassified from Unique to
-          Basic.</p>
+        <h4 class="pmq-title">Chained Curation: Thirteen Starless References and a Unique Reclassification <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
+        <p class="pmq-summary">Gated chain adds 13 starless references; feed-monitoring reclassified from Unique to Basic.</p>
       </a>
       <a href="meta/reports/2026-06-02-june-week-1-meta-update.html" class="pmq-post">
         <span class="pmq-label">Registry Update</span>
         <h4 class="pmq-title">June Week 1 Meta Update <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
-        <p class="pmq-summary">Origin reassignments, URL curation, and CLI enhancements — extended by a whole-registry
-          automated meta sweep with adversarial verification and a before/after confusion matrix.</p>
+        <p class="pmq-summary">Origin reassignments, URL curation, and CLI enhancements — extended by a whole-registry automated meta sweep with adversarial verification and a before/after confusion matrix.</p>
+      </a>
+      <a href="meta/reports/2026-05-31-starless-skills-update.html" class="pmq-post">
+        <span class="pmq-label">Schema Migration</span>
+        <h4 class="pmq-title">Starless Skills Update <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
+        <p class="pmq-summary">Generic skill taxonomy refactored as rank-free, with star-based prestige reserved for named implementations.</p>
       </a>
       <!-- gaia-posts-end -->
       <button type="button" class="pmq-changelog-btn" id="metaChangelogBtnPath">Open Meta Changelog →</button>
     </div>
     <div class="meta-reports-cta">
       <a href="meta.html" class="btn btn-unique">
-        <svg class="ico" width="14" height="14" aria-hidden="true">
-          <use href="assets/icons.svg#info" />
-        </svg>
+        <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#info"/></svg>
         Open All Reports →
       </a>
     </div>
@@ -818,30 +567,18 @@
 
   <!-- ─── FOOTER ─── -->
   <div id="site-footer-mount"></div>
-  <script src="js/site-footer.js?v=4.8.1"></script>
+  <script src="js/site-footer.js?v=4.8.3"></script>
 
   <!-- ─── SKILL EXPLORER OVERLAY ─── -->
-  <div id="skillExplorer" class="skill-explorer" role="dialog" aria-modal="true" aria-label="Skill Explorer"
-    tabindex="-1">
+  <div id="skillExplorer" class="skill-explorer" role="dialog" aria-modal="true" aria-label="Skill Explorer" tabindex="-1">
     <div class="se-topbar">
-      <button id="seBack" class="se-btn-ghost"><svg class="ico" width="16" height="16" aria-hidden="true">
-          <use href="assets/icons.svg#arrow-back" />
-        </svg> Back</button>
+      <button id="seBack" class="se-btn-ghost"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#arrow-back"/></svg> Back</button>
       <span id="seBreadcrumb" class="se-breadcrumb"></span>
       <div class="se-topbar-actions">
-        <button id="seOpenRepo" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true">
-            <use href="assets/icons.svg#github" />
-          </svg> Repo</button>
-        <button id="seSkillDocs" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true">
-            <use href="assets/icons.svg#external-link" />
-          </svg> SKILL.md</button>
-        <button id="seShare" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true">
-            <use href="assets/icons.svg#share" />
-          </svg> Share</button>
-        <button id="seClose" class="se-btn-ghost se-close-x" aria-label="Close"><svg class="ico" width="14" height="14"
-            aria-hidden="true">
-            <use href="assets/icons.svg#close-x" />
-          </svg></button>
+        <button id="seOpenRepo" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#github"/></svg> Repo</button>
+        <button id="seSkillDocs" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#external-link"/></svg> SKILL.md</button>
+        <button id="seShare" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#share"/></svg> Share</button>
+        <button id="seClose" class="se-btn-ghost se-close-x" aria-label="Close"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#close-x"/></svg></button>
       </div>
     </div>
     <div class="se-body">
@@ -863,23 +600,13 @@
     <div class="meta-sidebar-header">
       <span class="meta-sidebar-title">Meta Changelog</span>
       <div class="meta-sidebar-actions">
-        <button id="metaCopyBtn" class="meta-btn-icon" title="Copy entire changelog in Markdown format"
-          aria-label="Copy changelog"><svg class="ico" width="15" height="15" aria-hidden="true">
-            <use href="assets/icons.svg#copy" />
-          </svg></button>
-        <button id="metaDownloadBtn" class="meta-btn-icon" title="Download changelog as gaia-meta-changelog.md"
-          aria-label="Download changelog"><svg class="ico" width="16" height="16" aria-hidden="true">
-            <use href="assets/icons.svg#download" />
-          </svg></button>
-        <button id="metaCloseBtn" class="meta-btn-icon meta-btn-close" title="Minimize Meta Changelog"
-          aria-label="Minimize"><svg class="ico" width="14" height="14" aria-hidden="true">
-            <use href="assets/icons.svg#chevron-down" />
-          </svg></button>
+        <button id="metaCopyBtn" class="meta-btn-icon" title="Copy entire changelog in Markdown format" aria-label="Copy changelog"><svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg></button>
+        <button id="metaDownloadBtn" class="meta-btn-icon" title="Download changelog as gaia-meta-changelog.md" aria-label="Download changelog"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg></button>
+        <button id="metaCloseBtn" class="meta-btn-icon meta-btn-close" title="Minimize Meta Changelog" aria-label="Minimize"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#chevron-down"/></svg></button>
       </div>
     </div>
     <div class="meta-sidebar-body">
-      <p class="meta-sidebar-intro">A living chronicle of registry evolution: every rank-up, name claim, fusion, and
-        evidence review recorded.</p>
+      <p class="meta-sidebar-intro">A living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.</p>
       <div class="mr-controls">
         <div class="mr-filter-tabs" id="mrFilterTabs" role="tablist" aria-label="Meta changelog filter">
           <button class="mr-tab active" type="button" data-action="all" role="tab" aria-selected="true">All</button>
@@ -894,20 +621,15 @@
       <div class="mr-timeline" id="mrTimeline">
         <div class="mr-loading">Synthesizing changelog…</div>
       </div>
-
+      
       <!-- ─── PAGINATION CONTROLS ─── -->
       <div class="mr-pagination" id="mrPagination" style="display:none">
-        <button id="mrPrevPage" class="meta-btn-icon mr-pagination-prev" title="Previous Page"
-          aria-label="Previous Page">
-          <svg class="ico" width="14" height="14" aria-hidden="true">
-            <use href="assets/icons.svg#chevron-down" />
-          </svg>
+        <button id="mrPrevPage" class="meta-btn-icon mr-pagination-prev" title="Previous Page" aria-label="Previous Page">
+          <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#chevron-down"/></svg>
         </button>
         <span id="mrPageNum" class="mr-page-num">Page 1 of 1</span>
         <button id="mrNextPage" class="meta-btn-icon mr-pagination-next" title="Next Page" aria-label="Next Page">
-          <svg class="ico" width="14" height="14" aria-hidden="true">
-            <use href="assets/icons.svg#chevron-down" />
-          </svg>
+          <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#chevron-down"/></svg>
         </button>
       </div>
     </div>
@@ -927,35 +649,28 @@
         <span class="usp-prompt">$</span>
         <span id="uspCmd" class="usp-cmd">gaia propose /web-search</span>
         <button class="usp-copy" id="uspCopyBtn" title="Copy command" aria-label="Copy command">
-          <svg class="ico" width="13" height="13" aria-hidden="true">
-            <use href="assets/icons.svg#copy" />
-          </svg>
+          <svg class="ico" width="13" height="13" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg>
         </button>
       </div>
     </div>
   </div>
 
   <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
-    <svg class="ico" width="20" height="20" aria-hidden="true">
-      <use href="assets/icons.svg#arrow-up" />
-    </svg>
+    <svg class="ico" width="20" height="20" aria-hidden="true"><use href="assets/icons.svg#arrow-up"/></svg>
   </button>
 
   <!-- ─── SCRIPTS ─── -->
   <!-- icons.js already loaded in <head> so gaiaIcon() is available before any of these. -->
-  <script src="js/atlas-helpers.js?v=4.8.1"></script>
-  <script src="js/skill-graph.js?v=4.8.1"></script>
-  <script src="js/hud-toggle.js?v=4.8.1"></script>
-  <script src="js/scroll-reveal.js?v=4.8.1"></script>
+  <script src="js/atlas-helpers.js?v=4.8.3"></script>
+  <script src="js/skill-graph.js?v=4.8.3"></script>
+  <script src="js/hud-toggle.js?v=4.8.3"></script>
+  <script src="js/scroll-reveal.js?v=4.8.3"></script>
   <!-- Universal AlphaRail component + page-wide integration (section markers
        above the explorer; dynamic type/letter/tier markers inside it). -->
-  <!--
-  <script src="js/alpha-rail.js?v=4.8.1"></script>
-  <script src="js/index-rail.js?v=4.8.1"></script>
--->
-  <script src="js/ui.js?v=4.8.1"></script>
-  <script src="js/page-ia.js?v=4.8.1"></script>
-  <script src="js/plaque-reveal.js?v=4.8.1" defer></script>
+  <script src="js/alpha-rail.js?v=4.8.3"></script>
+  <script src="js/ui.js?v=4.8.3"></script>
+  <script src="js/page-ia.js?v=4.8.3"></script>
+  <script src="js/plaque-reveal.js?v=4.8.3" defer></script>
 
   <!-- ── Share modal (single instance) — opened from plaque__share-btn ── -->
   <div class="share-modal" hidden role="dialog" aria-modal="true" aria-labelledby="share-modal-title" id="shareModal">
@@ -967,28 +682,21 @@
       <img class="share-modal__preview" data-share-preview alt="OG card preview">
       <div class="share-modal__actions">
         <a class="share-action share-action--download" data-share-action="download" download>
-          <svg class="ico" width="16" height="16">
-            <use href="assets/icons.svg#download"></use>
-          </svg> Download
+          <svg class="ico" width="16" height="16"><use href="assets/icons.svg#download"></use></svg> Download
         </a>
         <button class="share-action share-action--copy" type="button" data-share-action="copy">
-          <svg class="ico" width="16" height="16">
-            <use href="assets/icons.svg#copy"></use>
-          </svg> Copy link
+          <svg class="ico" width="16" height="16"><use href="assets/icons.svg#copy"></use></svg> Copy link
         </button>
         <a class="share-action share-action--x" data-share-action="x" target="_blank" rel="noopener">
-          <svg class="ico" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true">
-            <path d="M2.5 2.5 L13.5 13.5 M13.5 2.5 L2.5 13.5" stroke="currentColor" stroke-width="1.8"
-              stroke-linecap="round" />
+          <svg class="ico" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M2.5 2.5 L13.5 13.5 M13.5 2.5 L2.5 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
           </svg> X
         </a>
         <button class="share-action share-action--instagram" type="button" data-share-action="instagram">
-          <svg class="ico" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true">
-            <rect x="2" y="2" width="12" height="12" rx="3.5" stroke="currentColor" stroke-width="1.5" />
-            <circle cx="8" cy="8" r="2.8" stroke="currentColor" stroke-width="1.5" />
-            <circle cx="11.4" cy="4.6" r="0.8" fill="currentColor" />
+          <svg class="ico" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="2" y="2" width="12" height="12" rx="3.5" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="8" cy="8" r="2.8" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="11.4" cy="4.6" r="0.8" fill="currentColor"/>
           </svg> Instagram
         </button>
       </div>
@@ -1000,9 +708,7 @@
   <div id="hohFullscreenModal" class="hoh-fs-modal" aria-hidden="true" tabindex="-1">
     <div class="hoh-fs-header">
       <button class="hoh-fs-btn hoh-fs-btn--close" data-fs-action="close" title="Close modal" aria-label="Close modal">
-        <svg class="ico" width="16" height="16" aria-hidden="true">
-          <use href="assets/icons.svg#close-x"></use>
-        </svg>
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#close-x"></use></svg>
       </button>
     </div>
 
@@ -1013,20 +719,15 @@
     <!-- Compact confirm pill — visible by default; clicking Yes reveals the README panel. -->
     <div class="hoh-fs-confirm" id="hohFsConfirm" role="group" aria-label="Confirm contributor">
       <span class="hoh-fs-confirm-text">Are you <span id="hohFsHandleText">@handle</span>?</span>
-      <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--yes" data-fs-action="confirm-yes"
-        aria-label="Yes, this is me">Yes</button>
-      <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--no" data-fs-action="confirm-no"
-        aria-label="No, dismiss notification">No</button>
+      <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--yes" data-fs-action="confirm-yes" aria-label="Yes, this is me">Yes</button>
+      <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--no" data-fs-action="confirm-no" aria-label="No, dismiss notification">No</button>
     </div>
 
     <!-- Share/download actions — bottom right, out of the way of card text -->
     <div class="hoh-fs-footer">
       <div class="hoh-dl-wrap" id="hohDlWrap">
-        <button class="hoh-fs-btn" data-fs-action="download" title="Download OG Image Card"
-          aria-label="Download OG Image Card" aria-expanded="false" aria-controls="hohDlPopover">
-          <svg class="ico" width="16" height="16" aria-hidden="true">
-            <use href="assets/icons.svg#download"></use>
-          </svg>
+        <button class="hoh-fs-btn" data-fs-action="download" title="Download OG Image Card" aria-label="Download OG Image Card" aria-expanded="false" aria-controls="hohDlPopover">
+          <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"></use></svg>
         </button>
         <div class="hoh-dl-popover" id="hohDlPopover" role="dialog" aria-label="Choose download format" hidden>
           <div class="hoh-dl-popover-hint">1200×630px &middot; For social media sharing</div>
@@ -1041,20 +742,13 @@
         </div>
       </div>
       <button class="hoh-fs-btn" data-fs-action="copy" title="Copy Link" aria-label="Copy Link">
-        <svg class="ico" width="16" height="16" aria-hidden="true">
-          <use href="assets/icons.svg#link"></use>
-        </svg>
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#link"></use></svg>
       </button>
       <button class="hoh-fs-btn" data-fs-action="x" title="Share on X" aria-label="Share on X">
-        <svg class="ico" width="16" height="16" aria-hidden="true">
-          <use href="assets/icons.svg#x"></use>
-        </svg>
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#x"></use></svg>
       </button>
-      <button class="hoh-fs-btn" data-fs-action="instagram" title="Copy OG Link & Open Instagram"
-        aria-label="Copy OG Link & Open Instagram">
-        <svg class="ico" width="16" height="16" aria-hidden="true">
-          <use href="assets/icons.svg#instagram"></use>
-        </svg>
+      <button class="hoh-fs-btn" data-fs-action="instagram" title="Copy OG Link & Open Instagram" aria-label="Copy OG Link & Open Instagram">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#instagram"></use></svg>
       </button>
     </div>
 
@@ -1062,70 +756,49 @@
       <div class="hoh-fs-overlay-header">
         <div class="hoh-fs-overlay-title">Add to your README.md!</div>
         <div class="hoh-fs-overlay-controls">
-          <button type="button" class="hoh-fs-overlay-ctl" data-fs-action="overlay-minimize" aria-label="Minimize"
-            title="Minimize">
-            <svg class="ico" width="14" height="14" aria-hidden="true" viewBox="0 0 16 16">
-              <path d="M3 12h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-            </svg>
+          <button type="button" class="hoh-fs-overlay-ctl" data-fs-action="overlay-minimize" aria-label="Minimize" title="Minimize">
+            <svg class="ico" width="14" height="14" aria-hidden="true" viewBox="0 0 16 16"><path d="M3 12h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
           </button>
-          <button type="button" class="hoh-fs-overlay-ctl" data-fs-action="overlay-close" aria-label="Close panel"
-            title="Close panel">
-            <svg class="ico" width="14" height="14" aria-hidden="true">
-              <use href="assets/icons.svg#close-x"></use>
-            </svg>
+          <button type="button" class="hoh-fs-overlay-ctl" data-fs-action="overlay-close" aria-label="Close panel" title="Close panel">
+            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#close-x"></use></svg>
           </button>
         </div>
       </div>
       <div class="hoh-fs-overlay-body">
         <img id="hohFsBadgePreview" class="hoh-fs-badge-img" src="" alt="Gaia contributor badge">
         <div class="hoh-fs-code-wrap">
-          <code id="hohFsCodeBlock"
-            class="hoh-fs-code">[![Gaia](https://gaia.tiongson.co/badges/handle/handle.svg)](https://gaia.tiongson.co/u/handle/)</code>
-          <button id="hohFsCopyBtn" class="hoh-fs-copy-btn hoh-fs-copy-btn--icon" type="button"
-            aria-label="Copy markdown" title="Copy markdown">
-            <svg class="ico" width="14" height="14" aria-hidden="true">
-              <use href="assets/icons.svg#copy"></use>
-            </svg>
+          <code id="hohFsCodeBlock" class="hoh-fs-code">[![Gaia](https://gaia.tiongson.co/badges/handle/handle.svg)](https://gaia.tiongson.co/u/handle/)</code>
+          <button id="hohFsCopyBtn" class="hoh-fs-copy-btn hoh-fs-copy-btn--icon" type="button" aria-label="Copy markdown" title="Copy markdown">
+            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#copy"></use></svg>
           </button>
         </div>
       </div>
-      <p id="hohFsDisclaimer" class="hoh-fs-disclaimer">Are you <span class="hoh-fs-disclaimer-handle"></span>? This
-        will only work on <span class="hoh-fs-disclaimer-handle"></span>&rsquo;s repo!</p>
+      <p id="hohFsDisclaimer" class="hoh-fs-disclaimer">Are you <span class="hoh-fs-disclaimer-handle"></span>? This will only work on <span class="hoh-fs-disclaimer-handle"></span>&rsquo;s repo!</p>
       <div>
         <a id="hohFsBadgesLink" href="badges/" class="hoh-fs-copy-btn" style="text-decoration:none;font-size:11px;">
-          <svg class="ico" width="12" height="12" aria-hidden="true">
-            <use href="assets/icons.svg#seal-diamond"></use>
-          </svg> Get all your badges →
+          <svg class="ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#seal-diamond"></use></svg> Get all your badges →
         </a>
       </div>
     </div>
 
     <!-- Minimized chip — appears after the README panel is minimized so the user can re-open it. -->
-    <button type="button" class="hoh-fs-overlay-restore" id="hohFsOverlayRestore" data-fs-action="overlay-restore"
-      aria-label="Show README panel" hidden>
-      <svg class="ico" width="14" height="14" aria-hidden="true">
-        <use href="assets/icons.svg#seal-diamond"></use>
-      </svg>
+    <button type="button" class="hoh-fs-overlay-restore" id="hohFsOverlayRestore" data-fs-action="overlay-restore" aria-label="Show README panel" hidden>
+      <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#seal-diamond"></use></svg>
       <span>Add to README</span>
     </button>
 
     <!-- Fullscreen toggle — always pinned bottom-right. -->
-    <button type="button" class="hoh-fs-fullscreen-btn" data-fs-action="fullscreen" aria-label="Toggle fullscreen"
-      title="Toggle fullscreen">
+    <button type="button" class="hoh-fs-fullscreen-btn" data-fs-action="fullscreen" aria-label="Toggle fullscreen" title="Toggle fullscreen">
       <svg class="ico hoh-fs-fullscreen-enter" width="16" height="16" aria-hidden="true" viewBox="0 0 16 16">
         <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M2 6V2h4" />
-          <path d="M14 6V2h-4" />
-          <path d="M2 10v4h4" />
-          <path d="M14 10v4h-4" />
+          <path d="M2 6V2h4"/><path d="M14 6V2h-4"/>
+          <path d="M2 10v4h4"/><path d="M14 10v4h-4"/>
         </g>
       </svg>
       <svg class="ico hoh-fs-fullscreen-exit" width="16" height="16" aria-hidden="true" viewBox="0 0 16 16">
         <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6 2v4H2" />
-          <path d="M10 2v4h4" />
-          <path d="M6 14v-4H2" />
-          <path d="M10 14v-4h4" />
+          <path d="M6 2v4H2"/><path d="M10 2v4h4"/>
+          <path d="M6 14v-4H2"/><path d="M10 14v-4h4"/>
         </g>
       </svg>
     </button>
@@ -1133,100 +806,98 @@
 
   <div id="hohFsToast" class="hoh-fs-toast" role="status" aria-live="polite">Permalink copied!</div>
 
-  <script src="js/profile-share.js?v=4.8.1"></script>
-  <script src="js/hoh-modal.js?v=4.8.1"></script>
+  <script src="js/profile-share.js?v=4.8.3"></script>
+  <script src="js/hoh-modal.js?v=4.8.3"></script>
 
   <!-- ─── REVIEW SHOWCASE SIMULATOR ─── -->
   <script>
-    (function () {
-      const startBtn = document.getElementById("startReviewSimBtn");
-      const localConsole = document.getElementById("localSimConsole");
-      const remoteConsole = document.getElementById("remoteSimConsole");
-      let isRunning = false;
+  (function() {
+    const startBtn = document.getElementById("startReviewSimBtn");
+    const localConsole = document.getElementById("localSimConsole");
+    const remoteConsole = document.getElementById("remoteSimConsole");
+    let isRunning = false;
 
-      function addLocalLog(msg, type = "system") {
-        const line = document.createElement("div");
-        line.className = `line ${type}`;
-        line.innerHTML = msg;
-        localConsole.appendChild(line);
-        localConsole.scrollTop = localConsole.scrollHeight;
-      }
+    function addLocalLog(msg, type = "system") {
+      const line = document.createElement("div");
+      line.className = `line ${type}`;
+      line.innerHTML = msg;
+      localConsole.appendChild(line);
+      localConsole.scrollTop = localConsole.scrollHeight;
+    }
 
-      function addRemoteLog(msg, type = "system") {
-        const line = document.createElement("div");
-        line.className = `line ${type}`;
-        line.innerHTML = msg;
-        remoteConsole.appendChild(line);
-        remoteConsole.scrollTop = remoteConsole.scrollHeight;
-      }
+    function addRemoteLog(msg, type = "system") {
+      const line = document.createElement("div");
+      line.className = `line ${type}`;
+      line.innerHTML = msg;
+      remoteConsole.appendChild(line);
+      remoteConsole.scrollTop = remoteConsole.scrollHeight;
+    }
 
-      if (startBtn && localConsole && remoteConsole) {
-        startBtn.addEventListener("click", () => {
-          if (isRunning) return;
-          isRunning = true;
-          startBtn.disabled = true;
-          startBtn.innerText = "Running...";
-          localConsole.innerHTML = "";
-          remoteConsole.innerHTML = "";
+    if (startBtn && localConsole && remoteConsole) {
+      startBtn.addEventListener("click", () => {
+        if (isRunning) return;
+        isRunning = true;
+        startBtn.disabled = true;
+        startBtn.innerText = "Running...";
+        localConsole.innerHTML = "";
+        remoteConsole.innerHTML = "";
 
-          const timeline = [
-            // Step 1: gaia init
-            { delay: 300, action: () => addLocalLog("<span class='cmd'>$ gaia init</span>", "cmd") },
-            { delay: 500, action: () => addLocalLog("[System] Initializing Gaia workspace...", "system") },
-            { delay: 500, action: () => addLocalLog("[System] Created `.gaia/config.json` and registry templates.", "pass") },
+        const timeline = [
+          // Step 1: gaia init
+          { delay: 300, action: () => addLocalLog("<span class='cmd'>$ gaia init</span>", "cmd") },
+          { delay: 500, action: () => addLocalLog("[System] Initializing Gaia workspace...", "system") },
+          { delay: 500, action: () => addLocalLog("[System] Created `.gaia/config.json` and registry templates.", "pass") },
+          
+          // Step 2: gaia scan
+          { delay: 800, action: () => addLocalLog("<span class='cmd'>$ gaia scan</span>", "cmd") },
+          { delay: 600, action: () => addLocalLog("[System] Scanning workspace repositories for evidence...", "system") },
+          { delay: 600, action: () => addLocalLog("[System] Found capability: `openai/swarm` (awakened status)", "system") },
+          { delay: 600, action: () => addLocalLog("[System] Found evidence: Class B (reproducible repo file)", "pass") },
 
-            // Step 2: gaia scan
-            { delay: 800, action: () => addLocalLog("<span class='cmd'>$ gaia scan</span>", "cmd") },
-            { delay: 600, action: () => addLocalLog("[System] Scanning workspace repositories for evidence...", "system") },
-            { delay: 600, action: () => addLocalLog("[System] Found capability: `openai/swarm` (awakened status)", "system") },
-            { delay: 600, action: () => addLocalLog("[System] Found evidence: Class B (reproducible repo file)", "pass") },
+          // Step 4: gaia push (creates GitHub issue)
+          { delay: 1000, action: () => addLocalLog("<span class='cmd'>$ gaia push</span>", "cmd") },
+          { delay: 600, action: () => addLocalLog("[System] Reading registry-for-review/ folder...", "system") },
+          { delay: 600, action: () => addLocalLog("[System] Running schema validation...", "system") },
+          { delay: 600, action: () => addLocalLog("[Gate g1-g3] PASS! Local schema check verified, 0 cycles.", "pass") },
+          { delay: 800, action: () => addLocalLog("[System] Creating GitHub Intake Issue automatically...", "system") },
+          { delay: 800, action: () => addLocalLog("[System] Created GitHub Intake Issue #402!", "pass") },
 
-            // Step 4: gaia push (creates GitHub issue)
-            { delay: 1000, action: () => addLocalLog("<span class='cmd'>$ gaia push</span>", "cmd") },
-            { delay: 600, action: () => addLocalLog("[System] Reading registry-for-review/ folder...", "system") },
-            { delay: 600, action: () => addLocalLog("[System] Running schema validation...", "system") },
-            { delay: 600, action: () => addLocalLog("[Gate g1-g3] PASS! Local schema check verified, 0 cycles.", "pass") },
-            { delay: 800, action: () => addLocalLog("[System] Creating GitHub Intake Issue automatically...", "system") },
-            { delay: 800, action: () => addLocalLog("[System] Created GitHub Intake Issue #402!", "pass") },
+          // Step 5: Remote Reviewer Gate processes
+          { delay: 1000, action: () => addRemoteLog("[GitHub] Detected Intake Issue #402: \"Intake: Add openai/swarm\"", "system") },
+          { delay: 800, action: () => addRemoteLog("[System] Launching automated Reviewer Agent checks...", "system") },
+          { delay: 800, action: () => addRemoteLog("[Reviewer Agent] Verifying evidence URLs...", "check-run") },
+          { delay: 800, action: () => addRemoteLog("[Reviewer Agent] PASS! Verified Class B source is a valid github blob URL.", "pass") },
+          { delay: 800, action: () => addRemoteLog("[Reviewer Agent] Checking for prerequisite duplicates...", "check-run") },
+          { delay: 800, action: () => addRemoteLog("[Reviewer Agent] PASS! Concept is novel and maps to generic Literature Search.", "pass") },
+          { delay: 800, action: () => addRemoteLog("[Reviewer Agent] Leaving review checklist comment on Issue #402.", "pass") },
 
-            // Step 5: Remote Reviewer Gate processes
-            { delay: 1000, action: () => addRemoteLog("[GitHub] Detected Intake Issue #402: \"Intake: Add openai/swarm\"", "system") },
-            { delay: 800, action: () => addRemoteLog("[System] Launching automated Reviewer Agent checks...", "system") },
-            { delay: 800, action: () => addRemoteLog("[Reviewer Agent] Verifying evidence URLs...", "check-run") },
-            { delay: 800, action: () => addRemoteLog("[Reviewer Agent] PASS! Verified Class B source is a valid github blob URL.", "pass") },
-            { delay: 800, action: () => addRemoteLog("[Reviewer Agent] Checking for prerequisite duplicates...", "check-run") },
-            { delay: 800, action: () => addRemoteLog("[Reviewer Agent] PASS! Concept is novel and maps to generic Literature Search.", "pass") },
-            { delay: 800, action: () => addRemoteLog("[Reviewer Agent] Leaving review checklist comment on Issue #402.", "pass") },
+          // Step 6: Maintainer approval
+          { delay: 1200, action: () => addRemoteLog("[Maintainer] Performing manual check on Issue #402...", "user") },
+          { delay: 800, action: () => addRemoteLog("[Maintainer] Decision: APPROVED (openai/swarm renames to `openai/swarm-agent` at 3★)", "user") },
+          { delay: 800, action: () => addRemoteLog("[System] Merging PR, promoting status to `named`, and locking version...", "pass") },
+          { delay: 600, action: () => {
+            addRemoteLog("[System] Curation complete! Skill is now part of the canonical atlas.", "pass");
+            startBtn.disabled = false;
+            isRunning = false;
+            startBtn.innerText = "Simulate Review";
+          }}
+        ];
 
-            // Step 6: Maintainer approval
-            { delay: 1200, action: () => addRemoteLog("[Maintainer] Performing manual check on Issue #402...", "user") },
-            { delay: 800, action: () => addRemoteLog("[Maintainer] Decision: APPROVED (openai/swarm renames to `openai/swarm-agent` at 3★)", "user") },
-            { delay: 800, action: () => addRemoteLog("[System] Merging PR, promoting status to `named`, and locking version...", "pass") },
-            {
-              delay: 600, action: () => {
-                addRemoteLog("[System] Curation complete! Skill is now part of the canonical atlas.", "pass");
-                startBtn.disabled = false;
-                isRunning = false;
-                startBtn.innerText = "Simulate Review";
-              }
-            }
-          ];
+        let currentFrame = 0;
+        function runNext() {
+          if (currentFrame >= timeline.length) return;
+          const frame = timeline[currentFrame];
+          setTimeout(() => {
+            frame.action();
+            currentFrame++;
+            runNext();
+          }, frame.delay);
+        }
 
-          let currentFrame = 0;
-          function runNext() {
-            if (currentFrame >= timeline.length) return;
-            const frame = timeline[currentFrame];
-            setTimeout(() => {
-              frame.action();
-              currentFrame++;
-              runNext();
-            }, frame.delay);
-          }
-
-          runNext();
-        });
-      }
-    })();
+        runNext();
+      });
+    }
+  })();
   </script>
 
 </body>
@@ -1234,5 +905,5 @@
 </html>
 
 <!-- gaia:stats-start -->
-<!-- skills=228; namedSkills=183; uniqueSkills=1; version=4.8.1 -->
+<!-- skills=228; namedSkills=183; uniqueSkills=1; version=4.8.3 -->
 <!-- gaia:stats-end -->

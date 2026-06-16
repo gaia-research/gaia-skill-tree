@@ -273,3 +273,20 @@ The following files are managed by an autonomous agent (Hermes) and should **not
 - `docs/SHOWCASE.html`
 - `docs/WHY-GAIA.md`
 - `docs/QUICKSTART.md`
+
+## Workspace Rules (Agent Directives)
+
+### Coding Style & Naming Conventions
+- Avoid using underscores (`_`) in functions and variables, unless they are explicitly provided in existing names or templates (except dunder functions like `__init__`, `__str__`, etc.).
+
+### Branch Workflow
+- When starting fresh and indicating a PR, you are authorized to work on the PR branch right away. GO TO THE PR BRANCH, not the `claude/` branch.
+
+### Skills Intake
+- When referring to skills that are not installed, check first if they are in the `.agents` directory.
+
+### Token Spend Logging (Critical)
+- On EVERY GitHub Project, LOG how much input / output token spend you made on which model + date.
+  - *Example format*: `<date> Opus 4.8 Extra High: 100k in, 200k out. ~$10`
+  - Simply report to the user the spend at the end of the session run EVERY commit push. Write this as a comment (when working on a PR, write on the PR. When working on an issue, write as part of the issue comment at the end).
+
