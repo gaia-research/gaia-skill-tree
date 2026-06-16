@@ -598,14 +598,27 @@
 
     var evidenceHtml = '';
     if (generic && Array.isArray(generic.evidence) && generic.evidence.length) {
-      evidenceHtml = '<div class="se-docs-block"><h4>Evidence</h4>' +
+      evidenceHtml = '<div class="se-docs-block"><h4>Evidence</h4><div class="grade-bar" style="max-width: 100%;">' +
         generic.evidence.map(function(ev){
-          return '<div class="se-evidence-row">' +
-            '<span class="se-ev-class">'+esc(ev.class||'?')+'</span>' +
-            '<a class="se-ev-link" href="'+esc(ev.source||'#')+'" target="_blank" rel="noopener">'+esc(ev.source||'—')+'</a>' +
-            '<span class="se-ev-date">'+esc(ev.date||'')+'</span>' +
+          var gradeChar = (ev.class || '?').toUpperCase().charAt(0);
+          var gradeClass = 'grade-ungraded';
+          if (gradeChar === 'S') gradeClass = 'grade-plat';
+          else if (gradeChar === 'A') gradeClass = 'grade-gold';
+          else if (gradeChar === 'B') gradeClass = 'grade-silver';
+          else if (gradeChar === 'C') gradeClass = 'grade-bronze';
+
+          var gradeName = gradeChar !== '?' ? gradeChar : '-';
+
+          return '<div class="grade-row" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border);">' +
+            '<div class="grade-segment ' + gradeClass + '" style="flex: 0 0 40px; border-radius: 0; box-shadow: none;">' +
+              '<span class="grade-label">' + esc(gradeName) + '</span>' +
+            '</div>' +
+            '<div style="flex: 1; display: flex; align-items: center; padding: 0 12px; gap: 12px; overflow: hidden;">' +
+              '<a class="se-ev-link" href="' + esc(ev.source||'#') + '" target="_blank" rel="noopener" style="flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text);">' + esc(ev.source||'—') + '</a>' +
+              '<span style="color: var(--muted); font-family: var(--font-mono); font-size: 0.8rem; flex-shrink: 0;">' + esc(ev.date||'') + '</span>' +
+            '</div>' +
           '</div>';
-        }).join('') + '</div>';
+        }).join('') + '</div></div>';
     }
 
     var demeritText = (generic && Array.isArray(generic.demerits) && generic.demerits.length)
