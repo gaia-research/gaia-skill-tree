@@ -164,6 +164,33 @@ class TestInstallModule(unittest.TestCase):
         self.assertFalse(result)
 
     @patch("gaia_cli.install._run_git", return_value=True)
+    def test_install_handles_leading_slash(self, mock_run_git):
+        """install_skill handles leading slash in skill ID."""
+        from gaia_cli.install import install_skill, load_manifest
+        result = install_skill("/alice/my-skill", self.registry)
+        self.assertTrue(result)
+        manifest = load_manifest()
+        ids = [e["id"] for e in manifest["installed"]]
+        self.assertIn("alice/my-skill", ids)
+
+    def test_info_handles_leading_slash(self):
+        """skills info handles leading slash in skill ID."""
+        from gaia_cli.main import skills_command
+        import argparse
+        args = argparse.Namespace(
+            skills_command="info",
+            skill_id="/alice/my-skill",
+            registry=self.registry,
+            exclude_pending=False
+        )
+        import io
+        from contextlib import redirect_stdout
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            skills_command(args)
+        self.assertIn("alice/my-skill", buf.getvalue())
+
+    @patch("gaia_cli.install._run_git", return_value=True)
     def test_update_skills_pulls_repos(self, mock_run_git):
         """update_skills runs git pull on installed repos."""
         import io

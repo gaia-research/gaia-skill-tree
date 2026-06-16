@@ -2526,7 +2526,14 @@ def skills_command(args):
         ctx = None
 
     if verb == "info":
-        q = args.skill_id.lstrip("/")
+        from gaia_cli.install import resolve_named_skill_reference
+        try:
+            resolved_id, _ = resolve_named_skill_reference(args.skill_id, args.registry)
+        except ValueError as e:
+            print(f"Error: {e}", file=sys.stderr)
+            sys.exit(1)
+
+        q = resolved_id if resolved_id else args.skill_id.lstrip("/")
         match = next((item for item in items if item.get("id") == q), None)
         if not match:
             print(f"Skill '/{q}' not found.", file=sys.stderr)
