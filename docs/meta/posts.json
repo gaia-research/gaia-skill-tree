@@ -1,13 +1,24 @@
 {
   "posts": [
     {
-      "id": "2026-06-14-the-gaia-trust-methodology-evidence-types-grades-and-inherited-standing",
+      "id": "2026-06-17-g7-trust-magnitude-supersedes-the-2026-06-15-methodology",
       "type": "report",
-      "date": "2026-06-14",
+      "date": "2026-06-17",
+      "title": "G7 Trust Magnitude Supersedes the 2026-06-15 Methodology",
+      "summary": "How GAIA's Trust Magnitude (S≥250 / A≥100 / B≥50 / C≥20) sits on top of per-row Evidence Grades, and why both currently-6★ skills demote at G7 cutover.",
+      "label": "Trust Model",
+      "url": "meta/reports/2026-06-17-g7-trust-magnitude-supersedes-the-2026-06-15-methodology.html",
+      "author": "Marco Tiongson, Maintainer",
+      "source": "docs/meta/2026-06-17-g7-trust-magnitude-supersession.md"
+    },
+    {
+      "id": "2026-06-15-the-gaia-trust-methodology-evidence-types-grades-and-inherited-standing",
+      "type": "report",
+      "date": "2026-06-15",
       "title": "The GAIA Trust Methodology: Evidence Types, Grades, and Inherited Standing",
       "summary": "How GAIA replaced evidence classes and numeric scores with Types, Grades, and inherited standing.",
       "label": "Trust Model",
-      "url": "meta/reports/2026-06-14-the-gaia-trust-methodology-evidence-types-grades-and-inherited-standing.html",
+      "url": "meta/reports/2026-06-15-the-gaia-trust-methodology-evidence-types-grades-and-inherited-standing.html",
       "author": "Marco Tiongson, Maintainer",
       "source": "docs/meta/2026-06-trust-methodology.md"
     },

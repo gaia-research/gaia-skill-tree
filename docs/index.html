@@ -205,9 +205,9 @@
       </div>
     </div>
     <!-- gaia-hero-post-start -->
-    <a href="meta/reports/2026-06-03-chained-curation-thirteen-starless-references-and-a-unique-reclassification.html" class="hero-audit-btn" target="_blank" aria-label="View Curation Pass">
+    <a href="meta/reports/2026-06-17-g7-trust-magnitude-supersedes-the-2026-06-15-methodology.html" class="hero-audit-btn" target="_blank" aria-label="View Trust Model">
       <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#info"/></svg>
-      <span>Curation Pass</span>
+      <span>Trust Model</span>
       <span class="hero-audit-btn-arrow">↗</span>
     </a>
     <!-- gaia-hero-post-end -->
@@ -528,6 +528,55 @@
 
   <div class="section-divider"></div>
 
+  <!-- ─── EVIDENCE GRADE ─── -->
+  <!-- Restored from pre-merge 6d1a1311:docs/index.html L729-771, recalibrated
+       to G7 Trust Magnitude thresholds (founder/handovers/G7_TRUST_TAXONOMY_RFC.md
+       §0, on dev/orchestrator-phase1-closeout). Per-row Evidence Grade and
+       skill-level Overall Trust Grade are both canonical at different layers;
+       this homepage section communicates the aggregate scale. Reuses
+       .grade-bar / .grade-segment from styles.css L10281+. -->
+  <section id="evidence-cycle" class="reveal evidence-cycle-section" data-section="evidence-cycle">
+    <h2>Evidence Grade</h2>
+    <p class="section-sub">A skill earns its Overall Trust Grade by the strength of the evidence behind it. Four tiers — Bronze, Silver, Gold, Platinum — mark the aggregate Trust Magnitude that a skill's evidence pool reaches.</p>
+    <div class="grade-bar">
+      <div class="grade-row">
+        <div class="grade-segment grade-plat"><span class="grade-label">Platinum (S) ≥ 250 trust</span></div>
+      </div>
+      <div class="grade-row">
+        <div class="grade-segment grade-gold"><span class="grade-label">Gold (A) ≥ 100 trust</span></div>
+      </div>
+      <div class="grade-row">
+        <div class="grade-segment grade-silver"><span class="grade-label">Silver (B) ≥ 50 trust</span></div>
+      </div>
+      <div class="grade-row">
+        <div class="grade-segment grade-bronze"><span class="grade-label">Bronze (C) ≥ 20 trust</span></div>
+      </div>
+      <div class="grade-row">
+        <div class="grade-segment grade-ungraded"><span class="grade-label">Ungraded</span></div>
+      </div>
+    </div>
+    <p class="section-sub" style="max-width:680px;margin:1.5rem auto 0;font-size:14px;opacity:0.85;">Each piece of evidence (a repo, a benchmark, a peer-reviewed paper) earns its own per-row Evidence Grade. The numbers above are the aggregate Trust Magnitude thresholds the rows must combine to clear. See the methodology report for the full formula.</p>
+    <div style="margin-top:2.5rem;text-align:center;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a href="evidence/" class="btn btn-ghost"
+        style="text-decoration:none;font-size:13px;display:inline-flex;align-items:center;gap:0.4rem;">
+        <svg class="ico" width="13" height="13" aria-hidden="true">
+          <use href="assets/icons.svg#seal-diamond"></use>
+        </svg>
+        Evidence Library →
+      </a>
+      <a href="meta/reports/2026-06-15-the-gaia-trust-methodology-evidence-types-grades-and-inherited-standing.html"
+        class="btn btn-ghost"
+        style="text-decoration:none;font-size:13px;display:inline-flex;align-items:center;gap:0.4rem;" target="_blank">
+        <svg class="ico" width="13" height="13" aria-hidden="true">
+          <use href="assets/icons.svg#info"></use>
+        </svg>
+        Read Trust Methodology →
+      </a>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
   <!-- ─── META REPORTS ─── -->
   <!-- Lifted out of #paths so the home page reads top-down as
        hero → paths → heroes → ascension → meta. The list itself is
@@ -537,22 +586,22 @@
     <p class="section-sub">Recent registry curation, schema migrations, and audit passes.</p>
     <div class="path-meta-queue" id="meta-report-callout">
       <!-- gaia-posts-start -->
-      <a href="meta/reports/2026-06-03-chained-curation-thirteen-starless-references-and-a-unique-reclassification.html" class="pmq-post">
-        <span class="pmq-label">Curation Pass</span>
-        <h4 class="pmq-title">Chained Curation: Thirteen Starless References and a Unique Reclassification <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
-        <p class="pmq-summary">Gated chain adds 13 starless references; feed-monitoring reclassified from Unique to Basic.</p>
-      </a>
-      <a href="meta/reports/2026-06-02-june-week-1-meta-update.html" class="pmq-post">
-        <span class="pmq-label">Registry Update</span>
-        <h4 class="pmq-title">June Week 1 Meta Update <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
-        <p class="pmq-summary">Origin reassignments, URL curation, and CLI enhancements — extended by a whole-registry automated meta sweep with adversarial verification and a before/after confusion matrix.</p>
-      </a>
-      <a href="meta/reports/2026-05-31-starless-skills-update.html" class="pmq-post">
-        <span class="pmq-label">Schema Migration</span>
-        <h4 class="pmq-title">Starless Skills Update <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
-        <p class="pmq-summary">Generic skill taxonomy refactored as rank-free, with star-based prestige reserved for named implementations.</p>
-      </a>
-      <!-- gaia-posts-end -->
+          <a href="meta/reports/2026-06-17-g7-trust-magnitude-supersedes-the-2026-06-15-methodology.html" class="pmq-post">
+            <span class="pmq-label">Trust Model</span>
+            <h4 class="pmq-title">G7 Trust Magnitude Supersedes the 2026-06-15 Methodology <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
+            <p class="pmq-summary">How GAIA's Trust Magnitude (S≥250 / A≥100 / B≥50 / C≥20) sits on top of per-row Evidence Grades, and why both currently-6★ skills demote at G7 cutover.</p>
+          </a>
+          <a href="meta/reports/2026-06-15-the-gaia-trust-methodology-evidence-types-grades-and-inherited-standing.html" class="pmq-post">
+            <span class="pmq-label">Trust Model</span>
+            <h4 class="pmq-title">The GAIA Trust Methodology: Evidence Types, Grades, and Inherited Standing <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
+            <p class="pmq-summary">How GAIA replaced evidence classes and numeric scores with Types, Grades, and inherited standing.</p>
+          </a>
+          <a href="meta/reports/2026-06-03-chained-curation-thirteen-starless-references-and-a-unique-reclassification.html" class="pmq-post">
+            <span class="pmq-label">Curation Pass</span>
+            <h4 class="pmq-title">Chained Curation: Thirteen Starless References and a Unique Reclassification <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
+            <p class="pmq-summary">Gated chain adds 13 starless references; feed-monitoring reclassified from Unique to Basic.</p>
+          </a>
+          <!-- gaia-posts-end -->
       <button type="button" class="pmq-changelog-btn" id="metaChangelogBtnPath">Open Meta Changelog →</button>
     </div>
     <div class="meta-reports-cta">
