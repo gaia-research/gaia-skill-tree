@@ -32,3 +32,7 @@
 ## 2026-06-12 - Optimize difflib.SequenceMatcher loops
 **Learning:** Instantiating `difflib.SequenceMatcher` inside nested loops is extremely slow. Additionally, recalculating properties of strings like calling `.lower()` repeatedly for the same item causes significant O(N*M) CPU thrash when evaluating Cartesian products (like candidate skills vs. canonical skills).
 **Action:** Pre-compute string lowercasing and other metrics on lists *outside* of similarity loops. Instantiate `SequenceMatcher` objects *once* per candidate, then use `.set_seq2()` to rapidly test inner loop items. Always apply `.real_quick_ratio()` and `.quick_ratio()` early returns before executing `.ratio()`.
+
+## 2026-06-16 - Optimize repetitive string parsing in fallback matchers
+**Learning:** During directory scanning, `match_skill_to_canonical` repeatedly stripped, split, and lowercased string properties for canonical and named skills *for every single custom skill matched*. String allocations in Python within nested loops cause a measurable CPU bottleneck when N scans are performed against M items.
+**Action:** Attach local memoization caches (e.g. `_norm_cache`) directly to the match functions so that properties invariant across inner loops (like the canonical base name and exact name normalization) are computed only once per registry item and instantly retrieved on subsequent evaluations.

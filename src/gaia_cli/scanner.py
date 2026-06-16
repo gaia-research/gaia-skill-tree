@@ -398,7 +398,6 @@ def match_skill_to_canonical(skill_id, skill_name, skill_description, canonical_
 
     Returns (matched_id, score, match_type) or None.
     """
-    query_name_lower = skill_name.lower().strip()
     query_id_lower = skill_id.lower().strip()
 
     def normalize_name(n):
@@ -407,35 +406,43 @@ def match_skill_to_canonical(skill_id, skill_name, skill_description, canonical_
     query_name_norm = normalize_name(skill_name)
     query_id_norm = normalize_name(skill_id)
 
-    # 1. Exact/base ID or normalized name match in ORIGIN priority
-    if origin_skills:
-        for canon in origin_skills:
+    # ⚡ Bolt Optimization: Cache string normalizations to prevent O(N*M) redundant parsing overhead
+    # In exact match checks, we repeatedly evaluate the same canonical skills against different
+    # custom skills. Caching their base ID and normalized name speeds up this scan significantly.
+    if not hasattr(match_skill_to_canonical, "_norm_cache"):
+        match_skill_to_canonical._norm_cache = {}
+
+    def _check_skills(skills_list, match_type):
+        if not skills_list:
+            return None
+        for canon in skills_list:
             canon_id = canon["id"]
-            canon_base = canon_id.split('/')[-1].lower().strip()
-            canon_name_norm = normalize_name(canon.get('name', ''))
+            if canon_id not in match_skill_to_canonical._norm_cache:
+                canon_base = canon_id.split('/')[-1].lower().strip()
+                canon_name_norm = normalize_name(canon.get('name', ''))
+                match_skill_to_canonical._norm_cache[canon_id] = (canon_base, canon_name_norm)
+            else:
+                canon_base, canon_name_norm = match_skill_to_canonical._norm_cache[canon_id]
+
             # Slash-aware identity check
             if canon_base == query_id_lower or f"/{canon_base}" == query_id_lower or canon_name_norm == query_name_norm or canon_name_norm == query_id_norm:
-                return (canon_id, 1.0, "origin")
+                return (canon_id, 1.0, match_type)
+        return None
+
+    # 1. Exact/base ID or normalized name match in ORIGIN priority
+    res = _check_skills(origin_skills, "origin")
+    if res:
+        return res
 
     # 2. Exact/base ID or normalized name match in NAMED priority
-    if named_skills:
-        for canon in named_skills:
-            canon_id = canon["id"]
-            canon_base = canon_id.split('/')[-1].lower().strip()
-            canon_name_norm = normalize_name(canon.get('name', ''))
-            # Slash-aware identity check
-            if canon_base == query_id_lower or f"/{canon_base}" == query_id_lower or canon_name_norm == query_name_norm or canon_name_norm == query_id_norm:
-                return (canon_id, 1.0, "named")
+    res = _check_skills(named_skills, "named")
+    if res:
+        return res
 
     # 3. Exact ID or normalized name match in GENERIC (canonical) skills
-    if canonical_skills:
-        for canon in canonical_skills:
-            canon_id = canon["id"]
-            canon_base = canon_id.split('/')[-1].lower().strip()
-            canon_name_norm = normalize_name(canon.get('name', ''))
-            # Slash-aware identity check
-            if canon_base == query_id_lower or f"/{canon_base}" == query_id_lower or canon_name_norm == query_name_norm or canon_name_norm == query_id_norm:
-                return (canon_id, 1.0, "exact_generic")
+    res = _check_skills(canonical_skills, "exact_generic")
+    if res:
+        return res
 
     # 4. Semantic search ONLY on STARLESS/generic skills
     query_words = _word_set(f"{skill_id} {skill_name} {skill_description}")
