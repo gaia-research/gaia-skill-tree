@@ -1398,9 +1398,21 @@
     document.body.style.overflow = 'hidden';
   };
 
-  // Cache the original .se-body markup so we can restore it after a
-  // cold-load placeholder is shown. Captured lazily on the first call.
-  var _seBodyOriginalHTML = null;
+  // Constant skeleton for the .se-body. Restored after a cold-load placeholder
+  // so the render functions always have a complete set of mount points to
+  // populate. Replaces an earlier "snapshot the live markup on first open"
+  // strategy that could capture a partially-modified DOM and leave subsequent
+  // opens missing #se-docs / #se-upgrade / #se-changelog (cascading throws).
+  var SE_BODY_SKELETON =
+    '<div class="se-hero">' +
+      '<div id="seHero"></div>' +
+      '<div id="se-upgrade" class="se-flow-section"></div>' +
+    '</div>' +
+    '<div class="se-flow" id="seFlow">' +
+      '<div id="se-install" class="se-flow-section"></div>' +
+      '<div id="se-docs" class="se-flow-section"></div>' +
+      '<div id="se-changelog" class="se-flow-section"></div>' +
+    '</div>';
   function _ensureSeLoadingStyles() {
     if (document.getElementById('se-loading-styles')) return;
     var style = document.createElement('style');
@@ -1417,7 +1429,8 @@
     _ensureSeLoadingStyles();
     var bodyEl = explorerEl.querySelector('.se-body');
     if (!bodyEl) return;
-    if (_seBodyOriginalHTML === null) _seBodyOriginalHTML = bodyEl.innerHTML;
+    // No snapshot capture — we restore from SE_BODY_SKELETON, not from a
+    // possibly-tainted live capture.
     // Install command is computable from the id alone — render it on the
     // same paint as the spinner so the user sees the value of opening the
     // modal even on a cold data fetch (~6s in the worst case). The full
@@ -1461,9 +1474,26 @@
     if (retry) retry.onclick = function(){ openExplorer(id); };
   }
   function _restoreSeBody(explorerEl) {
-    if (_seBodyOriginalHTML === null) return;
     var bodyEl = explorerEl.querySelector('.se-body');
-    if (bodyEl) bodyEl.innerHTML = _seBodyOriginalHTML;
+    if (bodyEl) bodyEl.innerHTML = SE_BODY_SKELETON;
+  }
+
+  // Wrap a render call so a thrown exception is logged but does not skip the
+  // sections that follow. Falls back to a small "Section unavailable" notice
+  // inside the matching mount, leaving the rest of the modal intact.
+  function _safeRender(name, mountId, fn) {
+    try {
+      fn();
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('[skill-explorer]', name, 'render failed:', err);
+      var el = document.getElementById(mountId);
+      if (el) {
+        el.innerHTML =
+          '<div class="se-flow-h">' + esc(name) + ' &mdash; section unavailable</div>' +
+          '<div class="se-empty">This section could not render. Open DevTools console for the underlying error.</div>';
+      }
+    }
   }
 
   function openExplorer(id) {
@@ -1589,10 +1619,13 @@
       renderHero(ns, generic);
       _currentNs = ns;
       renderDescription(ns, generic);
-      renderInstall(ns);
-      renderDocs(ns, generic);
-      renderFlowchart(ns, generic);
-      renderTimeline(ns, generic);
+      // Each section is wrapped: a thrown exception in one render must not
+      // cascade and skip the remaining sections (regression observed where
+      // a renderInstall edge-case left Upgrade / Docs / Changelog blank).
+      _safeRender('Install',  'se-install',   function(){ renderInstall(ns); });
+      _safeRender('Docs',     'se-docs',      function(){ renderDocs(ns, generic); });
+      _safeRender('Upgrade',  'se-upgrade',   function(){ renderFlowchart(ns, generic); });
+      _safeRender('Timeline', 'se-changelog', function(){ renderTimeline(ns, generic); });
 
       // Accessibility: Move focus to the modal close button
       var closeBtn = document.getElementById('seClose');
