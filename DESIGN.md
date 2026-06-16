@@ -95,15 +95,15 @@ A starless ref's *effective rank* (the top star among its named variants) may be
 
 Evidence items are evaluated and assigned quality grades. Their visual representations use horizontal metric bars with the following styling rules:
 
-| Grade | Label | Background Color | Text Color |
+| Grade | Label | Background Texture | Text Color |
 |---|---|---|---|
-| S | Platinum | `#f8fafc` | `#020617` (High contrast dark) |
-| A | Gold | `var(--grade-A)` | `#451a03` (Deep brown) |
-| B | Silver | `var(--grade-B)` | `#0f172a` (Dark slate) |
-| C | Bronze | `var(--grade-C)` | `#fffbeb` (Light warm) |
-| - | Ungraded | `transparent` with `var(--border)` stroke | `var(--muted)` |
+| S | Platinum | Stylized tempered blue-iridescent titanium (`#ecf4ff` to `#a5c7eb`) with radial highlights and animated shimmer sweep | `#0b2545` (Deep navy contrast) |
+| A | Gold | `var(--grade-A)` base with fine linear brush and static polished reflection | `#451a03` (Deep brown) |
+| B | Silver | Darker matte steel/slate grey (`#8a99ad` to `#475569`) with coarser linear brush and matte reflection | `#0f172a` (Dark slate) |
+| C | Bronze | `var(--grade-C)` base with rough linear texture and tarnished, minimal reflection | `#fffbeb` (Light warm) |
+| - | Ungraded | `transparent` with `var(--border)` stroke (no texture) | `var(--muted)` |
 
-> **Note:** Platinum intentionally uses `#f8fafc` (near white) rather than its legacy `--grade-S` slate token to guarantee visual separation from Silver (`var(--grade-B)` / `#94a3b8`). Evidence bars use `var(--font-mono)` to emphasize their role as metric ledgers.
+> **Note:** The grades utilize multi-layered CSS repeating gradients (radial for Platinum, linear for others) and horizontal SVG fractal noise overlays to achieve a metallic texture that descends in polish and detail according to the grade. Platinum adds an iridescent tempered look (violet, cyan, and gold hints) and an animated shimmer sweep for the highest hierarchy, while Silver is deliberately darkened to maximize contrast against Platinum, and Bronze carries a tarnished, rougher appearance. Evidence bars use `var(--font-mono)` to emphasize their role as metric ledgers.
 
 ---
 
