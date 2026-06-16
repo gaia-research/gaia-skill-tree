@@ -193,6 +193,93 @@ def meta_verify_command(args):
         _run_docs_build(args.registry)
 
 
+def _loadSkillForVerification(registry_path: str, skill_id: str):
+    """Locate a skill's record + write-back closure for verification updates.
+
+    Returns ``(record, writeback)`` where ``record`` is the in-memory dict
+    (json node or YAML frontmatter) and ``writeback`` is a no-arg callable
+    that persists the mutated ``record`` back to disk. Returns ``(None, None)``
+    if the skill is not found.
+    """
+    if "/" in skill_id:
+        named_dir = Path(named_skills_dir(registry_path))
+        named_file = _find_named_file(named_dir, skill_id)
+        if not named_file:
+            return None, None
+        meta, body = _parse_md(named_file)
+
+        def writeNamed(captured_meta=meta, captured_body=body, captured_path=named_file):
+            captured_meta["updatedAt"] = datetime.date.today().isoformat()
+            _write_md(captured_path, captured_meta, captured_body)
+
+        return meta, writeNamed
+
+    nodes_dir = Path(registry_nodes_dir(registry_path))
+    for p in nodes_dir.glob("**/*.json"):
+        try:
+            with open(p, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except (OSError, json.JSONDecodeError):
+            continue
+        if data.get("id") == skill_id:
+            captured_path = p
+
+            def writeGeneric(captured_data=data, p=captured_path):
+                captured_data["updatedAt"] = datetime.date.today().isoformat()
+                with open(p, "w", encoding="utf-8") as f:
+                    json.dump(captured_data, f, indent=2, ensure_ascii=False)
+                    f.write("\n")
+
+            return data, writeGeneric
+    return None, None
+
+
+def meta_verify_tier_command(args):
+    """Recompute and persist a skill's verification tier.
+
+    Reads the skill's evidence list and timeline, evaluates the four tiers
+    defined in ``gaia_cli.verification``, writes the resulting headline tier
+    to ``record.verification.tier`` (with a fresh ``tierEvaluatedAt``), and
+    prints the same pass/fail breakdown that ``gaia skills info`` surfaces.
+    """
+    from gaia_cli.verification import (
+        filterScanEvents,
+        resolveTier,
+        utcNow,
+    )
+
+    registry_path = args.registry
+    skill_id = args.skill_id.lstrip("/")
+
+    record, writeback = _loadSkillForVerification(registry_path, skill_id)
+    if record is None:
+        print(f"Error: Skill '{skill_id}' not found.", file=sys.stderr)
+        sys.exit(1)
+
+    evidence = record.get("evidence") or []
+    timeline = record.get("timeline") or []
+    scanEvents = filterScanEvents(timeline)
+    now = utcNow()
+
+    highest, statusMap = resolveTier(record, evidence, scanEvents, now)
+
+    verification = record.setdefault("verification", {})
+    verification["tier"] = highest
+    verification["tierEvaluatedAt"] = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    writeback()
+
+    headline = highest if highest else "(none)"
+    print(f"Verification: {headline}")
+    # Print every tier so the operator sees the full breakdown.
+    from gaia_cli.verification import TIER_ORDER
+
+    for tier in reversed(TIER_ORDER):
+        status = statusMap[tier]
+        marker = "✓" if status["passed"] else "✗"
+        print(f"  {marker} {tier} -- {status['reason']}")
+
+
 def meta_list_command(args):
     registry_path = args.registry
     graph_path = registry_graph_path(registry_path)
@@ -1135,6 +1222,11 @@ def meta_evidence_command(args):
             sys.exit(1)
         meta, body = _parse_md(named_file)
         result_entry = _apply(meta.setdefault("evidence", []))
+        # Stamp tenure baseline on the first evidence-add only.
+        if index is None:
+            from gaia_cli.verification import stampFirstEvidenceAt
+
+            stampFirstEvidenceAt(meta)
         meta["updatedAt"] = datetime.date.today().isoformat()
         _write_md(named_file, meta, body)
     else:
@@ -1157,6 +1249,11 @@ def meta_evidence_command(args):
         with open(node_file, "r", encoding="utf-8") as f:
             data = json.load(f)
         result_entry = _apply(data.setdefault("evidence", []))
+        # Stamp tenure baseline on the first evidence-add only.
+        if index is None:
+            from gaia_cli.verification import stampFirstEvidenceAt
+
+            stampFirstEvidenceAt(data)
         data["updatedAt"] = datetime.date.today().isoformat()
         with open(node_file, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)

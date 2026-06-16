@@ -159,6 +159,34 @@
         }
       },
       "description": "Users who have adopted this named skill via gaia install."
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Verification tier state for this named skill. Recomputed by `gaia dev verify-tier` and surfaced in `gaia skills info`. The `tier` field stores the highest tier currently satisfied (or null); `firstEvidenceAt` is the tenure baseline for the enterprise-ready tier.",
+      "properties": {
+        "tier": {
+          "type": ["string", "null"],
+          "enum": [
+            null,
+            "community-verified",
+            "benchmark-verified",
+            "security-reviewed",
+            "enterprise-ready"
+          ],
+          "description": "Highest verification tier this skill currently satisfies, or null if no tier is met."
+        },
+        "tierEvaluatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of the most recent tier recomputation."
+        },
+        "firstEvidenceAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of the first `evidence_added` event. Used as the tenure baseline for the enterprise-ready tier."
+        }
+      }
     }
   },
   "definitions": {
@@ -266,7 +294,8 @@
             "evidence_graded",
             "type_change",
             "verified",
-            "disputed"
+            "disputed",
+            "security_scan_passed"
           ],
           "description": "The meta-action that occurred."
         },

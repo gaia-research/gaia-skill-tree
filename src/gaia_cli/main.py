@@ -49,6 +49,7 @@ from gaia_cli.commands.dev import (
     meta_timeline_command,
     meta_rename_command,
     meta_verify_command,
+    meta_verify_tier_command,
     meta_calibrate_command,
     meta_evidence_command,
     meta_rm_evidence_command,
@@ -274,6 +275,7 @@ MUTATING_DEV_COMMANDS = frozenset(
         "timeline",
         "rm",
         "verify",
+        "verify-tier",
         "build",
     }
 )
@@ -2503,6 +2505,72 @@ def _pending_skills(registry_path: str, username: str | None = None) -> list[dic
     return pending
 
 
+def _load_skill_record_for_info(skill_id: str, registry_path: str) -> dict | None:
+    """Load the on-disk record for a skill so verification can be recomputed.
+
+    Returns the parsed dict (named-skill YAML frontmatter or generic-skill JSON
+    node), or None when the skill cannot be located. Used by `gaia skills info`
+    to reach the evidence + timeline arrays that the named-index summary view
+    omits.
+    """
+    from gaia_cli.commands.dev import (
+        _find_named_file,
+        _parse_md,
+    )
+    from gaia_cli.registry import named_skills_dir, registry_nodes_dir
+
+    if "/" in skill_id:
+        named_dir = Path(named_skills_dir(registry_path))
+        target = _find_named_file(named_dir, skill_id)
+        if not target:
+            return None
+        meta, _ = _parse_md(target)
+        return meta or {}
+
+    nodes_dir = Path(registry_nodes_dir(registry_path))
+    if not nodes_dir.is_dir():
+        return None
+    for path in nodes_dir.glob("**/*.json"):
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                data = json.load(fh)
+        except (OSError, json.JSONDecodeError):
+            continue
+        if data.get("id") == skill_id:
+            return data
+    return None
+
+
+def _print_verification_block(skill_id: str, registry_path: str) -> None:
+    """Print the 4-tier verification breakdown for a skill, if computable.
+
+    Recomputed on the fly from disk so the output is fresh even when the
+    cached `verification.tier` field is missing or stale. Stays silent when
+    the underlying record cannot be loaded (no noisy errors during info).
+    """
+    record = _load_skill_record_for_info(skill_id, registry_path)
+    if record is None:
+        return
+
+    from gaia_cli.verification import (
+        TIER_ORDER,
+        filterScanEvents,
+        resolveTier,
+        utcNow,
+    )
+
+    evidence = record.get("evidence") or []
+    timeline = record.get("timeline") or []
+    scanEvents = filterScanEvents(timeline)
+    highest, statusMap = resolveTier(record, evidence, scanEvents, utcNow())
+    headline = highest if highest else "(none)"
+    print(f"  Verification: {headline}")
+    for tier in reversed(TIER_ORDER):
+        status = statusMap[tier]
+        marker = "✓" if status["passed"] else "✗"
+        print(f"    {marker} {tier} — {status['reason']}")
+
+
 def skills_command(args):
 
     config = load_config() or {}
@@ -2594,6 +2662,7 @@ def skills_command(args):
         print(f"  Level: {format_level_colored(level)}")
         if match.get("description"):
             print(f"  {match['description']}")
+        _print_verification_block(sid, args.registry)
         return
     if not items:
         print("No skills found.")
@@ -3340,6 +3409,14 @@ def get_parser():
         help="Skip rebuilding docs and graph assets after verification",
     )
 
+    dev_verify_tier = dev_sub.add_parser(
+        "verify-tier",
+        help="Recompute and persist a skill's verification tier (community/benchmark/security/enterprise)",
+    )
+    dev_verify_tier.add_argument(
+        "skill_id", help="Skill ID (generic ref or contributor/named) to evaluate"
+    )
+
     dev_calibrate = dev_sub.add_parser("calibrate", help="Update the level of a skill")
     dev_calibrate.add_argument("skill_id", help="Skill ID to calibrate")
     dev_calibrate.add_argument("level", help="New level (e.g. 3★)")
@@ -3820,6 +3897,8 @@ def main():
             meta_rename_command(args)
         elif dev_cmd == "verify":
             meta_verify_command(args)
+        elif dev_cmd == "verify-tier":
+            meta_verify_tier_command(args)
         elif dev_cmd == "calibrate":
             meta_calibrate_command(args)
         elif dev_cmd == "add":
