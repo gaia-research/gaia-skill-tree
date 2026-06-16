@@ -12,6 +12,9 @@ from .treeManager import load_tree, save_tree
 from .registry import promotion_candidates_path, registry_graph_path
 from .leveling import level_index, effective_level
 
+# Grade ordering for evidence rows: S > A > B > C (index 0 = strongest).
+_GRADE_ORDER = ["S", "A", "B", "C"]
+
 
 def _load_meta():
     """Load registry/schema/meta.json from repo root or bundled fallback."""
@@ -60,14 +63,48 @@ def _get_skill_from_tree(tree_data: dict, skill_id: str) -> dict | None:
     return None
 
 
+def _effective_grade(ev: dict) -> str | None:
+    """Return the effective grade for a single evidence row.
+
+    Reads ``grade`` first (S/A/B/C, per G7 Trust Taxonomy RFC).  Falls back to
+    ``class`` (A/B/C legacy) when ``grade`` is absent.  Returns None for rows
+    that carry neither a recognised grade nor a recognised class (ungraded).
+    """
+    grade = ev.get("grade")
+    if grade in _GRADE_ORDER:
+        return grade
+    cls = ev.get("class")
+    if cls in _GRADE_ORDER:
+        return cls
+    return None
+
+
 def _meets_evidence_floor(graph_skill: dict, target_level: str) -> bool:
-    """Check whether the graph skill has evidence meeting the floor for target_level."""
+    """Check whether the graph skill has evidence meeting the floor for target_level.
+
+    The floor list (e.g. ["B", "A"]) means "at least one evidence row whose
+    effective grade is >= the weakest letter in the list".  Grade ordering is
+    S > A > B > C so S satisfies any floor including ["A"].
+
+    Evidence rows are evaluated via :func:`_effective_grade`, which reads the
+    ``grade`` field first (new) and falls back to ``class`` (legacy).  Rows
+    with neither field are ignored.
+    """
     required_classes = EVIDENCE_FLOOR.get(target_level)
     if required_classes is None:
         return True
+    # The floor list encodes "at least one row at grade >= min(floor)".
+    # Determine the weakest acceptable grade index (highest index in _GRADE_ORDER).
+    floor_index = max(
+        (_GRADE_ORDER.index(f) for f in required_classes if f in _GRADE_ORDER),
+        default=len(_GRADE_ORDER),
+    )
     evidence_list = graph_skill.get("evidence", [])
     for ev in evidence_list:
-        if ev.get("class") in required_classes:
+        grade = _effective_grade(ev)
+        if grade is None:
+            continue
+        if _GRADE_ORDER.index(grade) <= floor_index:
             return True
     return False
 

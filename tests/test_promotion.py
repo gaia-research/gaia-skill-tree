@@ -13,6 +13,8 @@ from gaia_cli.promotion import (
     check_promotion_eligibility,
     promote_skill,
     promotion_state,
+    _effective_grade,
+    _meets_evidence_floor,
 )
 
 
@@ -327,3 +329,94 @@ class TestConstants:
 
     def test_level_names_apex(self):
         assert LEVEL_NAMES["6★"] == "Apex"
+
+
+# ---------------------------------------------------------------------------
+# Tests: _effective_grade and _meets_evidence_floor (grade/class translation)
+# ---------------------------------------------------------------------------
+
+
+class TestGradeTranslation:
+    """Tests for evidence grade/class fallback logic in _meets_evidence_floor.
+
+    Per G7 Trust Taxonomy RFC: evidence[].grade (S/A/B/C) supersedes the
+    legacy evidence[].class (A/B/C).  Floor lists encode "at least one row at
+    grade >= the weakest letter in the list".  Grade ordering: S > A > B > C.
+    """
+
+    # 1. Legacy: class-only row passes a ["B","A"] floor.
+    def test_legacy_class_only_passes_floor(self):
+        """A row with only class="B" (no grade field) satisfies a ["B","A"] floor."""
+        skill = _make_skill(
+            "legacy-skill",
+            evidence=[{"class": "B", "source": "http://x.com", "evaluator": "x",
+                        "date": "2026-01-01", "notes": ""}],
+        )
+        assert _meets_evidence_floor(skill, "3★") is True
+
+    # 2. New: grade-only row passes a ["B","A"] floor.
+    def test_new_grade_only_passes_floor(self):
+        """A row with only grade="B" (no class field) satisfies a ["B","A"] floor."""
+        skill = _make_skill(
+            "graded-skill",
+            evidence=[{"grade": "B", "source": "http://x.com", "evaluator": "x",
+                        "date": "2026-01-01", "notes": ""}],
+        )
+        assert _meets_evidence_floor(skill, "3★") is True
+
+    # 3. Mixed list: one class-only + one grade-only together pass a ["B","A"] floor.
+    def test_mixed_class_and_grade_rows_pass_floor(self):
+        """A list with one class-only (C) and one grade-only (B) entry passes ["B","A"]."""
+        skill = _make_skill(
+            "mixed-skill",
+            evidence=[
+                {"class": "C", "source": "http://c.com", "evaluator": "x",
+                 "date": "2026-01-01", "notes": "class-only"},
+                {"grade": "B", "source": "http://b.com", "evaluator": "x",
+                 "date": "2026-01-01", "notes": "grade-only"},
+            ],
+        )
+        assert _meets_evidence_floor(skill, "3★") is True
+
+    # 4. Boundary: grade="C" only FAILS a ["B","A"] floor.
+    def test_grade_c_fails_b_floor(self):
+        """A row with only grade="C" does NOT satisfy a ["B","A"] floor."""
+        skill = _make_skill(
+            "weak-skill",
+            evidence=[{"grade": "C", "source": "http://x.com", "evaluator": "x",
+                        "date": "2026-01-01", "notes": ""}],
+        )
+        assert _meets_evidence_floor(skill, "3★") is False
+
+    # 5. Bonus: S satisfies an A floor (["A"]).
+    def test_grade_s_satisfies_a_floor(self):
+        """A row with grade="S" satisfies a ["A"] floor (6★ gate). S > A."""
+        skill = _make_skill(
+            "apex-skill",
+            evidence=[{"grade": "S", "source": "http://x.com", "evaluator": "x",
+                        "date": "2026-01-01", "notes": ""}],
+        )
+        assert _meets_evidence_floor(skill, "6★") is True
+
+    # 6. Ungraded entry (no class, no grade) is ignored.
+    def test_ungraded_entry_ignored(self):
+        """An entry with neither class nor grade does not satisfy any floor."""
+        skill = _make_skill(
+            "ungraded-skill",
+            evidence=[{"source": "http://x.com", "evaluator": "x",
+                        "date": "2026-01-01", "notes": "no grade or class"}],
+        )
+        assert _meets_evidence_floor(skill, "2★") is False
+
+    # Integration: grade-only evidence propagates through check_promotion_eligibility.
+    def test_grade_only_evidence_enables_eligibility(self):
+        """A skill with grade-only evidence is included in promotion candidates."""
+        ev = [{"grade": "B", "source": "http://x.com", "evaluator": "x",
+               "date": "2026-01-01", "notes": ""}]
+        graph = _make_graph(_make_skill("graded-skill", evidence=ev))
+        tree = _make_tree("alice", [_make_unlocked("graded-skill", "2★")])
+        eligible = check_promotion_eligibility(graph, tree)
+        assert len(eligible) == 1
+        assert eligible[0]["skillId"] == "graded-skill"
+        assert eligible[0]["nextLevel"] == "3★"
+
