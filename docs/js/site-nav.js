@@ -17,7 +17,7 @@
   //   /u/                        → depth 1  → root = '../'
   //   /u/mbtiongson1/            → depth 2  → root = '../../'
   //
-  const MOUNTS = ['named', 'en', 'badges', 'u', 'samples', 'graph'];
+  const MOUNTS = ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence'];
   const segs = window.location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
   const dir = /\.html?$/i.test(segs[segs.length - 1]) ? segs.slice(0, -1) : segs;
 
@@ -67,6 +67,7 @@
     { type: 'link', href: root + 'starless.html', label: 'Starless',           color: 'var(--muted)' },
     { type: 'link', href: root + 'u/',            label: 'Named Contributors', color: 'var(--honor-red)' },
     { type: 'link', href: root + 'meta.html',     label: 'Meta Reports',       cls: 'nav-meta', id: 'metaNavBtn' },
+    { type: 'link', href: root + 'evidence/',     label: 'Evidence Library',   color: 'var(--rank-3)' },
   ];
 
   function li(item) {

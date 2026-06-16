@@ -182,6 +182,31 @@ def build_tokens_css(gaia: dict) -> str:
     for name in type_colors.keys():
         body.append(f"  --{name}: var(--tier-{name});")
 
+    body.append("")
+    body.append("  /* ── Evidence Grade semantic tokens ─────────────────────────── */")
+    body.append("  /* New labels for the evidence-grade philosophy; legacy aliases keep existing UI hooks working. */")
+    evidence_colors = {
+        "platinum": "#e2e8f0",
+        "gold": "#d4af37",
+        "silver": "#cbd5e1",
+        "bronze": "#b45309",
+    }
+    for label, hex_val in evidence_colors.items():
+        rgb_triplet = _rgb_str(_hex_to_rgb_triplet(hex_val))
+        body.append(f"  --evidence-{label}: {hex_val};")
+        body.append(f"  --evidence-{label}-rgb: {rgb_triplet};")
+
+    body.append("  /* ── Legacy grade aliases ───────────────────────────────────── */")
+    grade_aliases = {
+        "S": "platinum",
+        "A": "gold",
+        "B": "silver",
+        "C": "bronze",
+    }
+    for grade, label in grade_aliases.items():
+        body.append(f"  --grade-{grade}: var(--evidence-{label});")
+        body.append(f"  --grade-{grade}-rgb: var(--evidence-{label}-rgb);")
+
     body.append("}")
     body.append("")
     return "\n".join(body)

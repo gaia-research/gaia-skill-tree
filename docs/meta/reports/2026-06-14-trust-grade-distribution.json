@@ -1,0 +1,8 @@
+{
+  "type": "grade-distribution",
+  "generatedAt": "2026-06-14T00:00:00Z",
+  "labels": ["S (Platinum)", "A (Gold)", "B (Silver)", "C (Bronze)", "Ungraded"],
+  "values": [0, 42, 130, 10, 1],
+  "colors": ["#e2e8f0", "#fbbf24", "#94a3b8", "#b45309", "#475569"],
+  "total": 183
+}
