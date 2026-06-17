@@ -1,5 +1,5 @@
 {
-  "curationNotes": "Matt Pocock is a high-credibility TypeScript educator (23,917 GitHub followers, Total TypeScript creator, ex-Vercel) whose mattpocock/skills repository achieved remarkable traction since its February 2026 launch: 132,279 stars and 11,510 forks in roughly 4 months, making it one of the fastest-growing Claude agent skill suites in the ecosystem. The repo self-reports a ~60,000 developer newsletter audience. His npm package @total-typescript/ts-reset draws 1.1M+ weekly downloads, confirming substantial real-world reach beyond the GitHub vanity metrics. The 'skills' npm package (vercel-labs/skills, the CLI installer) recorded 4.76M downloads the week of June 9-15 2026, but that package is maintained by Vercel Labs — not mattpocock directly — so it is proxy-containment evidence rather than direct npm-downloads attribution.\n\nThe suite has 19 active skills across engineering, productivity, and misc categories. The ubiquitous-language and three other skills are formally deprecated (moved to skills/deprecated/). The grill-me, handoff, engineering, productivity, and personal groupings map to the GAIA-registered skill IDs. No individual npm package for 'skills' was published by mattpocock directly; installation is via the skills CLI (vercel-labs). Stars and newsletter count are the strongest first-party signals.",
+  "curationNotes": "Matt Pocock is a high-credibility TypeScript educator (23,917 GitHub followers, Total TypeScript creator, ex-Vercel) whose mattpocock/skills repository achieved remarkable traction since its February 2026 launch: 132,279 stars and 11,510 forks in roughly 4 months, making it one of the fastest-growing Claude agent skill suites in the ecosystem. The repo self-reports a ~60,000 developer newsletter audience. His npm package @total-typescript/ts-reset draws 1.1M+ weekly downloads, confirming substantial real-world reach beyond the GitHub vanity metrics. The 'skills' npm package (vercel-labs/skills, the CLI installer) recorded 4.76M downloads the week of June 9-15 2026, but that package is maintained by Vercel Labs \u2014 not mattpocock directly \u2014 so it is proxy-containment evidence rather than direct npm-downloads attribution.\n\nThe suite has 19 active skills across engineering, productivity, and misc categories. The ubiquitous-language and three other skills are formally deprecated (moved to skills/deprecated/). The grill-me, handoff, engineering, productivity, and personal groupings map to the GAIA-registered skill IDs. No individual npm package for 'skills' was published by mattpocock directly; installation is via the skills CLI (vercel-labs). Stars and newsletter count are the strongest first-party signals.",
   "evidence": [
     {
       "skillId": "mattpocock/skills",
@@ -7,7 +7,8 @@
       "magnitudeRaw": "132279 stars",
       "sourceUrl": "https://api.github.com/repos/mattpocock/skills",
       "observedAt": "2026-06-16",
-      "notes": "Confirmed via GitHub API. 132,279 stars, 11,510 forks, 878 subscribers. Repo created 2026-02-03, last push 2026-06-12. Exceptional growth rate for a ~4-month-old repo."
+      "notes": "Confirmed via GitHub API. 132,279 stars, 11,510 forks, 878 subscribers. Repo created 2026-02-03, last push 2026-06-12. Exceptional growth rate for a ~4-month-old repo.",
+      "sourceStartedAt": "2026-02-03"
     },
     {
       "skillId": "mattpocock/skills",
@@ -15,7 +16,8 @@
       "magnitudeRaw": "11510 forks, 102 commits, 80 open issues, 1 active PR",
       "sourceUrl": "https://github.com/mattpocock/skills",
       "observedAt": "2026-06-16",
-      "notes": "Active maintenance confirmed: 102 commits on main, MIT license, Shell language, 264KB size. Repo description: 'Skills for Real Engineers. Straight from my .claude directory.'"
+      "notes": "Active maintenance confirmed: 102 commits on main, MIT license, Shell language, 264KB size. Repo description: 'Skills for Real Engineers. Straight from my .claude directory.'",
+      "sourceStartedAt": "2026-02-03"
     },
     {
       "skillId": "mattpocock/skills",
@@ -23,7 +25,7 @@
       "magnitudeRaw": "4762680 weekly downloads on 'skills' npm package (vercel-labs/skills)",
       "sourceUrl": "https://api.npmjs.org/downloads/point/last-week/skills",
       "observedAt": "2026-06-16",
-      "notes": "The 'skills' npm CLI (maintained by vercel-labs, repo: github.com/vercel-labs/skills) is the install path for mattpocock/skills via 'npx skills@latest add mattpocock/skills'. 4.76M weekly downloads on the CLI strongly implies mattpocock/skills is among the most installed suites. This is proxy-containment, not direct attribution — the CLI serves multiple contributors' suites."
+      "notes": "The 'skills' npm CLI (maintained by vercel-labs, repo: github.com/vercel-labs/skills) is the install path for mattpocock/skills via 'npx skills@latest add mattpocock/skills'. 4.76M weekly downloads on the CLI strongly implies mattpocock/skills is among the most installed suites. This is proxy-containment, not direct attribution \u2014 the CLI serves multiple contributors' suites."
     },
     {
       "skillId": "mattpocock/skills",
@@ -31,7 +33,8 @@
       "magnitudeRaw": "~60000 newsletter subscribers (self-reported in README)",
       "sourceUrl": "https://raw.githubusercontent.com/mattpocock/skills/main/README.md",
       "observedAt": "2026-06-16",
-      "notes": "README states 'Approximately 60,000 developers follow the accompanying newsletter for skill updates and new releases.' Self-reported; not independently verified, treat as soft signal."
+      "notes": "README states 'Approximately 60,000 developers follow the accompanying newsletter for skill updates and new releases.' Self-reported; not independently verified, treat as soft signal.",
+      "sourceStartedAt": "2026-02-03"
     },
     {
       "skillId": "mattpocock/skills",
@@ -95,17 +98,18 @@
       "magnitudeRaw": "1125716 weekly downloads for @total-typescript/ts-reset (week of 2026-06-09 to 2026-06-15)",
       "sourceUrl": "https://api.npmjs.org/downloads/point/last-week/@total-typescript/ts-reset",
       "observedAt": "2026-06-16",
-      "notes": "Author credibility signal via npm reach. @total-typescript/ts-reset is Matt Pocock's most prominent npm package with 1.1M+ weekly downloads, confirming he has substantial practitioner reach independent of social media. This is author-level trust signal, not direct skills package signal."
+      "notes": "Author credibility signal via npm reach. @total-typescript/ts-reset is Matt Pocock's most prominent npm package with 1.1M+ weekly downloads, confirming he has substantial practitioner reach independent of social media. This is author-level trust signal, not direct skills package signal.",
+      "sourceStartedAt": "2022-09-01"
     }
   ],
   "gapsIdentified": [
-    "No direct npm package published under mattpocock's npm account for the skills suite itself — install is via vercel-labs/skills CLI, so download attribution to mattpocock/skills specifically is impossible to isolate",
+    "No direct npm package published under mattpocock's npm account for the skills suite itself \u2014 install is via vercel-labs/skills CLI, so download attribution to mattpocock/skills specifically is impossible to isolate",
     "Newsletter subscriber count of ~60k is self-reported in README and could not be independently verified via a third-party source",
-    "Twitter/X follower count for @mattpocockuk not retrievable — no web search performed; audio/video appearances exist (Total TypeScript YouTube channel) but specific interview/podcast URLs not confirmed via fetch",
-    "GitHub star count (132k) verified via API but growth trajectory data (stars over time) not fetched — could be gamed; organic growth plausible given author credibility",
-    "mattpocock/personal has only 2 skills (edit-article, obsidian-vault) — thin suite, may not warrant a standalone GAIA entry separate from mattpocock/productivity",
-    "skills/in-progress/ directory (review, writing-beats, writing-fragments, writing-shape) not mapped to any GAIA skill ID — potential future registry entries",
-    "No arxiv, peer-review, or benchmark-result evidence found — not applicable to a CLI skill suite",
-    "No verifier-attestation evidence found — not yet in GAIA trust chain"
+    "Twitter/X follower count for @mattpocockuk not retrievable \u2014 no web search performed; audio/video appearances exist (Total TypeScript YouTube channel) but specific interview/podcast URLs not confirmed via fetch",
+    "GitHub star count (132k) verified via API but growth trajectory data (stars over time) not fetched \u2014 could be gamed; organic growth plausible given author credibility",
+    "mattpocock/personal has only 2 skills (edit-article, obsidian-vault) \u2014 thin suite, may not warrant a standalone GAIA entry separate from mattpocock/productivity",
+    "skills/in-progress/ directory (review, writing-beats, writing-fragments, writing-shape) not mapped to any GAIA skill ID \u2014 potential future registry entries",
+    "No arxiv, peer-review, or benchmark-result evidence found \u2014 not applicable to a CLI skill suite",
+    "No verifier-attestation evidence found \u2014 not yet in GAIA trust chain"
   ]
 }

@@ -351,7 +351,8 @@
       "magnitudeRaw": "132279 stars",
       "sourceUrl": "https://api.github.com/repos/mattpocock/skills",
       "observedAt": "2026-06-16",
-      "notes": "Confirmed via GitHub API. 132,279 stars, 11,510 forks, 878 subscribers. Repo created 2026-02-03, last push 2026-06-12. Exceptional growth rate for a ~4-month-old repo."
+      "notes": "Confirmed via GitHub API. 132,279 stars, 11,510 forks, 878 subscribers. Repo created 2026-02-03, last push 2026-06-12. Exceptional growth rate for a ~4-month-old repo.",
+      "sourceStartedAt": "2026-02-03"
     },
     {
       "skillId": "mattpocock/skills",
@@ -359,7 +360,8 @@
       "magnitudeRaw": "11510 forks, 102 commits, 80 open issues, 1 active PR",
       "sourceUrl": "https://github.com/mattpocock/skills",
       "observedAt": "2026-06-16",
-      "notes": "Active maintenance confirmed: 102 commits on main, MIT license, Shell language, 264KB size. Repo description: 'Skills for Real Engineers. Straight from my .claude directory.'"
+      "notes": "Active maintenance confirmed: 102 commits on main, MIT license, Shell language, 264KB size. Repo description: 'Skills for Real Engineers. Straight from my .claude directory.'",
+      "sourceStartedAt": "2026-02-03"
     },
     {
       "skillId": "mattpocock/skills",
@@ -375,7 +377,8 @@
       "magnitudeRaw": "~60000 newsletter subscribers (self-reported in README)",
       "sourceUrl": "https://raw.githubusercontent.com/mattpocock/skills/main/README.md",
       "observedAt": "2026-06-16",
-      "notes": "README states 'Approximately 60,000 developers follow the accompanying newsletter for skill updates and new releases.' Self-reported; not independently verified, treat as soft signal."
+      "notes": "README states 'Approximately 60,000 developers follow the accompanying newsletter for skill updates and new releases.' Self-reported; not independently verified, treat as soft signal.",
+      "sourceStartedAt": "2026-02-03"
     },
     {
       "skillId": "mattpocock/skills",
@@ -439,7 +442,8 @@
       "magnitudeRaw": "1125716 weekly downloads for @total-typescript/ts-reset (week of 2026-06-09 to 2026-06-15)",
       "sourceUrl": "https://api.npmjs.org/downloads/point/last-week/@total-typescript/ts-reset",
       "observedAt": "2026-06-16",
-      "notes": "Author credibility signal via npm reach. @total-typescript/ts-reset is Matt Pocock's most prominent npm package with 1.1M+ weekly downloads, confirming he has substantial practitioner reach independent of social media. This is author-level trust signal, not direct skills package signal."
+      "notes": "Author credibility signal via npm reach. @total-typescript/ts-reset is Matt Pocock's most prominent npm package with 1.1M+ weekly downloads, confirming he has substantial practitioner reach independent of social media. This is author-level trust signal, not direct skills package signal.",
+      "sourceStartedAt": "2022-09-01"
     },
     {
       "skillId": "mattpocock/skills",
@@ -503,7 +507,8 @@
       "magnitudeRaw": "React Day Berlin 2023 talk 'React's Most Useful Types' \u2014 21 minutes; Matt Pocock as headlining TypeScript educator at major international React conference",
       "sourceUrl": "https://gitnation.com/contents/typescript-tricks-for-building-better-react-apps",
       "observedAt": "2023-12-01",
-      "notes": "Confirms Matt's status as a prominent conference speaker in the TypeScript/React ecosystem. Establishes authority of the suite creator. GitNation is the primary record; exact YouTube URL not resolved. Date approximate (React Day Berlin 2023)."
+      "notes": "Confirms Matt's status as a prominent conference speaker in the TypeScript/React ecosystem. Establishes authority of the suite creator. GitNation is the primary record; exact YouTube URL not resolved. Date approximate (React Day Berlin 2023).",
+      "sourceStartedAt": "2023-01-01"
     },
     {
       "skillId": "mattpocock/skills",
@@ -511,7 +516,8 @@
       "magnitudeRaw": "React Advanced 2022 talk 'TypeScript and React: Secrets of a Happy Marriage' \u2014 21 minutes on October 24 2022; recorded and indexed on GitNation",
       "sourceUrl": "https://gitnation.com/contents/typescript-and-react-secrets-of-a-happy-marriage",
       "observedAt": "2022-10-24",
-      "notes": "Conference talk at React Advanced London 2022. Verifies Matt's standing as a TypeScript educator at significant international conferences predating the skills CLI."
+      "notes": "Conference talk at React Advanced London 2022. Verifies Matt's standing as a TypeScript educator at significant international conferences predating the skills CLI.",
+      "sourceStartedAt": "2022-01-01"
     },
     {
       "skillId": "mattpocock/skills",
@@ -519,7 +525,8 @@
       "magnitudeRaw": "React Finland 2021 talk 'Make Legacy Code Delightful with Statecharts' \u2014 22 minutes; published August 31 2021",
       "sourceUrl": "https://gitnation.com/contents/make-legacy-code-delightful-with-statecharts",
       "observedAt": "2021-08-31",
-      "notes": "Earlier foundational conference appearance. Establishes long-standing engineering credibility underpinning the skills suite. Context predates Total TypeScript."
+      "notes": "Earlier foundational conference appearance. Establishes long-standing engineering credibility underpinning the skills suite. Context predates Total TypeScript.",
+      "sourceStartedAt": "2021-01-01"
     },
     {
       "skillId": "mattpocock/skills",
@@ -997,60 +1004,51 @@
       },
       "apexGate": {
         "predicateResults": {
-          "transitiveOriginsGte12": {
-            "pass": true,
-            "value": 19,
-            "note": "depth-2 transitive origin closure"
+          "aGradedOriginsGte5": {
+            "pass": false,
+            "value": "4 A/S-graded fusion origins (out of 8 total)",
+            "note": "\u22655 fusion-origin components (role=origin) with grade \u2265A. Consolidates prior transitiveOriginsGte12 + aGradedClosureGte8."
           },
           "directNestedSuiteGte1": {
             "pass": true,
             "value": 3,
-            "note": "\u22651 directly-nested suite component"
+            "note": "\u22651 directly-nested suite among role=origin children (graph-shape signal)"
           },
           "depth2OnlyReachableGte1": {
             "pass": false,
             "value": 0,
-            "note": "\u22651 origin reachable only at depth-2"
+            "note": "\u22651 fusion-origin reachable only at depth-2 (suite components excluded \u2014 installation-only)"
           },
           "overallGradeS": {
             "pass": true,
             "value": "S",
             "note": "formula puts skill at S"
           },
-          "aGradedClosureGte8": {
-            "pass": false,
-            "value": 6,
-            "note": "\u22658 origins with A or S grade"
-          },
-          "crossOrgVerifierGte2": {
-            "pass": false,
-            "value": 0,
-            "note": "\u22652 distinct-org verifier cosigns (not yet captured in schema)"
-          },
-          "tenureDaysGte180": {
-            "pass": false,
-            "value": 26,
-            "note": "createdAt 2026-05-22, today 2026-06-17"
+          "sourceTenureDaysGte180AorS": {
+            "pass": true,
+            "value": "1385 days (best A/S-tier row); 1 qualifying rows",
+            "note": "\u22651 evidence row at A or S tier with source \u2265180 days old",
+            "qualifying": [
+              {
+                "skillId": "mattpocock/skills",
+                "type": "npm-downloads",
+                "sourceStartedAt": "2022-09-01",
+                "days": 1385
+              }
+            ]
           },
           "apexPromotionPrSigned": {
             "pass": false,
-            "value": "no apex-promotion PR yet",
-            "note": "CI gate \u2014 process predicate"
-          },
-          "systemWideCapRespected": {
-            "pass": true,
-            "value": "<5 used",
-            "note": "global registry currently below cap"
+            "value": "unsigned (intentional until G7 big-bang migration PR)",
+            "note": "sole human-attestation gate; cross-org cosigners disabled until ecosystem grows"
           }
         },
-        "passingCount": 4,
-        "totalPredicates": 9,
+        "passingCount": 3,
+        "totalPredicates": 6,
         "apexEligible": false,
         "failingPredicates": [
+          "aGradedOriginsGte5",
           "depth2OnlyReachableGte1",
-          "aGradedClosureGte8",
-          "crossOrgVerifierGte2",
-          "tenureDaysGte180",
           "apexPromotionPrSigned"
         ]
       }
@@ -1384,60 +1382,51 @@
       },
       "apexGate": {
         "predicateResults": {
-          "transitiveOriginsGte12": {
-            "pass": true,
-            "value": 19,
-            "note": "depth-2 transitive origin closure"
+          "aGradedOriginsGte5": {
+            "pass": false,
+            "value": "4 A/S-graded fusion origins (out of 8 total)",
+            "note": "\u22655 fusion-origin components (role=origin) with grade \u2265A. Consolidates prior transitiveOriginsGte12 + aGradedClosureGte8."
           },
           "directNestedSuiteGte1": {
             "pass": true,
             "value": 3,
-            "note": "\u22651 directly-nested suite component"
+            "note": "\u22651 directly-nested suite among role=origin children (graph-shape signal)"
           },
           "depth2OnlyReachableGte1": {
             "pass": false,
             "value": 0,
-            "note": "\u22651 origin reachable only at depth-2"
+            "note": "\u22651 fusion-origin reachable only at depth-2 (suite components excluded \u2014 installation-only)"
           },
           "overallGradeS": {
             "pass": true,
             "value": "S",
             "note": "formula puts skill at S"
           },
-          "aGradedClosureGte8": {
-            "pass": false,
-            "value": 6,
-            "note": "\u22658 origins with A or S grade"
-          },
-          "crossOrgVerifierGte2": {
-            "pass": false,
-            "value": 0,
-            "note": "\u22652 distinct-org verifier cosigns (not yet captured in schema)"
-          },
-          "tenureDaysGte180": {
-            "pass": false,
-            "value": 26,
-            "note": "createdAt 2026-05-22, today 2026-06-17"
+          "sourceTenureDaysGte180AorS": {
+            "pass": true,
+            "value": "1385 days (best A/S-tier row); 1 qualifying rows",
+            "note": "\u22651 evidence row at A or S tier with source \u2265180 days old",
+            "qualifying": [
+              {
+                "skillId": "mattpocock/skills",
+                "type": "npm-downloads",
+                "sourceStartedAt": "2022-09-01",
+                "days": 1385
+              }
+            ]
           },
           "apexPromotionPrSigned": {
             "pass": false,
-            "value": "no apex-promotion PR yet",
-            "note": "CI gate \u2014 process predicate"
-          },
-          "systemWideCapRespected": {
-            "pass": true,
-            "value": "<5 used",
-            "note": "global registry currently below cap"
+            "value": "unsigned (intentional until G7 big-bang migration PR)",
+            "note": "sole human-attestation gate; cross-org cosigners disabled until ecosystem grows"
           }
         },
-        "passingCount": 4,
-        "totalPredicates": 9,
+        "passingCount": 3,
+        "totalPredicates": 6,
         "apexEligible": false,
         "failingPredicates": [
+          "aGradedOriginsGte5",
           "depth2OnlyReachableGte1",
-          "aGradedClosureGte8",
-          "crossOrgVerifierGte2",
-          "tenureDaysGte180",
           "apexPromotionPrSigned"
         ]
       }
@@ -1771,60 +1760,51 @@
       },
       "apexGate": {
         "predicateResults": {
-          "transitiveOriginsGte12": {
-            "pass": true,
-            "value": 19,
-            "note": "depth-2 transitive origin closure"
+          "aGradedOriginsGte5": {
+            "pass": false,
+            "value": "4 A/S-graded fusion origins (out of 8 total)",
+            "note": "\u22655 fusion-origin components (role=origin) with grade \u2265A. Consolidates prior transitiveOriginsGte12 + aGradedClosureGte8."
           },
           "directNestedSuiteGte1": {
             "pass": true,
             "value": 3,
-            "note": "\u22651 directly-nested suite component"
+            "note": "\u22651 directly-nested suite among role=origin children (graph-shape signal)"
           },
           "depth2OnlyReachableGte1": {
             "pass": false,
             "value": 0,
-            "note": "\u22651 origin reachable only at depth-2"
+            "note": "\u22651 fusion-origin reachable only at depth-2 (suite components excluded \u2014 installation-only)"
           },
           "overallGradeS": {
             "pass": true,
             "value": "S",
             "note": "formula puts skill at S"
           },
-          "aGradedClosureGte8": {
-            "pass": false,
-            "value": 6,
-            "note": "\u22658 origins with A or S grade"
-          },
-          "crossOrgVerifierGte2": {
-            "pass": false,
-            "value": 0,
-            "note": "\u22652 distinct-org verifier cosigns (not yet captured in schema)"
-          },
-          "tenureDaysGte180": {
-            "pass": false,
-            "value": 26,
-            "note": "createdAt 2026-05-22, today 2026-06-17"
+          "sourceTenureDaysGte180AorS": {
+            "pass": true,
+            "value": "1385 days (best A/S-tier row); 1 qualifying rows",
+            "note": "\u22651 evidence row at A or S tier with source \u2265180 days old",
+            "qualifying": [
+              {
+                "skillId": "mattpocock/skills",
+                "type": "npm-downloads",
+                "sourceStartedAt": "2022-09-01",
+                "days": 1385
+              }
+            ]
           },
           "apexPromotionPrSigned": {
             "pass": false,
-            "value": "no apex-promotion PR yet",
-            "note": "CI gate \u2014 process predicate"
-          },
-          "systemWideCapRespected": {
-            "pass": true,
-            "value": "<5 used",
-            "note": "global registry currently below cap"
+            "value": "unsigned (intentional until G7 big-bang migration PR)",
+            "note": "sole human-attestation gate; cross-org cosigners disabled until ecosystem grows"
           }
         },
-        "passingCount": 4,
-        "totalPredicates": 9,
+        "passingCount": 3,
+        "totalPredicates": 6,
         "apexEligible": false,
         "failingPredicates": [
+          "aGradedOriginsGte5",
           "depth2OnlyReachableGte1",
-          "aGradedClosureGte8",
-          "crossOrgVerifierGte2",
-          "tenureDaysGte180",
           "apexPromotionPrSigned"
         ]
       }
@@ -2158,60 +2138,51 @@
       },
       "apexGate": {
         "predicateResults": {
-          "transitiveOriginsGte12": {
-            "pass": true,
-            "value": 19,
-            "note": "depth-2 transitive origin closure"
+          "aGradedOriginsGte5": {
+            "pass": false,
+            "value": "4 A/S-graded fusion origins (out of 8 total)",
+            "note": "\u22655 fusion-origin components (role=origin) with grade \u2265A. Consolidates prior transitiveOriginsGte12 + aGradedClosureGte8."
           },
           "directNestedSuiteGte1": {
             "pass": true,
             "value": 3,
-            "note": "\u22651 directly-nested suite component"
+            "note": "\u22651 directly-nested suite among role=origin children (graph-shape signal)"
           },
           "depth2OnlyReachableGte1": {
             "pass": false,
             "value": 0,
-            "note": "\u22651 origin reachable only at depth-2"
+            "note": "\u22651 fusion-origin reachable only at depth-2 (suite components excluded \u2014 installation-only)"
           },
           "overallGradeS": {
             "pass": true,
             "value": "S",
             "note": "formula puts skill at S"
           },
-          "aGradedClosureGte8": {
-            "pass": false,
-            "value": 6,
-            "note": "\u22658 origins with A or S grade"
-          },
-          "crossOrgVerifierGte2": {
-            "pass": false,
-            "value": 0,
-            "note": "\u22652 distinct-org verifier cosigns (not yet captured in schema)"
-          },
-          "tenureDaysGte180": {
-            "pass": false,
-            "value": 26,
-            "note": "createdAt 2026-05-22, today 2026-06-17"
+          "sourceTenureDaysGte180AorS": {
+            "pass": true,
+            "value": "1385 days (best A/S-tier row); 1 qualifying rows",
+            "note": "\u22651 evidence row at A or S tier with source \u2265180 days old",
+            "qualifying": [
+              {
+                "skillId": "mattpocock/skills",
+                "type": "npm-downloads",
+                "sourceStartedAt": "2022-09-01",
+                "days": 1385
+              }
+            ]
           },
           "apexPromotionPrSigned": {
             "pass": false,
-            "value": "no apex-promotion PR yet",
-            "note": "CI gate \u2014 process predicate"
-          },
-          "systemWideCapRespected": {
-            "pass": true,
-            "value": "<5 used",
-            "note": "global registry currently below cap"
+            "value": "unsigned (intentional until G7 big-bang migration PR)",
+            "note": "sole human-attestation gate; cross-org cosigners disabled until ecosystem grows"
           }
         },
-        "passingCount": 4,
-        "totalPredicates": 9,
+        "passingCount": 3,
+        "totalPredicates": 6,
         "apexEligible": false,
         "failingPredicates": [
+          "aGradedOriginsGte5",
           "depth2OnlyReachableGte1",
-          "aGradedClosureGte8",
-          "crossOrgVerifierGte2",
-          "tenureDaysGte180",
           "apexPromotionPrSigned"
         ]
       }
@@ -2545,60 +2516,51 @@
       },
       "apexGate": {
         "predicateResults": {
-          "transitiveOriginsGte12": {
-            "pass": true,
-            "value": 19,
-            "note": "depth-2 transitive origin closure"
+          "aGradedOriginsGte5": {
+            "pass": false,
+            "value": "4 A/S-graded fusion origins (out of 8 total)",
+            "note": "\u22655 fusion-origin components (role=origin) with grade \u2265A. Consolidates prior transitiveOriginsGte12 + aGradedClosureGte8."
           },
           "directNestedSuiteGte1": {
             "pass": true,
             "value": 3,
-            "note": "\u22651 directly-nested suite component"
+            "note": "\u22651 directly-nested suite among role=origin children (graph-shape signal)"
           },
           "depth2OnlyReachableGte1": {
             "pass": false,
             "value": 0,
-            "note": "\u22651 origin reachable only at depth-2"
+            "note": "\u22651 fusion-origin reachable only at depth-2 (suite components excluded \u2014 installation-only)"
           },
           "overallGradeS": {
             "pass": true,
             "value": "S",
             "note": "formula puts skill at S"
           },
-          "aGradedClosureGte8": {
-            "pass": false,
-            "value": 6,
-            "note": "\u22658 origins with A or S grade"
-          },
-          "crossOrgVerifierGte2": {
-            "pass": false,
-            "value": 0,
-            "note": "\u22652 distinct-org verifier cosigns (not yet captured in schema)"
-          },
-          "tenureDaysGte180": {
-            "pass": false,
-            "value": 26,
-            "note": "createdAt 2026-05-22, today 2026-06-17"
+          "sourceTenureDaysGte180AorS": {
+            "pass": true,
+            "value": "1385 days (best A/S-tier row); 1 qualifying rows",
+            "note": "\u22651 evidence row at A or S tier with source \u2265180 days old",
+            "qualifying": [
+              {
+                "skillId": "mattpocock/skills",
+                "type": "npm-downloads",
+                "sourceStartedAt": "2022-09-01",
+                "days": 1385
+              }
+            ]
           },
           "apexPromotionPrSigned": {
             "pass": false,
-            "value": "no apex-promotion PR yet",
-            "note": "CI gate \u2014 process predicate"
-          },
-          "systemWideCapRespected": {
-            "pass": true,
-            "value": "<5 used",
-            "note": "global registry currently below cap"
+            "value": "unsigned (intentional until G7 big-bang migration PR)",
+            "note": "sole human-attestation gate; cross-org cosigners disabled until ecosystem grows"
           }
         },
-        "passingCount": 4,
-        "totalPredicates": 9,
+        "passingCount": 3,
+        "totalPredicates": 6,
         "apexEligible": false,
         "failingPredicates": [
+          "aGradedOriginsGte5",
           "depth2OnlyReachableGte1",
-          "aGradedClosureGte8",
-          "crossOrgVerifierGte2",
-          "tenureDaysGte180",
           "apexPromotionPrSigned"
         ]
       }
@@ -2932,60 +2894,51 @@
       },
       "apexGate": {
         "predicateResults": {
-          "transitiveOriginsGte12": {
-            "pass": true,
-            "value": 19,
-            "note": "depth-2 transitive origin closure"
+          "aGradedOriginsGte5": {
+            "pass": false,
+            "value": "4 A/S-graded fusion origins (out of 8 total)",
+            "note": "\u22655 fusion-origin components (role=origin) with grade \u2265A. Consolidates prior transitiveOriginsGte12 + aGradedClosureGte8."
           },
           "directNestedSuiteGte1": {
             "pass": true,
             "value": 3,
-            "note": "\u22651 directly-nested suite component"
+            "note": "\u22651 directly-nested suite among role=origin children (graph-shape signal)"
           },
           "depth2OnlyReachableGte1": {
             "pass": false,
             "value": 0,
-            "note": "\u22651 origin reachable only at depth-2"
+            "note": "\u22651 fusion-origin reachable only at depth-2 (suite components excluded \u2014 installation-only)"
           },
           "overallGradeS": {
             "pass": true,
             "value": "S",
             "note": "formula puts skill at S"
           },
-          "aGradedClosureGte8": {
-            "pass": false,
-            "value": 6,
-            "note": "\u22658 origins with A or S grade"
-          },
-          "crossOrgVerifierGte2": {
-            "pass": false,
-            "value": 0,
-            "note": "\u22652 distinct-org verifier cosigns (not yet captured in schema)"
-          },
-          "tenureDaysGte180": {
-            "pass": false,
-            "value": 26,
-            "note": "createdAt 2026-05-22, today 2026-06-17"
+          "sourceTenureDaysGte180AorS": {
+            "pass": true,
+            "value": "1385 days (best A/S-tier row); 1 qualifying rows",
+            "note": "\u22651 evidence row at A or S tier with source \u2265180 days old",
+            "qualifying": [
+              {
+                "skillId": "mattpocock/skills",
+                "type": "npm-downloads",
+                "sourceStartedAt": "2022-09-01",
+                "days": 1385
+              }
+            ]
           },
           "apexPromotionPrSigned": {
             "pass": false,
-            "value": "no apex-promotion PR yet",
-            "note": "CI gate \u2014 process predicate"
-          },
-          "systemWideCapRespected": {
-            "pass": true,
-            "value": "<5 used",
-            "note": "global registry currently below cap"
+            "value": "unsigned (intentional until G7 big-bang migration PR)",
+            "note": "sole human-attestation gate; cross-org cosigners disabled until ecosystem grows"
           }
         },
-        "passingCount": 4,
-        "totalPredicates": 9,
+        "passingCount": 3,
+        "totalPredicates": 6,
         "apexEligible": false,
         "failingPredicates": [
+          "aGradedOriginsGte5",
           "depth2OnlyReachableGte1",
-          "aGradedClosureGte8",
-          "crossOrgVerifierGte2",
-          "tenureDaysGte180",
           "apexPromotionPrSigned"
         ]
       }

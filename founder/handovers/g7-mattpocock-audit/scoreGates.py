@@ -590,72 +590,122 @@ def scoreProposal(stance, snapshot, evidenceRows):
 # 9-predicate apex gate (RFC §10.12) — reported AFTER TM verdict.
 # ---------------------------------------------------------------------------
 
-def evalApexGate(snapshot, stanceVerdict, today=None):
+def evalApexGate(snapshot, stanceVerdict, evidenceRows, today=None):
+    """Apex gate after Marco's 2026-06-17 amendments (FINAL):
+    - Single origin-count predicate: ≥5 fusion-origin components graded ≥A
+      (consolidates old transitiveOriginsGte12 + aGradedClosureGte8)
+    - Depth-2 evaluated against fusion graph (role='origin' filter); suite is install-only
+    - Tenure: source-based, A/S-tier evidence rows only, max source age ≥180 days
+    - crossOrgVerifier: REMOVED (re-enable when ecosystem grows)
+    - systemWideCap: REMOVED (cap=5 unlikely to bind)
+    - apexPromotionPrSigned: SOLE human gate; Marco PR-signs at big-bang time
+    Net: 6 predicates (was 9).
+    """
     today = today or datetime.date.today()
     suite = snapshot
     suiteId = suite['suiteId']
 
-    createdAt = '2026-05-22'  # mattpocock/skills createdAt from named-skills.json
-    daysSinceCreate = (today - datetime.date(2026, 5, 22)).days
+    # Fusion-graph origins = role='origin' components only.
+    fusionOrigins = [c for c in snapshot['componentDetails']
+                     if c.get('role') == 'origin']
+    fusionOriginIds = {c['id'] for c in fusionOrigins}
+    aGradedFusionOrigins = [c for c in fusionOrigins
+                            if c.get('grade') in {'S', 'A'}]
 
-    # Predicates
     predicates = {}
-    predicates['transitiveOriginsGte12'] = {
-        'pass': snapshot['transitiveCount'] >= 12,
-        'value': snapshot['transitiveCount'],
-        'note': 'depth-2 transitive origin closure',
+
+    # Predicate 1: ≥5 fusion-origin components graded A or S
+    predicates['aGradedOriginsGte5'] = {
+        'pass': len(aGradedFusionOrigins) >= 5,
+        'value': f'{len(aGradedFusionOrigins)} A/S-graded fusion origins (out of {len(fusionOrigins)} total)',
+        'note': '≥5 fusion-origin components (role=origin) with grade ≥A. Consolidates prior transitiveOriginsGte12 + aGradedClosureGte8.',
     }
-    nestedDirect = sum(1 for c in snapshot['componentDetails']
-                       if c.get('id') in snapshot['directOrigins'] and c.get('nestedComponents'))
+
+    # Predicate 2: ≥1 directly-nested suite (fusion-side: nested origin contains its own origin children)
+    nestedDirect = sum(1 for c in fusionOrigins
+                       if c.get('id') in snapshot['directOrigins']
+                       and c.get('nestedComponents'))
     predicates['directNestedSuiteGte1'] = {
         'pass': nestedDirect >= 1,
         'value': nestedDirect,
-        'note': '≥1 directly-nested suite component',
+        'note': '≥1 directly-nested suite among role=origin children (graph-shape signal)',
     }
+
+    # Predicate 3: depth-2 reachability — fusion-only graph
+    # Count fusion-origins of fusion-origins that aren't already direct.
+    direct = set(snapshot['directOrigins'])
+    depth2OnlyFusion = set()
+    for c in fusionOrigins:
+        for n in (c.get('nestedComponents') or []):
+            # Is the nested item also role='origin'? Need to check componentDetails for it.
+            nestedDetail = next((d for d in snapshot['componentDetails'] if d['id'] == n), None)
+            if nestedDetail and nestedDetail.get('role') == 'origin' and n not in direct:
+                depth2OnlyFusion.add(n)
     predicates['depth2OnlyReachableGte1'] = {
-        'pass': snapshot.get('depth2OnlyCount', 0) >= 1,
-        'value': snapshot.get('depth2OnlyCount', 0),
-        'note': '≥1 origin reachable only at depth-2',
+        'pass': len(depth2OnlyFusion) >= 1,
+        'value': len(depth2OnlyFusion),
+        'note': '≥1 fusion-origin reachable only at depth-2 (suite components excluded — installation-only)',
     }
+
+    # Predicate 4: formula puts skill at S
     predicates['overallGradeS'] = {
         'pass': stanceVerdict['grade'] == 'S',
         'value': stanceVerdict['grade'],
         'note': 'formula puts skill at S',
     }
-    aGradedClosure = sum(1 for c in snapshot['componentDetails']
-                         if c.get('grade') in {'S', 'A'})
-    predicates['aGradedClosureGte8'] = {
-        'pass': aGradedClosure >= 8,
-        'value': aGradedClosure,
-        'note': '≥8 origins with A or S grade',
+
+    # Predicate 5: source-tenure ≥180 days, A/S-tier evidence rows only
+    # Use perRowDetails which has post-weight magnitude already computed
+    perRowDetails = stanceVerdict.get('perRowDetails', [])
+    aOrSRowsByType = {}
+    for d in perRowDetails:
+        if d['tier'] in {'A', 'S'}:
+            aOrSRowsByType.setdefault(d['type'], True)
+
+    # Cross-reference back to evidenceRows for sourceStartedAt — match by type
+    qualifyingTenureRows = []
+    for ev in (evidenceRows or []):
+        evType = ev.get('type')
+        if evType not in aOrSRowsByType:
+            continue
+        rawDate = ev.get('sourceStartedAt')
+        if not rawDate:
+            continue
+        try:
+            d = datetime.date.fromisoformat(str(rawDate)[:10])
+            days = (today - d).days
+            if days >= 180:
+                qualifyingTenureRows.append({
+                    'skillId': ev.get('skillId'),
+                    'type': evType,
+                    'sourceStartedAt': rawDate,
+                    'days': days,
+                })
+        except (ValueError, TypeError):
+            continue
+    qualifyingTenureRows.sort(key=lambda r: -r['days'])
+    maxDays = qualifyingTenureRows[0]['days'] if qualifyingTenureRows else 0
+    predicates['sourceTenureDaysGte180AorS'] = {
+        'pass': maxDays >= 180,
+        'value': f'{maxDays} days (best A/S-tier row); {len(qualifyingTenureRows)} qualifying rows',
+        'note': '≥1 evidence row at A or S tier with source ≥180 days old',
+        'qualifying': qualifyingTenureRows[:5],
     }
-    predicates['crossOrgVerifierGte2'] = {
-        'pass': False,  # no cosigner data in registry yet
-        'value': 0,
-        'note': '≥2 distinct-org verifier cosigns (not yet captured in schema)',
-    }
-    predicates['tenureDaysGte180'] = {
-        'pass': daysSinceCreate >= 180,
-        'value': daysSinceCreate,
-        'note': f'createdAt 2026-05-22, today {today}',
-    }
+
+    # Predicate 6: Marco PR-signed apex promotion
     predicates['apexPromotionPrSigned'] = {
         'pass': False,
-        'value': 'no apex-promotion PR yet',
-        'note': 'CI gate — process predicate',
-    }
-    predicates['systemWideCapRespected'] = {
-        'pass': True,  # fewer than 5 apex slots used currently
-        'value': '<5 used',
-        'note': 'global registry currently below cap',
+        'value': 'unsigned (intentional until G7 big-bang migration PR)',
+        'note': 'sole human-attestation gate; cross-org cosigners disabled until ecosystem grows',
     }
 
     passes = sum(1 for p in predicates.values() if p['pass'])
+    total = len(predicates)
     return {
         'predicateResults': predicates,
         'passingCount': passes,
-        'totalPredicates': 9,
-        'apexEligible': passes == 9,
+        'totalPredicates': total,
+        'apexEligible': passes == total,
         'failingPredicates': [k for k, v in predicates.items() if not v['pass']],
     }
 
@@ -683,7 +733,7 @@ def main():
     results = {}
     for stance in ['P1-strict-S', 'P2-attainable-S', 'P3-fusion-heavy', 'P4-community-heavy', 'synthesis', 'synthesis-plus']:
         verdict = scoreProposal(stance, snapshot, evidenceRows)
-        gate = evalApexGate(snapshot, verdict)
+        gate = evalApexGate(snapshot, verdict, evidenceRows)
         results[stance] = {'verdict': verdict, 'apexGate': gate}
 
         print(f"\n--- {stance} ---")
