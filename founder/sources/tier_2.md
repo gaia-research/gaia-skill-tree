@@ -1341,7 +1341,13 @@ This file lists the raw evidence sources for named skills rated at 2★.
 - **Source:** [https://arxiv.org/abs/2305.15334](https://arxiv.org/abs/2305.15334)
 - **Date:** 2026-04-28
 - **Trust Metric:** 85.0
-- **Description:** Gorilla (Patil et al.) â€” LLM that generates accurate API calls across TorchHub, TensorFlow Hub, and HuggingFace; 20.43% AST accuracy improvement over GPT-4. (backfilled — class-to-type migration)
+- **Description:** Gorilla (Patil et al.) — LLM that generates accurate API calls across TorchHub, TensorFlow Hub, and HuggingFace; 20.43% AST accuracy improvement over GPT-4. (backfilled — class-to-type migration)
+
+#### E2: `repo`
+- **Source:** [https://github.com/huggingface/skills](https://github.com/huggingface/skills)
+- **Date:** 2026-06-18
+- **Verified Stars:** 10,686 stars
+- **Description:** Hugging Face skills repository hosting the hf-cli skill definition.
 
 ---
 
@@ -1352,11 +1358,17 @@ This file lists the raw evidence sources for named skills rated at 2★.
 
 ### Evidence Rows:
 
-#### E1: `repo`
+#### E1: `proxy-containment`
 - **Source:** [https://github.com/Sinaptik-AI/pandas-ai](https://github.com/Sinaptik-AI/pandas-ai)
 - **Date:** 2026-04-28
 - **Verified Stars:** 23,587 stars
-- **Description:** pandas-ai â€” open-source agent for natural-language data analysis over pandas DataFrames; reproducible demos with logging and output artifacts. (backfilled — class-to-type migration)
+- **Description:** Proxy repository pandas-ai that uses data analysis capabilities over dataframes to load, query, and inspect datasets.
+
+#### E2: `repo`
+- **Source:** [https://github.com/huggingface/skills](https://github.com/huggingface/skills)
+- **Date:** 2026-06-18
+- **Verified Stars:** 10,686 stars
+- **Description:** Hugging Face skills repository hosting the datasets skill definition.
 
 ---
 
@@ -1373,6 +1385,12 @@ This file lists the raw evidence sources for named skills rated at 2★.
 - **Trust Metric:** 85.0
 - **Description:** Rouzrokh et al. (2025) — LatteReview: multi-agent framework for systematic review automation; modular agents for title/abstract screening, relevance scoring, and structured data extraction with RAG and multimodal support. (backfilled — class-to-type migration)
 
+#### E2: `repo`
+- **Source:** [https://github.com/huggingface/skills](https://github.com/huggingface/skills)
+- **Date:** 2026-06-18
+- **Verified Stars:** 10,686 stars
+- **Description:** Hugging Face skills repository hosting the papers skill definition.
+
 ---
 
 ## Skill: `huggingface/transformers-js`
@@ -1386,7 +1404,13 @@ This file lists the raw evidence sources for named skills rated at 2★.
 - **Source:** [https://arxiv.org/abs/2304.08485](https://arxiv.org/abs/2304.08485)
 - **Date:** 2026-04-28
 - **Trust Metric:** 85.0
-- **Description:** LLaVA â€” large language and vision assistant; 85.1% on ScienceQA and 64.3% on TextVQA, establishing reproducible multimodal reasoning benchmark. (backfilled — class-to-type migration)
+- **Description:** LLaVA — large language and vision assistant; 85.1% on ScienceQA and 64.3% on TextVQA, establishing reproducible multimodal reasoning benchmark. (backfilled — class-to-type migration)
+
+#### E2: `repo`
+- **Source:** [https://github.com/huggingface/transformers.js](https://github.com/huggingface/transformers.js)
+- **Date:** 2026-06-18
+- **Verified Stars:** 16,115 stars
+- **Description:** Hugging Face transformers.js repository providing the primary library implementation for in-browser transformers.
 
 ---
 
