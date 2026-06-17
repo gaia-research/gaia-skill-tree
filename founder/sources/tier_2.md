@@ -197,6 +197,12 @@ This file lists the raw evidence sources for named skills rated at 2★.
 - **Verified Stars:** 134,017 stars
 - **Description:** Origin repository — open-source web search/scrape/crawl API for LLM agents; reproducible public implementation with documented usage. (backfilled — class-to-type migration)
 
+#### E2: `repo`
+- **Source:** [https://github.com/mendableai/firecrawl-mcp-server](https://github.com/mendableai/firecrawl-mcp-server)
+- **Date:** 2026-06-18
+- **Verified Stars:** 50 stars
+- **Description:** Model Context Protocol (MCP) server for Firecrawl, enabling agents to crawl and scrape URLs directly.
+
 ---
 
 ## Skill: `gaiabot/gaia-triage`
