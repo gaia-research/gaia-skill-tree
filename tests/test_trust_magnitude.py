@@ -32,6 +32,7 @@ from gaia_cli.trustMagnitude import (
     isApex,
     passesApexGate,
 )
+from gaia_cli.promotion import _passes_rank_floor
 
 
 # ---------------------------------------------------------------------------
@@ -461,3 +462,138 @@ def test_edge_case_social_signal_below_1000_views_zero():
     """RFC §2.11: views < 1000 contributes 0."""
     row = {"type": "social-signal", "views": 500}
     assert computeArtifactScore(row) == 0.0
+
+
+# ---------------------------------------------------------------------------
+# Batch E: Rank-floor direct unit tests (CRITICAL #1)
+# ---------------------------------------------------------------------------
+
+
+def test_rank_floor_4star_at_C_grade_fails():
+    """RFC §4.3: a skill at 4★ with grade=C fails the rank-floor sanity rule."""
+    result = _passes_rank_floor({}, "4★", "C")
+    assert result is False
+
+
+def test_rank_floor_4star_at_B_grade_passes():
+    """RFC §4.3: a skill at 4★ with grade=B passes the rank-floor sanity rule."""
+    result = _passes_rank_floor({}, "4★", "B")
+    assert result is True
+
+
+# ---------------------------------------------------------------------------
+# Batch F: Apex gate delta §B edge cases (MAJOR #2)
+# ---------------------------------------------------------------------------
+
+
+def test_apex_gate_source_tenure_absent_treats_as_age_zero():
+    """Delta §B: A/S row with no sourceStartedAt -> age=0 -> tenure predicate False."""
+    skill = {
+        "id": "tenure-test",
+        "evidence": [
+            # A-graded row with no sourceStartedAt field
+            {"type": "verifier-attestation", "verifiers": 2, "grade": "A",
+             "source": "https://verifier.example/1"},
+            {"type": "arxiv", "citations": 200, "grade": "A",
+             "source": "https://arxiv.org/abs/9999.0000"},
+        ],
+    }
+    # Conservative fallback treats absent sourceStartedAt as age=0 days.
+    # max([0, 0]) = 0 < 180, so result is False.
+    result = checkSourceTenureDaysGte180AorS(skill)
+    assert result is False
+    # Also confirm via passesApexGate
+    gate = passesApexGate(skill, {})
+    assert gate["sourceTenureDaysGte180AorS"] is False
+
+
+def test_apex_gate_depth2_suite_exclusion():
+    """Delta §B: suiteComponents edges are NOT fusion edges — depth2 check ignores them."""
+    # The skill has suiteComponents, which would reach "suiteChild" at depth-1
+    # if suite edges counted. But _fusionOriginIds only reads fusion-recipe evidence,
+    # not suiteComponents. So depth-1 set is empty -> depth2OnlyReachableGte1=False.
+    skill = {
+        "id": "suite-host",
+        "suiteComponents": ["suiteChild"],
+        # No fusion-recipe evidence row — only suite structure
+        "evidence": [],
+    }
+    suiteChildNode = {
+        "id": "suiteChild",
+        "suiteComponents": ["grandchild"],
+        "evidence": [
+            {"type": "fusion-recipe", "origins": ["grandchild"]},
+        ],
+    }
+    state = {
+        "genericSkillMap": {
+            "suiteChild": suiteChildNode,
+            "grandchild": {"id": "grandchild"},
+        }
+    }
+    result = checkDepth2OnlyReachableGte1(skill, state)
+    # Suite edges excluded; no fusion-recipe evidence on skill -> depth1=empty -> False.
+    assert result is False
+    gate = passesApexGate(skill, state)
+    assert gate["depth2OnlyReachableGte1"] is False
+
+
+# ---------------------------------------------------------------------------
+# Batch G: Same-creator social-signal plateau (MAJOR #3)
+# ---------------------------------------------------------------------------
+
+
+def test_same_creator_social_signal_plateau():
+    """Three social-signal rows from same creator plateau at 1.0x / 0.5x / 0.25x."""
+    # All rows from creator="alice", views=10000 each.
+    # Raw score per row: log10(10000)*8 * 1.0 (weight) = 32.0
+    skill = {
+        "evidence": [
+            {"type": "social-signal", "views": 10000, "creator": "alice",
+             "source": "https://social.example/1"},
+            {"type": "social-signal", "views": 10000, "creator": "alice",
+             "source": "https://social.example/2"},
+            {"type": "social-signal", "views": 10000, "creator": "alice",
+             "source": "https://social.example/3"},
+        ]
+    }
+    # Rank 0 (highest) -> 32.0 * 1.0 = 32.0
+    # Rank 1 -> 32.0 * 0.5 = 16.0
+    # Rank 2 -> 32.0 * 0.25 = 8.0
+    # Sum = 56.0; well under social 80-cap, so TM = 56.0
+    tm = computeTrustMagnitude(skill)
+    assert tm == pytest.approx(56.0)
+
+
+# ---------------------------------------------------------------------------
+# Batch H: engagementRatio computed from raw fields (MAJOR #5)
+# ---------------------------------------------------------------------------
+
+
+def test_social_signal_computes_engagement_ratio_from_raw_fields():
+    """RFC §2.11: engagementRatio computed from views/likes/comments when not pre-stored."""
+    # views=10000, likes=200, comments=50; no engagementRatio field
+    # engagement_ratio = min(1.5, (200 + 50*5) / 10000 * 50) = min(1.5, 2.25) = 1.5
+    # raw_magnitude = log10(10000)*8 = 32.0
+    # score = 32.0 * 1.0 (weight) * 1.5 (engagement) = 48.0
+    row = {"type": "social-signal", "views": 10000, "likes": 200, "comments": 50}
+    score = computeArtifactScore(row)
+    assert score == pytest.approx(48.0)
+
+
+# ---------------------------------------------------------------------------
+# Batch I: Single self-attestation edge case (MAJOR #6)
+# ---------------------------------------------------------------------------
+
+
+def test_edge_case_single_self_attestation_only_yields_ungraded():
+    """I2 edge case: one self-attestation -> TM≈5; below 20 floor -> ungraded."""
+    skill = {"evidence": [{"type": "self-attestation"}]}
+    # self-attestation: m=10, cap=10, weight=0.5 -> 5.0
+    tm = computeTrustMagnitude(skill)
+    assert tm == pytest.approx(5.0)
+    # Compute grade: TM=5 < 20 -> ungraded
+    grade = computeOverallTrustGrade(tm, 1, False)
+    assert grade == "ungraded"
+    # Also via convenience wrapper
+    assert computeOverallTrustGradeFromSkill(skill) == "ungraded"
