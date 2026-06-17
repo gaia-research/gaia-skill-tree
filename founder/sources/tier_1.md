@@ -56,11 +56,11 @@ This file lists the raw evidence sources for named skills rated at 1★.
 
 ### Evidence Rows:
 
-#### E1: `repo`
+#### E1: `proxy-containment`
 - **Source:** [https://github.com/codefuse-ai/ModelCache](https://github.com/codefuse-ai/ModelCache)
 - **Date:** 2026-04-30
 - **Verified Stars:** 943 stars
-- **Description:** ModelCache -- LLM semantic caching system reducing response time via cached query-result pairs; reproducible, MIT license. (backfilled — class-to-type migration)
+- **Description:** Proxy repository ModelCache that implements an LLM semantic caching system to reduce response time via cached query-result pairs.
 
 #### E2: `arxiv`
 - **Source:** [https://arxiv.org/abs/2604.20021](https://arxiv.org/abs/2604.20021)
@@ -68,11 +68,11 @@ This file lists the raw evidence sources for named skills rated at 1★.
 - **Trust Metric:** 85.0
 - **Description:** Continuous Semantic Caching for Low-Cost LLM Serving (2026) -- first rigorous theoretical framework for semantic LLM caching in continuous query space using kernel ridge regression. (backfilled — class-to-type migration)
 
-#### E3: `repo`
+#### E3: `proxy-containment`
 - **Source:** [https://github.com/vcache-project/vCache](https://github.com/vcache-project/vCache)
 - **Date:** 2026-04-30
 - **Verified Stars:** 71 stars
-- **Description:** vCache -- reliable and efficient semantic prompt caching; active research prototype with published benchmarks. (backfilled — class-to-type migration)
+- **Description:** Proxy repository vCache that implements a reliable and efficient semantic prompt caching mechanism.
 
 ---
 
