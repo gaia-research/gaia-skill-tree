@@ -110,6 +110,12 @@ This file lists the raw evidence sources for named skills rated at 1★.
 - **Verified Stars:** 196,041 stars
 - **Description:** Hermes Agent blogwatcher skill monitors blogs and RSS/Atom feeds with feed discovery, scraping fallback, OPML import, and read/unread article management. (backfilled — class-to-type migration)
 
+#### E2: `proxy-containment`
+- **Source:** [https://github.com/DIYgod/RSSHub](https://github.com/DIYgod/RSSHub)
+- **Date:** 2026-06-18
+- **Verified Stars:** 33,000 stars
+- **Description:** Proxy repository RSSHub that automates the generation and monitoring of RSS/Atom feeds across hundreds of websites, demonstrating feed-monitoring capabilities.
+
 ---
 
 ## Skill: `ruvnet/agentdb-advanced`
