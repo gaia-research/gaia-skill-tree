@@ -119,15 +119,21 @@ This file lists the raw evidence sources for named skills rated at 2★.
 ## Skill: `browser-use/browser-harness`
 - **Name:** Browser Harness
 - **Contributor:** `browser-use`
-- **Primary GitHub Repository:** [https://github.com/browser-use/browser-harness/blob/main/SKILL.md](https://github.com/browser-use/browser-harness/blob/main/SKILL.md) (15,008 stars)
+- **Primary GitHub Repository:** [https://github.com/browser-use/browser-harness/blob/main/SKILL.md](https://github.com/browser-use/browser-harness/blob/main/SKILL.md) (15,012 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
 - **Source:** [https://github.com/browser-use/browser-harness](https://github.com/browser-use/browser-harness)
 - **Date:** 2026-05-14
-- **Verified Stars:** 15,008 stars
+- **Verified Stars:** 15,012 stars
 - **Description:** Browser Harness -- self-healing harness connecting LLMs to browser via CDP. (backfilled — class-to-type migration)
+
+#### E2: `repo`
+- **Source:** [https://github.com/browser-use/browser-use](https://github.com/browser-use/browser-use)
+- **Date:** 2026-06-18
+- **Verified Stars:** 99,296 stars
+- **Description:** Browser Use -- Make website automation easy for AI agents. Main framework repository with 99k+ stars.
 
 ---
 
