@@ -1,18 +1,16 @@
 # Trust Methodology Source Report
 
 **Date:** June 18, 2026  
-**Subject:** Evidence Sources Collection for Gaia Skill Registry (Tiers 2★ to 6★) and Live Internet Dump
+**Subject:** Live-Verified Evidence Sources Collection for Gaia Skill Registry (Tiers 2★ to 6★)
 
 ---
 
 ## 1. Overview
-This report lists the raw evidence sources compiled for the Gaia project. It is divided into two distinct sections:
-1. **Registry Evidence:** Compiled from the pre-existing named and generic skills in the repository, updated with live GitHub star counts.
-2. **Internet Dump:** Discovered directly from live internet searches (GitHub topics and Model Context Protocol registries) representing fresh external evidence candidates.
+This report lists the raw evidence sources compiled for the Gaia project. It is compiled from the pre-existing named and generic skills in the repository, updated with live GitHub star counts.
 
 ---
 
-## 2. Part 1: Registry Evidence Summary
+## 2. Registry Evidence Summary
 
 Registry evidence parsed directly from the local repository (with updated star counts from the live GitHub API):
 
@@ -30,16 +28,3 @@ Registry evidence parsed directly from the local repository (with updated star c
 - [Tier 3★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/tier_3.md)
 - [Tier 2★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/tier_2.md)
 - [Tier 1★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/tier_1.md)
-
----
-
-## 3. Part 2: Live Internet Source Dump
-
-Fresh raw sources crawled directly from the live internet, kept completely separate from the repository's pre-existing evidence:
-
-- **GitHub Agent Skills:** 26 repositories discovered on the topic `ai-agent-skills` (e.g. `gabelul/pixeltamer-gpt-image-skill`, `jkaninda/okapi-skills`).
-  - [View GitHub Agent Skills Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/internet_dump/github_agent_skills.md)
-- **GitHub Agent Platforms:** 29 high-authority AI agent repositories discovered on the topic `ai-agent` (e.g. `trycua/cua` at 18.4k stars, `can1357/oh-my-pi` at 13.1k stars).
-  - [View GitHub Agent Platforms Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/internet_dump/github_agent_platforms.md)
-- **MCP Servers & Tools:** 10 essential Model Context Protocol servers discovered on Smithery and Awesome-MCP registries (e.g. Playwright, Filesystem, GitHub, Supabase).
-  - [View MCP Servers & Tools Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/internet_dump/mcp_servers_and_tools.md)
