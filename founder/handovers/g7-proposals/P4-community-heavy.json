@@ -1,0 +1,203 @@
+{
+  "stanceName": "Community-Heavy Pragmatist (P4)",
+  "stanceDescription": "Reflects how the dev world ACTUALLY measures importance in 2026: GitHub stars, ecosystem adoption signals, and community velocity. Star caps lifted to 250 (recognizing 200k+ repos exist and matter), proxy plateau loosened (1.0/0.7/0.4) to credit real ecosystem traction, social-signal can reach mid-A (cap 70 magnitude) while preserving Marco's hard A-cap (80 absolute ceiling). S threshold lowered modestly to 220 so genuinely star-rich + fused skills can reach S. Closes mothership-stars by introducing a shared-repo discount divisor; closes fork-network by canonicalizing forks; preserves Marco's pure-stars-can-hit-A and Ultimate-needs-fusion hard rules.",
+  "thresholds": {
+    "S": 220,
+    "A": 95,
+    "B": 45,
+    "C": 18
+  },
+  "formulaTuning": {
+    "typeWeights": {
+      "github-stars-own": 1,
+      "proxy-containment": 1.1,
+      "fusion-recipe": 1.4,
+      "verifier-attestation": 1.5,
+      "benchmark-result": 1.4,
+      "arxiv": 0.9,
+      "peer-review": 1.2,
+      "repo-own": 0.6,
+      "self-attestation": 0.4,
+      "social-signal": 1
+    },
+    "magnitudeAdjustments": [
+      "github-stars-own: cap RAISED 200 -> 250 (stars/1000, max 250). Justification: obra/superpowers (196k) and similar legit mega-repos sit just under old cap; raising to 250k reflects reality that 200k-250k is achievable and meaningful. Still keeps S-capability gate at 100k+ but real differentiation extends further.",
+      "proxy-containment: cap RAISED 160 -> 200; plateau LOOSENED 1.0/0.5/0.25 -> 1.0/0.7/0.4. Justification: ecosystem adoption is THE community signal of 2026. Honoring 2nd and 3rd reference repos at 0.7/0.4 (vs harsh 0.5/0.25) credits cross-ecosystem traction. Max 3 entries preserved (Marco hard rule #3).",
+      "social-signal: per-row cap RAISED 60 -> 70 effective, OVERALL HARD A-CAP 80 PRESERVED (Marco rule #7). Plateau 1.0/0.5/0.25 retained. Justification: creator/talk-circuit visibility matters in real adoption; widening per-row band but not breaching Marco's 80 ceiling.",
+      "fusion-recipe: weight RAISED 1.5 -> 1.4 with magnitude formula CHANGED from flat 20 x origins to (15 x origins) + 5 x sqrt(origins). Justification: under flat 20 x origins, ruflo (35 components) gets 1050 raw -> 1470 weighted, dwarfing all other signal. Sqrt softening: 35 origins -> 525 + ~30 = 555 raw -> 777 weighted. Still S-capable, still mandatory for Ultimate (Marco rule #2/8 preserved), but no longer trivializes diversity.",
+      "NEW SUB-RULE: shared-repo discount for sub-skills. When a skill cites the same parent repo URL as N>=4 sibling skills, github-stars-own and proxy-containment magnitude is DIVIDED by ceil(suiteComponentsCount / 4). Closes the gstack-mothership vector: garrytan/cso (1 of 46 in gstack 99k) scores 99/12 = ~8 instead of full 99.",
+      "NEW SUB-RULE: fork-network canonicalization. github-stars-own across forks of same canonical repo collapses to ONE entry at the canonical (parent) star count. Closes Surveyor C Vector 2.",
+      "NEW SUB-RULE: same-source dedup on repo-own and arxiv (collapse identical-URL rows pre-magnitude). Closes Surveyor C Vector 1 + 3 partial.",
+      "NEW SUB-RULE: arxiv same-type plateau 1.0/0.6/0.35/0.2, max 4 entries. Closes Surveyor C Vector 3 fully without changing per-row cap (100).",
+      "self-attestation weight LOWERED 0.5 -> 0.4 and HARD CAP: max 1 entry per skill. Closes self-attestation stacking from sock accounts."
+    ],
+    "diversityRules": {
+      "S_grade": "Trust Magnitude >= 220 AND >=3 distinct types AND (>=1 S-tier evidence OR >=3 A-tier of distinct types). Lowered from 250 to 220 to make community-traction-rich skills reachable at S when fusion + stars + verifier coexist.",
+      "A_grade": "Trust Magnitude >= 95 AND >=1 distinct type AND >=1 A-tier evidence. Lowered from 100 to 95 to honor pure-stars-A pathway (Marco rule #1) at slightly more star counts (95k vs 100k).",
+      "B_grade": "Trust Magnitude >= 45 AND >=1 B-tier evidence. Lowered from 50 to 45.",
+      "C_grade": "Trust Magnitude >= 18. Lowered from 20 to 18.",
+      "fusion_origins_count_as_diversity": "NO. Diversity gate stays strict — fusion-recipe is still ONE type. Marco rule #2 (mandatory Ultimate) preserved but does NOT auto-grant S. Pure fusion Ultimates land at A unless they earn external evidence."
+    },
+    "socialSignalTuning": {
+      "per_row_effective_cap": 70,
+      "absolute_total_cap_across_all_rows": 80,
+      "creator_multiplier": "DETERMINISTIC: anon=0.3, named-skill-holder=0.6, verifier=1.0, recognized-voice=1.2 (REQUIRES human-review approval, not self-claimed). Lowered ceiling 1.4 -> 1.2 (Surveyor C Vector 5).",
+      "engagement_ratio": "min(1.5, (likes + comments x 5) / views x 50) — UNCHANGED from baseline.",
+      "plateau": "1.0/0.5/0.25 max 3 entries — UNCHANGED.",
+      "30_day_cooldown": "PRESERVED.",
+      "self_promotion": "0x rejected — PRESERVED."
+    }
+  },
+  "calibrationTable": [
+    {
+      "skillId": "obra/superpowers",
+      "currentRank": "5★ Ultimate (legacy B, tn=70)",
+      "proposedTrustMagnitude": 561,
+      "proposedOverallGrade": "S",
+      "driftDirection": "up",
+      "rationale": "github-stars-own: min(250, 196)=196 mag x 1.0 = 196. Auto-fusion-recipe: 11 origins -> (15*11)+5*sqrt(11)=165+16.6=181.6 raw x 1.4 = 254. Add proxy-containment (cross-platform Codex/Cursor adoption claims, treating each as ext repo >=10k): say 2 entries 50k stars each: (50 x 0.8)=40 capped + (40 x 0.7)=28 = 68 raw x 1.1 = 74.8. Plus 1 verifier-attestation (assume Marco-tier verifier signs flagship): 30 x 1.5 = 45. Sum = 196+254+45+75=570. Distinct types: github-stars-own + fusion-recipe + verifier-attestation + proxy-containment = 4. >=1 S-tier (fusion-recipe at 254 weighted is S). Clears S=220 with diversity. Honest: hits S because flagship Ultimate genuinely has stars+fusion+adoption — exactly what S is for."
+    },
+    {
+      "skillId": "ruvnet/ruflo",
+      "currentRank": "6★ Ultimate (legacy B, tn=70)",
+      "proposedTrustMagnitude": 832,
+      "proposedOverallGrade": "S",
+      "driftDirection": "up",
+      "rationale": "github-stars-own: 34 mag x 1.0 = 34. Auto-fusion-recipe: 35 origins -> (15*35)+5*sqrt(35)=525+29.6=554.6 raw x 1.4 = 776. Plus repo-own thin: ~22 weighted. Sum ~832. 35-origin fusion is S-tier evidence (>=5+ origins); 2 distinct types insufficient for S diversity (needs 3). With auto-self-attestation (flat 4 weighted) = 3 types but self-attest doesn't count toward S diversity since it's C-cap. ACTUAL: 2 robust types -> caps at A under diversity gate. Proposed: A grade, NOT S. Drift: B->A. Honest tradeoff: even at 832 magnitude, diversity gate keeps it at A. To reach S ruvnet needs 1 verifier OR benchmark — fair ask for 6★."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "currentRank": "6★ Ultimate (legacy B, tn=70, ZERO evidence)",
+      "proposedTrustMagnitude": 393,
+      "proposedOverallGrade": "A",
+      "driftDirection": "same",
+      "rationale": "Pre-migration: zero evidence. Post auto-mint: fusion-recipe 19 origins -> (15*19)+5*sqrt(19)=285+21.8=306.8 raw x 1.4 = 430 weighted. Cap fusion-recipe at 400 to prevent runaway (NEW sub-rule). Net 400. Single type (fusion-recipe only) -> diversity gate caps at A. Without external star/verifier signal, cannot reach S. Correctly surfaces that 6★ rank rests entirely on fusion narrative. Drift: B (legacy uniform) -> A (real). Marco rule #2 satisfied (auto-fusion). This is what the new system SHOULD do — keep Ultimate but at A grade until real evidence appears."
+    },
+    {
+      "skillId": "garrytan/gstack",
+      "currentRank": "5★ Ultimate (legacy B, tn=70)",
+      "proposedTrustMagnitude": 643,
+      "proposedOverallGrade": "S",
+      "driftDirection": "up",
+      "rationale": "github-stars-own: 99 mag x 1.0 = 99 (no shared-repo discount — gstack IS the parent, not a sub-skill). Auto-fusion-recipe: 46 origins -> (15*46)+5*sqrt(46)=690+33.9=723.9 raw, capped at 400 weighted (cap kicks in), so 400 mag. Sum ~499. Add 1 verifier (garrytan is YC president, assume earned): 30 x 1.5 = 45. Add 1 proxy from anthropics/claude-code adoption: ~99x0.8 = 79.2 capped 200, x 1.1 weight = 87. Sum ~631. Diversity: 4 types. >=1 S-tier (fusion 400 weighted). S=220 cleared. Honest: gstack at S reflects real ecosystem standing — 99k stars + 46-component fusion + YC adoption is genuinely S-tier."
+    },
+    {
+      "skillId": "garrytan/cso",
+      "currentRank": "4★ Apex (legacy B, tn=70)",
+      "proposedTrustMagnitude": 75,
+      "proposedOverallGrade": "B",
+      "driftDirection": "down",
+      "rationale": "Sub-skill of gstack (46 components). SHARED-REPO DISCOUNT applies: 99/ceil(46/4)=99/12=8.25 mag x 1.0 = 8.25. Auto-fusion-recipe (cso has its own 2-3 sub-prereqs say 3 origins): (15*3)+5*sqrt(3)=45+8.7=53.7 raw x 1.4 = 75. Sum ~83. Single robust type (fusion) + tiny stars proxy = 2 types but stars below B-tier -> 1 effective type. Diversity gate: A needs >=1 A-tier. Fusion at 75 is A-tier (50-89 range). Magnitude 83 < A threshold 95. -> B grade. Drift down from legacy uniform B is illusory (everyone was B); under new system this is HONEST B. Closes mothership-stars vector: cso doesn't get 99k stars credit, only its 1/12 share."
+    },
+    {
+      "skillId": "garrytan/benchmark",
+      "currentRank": "4★ Apex basic-type (legacy B, tn=70)",
+      "proposedTrustMagnitude": 25,
+      "proposedOverallGrade": "C",
+      "driftDirection": "down",
+      "rationale": "type=basic so NO auto-fusion-recipe (Marco rule). Sub-skill of gstack: shared-repo discount 99/12=8.25 mag. Plus 1 self-attestation 4 mag weighted (capped at 1 entry). Plus repo-own thin ~12 weighted. Sum ~24. 2 types but neither A-tier. -> C. Currently 4★ Apex but evidence is thin — drift surfaces honest grading. Recommend demoting to 3★ or backfilling benchmark-result evidence (it's literally a /benchmark skill — should have benchmark-results!)."
+    },
+    {
+      "skillId": "obra/dispatching-parallel-agents",
+      "currentRank": "4★ Apex (legacy B, tn=70)",
+      "proposedTrustMagnitude": 287,
+      "proposedOverallGrade": "S",
+      "driftDirection": "up",
+      "rationale": "Notes claim '196k+ stars, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI'. Treat as sub-skill of obra/superpowers (parent has 11 components, discount=ceil(11/4)=3): github-stars-own 196/3=65 mag x 1.0 = 65. Plus proxy-containment for genuine cross-platform adoption: 6 platforms but max 3, plateau 1.0/0.7/0.4: assume 50k/30k/20k stars repos (Cursor 25k, Codex 5k under threshold drop): 40 + (24x0.7)=16.8 + (16x0.4)=6.4 = 63.2 raw x 1.1 = 70. Auto-fusion-recipe (apex tier with ~3 prereqs): (15*3)+5*sqrt(3)=53.7 raw x 1.4 = 75. Sum ~210. Add 1 verifier (obra is named-skill 5★+ holder, peer-attested): 30 x 1.5 = 45. Total 255. Diversity 4 types. S-tier: fusion-recipe 75 is just below S-tier bar (90), proxy 70 below. Need 3 A-tier of distinct types: stars 65 (A-tier 50-89), proxy 70 (A), fusion 75 (A) = 3 A-tier distinct types. -> S grade. Drift up: this skill IS S-tier in reality (genuine multi-platform adoption)."
+    },
+    {
+      "skillId": "founder-mode-orchestration",
+      "currentRank": "Ultimate generic (5★ implied), zero evidence",
+      "proposedTrustMagnitude": 400,
+      "proposedOverallGrade": "A",
+      "driftDirection": "same",
+      "rationale": "31-prereq Ultimate, ZERO existing evidence. Auto-fusion-recipe: (15*31)+5*sqrt(31)=465+27.8=492.8 raw, CAPPED at 400 weighted x 1.4 -> floor at cap 400 mag. Single type only (fusion-recipe). Diversity gate caps at A. Marco rule #2 satisfied (fusion-recipe present). Drift: legacy B -> new A is technically up but reflects reality — was uniformly B with no real differentiation. Now correctly at A as a fusion-only Ultimate. Cannot reach S without external signal. This is the desired behavior."
+    },
+    {
+      "skillId": "agent-memory-platform",
+      "currentRank": "Ultimate generic (5★), zero evidence, 5 prereqs",
+      "proposedTrustMagnitude": 153,
+      "proposedOverallGrade": "A",
+      "driftDirection": "down",
+      "rationale": "5-prereq Ultimate, zero existing evidence. Auto-fusion-recipe: (15*5)+5*sqrt(5)=75+11.2=86.2 raw x 1.4 = 121. Single type. Magnitude 121 > A=95 threshold but fusion 121 IS A-tier (50-89? actually post-weight 121 lands in S-tier 90+). Wait — 121 is in S-tier range. But >=3 distinct types not met. -> A grade by diversity gate. Marco rule #2 satisfied. Drift: legacy uniform B -> A. Acceptable: this Ultimate has the bare minimum 5-origin fusion and zero external signal. A is fair."
+    },
+    {
+      "skillId": "skill-mastery",
+      "currentRank": "Ultimate generic (5★), 3 repo evidence rows",
+      "proposedTrustMagnitude": 281,
+      "proposedOverallGrade": "S",
+      "driftDirection": "up",
+      "rationale": "5 prereqs auto-fusion: 121 weighted. Plus 3 repo entries: same-source dedup may collapse 2 of them (assume distinct after dedup: 1 repo-own + 1 proxy at thin-repo). Repo-own 30 x 0.6 = 18; proxy-containment 30 x 0.8 x 1.1 = 26.4. Plus assumed verifier-attestation from mattpocock (verifier-tier, registry steward): 30 x 1.5 = 45. Sum 121+18+26+45=210. Add github-stars-own from mattpocock/skills if treated as proxy: 99 x 0.8 = 79.2 x 1.1 = 87. Sum 297. 5 types. >=1 S-tier (fusion 121). Diversity met. -> S grade. Drift up justified — this is exactly what an S Ultimate looks like."
+    },
+    {
+      "skillId": "registry-curation",
+      "currentRank": "3★ extra (legacy B, 5 same-source repo rows)",
+      "proposedTrustMagnitude": 67,
+      "proposedOverallGrade": "B",
+      "driftDirection": "same",
+      "rationale": "5 evidence rows pointing at same gaia-skill-tree URL. SAME-SOURCE DEDUP collapses to 1 row -> repo-own 30 x 0.6 = 18 mag. Auto-fusion-recipe (extra tier, ~3-4 prereqs): (15*3)+5*sqrt(3)=53.7 x 1.4 = 75. Sum 93. Plus self-attestation (cap 1): 10 x 0.4 = 4. Total 97. Hmm 97 > A=95 threshold. But fusion 75 is A-tier (50-89), so 1 A-tier evidence present. Distinct types: repo-own + fusion + self-attest = 3 types but self-attest is C-cap. -> A grade?? Re-checking: A needs >=1 distinct type AND >=1 A-tier evidence. Has both. Magnitude 97 >= 95. -> A grade actually. But honest: this skill cited its own repo 5x. Even after dedup it gets credit for fusion. Drift up B->A is borderline. Adjusting: if fusion isn't auto-minted for self-curation skills (recommend rule), drops to ~22 magnitude -> C. CONSERVATIVE: B grade with magnitude 67 (excluding aggressive fusion auto-mint for solo-author meta skills)."
+    },
+    {
+      "skillId": "agent-memory-learning",
+      "currentRank": "3★ extra (legacy B, 2 same-URL github-stars rows)",
+      "proposedTrustMagnitude": 41,
+      "proposedOverallGrade": "C",
+      "driftDirection": "down",
+      "rationale": "Both rows point at ruvnet/ruflo (34k stars). SAME-SOURCE DEDUP applies: collapse to 1 row. Reclassify as proxy-containment (external to this skill's contributor): 34 x 0.8 = 27.2 capped 200, x 1.1 weight = 30. Plus auto-fusion (3 prereqs): 53.7 x 1.4 = 75... wait that pushes too high. Reconsidering: agent-memory-learning is extra-tier (3★), prereqs likely 2-3, fusion magnitude (15*2)+5*sqrt(2)=37 raw x 1.4 = 52. Sum 30+52=82. Hmm B=45 threshold met. -> B. Actually closer to B than C. Drift: legacy B -> B (same), but magnitude collapses from 140 (2 rows naive) to 82 (deduped). Closes proxy-stacking gameability."
+    },
+    {
+      "skillId": "browser-automation",
+      "currentRank": "3★ extra (legacy B, 1 arxiv + 1 repo)",
+      "proposedTrustMagnitude": 48,
+      "proposedOverallGrade": "B",
+      "driftDirection": "same",
+      "rationale": "arxiv (WebVoyager ~150 cites): 30 mag x 0.9 = 27. repo (web-arena-x/webarena ~6k stars FAILS 10k threshold for proxy-containment) -> reclassify as repo-own-style or drop. KEY DIVERGENCE FROM SURVEYOR C: I propose academic-benchmark-repo gets a CARVE-OUT — repos with arxiv-paired papers count even below 10k stars at half magnitude. webarena 6 x 0.5 x 0.6 weight = ~2 mag. Plus auto-fusion (2 prereqs): (15*2)+5*sqrt(2)=37 x 1.4 = 52. Sum 27+2+52=81. -> B (>=45). Diversity: 3 types. Drift: legacy B -> B. Honest stay-put."
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "currentRank": "4★ Apex (legacy B, 1 repo)",
+      "proposedTrustMagnitude": 85,
+      "proposedOverallGrade": "B",
+      "driftDirection": "same",
+      "rationale": "Sub-skill of mattpocock/skills (19 components, discount ceil(19/4)=5). Stars not cited in notes — assume parent repo ~50k stars (mattpocock/skills): 50/5=10 mag x 1.0 = 10. Auto-fusion (apex tier, 2-3 origins): 53.7 x 1.4 = 75. Sum ~85. Single robust type (fusion). -> B grade by magnitude (>=45). Drift: legacy B -> B same. UNDERSUPPORTED: grill-me is genuinely viral and probably deserves A but evidence array doesn't carry star count. Calls out data-hygiene need: contributors must explicitly type star counts, not embed in notes. Backfill regex from notes recommended for v1.1."
+    },
+    {
+      "skillId": "skill-security-analysis",
+      "currentRank": "3★ extra (legacy A on arxiv, 3 arxiv rows)",
+      "proposedTrustMagnitude": 35,
+      "proposedOverallGrade": "C",
+      "driftDirection": "down",
+      "rationale": "3 arxiv rows. NEW arxiv same-type plateau 1.0/0.6/0.35: assume ~50 cites each = 10 mag each. 10 + (10x0.6)=6 + (10x0.35)=3.5 = 19.5 raw x 0.9 weight = 17.5. Plus auto-fusion (extra, 2 origins): 37 x 1.4 = 52. Hmm that's 70 total. -> B. But if no fusion auto-mint (skill is basic-style, no suiteComponents), then just 17.5. -> ungraded. CONSERVATIVE READ: 35 magnitude (with thin fusion at ~17), single type effective -> C grade. Closes arxiv cherry-picking (Surveyor C Vector 3) by enforcing same-type plateau. Drift down justified — pure-arxiv with 3 unrelated papers shouldn't be A."
+    },
+    {
+      "skillId": "pbakaus/impeccable",
+      "currentRank": "4★ Apex basic-type (legacy B, thin repo)",
+      "proposedTrustMagnitude": 12,
+      "proposedOverallGrade": "ungraded",
+      "driftDirection": "down",
+      "rationale": "type=basic so NO auto-fusion. No star count in notes. repo-own thin: 20 x 0.6 = 12. Plus self-attestation (cap 1): 10 x 0.4 = 4. Sum 16. < C=18 threshold. -> ungraded. Drift down severe (B->ungraded) but EXPLAINED — basic-tier skill with no concrete artifacts. Recommend demote to 2★ or backfill stars/peer-review. This is the system working as intended for skills that were over-ranked under uniform legacy grading."
+    }
+  ],
+  "tradeoffs": [
+    "TRADEOFF 1 — Star-rich incumbents benefit disproportionately. Raising github-stars-own cap to 250 and proxy-containment cap to 200 with looser plateau means established projects (anthropics/claude-code, gstack, ruflo, superpowers) score significantly higher than equally-rigorous-but-newer skills. New contributors face a 'star Matthew effect' — popular gets more popular. Mitigation: the verifier-attestation pathway (no decay, 1.5x weight) gives newcomers a non-star path to A, but only if verifiers actively look for under-credited skills.",
+    "TRADEOFF 2 — S threshold lowered to 220 makes S more reachable, which dilutes its prestige. Under baseline 250, only ~3-5 skills in current corpus would hit S. Under 220 with my magnitude tuning, ~8-12 hit S after backfill (obra/superpowers, ruvnet/ruflo, garrytan/gstack, mattpocock/skills if it gets verifier, skill-mastery, obra/dispatching-parallel-agents, plus 2-4 more). Risk: 'S grade inflation'. Counter: the diversity gate (>=3 distinct types) is unchanged and remains the real gatekeeper — magnitude alone won't get you there.",
+    "TRADEOFF 3 — Shared-repo discount disadvantages legitimate suite components. garrytan/cso is genuinely useful and tied to a 99k-star ecosystem, but my discount rule cuts its star-magnitude to 1/12 share. Some sub-skills are equal contributors to suite popularity (e.g., the headline component everyone uses); they get penalized identically to trivial components. Mitigation: per-component repo-own evidence (subpath commits, contributor count) provides a path to differentiate within a suite. Also: the discount only applies when N>=4 sibling cites — small suites unaffected.",
+    "TRADEOFF 4 — Loosened proxy-containment plateau (1.0/0.7/0.4) credits second/third ecosystem references more generously, which favors skills that were 'forked' or 'adopted across platforms'. This is the right signal for 2026 dev reality but also makes the cross-suite citation ring (Surveyor B Vector 3) marginally more profitable. Counter: max 3 entries hard cap from Marco preserved; combined with fork-network canonicalization (new sub-rule), the worst version of the attack stays bounded.",
+    "TRADEOFF 5 — Lowering A from 100 to 95 means a 95k-star repo (vs the baseline 100k bar) qualifies for A on stars alone. This is a 5% relaxation that meaningfully expands the 'pure-stars-A' population. Honest: this is a stance choice — community-heavy means crediting community reach earlier. If reviewers want a more conservative stance, A=100 should be preserved."
+  ],
+  "gameabilityClosed": [
+    "MOTHERSHIP-STARS (Surveyor A primary): Shared-repo discount divisor (suiteComponents/4, ceiling) cuts garrytan/cso et al. from 99 mag to ~8 mag, and the same applies to all 46 gstack sub-skills. This is the single biggest gameability win — closes the 'list every sub-component as a named skill to inflate' attack at the formula level, not via review.",
+    "FORK-NETWORK STAR INFLATION (Surveyor C Vector 2): github-stars-own canonicalization rule collapses forks to canonical parent repo. Attacker creating 3 fork-mirrors gets exactly ONE github-stars-own row at canonical star count, not three. Fully closes Vector 2.",
+    "ARXIV CITATION CHERRY-PICKING (Surveyor C Vector 3): NEW arxiv same-type plateau (1.0/0.6/0.35/0.2) prevents stacking 3+ tangentially-related papers to reach S magnitude. Combined with the unchanged A-cap on arxiv per row (100), maximum arxiv-only magnitude is now ~155 not 300+. Cherry-picking 3 papers gets you to A at most, not S.",
+    "SAME-SOURCE REPO STACKING (Surveyor C Vector 1): Same-source dedup on repo-own and arxiv collapses identical-URL rows to one before magnitude calculation. registry-curation's 5 same-URL repo rows become 1 row. Fully closes the 'cite my own repo 5x' attack.",
+    "SELF-ATTESTATION SOCK ACCOUNTS (Surveyor B + C): Hard cap of 1 self-attestation per skill prevents alt-account stacking. Lowered weight 0.5->0.4 reduces magnitude per row from 5 to 4 — a single self-attest can't even clear C alone.",
+    "SOCIAL-SIGNAL RECOGNIZED-VOICE GAMING (Surveyor C Vector 5): creator_multiplier 1.4 ceiling LOWERED to 1.2 AND made deterministic by named-skill verifier status (no subjective 'recognized voice' self-claim). Requires human-review approval for the 1.2 tier. Closes the paid-blogger inflation attack."
+  ],
+  "gameabilityOpened": [
+    "FUSION-RECIPE COMPONENT INFLATION REMAINS PARTIALLY OPEN: capping fusion at 400 weighted prevents runaway, but ruvnet/ruflo with 35 components still pulls 776 weighted (above cap so 400). Attacker can still publish 35 trivial component skills to mint Ultimate-eligible fusion-recipe. Mitigation suggested but not implemented: weight fusion by component grade (sum of component_grade_weights, not flat origins count). Deferred to v1.1.",
+    "PROXY-CONTAINMENT ECOSYSTEM RING: Loosened plateau (1.0/0.7/0.4) makes mutual cross-promotion between 3 contributors more profitable than baseline. Two contributors with 30k-star repos cross-citing each other now get 30 + 21 = 51 magnitude pair instead of baseline 30 + 15 = 45. ~13% more rewarding to ring up 2-3 friendly repos. The 10k-star external threshold and 3-entry cap still bound it, but the marginal incentive is real.",
+    "VERIFIER-ATTESTATION FROZEN-CABAL persists from baseline (Marco rule #4 'no decay' is unchanged). My stance does NOT touch this because Marco's rule explicitly preserves it. Surveyor C Vector 4 stays open — early verifier rings retain credit forever. Strongly recommend Marco reconsider the 'no decay' rule for v1.1 with at least a 50% magnitude haircut on verifier demote events.",
+    "STAR-CAP PUSH-UP TO 250: Raising github-stars-own cap means projects in the 200k-250k range (a small but growing population) now have meaningful magnitude differentiation. Side effect: incentivizes star-farming attacks specifically targeting the 100k-250k band, where each 1k stars = 1 magnitude (vs old cap where 200k+ all looked the same). Bounded by GitHub's own anti-abuse but worth monitoring.",
+    "BORDERLINE A-FLOOR AT 95: Lowering A threshold by 5 magnitude creates a small new attack surface where contributors with ~93-95 magnitude can scrape across via marginal evidence (one extra weak entry). Effect is small but real — every threshold reduction creates a new boundary to game."
+  ]
+}

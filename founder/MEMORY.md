@@ -102,7 +102,28 @@ After execution: milestone #4 contents = exactly {#185, #642, #649, #658, #699, 
 
 ## Session Log
 
-- **2026-06-17 (session 8 closeout — PRs #713 + #714 merged, G7 implementation handover drafted)** — User direction: "everything works. Merge all, make sure nothing gets lost. Afterwards, review founder/ instructions again and create a handover for the next PRs to implement G7 finally."
+- **2026-06-17 (session 8 verification pass — four-proposal artifacts recovered, RFC verification issue drafted)** — Marco's request: "recall the dynamic workflow we first launched to set up RFC G7 (the one with community, strict, etc.)—there were 4 proposals. I need those files in case I want to revisit RFC. Create an actual RFC GitHub issue for all four, specifically highlight their differences and the judges response and I'll compare. I was worried since 6 star apex may or may not have been included in the proposals. Park Phase 1.5 G7 implementation as the 'current winner' of those proposals. Park as well other dependencies we might trace back to (from G2 to G6 is that correct). Note that this is a verification pass from me, before we do the big bang implementation."
+
+  **Source workflow recovered:** `wf_6e5a4374-b85` (Wave A `g7-trust-taxonomy-consensus`, 21 agents, 1.12M subagent tokens, 2026-06-16 session 5). Script lives at `C:\Users\C5396183\.claude\projects\C--Users-C5396183-gaia-skill-tree-founder-handovers\80db7142-5240-4034-ae6d-0c80d7b61136\workflows\scripts\g7-trust-taxonomy-consensus-wf_6e5a4374-b85.js`. Transcripts at `subagents/workflows/wf_6e5a4374-b85/agent-*.jsonl` (61 agents total).
+
+  **Artifacts extracted to `founder/handovers/g7-proposals/`:** All four proposer `StructuredOutput` payloads (P1-strict-S 19kb / P2-attainable-S 17kb / P3-fusion-heavy 22kb / P4-community-heavy 24kb), all 12 judge verdicts (3 lenses × 4 proposals; **all 12 refuted**, scores 3.17–4.50), and the synthesizer output (21kb) that became the RFC.
+
+  **Key verification finding — apex gate origin clarified:** None of the four proposals built the **9-predicate hard apex gate** or the **system-wide cap of 5**. All four mention apex/Ultimate/6★ in passing; their treatments diverge wildly (P1 forces all Ultimates to A; P2 lets both 6★ skills hit S via fusion-only relaxation; P3 lets ruvnet/ruflo hit S via fusion-recipe alone; P4 lets ruvnet/ruflo hit S via fusion+stars). The apex gate (§10.11–§10.14) was added by the **separate session-6 audit workflow** `wf_f14f7317-972` (7 agents, 595k tokens, AFTER synthesis). Implication: if Marco swaps the synthesis winner, the 9-predicate gate + cap=5 + anti-auto-mint clause **survive the swap** — independent additions, not load-bearing on stance.
+
+  **Verdict tally per proposal (all refuted by all 3 lenses):**
+  - P4 Community-Heavy: avg 4.50 (structural winner)
+  - P1 Strict-S: avg 4.33
+  - P2 Attainable-S: avg 4.00
+  - P3 Fusion-Heavy: avg 3.17 (lowest)
+  - Synthesis: P4 base + P1+P3 grafts; thresholds reverted to baseline 250/100/50/20.
+
+  **Issue draft authored:** `founder/handovers/G7_VERIFICATION_ISSUE_DRAFT.md` (~16kb). Per founder/CLAUDE.md "Every GitHub write... drafted first and executed only after Marco approves" — issue is staged, not posted. Body covers: TL;DR comparison table; per-proposal stance + judge weaknesses; **§2 6★ apex coverage matrix** (P1/P2/P3/P4/synthesis vs session-6 additions); §3 implementation handover parked as "current winner"; §4 dependency traceback G1→G7 to I1–I6 (G2 #704 grade-fallback feeds I2 `_effective_grade`; G4 #709 verification-tier feeds I2 enterpriseReady predicate; G3 scanner needs to wire `security_scan_passed` events for I3 backfill; G6 narrow-tree compat for I6); §5 four verification questions (Q1: pick anchor; Q2: keep apex gate; Q3: keep anti-auto-mint; Q4: re-run consensus?).
+
+  **Phase 1.5 implementation handover parked behind verification pass.** No I1/I2 dispatch until Q1+Q2+Q3 nodded.
+
+  **Token spend (session 8 verification pass — this turn):** Opus 4.8 orchestrator ~70k in / ~18k out / ~$2.10.
+
+
 
   **Merged (squash):**
   - **PR #713** (`bbf7a5d1`) — homepage Evidence Grade Cycle restore + G7 supersession meta-post (3 commits collapsed: `cee7c66c` + `07f25788` + `af3d411d`).

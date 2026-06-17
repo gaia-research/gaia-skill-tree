@@ -1,0 +1,414 @@
+[
+  {
+    "proposalId": "P3-fusion-heavy",
+    "lens": "DRIFT SEVERITY",
+    "score": 3.5,
+    "refuted": true,
+    "reasoning": "P3-fusion-heavy fails the drift-severity sweet spot (20-35% drift, mostly 1 tier) on multiple dimensions. The 12-skill calibration sample shows 10/12 (83%) drifting — already 2.4× the upper bound. Worse, the drift is structurally bimodal: 5 skills jump UP (mostly to S) and 5 drop DOWN, with at least 2 dropping ≥2 tiers (garrytan/cso 4★→C, garrytan/benchmark 4★→C — these are not 1-tier moves, they're 2-3 tier collapses from Apex to ungraded-adjacent). Extrapolated to corpus: 123 of 235 named skills carry suiteRef (52%) and are exposed to the mothership discount, which divides github-stars-own magnitude by suiteComponents-count. For a 20-component suite, that's a 20× cut to the dominant evidence type. Surveyor B's prediction (\"most 4★+ jump to A or S\") becomes asymmetric carnage: a small Ultimate elite ascends to S while the much larger sub-skill tier (the actual community workhorses) drops 1-2 tiers. This is the OPPOSITE of community-trust-preserving migration — it concentrates prestige at the top while devaluing the breadth. Proposer's own Tradeoff 3 admits \"~30% drift with ±2 tier swings\" but the calibration evidence suggests 40-60% with bimodal severity. The bootstrap rule (rank≥2★ counts as graded for 30 days) papers over the prereq problem but doesn't address the mothership-discount cliff, which has no migration ramp. Additionally, the S-fusion-exception is gated to type=ultimate only (7 skills total in corpus) — a \"headline rule\" affecting <3% of the corpus is doing very little real work for the >50% getting hit by the suite discount. Refuted because the migration is chaotic in exactly the way Marco rule #6 warned about (\"stamp report must include per-skill magnitude breakdown so contributors see WHY they moved\") — the proposal acknowledges the comms problem but doesn't actually solve it; it just labels the chaos as acceptable cost. The drift profile is too top-heavy-up and too suite-heavy-down to be defensible at June 2026 cutover.",
+    "strengths": [
+      "Calibration table is honest — proposer shows the bimodal drift rather than hiding it behind aggregate numbers",
+      "Graded-prereqs-only origin counting closes a real gameability vector (Surveyor C's fake-fusion stuffing) and is the right structural answer",
+      "Bootstrap rule (rank≥2★ counts during 30-day stamp window) shows the proposer thought about migration mechanics, even if it doesn't cover the mothership-discount case",
+      "S-fusion-exception is narrowly scoped to type=ultimate, which prevents the rule from leaking into Extra/Apex tiers and causing further drift cascades",
+      "Self-attestation hard cap at 1 entry and same-source dedup at intake are both clean wins that REDUCE drift relative to baseline (not increase it)"
+    ],
+    "weaknesses": [
+      "Mothership discount is the single largest drift driver and has no migration ramp — 123 suiteRef skills face up to 20× magnitude cuts on day one, with no equivalent of the 'rank≥2★ counts as graded' bootstrap softening",
+      "Calibration sample is too small (12 skills) and conveniently picks the most legible cases; the 100+ basic skills with sparse evidence are not represented, and they're the tier most likely to drift ungraded",
+      "S-fusion-exception affects only 7 skills in the entire corpus — calling it 'the headline rule' overstates impact; the actual drift is being driven by the dedup/discount rules quietly bundled in",
+      "Tradeoff 3 self-reports '~30% drift' but the calibration table shows 83% drift in sample — proposer's own evidence contradicts their own tradeoff acknowledgment and they don't reconcile the gap",
+      "Asymmetric drift pattern (Ultimates up, sub-skills down) creates a community-narrative problem that 'magnitude breakdown in stamp report' will not fix — contributors who lose 2 stars will see the explanation as justification, not consolation",
+      "Pure-arxiv academic skills get hit by the new arxiv plateau (1.0×/0.5×/0.25× max 3) on top of any other reductions — proposer mentions this in passing but doesn't include any in the calibration sample to show the magnitude",
+      "Verifier-attestation null-on-derank is technically a tightening from 'flag-only' but also a silent retroactive rule change — any 4★+ skill currently propped up by a now-3★ verifier loses magnitude with no warning path"
+    ],
+    "recommendedFixes": [
+      "Add migration ramp for mothership discount: divide by sqrt(suiteComponents) at cutover, then transition to full divide-by-N over 90 days. Halves day-one drift on the 123 suiteRef skills while preserving the steady-state intent.",
+      "Expand calibration table to ≥30 skills, explicitly including: 5+ basic skills with sparse evidence, 5+ suite sub-skills (e.g., garrytan/health, gstack components other than the four shown), 3+ pure-arxiv skills, and at least one verifier-attestation-dependent skill. Without this, the drift projection is unverifiable.",
+      "Reconcile Tradeoff 3's '~30% drift' claim against the 83% drift rate in the calibration sample — either retract the 30% number or show the corpus-weighted math that makes 83% in-sample yield 30% overall.",
+      "Cap day-one tier moves at ±1 for the June 2026 stamp report — any skill the formula wants to drift ≥2 tiers gets clamped to 1 tier and flagged for individual review in a follow-up window. Removes the 'garrytan/cso 4★→C' style collapses from the cutover narrative.",
+      "For verifier null-on-derank: add a 30-day grace period where the verifier's contributed magnitude decays linearly to 0, rather than zeroing instantly. Same hardening intent, gentler migration footprint.",
+      "Publish the per-skill magnitude breakdown for ALL named skills 14 days BEFORE the stamp report goes live, with a contestation window. Treats migration as a public process, not a fait accompli — addresses the comms gap that Tradeoff 3 acknowledges but does not solve."
+    ],
+    "_agentFile": "agent-a15a8db79b58cac5a.jsonl",
+    "_role": "DRIFT-SEVERITY",
+    "_promptProposalId": "P3-fusion-heavy — Fusion-Heavy Structuralist"
+  },
+  {
+    "proposalId": "P3-fusion-heavy",
+    "lens": "CORPUS FIT",
+    "score": 3,
+    "refuted": true,
+    "reasoning": "The calibration table contains the exact failure pattern the lens flags as refutation territory: 4-star Apex skills landing at C grade. garrytan/cso (4-star Apex) -> C and garrytan/benchmark (4-star Apex) -> C are both well-regarded skills inside a respected suite (gstack itself lands at S). Two of three sampled 4-star skills dropping two tiers to C grade is not honest drift, it is nonsense drift. The mothership-discount mechanic (dividing sub-skill stars by suiteComponents count) is the proximate cause: gstack has ~40+ components, so each sub-skill's stars-magnitude gets gutted, leaving only weak supporting evidence. The proposal's own framing says basic/component skills should be 'hard to lift to S without external validation' but it accidentally pushes them BELOW B, which contradicts their 4-star Apex rank in the canonical graph. A second corpus-fit problem: mattpocock/skills (6-star Ultimate) lands at A while ruvnet/ruflo (6-star Ultimate) lands at S. Both are top-of-class capstones widely cited as exemplars of the registry; splitting them across two grades on a structural origin-count technicality (7+ origins triggering S-fusion-exception) produces inconsistent contributor-facing signal. Marco rule #1 explicitly preserves 'pure-stars CAN reach A' — but here a 6-star Ultimate from a respected author is capped at A precisely because the proposal devalues every non-fusion type. Finally, agent-memory-platform sitting at exactly the S threshold (magnitude 250) but landing at A suggests a tie-break inconsistency in the table itself. The proposal's stance is intellectually coherent and the structural argument for fusion-recipe is sound, but the calibration evidence shows it produces grades that contradict community intuition at both the top (split 6-star Ultimates) and the middle (4-star Apex -> C). Refute.",
+    "strengths": [
+      "S-tier outcomes for ruvnet/ruflo and garrytan/gstack match intuition cleanly — the headline capstones land where they should",
+      "3-star Extra skills with thin evidence (registry-curation, agent-memory-learning) dropping to ungraded/C is honest drift consistent with their actual evidence stacks",
+      "obra/superpowers landing at S aligns with community perception as a deep, well-fused suite",
+      "Tradeoff 3 (sharp migration drift) is acknowledged transparently rather than hidden — proposer shows their work as the baseline rules require",
+      "workflow-automation at B 'drift same' shows the middle of the distribution is stable, which is what calibration is supposed to confirm"
+    ],
+    "weaknesses": [
+      "TWO of THREE sampled 4-star Apex skills (garrytan/cso, garrytan/benchmark) drop to C grade — exact failure mode the lens calls out for refutation",
+      "Mothership-discount mechanic over-corrects: dividing by suiteComponents count gut-shoots every individual skill in a large suite regardless of its own merit",
+      "mattpocock/skills (6-star Ultimate) at A while ruvnet/ruflo (6-star Ultimate) at S splits two top-of-class peers across grades on a fusion-origin technicality, producing inconsistent contributor signal",
+      "agent-memory-platform at magnitude 250 (= S threshold) landing at A suggests tie-break logic in the calibration table doesn't match the published rules",
+      "No evidence the proposer ran the calibration on Apex (4-star) and Master (3-star) tiers as a population — sample size of 3 Apex is too thin to claim '~30% drift' is acceptable",
+      "Pure-community-hit ceiling at A is defensible in principle but the table doesn't include any such skill to verify the rule lands gracefully"
+    ],
+    "recommendedFixes": [
+      "Replace mothership-discount-by-count with a softer rule: divide suite-root stars by sqrt(suiteComponents) instead of suiteComponents, OR cap the discount at /5 maximum. This keeps the gameability fix but stops gutting 4-star Apex sub-skills",
+      "Add a floor rule: any skill at 4-star+ in canonical gaia.json cannot drop below B grade in the stamp report without an explicit per-skill justification in the migration notes. Prevents structural rules from contradicting community-validated rank",
+      "Reconcile mattpocock/skills vs ruvnet/ruflo: either both 6-star Ultimates land at S (raise mattpocock by lowering S-fusion-exception threshold to 5+ origins) or accept they're genuinely different and document the threshold publicly",
+      "Expand calibration sample to at least 10 Apex (4-star) skills before publishing — three is not enough to validate that the C-grade outcomes for cso/benchmark are isolated rather than systemic",
+      "Clarify the agent-memory-platform tie-break: at magnitude 250 with the S threshold also at 250, is the rule '>= 250' or '> 250'? The table inconsistency should not exist",
+      "Add at least one hypothetical pure-community-hit skill (single repo, 100k+ stars, no fusion) to the calibration table to verify the A-cap lands without surprise"
+    ],
+    "_agentFile": "agent-a23d0a1be74179c74.jsonl",
+    "_role": "CORPUS-FIT",
+    "_promptProposalId": "P3-fusion-heavy — Fusion-Heavy Structuralist"
+  },
+  {
+    "proposalId": "P1-strict-S",
+    "lens": "DRIFT SEVERITY",
+    "score": 3,
+    "refuted": true,
+    "reasoning": "Calibration sample shows ~92% drift rate (11 of 12 skills move grade), with 100% of the 6-Ultimate tier dropping to A. The sweet-spot guidance is 20-35% drifting by 1 tier; this proposal is ~3x over the upper bound. The garrytan/gstack case (magnitude 1056 → grade A) is a public-credibility timebomb: any user seeing 'magnitude 4x over S threshold but graded A' will read the diversity gate as broken arithmetic, not principled gatekeeping. The 'path UP' the proposer offers (benchmark-result, verifier-attestation, peer-review) requires evidence types with ZERO corpus presence today — so on launch day there is no actual ladder, just a demotion. The 6-month grace period delays the pain but doesn't reduce drift magnitude. Refuted as written; not because the philosophy is wrong (strict-S has merit) but because the calibration evidence shows the formula collapses the high tier wholesale rather than discriminating among it. A 'no Ultimate is currently S' outcome means the formula isn't measuring trust differentials inside the apex tier — it's just declaring the apex tier inadmissible.",
+    "strengths": [
+      "sentiment-analysis drifting UP demonstrates the formula does some real discriminative work, not pure punishment",
+      "Marco hard constraints preserved verbatim — naming, fusion-mandatory-for-Ultimate, pure-stars-can-reach-A, social hard-A-cap, proxy plateau, verifier no-decay all intact",
+      "Mothership-discount and same-source dedup are genuinely novel anti-gaming mechanics that close vectors the baseline ignores",
+      "Proposer is honest about the high-tier compression risk and surfaces it as a tradeoff rather than hiding it",
+      "Diversity gate philosophy (>=4 distinct types for S) is defensible — S should require independent witnesses"
+    ],
+    "weaknesses": [
+      "~92% drift rate in the calibration sample (11/12) vs the 20-35% sweet spot — this is wholesale re-grading, not calibration",
+      "100% of current Ultimates (6 of 6) demote to A — apex tier collapses entirely on launch",
+      "gstack at 1056 magnitude landing at A, not S, will read publicly as a broken formula regardless of the diversity-gate justification",
+      "The 'path UP' relies on three evidence types (benchmark-result, verifier-attestation, peer-review) with zero corpus presence today — no contributor can practically traverse it on Day 1",
+      "6-month grace period is mitigation theater: rank-grade decoupling for 6 months across the entire apex tier is precisely the gameable window the proposer flags as a tradeoff",
+      "Benchmark-result fabrication risk is acknowledged but the mitigation (90-day independent re-run) introduces a coordination burden the corpus has no infrastructure for",
+      "Drift severity per skill skews to 1-tier moves, but the absolute volume + concentration in the apex tier is what matters for community trust, not per-skill magnitude"
+    ],
+    "recommendedFixes": [
+      "Soften S threshold to 280 magnitude with >=3 distinct types AND >=1 of {benchmark-result, verifier-attestation, peer-review} — keeps the diversity philosophy while letting at least 1-2 current Ultimates retain S if they can attach a single qualifying type during the grace window",
+      "Provide a v1.0 'grandfathering' rule: skills currently 5-star+ with magnitude >= 250 hold provisional S for 12 months while corpus accrues benchmark-result/verifier evidence — converts launch-day collapse into a deadline",
+      "Pre-seed the corpus with verifier-attestation evidence BEFORE flipping the formula — Marco himself plus 2-3 trusted contributors attesting to the current Ultimates would let several pass the new gate on Day 1",
+      "Lower the S diversity gate from 4 to 3 distinct types, keeping the 'must include 1 independently-witnessable type' clause — this preserves the anti-stacking intent while halving collateral demotions",
+      "Publish per-skill 'grade gap' diagnostic (which evidence type would clear the gate) in the stamp report, so demoted skills get a specific to-do list rather than a generic 'pursue benchmark-result' nudge",
+      "Reconsider the gstack=1056=A outcome specifically — either raise the magnitude alt-path ceiling or accept that diversity gate has a magnitude-override at extreme values (e.g., 5x threshold magnitude grants 1 type-credit)"
+    ],
+    "_agentFile": "agent-a24b41f4f9c59997f.jsonl",
+    "_role": "DRIFT-SEVERITY",
+    "_promptProposalId": "P1-strict-S — Strict-S Defender"
+  },
+  {
+    "proposalId": "P2-attainable-S",
+    "lens": "CORPUS FIT",
+    "score": 5,
+    "refuted": true,
+    "reasoning": "Top of corpus matches intuition well — ruvnet/ruflo, mattpocock/skills, garrytan/gstack, obra/superpowers, founder-mode-orchestration all land at S, which is where the community would put them. That part of the calibration is healthy. But two concrete corpus-fit violations force refutation under this lens. (1) garrytan/benchmark is rated 4★ Apex by human curators yet lands ungraded with magnitude 2.15 — a 4-tier collapse. The proposer's own baseline (in the system prompt) states '±2 tier drift requires explicit justification'; a 4★ Apex skill dropping below C is the textbook 'nonsense drift' the lens is told to refute. The proposer hand-waves this as 'acceptable migration pain' from the mothership-stars discount, but accepting an Apex→ungraded result means the formula is mis-pricing legitimate sub-skills, not just deflating star-leeches. (2) Inversion: obra/dispatching-parallel-agents (4★ Apex) lands at S while ruvnet/agentdb (5★ Ultimate) lands at A. A non-Ultimate outranking an Ultimate violates the basic corpus ordering. The Ultimate rank is curator consensus that this is top-shelf; if a 4★ outscores it, the formula is over-rewarding fusion-recipe weight (1.8) relative to other evidence types. Combined with Tradeoff-5 (mattpocock/engineering reaching S through phantom auto-fusion-recipe with zero real evidence), the picture is: the formula rescues some skills correctly, dilutes S by admitting 4★ Apex skills, and crushes other 4★ Apex skills to ungraded. That's not honest drift; that's incoherent drift. The Marco hard rules are preserved (good), the top of the corpus is sane (good), but the middle band — 4★ Apex skills — is not being graded coherently. Refute, but with a low-confidence margin: a fix to the mothership-discount formula and a small reduction of fusion-recipe weight (e.g., 1.7) would likely flip this to acceptable.",
+    "strengths": [
+      "Top-tier corpus fit is correct: the skills the community would call S (ruvnet/ruflo, mattpocock/skills, garrytan/gstack, obra/superpowers, founder-mode-orchestration) all land at S without inflation games",
+      "Marco hard constraints all preserved (Ultimate-fusion mandatory, social hard-A-cap, pure-stars-A reachable, proxy max-3 plateau, verifier no-decay)",
+      "Migration target of 30-40% of 5★+ skills at S is honest and demonstrates attainability rather than gating S behind unreachable thresholds",
+      "Closes six concrete gameability vectors (citation-stuffing arxiv plateau, repo-own dedup, mothership-stars discount, fork-network dedup, social-signal cross-row total cap, deterministic creator-multiplier) — all citable and specific",
+      "Proposer's own tradeoffs section is candid about Tradeoff-5 (phantom rescue) being uncomfortable, which signals self-awareness rather than concealment"
+    ],
+    "weaknesses": [
+      "garrytan/benchmark (4★ Apex) lands ungraded at magnitude 2.15 — a 4-tier collapse for an Apex skill, exceeding the baseline's ±2 tier drift tolerance and qualifying as nonsense drift under this lens",
+      "Corpus inversion: obra/dispatching-parallel-agents (4★) lands at S while ruvnet/agentdb (5★ Ultimate) lands at A — a non-Ultimate outranking an Ultimate violates curator-consensus ordering",
+      "Fusion-recipe weight 1.8 combined with the lowered S=200 threshold makes auto-minted fusion-recipe alone sufficient for S (mattpocock/engineering case), which the proposer admits is uncomfortable and only patches in a hypothetical PR-2",
+      "Mothership-stars discount is uncalibrated for sub-skill quality: it punishes garrytan/benchmark to ungraded but only takes garrytan/cso to B — the formula treats all sub-skills identically when their independent merit varies",
+      "Diversity-relaxation cliff at exactly 10 origins (proposer acknowledges) creates a measurable gaming incentive that the fusion-recipe weight bump amplifies",
+      "Drift table shows 4 of 12 calibration skills drifting down and 5 drifting up — net inflation pressure on S, which is exactly the failure mode the proposer claims to avoid"
+    ],
+    "recommendedFixes": [
+      "Tighten the mothership-stars discount: instead of dividing magnitude by N (suite component count), apply a softer dampener like sqrt(N) or cap the discount at 0.25× so legitimate sub-skills cannot collapse below C — this would lift garrytan/benchmark out of ungraded without re-enabling the 99k-stars-per-component vector",
+      "Reduce fusion-recipe weight from 1.8 to 1.65 — splits the difference vs. baseline 1.5, still rewards composability, but keeps obra/dispatching-parallel-agents (4★) below S and prevents the 4★>5★ inversion against ruvnet/agentdb",
+      "Add a rank-floor sanity rule: any skill at 4★+ should not land below B without an explicit override flag in the evidence record. Catches Apex→ungraded collapses at validation time rather than burying them as 'migration pain'",
+      "Apply Tradeoff-5's fix in v1 rather than deferring to PR-2: auto-minted fusion-recipe must be paired with at least one verifier-attestation OR repo-own row within 90 days, else the skill demotes to A. Otherwise S becomes a free-rank for any Ultimate",
+      "Smooth the 10-origin diversity cliff with a gradient (e.g., diversity_credit = min(3, types + max(0, origins-7)/3)) so there is no incentive to pad component lists by exactly one"
+    ],
+    "_agentFile": "agent-a3639ad53621c5d6b.jsonl",
+    "_role": "CORPUS-FIT",
+    "_promptProposalId": "P2-attainable-S"
+  },
+  {
+    "proposalId": "Community-Heavy Pragmatist (P4)",
+    "lens": "GAMEABILITY",
+    "score": 3,
+    "refuted": true,
+    "reasoning": "P4 closes some real vectors (mothership-stars via shared-repo discount, fork-network canonicalization, same-source dedup, arxiv plateau, self-attestation single-entry cap) but its threshold relaxations open multiple cheap S-reachable attacks. Concrete attacks under $5k / <2 weeks:\n\nATTACK A — Star-buy + verifier-trade Ultimate (cost ~$2-4k, ~1 week). Threshold: S=220, fusion-recipe weight 1.4 with sqrt softening still trivially S-capable. A 5-origin fusion = (75 + 5*sqrt(5)) * 1.4 = ~121 magnitude from fusion alone. Add a 60k-star repo (own or proxy: 60 magnitude) + a single benchmark-result claim (e.g., self-run percentile 90 → 90 * 1.4 = 126) → total ~307 magnitude, 3 distinct types, A-tier evidence present (benchmark @126 is A-tier, fusion @121 is S-tier under post-weight ≥90 rule). Hits S. Cost: buying ~30k GitHub stars on grey market ≈ $1-2k, fabricating benchmark result is free, fusion-recipe is self-declared.\n\nATTACK B — Pure-stars A→S laundering via proxy-loosening + shared-repo evasion (cost ~$2k). Author publishes 3 separate skills each citing different 50k-star ecosystem repos as proxy-containment. Plateau 1.0/0.7/0.4 means: 50 + 35 + 20 = 105 raw * 1.1 weight = 115.5 magnitude per skill from proxy alone. Add own-stars (40k = 40 magnitude) + fusion-recipe (3 origins = (45+5*1.73)*1.4 = ~75 magnitude post-weight) → 230+ magnitude, A-tier proxy entry (115>=90 = S-tier actually), 3 types. Hits S without verifier or benchmark. Shared-repo discount only triggers at N>=4 siblings citing SAME repo — author cites 3 DIFFERENT external repos, evades discount entirely.\n\nATTACK C — Sock-puppet verifier ring, unchanged from baseline. Verifier-attestation is 30 * verifiers * 1.5 = 45 per verifier with NO DECAY. 3 colluding 4★+ accounts (achievable by curating 3 named-skill bundles each — each bundle can be a thin wrapper) → 135 magnitude, S-tier (3+ verifiers triggers S-capable). Add 50k stars (50) + fusion (75) → 260 magnitude, hits S=220. Proposal does not tighten verifier-attestation at all. Cost: time to fabricate 3 thin named-skill bundles, ~$0.\n\nATTACK D — Recognized-voice creator-multiplier capture for social-signal. Proposal raises per-row social-signal effective cap to 70 and lowers ceiling multiplier to 1.2 BUT requires \"human-review approval\" without specifying who reviews or against what criteria. Under bootstrap (no 4★ verifiers exist OR verifier override env set), authorization gates collapse and a single insider can self-grant recognized-voice. 3 viral posts from \"recognized voice\" → log10(500k)*8*1.2*1.5 = ~82 raw, capped at 70 per row, plateau gives 70+35+17.5=122.5, hard A-cap at 80 → 80 magnitude social-signal alone. Combined with stars+fusion easily clears 220.\n\nATTACK E — Fusion-recipe sqrt softening still under-disciplined for thin Ultimates. (15*5 + 5*sqrt(5))*1.4 = ~120 post-weight for a 5-origin fusion. Marco rule #2 requires fusion for Ultimate but proposal claims pure-fusion Ultimates \"land at A unless they earn external evidence\". Math contradicts the claim: 120 alone is already A-tier (>=90 post-weight), and any 30k-star self-repo (30 magnitude) + 1 self-attestation (4 magnitude after weight 0.4) puts magnitude at 154 — clears A=95 with only 2 distinct types. Then add ONE proxy-containment to a popular repo (e.g., react @230k stars capped at 200, plateau 1st = 200 magnitude * 1.1 = 220 magnitude alone) → instantly past S=220 magnitude bar though still gated by 3-distinct-types. With 3 types (fusion+stars+proxy) = S-eligible if any A-tier exists. Proxy @ 220 is S-tier. S in one shot.\n\nCritically — ATTACK E's proxy-containment to react/vue/etc. is the killer. Cap raised to 200 means a single proxy-containment row to a 200k+ ecosystem repo = 200 raw * 1.1 weight = 220 post-weight magnitude. That ONE row is S-tier (>=90), and gets you 220/220 of the magnitude bar. Add fusion-recipe (mandatory for Ultimate, free) + own-repo (any small repo, ~5 magnitude) = 3 distinct types, 1 S-tier row → meets S triplet. Cost: zero. Just claim your skill \"wraps react patterns\" and cite facebook/react. Validation of proxy-containment claims is unspecified.\n\nTHIS IS THE FATAL FLAW. Proposal raised proxy-containment cap to 200 without tightening claim validation. ANY skill that can plausibly cite a 200k-star ecosystem (react 230k, vscode 165k, tensorflow 188k, vue 208k, kubernetes 110k, transformers 135k) gets a single-row S-tier evidence for free. Combined with mandatory fusion-recipe for Ultimate, every Ultimate in the registry is one proxy-claim away from S.\n\nRefuted. Multiple attacks <$5k and <2 weeks reach S. The proxy-cap raise to 200 is the most exploitable change.",
+    "strengths": [
+      "Shared-repo discount divisor (ceil(suiteComponentsCount/4)) genuinely closes the gstack-mothership vector for sub-skills citing same parent — calibration table confirms garrytan/cso drops to 75 (B) which is correct directionally",
+      "Fork-network canonicalization closes Surveyor C Vector 2 (forks counted as separate own-stars) — concrete improvement over baseline silence on this vector",
+      "Same-source dedup on repo-own and arxiv closes legitimate stacking attacks (registry-curation 5-rows-same-URL collapses correctly per calibration)",
+      "Self-attestation hardened: weight 0.5→0.4 AND max 1 entry per skill closes sock-account self-attestation stacking",
+      "Arxiv plateau (1.0/0.6/0.35/0.2) closes Surveyor C Vector 3 fully — this is a real tightening",
+      "Fusion-recipe sqrt softening (15n + 5*sqrt(n)) prevents the 35-origin ruflo runaway from dominating — 1050→555 raw is meaningful discipline"
+    ],
+    "weaknesses": [
+      "FATAL: proxy-containment cap raised 160→200 with no claim-validation requirement. A single claim citing react/vue/tensorflow/vscode (all >200k stars) yields 220 post-weight magnitude — S-tier in one row, clears S=220 magnitude bar alone. Every Ultimate is one proxy-claim from S.",
+      "Verifier-attestation completely untouched (still 30*verifiers*1.5, no decay). 3-account sock ring still grants 135 magnitude + S-tier flag. P4 explicitly preserves this Marco rule but does not address that 3-account collusion is the cheapest S-pathway in the entire system.",
+      "S threshold lowered 250→220 compounds every other relaxation. Under baseline, attacks A/B/E above land at A; under P4 they land at S. The 12% relaxation in magnitude is the multiplier on every gameability pathway.",
+      "'Recognized-voice' creator multiplier requires 'human-review approval' without specifying gate — under bootstrap (no 4★ verifiers) this collapses to self-grant. Social-signal pathway opens further, not narrower.",
+      "Shared-repo discount only triggers at N>=4 sibling citations. Trivially evaded by spreading citations across 3 different popular repos — each skill independently cites a different 200k-star ecosystem, no discount applies.",
+      "Calibration table shows mattpocock/skills (ZERO evidence!) at magnitude 393 grade A. This is alarming — a skill with zero substantive evidence reaching A means the fusion+suite-stars baseline is too generous regardless of S threshold. Proposal does not address this.",
+      "Pure-fusion Ultimate claim ('land at A unless they earn external evidence') is mathematically false: 5-origin fusion = ~120 post-weight, already A-tier alone. Any tiny secondary entry → A-grade with no real external validation."
+    ],
+    "recommendedFixes": [
+      "REVERT proxy-containment cap to 160 (or LOWER to 120). The cap raise is the single most exploitable change. If a community-heavy stance is needed, raise plateau slightly (1.0/0.6/0.3) instead — that credits multiple ecosystem references without giving one citation a free S-row.",
+      "ADD proxy-containment claim validation: require the external repo to actually depend-on, fork-from, or be-cited-by the skill's own repo (verifiable via package.json, requirements.txt, or repo cross-link). Unverified proxy claims = magnitude 0.",
+      "TIGHTEN verifier-attestation: require verifiers to be from DIFFERENT GitHub orgs/affiliations, OR cap at 60 magnitude (2-verifier equivalent) to neutralize 3-sock-puppet rings. Add slow decay (10%/year) — Marco's 'no decay' rule is specifically about not punishing inactive verifiers, but a 10% decay still preserves their attestation across years while making old sock rings expire.",
+      "RESTORE S threshold to 250 OR keep 220 but ADD: S requires >=2 S-tier evidence rows of DIFFERENT types (not just 1). Single S-tier row should be A, not S.",
+      "REJECT mattpocock/skills-style zero-evidence Ultimates: require minimum 1 non-fusion-recipe non-self-attestation evidence row for any rank above C. Zero-evidence Ultimate at A is registry-credibility-corrosive.",
+      "DEFINE 'recognized-voice' approval as: requires 2 distinct 4★+ verifiers from different orgs to co-sign. Without that, multiplier defaults to 0.6 (named-skill-holder).",
+      "EXTEND shared-repo discount to ALSO trigger when N>=3 sibling skills cite ANY of: same repo, same parent org, same monorepo. Closes the spread-across-3-repos evasion of attack B."
+    ],
+    "_agentFile": "agent-a50b126d4b5e0f8a7.jsonl",
+    "_role": "GAMEABILITY",
+    "_promptProposalId": "Community-Heavy Pragmatist (P4)"
+  },
+  {
+    "proposalId": "P4",
+    "lens": "CORPUS_FIT",
+    "score": 5.5,
+    "refuted": true,
+    "reasoning": "Mixed corpus fit. The headline anchors (obra/superpowers→S, garrytan/gstack→S, ruflo→S, mattpocock/skills→A) match human intuition well — these ARE the most respected mega-skills in the corpus and S/A is defensible. The honest drift on registry-curation (5 same-source rows collapsing) and agent-memory-learning (fork dedup) match how humans would reason about gameable evidence stacks. However, three corpus-fit failures force refutation: (1) INCONSISTENT shared-repo discount — garrytan/cso (4★ Apex, suite component) drifts down to B, but obra/dispatching-parallel-agents (4★ Apex, also a suite component of obra/superpowers, which has 11+ sub-skills, easily clearing the N≥4 threshold) drifts UP to S. Either both should be discounted or neither — this asymmetry suggests the rule is not being applied consistently in the calibration. Human intuition: an Apex sub-skill should not outrank its Ultimate parent's grade, yet dispatching-parallel-agents (S) sits beside superpowers (S) as if it were a peer. (2) garrytan/benchmark at 4★ Apex landing at C is a 2-tier drift that the methodology requires explicit justification for. The proposer says it has 'basic-type' evidence (magnitude 25) but a 4★ rank already implies substantial verifier/curator confidence. C feels like the formula failing the rank, not the rank failing the skill. (3) skill-mastery (Ultimate generic, only 3 repo evidence rows) hitting S at 281 is rich — repo-own is capped at 60 with weight 0.6 (max 36/row), so 3 rows max ≈ 108. Reaching 281 requires fusion-recipe doing the heavy lifting, which means fusion-recipe alone dominates the grade. This is the exact 'fusion trivializes diversity' concern the sqrt softening was supposed to address but apparently doesn't, when fusion + minimal external evidence still hits S. Also flagging: founder-mode-orchestration at magnitude 400 with ZERO evidence is hard to reconcile against the formulas without a recipe of ~25 origins, which strains 'mandatory fusion-recipe' into a magnitude generator. The S-threshold drop to 220 plus these inflation paths means S becomes too reachable for fused-but-thinly-evidenced skills, undermining the diversity gate's intent.",
+    "strengths": [
+      "obra/superpowers→S, gstack→S, ruflo→S correctly capture corpus consensus that these are the headline mega-skills",
+      "mattpocock/skills landing at A despite 6★ rank (zero evidence) is HONEST drift — refuses to grant S on rank alone, exactly the corpus-fit behavior the lens wants",
+      "registry-curation B (same-source dedup collapsing 5 rows) and agent-memory-learning C drift (fork canonicalization) match how a human reviewer would discount obviously-padded evidence",
+      "Preserving Marco hard rules #1, #2, #3, #7 in the formula text shows discipline",
+      "Tradeoff #3 acknowledges the suite-component penalty problem honestly"
+    ],
+    "weaknesses": [
+      "Shared-repo discount applied INCONSISTENTLY across the calibration table: cso discounted (B), dispatching-parallel-agents not discounted (S). obra/superpowers has 11+ sibling skills under it — N≥4 threshold should fire. This is the biggest corpus-fit hole.",
+      "garrytan/benchmark at C (2-tier drift down from a 4★ Apex rank) lacks the explicit per-skill justification the methodology requires for ±2 drift",
+      "skill-mastery hitting S on 3 repo rows + fusion-recipe contradicts the proposer's own stance that 'pure fusion Ultimates land at A unless they earn external evidence' — 3 repo rows is barely external evidence and the S grade signals fusion-magnitude is dominating despite sqrt softening",
+      "S-threshold drop to 220 combined with fusion-recipe magnitude formula (15×N + 5√N, weight 1.4) means fusion alone can contribute 200+ to magnitude for high-N recipes, making the diversity gate the only real defense — and the gate is just '3 distinct types' which prereq-counting + thin verifier + thin repo trivially clears",
+      "founder-mode-orchestration at 400 magnitude with ZERO evidence is unexplained — either the calibration table is reporting raw-not-weighted (unclear), or fusion-recipe with many origins is single-handedly producing A-grade outcomes, which is exactly the gameability vector to close",
+      "Tradeoff #1 (star Matthew effect) is acknowledged but not actually mitigated — the verifier path the proposer cites as compensation isn't reflected anywhere in the calibration table"
+    ],
+    "_agentFile": "agent-a62007762a4e9c9de.jsonl",
+    "_role": "CORPUS-FIT",
+    "_promptProposalId": "Community-Heavy Pragmatist (P4)"
+  },
+  {
+    "proposalId": "P1-strict-S",
+    "lens": "CORPUS FIT",
+    "score": 5,
+    "refuted": true,
+    "reasoning": "Under the corpus-fit lens, this proposal has a serious intuition problem at the high end. The calibration table demotes EVERY current 5-star and 6-star Ultimate to A grade — ruvnet/ruflo (780 mag), garrytan/gstack (1056 mag), obra/superpowers (421 mag), mattpocock/skills (395 mag) all land at A. By corpus consensus these are the canonical anchor skills — gstack and superpowers are the most-cited, most-installed, most-fused suites in the registry. The proposer frames this as \"honest\" but a system where the best-known, most-trusted skills in the corpus cannot reach S is a system that is mis-calibrated, not strict. S-tier is supposed to be \"beyond reasonable doubt\" — gstack at 98.9k stars + 46 fused components + recognized founder authorship IS beyond reasonable doubt by any human reading. If S exists and nothing in the live corpus clears it, the bar is set wrong.\n\nSpecific corpus-fit violations: (1) garrytan/gstack at 1056 magnitude landing at A is the loudest signal something is off — magnitude triple the S threshold but blocked by diversity gate alone. (2) ruvnet/ruflo at 780 mag → A means a node with massive fusion + own-stars cannot mint S without benchmark-result, a type with ZERO corpus presence today. The \"earnable headroom\" framing is rhetorical cover for \"S is currently unreachable.\" (3) The good news: lower-tier calibrations look reasonable — garrytan/benchmark drifting to C (30 mag) is honest given thin evidence, sentiment-analysis drifting UP to A is a healthy signal, registry-curation at ungraded 18 reflects its actual evidence thinness. (4) garrytan/cso at 73 mag → B is intuitively right; founder-mode-orchestration at 645 → A is the same gstack problem (diversity gate blocking what magnitude alone would clear).\n\nThe proposal is internally consistent and closes real gaming vectors (Surveyor laundering, mothership stacking, citation-stuffing all addressed cleanly). The sub-skill mothership-discount is genuinely clever. But corpus fit is the lens here, and the high-tier compression failure is severe enough to refute. A version that allowed gstack/superpowers/ruflo to reach S via some realistic path (e.g., counting fusion-recipe + verifier-attestation pairs from the contributor's own named-skill verifier status, OR a transitional grandfather clause for current 5★+ skills with magnitude ≥400 and ≥3 types) would fix this. As written, \"S exists but nobody is in S\" is corpus-fit failure.",
+    "strengths": [
+      "Lower- and mid-tier calibrations align with intuition: garrytan/cso at B, sentiment-analysis drifting up to A, registry-curation staying ungraded, skill-security-analysis at C all match what a human reviewer would expect.",
+      "Mothership-discount sub-rule is corpus-aware: gstack components getting ~8.6 mag instead of 98.9 each correctly reflects that 46 sub-skills shouldn't each inherit full suite-root popularity.",
+      "Same-source dedup directly addresses observed Surveyor-flagged laundering (5x identical-URL repo rows) — concrete corpus signal, not theoretical.",
+      "Honest about the failure mode: proposer explicitly flags 'will read as strict-S nuked the high tier on launch day' rather than hiding it. The tradeoffs section names the academic-benchmark fallout (webarena, OSWorld) and proposes v1.1 mitigation."
+    ],
+    "weaknesses": [
+      "S is empty under this proposal across the entire current corpus — the calibration table shows zero S grades. A trust system whose top tier is unreachable by canonical anchors (gstack, superpowers, ruflo) does not match human intuition of 'these are the gold-standard skills.'",
+      "Diversity gate (>=4 distinct types + alt-path requiring benchmark/verifier/peer-review) is gated on evidence types with zero corpus presence — proposer admits 'the current corpus has zero benchmark-result entries.' Effectively grades the corpus against a future state.",
+      "Six 5★+ Ultimates all landing at A creates rank/grade decoupling at corpus scale, not edge cases. The 6-month grace window assumes contributors will produce benchmark/peer-review evidence; no mechanism ensures they will or can.",
+      "garrytan/benchmark at 30 mag → C is on-the-nose for the skill literally named 'benchmark' — slight irony that the proposal incentivizes benchmark-result evidence while the canonical /benchmark skill scores C.",
+      "founder-mode-orchestration (Ultimate generic) at 645 mag → A grade is the clearest mismatch: a 31-prereq fusion node at A grade contradicts what 'founder-mode' is supposed to represent in the corpus narrative."
+    ],
+    "recommendedFixes": [
+      "Add a transitional S-path for the current corpus: any existing 5★+ skill with magnitude >= 400 AND >=3 distinct types AND fusion-recipe present grandfathers to S for 12 months, with explicit re-grade on the 12-month anniversary requiring benchmark-result OR verifier-attestation OR peer-review. Lets gstack/ruflo/superpowers land where intuition says they should while preserving the path-up incentive.",
+      "Lower S diversity gate to 3 distinct types (matching baseline) but raise magnitude to 350. This keeps strict-S's 'no single signal dominates' goal while not requiring evidence types that don't yet exist in the corpus.",
+      "Add verifier-attestation auto-credit for contributor's own 4★+ named skills: a contributor who holds a Verifier-tier named skill in the registry mints 1 verifier-attestation toward their other skills. Closes the diversity-gate failure for high-trust contributors (garrytan, obra, mattpocock all become reachable to S via their existing standing).",
+      "Publish a corpus-fit acceptance test: before merging, the proposal must demonstrate at least 2-3 current 5★+ skills landing at S under re-grade. If zero skills clear S in the live corpus, the threshold is too strict regardless of theoretical merit.",
+      "Reconsider founder-mode-orchestration's specific drift: at 645 mag with a 31-origin fusion, A grade reads wrong. Either lower S magnitude floor to 300, or count fusion-recipe origin-count toward distinct-type diversity (each 5 origins = +1 effective type for diversity counting)."
+    ],
+    "_agentFile": "agent-a76d8f65c4be6799b.jsonl",
+    "_role": "CORPUS-FIT",
+    "_promptProposalId": "P1-strict-S — Strict-S Defender"
+  },
+  {
+    "proposalId": "P2-attainable-S",
+    "lens": "DRIFT SEVERITY",
+    "score": 4,
+    "refuted": true,
+    "reasoning": "Refuted under drift-severity lens. The 12-skill calibration sample shows 58% drift-up (7/12), 33% drift-down (4/12), and only 8% drift-same. The lens defines the sweet spot as 20-35% drifting by 1 tier with clear rationale; this proposal blows past that target in BOTH directions simultaneously: ~25% drift up by ≥2 tiers (obra/dispatching-parallel-agents 4★→S, others) AND ~17% drift down by ≥2 tiers (garrytan/cso 4★→B, garrytan/benchmark 4★→ungraded). The garrytan/benchmark crash from 4★ Apex to ungraded (magnitude 2.15) is a single-event community-trust grenade — Apex skills landing in ungraded breaks faith with prior curation. The proposer's explicit target of 30-40% landing at S is itself the inflation failure mode the lens warns about; pairing 'lots of S grades' with 'phantom-evidence S grades' (Tradeoff 5: mattpocock/engineering at S with zero real evidence, deferred to PR-2) means migration ships with known false-positives at the top tier. The S=200 + fusion-weight 1.8 combination over-rewards already-strong suites while the mothership-stars discount (÷N for sub-skills) over-punishes legitimate sub-skill capabilities. Net drift profile is too chaotic up AND too chaotic down — neither anodyne (10) nor catastrophic-down (>40%), but the sample size (12/45+ contributors, <10% coverage) is too small to confirm corpus-level safety. Score 4: real engineering work present (closes 6 gameability vectors, preserves Marco hard constraints) but migration drift profile is not within the lens's acceptable band.",
+    "strengths": [
+      "Preserves all Marco hard constraints (Ultimate-fusion mandatory, social hard-A-cap, pure-stars-A reachable, proxy max-3 plateau, verifier no-decay) — no constitutional violations",
+      "Closes 6 named gameability vectors with concrete sub-rules (arxiv plateau, repo-own dedup, mothership discount, fork-network dedup, social total-cap interpretation, deterministic creator multipliers) — these are real defenses, not handwaves",
+      "Tradeoffs section is honest and self-aware (proposer flags Tradeoff 5 as 'uncomfortable' rather than hiding it)",
+      "Diversity-relaxation at ≥10 origins is structurally reasonable: a 10-component fusion IS evidence on its own merit",
+      "Drift-down on garrytan suite sub-skills is arguably correct in principle — sub-skills should not inherit parent stars"
+    ],
+    "weaknesses": [
+      "58% drift-up in calibration sample is grade inflation, not calibration — exceeds the lens's 'sweet spot' upper bound and signals the formula is rubber-stamping pre-existing winners",
+      "garrytan/benchmark 4★ Apex → ungraded (magnitude 2.15) is a ≥3 tier crash on a held skill — single instances of this magnitude erode community trust in re-grades",
+      "Tradeoff 5 (phantom-skill mattpocock/engineering at S with zero evidence via auto-fusion) is a known false-positive shipped at migration; deferring to PR-2 means broken state lives in production for an unbounded interval",
+      "12-skill sample (~10% of contributors, fewer % of skills) is too small to claim corpus-level drift safety; proposer offers no broader corpus impact analysis as Marco's hard rule requires",
+      "10-origin cliff (Tradeoff 3) creates artificial drift discontinuity at the boundary — two near-identical skills get different grades based on a single component count",
+      "Mothership-stars ÷N discount is too aggressive at high N: garrytan/cso ÷46 turns a serious capability into B-grade with no graceful path back",
+      "S=200 leaves no headroom: if any future evidence type miscalibrates upward, S inflation arrives within one quarter",
+      "No analysis of how many 4★+ skills exist in corpus total, so '30-40% at S' has no denominator we can audit"
+    ],
+    "recommendedFixes": [
+      "Run drift analysis on full corpus (all named-skills.json 4★+ entries, not 12-skill sample) and report % drift by tier delta — this is required by Marco's 'show your work' hard rule and currently missing",
+      "Cap drift-up severity: any skill drifting ≥2 tiers up at migration requires explicit verifier attestation review, not auto-promotion. Prevents inflation while keeping S attainable",
+      "Soften the mothership discount from ÷N to ÷sqrt(N) or a fixed 0.3-0.5× multiplier — full division is amputation; a partial discount preserves sub-skill signal while killing the leech vector",
+      "Smooth the 10-origin cliff: linear ramp from 7-10 origins (7=needs 3 types, 10=needs 2 types, interpolate) — eliminates the +1-component gaming incentive Tradeoff 3 admits",
+      "Block phantom-S grades at migration: any skill landing at S via auto-minted fusion-recipe with zero other evidence should land at A with a 90-day grace period to acquire ≥1 verifier attestation, not S immediately. Fixes Tradeoff 5 in PR-1, not PR-2",
+      "Set a drift-severity guardrail in the migration plan: if >40% drift in any direction at corpus scale, halt migration and re-tune. Currently no such guardrail exists",
+      "Provide ungraded-floor protection: any skill held at 4★+ that drops to ungraded triggers manual review before publish — garrytan/benchmark scenario should not auto-ship",
+      "Raise S threshold to 220 (between 200 and 250) as a compromise: still attainable for genuine 5★+ skills but reduces inflation headroom"
+    ],
+    "_agentFile": "agent-a8919008b8a4f821f.jsonl",
+    "_role": "DRIFT-SEVERITY",
+    "_promptProposalId": "P2-attainable-S"
+  },
+  {
+    "proposalId": "Community-Heavy Pragmatist (P4)",
+    "lens": "DRIFT SEVERITY",
+    "score": 5,
+    "refuted": true,
+    "reasoning": "The proposal's headline calibration table looks like a healthy 25-35% one-tier-drift sweet spot, but the sample is misleading. The shared-repo discount divisor (ceil(suiteComponents/4)) interacts catastrophically with the gstack suite, which contains roughly 20 of the 39 current 4★+ skills in the corpus. With gstack at 46 components, the divisor is 12 — meaning every gstack component's github-stars-own and proxy-containment magnitude gets cut to ~1/12 of raw. The single shown example (garrytan/cso: 99→~8 magnitude, drift B→B but really pushed toward C territory; garrytan/benchmark drifts to C grade) demonstrates the effect, but the proposal does not extrapolate this across ALL gstack 4★ components. If even half of the 20 gstack 4★+ skills drift down a tier under this divisor, that's ~25% of the entire 4★+ corpus drifting down from a single rule — concentrated in one contributor's work, which is exactly the 'community-trust catastrophe' the lens warns against. Garrytan would reasonably perceive this as targeted devaluation. Concurrently, lowering S to 220 plus loosened proxy plateau (1.0/0.7/0.4) plus raised star cap (250) drives ~5-7 additional skills UP to S, producing simultaneous S-inflation at the top AND tier-downgrade pain in the middle of the suite layer. The bidirectional drift is not 'sweet spot 1-tier movement with clear rationale' — it's polarized, asymmetric, and contributor-concentrated. The fusion-recipe softening (sqrt) is the one genuinely well-calibrated change. The proposal also under-discloses: it lists 12 calibration rows but does not show what happens to the other 27 4★+ skills, most of which are gstack components subject to the divisor. This violates the 'show your work' hard rule for proposers — corpus impact is incomplete.",
+    "strengths": [
+      "Fusion-recipe sqrt softening (15×origins + 5×√origins) is well-calibrated — keeps ruflo S-capable without letting 35-component fusion dwarf all other signal. This is the proposal's strongest single change.",
+      "The cross-cutting anti-gaming sub-rules (fork-network canonicalization, same-source dedup on repo-own/arxiv, arxiv plateau, self-attestation hard cap of 1) close real Surveyor C vectors with minimal corpus disruption — these affect long-tail gameable patterns, not legitimate high-trust skills.",
+      "Preserves all four Marco hard rules: pure-stars-A pathway, Ultimate-needs-fusion, proxy max-3 with 10k threshold, social-signal 80 absolute cap. This is non-trivial given the loosening elsewhere.",
+      "Tradeoff disclosure is genuinely candid — the proposer flags the star-Matthew-effect, S-inflation risk, and suite-component penalty as honest stance choices rather than hiding them."
+    ],
+    "weaknesses": [
+      "The shared-repo discount divisor is too blunt. ceil(N/4) for gstack (46 components) yields a 12× cut, which is punitive even by the proposer's own admission. A skill that's 1-of-46 in a 99k-star repo getting 8 magnitude vs a standalone 8k-star skill getting 8 magnitude implies the suite component contributes nothing beyond its share — that's contestable. A log-scaled or capped-divisor formula (e.g., min(divisor, 4)) would close mothership-stars without nuking legitimate suite work.",
+      "Calibration table is structurally incomplete. With ~20 of 39 4★+ skills being gstack components, omitting per-component drift estimates means the corpus-wide drift distribution is unknown to reviewers. The proposer claims '8-12 hit S' but gives no count of how many drift DOWN under the divisor.",
+      "S threshold drop (250→220) combined with proxy-cap raise (160→200) and stars-cap raise (200→250) compounds in the same direction — three independent loosenings stacking. Any one of them justifiable; all three together produces the 8-12 S inflation the proposer admits to. The diversity gate (≥3 distinct types) is presented as the gatekeeper, but skills with stars + fusion + verifier already have 3 types — that gate doesn't bite for the most-credentialed.",
+      "Proxy plateau loosening (0.5/0.25 → 0.7/0.4) directly increases value of cross-suite citation rings, which the proposer acknowledges as Surveyor B Vector 3. Stating 'max 3 entries hard cap preserved' is true but not sufficient — three entries at 1.0/0.7/0.4 is 2.1× total credit vs prior 1.75×, a 20% boost on the gameable surface.",
+      "A threshold lowered 100→95 saves ~5 skills from drifting down but is presented as a 'stance choice' without quantifying how many corpus skills sit in the 95-100 magnitude band today. Could be 0, could be 8 — reviewers can't tell."
+    ],
+    "recommendedFixes": [
+      "Soften the shared-repo discount: cap the divisor at 4 (so gstack components get max 4× cut, not 12×) OR use log2(suiteComponentsCount) as the divisor. Re-run calibration on all ~20 gstack 4★+ skills and publish per-skill drift before merging.",
+      "Show full corpus drift table for all 39 4★+ skills, not just 12 cherry-picked rows. Specifically enumerate: (a) which gstack components drift down, (b) the count of skills landing in each grade pre/post, (c) the percentage drifting by ≥1 tier in each direction.",
+      "Pick ONE of the three loosenings (S=220 OR stars-cap=250 OR proxy-plateau=0.7/0.4) rather than stacking all three. Recommend keeping S=250 and the cap raises — the magnitude raises let real signal through; the threshold drop just inflates S grade.",
+      "Replace proxy-plateau loosening with a more conservative 1.0/0.6/0.3 — credits second/third ecosystem references more than baseline 0.5/0.25 but doesn't hand the cross-suite ring attack a 20% bonus.",
+      "Add a 'suite headline component' exemption: one skill per suite (the most-trafficked, by repo-own commit count) may opt out of the shared-repo discount. Closes the 'cso vs gstack' asymmetry without re-opening mothership-stars broadly."
+    ],
+    "_agentFile": "agent-a8b536fb80aab2357.jsonl",
+    "_role": "DRIFT-SEVERITY",
+    "_promptProposalId": "Community-Heavy Pragmatist (P4)"
+  },
+  {
+    "proposalId": "P3-fusion-heavy",
+    "lens": "GAMEABILITY",
+    "score": 3,
+    "refuted": true,
+    "reasoning": "Despite real defensive improvements (graded-prereqs-only origin counting, mothership discount, same-source dedup, arxiv plateau, self-attestation cap, null-on-derank verifier), P3 concentrates almost all S-tier signal value into a single mechanism the attacker controls: their own frontmatter prerequisite list. The proposal's central bet — that fusion-recipe is \"structurally unspoofable\" — only holds if the underlying graph is independently curated. In gaia today, named-skill authors write their own suiteComponents/origins block; the canonical graph is partly populated FROM those authored files. That means the attacker is also the graph-builder for their own subtree.\\n\\nConcrete attack — Solo Capstone Mint (cost: ~2 weeks, ~$0):\\n1. Attacker creates 7 small named basic skills under their own contributor namespace, each with a real but trivial GitHub repo subpath (10–50 LOC each is fine). Each gets one repo-own evidence row (stars/1000 + contributors² × 2, capped 60 × weight 0.6 = up to 36 magnitude). At ≥20 magnitude post-weight that clears C-grade — which is the new \"graded ≥ C\" bar for origin counting.\\n2. Each basic skill also picks up one self-attestation (flat 10 × 0.5 = 5 magnitude, not enough alone) AND one arxiv row pointing at any vaguely related paper (citations/5 cap 100 × 1.0; even a 100-citation paper gives 20). With both, several origins comfortably clear C, and a few clear B. The proposal does not require origins to be ≥B — only ≥C.\\n3. Attacker authors a self-declared Ultimate listing those 7 origins. fusion-recipe magnitude under the new curve = 7 × 30 × 2.0 = 420. That alone clears the S threshold of 250.\\n4. The S-fusion-exception drops the diversity gate from ≥3 distinct types to ≥2 (with fusion-recipe counting as 2), AND requires only \"≥1 supporting type clears B-tier (≥20 magnitude post-weight)\". One arxiv entry citing a 100-citation paper = 20 magnitude. Done. Or one repo-own at 60 × 0.6 = 36. Done. Or one social-signal entry from a friend with named-skill status (0.6× multiplier) on a video with ~100k views = log10(100000)×8×0.6 ≈ 24. Done.\\n5. Attacker now holds an S-grade Ultimate without a single verifier-attestation, benchmark-result, or peer-review. Zero independent humans evaluated this. Cost: 7 trivial repos + 1 capstone repo + 1 paper citation lookup. Time: a long weekend.\\n\\nThe graded-prereqs-only rule does NOT close this — the attacker's own basic skills are real GitHub artifacts and will be graded ≥C automatically by the same scoring system. The \"reflected in canonical gaia.json\" mitigation (Tradeoff 1) is hand-waved: the proposal doesn't specify a curation gate that prevents an author's frontmatter from auto-populating the graph, and historically named skills' prereq edges DO flow into gaia.json on intake. Until there is a mandatory verifier-attestation OR peer-review row at the S threshold for Ultimates, the S-fusion-exception is the cheapest S-mint path in any proposal seen.\\n\\nSecondary attack — Sybil-Suite Fusion (cost: ~$2k, ~3 weeks): Same as above but attacker also runs a 4★ verifier sock account (only one needed at 4★ minimum to mint a named skill; the verifier-attestation type isn't even required for S under this exception). The mothership discount and same-source dedup help here — but P3's own S-fusion-exception bypasses the supporting-type diversity that those defenses were meant to police.\\n\\nTertiary attack — Graph-Walking (cost: $0): Existing high-fusion Ultimates with weak supporting evidence (the calibration table shows agent-memory-platform Ultimate at magnitude 250 dropping but skill-mastery jumping to S, founder-mode-orchestration A at 960) become extremely sensitive to a single B-tier evidence row. An attacker who already owns a 7+ origin Ultimate just needs to add one arxiv citation or one mid-tier repo to flip from A to S. Audit cost approaches zero.\\n\\nThe proposal closes some baseline holes (mothership discount, self-attestation cap, arxiv plateau, null-on-derank — these are real wins) but opens a more dangerous one at the apex: it makes the S threshold reachable WITHOUT any independent human attestation as long as you control your own graph subtree. Marco rule #2 says Ultimate hard-requires fusion-recipe; P3 inverts the spirit — under P3, fusion-recipe is nearly sufficient on its own. That's a regression in adversarial robustness at the highest-value tier.",
+    "strengths": [
+      "Graded-prereqs-only origin counting genuinely closes Surveyor C's fake-fusion-stuffing vector at the C-threshold cost (no longer free to list 31 ungraded origins).",
+      "Mothership discount on github-stars-own when source URL == suite root closes Surveyor A's sub-skill-rides-mothership-stars vector — this is a real and overdue fix.",
+      "Same-source dedup at intake (not just plateau) for repo-own and proxy-containment closes the duplicate-row inflation vector cleanly.",
+      "arxiv plateau (1.0/0.5/0.25, max 3) closes citation cherry-picking — aligns arxiv with social-signal/proxy-containment treatment.",
+      "Self-attestation hard cap of 1 entry kills sock-account stacking; trivial fix that should have been baseline.",
+      "Verifier null-on-derank (vs. baseline flag-only) closes the frozen-verifier-capture vector — better than baseline.",
+      "Deterministic creator-multiplier on social-signal (no subjective 'recognized voice' tier) closes the ghostwriter loophole."
+    ],
+    "weaknesses": [
+      "S-fusion-exception is the cheapest S-mint path in any proposal: 7 self-authored ≥C origins + 1 supporting ≥B row reaches S without any independent human attestation. Solo attacker, ~2 weeks, ~$0.",
+      "Origin grading bar is ≥C (magnitude ≥20 post-weight), which is trivially achievable on any real GitHub repo via repo-own (cap 60 × 0.6 = 36) plus self-attestation. The 'gradedness' gate barely filters anything.",
+      "fusion-recipe weight 2.0 plus tiered curve (30/origin at 7+) means a single mechanism the attacker authors contributes 420 magnitude — 168% of the S threshold from one row.",
+      "Diversity-as-2 contribution from fusion-recipe (Ultimate-only) collapses the multi-source-truth principle at exactly the tier where it matters most. A 7-origin fusion is NOT 7 evidence stacks if the same author wrote all 7.",
+      "No mandatory independent-attestation type at S (verifier-attestation, peer-review, or benchmark-result). Marco baseline at least required ≥1 S-tier row OR ≥3 A-tier of distinct types; P3's exception lets you S with one B-tier supporting row.",
+      "Tradeoff 1's 'reflected in canonical gaia.json' mitigation is hand-waved — the proposal does not specify a curation gate preventing author-controlled frontmatter from populating prereq edges.",
+      "Bootstrap rule (Tradeoff 5) makes ANY rank-≥-2★ prereq count as 'graded' for the migration window — during cutover this is even weaker than steady-state and predictably exploited by anyone who reads the stamp report.",
+      "Punishes basic and pure-community skills (Tradeoff 2 and 4 acknowledged) — but the comms framing 'community popularity recognized at A/Apex' won't survive contact with a 200k-star skill author whose work is structurally barred from S while a self-authored 7-fusion mints S.",
+      "Existing high-fusion Ultimates (calibration table) become single-row-flippable from A to S via one B-tier addition — extremely low audit cost for incumbent attackers."
+    ],
+    "recommendedFixes": [
+      "Hard-require an INDEPENDENT-ATTESTATION type at S for Ultimates: ≥1 verifier-attestation (≥2 distinct 4★+ verifiers from different contributor namespaces) OR ≥1 peer-review OR ≥1 benchmark-result at ≥A-tier. Make the S-fusion-exception a diversity-relaxation, not an attestation-relaxation.",
+      "Raise the origin grading bar from ≥C to ≥B (magnitude ≥50 post-weight) for the 7+ origin tier of the magnitude curve. ≥C is too easy to hit on trivial self-authored basics.",
+      "Cap fusion-recipe contribution to ≤50% of total Trust Magnitude when computing S eligibility. If fusion-recipe alone exceeds 50%, the supporting evidence is structurally insufficient regardless of the diversity gate.",
+      "Require origins to be authored by ≥2 distinct contributor namespaces (or include ≥1 non-author origin) for the S-fusion-exception. Closes the solo-capstone-mint vector at minimal cost to legitimate cross-contributor capstones.",
+      "Add a curation gate: fusion-recipe origins only count if the prereq edge exists in canonical gaia.json AND was set via `gaia dev merge`/`gaia dev add` by a verifier or via auto-import that has been re-confirmed. Frontmatter-only edges count as ungraded.",
+      "Drop the bootstrap rule (Tradeoff 5) or shorten the 30-day window to 7 days with a public list of skills relying on bootstrap-graded prereqs in the stamp report.",
+      "Tighten the supporting-type bar in the S-fusion-exception from 'B-tier (≥20 magnitude)' to 'A-tier (≥50 magnitude)'. One mid-citation arxiv row should not unlock S.",
+      "Keep fusion-recipe weight at 1.5 (baseline) and instead invest the headroom in independent-attestation weights. Doubling the author-controlled type while keeping verifier-attestation at 1.5 is exactly the wrong direction for adversarial robustness."
+    ],
+    "_agentFile": "agent-acb7fd1c864599635.jsonl",
+    "_role": "GAMEABILITY",
+    "_promptProposalId": "P3-fusion-heavy — Fusion-Heavy Structuralist"
+  },
+  {
+    "proposalId": "P2-attainable-S",
+    "lens": "GAMEABILITY",
+    "score": 3,
+    "refuted": true,
+    "reasoning": "Multiple sub-$5k / sub-2-week attacks reach S under this proposal. Headline vector: the diversity-relaxation cliff at ≥10 fusion origins lets an attacker reach S-grade (200) with ONLY fusion-recipe + 1 cheap second type. fusion-recipe magnitude = 20 × origins × 1.8 weight = 36 per origin. At 10 origins = 360 magnitude (already S threshold met). With ≥10 origins relaxation, only 2 distinct types required. Attacker creates a \"suite\" skill listing 10 trivially-authored sub-skills (cost: ~1 week of writing 10 SKILL.md files, ~$0 actual cash) plus 1 self-attestation row (10 magnitude × 0.5 = 5) — that's 2 distinct types and 365 magnitude → INSTANT S. The proposal explicitly flags this cliff in Tradeoff 3 and \"accepts\" it. That alone is a refute.\n\nSecond vector: Phantom-rescue (Tradeoff 5, self-acknowledged). mattpocock/engineering at 0 evidence lands S purely on auto-minted fusion-recipe. Any attacker who registers a fused/Ultimate skill auto-gets fusion-recipe evidence with origins=N. If the auto-mint counts componentCount as origins, attacker fuses 10 stub skills → S with no work beyond schema. Proposal's mitigation (PR-2 will add 90-day verifier requirement) is non-binding future work; v1 ships with the hole open.\n\nThird vector: github-stars-own at 100k+ is \"S-capable\" per baseline AND the proposal does not raise the github-stars-own S-cap or require diversity for stars-driven S. Combined with cheap second type, a 100k-star repo owner gets S trivially. Fork-network dedup helps but does not address coordinated star-buying campaigns ($3-4k buys ~50k stars on grey markets in 2025-2026 per public reports; combined with one legitimate verifier attestation from a friendly 4★ holder = S). Proposal does NOT require independent verification of star authenticity.\n\nFourth vector: verifier-attestation collusion. 30 × verifiers × 1.5 = 45 per verifier. Three friendly 4★+ verifiers = 135 magnitude from one type. Combined with self-attestation + fusion-recipe at modest origins = easily S. The proposal preserves \"no decay\" on verifier attestations (Marco rule #4) which means verifier rings are permanent. Cost: cultivating 3 friendly verifiers, weeks not months.\n\nFifth vector: arxiv plateau is added but capped at 5 entries with 0.0625× tail — yet 5 entries × (cited paper magnitude up to 100) is still ~163 magnitude raw. The plateau closes the worst cite-stuffing but doesn't prevent buying author slots on low-quality arxiv preprints (~$0 to post on arxiv with endorsement; endorsement obtainable via mild networking).\n\nStrengths the proposal DOES bring (citing proposal text directly): mothership-stars discount closes garrytan/* sub-skill mass-jump (legitimate); arxiv same-type plateau closes citation-stuffing (legitimate, partial); social-signal hard A-cap moved to TOTAL across rows (legitimate, closes paraphrase-smurfing); creator_multiplier made deterministic (legitimate, closes ghostwriter); repo-own same-source dedup (legitimate). These are genuine closures.\n\nBut the headline tradeoffs (#3 cliff, #5 phantom-rescue) explicitly leave S-reachable attacks open at sub-$5k cost. By the lens's instruction (\"Default refuted=true if you find any S-reachable attack with cost < $5k or < 2 weeks\"), I must refute.",
+    "strengths": [
+      "Mothership-stars discount (sub_skill_magnitude /= parent.suiteComponents) genuinely closes the garrytan/* family star-leech vector — this is a real attack the baseline left open and the proposal explicitly closes it",
+      "arxiv same-type plateau (1.0/0.5/0.25/0.125/0.0625, max 5) closes the trivial citation-stuffing path Surveyor C identified — partial but genuine",
+      "social-signal interpretation tightened to 'hard A-cap 80 TOTAL across all rows' (not 80 per row) closes paraphrase-smurfing across platforms — this is a real new constraint",
+      "creator_multiplier made fully deterministic (verifier=1.0, named=0.6, anon=0.3, same-author=0.0) removes the subjective 'recognized voice 1.4×' ghostwriter loophole — concrete improvement",
+      "repo-own same-source URL dedup before scoring closes the registry-curation 5x-stacking vector — legitimate close",
+      "github-stars-own fork-network dedup via GitHub fork-of API removes the trivial fork-and-restar attack"
+    ],
+    "weaknesses": [
+      "≥10 fusion origins → 2-type diversity relaxation creates a documented cliff (Tradeoff 3, self-acknowledged) that lets an attacker reach S with 10 stub component skills + 1 self-attestation in under 2 weeks of writing. The proposal accepts this cliff for 'v1 simplicity' — that is exactly the gameability lens's red line",
+      "Phantom-rescue at S grade via auto-minted fusion-recipe alone (Tradeoff 5, self-acknowledged for mattpocock/engineering with 0 evidence). Any fused Ultimate auto-gets fusion-recipe; with ≥10 components this hits the relaxation cliff. Mitigation (PR-2 90-day verifier requirement) is future-work, not v1",
+      "Star-buying ($3-5k on grey markets in 2026) + 1 friendly verifier attestation = S with no diversity restriction on stars-driven A. Proposal does not require independent star-authenticity verification",
+      "Verifier-attestation collusion: 3 friendly 4★ verifiers = 135 magnitude (45 each), no decay, permanent. Combined with cheap fusion-recipe + self-attestation reaches S. Marco rule #4 preserves no-decay which entrenches verifier rings",
+      "Fusion-recipe weight 1.5→1.8 amplifies the cheapest-to-game evidence type (writing 10 SKILL.md files is dramatically cheaper than 100k organic stars or a peer-reviewed benchmark)",
+      "arxiv plateau closes citation-stuffing partially but does not address author-slot purchasing on low-quality preprints; arxiv at 5 entries still yields ~163 raw magnitude × 1.0 weight",
+      "No anti-Sybil check on fusion origins themselves — origins are counted as integers without validating each origin is itself non-trivial. 10 stub skills count the same as 10 substantive ones",
+      "Calibration table shows obra/dispatching-parallel-agents (4★ Apex) drifts UP to S at magnitude 218 — a 4★ skill landing at S grade is a category violation that should require explicit Marco approval per drift rules (±2 tier drift requires justification). Proposal does not justify this 4★→S jump",
+      "Tradeoff 1 explicitly admits 'if a future evidence-type miscalibration over-credits magnitude, S inflation arrives faster' — proposal accepts faster failure modes for faster wins"
+    ],
+    "recommendedFixes": [
+      "Remove the ≥10-origins diversity relaxation entirely. Keep ≥3 distinct types REQUIRED for S unconditionally. The cliff is the single biggest gameability vector and the proposer self-flags it",
+      "Add an anti-Sybil rule on fusion origins: each counted origin must itself be ≥B-grade (Trust Magnitude ≥50) OR have an independent verifier attestation. Prevents 10-stub-skill suites from auto-qualifying for S via fusion-recipe alone",
+      "Cap fusion-recipe contribution to overall magnitude at 50% of the S threshold (i.e., max 100 magnitude from fusion-recipe alone). Forces genuine evidence diversity even when fusion is structurally legitimate",
+      "Require the auto-minted fusion-recipe rescue (Tradeoff 5) to ship in v1 with the 90-day verifier-attestation requirement, not deferred to PR-2. Until then, auto-minted fusion-recipe scores 0 for grade computation",
+      "Add independent star-authenticity check: github-stars-own only counts toward S if star velocity is monotone over 12+ months (no spike windows >3× monthly baseline). Closes the $3-5k star-buy attack",
+      "Add verifier-attestation diversity rule: at most 2 verifier attestations from the same contributor cluster (defined as: shared org, shared suite, or pairwise co-attestation history) count toward S. Closes friendly-ring vector",
+      "Justify or revert the obra/dispatching-parallel-agents 4★→S drift in the calibration table — a 4★ Apex landing at S grade contradicts the rank/grade alignment the calibration table is supposed to demonstrate",
+      "Add a 'minimum independent type' rule for S: at least 1 of the 3 types must be one the skill author cannot self-produce — i.e., one of {verifier-attestation (independent), benchmark-result (third-party), peer-review, proxy-containment}. Closes the all-self-produced S-attack (fusion + self-attestation + repo-own)",
+      "Keep S threshold at 250 OR add the above hardening. Lowering to 200 is acceptable ONLY if diversity gates are tightened, not relaxed"
+    ],
+    "_agentFile": "agent-ad2cfb7052eb7ffeb.jsonl",
+    "_role": "GAMEABILITY",
+    "_promptProposalId": "P2-attainable-S"
+  },
+  {
+    "proposalId": "P1-strict-S",
+    "lens": "gameability",
+    "score": 5,
+    "refuted": true,
+    "reasoning": "Strict-S closes several baseline attack vectors (Surveyor C same-URL stacking, arxiv citation-stuffing, gstack-style mothership inheritance, social paraphrase smurfing, anonymous astroturf). However, three concrete S-reachable attacks survive at cost <$5k and time <2 weeks: (1) BENCHMARK FABRICATION — proposer flags this themselves but the mitigation ('unaffiliated party reproducer') is collusion-vulnerable since 'unaffiliated' is not formally defined and same-domain named-skill holders can trivially be co-conspirators. A single fabricated 95th-percentile benchmark mints 133 mag as an S-tier row, satisfying the alt-path single-handedly when combined with fusion+stars+verifier (309-340 mag total, 4 types). Cost: ~$1-2k compute, 2 weeks. (2) PEER-REVIEW PLATEAU OMISSION — the proposal adds same-type plateaus to arxiv, repo-own, github-stars-own, and verifier-attestation but explicitly leaves peer-review unplateaued. 4 sockpuppet 4-star-holder reviewers at 25x4x1.2 yield ~120 mag (capped at A-cap ~89 post-weight) but stack linearly with no diminishing returns up to the cap; this is the largest unclosed lever in the new plateau system. (3) VERIFIER-SOCKPUPPET-LADDER — the 4-star verifier threshold is itself reachable through pre-strict-S evidence accumulation. With 5 friendly verifiers (the new plateau cap), magnitude reaches ~165 from verifier alone, and the alt-path's '>=1 of {benchmark, verifier, peer-review}' is satisfied trivially. Combined with arxiv (90)+social (80)+stars (30) = 365 mag, 4 distinct types, alt-path met = S. Cost: relationship-building, weeks not months. Additionally the suite-fork sockpuppet workaround (proposer-flagged) is only partially closed by author-aggregated denominator since alt GitHub accounts defeat author identity. Strict-S is a meaningful improvement on baseline but does not achieve 'beyond reasonable doubt' for S-tier as claimed; it raises the bar from ~$1k/1 week to ~$2k/2 weeks for the cheapest attack.",
+    "strengths": [
+      "Same-source dedup (collapse identical URL/DOI rows to highest-magnitude single row) closes Surveyor C Vector 1 cleanly — this was a known live exploit in registry-curation evidence",
+      "Arxiv same-type plateau (1.0/0.5/0.25/0.1/0.1) closes the cherry-picked-tangential-papers vector that minted ~300 mag from 3 entries under baseline",
+      "Mothership-discount with suiteComponents divisor closes the gstack-style stars-inheritance attack where 46 sub-skills each claimed full 98.9k parent stars",
+      "Social-signal TOTAL-across-rows hard-A-cap (80) closes paraphrase smurfing where a malicious author posts the same content reworded across N rows",
+      "Anonymous creator multiplier raised from 0.3x to 0.0x (rejected) eliminates anon astroturf as a viable social-signal vector entirely",
+      "Verifier-attestation same-type plateau, while mild, closes the cabal-of-7 unbounded stack while preserving Marco's verifier-scarcity principle",
+      "Diversity gate raise to >=4 distinct types is a real structural improvement — forces attackers to fabricate evidence across 4 type categories rather than dominate one",
+      "Alt-path forbids fusion+stars+self-attestation+social-signal-only S even at 4 types, blocking the 'breadth-without-substance' fusion-bomb attack"
+    ],
+    "weaknesses": [
+      "Peer-review is conspicuously absent from the new same-type plateau list (arxiv/repo-own/github-stars-own/verifier-attestation got plateaus, peer-review did not). This is the largest unclosed lever and likely the cheapest collusion attack since named-skill holders can mutually peer-review each other's skills",
+      "Benchmark-result mitigation ('unaffiliated party reproducer within 90 days, else magnitude halved') leaves 'unaffiliated' undefined. Same-domain named-skill holders can collude trivially; halving 133 mag to 67 still gates only B not A so does not block S-clearance when other types stack",
+      "Author-aggregated suiteComponents denominator only catches same-author suites within 12 months. Sockpuppet GitHub accounts (cost: $0, time: 1 week) defeat author identity check entirely. No mention of email/IP/commit-pattern fingerprinting",
+      "Verifier-sockpuppet-ladder: the proposal does not address how a 4-star verifier earns their status. If pre-strict-S evidence was permissive, the verifier pool is already polluted before strict-S takes effect. No re-verification of existing 4-star verifiers under new rules",
+      "Benchmark-result cap held at 100 (raw) means 95th-percentile = 95 raw x 1.4 weight = 133 post-weight, well into S-tier territory (>=90). A single fabricated benchmark is still solo-sufficient as the S-tier row in the alt-path",
+      "6-month grace before rank follows grade creates an arbitrage window where attacker mints S, harvests reputation/trust signals from S-grade UI, then is silently demoted after the harvest is complete",
+      "Calibration table shows founder-mode-orchestration drifting from S to A at 645 magnitude — but 645 is more than double the 320 threshold. This means the proposal's own calibration shows skills that should comfortably exceed S magnitude failing the diversity gate. Not a gameability flaw per se, but indicates the diversity-type incentive will push attackers toward fabricating type-diversity rather than improving evidence quality",
+      "No same-skill-author block on benchmark-result or peer-review (only social-signal has '0x same-as-author'). An author can in principle benchmark or peer-review their own work via thin disguise"
+    ],
+    "recommendedFixes": [
+      "Add same-type plateau to peer-review (1.0/0.7/0.5/0.3, max 4 entries) — closes the largest remaining linear-stack attack vector",
+      "Define 'unaffiliated' for benchmark-result reproducer formally: no shared GitHub org, no co-authored commits in any registry skill within 24 months, no shared employer per public record. Magnitude halves to 50 (not 67) on failure to make benchmark non-solo-sufficient for S",
+      "Lower benchmark-result cap to 70 (post-weight ~98 just barely S-capable) so a single fabricated benchmark cannot solo-clear the S-tier-row requirement; force benchmark+second-S-or-A row",
+      "Mandate re-verification of all current 4-star-holding verifiers under strict-S rules within 6 months; verifier status revokable if re-grade lands below 4-star",
+      "Extend suite-fork detection beyond 12-month author window to include: shared commit-author email, repos created within 30 days of each other, identical CI/license/CONTRIBUTING.md fingerprints. Surfaces sockpuppet suites",
+      "Add same-skill-author rejection (0x) to benchmark-result and peer-review evidence, mirroring social-signal",
+      "Shorten the 6-month grace window to 60 days OR require strict-S grade visibility prominently in /badges from day one (proposer mentions this as mitigation but does not commit to a concrete render). Close the rank/grade arbitrage window",
+      "Add a hard cap of 3 evidence rows total per type per skill (not just plateau) for benchmark-result and peer-review — these are the two highest-cap collusion-friendly types remaining",
+      "Require benchmark-result evidence to include git-commit SHA of the harness at submission time, with public reproducibility test run by registry CI (not external party) producing a recorded score within 5% of claim, else reject"
+    ],
+    "_agentFile": "agent-ad2f48742e28f8369.jsonl",
+    "_role": "GAMEABILITY",
+    "_promptProposalId": "P1-strict-S — Strict-S Defender"
+  }
+]
