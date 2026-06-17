@@ -1,0 +1,122 @@
+{
+  "curationNotes": "Matt Pocock's public media presence is strongest in two distinct phases: his conference-talk era (2021-2023) as a TypeScript educator at React Finland, React Advanced, and React Day Berlin, all catalogued on GitNation; and his AI engineering era (2025-2026) centered on aihero.dev, where he writes directly about the grill-me skill, the skills CLI, and engineering/productivity workflows. The skills repository itself (github.com/mattpocock/skills, 132k stars, 11.5k forks) is the primary anchor \u2014 it is first-party, high-reach, and directly indexes the suite, grill-me, engineering, and productivity skills. No confirmed Syntax.fm or JS Party guest appearance was found through direct URL verification (only name-drop mentions in three JS Party episodes); a dedicated podcast episode featuring Matt as the main guest remains an open gap.",
+  "evidence": [
+    {
+      "skillId": "mattpocock/skills",
+      "type": "proxy-containment",
+      "magnitudeRaw": "GitHub repository with 132k stars and 11.5k forks (verified on page); documents the full skills suite, grill-me, engineering, and productivity skills directly",
+      "sourceUrl": "https://github.com/mattpocock/skills",
+      "observedAt": "2026-06-17",
+      "notes": "Primary first-party source for the suite. Stars verified from README page fetch. Includes /grill-me, /grill-with-docs, /tdd, /diagnose, /improve-codebase-architecture, /to-prd, /to-issues, /caveman, /handoff. Newsletter cited as ~60k subscribers."
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "type": "media-mention",
+      "magnitudeRaw": "Blog post titled 'My Grill Me Skill Went Viral' on aihero.dev, updated March 23 2026; direct authorial account of viral adoption",
+      "sourceUrl": "https://aihero.dev/my-grill-me-skill-has-gone-viral",
+      "observedAt": "2026-03-23",
+      "notes": "Matt documents the grill-me skill's viral spread. Describes it as his most flexible skill, used for 45-minute structured AI interviews before implementation. Self-authored, first-party evidence."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "media-mention",
+      "magnitudeRaw": "Article '5 Agent Skills I Use Every Day' on aihero.dev (updated March 16 2026) \u2014 covers grill-me, /to-prd, /to-issues, /tdd, /improve-codebase-architecture directly",
+      "sourceUrl": "https://aihero.dev/5-agent-skills-i-use-every-day",
+      "observedAt": "2026-03-16",
+      "notes": "Covers exactly the skills in mattpocock/skills suite. First-party editorial by the skill author. Describes engineering and productivity workflow patterns in depth."
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "type": "media-mention",
+      "magnitudeRaw": "Article '9 Things People Get Wrong With /grill-me and /grill-with-docs' cross-posted on totaltypescript.com, updated May 25 2026",
+      "sourceUrl": "https://www.totaltypescript.com/things-people-get-wrong-with-grill-me-and-grill-with-docs",
+      "observedAt": "2026-05-25",
+      "notes": "Published on totaltypescript.com (the flagship 40k+ developer platform) \u2014 significantly increases reach. Covers grill-me and grill-with-docs skills directly. Confirms cross-platform editorial investment in the skills framework."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "media-mention",
+      "magnitudeRaw": "Skills changelog article on aihero.dev (April 30 2026) documenting /grill-with-docs release, /diagnose, /triage; 46.6k stars cited at time of writing",
+      "sourceUrl": "https://aihero.dev/skills-changelog-ubiquitous-language-grill-with-docs",
+      "observedAt": "2026-04-30",
+      "notes": "Announces major skills reorganisation into Engineering/Productivity/Misc/Deprecated/Personal categories. Confirms ongoing active development and editorial voice around the suite."
+    },
+    {
+      "skillId": "mattpocock/engineering",
+      "type": "media-mention",
+      "magnitudeRaw": "Article 'How To Make Codebases AI Agents Love' on aihero.dev \u2014 directly addresses the engineering workflow philosophy behind the engineering skill",
+      "sourceUrl": "https://aihero.dev/how-to-make-codebases-ai-agents-love",
+      "observedAt": "2026-06-17",
+      "notes": "Covers the deep modules and architectural philosophy that underpins the /improve-codebase-architecture and broader engineering skills. No explicit publication date extracted, inferred 2026."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "media-mention",
+      "magnitudeRaw": "Article 'Real-world feature build with Claude Code: every step explained' on aihero.dev, published March 20 2026 \u2014 demonstrates grill-me skill in live workflow",
+      "sourceUrl": "https://aihero.dev/real-world-feature-build-with-claude-code",
+      "observedAt": "2026-03-20",
+      "notes": "Shows a real project using the grill-me skill as the first step in a Claude Code workflow. Demonstrates practical adoption of the skills suite methodology."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "interview",
+      "magnitudeRaw": "React Day Berlin 2023 talk 'React's Most Useful Types' \u2014 21 minutes; Matt Pocock as headlining TypeScript educator at major international React conference",
+      "sourceUrl": "https://gitnation.com/contents/typescript-tricks-for-building-better-react-apps",
+      "observedAt": "2023-12-01",
+      "notes": "Confirms Matt's status as a prominent conference speaker in the TypeScript/React ecosystem. Establishes authority of the suite creator. GitNation is the primary record; exact YouTube URL not resolved. Date approximate (React Day Berlin 2023).",
+      "sourceStartedAt": "2023-01-01"
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "interview",
+      "magnitudeRaw": "React Advanced 2022 talk 'TypeScript and React: Secrets of a Happy Marriage' \u2014 21 minutes on October 24 2022; recorded and indexed on GitNation",
+      "sourceUrl": "https://gitnation.com/contents/typescript-and-react-secrets-of-a-happy-marriage",
+      "observedAt": "2022-10-24",
+      "notes": "Conference talk at React Advanced London 2022. Verifies Matt's standing as a TypeScript educator at significant international conferences predating the skills CLI.",
+      "sourceStartedAt": "2022-01-01"
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "interview",
+      "magnitudeRaw": "React Finland 2021 talk 'Make Legacy Code Delightful with Statecharts' \u2014 22 minutes; published August 31 2021",
+      "sourceUrl": "https://gitnation.com/contents/make-legacy-code-delightful-with-statecharts",
+      "observedAt": "2021-08-31",
+      "notes": "Earlier foundational conference appearance. Establishes long-standing engineering credibility underpinning the skills suite. Context predates Total TypeScript.",
+      "sourceStartedAt": "2021-01-01"
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "media-mention",
+      "magnitudeRaw": "JS Party #326 (June 6 2024, changelog.com) \u2014 Matt Pocock cited by Eric Clemmons as a leading TypeScript expert in a build-step debate episode",
+      "sourceUrl": "https://changelog.com/jsparty/326",
+      "observedAt": "2024-06-06",
+      "notes": "Not a guest appearance; mentioned as an authority on TypeScript configuration and performance. His TSConfig library also cited. Demonstrates peer recognition among JS ecosystem voices."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "media-mention",
+      "magnitudeRaw": "JS Party #348 (Nov 29 2024, changelog.com) \u2014 Theo Browne identifies Matt Pocock as the archetypal TypeScript enthusiast at React Summit New York",
+      "sourceUrl": "https://changelog.com/jsparty/348",
+      "observedAt": "2024-11-29",
+      "notes": "Not a guest appearance. Theo's phrasing ('I'm not the TypeScript enthusiast that a Matt Pocock is') confirms Matt's widespread reputation as the leading TypeScript educator in the community."
+    },
+    {
+      "skillId": "mattpocock/productivity",
+      "type": "proxy-containment",
+      "magnitudeRaw": "Total TypeScript platform \u2014 40k+ developers in community; flagship TypeScript education brand. Skills positioned as companion productivity/engineering workflows for the same audience.",
+      "sourceUrl": "https://totaltypescript.com",
+      "observedAt": "2026-06-17",
+      "notes": "Total TypeScript is the well-known framework/course that establishes Matt's authority and audience base. The skills suite (mattpocock/skills) is marketed to the same community. This serves as proxy-containment: the suite is implicitly endorsed by the credibility of the TotalTypeScript platform."
+    }
+  ],
+  "gapsIdentified": [
+    "No confirmed Syntax.fm guest appearance found \u2014 Matt Pocock does not appear as a named guest in any episode checked (episodes 237, 464, 487, 604, 700, 813, 849, 851, 941, 1003). A dedicated Syntax Supper Club episode with Matt would be high-value evidence.",
+    "No confirmed JS Party guest appearance found \u2014 Matt mentioned in 3 episodes but never as an invited guest. A dedicated episode would significantly boost the suite's interview evidence tier.",
+    "devtools.fm archive confirms no Matt Pocock episode exists as of June 2026.",
+    "No TSConf, JSNation, TypeScript Congress, or ViteConf 2024-2026 session found for Matt Pocock through available sources. His conference activity post-2023 may have shifted to online-first content.",
+    "YouTube channel (@mattpocockuk) content could not be scraped directly \u2014 YouTube truncates channel pages. Individual video URLs for Total TypeScript tips and AI Hero walkthroughs would add interview-class evidence if view counts are verifiable.",
+    "No independent media coverage (TechCrunch, Wired, InfoQ, ThoughtWorks Radar) found mentioning the skills CLI specifically \u2014 the framework's adoption is documented primarily through Matt's own channels.",
+    "aihero.dev/ai-hero course page returned 404 \u2014 the AI Hero course (successor to Total TypeScript) could not be independently verified for enrollment figures or media coverage.",
+    "React Day Berlin 2023 YouTube video URL not directly resolved \u2014 only GitNation transcription page found. Direct YouTube URL and view count would strengthen the interview evidence."
+  ]
+}

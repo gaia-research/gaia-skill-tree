@@ -1,0 +1,2947 @@
+{
+  "generatedAt": "2026-06-17",
+  "snapshot": {
+    "suiteId": "mattpocock/skills",
+    "directOrigins": [
+      "mattpocock/caveman",
+      "mattpocock/diagnose",
+      "mattpocock/edit-article",
+      "mattpocock/engineering",
+      "mattpocock/grill-me",
+      "mattpocock/grill-with-docs",
+      "mattpocock/handoff",
+      "mattpocock/improve-codebase-architecture",
+      "mattpocock/obsidian-vault",
+      "mattpocock/personal",
+      "mattpocock/productivity",
+      "mattpocock/prototype",
+      "mattpocock/setup-matt-pocock-skills",
+      "mattpocock/to-issues",
+      "mattpocock/to-prd",
+      "mattpocock/triage",
+      "mattpocock/ubiquitous-language",
+      "mattpocock/write-a-skill",
+      "mattpocock/zoom-out"
+    ],
+    "nestedPairs": [
+      [
+        "mattpocock/engineering",
+        "mattpocock/diagnose"
+      ],
+      [
+        "mattpocock/engineering",
+        "mattpocock/grill-with-docs"
+      ],
+      [
+        "mattpocock/engineering",
+        "mattpocock/improve-codebase-architecture"
+      ],
+      [
+        "mattpocock/engineering",
+        "mattpocock/prototype"
+      ],
+      [
+        "mattpocock/engineering",
+        "mattpocock/setup-matt-pocock-skills"
+      ],
+      [
+        "mattpocock/engineering",
+        "mattpocock/to-issues"
+      ],
+      [
+        "mattpocock/engineering",
+        "mattpocock/to-prd"
+      ],
+      [
+        "mattpocock/engineering",
+        "mattpocock/triage"
+      ],
+      [
+        "mattpocock/engineering",
+        "mattpocock/ubiquitous-language"
+      ],
+      [
+        "mattpocock/engineering",
+        "mattpocock/zoom-out"
+      ],
+      [
+        "mattpocock/personal",
+        "mattpocock/edit-article"
+      ],
+      [
+        "mattpocock/personal",
+        "mattpocock/obsidian-vault"
+      ],
+      [
+        "mattpocock/productivity",
+        "mattpocock/caveman"
+      ],
+      [
+        "mattpocock/productivity",
+        "mattpocock/grill-me"
+      ],
+      [
+        "mattpocock/productivity",
+        "mattpocock/handoff"
+      ],
+      [
+        "mattpocock/productivity",
+        "mattpocock/write-a-skill"
+      ]
+    ],
+    "transitiveClosure": [
+      "mattpocock/caveman",
+      "mattpocock/diagnose",
+      "mattpocock/edit-article",
+      "mattpocock/engineering",
+      "mattpocock/grill-me",
+      "mattpocock/grill-with-docs",
+      "mattpocock/handoff",
+      "mattpocock/improve-codebase-architecture",
+      "mattpocock/obsidian-vault",
+      "mattpocock/personal",
+      "mattpocock/productivity",
+      "mattpocock/prototype",
+      "mattpocock/setup-matt-pocock-skills",
+      "mattpocock/to-issues",
+      "mattpocock/to-prd",
+      "mattpocock/triage",
+      "mattpocock/ubiquitous-language",
+      "mattpocock/write-a-skill",
+      "mattpocock/zoom-out"
+    ],
+    "transitiveCount": 19,
+    "directCount": 19,
+    "depth2OnlyCount": 0,
+    "componentDetails": [
+      {
+        "id": "mattpocock/caveman",
+        "level": "3\u2605",
+        "type": "basic",
+        "role": "variant",
+        "origin": false,
+        "genericSkillRef": "context-compression",
+        "grade": "A",
+        "evidenceCount": 0,
+        "nestedComponents": []
+      },
+      {
+        "id": "mattpocock/diagnose",
+        "level": "2\u2605",
+        "type": "extra",
+        "role": "variant",
+        "origin": false,
+        "genericSkillRef": "autonomous-debug",
+        "grade": "B",
+        "evidenceCount": 1,
+        "nestedComponents": []
+      },
+      {
+        "id": "mattpocock/edit-article",
+        "level": "2\u2605",
+        "type": "basic",
+        "role": "variant",
+        "origin": false,
+        "genericSkillRef": "document-editing",
+        "grade": "B",
+        "evidenceCount": 1,
+        "nestedComponents": []
+      },
+      {
+        "id": "mattpocock/engineering",
+        "level": "5\u2605",
+        "type": "ultimate",
+        "role": "origin",
+        "origin": true,
+        "genericSkillRef": "engineering-discipline",
+        "grade": "B",
+        "evidenceCount": 0,
+        "nestedComponents": [
+          "mattpocock/diagnose",
+          "mattpocock/grill-with-docs",
+          "mattpocock/improve-codebase-architecture",
+          "mattpocock/prototype",
+          "mattpocock/setup-matt-pocock-skills",
+          "mattpocock/to-issues",
+          "mattpocock/to-prd",
+          "mattpocock/triage",
+          "mattpocock/ubiquitous-language",
+          "mattpocock/zoom-out"
+        ]
+      },
+      {
+        "id": "mattpocock/grill-me",
+        "level": "4\u2605",
+        "type": "extra",
+        "role": "variant",
+        "origin": false,
+        "genericSkillRef": "grill-me",
+        "grade": "B",
+        "evidenceCount": 1,
+        "nestedComponents": []
+      },
+      {
+        "id": "mattpocock/grill-with-docs",
+        "level": "3\u2605",
+        "type": "extra",
+        "role": "origin",
+        "origin": true,
+        "genericSkillRef": "grill-with-docs",
+        "grade": "B",
+        "evidenceCount": 1,
+        "nestedComponents": []
+      },
+      {
+        "id": "mattpocock/handoff",
+        "level": "4\u2605",
+        "type": "extra",
+        "role": "variant",
+        "origin": false,
+        "genericSkillRef": "agent-handoff",
+        "grade": "B",
+        "evidenceCount": 1,
+        "nestedComponents": []
+      },
+      {
+        "id": "mattpocock/improve-codebase-architecture",
+        "level": "3\u2605",
+        "type": "basic",
+        "role": "variant",
+        "origin": false,
+        "genericSkillRef": "refactor-code",
+        "grade": "A",
+        "evidenceCount": 0,
+        "nestedComponents": []
+      },
+      {
+        "id": "mattpocock/obsidian-vault",
+        "level": "3\u2605",
+        "type": "extra",
+        "role": "variant",
+        "origin": false,
+        "genericSkillRef": "personal-knowledge-management",
+        "grade": "B",
+        "evidenceCount": 1,
+        "nestedComponents": []
+      },
+      {
+        "id": "mattpocock/personal",
+        "level": "4\u2605",
+        "type": "extra",
+        "role": "origin",
+        "origin": true,
+        "genericSkillRef": "personal",
+        "grade": "B",
+        "evidenceCount": 0,
+        "nestedComponents": [
+          "mattpocock/edit-article",
+          "mattpocock/obsidian-vault"
+        ]
+      },
+      {
+        "id": "mattpocock/productivity",
+        "level": "4\u2605",
+        "type": "extra",
+        "role": "origin",
+        "origin": true,
+        "genericSkillRef": "productivity",
+        "grade": "B",
+        "evidenceCount": 0,
+        "nestedComponents": [
+          "mattpocock/caveman",
+          "mattpocock/grill-me",
+          "mattpocock/handoff",
+          "mattpocock/write-a-skill"
+        ]
+      },
+      {
+        "id": "mattpocock/prototype",
+        "level": "3\u2605",
+        "type": "extra",
+        "role": "variant",
+        "origin": false,
+        "genericSkillRef": "prototype",
+        "grade": "B",
+        "evidenceCount": 1,
+        "nestedComponents": []
+      },
+      {
+        "id": "mattpocock/setup-matt-pocock-skills",
+        "level": "3\u2605",
+        "type": "extra",
+        "role": "variant",
+        "origin": false,
+        "genericSkillRef": "agent-environment-setup",
+        "grade": "B",
+        "evidenceCount": 1,
+        "nestedComponents": []
+      },
+      {
+        "id": "mattpocock/to-issues",
+        "level": "3\u2605",
+        "type": "extra",
+        "role": "variant",
+        "origin": false,
+        "genericSkillRef": "vertical-slice-planning",
+        "grade": "B",
+        "evidenceCount": 1,
+        "nestedComponents": []
+      },
+      {
+        "id": "mattpocock/to-prd",
+        "level": "2\u2605",
+        "type": "extra",
+        "role": "origin",
+        "origin": true,
+        "genericSkillRef": "prd-generation",
+        "grade": "A",
+        "evidenceCount": 1,
+        "nestedComponents": []
+      },
+      {
+        "id": "mattpocock/triage",
+        "level": "3\u2605",
+        "type": "basic",
+        "role": "origin",
+        "origin": true,
+        "genericSkillRef": "issue-triage",
+        "grade": "A",
+        "evidenceCount": 1,
+        "nestedComponents": []
+      },
+      {
+        "id": "mattpocock/ubiquitous-language",
+        "level": "4\u2605",
+        "type": "extra",
+        "role": "variant",
+        "origin": false,
+        "genericSkillRef": "ubiquitous-language",
+        "grade": "B",
+        "evidenceCount": 1,
+        "nestedComponents": []
+      },
+      {
+        "id": "mattpocock/write-a-skill",
+        "level": "3\u2605",
+        "type": "extra",
+        "role": "origin",
+        "origin": true,
+        "genericSkillRef": "tool-creation",
+        "grade": "A",
+        "evidenceCount": 0,
+        "nestedComponents": []
+      },
+      {
+        "id": "mattpocock/zoom-out",
+        "level": "2\u2605",
+        "type": "basic",
+        "role": "origin",
+        "origin": true,
+        "genericSkillRef": "code-explain",
+        "grade": "A",
+        "evidenceCount": 0,
+        "nestedComponents": []
+      }
+    ]
+  },
+  "evidenceRows": [
+    {
+      "skillId": "mattpocock/skills",
+      "type": "github-stars-own",
+      "magnitudeRaw": "132279 stars",
+      "sourceUrl": "https://api.github.com/repos/mattpocock/skills",
+      "observedAt": "2026-06-16",
+      "notes": "Confirmed via GitHub API. 132,279 stars, 11,510 forks, 878 subscribers. Repo created 2026-02-03, last push 2026-06-12. Exceptional growth rate for a ~4-month-old repo.",
+      "sourceStartedAt": "2026-02-03"
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "repo",
+      "magnitudeRaw": "11510 forks, 102 commits, 80 open issues, 1 active PR",
+      "sourceUrl": "https://github.com/mattpocock/skills",
+      "observedAt": "2026-06-16",
+      "notes": "Active maintenance confirmed: 102 commits on main, MIT license, Shell language, 264KB size. Repo description: 'Skills for Real Engineers. Straight from my .claude directory.'",
+      "sourceStartedAt": "2026-02-03"
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "proxy-containment",
+      "magnitudeRaw": "4762680 weekly downloads on 'skills' npm package (vercel-labs/skills)",
+      "sourceUrl": "https://api.npmjs.org/downloads/point/last-week/skills",
+      "observedAt": "2026-06-16",
+      "notes": "The 'skills' npm CLI (maintained by vercel-labs, repo: github.com/vercel-labs/skills) is the install path for mattpocock/skills via 'npx skills@latest add mattpocock/skills'. 4.76M weekly downloads on the CLI strongly implies mattpocock/skills is among the most installed suites. This is proxy-containment, not direct attribution \u2014 the CLI serves multiple contributors' suites."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "repo",
+      "magnitudeRaw": "~60000 newsletter subscribers (self-reported in README)",
+      "sourceUrl": "https://raw.githubusercontent.com/mattpocock/skills/main/README.md",
+      "observedAt": "2026-06-16",
+      "notes": "README states 'Approximately 60,000 developers follow the accompanying newsletter for skill updates and new releases.' Self-reported; not independently verified, treat as soft signal.",
+      "sourceStartedAt": "2026-02-03"
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "proxy-containment",
+      "magnitudeRaw": "23917 GitHub followers on mattpocock profile",
+      "sourceUrl": "https://api.github.com/users/mattpocock",
+      "observedAt": "2026-06-16",
+      "notes": "Author credibility signal. Matt Pocock has 23,917 GitHub followers, 222 public repos, company: Total TypeScript, blog: totaltypescript.com. Ex-Vercel, ex-Stately."
+    },
+    {
+      "skillId": "mattpocock/engineering",
+      "type": "repo",
+      "magnitudeRaw": "10 active skills in skills/engineering/",
+      "sourceUrl": "https://api.github.com/repos/mattpocock/skills/git/trees/main?recursive=1",
+      "observedAt": "2026-06-16",
+      "notes": "Engineering suite contains: diagnose, grill-with-docs, improve-codebase-architecture, prototype, setup-matt-pocock-skills, tdd, to-issues, to-prd, triage, zoom-out. All confirmed present in repo tree."
+    },
+    {
+      "skillId": "mattpocock/productivity",
+      "type": "repo",
+      "magnitudeRaw": "5 active skills in skills/productivity/",
+      "sourceUrl": "https://api.github.com/repos/mattpocock/skills/git/trees/main?recursive=1",
+      "observedAt": "2026-06-16",
+      "notes": "Productivity suite contains: caveman, grill-me, handoff, teach, write-a-skill. All confirmed present in repo tree."
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "type": "repo",
+      "magnitudeRaw": "Skill confirmed at skills/productivity/grill-me/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/mattpocock/skills/main/skills/productivity/grill-me/SKILL.md",
+      "observedAt": "2026-06-16",
+      "notes": "SKILL.md confirmed. Description: 'Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree.' Type: productivity. Active and not deprecated."
+    },
+    {
+      "skillId": "mattpocock/handoff",
+      "type": "repo",
+      "magnitudeRaw": "Skill confirmed at skills/productivity/handoff/SKILL.md",
+      "sourceUrl": "https://raw.githubusercontent.com/mattpocock/skills/main/skills/productivity/handoff/SKILL.md",
+      "observedAt": "2026-06-16",
+      "notes": "SKILL.md confirmed. Generates agent-to-agent transition documents saved to OS temp dir. Redacts sensitive data. Active and not deprecated."
+    },
+    {
+      "skillId": "mattpocock/ubiquitous-language",
+      "type": "repo",
+      "magnitudeRaw": "Skill located at skills/deprecated/ubiquitous-language/",
+      "sourceUrl": "https://api.github.com/repos/mattpocock/skills/contents/skills/deprecated",
+      "observedAt": "2026-06-16",
+      "notes": "ubiquitous-language is in the deprecated/ folder alongside design-an-interface, qa, request-refactor-plan. Skill still has a SKILL.md (DDD glossary extraction) but is formally deprecated by the author. GAIA registry entry should reflect deprecated status."
+    },
+    {
+      "skillId": "mattpocock/personal",
+      "type": "repo",
+      "magnitudeRaw": "2 skills in skills/personal/: edit-article, obsidian-vault",
+      "sourceUrl": "https://api.github.com/repos/mattpocock/skills/git/trees/main?recursive=1",
+      "observedAt": "2026-06-16",
+      "notes": "Personal suite is slim (2 skills). edit-article and obsidian-vault confirmed in tree. No deprecation noted."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "npm-downloads",
+      "magnitudeRaw": "1125716 weekly downloads for @total-typescript/ts-reset (week of 2026-06-09 to 2026-06-15)",
+      "sourceUrl": "https://api.npmjs.org/downloads/point/last-week/@total-typescript/ts-reset",
+      "observedAt": "2026-06-16",
+      "notes": "Author credibility signal via npm reach. @total-typescript/ts-reset is Matt Pocock's most prominent npm package with 1.1M+ weekly downloads, confirming he has substantial practitioner reach independent of social media. This is author-level trust signal, not direct skills package signal.",
+      "sourceStartedAt": "2022-09-01"
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "proxy-containment",
+      "magnitudeRaw": "GitHub repository with 132k stars and 11.5k forks (verified on page); documents the full skills suite, grill-me, engineering, and productivity skills directly",
+      "sourceUrl": "https://github.com/mattpocock/skills",
+      "observedAt": "2026-06-17",
+      "notes": "Primary first-party source for the suite. Stars verified from README page fetch. Includes /grill-me, /grill-with-docs, /tdd, /diagnose, /improve-codebase-architecture, /to-prd, /to-issues, /caveman, /handoff. Newsletter cited as ~60k subscribers."
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "type": "media-mention",
+      "magnitudeRaw": "Blog post titled 'My Grill Me Skill Went Viral' on aihero.dev, updated March 23 2026; direct authorial account of viral adoption",
+      "sourceUrl": "https://aihero.dev/my-grill-me-skill-has-gone-viral",
+      "observedAt": "2026-03-23",
+      "notes": "Matt documents the grill-me skill's viral spread. Describes it as his most flexible skill, used for 45-minute structured AI interviews before implementation. Self-authored, first-party evidence."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "media-mention",
+      "magnitudeRaw": "Article '5 Agent Skills I Use Every Day' on aihero.dev (updated March 16 2026) \u2014 covers grill-me, /to-prd, /to-issues, /tdd, /improve-codebase-architecture directly",
+      "sourceUrl": "https://aihero.dev/5-agent-skills-i-use-every-day",
+      "observedAt": "2026-03-16",
+      "notes": "Covers exactly the skills in mattpocock/skills suite. First-party editorial by the skill author. Describes engineering and productivity workflow patterns in depth."
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "type": "media-mention",
+      "magnitudeRaw": "Article '9 Things People Get Wrong With /grill-me and /grill-with-docs' cross-posted on totaltypescript.com, updated May 25 2026",
+      "sourceUrl": "https://www.totaltypescript.com/things-people-get-wrong-with-grill-me-and-grill-with-docs",
+      "observedAt": "2026-05-25",
+      "notes": "Published on totaltypescript.com (the flagship 40k+ developer platform) \u2014 significantly increases reach. Covers grill-me and grill-with-docs skills directly. Confirms cross-platform editorial investment in the skills framework."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "media-mention",
+      "magnitudeRaw": "Skills changelog article on aihero.dev (April 30 2026) documenting /grill-with-docs release, /diagnose, /triage; 46.6k stars cited at time of writing",
+      "sourceUrl": "https://aihero.dev/skills-changelog-ubiquitous-language-grill-with-docs",
+      "observedAt": "2026-04-30",
+      "notes": "Announces major skills reorganisation into Engineering/Productivity/Misc/Deprecated/Personal categories. Confirms ongoing active development and editorial voice around the suite."
+    },
+    {
+      "skillId": "mattpocock/engineering",
+      "type": "media-mention",
+      "magnitudeRaw": "Article 'How To Make Codebases AI Agents Love' on aihero.dev \u2014 directly addresses the engineering workflow philosophy behind the engineering skill",
+      "sourceUrl": "https://aihero.dev/how-to-make-codebases-ai-agents-love",
+      "observedAt": "2026-06-17",
+      "notes": "Covers the deep modules and architectural philosophy that underpins the /improve-codebase-architecture and broader engineering skills. No explicit publication date extracted, inferred 2026."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "media-mention",
+      "magnitudeRaw": "Article 'Real-world feature build with Claude Code: every step explained' on aihero.dev, published March 20 2026 \u2014 demonstrates grill-me skill in live workflow",
+      "sourceUrl": "https://aihero.dev/real-world-feature-build-with-claude-code",
+      "observedAt": "2026-03-20",
+      "notes": "Shows a real project using the grill-me skill as the first step in a Claude Code workflow. Demonstrates practical adoption of the skills suite methodology."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "interview",
+      "magnitudeRaw": "React Day Berlin 2023 talk 'React's Most Useful Types' \u2014 21 minutes; Matt Pocock as headlining TypeScript educator at major international React conference",
+      "sourceUrl": "https://gitnation.com/contents/typescript-tricks-for-building-better-react-apps",
+      "observedAt": "2023-12-01",
+      "notes": "Confirms Matt's status as a prominent conference speaker in the TypeScript/React ecosystem. Establishes authority of the suite creator. GitNation is the primary record; exact YouTube URL not resolved. Date approximate (React Day Berlin 2023).",
+      "sourceStartedAt": "2023-01-01"
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "interview",
+      "magnitudeRaw": "React Advanced 2022 talk 'TypeScript and React: Secrets of a Happy Marriage' \u2014 21 minutes on October 24 2022; recorded and indexed on GitNation",
+      "sourceUrl": "https://gitnation.com/contents/typescript-and-react-secrets-of-a-happy-marriage",
+      "observedAt": "2022-10-24",
+      "notes": "Conference talk at React Advanced London 2022. Verifies Matt's standing as a TypeScript educator at significant international conferences predating the skills CLI.",
+      "sourceStartedAt": "2022-01-01"
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "interview",
+      "magnitudeRaw": "React Finland 2021 talk 'Make Legacy Code Delightful with Statecharts' \u2014 22 minutes; published August 31 2021",
+      "sourceUrl": "https://gitnation.com/contents/make-legacy-code-delightful-with-statecharts",
+      "observedAt": "2021-08-31",
+      "notes": "Earlier foundational conference appearance. Establishes long-standing engineering credibility underpinning the skills suite. Context predates Total TypeScript.",
+      "sourceStartedAt": "2021-01-01"
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "media-mention",
+      "magnitudeRaw": "JS Party #326 (June 6 2024, changelog.com) \u2014 Matt Pocock cited by Eric Clemmons as a leading TypeScript expert in a build-step debate episode",
+      "sourceUrl": "https://changelog.com/jsparty/326",
+      "observedAt": "2024-06-06",
+      "notes": "Not a guest appearance; mentioned as an authority on TypeScript configuration and performance. His TSConfig library also cited. Demonstrates peer recognition among JS ecosystem voices."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "media-mention",
+      "magnitudeRaw": "JS Party #348 (Nov 29 2024, changelog.com) \u2014 Theo Browne identifies Matt Pocock as the archetypal TypeScript enthusiast at React Summit New York",
+      "sourceUrl": "https://changelog.com/jsparty/348",
+      "observedAt": "2024-11-29",
+      "notes": "Not a guest appearance. Theo's phrasing ('I'm not the TypeScript enthusiast that a Matt Pocock is') confirms Matt's widespread reputation as the leading TypeScript educator in the community."
+    },
+    {
+      "skillId": "mattpocock/productivity",
+      "type": "proxy-containment",
+      "magnitudeRaw": "Total TypeScript platform \u2014 40k+ developers in community; flagship TypeScript education brand. Skills positioned as companion productivity/engineering workflows for the same audience.",
+      "sourceUrl": "https://totaltypescript.com",
+      "observedAt": "2026-06-17",
+      "notes": "Total TypeScript is the well-known framework/course that establishes Matt's authority and audience base. The skills suite (mattpocock/skills) is marketed to the same community. This serves as proxy-containment: the suite is implicitly endorsed by the credibility of the TotalTypeScript platform."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "repo",
+      "magnitudeRaw": "GitHub repository mattpocock/skills: 132,281 stars, 11,510 forks, 81 open issues, MIT licence, created 2026-02-03, last pushed 2026-06-12.",
+      "sourceUrl": "https://github.com/mattpocock/skills",
+      "observedAt": "2026-06-17",
+      "notes": "Verified via GitHub API. Description: 'Skills for Real Engineers. Straight from my .claude directory.' Primary author commit count: 94 of 102 total. Language: Shell 100%."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "proxy-containment",
+      "magnitudeRaw": "skills.sh live install badge reports 4.0M total installs for the mattpocock/skills suite. Badge SVG fetched directly from https://skills.sh/b/mattpocock/skills; text content reads 'Skills: 4.0M'.",
+      "sourceUrl": "https://skills.sh/mattpocock/skills",
+      "observedAt": "2026-06-17",
+      "notes": "skills.sh is the canonical distribution platform for Claude Code agent skills (Vercel Labs). An earlier page fetch also showed per-skill breakdowns: grill-me at 329.2k installs, improve-codebase-architecture at 269.2k, tdd at 254.1k, to-prd at 235.6k. The suite total has since crossed 4.0M."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "proxy-containment",
+      "magnitudeRaw": "ComposioHQ/awesome-claude-skills (64,899 stars) prominently features Matt Pocock Skills at 132k stars in a ranked table alongside Superpowers (230k), Everything Claude Code (217k), and Spec-Kit (113k). Matt Pocock is also listed among the community's key skill authors alongside Garry Tan (gstack), Andrej Karpathy, and GitHub.",
+      "sourceUrl": "https://github.com/ComposioHQ/awesome-claude-skills",
+      "observedAt": "2026-06-17",
+      "notes": "Verified by fetching README via GitHub API and grepping for 'mattpocock'. The list shows /grill-me \u2192 /to-prd \u2192 /triage \u2192 /tdd \u2192 /diagnose \u2192 /zoom-out \u2192 /improve-codebase-architecture \u2192 /handoff as the canonical workflow. Created 2025-10-17."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "proxy-containment",
+      "magnitudeRaw": "shanraisshan/claude-code-best-practice (58,021 stars, 'from vibe coding to agentic engineering - practice makes claude perfect') includes mattpocock/skills in a ranked table showing 129k stars and 25 skills, alongside anthropics/skills (151k), Superpowers, and other top-tier repos.",
+      "sourceUrl": "https://github.com/shanraisshan/claude-code-best-practice",
+      "observedAt": "2026-06-17",
+      "notes": "Verified via GitHub API README fetch. Repo created 2025-10-31. Table row: '| [mattpocock/skills] | 129k | 25 |'"
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "proxy-containment",
+      "magnitudeRaw": "wesammustafa/Claude-Code-Everything-You-Need-to-Know (2,121 stars, 'The ultimate all-in-one guide to mastering Claude Code') lists mattpocock/skills as a 'Notable community skill' under 'Engineering-focused composable skills (TDD, debugging, triage). Includes the well-known `grill-me`.'",
+      "sourceUrl": "https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know",
+      "observedAt": "2026-06-17",
+      "notes": "Verified via GitHub API. docs/skills.md contains the listing. Created 2025-08-17."
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "type": "media-mention",
+      "magnitudeRaw": "aihero.dev blog post by Matt Pocock titled 'My Grill Me Skill Went Viral', dated 2026-03-23. Describes /grill-me as 'the most flexible skill I've ever created', notes non-coding applications, and documents a recent update adding AI-recommended answers. The post title itself signals community reception.",
+      "sourceUrl": "https://www.aihero.dev/my-grill-me-skill-has-gone-viral",
+      "observedAt": "2026-03-23",
+      "notes": "Content verified via raw GitHub mirror at ulayera/ai-hero-offline. Date: March 23, 2026. aihero.dev is Matt Pocock's own publishing platform for his AI engineering newsletter (~60k subscribers per README)."
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "type": "media-mention",
+      "magnitudeRaw": "aihero.dev article '5 Agent Skills I Use Every Day' (updated 2026-03-16) by Matt Pocock. Describes using /grill-me as the first step in a five-skill workflow, with Claude asking 16-50 questions per session, and references Frederick P. Brooks's 'design tree' concept as theoretical grounding.",
+      "sourceUrl": "https://www.aihero.dev/5-agent-skills-i-use-every-day",
+      "observedAt": "2026-03-16",
+      "notes": "Verified via raw content mirror. Also covers /to-prd, /to-issues, /tdd, and /improve-codebase-architecture."
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "type": "proxy-containment",
+      "magnitudeRaw": "aiskillstore/marketplace (361 stars, 'Security-audited skills for Claude, Codex & Claude Code') contains a full security audit of grill-me completed 2026-03-27 using analysis_version 3.0.0. Risk level: safe, is_blocked: false, safe_to_publish: true. Includes complete skill metadata, FAQ, use cases, and output examples.",
+      "sourceUrl": "https://github.com/aiskillstore/marketplace/blob/main/skills/mattpocock/grill-me/skill-report.json",
+      "observedAt": "2026-03-27",
+      "notes": "Verified via GitHub API. All 29 mattpocock skills have individual skill-report.json entries in this marketplace. The audit notes a static-analyser false positive on 'weak cryptographic algorithm' but clears the skill as purely conversational."
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "type": "proxy-containment",
+      "magnitudeRaw": "vinvcn/mattpocock-skills-zh-CN: Simplified Chinese localization of mattpocock/skills with 681 stars and 72 forks, created 2026-04-28. Karasukaigan/skills-zh: Japanese/Chinese localization with 165 stars. amazingloft999-droid/mattpocock-skills: English mirror with 234 stars.",
+      "sourceUrl": "https://github.com/vinvcn/mattpocock-skills-zh-CN",
+      "observedAt": "2026-06-17",
+      "notes": "Three independent high-quality localization/mirror repositories demonstrate broad international adoption. vinvcn is the most starred localization fork."
+    },
+    {
+      "skillId": "mattpocock/ubiquitous-language",
+      "type": "media-mention",
+      "magnitudeRaw": "aihero.dev changelog article 'Skills Changelog: Ubiquitous Language -> /grill-with-docs' (published 2026-04-30) documents the deprecation of /ubiquitous-language and its consolidation into /grill-with-docs. Explains the evolution toward CONTEXT.md and multiple bounded contexts (DDD pattern).",
+      "sourceUrl": "https://www.aihero.dev/skills-changelog-ubiquitous-language-grill-with-docs",
+      "observedAt": "2026-04-30",
+      "notes": "Verified via raw content mirror at ulayera/ai-hero-offline. Confirms /ubiquitous-language was a live, used skill before supersession \u2014 historical provenance evidence."
+    },
+    {
+      "skillId": "mattpocock/handoff",
+      "type": "media-mention",
+      "magnitudeRaw": "aihero.dev skill page for /handoff (updated 2026-05-13) with full documentation: installation, workflow description, ideal use cases, and synergy with /prototype, /to-prd, /to-issues.",
+      "sourceUrl": "https://www.aihero.dev/skills-handoff",
+      "observedAt": "2026-05-13",
+      "notes": "Verified via raw content mirror. Install command: npx skills add mattpocock/skills skill=handoff -y -g. Confirms handoff is a live, maintained skill."
+    },
+    {
+      "skillId": "mattpocock/engineering",
+      "type": "media-mention",
+      "magnitudeRaw": "aihero.dev skills hub page (dated with changelogs from 2026-04-30 and 2026-05-11) lists all engineering skills: /grill-with-docs, /to-prd, /to-issues, /tdd, /handoff, /prototype, /improve-codebase-architecture, /triage, /review. Tagline: 'a practical skill system for engineers who want to use AI'.",
+      "sourceUrl": "https://www.aihero.dev/skills",
+      "observedAt": "2026-05-11",
+      "notes": "Verified by direct fetch of aihero.dev/skills. This is Matt Pocock's authoritative documentation for his engineering skill category."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "media-mention",
+      "magnitudeRaw": "Chinese blog post 'Agent Skills for Real Engineers \u2014 mattpocock-skills' on houbb.github.io published 2026-04-27, documenting the full skill list, installation, and use cases across planning, development, tooling, and knowledge management.",
+      "sourceUrl": "https://houbb.github.io/2026/04/27/mattpocock-skills-01-intro",
+      "observedAt": "2026-04-27",
+      "notes": "Verified by fetching the page. Third-party Chinese-language documentation and endorsement, consistent with the broader Chinese developer adoption seen in the 681-star localization fork."
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "type": "media-mention",
+      "magnitudeRaw": "Korean blog post 'Claude Code Skills 22\uac1c \ud55c\uad6d\uc5b4 \uc815\ub9ac' on jkf87.github.io (2026-04-27) covers the full mattpocock/skills suite in Korean, featuring /grill-me with translation '\ub0b4 \uacc4\ud68d\uc744 \ub05d\uae4c\uc9c0 \ucd94\uad81\ud574\ub77c' (thoroughly challenges planning assumptions).",
+      "sourceUrl": "https://jkf87.github.io/mattpocock-skills-real-engineers-claude-2026-04-27",
+      "observedAt": "2026-04-27",
+      "notes": "Verified by fetching the page. Third-party Korean-language documentation, indicating adoption in the Korean developer community."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "proxy-containment",
+      "magnitudeRaw": "travisvn/awesome-claude-skills (13,515 stars) references Anthropic's engineering deep-dive 'Equipping Agents with Skills' alongside mattpocock/skills as a community example repository. The Anthropic article (2025-10-16, authors: Barry Zhang, Keith Lazuka, Mahesh Murag) defines the SKILL.md standard that mattpocock/skills implements.",
+      "sourceUrl": "https://github.com/travisvn/awesome-claude-skills",
+      "observedAt": "2026-06-17",
+      "notes": "The Anthropic article itself does not name mattpocock/skills, but travisvn/awesome-claude-skills places the Anthropic engineering post and mattpocock/skills in the same resource section. mattpocock/skills is one of the most prominent community implementations of the standard."
+    }
+  ],
+  "evidenceRowCount": 40,
+  "results": {
+    "P1-strict-S": {
+      "verdict": {
+        "stance": "P1-strict-S",
+        "thresholds": {
+          "S": 320,
+          "A": 110,
+          "B": 55,
+          "C": 22
+        },
+        "trustMagnitude": 1125.94,
+        "grade": "S",
+        "gradeReason": "S thresholds cleared",
+        "distinctTypes": [
+          "fusion-recipe",
+          "github-stars-own",
+          "interview",
+          "media-mention",
+          "npm-downloads",
+          "proxy-containment",
+          "repo"
+        ],
+        "distinctTypeCount": 7,
+        "hasNonSelfProducible": true,
+        "hasATier": true,
+        "hasSTier": true,
+        "fusionGrandfatheredOrigins": 19,
+        "fusionValidOrigins": 8,
+        "perTypeScores": {
+          "fusion-recipe": 166.4,
+          "github-stars-own": 132.28,
+          "repo": 67.5,
+          "proxy-containment": 548.41,
+          "npm-downloads": 70.0,
+          "media-mention": 112.5,
+          "interview": 28.85
+        },
+        "perRowDetails": [
+          {
+            "type": "fusion-recipe",
+            "rawMag": 128,
+            "postWeight": 166.4,
+            "tier": "S",
+            "origins": 8,
+            "note": "role=origin only (8/19 components, 11 variants excluded)"
+          },
+          {
+            "type": "github-stars-own",
+            "rawMag": 132.279,
+            "postWeight": 132.279,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 140,
+            "postWeight": 140.0,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 19.1336,
+            "postWeight": 19.1336,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 105.60000000000001,
+            "postWeight": 105.60000000000001,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 32.0,
+            "postWeight": 32.0,
+            "tier": "B",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 140,
+            "postWeight": 140.0,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 51.919200000000004,
+            "postWeight": 51.919200000000004,
+            "tier": "A",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 46.4168,
+            "postWeight": 46.4168,
+            "tier": "B",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 1.6968,
+            "postWeight": 1.6968,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 0.2888,
+            "postWeight": 0.2888,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 0.5448000000000001,
+            "postWeight": 0.5448000000000001,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 10.812000000000001,
+            "postWeight": 10.812000000000001,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "npm-downloads",
+            "rawMag": 100,
+            "postWeight": 70.0,
+            "tier": "A",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 20.6069,
+            "postWeight": 16.48552,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 10.3033,
+            "postWeight": 8.24264,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 5.151575,
+            "postWeight": 4.12126,
+            "tier": "unranked",
+            "note": ""
+          }
+        ]
+      },
+      "apexGate": {
+        "predicateResults": {
+          "aGradedOriginsGte5": {
+            "pass": false,
+            "value": "4 A/S-graded fusion origins (out of 8 total)",
+            "note": "\u22655 fusion-origin components (role=origin) with grade \u2265A. Consolidates prior transitiveOriginsGte12 + aGradedClosureGte8."
+          },
+          "directNestedSuiteGte1": {
+            "pass": true,
+            "value": 3,
+            "note": "\u22651 directly-nested suite among role=origin children (graph-shape signal)"
+          },
+          "depth2OnlyReachableGte1": {
+            "pass": false,
+            "value": 0,
+            "note": "\u22651 fusion-origin reachable only at depth-2 (suite components excluded \u2014 installation-only)"
+          },
+          "overallGradeS": {
+            "pass": true,
+            "value": "S",
+            "note": "formula puts skill at S"
+          },
+          "sourceTenureDaysGte180AorS": {
+            "pass": true,
+            "value": "1385 days (best A/S-tier row); 1 qualifying rows",
+            "note": "\u22651 evidence row at A or S tier with source \u2265180 days old",
+            "qualifying": [
+              {
+                "skillId": "mattpocock/skills",
+                "type": "npm-downloads",
+                "sourceStartedAt": "2022-09-01",
+                "days": 1385
+              }
+            ]
+          },
+          "apexPromotionPrSigned": {
+            "pass": false,
+            "value": "unsigned (intentional until G7 big-bang migration PR)",
+            "note": "sole human-attestation gate; cross-org cosigners disabled until ecosystem grows"
+          }
+        },
+        "passingCount": 3,
+        "totalPredicates": 6,
+        "apexEligible": false,
+        "failingPredicates": [
+          "aGradedOriginsGte5",
+          "depth2OnlyReachableGte1",
+          "apexPromotionPrSigned"
+        ]
+      }
+    },
+    "P2-attainable-S": {
+      "verdict": {
+        "stance": "P2-attainable-S",
+        "thresholds": {
+          "S": 200,
+          "A": 100,
+          "B": 50,
+          "C": 20
+        },
+        "trustMagnitude": 1287.54,
+        "grade": "S",
+        "gradeReason": "S thresholds cleared",
+        "distinctTypes": [
+          "fusion-recipe",
+          "github-stars-own",
+          "interview",
+          "media-mention",
+          "npm-downloads",
+          "proxy-containment",
+          "repo"
+        ],
+        "distinctTypeCount": 7,
+        "hasNonSelfProducible": true,
+        "hasATier": true,
+        "hasSTier": true,
+        "fusionGrandfatheredOrigins": 19,
+        "fusionValidOrigins": 8,
+        "perTypeScores": {
+          "fusion-recipe": 288.0,
+          "github-stars-own": 132.28,
+          "repo": 67.5,
+          "proxy-containment": 588.41,
+          "npm-downloads": 70.0,
+          "media-mention": 112.5,
+          "interview": 28.85
+        },
+        "perRowDetails": [
+          {
+            "type": "fusion-recipe",
+            "rawMag": 160,
+            "postWeight": 288.0,
+            "tier": "S",
+            "origins": 8,
+            "note": "role=origin only (8/19 components, 11 variants excluded)"
+          },
+          {
+            "type": "github-stars-own",
+            "rawMag": 132.279,
+            "postWeight": 132.279,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 160,
+            "postWeight": 160.0,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 19.1336,
+            "postWeight": 19.1336,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 105.60000000000001,
+            "postWeight": 105.60000000000001,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 32.0,
+            "postWeight": 32.0,
+            "tier": "B",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 160,
+            "postWeight": 160.0,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 51.919200000000004,
+            "postWeight": 51.919200000000004,
+            "tier": "A",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 46.4168,
+            "postWeight": 46.4168,
+            "tier": "B",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 1.6968,
+            "postWeight": 1.6968,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 0.2888,
+            "postWeight": 0.2888,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 0.5448000000000001,
+            "postWeight": 0.5448000000000001,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 10.812000000000001,
+            "postWeight": 10.812000000000001,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "npm-downloads",
+            "rawMag": 100,
+            "postWeight": 70.0,
+            "tier": "A",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 20.6069,
+            "postWeight": 16.48552,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 10.3033,
+            "postWeight": 8.24264,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 5.151575,
+            "postWeight": 4.12126,
+            "tier": "unranked",
+            "note": ""
+          }
+        ]
+      },
+      "apexGate": {
+        "predicateResults": {
+          "aGradedOriginsGte5": {
+            "pass": false,
+            "value": "4 A/S-graded fusion origins (out of 8 total)",
+            "note": "\u22655 fusion-origin components (role=origin) with grade \u2265A. Consolidates prior transitiveOriginsGte12 + aGradedClosureGte8."
+          },
+          "directNestedSuiteGte1": {
+            "pass": true,
+            "value": 3,
+            "note": "\u22651 directly-nested suite among role=origin children (graph-shape signal)"
+          },
+          "depth2OnlyReachableGte1": {
+            "pass": false,
+            "value": 0,
+            "note": "\u22651 fusion-origin reachable only at depth-2 (suite components excluded \u2014 installation-only)"
+          },
+          "overallGradeS": {
+            "pass": true,
+            "value": "S",
+            "note": "formula puts skill at S"
+          },
+          "sourceTenureDaysGte180AorS": {
+            "pass": true,
+            "value": "1385 days (best A/S-tier row); 1 qualifying rows",
+            "note": "\u22651 evidence row at A or S tier with source \u2265180 days old",
+            "qualifying": [
+              {
+                "skillId": "mattpocock/skills",
+                "type": "npm-downloads",
+                "sourceStartedAt": "2022-09-01",
+                "days": 1385
+              }
+            ]
+          },
+          "apexPromotionPrSigned": {
+            "pass": false,
+            "value": "unsigned (intentional until G7 big-bang migration PR)",
+            "note": "sole human-attestation gate; cross-org cosigners disabled until ecosystem grows"
+          }
+        },
+        "passingCount": 3,
+        "totalPredicates": 6,
+        "apexEligible": false,
+        "failingPredicates": [
+          "aGradedOriginsGte5",
+          "depth2OnlyReachableGte1",
+          "apexPromotionPrSigned"
+        ]
+      }
+    },
+    "P3-fusion-heavy": {
+      "verdict": {
+        "stance": "P3-fusion-heavy",
+        "thresholds": {
+          "S": 250,
+          "A": 100,
+          "B": 50,
+          "C": 20
+        },
+        "trustMagnitude": 1419.54,
+        "grade": "S",
+        "gradeReason": "S thresholds cleared",
+        "distinctTypes": [
+          "fusion-recipe",
+          "github-stars-own",
+          "interview",
+          "media-mention",
+          "npm-downloads",
+          "proxy-containment",
+          "repo"
+        ],
+        "distinctTypeCount": 7,
+        "hasNonSelfProducible": true,
+        "hasATier": true,
+        "hasSTier": true,
+        "fusionGrandfatheredOrigins": 19,
+        "fusionValidOrigins": 8,
+        "perTypeScores": {
+          "fusion-recipe": 480.0,
+          "github-stars-own": 132.28,
+          "repo": 67.5,
+          "proxy-containment": 528.41,
+          "npm-downloads": 70.0,
+          "media-mention": 112.5,
+          "interview": 28.85
+        },
+        "perRowDetails": [
+          {
+            "type": "fusion-recipe",
+            "rawMag": 240,
+            "postWeight": 480.0,
+            "tier": "S",
+            "origins": 8,
+            "note": "role=origin only (8/19 components, 11 variants excluded)"
+          },
+          {
+            "type": "github-stars-own",
+            "rawMag": 132.279,
+            "postWeight": 132.279,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 130,
+            "postWeight": 130.0,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 19.1336,
+            "postWeight": 19.1336,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 105.60000000000001,
+            "postWeight": 105.60000000000001,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 32.0,
+            "postWeight": 32.0,
+            "tier": "B",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 130,
+            "postWeight": 130.0,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 51.919200000000004,
+            "postWeight": 51.919200000000004,
+            "tier": "A",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 46.4168,
+            "postWeight": 46.4168,
+            "tier": "B",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 1.6968,
+            "postWeight": 1.6968,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 0.2888,
+            "postWeight": 0.2888,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 0.5448000000000001,
+            "postWeight": 0.5448000000000001,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 10.812000000000001,
+            "postWeight": 10.812000000000001,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "npm-downloads",
+            "rawMag": 100,
+            "postWeight": 70.0,
+            "tier": "A",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 20.6069,
+            "postWeight": 16.48552,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 10.3033,
+            "postWeight": 8.24264,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 5.151575,
+            "postWeight": 4.12126,
+            "tier": "unranked",
+            "note": ""
+          }
+        ]
+      },
+      "apexGate": {
+        "predicateResults": {
+          "aGradedOriginsGte5": {
+            "pass": false,
+            "value": "4 A/S-graded fusion origins (out of 8 total)",
+            "note": "\u22655 fusion-origin components (role=origin) with grade \u2265A. Consolidates prior transitiveOriginsGte12 + aGradedClosureGte8."
+          },
+          "directNestedSuiteGte1": {
+            "pass": true,
+            "value": 3,
+            "note": "\u22651 directly-nested suite among role=origin children (graph-shape signal)"
+          },
+          "depth2OnlyReachableGte1": {
+            "pass": false,
+            "value": 0,
+            "note": "\u22651 fusion-origin reachable only at depth-2 (suite components excluded \u2014 installation-only)"
+          },
+          "overallGradeS": {
+            "pass": true,
+            "value": "S",
+            "note": "formula puts skill at S"
+          },
+          "sourceTenureDaysGte180AorS": {
+            "pass": true,
+            "value": "1385 days (best A/S-tier row); 1 qualifying rows",
+            "note": "\u22651 evidence row at A or S tier with source \u2265180 days old",
+            "qualifying": [
+              {
+                "skillId": "mattpocock/skills",
+                "type": "npm-downloads",
+                "sourceStartedAt": "2022-09-01",
+                "days": 1385
+              }
+            ]
+          },
+          "apexPromotionPrSigned": {
+            "pass": false,
+            "value": "unsigned (intentional until G7 big-bang migration PR)",
+            "note": "sole human-attestation gate; cross-org cosigners disabled until ecosystem grows"
+          }
+        },
+        "passingCount": 3,
+        "totalPredicates": 6,
+        "apexEligible": false,
+        "failingPredicates": [
+          "aGradedOriginsGte5",
+          "depth2OnlyReachableGte1",
+          "apexPromotionPrSigned"
+        ]
+      }
+    },
+    "P4-community-heavy": {
+      "verdict": {
+        "stance": "P4-community-heavy",
+        "thresholds": {
+          "S": 220,
+          "A": 95,
+          "B": 45,
+          "C": 18
+        },
+        "trustMagnitude": 1309.31,
+        "grade": "S",
+        "gradeReason": "S thresholds cleared",
+        "distinctTypes": [
+          "fusion-recipe",
+          "github-stars-own",
+          "interview",
+          "media-mention",
+          "npm-downloads",
+          "proxy-containment",
+          "repo"
+        ],
+        "distinctTypeCount": 7,
+        "hasNonSelfProducible": true,
+        "hasATier": true,
+        "hasSTier": true,
+        "fusionGrandfatheredOrigins": 19,
+        "fusionValidOrigins": 8,
+        "perTypeScores": {
+          "fusion-recipe": 224.0,
+          "github-stars-own": 132.28,
+          "repo": 67.5,
+          "proxy-containment": 668.41,
+          "npm-downloads": 70.0,
+          "media-mention": 112.5,
+          "interview": 34.62
+        },
+        "perRowDetails": [
+          {
+            "type": "fusion-recipe",
+            "rawMag": 160,
+            "postWeight": 224.0,
+            "tier": "S",
+            "origins": 8,
+            "note": "role=origin only (8/19 components, 11 variants excluded)"
+          },
+          {
+            "type": "github-stars-own",
+            "rawMag": 132.279,
+            "postWeight": 132.279,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 200,
+            "postWeight": 200.0,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 19.1336,
+            "postWeight": 19.1336,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 105.60000000000001,
+            "postWeight": 105.60000000000001,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 32.0,
+            "postWeight": 32.0,
+            "tier": "B",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 200,
+            "postWeight": 200.0,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 51.919200000000004,
+            "postWeight": 51.919200000000004,
+            "tier": "A",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 46.4168,
+            "postWeight": 46.4168,
+            "tier": "B",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 1.6968,
+            "postWeight": 1.6968,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 0.2888,
+            "postWeight": 0.2888,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 0.5448000000000001,
+            "postWeight": 0.5448000000000001,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 10.812000000000001,
+            "postWeight": 10.812000000000001,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "npm-downloads",
+            "rawMag": 100,
+            "postWeight": 70.0,
+            "tier": "A",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 20.6069,
+            "postWeight": 16.48552,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 14.424619999999999,
+            "postWeight": 11.539696,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 8.24252,
+            "postWeight": 6.594016000000001,
+            "tier": "C",
+            "note": ""
+          }
+        ]
+      },
+      "apexGate": {
+        "predicateResults": {
+          "aGradedOriginsGte5": {
+            "pass": false,
+            "value": "4 A/S-graded fusion origins (out of 8 total)",
+            "note": "\u22655 fusion-origin components (role=origin) with grade \u2265A. Consolidates prior transitiveOriginsGte12 + aGradedClosureGte8."
+          },
+          "directNestedSuiteGte1": {
+            "pass": true,
+            "value": 3,
+            "note": "\u22651 directly-nested suite among role=origin children (graph-shape signal)"
+          },
+          "depth2OnlyReachableGte1": {
+            "pass": false,
+            "value": 0,
+            "note": "\u22651 fusion-origin reachable only at depth-2 (suite components excluded \u2014 installation-only)"
+          },
+          "overallGradeS": {
+            "pass": true,
+            "value": "S",
+            "note": "formula puts skill at S"
+          },
+          "sourceTenureDaysGte180AorS": {
+            "pass": true,
+            "value": "1385 days (best A/S-tier row); 1 qualifying rows",
+            "note": "\u22651 evidence row at A or S tier with source \u2265180 days old",
+            "qualifying": [
+              {
+                "skillId": "mattpocock/skills",
+                "type": "npm-downloads",
+                "sourceStartedAt": "2022-09-01",
+                "days": 1385
+              }
+            ]
+          },
+          "apexPromotionPrSigned": {
+            "pass": false,
+            "value": "unsigned (intentional until G7 big-bang migration PR)",
+            "note": "sole human-attestation gate; cross-org cosigners disabled until ecosystem grows"
+          }
+        },
+        "passingCount": 3,
+        "totalPredicates": 6,
+        "apexEligible": false,
+        "failingPredicates": [
+          "aGradedOriginsGte5",
+          "depth2OnlyReachableGte1",
+          "apexPromotionPrSigned"
+        ]
+      }
+    },
+    "synthesis": {
+      "verdict": {
+        "stance": "synthesis",
+        "thresholds": {
+          "S": 250,
+          "A": 100,
+          "B": 50,
+          "C": 20
+        },
+        "trustMagnitude": 1187.34,
+        "grade": "S",
+        "gradeReason": "S thresholds cleared",
+        "distinctTypes": [
+          "fusion-recipe",
+          "github-stars-own",
+          "interview",
+          "media-mention",
+          "npm-downloads",
+          "proxy-containment",
+          "repo"
+        ],
+        "distinctTypeCount": 7,
+        "hasNonSelfProducible": true,
+        "hasATier": true,
+        "hasSTier": true,
+        "fusionGrandfatheredOrigins": 19,
+        "fusionValidOrigins": 8,
+        "perTypeScores": {
+          "fusion-recipe": 187.8,
+          "github-stars-own": 132.28,
+          "repo": 67.5,
+          "proxy-containment": 588.41,
+          "npm-downloads": 70.0,
+          "media-mention": 112.5,
+          "interview": 28.85
+        },
+        "perRowDetails": [
+          {
+            "type": "fusion-recipe",
+            "rawMag": 134.14213562373095,
+            "postWeight": 187.79898987322332,
+            "tier": "S",
+            "origins": 8,
+            "note": "role=origin only (8/19 components, 11 variants excluded)"
+          },
+          {
+            "type": "github-stars-own",
+            "rawMag": 132.279,
+            "postWeight": 132.279,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 160,
+            "postWeight": 160.0,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 19.1336,
+            "postWeight": 19.1336,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 105.60000000000001,
+            "postWeight": 105.60000000000001,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 32.0,
+            "postWeight": 32.0,
+            "tier": "B",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 160,
+            "postWeight": 160.0,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 51.919200000000004,
+            "postWeight": 51.919200000000004,
+            "tier": "A",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 46.4168,
+            "postWeight": 46.4168,
+            "tier": "B",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 1.6968,
+            "postWeight": 1.6968,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 0.2888,
+            "postWeight": 0.2888,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 0.5448000000000001,
+            "postWeight": 0.5448000000000001,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 10.812000000000001,
+            "postWeight": 10.812000000000001,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "npm-downloads",
+            "rawMag": 100,
+            "postWeight": 70.0,
+            "tier": "A",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 20.6069,
+            "postWeight": 16.48552,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 10.3033,
+            "postWeight": 8.24264,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 5.151575,
+            "postWeight": 4.12126,
+            "tier": "unranked",
+            "note": ""
+          }
+        ]
+      },
+      "apexGate": {
+        "predicateResults": {
+          "aGradedOriginsGte5": {
+            "pass": false,
+            "value": "4 A/S-graded fusion origins (out of 8 total)",
+            "note": "\u22655 fusion-origin components (role=origin) with grade \u2265A. Consolidates prior transitiveOriginsGte12 + aGradedClosureGte8."
+          },
+          "directNestedSuiteGte1": {
+            "pass": true,
+            "value": 3,
+            "note": "\u22651 directly-nested suite among role=origin children (graph-shape signal)"
+          },
+          "depth2OnlyReachableGte1": {
+            "pass": false,
+            "value": 0,
+            "note": "\u22651 fusion-origin reachable only at depth-2 (suite components excluded \u2014 installation-only)"
+          },
+          "overallGradeS": {
+            "pass": true,
+            "value": "S",
+            "note": "formula puts skill at S"
+          },
+          "sourceTenureDaysGte180AorS": {
+            "pass": true,
+            "value": "1385 days (best A/S-tier row); 1 qualifying rows",
+            "note": "\u22651 evidence row at A or S tier with source \u2265180 days old",
+            "qualifying": [
+              {
+                "skillId": "mattpocock/skills",
+                "type": "npm-downloads",
+                "sourceStartedAt": "2022-09-01",
+                "days": 1385
+              }
+            ]
+          },
+          "apexPromotionPrSigned": {
+            "pass": false,
+            "value": "unsigned (intentional until G7 big-bang migration PR)",
+            "note": "sole human-attestation gate; cross-org cosigners disabled until ecosystem grows"
+          }
+        },
+        "passingCount": 3,
+        "totalPredicates": 6,
+        "apexEligible": false,
+        "failingPredicates": [
+          "aGradedOriginsGte5",
+          "depth2OnlyReachableGte1",
+          "apexPromotionPrSigned"
+        ]
+      }
+    },
+    "synthesis-plus": {
+      "verdict": {
+        "stance": "synthesis-plus",
+        "thresholds": {
+          "S": 250,
+          "A": 100,
+          "B": 50,
+          "C": 20
+        },
+        "trustMagnitude": 1023.02,
+        "grade": "S",
+        "gradeReason": "S thresholds cleared",
+        "distinctTypes": [
+          "fusion-recipe",
+          "github-stars-own",
+          "interview",
+          "media-mention",
+          "npm-downloads",
+          "proxy-containment",
+          "repo"
+        ],
+        "distinctTypeCount": 7,
+        "hasNonSelfProducible": true,
+        "hasATier": true,
+        "hasSTier": true,
+        "fusionGrandfatheredOrigins": 19,
+        "fusionValidOrigins": 8,
+        "perTypeScores": {
+          "fusion-recipe": 23.47,
+          "github-stars-own": 132.28,
+          "repo": 67.5,
+          "proxy-containment": 588.41,
+          "npm-downloads": 70.0,
+          "media-mention": 112.5,
+          "interview": 28.85
+        },
+        "perRowDetails": [
+          {
+            "type": "fusion-recipe",
+            "rawMag": 16.76776695296637,
+            "postWeight": 23.474873734152915,
+            "tier": "B",
+            "origins": 8,
+            "note": "role=origin only (8/19 components, 11 variants excluded) / author-diversity-divisor=8.00 (N=8 origins, K=1 authors)"
+          },
+          {
+            "type": "github-stars-own",
+            "rawMag": 132.279,
+            "postWeight": 132.279,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "repo",
+            "rawMag": 25,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 160,
+            "postWeight": 160.0,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 19.1336,
+            "postWeight": 19.1336,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 105.60000000000001,
+            "postWeight": 105.60000000000001,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 32.0,
+            "postWeight": 32.0,
+            "tier": "B",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 160,
+            "postWeight": 160.0,
+            "tier": "S",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 51.919200000000004,
+            "postWeight": 51.919200000000004,
+            "tier": "A",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 46.4168,
+            "postWeight": 46.4168,
+            "tier": "B",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 1.6968,
+            "postWeight": 1.6968,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 0.2888,
+            "postWeight": 0.2888,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 0.5448000000000001,
+            "postWeight": 0.5448000000000001,
+            "tier": "unranked",
+            "note": ""
+          },
+          {
+            "type": "proxy-containment",
+            "rawMag": 10.812000000000001,
+            "postWeight": 10.812000000000001,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "npm-downloads",
+            "rawMag": 100,
+            "postWeight": 70.0,
+            "tier": "A",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "media-mention",
+            "rawMag": 15,
+            "postWeight": 7.5,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 20.6069,
+            "postWeight": 16.48552,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 10.3033,
+            "postWeight": 8.24264,
+            "tier": "C",
+            "note": ""
+          },
+          {
+            "type": "interview",
+            "rawMag": 5.151575,
+            "postWeight": 4.12126,
+            "tier": "unranked",
+            "note": ""
+          }
+        ]
+      },
+      "apexGate": {
+        "predicateResults": {
+          "aGradedOriginsGte5": {
+            "pass": false,
+            "value": "4 A/S-graded fusion origins (out of 8 total)",
+            "note": "\u22655 fusion-origin components (role=origin) with grade \u2265A. Consolidates prior transitiveOriginsGte12 + aGradedClosureGte8."
+          },
+          "directNestedSuiteGte1": {
+            "pass": true,
+            "value": 3,
+            "note": "\u22651 directly-nested suite among role=origin children (graph-shape signal)"
+          },
+          "depth2OnlyReachableGte1": {
+            "pass": false,
+            "value": 0,
+            "note": "\u22651 fusion-origin reachable only at depth-2 (suite components excluded \u2014 installation-only)"
+          },
+          "overallGradeS": {
+            "pass": true,
+            "value": "S",
+            "note": "formula puts skill at S"
+          },
+          "sourceTenureDaysGte180AorS": {
+            "pass": true,
+            "value": "1385 days (best A/S-tier row); 1 qualifying rows",
+            "note": "\u22651 evidence row at A or S tier with source \u2265180 days old",
+            "qualifying": [
+              {
+                "skillId": "mattpocock/skills",
+                "type": "npm-downloads",
+                "sourceStartedAt": "2022-09-01",
+                "days": 1385
+              }
+            ]
+          },
+          "apexPromotionPrSigned": {
+            "pass": false,
+            "value": "unsigned (intentional until G7 big-bang migration PR)",
+            "note": "sole human-attestation gate; cross-org cosigners disabled until ecosystem grows"
+          }
+        },
+        "passingCount": 3,
+        "totalPredicates": 6,
+        "apexEligible": false,
+        "failingPredicates": [
+          "aGradedOriginsGte5",
+          "depth2OnlyReachableGte1",
+          "apexPromotionPrSigned"
+        ]
+      }
+    }
+  }
+}

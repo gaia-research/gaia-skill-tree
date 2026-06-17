@@ -1,0 +1,344 @@
+{
+  "suiteId": "mattpocock/skills",
+  "directOrigins": [
+    "mattpocock/caveman",
+    "mattpocock/diagnose",
+    "mattpocock/edit-article",
+    "mattpocock/engineering",
+    "mattpocock/grill-me",
+    "mattpocock/grill-with-docs",
+    "mattpocock/handoff",
+    "mattpocock/improve-codebase-architecture",
+    "mattpocock/obsidian-vault",
+    "mattpocock/personal",
+    "mattpocock/productivity",
+    "mattpocock/prototype",
+    "mattpocock/setup-matt-pocock-skills",
+    "mattpocock/to-issues",
+    "mattpocock/to-prd",
+    "mattpocock/triage",
+    "mattpocock/ubiquitous-language",
+    "mattpocock/write-a-skill",
+    "mattpocock/zoom-out"
+  ],
+  "nestedPairs": [
+    [
+      "mattpocock/engineering",
+      "mattpocock/diagnose"
+    ],
+    [
+      "mattpocock/engineering",
+      "mattpocock/grill-with-docs"
+    ],
+    [
+      "mattpocock/engineering",
+      "mattpocock/improve-codebase-architecture"
+    ],
+    [
+      "mattpocock/engineering",
+      "mattpocock/prototype"
+    ],
+    [
+      "mattpocock/engineering",
+      "mattpocock/setup-matt-pocock-skills"
+    ],
+    [
+      "mattpocock/engineering",
+      "mattpocock/to-issues"
+    ],
+    [
+      "mattpocock/engineering",
+      "mattpocock/to-prd"
+    ],
+    [
+      "mattpocock/engineering",
+      "mattpocock/triage"
+    ],
+    [
+      "mattpocock/engineering",
+      "mattpocock/ubiquitous-language"
+    ],
+    [
+      "mattpocock/engineering",
+      "mattpocock/zoom-out"
+    ],
+    [
+      "mattpocock/personal",
+      "mattpocock/edit-article"
+    ],
+    [
+      "mattpocock/personal",
+      "mattpocock/obsidian-vault"
+    ],
+    [
+      "mattpocock/productivity",
+      "mattpocock/caveman"
+    ],
+    [
+      "mattpocock/productivity",
+      "mattpocock/grill-me"
+    ],
+    [
+      "mattpocock/productivity",
+      "mattpocock/handoff"
+    ],
+    [
+      "mattpocock/productivity",
+      "mattpocock/write-a-skill"
+    ]
+  ],
+  "transitiveClosure": [
+    "mattpocock/caveman",
+    "mattpocock/diagnose",
+    "mattpocock/edit-article",
+    "mattpocock/engineering",
+    "mattpocock/grill-me",
+    "mattpocock/grill-with-docs",
+    "mattpocock/handoff",
+    "mattpocock/improve-codebase-architecture",
+    "mattpocock/obsidian-vault",
+    "mattpocock/personal",
+    "mattpocock/productivity",
+    "mattpocock/prototype",
+    "mattpocock/setup-matt-pocock-skills",
+    "mattpocock/to-issues",
+    "mattpocock/to-prd",
+    "mattpocock/triage",
+    "mattpocock/ubiquitous-language",
+    "mattpocock/write-a-skill",
+    "mattpocock/zoom-out"
+  ],
+  "transitiveCount": 19,
+  "directCount": 19,
+  "depth2OnlyCount": 0,
+  "componentDetails": [
+    {
+      "id": "mattpocock/caveman",
+      "level": "3\u2605",
+      "type": "basic",
+      "role": "variant",
+      "origin": false,
+      "genericSkillRef": "context-compression",
+      "grade": "A",
+      "evidenceCount": 0,
+      "nestedComponents": []
+    },
+    {
+      "id": "mattpocock/diagnose",
+      "level": "2\u2605",
+      "type": "extra",
+      "role": "variant",
+      "origin": false,
+      "genericSkillRef": "autonomous-debug",
+      "grade": "B",
+      "evidenceCount": 1,
+      "nestedComponents": []
+    },
+    {
+      "id": "mattpocock/edit-article",
+      "level": "2\u2605",
+      "type": "basic",
+      "role": "variant",
+      "origin": false,
+      "genericSkillRef": "document-editing",
+      "grade": "B",
+      "evidenceCount": 1,
+      "nestedComponents": []
+    },
+    {
+      "id": "mattpocock/engineering",
+      "level": "5\u2605",
+      "type": "ultimate",
+      "role": "origin",
+      "origin": true,
+      "genericSkillRef": "engineering-discipline",
+      "grade": "B",
+      "evidenceCount": 0,
+      "nestedComponents": [
+        "mattpocock/diagnose",
+        "mattpocock/grill-with-docs",
+        "mattpocock/improve-codebase-architecture",
+        "mattpocock/prototype",
+        "mattpocock/setup-matt-pocock-skills",
+        "mattpocock/to-issues",
+        "mattpocock/to-prd",
+        "mattpocock/triage",
+        "mattpocock/ubiquitous-language",
+        "mattpocock/zoom-out"
+      ]
+    },
+    {
+      "id": "mattpocock/grill-me",
+      "level": "4\u2605",
+      "type": "extra",
+      "role": "variant",
+      "origin": false,
+      "genericSkillRef": "grill-me",
+      "grade": "B",
+      "evidenceCount": 1,
+      "nestedComponents": []
+    },
+    {
+      "id": "mattpocock/grill-with-docs",
+      "level": "3\u2605",
+      "type": "extra",
+      "role": "origin",
+      "origin": true,
+      "genericSkillRef": "grill-with-docs",
+      "grade": "B",
+      "evidenceCount": 1,
+      "nestedComponents": []
+    },
+    {
+      "id": "mattpocock/handoff",
+      "level": "4\u2605",
+      "type": "extra",
+      "role": "variant",
+      "origin": false,
+      "genericSkillRef": "agent-handoff",
+      "grade": "B",
+      "evidenceCount": 1,
+      "nestedComponents": []
+    },
+    {
+      "id": "mattpocock/improve-codebase-architecture",
+      "level": "3\u2605",
+      "type": "basic",
+      "role": "variant",
+      "origin": false,
+      "genericSkillRef": "refactor-code",
+      "grade": "A",
+      "evidenceCount": 0,
+      "nestedComponents": []
+    },
+    {
+      "id": "mattpocock/obsidian-vault",
+      "level": "3\u2605",
+      "type": "extra",
+      "role": "variant",
+      "origin": false,
+      "genericSkillRef": "personal-knowledge-management",
+      "grade": "B",
+      "evidenceCount": 1,
+      "nestedComponents": []
+    },
+    {
+      "id": "mattpocock/personal",
+      "level": "4\u2605",
+      "type": "extra",
+      "role": "origin",
+      "origin": true,
+      "genericSkillRef": "personal",
+      "grade": "B",
+      "evidenceCount": 0,
+      "nestedComponents": [
+        "mattpocock/edit-article",
+        "mattpocock/obsidian-vault"
+      ]
+    },
+    {
+      "id": "mattpocock/productivity",
+      "level": "4\u2605",
+      "type": "extra",
+      "role": "origin",
+      "origin": true,
+      "genericSkillRef": "productivity",
+      "grade": "B",
+      "evidenceCount": 0,
+      "nestedComponents": [
+        "mattpocock/caveman",
+        "mattpocock/grill-me",
+        "mattpocock/handoff",
+        "mattpocock/write-a-skill"
+      ]
+    },
+    {
+      "id": "mattpocock/prototype",
+      "level": "3\u2605",
+      "type": "extra",
+      "role": "variant",
+      "origin": false,
+      "genericSkillRef": "prototype",
+      "grade": "B",
+      "evidenceCount": 1,
+      "nestedComponents": []
+    },
+    {
+      "id": "mattpocock/setup-matt-pocock-skills",
+      "level": "3\u2605",
+      "type": "extra",
+      "role": "variant",
+      "origin": false,
+      "genericSkillRef": "agent-environment-setup",
+      "grade": "B",
+      "evidenceCount": 1,
+      "nestedComponents": []
+    },
+    {
+      "id": "mattpocock/to-issues",
+      "level": "3\u2605",
+      "type": "extra",
+      "role": "variant",
+      "origin": false,
+      "genericSkillRef": "vertical-slice-planning",
+      "grade": "B",
+      "evidenceCount": 1,
+      "nestedComponents": []
+    },
+    {
+      "id": "mattpocock/to-prd",
+      "level": "2\u2605",
+      "type": "extra",
+      "role": "origin",
+      "origin": true,
+      "genericSkillRef": "prd-generation",
+      "grade": "A",
+      "evidenceCount": 1,
+      "nestedComponents": []
+    },
+    {
+      "id": "mattpocock/triage",
+      "level": "3\u2605",
+      "type": "basic",
+      "role": "origin",
+      "origin": true,
+      "genericSkillRef": "issue-triage",
+      "grade": "A",
+      "evidenceCount": 1,
+      "nestedComponents": []
+    },
+    {
+      "id": "mattpocock/ubiquitous-language",
+      "level": "4\u2605",
+      "type": "extra",
+      "role": "variant",
+      "origin": false,
+      "genericSkillRef": "ubiquitous-language",
+      "grade": "B",
+      "evidenceCount": 1,
+      "nestedComponents": []
+    },
+    {
+      "id": "mattpocock/write-a-skill",
+      "level": "3\u2605",
+      "type": "extra",
+      "role": "origin",
+      "origin": true,
+      "genericSkillRef": "tool-creation",
+      "grade": "A",
+      "evidenceCount": 0,
+      "nestedComponents": []
+    },
+    {
+      "id": "mattpocock/zoom-out",
+      "level": "2\u2605",
+      "type": "basic",
+      "role": "origin",
+      "origin": true,
+      "genericSkillRef": "code-explain",
+      "grade": "A",
+      "evidenceCount": 0,
+      "nestedComponents": []
+    }
+  ]
+}

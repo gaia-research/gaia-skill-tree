@@ -1,0 +1,208 @@
+{
+  "finalThresholds": {
+    "S": 250,
+    "A": 100,
+    "B": 50,
+    "C": 20
+  },
+  "winnerStance": "P4 Community-Heavy Pragmatist as the structural base, hardened with grafts from P1 Strict-S (verifier/star plateaus, mothership formula softened, fusion-curve discipline) and P3 Fusion-Heavy (only-graded-origins counting, null-on-derank verifier rule). Headline numbers reverted toward the baseline (S=250, A=100, B=50, C=20) so the three loosenings P4 stacked do not compound. Net result: a community-trust-honest formula that closes every named gameability vector under $5k, preserves all five Marco hard rules verbatim, and yields a clean ~25-30% one-tier drift profile rather than P4's bidirectional polarization or P2's S-inflation.",
+  "winnerJustification": "P4 had the highest average (4.00) tied with P2 but a tighter judge-refute pattern: both refutes targeted P4's three stacked loosenings (S=220, stars-cap=250, proxy-plateau=0.7/0.4), not its core architecture. P4's mothership-discount divisor, fork-network canonicalization, same-source dedup, arxiv plateau, self-attestation single-entry cap, fusion sqrt-softening, and deterministic creator-multiplier are all genuine, citable closures of vectors the baseline left open. P2 was refuted 3/3 with structural problems (10-origin diversity cliff, phantom-S via auto-fusion, 4★→ungraded crash for garrytan/benchmark) that cannot be patched without abandoning the proposal's headline mechanic. P1 and P3 had no judge verdicts (avg 0.00) so cannot win on score, but P1's plateau discipline (arxiv/repo-own/verifier same-type plateaus, view-floor for social-signal, identity-tier creator multipliers) and P3's structural integrity rules (only graded≥C origins count toward fusion, null-on-derank verifier) are surgical and graft cleanly. Override of the score-only default is justified because the judges' fixes against P4 — restore S to 250, lower proxy cap, validate proxy claims, tighten verifier — are exactly the grafts P1 and P3 supply.",
+  "finalTypeWeights": {
+    "fusion-recipe": 1.4,
+    "github-stars-own": 1,
+    "proxy-containment": 1,
+    "verifier-attestation": 1.5,
+    "benchmark-result": 1.4,
+    "arxiv": 1,
+    "peer-review": 1.2,
+    "repo-own": 0.6,
+    "self-attestation": 0.4,
+    "social-signal": 1
+  },
+  "finalSocialRules": {
+    "per_row_effective_cap": 60,
+    "absolute_total_cap_across_all_rows": 80,
+    "creator_multiplier": "Deterministic registry-identity tiers ONLY: same-as-author=0.0 (rejected), anonymous=0.3, registered-contributor=0.6, named-skill-holder=0.8, 4★+ verifier=1.0, recognized-voice=1.2 (REQUIRES 2 distinct 4★+ verifiers from different orgs to co-sign; otherwise defaults to 0.6). No subjective self-grant.",
+    "engagement_ratio": "min(1.5, (likes + comments × 5) / views × 50)",
+    "plateau": "1.0× / 0.5× / 0.25×, max 3 entries",
+    "minimum_view_floor": "5,000 views — rows below floor are rejected (grafted from P1)",
+    "publish_cooldown": "30 days before counting",
+    "self_promotion": "0× rejected",
+    "cross_platform_same_content": "ONE entry only (primary platform)",
+    "same_creator_dedup": "2nd from same creator at 0.5×, 3rd at 0.25×"
+  },
+  "finalDiversityRules": {
+    "S_grade": "Trust Magnitude ≥ 250 AND ≥ 3 distinct types AND (≥1 S-tier evidence row OR ≥3 A-tier rows of distinct types) AND ≥1 type from {benchmark-result, verifier-attestation, peer-review, proxy-containment} (the four non-self-producible types — closes the all-self-produced S-attack flagged by judges). Fusion-recipe is ONE type for diversity purposes — graph depth is rewarded via magnitude, not via diversity-credit duplication. Pure-fusion Ultimates land at A unless they earn an external type.",
+    "A_grade": "Trust Magnitude ≥ 100 AND ≥ 1 distinct type AND ≥1 A-tier evidence row. Marco rule #1 preserved: pure-stars-only at A is valid (180k+ stars × 1.0 = 180 magnitude with single A-tier row qualifies).",
+    "B_grade": "Trust Magnitude ≥ 50 AND ≥1 B-tier or higher evidence row.",
+    "C_grade": "Trust Magnitude ≥ 20.",
+    "ungraded": "Trust Magnitude < 20.",
+    "Ultimate_rank_requirement": "Marco rule #2 preserved verbatim: fusion-recipe MANDATORY. Additional graft: any 4★+ skill landing below B requires manual review before publish (rank-floor sanity from P2 judge). Any rank ≥4★ with magnitude < 50 ships as 'provisional' with 6-month grace before forced demotion.",
+    "fusion_origin_validity": "Only origins themselves graded ≥ C (Trust Magnitude ≥ 20) count toward fusion-recipe magnitude (grafted from P3). Closes the 10-stub-component Sybil vector that broke P2."
+  },
+  "finalFormulaSummary": "Trust Magnitude(skill) = Σ artifactScore(e) over all evidence e. artifactScore = magnitude(type, raw) × weight(type) × freshness(type), with type-specific plateaus and dedup applied BEFORE summation. Magnitudes: fusion-recipe = (15×origins + 5×√origins) for origins themselves graded ≥C, weight 1.4 (sqrt softening grafted from P4, weight reduced from P3's 2.0 since judges showed this inverts ranks); github-stars-own = stars/1000, cap 200 (P4's 250 reverted — judges flagged compound loosening), weight 1.0; proxy-containment = (external_stars/1000)×0.8, cap 160 (P4's 200 reverted — single-row S-attack via react/vue citation was the fatal flaw), weight 1.0, plateau 1.0/0.5/0.25 max 3, external repo ≥10k stars, NEW: requires verifiable dependency link (package.json/requirements.txt/cross-link) else magnitude 0; verifier-attestation = 30 × verifiers, weight 1.5, plateau 1.0/0.85/0.7 max 5 (grafted from P1), NULL-on-derank not flag (grafted from P3), max 2 verifiers from same org/cluster count toward S; benchmark-result = percentile (cap 100), weight 1.4, freshness 50%/year; arxiv = citations/5 (cap 100), weight 1.0, plateau 1.0/0.5/0.25/0.125 max 4 (grafted from P4); peer-review = 25 × reviewers, weight 1.2, freshness 25%/2yr; repo-own = commits/200 + contributors²×2 (cap 60), weight 0.6, same-source URL dedup before scoring (P4 graft), plateau 1.0/0.5/0.25 max 3 (P1 graft); self-attestation = flat 10, weight 0.4, MAX 1 entry per skill (P4 graft); social-signal per rules above. Sub-rules: shared-repo discount when N≥3 sibling skills cite same parent repo OR same monorepo OR same parent org (judge graft — closes spread-across-3-repos evasion of P4), divisor = min(4, ceil(suiteComponents/4)) so gstack-46 yields divisor 4 not 12 (judge graft — softens P4's 12× amputation that crashed garrytan/benchmark); fork-network canonicalization (P4); same-source dedup on repo-own and arxiv (P4); fusion-recipe is mandatory inherent for Ultimate (Marco #2/#8). Per-evidence tiers post-weight: S≥90, A 50-89, B 20-49, C 5-19.",
+  "finalCalibration": [
+    {
+      "skillId": "ruvnet/ruflo",
+      "currentRank": "6★ Ultimate",
+      "finalTrustMagnitude": 612,
+      "finalOverallGrade": "S",
+      "driftDirection": "up (legacy B → S)",
+      "rationale": "35-origin fusion under (15n+5√n)×1.4 = (525+~30)×1.4 = ~777 from fusion alone, but only origins graded ≥C count — assume ~30 of 35 qualify → (450+~27)×1.4 = ~668. Add modest stars + 1 verifier → 612 total. Clears S=250 with 3+ types and S-tier fusion row."
+    },
+    {
+      "skillId": "garrytan/gstack",
+      "currentRank": "5★ Ultimate",
+      "finalTrustMagnitude": 470,
+      "finalOverallGrade": "S",
+      "driftDirection": "up (legacy B → S)",
+      "rationale": "Suite root keeps full 99k stars (mothership discount applies to sub-skills, not root). 99×1.0 + fusion(46→softened sqrt+only-graded) ~280 + verifier ~45 + repo-own ~30 = ~454. Add proxy if applicable. Clears S with 4 types."
+    },
+    {
+      "skillId": "obra/superpowers",
+      "currentRank": "5★ Ultimate",
+      "finalTrustMagnitude": 285,
+      "finalOverallGrade": "S",
+      "driftDirection": "up (legacy B → S)",
+      "rationale": "11-origin fusion = (165+5×3.32)×1.4 = ~254. Add modest evidence (~30) → 285. 3 distinct types. Fusion at 254 is S-tier post-weight."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "currentRank": "6★ Ultimate (ZERO substantive evidence)",
+      "finalTrustMagnitude": 165,
+      "finalOverallGrade": "A",
+      "driftDirection": "down (P4 had this at 393 A — corrected by graft)",
+      "rationale": "FLAGGED. Auto-minted fusion-recipe only. Without external types, the new diversity rule (≥1 of {benchmark/verifier/peer-review/proxy} for S) blocks S. Lands A. Provisional flag triggers — 6★ with magnitude <250 and only 1 substantive evidence type. 6-month grace to acquire verifier-attestation."
+    },
+    {
+      "skillId": "garrytan/cso",
+      "currentRank": "4★ Apex",
+      "finalTrustMagnitude": 95,
+      "finalOverallGrade": "B",
+      "driftDirection": "down (legacy B baseline → B, but raw magnitude shifts)",
+      "rationale": "Mothership discount divisor capped at 4 (graft from judge, not P4's 12). 99k stars / 4 = ~25 magnitude from stars + own evidence + fusion(small) → ~95. Lands B not C. Fixes P4's crash to 75 and P3's collapse to 20."
+    },
+    {
+      "skillId": "garrytan/benchmark",
+      "currentRank": "4★ Apex",
+      "finalTrustMagnitude": 62,
+      "finalOverallGrade": "B",
+      "driftDirection": "down (P4 had 25 C, P2 had 2.15 ungraded — both rejected)",
+      "rationale": "FLAGGED. Capped divisor (max 4) prevents the 4★→ungraded crash judges flagged as nonsense drift. With own benchmark-result evidence (the type this skill IS), lands B. Rank-floor rule keeps Apex skills ≥B. If actual evidence absent, ships provisional."
+    },
+    {
+      "skillId": "obra/dispatching-parallel-agents",
+      "currentRank": "4★ Apex",
+      "finalTrustMagnitude": 178,
+      "finalOverallGrade": "A",
+      "driftDirection": "up (4★ → A, NOT S)",
+      "rationale": "Reverted from P4's S-jump. With fusion weight 1.4 (not P3's 2.0) and S=250 (not P2's 200), this lands at A — appropriate for 4★. Avoids P2's 4★>5★ inversion against ruvnet/agentdb."
+    },
+    {
+      "skillId": "founder-mode-orchestration",
+      "currentRank": "Ultimate generic (5★ implied), zero evidence",
+      "finalTrustMagnitude": 220,
+      "finalOverallGrade": "A",
+      "driftDirection": "same (A held)",
+      "rationale": "FLAGGED. Generic Ultimate with auto-fusion only. Diversity gate blocks S without non-self-producible type. Lands A with provisional flag, 6-month grace."
+    },
+    {
+      "skillId": "agent-memory-platform",
+      "currentRank": "Ultimate generic (5★), zero evidence, 5 prereqs",
+      "finalTrustMagnitude": 110,
+      "finalOverallGrade": "A",
+      "driftDirection": "down (legacy B → A, fewer raw points than P4)",
+      "rationale": "5-origin fusion = (75+5×2.24)×1.4 = ~121. With only fusion evidence, lands A floor. Provisional flag (rank ≥5★ but borderline)."
+    },
+    {
+      "skillId": "skill-mastery",
+      "currentRank": "Ultimate generic (5★), 3 repo evidence rows",
+      "finalTrustMagnitude": 168,
+      "finalOverallGrade": "A",
+      "driftDirection": "down (P4/P2 had S; reverted to A)",
+      "rationale": "3 repo-own rows hit plateau (1.0/0.5/0.25 max 3) + same-source dedup. Without verifier/benchmark/peer-review/proxy, fails new diversity rule for S. Lands A. Aligns with judge fix to require non-self-producible type."
+    },
+    {
+      "skillId": "registry-curation",
+      "currentRank": "3★ Extra (5 same-source repo rows)",
+      "finalTrustMagnitude": 52,
+      "finalOverallGrade": "B",
+      "driftDirection": "same (B held)",
+      "rationale": "Same-source dedup collapses 5 identical-URL rows to 1. Plateau on remaining repo-own caps at 3 entries. Lands B at threshold. Closes Surveyor C Vector 1."
+    },
+    {
+      "skillId": "agent-memory-learning",
+      "currentRank": "3★ Extra (2 same-URL github-stars rows)",
+      "finalTrustMagnitude": 38,
+      "finalOverallGrade": "C",
+      "driftDirection": "down (legacy B → C)",
+      "rationale": "Same-source dedup + fork-network canonicalization collapses duplicate rows. Lands C — accepted drift, this is the system becoming honest."
+    }
+  ],
+  "runnersUp": [
+    "P4 Community-Heavy Pragmatist (structural base — 80% of architecture retained)",
+    "P1 Strict-S Defender (plateau discipline, view-floor, identity-tier creator multipliers grafted)",
+    "P3 Fusion-Heavy Structuralist (only-graded-origins, null-on-derank verifier grafted)",
+    "P2 Attainable-S Pragmatist (rejected — 10-origin cliff, phantom-S, 4★→ungraded crash unfixable without abandoning headline)"
+  ],
+  "graftedIdeas": [
+    "From P1: arxiv same-type plateau with 4-entry cap (between P4's 4 and P1's 5 — settled at 4)",
+    "From P1: repo-own same-type plateau (1.0/0.5/0.25 max 3) — P4 only had same-source dedup, P1 added the plateau as a second discipline",
+    "From P1: verifier-attestation same-type plateau (1.0/0.85/0.7 max 5) — closes cabal-of-7 attack judges flagged on P4",
+    "From P1: social-signal 5,000-view floor — closes micro-post C-grade seeding",
+    "From P1: identity-tier creator multipliers (anonymous→registered→named-holder→verifier→recognized-voice) replacing P4's looser ladder",
+    "From P3: only origins graded ≥C count toward fusion-recipe magnitude — closes the 10-stub-component Sybil that broke P2",
+    "From P3: null-on-derank for verifier-attestation (not just flag) — refines Marco rule #4 without violating no-decay",
+    "From P4 judge-fixes: REVERT proxy-containment cap to 160 (NOT P4's 200 — single-row react-citation S-attack was fatal)",
+    "From P4 judge-fixes: REVERT S threshold to 250 (NOT P4's 220 — three stacked loosenings compounded)",
+    "From P4 judge-fixes: REVERT stars-cap to 200 (NOT P4's 250 — same compounding)",
+    "From P4 judge-fixes: ADD proxy-containment claim validation (verifiable dependency link required)",
+    "From P4 judge-fixes: ADD non-self-producible type requirement for S-grade (closes all-self-produced S-attack)",
+    "From P4 judge-fixes: CAP shared-repo discount divisor at 4 (not 12) — softens gstack-46 amputation that crashed garrytan/benchmark to ungraded",
+    "From P4 judge-fixes: EXTEND shared-repo discount trigger to N≥3 sibling skills citing same repo/parent-org/monorepo (closes spread-across-3-repos evasion)",
+    "From P4 judge-fixes: 'Recognized-voice' multiplier requires 2 distinct 4★+ verifiers from different orgs to co-sign (else defaults to 0.6)",
+    "From P2 judge-fixes: rank-floor sanity rule — any 4★+ skill below B requires manual review (catches Apex→ungraded collapses)",
+    "From P2 judge-fixes: 6-month provisional grace window for skills landing below their rank-implied grade"
+  ],
+  "knownDrifts": [
+    "ruvnet/ruflo: legacy B → S — fusion-heavy capstone with 35 components and substantial evidence; reaches S legitimately under sqrt-softened formula",
+    "garrytan/gstack: legacy B → S — suite root retains full star magnitude; 4-type diversity met",
+    "obra/superpowers: legacy B → S — 11-origin fusion at S-tier post-weight magnitude; meets non-self-producible type requirement via verifier",
+    "mattpocock/skills: legacy B → A (P4 had it at 393 A — synthesis explicitly rejects free S for zero-evidence skills via diversity rule). PROVISIONAL flag — 6-month grace.",
+    "garrytan/cso: legacy B → B (raw magnitude drops from 99 to ~95 due to mothership discount, but capped divisor of 4 prevents the crash to 75 P4 produced)",
+    "garrytan/benchmark: legacy B → B (NOT P4's C nor P2's ungraded — rank-floor rule and capped divisor protect Apex skills)",
+    "obra/dispatching-parallel-agents: 4★ → A (NOT S as P4 produced — fusion weight 1.4 keeps 4★ skills below S, avoids 4★>5★ Ultimate inversions)",
+    "founder-mode-orchestration: provisional A — auto-fusion-only Ultimates land A not S, 6-month grace to acquire non-self-producible evidence",
+    "skill-mastery: P4/P2 had S; synthesis lands A — 3 repo-own rows alone fail diversity gate without independent type",
+    "agent-memory-learning: B → C — same-source dedup collapses 2 identical-URL star rows; honest drift",
+    "registry-curation: B → B (held) — same-source dedup collapses 5 identical rows to 1, plateau caps remaining at 3, lands at B threshold"
+  ],
+  "openQuestions": [
+    "Verifier-cluster definition: 'same org/affiliation' needs an authoritative source — is it GitHub org membership, email domain, suite co-authorship, or pairwise co-attestation history? Pick one and document.",
+    "Proxy-containment claim validation mechanism: who scrapes package.json/requirements.txt to verify the dependency link? Is this CI-gated at evidence-add time or a periodic sweep? Until the validator ships, do unverified proxy claims count at 0 (strict) or full magnitude with a flag (lenient)?",
+    "Recognized-voice 1.2× tier requires 2 cross-org verifier co-signs — what is the UI/CLI flow for verifiers to co-sign? Does `gaia dev evidence` need a `--cosign-with <verifier>` flag?",
+    "Provisional-grade 6-month grace window: what triggers demotion at end-of-grace — automated job, manual maintainer pass, or PR-gated review? The CI hook needs a spec.",
+    "Rank-floor sanity rule (4★+ cannot land below B without review) — does this block publish at validation time, or surface as a stamp report warning? Pick one.",
+    "Fork-network canonicalization at scrape time — what happens when a fork legitimately diverges (e.g., maintained fork with own community)? Need an opt-out mechanism for legitimate divergent forks.",
+    "Shared-repo discount trigger 'same parent org' — for monorepos owned by anthropic/google/microsoft, this catches dozens of skills citing different products. Need a same-product subdivision (e.g., google/tensorflow ≠ google/jax should not trigger discount).",
+    "Stamp report (June 2026) — exact format, distribution, and re-grade audit trail per Marco hard rule #6. Needs its own RFC.",
+    "Auto-minted fusion-recipe for Ultimates: what counts as an 'origin'? Direct prerequisites, transitive prerequisites, or only declared fusion components in `suiteComponents`? Pick one — current ambiguity is gameable.",
+    "Migration cutover: do we re-grade all evidence under new formula at PR merge time (one big bang) or rolling per-skill (incremental)? Big-bang is auditable; rolling is safer. Marco's hard rule #6 says 'Major PR re-grades all evidence' — confirm big-bang."
+  ],
+  "migrationNotes": [
+    "Migration is a single major PR, big-bang re-grade per Marco hard rule #6. No tenures. Old evidence entries preserved verbatim; new artifactScores computed under final formula.",
+    "Stamp report (June 2026) ships as artifact: lists every named skill's pre-migration legacy class (B/X) and tn=70 vs post-migration Trust Magnitude and overall grade. Public, auditable.",
+    "Rename in schema: `trustNumber`/`trustScore` → `trustMagnitude` (skill aggregate). Per-evidence field → `artifactScore`. Update `registry/schema/`, all `gaia dev` commands, and consumer docs.",
+    "Add new sub-rule fields to evidence schema: `dedupKey` (canonical URL), `forkParent` (canonical repo for fork-network), `verifierCluster` (org/affiliation tag), `proxyDependencyLink` (verifiable cross-link URL).",
+    "CI gate: `meta-guard.yml` must validate that any evidence row added with type=proxy-containment includes a `proxyDependencyLink` field. Reject otherwise.",
+    "CI gate: skills landing as PROVISIONAL (rank ≥4★ with magnitude below rank-implied threshold) get a `provisional-until: <ISO-date>` field added automatically, 6 months out. A scheduled job at expiry surfaces them in stamp report for re-grade or demote.",
+    "CLI changes: `gaia appraise <skill>` must surface the breakdown — magnitude per type, plateau applied, dedup collapse count, freshness multiplier, final artifactScore. No silent magnitude.",
+    "CLI changes: `gaia dev evidence` adds `--proxy-link <url>` for proxy-containment, `--cosign-with <verifier>` for recognized-voice social-signal.",
+    "Backfill: walk all existing evidence, apply same-source dedup and fork-network canonicalization. Preserve original rows with `superseded-by: <newRowId>` markers — do not delete history.",
+    "Verifier null-on-derank: scheduled job watches named-skills.json for any 4★+ verifier dropping below 4★. On detection, set verifier-attestation magnitude to 0 (not flag-only). Original attestation row preserved with `null-reason: derank`.",
+    "User trees (skill-trees/<username>/skill-tree.json) are NOT touched by this migration — only registry-level evidence and grades change. Promotion candidates regenerated on next `gaia scan`.",
+    "Document update: `CONTEXT.md` adds Trust Magnitude / artifact score nomenclature; banned synonyms list adds `trustNumber`, `trustScore`. Wiki sync follows.",
+    "All bot actors (claude-bot, gemini-bot, etc.) require `GAIA_OPERATOR_OVERRIDE=1` set in CI for re-grade workflow per existing meta-guard rules.",
+    "Rollback plan: if post-merge stamp report shows >40% drift in any direction at full corpus scale (drift-severity guardrail grafted from P2 judge), halt and re-tune. Migration PR ships with a `revert.py` script that restores pre-migration grades from a snapshot."
+  ]
+}

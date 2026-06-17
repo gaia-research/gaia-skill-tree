@@ -1,0 +1,194 @@
+{
+  "stanceName": "P1-strict-S — Strict-S Defender",
+  "stanceDescription": "S-tier must be a beyond-reasonable-doubt grade earned through diverse, independently-verifiable evidence. Raise S threshold to 320 magnitude and require >=4 distinct evidence types (vs baseline 250/3). Lower individual evidence caps modestly to prevent any single signal from dominating. Add same-type plateaus to arxiv, repo-own, github-stars-own, and verifier-attestation (the baseline only plateaus social-signal and proxy-containment, leaving four S-capable types stackable without diminishing returns). Acceptable outcome: 70-80% of current 5-star+ skills drift down one tier under re-grade - that is the system becoming honest, not regressing. Compensate the high tier with a clear path UP via benchmark-result and verifier-attestation (the two types with no corpus presence today), creating earnable headroom rather than gifted altitude. Marco's hard constraints (pure-stars->A, Ultimate->fusion-mandatory, social hard-A-cap 80, proxy max-3 plateau, verifier no-decay, naming) are preserved verbatim.",
+  "thresholds": {
+    "S": 320,
+    "A": 110,
+    "B": 55,
+    "C": 22
+  },
+  "formulaTuning": {
+    "typeWeights": {
+      "fusion-recipe": 1.3,
+      "github-stars-own": 1,
+      "proxy-containment": 1,
+      "verifier-attestation": 1.5,
+      "benchmark-result": 1.4,
+      "arxiv": 1,
+      "peer-review": 1.2,
+      "repo-own": 0.6,
+      "self-attestation": 0.5,
+      "social-signal": 1,
+      "_notes": "fusion-recipe weight reduced 1.5->1.3 because at 1.5 a 31-prereq node hits 1209 mag from one type. Verifier weight held at 1.5 because the diversity-gate raise (>=4 types for S) plus laundering countermeasures make it harder to abuse."
+    },
+    "magnitudeAdjustments": [
+      "fusion-recipe magnitude per origin: 20 -> 16. A 5-origin fusion now mints 16x5x1.3 = 104 mag (clears A=110 only with one supplemental type). 11-origin (superpowers) = 229, still below S=320. 31-origin (founder-mode) = 645 mag - clears S magnitude alone, but diversity gate (>=4 distinct types) blocks unless 3 other types attached.",
+      "github-stars-own cap: 200 -> 180. obra/superpowers (196k) lands at 180 not 200 - signals even mega-popular repos earn ceiling, not infinity.",
+      "proxy-containment cap: 160 -> 140. Sub-skills inheriting mothership stars get slightly lower ceiling than own-repo.",
+      "arxiv cap: 100 -> 90. Prevents a single foundational paper (BERT) from solo-clearing A=110. Combined with new arxiv plateau, citation-stuffing is sharply curtailed.",
+      "benchmark-result cap held at 100 - this is the type the corpus most needs to incentivize.",
+      "verifier-attestation magnitude per verifier: 30 -> 28. Three verifiers mint 28x3x1.5=126 mag - still A-tier alone but no longer trivially S-clearing when stacked.",
+      "self-attestation magnitude held at 10 (weight 0.5 -> 5 raw).",
+      "peer-review magnitude held at 25 per reviewer x 1.2 weight.",
+      "social-signal hard-A-cap clarified as TOTAL-across-all-rows = 80 (not per-row). Closes paraphrase smurfing.",
+      "Mothership-discount sub-rule (NEW): when a sub-skill cites a parent repo cited by sibling sub-skills via suiteRef/suiteComponents, github-stars-own magnitude divided by max(1, suiteComponents_count / 4). gstack (46 components) -> divisor 11.5, so 98.9k stars yield ~8.6 mag per sub-skill instead of 98.9. Suite root keeps full 98.9. Closes Surveyor A primary mothership-stars vector.",
+      "Same-source dedup (NEW): for repo-own, arxiv, peer-review, github-stars-own evidence rows pointing to identical source URL/DOI, collapse to a single highest-magnitude row before scoring. Closes Surveyor C Vector 1 (5x identical-URL repo rows in registry-curation).",
+      "Arxiv same-type plateau (NEW): 1.0x/0.5x/0.25x/0.1x/0.1x, max 5 entries. Closes Vector 3 cherry-picked tangential papers minting 300 mag from 3 entries.",
+      "repo-own same-type plateau (NEW): 1.0x/0.5x/0.25x, max 3 entries. Closes self-repo citation stacking.",
+      "verifier-attestation same-type plateau (NEW): 1.0x/0.85x/0.7x, max 5 entries. Mild plateau preserves Marco's 'verifier scarcity is a feature' but blocks cabal-of-7."
+    ],
+    "diversityRules": {
+      "S_min_distinct_types": 4,
+      "S_alternative_path": ">=1 S-tier evidence row AND >=3 distinct types AND >=1 of {benchmark-result, verifier-attestation, peer-review} (the three independently-witnessable types) - explicitly forbids fusion+stars+self-attestation+social-signal alone from minting S even at 4 types",
+      "A_min_distinct_types": 1,
+      "A_plus_rule": ">=1 A-tier evidence row OR magnitude >= 200 from a single type (preserves Marco rule #1: pure-stars CAN reach A - at 180-cap x 1.0 = 180 a single huge-star repo lands borderline A and can clear with one supporting B-tier row)",
+      "B_min_distinct_types": 1,
+      "C_min_distinct_types": 1,
+      "ungraded_threshold": 22,
+      "Ultimate_rank_requirement": "Per Marco rule #2 unchanged: fusion-recipe mandatory. Strict-S adds: Ultimate further requires overall grade >= A (>=110 magnitude AND >=3 distinct types). 5-star/6-star rank without A-grade evidence = provisional, surfaced in stamp report, 6-month grace before forced demotion."
+    },
+    "socialSignalTuning": {
+      "creator_multiplier_replacement": "Replace subjective 'recognized voice' (1.4x) with deterministic registry-identity tiers: anonymous=0.0 (rejected, not 0.3), unregistered-named=0.3, registered-contributor=0.6, named-skill-holder=1.0, 4-star+ verifier=1.2 (ceiling, replaces 1.4 recognized voice). Removes human-judgment knob.",
+      "hard_A_cap_scope": "TOTAL across all social-signal rows for a given skill = 80 magnitude (not per-row). Closes paraphrase-smurf vector.",
+      "minimum_view_floor": "Reject social-signal rows with <5,000 views. At 1000 views magnitude is 24, which without a floor lets micro-posts seed C-grade.",
+      "plateau_unchanged": "1.0x/0.5x/0.25x, max 3 entries.",
+      "publish_cooldown": "30-day publish cooldown unchanged.",
+      "same_skill_author_block": "0x (rejected) - unchanged."
+    }
+  },
+  "calibrationTable": [
+    {
+      "skillId": "ruvnet/ruflo",
+      "currentRank": "6-star Ultimate",
+      "proposedTrustMagnitude": 780,
+      "proposedOverallGrade": "A",
+      "driftDirection": "down",
+      "rationale": "Auto-fusion-recipe (35 origins x 16 x 1.3) = 728 mag. Existing repo re-graded as repo-own ~30 x 0.6 = 18. Plus github-stars-own from ruflo's ~34k stars = 34 x 1.0 = 34. Total ~780 - clears S magnitude floor (320). BUT distinct types only = 3 (fusion-recipe, repo-own, github-stars-own) - strict-S requires >=4 AND one of {benchmark, verifier, peer-review}. Lands at A. Drift: 6-star -> A-grade-Apex (effectively 4-star until benchmark/verifier evidence added). This is the strict-S thesis in action: fusion narrative + own-stars alone is not enough for S."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "currentRank": "6-star Ultimate",
+      "proposedTrustMagnitude": 395,
+      "proposedOverallGrade": "A",
+      "driftDirection": "down",
+      "rationale": "Zero current evidence rows. Auto-fusion-recipe from 19 suiteComponents: 19x16x1.3 = 395 mag. Single type. Clears S magnitude (320) but FAILS diversity gate (only 1 type). Lands at A on the magnitude-only path (>=200 from a single type). Drift: 6-star -> A-grade. Marco rule #2 satisfied (fusion-recipe present). Stamp-report flags need for benchmark/verifier evidence to recover S."
+    },
+    {
+      "skillId": "obra/superpowers",
+      "currentRank": "5-star Ultimate",
+      "proposedTrustMagnitude": 421,
+      "proposedOverallGrade": "A",
+      "driftDirection": "down",
+      "rationale": "Auto-fusion-recipe (11 origins x 16 x 1.3) = 229. Plus github-stars-own from cited 196k stars - capped at 180 mag x 1.0 weight = 180. Plus repo-own ~12. Total ~421 mag. Clears S magnitude. Distinct types = 3 (fusion-recipe, github-stars-own, repo-own). FAILS strict-S diversity gate (>=4 types required) AND alt-path (no benchmark/verifier/peer-review). Lands at A. Drift 5-star Ultimate -> A. Marco rule #1 (pure-stars reach A) honored - 180 mag from stars alone clears A on magnitude path."
+    },
+    {
+      "skillId": "garrytan/gstack",
+      "currentRank": "5-star Ultimate",
+      "proposedTrustMagnitude": 1056,
+      "proposedOverallGrade": "A",
+      "driftDirection": "down",
+      "rationale": "Auto-fusion-recipe (46 components x 16 x 1.3) = 956. Plus github-stars-own (own repo, no mothership-discount applies to root) = 98.9 mag x 1.0 = 98.9. Total ~1055 magnitude - massively clears S. BUT distinct types only = 2 (fusion-recipe, github-stars-own). FAILS strict-S diversity gate. Lands at A. Drift 5-star Ultimate -> A grade. The suite root retains full star credit; the demotion is purely on diversity."
+    },
+    {
+      "skillId": "garrytan/cso",
+      "currentRank": "4-star Apex",
+      "proposedTrustMagnitude": 73,
+      "proposedOverallGrade": "B",
+      "driftDirection": "down",
+      "rationale": "Sub-skill of gstack (46 components). Mothership-discount divisor = max(1, 46/4) = 11.5. github-stars-own from gstack: 98.9/11.5 ~= 8.6 mag x 1.0. Auto-fusion-recipe (assume 2 prereqs) = 2x16x1.3 = 41.6. Repo-own ~22. Total ~72 mag. Clears B=55, fails A=110. Drift 4-star -> B. Closes mothership-stars gameability: 24 garrytan/* sub-skills no longer all jump to A in lockstep."
+    },
+    {
+      "skillId": "garrytan/benchmark",
+      "currentRank": "4-star Apex",
+      "proposedTrustMagnitude": 30,
+      "proposedOverallGrade": "C",
+      "driftDirection": "down",
+      "rationale": "type=basic blocks auto-fusion-recipe (Marco rule). No own stars; cites gstack with mothership-discount -> 8.6 mag. Repo-own ~22. Total ~30 mag. Lands at C. Drift 4-star -> C. Strict-S surfaces that basic-tier sub-skills cannot ride parent stars to Apex."
+    },
+    {
+      "skillId": "obra/dispatching-parallel-agents",
+      "currentRank": "4-star Apex",
+      "proposedTrustMagnitude": 165,
+      "proposedOverallGrade": "A",
+      "driftDirection": "same",
+      "rationale": "Notes claim 196k+ stars across Claude Code, Codex, Gemini CLI. Backfilled proxy-containment for obra/superpowers parent (>=10k passed); same author so apply mothership-discount (11 components -> divisor 2.75 -> 196/2.75 ~= 71 capped 140 = 71). Repo-own ~22. Auto-fusion-recipe (2-3 prereqs as named methodology) ~62. Total ~155-165 mag. Clears A=110. 3 distinct types but no benchmark/verifier/peer-review -> fails S alt-path. Lands at A. Holds at 4-star Apex. Validates strict-S preserves legitimately-evidenced 4-star skills."
+    },
+    {
+      "skillId": "registry-curation",
+      "currentRank": "3-star Extra",
+      "proposedTrustMagnitude": 18,
+      "proposedOverallGrade": "ungraded",
+      "driftDirection": "down",
+      "rationale": "Five evidence rows ALL pointing at mbtiongson1/gaia-skill-tree. Same-source dedup collapses to 1 row at ~30 mag x 0.6 weight = 18 raw. Below C=22. Lands ungraded. Drift 3-star -> ungraded. Closes Surveyor C Vector 1 (self-repo citation stacking) via dedup."
+    },
+    {
+      "skillId": "agent-memory-learning",
+      "currentRank": "3-star Extra",
+      "proposedTrustMagnitude": 27,
+      "proposedOverallGrade": "C",
+      "driftDirection": "down",
+      "rationale": "Two evidence rows BOTH pointing at ruvnet/ruflo (34k stars). Re-graded as proxy-containment with same-source dedup collapsing to 1 row -> 34 x 0.8 = 27.2 mag. Single type. Clears C=22. Drift 3-star -> C. Closes same-URL duplication compounding."
+    },
+    {
+      "skillId": "founder-mode-orchestration",
+      "currentRank": "Ultimate generic (5-star/6-star tier)",
+      "proposedTrustMagnitude": 645,
+      "proposedOverallGrade": "A",
+      "driftDirection": "down",
+      "rationale": "31 prerequisites, ZERO existing evidence. Auto-fusion-recipe from prereqs treating them as origins: 31x16x1.3 = 645 mag. Single type. Crushes S magnitude (320) on fusion alone - but diversity gate (>=4 types) hard-blocks. Lands at A via magnitude-alone path (>=200 from single type). Drift Ultimate -> A. Strict-S thesis test: 31-prereq fusion narrative is not S without ANY external witness. Closes FAKE-FUSION-RECIPE vector."
+    },
+    {
+      "skillId": "sentiment-analysis",
+      "currentRank": "basic generic",
+      "proposedTrustMagnitude": 227,
+      "proposedOverallGrade": "A",
+      "driftDirection": "up",
+      "rationale": "9 evidence rows (6 arxiv + 3 repo) including BERT (100k+ citations). New arxiv plateau (1.0x/0.5x/0.25x/0.1x/0.1x, max 5): row1 90 (capped) x 1.0 = 90, row2 90x0.5=45, row3 90x0.25=22.5, row4 9, row5 9 -> arxiv subtotal ~175. Repo rows x 3 with proxy-containment plateau -> ~52. Total ~227 mag. 2 distinct types. Below S magnitude (320). Lands at A. Drift basic -> A grade. Validates Surveyor B's OVERSUPPORTED finding while strict-S plateau prevents pure citation-stuffing from solo-minting S."
+    },
+    {
+      "skillId": "skill-security-analysis",
+      "currentRank": "3-star Extra",
+      "proposedTrustMagnitude": 38,
+      "proposedOverallGrade": "C",
+      "driftDirection": "down",
+      "rationale": "3 arxiv rows. New arxiv plateau: 30x1.0 + 15x0.5 + 7.5x0.25 ~= 38 mag (assuming ~150 cites each -> 30 mag/row pre-plateau, well below cap). Single type. Clears C=22. Drift 3-star -> C. Closes Vector 3 cherry-picked tangential papers."
+    },
+    {
+      "skillId": "browser-automation",
+      "currentRank": "3-star Extra",
+      "proposedTrustMagnitude": 28,
+      "proposedOverallGrade": "C",
+      "driftDirection": "down",
+      "rationale": "1 arxiv (WebVoyager ~150 cites) + 1 repo (web-arena-x/webarena ~6k stars). arxiv: ~30 mag. Repo->proxy-containment: webarena fails 10k threshold -> 0 mag. Net 28 mag. Lands at C. Drift 3-star -> C. Honest demotion: skill genuinely lacks corroborating evidence above 10k bar. Long-term recommendation: introduce 'academic-benchmark-repo' subtype."
+    },
+    {
+      "skillId": "skill-mastery",
+      "currentRank": "Ultimate generic (5-star)",
+      "proposedTrustMagnitude": 165,
+      "proposedOverallGrade": "A",
+      "driftDirection": "down",
+      "rationale": "3 repo rows + 5 prereqs. Auto-fusion-recipe 5x16x1.3 = 104. Repo-own x 3 with same-source dedup if URLs match - assume 2 distinct URLs -> 30x1.0 + 30x0.5 (NEW repo-own plateau) = 45 raw x 0.6 = 27. Plus possible proxy-containment for mattpocock/skills if cited = 34. Total ~165. Clears A=110. 2-3 distinct types. Lands at A. Drift Ultimate -> A grade. Validates Surveyor C: Ultimate at A is the floor under strict-S."
+    }
+  ],
+  "tradeoffs": [
+    "High-tier compression: 70-80% of current 5-star+ skills land at A grade under strict-S, not S. The corpus's 6 Ultimates all drift down because none have benchmark-result, verifier-attestation, or peer-review evidence. This will read as 'strict-S nuked the high tier' in dashboards on launch day. Mitigation: stamp-report comms emphasizing the path UP (specific evidence types each demoted skill should pursue) and a 6-month grace period before rank changes follow grade changes.",
+    "BENCHMARK-RESULT FABRICATION risk: by elevating benchmark-result to one of three S-gating types (alt-path), contributors are incentivized to publish synthetic or self-graded benchmarks. The current corpus has zero benchmark-result entries, so there is no audit history. Mitigation: benchmark-result evidence requires a public reproducible test harness URL AND a separate run by an unaffiliated party (verifier or contributor with named skill in the same domain) within 90 days of the claim, OR magnitude is halved.",
+    "RANK-GRADE DECOUPLING TENSION: by demoting most current 5-star+ to A-grade, strict-S creates a 6-month window where rank (visible to users) and grade (auditable trust) diverge dramatically. Bad actors could exploit the mismatch by claiming '6-star Ultimate' in marketing material while underlying grade is A. Mitigation: stamp-report publishes both rank and grade in public dashboard; /docs/badges renders current grade prominently rather than just rank star count.",
+    "MOTHERSHIP-DISCOUNT WORKAROUND VIA REPO FORKING: a contributor with a suite root at 100k stars realizes the divisor reduces sub-skill stars-magnitude ~10x. Workaround: split suite into 4-5 'mini-suite' repos (each with own 20-30k stars via star-farm), so each sub-skill cites a smaller parent and gets a smaller divisor. Mitigation: when proposing a new suite, divisor computed at PR time from suiteComponents AND any cross-suite siblings under same author within last 12 months - author-aggregated denominator.",
+    "ACADEMIC-BENCHMARK FALLOUT: the 10k-star external repo threshold (inherited from Marco baseline, kept here) knocks out legitimately authoritative academic benchmark repos (webarena ~6k, OSWorld). browser-automation drops to C as a result. Strict-S accepts this as honest in v1 but flags it as the most-likely formula concession in v1.1 (introduce academic-benchmark-repo subtype with no star floor, cap-30 magnitude)."
+  ],
+  "gameabilityClosed": [
+    "MOTHERSHIP-STARS (Surveyor A primary vector): closed by mothership-discount sub-rule dividing github-stars-own by max(1, suiteComponents/4) for sub-skills. 46 garrytan/* sub-skills no longer all jump to A on the same 98.9k stars; each gets ~8.6 mag instead of 98.9.",
+    "SELF-REPO CITATION STACKING (Surveyor C Vector 1): closed by same-source dedup collapsing identical URL/DOI rows to single highest-magnitude row before scoring. registry-curation drops from would-be A to ungraded.",
+    "ARXIV CITATION CHERRY-PICKING (Surveyor C Vector 3): closed by NEW arxiv same-type plateau (1.0x/0.5x/0.25x/0.1x/0.1x, max 5). Three tangential 500-cite papers can no longer mint 300 mag - capped at ~135 with steep diminishing returns.",
+    "FAKE-FUSION-RECIPE (Surveyor A): closed by fusion-recipe magnitude reduction (20->16) AND diversity gate >=4 types for S. A 50-trivial-component suite still fails S without 3 other independently-witnessable evidence types.",
+    "CROSS-PLATFORM SOCIAL-SIGNAL SMURFING (Surveyor C Vector 5): closed by clarifying social-signal hard-A-cap as TOTAL across all rows (80 mag ceiling, not per-row) AND replacing subjective creator_multiplier 'recognized voice' (1.4x) with deterministic registry-identity tiers.",
+    "PURE-FUSION ULTIMATE: closed by diversity gate >=4 types for S. No skill reaches S on fusion narrative alone. Marco rule #2 preserved while strict-S adds the necessary 'fusion-sufficient != S-sufficient' guardrail.",
+    "FORK-NETWORK STAR INFLATION (Surveyor C Vector 2): partially closed by NEW github-stars-own same-source dedup (canonical-fork collapse via GitHub API). A contributor with 3 forks of own repo gets one row not three."
+  ],
+  "gameabilityOpened": [
+    "VERIFIER-CABAL CONCENTRATION (intensified, not opened - but worth flagging): by making verifier-attestation a near-mandatory ingredient for S-tier (alt-path requires one of benchmark/verifier/peer-review, and the first two are scarce), strict-S concentrates power in the verifier pool. A coordinated ring of 3-4 verifiers can mint S grades across the registry. Surveyor C Vector 4 countermeasures (50% decay on demote, 6-month tenure floor, GAIA_OPERATOR_OVERRIDE audit log) become MORE critical under strict-S. Recommend mandatory verifier-rotation: verifier cannot attest more than 5 skills per quarter, and cannot attest two skills from the same contributor within 6 months.",
+    "BENCHMARK-RESULT FABRICATION (NEW vector opened by elevating benchmark-result to S-gating): contributors invent or self-grade benchmarks. Mitigation listed in tradeoffs (reproducible harness + unaffiliated re-run requirement).",
+    "MINI-SUITE FRAGMENTATION (NEW): mothership-discount creates incentive to split one large suite into multiple smaller suites under sock author accounts to dodge the divisor. Mitigation: author-aggregated denominator across cross-suite siblings within 12 months (listed in tradeoffs)."
+  ]
+}

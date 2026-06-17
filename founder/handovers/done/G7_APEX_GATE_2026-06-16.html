@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>The Gate · GAIA Apex Tier (G7 RFC)</title>
+<meta name="description" content="A layman's view of how a skill earns each star tier in the GAIA registry — culminating in the 6★ Apex gate." />
+<style>
+  :root {
+    --bg: #0a0c10;
+    --bg-card: #11141b;
+    --bg-card-2: #161a23;
+    --ink: #e8eaf0;
+    --ink-2: #aab0bf;
+    --ink-3: #6b7280;
+    --rule: #232734;
+    --accent: #8a7cf7;
+    --accent-2: #5ec5ff;
+    --gold: #f5c651;
+    --silver: #c8d0e0;
+    --bronze: #c08458;
+
+    --c-0: #94a3b8;
+    --c-1: #5ea3f5;
+    --c-2: #6ad28a;
+    --c-3: #f0b66c;
+    --c-4: #e87664;
+    --c-5: #c074e8;
+    --c-6: #f5c651;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  body { line-height: 1.55; }
+  a { color: var(--accent-2); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 56px 24px 96px; }
+
+  header.hero { text-align: center; padding: 32px 0 48px; border-bottom: 1px solid var(--rule); margin-bottom: 56px; }
+  header.hero .eyebrow { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 12px; }
+  header.hero h1 { font-size: clamp(36px, 6vw, 64px); margin: 0 0 12px; font-weight: 700; letter-spacing: -0.02em; background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 70%, var(--accent-2) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  header.hero .lede { font-size: clamp(16px, 1.6vw, 19px); color: var(--ink-2); max-width: 720px; margin: 0 auto; }
+  header.hero .stamp { display: inline-flex; gap: 8px; align-items: center; padding: 6px 14px; border: 1px solid var(--rule); border-radius: 999px; color: var(--ink-3); font-size: 12px; margin-top: 18px; }
+  header.hero .stamp b { color: var(--ink); font-weight: 600; }
+
+  /* ladder */
+  .ladder { display: flex; flex-direction: column-reverse; gap: 14px; margin: 32px 0 0; }
+  .step { position: relative; padding: 22px 26px; border-radius: 14px; background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-card-2) 100%); border: 1px solid var(--rule); transition: transform 0.15s ease, border-color 0.15s ease; }
+  .step:hover { border-color: rgba(138, 124, 247, 0.5); transform: translateY(-2px); }
+  .step .row1 { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 6px; }
+  .step .star { font-size: 28px; font-weight: 700; letter-spacing: 0.04em; }
+  .step .label { font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-2); font-weight: 600; }
+  .step .floor { margin-left: auto; font-size: 12px; color: var(--ink-3); font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+  .step p.what { margin: 0; color: var(--ink-2); font-size: 15px; }
+  .step ul { margin: 10px 0 0; padding-left: 18px; color: var(--ink-2); font-size: 14px; }
+  .step ul li { margin: 4px 0; }
+
+  .step.s0 { border-left: 4px solid var(--c-0); }
+  .step.s0 .star { color: var(--c-0); }
+  .step.s1 { border-left: 4px solid var(--c-1); }
+  .step.s1 .star { color: var(--c-1); }
+  .step.s2 { border-left: 4px solid var(--c-2); }
+  .step.s2 .star { color: var(--c-2); }
+  .step.s3 { border-left: 4px solid var(--c-3); }
+  .step.s3 .star { color: var(--c-3); }
+  .step.s4 { border-left: 4px solid var(--c-4); }
+  .step.s4 .star { color: var(--c-4); }
+  .step.s5 { border-left: 4px solid var(--c-5); }
+  .step.s5 .star { color: var(--c-5); }
+
+  /* apex card */
+  .apex { position: relative; margin-top: 28px; padding: 32px 32px 28px; border-radius: 18px; background: radial-gradient(ellipse at top right, rgba(245,198,81,0.10), transparent 60%), linear-gradient(180deg, #181410 0%, #0f0d0a 100%); border: 1px solid rgba(245,198,81,0.35); box-shadow: 0 0 0 1px rgba(245,198,81,0.08), 0 18px 48px -16px rgba(245,198,81,0.18); }
+  .apex::before { content: "★"; position: absolute; top: 14px; right: 22px; font-size: 56px; line-height: 1; color: rgba(245,198,81,0.18); pointer-events: none; }
+  .apex .row1 { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  .apex .star { font-size: 36px; font-weight: 800; color: var(--gold); letter-spacing: 0.04em; }
+  .apex .label { font-size: 14px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); font-weight: 700; }
+  .apex .lede { color: var(--ink); font-size: 15px; margin: 12px 0 22px; max-width: 720px; }
+  .apex .lede em { color: var(--gold); font-style: normal; font-weight: 600; }
+
+  .locks { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin-top: 8px; }
+  .lock { padding: 14px 16px; border: 1px solid var(--rule); border-radius: 10px; background: rgba(245,198,81,0.04); }
+  .lock .head { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .lock .glyph { font-size: 18px; line-height: 1; color: var(--gold); width: 24px; text-align: center; }
+  .lock .name { font-weight: 600; font-size: 14px; color: var(--ink); }
+  .lock .body { font-size: 13px; color: var(--ink-2); }
+  .lock code { background: rgba(255,255,255,0.05); padding: 0 4px; border-radius: 3px; font-size: 12px; }
+
+  .meter { margin-top: 22px; padding: 14px 18px; border: 1px dashed rgba(245,198,81,0.35); border-radius: 10px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); }
+  .meter b { color: var(--gold); font-size: 16px; }
+  .meter .pip { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: var(--rule); border: 1px solid var(--rule); }
+  .meter .pip.empty { background: transparent; }
+
+  /* takeaways */
+  section.takeaways { margin-top: 64px; }
+  section.takeaways h2 { font-size: 22px; margin: 0 0 18px; letter-spacing: -0.01em; }
+  .takeaways ol { padding-left: 22px; margin: 0; color: var(--ink-2); }
+  .takeaways ol li { margin: 10px 0; padding-left: 6px; }
+  .takeaways ol li b { color: var(--ink); }
+
+  /* migration callout */
+  .callout { margin-top: 56px; padding: 24px 28px; border-radius: 14px; background: linear-gradient(180deg, rgba(232,118,100,0.08), rgba(232,118,100,0.02)); border: 1px solid rgba(232,118,100,0.35); }
+  .callout h3 { margin: 0 0 8px; font-size: 18px; color: #ffb1a0; }
+  .callout p { margin: 0 0 8px; color: var(--ink-2); font-size: 14px; }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout code { background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 3px; font-size: 12px; color: var(--ink); }
+
+  footer { margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--rule); color: var(--ink-3); font-size: 12px; text-align: center; }
+  footer a { color: var(--ink-2); }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 40px 16px 64px; }
+    .step { padding: 18px 18px; }
+    .apex { padding: 24px 22px; }
+    .apex::before { font-size: 40px; }
+    header.hero { padding: 16px 0 32px; margin-bottom: 36px; }
+  }
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <div class="eyebrow">G7 RFC · TRUST MAGNITUDE · 2026-06-16</div>
+      <h1>The Gate</h1>
+      <p class="lede">How a skill earns each star tier in the GAIA registry. Six floors of trust, one apex with nine locks. Read once, decide later.</p>
+      <span class="stamp">System-wide 6★ count at G7+0: <b>0 of 5</b></span>
+    </header>
+
+    <div class="ladder">
+      <article class="step s0">
+        <div class="row1">
+          <span class="star">0★</span>
+          <span class="label">Basic</span>
+          <span class="floor">no evidence floor</span>
+        </div>
+        <p class="what">The skill exists in the canonical graph — recognised by the registry but not yet attached to anyone's tree.</p>
+      </article>
+
+      <article class="step s1">
+        <div class="row1">
+          <span class="star">1★</span>
+          <span class="label">Awakened</span>
+          <span class="floor">no evidence floor</span>
+        </div>
+        <p class="what">A user has been observed practising it — <code>gaia scan</code> detected the skill in their work and added it to their tree.</p>
+      </article>
+
+      <article class="step s2">
+        <div class="row1">
+          <span class="star">2★</span>
+          <span class="label">Named</span>
+          <span class="floor">≥1 evidence row at C+</span>
+        </div>
+        <p class="what">The skill carries at least one piece of recorded evidence at any grade. The first acknowledgement that the skill is real and demonstrable.</p>
+      </article>
+
+      <article class="step s3">
+        <div class="row1">
+          <span class="star">3★</span>
+          <span class="label">Evolved</span>
+          <span class="floor">≥1 evidence row at B+</span>
+        </div>
+        <p class="what">At least one B-grade row. A meaningful endorsement — not just a self-attestation, but a real signal that an outside observer would recognise.</p>
+      </article>
+
+      <article class="step s4">
+        <div class="row1">
+          <span class="star">4★</span>
+          <span class="label">Hardened</span>
+          <span class="floor">≥1 evidence row at B+ · rank-floor protected</span>
+        </div>
+        <p class="what">Same evidence floor as 3★, with one teeth-bared rule: <b>cannot land below B</b> without explicit PR review (§10.10). Once you cross 4★, you don't accidentally fall back to C.</p>
+      </article>
+
+      <article class="step s5">
+        <div class="row1">
+          <span class="star">5★</span>
+          <span class="label">Transcendent</span>
+          <span class="floor">Overall Trust Grade ≥ B · rank-floor protected</span>
+        </div>
+        <p class="what">A skill in serious standing. Typically a suite Ultimate or a deeply-evidenced single skill. Rank-floor still protects against accidental sub-B drops.</p>
+        <ul>
+          <li>Multiple evidence types preferred but not required.</li>
+          <li>This is the bar most contributors aim for. The gap from here to 6★ is intentionally large.</li>
+        </ul>
+      </article>
+    </div>
+
+    <article class="apex">
+      <div class="row1">
+        <span class="star">6★</span>
+        <span class="label">Apex</span>
+      </div>
+      <p class="lede">Nine locks. Every one must open. The tier is <em>structurally rare</em> — fewer than five at any moment, system-wide. The promotion PR is the door; two independent verifiers from two different GitHub orgs are the keys.</p>
+
+      <div class="locks">
+        <div class="lock">
+          <div class="head"><span class="glyph">⚙</span><span class="name">≥12 nested origins</span></div>
+          <div class="body">Fusion-recipe origins counted across the full transitive tree of <code>suiteComponents</code>, deduped by skillId, graded ≥ C. Forces the gate past the sqrt-softening knee.</div>
+        </div>
+        <div class="lock">
+          <div class="head"><span class="glyph">⛓</span><span class="name">Direct nest</span></div>
+          <div class="body">At least one direct component must itself be a suite/Ultimate. Apex stacks <em>on top of</em> 5★ infrastructure — it doesn't sit beside it.</div>
+        </div>
+        <div class="lock">
+          <div class="head"><span class="glyph">⤷</span><span class="name">Real depth</span></div>
+          <div class="body">At least one node in the closure must be reachable <em>only</em> through nesting — not also a direct child. Blocks the flat-pancake failure mode.</div>
+        </div>
+        <div class="lock">
+          <div class="head"><span class="glyph">◆</span><span class="name">Grade S, no phantoms</span></div>
+          <div class="body">Trust Magnitude ≥ 250 from rows that <em>physically exist</em> in the skill's <code>evidence:</code> array. Auto-mint applies only to fusion-recipe.</div>
+        </div>
+        <div class="lock">
+          <div class="head"><span class="glyph">✦</span><span class="name">≥8 A-graded</span></div>
+          <div class="body">At least 8 distinct skills in the closure must hold Overall Trust Grade ≥ A. No riding sqrt-softening on a B-graded substrate.</div>
+        </div>
+        <div class="lock">
+          <div class="head"><span class="glyph">⚐</span><span class="name">≥2 cross-org cosigns</span></div>
+          <div class="body">Two 4★+ verifier-attestations from two distinct GitHub orgs. Single-mothership skills cannot self-attest to apex.</div>
+        </div>
+        <div class="lock">
+          <div class="head"><span class="glyph">⏳</span><span class="name">≥180 days tenure</span></div>
+          <div class="body">Earliest evidence row at least 180 calendar days old. Aligned with the 6-month provisional-grade grace window.</div>
+        </div>
+        <div class="lock">
+          <div class="head"><span class="glyph">⊛</span><span class="name">PR-gated promotion</span></div>
+          <div class="body"><code>gaia promote</code> rejects 6★. Apex requires a PR labelled <code>apex-promotion</code> with ≥2 verifier sign-offs ticking each predicate.</div>
+        </div>
+        <div class="lock">
+          <div class="head"><span class="glyph">#</span><span class="name">Cap of 5</span></div>
+          <div class="body">No more than 5 apex skills system-wide at any moment. A sixth landing requires an existing apex to demote — or an RFC amendment.</div>
+        </div>
+      </div>
+
+      <div class="meter">
+        <span>Apex slots filled</span>
+        <span><b>0</b> of 5</span>
+        <span style="display:inline-flex;gap:6px;align-items:center;margin-left:auto;">
+          <span class="pip empty" title="open"></span>
+          <span class="pip empty" title="open"></span>
+          <span class="pip empty" title="open"></span>
+          <span class="pip empty" title="open"></span>
+          <span class="pip empty" title="open"></span>
+        </span>
+      </div>
+    </article>
+
+    <section class="takeaways">
+      <h2>Five things to remember</h2>
+      <ol>
+        <li><b>Stars are earned by evidence, not by claim.</b> The number on the badge is the floor on what your evidence already supports.</li>
+        <li><b>Grades stack; tiers don't.</b> A row at S anchors S; you can't average four C rows into a B.</li>
+        <li><b>Phantom rows don't count.</b> If it's not in the skill's <code>evidence:</code> array, it contributes zero. (§10.14 — registry-wide, not just at apex.)</li>
+        <li><b>6★ is structurally rare.</b> Fewer than five at any moment. No auto-promote. Two independent verifiers from two different GitHub orgs must sign a PR.</li>
+        <li><b>Demotion is honest.</b> At G7 cutover, both standing 6★ skills demote to 5★ because they fail the new gate. Re-application is open immediately; the bar is just higher.</li>
+      </ol>
+    </section>
+
+    <section class="callout">
+      <h3>What changes at G7 cutover</h3>
+      <p><code>mattpocock/skills</code> and <code>ruvnet/ruflo</code> — the two skills currently sitting at 6★ — both demote to 5★ in the migration PR. Neither carries the cross-org verifier cosigns or the evidence-type diversity the new gate demands. Both land at <b>5★ Transcendent</b> with grade <b>A</b> <em>provisional</em>.</p>
+      <p>Both can re-apply immediately via the PR-gated path. The door is open. The bar is just higher.</p>
+      <p style="color: var(--ink-3); font-size: 12px; margin-top: 12px;">Full disposition table: see <code>founder/handovers/G7_TRUST_TAXONOMY_RFC.md</code> §11.12 · Calibration regrades: §9 · Stamp report: §8.</p>
+    </section>
+
+    <footer>
+      G7 Trust Taxonomy RFC · GAIA Registry · 2026-06-16<br>
+      Companion to <code>G7_TRUST_TAXONOMY_RFC.md</code>. The RFC is the legalese; this page is the contract.
+    </footer>
+  </main>
+</body>
+</html>
