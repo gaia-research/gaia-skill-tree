@@ -40,6 +40,11 @@ This file lists the raw evidence sources for named skills rated at 2★.
 - **Verified Stars:** 86 stars
 - **Description:** Auto-discovered from github. (backfilled — class-to-type migration)
 
+#### E3: `url`
+- **Source:** [https://lobehub.com/plugins](https://lobehub.com/plugins)
+- **Date:** 2026-06-17
+- **Description:** Included in the LobeHub Skills Marketplace under the name `taoidle-plan-cascade-planning-with-files`.
+
 ---
 
 ## Skill: `anthropic/pptx`
