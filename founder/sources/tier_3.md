@@ -26,41 +26,41 @@ This file lists the raw evidence sources for named skills rated at 3★.
 ## Skill: `addy-osmani/performance-optimization`
 - **Name:** Performance Optimization
 - **Contributor:** `addy-osmani`
-- **Primary GitHub Repository:** [https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md) (62,101 stars)
+- **Primary GitHub Repository:** [https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md) (62,107 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
 - **Source:** [https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md)
 - **Date:** 2026-05-31
-- **Verified Stars:** 62,101 stars
+- **Verified Stars:** 62,107 stars
 - **Description:** Addy Osmani's performance-optimization SKILL.md in agent-skills repo (47.2k stars, verified 2026-05-31). Defines a measurement-driven 5-step workflow (Measure → Identify → Fix → Verify → Guard) with explicit Core Web Vitals thresholds. Qualifies for Class A per META §2.1 large-scale adoption criterion. (backfilled — class-to-type migration)
 
-#### E2: `github-stars`
-- **Source:** [https://github.com/ruvnet/ruflo](https://github.com/ruvnet/ruflo)
-- **Date:** 2026-05-19
-- **Verified Stars:** 59,957 stars
-- **Description:** Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)
+#### E2: `repo`
+- **Source:** [https://github.com/addyosmani/web-quality-skills](https://github.com/addyosmani/web-quality-skills)
+- **Date:** 2026-06-18
+- **Verified Stars:** 2,376 stars
+- **Description:** Addy Osmani's web-quality-skills repository targeting web quality, Lighthouse metrics, and Core Web Vitals optimization.
 
 ---
 
 ## Skill: `addy-osmani/test-driven-development`
 - **Name:** Test-Driven Development
 - **Contributor:** `addy-osmani`
-- **Primary GitHub Repository:** [https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md) (62,101 stars)
+- **Primary GitHub Repository:** [https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md) (62,107 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
 - **Source:** [https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md)
 - **Date:** 2026-04-30
-- **Verified Stars:** 62,101 stars
+- **Verified Stars:** 62,107 stars
 - **Description:** Addy Osmani /test-driven-development slash command -- forces strict TDD workflow, stopping agents from skipping tests. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md)
 - **Date:** 2026-04-30
-- **Verified Stars:** 133,210 stars
+- **Verified Stars:** 133,232 stars
 - **Description:** Matt Pocock /tdd -- Vertical-slice TDD enforcement with anti-horizontal-slicing rules. (backfilled — class-to-type migration)
 
 ---
