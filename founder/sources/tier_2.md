@@ -599,6 +599,12 @@ This file lists the raw evidence sources for named skills rated at 2★.
 - **Verified Stars:** 8,062 stars
 - **Description:** CodeBurn -- provides cost and token observability for AI coding tools; integrated with 20 AI tools. Includes TUI dashboard, macOS menubar, optimization and yield analysis commands. (backfilled — class-to-type migration)
 
+#### E2: `repo`
+- **Source:** [https://github.com/BerriAI/litellm](https://github.com/BerriAI/litellm)
+- **Date:** 2026-06-18
+- **Verified Stars:** 12,000 stars
+- **Description:** LiteLLM -- provides detailed LLM token and cost tracking, budgeting, and observability across multiple providers.
+
 ---
 
 ## Skill: `glincker/readme-generator`
