@@ -112,28 +112,16 @@ class TestOverallTrustGrade:
 
 class TestEvidenceTypes:
     def test_valid_types_from_meta(self):
-        # G7 Phase 1.5 I1: evidence.types is now the 10-type G7 taxonomy.
-        # Legacy types "repo" and "github-stars" are replaced by
-        # "repo-own" and "github-stars-own" respectively.
+        # The real meta.json should have arxiv, repo, github-stars
         types = load_evidence_types(".")
         assert "arxiv" in types
-        assert "repo-own" in types
-        assert "github-stars-own" in types
-        # Verify all 10 G7 types are present
-        assert "fusion-recipe" in types
-        assert "proxy-containment" in types
-        assert "verifier-attestation" in types
-        assert "benchmark-result" in types
-        assert "peer-review" in types
-        assert "self-attestation" in types
-        assert "social-signal" in types
+        assert "repo" in types
+        assert "github-stars" in types
 
     def test_invalid_type_detection(self):
         types = load_evidence_types(".")
         assert "stars" not in types          # wrong alias
         assert "GitHub-Stars" not in types   # wrong case
-        assert "repo" not in types           # legacy name superseded by repo-own
-        assert "github-stars" not in types   # legacy name superseded by github-stars-own
 
 
 # ---------------------------------------------------------------------------
