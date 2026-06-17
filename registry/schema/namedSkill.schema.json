@@ -89,7 +89,7 @@
         "canonicalRepo": {
           "type": "string",
           "format": "uri",
-          "description": "Canonical upstream repository URL. Used as the fork-network canonicalization anchor for this named skill's github-stars-own evidence (RFC §11.5). When set, star pools from all forks of this URL are merged into one."
+          "description": "Informational; per-evidence `canonicalRepo` is operationally authoritative per RFC §11.5. Canonical upstream repository URL. Used as the fork-network canonicalization anchor for this named skill's github-stars-own evidence (RFC §11.5). When set, star pools from all forks of this URL are merged into one."
         }
       }
     },
@@ -276,7 +276,7 @@
             "B",
             "C"
           ],
-          "description": "Evidence Grade — the quality of the demonstration, derived from trustNumber via meta.json evidence.gradeThresholds (S >= 90, A >= 80, B >= 60, C >= 40). Evidence whose trustNumber is below 40 is ungraded: this field is absent and the entry counts toward no gate. WARNING: grade A/B are NOT the deprecated class A/B — migration code must never read one as the other."
+          "description": "per-evidence grade (S/A/B/C). Distinct from the skill's overall trust grade (overallTrustGrade). Used by the diversity gate per RFC §4. Evidence whose trustNumber is below 40 is ungraded: this field is absent and the entry counts toward no gate. WARNING: grade A/B are NOT the deprecated class A/B — migration code must never read one as the other."
         },
         "trustNumber": {
           "type": "number",

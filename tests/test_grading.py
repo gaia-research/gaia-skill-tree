@@ -137,6 +137,8 @@ class TestEvidenceTypes:
         assert all(isinstance(t, str) for t in types)
 
     def test_invalid_type_detection(self):
+        # Note: `arxiv` survived the legacy→G7 ID rename unchanged — it is correctly
+        # NOT in this rejection list and should never be added here.
         types = load_evidence_types(".")
         assert "stars" not in types          # wrong alias
         assert "GitHub-Stars" not in types   # wrong case
