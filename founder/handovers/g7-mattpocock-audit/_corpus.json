@@ -1,0 +1,290 @@
+{
+  "suite": {
+    "id": "mattpocock/skills",
+    "name": "Matt Pocock Skills",
+    "contributor": "mattpocock",
+    "origin": true,
+    "genericSkillRef": "skill-mastery",
+    "status": "named",
+    "level": "6\u2605",
+    "description": "The ultimate capstone suite encompassing all of Matt Pocock's engineering, productivity, and personal skills.",
+    "title": "The Matt Pocock Discipline",
+    "links": {
+      "github": "https://github.com/mattpocock/skills"
+    },
+    "createdAt": "2026-05-22",
+    "updatedAt": "2026-05-22",
+    "suiteComponents": [
+      "mattpocock/caveman",
+      "mattpocock/diagnose",
+      "mattpocock/edit-article",
+      "mattpocock/engineering",
+      "mattpocock/grill-me",
+      "mattpocock/grill-with-docs",
+      "mattpocock/handoff",
+      "mattpocock/improve-codebase-architecture",
+      "mattpocock/obsidian-vault",
+      "mattpocock/personal",
+      "mattpocock/productivity",
+      "mattpocock/prototype",
+      "mattpocock/setup-matt-pocock-skills",
+      "mattpocock/to-issues",
+      "mattpocock/to-prd",
+      "mattpocock/triage",
+      "mattpocock/ubiquitous-language",
+      "mattpocock/write-a-skill",
+      "mattpocock/zoom-out"
+    ],
+    "type": "ultimate",
+    "installBody": "Install the full Matt Pocock skills suite with:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.",
+    "role": "origin",
+    "overallTrustGrade": "B",
+    "ultimateGateStatus": {
+      "passes": false,
+      "reason": "need \u22651 component(s) graded S+, have 0"
+    }
+  },
+  "components": [
+    {
+      "id": "mattpocock/caveman",
+      "level": "3\u2605",
+      "type": "basic",
+      "role": "variant",
+      "origin": false,
+      "overallTrustGrade": "A",
+      "evidence_count": 0,
+      "nested_components": 0,
+      "genericSkillRef": "context-compression"
+    },
+    {
+      "id": "mattpocock/diagnose",
+      "level": "2\u2605",
+      "type": "extra",
+      "role": "variant",
+      "origin": false,
+      "overallTrustGrade": "B",
+      "evidence_count": 1,
+      "nested_components": 0,
+      "genericSkillRef": "autonomous-debug"
+    },
+    {
+      "id": "mattpocock/edit-article",
+      "level": "2\u2605",
+      "type": "basic",
+      "role": "variant",
+      "origin": false,
+      "overallTrustGrade": "B",
+      "evidence_count": 1,
+      "nested_components": 0,
+      "genericSkillRef": "document-editing"
+    },
+    {
+      "id": "mattpocock/engineering",
+      "level": "5\u2605",
+      "type": "ultimate",
+      "role": "origin",
+      "origin": true,
+      "overallTrustGrade": "B",
+      "evidence_count": 0,
+      "nested_components": 10,
+      "genericSkillRef": "engineering-discipline"
+    },
+    {
+      "id": "mattpocock/grill-me",
+      "level": "4\u2605",
+      "type": "extra",
+      "role": "variant",
+      "origin": false,
+      "overallTrustGrade": "B",
+      "evidence_count": 1,
+      "nested_components": 0,
+      "genericSkillRef": "grill-me"
+    },
+    {
+      "id": "mattpocock/grill-with-docs",
+      "level": "3\u2605",
+      "type": "extra",
+      "role": "origin",
+      "origin": true,
+      "overallTrustGrade": "B",
+      "evidence_count": 1,
+      "nested_components": 0,
+      "genericSkillRef": "grill-with-docs"
+    },
+    {
+      "id": "mattpocock/handoff",
+      "level": "4\u2605",
+      "type": "extra",
+      "role": "variant",
+      "origin": false,
+      "overallTrustGrade": "B",
+      "evidence_count": 1,
+      "nested_components": 0,
+      "genericSkillRef": "agent-handoff"
+    },
+    {
+      "id": "mattpocock/improve-codebase-architecture",
+      "level": "3\u2605",
+      "type": "basic",
+      "role": "variant",
+      "origin": false,
+      "overallTrustGrade": "A",
+      "evidence_count": 0,
+      "nested_components": 0,
+      "genericSkillRef": "refactor-code"
+    },
+    {
+      "id": "mattpocock/obsidian-vault",
+      "level": "3\u2605",
+      "type": "extra",
+      "role": "variant",
+      "origin": false,
+      "overallTrustGrade": "B",
+      "evidence_count": 1,
+      "nested_components": 0,
+      "genericSkillRef": "personal-knowledge-management"
+    },
+    {
+      "id": "mattpocock/personal",
+      "level": "4\u2605",
+      "type": "extra",
+      "role": "origin",
+      "origin": true,
+      "overallTrustGrade": "B",
+      "evidence_count": 0,
+      "nested_components": 2,
+      "genericSkillRef": "personal"
+    },
+    {
+      "id": "mattpocock/productivity",
+      "level": "4\u2605",
+      "type": "extra",
+      "role": "origin",
+      "origin": true,
+      "overallTrustGrade": "B",
+      "evidence_count": 0,
+      "nested_components": 4,
+      "genericSkillRef": "productivity"
+    },
+    {
+      "id": "mattpocock/prototype",
+      "level": "3\u2605",
+      "type": "extra",
+      "role": "variant",
+      "origin": false,
+      "overallTrustGrade": "B",
+      "evidence_count": 1,
+      "nested_components": 0,
+      "genericSkillRef": "prototype"
+    },
+    {
+      "id": "mattpocock/setup-matt-pocock-skills",
+      "level": "3\u2605",
+      "type": "extra",
+      "role": "variant",
+      "origin": false,
+      "overallTrustGrade": "B",
+      "evidence_count": 1,
+      "nested_components": 0,
+      "genericSkillRef": "agent-environment-setup"
+    },
+    {
+      "id": "mattpocock/to-issues",
+      "level": "3\u2605",
+      "type": "extra",
+      "role": "variant",
+      "origin": false,
+      "overallTrustGrade": "B",
+      "evidence_count": 1,
+      "nested_components": 0,
+      "genericSkillRef": "vertical-slice-planning"
+    },
+    {
+      "id": "mattpocock/to-prd",
+      "level": "2\u2605",
+      "type": "extra",
+      "role": "origin",
+      "origin": true,
+      "overallTrustGrade": "A",
+      "evidence_count": 1,
+      "nested_components": 0,
+      "genericSkillRef": "prd-generation"
+    },
+    {
+      "id": "mattpocock/triage",
+      "level": "3\u2605",
+      "type": "basic",
+      "role": "origin",
+      "origin": true,
+      "overallTrustGrade": "A",
+      "evidence_count": 1,
+      "nested_components": 0,
+      "genericSkillRef": "issue-triage"
+    },
+    {
+      "id": "mattpocock/ubiquitous-language",
+      "level": "4\u2605",
+      "type": "extra",
+      "role": "variant",
+      "origin": false,
+      "overallTrustGrade": "B",
+      "evidence_count": 1,
+      "nested_components": 0,
+      "genericSkillRef": "ubiquitous-language"
+    },
+    {
+      "id": "mattpocock/write-a-skill",
+      "level": "3\u2605",
+      "type": "extra",
+      "role": "origin",
+      "origin": true,
+      "overallTrustGrade": "A",
+      "evidence_count": 0,
+      "nested_components": 0,
+      "genericSkillRef": "tool-creation"
+    },
+    {
+      "id": "mattpocock/zoom-out",
+      "level": "2\u2605",
+      "type": "basic",
+      "role": "origin",
+      "origin": true,
+      "overallTrustGrade": "A",
+      "evidence_count": 0,
+      "nested_components": 0,
+      "genericSkillRef": "code-explain"
+    }
+  ],
+  "nested_suites_in_direct_children": [
+    [
+      "mattpocock/engineering",
+      10
+    ],
+    [
+      "mattpocock/personal",
+      2
+    ],
+    [
+      "mattpocock/productivity",
+      4
+    ]
+  ],
+  "referencing_suites": [
+    [
+      "mattpocock/engineering",
+      10,
+      "5\u2605"
+    ],
+    [
+      "mattpocock/personal",
+      2,
+      "4\u2605"
+    ],
+    [
+      "mattpocock/productivity",
+      4,
+      "4\u2605"
+    ]
+  ],
+  "fusion_refs_to_mattpocock": []
+}
