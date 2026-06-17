@@ -111,17 +111,37 @@ class TestOverallTrustGrade:
 # ---------------------------------------------------------------------------
 
 class TestEvidenceTypes:
+    # The 10 canonical G7 evidence type IDs defined in registry/schema/meta.json
+    G7_TYPE_IDS = [
+        "fusion-recipe",
+        "github-stars-own",
+        "proxy-containment",
+        "verifier-attestation",
+        "benchmark-result",
+        "arxiv",
+        "peer-review",
+        "repo-own",
+        "self-attestation",
+        "social-signal",
+    ]
+
     def test_valid_types_from_meta(self):
-        # The real meta.json should have arxiv, repo, github-stars
+        # G7 format: types is a list of objects; load_evidence_types() normalises to IDs.
         types = load_evidence_types(".")
-        assert "arxiv" in types
-        assert "repo" in types
-        assert "github-stars" in types
+        for type_id in self.G7_TYPE_IDS:
+            assert type_id in types, f"expected G7 type '{type_id}' in load_evidence_types()"
+
+    def test_returns_strings(self):
+        # Always returns a list of plain strings regardless of schema format.
+        types = load_evidence_types(".")
+        assert all(isinstance(t, str) for t in types)
 
     def test_invalid_type_detection(self):
         types = load_evidence_types(".")
         assert "stars" not in types          # wrong alias
         assert "GitHub-Stars" not in types   # wrong case
+        assert "repo" not in types           # legacy id — replaced by repo-own
+        assert "github-stars" not in types   # legacy id — replaced by github-stars-own
 
 
 # ---------------------------------------------------------------------------

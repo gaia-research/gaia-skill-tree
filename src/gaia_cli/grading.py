@@ -38,8 +38,19 @@ def load_ultimate_gate(registry_path=".") -> dict:
 
 
 def load_evidence_types(registry_path=".") -> list[str]:
-    """Return valid evidence types from meta.json."""
-    return _load_meta_evidence(registry_path).get("types", ["arxiv", "repo", "github-stars"])
+    """Return valid evidence type IDs from meta.json.
+
+    Handles both formats transparently:
+    - Legacy format: ["arxiv", "repo", "github-stars"]  (list of strings)
+    - G7 format:     [{"id": "arxiv", "magnitude": "...", ...}, ...]  (list of objects)
+
+    Always returns a list of plain string IDs so call sites can do
+    ``evidence_type in load_evidence_types()`` regardless of schema version.
+    """
+    raw = _load_meta_evidence(registry_path).get("types", ["arxiv", "repo", "github-stars"])
+    if raw and isinstance(raw[0], dict):
+        return [entry["id"] for entry in raw if "id" in entry]
+    return list(raw)
 
 
 def derive_grade(trust_number: float | int, thresholds: dict | None = None) -> str | None:
