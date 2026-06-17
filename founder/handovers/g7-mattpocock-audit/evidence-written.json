@@ -1,0 +1,134 @@
+{
+  "curationNotes": "mattpocock/skills is a high-signal suite authored by Matt Pocock (Total TypeScript / AI Hero), released 2026-02-03 and reaching 132,281 GitHub stars and 11,510 forks within four months. The skills.sh live badge confirms 4.0 million cumulative installs as of 2026-06-17. The suite is featured at peer-authority rank in the two largest community skill catalogues (ComposioHQ/awesome-claude-skills at 64.9k stars and shanraisshan/claude-code-best-practice at 58k stars), security-audited by aiskillstore marketplace (361 stars), and documented in Matt Pocock's own aihero.dev newsletter which reports ~60,000 subscribers. The /grill-me skill alone drove a viral blog post dated 2026-03-23 and spawned a dedicated Chinese-language localization fork (vinvcn/mattpocock-skills-zh-CN, 681 stars, 72 forks) and dozens of derivative repos. Gaps: no peer-reviewed academic citations found; no explicit cosign from Theo Browne, Wes Bos, Kent Dodds, or Andrej Karpathy; Anthropic's own engineering blog post on Agent Skills (2025-10-16) does not name mattpocock/skills by name though the travisvn awesome list (13.5k stars) links to it via the Anthropic article; ComposioHQ lists Matt Pocock in the same tier as Garry Tan (gstack), GitHub Spec-Kit, and Addy Osmani (agent-skills), which provides strong proxy-containment signal without formal attestation.",
+
+  "evidence": [
+    {
+      "skillId": "mattpocock/skills",
+      "type": "repo",
+      "magnitudeRaw": "GitHub repository mattpocock/skills: 132,281 stars, 11,510 forks, 81 open issues, MIT licence, created 2026-02-03, last pushed 2026-06-12.",
+      "sourceUrl": "https://github.com/mattpocock/skills",
+      "observedAt": "2026-06-17",
+      "notes": "Verified via GitHub API. Description: 'Skills for Real Engineers. Straight from my .claude directory.' Primary author commit count: 94 of 102 total. Language: Shell 100%."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "proxy-containment",
+      "magnitudeRaw": "skills.sh live install badge reports 4.0M total installs for the mattpocock/skills suite. Badge SVG fetched directly from https://skills.sh/b/mattpocock/skills; text content reads 'Skills: 4.0M'.",
+      "sourceUrl": "https://skills.sh/mattpocock/skills",
+      "observedAt": "2026-06-17",
+      "notes": "skills.sh is the canonical distribution platform for Claude Code agent skills (Vercel Labs). An earlier page fetch also showed per-skill breakdowns: grill-me at 329.2k installs, improve-codebase-architecture at 269.2k, tdd at 254.1k, to-prd at 235.6k. The suite total has since crossed 4.0M."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "proxy-containment",
+      "magnitudeRaw": "ComposioHQ/awesome-claude-skills (64,899 stars) prominently features Matt Pocock Skills at 132k stars in a ranked table alongside Superpowers (230k), Everything Claude Code (217k), and Spec-Kit (113k). Matt Pocock is also listed among the community's key skill authors alongside Garry Tan (gstack), Andrej Karpathy, and GitHub.",
+      "sourceUrl": "https://github.com/ComposioHQ/awesome-claude-skills",
+      "observedAt": "2026-06-17",
+      "notes": "Verified by fetching README via GitHub API and grepping for 'mattpocock'. The list shows /grill-me → /to-prd → /triage → /tdd → /diagnose → /zoom-out → /improve-codebase-architecture → /handoff as the canonical workflow. Created 2025-10-17."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "proxy-containment",
+      "magnitudeRaw": "shanraisshan/claude-code-best-practice (58,021 stars, 'from vibe coding to agentic engineering - practice makes claude perfect') includes mattpocock/skills in a ranked table showing 129k stars and 25 skills, alongside anthropics/skills (151k), Superpowers, and other top-tier repos.",
+      "sourceUrl": "https://github.com/shanraisshan/claude-code-best-practice",
+      "observedAt": "2026-06-17",
+      "notes": "Verified via GitHub API README fetch. Repo created 2025-10-31. Table row: '| [mattpocock/skills] | 129k | 25 |'"
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "proxy-containment",
+      "magnitudeRaw": "wesammustafa/Claude-Code-Everything-You-Need-to-Know (2,121 stars, 'The ultimate all-in-one guide to mastering Claude Code') lists mattpocock/skills as a 'Notable community skill' under 'Engineering-focused composable skills (TDD, debugging, triage). Includes the well-known `grill-me`.'",
+      "sourceUrl": "https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know",
+      "observedAt": "2026-06-17",
+      "notes": "Verified via GitHub API. docs/skills.md contains the listing. Created 2025-08-17."
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "type": "media-mention",
+      "magnitudeRaw": "aihero.dev blog post by Matt Pocock titled 'My Grill Me Skill Went Viral', dated 2026-03-23. Describes /grill-me as 'the most flexible skill I've ever created', notes non-coding applications, and documents a recent update adding AI-recommended answers. The post title itself signals community reception.",
+      "sourceUrl": "https://www.aihero.dev/my-grill-me-skill-has-gone-viral",
+      "observedAt": "2026-03-23",
+      "notes": "Content verified via raw GitHub mirror at ulayera/ai-hero-offline. Date: March 23, 2026. aihero.dev is Matt Pocock's own publishing platform for his AI engineering newsletter (~60k subscribers per README)."
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "type": "media-mention",
+      "magnitudeRaw": "aihero.dev article '5 Agent Skills I Use Every Day' (updated 2026-03-16) by Matt Pocock. Describes using /grill-me as the first step in a five-skill workflow, with Claude asking 16-50 questions per session, and references Frederick P. Brooks's 'design tree' concept as theoretical grounding.",
+      "sourceUrl": "https://www.aihero.dev/5-agent-skills-i-use-every-day",
+      "observedAt": "2026-03-16",
+      "notes": "Verified via raw content mirror. Also covers /to-prd, /to-issues, /tdd, and /improve-codebase-architecture."
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "type": "proxy-containment",
+      "magnitudeRaw": "aiskillstore/marketplace (361 stars, 'Security-audited skills for Claude, Codex & Claude Code') contains a full security audit of grill-me completed 2026-03-27 using analysis_version 3.0.0. Risk level: safe, is_blocked: false, safe_to_publish: true. Includes complete skill metadata, FAQ, use cases, and output examples.",
+      "sourceUrl": "https://github.com/aiskillstore/marketplace/blob/main/skills/mattpocock/grill-me/skill-report.json",
+      "observedAt": "2026-03-27",
+      "notes": "Verified via GitHub API. All 29 mattpocock skills have individual skill-report.json entries in this marketplace. The audit notes a static-analyser false positive on 'weak cryptographic algorithm' but clears the skill as purely conversational."
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "type": "proxy-containment",
+      "magnitudeRaw": "vinvcn/mattpocock-skills-zh-CN: Simplified Chinese localization of mattpocock/skills with 681 stars and 72 forks, created 2026-04-28. Karasukaigan/skills-zh: Japanese/Chinese localization with 165 stars. amazingloft999-droid/mattpocock-skills: English mirror with 234 stars.",
+      "sourceUrl": "https://github.com/vinvcn/mattpocock-skills-zh-CN",
+      "observedAt": "2026-06-17",
+      "notes": "Three independent high-quality localization/mirror repositories demonstrate broad international adoption. vinvcn is the most starred localization fork."
+    },
+    {
+      "skillId": "mattpocock/ubiquitous-language",
+      "type": "media-mention",
+      "magnitudeRaw": "aihero.dev changelog article 'Skills Changelog: Ubiquitous Language -> /grill-with-docs' (published 2026-04-30) documents the deprecation of /ubiquitous-language and its consolidation into /grill-with-docs. Explains the evolution toward CONTEXT.md and multiple bounded contexts (DDD pattern).",
+      "sourceUrl": "https://www.aihero.dev/skills-changelog-ubiquitous-language-grill-with-docs",
+      "observedAt": "2026-04-30",
+      "notes": "Verified via raw content mirror at ulayera/ai-hero-offline. Confirms /ubiquitous-language was a live, used skill before supersession — historical provenance evidence."
+    },
+    {
+      "skillId": "mattpocock/handoff",
+      "type": "media-mention",
+      "magnitudeRaw": "aihero.dev skill page for /handoff (updated 2026-05-13) with full documentation: installation, workflow description, ideal use cases, and synergy with /prototype, /to-prd, /to-issues.",
+      "sourceUrl": "https://www.aihero.dev/skills-handoff",
+      "observedAt": "2026-05-13",
+      "notes": "Verified via raw content mirror. Install command: npx skills add mattpocock/skills skill=handoff -y -g. Confirms handoff is a live, maintained skill."
+    },
+    {
+      "skillId": "mattpocock/engineering",
+      "type": "media-mention",
+      "magnitudeRaw": "aihero.dev skills hub page (dated with changelogs from 2026-04-30 and 2026-05-11) lists all engineering skills: /grill-with-docs, /to-prd, /to-issues, /tdd, /handoff, /prototype, /improve-codebase-architecture, /triage, /review. Tagline: 'a practical skill system for engineers who want to use AI'.",
+      "sourceUrl": "https://www.aihero.dev/skills",
+      "observedAt": "2026-05-11",
+      "notes": "Verified by direct fetch of aihero.dev/skills. This is Matt Pocock's authoritative documentation for his engineering skill category."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "media-mention",
+      "magnitudeRaw": "Chinese blog post 'Agent Skills for Real Engineers — mattpocock-skills' on houbb.github.io published 2026-04-27, documenting the full skill list, installation, and use cases across planning, development, tooling, and knowledge management.",
+      "sourceUrl": "https://houbb.github.io/2026/04/27/mattpocock-skills-01-intro",
+      "observedAt": "2026-04-27",
+      "notes": "Verified by fetching the page. Third-party Chinese-language documentation and endorsement, consistent with the broader Chinese developer adoption seen in the 681-star localization fork."
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "type": "media-mention",
+      "magnitudeRaw": "Korean blog post 'Claude Code Skills 22개 한국어 정리' on jkf87.github.io (2026-04-27) covers the full mattpocock/skills suite in Korean, featuring /grill-me with translation '내 계획을 끝까지 추궁해라' (thoroughly challenges planning assumptions).",
+      "sourceUrl": "https://jkf87.github.io/mattpocock-skills-real-engineers-claude-2026-04-27",
+      "observedAt": "2026-04-27",
+      "notes": "Verified by fetching the page. Third-party Korean-language documentation, indicating adoption in the Korean developer community."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "type": "proxy-containment",
+      "magnitudeRaw": "travisvn/awesome-claude-skills (13,515 stars) references Anthropic's engineering deep-dive 'Equipping Agents with Skills' alongside mattpocock/skills as a community example repository. The Anthropic article (2025-10-16, authors: Barry Zhang, Keith Lazuka, Mahesh Murag) defines the SKILL.md standard that mattpocock/skills implements.",
+      "sourceUrl": "https://github.com/travisvn/awesome-claude-skills",
+      "observedAt": "2026-06-17",
+      "notes": "The Anthropic article itself does not name mattpocock/skills, but travisvn/awesome-claude-skills places the Anthropic engineering post and mattpocock/skills in the same resource section. mattpocock/skills is one of the most prominent community implementations of the standard."
+    }
+  ],
+
+  "gapsIdentified": [
+    "No peer-reviewed academic papers (arxiv or journal) citing mattpocock/skills or the /grill-me pattern specifically.",
+    "No explicit verifier-attestation from named TS/JS practitioners (Theo Browne, Wes Bos, Kent Dodds, Addy Osmani, Ryan Carniato, swyx, Chris Biscardi) found in public GitHub or blog posts. The ComposioHQ list names Matt Pocock alongside Andrej Karpathy and Garry Tan but this is curation, not a personal cosign.",
+    "Anthropic's official 'Equipping Agents with Skills' engineering blog post (2025-10-16) does not name mattpocock/skills by name, so no formal proxy-containment from Anthropic directly.",
+    "The aihero.dev newsletter subscriber count (~60,000 per README) has not been independently verified via third-party measurement services (Beehiiv/Substack API data not accessible).",
+    "grill-me viral claim in 2026-03-23 blog post has no quantified social metrics (no X/Twitter thread with engagement numbers, no measured download spike data) in the accessible content."
+  ]
+}

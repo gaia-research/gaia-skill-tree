@@ -1,0 +1,194 @@
+{
+  "stanceName": "P3-fusion-heavy — Fusion-Heavy Structuralist",
+  "stanceDescription": "Fusion-recipe is the most honest evidence in the registry because it is intrinsic to the skill graph: an Ultimate that fuses 11 prerequisites cannot fake the prerequisite edges without also faking 11 underlying skills (each of which has its own evidence stack and review history). Stars can be brigaded, citations can be cherry-picked, social signal can be ghost-written, but fusion-recipe is structurally unspoofable in proportion to the verified depth of the graph beneath it. P3-fusion-heavy raises fusion-recipe weight from 1.5 to 2.0, introduces a tiered magnitude curve (20/origin baseline, 25/origin at 5+ origins, 30/origin at 7+ origins) to reward structural maturity, and grants a narrow S-grade exception: Ultimate skills with 7+ fusion origins may reach S at diversity >=2 (instead of >=3) provided at least one supporting type clears B-tier. Other evidence types remain at baseline weights. The bet: structural depth in the prerequisite graph is the only signal we control end-to-end, so we should price it like sovereign currency rather than a tiebreaker. Surveyors A/B/C all flagged that fusion-recipe is load-bearing for Ultimates regardless — this stance owns that and stops pretending stars/citations are co-equal sources of truth at the apex tier.",
+  "thresholds": {
+    "S": 250,
+    "A": 100,
+    "B": 50,
+    "C": 20
+  },
+  "formulaTuning": {
+    "typeWeights": {
+      "fusion-recipe": 2,
+      "github-stars-own": 1,
+      "proxy-containment": 1,
+      "verifier-attestation": 1.5,
+      "benchmark-result": 1.4,
+      "arxiv": 1,
+      "peer-review": 1.2,
+      "repo-own": 0.6,
+      "self-attestation": 0.5,
+      "social-signal": 1
+    },
+    "magnitudeAdjustments": [
+      "fusion-recipe magnitude curve REPLACES baseline (20 x origins flat): 1-4 origins -> 20 x origins, 5-6 origins -> 25 x origins, 7+ origins -> 30 x origins. Justification: differentiates a 5-component starter suite from an 11-component capstone (currently both score linearly, undervaluing graph depth). Combined with weight 2.0, a 7-origin fusion is 7 x 30 x 2.0 = 420 magnitude vs. baseline 7 x 20 x 1.5 = 210 — exactly 2x baseline at the apex.",
+      "fusion-recipe origin counting: only origins that are themselves graded >= C count. A 31-origin Ultimate where 25 origins are ungraded scores from the 6 graded ones. Justification: closes Surveyor C's fake-fusion-recipe vector (stuffing trivial components). Forces capstone authors to ensure their components are individually evidenced.",
+      "fusion-recipe diversity contribution: at 7+ origins, fusion-recipe counts as 2 distinct types for the diversity gate (ONLY at the S threshold, ONLY for type=ultimate skills). Justification: a 7+ origin fusion already represents 7 underlying evidence stacks; treating it as a single type punishes graph depth. Narrow scope (Ultimate-only) prevents abuse on lower tiers.",
+      "github-stars-own: keep cap 200, weight 1.0, formula stars/1000. Pure-stars-A path preserved per Marco rule #1.",
+      "Add same-source dedup for repo-own and proxy-containment at intake (not just plateau): identical canonical GitHub URL collapses to one row. Closes Surveyor C Vector 1 and Surveyor A's mothership-stars problem.",
+      "Add mothership discount for github-stars-own when source URL == suite-root URL of a contributor's own suite AND the skill has suiteRef: divide magnitude by max(suiteComponents-count, 1). Forces sub-skill authors to either earn their own stars or rely on fusion structure. Closes Surveyor A's #1 gameability vector.",
+      "arxiv same-type plateau ADDED (was missing in baseline): 1.0x / 0.5x / 0.25x, max 3 entries. Justification: closes Surveyor C Vector 3 (citation cherry-picking). Aligns arxiv with social-signal and proxy-containment plateau treatment.",
+      "self-attestation max 1 entry per skill (hard cap, was unbounded). Closes Surveyor C self-attestation stacking from sock accounts.",
+      "verifier-attestation: when a verifier is demoted below 4-star, their contributed magnitude is set to 0 (not just flagged). Refinement of Marco rule #4 — 'flag-only-on-derank, no decay' becomes 'null-on-derank, no time decay'. Closes Surveyor C Vector 4 (frozen verifier capture)."
+    ],
+    "diversityRules": {
+      "S-grade-default": "magnitude >= 250 AND distinct types >= 3 AND (>=1 S-tier evidence row OR >=3 A-tier rows of distinct types)",
+      "S-grade-fusion-exception": "FOR type=ultimate ONLY: magnitude >= 250 AND distinct types >= 2 AND fusion-recipe origins >= 7 AND >=1 supporting type clears B-tier (>=20 magnitude post-weight). This is the headline rule of the stance.",
+      "A-grade": "magnitude >= 100 AND distinct types >= 1 AND >=1 A-tier evidence row. Pure-stars-A path retained per Marco rule #1.",
+      "B-grade": "magnitude >= 50 AND >=1 B-tier or higher row.",
+      "C-grade": "magnitude >= 20.",
+      "ungraded": "magnitude < 20."
+    },
+    "socialSignalTuning": {
+      "creatorMultiplier": "deterministic by registry status: anonymous=0.3, named-skill-holder=0.6, 4-star-verifier=1.0, ceiling=1.0 (NO subjective 'recognized voice' tier). Justification: closes Surveyor C Vector 5 ghostwriter loophole.",
+      "hardCapMagnitude": 80,
+      "totalCapAcrossRows": "80 magnitude TOTAL across all social-signal rows for a skill (not per-row). Reinforces hard A-cap intent.",
+      "selfPromotionRule": "0x multiplier when content author's GitHub identity matches skill author's. Same as Marco baseline."
+    }
+  },
+  "calibrationTable": [
+    {
+      "skillId": "ruvnet/ruflo",
+      "currentRank": "6-star Ultimate",
+      "proposedTrustMagnitude": 2134,
+      "proposedOverallGrade": "S",
+      "driftDirection": "up",
+      "rationale": "Auto-minted fusion-recipe: 35 origins (assume all graded for stamp report bootstrap). 35 x 30 (7+ tier) x 2.0 = 2100 magnitude. Plus github-stars-own: 34 stars/1000 x 1.0 weight = 34. Total ~2134. Distinct types = 2 (fusion + github-stars-own). Type=ultimate AND fusion origins >= 7 AND github-stars-own clears B-tier (34 > 20) -> S-grade fusion-exception triggers. This is exactly the case the stance is built for: a structurally deep capstone gets S without needing arxiv/benchmark/verifier."
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "currentRank": "6-star Ultimate",
+      "proposedTrustMagnitude": 1140,
+      "proposedOverallGrade": "A",
+      "driftDirection": "up",
+      "rationale": "19 suiteComponents -> auto-fusion-recipe at 7+ tier: 19 x 30 x 2.0 = 1140 magnitude. Distinct types = 1 (fusion only — empty evidence array confirmed by Surveyor B). Fails S-fusion-exception (needs supporting type clearing B-tier). Lands at A. Drift up from current B baseline. Migration MUST auto-mint fusion-recipe or this crashes to ungraded — P3 stance is robust to that auto-mint."
+    },
+    {
+      "skillId": "obra/superpowers",
+      "currentRank": "5-star Ultimate",
+      "proposedTrustMagnitude": 860,
+      "proposedOverallGrade": "S",
+      "driftDirection": "up",
+      "rationale": "11 origins x 30 x 2.0 = 660 (fusion-recipe at 7+ tier). github-stars-own: 196 stars/1000 capped at 200 x 1.0 = 200. Total 860. Distinct types = 2. Type=ultimate, fusion origins >= 7, github-stars-own clears B-tier (200 >> 20) -> S-fusion-exception triggers. The canonical 'should be S' case: real fusion depth + viral repo. Under baseline (1.5 weight, no exception) it lands at A despite 860 mag because baseline diversity gate requires 3 types. P3 fixes this."
+    },
+    {
+      "skillId": "founder-mode-orchestration",
+      "currentRank": "Ultimate (5-star implied)",
+      "proposedTrustMagnitude": 960,
+      "proposedOverallGrade": "A",
+      "driftDirection": "same",
+      "rationale": "31 prerequisites — conservative graded-only count of 16 (corpus has many ungraded generic prereqs per Surveyor B): 16 x 30 x 2.0 = 960. Distinct types = 1 (fusion only, zero evidence rows). Fails S-fusion-exception (no supporting type at B). Lands at A. The stance correctly refuses to grant S to a paper-only Ultimate, even with many prereqs. Confirms graded-prereqs rule does work."
+    },
+    {
+      "skillId": "agent-memory-platform",
+      "currentRank": "Ultimate (5-star)",
+      "proposedTrustMagnitude": 250,
+      "proposedOverallGrade": "A",
+      "driftDirection": "down",
+      "rationale": "5 prerequisites at the boundary: 5 x 25 x 2.0 = 250 magnitude (5-6 origin tier). Distinct types = 1. Fails S-fusion-exception (origins must be >= 7, not 5). Fails 3-type diversity. Lands at A. Drift down from 5-star Ultimate is correct: this skill has ZERO evidence rows and only 5 prereqs. Stamp report should flag for Ultimate review."
+    },
+    {
+      "skillId": "skill-mastery",
+      "currentRank": "Ultimate (5-star)",
+      "proposedTrustMagnitude": 313,
+      "proposedOverallGrade": "S",
+      "driftDirection": "up",
+      "rationale": "5 prereqs (5-6 tier): 5 x 25 x 2.0 = 250 fusion magnitude. Plus 3 repo rows -> after dedup: 1 repo-own at 30 x 0.6 = 18 + 2 proxy-containment plateau (1.0x, 0.5x) = 30 + 15 = 45. Total 313 mag. Only 5 origins -> NOT eligible for S-fusion-exception. Falls to standard S path: 3 distinct types (fusion + repo-own + proxy-containment) and 313 magnitude. Lands at S via standard 3-type gate. Validates that the standard S path still works for skills with diverse evidence."
+    },
+    {
+      "skillId": "garrytan/gstack",
+      "currentRank": "5-star Ultimate",
+      "proposedTrustMagnitude": 2859,
+      "proposedOverallGrade": "S",
+      "driftDirection": "up",
+      "rationale": "46 suiteComponents at 7+ tier: 46 x 30 x 2.0 = 2760. github-stars-own: 99 x 1.0 = 99 (NO mothership discount because gstack IS the suite root, not a sub-skill). Total ~2859. Distinct types = 2. S-fusion-exception triggers (ultimate + 7+ origins + github-stars-own at B-tier). Lands at S. Massive drift up but earned: 46 component graph is structurally extraordinary."
+    },
+    {
+      "skillId": "garrytan/cso",
+      "currentRank": "4-star Apex",
+      "proposedTrustMagnitude": 20,
+      "proposedOverallGrade": "C",
+      "driftDirection": "down",
+      "rationale": "Sub-skill of gstack — mothership discount applies: github-stars-own = 99/46 = 2.15 magnitude. Plus auto-fusion-recipe (basic skill, no fusion) = 0. Reclassified as repo-own with subpath: 30 x 0.6 = 18. Total ~20. Lands at C / borderline ungraded. Drift down -2 tiers from 4-star Apex correctly punishes the mothership-stars game (Surveyor A's #1 vector)."
+    },
+    {
+      "skillId": "garrytan/benchmark",
+      "currentRank": "4-star Apex",
+      "proposedTrustMagnitude": 20,
+      "proposedOverallGrade": "C",
+      "driftDirection": "down",
+      "rationale": "type=basic (no auto-fusion). github-stars-own with mothership discount: 99/46 = 2.15. Plus repo-own 18. Total ~20. Lands at C. Drift down -2 tiers from 4-star Apex. The cleanest mothership-stars correction in the corpus and the strongest test of whether P3's structural lens is too harsh on legitimately-niche components — but garrytan/benchmark genuinely lacks independent evidence per Surveyor A, so the demotion is honest."
+    },
+    {
+      "skillId": "registry-curation",
+      "currentRank": "Extra (3-star)",
+      "proposedTrustMagnitude": 18,
+      "proposedOverallGrade": "ungraded",
+      "driftDirection": "down",
+      "rationale": "5 evidence rows ALL pointing at mbtiongson1/gaia-skill-tree (3 of 5 identical URL per Surveyor C). Same-source dedup collapses to 1 repo-own row: 30 x 0.6 = 18. No fusion-recipe (not a fused skill). Total 18. Lands at ungraded (just under C floor of 20). Drift down -3 tiers from B. Closes Vector 1 from Surveyor C decisively — citation stacking the same repo gets you exactly one row's worth."
+    },
+    {
+      "skillId": "agent-memory-learning",
+      "currentRank": "Extra (3-star)",
+      "proposedTrustMagnitude": 27,
+      "proposedOverallGrade": "C",
+      "driftDirection": "down",
+      "rationale": "2 evidence rows BOTH pointing at ruvnet/ruflo (Surveyor C). Same-source dedup collapses to 1 proxy-containment row: 34/1000 x 0.8 = 27.2 magnitude (ruflo at 34k stars, passes 10k threshold). Total ~27. Lands at C. Drift down -1 tier from B. Honest correction for an evidence-thin skill."
+    },
+    {
+      "skillId": "workflow-automation",
+      "currentRank": "Extra (3-star)",
+      "proposedTrustMagnitude": 54,
+      "proposedOverallGrade": "B",
+      "driftDirection": "same",
+      "rationale": "3 distinct external repos (n8n 50k, activepieces 10k, Flowise 30k). Proxy-containment plateau: row1 = 50 x 0.8 = 40 mag x 1.0 = 40. row2 = 24 mag x 0.5 = 12. row3 = 8 mag x 0.25 = 2. Total 54. Lands at B. Drift same — confirms proxy plateau works as intended for cross-platform external evidence."
+    },
+    {
+      "skillId": "browser-automation",
+      "currentRank": "Extra (3-star)",
+      "proposedTrustMagnitude": 30,
+      "proposedOverallGrade": "C",
+      "driftDirection": "down",
+      "rationale": "1 arxiv (WebVoyager ~150 cites): 150/5 = 30 mag x 1.0 = 30. 1 repo (web-arena-x/webarena ~6k stars) -> proxy-containment FAILS 10k threshold -> 0 magnitude. Total 30. 1 distinct type. Lands at C. Drift down -1 tier. Surveyor C flagged this — the 10k threshold knocks out academic-benchmark repos. P3 stance: this is acceptable cost to keep proxy-containment honest. Corpus-hygiene fix: contributors should add benchmark-result type when citing leaderboards rather than relying on the benchmark repo's stars."
+    },
+    {
+      "skillId": "sentiment-analysis",
+      "currentRank": "Basic",
+      "proposedTrustMagnitude": 211,
+      "proposedOverallGrade": "S",
+      "driftDirection": "up",
+      "rationale": "9 mixed evidence rows (6 arxiv including BERT, 3 repo). After arxiv plateau (1.0x/0.5x/0.25x max 3): 100 + 50 + 25 = 175 from arxiv. After repo same-source dedup, assume 2 distinct repos: 30 x 0.6 + 30 x 0.6 = 36. Total 211. 2+ distinct types. SURFACES corpus-hygiene problem: skill is over-evidenced for its rank. Lands at A magnitude-wise (211 > 100, < 250 for S without diversity 3). Actually fails S threshold (250) — corrected to A. RFC must clarify rank-grade coupling."
+    },
+    {
+      "skillId": "obra/dispatching-parallel-agents",
+      "currentRank": "4-star Apex",
+      "proposedTrustMagnitude": 240,
+      "proposedOverallGrade": "A",
+      "driftDirection": "up",
+      "rationale": "Suite component of obra/superpowers (196k parent stars). Reclassify as proxy-containment for parent: 196 x 0.8 = 156.8 capped 160 x 1.0 weight = 160 (1 row, 1.0x plateau). Plus auto-fusion-recipe if it has its own suiteComponents (small): assume 2 origins x 20 x 2.0 = 80. Total 240 -> lands at A (just under S threshold and only 2 types). Drift up +1 tier from current B. Validates that legitimate sub-components of viral suites can ride proxy-containment to A without mothership-discount triggering (parent suite is obra/superpowers, not the sub-skill's own repo)."
+    }
+  ],
+  "tradeoffs": [
+    "Tradeoff 1 (LOAD-BEARING FUSION): By doubling fusion-recipe weight and adding the S-fusion-exception, the stance makes registry integrity a single-point-of-failure. If anyone games the prerequisite graph (e.g., listing 7+ trivial own-skills as origins of a self-declared Ultimate), they mint S. Mitigation: graded-prereqs-only origin counting, and fusion-recipe weight 2.0 doesn't apply unless the prereq edges are reflected in the canonical gaia.json graph (not just frontmatter). But this still concentrates abuse-surface in one place — if the curation process slips, fusion-recipe becomes the dominant gameable type. Acceptable cost given that surveyors A/B/C all confirmed fusion-recipe is already load-bearing for Ultimates regardless of weight.",
+    "Tradeoff 2 (UNDERVALUES PURE COMMUNITY HITS): A skill that is a non-fused viral hit (single repo, 200k stars, no prerequisite graph) caps at A grade — it cannot reach S no matter how popular. This is intentional (Marco rule #1 says pure-stars CAN reach A; P3 reads this as 'can reach A but not S'). But it means a hypothetical /vscode-style skill at 200k stars stays at 4-star forever unless it grows a fusion graph beneath it. Some contributors will perceive this as the registry punishing simplicity. Comms: 'S-tier is reserved for capstones that synthesize 7+ verified skills; community popularity alone is recognized at A/Apex.'",
+    "Tradeoff 3 (SHARP MIGRATION DRIFT): The combination of (a) fusion-weight 2.0, (b) tiered origin magnitude, (c) same-source dedup for repo-own, (d) mothership discount for sub-skills, and (e) arxiv plateau will produce +-2 tier drift on ~30% of the corpus in the June 2026 stamp report. Surveyor B's prediction of 'most 4-star+ jump to A or S' becomes 'high-fusion 5-star+ jump to S; sub-skills of suites drop 1-2 tiers; pure-arxiv skills drop'. Comms-heavy migration. Mitigation: per Marco rule #6, no tenures — but stamp report must include per-skill magnitude breakdown so contributors see WHY they moved.",
+    "Tradeoff 4 (PUNISHES BASIC SKILLS): type=basic skills cannot generate fusion-recipe and are now competing on a system tilted heavily toward fused skills. Without verifier-attestation infrastructure live, basic skills have a structural ceiling at A. This is correct (basics SHOULD be hard to lift to S without external validation) but means the registry's 'basic skill ceiling' is more pronounced under P3 than under baseline. Acceptable: forces basics to either earn benchmark-result/peer-review or accept A as their realistic top.",
+    "Tradeoff 5 (DEPENDENCY ON GRADED-PREREQS RULE): The 'only graded prereqs count' rule for fusion-recipe origins prevents fake-fusion stuffing but creates a chicken-and-egg problem during initial migration: many prereqs are currently ungraded (Surveyor B: 45% of generic nodes have zero evidence). At cutover, fusion-recipe magnitude on Ultimates will be lower than steady-state until prereqs themselves are graded. Mitigation: bootstrap rule for stamp report — count any prereq with rank >= 2-star as 'graded' for migration purposes; revert to strict 'graded >= C' rule 30 days post-stamp."
+  ],
+  "gameabilityClosed": [
+    "MOTHERSHIP-STARS (Surveyor A #1): mothership-discount sub-rule divides github-stars-own by suiteComponents-count for sub-skills citing parent suite repo. garrytan/cso drops from 99 magnitude to ~2.15. Effectively closes the 46-sub-skill mass-jump.",
+    "FAKE-FUSION-RECIPE (Surveyor A #2): graded-prereqs-only counting blocks padding suiteComponents with trivial entries. To inflate fusion-recipe, attacker must first invest in grading each origin to >=C — which itself requires evidence stacks for each origin.",
+    "SELF-REPO CITATION STACKING (Surveyor C Vector 1): same-source dedup on repo-own at intake collapses the 5-row registry-curation pattern to 1 row.",
+    "FORK-NETWORK STAR INFLATION (Surveyor C Vector 2): same-source dedup applies to canonical GitHub repo URLs; forks of a single canonical parent collapse. Combined with 10k-stars external threshold, brigading multiple sock-account forks to 12k each yields ONE row, not three.",
+    "ARXIV CHERRY-PICKING (Surveyor C Vector 3): added arxiv plateau (1.0x/0.5x/0.25x max 3) caps single-type arxiv stacking at ~175 magnitude — clears A but blocks pure-arxiv S without diversity.",
+    "FROZEN VERIFIER CAPTURE (Surveyor C Vector 4): null-on-derank refinement of Marco rule #4 means demoted verifiers' contributions zero out, not just flag. Verifier rings collapse when any member is removed.",
+    "SOCIAL-SIGNAL GHOSTWRITER (Surveyor C Vector 5): deterministic creator_multiplier (anon=0.3, named=0.6, verifier=1.0, no 'recognized voice' subjective tier) plus total social-signal cap of 80 across all rows means paraphrased multi-platform posts yield at most 80 magnitude.",
+    "SELF-ATTESTATION STACKING (Surveyor C edge): hard cap of 1 self-attestation per skill blocks sock-account stacking to clear ungraded floor."
+  ],
+  "gameabilityOpened": [
+    "FUSION-GRAPH-PADDING-VIA-GRADED-MICROSKILLS: An attacker invests in grading 7+ tiny own-skills to C (each requires only 20 magnitude — achievable with one repo-own + one self-attestation + one tiny social-signal post). Once 7+ origins are graded, attacker mints an 'Ultimate' that fuses them, claims fusion-recipe at 7+ tier (7 x 30 x 2.0 = 420 magnitude), adds one supporting B-tier evidence row (one repo-own at 18 + maybe a social-signal at 30 = 48, just under B). Tight but achievable — mints S via fusion-exception with the attacker's own labor. Mitigation requires curation review of any S-grade Ultimate to confirm that prerequisite skills are substantive, not stubs. P3 explicitly prices this as the cost of leaning on structural depth.",
+    "PREREQ-EDGE-LAUNDERING: An attacker convinces curators to add prerequisite edges to their Ultimate that don't reflect real conceptual dependencies (e.g., listing 'web-scrape' and 'data-extract' as prereqs of a /chatbot Ultimate). Each added edge inflates fusion-recipe origins by +30 magnitude. Mitigation: require prerequisite edges to themselves be graded by review (curator approval before they count toward fusion-recipe). Currently the registry doesn't track edge-approval timestamps separately from skill-grade timestamps — opens a small audit gap that P3 inherits but doesn't worsen materially.",
+    "ARTIFICIAL ORIGIN-COUNT INFLATION VIA SPLIT-COMPONENTS: An attacker takes one substantive skill and splits it into 7 tiny components, then publishes an Ultimate that fuses them. Each component is technically gradable (since the substantive content is real). The 7+ tier triggers, granting S-fusion-exception. This is a curatorial issue more than a formula issue — P3's defenses (graded-only counting) don't catch artificial component-splitting. Mitigation: curator pattern-matching for 'suspiciously thin component sets'. Acceptable risk: most legitimate Ultimates also have many components, so the false-positive rate of catching 'split skills' is high.",
+    "BASIC-SKILL CLIFF EXPLOIT: Because basics cannot fuse, contributors with strong individual skills may be incentivized to mark them type=ultimate even when the conceptual fit is wrong, just to access fusion-recipe. P3's stance amplifies this incentive vs. baseline. Mitigation requires curation discipline on type assignment — a scope-check at PR time that flags 'this skill claims type=ultimate but has only 2 prerequisites and looks like a basic capability'."
+  ]
+}
