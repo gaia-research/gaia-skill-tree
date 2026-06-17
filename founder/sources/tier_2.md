@@ -2084,7 +2084,13 @@ This file lists the raw evidence sources for named skills rated at 2★.
 - **Source:** [https://arxiv.org/abs/2005.14165](https://arxiv.org/abs/2005.14165)
 - **Date:** 2026-04-29
 - **Trust Metric:** 85.0
-- **Description:** Brown et al. (2020) â€” Language Models are Few-Shot Learners (GPT-3); in-context learning from 1-100 examples achieves near-SOTA on SuperGLUE, translation, and QA benchmarks. (backfilled — class-to-type migration)
+- **Description:** Brown et al. (2020) — Language Models are Few-Shot Learners (GPT-3); in-context learning from 1-100 examples achieves near-SOTA on SuperGLUE, translation, and QA benchmarks. (backfilled — class-to-type migration)
+
+#### E2: `proxy-containment`
+- **Source:** [https://github.com/openai/openai-cookbook](https://github.com/openai/openai-cookbook)
+- **Date:** 2026-06-18
+- **Verified Stars:** 74,220 stars
+- **Description:** Proxy repository openai-cookbook that provides documented code guides and templates implementing in-context few-shot learning.
 
 ---
 
@@ -2098,7 +2104,13 @@ This file lists the raw evidence sources for named skills rated at 2★.
 - **Source:** [https://arxiv.org/abs/2203.11171](https://arxiv.org/abs/2203.11171)
 - **Date:** 2026-04-29
 - **Trust Metric:** 85.0
-- **Description:** Wang et al. (2022) â€” Self-Consistency Improves Chain of Thought Reasoning in Language Models; +17.9% on GSM8K and +11.0% on MATH over greedy CoT decoding. (backfilled — class-to-type migration)
+- **Description:** Wang et al. (2022) — Self-Consistency Improves Chain of Thought Reasoning in Language Models; +17.9% on GSM8K and +11.0% on MATH over greedy CoT decoding. (backfilled — class-to-type migration)
+
+#### E2: `proxy-containment`
+- **Source:** [https://github.com/openai/openai-cookbook](https://github.com/openai/openai-cookbook)
+- **Date:** 2026-06-18
+- **Verified Stars:** 74,220 stars
+- **Description:** Proxy repository openai-cookbook that provides documented code guides and templates implementing self-consistency (voting over multiple reasoning paths).
 
 ---
 
