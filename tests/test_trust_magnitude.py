@@ -302,3 +302,162 @@ def test_rank_floor_grade_returns_ungraded_below_C():
     assert computeOverallTrustGrade(20.0, 1, False) == "C"
     assert computeOverallTrustGrade(50.0, 1, False) == "B"
     assert computeOverallTrustGrade(100.0, 1, False) == "A"
+
+
+# ---------------------------------------------------------------------------
+# Batch D: Apex gate (5) + role=variant zeroing (2) + edge cases (3)
+# ---------------------------------------------------------------------------
+
+
+def _apexReadySkill():
+    """Build a skill that should pass all 6 active apex predicates."""
+    today = datetime.datetime.now(datetime.timezone.utc)
+    longAgo = (today - datetime.timedelta(days=365)).date().isoformat()
+    return {
+        "id": "apex-skill",
+        "suiteComponents": ["nestedSuiteId"],
+        "evidence": [
+            # Five A-graded origin rows for predicate 1
+            {"type": "verifier-attestation", "verifiers": 4, "grade": "A",
+             "source": "https://verifier.example/1", "sourceStartedAt": longAgo},
+            {"type": "verifier-attestation", "verifiers": 4, "grade": "A",
+             "source": "https://verifier.example/2", "sourceStartedAt": longAgo},
+            {"type": "arxiv", "citations": 200, "grade": "A",
+             "source": "https://arxiv.org/abs/1234.5678", "sourceStartedAt": longAgo},
+            {"type": "github-stars-own", "stars": 50000, "grade": "A",
+             "source": "https://github.com/o/r", "sourceStartedAt": longAgo},
+            {"type": "benchmark-result", "percentile": 95, "grade": "A",
+             "source": "https://bench.example/1", "sourceStartedAt": longAgo},
+            # Fusion-recipe with depth-2 reachable origin
+            {"type": "fusion-recipe", "gradedOriginCount": 5,
+             "origins": ["depth1Skill"]},
+        ],
+        "apexGateStatus": {"apexPromotionPrSigned": True},
+    }
+
+
+def test_apex_gate_passes_with_full_setup():
+    """Six active predicates all True => isApex returns True."""
+    skill = _apexReadySkill()
+    genericSkillMap = {
+        "nestedSuiteId": {"id": "nestedSuiteId", "suiteComponents": ["x", "y"]},
+        "depth1Skill": {
+            "id": "depth1Skill",
+            "evidence": [
+                {"type": "fusion-recipe", "origins": ["depth2Skill"]}
+            ],
+        },
+        "depth2Skill": {"id": "depth2Skill"},
+    }
+    state = {"genericSkillMap": genericSkillMap}
+    result = passesApexGate(skill, state)
+    # Inactive scaffolds -> None
+    assert result["crossOrgVerifier"] is None
+    assert result["systemWideCap"] is None
+    # Six active predicates all pass
+    assert result["aGradedOriginsGte5"] is True
+    assert result["sourceTenureDaysGte180AorS"] is True
+    assert result["directNestedSuiteGte1"] is True
+    assert result["depth2OnlyReachableGte1"] is True
+    assert result["overallGradeS"] is True
+    assert result["apexPromotionPrSigned"] is True
+    assert isApex(result) is True
+
+
+def test_apex_gate_fails_when_only_4_a_graded_origins():
+    """Predicate 1 fails => isApex False."""
+    skill = _apexReadySkill()
+    # Drop one A-graded row
+    skill["evidence"] = [r for r in skill["evidence"] if r.get("source") != "https://bench.example/1"]
+    genericSkillMap = {
+        "nestedSuiteId": {"id": "nestedSuiteId", "suiteComponents": ["x", "y"]},
+        "depth1Skill": {"id": "depth1Skill",
+                        "evidence": [{"type": "fusion-recipe", "origins": ["d2"]}]},
+        "d2": {"id": "d2"},
+    }
+    result = passesApexGate(skill, {"genericSkillMap": genericSkillMap})
+    assert result["aGradedOriginsGte5"] is False
+    assert isApex(result) is False
+
+
+def test_apex_gate_fails_when_tenure_under_180_days():
+    """Predicate 2 fails when no A/S row has sourceStartedAt >= 180 days old."""
+    skill = _apexReadySkill()
+    recent = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=30)).date().isoformat()
+    for row in skill["evidence"]:
+        if "sourceStartedAt" in row:
+            row["sourceStartedAt"] = recent
+    result = passesApexGate(skill, {"genericSkillMap": {"nestedSuiteId": {"suiteComponents": ["x"]}}})
+    assert result["sourceTenureDaysGte180AorS"] is False
+    assert isApex(result) is False
+
+
+def test_apex_gate_fails_without_signed_promotion_pr():
+    """Predicate 6 fails when apexPromotionPrSigned not set."""
+    skill = _apexReadySkill()
+    skill["apexGateStatus"] = {}
+    skill.pop("apexPromotionPr", None)
+    assert checkApexPromotionPrSigned(skill) is False
+
+
+def test_apex_gate_inactive_predicates_return_none():
+    """crossOrgVerifier and systemWideCap are feature-flagged OFF."""
+    assert checkCrossOrgVerifier({}) is None
+    assert checkSystemWideCap({"systemWideApexCount": 100}) is None
+
+
+def test_role_variant_origin_does_not_count_in_fusion_recipe():
+    """Delta §C-2: role='variant' origins contribute 0 to graded-origin count."""
+    row = {
+        "type": "fusion-recipe",
+        "origins": [
+            {"id": "a", "grade": "A"},
+            {"id": "b", "grade": "A"},
+            {"id": "c", "role": "variant", "grade": "S"},  # excluded
+        ],
+    }
+    score = computeArtifactScore(row)
+    # Only 2 graded origins counted: 20*2 = 40; weight 1.5 = 60
+    assert score == pytest.approx(60.0)
+
+
+def test_role_variant_excluded_from_depth1_fusion_origins_for_apex():
+    """Apex predicate 4 must skip variant edges in fusion graph traversal."""
+    skill = {
+        "id": "host",
+        "evidence": [
+            {"type": "fusion-recipe",
+             "origins": [
+                 {"id": "variantOrigin", "role": "variant"},
+                 {"id": "realOrigin"},
+             ]},
+        ],
+    }
+    state = {"genericSkillMap": {
+        "variantOrigin": {"id": "variantOrigin",
+                          "evidence": [{"type": "fusion-recipe", "origins": ["x"]}]},
+        "realOrigin": {"id": "realOrigin",
+                       "evidence": [{"type": "fusion-recipe", "origins": ["y"]}]},
+        "x": {}, "y": {},
+    }}
+    # depth1 must include realOrigin only; depth2 reaches y (not x)
+    assert checkDepth2OnlyReachableGte1(skill, state) is True
+
+
+def test_edge_case_empty_evidence_returns_zero_tm_and_ungraded():
+    """Empty evidence -> TM=0 -> ungraded."""
+    skill = {"evidence": []}
+    assert computeTrustMagnitude(skill) == 0.0
+    assert computeOverallTrustGradeFromSkill(skill) == "ungraded"
+
+
+def test_edge_case_unknown_type_yields_zero_score():
+    """Unknown evidence type returns 0 (defensive default)."""
+    row = {"type": "completely-made-up-type", "value": 99999}
+    assert computeArtifactScore(row) == 0.0
+
+
+def test_edge_case_social_signal_below_1000_views_zero():
+    """RFC §2.11: views < 1000 contributes 0."""
+    row = {"type": "social-signal", "views": 500}
+    assert computeArtifactScore(row) == 0.0
