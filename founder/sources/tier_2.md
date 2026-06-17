@@ -224,6 +224,12 @@ This file lists the raw evidence sources for named skills rated at 2★.
 - **Trust Metric:** 85.0
 - **Description:** LLMs transform unstructured bug reports into high-quality structured formats; fine-tuned Qwen 2.5 achieves 77% CTQRS. (backfilled — class-to-type migration)
 
+#### E3: `repo`
+- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md)
+- **Date:** 2026-06-18
+- **Verified Stars:** 6 stars
+- **Description:** Project-specific implementation of gaia-triage skill automated via local python scripts.
+
 ---
 
 ## Skill: `gaiabot/repo-docs-before-pr`
