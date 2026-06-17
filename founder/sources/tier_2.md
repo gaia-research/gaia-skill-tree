@@ -98,15 +98,21 @@ This file lists the raw evidence sources for named skills rated at 2★.
 ## Skill: `bradautomates/claude-video`
 - **Name:** Claude Video
 - **Contributor:** `bradautomates`
-- **Primary GitHub Repository:** [https://github.com/bradautomates/claude-video/blob/main/SKILL.md](https://github.com/bradautomates/claude-video/blob/main/SKILL.md) (2,116 stars)
+- **Primary GitHub Repository:** [https://github.com/bradautomates/claude-video/blob/main/SKILL.md](https://github.com/bradautomates/claude-video/blob/main/SKILL.md) (2,120 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
 - **Source:** [https://github.com/bradautomates/claude-video](https://github.com/bradautomates/claude-video)
 - **Date:** 2026-05-14
-- **Verified Stars:** 2,116 stars
+- **Verified Stars:** 2,120 stars
 - **Description:** Claude Video -- enables AI agents to watch videos by downloading, frame extraction, and transcription. (backfilled — class-to-type migration)
+
+#### E2: `repo`
+- **Source:** [https://github.com/byjlw/Video-Analyzer](https://github.com/byjlw/Video-Analyzer)
+- **Date:** 2026-06-18
+- **Verified Stars:** 1,454 stars
+- **Description:** Video-Analyzer repository leveraging vision models and ASR (Whisper) for automated multi-modal video analysis.
 
 ---
 
