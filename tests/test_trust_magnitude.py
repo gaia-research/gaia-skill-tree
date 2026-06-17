@@ -183,3 +183,122 @@ def test_fusion_recipe_at_exactly_10_origins_linear_endpoint():
     row = {"type": "fusion-recipe", "gradedOriginCount": 10}
     # 20*10=200; weight 1.5 => 300
     assert computeArtifactScore(row) == pytest.approx(300.0)
+
+
+# ---------------------------------------------------------------------------
+# Batch C: Anti-auto-mint (3) + null-on-derank (2) + diversity (3) + rank-floor (2)
+# ---------------------------------------------------------------------------
+
+
+def test_anti_auto_mint_strips_phantom_rows():
+    """RFC §10.14: rows marked _phantom or phantom are stripped."""
+    skill = {
+        "evidence": [
+            {"type": "github-stars-own", "stars": 5000},
+            {"type": "verifier-attestation", "verifiers": 1, "_phantom": True},
+            {"type": "arxiv", "citations": 100, "phantom": True},
+        ]
+    }
+    cleaned = enforceAntiAutoMint(skill)
+    assert len(cleaned) == 1
+    assert cleaned[0]["type"] == "github-stars-own"
+
+
+def test_anti_auto_mint_strips_auto_minted_non_fusion_rows():
+    """Only fusion-recipe rows can be auto-derived; auto-minted others get dropped."""
+    skill = {
+        "evidence": [
+            {"type": "verifier-attestation", "verifiers": 1, "autoMinted": True},
+            {"type": "fusion-recipe", "origins": ["a", "b"], "autoMinted": True},
+        ]
+    }
+    cleaned = enforceAntiAutoMint(skill)
+    assert len(cleaned) == 1
+    assert cleaned[0]["type"] == "fusion-recipe"
+
+
+def test_anti_auto_mint_preserves_real_evidence():
+    """Real (non-phantom, non-auto-minted) evidence rows pass through unchanged."""
+    rows = [
+        {"type": "github-stars-own", "stars": 1000},
+        {"type": "arxiv", "citations": 50},
+        {"type": "self-attestation"},
+    ]
+    skill = {"evidence": list(rows)}
+    cleaned = enforceAntiAutoMint(skill)
+    assert len(cleaned) == 3
+    assert cleaned == rows
+
+
+def test_null_on_derank_excludes_verifier_with_inactive_rank():
+    """RFC §10.4 / §5.6: verifierActiveRank=False -> row evaluates to None and is excluded."""
+    row = {"type": "verifier-attestation", "verifiers": 2, "verifierActiveRank": False}
+    assert computeArtifactScoreOrNone(row) is None
+    # The non-or-none variant returns 0
+    assert computeArtifactScore(row) == 0.0
+
+
+def test_null_on_derank_legacy_derank_field_also_honored():
+    """Legacy `derank: true` should also evaluate to None."""
+    row = {"type": "verifier-attestation", "verifiers": 1, "derank": True}
+    assert computeArtifactScoreOrNone(row) is None
+
+
+def test_diversity_gate_blocks_S_when_only_self_producible():
+    """RFC §4: S grade requires non-self-producible evidence type."""
+    # Pure fusion-recipe, repo-own, self-attestation are all self-producible
+    skill = {
+        "evidence": [
+            {"type": "fusion-recipe", "gradedOriginCount": 12},  # huge
+            {"type": "repo-own", "commits": 1000, "contributors": 5},
+            {"type": "self-attestation"},
+        ]
+    }
+    grade = computeOverallTrustGradeFromSkill(skill)
+    # TM clearly >= 250, but no non-self-producible -> max is A
+    assert grade == "A"
+
+
+def test_diversity_gate_S_requires_three_distinct_types():
+    """RFC §4: even with non-self-producible, distinct types must be >= 3."""
+    skill = {
+        "evidence": [
+            # one verifier (non-self-producible) + one fusion = only 2 types
+            {"type": "verifier-attestation", "verifiers": 8},  # 30*8=240; *1.5=360
+            {"type": "fusion-recipe", "gradedOriginCount": 5},  # 100*1.5=150
+        ]
+    }
+    # TM = 510, has non-self-producible, but only 2 types -> A (not S)
+    grade = computeOverallTrustGradeFromSkill(skill)
+    assert grade == "A"
+
+
+def test_diversity_gate_S_passes_with_three_types_and_non_self_producible():
+    """RFC §4: passes S when TM >= 250, distinctTypes >= 3, non-self-producible present."""
+    skill = {
+        "evidence": [
+            {"type": "verifier-attestation", "verifiers": 4},  # 30*4*1.5 = 180
+            {"type": "github-stars-own", "stars": 50000},  # 50*1.0=50, capped 200
+            {"type": "arxiv", "citations": 200},  # 40*1.0 = 40
+        ]
+    }
+    # TM = 180+50+40 = 270, 3 distinct types (all non-self-producible) -> S
+    grade = computeOverallTrustGradeFromSkill(skill)
+    assert grade == "S"
+
+
+def test_rank_floor_grade_thresholds_constants():
+    """Rank-floor sanity (RFC §4.3): the four thresholds are exposed and ordered."""
+    assert GRADE_S_FLOOR == 250.0
+    assert GRADE_A_FLOOR == 100.0
+    assert GRADE_B_FLOOR == 50.0
+    assert GRADE_C_FLOOR == 20.0
+    assert GRADE_S_FLOOR > GRADE_A_FLOOR > GRADE_B_FLOOR > GRADE_C_FLOOR
+
+
+def test_rank_floor_grade_returns_ungraded_below_C():
+    """TM under 20 -> ungraded."""
+    assert computeOverallTrustGrade(15.0, 1, False) == "ungraded"
+    assert computeOverallTrustGrade(20.0, 1, False) == "C"
+    assert computeOverallTrustGrade(50.0, 1, False) == "B"
+    assert computeOverallTrustGrade(100.0, 1, False) == "A"
