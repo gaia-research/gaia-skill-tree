@@ -370,13 +370,13 @@ This file lists the raw evidence sources for named skills rated at 3★.
 - **Source:** [https://github.com/huggingface/peft](https://github.com/huggingface/peft)
 - **Date:** 2026-04-30
 - **Verified Stars:** 21,278 stars
-- **Description:** HuggingFace PEFT -- state-of-the-art LoRA/QLoRA/IA3 fine-tuning; 100k+ stars, CI, active maintenance. (backfilled — class-to-type migration)
+- **Description:** HuggingFace PEFT repository containing libraries for Parameter-Efficient Fine-Tuning, utilized by this trainer skill.
 
-#### E3: `repo`
+#### E3: `proxy-containment`
 - **Source:** [https://github.com/hiyouga/LlamaFactory](https://github.com/hiyouga/LlamaFactory)
 - **Date:** 2026-04-30
 - **Verified Stars:** 72,259 stars
-- **Description:** LlamaFactory (ACL 2024) -- unified efficient fine-tuning of 100+ LLMs and VLMs; 50k+ stars, reproducible benchmarks. (backfilled — class-to-type migration)
+- **Description:** Proxy repository LlamaFactory that implements and automates efficient fine-tuning workflows of 100+ LLMs and VLMs.
 
 ---
 
@@ -393,11 +393,17 @@ This file lists the raw evidence sources for named skills rated at 3★.
 - **Trust Metric:** 85.0
 - **Description:** DETR (Carion et al., 2020) -- end-to-end object detection with transformers; eliminates hand-crafted anchor design and achieves COCO AP 42.0 with ResNet-50, matching Faster R-CNN with simplified pipeline. (backfilled — class-to-type migration)
 
-#### E2: `repo`
+#### E2: `proxy-containment`
 - **Source:** [https://github.com/ultralytics/ultralytics](https://github.com/ultralytics/ultralytics)
 - **Date:** 2026-04-30
 - **Verified Stars:** 58,513 stars
-- **Description:** Ultralytics YOLOv8 -- production real-time detection library; COCO AP 50.2 at 8ms inference, 25k+ GitHub stars, reproducible training and evaluation scripts for detection and segmentation. (backfilled — class-to-type migration)
+- **Description:** Proxy repository Ultralytics YOLOv8 that implements and evaluates real-time object detection and segmentation training.
+
+#### E3: `repo`
+- **Source:** [https://github.com/huggingface/skills](https://github.com/huggingface/skills)
+- **Date:** 2026-06-18
+- **Verified Stars:** 10,686 stars
+- **Description:** Hugging Face skills repository hosting the vision-trainer skill definition.
 
 ---
 
