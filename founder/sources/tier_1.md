@@ -89,6 +89,12 @@ This file lists the raw evidence sources for named skills rated at 1★.
 - **Verified Stars:** 66,586 stars
 - **Description:** Open Design -- local-first design engine generating high-fidelity prototypes and brand assets. (backfilled — class-to-type migration)
 
+#### E2: `proxy-containment`
+- **Source:** [https://github.com/shadcn-ui/ui](https://github.com/shadcn-ui/ui)
+- **Date:** 2026-06-18
+- **Verified Stars:** 116,840 stars
+- **Description:** Proxy repository shadcn-ui/ui that provides the component design system utilized by this skill for generating high-fidelity React and Tailwind prototypes.
+
 ---
 
 ## Skill: `nousresearch/feed-monitoring`
