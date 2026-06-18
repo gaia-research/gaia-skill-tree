@@ -448,7 +448,8 @@
       "timestamp": "2026-06-18T12:54:50Z",
       "action": "demote",
       "skillId": "mattpocock/skills",
-      "details": "G7 apex cutover — registry level demoted 6★→5★; re-application open once all 6 apex predicates pass"
+      "details": "G7 apex cutover — registry level demoted 6★→5★; re-application open once all 6 apex predicates pass",
+      "newValue": "5★"
     }
   ],
   "stats": {

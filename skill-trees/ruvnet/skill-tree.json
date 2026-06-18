@@ -993,7 +993,8 @@
       "timestamp": "2026-06-18T12:54:50Z",
       "action": "demote",
       "skillId": "ruvnet/ruflo",
-      "details": "G7 apex cutover — registry level demoted 6★→5★; re-application open once all 6 apex predicates pass"
+      "details": "G7 apex cutover — registry level demoted 6★→5★; re-application open once all 6 apex predicates pass",
+      "newValue": "5★"
     },
     {
       "timestamp": "2026-05-19T00:00:00Z",
