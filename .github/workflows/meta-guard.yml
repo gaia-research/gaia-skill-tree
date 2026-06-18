@@ -157,3 +157,108 @@ jobs:
           echo "     ensure the PR is opened by an allowlisted bot account."
           echo "  4. Run \`gaia whoami\` locally to check your Verifier status."
           exit 1
+
+  # ── Job: apex-gate ────────────────────────────────────────────────────────
+  # Fires only on PRs that PROMOTE a skill to 6★ (apex-promotion label OR
+  # the diff contains a newly-added "6★" level line in registry/named/ or
+  # registry/nodes/).  Does NOT fire on demotions (label absent + no new 6★
+  # lines means the condition is false).
+  apex-gate:
+    name: Apex gate check (6★ promotion)
+    runs-on: ubuntu-latest
+    if: >-
+      contains(github.event.pull_request.labels.*.name, 'apex-promotion') ||
+      contains(github.event.pull_request.body, '6★')
+    permissions:
+      pull-requests: read
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Require apex-promotion label
+        env:
+          PR_LABELS: ${{ toJson(github.event.pull_request.labels.*.name) }}
+        run: |
+          set -euo pipefail
+          if echo "$PR_LABELS" | python3 -c "import sys,json; labels=json.load(sys.stdin); sys.exit(0 if 'apex-promotion' in labels else 1)"; then
+            echo "✓ apex-promotion label present."
+          else
+            echo "::error::PRs promoting a skill to 6★ require the 'apex-promotion' label."
+            echo "  Add the label and request re-review, or remove the 6★ level change from this PR."
+            exit 1
+          fi
+
+      - name: Detect newly-promoted 6★ skills in diff
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+          git fetch origin "$BASE_REF" --quiet
+          MERGE_BASE=$(git merge-base "origin/$BASE_REF" HEAD)
+          PROMOTED=$(
+            git diff "$MERGE_BASE..HEAD" -- registry/named/ registry/nodes/ \
+              | grep -E '^\+[^+].*level:.*6' || true
+          )
+          if [ -z "$PROMOTED" ]; then
+            echo "No newly-promoted 6★ skills detected in diff (body triggered gate)."
+            echo "  If this is intentional, the apex-promotion label was sufficient."
+            exit 0
+          fi
+          echo "Newly-promoted 6★ line(s) detected:"
+          echo "$PROMOTED" | sed 's/^/  /'
+
+      - name: Check verifier sign-offs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python scripts/check_verifier_signoffs.py \
+            --pr ${{ github.event.pull_request.number }} \
+            --min-signoffs 2
+
+      - name: Run apex gate audit on promoted skills
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+          python scripts/auditApexAtG7.py --pr ${{ github.event.pull_request.number }}
+
+  # ── Job: system-wide-cap ──────────────────────────────────────────────────
+  # Fires on every PR touching registry/named/ or registry/nodes/.
+  # Reads apexGate.systemWideCap from registry/schema/meta.json (never
+  # hardcoded) and fails if the post-merge 6★ count would exceed it.
+  system-wide-cap:
+    name: System-wide apex cap check
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Count apex skills and enforce system-wide cap
+        run: |
+          set -euo pipefail
+          python scripts/countApexSkills.py --json --check-cap
