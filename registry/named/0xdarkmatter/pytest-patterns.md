@@ -5,22 +5,40 @@ contributor: 0xdarkmatter
 origin: true
 genericSkillRef: automated-testing
 status: named
-title: "The Quality Guardian"
+title: The Quality Guardian
 catalogRef: 0xdarkmatter-pytest-patterns
-level: "3★"
-description: Comprehensive pytest skill covering modern patterns for Python test automation including fixtures, parametrize, async testing, mocking, coverage strategies, integration tests, and conftest organisation for pytest 7.0+ projects.
+level: 3★
+description: Comprehensive pytest skill covering modern patterns for Python test automation
+  including fixtures, parametrize, async testing, mocking, coverage strategies, integration
+  tests, and conftest organisation for pytest 7.0+ projects.
 links:
   github: https://github.com/aiskillstore/marketplace/blob/main/skills/0xdarkmatter/python-pytest-patterns/SKILL.md
 tags:
-  - pytest
-  - python
-  - test-automation
-  - fixtures
-  - async-testing
-  - coverage
-  - mocking
-createdAt: "2026-04-30"
-updatedAt: "2026-04-30"
+- pytest
+- python
+- test-automation
+- fixtures
+- async-testing
+- coverage
+- mocking
+createdAt: '2026-04-30'
+updatedAt: '2026-04-30'
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 2f3e1ba5002985e006b783ad926dd2f680c0ab51116a1f7d4be9758d61940b00
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:13Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 ---
 
 ## Overview

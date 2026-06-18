@@ -5,21 +5,38 @@ contributor: ruvnet
 origin: false
 genericSkillRef: browser-automation
 status: named
-title: "The Web Navigator"
+title: The Web Navigator
 catalogRef: ruvnet-browser
-level: "2★"
-description: Playwright-based browser automation for web scraping, E2E testing, form interaction, and screenshot capture within agent workflows.
+level: 2★
+description: Playwright-based browser automation for web scraping, E2E testing, form
+  interaction, and screenshot capture within agent workflows.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - browser
-  - playwright
-  - automation
-  - web-scraping
-  - e2e-testing
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo"
+- browser
+- playwright
+- automation
+- web-scraping
+- e2e-testing
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: e78f3eb47962063b20995ad16048ac9675287d2d459facfc24a50698534d9657
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:20Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 ---
 
 ## Overview

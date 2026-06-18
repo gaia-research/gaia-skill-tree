@@ -5,23 +5,41 @@ contributor: mattpocock
 origin: false
 genericSkillRef: refactor-code
 status: named
-title: "The Architecture Improver"
-title: "The Depth Seeker"
+title: The Depth Seeker
 catalogRef: mattpocock-improve-codebase-architecture
-level: "3★"
-description: Identifies architectural deepening opportunities in a codebase — shallow modules with high interface-to-implementation ratios — using domain-glossary vocabulary and the deletion test, then grills the developer on the chosen candidate to design a deep-module replacement with better locality and testability.
+level: 3★
+description: Identifies architectural deepening opportunities in a codebase — shallow
+  modules with high interface-to-implementation ratios — using domain-glossary vocabulary
+  and the deletion test, then grills the developer on the chosen candidate to design
+  a deep-module replacement with better locality and testability.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/improve-codebase-architecture/SKILL.md
 tags:
-  - architecture-review
-  - deep-modules
-  - refactoring
-  - locality
-  - testability
-  - deletion-test
-createdAt: "2026-04-30"
-updatedAt: "2026-04-30"
-suiteRef: "mattpocock/engineering"
+- architecture-review
+- deep-modules
+- refactoring
+- locality
+- testability
+- deletion-test
+createdAt: '2026-04-30'
+updatedAt: '2026-04-30'
+suiteRef: mattpocock/engineering
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 46af657cc4ee9beff6e5b00c676dc3299efb9800417a4954aa2e60e869ec3a51
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:18Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 ---
 
 ## Overview

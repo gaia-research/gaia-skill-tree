@@ -40,6 +40,23 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:14Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: d02eca188ada0d54c2033455cbee19d9b9c211973872c0bc4346a3aa4673f5f2
+verification:
+  firstEvidenceAt: '2026-06-10T05:38:16Z'
 ---
 
 ## Overview

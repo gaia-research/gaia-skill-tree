@@ -5,20 +5,38 @@ contributor: huggingface
 origin: false
 genericSkillRef: data-analysis
 status: named
-title: "The Dataset Cartographer"
+title: The Dataset Cartographer
 catalogRef: huggingface-datasets
-level: "2★"
-description: Explores Hugging Face datasets through the Dataset Viewer API, resolving configs and splits, previewing rows, paginating records, searching text, filtering rows, and retrieving parquet metadata.
+level: 2★
+description: Explores Hugging Face datasets through the Dataset Viewer API, resolving
+  configs and splits, previewing rows, paginating records, searching text, filtering
+  rows, and retrieving parquet metadata.
 links:
   github: https://github.com/huggingface/skills/blob/main/skills/huggingface-datasets/SKILL.md
 tags:
-  - huggingface
-  - datasets
-  - dataset-viewer
-  - parquet
-  - data-analysis
-createdAt: "2026-05-03"
-updatedAt: "2026-05-03"
+- huggingface
+- datasets
+- dataset-viewer
+- parquet
+- data-analysis
+createdAt: '2026-05-03'
+updatedAt: '2026-05-03'
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: b410953c25a40d2b6263da53a4121551574e683e09c26b0294cf23e276c9edf5
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:17Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 ---
 
 ## Overview

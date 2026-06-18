@@ -5,20 +5,38 @@ contributor: upsonic
 origin: true
 genericSkillRef: generate-test
 status: named
-title: "The Test Weaver"
+title: The Test Weaver
 catalogRef: upsonic-unittest-generator
-level: "2★"
-description: Autonomous Claude agent that generates comprehensive unittest.TestCase suites from source code, organising tests into concept-based subfolders under a tests/ directory with proper imports, fixtures, and edge-case coverage.
+level: 2★
+description: Autonomous Claude agent that generates comprehensive unittest.TestCase
+  suites from source code, organising tests into concept-based subfolders under a
+  tests/ directory with proper imports, fixtures, and edge-case coverage.
 links:
   github: https://github.com/Upsonic/Upsonic
 tags:
-  - unit-testing
-  - unittest
-  - test-generation
-  - python
-  - autonomous-agent
-createdAt: "2026-04-30"
-updatedAt: "2026-04-30"
+- unit-testing
+- unittest
+- test-generation
+- python
+- autonomous-agent
+createdAt: '2026-04-30'
+updatedAt: '2026-04-30'
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 7f7489e8b6f6bf764848f67353bd9aa1a358de71cb9eb72e0ffbbe3f837ce1d1
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:21Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 ---
 
 ## Overview

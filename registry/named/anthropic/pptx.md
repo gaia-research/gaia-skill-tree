@@ -41,6 +41,21 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:14Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: db745e194100bed50b4bac4873a2adb8101d55d012f74ec4095bd0e00871443d
 ---
 
 ## Overview

@@ -5,18 +5,36 @@ contributor: gaiabot
 origin: false
 genericSkillRef: issue-triage
 status: awakened
-level: "2★"
-description: Automates repository triage for the Gaia Skill Tree, including fixing documentation drift, managing build dependencies (build, setuptools, wheel), and synchronizing generated graph projections and GEXF exports.
+level: 2★
+description: Automates repository triage for the Gaia Skill Tree, including fixing
+  documentation drift, managing build dependencies (build, setuptools, wheel), and
+  synchronizing generated graph projections and GEXF exports.
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md
 tags:
-  - maintenance
-  - triage
-  - automation
-  - ci-fix
-  - packaging
-createdAt: "2026-05-10"
-updatedAt: "2026-05-10"
+- maintenance
+- triage
+- automation
+- ci-fix
+- packaging
+createdAt: '2026-05-10'
+updatedAt: '2026-05-10'
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 0e6c1cdd17c08563dd2ea5858af28a0bc90910bc13d532e8104aab858dd10156
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:14Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 ---
 
 ## Overview
