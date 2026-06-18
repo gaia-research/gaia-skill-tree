@@ -44,3 +44,11 @@ Every evidence file and entry must adhere to the following principles:
 *   **Strict Curation Guideline #1:** GitHub subfolder links must use `blob/` format (not default `tree/` format) to be recognized by the skill installer.
 *   **Strict Curation Guideline #4:** Suite component links must point to specific subdirectory paths (`blob/main/skills/subpath`), never to the bare repository root.
 *   **Zero Evaluative Noise:** Evidence descriptions must remain strictly factual. Strip all subjective praise ("elite", "high-quality"), database migration notes, verifier markers ("verified live"), or rank threshold logic.
+
+---
+
+## 4. Evidence Inheritance (v2 Inheritance Contract)
+
+Under the v2 inheritance contract, a named skill's **effective evidence** is the union of its own evidence (`layer: named`) and the evidence inherited from its starless/generic parent skill (`layer: generic`):
+*   **Inherited Standing Floor:** A implementing named skill inherits its starless parent's capability floor. It will never report a weaker Overall Trust Grade than the generic capability it implements.
+*   **Inherited Row Discounts:** Certain evidence types linked at the starless/generic level are inherited by implementing named skills subject to an inheritance multiplier discount (e.g., academic `arxiv` rows inherit with a `0.70` multiplier, whereas `named`-layer evidence receives a `1.0` multiplier).
