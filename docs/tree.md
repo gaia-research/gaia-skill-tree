@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  v4.9.9  ·  generated 2026-06-17
+GAIA SKILL TREE  v4.10.0  ·  generated 2026-06-18
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -283,4 +283,4 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   ○ ruvnet/worker-integration  [2★]
 ```
 
-*Generated from gaia.json on 2026-06-17. Do not edit directly.*
+*Generated from gaia.json on 2026-06-18. Do not edit directly.*
