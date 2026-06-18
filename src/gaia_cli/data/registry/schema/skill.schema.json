@@ -132,7 +132,10 @@
       "description": "Verification tier state for this skill. Recomputed by `gaia dev verify-tier` and surfaced in `gaia skills info`. The `tier` field stores the highest tier currently satisfied (or null); `firstEvidenceAt` is the tenure baseline for the enterprise-ready tier.",
       "properties": {
         "tier": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "enum": [
             null,
             "community-verified",
@@ -161,7 +164,13 @@
     },
     "overallTrustGrade": {
       "type": "string",
-      "enum": ["S", "A", "B", "C", "ungraded"],
+      "enum": [
+        "S",
+        "A",
+        "B",
+        "C",
+        "ungraded"
+      ],
       "description": "G7 Overall Trust Grade derived from trustMagnitude thresholds and diversity gate (RFC §4): S ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20, ungraded < 20. Requires meeting the diversity gate (distinct evidence types, non-self-producible rule) in addition to the magnitude floor."
     },
     "provisional": {
@@ -180,35 +189,59 @@
       "additionalProperties": false,
       "properties": {
         "aGradedOriginsGte5": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "TRUE if the skill's transitive fusion-recipe closure contains ≥5 distinct A-or-S-graded origin evidence rows. Consolidates the old transitiveOriginsGte12 and aGradedClosureGte8 predicates (delta §A)."
         },
         "sourceTenureDaysGte180AorS": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "TRUE if the maximum source age across all A/S-tier evidence rows is ≥180 calendar days, measured via the per-row sourceStartedAt field. Replaces the old tenureDaysGte180 predicate (delta §A). False (not null) when no A/S rows exist."
         },
         "directNestedSuiteGte1": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "TRUE if at least one direct component of this skill itself has non-empty suiteComponents (RFC §11.12.2)."
         },
         "depth2OnlyReachableGte1": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "TRUE if the fusion graph (role=origin edges, excluding suite-component edges) contains at least one skill reachable only at depth-2 and not at depth-1 (RFC §11.12.3, delta §A depth-2 walk amendment)."
         },
         "overallGradeS": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "TRUE if overallTrustGrade equals S under strict-evidence reading (anti-auto-mint per RFC §10.14; only fusion-recipe may be auto-derived)."
         },
         "apexPromotionPrSigned": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "TRUE if a PR labeled apex-promotion exists with ≥2 distinct 4★+ verifier approvals from at least 2 distinct GitHub orgs (RFC §11.12.8). gaia promote rejects target_level==6★ at CLI layer; this predicate is set only by meta-guard.yml at merge time."
         },
         "crossOrgVerifierGte2": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "FEATURE-FLAGGED OFF until 2026-Q4 review. When active: TRUE if ≥2 verifier-attestation rows exist from 4★+ verifiers in at least 2 distinct GitHub orgs (RFC §11.12.6). Returns null (skipped) while flag is off; CI cap in I4 enforces the system-wide limit independently."
         },
         "systemWideCapRespected": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "FEATURE-FLAGGED OFF. System-wide 6★ cap (≤5) is enforced by meta-guard.yml CI (I4), not by this per-skill predicate. Returns null (skipped). Kept for forward compatibility; re-enable by flipping the feature flag in src/gaia_cli/trustMagnitude.py at 2026-Q4 review."
         }
       }
@@ -294,6 +327,14 @@
           "type": "boolean",
           "description": "Interim flag for proxy-containment entries whose claim has not yet been validated by the proxy-containment validator (RFC §11.2). Entry counts at full magnitude while flagged; surfaced in gaia evidence listings and audit reports."
         },
+        "layer": {
+          "type": "string",
+          "enum": [
+            "generic",
+            "named"
+          ],
+          "description": "The layer at which this evidence row is attached. Defaults to the layer of the containing skill node — generic skills default to 'generic', named skills default to 'named'. Used by the per-type allowedLayers validator and the inheritance multiplier."
+        },
         "links": {
           "type": "object",
           "additionalProperties": false,
@@ -311,7 +352,11 @@
           "description": "Verifier co-signers for social-signal recognized-voice (1.2× creator multiplier) and cross-org verifier-attestation requirements. Each cosigner must be a 4★+ verifier from a distinct GitHub org. Recorded via gaia dev evidence --cosign-with <verifier>.",
           "items": {
             "type": "object",
-            "required": ["username", "org", "signedAt"],
+            "required": [
+              "username",
+              "org",
+              "signedAt"
+            ],
             "additionalProperties": false,
             "properties": {
               "username": {

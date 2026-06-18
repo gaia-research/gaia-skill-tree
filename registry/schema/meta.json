@@ -152,6 +152,9 @@
         "gradeCeiling": "S",
         "freshness": "1.0 (intrinsic — no decay)",
         "selfProducible": true,
+        "allowedLayers": [
+          "named"
+        ],
         "notes": "Mandatory for any fused or Ultimate skill. A skill with suiteComponents and no fusion-recipe row fails validation (RFC §10.2). Only graded≥C origins count (RFC §3.5)."
       },
       {
@@ -163,6 +166,9 @@
         "gradeCeiling": "S",
         "freshness": "re-fetch quarterly; no time decay (gaia refresh-stars re-stamps lastVerified)",
         "selfProducible": false,
+        "allowedLayers": [
+          "named"
+        ],
         "notes": "Same-source dedup collapses multiple entries pointing at same canonical URL to one. Fork-network canonicalization merges forks of same upstream unless evidence entry sets links.canonicalRepo. S-capable at 100k+ stars."
       },
       {
@@ -174,8 +180,17 @@
         "gradeCeiling": "S",
         "freshness": "re-fetch quarterly; no time decay",
         "selfProducible": false,
+        "allowedLayers": [
+          "generic",
+          "named"
+        ],
+        "inheritMultiplier": 0.25,
         "maxEntriesPerSkill": 3,
-        "plateau": [1.0, 0.5, 0.25],
+        "plateau": [
+          1.0,
+          0.5,
+          0.25
+        ],
         "externalStarFloor": 10000,
         "notes": "Until proxy-containment validator ships, claims count at full magnitude with explicit unverified=true flag. S-capable at 125k+ external stars (RFC §2.4)."
       },
@@ -188,6 +203,9 @@
         "gradeCeiling": "S",
         "freshness": "null on derank — evaluates to null (not zero) when attesting Verifier drops below 4★ (RFC §5.6)",
         "selfProducible": false,
+        "allowedLayers": [
+          "named"
+        ],
         "notes": "No cap on verifier count for magnitude. Diversity gate for S counts max 3 verifiers as one distinct type slot. Null-on-derank: the row is removed from TM sum; flag preserved for audit. S-capable at 3+ verifiers."
       },
       {
@@ -199,6 +217,11 @@
         "gradeCeiling": "S",
         "freshness": "50%/year decay (half-life ≈ 1 year)",
         "selfProducible": false,
+        "allowedLayers": [
+          "generic",
+          "named"
+        ],
+        "inheritMultiplier": 0.15,
         "notes": "S-capable at 95th+ percentile. Weight 1.4 because percentiles are externally verifiable. Only at 1.4 (not 1.5) because benchmark choice can be cherry-picked."
       },
       {
@@ -210,6 +233,11 @@
         "gradeCeiling": "A",
         "freshness": "re-fetch quarterly; no time decay",
         "selfProducible": false,
+        "allowedLayers": [
+          "generic",
+          "named"
+        ],
+        "inheritMultiplier": 0.7,
         "notes": "A-cap: high citation counts cluster around surveys, not executable skills. 500-citation paper hits cap (m=100) but cannot reach S without complementary types."
       },
       {
@@ -221,7 +249,16 @@
         "gradeCeiling": "A",
         "freshness": "25%/2yr decay (linear)",
         "selfProducible": false,
-        "plateau": [1.0, 0.5, 0.25],
+        "allowedLayers": [
+          "generic",
+          "named"
+        ],
+        "inheritMultiplier": 0.3,
+        "plateau": [
+          1.0,
+          0.5,
+          0.25
+        ],
         "notes": "A-cap — peer-review without external adoption signals does not justify S. Plateau applies for stacked entries."
       },
       {
@@ -233,6 +270,9 @@
         "gradeCeiling": "B",
         "freshness": "re-fetch quarterly; no time decay",
         "selfProducible": true,
+        "allowedLayers": [
+          "named"
+        ],
         "notes": "B-cap and weight 0.6 ensure repo-own alone cannot carry a skill past B. Diversity gate classes repo-own as self-producible: A or S requires non-self-producible evidence on top."
       },
       {
@@ -244,6 +284,9 @@
         "gradeCeiling": "C",
         "freshness": "static — never decays",
         "selfProducible": true,
+        "allowedLayers": [
+          "named"
+        ],
         "maxEntriesPerSkill": 1,
         "notes": "C-cap. A skill with only self-attestation scores 5 artifact score (10 × 0.5) and lands ungraded. Placeholder for newly-added skills with no external trail yet."
       },
@@ -256,8 +299,17 @@
         "gradeCeiling": "A",
         "freshness": "50%/year decay (half-life ≈ 1 year)",
         "selfProducible": false,
+        "allowedLayers": [
+          "generic",
+          "named"
+        ],
+        "inheritMultiplier": 0.35,
         "maxEntriesPerSkill": 3,
-        "plateau": [1.0, 0.5, 0.25],
+        "plateau": [
+          1.0,
+          0.5,
+          0.25
+        ],
         "creatorMultipliers": {
           "sameAsAuthor": 0,
           "anonymous": 0.3,
@@ -316,7 +368,11 @@
         "plusRule": "none"
       }
     },
-    "selfProducibleTypes": ["fusion-recipe", "self-attestation", "repo-own"]
+    "selfProducibleTypes": [
+      "fusion-recipe",
+      "self-attestation",
+      "repo-own"
+    ]
   },
   "apexGate": {
     "description": "6★ apex gate configuration (RFC §11.12, amended by G7 delta §A). All 6 active predicates must be simultaneously satisfied. Two predicates are feature-flagged OFF until 2026-Q4 review.",

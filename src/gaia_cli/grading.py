@@ -53,6 +53,22 @@ def load_evidence_types(registry_path=".") -> list[str]:
     return list(raw)
 
 
+def load_evidence_types_full(registry_path=".") -> list[dict]:
+    """Return the full evidence type objects from meta.json (not just IDs).
+
+    Unlike load_evidence_types() which normalises to strings, this returns the
+    raw list of type dicts so callers can read allowedLayers, inheritMultiplier,
+    and other per-type fields introduced by the v2 inheritance contract
+    (Section H.2, G7_HANDOVER_DELTA_2026-06-17.md, ratified 2026-06-18).
+    Falls back to an empty list if meta.json is missing.
+    """
+    raw = _load_meta_evidence(registry_path).get("types", [])
+    if raw and isinstance(raw[0], dict):
+        return list(raw)
+    # Legacy string format -- wrap in minimal dicts so callers can iterate safely.
+    return [{"id": t} for t in raw]
+
+
 def derive_grade(trust_number: float | int, thresholds: dict | None = None) -> str | None:
     """Map a trust number to a grade letter (S/A/B/C) or None (ungraded).
 
