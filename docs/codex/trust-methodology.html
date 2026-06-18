@@ -340,6 +340,7 @@
       <ol class="codex-toc__list">
         <li><a href="#trust-magnitude">Trust Magnitude formula</a></li>
         <li><a href="#evidence-types">Evidence types table</a></li>
+        <li><a href="#inheritance-contract">Evidence Inheritance — Generic and Named Layers</a></li>
         <li><a href="#grade-thresholds">Overall Trust Grade thresholds</a></li>
         <li><a href="#suite-vs-fusion">Suite vs Fusion</a></li>
         <li><a href="#apex-gate">The Apex Gate (6 predicates)</a></li>
@@ -364,6 +365,7 @@
         <span class="fm-key">artifactScore</span>(e) = <span class="fm-val">magnitude</span>(e.type, e.raw)<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">weight</span>(e.type)<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">freshness</span>(e.type, e.date)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">inheritMultiplier</span>(e, skill) <span class="fm-comment">// = 1.0 for own-layer rows; per-type discount for inherited rows — see §Inheritance</span><br>
         <br>
         <span class="fm-comment">// Dedup applied BEFORE summation</span><br>
         <span class="fm-comment">// When multiple rows share the same type, plateau multipliers</span><br>
@@ -502,6 +504,151 @@
       <p style="font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem;">
         <em>C</em> in the fusion-recipe formula is the minimum origin count threshold configured in <code>meta.json</code> (default 3). Origins below <em>C</em> use the flat 15 × origins term only.
       </p>
+    </section>
+
+    <!-- ─── §2b EVIDENCE INHERITANCE ─── -->
+    <section class="process-section" id="inheritance-contract">
+      <h2>Evidence Inheritance — Generic and Named Layers</h2>
+      <p class="section-sub">
+        Every evidence row carries a layer designation — <code>generic</code> or <code>named</code> — that governs
+        whether it can cross the generic→named boundary when computing Trust Magnitude for a Named Skill.
+      </p>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.1rem; margin: 1.5rem 0 0.5rem;">Layer Model</h3>
+      <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">
+        Layer is a property of an evidence <em>row</em>, not of the evidence type.
+        Named Skills — those with a <code>genericSkillRef</code> pointing to a parent generic skill — can
+        inherit <code>generic</code>-layer rows from that parent. Generic skills (no <code>genericSkillRef</code>)
+        compute Trust Magnitude from their own rows only and the inheritance path is never traversed.
+      </p>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.1rem; margin: 1.5rem 0 0.5rem;">Effective Pool</h3>
+      <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">
+        A Named Skill’s Trust Magnitude is computed over its <strong style="color: var(--text);">effective pool</strong>:
+        the union of its own rows and all <code>generic</code>-layer rows inherited from the parent generic skill,
+        deduped by source URL. Own-layer rows always receive an <code>inheritMultiplier</code> of 1.0 — no discount
+        is applied. Inherited rows receive the per-type discount documented in the table below.
+      </p>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.1rem; margin: 1.5rem 0 0.5rem;"><code>allowedLayers</code> per Type</h3>
+      <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem;">
+        Each evidence type declares which layers it may sit at and what discount applies when a row is inherited
+        across the generic→named boundary. Types pinned to <code>[named]</code> only cannot be inherited.
+      </p>
+
+      <p style="font-size: 0.82rem; color: var(--muted); margin-bottom: 0.4rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+        Pinned to named layer — cannot be inherited
+      </p>
+      <div style="overflow-x: auto; margin-bottom: 1.5rem;">
+        <table class="tm-table" aria-label="Evidence types pinned to named layer only">
+          <thead>
+            <tr>
+              <th scope="col">Evidence Type</th>
+              <th scope="col">Allowed Layers</th>
+              <th scope="col">inheritMultiplier</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>fusion-recipe</code></td>
+              <td>named</td>
+              <td>1.0 (own only)</td>
+            </tr>
+            <tr>
+              <td><code>github-stars-own</code></td>
+              <td>named</td>
+              <td>1.0 (own only)</td>
+            </tr>
+            <tr>
+              <td><code>repo-own</code></td>
+              <td>named</td>
+              <td>1.0 (own only)</td>
+            </tr>
+            <tr>
+              <td><code>self-attestation</code></td>
+              <td>named</td>
+              <td>1.0 (own only)</td>
+            </tr>
+            <tr>
+              <td><code>verifier-attestation</code></td>
+              <td>named</td>
+              <td>1.0 (own only)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="font-size: 0.82rem; color: var(--muted); margin-bottom: 0.4rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+        Flexible — can sit at either layer; discount applied when inherited
+      </p>
+      <div style="overflow-x: auto; margin-bottom: 1.5rem;">
+        <table class="tm-table" aria-label="Evidence types flexible across layers with inheritance discount">
+          <thead>
+            <tr>
+              <th scope="col">Evidence Type</th>
+              <th scope="col">Allowed Layers</th>
+              <th scope="col">inheritMultiplier</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>arxiv</code></td>
+              <td>generic, named</td>
+              <td>0.70</td>
+            </tr>
+            <tr>
+              <td><code>peer-review</code></td>
+              <td>generic, named</td>
+              <td>0.30</td>
+            </tr>
+            <tr>
+              <td><code>social-signal</code></td>
+              <td>generic, named</td>
+              <td>0.35</td>
+            </tr>
+            <tr>
+              <td><code>proxy-containment</code></td>
+              <td>generic, named</td>
+              <td>0.25</td>
+            </tr>
+            <tr>
+              <td><code>benchmark-result</code></td>
+              <td>generic, named</td>
+              <td>0.15</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.1rem; margin: 1.5rem 0 0.5rem;">Rationale</h3>
+      <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">
+        The discount reflects that a capability claim (for example, an arxiv paper describing a generic
+        algorithm) projects less cleanly onto a specific named implementation. A lower multiplier signals
+        that the evidence type binds less tightly to individual Named Skills. <code>benchmark-result</code>
+        carries the lowest multiplier (0.15) because it already carries the highest artifact weight (1.4)
+        in the scoring formula — allowing full inheritance would disproportionately amplify benchmark rows
+        that were published against the generic capability rather than the specific named implementation.
+      </p>
+
+      <div class="tm-callout">
+        <div class="tm-callout-label">Formula annotation — inheritMultiplier</div>
+        <p>
+          The full per-row product in the Trust Magnitude formula is:
+        </p>
+        <div class="tm-formula-block" style="margin: 0.75rem 0;">
+          <span class="fm-key">artifactScore</span>(e) = <span class="fm-val">magnitude</span>(e.type, e.raw)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">weight</span>(e.type)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">freshness</span>(e.type, e.date)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">plateau</span>(e.type, position)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">creatorMult</span>(e)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">engagementRatio</span>(e)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">mothershipDiscount</span>(e)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">inheritMultiplier</span>(e, skill) <span class="fm-comment">// ¹</span>
+        </div>
+        <p style="font-size: 0.82rem; color: var(--muted); margin-bottom: 0;">
+          <sup>¹</sup> <code>inheritMultiplier</code> = 1.0 for own-layer rows; per-type discount (see table above) for rows inherited from a parent generic skill.
+        </p>
+      </div>
     </section>
 
     <!-- ─── §3 GRADE THRESHOLDS ─── -->
