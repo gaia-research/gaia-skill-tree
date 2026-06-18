@@ -5414,14 +5414,6 @@
         },
         "createdAt": "2026-05-22",
         "updatedAt": "2026-05-22",
-        "timeline": [
-          {
-            "timestamp": "2026-06-18T12:00:00Z",
-            "action": "demote",
-            "contributor": "testuser",
-            "details": "G7 cutover — apex gate failed predicates: aGradedOriginsGte5, sourceTenureDaysGte180AorS, directNestedSuiteGte1, depth2OnlyReachableGte1, overallGradeS, apexPromotionPrSigned; re-application open immediately once all 6 active predicates pass (direct edit — CLI gap)"
-          }
-        ],
         "suiteComponents": [
           "mattpocock/caveman",
           "mattpocock/diagnose",
@@ -8263,12 +8255,6 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
-          },
-          {
-            "timestamp": "2026-06-18T12:00:00Z",
-            "action": "demote",
-            "contributor": "testuser",
-            "details": "G7 cutover — apex gate failed all 6 active predicates; re-application open immediately once all 6 active predicates pass (direct edit — CLI gap)"
           }
         ],
         "suiteComponents": [
