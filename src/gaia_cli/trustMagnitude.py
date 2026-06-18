@@ -1077,12 +1077,190 @@ def isApex(passResult: dict[str, Optional[bool]]) -> bool:
     return all(v is True for v in passResult.values() if v is not None)
 
 
+
+# ---------------------------------------------------------------------------
+# Public API: explainTrustMagnitude
+# ---------------------------------------------------------------------------
+
+
+def explainTrustMagnitude(
+    skill: dict,
+    genericSkillMap: Optional[dict] = None,
+    namedSkillMap: Optional[dict] = None,
+) -> str:
+    """Return a human-readable explanation of how Trust Magnitude was computed.
+
+    Mirrors computeTrustMagnitude step-by-step and annotates each row with
+    its multiplier chain, inherit multiplier (when != 1.0), and contribution.
+
+    Rows where inheritMultiplier != 1.0 are marked with a '^ inherited from
+    <genericRef>' annotation so the caller can visually distinguish them from
+    own-layer rows.
+
+    Returns a plain-text string (no ANSI; suitable for testing and piping).
+    """
+    del namedSkillMap  # reserved — same convention as computeTrustMagnitude
+
+    genericRef = skill.get("genericSkillRef") or ""
+
+    # Step 1: effective pool
+    pool = _effectivePool(skill, genericSkillMap)
+
+    # Step 2: anti-auto-mint
+    evidence = enforceAntiAutoMint({"evidence": pool})
+
+    # Step 3: same-source dedup
+    deduped = _dedupeSameSource(evidence)
+
+    # Step 4: auto-derive fusion-recipe from suiteComponents if absent
+    suiteComponents = skill.get("suiteComponents") or []
+    hasFusionRow = any(_typeOf(r) == "fusion-recipe" for r in deduped)
+    if suiteComponents and not hasFusionRow:
+        deduped = list(deduped) + [{
+            "type": "fusion-recipe",
+            "origins": list(suiteComponents),
+            "_autoDerived": True,
+            "layer": _ownLayerOf(skill),
+        }]
+
+    # Step 5: per-row scores with inherit multiplier
+    rowsWithScores: list[tuple[dict, Optional[float]]] = []
+    for row in deduped:
+        baseScore = computeArtifactScoreOrNone(row, genericSkillMap)
+        if baseScore is None:
+            rowsWithScores.append((row, None))
+            continue
+        mult = _inheritMultiplierFor(row, skill)
+        rowsWithScores.append((row, baseScore * mult))
+
+    # Step 6: plateau / per-creator dedup
+    rowsWithScores = _applyPlateauAndCreatorDedup(rowsWithScores)
+
+    # Step 7: social cap + total
+    socialTotal = 0.0
+    nonSocialTotal = 0.0
+    for row, score in rowsWithScores:
+        if score is None:
+            continue
+        if _typeOf(row) == "social-signal":
+            socialTotal += score
+        else:
+            nonSocialTotal += score
+    socialCapped = min(socialTotal, 80.0)
+    totalTM = nonSocialTotal + socialCapped
+
+    # Derive grade
+    distinctTypes = len({
+        _typeOf(r) for r, _ in rowsWithScores if _typeOf(r)
+    })
+    hasNonSelf = any(
+        _typeOf(r) not in SELF_PRODUCIBLE_TYPES
+        for r, s in rowsWithScores
+        if _typeOf(r) and s is not None and s > 0
+    )
+    grade = computeOverallTrustGrade(totalTM, distinctTypes, hasNonSelf)
+
+    # Build the explanation string
+    lines: list[str] = []
+    lines.append(f"Trust Magnitude: {totalTM:.2f} (grade: {grade})")
+    lines.append("")
+    lines.append(f"Effective pool ({len(rowsWithScores)} rows):")
+
+    for row, finalScore in rowsWithScores:
+        rowType = _typeOf(row) or "unknown"
+        source = (
+            row.get("source")
+            or row.get("url")
+            or row.get("sourceUrl")
+            or "(no source)"
+        )
+        lines.append(f"  {rowType}: {source}")
+
+        # Recompute intermediate factors for display
+        baseScore = computeArtifactScoreOrNone(row, genericSkillMap)
+        if baseScore is None:
+            lines.append("    null-on-derank (verifier deranked — excluded from sum)")
+            lines.append("")
+            continue
+
+        weight = TYPE_WEIGHTS.get(rowType, 0.0)
+        freshness = _freshnessFactor(row, rowType)
+
+        rawMag = _rawMagnitudeForType(rowType, row, genericSkillMap)
+        cap = TYPE_CAPS.get(rowType)
+        if cap is not None:
+            rawMag = min(rawMag, cap)
+
+        # Mothership discount (github-stars-own only)
+        mothership = 1.0
+        if rowType == "github-stars-own":
+            skillCount = row.get("skillCountInRepo")
+            if isinstance(skillCount, (int, float)) and skillCount > 1:
+                mothership = 1.0 / min(int(skillCount), 4)
+
+        # Creator multiplier + engagement ratio (social-signal only)
+        creatorMult = 1.0
+        engagementRatio = 1.0
+        if rowType == "social-signal":
+            creatorMult = float(row.get("creatorMultiplier", 1.0))
+            if "engagementRatio" in row:
+                engagementRatio = float(row["engagementRatio"])
+            elif "likes" in row or "comments" in row:
+                rawViews = float(row.get("views", 0) or 0)
+                if rawViews > 0:
+                    rawLikes = float(row.get("likes", 0) or 0)
+                    rawComments = float(row.get("comments", 0) or 0)
+                    engagementRatio = min(1.5, (rawLikes + rawComments * 5.0) / rawViews * 50.0)
+
+        inheritMult = _inheritMultiplierFor(row, skill)
+
+        # Build factor chain line
+        factorParts = [
+            f"base {rawMag:.2f}",
+            f"x weight {weight}",
+            f"x freshness {freshness:.2f}",
+        ]
+        if mothership != 1.0:
+            factorParts.append(f"x mothership {mothership:.2f}")
+        if rowType == "social-signal":
+            factorParts.append(f"x creator {creatorMult}")
+            factorParts.append(f"x engagement {engagementRatio:.2f}")
+
+        if inheritMult != 1.0:
+            inheritNote = (
+                f"x inheritMultiplier {inheritMult:.2f}"
+                f" [^ inherited from {genericRef or 'generic'}]"
+            )
+            factorParts.append(inheritNote)
+
+        # Plateau factor: reverse-engineer from finalScore vs baseScore*inheritMult
+        plateauFactor = None
+        prePlateau = baseScore * inheritMult
+        if prePlateau > 0 and finalScore is not None:
+            ratio = finalScore / prePlateau
+            if abs(ratio - 1.0) > 0.001:
+                plateauFactor = ratio
+
+        lines.append("    " + " ".join(factorParts))
+        if plateauFactor is not None:
+            lines.append(f"    x plateau {plateauFactor:.2f}")
+        if finalScore is not None:
+            lines.append(f"    = {finalScore:.2f}")
+        lines.append("")
+
+    if socialTotal > 80.0:
+        lines.append(f"  [social-signal A-cap applied: {socialTotal:.2f} -> 80.00]")
+        lines.append("")
+
+    return "\n".join(lines)
+
 __all__ = [
     "computeArtifactScore",
     "computeArtifactScoreOrNone",
     "computeTrustMagnitude",
     "computeOverallTrustGrade",
     "computeOverallTrustGradeFromSkill",
+    "explainTrustMagnitude",
     "passesApexGate",
     "isApex",
     "enforceAntiAutoMint",
