@@ -28,3 +28,33 @@ Registry evidence parsed directly from the local repository (with updated star c
 - [Tier 3★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/tier_3.md)
 - [Tier 2★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/tier_2.md)
 - [Tier 1★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/tier_1.md)
+
+---
+
+## 3. Recent Curation & Evidence Updates (June 18, 2026)
+
+A systematic round of manual verification and curation was conducted, focusing on resolving gaps in secondary evidence, correcting proxy labels, and incorporating high-fidelity `social-signal` sources.
+
+### Key Findings & Methodology Adjustments
+1. **Proxy Containment Strategy (`proxy-containment`):**
+   - For entries referencing repositories that do not represent the contributor's own project but contain/use the skill capability, the evidence type was migrated from `repo` to `proxy-containment`.
+   - Descriptions for all `proxy-containment` sources were updated to explicitly call out the target skill capability they implement or consume (e.g., pointing out `mcp-integration`, `knowledge-graph-build`, or `mcp-server-creation`).
+
+2. **Social Signal Enrichment (`social-signal`):**
+   - Added validated blogs, technical reviews, and community post references to provide qualitative signal verification for high-impact agent skills.
+
+### Summary of Contributor Updates
+- **`devin-ai` (Tier 1★):** Added E3 `social-signal` (A Systematic Survey of Self-Evolving Agents) to `devin-ai/autonomous-swe` validating environment-driven co-evolution.
+- **`safishamsi` (Tier 1★):** Added E1 `repo` for the primary Graphify repository. Updated `microsoft/graphrag` to `proxy-containment` mapping back to the `knowledge-graph-build` skill.
+- **`browser-use` (Tier 2★):** Added E3 & E4 `social-signal` (Notte blog comparing harnesses, and online Mind2Web benchmark) to `browser-use/browser-harness`.
+- **`firecrawl` (Tier 2★):** Migrated `mendableai/firecrawl-mcp-server` to `proxy-containment`. Added E3 & E4 `social-signal` (Firecrawl Blog use cases, and YouTube explanation video) to `firecrawl/firecrawl`.
+- **`anthropic` (Tier 2★):** Added E4 & E5 `social-signal` (KDnuggets guide and Dev.to community post) to `anthropic/skill-creator`.
+- **`upsonic` (Tier 2★):** Added E2 `repo` referencing the primary framework repository for `upsonic/unittest-generator`.
+- **`sickn33` (Tier 2★ & Tier 3★):**
+   - **`sickn33/mcp-builder` (Tier 3★):** Updated E1 & E2 proxies to `proxy-containment` pointing back to `mcp-server-creation`. Added E3 repo description.
+   - **`sickn33/ai-dev-jobs-mcp` (Tier 2★):** Updated E1 & E2 to `proxy-containment` pointing back to `mcp-integration`.
+   - **`sickn33/n8n-mcp-tools-expert` (Tier 2★):** Updated E1 & E2 to `proxy-containment` pointing back to `mcp-integration`.
+- **`pbakaus` (Tier 4★):** Verified single E1 `repo` source mapping for `pbakaus/impeccable`. No additional sources required.
+- **`spring-ai` (Tier 2★) & `stanfordnlp` (Tier 1★):** Verified sources align with registry metadata; mapped primary repos successfully.
+- **`ruvnet` (Ecosystem Suite):** Confirmed exemption from file-level checks as per registry guidelines. Mapped directly to the raw repository root.
+
