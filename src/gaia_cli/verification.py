@@ -62,22 +62,14 @@ TIER_ORDER = [
 def effectiveGrade(entry: dict) -> str | None:
     """Return the effective grade letter for an evidence entry, or None.
 
-    Reads ``grade`` first; falls back to the deprecated ``class`` field for
-    backward compatibility with pre-grade evidence records. Returns None if
-    neither is present or the value is not in ``GRADE_ORDER``.
-
-    NOTE: this duplicates a small slice of helper logic that G2
-    (cli/rank-gate-grade) introduces in promotion.py as ``_effective_grade``.
-    Inlined here so this branch can land cleanly off origin/main without
-    waiting on G2; collapse into the shared helper once both branches merge.
+    Re-exported from :mod:`gaia_cli.promotion` (G4 #709 collapse: this used to
+    duplicate the logic; now it forwards to the shared implementation). Reads
+    ``grade`` first; falls back to the deprecated ``class`` field for backward
+    compatibility with pre-grade evidence records.
     """
-    g = entry.get("grade")
-    if g in GRADE_ORDER:
-        return g
-    legacy = entry.get("class")
-    if legacy in GRADE_ORDER:
-        return legacy
-    return None
+    from .promotion import effectiveGrade as _shared
+
+    return _shared(entry)
 
 
 def maxGrade(evidenceList: Iterable[dict]) -> str | None:

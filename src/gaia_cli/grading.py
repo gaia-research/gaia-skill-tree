@@ -84,13 +84,31 @@ def derive_grade(trust_number: float | int, thresholds: dict | None = None) -> s
     return None
 
 
-def overall_trust_grade(evidence_list: list) -> str | None:
-    """Return the highest Evidence Grade across all graded entries.
+def overall_trust_grade(
+    evidence_list: list,
+    skill: dict | None = None,
+    legacy: bool = False,
+    generic_skill_map: dict | None = None,
+) -> str | None:
+    """Return the Overall Trust Grade for a skill.
 
-    Only entries with a ``grade`` field that is one of S/A/B/C count.
-    Ungraded entries (grade=None or missing) are ignored.
-    Returns None if no graded entries exist.
+    With ``legacy=True`` (or when ``skill`` is None and only an evidence list
+    is supplied), returns the highest Evidence Grade across all graded entries
+    using the pre-G7 MAX-based reader. This path is preserved for callers that
+    have not migrated to the Trust Magnitude formula.
+
+    With ``legacy=False`` and a ``skill`` dict, computes the new G7 Overall
+    Trust Grade from Trust Magnitude + diversity gate (RFC §3, §4) via the
+    ``trustMagnitude`` module. Returns None when the skill is ungraded.
     """
+    if not legacy and skill is not None:
+        from .trustMagnitude import computeOverallTrustGradeFromSkill
+
+        result = computeOverallTrustGradeFromSkill(skill, generic_skill_map)
+        if result == "ungraded":
+            return None
+        return result
+
     best: str | None = None
     for entry in evidence_list or []:
         g = entry.get("grade")
