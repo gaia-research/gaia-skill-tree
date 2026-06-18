@@ -79,6 +79,50 @@ def _effective_grade(ev: dict) -> str | None:
     return None
 
 
+def _passes_rank_floor(
+    graph_skill: dict,
+    user_level: str,
+    overall_grade: str | None,
+) -> bool:
+    """Rank-floor sanity rule (RFC §4.3).
+
+    A skill held at 4★+ in any user tree cannot land below B in the registry
+    without explicit review. Returns True if the rank-floor is satisfied
+    (i.e., the skill may publish at this grade).
+
+    Args:
+        graph_skill: The graph skill node (used for context; reserved for
+            future per-skill overrides like a `rankFloorOverride` flag).
+        user_level: The skill's current level in any user's tree (e.g. "4★").
+        overall_grade: The Overall Trust Grade computed via the G7 formula
+            (one of "S", "A", "B", "C", or None for ungraded).
+
+    Returns:
+        True if the rule passes (publish allowed); False if the rule fails
+        (publish blocked pending rank-floor-override review).
+    """
+    del graph_skill  # reserved for future per-skill overrides
+    if user_level not in LEVEL_ORDER:
+        return True
+    rankIndex = LEVEL_ORDER.index(user_level)
+    fourStarIndex = LEVEL_ORDER.index("4★") if "4★" in LEVEL_ORDER else 4
+    if rankIndex < fourStarIndex:
+        return True
+    # 4★+ skills must land at B or higher.
+    if overall_grade in ("S", "A", "B"):
+        return True
+    return False
+
+
+def effectiveGrade(entry: dict) -> str | None:
+    """Return the effective grade letter for an evidence entry, or None.
+
+    Reads ``grade`` first; falls back to the deprecated ``class`` field.
+    Shared helper exposed for verification.py (G4 #709 TODO collapse).
+    """
+    return _effective_grade(entry)
+
+
 def _meets_evidence_floor(graph_skill: dict, target_level: str) -> bool:
     """Check whether the graph skill has evidence meeting the floor for target_level.
 

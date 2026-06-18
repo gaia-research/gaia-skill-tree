@@ -3672,6 +3672,17 @@ def get_parser():
         help="Base ref to compare against (default: origin/main)",
     )
 
+    trust_parser = subparsers.add_parser(
+        "trust", help="Trust Magnitude diagnostics"
+    )
+    trust_sub = trust_parser.add_subparsers(dest="trust_command")
+    trust_explain_parser = trust_sub.add_parser(
+        "explain", help="Show per-row multiplier chain for a skill's Trust Magnitude"
+    )
+    trust_explain_parser.add_argument(
+        "skillId", help="Canonical skill ID to explain"
+    )
+
     validate_parser = subparsers.add_parser(
         "validate", help="Validate the Gaia registry"
     )
@@ -3928,6 +3939,12 @@ def main():
             subparsers.choices["dev"].print_help()
     elif args.command == "path":
         path_command(args)
+    elif args.command == "trust":
+        if getattr(args, "trust_command", None) == "explain":
+            trust_explain_command(args)
+        else:
+            _, subparsers = get_parser()
+            subparsers.choices["trust"].print_help()
     elif args.command == "validate":
         validate_command(args)
     elif args.command == "test":
@@ -3945,6 +3962,30 @@ def main():
         hook_command(args)
     else:
         parser.print_help()
+
+
+def trust_explain_command(args):
+    """Implement `gaia trust explain <skillId>`."""
+    from gaia_cli.trustMagnitude import explainTrustMagnitude
+    from gaia_cli.registry import load_registry
+
+    skillId = args.skillId
+    registry = load_registry()
+    skills = registry.get("skills") or registry.get("nodes") or []
+
+    # Build maps
+    genericSkillMap = {s["id"]: s for s in skills if s.get("id") and not s.get("genericSkillRef")}
+    namedSkillMap = {s["id"]: s for s in skills if s.get("id") and s.get("genericSkillRef")}
+
+    # Try named first, then generic
+    skill = namedSkillMap.get(skillId) or genericSkillMap.get(skillId)
+    if skill is None:
+        print(f"Skill '{skillId}' not found in registry.")
+        return 1
+
+    output = explainTrustMagnitude(skill, genericSkillMap=genericSkillMap, namedSkillMap=namedSkillMap)
+    print(output)
+    return 0
 
 
 if __name__ == "__main__":
