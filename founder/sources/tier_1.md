@@ -21,6 +21,11 @@ This file lists the raw evidence sources for named skills rated at 1★.
 - **Verified Stars:** 4,500 stars
 - **Description:** SWE-bench -- Princeton NLP benchmark for evaluating AI agents on resolving real-world GitHub issues.
 
+#### E3: `social-signal`
+- **Source:** [https://www.researchgate.net/publication/401016261_A_Systematic_Survey_of_Self-Evolving_Agents_From_Model-Centric_to_Environment-Driven_Co-Evolution](https://www.researchgate.net/publication/401016261_A_Systematic_Survey_of_Self-Evolving_Agents_From_Model-Centric_to_Environment-Driven_Co-Evolution)
+- **Date:** 2026-06-18
+- **Description:** A Systematic Survey of Self-Evolving Agents (Research Review) highlighting environment-driven co-evolution, demonstrating the capabilities of the devin-ai/autonomous-swe skill in autonomous coding tasks.
+
 ---
 
 ## Skill: `gooseworks/notte-browser`
