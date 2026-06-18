@@ -1,6 +1,6 @@
 ---
 name: gaia-evidence-dump
-description: Generates tier-by-tier raw markdown dumps of named skill evidence by querying live GitHub star counts. Explicitly strips out synthesis, critiques, and verifier attestations to provide a clean source of truth for the trust methodology.
+description: Generates tier-by-tier raw markdown dumps of named skill evidence by querying live GitHub star counts, then runs a multi-agent adversarial audit to catch dead links, format issues, evaluative noise, and proxy mismatches.
 version: 1.0.0
 ---
 
@@ -38,6 +38,10 @@ Use this skill when the user asks for a raw evidence dump of named skills across
    - Generate individual markdown dumps for each tier: `tier_1.md` through `tier_6.md`. Each file should list the skills, their live star counts, and their filtered raw evidence.
    - Generate a consolidated index report named `source_report_YYYY_MM_DD.md` that highlights identified star count lags/inflations and links to the individual tier files.
 
-6. **Commit & Report:** 
-   - Stage and commit the generated dumps to the active branch (e.g., `dev/sources`) with a descriptive commit message.
+6. **Adversarial Audit Invocation:** 
+   - Immediately invoke the `gaia-adversarial-audit` skill to perform a multi-agent adversarial audit of all newly generated data lake files.
+   - Spawns parallel adversarial reviewers to check for dead links, format errors, evaluative noise, and proxy mismatches, appending a synthesis of the findings directly to `source_report_YYYY_MM_DD.md`.
+
+7. **Commit & Report:** 
+   - Stage and commit the generated dumps and updated source report to the active branch (e.g., `dev/sources`) with a descriptive commit message.
    - Follow the `Token Spend Logging` directive and report the token spend at the end of the session.
