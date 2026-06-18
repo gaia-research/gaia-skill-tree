@@ -35,6 +35,13 @@ suiteComponents:
 - mattpocock/ubiquitous-language
 - mattpocock/write-a-skill
 - mattpocock/zoom-out
+timeline:
+- timestamp: '2026-06-18T12:46:31Z'
+  action: demote
+  contributor: mbtiongson1
+  details: G7 apex cutover — apex gate failed all 6 active predicates (aGradedOriginsGte5,
+    sourceTenureDaysGte180AorS, directNestedSuiteGte1, depth2OnlyReachableGte1, overallGradeS,
+    apexPromotionPrSigned); re-application open immediately once all predicates pass
 ---
 
 ## Installation

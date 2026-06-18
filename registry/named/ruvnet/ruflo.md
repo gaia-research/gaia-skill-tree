@@ -89,6 +89,11 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber:
     70.0)'
+- timestamp: '2026-06-18T12:46:36Z'
+  action: demote
+  contributor: mbtiongson1
+  details: G7 apex cutover — apex gate failed all 6 active predicates; re-application
+    open immediately once all predicates pass
 ---
 
 ## Overview
