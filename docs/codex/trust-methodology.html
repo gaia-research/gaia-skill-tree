@@ -702,6 +702,68 @@
         The failure is logged against the skill's timeline as a <code>gate-fail</code> event so
         the history is auditable.
       </p>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.1rem; margin: 1.5rem 0 0.5rem;">
+        Feature-flagged OFF — deferred to 2026-Q4
+      </h3>
+      <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 0.75rem;">
+        Two additional predicates exist in the implementation but are excluded from gate
+        evaluation until ecosystem conditions justify them. They return <code>None</code>
+        (skipped) rather than <code>False</code> (failed) so callers can distinguish
+        "not yet active" from "failed":
+      </p>
+      <ul class="tm-predicate-list" aria-label="OFF predicates">
+        <li class="pred-off" style="opacity: 0.55;">
+          <span class="pred-id" style="color: var(--muted);">crossOrgVerifier <span style="font-size:0.72rem;">(OFF)</span></span>
+          <span class="pred-desc">
+            Requires ≥2 cosigning verifiers from distinct GitHub organisations. Disabled
+            until the registry has enough active cross-org verifiers to make the requirement
+            non-trivial. Re-enable at 2026-Q4 review.
+          </span>
+        </li>
+        <li class="pred-off" style="opacity: 0.55;">
+          <span class="pred-id" style="color: var(--muted);">systemWideCap <span style="font-size:0.72rem;">(OFF)</span></span>
+          <span class="pred-desc">
+            Enforces a registry-wide cap on the number of active Apex skills (cap = 5).
+            Disabled as a per-skill predicate; cap enforcement lives in CI (Phase 1.5 I4),
+            not in the <code>apexGateStatus</code> object. Re-enable at 2026-Q4 review.
+          </span>
+        </li>
+      </ul>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.1rem; margin: 1.5rem 0 0.5rem;">
+        Removed predicates — 2026-06-17 amendments (historical context)
+      </h3>
+      <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 0.75rem;">
+        The following predicates existed in earlier drafts of the Apex Gate specification and
+        were removed or consolidated in the 2026-06-17 amendments. They are recorded here for
+        auditability — they are not active and must not be re-introduced:
+      </p>
+      <ul class="tm-predicate-list" aria-label="Removed predicates">
+        <li class="pred-off" style="opacity: 0.45; text-decoration: line-through; text-decoration-color: var(--muted);">
+          <span class="pred-id" style="color: var(--muted);">transitiveOriginsGte12</span>
+          <span class="pred-desc" style="text-decoration: none;">
+            Required ≥12 transitively-reachable A-graded origin components. Consolidated
+            into the more precise <code>aGradedOriginsGte5</code> (direct origins, threshold
+            lowered to 5) to eliminate double-counting via suite-component paths.
+          </span>
+        </li>
+        <li class="pred-off" style="opacity: 0.45; text-decoration: line-through; text-decoration-color: var(--muted);">
+          <span class="pred-id" style="color: var(--muted);">aGradedClosureGte8</span>
+          <span class="pred-desc" style="text-decoration: none;">
+            Required ≥8 A-graded skills in the transitive closure. Also consolidated into
+            <code>aGradedOriginsGte5</code>; the two checks overlapped in practice.
+          </span>
+        </li>
+        <li class="pred-off" style="opacity: 0.45; text-decoration: line-through; text-decoration-color: var(--muted);">
+          <span class="pred-id" style="color: var(--muted);">tenureDaysGte180</span>
+          <span class="pred-desc" style="text-decoration: none;">
+            Checked source tenure on all evidence rows regardless of grade. Replaced by
+            <code>sourceTenureDaysGte180AorS</code> which applies the tenure check only to
+            A- or S-graded rows for precision.
+          </span>
+        </li>
+      </ul>
     </section>
 
     <!-- ─── §6 WORKED EXAMPLE ─── -->
