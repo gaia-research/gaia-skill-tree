@@ -52,3 +52,20 @@ Every evidence file and entry must adhere to the following principles:
 Under the v2 inheritance contract, a named skill's **effective evidence** is the union of its own evidence (`layer: named`) and the evidence inherited from its starless/generic parent skill (`layer: generic`):
 *   **Inherited Standing Floor:** A implementing named skill inherits its starless parent's capability floor. It will never report a weaker Overall Trust Grade than the generic capability it implements.
 *   **Inherited Row Discounts:** Certain evidence types linked at the starless/generic level are inherited by implementing named skills subject to an inheritance multiplier discount (e.g., academic `arxiv` rows inherit with a `0.70` multiplier, whereas `named`-layer evidence receives a `1.0` multiplier).
+
+### Evidence Type Curation Policy (Allowed Layers & Multipliers)
+
+The table below lists which evidence types can be mapped to `layer: generic` (starless parent) or `layer: named` (implementing child), along with their inheritance multipliers:
+
+| Evidence Type | ID | Allowed Layers | Inherit Multiplier | Description / Policy Note |
+| :--- | :--- | :--- | :---: | :--- |
+| **ArXiv Paper** | `arxiv` | `["generic", "named"]` | **0.70** | Academic citations (0.7x discount when inherited) |
+| **Benchmark Result** | `benchmark-result` | `["generic", "named"]` | **0.15** | Objective harness results (0.15x discount when inherited) |
+| **Fusion Recipe** | `fusion-recipe` | `["named"]` | *N/A* | Suite composition rules (only allowed on `named` skills) |
+| **GitHub Stars** | `github-stars-own` | `["named"]` | *N/A* | Primary star counts (only allowed on `named` skills) |
+| **Peer Review** | `peer-review` | `["generic", "named"]` | **0.30** | Review evaluations (0.3x discount when inherited) |
+| **Proxy Containment** | `proxy-containment` | `["generic", "named"]` | **0.25** | External consumer codebases (0.25x discount when inherited) |
+| **Repository Own** | `repo-own` | `["named"]` | *N/A* | Contributor's own project codebase (only allowed on `named` skills) |
+| **Self Attestation** | `self-attestation` | `["named"]` | *N/A* | Creator self-attestation logs (only allowed on `named` skills) |
+| **Social Signal** | `social-signal` | `["generic", "named"]` | **0.35** | External blog posts, YouTube videos (0.35x discount when inherited) |
+| **Verifier Attestation** | `verifier-attestation` | `["named"]` | *N/A* | Cross-org verifier approvals (only allowed on `named` skills) |
