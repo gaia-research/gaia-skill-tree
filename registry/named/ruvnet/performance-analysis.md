@@ -26,6 +26,21 @@ timeline:
   action: demote
   contributor: unknown
   details: Origin status removed. Transferred to addy-osmani/performance-optimization.
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:20Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 74ab6c2dd0ec35a59dc19cf1ca2a43e5cc6ca5b5761e322ddb85ba4ddaf3f100
 ---
 
 ## Overview

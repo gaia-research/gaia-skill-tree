@@ -29,6 +29,21 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:18Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 6a0e60adeae1a369647cc2763775b8f808abdd217d3438c90b18896304da3a14
 ---
 
 ## Installation

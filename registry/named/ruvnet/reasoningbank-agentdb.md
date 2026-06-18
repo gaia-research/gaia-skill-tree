@@ -3,22 +3,39 @@ id: ruvnet/reasoningbank-agentdb
 name: ReasoningBank AgentDB
 contributor: ruvnet
 origin: false
-genericSkillRef: "agent-memory-learning"
+genericSkillRef: agent-memory-learning
 status: named
-title: "The Knowledge Crystallizer"
+title: The Knowledge Crystallizer
 catalogRef: ruvnet-reasoningbank-agentdb
-level: "2★"
-description: Persists agent reasoning patterns in AgentDB vector memory and retrieves them semantically for continuous self-improvement across sessions.
+level: 2★
+description: Persists agent reasoning patterns in AgentDB vector memory and retrieves
+  them semantically for continuous self-improvement across sessions.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - reasoning-persistence
-  - vector-memory
-  - agentdb
-  - self-improvement
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/reasoningbank"
+- reasoning-persistence
+- vector-memory
+- agentdb
+- self-improvement
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/reasoningbank
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 13c4bacd8f4c6d457a87854d994a3607db129a5b8db4f980b49af15c2e5d5769
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:20Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 ---
 
 ## Overview

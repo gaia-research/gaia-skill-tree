@@ -36,6 +36,21 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md
     as C (trustNumber: 50.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:18Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 5c2bde2c36d41380fac68a7fe69ee324bf9df70896760c5dfad3e69694bbe508
 ---
 
 ## Overview

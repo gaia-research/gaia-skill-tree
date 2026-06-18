@@ -37,6 +37,21 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber:
     70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:20Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 84e3631c9c0681fb2cf75f77b133dcadc3f45873bc7e45574384ef1b2edae1ce
 ---
 
 ## Overview

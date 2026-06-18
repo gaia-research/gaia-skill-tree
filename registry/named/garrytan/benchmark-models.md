@@ -42,6 +42,23 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/garrytan/gstack/blob/main/benchmark-models/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:14Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: f7364bd644ab9f17fc1a96ecf2db691e807aa3c039fb21aa9754cf586a835dad
+verification:
+  firstEvidenceAt: '2026-06-03T05:51:29Z'
 ---
 
 ## Overview

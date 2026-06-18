@@ -5,20 +5,38 @@ contributor: huggingface
 origin: false
 genericSkillRef: fine-tune
 status: named
-title: "The Cloud Fine-Tuner"
+title: The Cloud Fine-Tuner
 catalogRef: huggingface-llm-trainer
-level: "3★"
-description: Runs LLM fine-tuning on Hugging Face Jobs using TRL or Unsloth, covering SFT, DPO, GRPO, reward modeling, dataset validation, hardware selection, Trackio monitoring, and Hub persistence.
+level: 3★
+description: Runs LLM fine-tuning on Hugging Face Jobs using TRL or Unsloth, covering
+  SFT, DPO, GRPO, reward modeling, dataset validation, hardware selection, Trackio
+  monitoring, and Hub persistence.
 links:
   github: https://github.com/huggingface/skills/blob/main/skills/huggingface-llm-trainer/SKILL.md
 tags:
-  - huggingface
-  - fine-tuning
-  - trl
-  - jobs
-  - trackio
-createdAt: "2026-05-03"
-updatedAt: "2026-05-03"
+- huggingface
+- fine-tuning
+- trl
+- jobs
+- trackio
+createdAt: '2026-05-03'
+updatedAt: '2026-05-03'
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 767259314529948bdc83a1c8c532b7c988f9ebe3d78ae0aacd2bd59f1f035839
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:17Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 ---
 
 ## Overview

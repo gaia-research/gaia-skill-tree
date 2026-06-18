@@ -6,21 +6,38 @@ origin: false
 role: variant
 genericSkillRef: memory-manage
 status: named
-title: "The Memory Consolidator"
+title: The Memory Consolidator
 catalogRef: ruvnet-v3-memory-unification
-level: "2★"
-description: Unifies disparate Ruflo v3 memory subsystems (AgentDB, RVF, RAG memory) into a single coherent memory management layer.
+level: 2★
+description: Unifies disparate Ruflo v3 memory subsystems (AgentDB, RVF, RAG memory)
+  into a single coherent memory management layer.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - memory-unification
-  - agentdb
-  - rvf
-  - rag-memory
-  - v3-sprint
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo-v3"
+- memory-unification
+- agentdb
+- rvf
+- rag-memory
+- v3-sprint
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo-v3
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 150734ff43ea2c6ee818aa81987c34fbd2cc5dee97092a166c72a73fecd11ec7
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:21Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 ---
 
 ## Overview

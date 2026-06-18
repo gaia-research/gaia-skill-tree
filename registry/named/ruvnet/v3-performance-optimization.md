@@ -6,22 +6,39 @@ origin: false
 role: variant
 genericSkillRef: performance-tuning
 status: named
-title: "The Speed Sculptor"
+title: The Speed Sculptor
 catalogRef: ruvnet-v3-performance-optimization
-level: "2★"
-description: Profiles and optimizes Ruflo v3 platform performance across startup time, request latency, memory footprint, and throughput.
+level: 2★
+description: Profiles and optimizes Ruflo v3 platform performance across startup time,
+  request latency, memory footprint, and throughput.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - performance
-  - profiling
-  - optimization
-  - latency
-  - throughput
-  - v3-sprint
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo-v3"
+- performance
+- profiling
+- optimization
+- latency
+- throughput
+- v3-sprint
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo-v3
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 54fbface325ef8317ac15abe6860fbd216c17d47d2d12f5d53ee2d1fac558f22
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:21Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 ---
 
 ## Overview

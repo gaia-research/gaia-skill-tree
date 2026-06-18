@@ -22,6 +22,22 @@ suiteComponents:
 - mattpocock/triage
 - mattpocock/ubiquitous-language
 - mattpocock/zoom-out
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 7d257b90e6e19e12a665695a758ce86cb9d614b96686bd3eb9bf61f9f0a81aae
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:18Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 ---
 
 ## Overview

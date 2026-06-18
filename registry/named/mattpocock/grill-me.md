@@ -39,6 +39,21 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:18Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 90f863093ccde55b568743eb8c28bcc7ab1c5b3e82627d14a2484e6080a07111
 ---
 
 ## Overview

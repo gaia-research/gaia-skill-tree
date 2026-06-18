@@ -23,6 +23,21 @@ timeline:
   action: add
   contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-triage
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:19Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: de0e5a7594c733a202463b2197f827e360e33c1ef37412c2e0f21461489b8c7a
 ---
 
 ## Overview

@@ -5,21 +5,38 @@ contributor: openai
 origin: true
 genericSkillRef: few-shot-learning
 status: named
-title: "The In-Context Learner"
+title: The In-Context Learner
 catalogRef: openai-few-shot-learning
-level: "2★"
-description: Conditions the model on a small set of examples within the prompt to adapt to new tasks without weight updates.
+level: 2★
+description: Conditions the model on a small set of examples within the prompt to
+  adapt to new tasks without weight updates.
 links:
   installable: false
   arxiv: https://arxiv.org/abs/2005.14165
 tags:
-  - few-shot
-  - icl
-  - prompt-engineering
-  - gpt-3
-  - unique
-createdAt: "2026-05-15"
-updatedAt: "2026-05-15"
+- few-shot
+- icl
+- prompt-engineering
+- gpt-3
+- unique
+createdAt: '2026-05-15'
+updatedAt: '2026-05-15'
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 55008cdf22ea7876abb446dbba090b867652ee56e608c9aecd6ee8908ef5c69a
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:19Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 ---
 
 ## Overview

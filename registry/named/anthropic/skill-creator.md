@@ -25,6 +25,21 @@ timeline:
   action: demote
   contributor: unknown
   details: Origin status removed. Transferred to mattpocock/write-a-skill.
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:14Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: ce4a2092ef8853b1b7310389a5a9e4c154e94d31b01c351cb655c77a17596f55
 ---
 
 ## Overview

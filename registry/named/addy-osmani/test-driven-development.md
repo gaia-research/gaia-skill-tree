@@ -34,6 +34,9 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:14Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md
@@ -44,6 +47,18 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: f9f365b9ff2ed82fb1e28f2ccaf2e7697e01e5446ee38dd2f78b113b9bf7b791
 ---
 
 ## Overview

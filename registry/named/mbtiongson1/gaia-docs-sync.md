@@ -23,6 +23,21 @@ timeline:
   action: add
   contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-docs-sync
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:19Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 7a95ed86539cce929d6511b828bfc5354cc3c28e73f4546d75def6e804e6ee38
 ---
 
 ## Overview

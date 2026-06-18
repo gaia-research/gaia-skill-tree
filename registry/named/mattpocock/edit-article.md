@@ -36,6 +36,9 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:18Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md
@@ -46,6 +49,20 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: b57f4d661a6459b45a592c9dbde8b4bd8ee78e61a9c49697bcbe2232896174a9
+verification:
+  firstEvidenceAt: '2026-06-10T05:38:17Z'
 ---
 
 ## Overview

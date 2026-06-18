@@ -34,6 +34,9 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:16Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md
@@ -44,6 +47,20 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 6cc4f4860ea86ad034181702eb1ead696daced2fc23d13a65f6b72477bcba5d3
+verification:
+  firstEvidenceAt: '2026-06-10T05:38:16Z'
 ---
 
 ## Overview

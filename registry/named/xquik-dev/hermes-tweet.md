@@ -37,6 +37,21 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/Xquik-dev/hermes-tweet as B
     (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:21Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 487dda9ad1b68b4569a83c8caaf6a10c465273d22fb4625ead283e7af75e6ab3
 ---
 
 ## Overview

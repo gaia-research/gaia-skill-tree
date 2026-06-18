@@ -36,6 +36,21 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/laravel/boost/issues/698 as
     B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:18Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: e105e6ce092ba33bda9b2fc9119f9b6599ed0af2bc8a1c4585c5196ebd932bba
 ---
 
 ## Overview

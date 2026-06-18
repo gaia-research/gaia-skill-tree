@@ -33,6 +33,21 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/santifer/career-ops as B (trustNumber:
     70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:21Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 816b7b8f9272f509c3964429ecc13649d2a4f9d90c2ef5b3a1a90c46d5814d0e
 ---
 
 ## Overview

@@ -17,6 +17,21 @@ timeline:
   action: add
   contributor: unknown
   details: Added named skill langgenius/backend-code-review
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:18Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: f514e5e7a20fb28c0844b113818039a6a5e72981ee6c88ec53ac40dde218ed4e
 ---
 
 ## Installation

@@ -6,21 +6,38 @@ origin: false
 role: variant
 genericSkillRef: project-management
 status: named
-title: "The Backlog Warden"
+title: The Backlog Warden
 catalogRef: ruvnet-github-project-management
-level: "2★"
-description: Manages GitHub Projects boards, milestones, issue tracking, and sprint planning through automated workflow integration.
+level: 2★
+description: Manages GitHub Projects boards, milestones, issue tracking, and sprint
+  planning through automated workflow integration.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - github
-  - project-management
-  - issues
-  - milestones
-  - sprints
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/github-suite"
+- github
+- project-management
+- issues
+- milestones
+- sprints
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/github-suite
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 85126e156e1297b4da5b2a545824357adc176003f63ce50344f5dd6c56dd3bb5
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:20Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 ---
 
 ## Overview

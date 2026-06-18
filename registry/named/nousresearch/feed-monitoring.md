@@ -41,6 +41,21 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:19Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 3a328514ffd4463161e2b1d853b2f1914d79bff82948e387989ccc846e21b279
 ---
 
 ## Overview

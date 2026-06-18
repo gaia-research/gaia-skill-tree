@@ -16,6 +16,21 @@ timeline:
   action: add
   contributor: unknown
   details: Added named skill langgenius/component-refactoring
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:18Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: d3633687044885b7fdd90d673bf9b5dd8d70cf24b07356c68d07ef4b85308c4a
 ---
 
 ## Installation

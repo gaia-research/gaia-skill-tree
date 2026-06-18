@@ -27,6 +27,13 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:13Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B"
@@ -76,6 +83,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/health/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -137,6 +149,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -188,6 +205,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/Manavarya09/design-extract as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -254,6 +276,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -290,6 +317,11 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Origin status removed. Transferred to addy-osmani/performance-optimization."
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -322,6 +354,13 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "basic",
         "role": "variant",
@@ -378,6 +417,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -439,6 +483,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/document-generate/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -493,6 +542,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -544,6 +598,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/document-release/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -604,6 +663,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/personal",
@@ -643,6 +707,11 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Origin status set to true."
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/productivity",
@@ -679,6 +748,11 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Origin status removed. Transferred to mattpocock/write-a-skill."
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -725,6 +799,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/bradautomates/claude-video as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -796,6 +875,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/browse/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
@@ -847,6 +931,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/browser-use/browser-harness as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -898,6 +987,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/open-gstack-browser/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -950,6 +1044,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/setup-browser-cookies/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -980,6 +1079,13 @@
         },
         "createdAt": "2026-05-17",
         "updatedAt": "2026-05-17",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A"
@@ -1007,6 +1113,13 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "suiteRef": "ruvnet/ruflo",
         "type": "extra",
         "role": "variant",
@@ -1041,6 +1154,11 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 1★"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:17Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -1096,6 +1214,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -1151,6 +1274,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/cognition-labs/devin as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -1210,6 +1338,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/scrape/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1269,6 +1402,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/firecrawl/firecrawl as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -1322,6 +1460,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/benchmark-models/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1352,6 +1495,13 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "suiteRef": "ruvnet/ruflo",
         "type": "extra",
         "role": "variant",
@@ -1405,6 +1555,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/benchmark/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1458,6 +1613,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/plan-ceo-review/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1513,6 +1673,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/canary/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1567,6 +1732,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/guard/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1619,6 +1789,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/careful/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1671,6 +1846,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/freeze/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1723,6 +1903,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/unfreeze/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:16Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1777,6 +1962,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/codex/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1801,6 +1991,13 @@
         },
         "createdAt": "2026-05-21",
         "updatedAt": "2026-06-04",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "suiteRef": "mattpocock/productivity",
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
@@ -1852,6 +2049,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/context-restore/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1904,6 +2106,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/context-save/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1960,6 +2167,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/cso/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
@@ -2007,6 +2219,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md as C (trustNumber: 50.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:17Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -2036,6 +2253,13 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "extra",
         "role": "variant",
@@ -2095,6 +2319,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/design-html/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2149,6 +2378,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/pbakaus/impeccable as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -2201,6 +2435,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2254,6 +2493,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2318,6 +2562,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/design-review/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
@@ -2382,6 +2631,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/devex-review/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2436,6 +2690,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -2490,6 +2749,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/design-shotgun/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2558,6 +2822,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2619,6 +2888,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -2674,6 +2948,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/gstack-upgrade/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2726,6 +3005,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteComponents": [
@@ -2839,6 +3123,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2892,6 +3181,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -2947,6 +3241,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/land-and-deploy/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2999,6 +3298,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/setup-deploy/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -3047,6 +3351,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md as C (trustNumber: 50.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:17Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -3103,6 +3412,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -3156,6 +3470,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/landing-report/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -3186,6 +3505,13 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "suiteRef": "ruvnet/github-suite",
         "type": "extra",
         "role": "variant",
@@ -3238,6 +3564,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/learn/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -3268,6 +3599,13 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "extra",
         "role": "variant",
@@ -3332,6 +3670,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -3388,6 +3731,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/office-hours/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
@@ -3442,6 +3790,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/pair-agent/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -3487,6 +3840,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md as C (trustNumber: 50.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:17Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -3516,6 +3874,13 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "basic",
         "role": "variant",
@@ -3569,6 +3934,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/plan-eng-review/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -3622,6 +3992,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/review/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -3657,6 +4032,11 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 1★"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/github-suite",
@@ -3711,6 +4091,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/plan-tune/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -3743,6 +4128,11 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 1★"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -3797,6 +4187,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/qa/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -3849,6 +4244,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/qa-only/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -3896,6 +4296,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md as C (trustNumber: 50.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -3967,6 +4372,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/retro/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -4026,6 +4436,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:16Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -4079,6 +4494,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -4132,6 +4552,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/setup-gbrain/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -4184,6 +4609,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/sync-gbrain/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:16Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -4245,6 +4675,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/ship/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:16Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -4298,6 +4733,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/finishing-a-development-branch/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -4352,6 +4792,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/skillify/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:16Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -4382,6 +4827,13 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "suiteRef": "ruvnet/ruflo",
         "type": "extra",
         "role": "variant",
@@ -4427,6 +4879,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/getagentseal/codeburn as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:16Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -4458,6 +4915,13 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:17Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "A"
@@ -4487,6 +4951,13 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:17Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B"
@@ -4516,6 +4987,13 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:17Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "A"
@@ -4545,6 +5023,13 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:17Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A"
@@ -4574,6 +5059,13 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:17Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "A"
@@ -4648,6 +5140,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/codefuse-ai/ModelCache as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:17Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -4679,6 +5176,13 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:17Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A"
@@ -4726,6 +5230,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md as C (trustNumber: 50.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:17Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -4772,6 +5281,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md as C (trustNumber: 50.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:17Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -4820,6 +5334,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md as C (trustNumber: 50.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:17Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -4855,6 +5374,11 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 1★"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/github-suite",
@@ -4902,6 +5426,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md as C (trustNumber: 50.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:17Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -4949,6 +5478,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/karpathy/autoresearch as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -4997,6 +5531,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/laravel/boost/issues/698 as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -5017,6 +5556,13 @@
         "title": "The Matt Pocock Engineering Discipline",
         "createdAt": "2026-05-21",
         "updatedAt": "2026-06-10",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "suiteRef": "mattpocock/skills",
         "suiteComponents": [
           "mattpocock/diagnose",
@@ -5082,6 +5628,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/productivity",
@@ -5135,6 +5686,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -5178,6 +5734,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/productivity",
@@ -5212,6 +5773,13 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "suiteRef": "mattpocock/engineering",
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
@@ -5253,6 +5821,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/personal",
@@ -5275,6 +5848,13 @@
         "title": "The Matt Pocock Personal Suite",
         "createdAt": "2026-05-21",
         "updatedAt": "2026-06-10",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "suiteRef": "mattpocock/skills",
         "suiteComponents": [
           "mattpocock/edit-article",
@@ -5299,6 +5879,13 @@
         "title": "The Matt Pocock Productivity Suite",
         "createdAt": "2026-05-21",
         "updatedAt": "2026-06-10",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "suiteRef": "mattpocock/skills",
         "suiteComponents": [
           "mattpocock/caveman",
@@ -5346,6 +5933,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -5389,6 +5981,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -5414,6 +6011,13 @@
         },
         "createdAt": "2026-05-22",
         "updatedAt": "2026-05-22",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "suiteComponents": [
           "mattpocock/caveman",
           "mattpocock/diagnose",
@@ -5487,6 +6091,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -5538,6 +6147,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -5572,6 +6186,11 @@
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill mbtiongson1/gaia-triage"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -5622,6 +6241,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -5677,6 +6301,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
@@ -5709,6 +6338,13 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "suiteRef": "mattpocock/engineering",
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
@@ -5768,6 +6404,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md as C (trustNumber: 50.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -5830,6 +6471,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -5872,6 +6518,11 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 4★ to 2★"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -5910,6 +6561,11 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 2★"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -5942,6 +6598,11 @@
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill mbtiongson1/gaia-docs-sync"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -5980,6 +6641,11 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 2★"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -6019,6 +6685,11 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 2★"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -6051,6 +6722,11 @@
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill mbtiongson1/gaia-wiki-sync"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -6118,6 +6794,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -6177,6 +6858,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -6230,6 +6916,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/nexu-io/open-design as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -6285,6 +6976,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -6333,6 +7029,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/brainstorming/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -6382,6 +7083,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/dispatching-parallel-agents/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -6430,6 +7136,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/executing-plans/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -6479,6 +7190,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/receiving-code-review/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -6528,6 +7244,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -6577,6 +7298,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/subagent-driven-development/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -6631,6 +7357,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -6680,6 +7411,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/obra/superpowers as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteComponents": [
@@ -6746,6 +7482,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/using-git-worktrees/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -6795,6 +7536,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -6849,6 +7595,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -6898,6 +7649,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/writing-plans/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -6931,6 +7687,13 @@
         },
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "A"
@@ -6961,6 +7724,13 @@
         },
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "A"
@@ -7014,6 +7784,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/agentdb",
@@ -7045,6 +7820,13 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "suiteRef": "ruvnet/reasoningbank",
         "type": "extra",
         "role": "variant",
@@ -7078,6 +7860,11 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 1★"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/agentdb",
@@ -7127,6 +7914,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/agentdb",
@@ -7176,6 +7968,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/agentdb",
@@ -7226,6 +8023,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/agentdb",
@@ -7276,6 +8078,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -7338,6 +8145,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -7389,6 +8201,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/dual-mode",
@@ -7439,6 +8256,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/dual-mode",
@@ -7489,6 +8311,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -7545,6 +8372,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/dual-mode",
@@ -7601,6 +8433,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/flow-nexus",
@@ -7657,6 +8494,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/flow-nexus",
@@ -7695,6 +8537,11 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 1★"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/flow-nexus",
@@ -7731,6 +8578,11 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 1★"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
@@ -7783,6 +8635,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -7839,6 +8696,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/github-suite",
@@ -7889,6 +8751,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -7929,6 +8796,13 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "suiteRef": "ruvnet/ruflo",
         "type": "extra",
         "role": "variant",
@@ -7962,6 +8836,11 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 1★"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/github-suite",
@@ -8029,6 +8908,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -8085,6 +8969,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/reasoningbank",
@@ -8134,6 +9023,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -8190,6 +9084,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -8255,6 +9154,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:20Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteComponents": [
@@ -8346,6 +9250,11 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 1★"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -8397,6 +9306,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -8454,6 +9368,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
@@ -8511,6 +9430,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
@@ -8562,6 +9486,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
@@ -8613,6 +9542,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
@@ -8664,6 +9598,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
@@ -8715,6 +9654,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -8751,6 +9695,11 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 1★"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -8797,6 +9746,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/santifer/career-ops as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -8828,6 +9782,13 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "timeline": [
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          }
+        ],
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "A"
@@ -8874,6 +9835,11 @@
             "action": "evidence_graded",
             "contributor": "unknown",
             "details": "Re-graded evidence from https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -8913,6 +9879,11 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 1★"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:21Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -8933,6 +9904,13 @@
       "description": "AI-powered cascading development framework.",
       "createdAt": "2026-05-23",
       "updatedAt": "2026-06-10",
+      "timeline": [
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:21Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        }
+      ],
       "type": "basic",
       "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only."
     },
@@ -8947,6 +9925,13 @@
       "description": "Chat, specs, tasks, and code. An autonomous engineering platform.",
       "createdAt": "2026-05-23",
       "updatedAt": "2026-06-10",
+      "timeline": [
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:14Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        }
+      ],
       "type": "basic",
       "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only."
     },
@@ -8971,6 +9956,13 @@
       },
       "createdAt": "2026-05-10",
       "updatedAt": "2026-05-10",
+      "timeline": [
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:14Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        }
+      ],
       "type": "basic"
     },
     {
@@ -9018,6 +10010,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:14Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9054,6 +10051,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra"
@@ -9090,6 +10092,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra"
@@ -9126,6 +10133,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9162,6 +10174,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9198,6 +10215,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9234,6 +10256,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9270,6 +10297,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9306,6 +10338,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9342,6 +10379,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9378,6 +10420,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9414,6 +10461,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9450,6 +10502,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9486,6 +10543,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9522,6 +10584,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9558,6 +10625,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9594,6 +10666,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9630,6 +10707,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9666,6 +10748,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9702,6 +10789,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9738,6 +10830,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9774,6 +10871,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9810,6 +10912,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9846,6 +10953,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:16Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9882,6 +10994,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:17Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra"
@@ -9934,6 +11051,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:17Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -9970,6 +11092,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:17Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -10006,6 +11133,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:17Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -10042,6 +11174,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:17Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -10078,6 +11215,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:17Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -10114,6 +11256,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:17Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -10150,6 +11297,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:17Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -10186,6 +11338,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:17Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -10222,6 +11379,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:17Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -10258,6 +11420,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:17Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -10294,6 +11461,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:17Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -10330,6 +11502,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:17Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -10366,6 +11543,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:17Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra"
@@ -10390,6 +11572,11 @@
           "action": "add",
           "contributor": "unknown",
           "details": "Added named skill langgenius/backend-code-review"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:18Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra",
@@ -10415,6 +11602,11 @@
           "action": "add",
           "contributor": "unknown",
           "details": "Added named skill langgenius/component-refactoring"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:18Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic",
@@ -10440,6 +11632,11 @@
           "action": "add",
           "contributor": "unknown",
           "details": "Added named skill langgenius/e2e-cucumber-playwright"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:18Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra",
@@ -10465,6 +11662,11 @@
           "action": "add",
           "contributor": "unknown",
           "details": "Added named skill langgenius/frontend-code-review"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:18Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra",
@@ -10490,6 +11692,11 @@
           "action": "add",
           "contributor": "unknown",
           "details": "Added named skill langgenius/frontend-testing"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:18Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra",
@@ -10506,6 +11713,13 @@
       "description": "Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers the full pipeline from raw noisy input through preprocessing, inference, and output normalisation. Stack is intentionally tool-agnostic — three implementation tracks are documented below.\n",
       "createdAt": "2026-05-17",
       "updatedAt": "2026-05-17",
+      "timeline": [
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:19Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        }
+      ],
       "type": "basic"
     },
     {
@@ -10519,6 +11733,13 @@
       "description": "MCP tool for finding AI dev jobs.",
       "createdAt": "2026-05-22",
       "updatedAt": "2026-06-10",
+      "timeline": [
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:21Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        }
+      ],
       "type": "basic",
       "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only."
     },
@@ -10545,6 +11766,11 @@
           "action": "demote",
           "contributor": "unknown",
           "details": "No installable code available; marked installable: false."
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:21Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra",
@@ -10561,6 +11787,13 @@
       "description": "Expert at integrating n8n with MCP (Model Context Protocol). Build n8n workflows that expose MCP tools, or use MCP tools within n8n workflows.",
       "createdAt": "2026-05-22",
       "updatedAt": "2026-06-10",
+      "timeline": [
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:21Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        }
+      ],
       "type": "basic",
       "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only."
     },
@@ -10604,6 +11837,11 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/Xquik-dev/hermes-tweet as B (trustNumber: 70.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:21Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra"
@@ -10619,6 +11857,13 @@
       "description": "Build Model Context Protocol (MCP) servers and tools from scratch. Full-stack MCP development with TypeScript/Python, testing, deployment, and registry publishing.",
       "createdAt": "2026-05-22",
       "updatedAt": "2026-06-10",
+      "timeline": [
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-18T11:27:21Z",
+          "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        }
+      ],
       "type": "basic",
       "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only."
     }

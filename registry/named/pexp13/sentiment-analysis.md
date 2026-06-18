@@ -5,14 +5,31 @@ contributor: pexp13
 origin: true
 genericSkillRef: sentiment-analysis
 status: awakened
-level: "2★"
-description: >
-  Classifies the affective polarity (positive / negative / neutral, or fine-grained)
-  of user-generated text. Covers the full pipeline from raw noisy input through
-  preprocessing, inference, and output normalisation. Stack is intentionally
+level: 2★
+description: 'Classifies the affective polarity (positive / negative / neutral, or
+  fine-grained) of user-generated text. Covers the full pipeline from raw noisy input
+  through preprocessing, inference, and output normalisation. Stack is intentionally
   tool-agnostic — three implementation tracks are documented below.
-createdAt: "2026-05-17"
-updatedAt: "2026-05-17"
+
+  '
+createdAt: '2026-05-17'
+updatedAt: '2026-05-17'
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 41e3f2d64cb47eba1a1fc6f381dc9ac171580047df0d7528cbb03185361d77c7
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:19Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 ---
 
 ## Implementation

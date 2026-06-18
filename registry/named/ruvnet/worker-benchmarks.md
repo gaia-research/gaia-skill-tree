@@ -5,21 +5,38 @@ contributor: ruvnet
 origin: false
 genericSkillRef: skill-performance-benchmarking
 status: named
-title: "The Performance Judge"
+title: The Performance Judge
 catalogRef: ruvnet-worker-benchmarks
-level: "2★"
-description: Benchmarks Ruflo background worker performance across latency, throughput, memory usage, and quality score dimensions.
+level: 2★
+description: Benchmarks Ruflo background worker performance across latency, throughput,
+  memory usage, and quality score dimensions.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - benchmarking
-  - workers
-  - performance
-  - throughput
-  - quality-scoring
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo"
+- benchmarking
+- workers
+- performance
+- throughput
+- quality-scoring
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: a72e7525ce4b2141a2a0fe4e5262455f62766aced5fee196738bf80f3509142d
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:21Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 ---
 
 ## Overview

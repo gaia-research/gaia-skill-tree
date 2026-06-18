@@ -17,6 +17,21 @@ timeline:
   action: add
   contributor: unknown
   details: Added named skill langgenius/e2e-cucumber-playwright
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:18Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: f78ad09ff08b5c0c5fd2f36c1c2e30f46abbc590203ed203cc78163e232cd57e
 ---
 
 ## Installation

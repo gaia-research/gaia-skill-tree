@@ -29,6 +29,21 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 4★ to 2★
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:19Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: e4fa74b913e879797820ddf34465c3106d1a1b48d7ebc598b3e73a7720691c30
 ---
 
 ## Overview
