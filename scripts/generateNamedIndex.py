@@ -398,7 +398,8 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
 
 
 def _inject_trust_grades(buckets, generic_skills_map, gate_config):
-    """Annotate each named-skill bucket entry with overallTrustGrade.
+    """Annotate each named-skill bucket entry with overallTrustGrade, trustMagnitude,
+    and apexGateStatus.
 
     A named skill's *effective* evidence is its own implementation-specific
     evidence unioned with the capability evidence inherited from its generic
@@ -413,10 +414,15 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
     too, so mixed suites still work.  Without this, named component ids miss the
     generic-keyed map and every suite reads "0/3".
 
+    ``trustMagnitude`` (float) and ``apexGateStatus`` (dict of predicate ->
+    True/False/None) are added alongside overallTrustGrade so the display layer
+    (report.html, skill-explorer.js) can render TM cards without re-computing.
+
     Mutates entries in-place; no fields are stored in registry nodes.
     """
     from gaia_cli.grading import overall_trust_grade, check_ultimate_gate
     from gaia_cli.evidence import inherited_evidence
+    from gaia_cli.trustMagnitude import computeTrustMagnitude, passesApexGate
 
     def _effective(entry):
         generic_node = generic_skills_map.get(entry.get("genericSkillRef"))
@@ -434,12 +440,32 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
                 "suiteComponents": entry.get("suiteComponents"),
             }
 
+    # Build a named-skill lookup for apex gate predicate resolution
+    named_skill_map = {}
+    for _ref, entries in buckets.items():
+        for entry in entries:
+            named_skill_map[entry["id"]] = entry
+
     for _ref, entries in buckets.items():
         for entry in entries:
             effective = _effective(entry)
             grade = overall_trust_grade(effective)
             if grade is not None:
                 entry["overallTrustGrade"] = grade
+
+            # Compute Trust Magnitude — use a skill dict that includes the
+            # effective evidence pool so inherited rows are counted.
+            skill_with_effective = {**entry, "evidence": effective}
+            tm = computeTrustMagnitude(skill_with_effective, generic_skills_map)
+            entry["trustMagnitude"] = round(tm, 2)
+
+            # Compute apex gate predicate status for each named skill.
+            registry_state = {
+                "genericSkillMap": generic_skills_map,
+                "namedSkillMap": named_skill_map,
+            }
+            apex_status = passesApexGate(skill_with_effective, registry_state)
+            entry["apexGateStatus"] = apex_status
 
             if entry.get("type") == "ultimate":
                 # Score the gate on effective evidence: components via the
