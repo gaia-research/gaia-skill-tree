@@ -91,7 +91,7 @@ timeline:
     70.0)'
 - timestamp: '2026-06-18T12:00:00Z'
   action: demote
-  contributor: testuser
+  contributor: mbtiongson1
   details: G7 cutover — apex gate failed all 6 active predicates; re-application open
     immediately once all 6 active predicates pass (direct edit — CLI gap)
 ---
