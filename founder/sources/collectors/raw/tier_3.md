@@ -12,55 +12,49 @@ This file lists the raw evidence sources for named skills rated at 3★.
 #### E1: `repo`
 - **Source:** [https://github.com/princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench)
 - **Date:** 2026-04-28
-- **Verified Stars:** 5,197 stars
+- **Verified Stars:** 5,200 stars
 - **Description:** SWE-bench Verified â€” open-source evaluation harness where agents fix GitHub issues by generating and passing test suites; full execution logs archived. (backfilled — class-to-type migration)
-
-#### E2: `repo`
-- **Source:** [https://github.com/0xDarkMatter/claude-mods](https://github.com/0xDarkMatter/claude-mods)
-- **Date:** 2026-06-17
-- **Verified Stars:** 22 stars
-- **Description:** 0xDarkMatter's claude-mods repository containing testing patterns for Claude Code.
 
 ---
 
 ## Skill: `addy-osmani/performance-optimization`
 - **Name:** Performance Optimization
 - **Contributor:** `addy-osmani`
-- **Primary GitHub Repository:** [https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md) (62,107 stars)
+- **Primary GitHub Repository:** [https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md) (62,101 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
 - **Source:** [https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md)
 - **Date:** 2026-05-31
-- **Verified Stars:** 62,107 stars
+- **Verified Stars:** 62,101 stars
 - **Description:** Addy Osmani's performance-optimization SKILL.md in agent-skills repo (47.2k stars, verified 2026-05-31). Defines a measurement-driven 5-step workflow (Measure → Identify → Fix → Verify → Guard) with explicit Core Web Vitals thresholds. Qualifies for Class A per META §2.1 large-scale adoption criterion. (backfilled — class-to-type migration)
 
-#### E2: `repo`
-- **Source:** [https://github.com/addyosmani/web-quality-skills](https://github.com/addyosmani/web-quality-skills)
-- **Date:** 2026-06-18
-- **Verified Stars:** 2,376 stars
-- **Description:** Addy Osmani's web-quality-skills repository targeting web quality, Lighthouse metrics, and Core Web Vitals optimization.
+#### E2: `github-stars`
+- **Source:** [https://github.com/ruvnet/ruflo](https://github.com/ruvnet/ruflo)
+- **Date:** 2026-05-19
+- **Verified Stars:** 59,957 stars
+- **Description:** Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)
 
 ---
 
 ## Skill: `addy-osmani/test-driven-development`
 - **Name:** Test-Driven Development
 - **Contributor:** `addy-osmani`
-- **Primary GitHub Repository:** [https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md) (62,107 stars)
+- **Primary GitHub Repository:** [https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md) (62,101 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
 - **Source:** [https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md)
 - **Date:** 2026-04-30
-- **Verified Stars:** 62,107 stars
+- **Verified Stars:** 62,101 stars
 - **Description:** Addy Osmani /test-driven-development slash command -- forces strict TDD workflow, stopping agents from skipping tests. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md)
 - **Date:** 2026-04-30
-- **Verified Stars:** 133,232 stars
+- **Verified Stars:** 133,210 stars
 - **Description:** Matt Pocock /tdd -- Vertical-slice TDD enforcement with anti-horizontal-slicing rules. (backfilled — class-to-type migration)
 
 ---
@@ -87,13 +81,13 @@ This file lists the raw evidence sources for named skills rated at 3★.
 #### E3: `repo`
 - **Source:** [https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md](https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md)
 - **Date:** 2026-05-10
-- **Verified Stars:** 152,091 stars
+- **Verified Stars:** 152,231 stars
 - **Description:** Anthropic skill-creator explicitly includes measuring skill performance, benchmarking with variance analysis, and optimizing skill descriptions for triggering accuracy. (backfilled — class-to-type migration)
 
 #### E4: `repo`
 - **Source:** [https://github.com/ynulihao/AgentSkillOS](https://github.com/ynulihao/AgentSkillOS)
 - **Date:** 2026-05-10
-- **Verified Stars:** 427 stars
+- **Verified Stars:** 428 stars
 - **Description:** AgentSkillOS repository provides the reproducible retrieval/orchestration framework and benchmark implementation for 30 artifact-rich agent-skill tasks with Bradley-Terry scoring. (backfilled — class-to-type migration)
 
 ---
@@ -192,7 +186,7 @@ This file lists the raw evidence sources for named skills rated at 3★.
 #### E3: `repo`
 - **Source:** [https://github.com/NVIDIA-NeMo/Guardrails](https://github.com/NVIDIA-NeMo/Guardrails)
 - **Date:** 2026-04-30
-- **Verified Stars:** 6,461 stars
+- **Verified Stars:** 6,463 stars
 - **Description:** NeMo Guardrails -- open-source toolkit for adding programmable safety rails to LLM-based conversational systems; actively maintained. (backfilled — class-to-type migration)
 
 ---
@@ -213,7 +207,7 @@ This file lists the raw evidence sources for named skills rated at 3★.
 #### E2: `repo`
 - **Source:** [https://github.com/princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench)
 - **Date:** 2026-04-28
-- **Verified Stars:** 5,197 stars
+- **Verified Stars:** 5,200 stars
 - **Description:** SWE-bench Verified â€” open-source evaluation harness where agents fix GitHub issues by generating and passing test suites; full execution logs archived. (backfilled — class-to-type migration)
 
 ---
@@ -270,13 +264,13 @@ This file lists the raw evidence sources for named skills rated at 3★.
 #### E2: `repo`
 - **Source:** [https://github.com/modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk)
 - **Date:** 2026-04-30
-- **Verified Stars:** 4,696 stars
+- **Verified Stars:** 4,699 stars
 - **Description:** Official Go SDK for MCP servers and clients (4.4k stars, maintained by Anthropic + Google). Demonstrates production-grade MCP client integration pattern. (backfilled — class-to-type migration)
 
 #### E3: `repo`
 - **Source:** [https://github.com/nanbingxyz/5ire](https://github.com/nanbingxyz/5ire)
 - **Date:** 2026-04-30
-- **Verified Stars:** 5,247 stars
+- **Verified Stars:** 5,248 stars
 - **Description:** Cross-platform AI assistant with full MCP client support (5.2k stars). Reproduces tool enumeration, execution, and multi-server routing. (backfilled — class-to-type migration)
 
 ---
@@ -314,20 +308,20 @@ This file lists the raw evidence sources for named skills rated at 3★.
 ## Skill: `google-deepmind/alphagenome_single_variant_analysis`
 - **Name:** Alphagenome-Single-Variant-Analysis
 - **Contributor:** `google-deepmind`
-- **Primary GitHub Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md) (1,930 stars)
+- **Primary GitHub Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md) (1,934 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,930 stars
+- **Verified Stars:** 1,934 stars
 - **Description:** Official Google DeepMind alphagenome_single_variant_analysis science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,930 stars
+- **Verified Stars:** 1,934 stars
 - **Description:** Foundational canonical generic skill for Computational Biology Workflows. (backfilled — class-to-type migration)
 
 ---
@@ -335,20 +329,20 @@ This file lists the raw evidence sources for named skills rated at 3★.
 ## Skill: `google-deepmind/protein_sequence_msa`
 - **Name:** Protein-Sequence-Msa
 - **Contributor:** `google-deepmind`
-- **Primary GitHub Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md) (1,930 stars)
+- **Primary GitHub Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md) (1,934 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,930 stars
+- **Verified Stars:** 1,934 stars
 - **Description:** Official Google DeepMind protein_sequence_msa science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,930 stars
+- **Verified Stars:** 1,934 stars
 - **Description:** Foundational canonical generic skill for Computational Biology Workflows. (backfilled — class-to-type migration)
 
 ---
@@ -356,7 +350,7 @@ This file lists the raw evidence sources for named skills rated at 3★.
 ## Skill: `huggingface/huggingface-llm-trainer`
 - **Name:** Hugging Face LLM Trainer
 - **Contributor:** `huggingface`
-- **Primary GitHub Repository:** [https://github.com/huggingface/skills/blob/main/skills/huggingface-llm-trainer/SKILL.md](https://github.com/huggingface/skills/blob/main/skills/huggingface-llm-trainer/SKILL.md) (10,686 stars)
+- **Primary GitHub Repository:** [https://github.com/huggingface/skills/blob/main/skills/huggingface-llm-trainer/SKILL.md](https://github.com/huggingface/skills/blob/main/skills/huggingface-llm-trainer/SKILL.md) (10,689 stars)
 
 ### Evidence Rows:
 
@@ -370,20 +364,20 @@ This file lists the raw evidence sources for named skills rated at 3★.
 - **Source:** [https://github.com/huggingface/peft](https://github.com/huggingface/peft)
 - **Date:** 2026-04-30
 - **Verified Stars:** 21,278 stars
-- **Description:** HuggingFace PEFT repository containing libraries for Parameter-Efficient Fine-Tuning, utilized by this trainer skill.
+- **Description:** HuggingFace PEFT -- state-of-the-art LoRA/QLoRA/IA3 fine-tuning; 100k+ stars, CI, active maintenance. (backfilled — class-to-type migration)
 
-#### E3: `proxy-containment`
+#### E3: `repo`
 - **Source:** [https://github.com/hiyouga/LlamaFactory](https://github.com/hiyouga/LlamaFactory)
 - **Date:** 2026-04-30
-- **Verified Stars:** 72,259 stars
-- **Description:** Proxy repository LlamaFactory that implements and automates efficient fine-tuning workflows of 100+ LLMs and VLMs.
+- **Verified Stars:** 72,265 stars
+- **Description:** LlamaFactory (ACL 2024) -- unified efficient fine-tuning of 100+ LLMs and VLMs; 50k+ stars, reproducible benchmarks. (backfilled — class-to-type migration)
 
 ---
 
 ## Skill: `huggingface/huggingface-vision-trainer`
 - **Name:** Hugging Face Vision Trainer
 - **Contributor:** `huggingface`
-- **Primary GitHub Repository:** [https://github.com/huggingface/skills/blob/main/skills/huggingface-vision-trainer/SKILL.md](https://github.com/huggingface/skills/blob/main/skills/huggingface-vision-trainer/SKILL.md) (10,686 stars)
+- **Primary GitHub Repository:** [https://github.com/huggingface/skills/blob/main/skills/huggingface-vision-trainer/SKILL.md](https://github.com/huggingface/skills/blob/main/skills/huggingface-vision-trainer/SKILL.md) (10,689 stars)
 
 ### Evidence Rows:
 
@@ -393,44 +387,38 @@ This file lists the raw evidence sources for named skills rated at 3★.
 - **Trust Metric:** 85.0
 - **Description:** DETR (Carion et al., 2020) -- end-to-end object detection with transformers; eliminates hand-crafted anchor design and achieves COCO AP 42.0 with ResNet-50, matching Faster R-CNN with simplified pipeline. (backfilled — class-to-type migration)
 
-#### E2: `proxy-containment`
+#### E2: `repo`
 - **Source:** [https://github.com/ultralytics/ultralytics](https://github.com/ultralytics/ultralytics)
 - **Date:** 2026-04-30
-- **Verified Stars:** 58,513 stars
-- **Description:** Proxy repository Ultralytics YOLOv8 that implements and evaluates real-time object detection and segmentation training.
-
-#### E3: `repo`
-- **Source:** [https://github.com/huggingface/skills](https://github.com/huggingface/skills)
-- **Date:** 2026-06-18
-- **Verified Stars:** 10,686 stars
-- **Description:** Hugging Face skills repository hosting the vision-trainer skill definition.
+- **Verified Stars:** 58,522 stars
+- **Description:** Ultralytics YOLOv8 -- production real-time detection library; COCO AP 50.2 at 8ms inference, 25k+ GitHub stars, reproducible training and evaluation scripts for detection and segmentation. (backfilled — class-to-type migration)
 
 ---
 
 ## Skill: `karpathy/autoresearch`
 - **Name:** AutoResearch
 - **Contributor:** `karpathy`
-- **Primary GitHub Repository:** [https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill/blob/main/SKILL.md](https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill/blob/main/SKILL.md) (135 stars)
+- **Primary GitHub Repository:** [https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill/blob/main/SKILL.md](https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill/blob/main/SKILL.md) (136 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
 - **Source:** [https://github.com/karpathy/autoresearch](https://github.com/karpathy/autoresearch)
 - **Date:** 2026-06-02
-- **Verified Stars:** 87,345 stars
+- **Verified Stars:** 87,404 stars
 - **Description:** Karpathy's autoresearch repo serving as the evidence/inspiration for the skill. (backfilled — class-to-type migration)
 
-#### E2: `proxy-containment`
+#### E2: `repo`
 - **Source:** [https://github.com/firecrawl/firecrawl-mcp-server](https://github.com/firecrawl/firecrawl-mcp-server)
 - **Date:** 2026-05-14
-- **Verified Stars:** 6,608 stars
-- **Description:** Proxy repository firecrawl-mcp-server whose crawl and map tools are used by this skill to automate multi-source web research.
+- **Verified Stars:** 6,613 stars
+- **Description:** Firecrawl's Map and Crawl logic combined with the firecrawl_agent tool enables autonomous multi-source web research. (backfilled — class-to-type migration)
 
-#### E3: `proxy-containment`
+#### E3: `repo`
 - **Source:** [https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill](https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill)
 - **Date:** 2026-04-30
-- **Verified Stars:** 135 stars
-- **Description:** Proxy repository that implements a community reproduction of Karpathy's autoresearch pattern as a universal agent skill.
+- **Verified Stars:** 136 stars
+- **Description:** Community reproduction of Karpathy's autoresearch pattern as a universal agent skill, demonstrating generalizability beyond the original repo. (backfilled — class-to-type migration)
 
 ---
 
@@ -450,7 +438,7 @@ This file lists the raw evidence sources for named skills rated at 3★.
 #### E2: `repo`
 - **Source:** [https://github.com/microsoft/LLMLingua](https://github.com/microsoft/LLMLingua)
 - **Date:** 2026-04-30
-- **Verified Stars:** 6,307 stars
+- **Verified Stars:** 6,309 stars
 - **Description:** Microsoft LLMLingua — reproducible open-source implementation of LLMLingua-1/2/LongLLMLingua; CI, README, Apache-2.0 license. (backfilled — class-to-type migration)
 
 #### E3: `repo`
@@ -662,14 +650,14 @@ This file lists the raw evidence sources for named skills rated at 3★.
 ## Skill: `santifer/career-ops`
 - **Name:** Career-Ops
 - **Contributor:** `santifer`
-- **Primary GitHub Repository:** [https://github.com/santifer/career-ops/blob/main/.agents/skills/career-ops/SKILL.md](https://github.com/santifer/career-ops/blob/main/.agents/skills/career-ops/SKILL.md) (54,392 stars)
+- **Primary GitHub Repository:** [https://github.com/santifer/career-ops/blob/main/.agents/skills/career-ops/SKILL.md](https://github.com/santifer/career-ops/blob/main/.agents/skills/career-ops/SKILL.md) (54,446 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
 - **Source:** [https://github.com/santifer/career-ops](https://github.com/santifer/career-ops)
 - **Date:** 2026-05-14
-- **Verified Stars:** 54,392 stars
+- **Verified Stars:** 54,446 stars
 - **Description:** Career-Ops -- AI-powered job search system with CV tailoring and dashboard. (backfilled — class-to-type migration)
 
 ---
@@ -680,23 +668,23 @@ This file lists the raw evidence sources for named skills rated at 3★.
 
 ### Evidence Rows:
 
-#### E1: `proxy-containment`
+#### E1: `repo`
 - **Source:** [https://github.com/anthropics/skills/blob/main/skills/mcp-builder/SKILL.md](https://github.com/anthropics/skills/blob/main/skills/mcp-builder/SKILL.md)
 - **Date:** 2026-05-10
-- **Verified Stars:** 152,091 stars
-- **Description:** Proxy repository Anthropic mcp-builder skill, which provides a reproducible guide for building high-quality MCP servers implementing the mcp-server-creation skill.
+- **Verified Stars:** 152,231 stars
+- **Description:** Anthropic mcp-builder skill gives a reproducible guide for building high-quality MCP servers in Python FastMCP or the Node/TypeScript MCP SDK. (backfilled — class-to-type migration)
 
-#### E2: `proxy-containment`
+#### E2: `repo`
 - **Source:** [https://github.com/modelcontextprotocol/python-sdk](https://github.com/modelcontextprotocol/python-sdk)
 - **Date:** 2026-05-10
-- **Verified Stars:** 23,353 stars
-- **Description:** Proxy repository modelcontextprotocol/python-sdk, which demonstrates implementing the mcp-server-creation skill with FastMCP server examples.
+- **Verified Stars:** 23,358 stars
+- **Description:** Official MCP Python SDK is active and provides FastMCP server examples for exposing tools, resources, prompts, structured outputs, transports, and inspector-based testing. (backfilled — class-to-type migration)
 
 #### E3: `repo`
 - **Source:** [https://raw.githubusercontent.com/sickn33/antigravity-awesome-skills/main/skills/mcp-builder/SKILL.md](https://raw.githubusercontent.com/sickn33/antigravity-awesome-skills/main/skills/mcp-builder/SKILL.md)
 - **Date:** 2026-05-27
 - **Trust Metric:** 70.0
-- **Description:** Community MCP builder skill in sickn33/antigravity-awesome-skills repository.
+- **Description:** (backfilled — class-to-type migration)
 
 ---
 

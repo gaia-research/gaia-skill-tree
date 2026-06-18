@@ -348,7 +348,7 @@ This file lists the raw evidence sources for named skills rated at 4★.
 #### E3: `repo`
 - **Source:** [https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md](https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md)
 - **Date:** 2026-05-10
-- **Verified Stars:** 152,091 stars
+- **Verified Stars:** 152,231 stars
 - **Description:** Anthropic skill-creator provides a reproducible workflow for creating, editing, evaluating, benchmarking, and optimizing agent skills. (backfilled — class-to-type migration)
 
 ---
@@ -356,20 +356,20 @@ This file lists the raw evidence sources for named skills rated at 4★.
 ## Skill: `google-deepmind/alphafold_database_fetch_and_analyze`
 - **Name:** Alphafold-Database-Fetch-And-Analyze
 - **Contributor:** `google-deepmind`
-- **Primary GitHub Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md) (1,930 stars)
+- **Primary GitHub Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md) (1,934 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,930 stars
+- **Verified Stars:** 1,934 stars
 - **Description:** Official Google DeepMind alphafold_database_fetch_and_analyze science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,930 stars
+- **Verified Stars:** 1,934 stars
 - **Description:** Foundational canonical generic skill for Computational Biology Workflows. (backfilled — class-to-type migration)
 
 ---

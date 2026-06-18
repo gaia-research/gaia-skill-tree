@@ -15,17 +15,6 @@ This file lists the raw evidence sources for named skills rated at 1★.
 - **Trust Metric:** 70.0
 - **Description:** Replaced missing seed evidence with live repository from real-skills catalog. (backfilled — class-to-type migration)
 
-#### E2: `proxy-containment`
-- **Source:** [https://github.com/princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench)
-- **Date:** 2026-06-18
-- **Verified Stars:** 4,500 stars
-- **Description:** SWE-bench -- Princeton NLP benchmark for evaluating AI agents on resolving real-world GitHub issues.
-
-#### E3: `social-signal`
-- **Source:** [https://www.researchgate.net/publication/401016261_A_Systematic_Survey_of_Self-Evolving_Agents_From_Model-Centric_to_Environment-Driven_Co-Evolution](https://www.researchgate.net/publication/401016261_A_Systematic_Survey_of_Self-Evolving_Agents_From_Model-Centric_to_Environment-Driven_Co-Evolution)
-- **Date:** 2026-06-18
-- **Description:** A Systematic Survey of Self-Evolving Agents (Research Review) highlighting environment-driven co-evolution, demonstrating the capabilities of the devin-ai/autonomous-swe skill in autonomous coding tasks.
-
 ---
 
 ## Skill: `gooseworks/notte-browser`
@@ -39,19 +28,13 @@ This file lists the raw evidence sources for named skills rated at 1★.
 - **Source:** [https://arxiv.org/abs/2401.13919](https://arxiv.org/abs/2401.13919)
 - **Date:** 2026-04-28
 - **Trust Metric:** 85.0
-- **Description:** WebVoyager (He et al., 2024) — end-to-end web agent with GPT-4V; 59.1% task success on real-world web tasks across 15 popular websites. (backfilled — class-to-type migration)
+- **Description:** WebVoyager (He et al., 2024) â€” end-to-end web agent with GPT-4V; 59.1% task success on real-world web tasks across 15 popular websites. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/web-arena-x/webarena](https://github.com/web-arena-x/webarena)
 - **Date:** 2026-04-28
-- **Verified Stars:** 1,516 stars
-- **Description:** WebArena — self-hosted web environment with 812 realistic tasks; reproducible benchmark with ground-truth evaluation scripts. (backfilled — class-to-type migration)
-
-#### E3: `repo`
-- **Source:** [https://github.com/gooseworks-ai/goose-skills](https://github.com/gooseworks-ai/goose-skills)
-- **Date:** 2026-06-18
-- **Verified Stars:** 736 stars
-- **Description:** goose-skills -- suite of tools and agent-skills by gooseworks including Notte browser integration.
+- **Verified Stars:** 1,517 stars
+- **Description:** WebArena â€” self-hosted web environment with 812 realistic tasks; reproducible benchmark with ground-truth evaluation scripts. (backfilled — class-to-type migration)
 
 ---
 
@@ -61,11 +44,11 @@ This file lists the raw evidence sources for named skills rated at 1★.
 
 ### Evidence Rows:
 
-#### E1: `proxy-containment`
+#### E1: `repo`
 - **Source:** [https://github.com/codefuse-ai/ModelCache](https://github.com/codefuse-ai/ModelCache)
 - **Date:** 2026-04-30
 - **Verified Stars:** 943 stars
-- **Description:** Proxy repository ModelCache that implements an LLM semantic caching system to reduce response time via cached query-result pairs.
+- **Description:** ModelCache -- LLM semantic caching system reducing response time via cached query-result pairs; reproducible, MIT license. (backfilled — class-to-type migration)
 
 #### E2: `arxiv`
 - **Source:** [https://arxiv.org/abs/2604.20021](https://arxiv.org/abs/2604.20021)
@@ -73,53 +56,41 @@ This file lists the raw evidence sources for named skills rated at 1★.
 - **Trust Metric:** 85.0
 - **Description:** Continuous Semantic Caching for Low-Cost LLM Serving (2026) -- first rigorous theoretical framework for semantic LLM caching in continuous query space using kernel ridge regression. (backfilled — class-to-type migration)
 
-#### E3: `proxy-containment`
+#### E3: `repo`
 - **Source:** [https://github.com/vcache-project/vCache](https://github.com/vcache-project/vCache)
 - **Date:** 2026-04-30
 - **Verified Stars:** 71 stars
-- **Description:** Proxy repository vCache that implements a reliable and efficient semantic prompt caching mechanism.
+- **Description:** vCache -- reliable and efficient semantic prompt caching; active research prototype with published benchmarks. (backfilled — class-to-type migration)
 
 ---
 
 ## Skill: `nexu-io/open-design`
 - **Name:** Open Design
 - **Contributor:** `nexu-io`
-- **Primary GitHub Repository:** [https://github.com/nexu-io/open-design](https://github.com/nexu-io/open-design) (66,586 stars)
+- **Primary GitHub Repository:** [https://github.com/nexu-io/open-design](https://github.com/nexu-io/open-design) (66,847 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
 - **Source:** [https://github.com/nexu-io/open-design](https://github.com/nexu-io/open-design)
 - **Date:** 2026-05-14
-- **Verified Stars:** 66,586 stars
+- **Verified Stars:** 66,847 stars
 - **Description:** Open Design -- local-first design engine generating high-fidelity prototypes and brand assets. (backfilled — class-to-type migration)
-
-#### E2: `proxy-containment`
-- **Source:** [https://github.com/shadcn-ui/ui](https://github.com/shadcn-ui/ui)
-- **Date:** 2026-06-18
-- **Verified Stars:** 116,840 stars
-- **Description:** Proxy repository shadcn-ui/ui that provides the component design system utilized by this skill for generating high-fidelity React and Tailwind prototypes.
 
 ---
 
 ## Skill: `nousresearch/feed-monitoring`
 - **Name:** Feed Monitoring
 - **Contributor:** `nousresearch`
-- **Primary GitHub Repository:** [https://github.com/NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) (196,041 stars)
+- **Primary GitHub Repository:** [https://github.com/NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) (196,308 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
 - **Source:** [https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md](https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md)
 - **Date:** 2026-05-06
-- **Verified Stars:** 196,041 stars
+- **Verified Stars:** 196,308 stars
 - **Description:** Hermes Agent blogwatcher skill monitors blogs and RSS/Atom feeds with feed discovery, scraping fallback, OPML import, and read/unread article management. (backfilled — class-to-type migration)
-
-#### E2: `proxy-containment`
-- **Source:** [https://github.com/DIYgod/RSSHub](https://github.com/DIYgod/RSSHub)
-- **Date:** 2026-06-18
-- **Verified Stars:** 33,000 stars
-- **Description:** Proxy repository RSSHub that automates the generation and monitoring of RSS/Atom feeds across hundreds of websites, demonstrating feed-monitoring capabilities.
 
 ---
 
@@ -223,19 +194,19 @@ This file lists the raw evidence sources for named skills rated at 1★.
 #### E1: `repo`
 - **Source:** [https://github.com/n8n-io/n8n](https://github.com/n8n-io/n8n)
 - **Date:** 2026-04-30
-- **Verified Stars:** 192,938 stars
+- **Verified Stars:** 192,979 stars
 - **Description:** n8n -- fair-code workflow automation with 400+ integrations and native AI capabilities; 90k+ stars, Apache-2 + EE license. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/activepieces/activepieces](https://github.com/activepieces/activepieces)
 - **Date:** 2026-04-30
-- **Verified Stars:** 22,801 stars
+- **Verified Stars:** 22,805 stars
 - **Description:** Activepieces -- AI agents and workflow automation with 400 MCP servers; MIT license, active community. (backfilled — class-to-type migration)
 
 #### E3: `repo`
 - **Source:** [https://github.com/FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise)
 - **Date:** 2026-04-30
-- **Verified Stars:** 53,686 stars
+- **Verified Stars:** 53,692 stars
 - **Description:** Flowise -- visual AI agent and workflow builder; 40k+ stars, Apache-2 license, reproducible demos. (backfilled — class-to-type migration)
 
 ---
@@ -265,7 +236,7 @@ This file lists the raw evidence sources for named skills rated at 1★.
 #### E1: `repo`
 - **Source:** [https://github.com/apache/airflow/blob/main/AGENTS.md](https://github.com/apache/airflow/blob/main/AGENTS.md)
 - **Date:** 2026-05-14
-- **Verified Stars:** 45,848 stars
+- **Verified Stars:** 45,854 stars
 - **Description:** Airflow AGENTS.md defines agentic workflow design patterns using the TaskFlow API for dynamic DAG generation. (backfilled — class-to-type migration)
 
 ---
@@ -318,25 +289,21 @@ This file lists the raw evidence sources for named skills rated at 1★.
 ## Skill: `safishamsi/graphify`
 - **Name:** Graphify
 - **Contributor:** `safishamsi`
-- **Primary GitHub Repository:** [https://github.com/safishamsi/graphify](https://github.com/safishamsi/graphify) (68,616 stars)
+- **Primary GitHub Repository:** [https://github.com/safishamsi/graphify](https://github.com/safishamsi/graphify) (68,773 stars)
 
-#### E1: `repo`
-- **Source:** [https://github.com/safishamsi/graphify](https://github.com/safishamsi/graphify)
-- **Date:** 2026-06-18
-- **Verified Stars:** 68,616 stars
-- **Description:** Public repository for Graphify, the official implementation of the knowledge-graph-build skill.
+### Evidence Rows:
 
-#### E2: `arxiv`
+#### E1: `arxiv`
 - **Source:** [https://arxiv.org/abs/2306.08302](https://arxiv.org/abs/2306.08302)
 - **Date:** 2026-04-28
 - **Trust Metric:** 85.0
-- **Description:** Pan et al. (2024) — Unifying Large Language Models and Knowledge Graphs: A Roadmap; comprehensive survey showing LLM-KG synergy improves downstream tasks by 5-15%. (backfilled — class-to-type migration)
+- **Description:** Pan et al. (2024) â€” Unifying Large Language Models and Knowledge Graphs: A Roadmap; comprehensive survey showing LLM-KG synergy improves downstream tasks by 5-15%. (backfilled — class-to-type migration)
 
-#### E3: `proxy-containment`
+#### E2: `repo`
 - **Source:** [https://github.com/microsoft/graphrag](https://github.com/microsoft/graphrag)
 - **Date:** 2026-04-28
-- **Verified Stars:** 33,817 stars
-- **Description:** Proxy repository Microsoft GraphRAG, which implements the knowledge-graph-build skill to construct entity graphs and community summaries from corpora.
+- **Verified Stars:** 33,824 stars
+- **Description:** Microsoft GraphRAG â€” production KG construction pipeline; extracts community summaries and entity graphs from corpora, enabling global sensemaking queries. (backfilled — class-to-type migration)
 
 ---
 
@@ -355,7 +322,7 @@ This file lists the raw evidence sources for named skills rated at 1★.
 #### E2: `repo`
 - **Source:** [https://github.com/stanfordnlp/dspy](https://github.com/stanfordnlp/dspy)
 - **Date:** 2026-04-29
-- **Verified Stars:** 35,095 stars
+- **Verified Stars:** 35,104 stars
 - **Description:** DSPy â€” Stanford NLP library for programmable LM pipelines; 18k+ GitHub stars, supports multiple optimizers (BootstrapFewShot, MIPRO, COPRO) across any LM. (backfilled — class-to-type migration)
 
 ---
@@ -363,7 +330,7 @@ This file lists the raw evidence sources for named skills rated at 1★.
 ## Skill: `yonatangross/orchestkit-rag`
 - **Name:** OrchestrKit RAG
 - **Contributor:** `yonatangross`
-- **Primary GitHub Repository:** [https://github.com/yonatangross/orchestkit](https://github.com/yonatangross/orchestkit) (190 stars)
+- **Primary GitHub Repository:** [https://github.com/yonatangross/orchestkit](https://github.com/yonatangross/orchestkit) (191 stars)
 
 ### Evidence Rows:
 
@@ -376,7 +343,7 @@ This file lists the raw evidence sources for named skills rated at 1★.
 #### E2: `repo`
 - **Source:** [https://github.com/vibrantlabsai/ragas](https://github.com/vibrantlabsai/ragas)
 - **Date:** 2026-04-29
-- **Verified Stars:** 14,412 stars
+- **Verified Stars:** 14,413 stars
 - **Description:** RAGAS open-source implementation provides a reproducible evaluation toolkit for RAG pipelines. Notes: RAG pipelines can fail when retrieval misses relevant chunks, ambiguous queries retrieve misleading context, or generated answers drift from retrieved evidence. (backfilled — class-to-type migration)
 
 ---
