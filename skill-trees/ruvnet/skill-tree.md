@@ -40,7 +40,7 @@
 | ○ ruvnet/reasoningbank-intelligence | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/reasoningbank | Basic Skill | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/ruflo-v3 | Basic Skill | 4★ | Hardened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/ruflo | Basic Skill | 6★ | Apex | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/ruflo | Basic Skill | 5★ | Transcendent | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/skill-builder | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/sparc-methodology | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/stream-chain | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
@@ -159,7 +159,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ · ○ garrytan/benchmark  [4★]  (↑ see above)
      └─ · ○ /generate-text  (↑ see above)
 
-· ◆ ruvnet/ruflo  [6★]
+· ◆ ruvnet/ruflo  [5★]
   ├─ · ◇ ruvnet/flow-nexus  [4★]
   │  ├─ · ◇ ████████/flow-nexus-swarm
   │  │  ├─ · ◇ /plan-and-execute
@@ -260,7 +260,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ◇ obra/verification-before-completion  [2★]  (↑ see above)
   └─ · ◇ obra/writing-plans  [2★]  (↑ see above)
 
-· ◆ mattpocock/skills  [6★]
+· ◆ mattpocock/skills  [5★]
   ├─ · ◆ mattpocock/engineering  [5★]
   │  ├─ · ◇ mattpocock/diagnose  [2★]
   │  │  ├─ · ○ garrytan/design-html  [4★]

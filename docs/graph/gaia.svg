@@ -112,16 +112,16 @@
 <line x1="589.644" y1="159.484" x2="771.97" y2="332.837" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="422.349" y1="256.008" x2="771.97" y2="332.837" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="489.83" y1="197.773" x2="771.97" y2="332.837" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="641.501" y1="609.993" x2="646.21" y2="493.642" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="501.477" y1="190.929" x2="646.21" y2="493.642" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="605.902" y1="273.455" x2="646.21" y2="493.642" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="548.545" y1="583.304" x2="646.21" y2="493.642" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="448.431" y1="228.987" x2="646.21" y2="493.642" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="596.567" y1="275.642" x2="646.21" y2="493.642" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="442.123" y1="645.109" x2="646.21" y2="493.642" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="471.889" y1="465.271" x2="646.21" y2="493.642" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="484.139" y1="372.123" x2="646.21" y2="493.642" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="477.914" y1="388.736" x2="646.21" y2="493.642" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="641.501" y1="609.993" x2="596.65" y2="472.199" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="501.477" y1="190.929" x2="596.65" y2="472.199" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="605.902" y1="273.455" x2="596.65" y2="472.199" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="548.545" y1="583.304" x2="596.65" y2="472.199" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="448.431" y1="228.987" x2="596.65" y2="472.199" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="596.567" y1="275.642" x2="596.65" y2="472.199" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="442.123" y1="645.109" x2="596.65" y2="472.199" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="471.889" y1="465.271" x2="596.65" y2="472.199" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="484.139" y1="372.123" x2="596.65" y2="472.199" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="477.914" y1="388.736" x2="596.65" y2="472.199" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="484.837" y1="509.458" x2="604.947" y2="606.347" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="526.994" y1="701.638" x2="604.947" y2="606.347" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="831.813" y1="229.209" x2="777.986" y2="340.703" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
@@ -229,12 +229,12 @@
 <line x1="807.857" y1="466.91" x2="533.131" y2="307.792" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="709.038" y1="284.65" x2="533.131" y2="307.792" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="754.425" y1="314.275" x2="533.131" y2="307.792" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="533.131" y1="307.792" x2="596.274" y2="471.686" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="633.042" y1="386.45" x2="596.274" y2="471.686" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="540.782" y1="301.957" x2="596.274" y2="471.686" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="470.211" y1="431.529" x2="596.274" y2="471.686" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="556.176" y1="292.103" x2="596.274" y2="471.686" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="473.757" y1="475.542" x2="596.274" y2="471.686" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="533.131" y1="307.792" x2="689.304" y2="462.025" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="633.042" y1="386.45" x2="689.304" y2="462.025" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="540.782" y1="301.957" x2="689.304" y2="462.025" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="470.211" y1="431.529" x2="689.304" y2="462.025" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="556.176" y1="292.103" x2="689.304" y2="462.025" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="473.757" y1="475.542" x2="689.304" y2="462.025" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="919.048" y1="382.06" x2="554.056" y2="586.675" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="605.562" y1="157.088" x2="554.056" y2="586.675" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="924.968" y1="435.72" x2="554.056" y2="586.675" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
@@ -320,7 +320,7 @@
 <line x1="903.642" y1="331.75" x2="571.316" y2="284.493" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="666.348" y1="723.779" x2="571.316" y2="284.493" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="553.186" y1="168.544" x2="571.316" y2="284.493" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="646.21" y1="493.642" x2="595.35" y2="409.629" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="596.65" y1="472.199" x2="595.35" y2="409.629" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="631.944" y1="270.191" x2="595.35" y2="409.629" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="623.425" y1="270.81" x2="595.35" y2="409.629" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="473.719" y1="404.635" x2="595.35" y2="409.629" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
@@ -336,17 +336,17 @@
 <line x1="604.947" y1="606.347" x2="578.799" y2="281.399" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="513.291" y1="326.665" x2="578.799" y2="281.399" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="488.545" y1="362.79" x2="578.799" y2="281.399" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="629.744" y1="609.69" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="513.291" y1="326.665" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="604.947" y1="606.347" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="526.56" y1="313.385" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="526.71" y1="566.749" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="470.986" y1="421.719" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="578.799" y1="281.399" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="587.483" y1="278.315" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="507.091" y1="545.997" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="501.621" y1="538.748" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="484.837" y1="509.458" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="629.744" y1="609.69" x2="642.054" y2="493.961" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="513.291" y1="326.665" x2="642.054" y2="493.961" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="604.947" y1="606.347" x2="642.054" y2="493.961" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="526.56" y1="313.385" x2="642.054" y2="493.961" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="526.71" y1="566.749" x2="642.054" y2="493.961" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="470.986" y1="421.719" x2="642.054" y2="493.961" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="578.799" y1="281.399" x2="642.054" y2="493.961" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="587.483" y1="278.315" x2="642.054" y2="493.961" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="507.091" y1="545.997" x2="642.054" y2="493.961" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="501.621" y1="538.748" x2="642.054" y2="493.961" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="484.837" y1="509.458" x2="642.054" y2="493.961" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="613.056" y1="607.851" x2="754.296" y2="565.843" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="508.732" y1="331.978" x2="754.296" y2="565.843" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="687.024" y1="721.094" x2="754.296" y2="565.843" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
@@ -631,9 +631,9 @@
 <circle cx="640.0" cy="440.0" r="13" fill="#7c3aed" stroke="#a78bfa" stroke-width="1.6"><title>Hive Mind Coordination</title></circle>
 <circle cx="633.042" cy="386.45" r="15" fill="#fbbf24" stroke="#fde68a" stroke-width="1.6"><title>Agent Memory Platform</title></circle>
 <circle cx="689.182" cy="417.704" r="15" fill="#fbbf24" stroke="#fde68a" stroke-width="1.6"><title>Founder Mode</title></circle>
-<circle cx="596.274" cy="471.686" r="15" fill="#fbbf24" stroke="#fde68a" stroke-width="1.6"><title>Ruflo</title></circle>
-<circle cx="687.759" cy="465.202" r="15" fill="#fbbf24" stroke="#fde68a" stroke-width="1.6"><title>Superpowers</title></circle>
-<circle cx="646.21" cy="493.642" r="15" fill="#fbbf24" stroke="#fde68a" stroke-width="1.6"><title>mattpocock-engineering</title></circle>
+<circle cx="689.304" cy="462.025" r="15" fill="#fbbf24" stroke="#fde68a" stroke-width="1.6"><title>Ruflo</title></circle>
+<circle cx="642.054" cy="493.961" r="15" fill="#fbbf24" stroke="#fde68a" stroke-width="1.6"><title>Superpowers</title></circle>
+<circle cx="596.65" cy="472.199" r="15" fill="#fbbf24" stroke="#fde68a" stroke-width="1.6"><title>mattpocock-engineering</title></circle>
 <circle cx="595.35" cy="409.629" r="15" fill="#fbbf24" stroke="#fde68a" stroke-width="1.6"><title>mattpocock-skills</title></circle>
 </g>
 <g class="labels" font-family="Inter, ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
@@ -785,9 +785,9 @@
 <text x="640.0" y="420.0" fill="#7c3aed" font-size="16" font-weight="600" opacity="0.92">Hive Mind Coordination</text>
 <text x="633.042" y="364.4" fill="#fbbf24" font-size="16" font-weight="800" opacity="0.92">Agent Memory Platform</text>
 <text x="689.182" y="395.7" fill="#fbbf24" font-size="16" font-weight="800" opacity="0.92">Founder Mode</text>
-<text x="596.274" y="449.7" fill="#fbbf24" font-size="16" font-weight="800" opacity="0.92">Ruflo</text>
-<text x="687.759" y="443.2" fill="#fbbf24" font-size="16" font-weight="800" opacity="0.92">Superpowers</text>
-<text x="646.21" y="471.6" fill="#fbbf24" font-size="16" font-weight="800" opacity="0.92">mattpocock-engineering</text>
+<text x="689.304" y="440.0" fill="#fbbf24" font-size="16" font-weight="800" opacity="0.92">Ruflo</text>
+<text x="642.054" y="472.0" fill="#fbbf24" font-size="16" font-weight="800" opacity="0.92">Superpowers</text>
+<text x="596.65" y="450.2" fill="#fbbf24" font-size="16" font-weight="800" opacity="0.92">mattpocock-engineering</text>
 <text x="595.35" y="387.6" fill="#fbbf24" font-size="16" font-weight="800" opacity="0.92">mattpocock-skills</text>
 </g>
 <g font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#cbd5e1">

@@ -42,7 +42,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
 
 <!-- gaia:registry-start -->
 ```text
-◆ mattpocock/skills  [6★]
+◆ mattpocock/skills  [5★]
   ├─ ◆ mattpocock/engineering  [5★]
   │  ├─ ◇ mattpocock/diagnose  [2★]
   │  │  ├─ ○ garrytan/design-html  [4★]
