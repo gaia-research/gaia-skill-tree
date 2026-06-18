@@ -7,7 +7,9 @@ genericSkillRef: multi-topology-orchestration
 status: named
 title: The Agentic Sovereign
 catalogRef: ruvnet-ruflo
-level: 6★
+level: 5★
+provisional: true
+provisionalUntil: '2026-12-17'
 description: 'The complete Ruflo orchestration platform: flow nexus, AgentDB memory
   sovereignty, GitHub operations, hive-mind consensus, reasoning bank, and v3 modernization
   — unified at 6★ apex.'
@@ -102,6 +104,11 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: b16f8d0f6a17e08434d7f18056a220edb0fd9539e94356467f5f6ec91469a395
+- timestamp: '2026-06-18T12:46:36Z'
+  action: demote
+  contributor: mbtiongson1
+  details: G7 apex cutover — apex gate failed all 6 active predicates; re-application
+    open immediately once all predicates pass
 ---
 
 ## Overview

@@ -6003,7 +6003,7 @@
         "origin": true,
         "genericSkillRef": "skill-mastery",
         "status": "named",
-        "level": "6★",
+        "level": "5★",
         "description": "The ultimate capstone suite encompassing all of Matt Pocock's engineering, productivity, and personal skills.",
         "title": "The Matt Pocock Discipline",
         "links": {
@@ -6016,6 +6016,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:18Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-18T12:46:31Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "G7 apex cutover — apex gate failed all 6 active predicates (aGradedOriginsGte5, sourceTenureDaysGte180AorS, directNestedSuiteGte1, depth2OnlyReachableGte1, overallGradeS, apexPromotionPrSigned); re-application open immediately once all predicates pass"
           }
         ],
         "suiteComponents": [
@@ -9119,7 +9125,7 @@
         "origin": true,
         "genericSkillRef": "multi-topology-orchestration",
         "status": "named",
-        "level": "6★",
+        "level": "5★",
         "description": "The complete Ruflo orchestration platform: flow nexus, AgentDB memory sovereignty, GitHub operations, hive-mind consensus, reasoning bank, and v3 modernization — unified at 6★ apex.",
         "title": "The Agentic Sovereign",
         "catalogRef": "ruvnet-ruflo",
@@ -9159,6 +9165,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:20Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-18T12:46:36Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "G7 apex cutover — apex gate failed all 6 active predicates; re-application open immediately once all predicates pass"
           }
         ],
         "suiteComponents": [

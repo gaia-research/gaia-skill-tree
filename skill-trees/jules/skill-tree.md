@@ -122,7 +122,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ · ○ garrytan/benchmark  [4★]  (↑ see above)
      └─ · ○ /generate-text  (↑ see above)
 
-· ◆ ruvnet/ruflo  [6★]
+· ◆ ruvnet/ruflo  [5★]
   ├─ · ◇ ruvnet/flow-nexus  [4★]
   │  ├─ ✓ ◇ ████████/flow-nexus-swarm
   │  │  ├─ ✓ ◇ /plan-and-execute
@@ -223,7 +223,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ◇ obra/verification-before-completion  [2★]  (↑ see above)
   └─ · ◇ obra/writing-plans  [2★]  (↑ see above)
 
-· ◆ mattpocock/skills  [6★]
+· ◆ mattpocock/skills  [5★]
   ├─ · ◆ mattpocock/engineering  [5★]
   │  ├─ ✓ ◇ mattpocock/diagnose  [2★]
   │  │  ├─ · ○ garrytan/design-html  [4★]

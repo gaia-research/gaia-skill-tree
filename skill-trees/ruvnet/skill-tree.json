@@ -469,13 +469,13 @@
     },
     {
       "skillId": "ruvnet/ruflo",
-      "level": "6★",
+      "level": "5★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "6★",
+          "level": "5★",
           "achievedAt": "2026-05-19T00:00:00Z",
           "source": "promotion"
         }
@@ -988,6 +988,13 @@
       "details": "Registered named skill ruvnet/ruflo",
       "previousValue": null,
       "newValue": "6★"
+    },
+    {
+      "timestamp": "2026-06-18T12:54:50Z",
+      "action": "demote",
+      "skillId": "ruvnet/ruflo",
+      "details": "G7 apex cutover — registry level demoted 6★→5★; re-application open once all 6 apex predicates pass",
+      "newValue": "5★"
     },
     {
       "timestamp": "2026-05-19T00:00:00Z",

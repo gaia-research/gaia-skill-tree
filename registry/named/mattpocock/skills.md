@@ -6,7 +6,9 @@ origin: true
 title: The Matt Pocock Discipline
 genericSkillRef: skill-mastery
 status: named
-level: 6★
+level: 5★
+provisional: true
+provisionalUntil: '2026-12-17'
 description: The ultimate capstone suite encompassing all of Matt Pocock's engineering,
   productivity, and personal skills.
 links:
@@ -49,6 +51,12 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-18T12:46:31Z'
+  action: demote
+  contributor: mbtiongson1
+  details: G7 apex cutover — apex gate failed all 6 active predicates (aGradedOriginsGte5,
+    sourceTenureDaysGte180AorS, directNestedSuiteGte1, depth2OnlyReachableGte1, overallGradeS,
+    apexPromotionPrSigned); re-application open immediately once all predicates pass
 ---
 
 ## Installation

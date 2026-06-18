@@ -616,20 +616,11 @@
           "ruvnet/worker-integration"
         ]
       },
-      "topSkill": "ruvnet/ruflo",
-      "topRank": 6,
+      "topSkill": "ruvnet/agentdb",
+      "topRank": 5,
       "topIsUnique": false,
       "count": 48,
       "namedSkills": [
-        {
-          "id": "ruvnet/ruflo",
-          "name": "Ruflo",
-          "rank": 6,
-          "type": "ultimate",
-          "slash": "/ruflo",
-          "file": "ruflo.svg",
-          "fileSeal": "ruflo-seal.svg"
-        },
         {
           "id": "ruvnet/agentdb",
           "name": "AgentDB",
@@ -638,6 +629,15 @@
           "slash": "/agentdb",
           "file": "agentdb.svg",
           "fileSeal": "agentdb-seal.svg"
+        },
+        {
+          "id": "ruvnet/ruflo",
+          "name": "Ruflo",
+          "rank": 5,
+          "type": "ultimate",
+          "slash": "/ruflo",
+          "file": "ruflo.svg",
+          "fileSeal": "ruflo-seal.svg"
         },
         {
           "id": "ruvnet/hive-mind-coordination",
@@ -998,20 +998,11 @@
           "mattpocock/zoom-out"
         ]
       },
-      "topSkill": "mattpocock/skills",
-      "topRank": 6,
+      "topSkill": "mattpocock/engineering",
+      "topRank": 5,
       "topIsUnique": false,
       "count": 20,
       "namedSkills": [
-        {
-          "id": "mattpocock/skills",
-          "name": "Matt Pocock Skills",
-          "rank": 6,
-          "type": "ultimate",
-          "slash": "/skills",
-          "file": "skills~.svg",
-          "fileSeal": "skills~-seal.svg"
-        },
         {
           "id": "mattpocock/engineering",
           "name": "Engineering",
@@ -1020,6 +1011,15 @@
           "slash": "/engineering",
           "file": "engineering.svg",
           "fileSeal": "engineering-seal.svg"
+        },
+        {
+          "id": "mattpocock/skills",
+          "name": "Matt Pocock Skills",
+          "rank": 5,
+          "type": "ultimate",
+          "slash": "/skills",
+          "file": "skills~.svg",
+          "fileSeal": "skills~-seal.svg"
         },
         {
           "id": "mattpocock/grill-me",
