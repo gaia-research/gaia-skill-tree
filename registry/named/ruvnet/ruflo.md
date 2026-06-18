@@ -7,7 +7,9 @@ genericSkillRef: multi-topology-orchestration
 status: named
 title: The Agentic Sovereign
 catalogRef: ruvnet-ruflo
-level: 6★
+level: 5★
+provisional: true
+provisionalUntil: '2026-12-17'
 description: 'The complete Ruflo orchestration platform: flow nexus, AgentDB memory
   sovereignty, GitHub operations, hive-mind consensus, reasoning bank, and v3 modernization
   — unified at 6★ apex.'

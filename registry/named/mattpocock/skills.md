@@ -6,7 +6,9 @@ origin: true
 title: The Matt Pocock Discipline
 genericSkillRef: skill-mastery
 status: named
-level: 6★
+level: 5★
+provisional: true
+provisionalUntil: '2026-12-17'
 description: The ultimate capstone suite encompassing all of Matt Pocock's engineering,
   productivity, and personal skills.
 links:
