@@ -771,18 +771,42 @@
       <h2>Worked Example — mattpocock/skills</h2>
       <p class="section-sub">
         A concrete application of the Trust Magnitude formula and Apex Gate to an existing
-        named skill, showing where the synthesis lands and which predicates are not yet satisfied.
+        named skill. The table below shows a pre-G7-cutover synthesis projection — see the
+        post-migration baseline callout for the actual registry values after I3 merged.
       </p>
+
+      <div class="tm-callout" style="margin-bottom: 1.5rem;">
+        <div class="tm-callout-label">Post-G7-cutover baseline (as of I3 migration, 2026-06-18)</div>
+        <p>
+          After the G7 Phase 1.5 I3 migration, <code>registry/named-skills.json</code> shows
+          <code>mattpocock/skills</code> at <strong>TM = 0.0 / Trust Grade B</strong>.
+          This is the expected post-cutover baseline: the G7 evidence schema uses 10 canonical
+          evidence types (e.g. <code>github-stars-own</code>, <code>fusion-recipe</code>,
+          <code>verifier-attestation</code>) and no rows of those types have been formally
+          ingested through the new pipeline yet. The synthesis estimate below (TM ≈ 1 187)
+          was computed from pre-migration evidence annotations and remains useful as a formula
+          illustration; it does not reflect the live registry state.
+        </p>
+        <p style="margin-bottom: 0;">
+          Watch <code>registry/named-skills.json</code> → <code>mattpocock/skills</code>
+          → <code>trustMagnitude</code> and <code>overallTrustGrade</code> as evidence ingestion
+          proceeds through Phase 2 (Trending Engine).
+        </p>
+      </div>
 
       <div class="tm-example-header">
         <span class="skill-id">mattpocock/skills</span>
-        <span class="grade-pill grade-s">S</span>
-        <span class="skill-tm">TM 1 187 (synthesis)</span>
+        <span class="grade-pill grade-b" title="Post-I3 registry value">B</span>
+        <span class="skill-tm" style="color: var(--muted);">TM 0.0 (registry) · TM ≈ 1 187 (synthesis projection)</span>
         <span style="font-size: 0.82rem; color: var(--muted);">Apex Gate: 3 / 6 — not eligible for promotion</span>
       </div>
 
+      <p style="font-size: 0.82rem; color: var(--muted); margin: 0 0 1rem 0;">
+        The table below uses the synthesis projection. Once 10-type evidence rows are ingested
+        the registry will recompute TM automatically.
+      </p>
       <div style="overflow-x: auto; margin-bottom: 1.5rem;">
-        <table class="tm-table" aria-label="Trust Magnitude breakdown for mattpocock/skills">
+        <table class="tm-table" aria-label="Trust Magnitude breakdown for mattpocock/skills (synthesis projection)">
           <thead>
             <tr>
               <th scope="col">Evidence Type</th>
@@ -850,7 +874,7 @@
               <td><span class="grade-pill grade-a">A</span></td>
             </tr>
             <tr style="border-top: 2px solid var(--border);">
-              <td colspan="5" style="font-weight: 700; color: var(--text); text-align: right;">Total TM (synthesis)</td>
+              <td colspan="5" style="font-weight: 700; color: var(--text); text-align: right;">Total TM (synthesis projection)</td>
               <td colspan="2" style="font-weight: 700; color: var(--tier-ultimate);">≈ 1 187</td>
             </tr>
           </tbody>
@@ -883,8 +907,10 @@
         <li class="pred-pass">
           <span class="pred-id">overallGradeS ✓</span>
           <span class="pred-desc">
-            TM 1 187 ≫ threshold 250. Diversity gate passed (3 types, verifier-attestation
-            present, 1 S-tier row). Overall Trust Grade confirmed S.
+            Synthesis projection TM ≈ 1 187 ≫ threshold 250. Diversity gate passed (3 types,
+            verifier-attestation present, 1 S-tier row). Overall Trust Grade S in the
+            synthesis projection. Post-I3 registry grade is B (no 10-type evidence ingested
+            yet — this predicate will re-evaluate as evidence is entered).
           </span>
         </li>
         <li class="pred-pass">
@@ -904,11 +930,13 @@
       </ul>
 
       <p style="font-size: 0.88rem; color: var(--muted); margin-top: 0.75rem;">
-        Result: <strong style="color: var(--text);">3 / 6 predicates pass.</strong>
-        The skill holds Overall Trust Grade S and would satisfy three gate conditions immediately
-        upon a valid promotion PR, but the structural gaps (<code>aGradedOriginsGte5</code> and
-        <code>depth2OnlyReachableGte1</code>) require genuine fusion-graph work — they cannot be
-        satisfied by adding self-producible evidence rows or suite variants.
+        Synthesis projection result: <strong style="color: var(--text);">3 / 6 predicates pass.</strong>
+        Under the synthesis estimate, the skill holds Overall Trust Grade S and would satisfy
+        three gate conditions immediately upon a valid promotion PR, but the structural gaps
+        (<code>aGradedOriginsGte5</code> and <code>depth2OnlyReachableGte1</code>) require
+        genuine fusion-graph work — they cannot be satisfied by adding self-producible evidence
+        rows or suite variants. Post-I3 registry baseline: TM 0.0 / grade B. All gate
+        evaluations above will re-run automatically as 10-type evidence rows are ingested.
       </p>
     </section>
 
