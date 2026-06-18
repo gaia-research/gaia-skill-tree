@@ -36,7 +36,18 @@
         ],
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/health",
@@ -93,7 +104,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "design-system-extraction": [
@@ -159,7 +181,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "Manavarya09/design-extract",
@@ -214,7 +247,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "performance-tuning": [
@@ -286,7 +330,18 @@
         "type": "basic",
         "installBody": "Install via [gaia](https://github.com/mbtiongson1/gaia-skill-tree):\n\n```bash\ngaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md\n```\n\nOr copy the raw skill file directly into your agent context:\n\n```\nhttps://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md\n```\n\n**Usage**: Invoke `/performance-optimization` (Claude Code) to trigger the measurement-driven 5-step performance audit workflow.",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "ruvnet/performance-analysis",
@@ -328,7 +383,18 @@
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant",
-        "overallTrustGrade": "C"
+        "overallTrustGrade": "C",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "ruvnet/v3-performance-optimization",
@@ -364,7 +430,18 @@
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "C"
+        "overallTrustGrade": "C",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "test-driven-development": [
@@ -427,7 +504,18 @@
         "type": "basic",
         "installBody": "Install via [gaia](https://github.com/mbtiongson1/gaia-skill-tree):\n\n```bash\ngaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md\n```\n\nOr copy the raw skill file directly into your agent context:\n\n```\nhttps://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md\n```\n\n**Usage**: Invoke `/test-driven-development` (Claude Code) to enforce the red-green-refactor TDD cycle. The skill blocks horizontal slicing and enforces coverage thresholds before marking any task complete.",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "document-editing": [
@@ -493,7 +581,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "anthropic/pptx",
@@ -551,7 +650,18 @@
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/document-release",
@@ -608,7 +718,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "mattpocock/edit-article",
@@ -674,7 +795,18 @@
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "tool-creation": [
@@ -718,7 +850,18 @@
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "anthropic/skill-creator",
@@ -757,7 +900,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "video-intelligence": [
@@ -808,7 +962,18 @@
         ],
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "browser-control": [
@@ -885,7 +1050,18 @@
         "suiteRef": "garrytan/garrytan",
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "browser-use/browser-harness",
@@ -940,7 +1116,18 @@
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/open-gstack-browser",
@@ -997,7 +1184,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/setup-browser-cookies",
@@ -1054,7 +1252,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "browser-automation": [
@@ -1088,7 +1297,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "ruvnet/browser",
@@ -1123,7 +1343,18 @@
         "suiteRef": "ruvnet/ruflo",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "gooseworks/notte-browser",
@@ -1163,7 +1394,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "autonomous-debug": [
@@ -1225,7 +1467,18 @@
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "devin-ai/autonomous-swe",
@@ -1283,7 +1536,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "web-scrape": [
@@ -1348,7 +1612,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "firecrawl/firecrawl",
@@ -1411,7 +1686,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "skill-performance-benchmarking": [
@@ -1470,7 +1756,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "ruvnet/worker-benchmarks",
@@ -1505,7 +1802,18 @@
         "suiteRef": "ruvnet/ruflo",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "evaluate-output": [
@@ -1565,7 +1873,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/plan-ceo-review",
@@ -1623,7 +1942,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "detect-anomaly": [
@@ -1683,7 +2013,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "guardrails": [
@@ -1742,7 +2083,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/careful",
@@ -1799,7 +2151,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/freeze",
@@ -1856,7 +2219,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/unfreeze",
@@ -1913,7 +2287,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "multi-agent-debate": [
@@ -1972,7 +2357,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "context-compression": [
@@ -2002,7 +2398,18 @@
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/context-restore",
@@ -2059,7 +2466,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/context-save",
@@ -2116,7 +2534,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "security-audit": [
@@ -2177,7 +2606,18 @@
         "suiteRef": "garrytan/garrytan",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "intelligentcode-ai/security-engineer",
@@ -2228,7 +2668,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "ruvnet/v3-security-overhaul",
@@ -2263,7 +2714,18 @@
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "code-generation": [
@@ -2329,7 +2791,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "ux-audit": [
@@ -2387,7 +2860,18 @@
         ],
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/plan-design-review",
@@ -2445,7 +2929,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/plan-devex-review",
@@ -2503,7 +2998,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/design-review",
@@ -2572,7 +3078,18 @@
         "suiteRef": "garrytan/garrytan",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/devex-review",
@@ -2641,7 +3158,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "martin-stepanoski/nielsen-heuristics-audit",
@@ -2699,7 +3227,18 @@
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "design-review": [
@@ -2759,7 +3298,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "vertical-slice-planning": [
@@ -2838,7 +3388,18 @@
         ],
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "mattpocock/to-issues",
@@ -2899,7 +3460,18 @@
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "workspace-automation": [
@@ -2958,7 +3530,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "founder-mode-orchestration": [
@@ -3064,6 +3647,17 @@
         "installBody": "**Requirements:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Git](https://git-scm.com/), [Bun](https://bun.sh/) v1.0+, [Node.js](https://nodejs.org/) (Windows only)\n\n### Step 1: Install on your machine\n\nOpen Claude Code and paste this. Claude does the rest.\n\n> Install gstack: run **`git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup`** then add a \"gstack\" section to CLAUDE.md that says to use the /browse skill from gstack for all web browsing, never use mcp\\_\\_claude-in-chrome\\_\\_\\* tools, and lists the available skills: /office-hours, /plan-ceo-review, /plan-eng-review, /plan-design-review, /design-consultation, /design-shotgun, /design-html, /review, /ship, /land-and-deploy, /canary, /benchmark, /browse, /connect-chrome, /qa, /qa-only, /design-review, /setup-browser-cookies, /setup-deploy, /setup-gbrain, /retro, /investigate, /document-release, /document-generate, /codex, /cso, /autoplan, /plan-devex-review, /devex-review, /careful, /freeze, /guard, /unfreeze, /gstack-upgrade, /learn. Then ask the user if they also want to add gstack to the current project so teammates get it.\n\n### Step 2: Team mode — auto-update for shared repos (recommended)\n\nFrom inside your repo, paste this. Switches you to team mode, bootstraps the repo so teammates get gstack automatically, and commits the change:\n\n```bash\n(cd ~/.claude/skills/gstack && ./setup --team) && ~/.claude/skills/gstack/bin/gstack-team-init required && git add .claude/ CLAUDE.md && git commit -m \"require gstack for AI-assisted work\"\n```bash\nNo vendored files in your repo, no version drift, no manual upgrades. Every Claude Code session starts with a fast auto-update check (throttled to once/hour, network-failure-safe, completely silent).\n\nSwap `required` for `optional` if you'd rather nudge teammates than block them.\n\n### OpenClaw\n\nOpenClaw spawns Claude Code sessions via ACP, so every gstack skill just works\nwhen Claude Code has gstack installed. Paste this to your OpenClaw agent:\n\n> Install gstack: run `git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup` to install gstack for Claude Code. Then add a \"Coding Tasks\" section to AGENTS.md that says: when spawning Claude Code sessions for coding work, tell the session to use gstack skills. Include these examples — security audit: \"Load gstack. Run /cso\", code review: \"Load gstack. Run /review\", QA test a URL: \"Load gstack. Run /qa https://...\", build a feature end-to-end: \"Load gstack. Run /autoplan, implement the plan, then run /ship\", plan before building: \"Load gstack. Run /office-hours then /autoplan. Save the plan, don't implement.\"\n\n**After setup, just talk to your OpenClaw agent naturally:**\n\n| You say | What happens |\n|---------|-------------|\n| \"Fix the typo in README\" | Simple — Claude Code session, no gstack needed |\n| \"Run a security audit on this repo\" | Spawns Claude Code with `Run /cso` |\n| \"Build me a notifications feature\" | Spawns Claude Code with /autoplan → implement → /ship |\n| \"Help me plan the v2 API redesign\" | Spawns Claude Code with /office-hours → /autoplan, saves plan |\n\nSee [docs/OPENCLAW.md](docs/OPENCLAW.md) for advanced dispatch routing and\nthe gstack-lite/gstack-full prompt templates.\n\n### Native OpenClaw Skills (via ClawHub)\n\nFour methodology skills that work directly in your OpenClaw agent, no Claude Code\nsession needed. Install from ClawHub:\n\n```\nclawhub install gstack-openclaw-office-hours gstack-openclaw-ceo-review gstack-openclaw-investigate gstack-openclaw-retro\n```bash\n| Skill | What it does |\n|-------|-------------|\n| `gstack-openclaw-office-hours` | Product interrogation with 6 forcing questions |\n| `gstack-openclaw-ceo-review` | Strategic challenge with 4 scope modes |\n| `gstack-openclaw-investigate` | Root cause debugging methodology |\n| `gstack-openclaw-retro` | Weekly engineering retrospective |\n\nThese are conversational skills. Your OpenClaw agent runs them directly via chat.\n\n### Other AI Agents\n\ngstack works on 10 AI coding agents, not just Claude. Setup auto-detects which\nagents you have installed:\n\n```bash\ngit clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/gstack\ncd ~/gstack && ./setup\n```\n\nOr target a specific agent with `./setup --host <name>`:\n\n| Agent | Flag | Skills install to |\n|-------|------|-------------------|\n| OpenAI Codex CLI | `--host codex` | `~/.codex/skills/gstack-*/` |\n| OpenCode | `--host opencode` | `~/.config/opencode/skills/gstack-*/` |\n| Cursor | `--host cursor` | `~/.cursor/skills/gstack-*/` |\n| Factory Droid | `--host factory` | `~/.factory/skills/gstack-*/` |\n| Slate | `--host slate` | `~/.slate/skills/gstack-*/` |\n| Kiro | `--host kiro` | `~/.kiro/skills/gstack-*/` |\n| Hermes | `--host hermes` | `~/.hermes/skills/gstack-*/` |\n| GBrain (mod) | `--host gbrain` | `~/.gbrain/skills/gstack-*/` |\n\n**Want to add support for another agent?** See [docs/ADDING_A_HOST.md](docs/ADDING_A_HOST.md).\nIt's one TypeScript config file, zero code changes.",
         "role": "origin",
         "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": true,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
@@ -3133,7 +3727,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "obra/systematic-debugging",
@@ -3191,7 +3796,18 @@
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "deployment-automation": [
@@ -3251,7 +3867,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/setup-deploy",
@@ -3308,7 +3935,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "intelligentcode-ai/devops-engineer",
@@ -3360,7 +3998,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "C"
+        "overallTrustGrade": "C",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "mbtiongson1/gaia-preview",
@@ -3421,7 +4070,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "project-management": [
@@ -3480,7 +4140,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "ruvnet/github-project-management",
@@ -3515,7 +4186,18 @@
         "suiteRef": "ruvnet/github-suite",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "memory-manage": [
@@ -3574,7 +4256,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "ruvnet/v3-memory-unification",
@@ -3609,7 +4302,18 @@
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "format-output": [
@@ -3680,7 +4384,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "question-answer": [
@@ -3741,7 +4456,18 @@
         "suiteRef": "garrytan/garrytan",
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "mcp-integration": [
@@ -3800,7 +4526,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "intelligentcode-ai/mcp-client",
@@ -3849,7 +4586,18 @@
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "ruvnet/v3-mcp-optimization",
@@ -3884,7 +4632,18 @@
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "code-review-pipeline": [
@@ -3944,7 +4703,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/review",
@@ -4002,7 +4772,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "ruvnet/github-code-review",
@@ -4042,7 +4823,18 @@
         "suiteRef": "ruvnet/github-suite",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "prompt-optimization": [
@@ -4101,7 +4893,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "stanfordnlp/dspy",
@@ -4137,7 +4940,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "e2e-testing": [
@@ -4197,7 +5011,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/qa-only",
@@ -4254,7 +5079,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "intelligentcode-ai/user-tester",
@@ -4305,7 +5141,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "write-report": [
@@ -4382,7 +5229,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "glincker/readme-generator",
@@ -4445,7 +5303,18 @@
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "spring-ai/readme-generate",
@@ -4503,7 +5372,18 @@
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "knowledge-management": [
@@ -4562,7 +5442,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "garrytan/sync-gbrain",
@@ -4619,7 +5510,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "finishing-a-development-branch": [
@@ -4685,7 +5587,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "obra/finishing-a-development-branch",
@@ -4743,7 +5656,18 @@
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "skill-authoring": [
@@ -4802,7 +5726,18 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "ruvnet/skill-builder",
@@ -4837,7 +5772,18 @@
         "suiteRef": "ruvnet/ruflo",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "token-observability": [
@@ -4888,7 +5834,18 @@
         ],
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "api-call": [
@@ -4924,7 +5881,18 @@
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "data-analysis": [
@@ -4960,7 +5928,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "fine-tune": [
@@ -4996,7 +5975,18 @@
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "literature-review": [
@@ -5032,7 +6022,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "object-detection": [
@@ -5068,7 +6069,18 @@
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "semantic-cache": [
@@ -5149,7 +6161,18 @@
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "multimodal-reasoning": [
@@ -5185,7 +6208,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "schema-design": [
@@ -5239,7 +6273,18 @@
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "C"
+        "overallTrustGrade": "C",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "parallel-execution": [
@@ -5290,7 +6335,18 @@
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "C"
+        "overallTrustGrade": "C",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "release-automation": [
@@ -5343,7 +6399,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "C"
+        "overallTrustGrade": "C",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "ruvnet/github-release-management",
@@ -5383,7 +6450,18 @@
         ],
         "suiteRef": "ruvnet/github-suite",
         "type": "extra",
-        "role": "variant"
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "requirements-analysis": [
@@ -5435,7 +6513,18 @@
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "C"
+        "overallTrustGrade": "C",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "autonomous-web-research": [
@@ -5487,7 +6576,18 @@
         ],
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "framework-upgrade": [
@@ -5540,7 +6640,18 @@
         ],
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "engineering-discipline": [
@@ -5580,6 +6691,17 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
         "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
@@ -5639,7 +6761,18 @@
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "grill-with-docs": [
@@ -5697,7 +6830,18 @@
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "agent-handoff": [
@@ -5745,7 +6889,18 @@
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "refactor-code": [
@@ -5784,7 +6939,18 @@
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "personal-knowledge-management": [
@@ -5832,7 +6998,18 @@
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "personal": [
@@ -5863,7 +7040,18 @@
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "productivity": [
@@ -5896,7 +7084,18 @@
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "prototype": [
@@ -5944,7 +7143,18 @@
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "agent-environment-setup": [
@@ -5992,7 +7202,18 @@
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "skill-mastery": [
@@ -6049,6 +7270,17 @@
         "installBody": "Install the full Matt Pocock skills suite with:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.",
         "role": "origin",
         "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
@@ -6108,7 +7340,18 @@
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "issue-triage": [
@@ -6164,7 +7407,18 @@
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "mbtiongson1/gaia-triage",
@@ -6201,7 +7455,18 @@
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "ubiquitous-language": [
@@ -6258,7 +7523,18 @@
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "ruvnet/v3-ddd-architecture",
@@ -6317,7 +7593,18 @@
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "code-explain": [
@@ -6355,7 +7642,18 @@
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "registry-entry-audit": [
@@ -6419,7 +7717,18 @@
         ],
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "C"
+        "overallTrustGrade": "C",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "mbtiongson1/gaia-curation-review",
@@ -6486,7 +7795,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "registry-curation": [
@@ -6533,7 +7853,18 @@
         ],
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "mbtiongson1/gaia-bot-curate",
@@ -6576,7 +7907,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "mbtiongson1/gaia-docs-sync",
@@ -6613,7 +7955,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "mbtiongson1/gaia-draft-curate",
@@ -6656,7 +8009,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "mbtiongson1/gaia-integrity",
@@ -6700,7 +8064,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "mbtiongson1/gaia-wiki-sync",
@@ -6737,7 +8112,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "registry-health-scan": [
@@ -6809,7 +8195,18 @@
         ],
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "graph-driven-issue-triage": [
@@ -6873,7 +8270,18 @@
         ],
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "design-generation": [
@@ -6931,7 +8339,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "feed-monitoring": [
@@ -6991,7 +8410,18 @@
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "brainstorming": [
@@ -7045,7 +8475,18 @@
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "dispatching-parallel-agents": [
@@ -7099,7 +8540,18 @@
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "executing-plans": [
@@ -7152,7 +8604,18 @@
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "receiving-code-review": [
@@ -7206,7 +8669,18 @@
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "requesting-code-review": [
@@ -7260,7 +8734,18 @@
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "subagent-driven-development": [
@@ -7314,7 +8799,18 @@
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "ruvnet/pair-programming",
@@ -7373,7 +8869,18 @@
         "suiteRef": "ruvnet/ruflo",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "superpowers": [
@@ -7441,6 +8948,17 @@
         "installBody": "Installation differs by harness. If you use more than one, install Superpowers separately for each one.\n\n### Claude Code\n\nSuperpowers is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers)\n\n#### Official Marketplace\n\n- Install the plugin from Anthropic's official marketplace:\n\n  ```bash\n  /plugin install superpowers@claude-plugins-official\n  ```\n\n#### Superpowers Marketplace\n\nThe Superpowers marketplace provides Superpowers and some other related plugins for Claude Code.\n\n- Register the marketplace:\n\n  ```bash\n  /plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin from this marketplace:\n\n  ```bash\n  /plugin install superpowers@superpowers-marketplace\n  ```\n\n### Codex CLI\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- Open the plugin search interface:\n\n  ```bash\n  /plugins\n  ```\n\n- Search for Superpowers:\n\n  ```bash\n  superpowers\n  ```\n\n- Select `Install Plugin`.\n\n### Codex App\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- In the Codex app, click on Plugins in the sidebar.\n- You should see `Superpowers` in the Coding section.\n- Click the `+` next to Superpowers and follow the prompts.\n\n### Factory Droid\n\n- Register the marketplace:\n\n  ```bash\n  droid plugin marketplace add https://github.com/obra/superpowers\n  ```\n\n- Install the plugin:\n\n  ```bash\n  droid plugin install superpowers@superpowers\n  ```\n\n### Gemini CLI\n\n- Install the extension:\n\n  ```bash\n  gemini extensions install https://github.com/obra/superpowers\n  ```\n\n- Update later:\n\n  ```bash\n  gemini extensions update superpowers\n  ```\n\n### OpenCode\n\nOpenCode uses its own plugin install; install Superpowers separately even if you\nalready use it in another harness.\n\n- Tell OpenCode:\n\n  ```\n  Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md\n  ```\n\n- Detailed docs: [docs/README.opencode.md](docs/README.opencode.md)\n\n### Cursor\n\n- In Cursor Agent chat, install from marketplace:\n\n  ```bash\n  /add-plugin superpowers\n  ```\n\n- Or search for \"superpowers\" in the plugin marketplace.\n\n### GitHub Copilot CLI\n\n- Register the marketplace:\n\n  ```bash\n  copilot plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin:\n\n  ```bash\n  copilot plugin install superpowers@superpowers-marketplace\n  ```",
         "role": "origin",
         "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
@@ -7498,7 +9016,18 @@
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "verification-before-completion": [
@@ -7552,7 +9081,18 @@
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "ruvnet/verification-quality",
@@ -7611,7 +9151,18 @@
         "suiteRef": "ruvnet/ruflo",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "writing-plans": [
@@ -7665,7 +9216,18 @@
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "few-shot-learning": [
@@ -7702,7 +9264,18 @@
         ],
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "self-consistency": [
@@ -7739,7 +9312,18 @@
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "distributed-vector-memory": [
@@ -7800,7 +9384,18 @@
         "suiteRef": "ruvnet/agentdb",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "agent-memory-learning": [
@@ -7836,7 +9431,18 @@
         "suiteRef": "ruvnet/reasoningbank",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "C"
+        "overallTrustGrade": "C",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "ruvnet/agentdb-learning",
@@ -7876,7 +9482,18 @@
         "suiteRef": "ruvnet/agentdb",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "C"
+        "overallTrustGrade": "C",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "memory-pattern-design": [
@@ -7930,7 +9547,18 @@
         "suiteRef": "ruvnet/agentdb",
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "vector-db-optimization": [
@@ -7984,7 +9612,18 @@
         "suiteRef": "ruvnet/agentdb",
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "vector-search": [
@@ -8039,7 +9678,18 @@
         "suiteRef": "ruvnet/agentdb",
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "agent-memory-platform": [
@@ -8103,6 +9753,17 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
@@ -8162,7 +9823,18 @@
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "headless-worker-collect": [
@@ -8217,7 +9889,18 @@
         "suiteRef": "ruvnet/dual-mode",
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "hybrid-workflow-coordination": [
@@ -8272,7 +9955,18 @@
         "suiteRef": "ruvnet/dual-mode",
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "dual-mode": [
@@ -8333,7 +10027,18 @@
         "type": "extra",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "headless-worker-spawn": [
@@ -8388,7 +10093,18 @@
         "suiteRef": "ruvnet/dual-mode",
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "distributed-neural-training": [
@@ -8449,7 +10165,18 @@
         "suiteRef": "ruvnet/flow-nexus",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "cloud-platform-management": [
@@ -8510,7 +10237,18 @@
         "suiteRef": "ruvnet/flow-nexus",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "multi-agent-orchestration-v": [
@@ -8553,7 +10291,18 @@
         "suiteRef": "ruvnet/flow-nexus",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "ruvnet/v3-swarm-coordination",
@@ -8595,7 +10344,18 @@
         "type": "extra",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "multi-node-orchestration": [
@@ -8657,7 +10417,18 @@
         "type": "extra",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "multi-repo-coordination": [
@@ -8712,7 +10483,18 @@
         "suiteRef": "ruvnet/github-suite",
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "git-integration": [
@@ -8775,7 +10557,18 @@
         "type": "extra",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "workflow-automation": [
@@ -8812,7 +10605,18 @@
         "suiteRef": "ruvnet/ruflo",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       },
       {
         "id": "ruvnet/github-workflow-automation",
@@ -8852,7 +10656,18 @@
         "suiteRef": "ruvnet/github-suite",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "distributed-consensus-coordination": [
@@ -8925,7 +10740,18 @@
         "type": "unique",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "adaptive-pattern-learning": [
@@ -8985,7 +10811,18 @@
         "suiteRef": "ruvnet/reasoningbank",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "reasoning-pattern-bank": [
@@ -9044,7 +10881,18 @@
         "type": "extra",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "platform-modernization-sprint": [
@@ -9114,7 +10962,18 @@
         "type": "extra",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "multi-topology-orchestration": [
@@ -9226,6 +11085,17 @@
         "installBody": "The quickest path to Ruflo:\n\n```bash\nnpx ruflo@latest init\n```\n\nThis launches an interactive wizard that detects your platform and configures\nthe full Ruflo loop (98 agents, 60+ commands, MCP server, hooks, and daemon).\nFor Claude Code plugin installs, Windows specifics, or the complete options\nreference, see the [full installation guide on GitHub](https://github.com/ruvnet/ruflo#installation).",
         "role": "origin",
         "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": true,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
         "ultimateGateStatus": {
           "passes": false,
           "reason": "need ≥1 component(s) graded S+, have 0"
@@ -9273,7 +11143,18 @@
         "type": "extra",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "sequential-agent-pipeline": [
@@ -9329,7 +11210,18 @@
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "advanced-swarm-coordination": [
@@ -9391,7 +11283,18 @@
         "type": "extra",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "swarm-topology-management": [
@@ -9453,7 +11356,18 @@
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "cli-modernization": [
@@ -9509,7 +11423,18 @@
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "core-platform-implementation": [
@@ -9565,7 +11490,18 @@
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "system-integration": [
@@ -9621,7 +11557,18 @@
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "worker-agent-dispatch": [
@@ -9677,7 +11624,18 @@
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "knowledge-graph-build": [
@@ -9716,7 +11674,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "career-operations": [
@@ -9767,7 +11736,18 @@
         ],
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "generate-test": [
@@ -9803,7 +11783,18 @@
         ],
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "skill-discovery": [
@@ -9856,7 +11847,18 @@
         ],
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "B"
+        "overallTrustGrade": "B",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "rag-pipeline": [
@@ -9900,7 +11902,18 @@
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A"
+        "overallTrustGrade": "A",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ]
   },

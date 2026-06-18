@@ -860,6 +860,81 @@
       '</div>';
     }
 
+    function renderTMCard(skill) {
+      var tm = skill.trustMagnitude;
+      var grade = skill.overallTrustGrade || null;
+      var apexStatus = skill.apexGateStatus || null;
+
+      var tmDisplay = (tm != null && tm > 0)
+        ? Number(tm).toFixed(1)
+        : '—';
+
+      var gradeAttr = grade ? ' data-grade="' + esc(grade) + '"' : '';
+      var gradeLabel = grade ? grade : '—';
+
+      var html = '<div class="report-card report-card--full">' +
+        '<div class="report-card-label">Trust Magnitude</div>' +
+        '<div class="tm-card-value">' +
+          '<span class="tm-card-number">' + esc(tmDisplay) + '</span>' +
+          '<span class="tm-badge"' + gradeAttr + '>' + esc(gradeLabel) + '</span>' +
+        '</div>';
+
+      // Apex gate checklist
+      if (apexStatus) {
+        var PREDICATE_LABELS = {
+          aGradedOriginsGte5:           'A-graded origins ≥ 5',
+          sourceTenureDaysGte180AorS:   'Source tenure ≥ 180 days (A or S)',
+          directNestedSuiteGte1:        'Direct nested suite ≥ 1',
+          depth2OnlyReachableGte1:      'Depth-2-only reachable ≥ 1',
+          overallGradeS:                'Overall grade S',
+          apexPromotionPrSigned:        'Apex promotion PR signed',
+          crossOrgVerifier:             'Cross-org verifier',
+          systemWideCap:                'System-wide cap',
+        };
+        var FLAGGED_OFF = ['crossOrgVerifier', 'systemWideCap'];
+
+        html += '<div class="report-card-label" style="margin-top:1rem;">Apex Gate Predicates</div>' +
+          '<ul class="apex-gate-checklist">';
+
+        var predicates = Object.keys(PREDICATE_LABELS);
+        for (var i = 0; i < predicates.length; i++) {
+          var key = predicates[i];
+          var val = apexStatus[key];
+          var label = PREDICATE_LABELS[key] || key;
+          var icon, iconClass, noteHtml;
+
+          if (val === null || val === undefined || FLAGGED_OFF.indexOf(key) !== -1) {
+            icon = '—';
+            iconClass = 'apex-off';
+            noteHtml = '<span class="apex-predicate-note">feature-flagged off (2026-Q4 review)</span>';
+          } else if (val === true) {
+            icon = '✓';
+            iconClass = 'apex-pass';
+            noteHtml = '';
+          } else {
+            icon = '✗';
+            iconClass = 'apex-fail';
+            noteHtml = '';
+          }
+
+          html += '<li>' +
+            '<span class="' + iconClass + '">' + icon + '</span>' +
+            '<span>' +
+              '<span class="apex-predicate-name">' + esc(label) + '</span>' +
+              noteHtml +
+            '</span>' +
+          '</li>';
+        }
+
+        html += '</ul>';
+      } else {
+        html += '<div class="tm-card-meta">Apex gate status not yet computed for this skill.</div>';
+      }
+
+      html += '</div>';
+      return html;
+    }
+
     function renderOTGCard(skill) {
       var grade = skill.overallTrustGrade || '—';
       var label = GRADE_LABELS[grade] || 'Ungraded';
@@ -1148,6 +1223,7 @@
           renderOTGCard(skill) +
           renderTenureCard(skill) +
         '</div>' +
+        renderTMCard(skill) +
         renderLinksCard(skill) +
         renderUpgradeCard(skill, skillMap) +
         renderEvidenceCard(skill) +

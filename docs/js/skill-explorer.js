@@ -1300,6 +1300,91 @@
     '</div>';
   }
 
+  // ── RENDER TRUST MAGNITUDE ────────────────────────────────────────────
+  // Phase 1.5 I6 — TM card in the Skill Explorer modal.
+  // Uses data from named-skills.json: trustMagnitude, overallTrustGrade,
+  // apexGateStatus (written by generateNamedIndex.py _inject_trust_grades).
+  // All referenced helpers (_se_icon, esc) are in THIS IIFE (#1). Mount
+  // point #se-tm is declared in SE_BODY_SKELETON above. Wrapped in
+  // _safeRender at the call site so a throw here cannot cascade.
+  function renderTrustMagnitude(ns) {
+    var el = document.getElementById('se-tm');
+    if (!el) return;
+
+    var tm = ns.trustMagnitude;
+    var grade = ns.overallTrustGrade || null;
+    var apexStatus = ns.apexGateStatus || null;
+
+    // Skip the section entirely if TM is zero and no apex status
+    if ((tm == null || tm <= 0) && !apexStatus) {
+      el.innerHTML = '';
+      return;
+    }
+
+    var tmDisplay = (tm != null && tm > 0) ? Number(tm).toFixed(1) : '—';
+    var gradeAttr = grade ? ' data-grade="' + esc(grade) + '"' : '';
+    var gradeLabel = grade ? grade : '—';
+
+    var html = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Trust Magnitude</div>';
+
+    html += '<div class="tm-card-value" style="margin: 0.6rem 0 0.85rem;">' +
+      '<span class="tm-card-number">' + esc(tmDisplay) + '</span>' +
+      '<span class="tm-badge"' + gradeAttr + '>' + esc(gradeLabel) + '</span>' +
+    '</div>';
+
+    if (apexStatus) {
+      var PREDICATE_LABELS = {
+        aGradedOriginsGte5:          'A-graded origins ≥ 5',
+        sourceTenureDaysGte180AorS:  'Source tenure ≥ 180 days (A or S)',
+        directNestedSuiteGte1:       'Direct nested suite ≥ 1',
+        depth2OnlyReachableGte1:     'Depth-2-only reachable ≥ 1',
+        overallGradeS:               'Overall grade S',
+        apexPromotionPrSigned:       'Apex promotion PR signed',
+        crossOrgVerifier:            'Cross-org verifier',
+        systemWideCap:               'System-wide cap',
+      };
+      var FLAGGED_OFF_SE = ['crossOrgVerifier', 'systemWideCap'];
+
+      html += '<div style="font-size:0.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-family:var(--font-mono);margin-bottom:.5rem;">Apex Gate Predicates</div>';
+      html += '<ul class="apex-gate-checklist">';
+
+      var predicates = Object.keys(PREDICATE_LABELS);
+      for (var i = 0; i < predicates.length; i++) {
+        var key = predicates[i];
+        var val = apexStatus[key];
+        var predicateLabel = PREDICATE_LABELS[key] || key;
+        var icon, iconClass, noteHtml;
+
+        if (val === null || val === undefined || FLAGGED_OFF_SE.indexOf(key) !== -1) {
+          icon = '—';
+          iconClass = 'apex-off';
+          noteHtml = '<span class="apex-predicate-note">feature-flagged off (2026-Q4 review)</span>';
+        } else if (val === true) {
+          icon = '✓';
+          iconClass = 'apex-pass';
+          noteHtml = '';
+        } else {
+          icon = '✗';
+          iconClass = 'apex-fail';
+          noteHtml = '';
+        }
+
+        html += '<li>' +
+          '<span class="' + iconClass + '">' + icon + '</span>' +
+          '<span>' +
+            '<span class="apex-predicate-name">' + esc(predicateLabel) + '</span>' +
+            noteHtml +
+          '</span>' +
+        '</li>';
+      }
+      html += '</ul>';
+    } else {
+      html += '<div class="se-empty" style="font-style:italic;">Apex gate status not yet computed for this skill.</div>';
+    }
+
+    el.innerHTML = html;
+  }
+
   function renderVariants(ns) {
     var el = document.getElementById('se-upgrade');
     if (!el) return;
@@ -1423,6 +1508,7 @@
     '<div class="se-flow" id="seFlow">' +
       '<div id="se-install" class="se-flow-section"></div>' +
       '<div id="se-docs" class="se-flow-section"></div>' +
+      '<div id="se-tm" class="se-flow-section"></div>' +
       '<div id="se-changelog" class="se-flow-section"></div>' +
     '</div>';
   function _ensureSeLoadingStyles() {
@@ -1634,10 +1720,11 @@
       // Each section is wrapped: a thrown exception in one render must not
       // cascade and skip the remaining sections (regression observed where
       // a renderInstall edge-case left Upgrade / Docs / Changelog blank).
-      _safeRender('Install',  'se-install',   function(){ renderInstall(ns); });
-      _safeRender('Docs',     'se-docs',      function(){ renderDocs(ns, generic); });
-      _safeRender('Upgrade',  'se-upgrade',   function(){ renderFlowchart(ns, generic); });
-      _safeRender('Timeline', 'se-changelog', function(){ renderTimeline(ns, generic); });
+      _safeRender('Install',         'se-install',   function(){ renderInstall(ns); });
+      _safeRender('Docs',            'se-docs',      function(){ renderDocs(ns, generic); });
+      _safeRender('Upgrade',         'se-upgrade',   function(){ renderFlowchart(ns, generic); });
+      _safeRender('Trust Magnitude', 'se-tm',        function(){ renderTrustMagnitude(ns); });
+      _safeRender('Timeline',        'se-changelog', function(){ renderTimeline(ns, generic); });
 
       // Accessibility: Move focus to the modal close button
       var closeBtn = document.getElementById('seClose');

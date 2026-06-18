@@ -299,6 +299,28 @@ def _dim(text):
 _TYPE_SYMBOL = {"basic": "○", "extra": "◇", "ultimate": "◆"}
 
 
+def _tm_suffix(specific):
+    """Return a dimmed ' · TM <value> <grade>' suffix for a named skill entry.
+
+    Returns an empty string when TM is 0, None, or the entry has no data.
+    TM is shown with one decimal place; grade letter is appended if present.
+    """
+    if not specific or not isinstance(specific, dict):
+        return ""
+    tm = specific.get("trustMagnitude")
+    if tm is None or tm == 0 or tm == 0.0:
+        return ""
+    try:
+        tm_float = float(tm)
+    except (TypeError, ValueError):
+        return ""
+    if tm_float <= 0:
+        return ""
+    grade = specific.get("overallTrustGrade") or ""
+    grade_part = f" {grade}" if grade else ""
+    return f" · TM {tm_float:.1f}{grade_part}"
+
+
 def _plain_label(skill_id, skill_map, named_by_ref, local_by_ref, mode, canon=False, current_user=None):
     level = skill_map.get(skill_id, {}).get("level", "?")
     star = f" {level}" if level and level != "0★" else ""
@@ -366,9 +388,10 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
         label = _plain_label(skill_id, skill_map, named_by_ref, local_by_ref, mode, canon=canon, current_user=current_user)
         if skill_id in seen:
             label += " (see above)"
-        
+
     connector = "└── " if is_last else "├── "
-    lines = [_dim(prefix + connector) + _color_entry(symbol, label, tier, named, level, current_user=current_user, is_unowned=is_unowned, is_custom=is_custom, is_origin=is_orig, is_fused=is_fused)]
+    tm_part = "" if is_unowned else _dim(_tm_suffix(specific))
+    lines = [_dim(prefix + connector) + _color_entry(symbol, label, tier, named, level, current_user=current_user, is_unowned=is_unowned, is_custom=is_custom, is_origin=is_orig, is_fused=is_fused) + tm_part]
     
     if skill_id in seen:
         return lines
