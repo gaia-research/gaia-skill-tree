@@ -44,6 +44,20 @@ def _write_md(path, meta, body) -> None:
         encoding="utf-8",
     )
 
+def _named_skill_file(skill_id, registry_path="."):
+    """Return the Path to the named skill .md file for skill_id, or None."""
+    from gaia_cli.registry import named_skills_dir
+    named_base = Path(named_skills_dir(registry_path)).resolve()
+    if "/" in skill_id:
+        guess = (named_base / f"{skill_id}.md").resolve()
+        if guess.exists() and guess.is_relative_to(named_base):
+            return guess
+    for p in named_base.glob("**/*.md"):
+        content = p.read_text(encoding="utf-8")
+        if f"id: {skill_id}" in content or f'id: "{skill_id}"' in content:
+            return p
+    return None
+
 def append_skill_event(skill_id, action, contributor, details, registry_path="."):
     from gaia_cli.registry import registry_nodes_dir, named_skills_dir
     nodes_dir = Path(registry_nodes_dir(registry_path))
