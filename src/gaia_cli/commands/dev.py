@@ -2035,17 +2035,25 @@ def meta_timeline_command(args):
     timestamp = getattr(args, "timestamp", None)
 
     if user:
-        from gaia_cli.timeline import append_skill_tree_event
-        append_skill_tree_event(
-            user,
-            skill_id,
-            action,
-            notes,
-            registry_path=registry_path,
-            timestamp=timestamp,
-        )
-        marker = f" (at {timestamp})" if timestamp else ""
-        print(f"Appended '{action}' event for '{skill_id}' to skill-trees/{user}/skill-tree.json{marker}.")
+        # Check if skill_id refers to a named skill first; if so write there.
+        from gaia_cli.timeline import _named_skill_file
+        named_file = _named_skill_file(skill_id, registry_path)
+        if named_file:
+            from gaia_cli.timeline import append_skill_event
+            append_skill_event(skill_id, action, user, notes, registry_path=registry_path)
+            print(f"Appended '{action}' event for '{skill_id}' to named skill file.")
+        else:
+            from gaia_cli.timeline import append_skill_tree_event
+            append_skill_tree_event(
+                user,
+                skill_id,
+                action,
+                notes,
+                registry_path=registry_path,
+                timestamp=timestamp,
+            )
+            marker = f" (at {timestamp})" if timestamp else ""
+            print(f"Appended '{action}' event for '{skill_id}' to skill-trees/{user}/skill-tree.json{marker}.")
     else:
         from gaia_cli.timeline import append_skill_event
         append_skill_event(
