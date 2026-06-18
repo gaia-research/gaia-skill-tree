@@ -10503,8 +10503,130 @@ body[data-overall-grade="S"] .report-card {
   .meta-sidebar-header {
     padding: 1rem 1.2rem;
   }
-  
+
   .meta-sidebar-body {
     padding: 1rem;
   }
+}
+
+/* ── Trust Magnitude display (Phase 1.5 I6) ───────────────────────────────── */
+
+/* Small pill: TM number + grade letter. Reuses --grade-S/A/B/C color tokens.
+   data-grade="S"|"A"|"B"|"C" or absent for ungraded. */
+.tm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.03);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.tm-badge[data-grade="S"] {
+  color: var(--grade-s, #e2e8f0);
+  border-color: var(--grade-s-border, rgba(226, 232, 240, 0.35));
+  background: var(--grade-s-bg, rgba(226, 232, 240, 0.07));
+}
+
+.tm-badge[data-grade="A"] {
+  color: var(--grade-a, #fbbf24);
+  border-color: var(--grade-a-border, rgba(251, 191, 36, 0.35));
+  background: var(--grade-a-bg, rgba(251, 191, 36, 0.07));
+}
+
+.tm-badge[data-grade="B"] {
+  color: var(--grade-b, #94a3b8);
+  border-color: var(--grade-b-border, rgba(148, 163, 184, 0.35));
+  background: var(--grade-b-bg, rgba(148, 163, 184, 0.07));
+}
+
+.tm-badge[data-grade="C"] {
+  color: var(--grade-c, #b45309);
+  border-color: var(--grade-c-border, rgba(180, 83, 9, 0.35));
+  background: var(--grade-c-bg, rgba(180, 83, 9, 0.07));
+}
+
+/* Apex gate checklist: list of predicate pass/fail/flagged-off items */
+.apex-gate-checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.apex-gate-checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+/* Pass indicator */
+.apex-gate-checklist .apex-pass {
+  color: #10b981;
+  font-weight: 700;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+}
+
+/* Fail indicator */
+.apex-gate-checklist .apex-fail {
+  color: var(--honor-red, #ef4444);
+  font-weight: 700;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+}
+
+/* Feature-flagged-off (neither pass nor fail) */
+.apex-gate-checklist .apex-off {
+  color: var(--muted);
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+}
+
+.apex-gate-checklist .apex-predicate-name {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-right: 0.25rem;
+}
+
+.apex-gate-checklist .apex-predicate-note {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Trust Magnitude card within report / modal contexts */
+.tm-card-value {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.tm-card-number {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text);
+}
+
+.tm-card-meta {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.5;
 }
