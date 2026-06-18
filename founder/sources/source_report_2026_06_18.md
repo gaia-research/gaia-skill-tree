@@ -95,4 +95,21 @@ The adversarial verifier identified several gaps and mismatches that must be res
     - Generic homepages for Reddit (`https://reddit.com`) and Dev.to (`https://dev.to`) were used for `ruvnet/ruflo`. These must be upgraded to deep links referencing actual discussions.
 
 For a detailed link-by-link audit log, refer to the full verifier report:
-*   [Adversarial Verification Report](file:///Users/marcotiongson/.gemini/antigravity-cli/brain/0be6d288-8c76-43f4-a110-a9924881760c/verification_report.md)
+*   [Adversarial Verification Report](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/verification/verification_report.md)
+
+### 5. Collectors Directory Index
+
+All raw evidence collection reports are organized and stored locally within the repository under `founder/sources/collectors/`:
+
+*   **Raw Evidence Dumps:**
+    *   [Tiers 1–2 Raw Evidence](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/raw/tiers_1_2_evidence.md)
+    *   [Tiers 3–6 Raw Evidence](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/raw/tiers_3_6_evidence.md)
+*   **Social & Engagement Signals:**
+    *   [YouTube Showcase Videos](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/social/youtube_showcases.md)
+    *   [Developer Blogs & Newsletters](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/social/blogs_newsletters.md)
+*   **Technical & Academic Evaluations:**
+    *   [Objective Benchmark Results](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/technical/benchmark_results.md)
+    *   [Structured Peer Reviews & Audits](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/technical/peer_reviews_audits.md)
+    *   [Academic Papers & arXiv Preprints](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/technical/academic_papers.md)
+*   **Adversarial Audit Logs:**
+    *   [Verification Report](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/verification/verification_report.md)
