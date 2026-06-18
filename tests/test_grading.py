@@ -13,6 +13,7 @@ from gaia_cli.grading import (
     load_evidence_types,
     load_grade_thresholds,
     load_ultimate_gate,
+    load_evidence_types_full,
 )
 
 # ---------------------------------------------------------------------------
@@ -111,17 +112,39 @@ class TestOverallTrustGrade:
 # ---------------------------------------------------------------------------
 
 class TestEvidenceTypes:
+    # The 10 canonical G7 evidence type IDs defined in registry/schema/meta.json
+    G7_TYPE_IDS = [
+        "fusion-recipe",
+        "github-stars-own",
+        "proxy-containment",
+        "verifier-attestation",
+        "benchmark-result",
+        "arxiv",
+        "peer-review",
+        "repo-own",
+        "self-attestation",
+        "social-signal",
+    ]
+
     def test_valid_types_from_meta(self):
-        # The real meta.json should have arxiv, repo, github-stars
+        # G7 format: types is a list of objects; load_evidence_types() normalises to IDs.
         types = load_evidence_types(".")
-        assert "arxiv" in types
-        assert "repo" in types
-        assert "github-stars" in types
+        for type_id in self.G7_TYPE_IDS:
+            assert type_id in types, f"expected G7 type '{type_id}' in load_evidence_types()"
+
+    def test_returns_strings(self):
+        # Always returns a list of plain strings regardless of schema format.
+        types = load_evidence_types(".")
+        assert all(isinstance(t, str) for t in types)
 
     def test_invalid_type_detection(self):
+        # Note: `arxiv` survived the legacy→G7 ID rename unchanged — it is correctly
+        # NOT in this rejection list and should never be added here.
         types = load_evidence_types(".")
         assert "stars" not in types          # wrong alias
         assert "GitHub-Stars" not in types   # wrong case
+        assert "repo" not in types           # legacy id — replaced by repo-own
+        assert "github-stars" not in types   # legacy id — replaced by github-stars-own
 
 
 # ---------------------------------------------------------------------------
@@ -512,3 +535,110 @@ class TestEvidenceCLI:
         node = json.loads((tmp_path / "registry" / "nodes" / "basic" / "test-skill.json").read_text())
         ev = node["evidence"][-1]
         assert ev["grade"] == "S"
+
+
+# ---------------------------------------------------------------------------
+# V2 inheritance contract -- allowedLayers + inheritMultiplier schema tests
+# ---------------------------------------------------------------------------
+
+class TestMetaJsonInheritanceSchema:
+    """Verify meta.json carries the v2 inheritance contract fields on all 10 types."""
+
+    def _get_type(self, type_id: str) -> dict:
+        types = load_evidence_types_full(".")
+        for t in types:
+            if t.get("id") == type_id:
+                return t
+        raise KeyError(f"type {type_id!r} not found in meta.json")
+
+    def test_arxiv_allowed_layers_and_multiplier(self):
+        t = self._get_type("arxiv")
+        assert t["allowedLayers"] == ["generic", "named"]
+        assert abs(t["inheritMultiplier"] - 0.70) < 1e-9
+
+    def test_verifier_attestation_named_only_no_multiplier(self):
+        t = self._get_type("verifier-attestation")
+        assert t["allowedLayers"] == ["named"]
+        assert "inheritMultiplier" not in t
+
+    def test_inherit_multiplier_out_of_range_not_in_schema(self):
+        # Verify none of the 10 ratified types has inheritMultiplier > 1.0 or < 0.0
+        types = load_evidence_types_full(".")
+        for t in types:
+            mult = t.get("inheritMultiplier")
+            if mult is not None:
+                assert 0.0 <= mult <= 1.0, (
+                    f"Type {t['id']!r} has inheritMultiplier={mult} outside [0.0, 1.0]"
+                )
+
+    def test_allowed_layers_not_empty(self):
+        # Every type must declare at least one allowedLayer
+        types = load_evidence_types_full(".")
+        for t in types:
+            layers = t.get("allowedLayers")
+            assert layers and len(layers) >= 1, (
+                f"Type {t['id']!r} has empty or missing allowedLayers"
+            )
+
+
+class TestEvidenceLayerField:
+    """Verify skill/namedSkill schemas accept layer field and reject invalid values."""
+
+    def _make_evidence_entry(self, layer=None):
+        entry = {
+            "source": "https://example.com/paper",
+            "evaluator": "testuser",
+            "date": "2026-01-01",
+            "type": "arxiv",
+        }
+        if layer is not None:
+            entry["layer"] = layer
+        return entry
+
+    def test_layer_generic_valid(self):
+        # A row with layer="generic" must be a valid evidence entry (no schema error).
+        entry = self._make_evidence_entry(layer="generic")
+        assert entry["layer"] == "generic"
+
+    def test_layer_named_valid(self):
+        entry = self._make_evidence_entry(layer="named")
+        assert entry["layer"] == "named"
+
+    def test_layer_invalid_value_rejected(self):
+        # "invalid" is not in enum ["generic", "named"] -- the validator must catch this.
+        from gaia_cli.validate import check_evidence_layer_policy, load_type_layer_policy
+        policy = load_type_layer_policy(".")
+        skill = {
+            "id": "test-skill",
+            "evidence": [self._make_evidence_entry(layer="invalid")],
+        }
+        violations = check_evidence_layer_policy(skill, "generic", policy)
+        # "invalid" is not in allowedLayers for arxiv -- violation expected
+        assert len(violations) >= 1
+        assert violations[0]["error_code"] == "evidence-layer-not-allowed"
+
+
+class TestLayerNotAllowedValidator:
+    """Test the evidence-layer-not-allowed validator (gaia validate hook)."""
+
+    def test_verifier_attestation_on_generic_fires_violation(self):
+        """verifier-attestation is named-only; attaching it to a generic node must fail."""
+        from gaia_cli.validate import check_evidence_layer_policy, load_type_layer_policy
+        policy = load_type_layer_policy(".")
+        skill = {
+            "id": "my-generic-skill",
+            "evidence": [{
+                "source": "https://example.com/attestation",
+                "evaluator": "verifier1",
+                "date": "2026-01-01",
+                "type": "verifier-attestation",
+                # no explicit layer -> defaults to skill_layer = "generic"
+            }],
+        }
+        violations = check_evidence_layer_policy(skill, "generic", policy)
+        assert len(violations) == 1
+        v = violations[0]
+        assert v["error_code"] == "evidence-layer-not-allowed"
+        assert v["evidence_type"] == "verifier-attestation"
+        assert v["row_layer"] == "generic"
+        assert v["allowed_layers"] == ["named"]

@@ -44,7 +44,10 @@
     },
     "status": {
       "type": "string",
-      "enum": ["awakened", "named"],
+      "enum": [
+        "awakened",
+        "named"
+      ],
       "description": "Lifecycle status. Contributors must always submit with 'awakened'. Only reviewers may promote to 'named' by adding title or catalogRef in a separate classification PR."
     },
     "title": {
@@ -59,7 +62,14 @@
     },
     "level": {
       "type": "string",
-      "enum": ["1★", "2★", "3★", "4★", "5★", "6★"],
+      "enum": [
+        "1★",
+        "2★",
+        "3★",
+        "4★",
+        "5★",
+        "6★"
+      ],
       "description": "Named level (2★+). 1★ (Awakened) is the hard-demote penalty state for named skills that lose their verified blob link under META §2.4, and the generic intake state."
     },
     "description": {
@@ -85,6 +95,11 @@
           "type": "string",
           "format": "uri",
           "description": "Documentation or landing page URL."
+        },
+        "canonicalRepo": {
+          "type": "string",
+          "format": "uri",
+          "description": "Informational; per-evidence `canonicalRepo` is operationally authoritative per RFC §11.5. Canonical upstream repository URL. Used as the fork-network canonicalization anchor for this named skill's github-stars-own evidence (RFC §11.5). When set, star pools from all forks of this URL are merged into one."
         }
       }
     },
@@ -166,7 +181,10 @@
       "description": "Verification tier state for this named skill. Recomputed by `gaia dev verify-tier` and surfaced in `gaia skills info`. The `tier` field stores the highest tier currently satisfied (or null); `firstEvidenceAt` is the tenure baseline for the enterprise-ready tier.",
       "properties": {
         "tier": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "enum": [
             null,
             "community-verified",
@@ -185,6 +203,95 @@
           "type": "string",
           "format": "date-time",
           "description": "ISO 8601 timestamp of the first `evidence_added` event. Used as the tenure baseline for the enterprise-ready tier."
+        }
+      }
+    },
+    "trustMagnitude": {
+      "type": "number",
+      "minimum": 0,
+      "description": "G7 Trust Magnitude — unbounded aggregate artifact score computed from the 10-type evidence taxonomy (RFC §3). Sum of per-evidence artifact scores (magnitude × weight × freshness). Display layer soft-caps at 500; raw value drives grading and the apex gate. Replaces the legacy trustNumber aggregate."
+    },
+    "overallTrustGrade": {
+      "type": "string",
+      "enum": [
+        "S",
+        "A",
+        "B",
+        "C",
+        "ungraded"
+      ],
+      "description": "G7 Overall Trust Grade derived from trustMagnitude thresholds and diversity gate (RFC §4): S ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20, ungraded < 20. Requires meeting the diversity gate (distinct evidence types, non-self-producible rule) in addition to the magnitude floor."
+    },
+    "provisional": {
+      "type": "boolean",
+      "default": false,
+      "description": "True if this skill is graded at its current overallTrustGrade under the 6-month provisional grace window (RFC §5.7). A provisional skill passed the magnitude threshold for its grade but failed the diversity gate at G7 migration cutover. Demotion at grace expiry is PR-gated, not automatic."
+    },
+    "provisionalUntil": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO date when the provisional grace window expires. Populated only when provisional=true. After this date gaia validate emits a provisional-expired warning; demotion requires a curator PR."
+    },
+    "apexGateStatus": {
+      "type": "object",
+      "description": "Per-predicate pass/fail for the 6★ apex gate (RFC §11.12, amended by G7 delta §A). All 6 active predicates must be true simultaneously for apex eligibility. Two additional predicates are feature-flagged OFF (return null = skipped) until 2026-Q4 review.",
+      "additionalProperties": false,
+      "properties": {
+        "aGradedOriginsGte5": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "TRUE if the skill's transitive fusion-recipe closure contains ≥5 distinct A-or-S-graded origin evidence rows. Consolidates the old transitiveOriginsGte12 and aGradedClosureGte8 predicates (delta §A)."
+        },
+        "sourceTenureDaysGte180AorS": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "TRUE if the maximum source age across all A/S-tier evidence rows is ≥180 calendar days, measured via the per-row sourceStartedAt field. Replaces the old tenureDaysGte180 predicate (delta §A). False (not null) when no A/S rows exist."
+        },
+        "directNestedSuiteGte1": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "TRUE if at least one direct component of this skill itself has non-empty suiteComponents (RFC §11.12.2)."
+        },
+        "depth2OnlyReachableGte1": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "TRUE if the fusion graph (role=origin edges, excluding suite-component edges) contains at least one skill reachable only at depth-2 and not at depth-1 (RFC §11.12.3, delta §A depth-2 walk amendment)."
+        },
+        "overallGradeS": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "TRUE if overallTrustGrade equals S under strict-evidence reading (anti-auto-mint per RFC §10.14; only fusion-recipe may be auto-derived)."
+        },
+        "apexPromotionPrSigned": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "TRUE if a PR labeled apex-promotion exists with ≥2 distinct 4★+ verifier approvals from at least 2 distinct GitHub orgs (RFC §11.12.8). gaia promote rejects target_level==6★ at CLI layer; this predicate is set only by meta-guard.yml at merge time."
+        },
+        "crossOrgVerifierGte2": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "FEATURE-FLAGGED OFF until 2026-Q4 review. When active: TRUE if ≥2 verifier-attestation rows exist from 4★+ verifiers in at least 2 distinct GitHub orgs (RFC §11.12.6). Returns null (skipped) while flag is off; CI cap in I4 enforces the system-wide limit independently."
+        },
+        "systemWideCapRespected": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "FEATURE-FLAGGED OFF. System-wide 6★ cap (≤5) is enforced by meta-guard.yml CI (I4), not by this per-skill predicate. Returns null (skipped). Kept for forward compatibility; re-enable by flipping the feature flag in src/gaia_cli/trustMagnitude.py at 2026-Q4 review."
         }
       }
     }
@@ -212,7 +319,7 @@
             "B",
             "C"
           ],
-          "description": "Evidence Grade — the quality of the demonstration, derived from trustNumber via meta.json evidence.gradeThresholds (S >= 90, A >= 80, B >= 60, C >= 40). Evidence whose trustNumber is below 40 is ungraded: this field is absent and the entry counts toward no gate. WARNING: grade A/B are NOT the deprecated class A/B — migration code must never read one as the other."
+          "description": "per-evidence grade (S/A/B/C). Distinct from the skill's overall trust grade (overallTrustGrade). Used by the diversity gate per RFC §4. Evidence whose trustNumber is below 40 is ungraded: this field is absent and the entry counts toward no gate. WARNING: grade A/B are NOT the deprecated class A/B — migration code must never read one as the other."
         },
         "trustNumber": {
           "type": "number",
@@ -259,6 +366,64 @@
           "type": "string",
           "format": "uri",
           "description": "URL to the verification discussion or PR."
+        },
+        "sourceStartedAt": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO date the source project/repo/publication was first created or published. Optional for B/C/ungraded rows. Required at A/S tier for apex eligibility (gaia validate warns on A/S rows missing this field; hard-fail is I4's job post-cutover). Used by the sourceTenureDaysGte180AorS apex predicate."
+        },
+        "unverified": {
+          "type": "boolean",
+          "description": "Interim flag for proxy-containment entries whose claim has not yet been validated by the proxy-containment validator (RFC §11.2). Entry counts at full magnitude while flagged; surfaced in gaia evidence listings and audit reports."
+        },
+        "layer": {
+          "type": "string",
+          "enum": [
+            "generic",
+            "named"
+          ],
+          "description": "The layer at which this evidence row is attached. Defaults to the layer of the containing skill node — generic skills default to 'generic', named skills default to 'named'. Used by the per-type allowedLayers validator and the inheritance multiplier."
+        },
+        "links": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Per-evidence-entry links used by the trust magnitude computation.",
+          "properties": {
+            "canonicalRepo": {
+              "type": "string",
+              "format": "uri",
+              "description": "Canonical upstream repository URL for fork-network canonicalization opt-out (RFC §11.5). When set, this evidence entry's star pool is attributed to this URL rather than the auto-detected upstream fork. Required when a fork has legitimately diverged into a separate skill."
+            }
+          }
+        },
+        "cosigners": {
+          "type": "array",
+          "description": "Verifier co-signers for social-signal recognized-voice (1.2× creator multiplier) and cross-org verifier-attestation requirements. Each cosigner must be a 4★+ verifier from a distinct GitHub org. Recorded via gaia dev evidence --cosign-with <verifier>.",
+          "items": {
+            "type": "object",
+            "required": [
+              "username",
+              "org",
+              "signedAt"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "username": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]*$",
+                "description": "GitHub username of the co-signing verifier."
+              },
+              "org": {
+                "type": "string",
+                "description": "GitHub org the verifier belongs to at co-sign time (used for cross-org distinctness check)."
+              },
+              "signedAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "ISO 8601 timestamp when the co-sign was recorded."
+              }
+            }
+          }
         }
       }
     },
