@@ -19,7 +19,7 @@ tags:
 - quality
 - collaboration
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -34,6 +34,13 @@ evidence:
   grade: B
   commits: 609
   contributors: 36
+- source: https://github.com/obra/superpowers/issues/701
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: receiving-code-review Step 1 lacks guidance; agents miss feedback via gh
+    CLI.
 timeline:
 - timestamp: '2026-06-14T12:32:47Z'
   action: evidence_graded
@@ -46,6 +53,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:07:58Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:49:31Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/701 (type:
+    social-signal)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -58,6 +70,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 1e5b1bec8cc30c52fe9d1c8096457c5aaebdcc5de48eff84a18c2c6c3ed3b4b6
+verification:
+  firstEvidenceAt: '2026-06-19T12:49:31Z'
 ---
 
 ## Overview

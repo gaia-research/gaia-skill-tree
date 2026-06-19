@@ -19,7 +19,7 @@ tags:
 - branching
 - safety
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -34,6 +34,31 @@ evidence:
   grade: B
   commits: 609
   contributors: 36
+- source: https://github.com/obra/superpowers/issues/1804
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Promotes using-git-worktrees to Step 0 in executing-plans and SDD. Real-world:
+    0/4 worktrees without fix.'
+- source: https://github.com/obra/superpowers/issues/1801
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Fixes #1797 by adding proper variable assignments in Step 1.'
+- source: https://github.com/obra/superpowers/issues/1797
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Step 1 uses undefined variables, causing git worktree to run with empty branch.
+- source: https://github.com/obra/superpowers/issues/1782
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Fixes ignore-verification logic, tested against 5 adversarial cases.
 timeline:
 - timestamp: '2026-06-14T12:32:49Z'
   action: evidence_graded
@@ -46,6 +71,26 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:07:58Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:44:47Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1804 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:45:20Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1801 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:45:55Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1797 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:46:12Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1782 (type:
+    peer-review)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -58,6 +103,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 2a31affb21edfd6d7fb3da6e4e55314e9514efdafe69e182d4120ad45ca07339
+verification:
+  firstEvidenceAt: '2026-06-19T12:44:46Z'
 ---
 
 ## Overview

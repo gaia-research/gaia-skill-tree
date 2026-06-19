@@ -17,7 +17,7 @@ tags:
 - retrospective
 - documentation
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T23:33:02Z'
@@ -47,6 +47,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T10:36:26Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:41:13Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/garrytan/gstack/issues/1999 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:41:28Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/garrytan/gstack/issues/1834 (type:
+    peer-review)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/retro/SKILL.md
@@ -61,6 +71,18 @@ evidence:
   contributors: 9
   trustNumber: 70.0
   grade: B
+- source: https://github.com/garrytan/gstack/issues/1999
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: GitHub issue discussing /retro skill
+- source: https://github.com/garrytan/gstack/issues/1834
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: GitHub issue discussing /retro skill
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

@@ -18,7 +18,7 @@ tags:
 - memory-integration
 - self-improvement
 createdAt: '2026-05-19'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/reasoningbank-agentdb
@@ -35,6 +35,41 @@ evidence:
   grade: B
   commits: 6899
   contributors: 32
+- source: https://github.com/ruvnet/ruflo/issues/2410
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Dream cycle research issue documenting ReasoningBank performance gaps vs
+    OPD-Evolver (11.5% improvement) and proposing bi-temporal indexing improvements
+    via ADR-161.
+- source: https://github.com/ruvnet/ruflo/issues/928
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Direct user feedback on reasoningbank-intelligence skill implementation and
+    usage.
+- source: https://github.com/ruvnet/ruflo/issues/914
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Production issue with ReasoningBank backend initialization and database migrations.
+- source: https://github.com/ruvnet/ruflo/issues/812
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Bug showing MCP memory tools bypass ReasoningBank semantic search capabilities
+    despite initialization.
+- source: https://github.com/ruvnet/ruflo/issues/801
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: User praise for ReasoningBank semantic search performance in v2.7.0-alpha.10
+    release.
 timeline:
 - timestamp: '2026-06-14T12:32:58Z'
   action: evidence_graded
@@ -47,6 +82,31 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:52:12Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:49:58Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/ruvnet/ruflo/issues/2410 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:50:15Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/ruvnet/ruflo/issues/928 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:50:32Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/ruvnet/ruflo/issues/914 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:50:49Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/ruvnet/ruflo/issues/812 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:51:07Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/ruvnet/ruflo/issues/801 (type:
+    peer-review)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -59,6 +119,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: f2f5d7a532ae38efd6f520b2fb610e2ea77d34e28e1f8e3b17d3fafa2a8f30dd
+verification:
+  firstEvidenceAt: '2026-06-19T12:49:58Z'
 ---
 
 ## Overview

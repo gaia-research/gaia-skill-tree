@@ -10,7 +10,7 @@ level: 3★
 description: Build throwaway prototypes to answer specific design or logic questions
   before committing to production code.
 createdAt: '2026-05-21'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: mattpocock/engineering
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype
@@ -26,6 +26,12 @@ evidence:
   grade: B
   commits: 137
   contributors: 3
+- source: https://github.com/mattpocock/skills/issues/145
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: GitHub issue proposing prototype skill variant.
 timeline:
 - timestamp: '2026-06-14T12:32:43Z'
   action: evidence_graded
@@ -38,6 +44,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:52:12Z'
   details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:35:44Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/issues/145 (type:
+    peer-review)'
 trustMagnitude: 11.21
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -50,6 +61,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 6a0e60adeae1a369647cc2763775b8f808abdd217d3438c90b18896304da3a14
+verification:
+  firstEvidenceAt: '2026-06-19T12:35:44Z'
 ---
 
 ## Installation

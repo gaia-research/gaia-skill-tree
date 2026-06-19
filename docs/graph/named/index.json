@@ -919,8 +919,26 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md"
         },
+        "evidence": [
+          {
+            "source": "https://github.com/mattpocock/skills/issues/271",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue about write-a-skill skill documentation contradiction."
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/discussions/246",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub discussion comparing write-a-skill skill with skill-creator."
+          }
+        ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -932,6 +950,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:18Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:38:21Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/271 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:38:37Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/discussions/246 (type: peer-review)"
           }
         ],
         "suiteRef": "mattpocock/productivity",
@@ -939,7 +969,7 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 45.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -1163,10 +1193,50 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack/issues/2055",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Bug report for /browse"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack/issues/2048",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Bug report for /browse"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack/issues/1989",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Bug report for /browse"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack/issues/1953",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Bug report for /browse"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack/issues/1784",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Bug report for /browse"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:32:59Z",
@@ -1207,13 +1277,43 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T10:36:26Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:39:00Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack/issues/2055 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:39:16Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack/issues/2048 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:39:31Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack/issues/1989 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:39:48Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack/issues/1953 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:40:03Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack/issues/1784 (type: peer-review)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 88.5,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2500,10 +2600,18 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack/issues/2039",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Bug report for /careful"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:30Z",
@@ -2526,13 +2634,19 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T10:36:26Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:40:26Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack/issues/2039 (type: peer-review)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 66.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2786,13 +2900,29 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman"
         },
+        "evidence": [
+          {
+            "source": "https://github.com/mattpocock/skills/issues/189",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue about caveman skill feature request."
+          }
+        ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-04",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:18Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:32:52Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/189 (type: peer-review)"
           }
         ],
         "suiteRef": "mattpocock/productivity",
@@ -2800,7 +2930,7 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 30.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -3299,6 +3429,22 @@
             "type": "social-signal",
             "class": "A",
             "notes": "Full Stack YouTube: \"Every AI Website Looks the Same | Here's the Fix.\" Paul Bakaus' Impeccable design steering skill walkthrough. Topical authority."
+          },
+          {
+            "source": "https://github.com/pbakaus/impeccable/issues/268",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Production bug in live skill affecting session stability on frequently re-rendering pages; root cause and fix documented."
+          },
+          {
+            "source": "https://github.com/pbakaus/impeccable/issues/183",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Live skill incompatibility with Vite watcher; .impeccable state mutations trigger full-page reloads in watched project root."
           }
         ],
         "createdAt": "2026-05-14",
@@ -3358,12 +3504,24 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T10:52:25Z",
             "details": "TM 77.8 -> 77.8, grade B -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:52:15Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/pbakaus/impeccable/issues/268 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:52:32Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/pbakaus/impeccable/issues/183 (type: peer-review)"
           }
         ],
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 77.8,
+        "trustMagnitude": 122.8,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -4392,10 +4550,18 @@
             "grade": "B",
             "commits": 609,
             "contributors": 36
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1795",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Mentions systematic-debugging as candidate for nested subagents."
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -4418,6 +4584,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T11:07:58Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:47:17Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1795 (type: social-signal)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -5108,10 +5280,18 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack/issues/1958",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue discussing /office-hours"
           }
         ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:35Z",
@@ -5134,13 +5314,19 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T10:36:26Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:40:41Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack/issues/1958 (type: peer-review)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "A",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 66.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5376,10 +5562,18 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack/issues/1791",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue discussing /plan-eng-review"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:35Z",
@@ -5402,13 +5596,19 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T10:36:26Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:40:57Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack/issues/1791 (type: peer-review)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 66.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5953,10 +6153,26 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack/issues/1999",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue discussing /retro skill"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack/issues/1834",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue discussing /retro skill"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:02Z",
@@ -5997,13 +6213,25 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T10:36:26Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:41:13Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack/issues/1999 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:41:28Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack/issues/1834 (type: peer-review)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 81.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -6440,10 +6668,26 @@
             "grade": "B",
             "commits": 609,
             "contributors": 36
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1574",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Feature request involves finishing-a-development-branch in plan-tune coordination."
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1609",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "finishing-a-development-branch Option 2 hardcodes gh pr, fails on non-GitHub platforms."
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:32:59Z",
@@ -6466,6 +6710,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T11:07:58Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:48:58Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1574 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T12:49:15Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1609 (type: social-signal)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -7696,6 +7952,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://www.youtube.com/@mattpocockuk (type: social-signal)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:03:11Z",
+            "details": "TM 11.21 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/productivity",
@@ -7828,6 +8089,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://www.youtube.com/@mattpocockuk (type: social-signal)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:03:11Z",
+            "details": "TM 11.21 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -7874,10 +8140,58 @@
             "grade": "B",
             "commits": 137,
             "contributors": 3
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/issues/171",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue about handoff skill enhancement."
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/issues/172",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue about handoff skill UX improvement."
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/issues/175",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue about handoff skill bug on macOS."
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/issues/186",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue about handoff skill context preservation."
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/issues/235",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue with handoff skill feature suggestions."
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/issues/349",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue about handoff skill output format."
           }
         ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:43Z",
@@ -7894,6 +8208,42 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T11:52:12Z",
             "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:33:32Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/171 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:33:47Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/172 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:34:01Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/175 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:34:16Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/186 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:34:32Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/235 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:34:46Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/349 (type: peer-review)"
           }
         ],
         "suiteRef": "mattpocock/productivity",
@@ -7901,7 +8251,7 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 11.21,
+        "trustMagnitude": 63.71,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -7937,13 +8287,43 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/improve-codebase-architecture/SKILL.md"
         },
+        "evidence": [
+          {
+            "source": "https://github.com/mattpocock/skills/issues/180",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue about improve-codebase-architecture skill enhancement."
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/discussions/287",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub discussion about improve-codebase-architecture skill workflow."
+          }
+        ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:18Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:35:07Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/180 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:35:22Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/discussions/287 (type: peer-review)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -7951,7 +8331,7 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 45.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -8142,10 +8522,18 @@
             "grade": "B",
             "commits": 137,
             "contributors": 3
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/issues/145",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue proposing prototype skill variant."
           }
         ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:43Z",
@@ -8162,6 +8550,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T11:52:12Z",
             "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:35:44Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/145 (type: peer-review)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -8169,7 +8563,7 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 11.21,
+        "trustMagnitude": 41.21,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -8208,10 +8602,26 @@
             "grade": "B",
             "commits": 137,
             "contributors": 3
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/issues/177",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue about setup-matt-pocock-skills skill feature request."
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/issues/220",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue about setup-matt-pocock-skills skill feature request."
           }
         ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:43Z",
@@ -8228,6 +8638,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T11:52:12Z",
             "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:36:01Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/177 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:36:18Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/220 (type: peer-review)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -8235,7 +8657,7 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 11.21,
+        "trustMagnitude": 56.21,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -8429,10 +8851,42 @@
             "grade": "B",
             "commits": 137,
             "contributors": 3
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/issues/156",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue about to-prd skill behavior."
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/issues/212",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue about to-prd skill workflow question."
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/issues/240",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue about to-prd skill interaction with grill-me."
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/discussions/217",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub discussion about to-prd skill workflow."
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:44Z",
@@ -8449,6 +8903,30 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T11:07:58Z",
             "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:36:40Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/156 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:36:55Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/212 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:37:11Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/240 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:37:26Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/discussions/217 (type: peer-review)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -8456,7 +8934,7 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
         "overallTrustGrade": "A",
-        "trustMagnitude": 11.21,
+        "trustMagnitude": 63.71,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -8503,10 +8981,26 @@
             "grade": "B",
             "commits": 137,
             "contributors": 3
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/issues/205",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue about triage skill requirements."
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/issues/289",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue about triage skill classification gap."
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:44Z",
@@ -8523,6 +9017,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T11:52:12Z",
             "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:37:49Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/205 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:38:05Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/289 (type: peer-review)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -8530,7 +9036,7 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
         "overallTrustGrade": "A",
-        "trustMagnitude": 11.21,
+        "trustMagnitude": 56.21,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9635,10 +10141,26 @@
             "grade": "B",
             "commits": 609,
             "contributors": 36
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1773",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "v6.0.0 regression: brainstorming uses AskUserQuestion instead of conversational text."
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1690",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Shows brainstorming as part of workflow producing plans in default location."
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:46Z",
@@ -9655,13 +10177,25 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T11:07:58Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:48:14Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1773 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:48:31Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1690 (type: social-signal)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 66.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9778,10 +10312,26 @@
             "grade": "B",
             "commits": 609,
             "contributors": 36
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1804",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Promotes using-git-worktrees into Step 0 of executing-plans."
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1574",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Feature request involves executing-plans in plan-tune coordination."
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:47Z",
@@ -9798,13 +10348,25 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T11:07:58Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:46:36Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1804 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:46:53Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1574 (type: social-signal)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 66.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9850,10 +10412,18 @@
             "grade": "B",
             "commits": 609,
             "contributors": 36
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/701",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "receiving-code-review Step 1 lacks guidance; agents miss feedback via gh CLI."
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:47Z",
@@ -9870,6 +10440,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T11:07:58Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:49:31Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/701 (type: social-signal)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -9994,10 +10570,42 @@
             "grade": "B",
             "commits": 609,
             "contributors": 36
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1809",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Fixes #1799 by adding -C DIR flag to review-package script to allow better harness allowlisting."
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1804",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "SDD: treatment arm 3/3 correct, control arm 0/3."
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1799",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "SDD review-package friction with worktree workflows, resolved by -C DIR flag."
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1772",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Fixes task-brief path collision in SDD; repeated runs overwrite previous briefs."
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -10014,13 +10622,37 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T11:07:58Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:41:59Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1809 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:42:16Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1804 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:42:32Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1799 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:42:48Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1772 (type: peer-review)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 88.5,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -10277,10 +10909,42 @@
             "grade": "B",
             "commits": 609,
             "contributors": 36
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1804",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Promotes using-git-worktrees to Step 0 in executing-plans and SDD. Real-world: 0/4 worktrees without fix."
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1801",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Fixes #1797 by adding proper variable assignments in Step 1."
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1797",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Step 1 uses undefined variables, causing git worktree to run with empty branch."
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1782",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Fixes ignore-verification logic, tested against 5 adversarial cases."
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:49Z",
@@ -10297,13 +10961,37 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T11:07:58Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:44:47Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1804 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:45:20Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1801 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:45:55Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1797 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:46:12Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1782 (type: peer-review)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 88.5,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -10349,10 +11037,26 @@
             "grade": "B",
             "commits": 609,
             "contributors": 36
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1783",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Design-Fidelity Gate framed as UI-specific instance of verification-before-completion."
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1755",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Updates verification-before-completion to require outcome checks, not just command success."
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:49Z",
@@ -10369,13 +11073,25 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T11:07:58Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:47:33Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1783 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T12:47:50Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1755 (type: peer-review)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 66.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -10498,10 +11214,50 @@
             "grade": "B",
             "commits": 609,
             "contributors": 36
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1808",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Requires writing-plans outputs to start with WHAT/WHY bullets."
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1803",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Detailed Phase 4 checkpoint and Phase 5 adversarial review workflow across 90+ sessions."
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1746",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Adds Global Constraints and per-task Interfaces to writing-plans template."
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1690",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Security concern shows widespread writing-plans usage and integration."
+          },
+          {
+            "source": "https://github.com/obra/superpowers/issues/1574",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Enhancement to coordinate plan-tune preferences across writing-plans, finishing-a-development-branch, executing-plans."
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:49Z",
@@ -10518,13 +11274,43 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T11:07:58Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:43:14Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1808 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:43:29Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1803 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T12:43:46Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1746 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:44:03Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1690 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T12:44:19Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers/issues/1574 (type: social-signal)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 81.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -11113,10 +11899,26 @@
             "grade": "B",
             "commits": 6899,
             "contributors": 32
+          },
+          {
+            "source": "https://github.com/ruvnet/ruflo/issues/1207",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Major AgentDB upgrade introducing RVF backend, self-learning capabilities, and witness chain for memory persistence."
+          },
+          {
+            "source": "https://github.com/ruvnet/ruflo/issues/829",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "High-engagement feature request demonstrating AgentDB performance benefits (150x-12,500x improvements) with backward compatibility."
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:52Z",
@@ -11133,6 +11935,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T11:07:58Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:51:31Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/ruvnet/ruflo/issues/1207 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:51:49Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/ruvnet/ruflo/issues/829 (type: peer-review)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -11147,7 +11961,7 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 81.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12336,10 +13150,50 @@
             "grade": "B",
             "commits": 6899,
             "contributors": 32
+          },
+          {
+            "source": "https://github.com/ruvnet/ruflo/issues/2410",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Dream cycle research issue documenting ReasoningBank performance gaps vs OPD-Evolver (11.5% improvement) and proposing bi-temporal indexing improvements via ADR-161."
+          },
+          {
+            "source": "https://github.com/ruvnet/ruflo/issues/928",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Direct user feedback on reasoningbank-intelligence skill implementation and usage."
+          },
+          {
+            "source": "https://github.com/ruvnet/ruflo/issues/914",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Production issue with ReasoningBank backend initialization and database migrations."
+          },
+          {
+            "source": "https://github.com/ruvnet/ruflo/issues/812",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Bug showing MCP memory tools bypass ReasoningBank semantic search capabilities despite initialization."
+          },
+          {
+            "source": "https://github.com/ruvnet/ruflo/issues/801",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "User praise for ReasoningBank semantic search performance in v2.7.0-alpha.10 release."
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -12356,6 +13210,36 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T11:52:12Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:49:58Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/ruvnet/ruflo/issues/2410 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:50:15Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/ruvnet/ruflo/issues/928 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:50:32Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/ruvnet/ruflo/issues/914 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:50:49Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/ruvnet/ruflo/issues/812 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:51:07Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/ruvnet/ruflo/issues/801 (type: peer-review)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -12367,7 +13251,7 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 88.5,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,

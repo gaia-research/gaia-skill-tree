@@ -18,7 +18,7 @@ tags:
 - navigation
 - qa
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: garrytan/garrytan
 timeline:
 - timestamp: '2026-06-02T23:32:59Z'
@@ -48,6 +48,31 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T10:36:26Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:39:00Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/garrytan/gstack/issues/2055 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:39:16Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/garrytan/gstack/issues/2048 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:39:31Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/garrytan/gstack/issues/1989 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:39:48Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/garrytan/gstack/issues/1953 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:40:03Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/garrytan/gstack/issues/1784 (type:
+    peer-review)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/browse/SKILL.md
@@ -62,6 +87,36 @@ evidence:
   contributors: 9
   trustNumber: 70.0
   grade: B
+- source: https://github.com/garrytan/gstack/issues/2055
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Bug report for /browse
+- source: https://github.com/garrytan/gstack/issues/2048
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Bug report for /browse
+- source: https://github.com/garrytan/gstack/issues/1989
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Bug report for /browse
+- source: https://github.com/garrytan/gstack/issues/1953
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Bug report for /browse
+- source: https://github.com/garrytan/gstack/issues/1784
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Bug report for /browse
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

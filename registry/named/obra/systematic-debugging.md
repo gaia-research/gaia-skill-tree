@@ -19,7 +19,7 @@ tags:
 - instrumentation
 - reproduction
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -34,6 +34,12 @@ evidence:
   grade: B
   commits: 609
   contributors: 36
+- source: https://github.com/obra/superpowers/issues/1795
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: Mentions systematic-debugging as candidate for nested subagents.
 timeline:
 - timestamp: '2026-06-02T23:33:00Z'
   action: demote
@@ -50,6 +56,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:07:58Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:47:17Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1795 (type:
+    social-signal)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -62,6 +73,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 0c4c22fbd349ae69f160bcbdd6925b14b791b068ef163a1fc7e9e7b6e316a8b0
+verification:
+  firstEvidenceAt: '2026-06-19T12:47:17Z'
 ---
 
 ## Overview

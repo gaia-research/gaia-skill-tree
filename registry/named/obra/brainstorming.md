@@ -18,7 +18,7 @@ tags:
 - collaboration
 - pre-implementation
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -33,6 +33,19 @@ evidence:
   grade: B
   commits: 609
   contributors: 36
+- source: https://github.com/obra/superpowers/issues/1773
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'v6.0.0 regression: brainstorming uses AskUserQuestion instead of conversational
+    text.'
+- source: https://github.com/obra/superpowers/issues/1690
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: Shows brainstorming as part of workflow producing plans in default location.
 timeline:
 - timestamp: '2026-06-14T12:32:46Z'
   action: evidence_graded
@@ -45,6 +58,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:07:58Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:48:14Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1773 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:48:31Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1690 (type:
+    social-signal)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -57,6 +80,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 8bebae4b110070d8e7b64344b057dca63e306a620fd52a8b836bce7d1cb8b42f
+verification:
+  firstEvidenceAt: '2026-06-19T12:48:14Z'
 ---
 
 ## Overview

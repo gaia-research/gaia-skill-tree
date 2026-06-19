@@ -36,7 +36,8 @@ evidence:
   date: '2026-06-19'
   type: github-stars-own
   class: A
-  notes: 38,000 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)
+  notes: 38,000 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
+    standalone skill)
   stars: 38000
 - source: https://arxiv.org/abs/2411.01606
   evaluator: mbtiongson1
@@ -52,6 +53,20 @@ evidence:
   class: A
   notes: 'Full Stack YouTube: "Every AI Website Looks the Same | Here''s the Fix."
     Paul Bakaus'' Impeccable design steering skill walkthrough. Topical authority.'
+- source: https://github.com/pbakaus/impeccable/issues/268
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Production bug in live skill affecting session stability on frequently re-rendering
+    pages; root cause and fix documented.
+- source: https://github.com/pbakaus/impeccable/issues/183
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Live skill incompatibility with Vite watcher; .impeccable state mutations
+    trigger full-page reloads in watched project root.
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
   action: rank_up
@@ -90,6 +105,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T10:52:25Z'
   details: TM 77.8 -> 77.8, grade B -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:52:15Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/pbakaus/impeccable/issues/268 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:52:32Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/pbakaus/impeccable/issues/183 (type:
+    peer-review)'
 trustMagnitude: 77.8
 overallTrustGrade: B
 apexGateStatus:

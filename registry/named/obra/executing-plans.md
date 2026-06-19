@@ -18,7 +18,7 @@ tags:
 - implementation
 - plan-driven
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -33,6 +33,18 @@ evidence:
   grade: B
   commits: 609
   contributors: 36
+- source: https://github.com/obra/superpowers/issues/1804
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Promotes using-git-worktrees into Step 0 of executing-plans.
+- source: https://github.com/obra/superpowers/issues/1574
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: Feature request involves executing-plans in plan-tune coordination.
 timeline:
 - timestamp: '2026-06-14T12:32:47Z'
   action: evidence_graded
@@ -45,6 +57,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:07:58Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:46:36Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1804 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:46:53Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1574 (type:
+    social-signal)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -57,6 +79,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 3c6ef1b0016067d400e9236581ed80b6d334a95b8ab1afb57c1692c9a26ac5da
+verification:
+  firstEvidenceAt: '2026-06-19T12:46:36Z'
 ---
 
 ## Overview

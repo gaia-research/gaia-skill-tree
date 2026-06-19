@@ -19,7 +19,7 @@ tags:
 - testing
 - completion
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -34,6 +34,19 @@ evidence:
   grade: B
   commits: 609
   contributors: 36
+- source: https://github.com/obra/superpowers/issues/1574
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: Feature request involves finishing-a-development-branch in plan-tune coordination.
+- source: https://github.com/obra/superpowers/issues/1609
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: finishing-a-development-branch Option 2 hardcodes gh pr, fails on non-GitHub
+    platforms.
 timeline:
 - timestamp: '2026-06-02T23:32:59Z'
   action: demote
@@ -50,6 +63,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:07:58Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:48:58Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1574 (type:
+    social-signal)'
+- timestamp: '2026-06-19T12:49:15Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1609 (type:
+    social-signal)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -62,6 +85,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 2d033d083f12c773cf4f16762939ecaba0e6ec5f8a6014d9c3eea1a59c66b3ec
+verification:
+  firstEvidenceAt: '2026-06-19T12:48:58Z'
 ---
 
 ## Overview

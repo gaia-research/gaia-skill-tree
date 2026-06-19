@@ -21,7 +21,7 @@ tags:
 - skill-scaffolding
 - progressive-disclosure
 createdAt: '2026-04-30'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-19'
 suiteRef: mattpocock/productivity
 timeline:
 - timestamp: '2026-06-02T23:33:00Z'
@@ -31,6 +31,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:38:21Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/issues/271 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:38:37Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/discussions/246
+    (type: peer-review)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -43,6 +53,21 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: b183da119865e57bcb36ecf0b580b07960f04cdb18337bea4893eaf7cb7422bf
+evidence:
+- source: https://github.com/mattpocock/skills/issues/271
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: GitHub issue about write-a-skill skill documentation contradiction.
+- source: https://github.com/mattpocock/skills/discussions/246
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: GitHub discussion comparing write-a-skill skill with skill-creator.
+verification:
+  firstEvidenceAt: '2026-06-19T12:38:21Z'
 ---
 
 ## Overview

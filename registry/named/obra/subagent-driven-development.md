@@ -19,7 +19,7 @@ tags:
 - two-stage-review
 - multi-agent
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -34,6 +34,32 @@ evidence:
   grade: B
   commits: 609
   contributors: 36
+- source: https://github.com/obra/superpowers/issues/1809
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Fixes #1799 by adding -C DIR flag to review-package script to allow better
+    harness allowlisting.'
+- source: https://github.com/obra/superpowers/issues/1804
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'SDD: treatment arm 3/3 correct, control arm 0/3.'
+- source: https://github.com/obra/superpowers/issues/1799
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: SDD review-package friction with worktree workflows, resolved by -C DIR flag.
+- source: https://github.com/obra/superpowers/issues/1772
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Fixes task-brief path collision in SDD; repeated runs overwrite previous
+    briefs.
 timeline:
 - timestamp: '2026-06-14T12:32:48Z'
   action: evidence_graded
@@ -46,6 +72,26 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:07:58Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:41:59Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1809 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:42:16Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1804 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:42:32Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1799 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:42:48Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1772 (type:
+    peer-review)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -58,6 +104,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: f7e77293b8bf52d41a681f9b445a664246acd2e7ed065976d54a48af29a46066
+verification:
+  firstEvidenceAt: '2026-06-19T12:41:58Z'
 ---
 
 ## Overview

@@ -21,7 +21,7 @@ tags:
 - y-combinator
 - ideation
 createdAt: '2026-05-12'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: garrytan/garrytan
 evidence:
 - class: B
@@ -37,6 +37,12 @@ evidence:
   contributors: 9
   trustNumber: 70.0
   grade: B
+- source: https://github.com/garrytan/gstack/issues/1958
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: GitHub issue discussing /office-hours
 timeline:
 - timestamp: '2026-06-03T05:51:35Z'
   action: evidence_added
@@ -53,6 +59,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T10:36:26Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:40:41Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/garrytan/gstack/issues/1958 (type:
+    peer-review)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

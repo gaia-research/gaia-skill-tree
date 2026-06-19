@@ -10,7 +10,7 @@ level: 3★
 description: Scaffolds per-repo configuration for other engineering skills (like triage,
   tdd, diagnose).
 createdAt: '2026-05-21'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: mattpocock/engineering
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills
@@ -27,6 +27,18 @@ evidence:
   grade: B
   commits: 137
   contributors: 3
+- source: https://github.com/mattpocock/skills/issues/177
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: GitHub issue about setup-matt-pocock-skills skill feature request.
+- source: https://github.com/mattpocock/skills/issues/220
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: GitHub issue about setup-matt-pocock-skills skill feature request.
 timeline:
 - timestamp: '2026-06-14T12:32:43Z'
   action: evidence_graded
@@ -39,6 +51,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:52:12Z'
   details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:36:01Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/issues/177 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:36:18Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/issues/220 (type:
+    peer-review)'
 trustMagnitude: 11.21
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -51,6 +73,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 0b401098cd4ff24816ee416efbe60b3fd9f64590f4e65e822d21fd9e5038d84a
+verification:
+  firstEvidenceAt: '2026-06-19T12:36:01Z'
 ---
 
 ## Installation
