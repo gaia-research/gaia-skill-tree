@@ -18,7 +18,7 @@ tags:
 - hermes-agent
 - monitoring
 createdAt: '2026-05-15'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 evidence:
 - class: B
   source: https://github.com/Xquik-dev/hermes-tweet
@@ -33,6 +33,17 @@ evidence:
   contributors: 2
   trustNumber: 70.0
   grade: B
+- source: https://www.youtube.com/watch?v=8VJKkftUY3M
+  evaluator: unknown
+  date: '2026-06-20'
+  type: social-signal
+  trustNumber: 78.0
+  grade: B
+  notes: I Gave an AI Agent Full Control of My Twitter — Nick Puru AI Automation,
+    35K views; covers Hermes Agent + Twitter/X automation using the hermes-tweet plugin
+    pattern (verified 2026-06-20)
+  views: 35000
+  sourceStartedAt: '2025-01-01'
 timeline:
 - timestamp: '2026-06-14T12:33:03Z'
   action: evidence_graded
@@ -51,6 +62,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:45Z'
   details: TM 0.0 -> 6.12, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T16:59:34Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=8VJKkftUY3M (type:
+    social-signal)'
+- timestamp: '2026-06-19T16:59:34Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://www.youtube.com/watch?v=8VJKkftUY3M as B
+    (trustNumber: 78.0)'
 trustMagnitude: 6.12
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -63,6 +84,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: a2837ad0ce4900c7d7dcec95a1f2d89e8211140330f353ea77f7815e1b2b2ee3
+verification:
+  firstEvidenceAt: '2026-06-19T16:59:34Z'
 ---
 
 ## Overview
