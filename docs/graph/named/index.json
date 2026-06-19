@@ -14855,10 +14855,18 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://www.nature.com/articles/s41586-021-03819-2",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "Jumper et al. 2021 Nature: Highly accurate protein structure prediction with AlphaFold. 36,575 citations. High-impact Nature paper directly describing the AlphaFold tool. (CLI gap: --reviewers not supported)"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:28Z",
@@ -14875,6 +14883,12 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T11:52:12Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T14:12:20Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://www.nature.com/articles/s41586-021-03819-2 (type: peer-review)"
         }
       ],
       "type": "extra"

@@ -13,7 +13,7 @@ description: Query the Genome Aggregation Database (gnomAD). Use when determinin
   individual patient genomes, tracking somatic mutations in cancer (use COSMIC), or
   requesting raw sequencing reads (use ENA).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md
 evidence:
@@ -28,6 +28,14 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://www.nature.com/articles/s41586-020-2308-7
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Karczewski et al. 2020 Nature: The mutational constraint spectrum quantified
+    from 141,456 humans. 8,320 citations (Semantic Scholar 2026-06-19).'
+  reviewers: 3
 timeline:
 - timestamp: '2026-06-14T12:32:31Z'
   action: evidence_graded
@@ -46,6 +54,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:19Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.nature.com/articles/s41586-020-2308-7
+    (type: peer-review)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -58,6 +71,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 1cf7ed16089c4256a55fa651292e06f273c4b074572f22fcea479e9e5e32d779
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:19Z'
 ---
 
 # gnomAD Database

@@ -57,13 +57,15 @@ evidence:
     report; mothership with 11+ sub-skills, divisor=4)
   stars: 230818
   skillCountInRepo: 11
-- source: https://www.youtube.com/watch?v=gT5R01Z2J-0
-  evaluator: mbtiongson1
+- source: https://www.youtube.com/watch?v=6YltXh12W-g
+  evaluator: unknown
   date: '2026-06-19'
   type: social-signal
   class: A
-  notes: 'CodeRabbit YouTube "The Merge" podcast: Jesse Vincent (obra) on Superpowers,
-    agentic discipline, treating AI like MIT interns. High-signal technical interview.'
+  notes: 'Larridin podcast: ''Superpowers: How Jesse Built the #1 AI Claude Code/Codex
+    Plugin''. Jesse Vincent explains obra/superpowers agentic discipline. 4,402 views
+    (firecrawl verified 2026-06-19).'
+  views: 4402
 timeline:
 - timestamp: '2026-06-14T12:32:48Z'
   action: evidence_graded
@@ -100,6 +102,15 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:43Z'
   details: TM 0.0 -> 416.0, grade ungraded -> S (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:25:32Z'
+  action: evidence_removed
+  contributor: unknown
+  details: 'Removed dead/invalid evidence: https://www.youtube.com/watch?v=gT5R01Z2J-0'
+- timestamp: '2026-06-19T14:25:41Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type:
+    social-signal)'
 trustMagnitude: 416.0
 overallTrustGrade: S
 apexGateStatus:

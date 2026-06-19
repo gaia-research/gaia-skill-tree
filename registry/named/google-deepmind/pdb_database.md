@@ -11,7 +11,7 @@ description: Use when you want to search for or download experimentally-determin
   searching by sequence similarity, structure similarity, chemical and other attributes.
   Also use to get metadata about biomolecular structure experiments.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md
 evidence:
@@ -26,6 +26,14 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://academic.oup.com/nar/article/28/1/235/2384399
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Berman et al. 2000 NAR: The Protein Data Bank. 10,060 citations (Semantic
+    Scholar 2026-06-19). Foundational PDB database paper.'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:35Z'
   action: evidence_graded
@@ -44,6 +52,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:21Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/28/1/235/2384399
+    (type: peer-review)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -56,6 +69,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: df222608ef25fdfa7f776abc232eb37632b02fe9a02755d64ba968a35a0bb66a
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:20Z'
 ---
 
 # RCSB Protein Data Bank skill

@@ -91,6 +91,7 @@ evidence:
   class: A
   notes: 'Matt Pocock official YouTube: "Learn anything with the /teach skill." Creator
     demonstrating his own skills suite.'
+  views: 86670
 - source: https://github.com/mattpocock/skills
   evaluator: mbtiongson1
   date: '2026-06-19'

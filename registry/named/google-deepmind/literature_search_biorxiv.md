@@ -11,7 +11,7 @@ description: Browse, filter, and download life sciences, biology, and medical pr
   by date range with category and keyword filters. Keyword filtering is local, so
   date ranges MUST be narrow (1-4 weeks) with a category to prevent timeouts.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md
 evidence:
@@ -26,6 +26,15 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://biorxiv.org/about-biorxiv
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'bioRxiv: Cold Spring Harbor Laboratory open-access biology preprint server.
+    Launched 2013, >200k preprints. Primary infrastructure for the bioRxiv search
+    skill.'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:33Z'
   action: evidence_graded
@@ -44,6 +53,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:51Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://biorxiv.org/about-biorxiv (type: peer-review)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -56,6 +69,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 8146686d8b7fa66223a24a6a36e27ebc236ba7b78917782f044379c6dd29b400
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:51Z'
 ---
 
 # bioRxiv and medRxiv Literature Search

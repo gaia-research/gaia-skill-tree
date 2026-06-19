@@ -5133,6 +5133,20 @@
             "type": "social-signal",
             "class": "A",
             "notes": "Mentions systematic-debugging as candidate for nested subagents."
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+            "evaluator": "unknown",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).",
+            "views": 4402
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+            "evaluator": "unknown",
+            "date": "2026-06-19"
           }
         ],
         "createdAt": "2026-05-18",
@@ -5180,13 +5194,25 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:43Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T14:26:03Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T14:27:53Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 65.15,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9890,7 +9916,8 @@
             "date": "2026-06-19",
             "type": "social-signal",
             "class": "A",
-            "notes": "Matt Pocock official YouTube: \"Learn anything with the /teach skill.\" Creator demonstrating his own skills suite."
+            "notes": "Matt Pocock official YouTube: \"Learn anything with the /teach skill.\" Creator demonstrating his own skills suite.",
+            "views": 86670
           },
           {
             "source": "https://github.com/mattpocock/skills",
@@ -9990,7 +10017,7 @@
         "installBody": "Install the full Matt Pocock skills suite with:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 73.7,
+        "trustMagnitude": 113.21,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -11537,6 +11564,20 @@
             "type": "social-signal",
             "class": "A",
             "notes": "Shows brainstorming as part of workflow producing plans in default location."
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+            "evaluator": "unknown",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).",
+            "views": 4402
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+            "evaluator": "unknown",
+            "date": "2026-06-19"
           }
         ],
         "createdAt": "2026-05-18",
@@ -11584,13 +11625,25 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:42Z",
             "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T14:25:58Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T14:27:02Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 66.0,
+        "trustMagnitude": 95.15,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -11733,6 +11786,20 @@
             "type": "social-signal",
             "class": "A",
             "notes": "Feature request involves executing-plans in plan-tune coordination."
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+            "evaluator": "unknown",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).",
+            "views": 4402
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+            "evaluator": "unknown",
+            "date": "2026-06-19"
           }
         ],
         "createdAt": "2026-05-18",
@@ -11780,13 +11847,25 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:42Z",
             "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T14:25:59Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T14:27:19Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 66.0,
+        "trustMagnitude": 95.15,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12047,6 +12126,20 @@
             "type": "peer-review",
             "class": "A",
             "notes": "Fixes task-brief path collision in SDD; repeated runs overwrite previous briefs."
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+            "evaluator": "unknown",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).",
+            "views": 4402
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+            "evaluator": "unknown",
+            "date": "2026-06-19"
           }
         ],
         "createdAt": "2026-05-18",
@@ -12106,13 +12199,25 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:43Z",
             "details": "TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T14:25:53Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T14:26:11Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 88.5,
+        "trustMagnitude": 117.65,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12257,12 +12362,13 @@
             "skillCountInRepo": 11
           },
           {
-            "source": "https://www.youtube.com/watch?v=gT5R01Z2J-0",
-            "evaluator": "mbtiongson1",
+            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+            "evaluator": "unknown",
             "date": "2026-06-19",
             "type": "social-signal",
             "class": "A",
-            "notes": "CodeRabbit YouTube \"The Merge\" podcast: Jesse Vincent (obra) on Superpowers, agentic discipline, treating AI like MIT interns. High-signal technical interview."
+            "notes": "Larridin podcast: 'Superpowers: How Jesse Built the #1 AI Claude Code/Codex Plugin'. Jesse Vincent explains obra/superpowers agentic discipline. 4,402 views (firecrawl verified 2026-06-19).",
+            "views": 4402
           }
         ],
         "createdAt": "2026-05-18",
@@ -12320,6 +12426,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:43Z",
             "details": "TM 0.0 -> 416.0, grade ungraded -> S (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T14:25:32Z",
+            "action": "evidence_removed",
+            "contributor": "unknown",
+            "details": "Removed dead/invalid evidence: https://www.youtube.com/watch?v=gT5R01Z2J-0"
+          },
+          {
+            "timestamp": "2026-06-19T14:25:41Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type: social-signal)"
           }
         ],
         "suiteComponents": [
@@ -12339,7 +12457,7 @@
         "installBody": "Installation differs by harness. If you use more than one, install Superpowers separately for each one.\n\n### Claude Code\n\nSuperpowers is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers)\n\n#### Official Marketplace\n\n- Install the plugin from Anthropic's official marketplace:\n\n  ```bash\n  /plugin install superpowers@claude-plugins-official\n  ```\n\n#### Superpowers Marketplace\n\nThe Superpowers marketplace provides Superpowers and some other related plugins for Claude Code.\n\n- Register the marketplace:\n\n  ```bash\n  /plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin from this marketplace:\n\n  ```bash\n  /plugin install superpowers@superpowers-marketplace\n  ```\n\n### Codex CLI\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- Open the plugin search interface:\n\n  ```bash\n  /plugins\n  ```\n\n- Search for Superpowers:\n\n  ```bash\n  superpowers\n  ```\n\n- Select `Install Plugin`.\n\n### Codex App\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- In the Codex app, click on Plugins in the sidebar.\n- You should see `Superpowers` in the Coding section.\n- Click the `+` next to Superpowers and follow the prompts.\n\n### Factory Droid\n\n- Register the marketplace:\n\n  ```bash\n  droid plugin marketplace add https://github.com/obra/superpowers\n  ```\n\n- Install the plugin:\n\n  ```bash\n  droid plugin install superpowers@superpowers\n  ```\n\n### Gemini CLI\n\n- Install the extension:\n\n  ```bash\n  gemini extensions install https://github.com/obra/superpowers\n  ```\n\n- Update later:\n\n  ```bash\n  gemini extensions update superpowers\n  ```\n\n### OpenCode\n\nOpenCode uses its own plugin install; install Superpowers separately even if you\nalready use it in another harness.\n\n- Tell OpenCode:\n\n  ```\n  Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md\n  ```\n\n- Detailed docs: [docs/README.opencode.md](docs/README.opencode.md)\n\n### Cursor\n\n- In Cursor Agent chat, install from marketplace:\n\n  ```bash\n  /add-plugin superpowers\n  ```\n\n- Or search for \"superpowers\" in the plugin marketplace.\n\n### GitHub Copilot CLI\n\n- Register the marketplace:\n\n  ```bash\n  copilot plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin:\n\n  ```bash\n  copilot plugin install superpowers@superpowers-marketplace\n  ```",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 86.0,
+        "trustMagnitude": 115.15,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12421,6 +12539,20 @@
             "type": "peer-review",
             "class": "A",
             "notes": "Fixes ignore-verification logic, tested against 5 adversarial cases."
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+            "evaluator": "unknown",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).",
+            "views": 4402
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+            "evaluator": "unknown",
+            "date": "2026-06-19"
           }
         ],
         "createdAt": "2026-05-18",
@@ -12480,13 +12612,25 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:43Z",
             "details": "TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T14:25:56Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T14:26:45Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 88.5,
+        "trustMagnitude": 117.65,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12548,6 +12692,20 @@
             "type": "peer-review",
             "class": "A",
             "notes": "Updates verification-before-completion to require outcome checks, not just command success."
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+            "evaluator": "unknown",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).",
+            "views": 4402
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+            "evaluator": "unknown",
+            "date": "2026-06-19"
           }
         ],
         "createdAt": "2026-05-18",
@@ -12595,13 +12753,25 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:43Z",
             "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T14:26:01Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T14:27:36Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 66.0,
+        "trustMagnitude": 95.15,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12774,6 +12944,20 @@
             "type": "social-signal",
             "class": "A",
             "notes": "Enhancement to coordinate plan-tune preferences across writing-plans, finishing-a-development-branch, executing-plans."
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+            "evaluator": "unknown",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).",
+            "views": 4402
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+            "evaluator": "unknown",
+            "date": "2026-06-19"
           }
         ],
         "createdAt": "2026-05-18",
@@ -12839,13 +13023,25 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:43Z",
             "details": "TM 0.0 -> 81.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T14:25:54Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T14:26:28Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 81.0,
+        "trustMagnitude": 110.15,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -16725,10 +16921,19 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://www.nature.com/articles/s41586-021-03819-2",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "Jumper et al. 2021 Nature: AlphaFold protein structure prediction. 36,575 citations (Semantic Scholar 2026-06-19). Nature paper directly describing the AlphaFold database tool.",
+          "reviewers": 3
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:28Z",
@@ -16747,14 +16952,10 @@
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         },
         {
-          "action": "migrate_trust_magnitude",
-          "timestamp": "2026-06-19T13:19:37Z",
-          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
-        },
-        {
-          "action": "migrate_trust_magnitude",
-          "timestamp": "2026-06-19T13:26:38Z",
-          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          "timestamp": "2026-06-19T14:23:07Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://www.nature.com/articles/s41586-021-03819-2 (type: peer-review)"
         }
       ],
       "type": "extra"
@@ -16783,10 +16984,19 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://www.nature.com/articles/s41586-025-10014-0",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "Avsec et al. 2026 Nature: Advancing regulatory variant effect prediction with AlphaGenome. 107 citations (Semantic Scholar 2026-06-19). Nature paper for the AlphaGenome variant analysis tool.",
+          "reviewers": 3
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:28Z",
@@ -16813,6 +17023,12 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T14:23:26Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://www.nature.com/articles/s41586-025-10014-0 (type: peer-review)"
         }
       ],
       "type": "extra"
@@ -16841,10 +17057,19 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://academic.oup.com/nar/article/47/D1/D930/5162468",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "Mendez et al. 2018 NAR: ChEMBL towards direct deposition of bioassay data. 1,976 citations (Semantic Scholar 2026-06-19). Primary ChEMBL database paper.",
+          "reviewers": 2
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:28Z",
@@ -16871,6 +17096,12 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T14:23:42Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://academic.oup.com/nar/article/47/D1/D930/5162468 (type: peer-review)"
         }
       ],
       "type": "basic"
@@ -18059,10 +18290,19 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://academic.oup.com/nar/article/39/suppl_2/W13/2506516",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "Sievers et al. 2011 Molecular Systems Biology: Clustal Omega multiple sequence alignment. Peer-reviewed MSA tool paper underpinning the protein_sequence_msa skill (uses EBI Clustal Omega endpoint).",
+          "reviewers": 2
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:35Z",
@@ -18089,6 +18329,12 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T14:24:04Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://academic.oup.com/nar/article/39/suppl_2/W13/2506516 (type: peer-review)"
         }
       ],
       "type": "extra"
@@ -18249,10 +18495,19 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://pubmed.ncbi.nlm.nih.gov/",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "NCBI PubMed: NIH National Library of Medicine biomedical literature database. Peer-reviewed infrastructure used by millions of researchers globally (reviewed and maintained by NLM since 1996).",
+          "reviewers": 2
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:37Z",
@@ -18279,6 +18534,12 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T14:23:55Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://pubmed.ncbi.nlm.nih.gov/ (type: peer-review)"
         }
       ],
       "type": "basic"

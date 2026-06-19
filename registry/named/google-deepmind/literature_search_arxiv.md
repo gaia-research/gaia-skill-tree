@@ -10,7 +10,7 @@ description: Search for scientific papers, preprints, and publications on arXiv.
   metadata, abstracts, and download full-text PDFs or HTML versions of papers. Use
   when the user asks to find research papers, literature, or specific arXiv IDs.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md
 evidence:
@@ -25,6 +25,14 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://arxiv.org/about
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'arXiv e-print repository: Cornell University open-access preprint platform.
+    Launched 1991, >2M papers. Primary infrastructure for the arXiv search skill.'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:33Z'
   action: evidence_graded
@@ -43,6 +51,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:50Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/about (type: peer-review)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -55,6 +67,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: b0245047f18f27e5ba6e5c6b3a9ac09e8247d738048c87b110759b8eacba729f
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:49Z'
 ---
 
 # arXiv Search and Retrieval

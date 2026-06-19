@@ -46,6 +46,17 @@ evidence:
   class: A
   notes: Updates verification-before-completion to require outcome checks, not just
     command success.
+- source: https://www.youtube.com/watch?v=6YltXh12W-g
+  evaluator: unknown
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering
+    brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).'
+  views: 4402
+- source: https://www.youtube.com/watch?v=6YltXh12W-g
+  evaluator: unknown
+  date: '2026-06-19'
 timeline:
 - timestamp: '2026-06-14T12:32:49Z'
   action: evidence_graded
@@ -77,6 +88,15 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:43Z'
   details: TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:26:01Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type:
+    social-signal)'
+- timestamp: '2026-06-19T14:27:36Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g
 trustMagnitude: 66.0
 overallTrustGrade: B
 apexGateStatus:

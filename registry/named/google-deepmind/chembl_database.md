@@ -10,7 +10,7 @@ description: Query the ChEMBL database for bioactive molecules, drug targets, bi
   data, approved drugs, and chemical structures. Use when the user asks about compounds,
   targets, IC50/Ki values, drug mechanisms, or structure searches.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md
 evidence:
@@ -26,6 +26,14 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://academic.oup.com/nar/article/47/D1/D930/5162468
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Mendez et al. 2018 NAR: ChEMBL towards direct deposition of bioassay data.
+    1,976 citations (Semantic Scholar 2026-06-19). Primary ChEMBL database paper.'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:28Z'
   action: evidence_graded
@@ -44,6 +52,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:38Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:23:42Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/47/D1/D930/5162468
+    (type: peer-review)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -56,6 +69,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: af9f560d496a5e3ccf1c7d4885877fffc3374409e653c952ec341149fe445a88
+verification:
+  firstEvidenceAt: '2026-06-19T14:23:42Z'
 ---
 
 # ChEMBL Database Query

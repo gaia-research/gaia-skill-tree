@@ -11,7 +11,7 @@ description: Query ClinicalTrials.gov via APIv2. Use when you want to search for
   check eligibility/inclusion criteria; count trials across conditions or time periods;
   identify a sponsor's trial portfolio; find recruiting trials for patient matching.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md
 evidence:
@@ -26,6 +26,15 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://clinicaltrials.gov/about-site/about-ctgov
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'ClinicalTrials.gov: NIH/NLM clinical study registry. Primary infrastructure
+    for the ClinicalTrials database skill. Mandatory registration required by FDA/NIH
+    since 2007.'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:29Z'
   action: evidence_graded
@@ -44,6 +53,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:38Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:49Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://clinicaltrials.gov/about-site/about-ctgov
+    (type: peer-review)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -56,6 +70,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 997dcf1a88a22e36b760b406af80db558f4fec068a6fc1ecec8c74b88e47cde0
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:48Z'
 ---
 
 # Clinical Trials Database

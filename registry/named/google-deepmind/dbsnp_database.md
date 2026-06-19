@@ -11,7 +11,7 @@ description: Use when you want to look up, map, and search for short genetic var
   in VCF format, and HGVS strings. For an rsID, returns variant type, gene associations,
   clinical significance, allele frequencies, and genomic coordinates (GRCh38).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md
 evidence:
@@ -26,6 +26,14 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://academic.oup.com/nar/article/29/1/308/1116395
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Sherry et al. 2001 NAR: dbSNP NCBI database of genetic variation. 7,285
+    citations (Semantic Scholar 2026-06-19).'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:29Z'
   action: evidence_graded
@@ -44,6 +52,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:38Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:37Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/29/1/308/1116395
+    (type: peer-review)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -56,6 +69,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 5b1b6e2c41e441934d499b0fb9344b074141be1faca6b7ec5ed51d495258c552
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:36Z'
 ---
 
 # dbSNP Database Integration

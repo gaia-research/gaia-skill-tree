@@ -11,7 +11,7 @@ description: Query the STRING database for protein-protein interactions (PPIs), 
   proteins, interaction evidence, confidence scores, protein interaction partners,
   or pathway enrichments.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md
 evidence:
@@ -26,6 +26,14 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://academic.oup.com/nar/article/51/D1/D638/6825349
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Szklarczyk et al. 2022 NAR: STRING database in 2023 — protein-protein association
+    networks. 7,077 citations (Semantic Scholar 2026-06-19).'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:38Z'
   action: evidence_graded
@@ -44,6 +52,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:23Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/51/D1/D638/6825349
+    (type: peer-review)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -56,6 +69,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 614dd0dc6d4a07c699ae22687888788f739dd6cd0adc459646eab7cacfb7700e
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:23Z'
 ---
 
 # STRING Database Skill

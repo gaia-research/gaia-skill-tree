@@ -10,7 +10,7 @@ description: Use when needing clinical significance, pathogenicity classificatio
   (e.g., Pathogenic, Benign, VUS), clinical evidence rationales, or finding "hard
   positive" benchmark controls for human genomic variants.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md
 evidence:
@@ -25,6 +25,14 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://academic.oup.com/nar/article/44/D1/D862/2502717
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Landrum et al. 2015 NAR: ClinVar public archive of interpretations of clinically
+    relevant variants. 2,571 citations (Semantic Scholar 2026-06-19).'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:29Z'
   action: evidence_graded
@@ -43,6 +51,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:38Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:36Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/44/D1/D862/2502717
+    (type: peer-review)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -55,6 +68,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 87f3cbbdecc70c80768d0f4507523df2ed16c69e115c294adc6ee82abc35386d
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:35Z'
 ---
 
 # ClinVar Database

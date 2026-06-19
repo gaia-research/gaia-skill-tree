@@ -14,7 +14,7 @@ description: Analyzes genetic variant effects on gene expression (RNA-seq), chro
   Also use for resolving biological terms to tissue/cell-type ontologies (UBERON/CL)
   or analyzing variants in chr:pos:ref>alt format.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md
 evidence:
@@ -30,6 +30,15 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://www.nature.com/articles/s41586-025-10014-0
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Avsec et al. 2026 Nature: Advancing regulatory variant effect prediction
+    with AlphaGenome. 107 citations (Semantic Scholar 2026-06-19). Nature paper for
+    the AlphaGenome variant analysis tool.'
+  reviewers: 3
 timeline:
 - timestamp: '2026-06-14T12:32:28Z'
   action: evidence_graded
@@ -48,6 +57,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:38Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:23:26Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.nature.com/articles/s41586-025-10014-0
+    (type: peer-review)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -60,6 +74,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 4839b2fd64a54f661b9a861a5e105b516e33ffb0f853b7232ce00762bdd3692f
+verification:
+  firstEvidenceAt: '2026-06-19T14:23:25Z'
 ---
 
 # Variant Analysis using AlphaGenome

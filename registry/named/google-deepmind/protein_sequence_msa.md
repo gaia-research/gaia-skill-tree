@@ -13,7 +13,7 @@ description: Performs multiple sequence alignment of proteins with EBI Clustal O
   BLAST), align non-protein sequences (DNA, RNA), perform structural alignment (use
   Foldseek, PyMOL), or if you only have a single sequence.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md
 evidence:
@@ -29,6 +29,15 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://academic.oup.com/nar/article/39/suppl_2/W13/2506516
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Sievers et al. 2011 Molecular Systems Biology: Clustal Omega multiple sequence
+    alignment. Peer-reviewed MSA tool paper underpinning the protein_sequence_msa
+    skill (uses EBI Clustal Omega endpoint).'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:35Z'
   action: evidence_graded
@@ -47,6 +56,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:24:04Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/39/suppl_2/W13/2506516
+    (type: peer-review)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -59,6 +73,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 431b29dd6a40eef101befa45677953481bd1cc424fc9471cb98c47c8e39e2bf4
+verification:
+  firstEvidenceAt: '2026-06-19T14:24:03Z'
 ---
 
 ## Prerequisites

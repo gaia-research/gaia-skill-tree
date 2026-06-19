@@ -10,7 +10,7 @@ description: Use when you want to retrieve quantitative RNA expression data and 
   eQTL information from the GTEx (Genotype-Tissue Expression) Project across 54 non-diseased
   tissue sites.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md
 evidence:
@@ -25,6 +25,14 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://www.science.org/doi/10.1126/science.aaz1776
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'GTEx Consortium 2019 Science: GTEx atlas of genetic regulatory effects across
+    human tissues. 4,618 citations (Semantic Scholar 2026-06-19).'
+  reviewers: 3
 timeline:
 - timestamp: '2026-06-14T12:32:31Z'
   action: evidence_graded
@@ -43,6 +51,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:35Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.science.org/doi/10.1126/science.aaz1776
+    (type: peer-review)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -55,6 +68,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 67ba8ecb260bdc3e4b15c3b13fd13decbf3f7c4a77a529534ca75a5f63f9aa8a
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:34Z'
 ---
 
 # GTEx Database Integration

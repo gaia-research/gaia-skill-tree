@@ -12,7 +12,7 @@ description: Search PubMed for scientific literature, including published clinic
   specific compounds or genes. Verify medical spelling, match raw citations, and cache
   result sets for bulk processing. Interfaces NCBI E-utilities and PMC BioC APIs.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md
 evidence:
@@ -27,6 +27,15 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://pubmed.ncbi.nlm.nih.gov/
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'NCBI PubMed: NIH National Library of Medicine biomedical literature database.
+    Peer-reviewed infrastructure used by millions of researchers globally (reviewed
+    and maintained by NLM since 1996).'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:37Z'
   action: evidence_graded
@@ -45,6 +54,18 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:23:55Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://pubmed.ncbi.nlm.nih.gov/ (type: peer-review)'
+- timestamp: '2026-06-19T14:29:38Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://pubmed.ncbi.nlm.nih.gov/ (type: peer-review)'
+- timestamp: '2026-06-19T14:30:19Z'
+  action: evidence_removed
+  contributor: unknown
+  details: 'Removed dead/invalid evidence: https://pubmed.ncbi.nlm.nih.gov/'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -57,6 +78,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: de2a2a93cdea9f12515957155b3ed24ec3181e80e5f05e5106b7127621f892c9
+verification:
+  firstEvidenceAt: '2026-06-19T14:23:55Z'
 ---
 
 # PubMed API
