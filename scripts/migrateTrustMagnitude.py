@@ -77,18 +77,52 @@ def buildGenericSkillMap(nodesDir: Path) -> dict[str, dict]:
 
 
 def computeInputHash(skill: dict) -> str:
-    """Stable hash of (skillId + sorted evidence row keys)."""
+    """Stable hash of (skillId + sorted evidence row keys + suiteComponents).
+
+    Bug fixes vs original:
+    1. Uses r.get("source") or r.get("url") — evidence rows use "source", not "url".
+    2. Includes numeric payload fields that drive the TM computation per row:
+       commits, contributors, stars, views, origins(len if list), percentile,
+       citations, reviewers, gradedOriginCount, skillCountInRepo, externalStars, verifiers.
+    3. Includes suiteComponents (sorted) — adding suite components auto-derives a
+       fusion-recipe row worth hundreds of TM points; the hash must cover it.
+    """
     sid = skill.get("id") or ""
     rows = []
     for r in skill.get("evidence") or []:
         if not isinstance(r, dict):
             continue
-        url = r.get("url") or ""
+        # Bug fix 1: use "source" field (evidence rows never use "url")
+        source = r.get("source") or r.get("url") or ""
         evType = r.get("type") or ""
         grade = r.get("grade") or ""
-        rows.append(f"{url}|{evType}|{grade}")
+        # Bug fix 2: include numeric payload fields that drive TM computation
+        commits = str(r.get("commits") or 0)
+        contributors = str(r.get("contributors") or 0)
+        stars = str(r.get("stars") or 0)
+        views = str(r.get("views") or 0)
+        originsVal = r.get("origins")
+        originsHash = str(len(originsVal)) if isinstance(originsVal, list) else str(originsVal or 0)
+        percentile = str(r.get("percentile") or 0)
+        citations = str(r.get("citations") or 0)
+        reviewers = str(r.get("reviewers") or 0)
+        gradedOriginCount = str(r.get("gradedOriginCount") or 0)
+        skillCountInRepo = str(r.get("skillCountInRepo") or 0)
+        externalStars = str(r.get("externalStars") or 0)
+        verifiers = str(r.get("verifiers") or 0)
+        rows.append(
+            f"{source}|{evType}|{grade}"
+            f"|commits={commits}|contributors={contributors}|stars={stars}"
+            f"|views={views}|origins={originsHash}|percentile={percentile}"
+            f"|citations={citations}|reviewers={reviewers}"
+            f"|gradedOriginCount={gradedOriginCount}|skillCountInRepo={skillCountInRepo}"
+            f"|externalStars={externalStars}|verifiers={verifiers}"
+        )
     rows.sort()
-    payload = sid + "::" + "||".join(rows)
+    # Bug fix 3: include suiteComponents — auto-derives fusion-recipe at TM-compute time
+    suiteComponents = sorted(skill.get("suiteComponents") or [])
+    suitePayload = "suiteComponents=" + ",".join(suiteComponents)
+    payload = sid + "::" + "||".join(rows) + "::" + suitePayload
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
