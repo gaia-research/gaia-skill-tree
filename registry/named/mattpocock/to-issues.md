@@ -30,10 +30,12 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-04-30'
   notes: Production skill implementing tracer-bullet vertical slicing with HITL/AFK
-    classification and issue-tracker publication. (backfilled — class-to-type migration)
+    classification and issue-tracker publication. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 137
+  contributors: 3
 timeline:
 - timestamp: '2026-06-02T23:33:00Z'
   action: demote

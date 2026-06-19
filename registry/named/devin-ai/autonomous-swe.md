@@ -40,6 +40,20 @@ evidence:
   class: A
   notes: 'SWE-bench unassisted: 13.86% resolved (2294 real-world GitHub issues, March
     2024). Previous SOTA was 1.96%. Score: 13.86'
+- source: https://www.youtube.com/watch?v=fjyAWpz3Qm8
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'Official Cognition YouTube: "Introducing Devin, the first AI software engineer."
+    Channel: Cognition (official). Massive viral reach, millions of views.'
+- source: https://www.youtube.com/watch?v=tNzgM37BUTo
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Karl Brown (Internet of Bugs): frame-by-frame analysis of Devin Upwork demo.
+    Documents staged demos, autonomy loops, context withholding. April 2024.'
 timeline:
 - timestamp: '2026-06-02T23:48:17Z'
   action: demote
@@ -60,6 +74,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T10:36:26Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T10:41:11Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=fjyAWpz3Qm8 (type:
+    social-signal)'
+- timestamp: '2026-06-19T10:46:49Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=tNzgM37BUTo (type:
+    peer-review)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:

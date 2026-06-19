@@ -29,10 +29,12 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-06-10'
   notes: Published implementation in Matt Pocock's skills repository; five-phase debugging
-    discipline documented and reproducible. (backfilled — class-to-type migration)
+    discipline documented and reproducible. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 137
+  contributors: 3
 timeline:
 - timestamp: '2026-06-10T05:38:16Z'
   action: evidence_added

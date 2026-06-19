@@ -20,10 +20,12 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-05-22'
   notes: Scaffolding skill for Matt Pocock's engineering workspace. (backfilled —
-    class-to-type migration)
+    class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 137
+  contributors: 3
 timeline:
 - timestamp: '2026-06-14T12:32:43Z'
   action: evidence_graded

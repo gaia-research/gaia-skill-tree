@@ -30,10 +30,12 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-04-30'
   notes: Production triage skill with state-machine workflow, HITL/AFK routing, and
-    structured agent-brief output. (backfilled — class-to-type migration)
+    structured agent-brief output. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 137
+  contributors: 3
 timeline:
 - timestamp: '2026-06-14T12:32:44Z'
   action: evidence_graded

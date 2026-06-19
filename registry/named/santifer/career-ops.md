@@ -23,10 +23,12 @@ evidence:
   evaluator: gemini-cli
   date: '2026-05-14'
   notes: Career-Ops -- AI-powered job search system with CV tailoring and dashboard.
-    (backfilled — class-to-type migration)
+    (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 360
+  contributors: 103
 timeline:
 - timestamp: '2026-06-14T12:33:02Z'
   action: evidence_graded

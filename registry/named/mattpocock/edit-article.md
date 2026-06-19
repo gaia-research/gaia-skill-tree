@@ -45,10 +45,12 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-06-10'
   notes: Published implementation in Matt Pocock's skills repository; DAG-sectioned
-    rewrite workflow documented and reproducible. (backfilled — class-to-type migration)
+    rewrite workflow documented and reproducible. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 137
+  contributors: 3
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:

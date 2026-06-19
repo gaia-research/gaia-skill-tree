@@ -27,10 +27,12 @@ evidence:
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Takes
     a draft plan or system prompt, identifies vague or ambiguous instructions, and
     rewrites them to reduce hallucination and improve task… (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 323
+  contributors: 9
 timeline:
 - timestamp: '2026-06-03T05:51:35Z'
   action: evidence_added

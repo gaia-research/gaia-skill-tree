@@ -27,10 +27,12 @@ evidence:
   date: '2026-04-30'
   notes: intelligentcode-ai/skills database-engineer — schema design and query optimization
     expert across relational, NoSQL, graph, time-series, and data warehouses. (backfilled
-    — class-to-type migration)
+    — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 50.0
   grade: C
+  commits: 34
+  contributors: 1
 timeline:
 - timestamp: '2026-06-14T12:32:41Z'
   action: evidence_graded

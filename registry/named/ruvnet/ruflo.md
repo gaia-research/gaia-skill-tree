@@ -100,6 +100,20 @@ evidence:
   class: A
   notes: Multi-agent orchestration paper — ~20 citations as of 2026-06-19 (arXiv:2602.06547)
   citations: 20
+- source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: benchmark-result
+  class: A
+  notes: 'SWE-bench swarm solve rate: 84.8% (vendor claim, Feb 2026). Multi-agent
+    SONA routing, up to 75% API cost savings.'
+- source: https://www.youtube.com/@ReuvenCohen
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: Reuven Cohen (rUv) official YouTube channel covering Ruflo/SPARC/multi-agent
+    swarm orchestration. Official creator channel.
 timeline:
 - timestamp: '2026-06-14T12:32:58Z'
   action: evidence_graded
@@ -131,6 +145,14 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T10:36:26Z'
   details: TM 18.99 -> 54.99, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-19T10:40:45Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/ruvnet/ruflo (type: benchmark-result)'
+- timestamp: '2026-06-19T10:45:51Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/@ReuvenCohen (type: social-signal)'
 trustMagnitude: 54.99
 overallTrustGrade: B
 apexGateStatus:

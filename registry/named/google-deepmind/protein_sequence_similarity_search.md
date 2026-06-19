@@ -21,7 +21,7 @@ evidence:
   evaluator: unknown
   date: '2026-05-23'
   notes: Foundational canonical generic skill for Bioinformatic Sequence Analysis.
-    (backfilled — class-to-type migration)
+    (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 70.0
   grade: B
@@ -34,6 +34,8 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
 timeline:
 - timestamp: '2026-06-14T12:32:36Z'
   action: evidence_graded

@@ -45,10 +45,12 @@ evidence:
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Fetches
     target URLs with a headless browser, parses structured data from rendered HTML,
     and returns clean JSON or markdown ready for downstream… (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 323
+  contributors: 9
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:

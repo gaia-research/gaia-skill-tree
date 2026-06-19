@@ -24,10 +24,12 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-06-02'
   notes: Karpathy's autoresearch repo serving as the evidence/inspiration for the
-    skill. (backfilled — class-to-type migration)
+    skill. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 36
+  contributors: 9
 timeline:
 - timestamp: '2026-06-14T12:32:42Z'
   action: evidence_graded

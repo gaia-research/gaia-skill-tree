@@ -23,10 +23,12 @@ evidence:
   evaluator: unknown
   date: '2026-05-23'
   notes: Official Google DeepMind alphagenome_single_variant_analysis science-skill
-    implementation. (backfilled — class-to-type migration)
+    implementation. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
 timeline:
 - timestamp: '2026-06-14T12:32:28Z'
   action: evidence_graded

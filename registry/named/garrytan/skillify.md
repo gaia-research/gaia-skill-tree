@@ -27,10 +27,12 @@ evidence:
   date: '2026-06-03'
   notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Converts
     a freeform prompt, repo pattern, or workflow description into a complete, registry-ready
-    named skill: writes the SKILL.md definition,… (backfilled — class-to-type migration)'
+    named skill: writes the SKILL.md definition,… (backfilled — class-to-type migration)' (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 323
+  contributors: 9
 timeline:
 - timestamp: '2026-06-03T05:51:37Z'
   action: evidence_added
