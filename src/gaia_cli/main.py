@@ -3512,6 +3512,14 @@ def get_parser():
     )
     dev_update_named.add_argument("skill_id", help="Named skill ID (e.g. author/skill)")
     dev_update_named.add_argument("--status", help="New status (e.g. awakened, named)")
+    dev_update_named.add_argument(
+        "--title",
+        help="Display title (lore title) for the named skill — required by schema when status=named",
+    )
+    dev_update_named.add_argument(
+        "--catalog-ref",
+        help="Catalog reference slug (e.g. mattpocock-grill-me) — alternative to --title for satisfying the named-skill identity requirement",
+    )
     dev_update_named.add_argument("--generic-ref", help="New generic skill reference")
     dev_update_named.add_argument(
         "--suite-components", help="Comma-separated list of suite components"

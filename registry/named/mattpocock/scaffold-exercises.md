@@ -88,6 +88,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 265e473bf86b49b889d12de7a1f768be9ad27207ef91767d27627878b41f0cd2
+title: Scaffold Exercises
 ---
 
 ## Installation

@@ -88,6 +88,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 0f0996b49ad31fcf8aa6fc46dd24bdaf0b90c02ac0b206fc77215f094a263b01
+title: Migrate to Shoehorn
 ---
 
 ## Installation

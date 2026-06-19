@@ -1634,10 +1634,37 @@ def meta_update_named_command(args):
         sys.exit(1)
 
     meta, body = _parse_md(target_file)
+    prior_status = meta.get("status")
     changed = False
+    status_promoted_to_named = False
 
     if getattr(args, "status", None):
-        meta["status"] = args.status
+        new_status = args.status
+        # Schema rule: status=named requires title or catalogRef. Block premature promotion
+        # so I13-style intake bugs don't slip past validation again.
+        if new_status == "named" and not (
+            meta.get("title")
+            or meta.get("catalogRef")
+            or getattr(args, "title", None)
+            or getattr(args, "catalog_ref", None)
+        ):
+            print(
+                f"Error: status='named' requires 'title' or 'catalogRef' on {skill_id}. "
+                f"Re-run with --title \"<lore title>\" (or --catalog-ref <slug>) to satisfy "
+                f"the schema constraint."
+            )
+            sys.exit(1)
+        if prior_status != "named" and new_status == "named":
+            status_promoted_to_named = True
+        meta["status"] = new_status
+        changed = True
+
+    if getattr(args, "title", None):
+        meta["title"] = args.title
+        changed = True
+
+    if getattr(args, "catalog_ref", None):
+        meta["catalogRef"] = args.catalog_ref
         changed = True
 
     if getattr(args, "generic_ref", None):
@@ -1721,6 +1748,14 @@ def meta_update_named_command(args):
                 contributor,
                 f"Origin status set to {'true' if target_val else 'false'}.",
                 registry_path=registry_path
+            )
+        if status_promoted_to_named:
+            append_skill_event(
+                skill_id,
+                "name",
+                contributor,
+                f"Promoted from {prior_status or 'unknown'} to named.",
+                registry_path=registry_path,
             )
         if getattr(args, "suite_ref", None):
             append_skill_event(

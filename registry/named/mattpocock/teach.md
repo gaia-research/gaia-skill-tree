@@ -108,6 +108,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: d89e707515e393b229cbf8e69f51a6ea4ba8820d07009fe1b715587ceb20caaa
+title: Teach
 ---
 
 ## Installation
