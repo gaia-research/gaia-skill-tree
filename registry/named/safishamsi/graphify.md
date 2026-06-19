@@ -16,7 +16,7 @@ tags:
 - rag
 - ast
 createdAt: '2026-05-14'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-19'
 timeline:
 - timestamp: '2026-06-02T23:48:24Z'
   action: demote
@@ -25,6 +25,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:21Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T09:19:58Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/safishamsi/graphify (type: github-stars-own)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -37,6 +41,16 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 82aa4345c52f1895c80cefd295461b4b9ce97c210857844029e92d39e3529262
+evidence:
+- source: https://github.com/safishamsi/graphify
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: github-stars-own
+  class: A
+  notes: 68,766 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
+    standalone skill)
+verification:
+  firstEvidenceAt: '2026-06-19T09:19:58Z'
 ---
 
 ## Overview

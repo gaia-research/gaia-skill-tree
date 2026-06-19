@@ -23,7 +23,7 @@ tags:
 - orchestration
 - ultimate
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteComponents:
 - garrytan/benchmark
 - garrytan/benchmark-models
@@ -84,6 +84,13 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+- source: https://github.com/garrytan/gstack
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: github-stars-own
+  class: A
+  notes: 110,930 GitHub stars as of 2026-06-19 (verified via firecrawl validation
+    report; mothership with 47 sub-skills, divisor=4)
 timeline:
 - timestamp: '2026-06-14T12:32:22Z'
   action: evidence_graded
@@ -93,6 +100,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:15Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T09:18:28Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -105,6 +116,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 3343789dd0080e1e3088010242684ddea2b81d89271e86417485bfbba3e2a901
+verification:
+  firstEvidenceAt: '2026-06-19T09:18:27Z'
 ---
 
 ## Overview

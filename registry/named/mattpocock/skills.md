@@ -14,7 +14,7 @@ description: The ultimate capstone suite encompassing all of Matt Pocock's engin
 links:
   github: https://github.com/mattpocock/skills
 createdAt: '2026-05-22'
-updatedAt: '2026-05-22'
+updatedAt: '2026-06-19'
 suiteComponents:
 - mattpocock/caveman
 - mattpocock/diagnose
@@ -57,6 +57,20 @@ timeline:
   details: G7 apex cutover — apex gate failed all 6 active predicates (aGradedOriginsGte5,
     sourceTenureDaysGte180AorS, directNestedSuiteGte1, depth2OnlyReachableGte1, overallGradeS,
     apexPromotionPrSigned); re-application open immediately once all predicates pass
+- timestamp: '2026-06-19T09:18:11Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)'
+evidence:
+- source: https://github.com/mattpocock/skills
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: github-stars-own
+  class: A
+  notes: 133,210 GitHub stars as of 2026-06-19 (verified via firecrawl validation
+    report; mothership with 19 sub-skills, divisor=4)
+verification:
+  firstEvidenceAt: '2026-06-19T09:18:11Z'
 ---
 
 ## Installation

@@ -19,7 +19,7 @@ tags:
 - discipline
 - multi-skill
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteComponents:
 - obra/brainstorming
 - obra/dispatching-parallel-agents
@@ -44,6 +44,13 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+- source: https://github.com/obra/superpowers
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: github-stars-own
+  class: A
+  notes: 230,818 GitHub stars as of 2026-06-19 (verified via firecrawl validation
+    report; mothership with 11+ sub-skills, divisor=4)
 timeline:
 - timestamp: '2026-06-14T12:32:48Z'
   action: evidence_graded
@@ -53,6 +60,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:19Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T09:17:53Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers (type: github-stars-own)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -65,6 +76,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: cafa1991e6185004c11f6e0dc81600458ffc102a148f1d959a8e97e29bfd7976
+verification:
+  firstEvidenceAt: '2026-06-19T09:17:53Z'
 ---
 
 ## Overview
