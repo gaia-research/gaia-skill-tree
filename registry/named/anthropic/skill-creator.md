@@ -54,8 +54,8 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:19:37Z'
   details: TM 0.0 -> 90.0, grade ungraded -> B (direct edit -- CLI gap)
-trustMagnitude: 90.0
-overallTrustGrade: B
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -90,7 +90,6 @@ evidence:
     A/B eval harness noted for overhead on long refinement loops. Mid-2026.'
 verification:
   firstEvidenceAt: '2026-06-19T09:22:07Z'
-trustMagnitudeInputHash: 3592919611bbbcfc966da0c18437884dd159bd12c456e8a040f74478585295c9
 ---
 
 ## Overview

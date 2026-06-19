@@ -41,7 +41,6 @@ suiteComponents:
 - mattpocock/triage
 - mattpocock/ubiquitous-language
 - mattpocock/zoom-out
-trustMagnitudeInputHash: 4c0c7b233e624b41fc0b52204b68f31891b2e5d33b311a17b288573ab2927bca
 ---
 
 ## Overview

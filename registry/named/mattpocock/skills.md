@@ -14,8 +14,8 @@ links:
   github: https://github.com/mattpocock/skills
 createdAt: '2026-05-22'
 updatedAt: '2026-06-19'
-trustMagnitude: 73.7
-overallTrustGrade: B
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -117,7 +117,6 @@ suiteComponents:
 - mattpocock/ubiquitous-language
 - mattpocock/write-a-skill
 - mattpocock/zoom-out
-trustMagnitudeInputHash: b150d384526e38059b38224d011b311c49672cae5d7d17fe4fb11a3c694ddaa9
 ---
 
 ## Installation

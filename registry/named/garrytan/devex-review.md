@@ -60,8 +60,8 @@ evidence:
   contributors: 9
   trustNumber: 70.0
   grade: B
-trustMagnitude: 36.0
-overallTrustGrade: C
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -73,7 +73,6 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:32Z'
-trustMagnitudeInputHash: 08499be1ad32387c92ab3fa04d9aaa23bb0923fb545bc03cc5a47a942e65dfb9
 ---
 
 ## Overview

@@ -41,7 +41,7 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:19:37Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 10.82
+trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -52,7 +52,6 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e24c79256a2c96ae66964304595a63648f257074789b8c55528f77b18b61b5aa
 ---
 
 # Ensembl Database: ID Mapping and Genomic Features

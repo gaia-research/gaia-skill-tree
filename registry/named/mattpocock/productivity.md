@@ -35,7 +35,6 @@ suiteComponents:
 - mattpocock/grill-me
 - mattpocock/handoff
 - mattpocock/write-a-skill
-trustMagnitudeInputHash: aa642025793e17cfcbb52c5a22e59c701ec8ac599342bec37e02979bf496e192
 ---
 
 ## Overview

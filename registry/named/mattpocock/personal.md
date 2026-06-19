@@ -33,7 +33,6 @@ suiteRef: mattpocock/skills
 suiteComponents:
 - mattpocock/edit-article
 - mattpocock/obsidian-vault
-trustMagnitudeInputHash: 6d3e8fe18d151d7cb6dd617859e75e659faa6cc3bce88adf66195ef1886aa841
 ---
 
 ## Overview

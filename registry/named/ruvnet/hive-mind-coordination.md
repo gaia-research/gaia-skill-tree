@@ -60,8 +60,8 @@ timeline:
   timestamp: '2026-06-19T13:19:39Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
 suiteRef: ruvnet/ruflo
-trustMagnitude: 36.0
-overallTrustGrade: C
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -71,7 +71,6 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 75b57943237ab9900e4c3f11c4ca7a30fc4994f8513b6e8dbe043bcb6f2c7962
 ---
 
 ## Overview

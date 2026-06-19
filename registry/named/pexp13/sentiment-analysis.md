@@ -14,8 +14,8 @@ description: 'Classifies the affective polarity (positive / negative / neutral, 
   '
 createdAt: '2026-05-17'
 updatedAt: '2026-06-19'
-trustMagnitude: 192.8
-overallTrustGrade: A
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -90,7 +90,6 @@ evidence:
   citations: 89
 verification:
   firstEvidenceAt: '2026-06-19T09:26:06Z'
-trustMagnitudeInputHash: 0fe967fac44ef008cb3a675f5da2775693274cff366b4bfaf33bd2bf9112e728
 ---
 
 ## Implementation

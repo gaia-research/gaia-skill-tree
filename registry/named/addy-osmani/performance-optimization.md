@@ -82,8 +82,8 @@ evidence:
   notes: 47,200 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
     standalone skill)
   stars: 47200
-trustMagnitude: 83.2
-overallTrustGrade: B
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -95,7 +95,6 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:20:40Z'
-trustMagnitudeInputHash: 32dbe25f29d47c797933a404beeec42d5f9e81254e88df6a574205f2153637a6
 ---
 
 ## Installation

@@ -39,7 +39,6 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:19:38Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitudeInputHash: 2800d300af75cbe7c46f5a2a1021453fe365d4743f0e69e36fd763058958db17
 ---
 
 ## Overview

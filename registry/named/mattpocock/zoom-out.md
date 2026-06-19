@@ -41,7 +41,6 @@ timeline:
   timestamp: '2026-06-19T13:19:38Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 suiteRef: mattpocock/engineering
-trustMagnitudeInputHash: 70f00b628a79c9da2191cf0e1578a1e382448eb0e1f6c450959f3bbc6c3352a8
 ---
 
 ## Overview

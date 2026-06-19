@@ -13,8 +13,8 @@ createdAt: '2026-05-21'
 updatedAt: '2026-06-19'
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman
-trustMagnitude: 30.0
-overallTrustGrade: C
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -49,7 +49,6 @@ evidence:
 verification:
   firstEvidenceAt: '2026-06-19T12:32:51Z'
 suiteRef: mattpocock/productivity
-trustMagnitudeInputHash: b465d715e6b28aa3c1fcc03f36ba73520d63fee9cba499c0e2c70600c1bcd51e
 ---
 
 ## Installation

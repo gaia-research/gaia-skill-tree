@@ -54,8 +54,8 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:19:39Z'
   details: TM 0.0 -> 116.57, grade ungraded -> A (direct edit -- CLI gap)
-trustMagnitude: 116.57
-overallTrustGrade: A
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -97,7 +97,6 @@ evidence:
     praised, Leiden clustering limits on non-modular codebases documented. Mid-2026.'
 verification:
   firstEvidenceAt: '2026-06-19T09:19:58Z'
-trustMagnitudeInputHash: ae90ab68d4801463666f7bd7e7c88a76e5d8f530513b89a05c4073ebbafdd701
 ---
 
 ## Overview

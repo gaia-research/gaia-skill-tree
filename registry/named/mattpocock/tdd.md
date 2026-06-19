@@ -42,7 +42,6 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: d7d632fa44c2bd582cc54450b4ab1fb67f99ab0c45901759666ff3e40f239fee
 ---
 
 ## Installation

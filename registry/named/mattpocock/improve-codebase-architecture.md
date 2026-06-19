@@ -24,8 +24,8 @@ tags:
 createdAt: '2026-04-30'
 updatedAt: '2026-06-19'
 suiteRef: mattpocock/engineering
-trustMagnitude: 45.0
-overallTrustGrade: C
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -70,7 +70,6 @@ evidence:
   notes: GitHub discussion about improve-codebase-architecture skill workflow.
 verification:
   firstEvidenceAt: '2026-06-19T12:35:07Z'
-trustMagnitudeInputHash: a7d3b4e1553ee703b7b7e3258d6e5555323dd1a9451efcabecaa042733d4989b
 ---
 
 ## Overview
