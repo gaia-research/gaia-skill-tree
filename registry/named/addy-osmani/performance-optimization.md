@@ -11,7 +11,7 @@ description: 'Measurement-driven performance workflow: baseline with Lighthouse 
   blocking, unoptimized images), verify against Core Web Vitals thresholds (LCP ≤2.5s,
   INP ≤200ms, CLS ≤0.1), and guard against regression with perf budgets.'
 createdAt: '2026-05-31'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 title: The Perf Loop
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
@@ -42,6 +42,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:14Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T09:20:40Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/addyosmani/agent-skills (type:
+    github-stars-own)'
 evidence:
 - class: A
   source: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
@@ -55,6 +60,13 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+- source: https://github.com/addyosmani/agent-skills
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: github-stars-own
+  class: A
+  notes: 47,200 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
+    standalone skill)
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -67,6 +79,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: eeb8bcc6135c6b8fd737e704be7957613a070715c0e377c311f5a1b7a27af1fb
+verification:
+  firstEvidenceAt: '2026-06-19T09:20:40Z'
 ---
 
 ## Installation

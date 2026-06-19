@@ -23,7 +23,7 @@ tags:
 - multi-agent
 - platform
 createdAt: '2026-05-19'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteComponents:
 - ruvnet/agentdb
 - ruvnet/agentdb-advanced
@@ -83,6 +83,13 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+- source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: github-stars-own
+  class: A
+  notes: 59,957 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
+    mothership with sub-skills, divisor=4)
 timeline:
 - timestamp: '2026-06-14T12:32:58Z'
   action: evidence_graded
@@ -92,6 +99,15 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:20Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-18T12:46:36Z'
+  action: demote
+  contributor: mbtiongson1
+  details: G7 apex cutover — apex gate failed all 6 active predicates; re-application
+    open immediately once all predicates pass
+- timestamp: '2026-06-19T09:21:01Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/ruvnet/ruflo (type: github-stars-own)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -104,11 +120,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: b16f8d0f6a17e08434d7f18056a220edb0fd9539e94356467f5f6ec91469a395
-- timestamp: '2026-06-18T12:46:36Z'
-  action: demote
-  contributor: mbtiongson1
-  details: G7 apex cutover — apex gate failed all 6 active predicates; re-application
-    open immediately once all predicates pass
+verification:
+  firstEvidenceAt: '2026-06-19T09:21:01Z'
 ---
 
 ## Overview
