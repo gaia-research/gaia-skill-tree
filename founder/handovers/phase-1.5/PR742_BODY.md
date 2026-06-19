@@ -24,6 +24,7 @@ This is the **single consolidation PR** for all Phase 1.5 work. Per `founder/GIT
 | I10 | #747 → #750 | Public Trust Magnitude Leaderboard at `/trust/leaderboard/` + CTAs | ✅ merged at e111ae5e |
 | I11 | #753 → #751 | Source curation pass — 58 evidence rows, 19/20 floor lifts to C+, google-deepmind cluster to A | ✅ merged at eae4c124 |
 | I12 | #748 → #746 | Apex gate — depth-2 walker includes suiteComponents, `--source-started-at` CLI flag, 4 apex stamps | ✅ merged at 2090ee31 |
+| I13 | #754 | mattpocock classify — 14 awakened→named + share artifact refresh (badge 20→34, suite TM 441→480) | ✅ merged at 2e886472 |
 | RFC v3 | — → #749 | Depth-2 amendment + `apex_pr_signed` enum + `sourceStartedAt` formalization | ✅ ratified at 9ff1bc78 |
 | Sources | — | `founder/sources/` data lake from `dev/sources` (10-type evidence taxonomy) | ✅ in branch |
 | CLI fix | #738 | `gaia dev timeline --user` routing fix | ✅ in branch |
@@ -41,6 +42,8 @@ S = 4    | A = 42   | B = 56   | C = 76   | ungraded = 71
 ```
 
 vs. pre-Phase-1.5 baseline: `S=4 A=20 B=31 C=93 ungraded=101`. Net: **+22 skills jumped to A**, **+30 crossed the C floor**.
+
+I13 follow-up promoted 14 quarantined mattpocock skills (awakened→named); `mattpocock/skills` suite TM lifted from 441 → 480 with the new evidence.
 
 ### Apex Gate state (top-4 S-grade skills)
 
@@ -84,4 +87,4 @@ Any conflicts with `main`: take ours (`dev/phase-1.5-inspection` is canonical fo
 
 This PR spans every branch prefix (schema, cli, design, review/meta, infra, docs) by design — it's the consolidation lane. Label `skip-scope-check` is applied per `founder/GIT.md` §3.3 standing pre-approval.
 
-Resolves #719 #720 #726 #728 #732 #733 #734 #735 #736 #738 #740 #743 #744 #746 #749 #750 #751
+Resolves #719 #720 #726 #728 #732 #733 #734 #735 #736 #738 #740 #743 #744 #746 #749 #750 #751 #754
