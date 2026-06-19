@@ -24,8 +24,8 @@ Requires access to the full codebase or diff; output must include severity class
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/cso ⭑ | garrytan | 4★ | 1 |
-| intelligentcode-ai/security-engineer | intelligentcode-ai | 2★ | 1 |
+| garrytan/cso ⭑ | garrytan | 4★ | 2 |
+| intelligentcode-ai/security-engineer | intelligentcode-ai | 2★ | 2 |
 | ruvnet/v3-security-overhaul | ruvnet | 2★ | 0 |
 
 ## Evidence (inherited capability)

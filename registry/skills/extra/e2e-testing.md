@@ -23,9 +23,9 @@ Requires a live or containerised target environment; browser automation must be 
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/qa | garrytan | 4★ | 1 |
+| garrytan/qa | garrytan | 4★ | 2 |
 | garrytan/qa-only | garrytan | 2★ | 1 |
-| intelligentcode-ai/user-tester | intelligentcode-ai | 2★ | 1 |
+| intelligentcode-ai/user-tester | intelligentcode-ai | 2★ | 2 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

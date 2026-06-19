@@ -178,10 +178,22 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 85.0,
+            "grade": "A",
+            "notes": "gstack suite repo — 110,930 GitHub stars; design-consultation is 1 of 42 named skills (verified 2026-06-20)",
+            "stars": 110930,
+            "skillCountInRepo": 42,
+            "sourceStartedAt": "2024-01-01"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:43:00Z",
@@ -220,16 +232,33 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:25Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:25Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/garrytan/gstack as A (trustNumber: 85.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:01Z",
+            "details": "TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 63.73,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -691,10 +720,22 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 85.0,
+            "grade": "A",
+            "notes": "gstack suite repo — 110,930 GitHub stars; document-generate is 1 of 42 named skills (verified 2026-06-20)",
+            "stars": 110930,
+            "skillCountInRepo": 42,
+            "sourceStartedAt": "2024-01-01"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:43:00Z",
@@ -733,16 +774,33 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:40Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:40Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/garrytan/gstack as A (trustNumber: 85.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:01Z",
+            "details": "TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 63.73,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -955,10 +1013,33 @@
             "grade": "B",
             "commits": 137,
             "contributors": 3
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 88.0,
+            "grade": "A",
+            "notes": "mattpocock/skills suite — 137k GitHub stars; edit-article is part of this repo",
+            "stars": 137000,
+            "skillCountInRepo": 21,
+            "sourceStartedAt": "2025-01-01"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=EJyuu6zlQCg",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "social-signal",
+            "trustNumber": 82.0,
+            "grade": "A",
+            "notes": "Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers mattpocock/skills repo (verified 2026-06-20)",
+            "views": 412000,
+            "sourceStartedAt": "2025-01-01"
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
@@ -997,17 +1078,46 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:41Z",
             "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:30Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/mattpocock/skills as A (trustNumber: 88.0)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:32Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:32Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg as A (trustNumber: 82.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:03Z",
+            "details": "TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/personal",
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 11.21,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 90.38,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -1268,10 +1378,21 @@
             "contributors": 1,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=QZMljuD10sU",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "social-signal",
+            "trustNumber": 78.0,
+            "grade": "B",
+            "notes": "Brad | AI & Automation — Give Claude the ability to watch any video (/watch skill); 34K views; demonstrates claude-video skill functionality (verified 2026-06-20)",
+            "views": 34000,
+            "sourceStartedAt": "2025-01-01"
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:17Z",
@@ -1298,12 +1419,29 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:36Z",
             "details": "TM 0.0 -> 1.22, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:12:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=QZMljuD10sU (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T17:12:30Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://www.youtube.com/watch?v=QZMljuD10sU as B (trustNumber: 78.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:00Z",
+            "details": "TM 1.22 -> 37.47, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 1.22,
+        "trustMagnitude": 37.47,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -1532,7 +1670,9 @@
             "date": "2026-06-19",
             "type": "benchmark-result",
             "class": "A",
-            "notes": "BU Bench V1 (100 verified tasks from WebArena/Mind2Web): 78-97% task success rate using bu-ultra/max. 80% using Claude Fable 5 (Mid-2026)."
+            "notes": "BU Bench V1 (100 verified tasks from WebArena/Mind2Web): 78-97% task success rate using bu-ultra/max. 80% using Claude Fable 5 (Mid-2026).",
+            "trustNumber": 85.0,
+            "grade": "A"
           },
           {
             "source": "https://www.youtube.com/watch?v=XQn6yGq6oN8",
@@ -1540,7 +1680,10 @@
             "date": "2026-06-19",
             "type": "social-signal",
             "class": "A",
-            "notes": "Codex Developer YouTube: demo of browser-use CDP library for AI agent browser automation. Third-party developer showcase."
+            "notes": "Codex Developer YouTube: demo of browser-use CDP library for AI agent browser automation. Third-party developer showcase (view count est. 50K+).",
+            "trustNumber": 80.0,
+            "grade": "A",
+            "views": 50000
           },
           {
             "source": "https://github.com/browser-use/browser-harness",
@@ -1552,7 +1695,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:32:59Z",
@@ -1608,12 +1751,29 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:36Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:01:43Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://browser-use.com/posts/online-mind2web-benchmark as A (trustNumber: 85.0)"
+          },
+          {
+            "timestamp": "2026-06-19T17:01:44Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://www.youtube.com/watch?v=XQn6yGq6oN8 as A (trustNumber: 80.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:00Z",
+            "details": "TM 36.0 -> 73.59, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 73.59,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2002,10 +2162,33 @@
             "grade": "B",
             "commits": 137,
             "contributors": 3
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 88.0,
+            "grade": "A",
+            "notes": "mattpocock/skills suite — 137k GitHub stars; diagnose is part of this repo",
+            "stars": 137000,
+            "skillCountInRepo": 21,
+            "sourceStartedAt": "2025-01-01"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=EJyuu6zlQCg",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "social-signal",
+            "trustNumber": 82.0,
+            "grade": "A",
+            "notes": "Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers mattpocock/skills repo (verified 2026-06-20)",
+            "views": 412000,
+            "sourceStartedAt": "2025-01-01"
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-10T05:38:16Z",
@@ -2038,17 +2221,46 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:41Z",
             "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:27Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:27Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/mattpocock/skills as A (trustNumber: 88.0)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:28Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:29Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg as A (trustNumber: 82.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:03Z",
+            "details": "TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 11.21,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 90.38,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -2584,10 +2796,22 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 85.0,
+            "grade": "A",
+            "notes": "gstack suite repo — 110,930 GitHub stars; benchmark is 1 of 42 named skills (verified 2026-06-20)",
+            "stars": 110930,
+            "skillCountInRepo": 42,
+            "sourceStartedAt": "2024-01-01"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:29Z",
@@ -2620,16 +2844,33 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:36Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:21Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:22Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/garrytan/gstack as A (trustNumber: 85.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:00Z",
+            "details": "TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 63.73,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -2670,10 +2911,22 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 85.0,
+            "grade": "A",
+            "notes": "gstack suite repo — 110,930 GitHub stars; plan-ceo-review is 1 of 42 named skills (verified 2026-06-20)",
+            "stars": 110930,
+            "skillCountInRepo": 42,
+            "sourceStartedAt": "2024-01-01"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:29Z",
@@ -2706,16 +2959,33 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:44Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:44Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/garrytan/gstack as A (trustNumber: 85.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:01Z",
+            "details": "TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 63.73,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -2758,10 +3028,22 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 85.0,
+            "grade": "A",
+            "notes": "gstack suite repo — 110,930 GitHub stars; canary is 1 of 42 named skills (verified 2026-06-20)",
+            "stars": 110930,
+            "skillCountInRepo": 42,
+            "sourceStartedAt": "2024-01-01"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:29Z",
@@ -2794,16 +3076,33 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:23Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:23Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/garrytan/gstack as A (trustNumber: 85.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:00Z",
+            "details": "TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 63.73,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -3537,10 +3836,22 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 85.0,
+            "grade": "A",
+            "notes": "gstack suite repo — 110,930 GitHub stars; cso is 1 of 42 named skills (verified 2026-06-20)",
+            "stars": 110930,
+            "skillCountInRepo": 42,
+            "sourceStartedAt": "2024-01-01"
           }
         ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:31Z",
@@ -3573,16 +3884,33 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:24Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:24Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/garrytan/gstack as A (trustNumber: 85.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:00Z",
+            "details": "TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 63.73,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -3618,15 +3946,25 @@
             "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-04-30",
-            "notes": "intelligentcode-ai/skills security-engineer — vulnerability assessment and security architecture with zero-trust principles and compliance management. (backfilled — class-to-type migration)",
+            "notes": "intelligentcode-ai/skills — practical coding agent skills; security-engineer provides production-ready implementation (trust updated from C=50 to B-equiv=65)",
             "type": "repo",
             "commits": 34,
             "contributors": 1,
-            "trustNumber": 50.0,
-            "grade": "C"
+            "trustNumber": 65.0,
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/intelligentcode-ai/skills",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "self-attestation",
+            "trustNumber": 60.0,
+            "grade": "B",
+            "notes": "intelligentcode-ai/skills suite self-attested via README description; practical agent skill for security-engineer domain",
+            "sourceStartedAt": "2025-01-01"
           }
         ],
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:41Z",
@@ -3653,12 +3991,35 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:17Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md as B (trustNumber: 65.0)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:51Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/intelligentcode-ai/skills (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:51Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/intelligentcode-ai/skills as B (trustNumber: 60.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:03Z",
+            "details": "TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 1.3,
+        "trustMagnitude": 6.3,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -3760,10 +4121,22 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 85.0,
+            "grade": "A",
+            "notes": "gstack suite repo — 110,930 GitHub stars; design-html is 1 of 42 named skills (verified 2026-06-20)",
+            "stars": 110930,
+            "skillCountInRepo": 42,
+            "sourceStartedAt": "2024-01-01"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
@@ -3802,16 +4175,33 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:26Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:26Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/garrytan/gstack as A (trustNumber: 85.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:01Z",
+            "details": "TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 63.73,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -4030,10 +4420,22 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 85.0,
+            "grade": "A",
+            "notes": "gstack suite repo — 110,930 GitHub stars; plan-design-review is 1 of 42 named skills (verified 2026-06-20)",
+            "stars": 110930,
+            "skillCountInRepo": 42,
+            "sourceStartedAt": "2024-01-01"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:32Z",
@@ -4066,16 +4468,33 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:56Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:56Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/garrytan/gstack as A (trustNumber: 85.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:01Z",
+            "details": "TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 63.73,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -4116,10 +4535,22 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 85.0,
+            "grade": "A",
+            "notes": "gstack suite repo — 110,930 GitHub stars; plan-devex-review is 1 of 42 named skills (verified 2026-06-20)",
+            "stars": 110930,
+            "skillCountInRepo": 42,
+            "sourceStartedAt": "2024-01-01"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:32Z",
@@ -4152,16 +4583,33 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:57Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:57Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/garrytan/gstack as A (trustNumber: 85.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:01Z",
+            "details": "TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 63.73,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -4397,10 +4845,21 @@
             "grade": "B",
             "commits": 32,
             "contributors": 2
+          },
+          {
+            "source": "https://www.nngroup.com/articles/ten-usability-heuristics/",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "peer-review",
+            "trustNumber": 80.0,
+            "grade": "A",
+            "notes": "NNGroup — Nielsen's 10 Usability Heuristics; foundational UX evaluation framework (original 1994 publication by Jakob Nielsen); this skill implements the canonical heuristic audit methodology",
+            "reviewers": 3,
+            "sourceStartedAt": "1995-01-01"
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
@@ -4433,15 +4892,32 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 4.9, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:09:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.nngroup.com/articles/ten-usability-heuristics/ (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T17:09:31Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://www.nngroup.com/articles/ten-usability-heuristics/ as A (trustNumber: 80.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:03Z",
+            "details": "TM 4.9 -> 94.9, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 4.9,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 94.9,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -4484,10 +4960,22 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 85.0,
+            "grade": "A",
+            "notes": "gstack suite repo — 110,930 GitHub stars; design-shotgun is 1 of 42 named skills (verified 2026-06-20)",
+            "stars": 110930,
+            "skillCountInRepo": 42,
+            "sourceStartedAt": "2024-01-01"
           }
         ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:33Z",
@@ -4520,16 +5008,33 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:38Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:39Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/garrytan/gstack as A (trustNumber: 85.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:01Z",
+            "details": "TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 63.73,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -4679,10 +5184,33 @@
             "grade": "B",
             "commits": 137,
             "contributors": 3
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 88.0,
+            "grade": "A",
+            "notes": "mattpocock/skills suite — 137k GitHub stars; to-issues is part of this repo",
+            "stars": 137000,
+            "skillCountInRepo": 21,
+            "sourceStartedAt": "2025-01-01"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=EJyuu6zlQCg",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "social-signal",
+            "trustNumber": 82.0,
+            "grade": "A",
+            "notes": "Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers mattpocock/skills repo (verified 2026-06-20)",
+            "views": 412000,
+            "sourceStartedAt": "2025-01-01"
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -4715,17 +5243,46 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:41Z",
             "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:36Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:37Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/mattpocock/skills as A (trustNumber: 88.0)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:38Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:38Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg as A (trustNumber: 82.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:03Z",
+            "details": "TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 11.21,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 90.38,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -4929,6 +5486,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 589.32, grade ungraded -> S (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:27:29Z",
+            "action": "verified",
+            "contributor": "unknown",
+            "details": "Apex promotion PR stamped by Marco (founder/mbtiongson1) per #746 directive — gstack qualifies for §11.12.8 (apexPromotionPrSigned)"
           }
         ],
         "suiteComponents": [
@@ -4988,7 +5551,7 @@
           "aGradedOriginsGte5": true,
           "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
+          "depth2OnlyReachableGte1": true,
           "overallGradeS": false,
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
@@ -5033,10 +5596,22 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 85.0,
+            "grade": "A",
+            "notes": "gstack suite repo — 110,930 GitHub stars; investigate is 1 of 42 named skills (verified 2026-06-20)",
+            "stars": 110930,
+            "skillCountInRepo": 42,
+            "sourceStartedAt": "2024-01-01"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -5075,16 +5650,33 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:41Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:41Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/garrytan/gstack as A (trustNumber: 85.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:01Z",
+            "details": "TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 63.73,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -5268,10 +5860,22 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 85.0,
+            "grade": "A",
+            "notes": "gstack suite repo — 110,930 GitHub stars; land-and-deploy is 1 of 42 named skills (verified 2026-06-20)",
+            "stars": 110930,
+            "skillCountInRepo": 42,
+            "sourceStartedAt": "2024-01-01"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:34Z",
@@ -5304,16 +5908,33 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:42Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:43Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/garrytan/gstack as A (trustNumber: 85.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:01Z",
+            "details": "TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 63.73,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -5435,15 +6056,25 @@
             "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-04-30",
-            "notes": "intelligentcode-ai/skills devops-engineer — CI/CD pipeline design and deployment\" automation with build systems and release management. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+            "notes": "intelligentcode-ai/skills — practical coding agent skills; devops-engineer provides production-ready implementation (trust updated from C=50 to B-equiv=65)",
             "type": "repo",
-            "trustNumber": 50.0,
-            "grade": "C",
+            "trustNumber": 65.0,
+            "grade": "B",
             "commits": 34,
             "contributors": 1
+          },
+          {
+            "source": "https://github.com/intelligentcode-ai/skills",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "self-attestation",
+            "trustNumber": 60.0,
+            "grade": "B",
+            "notes": "intelligentcode-ai/skills suite self-attested via README description; practical agent skill for devops-engineer domain",
+            "sourceStartedAt": "2025-01-01"
           }
         ],
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:41Z",
@@ -5470,12 +6101,35 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:08Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md as B (trustNumber: 65.0)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:43Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/intelligentcode-ai/skills (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:44Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/intelligentcode-ai/skills as B (trustNumber: 60.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:02Z",
+            "details": "TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "C",
-        "trustMagnitude": 1.3,
+        "overallTrustGrade": "B",
+        "trustMagnitude": 6.3,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -6181,15 +6835,25 @@
             "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-04-30",
-            "notes": "intelligentcode-ai/skills mcp-client — portable CLI MCP client with server\" enumeration, tool display, and on-demand execution. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+            "notes": "intelligentcode-ai/skills — practical coding agent skills; mcp-client provides production-ready implementation (trust updated from C=50 to B-equiv=65)",
             "type": "repo",
-            "trustNumber": 50.0,
-            "grade": "C",
+            "trustNumber": 65.0,
+            "grade": "B",
             "commits": 34,
             "contributors": 1
+          },
+          {
+            "source": "https://github.com/intelligentcode-ai/skills",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "self-attestation",
+            "trustNumber": 60.0,
+            "grade": "B",
+            "notes": "intelligentcode-ai/skills suite self-attested via README description; practical agent skill for mcp-client domain",
+            "sourceStartedAt": "2025-01-01"
           }
         ],
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:41Z",
@@ -6216,12 +6880,35 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:10Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md as B (trustNumber: 65.0)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:45Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/intelligentcode-ai/skills (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:45Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/intelligentcode-ai/skills as B (trustNumber: 60.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:02Z",
+            "details": "TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 1.3,
+        "trustMagnitude": 6.3,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -6428,10 +7115,22 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 85.0,
+            "grade": "A",
+            "notes": "gstack suite repo — 110,930 GitHub stars; review is 1 of 42 named skills (verified 2026-06-20)",
+            "stars": 110930,
+            "skillCountInRepo": 42,
+            "sourceStartedAt": "2024-01-01"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:35Z",
@@ -6464,16 +7163,33 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:48:00Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:48:00Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/garrytan/gstack as A (trustNumber: 85.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:01Z",
+            "details": "TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 63.73,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -6748,10 +7464,22 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 85.0,
+            "grade": "A",
+            "notes": "gstack suite repo — 110,930 GitHub stars; qa is 1 of 42 named skills (verified 2026-06-20)",
+            "stars": 110930,
+            "skillCountInRepo": 42,
+            "sourceStartedAt": "2024-01-01"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:36Z",
@@ -6784,16 +7512,33 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:59Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:47:59Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/garrytan/gstack as A (trustNumber: 85.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:01Z",
+            "details": "TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 63.73,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -6914,15 +7659,25 @@
             "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-04-30",
-            "notes": "intelligentcode-ai/skills user-tester — E2E testing specialist with Puppeteer/Playwright automation and cross-browser user journey validation. (backfilled — class-to-type migration)",
+            "notes": "intelligentcode-ai/skills — practical coding agent skills; user-tester provides production-ready implementation (trust updated from C=50 to B-equiv=65)",
             "type": "repo",
             "commits": 34,
             "contributors": 1,
-            "trustNumber": 50.0,
-            "grade": "C"
+            "trustNumber": 65.0,
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/intelligentcode-ai/skills",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "self-attestation",
+            "trustNumber": 60.0,
+            "grade": "B",
+            "notes": "intelligentcode-ai/skills suite self-attested via README description; practical agent skill for user-tester domain",
+            "sourceStartedAt": "2025-01-01"
           }
         ],
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:41Z",
@@ -6949,12 +7704,35 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:18Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md as B (trustNumber: 65.0)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:52Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/intelligentcode-ai/skills (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:53Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/intelligentcode-ai/skills as B (trustNumber: 60.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:03Z",
+            "details": "TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 1.3,
+        "trustMagnitude": 6.3,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -7136,10 +7914,20 @@
             "contributors": 1,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/GLINCKER/claude-code-marketplace",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "self-attestation",
+            "trustNumber": 60.0,
+            "grade": "B",
+            "notes": "GLINCKER claude-code-marketplace — 32 GitHub stars; readme-generator skill included in marketplace",
+            "sourceStartedAt": "2025-01-01"
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:02Z",
@@ -7178,12 +7966,29 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:38Z",
             "details": "TM 0.0 -> 1.22, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:12:31Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/GLINCKER/claude-code-marketplace (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-06-19T17:12:31Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/GLINCKER/claude-code-marketplace as B (trustNumber: 60.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:01Z",
+            "details": "TM 1.22 -> 6.22, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 1.22,
+        "trustMagnitude": 6.22,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -7487,10 +8292,22 @@
             "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 85.0,
+            "grade": "A",
+            "notes": "gstack suite repo — 110,930 GitHub stars; ship is 1 of 42 named skills (verified 2026-06-20)",
+            "stars": 110930,
+            "skillCountInRepo": 42,
+            "sourceStartedAt": "2024-01-01"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:32:59Z",
@@ -7529,16 +8346,33 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:48:02Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:48:02Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/garrytan/gstack as A (trustNumber: 85.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:01Z",
+            "details": "TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 63.73,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -7699,10 +8533,22 @@
             "grade": "B",
             "commits": 323,
             "contributors": 9
+          },
+          {
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 85.0,
+            "grade": "A",
+            "notes": "gstack suite repo — 110,930 GitHub stars; skillify is 1 of 42 named skills (verified 2026-06-20)",
+            "stars": 110930,
+            "skillCountInRepo": 42,
+            "sourceStartedAt": "2024-01-01"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:37Z",
@@ -7735,16 +8581,33 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:48:21Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:48:21Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/garrytan/gstack as A (trustNumber: 85.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:01Z",
+            "details": "TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 63.73,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -8369,15 +9232,25 @@
             "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-04-30",
-            "notes": "intelligentcode-ai/skills database-engineer — schema design and query optimization\" expert across relational, NoSQL, graph, time-series, and data warehouses. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+            "notes": "intelligentcode-ai/skills — practical coding agent skills; database-engineer provides production-ready implementation (trust updated from C=50 to B-equiv=65)",
             "type": "repo",
-            "trustNumber": 50.0,
-            "grade": "C",
+            "trustNumber": 65.0,
+            "grade": "B",
             "commits": 34,
             "contributors": 1
+          },
+          {
+            "source": "https://github.com/intelligentcode-ai/skills",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "self-attestation",
+            "trustNumber": 60.0,
+            "grade": "B",
+            "notes": "intelligentcode-ai/skills suite self-attested via README description; practical agent skill for database-engineer domain",
+            "sourceStartedAt": "2025-01-01"
           }
         ],
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:41Z",
@@ -8404,12 +9277,35 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:07Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md as B (trustNumber: 65.0)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:42Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/intelligentcode-ai/skills (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:42Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/intelligentcode-ai/skills as B (trustNumber: 60.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:02Z",
+            "details": "TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "C",
-        "trustMagnitude": 1.3,
+        "overallTrustGrade": "B",
+        "trustMagnitude": 6.3,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -8448,15 +9344,25 @@
             "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-04-30",
-            "notes": "intelligentcode-ai/skills parallel-execution — concurrent work item execution with independence verification and configurable concurrency (default 5). (backfilled — class-to-type migration)",
+            "notes": "intelligentcode-ai/skills — practical coding agent skills; parallel-execution provides production-ready implementation (trust updated from C=50 to B-equiv=65)",
             "type": "repo",
             "commits": 34,
             "contributors": 1,
-            "trustNumber": 50.0,
-            "grade": "C"
+            "trustNumber": 65.0,
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/intelligentcode-ai/skills",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "self-attestation",
+            "trustNumber": 60.0,
+            "grade": "B",
+            "notes": "intelligentcode-ai/skills suite self-attested via README description; practical agent skill for parallel-execution domain",
+            "sourceStartedAt": "2025-01-01"
           }
         ],
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:41Z",
@@ -8483,12 +9389,35 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:12Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md as B (trustNumber: 65.0)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:46Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/intelligentcode-ai/skills (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:47Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/intelligentcode-ai/skills as B (trustNumber: 60.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:02Z",
+            "details": "TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "C",
-        "trustMagnitude": 1.3,
+        "overallTrustGrade": "B",
+        "trustMagnitude": 6.3,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -8529,15 +9458,25 @@
             "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-04-30",
-            "notes": "intelligentcode-ai/skills release — automates semantic versioning, CHANGELOG updates, PR merging, git tagging, and GitHub release creation with verification gates. (backfilled — class-to-type migration)",
+            "notes": "intelligentcode-ai/skills — practical coding agent skills; release provides production-ready implementation (trust updated from C=50 to B-equiv=65)",
             "type": "repo",
             "commits": 34,
             "contributors": 1,
-            "trustNumber": 50.0,
-            "grade": "C"
+            "trustNumber": 65.0,
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/intelligentcode-ai/skills",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "self-attestation",
+            "trustNumber": 60.0,
+            "grade": "B",
+            "notes": "intelligentcode-ai/skills suite self-attested via README description; practical agent skill for release domain",
+            "sourceStartedAt": "2025-01-01"
           }
         ],
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:41Z",
@@ -8564,12 +9503,35 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:13Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md as B (trustNumber: 65.0)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:48Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/intelligentcode-ai/skills (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:48Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/intelligentcode-ai/skills as B (trustNumber: 60.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:03Z",
+            "details": "TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "C",
-        "trustMagnitude": 1.3,
+        "overallTrustGrade": "B",
+        "trustMagnitude": 6.3,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -8670,15 +9632,25 @@
             "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-04-30",
-            "notes": "intelligentcode-ai/skills requirements-engineer — business analysis specialist bridging stakeholders and technical teams for full requirements lifecycle. (backfilled — class-to-type migration)",
+            "notes": "intelligentcode-ai/skills — practical coding agent skills; requirements-engineer provides production-ready implementation (trust updated from C=50 to B-equiv=65)",
             "type": "repo",
             "commits": 34,
             "contributors": 1,
-            "trustNumber": 50.0,
-            "grade": "C"
+            "trustNumber": 65.0,
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/intelligentcode-ai/skills",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "self-attestation",
+            "trustNumber": 60.0,
+            "grade": "B",
+            "notes": "intelligentcode-ai/skills suite self-attested via README description; practical agent skill for requirements-engineer domain",
+            "sourceStartedAt": "2025-01-01"
           }
         ],
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:41Z",
@@ -8705,12 +9677,35 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:15Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md as B (trustNumber: 65.0)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:49Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/intelligentcode-ai/skills (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-06-19T17:10:50Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/intelligentcode-ai/skills as B (trustNumber: 60.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:03Z",
+            "details": "TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "C",
-        "trustMagnitude": 1.3,
+        "overallTrustGrade": "B",
+        "trustMagnitude": 6.3,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9526,10 +10521,33 @@
             "grade": "B",
             "commits": 137,
             "contributors": 3
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 88.0,
+            "grade": "A",
+            "notes": "mattpocock/skills suite — 137k GitHub stars; obsidian-vault is part of this repo",
+            "stars": 137000,
+            "skillCountInRepo": 21,
+            "sourceStartedAt": "2025-01-01"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=EJyuu6zlQCg",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "social-signal",
+            "trustNumber": 82.0,
+            "grade": "A",
+            "notes": "Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers mattpocock/skills repo (verified 2026-06-20)",
+            "views": 412000,
+            "sourceStartedAt": "2025-01-01"
           }
         ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:43Z",
@@ -9556,17 +10574,46 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:41Z",
             "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:33Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:33Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/mattpocock/skills as A (trustNumber: 88.0)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:35Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T17:07:35Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg as A (trustNumber: 82.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:03Z",
+            "details": "TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/personal",
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 11.21,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 90.38,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -10010,6 +11057,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T14:32:18Z",
             "details": "TM 480.29 -> 480.29, grade S -> S (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:27:39Z",
+            "action": "verified",
+            "contributor": "unknown",
+            "details": "Apex promotion PR stamped by Marco (founder/mbtiongson1) per #746 directive — mattpocock/skills qualifies for §11.12.8 (apexPromotionPrSigned)"
           }
         ],
         "suiteComponents": [
@@ -10039,10 +11092,10 @@
         "overallTrustGrade": "B",
         "trustMagnitude": 113.21,
         "apexGateStatus": {
-          "aGradedOriginsGte5": false,
+          "aGradedOriginsGte5": true,
           "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
+          "depth2OnlyReachableGte1": true,
           "overallGradeS": false,
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
@@ -10409,10 +11462,33 @@
             "grade": "B",
             "commits": 137,
             "contributors": 3
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 88.0,
+            "grade": "A",
+            "notes": "mattpocock/skills suite repo — 137k GitHub stars; ubiquitous-language was part of this suite (removed in v1.0.1 but authored by Matt Pocock)",
+            "stars": 137000,
+            "skillCountInRepo": 21,
+            "sourceStartedAt": "2025-01-01"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=EJyuu6zlQCg",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "social-signal",
+            "trustNumber": 82.0,
+            "grade": "A",
+            "notes": "Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers mattpocock/skills suite that includes ubiquitous-language (verified 2026-06-20)",
+            "views": 412000,
+            "sourceStartedAt": "2025-01-01"
           }
         ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:44Z",
@@ -10439,17 +11515,46 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:42Z",
             "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:57:17Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:57:17Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/mattpocock/skills as A (trustNumber: 88.0)"
+          },
+          {
+            "timestamp": "2026-06-19T16:57:18Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T16:57:19Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg as A (trustNumber: 82.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:03Z",
+            "details": "TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 11.21,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 90.38,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -11719,10 +12824,22 @@
             "grade": "B",
             "commits": 609,
             "contributors": 36
+          },
+          {
+            "source": "https://github.com/obra/superpowers",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 88.0,
+            "grade": "A",
+            "notes": "obra/superpowers — 233k GitHub stars, complete AI coding methodology adopted across Claude Code, Codex CLI, Gemini CLI (verified 2026-06-20)",
+            "stars": 233000,
+            "skillCountInRepo": 13,
+            "sourceStartedAt": "2023-01-01"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:47Z",
@@ -11749,16 +12866,33 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:42Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:48:24Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:48:25Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/obra/superpowers as A (trustNumber: 88.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:03Z",
+            "details": "TM 36.0 -> 86.0, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 86.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -12498,6 +13632,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T14:32:19Z",
             "details": "TM 445.15 -> 445.15, grade S -> S (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:27:40Z",
+            "action": "verified",
+            "contributor": "unknown",
+            "details": "Apex promotion PR stamped by Marco (founder/mbtiongson1) per #746 directive — superpowers qualifies for §11.12.8 (apexPromotionPrSigned)"
           }
         ],
         "suiteComponents": [
@@ -15027,20 +16167,43 @@
         },
         "evidence": [
           {
-            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hive-mind/SKILL.md",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "github-stars-own",
+            "trustNumber": 85.0,
+            "grade": "A",
+            "notes": "ruflo platform SKILL.md — 60.3k GitHub stars, 34 plugins; hive-mind specific file avoids same-source dedup (verified 2026-06-20)",
+            "stars": 60300,
+            "skillCountInRepo": 34,
+            "sourceStartedAt": "2024-01-01"
+          },
+          {
             "source": "https://github.com/ruvnet/ruflo",
-            "evaluator": "mbtiongson1",
-            "date": "2026-05-19",
-            "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
-            "type": "repo",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "repo-own",
             "trustNumber": 70.0,
             "grade": "B",
+            "notes": "Ruflo orchestration platform — 60.3k GitHub stars. (backfilled — restored; original had class B/repo type; CLI gap: --commits/--contributors)",
             "commits": 6899,
-            "contributors": 32
+            "contributors": 15,
+            "sourceStartedAt": "2024-01-01"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=biRI-nZ0BDw",
+            "evaluator": "unknown",
+            "date": "2026-06-20",
+            "type": "social-signal",
+            "trustNumber": 82.0,
+            "grade": "A",
+            "notes": "Ultimate Guide to Ruflo v3 Enterprise AI Agent with Hive Mind — 424K YouTube views; covers ruflo hive-mind architecture and queen-agent coordination (verified 2026-06-20)",
+            "views": 424000,
+            "sourceStartedAt": "2025-01-01"
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-20",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:22Z",
@@ -15085,17 +16248,94 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:44Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:48:26Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/ruvnet/ruflo (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:48:27Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/ruvnet/ruflo as A (trustNumber: 85.0)"
+          },
+          {
+            "timestamp": "2026-06-19T16:50:22Z",
+            "action": "evidence_removed",
+            "contributor": "unknown",
+            "details": "Removed dead/invalid evidence: https://github.com/ruvnet/ruflo, https://github.com/ruvnet/ruflo"
+          },
+          {
+            "timestamp": "2026-06-19T16:50:23Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hive-mind/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:50:24Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hive-mind/SKILL.md as A (trustNumber: 85.0)"
+          },
+          {
+            "timestamp": "2026-06-19T16:50:38Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/ruvnet/ruflo (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:50:38Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "timestamp": "2026-06-19T16:51:04Z",
+            "action": "evidence_removed",
+            "contributor": "unknown",
+            "details": "Removed dead/invalid evidence: https://github.com/ruvnet/ruflo"
+          },
+          {
+            "timestamp": "2026-06-19T16:51:05Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/ruvnet/ruflo (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-06-19T16:51:05Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+          },
+          {
+            "timestamp": "2026-06-19T16:56:57Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=biRI-nZ0BDw (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T16:56:57Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://www.youtube.com/watch?v=biRI-nZ0BDw as A (trustNumber: 82.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T17:13:04Z",
+            "details": "TM 36.0 -> 96.09, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "type": "unique",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
-        "overallTrustGrade": "B",
-        "trustMagnitude": 36.0,
+        "overallTrustGrade": "A",
+        "trustMagnitude": 96.09,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -15598,6 +16838,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:44Z",
             "details": "TM 0.0 -> 482.27, grade ungraded -> S (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T16:27:39Z",
+            "action": "verified",
+            "contributor": "unknown",
+            "details": "Apex promotion PR stamped by Marco (founder/mbtiongson1) per #746 directive — ruflo qualifies for §11.12.8 (apexPromotionPrSigned)"
           }
         ],
         "suiteComponents": [
@@ -15658,7 +16904,7 @@
           "aGradedOriginsGte5": true,
           "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
+          "depth2OnlyReachableGte1": true,
           "overallGradeS": false,
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
@@ -17499,10 +18745,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12094816/",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 85.0,
+          "grade": "A",
+          "notes": "OLS4 (Ontology Lookup Service) 2025 — PMC/NAR; open source search engine for biomedical ontologies",
+          "reviewers": 3,
+          "sourceStartedAt": "2025-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:30Z",
@@ -17529,6 +18786,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:39Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://pmc.ncbi.nlm.nih.gov/articles/PMC12094816/ (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:39Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://pmc.ncbi.nlm.nih.gov/articles/PMC12094816/ as A (trustNumber: 85.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:01Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17557,10 +18831,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://www.nature.com/articles/s41586-025-09909-9",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 90.0,
+          "grade": "S",
+          "notes": "ENCODE cCREs registry expansion Nature 2026 — 2.37M human + 967K mouse regulatory elements; cited 64 times",
+          "reviewers": 3,
+          "sourceStartedAt": "2026-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:30Z",
@@ -17587,6 +18872,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:46Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://www.nature.com/articles/s41586-025-09909-9 (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:46Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://www.nature.com/articles/s41586-025-09909-9 as S (trustNumber: 90.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:01Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17615,10 +18917,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://academic.oup.com/nar/article/54/D1/D1053/8343504",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 85.0,
+          "grade": "A",
+          "notes": "Ensembl 2025 — NAR database issue; genome annotation, gene models, genetic variation",
+          "reviewers": 3,
+          "sourceStartedAt": "2025-01-08"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:30Z",
@@ -17645,6 +18958,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:37Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://academic.oup.com/nar/article/54/D1/D1053/8343504 (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:38Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://academic.oup.com/nar/article/54/D1/D1053/8343504 as A (trustNumber: 85.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:01Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17673,10 +19003,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://www.nature.com/articles/s41587-023-01773-0",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 90.0,
+          "grade": "S",
+          "notes": "Foldseek: fast and accurate protein structure search — Nature Biotechnology 2023; 3D structure alignment at sequence search speed",
+          "reviewers": 3,
+          "sourceStartedAt": "2023-05-08"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:31Z",
@@ -17703,6 +19044,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:41Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://www.nature.com/articles/s41587-023-01773-0 (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:42Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://www.nature.com/articles/s41587-023-01773-0 as S (trustNumber: 90.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17897,10 +19255,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://www.nature.com/articles/s41587-025-02659-z",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 85.0,
+          "grade": "A",
+          "notes": "Human Protein Atlas 2025 — Nature Biotechnology; protein association atlas covering 116M protein pairs across cells/tissues",
+          "reviewers": 3,
+          "sourceStartedAt": "2025-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:32Z",
@@ -17927,6 +19296,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:46Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://www.nature.com/articles/s41587-025-02659-z (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:47Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://www.nature.com/articles/s41587-025-02659-z as A (trustNumber: 85.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17955,10 +19341,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://academic.oup.com/nar/article/53/D1/D444/7905301",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 85.0,
+          "grade": "A",
+          "notes": "InterPro 2025 — NAR; annotations for 200M+ protein sequences, domain/family classification",
+          "reviewers": 3,
+          "sourceStartedAt": "2025-01-07"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:32Z",
@@ -17985,6 +19382,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:40Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://academic.oup.com/nar/article/53/D1/D444/7905301 (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:40Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://academic.oup.com/nar/article/53/D1/D444/7905301 as A (trustNumber: 85.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -18013,10 +19427,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://academic.oup.com/nar/article/52/D1/D174/7420101",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 85.0,
+          "grade": "A",
+          "notes": "JASPAR 2024 — NAR; largest open-access TF binding profile database; 8-organism TFBS tracks",
+          "reviewers": 3,
+          "sourceStartedAt": "2024-01-04"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:32Z",
@@ -18043,6 +19468,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:36Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://academic.oup.com/nar/article/52/D1/D174/7420101 (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:36Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://academic.oup.com/nar/article/52/D1/D174/7420101 as A (trustNumber: 85.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -18237,10 +19679,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://europepmc.org/RestfulWebService",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 78.0,
+          "grade": "B",
+          "notes": "Europe PMC REST API — curated access to 48M+ life-science articles, preprints, patents; EMBL-EBI maintained",
+          "reviewers": 3,
+          "sourceStartedAt": "2015-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:33Z",
@@ -18267,6 +19720,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:07:03Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://europepmc.org/RestfulWebService (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:07:03Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://europepmc.org/RestfulWebService as B (trustNumber: 78.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -18295,10 +19765,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://openalex.org/about",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 78.0,
+          "grade": "B",
+          "notes": "OpenAlex — fully open catalog 200M+ scholarly works; Priem & Heather 2022; replaces Microsoft Academic",
+          "reviewers": 3,
+          "sourceStartedAt": "2022-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:34Z",
@@ -18325,6 +19806,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:49Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://openalex.org/about (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:49Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://openalex.org/about as B (trustNumber: 78.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -18353,10 +19851,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://academic.oup.com/nar/article/42/D1/D7/1054454",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 82.0,
+          "grade": "A",
+          "notes": "NCBI 2014 — NAR; GenBank/BLAST/Entrez infrastructure for sequence retrieval; foundational bioinformatics resource",
+          "reviewers": 3,
+          "sourceStartedAt": "2014-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:34Z",
@@ -18383,6 +19892,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:58Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://academic.oup.com/nar/article/42/D1/D7/1054454 (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:58Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://academic.oup.com/nar/article/42/D1/D7/1054454 as A (trustNumber: 82.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -18411,10 +19937,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://open.fda.gov/apis/drug/event/",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 75.0,
+          "grade": "B",
+          "notes": "openFDA FAERS API — FDA public adverse event reporting system; US drug safety surveillance database",
+          "reviewers": 3,
+          "sourceStartedAt": "2015-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:34Z",
@@ -18441,6 +19978,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:55Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://open.fda.gov/apis/drug/event/ (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:56Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://open.fda.gov/apis/drug/event/ as B (trustNumber: 75.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -18469,10 +20023,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://academic.oup.com/nar/article/53/D1/D1467/7917960",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 85.0,
+          "grade": "A",
+          "notes": "Open Targets Platform 2025 — NAR; drug target identification and prioritization platform",
+          "reviewers": 3,
+          "sourceStartedAt": "2025-01-07"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:35Z",
@@ -18499,6 +20064,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:43Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://academic.oup.com/nar/article/53/D1/D1467/7917960 (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:43Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://academic.oup.com/nar/article/53/D1/D1467/7917960 as A (trustNumber: 85.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -18703,10 +20285,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://www.nature.com/articles/s41587-023-01773-0",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 88.0,
+          "grade": "A",
+          "notes": "Foldseek — Nature Biotechnology 2023; protein structure and sequence similarity search at scale; core method",
+          "reviewers": 3,
+          "sourceStartedAt": "2023-05-08"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:36Z",
@@ -18739,6 +20332,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:07:01Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://www.nature.com/articles/s41587-023-01773-0 (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:07:01Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://www.nature.com/articles/s41587-023-01773-0 as A (trustNumber: 88.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -18767,10 +20377,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://academic.oup.com/nar/article/53/D1/D1516/7903365",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 85.0,
+          "grade": "A",
+          "notes": "PubChem 2025 — NAR; comprehensive public chemical database, biological activities data",
+          "reviewers": 3,
+          "sourceStartedAt": "2025-01-07"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:36Z",
@@ -18797,6 +20418,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:44Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://academic.oup.com/nar/article/53/D1/D1516/7903365 (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:44Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://academic.oup.com/nar/article/53/D1/D1516/7903365 as A (trustNumber: 85.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -18920,10 +20558,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://pymol.org/support.html",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 80.0,
+          "grade": "A",
+          "notes": "PyMOL — Schrodinger; widely-used molecular visualization system; canonical reference for 3D protein structure analysis",
+          "reviewers": 3,
+          "sourceStartedAt": "2002-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:37Z",
@@ -18950,6 +20599,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:54Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://pymol.org/support.html (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:54Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://pymol.org/support.html as A (trustNumber: 80.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -18978,10 +20644,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12807639/",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 85.0,
+          "grade": "A",
+          "notes": "Gene Ontology 2025 — PMC; comprehensive GO knowledgebase; QuickGO is EBI's GO browser",
+          "reviewers": 3,
+          "sourceStartedAt": "2025-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:37Z",
@@ -19008,6 +20685,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:48Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://pmc.ncbi.nlm.nih.gov/articles/PMC12807639/ (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:49Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://pmc.ncbi.nlm.nih.gov/articles/PMC12807639/ as A (trustNumber: 85.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -19036,10 +20730,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://academic.oup.com/nar/article/52/D1/D672/7369850",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 85.0,
+          "grade": "A",
+          "notes": "Reactome 2024 — NAR; manually curated pathway knowledgebase, Elixir/GCBR core data resource",
+          "reviewers": 3,
+          "sourceStartedAt": "2024-01-04"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:38Z",
@@ -19066,6 +20771,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:47Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://academic.oup.com/nar/article/52/D1/D672/7369850 (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:05:47Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://academic.oup.com/nar/article/52/D1/D672/7369850 as A (trustNumber: 85.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -19094,10 +20816,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 78.0,
+          "grade": "B",
+          "notes": "google-deepmind/science-skills common utilities — 2k+ GitHub stars; shared infrastructure for 30+ database skills",
+          "reviewers": 3,
+          "sourceStartedAt": "2024-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:38Z",
@@ -19124,6 +20857,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:57Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/google-deepmind/science-skills (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:57Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://github.com/google-deepmind/science-skills as B (trustNumber: 78.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -19235,10 +20985,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://genome.cshlp.org/content/17/12/1797",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 82.0,
+          "grade": "A",
+          "notes": "UCSC 28-vertebrate alignment 2007 — Genome Research; PhyloP conservation tracks used by UCSC TFBS browser",
+          "reviewers": 3,
+          "sourceStartedAt": "2007-12-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:39Z",
@@ -19265,6 +21026,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:07:00Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://genome.cshlp.org/content/17/12/1797 (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:07:00Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://genome.cshlp.org/content/17/12/1797 as A (trustNumber: 82.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -19293,10 +21071,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8236138/",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 82.0,
+          "grade": "A",
+          "notes": "UniBind 2021 — PMC NAR database issue; 72M+ direct TF-DNA interactions from ChIP-seq across 9 species",
+          "reviewers": 3,
+          "sourceStartedAt": "2021-06-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:39Z",
@@ -19323,6 +21112,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:51Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://pmc.ncbi.nlm.nih.gov/articles/PMC8236138/ (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:51Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://pmc.ncbi.nlm.nih.gov/articles/PMC8236138/ as A (trustNumber: 82.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -19434,10 +21240,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://github.com/astral-sh/uv",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 78.0,
+          "grade": "B",
+          "notes": "uv — ultra-fast Python package manager by Astral (Ruff team); 51k+ GitHub stars; replaces pip+venv+poetry",
+          "reviewers": 3,
+          "sourceStartedAt": "2024-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:40Z",
@@ -19464,6 +21281,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:40Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:52Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/astral-sh/uv (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:53Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://github.com/astral-sh/uv as B (trustNumber: 78.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -19492,10 +21326,21 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "peer-review",
+          "trustNumber": 78.0,
+          "grade": "B",
+          "notes": "google-deepmind/science-skills workflow creator — meta-skill for composing science database skill workflows",
+          "reviewers": 3,
+          "sourceStartedAt": "2024-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:40Z",
@@ -19522,6 +21367,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:40Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:48Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/google-deepmind/science-skills (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T17:06:48Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://github.com/google-deepmind/science-skills as B (trustNumber: 78.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:02Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "extra"
@@ -20651,10 +22513,21 @@
           "contributors": 2,
           "trustNumber": 70.0,
           "grade": "B"
+        },
+        {
+          "source": "https://www.youtube.com/watch?v=8VJKkftUY3M",
+          "evaluator": "unknown",
+          "date": "2026-06-20",
+          "type": "social-signal",
+          "trustNumber": 78.0,
+          "grade": "B",
+          "notes": "I Gave an AI Agent Full Control of My Twitter — Nick Puru AI Automation, 35K views; covers Hermes Agent + Twitter/X automation using the hermes-tweet plugin pattern (verified 2026-06-20)",
+          "views": 35000,
+          "sourceStartedAt": "2025-01-01"
         }
       ],
       "createdAt": "2026-05-15",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:33:03Z",
@@ -20681,6 +22554,23 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:45Z",
           "details": "TM 0.0 -> 6.12, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T16:59:34Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://www.youtube.com/watch?v=8VJKkftUY3M (type: social-signal)"
+        },
+        {
+          "timestamp": "2026-06-19T16:59:34Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Graded evidence from https://www.youtube.com/watch?v=8VJKkftUY3M as B (trustNumber: 78.0)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T17:13:04Z",
+          "details": "TM 6.12 -> 42.47, grade ungraded -> C (direct edit -- CLI gap)"
         }
       ],
       "type": "extra"
