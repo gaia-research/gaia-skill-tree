@@ -23,6 +23,55 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 - **2026-06-19** — I8 notch design: Marco changed spec from bottom-right corner stamp to centered footer row. Grade name removed; TM number shown instead (e.g. `A · 47`). Visual inspection required before merge.
 - **2026-06-19** — `generateNamedIndex.py` uses legacy grading (S≥90/A≥80), diverging from G7 RFC (S≥250/A≥100). Frontmatter is canonical. Follow-up issue needed to align index generator.
 
+## State Snapshot (2026-06-19, session 14 — I8 + I9 merged to dev, full TM leaderboard confirmed)
+
+- **Repo:** `main` @ **v4.11.0** (unchanged). All Phase 1.5 work on `dev/phase-1.5-inspection`.
+
+### Branch state (end of session 14)
+
+| Branch | Head SHA | Status |
+|---|---|---|
+| `design/trust-grade-notch` | `023e4086` | I8 redesign complete. Merged into dev. |
+| `review/meta/g7-evidence-backfill` | `80a9d323` | I9 curation complete. Merged into dev. |
+| `dev/phase-1.5-inspection` | `ca1eb793` | Both I8 + I9 merged. Pushed to origin. Ready for visual inspection. |
+
+### What was done this session
+
+1. **I9 completed** (agent `a74731d66fceccfbb`):
+   - CLI: `gaia dev evidence` now supports `--stars`, `--views`, `--citations`, `--reviewers`, `--commits`, `--contributors`, `--skill-count-in-repo` numeric payload flags
+   - Social signals patched: `obra/superpowers` dead YouTube URL replaced (Larridin podcast, 4,402 views); 7 obra suite components + mattpocock/skills all got YouTube social-signal rows (86,670 views)
+   - Google DeepMind scientific papers: all 15 target skills got peer-review evidence (alphafold/alphagenome/gnomad/gtex → Nature papers with citations → now **A grade**; chembl/clinvar/dbsnp/pdb/pubmed/string/uniprot/clinical_trials/lit_arxiv/lit_biorxiv/protein_msa → NAR/NLM papers → **B grade**)
+
+2. **Both branches merged into `dev/phase-1.5-inspection` and pushed** (`ca1eb793`)
+
+3. **Full TM leaderboard confirmed** (`python scripts/inspectTrustMagnitude.py --leaderboard`):
+
+**Final grade distribution: S=4 | A=20 | B=31 | C=93 | ungraded=101**
+
+| Grade | Count | Notable changes vs session 13 |
+|---|---|---|
+| S (≥250) | 4 | gstack 589, ruflo 482, mattpocock/skills 480 ↑ (+39), superpowers 445 ↑ (+29) |
+| A (≥100) | 20 | +7 new: engineering 270, agentdb 201, ruflo-v3 186; DeepMind: alphafold/alphagenome/gnomad/gtex 100.8 each |
+| B (≥50) | 31 | +9 new: 11 DeepMind databases at 70.8 each |
+| C (≥20) | 93 | Stable |
+| ungraded | 101 | 14 new mattpocock v1.0.1 skills + remaining DeepMind cluster |
+
+### Next steps
+
+1. **Visual inspection of I8 trust notch** on `http://localhost:8081/samples/trust-grade-notch.html` — pixel-thin bar, hover count-up. Marco said "far from over" on design; iteration expected.
+2. **Wire `_wireTrustNotches(document)`** into `docs/named/index.html` and `docs/u/*/index.html` (not yet done)
+3. **Check OG card generator + profile page generator** pass `overallTrustGrade`/`trustMagnitude` to all plaque variants
+4. **Further I8 design iteration** — likely next session focus
+5. **Follow-up issue:** align `generateNamedIndex.py` to read frontmatter grades (currently uses legacy S≥90/A≥80 thresholds)
+6. **PR #742** (`dev/phase-1.5-inspection → main`) — mark ready after visual inspection passes
+
+### Token spend (session 14)
+- I9 agent (curation + CLI flags + migration): ~180k input / ~40k output ~$1.50 (Sonnet, 2026-06-19)
+- Orchestrator (merges + leaderboard): ~25k input / ~8k out ~$0.40
+- **Session 14: ~$1.90**. Cumulative G7: **~$27.27**
+
+---
+
 ## State Snapshot (2026-06-19, session 12 — evidence backfill complete, I8 hover-reveal design, ev-pipeline + mattpocock curation running)
 
 ### Active branch: `review/meta/g7-evidence-backfill` (latest: 9f85fc4f)
