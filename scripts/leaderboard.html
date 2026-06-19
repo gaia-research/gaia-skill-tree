@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAIA Trust Magnitude Leaderboard</title>
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #161820;
+    --surface-2: #1c1f29;
+    --border: #252830;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --sans: system-ui, -apple-system, sans-serif;
+    --grade-S: #e2d5f8;
+    --grade-A: #fbbf24;
+    --grade-B: #94a3b8;
+    --grade-C: #b87333;
+    --grade-u: #475569;
+    --pass: #4ade80;
+    --fail: #f87171;
+    --off: #475569;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.5; }
+  a { color: var(--grade-A); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .page { max-width: 1400px; margin: 0 auto; padding: 1.75rem 1.5rem 4rem; }
+  .header { margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1.25rem; }
+  .header h1 { font-size: 1.6rem; font-weight: 700; font-family: var(--mono); }
+  .header .meta { color: var(--muted); font-size: .82rem; margin-top: .3rem; }
+
+  /* Summary stats */
+  .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: .6rem; margin: 1rem 0 1.5rem; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: .65rem .85rem; }
+  .stat-card .stat-label { font-size: .68rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+  .stat-card .stat-value { font-family: var(--mono); font-size: 1.25rem; font-weight: 700; margin-top: .15rem; }
+  .stat-card[data-grade="S"] .stat-value { color: var(--grade-S); }
+  .stat-card[data-grade="A"] .stat-value { color: var(--grade-A); }
+  .stat-card[data-grade="B"] .stat-value { color: var(--grade-B); }
+  .stat-card[data-grade="C"] .stat-value { color: var(--grade-C); }
+  .stat-card[data-grade="ungraded"] .stat-value { color: var(--grade-u); }
+
+  /* Controls */
+  .controls { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 1rem; align-items: center; }
+  .search-box { flex: 1; min-width: 240px; padding: .55rem .85rem; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: var(--mono); font-size: .85rem; }
+  .search-box:focus { outline: none; border-color: var(--grade-A); }
+  .filter-btn { padding: .4rem .85rem; border-radius: 18px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; font-size: .78rem; font-family: var(--mono); transition: all .15s; }
+  .filter-btn:hover { border-color: #3b4252; color: var(--text); }
+  .filter-btn.active { background: var(--border); color: var(--text); border-color: #3b4252; }
+  .filter-btn[data-grade="S"].active { color: var(--grade-S); border-color: var(--grade-S); }
+  .filter-btn[data-grade="A"].active { color: var(--grade-A); border-color: var(--grade-A); }
+  .filter-btn[data-grade="B"].active { color: var(--grade-B); border-color: var(--grade-B); }
+  .filter-btn[data-grade="C"].active { color: var(--grade-C); border-color: var(--grade-C); }
+  .filter-btn[data-grade="ungraded"].active { color: var(--grade-u); border-color: var(--grade-u); }
+
+  /* Band sections */
+  .band { margin-top: 1.5rem; }
+  .band-title { font-family: var(--mono); font-size: .9rem; font-weight: 700; padding: .55rem .85rem; background: var(--surface); border-radius: 6px 6px 0 0; border: 1px solid var(--border); border-bottom: none; display: flex; align-items: center; gap: .65rem; }
+  .band-title[data-grade="S"] { color: var(--grade-S); }
+  .band-title[data-grade="A"] { color: var(--grade-A); }
+  .band-title[data-grade="B"] { color: var(--grade-B); }
+  .band-title[data-grade="C"] { color: var(--grade-C); }
+  .band-title[data-grade="ungraded"] { color: var(--grade-u); }
+  .band-title .count { color: var(--muted); font-weight: 400; font-size: .8rem; }
+  .band-title .meta { color: var(--muted); font-weight: 400; font-size: .75rem; margin-left: auto; }
+
+  /* Table */
+  .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 0 0 6px 6px; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+  th { text-align: left; color: var(--muted); font-weight: 500; font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; padding: .55rem .75rem; border-bottom: 1px solid var(--border); white-space: nowrap; cursor: pointer; user-select: none; }
+  th:hover { color: var(--text); }
+  th.sort-asc::after { content: ' ▲'; color: var(--grade-A); }
+  th.sort-desc::after { content: ' ▼'; color: var(--grade-A); }
+  th.no-sort { cursor: default; }
+  th.no-sort:hover { color: var(--muted); }
+  td { padding: .5rem .75rem; border-bottom: 1px solid rgba(37,40,48,.6); vertical-align: middle; font-family: var(--mono); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface-2); }
+
+  .skill-id { color: var(--text); font-weight: 500; }
+  .skill-id a { color: var(--text); }
+  .skill-id a:hover { color: var(--grade-A); }
+  .tm-col { font-weight: 700; text-align: right; }
+  .tm-col[data-grade="S"] { color: var(--grade-S); }
+  .tm-col[data-grade="A"] { color: var(--grade-A); }
+  .tm-col[data-grade="B"] { color: var(--grade-B); }
+  .tm-col[data-grade="C"] { color: var(--grade-C); }
+  .tm-col[data-grade="ungraded"] { color: var(--grade-u); }
+  .rank-col { color: var(--muted); text-align: right; width: 3rem; }
+
+  .badge { display: inline-block; padding: .12rem .45rem; border-radius: 3px; font-size: .7rem; font-weight: 700; font-family: var(--mono); }
+  .badge-S { background: rgba(226,213,248,.15); color: var(--grade-S); }
+  .badge-A { background: rgba(251,191,36,.15); color: var(--grade-A); }
+  .badge-B { background: rgba(148,163,184,.15); color: var(--grade-B); }
+  .badge-C { background: rgba(184,115,51,.15); color: var(--grade-C); }
+  .badge-u { background: rgba(71,85,105,.2); color: var(--grade-u); }
+
+  .flag { font-size: .68rem; padding: .1rem .35rem; border-radius: 3px; font-family: var(--mono); }
+  .flag-floor { background: rgba(251,191,36,.12); color: var(--grade-A); }
+  .flag-up { background: rgba(74,222,128,.12); color: var(--pass); }
+
+  .apex-cell { font-family: var(--mono); font-size: .75rem; }
+  .apex-pass { color: var(--pass); }
+  .apex-partial { color: var(--grade-A); }
+  .apex-fail { color: var(--fail); }
+
+  .hidden { display: none !important; }
+  .empty-msg { padding: 1.5rem; text-align: center; color: var(--muted); font-size: .85rem; }
+
+  /* Footer */
+  .footer { margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--border); color: var(--muted); font-size: .78rem; }
+  .legend { display: flex; flex-wrap: wrap; gap: 1.25rem; margin-top: .5rem; font-family: var(--mono); }
+  .legend-item { display: flex; align-items: center; gap: .35rem; }
+</style>
+</head>
+<body>
+<script>
+const ROWS = __ROWS_DATA__;
+</script>
+<div class="page">
+  <div class="header">
+    <h1>GAIA Trust Magnitude Leaderboard</h1>
+    <div class="meta" id="metaLine"></div>
+  </div>
+
+  <div class="summary" id="summary"></div>
+
+  <div class="controls">
+    <input type="text" class="search-box" id="searchBox" placeholder="Search skill ID or contributor..." />
+    <button class="filter-btn active" data-grade="all">All</button>
+    <button class="filter-btn" data-grade="S">S</button>
+    <button class="filter-btn" data-grade="A">A</button>
+    <button class="filter-btn" data-grade="B">B</button>
+    <button class="filter-btn" data-grade="C">C</button>
+    <button class="filter-btn" data-grade="ungraded">Ungraded</button>
+  </div>
+
+  <div id="bandsContainer"></div>
+
+  <div class="footer">
+    <div>CONTEXT.md nomenclature: <strong>stars</strong> axis with rank names Awakened/Named/Evolved/Hardened/Transcendent. G7 RFC §10.10 maps grade → effective stars (S=5★ A=4★ B=3★ C=2★ ungraded=1★).</div>
+    <div class="legend">
+      <span class="legend-item"><span class="flag flag-floor">[floor]</span> rank-floor §10.10 — 4★+ held at ≥3★</span>
+      <span class="legend-item"><span class="flag flag-up">[up]</span> G7 grade implies promotion above current stars</span>
+      <span class="legend-item"><span class="apex-cell apex-pass">N/N PASS</span> apex-eligible (RFC §11.12)</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const GRADE_BANDS = [
+    { key: 'S', label: 'S grade', desc: 'TM ≥ 250' },
+    { key: 'A', label: 'A grade', desc: 'TM ≥ 100' },
+    { key: 'B', label: 'B grade', desc: 'TM ≥ 50' },
+    { key: 'C', label: 'C grade', desc: 'TM ≥ 20' },
+    { key: 'ungraded', label: 'Ungraded', desc: 'TM < 20' },
+  ];
+
+  function gradeClass(g) {
+    return { S: 'badge-S', A: 'badge-A', B: 'badge-B', C: 'badge-C' }[g] || 'badge-u';
+  }
+
+  function badge(g) {
+    return `<span class="badge ${gradeClass(g)}">${g === 'ungraded' ? '—' : g}</span>`;
+  }
+
+  function flagBadge(f) {
+    if (!f) return '';
+    if (f === '[floor]') return '<span class="flag flag-floor">[floor]</span>';
+    if (f === '[up]') return '<span class="flag flag-up">[up]</span>';
+    return `<span class="flag">${f}</span>`;
+  }
+
+  function apexCell(row) {
+    if (row.grade !== 'S' || !row.apexResults) return '<span style="color:var(--muted)">—</span>';
+    const entries = Object.entries(row.apexResults);
+    const active = entries.filter(([,v]) => v !== null);
+    const passed = active.filter(([,v]) => v === true).length;
+    const total = active.length;
+    const cls = passed === total ? 'apex-pass' : (passed === 0 ? 'apex-fail' : 'apex-partial');
+    const verdict = passed === total ? 'PASS' : (passed === 0 ? 'FAIL' : '');
+    return `<span class="apex-cell ${cls}">${passed}/${total}${verdict ? ' ' + verdict : ''}</span>`;
+  }
+
+  function skillLink(id) {
+    const safe = id.replace(/\//g, '_');
+    return `<a href="inspect_${safe}.html" target="_blank">${id}</a>`;
+  }
+
+  // Sort state per-band
+  const sortState = {};
+
+  function renderSummary() {
+    const total = ROWS.length;
+    const counts = { S: 0, A: 0, B: 0, C: 0, ungraded: 0 };
+    let floors = 0, ups = 0;
+    ROWS.forEach(r => {
+      counts[r.grade] = (counts[r.grade] || 0) + 1;
+      if (r.flag === '[floor]') floors++;
+      if (r.flag === '[up]') ups++;
+    });
+    const cards = [
+      { label: 'Total', value: total, grade: '' },
+      { label: 'S grade', value: counts.S, grade: 'S' },
+      { label: 'A grade', value: counts.A, grade: 'A' },
+      { label: 'B grade', value: counts.B, grade: 'B' },
+      { label: 'C grade', value: counts.C, grade: 'C' },
+      { label: 'Ungraded', value: counts.ungraded, grade: 'ungraded' },
+      { label: 'Rank-floor', value: floors, grade: '' },
+      { label: '[up] promotions', value: ups, grade: '' },
+    ];
+    document.getElementById('summary').innerHTML = cards.map(c =>
+      `<div class="stat-card" ${c.grade ? `data-grade="${c.grade}"` : ''}>
+        <div class="stat-label">${c.label}</div>
+        <div class="stat-value">${c.value}</div>
+      </div>`
+    ).join('');
+    document.getElementById('metaLine').textContent =
+      `${total} named skills · S=${counts.S} A=${counts.A} B=${counts.B} C=${counts.C} Ungraded=${counts.ungraded} · ${floors} rank-floor · ${ups} [up]`;
+  }
+
+  function renderRow(row, rank) {
+    return `<tr data-skill-id="${row.skillId.toLowerCase()}" data-grade="${row.grade}">
+      <td class="rank-col">${rank}</td>
+      <td class="skill-id">${row.skillId}</td>
+      <td class="tm-col" data-grade="${row.grade}" data-tm="${row.tm}">${row.tm.toFixed(2)}</td>
+      <td>${badge(row.grade)}</td>
+      <td>${row.currentStars}</td>
+      <td>${row.g7Stars}</td>
+      <td>${flagBadge(row.flag)}</td>
+      <td>${apexCell(row)}</td>
+    </tr>`;
+  }
+
+  function renderBands() {
+    const container = document.getElementById('bandsContainer');
+    container.innerHTML = '';
+    let globalRank = 1;
+
+    GRADE_BANDS.forEach(band => {
+      const bandRows = ROWS.filter(r => r.grade === band.key);
+      if (!bandRows.length) return;
+
+      // Initialize sort state for this band
+      if (!sortState[band.key]) {
+        sortState[band.key] = { col: 'tm', dir: 'desc' };
+      }
+
+      // Header row
+      const headers = [
+        { id: 'rank',         label: '#',       cls: 'rank-col', sortable: false },
+        { id: 'skillId',      label: 'Skill ID', cls: '',        sortable: true },
+        { id: 'tm',           label: 'TM',       cls: 'tm-col',  sortable: true },
+        { id: 'grade',        label: 'Grade',    cls: '',        sortable: true },
+        { id: 'currentStars', label: 'Stars',    cls: '',        sortable: true },
+        { id: 'g7Stars',      label: 'G7 Stars', cls: '',        sortable: true },
+        { id: 'flag',         label: 'Flag',     cls: '',        sortable: true },
+        { id: 'apex',         label: band.key === 'S' ? 'Apex Gate' : '', cls: '', sortable: false },
+      ];
+
+      const sortedRows = bandRows.slice().sort(makeComparator(sortState[band.key]));
+      const startRank = globalRank;
+      const rowsHtml = sortedRows.map((r, i) => renderRow(r, startRank + i)).join('');
+      globalRank += bandRows.length;
+
+      const headerHtml = headers.map(h => {
+        const ss = sortState[band.key];
+        const sortCls = h.sortable && ss.col === h.id ? ` sort-${ss.dir}` : '';
+        const noSort = h.sortable ? '' : ' no-sort';
+        return `<th class="${h.cls}${sortCls}${noSort}" data-band="${band.key}" data-col="${h.id}" data-sortable="${h.sortable}">${h.label}</th>`;
+      }).join('');
+
+      const bandHtml = `
+        <div class="band" data-band="${band.key}">
+          <div class="band-title" data-grade="${band.key}">
+            ${badge(band.key)} ${band.label}
+            <span class="count">${bandRows.length} skills</span>
+            <span class="meta">${band.desc}</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr>${headerHtml}</tr></thead>
+              <tbody>${rowsHtml}</tbody>
+            </table>
+          </div>
+        </div>`;
+      container.insertAdjacentHTML('beforeend', bandHtml);
+    });
+
+    // Wire sort handlers
+    container.querySelectorAll('th[data-sortable="true"]').forEach(th => {
+      th.addEventListener('click', () => {
+        const band = th.dataset.band;
+        const col = th.dataset.col;
+        const ss = sortState[band];
+        if (ss.col === col) {
+          ss.dir = ss.dir === 'asc' ? 'desc' : 'asc';
+        } else {
+          ss.col = col;
+          ss.dir = col === 'tm' ? 'desc' : 'asc';
+        }
+        renderBands();
+        applyFilters();
+      });
+    });
+  }
+
+  function makeComparator(ss) {
+    const dir = ss.dir === 'asc' ? 1 : -1;
+    return (a, b) => {
+      let av = a[ss.col];
+      let bv = b[ss.col];
+      if (av === undefined || av === null) av = '';
+      if (bv === undefined || bv === null) bv = '';
+      if (typeof av === 'number' && typeof bv === 'number') {
+        return (av - bv) * dir;
+      }
+      return String(av).localeCompare(String(bv)) * dir;
+    };
+  }
+
+  function applyFilters() {
+    const search = document.getElementById('searchBox').value.toLowerCase().trim();
+    const activeBtn = document.querySelector('.filter-btn.active');
+    const gradeFilter = activeBtn ? activeBtn.dataset.grade : 'all';
+
+    document.querySelectorAll('.band').forEach(band => {
+      const bandGrade = band.dataset.band;
+      const bandMatch = gradeFilter === 'all' || gradeFilter === bandGrade;
+      let visibleCount = 0;
+      band.querySelectorAll('tbody tr').forEach(tr => {
+        const idMatch = !search || tr.dataset.skillId.includes(search);
+        const show = bandMatch && idMatch;
+        tr.classList.toggle('hidden', !show);
+        if (show) visibleCount++;
+      });
+      band.classList.toggle('hidden', !bandMatch || visibleCount === 0);
+    });
+  }
+
+  function wireControls() {
+    document.getElementById('searchBox').addEventListener('input', applyFilters);
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyFilters();
+      });
+    });
+  }
+
+  renderSummary();
+  renderBands();
+  wireControls();
+})();
+</script>
+</body>
+</html>

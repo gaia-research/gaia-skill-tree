@@ -476,6 +476,66 @@ def jsonMode(skillId: str) -> int:
     return 0
 
 
+def buildLeaderboardRows() -> list[dict]:
+    """Return the same row data the terminal leaderboard uses, JSON-serializable."""
+    mergedMap, namedSkillMap = buildMaps()
+    skills = loadAllNamedSkills()
+    apexState = {"genericSkillMap": mergedMap, "namedSkillMap": namedSkillMap}
+
+    rows = []
+    for fm in skills:
+        skillId = fm.get("id") or "unknown"
+        tm = computeTrustMagnitude(fm, mergedMap)
+        grade = computeOverallTrustGradeFromSkill(fm, mergedMap)
+        currentStars = fm.get("level") or fm.get("rank") or "?"
+        g7Stars, flag = effectiveRank(grade, currentStars)
+        apexResults = passesApexGate(fm, apexState) if grade == "S" else None
+
+        rows.append({
+            "skillId": skillId,
+            "tm": round(tm, 2),
+            "grade": grade,
+            "currentStars": currentStars,
+            "g7Stars": g7Stars,
+            "flag": flag,
+            "apexResults": apexResults,
+        })
+
+    rows.sort(key=lambda r: -r["tm"])
+    return rows
+
+
+def leaderboardHtmlMode(outPath: str | None) -> int:
+    print(f"Loading skill maps from {NODES_DIR} + {NAMED_DIR}...")
+    rows = buildLeaderboardRows()
+    print(f"Loaded {len(rows)} named skills")
+
+    templatePath = REPO_ROOT / "scripts" / "leaderboard.html"
+    if not templatePath.exists():
+        print(f"ERROR: HTML template not found at {templatePath}", file=sys.stderr)
+        return 1
+    template = templatePath.read_text(encoding="utf-8")
+    html = template.replace("__ROWS_DATA__", json.dumps(rows, ensure_ascii=False))
+
+    if outPath is None:
+        outDir = REPO_ROOT / "generated-output"
+        outDir.mkdir(exist_ok=True)
+        outPath = str(outDir / "leaderboard.html")
+
+    Path(outPath).write_text(html, encoding="utf-8")
+    print(f"Written: {outPath}")
+
+    # Per-grade summary so the user can spot-check the file
+    gradeCounts: dict[str, int] = {}
+    for r in rows:
+        gradeCounts[r["grade"]] = gradeCounts.get(r["grade"], 0) + 1
+    summary = " ".join(f"{g}={gradeCounts.get(g,0)}" for g in ["S", "A", "B", "C", "ungraded"])
+    floors = sum(1 for r in rows if r["flag"] == "[floor]")
+    ups = sum(1 for r in rows if r["flag"] == "[up]")
+    print(f"Total {len(rows)} | {summary} | rank-floor={floors} [up]={ups}")
+    return 0
+
+
 def htmlMode(skillId: str, outPath: str | None) -> int:
     mergedMap, namedSkillMap = buildMaps()
     data = buildSkillJson(skillId, mergedMap, namedSkillMap)
@@ -511,12 +571,14 @@ def main() -> int:
     parser.add_argument("--json", action="store_true",
                         help="Emit structured JSON instead of terminal text (--skill only)")
     parser.add_argument("--html", action="store_true",
-                        help="Write interactive HTML viewer (--skill only)")
+                        help="Write interactive HTML viewer (works with --skill or --leaderboard)")
     parser.add_argument("--out", metavar="PATH",
-                        help="Output path for --html (default: generated-output/<skillId>.html)")
+                        help="Output path for --html (default: generated-output/<skillId>.html or generated-output/leaderboard.html)")
     args = parser.parse_args()
 
     if args.leaderboard:
+        if args.html:
+            return leaderboardHtmlMode(args.out)
         return leaderboardMode()
     if args.json:
         return jsonMode(args.skill)
