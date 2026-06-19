@@ -10,7 +10,7 @@ catalogRef: mattpocock-ubiquitous-language
 level: 4★
 description: Extracts and formalises a project's domain terminology into a shared
   glossary, enforcing consistent naming across code and conversations to eliminate
-  ambiguity.
+  ambiguity. Removed from mattpocock/skills suite in v1.0.1.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md
 tags:
@@ -22,7 +22,6 @@ tags:
 - alignment
 createdAt: '2026-05-15'
 updatedAt: '2026-06-14'
-suiteRef: mattpocock/engineering
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md
@@ -60,6 +59,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 81a7d449adc5944348c5b9e623fb4887d1cbc181a59dce7d932526eedbed0811
+suiteRef: "mattpocock/engineering"
 ---
 
 ## Overview

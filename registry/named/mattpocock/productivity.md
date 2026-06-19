@@ -7,15 +7,9 @@ title: The Matt Pocock Productivity Suite
 genericSkillRef: productivity
 status: named
 level: 4★
-description: Productivity category suite for Matt Pocock's skills.
+description: Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.
 createdAt: '2026-05-21'
 updatedAt: '2026-06-10'
-suiteRef: mattpocock/skills
-suiteComponents:
-- mattpocock/caveman
-- mattpocock/grill-me
-- mattpocock/handoff
-- mattpocock/write-a-skill
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -32,6 +26,12 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+suiteRef: "mattpocock/skills"
+suiteComponents:
+  - mattpocock/caveman
+  - mattpocock/grill-me
+  - mattpocock/handoff
+  - mattpocock/write-a-skill
 ---
 
 ## Overview

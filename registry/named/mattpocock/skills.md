@@ -14,26 +14,6 @@ links:
   github: https://github.com/mattpocock/skills
 createdAt: '2026-05-22'
 updatedAt: '2026-06-19'
-suiteComponents:
-- mattpocock/caveman
-- mattpocock/diagnose
-- mattpocock/edit-article
-- mattpocock/engineering
-- mattpocock/grill-me
-- mattpocock/grill-with-docs
-- mattpocock/handoff
-- mattpocock/improve-codebase-architecture
-- mattpocock/obsidian-vault
-- mattpocock/personal
-- mattpocock/productivity
-- mattpocock/prototype
-- mattpocock/setup-matt-pocock-skills
-- mattpocock/to-issues
-- mattpocock/to-prd
-- mattpocock/triage
-- mattpocock/ubiquitous-language
-- mattpocock/write-a-skill
-- mattpocock/zoom-out
 trustMagnitude: 73.7
 overallTrustGrade: B
 apexGateStatus:
@@ -114,6 +94,26 @@ evidence:
 verification:
   firstEvidenceAt: '2026-06-19T09:18:11Z'
 trustMagnitudeInputHash: 5f066f3a6cc05f5de620a8a0c1806306c333f46d37faea5131a2045a3e0f067b
+suiteComponents:
+  - mattpocock/caveman
+  - mattpocock/diagnose
+  - mattpocock/edit-article
+  - mattpocock/engineering
+  - mattpocock/grill-me
+  - mattpocock/grill-with-docs
+  - mattpocock/handoff
+  - mattpocock/improve-codebase-architecture
+  - mattpocock/obsidian-vault
+  - mattpocock/personal
+  - mattpocock/productivity
+  - mattpocock/prototype
+  - mattpocock/setup-matt-pocock-skills
+  - mattpocock/to-issues
+  - mattpocock/to-prd
+  - mattpocock/triage
+  - mattpocock/ubiquitous-language
+  - mattpocock/write-a-skill
+  - mattpocock/zoom-out
 ---
 
 ## Installation
