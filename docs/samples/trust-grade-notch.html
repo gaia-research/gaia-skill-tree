@@ -195,10 +195,12 @@
       var tileEl = document.getElementById('stageTile');
       if (tileEl && window.plaque) {
         var tiledSkills = [
-          skill({ level: 6, type: 'ultimate', overallTrustGrade: 'S', trustMagnitude: 310 }),
-          skill({ level: 4, type: 'extra',    overallTrustGrade: 'A', trustMagnitude: 122 }),
-          skill({ level: 3, type: 'basic',    overallTrustGrade: 'B', trustMagnitude: 56 }),
-          skill({ level: 2, type: 'basic',    overallTrustGrade: 'C', trustMagnitude: 18 })
+          skill({ level: 6, type: 'ultimate', overallTrustGrade: 'S', trustMagnitude: 589.3, name: 'gstack', contributor: 'garrytan' }),
+          skill({ level: 5, type: 'ultimate', overallTrustGrade: 'S', trustMagnitude: 416.0, name: 'superpowers', contributor: 'obra' }),
+          skill({ level: 4, type: 'extra',    overallTrustGrade: 'A', trustMagnitude: 122.8, name: 'impeccable', contributor: 'pbakaus' }),
+          skill({ level: 3, type: 'basic',    overallTrustGrade: 'B', trustMagnitude: 81.0,  name: 'writing-plans', contributor: 'obra' }),
+          skill({ level: 2, type: 'basic',    overallTrustGrade: 'C', trustMagnitude: 36.0,  name: 'careful', contributor: 'garrytan' }),
+          skill({ level: 2, type: 'basic',    overallTrustGrade: 'C', trustMagnitude: 18.0,  name: 'readme-gen', contributor: 'glincker' })
         ];
         tiledSkills.forEach(function (ns) {
           var wrap = document.createElement('div');
@@ -212,7 +214,7 @@
       var settledEl = document.getElementById('stageSettled');
       if (settledEl && window.plaque) {
         settledEl.innerHTML = window.plaque.renderSettled(
-          skill({ level: 4, type: 'extra', overallTrustGrade: 'A', trustMagnitude: 122 }),
+          skill({ level: 5, type: 'ultimate', overallTrustGrade: 'S', trustMagnitude: 482.3, name: 'ruflo', contributor: 'ruvnet' }),
           { click: false }
         );
       }
@@ -221,7 +223,7 @@
       var miniEl = document.getElementById('stageMini');
       if (miniEl && window.plaque) {
         miniEl.innerHTML = window.plaque.renderMini(
-          skill({ level: 6, type: 'ultimate', overallTrustGrade: 'S', trustMagnitude: 310 }),
+          skill({ level: 5, type: 'ultimate', overallTrustGrade: 'S', trustMagnitude: 440.8, name: 'skills', contributor: 'mattpocock' }),
           { click: false }
         );
       }
@@ -230,10 +232,10 @@
       var rowEl = document.getElementById('stageRow');
       if (rowEl && window.plaque) {
         var rowSkills = [
-          skill({ level: 6, type: 'ultimate', overallTrustGrade: 'S', trustMagnitude: 310 }),
-          skill({ level: 4, type: 'extra',    overallTrustGrade: 'A', trustMagnitude: 122 }),
-          skill({ level: 3, type: 'basic',    overallTrustGrade: 'B', trustMagnitude: 56 }),
-          skill({ level: 2, type: 'basic',    overallTrustGrade: 'C', trustMagnitude: 18 })
+          skill({ level: 5, type: 'ultimate', overallTrustGrade: 'S', trustMagnitude: 589.3, name: 'gstack', contributor: 'garrytan' }),
+          skill({ level: 4, type: 'extra',    overallTrustGrade: 'A', trustMagnitude: 270.0, name: 'engineering', contributor: 'mattpocock' }),
+          skill({ level: 3, type: 'basic',    overallTrustGrade: 'B', trustMagnitude: 88.5,  name: 'subagent-driven-development', contributor: 'obra' }),
+          skill({ level: 2, type: 'basic',    overallTrustGrade: 'C', trustMagnitude: 36.0,  name: 'careful', contributor: 'garrytan' })
         ];
         rowSkills.forEach(function (ns) {
           var div = document.createElement('div');
@@ -250,6 +252,11 @@
           skill({ level: 3, type: 'basic' }),
           { click: false }
         );
+      }
+
+      // Wire count-up animation for all rendered notches
+      if (typeof window._wireTrustNotches === 'function') {
+        window._wireTrustNotches(document);
       }
     })();
   </script>

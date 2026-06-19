@@ -3730,190 +3730,129 @@ button.plaque__slug:focus-visible {
 
 
 /* ============================================================
-   Trust Grade notch — I8
-   A small centered pill pinned to the very bottom of the plaque card.
-   Default: TM number visible. Hover: shine sweep reveals grade letter.
-   Ungraded skills emit no element at all — zero markup cost.
+   Trust Grade notch — I8 (redesign: pixel-thin bar → expand on hover)
 
-   Design rules:
-   - width: fit-content, centered via margin auto. NOT full-width.
-   - Bottom corners match card radius (top corners flush with card edge).
-   - Hover reveal: .trust-notch-default fades out, .trust-notch-reveal
-     appears with shine sweep animation.
-   - WCAG AA: all grade text has ≥4.5:1 contrast on its fill.
-   - No border-left >1px colored accent (DESIGN.md absolute ban).
-   - Platinum earns a shimmer animation; reduced-motion fallback
-     converts it to a static linear-gradient.
+   Default: 3px colored bar flush at the very card bottom (full-width,
+   boxy — no radius). Grade color is always visible as a thin stripe.
+
+   Hover (whole plaque): bar expands to 24px, "MAG X.X" counts up from
+   0 to the real TM in <0.4s via JS (_wireTrustNotches). The label fades
+   in as the bar opens. Transition ≤0.35s so the whole motion is snappy.
+
+   Ungraded skills emit no element — zero markup cost.
    ============================================================ */
 
-/* ── Grade S — Platinum (iridescent titanium) ────────────────── */
+/* ── Base bar ────────────────────────────────────────────────── */
+.plaque__trust-notch {
+  /* Push to very bottom of the flex column card */
+  margin-top: auto;
+  /* Full width, boxy — no radius, no gap */
+  width: 100%;
+  margin-bottom: calc(-1 * var(--plaque-pad, 20px));
+  margin-left: calc(-1 * var(--plaque-pad, 20px));
+  /* Compensate for card padding on both sides */
+  width: calc(100% + 2 * var(--plaque-pad, 20px));
+  /* Thin bar by default */
+  height: 3px;
+  overflow: hidden;
+  transition: height 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  /* Label hidden at 3px height, revealed as bar expands */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* ── Expand on plaque hover ──────────────────────────────────── */
+.plaque:hover .plaque__trust-notch {
+  height: 24px;
+}
+
+/* ── Label: invisible at rest, fades in as bar opens ─────────── */
+.trust-notch-label {
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.18s ease 0.12s;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.plaque:hover .trust-notch-label {
+  opacity: 1;
+}
+
+/* ── Grade fills ─────────────────────────────────────────────── */
+/* S — Platinum: animated iridescent sweep */
 .plaque__trust-notch[data-trust-grade="S"] {
   background: linear-gradient(
-    135deg,
-    var(--trust-notch-S-hi2, rgba(226,232,240,0.28)) 0%,
-    color-mix(in srgb, var(--trust-notch-S-mid, rgba(226,232,240,0.18)) 80%, var(--trust-notch-S-violet, rgba(180,160,220,0.2))) 35%,
-    var(--trust-notch-S-mid, rgba(226,232,240,0.18)) 65%,
-    color-mix(in srgb, var(--trust-notch-S-violet, rgba(180,160,220,0.2)) 60%, var(--trust-notch-S-mid, rgba(226,232,240,0.18))) 100%
+    90deg,
+    var(--trust-notch-S-hi2, #d1e8ff) 0%,
+    color-mix(in srgb, var(--trust-notch-S-mid, #a5c7eb) 80%, var(--trust-notch-S-violet, #c8d8ff)) 30%,
+    var(--trust-notch-S-mid, #a5c7eb) 60%,
+    var(--trust-notch-S-hi2, #d1e8ff) 100%
   );
-  color: var(--trust-notch-text-S, var(--evidence-platinum, #e2e8f0));
-  --trust-notch-shine: rgba(255, 255, 255, 0.65);
-  animation: trust-notch-shimmer 3.5s linear infinite;
-  background-size: 200% 200%;
+  background-size: 200% 100%;
+  animation: trust-notch-shimmer 2.8s linear infinite;
+  color: var(--trust-notch-text-S, #0f172a);
 }
 
 @keyframes trust-notch-shimmer {
-  0%   { background-position: 0%   50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0%   50%; }
+  0%   { background-position: 0%   0%; }
+  100% { background-position: 200% 0%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .plaque__trust-notch[data-trust-grade="S"] {
     animation: none;
-    background: linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--trust-notch-S-hi2, rgba(226,232,240,0.28)) 80%, var(--trust-notch-S-hi-rm, rgba(226,232,240,0.20))) 0%,
-      var(--trust-notch-S-mid, rgba(226,232,240,0.18)) 100%
-    );
+    background: var(--trust-notch-S-mid, #a5c7eb);
   }
 }
 
-/* ── Grade A — Gold ──────────────────────────────────────────── */
+/* A — Gold */
 .plaque__trust-notch[data-trust-grade="A"] {
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--grade-A, #d4af37) 65%, var(--trust-notch-A-hi, #fff)) 0%,
-    var(--grade-A, #d4af37) 55%,
-    color-mix(in srgb, var(--grade-A, #d4af37) 75%, var(--trust-notch-A-lo, #000)) 100%
-  );
-  color: var(--trust-notch-text-A, #030712);
-  --trust-notch-shine: rgba(255, 223, 120, 0.55);
+  background: var(--grade-A, #d4af37);
+  color: #030712;
 }
 
-/* ── Grade B — Silver (dark steel) ──────────────────────────── */
+/* B — Silver (steel) */
 .plaque__trust-notch[data-trust-grade="B"] {
-  background: linear-gradient(
-    135deg,
-    var(--trust-notch-B-hi, rgba(203,213,225,0.35)) 0%,
-    color-mix(in srgb, var(--trust-notch-B-hi, rgba(203,213,225,0.35)) 55%, var(--trust-notch-B-lo, rgba(203,213,225,0.18))) 50%,
-    var(--trust-notch-B-lo, rgba(203,213,225,0.18)) 100%
-  );
-  color: var(--trust-notch-text-B, var(--evidence-silver, #cbd5e1));
-  --trust-notch-shine: rgba(220, 230, 240, 0.55);
+  background: var(--trust-notch-B-hi, rgba(148,163,184,0.55));
+  color: var(--text, #e2e8f0);
 }
 
-/* ── Grade C — Bronze ────────────────────────────────────────── */
+/* C — Bronze */
 .plaque__trust-notch[data-trust-grade="C"] {
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--grade-C, #b45309) 70%, var(--trust-notch-C-hi, #fff)) 0%,
-    var(--grade-C, #b45309) 50%,
-    color-mix(in srgb, var(--grade-C, #b45309) 80%, var(--trust-notch-C-lo, #000)) 100%
-  );
-  color: var(--trust-notch-text-C, #fff8f0);
-  --trust-notch-shine: rgba(220, 160, 80, 0.55);
+  background: var(--grade-C, #b45309);
+  color: #fff8f0;
 }
 
-/* ── Notch base ──────────────────────────────────────────────────
-   Sits flush at the card bottom via margin-top: auto (the .plaque
-   base is already display:flex flex-direction:column so this works).
-   width: fit-content + auto side margins centers it without spanning
-   the full card width. Bottom corners match the card radius. */
-.plaque__trust-notch {
-  position: relative;
-  overflow: hidden;
-  width: fit-content;
-  min-width: 48px;
-  max-width: 120px;
-  margin-top: auto;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 3px 10px 5px;
-  border-radius: 0 0 var(--plaque-radius, 8px) var(--plaque-radius, 8px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-top: none;
-  font-family: var(--trust-notch-font, var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace));
-  font-size: var(--trust-notch-font-size, 11px);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Negative margin-bottom pulls it flush with the card's inner bottom edge
-     so there's no gap between the notch pill and the card border. */
-  margin-bottom: calc(-1 * var(--plaque-pad, 20px));
-}
-
-/* ── Span states ─────────────────────────────────────────────────
-   .trust-notch-default  → TM number, visible by default
-   .trust-notch-reveal   → grade letter, hidden by default          */
-.trust-notch-default {
-  opacity: 1;
-  transition: opacity 0.2s ease;
-}
-.trust-notch-reveal {
-  position: absolute;
-  opacity: 0;
-  font-size: 13px;
-  transition: opacity 0.2s ease 0.15s;
-}
-
-/* On plaque or notch hover: swap default ↔ reveal */
-.plaque:hover .trust-notch-default,
-.plaque__trust-notch:hover .trust-notch-default {
-  opacity: 0;
-}
-.plaque:hover .trust-notch-reveal,
-.plaque__trust-notch:hover .trust-notch-reveal {
-  opacity: 1;
-}
-
-/* Shine sweep pseudo-element fires on hover */
-.plaque__trust-notch[data-trust-grade]:hover::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -60%;
-  width: 40%;
-  height: 100%;
-  background: linear-gradient(
-    105deg,
-    transparent 20%,
-    var(--trust-notch-shine, rgba(255, 255, 255, 0.55)) 50%,
-    transparent 80%
-  );
-  animation: trust-notch-shine-sweep 0.45s ease-out forwards;
-  pointer-events: none;
-}
-
-@keyframes trust-notch-shine-sweep {
-  from { transform: translateX(0); }
-  to   { transform: translateX(400%); }
-}
-
-/* Reduced-motion: skip sweep, still swap text */
-@media (prefers-reduced-motion: reduce) {
-  .plaque__trust-notch[data-trust-grade]:hover::after {
-    display: none;
-  }
-  .plaque:hover .trust-notch-reveal,
-  .plaque__trust-notch:hover .trust-notch-reveal {
-    transition-delay: 0s;
-  }
-  @keyframes trust-notch-shine-sweep { from {} to {} }
-}
-
-/* ── OG card: notch at print scale ──────────────────────────── */
+/* ── OG card: proportional bar at social-card scale ─────────── */
 .plaque--og .plaque__trust-notch {
-  font-size: 1.1rem;
-  padding: 6px 12px 10px;
-  max-width: 200px;
+  height: 5px;
+}
+.plaque--og:hover .plaque__trust-notch {
+  height: 32px;
+}
+.plaque--og .trust-notch-label {
+  font-size: 13px;
 }
 
-/* ── Settled: notch already clear of corner ornaments ────────── */
-/* .plaque--settled corner ornaments are at z-index auto;
-   the notch is in normal flow so no z-index override needed. */
+/* ── Reduced-motion: skip height transition, show label always ── */
+@media (prefers-reduced-motion: reduce) {
+  .plaque__trust-notch {
+    height: 24px;
+    transition: none;
+  }
+  .trust-notch-label {
+    opacity: 1;
+    transition: none;
+  }
+}
 
 
 /* ── Row variant: evidence badge ─────────────────────────────────
