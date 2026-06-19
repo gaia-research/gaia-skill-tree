@@ -78,18 +78,21 @@ timeline:
   contributor: unknown
   details: 'Graded evidence from https://www.nngroup.com/articles/ten-usability-heuristics/
     as A (trustNumber: 80.0)'
-trustMagnitude: 4.9
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:03Z'
+  details: TM 4.9 -> 94.9, grade ungraded -> B (direct edit -- CLI gap)
+trustMagnitude: 94.9
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 88f04044992f19990fd9a7bc46e321911eae258732d49e68a5f981f03e0aa39f
+trustMagnitudeInputHash: ebebef54c32e30f7a3ebec75974b18d77cd03c054deca8e3748cb0480d4ab0d8
 verification:
   firstEvidenceAt: '2026-06-19T17:09:30Z'
 ---

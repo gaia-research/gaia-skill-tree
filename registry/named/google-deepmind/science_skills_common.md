@@ -63,8 +63,11 @@ timeline:
   contributor: unknown
   details: 'Graded evidence from https://github.com/google-deepmind/science-skills
     as B (trustNumber: 78.0)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -74,7 +77,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e4614fe274a477d96978fab525c9c6432e4266176685de56062c2ce0828deb04
+trustMagnitudeInputHash: 0318c27283170e94e677a11679cb4860f9b90e9e6191f878d3d14dd3b2e32138
 verification:
   firstEvidenceAt: '2026-06-19T17:06:57Z'
 ---

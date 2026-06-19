@@ -62,8 +62,11 @@ timeline:
   contributor: unknown
   details: 'Graded evidence from https://europepmc.org/RestfulWebService as B (trustNumber:
     78.0)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -73,7 +76,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: fc5ebd9c3c2809b6240cb012b3c5259025505def4c844439e2776ac2c467cab9
+trustMagnitudeInputHash: df011f78f8ea39675c019c5cc28968916c1385ec08c9a6e3002ceb1483141134
 verification:
   firstEvidenceAt: '2026-06-19T17:07:02Z'
 ---

@@ -77,11 +77,14 @@ timeline:
   contributor: unknown
   details: 'Graded evidence from https://github.com/garrytan/gstack as A (trustNumber:
     85.0)'
-trustMagnitude: 36.0
-overallTrustGrade: C
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:01Z'
+  details: TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)
+trustMagnitude: 63.73
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
@@ -90,7 +93,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:33Z'
-trustMagnitudeInputHash: c08baee0e0d9cbc10c58c4f4ef78eeb35699b1a4cfe14f96ea36f1a6593adc17
+trustMagnitudeInputHash: be5820a8cdc5f8160520bfaaa0277ddfb4ac8179b0cfe83687a7e96e322a46e1
 ---
 
 ## Overview

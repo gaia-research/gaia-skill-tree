@@ -98,18 +98,21 @@ timeline:
   contributor: unknown
   details: 'Graded evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg as A
     (trustNumber: 82.0)'
-trustMagnitude: 11.21
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:03Z'
+  details: TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)
+trustMagnitude: 90.38
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 84c233c3f35fb23c46e7d12d6b45999e50ba50b10f1abd2c13a27e055d1fa6f0
+trustMagnitudeInputHash: 848d74165305557c250a81ef7bdaa739c61a32f9474a7823d247db12b83549d7
 verification:
   firstEvidenceAt: '2026-06-19T17:07:36Z'
 ---
