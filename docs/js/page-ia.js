@@ -365,6 +365,7 @@
           '</div>'
         : '';
       plates.innerHTML = featuredHtml + standardHtml;
+      if (typeof window._wireTrustNotches === 'function') window._wireTrustNotches(plates);
     }
 
     // --- META REPORT (Synthesize Changelog) ---

@@ -258,12 +258,18 @@
     if (!tg || tg === 'ungraded' || !GRADE_NAMES[tg]) return '';
     var tm = (ns && (ns.trustMagnitude || ns.overallTrustMagnitude));
     var tmVal = (tm != null && tm !== '') ? parseFloat(Number(tm).toFixed(1)) : 0;
+    // Static initial display = the real magnitude (not "0"). Hover triggers a
+    // count-up animation that resets to 0 then eases back to tmVal — see
+    // _wireTrustNotches(). When _wireTrustNotches isn't called (e.g. plaques
+    // injected outside the named-skills.js render path), the static value
+    // remains visible so MAG never shows as a literal "0".
+    var initialDisplay = tmVal % 1 === 0 ? String(Math.round(tmVal)) : tmVal.toFixed(1);
     var gradeName = GRADE_NAMES[tg];
     var ariaLabel = 'Trust grade: ' + gradeName + (tmVal > 0 ? ', magnitude ' + tmVal : '');
     return '<div class="plaque__trust-notch" data-trust-grade="' + esc(tg) + '"' +
       ' data-tm="' + esc(String(tmVal)) + '"' +
       ' aria-label="' + esc(ariaLabel) + '">' +
-      '<span class="trust-notch-label">MAG <span class="trust-notch-num">0</span></span>' +
+      '<span class="trust-notch-label">MAG <span class="trust-notch-num">' + esc(initialDisplay) + '</span></span>' +
       '</div>';
   }
 
@@ -303,7 +309,11 @@
         }
         function onLeave() {
           cancelAnimationFrame(raf);
-          numEl.textContent = '0';
+          // Restore the real magnitude on mouse-out (not a bare "0", which
+          // would otherwise persist if the user hovered then quickly left).
+          numEl.textContent = target % 1 === 0
+            ? Math.round(target).toString()
+            : target.toFixed(1);
         }
         plaque.addEventListener('mouseenter', onEnter);
         plaque.addEventListener('mouseleave', onLeave);
