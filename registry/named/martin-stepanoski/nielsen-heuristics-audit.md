@@ -20,7 +20,7 @@ tags:
 - heuristics
 - accessibility
 createdAt: '2026-04-30'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 evidence:
 - class: B
   source: https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md
@@ -35,6 +35,17 @@ evidence:
   grade: B
   commits: 32
   contributors: 2
+- source: https://www.nngroup.com/articles/ten-usability-heuristics/
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 80.0
+  grade: A
+  notes: NNGroup — Nielsen's 10 Usability Heuristics; foundational UX evaluation framework
+    (original 1994 publication by Jakob Nielsen); this skill implements the canonical
+    heuristic audit methodology
+  reviewers: 3
+  sourceStartedAt: '1995-01-01'
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
   action: demote
@@ -57,6 +68,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:40Z'
   details: TM 0.0 -> 4.9, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:09:30Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.nngroup.com/articles/ten-usability-heuristics/
+    (type: peer-review)'
+- timestamp: '2026-06-19T17:09:31Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://www.nngroup.com/articles/ten-usability-heuristics/
+    as A (trustNumber: 80.0)'
 trustMagnitude: 4.9
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -69,6 +90,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 88f04044992f19990fd9a7bc46e321911eae258732d49e68a5f981f03e0aa39f
+verification:
+  firstEvidenceAt: '2026-06-19T17:09:30Z'
 ---
 
 ## Overview
