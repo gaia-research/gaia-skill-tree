@@ -76,6 +76,21 @@ gaia dev reclassify skill-id ultimate
 # Add evidence
 gaia dev evidence skill-id "https://example.com/demo" --class B --notes "..."
 
+# Add evidence with G7 dual-axis fields (Evidence Type + Grade) and numeric payload
+gaia dev evidence skill-id "https://example.com/paper" \
+  --type peer-review --grade A --reviewers 3 --notes "NAR 2025"
+gaia dev evidence skill-id "https://github.com/owner/repo" \
+  --type github-stars-own --stars 12500 --skill-count 5 \
+  --source-started-at 2024-11-03 --notes "stars at first-evidence date"
+# Numeric payload flags by Evidence Type (I12):
+#   --reviewers <n>          peer-review
+#   --stars <n>              github-stars / github-stars-own
+#   --skill-count <n>        github-stars-own (mothership discount divisor)
+#   --views <n>              social-signal (views < 1000 → score 0)
+#   --percentile <0..100>    benchmark-result (required; without it, score 0)
+#   --containment <0..1>     proxy-containment
+#   --source-started-at YYYY-MM-DD  pin evidence-row freshness baseline
+
 # Calibrate level
 gaia dev calibrate skill-id "3★"
 
@@ -157,6 +172,8 @@ Taxonomy definitions, evidence floors, and ranking rules have been consolidated.
 > **Source of Truth:** See [META.md](META.md) for the full evidence methodology, star tiers, and ranking rules.
 
 Named skills now read evidence `grade` (S/A/B/C, S strongest) as the primary floor signal per the G7 Trust Taxonomy RFC (`founder/handovers/G7_TRUST_TAXONOMY_RFC.md`), with fallback to the deprecated `class` field for existing rows during the migration window. Grade A is not Class A — never conflate the two axes. See [META.md §2](META.md#2-evidence-methodology-the-trust-stack) for the full dual-axis spec.
+
+The skill-level **Trust Magnitude** (the unbounded set-bonus aggregate that derives the Overall Trust Grade) is computed live from each skill's evidence inventory. Browse the public ranking at [`docs/trust/leaderboard/`](../docs/trust/leaderboard/) (deployed at <https://gaia.tiongson.co/trust/leaderboard/>) to see current S/A/B/C tier counts and the top-scoring skills before opening a calibration PR.
 
 ### Ultimate (`ultimate`) requirements
 
