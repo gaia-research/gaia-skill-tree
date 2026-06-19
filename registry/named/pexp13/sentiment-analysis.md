@@ -13,7 +13,7 @@ description: 'Classifies the affective polarity (positive / negative / neutral, 
 
   '
 createdAt: '2026-05-17'
-updatedAt: '2026-05-17'
+updatedAt: '2026-06-19'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -30,6 +30,54 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:19Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T09:26:06Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://aclanthology.org/S17-2088/ (type: peer-review)'
+- timestamp: '2026-06-19T09:26:24Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/abs/2202.03829 (type: arxiv)'
+- timestamp: '2026-06-19T09:26:57Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://ojs.aaai.org/index.php/ICWSM/article/view/14550
+    (type: peer-review)'
+- timestamp: '2026-06-19T09:27:15Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/abs/2203.01054 (type: arxiv)'
+evidence:
+- source: https://aclanthology.org/S17-2088/
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: SemEval-2017 Task 4 (Twitter SA benchmark) — ACL Anthology; establishes macro-F1
+    as primary metric for sentiment analysis
+- source: https://arxiv.org/abs/2202.03829
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: arxiv
+  class: A
+  notes: CardiffNLP Twitter-RoBERTa-base-sentiment (Barbieri et al., 2022) — SOTA
+    transformer baseline for social-media SA (arXiv:2202.03829)
+- source: https://ojs.aaai.org/index.php/ICWSM/article/view/14550
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: VADER (Hutto & Gilbert, 2014) — canonical lexicon-based SA baseline; AAAI/ICWSM;
+    validated on social media corpora
+- source: https://arxiv.org/abs/2203.01054
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: arxiv
+  class: A
+  notes: Aspect-Based Sentiment Analysis survey (Zhang et al., 2022) — covers ABSA
+    methods for structured review analysis (arXiv:2203.01054)
+verification:
+  firstEvidenceAt: '2026-06-19T09:26:06Z'
 ---
 
 ## Implementation
