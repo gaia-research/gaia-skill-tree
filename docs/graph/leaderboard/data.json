@@ -1,0 +1,2293 @@
+{
+  "version": "4.11.0",
+  "generatedAt": "2026-06-19T16:19:31Z",
+  "summary": {
+    "total": 249,
+    "S": 4,
+    "A": 20,
+    "B": 31,
+    "C": 93,
+    "ungraded": 101,
+    "floor": 20,
+    "up": 38
+  },
+  "rows": [
+    {
+      "skillId": "garrytan/gstack",
+      "tm": 589.32,
+      "grade": "S",
+      "currentStars": "5★",
+      "g7Stars": "5★",
+      "flag": "",
+      "apexResults": {
+        "aGradedOriginsGte5": false,
+        "sourceTenureDaysGte180AorS": false,
+        "directNestedSuiteGte1": true,
+        "depth2OnlyReachableGte1": false,
+        "overallGradeS": true,
+        "apexPromotionPrSigned": false,
+        "crossOrgVerifier": null,
+        "systemWideCap": null
+      }
+    },
+    {
+      "skillId": "ruvnet/ruflo",
+      "tm": 482.27,
+      "grade": "S",
+      "currentStars": "5★",
+      "g7Stars": "5★",
+      "flag": "",
+      "apexResults": {
+        "aGradedOriginsGte5": false,
+        "sourceTenureDaysGte180AorS": false,
+        "directNestedSuiteGte1": true,
+        "depth2OnlyReachableGte1": false,
+        "overallGradeS": true,
+        "apexPromotionPrSigned": false,
+        "crossOrgVerifier": null,
+        "systemWideCap": null
+      }
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "tm": 480.29,
+      "grade": "S",
+      "currentStars": "5★",
+      "g7Stars": "5★",
+      "flag": "",
+      "apexResults": {
+        "aGradedOriginsGte5": false,
+        "sourceTenureDaysGte180AorS": false,
+        "directNestedSuiteGte1": true,
+        "depth2OnlyReachableGte1": false,
+        "overallGradeS": true,
+        "apexPromotionPrSigned": false,
+        "crossOrgVerifier": null,
+        "systemWideCap": null
+      }
+    },
+    {
+      "skillId": "obra/superpowers",
+      "tm": 445.15,
+      "grade": "S",
+      "currentStars": "5★",
+      "g7Stars": "5★",
+      "flag": "",
+      "apexResults": {
+        "aGradedOriginsGte5": false,
+        "sourceTenureDaysGte180AorS": false,
+        "directNestedSuiteGte1": false,
+        "depth2OnlyReachableGte1": false,
+        "overallGradeS": true,
+        "apexPromotionPrSigned": false,
+        "crossOrgVerifier": null,
+        "systemWideCap": null
+      }
+    },
+    {
+      "skillId": "mattpocock/engineering",
+      "tm": 270.0,
+      "grade": "A",
+      "currentStars": "5★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/agentdb",
+      "tm": 201.0,
+      "grade": "A",
+      "currentStars": "5★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "pexp13/sentiment-analysis",
+      "tm": 192.8,
+      "grade": "A",
+      "currentStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/ruflo-v3",
+      "tm": 186.0,
+      "grade": "A",
+      "currentStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/garrytan",
+      "tm": 156.0,
+      "grade": "A",
+      "currentStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/dual-mode",
+      "tm": 126.0,
+      "grade": "A",
+      "currentStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "pbakaus/impeccable",
+      "tm": 122.8,
+      "grade": "A",
+      "currentStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/productivity",
+      "tm": 120.0,
+      "grade": "A",
+      "currentStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/reasoningbank",
+      "tm": 118.5,
+      "grade": "A",
+      "currentStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "obra/subagent-driven-development",
+      "tm": 117.65,
+      "grade": "A",
+      "currentStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "obra/using-git-worktrees",
+      "tm": 117.65,
+      "grade": "A",
+      "currentStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "safishamsi/graphify",
+      "tm": 116.57,
+      "grade": "A",
+      "currentStars": "1★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "obra/writing-plans",
+      "tm": 110.15,
+      "grade": "A",
+      "currentStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/alphafold_database_fetch_and_analyze",
+      "tm": 100.82,
+      "grade": "A",
+      "currentStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/alphagenome_single_variant_analysis",
+      "tm": 100.82,
+      "grade": "A",
+      "currentStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/gnomad_database",
+      "tm": 100.82,
+      "grade": "A",
+      "currentStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/gtex_database",
+      "tm": 100.82,
+      "grade": "A",
+      "currentStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "openai/few-shot-learning",
+      "tm": 100.0,
+      "grade": "A",
+      "currentStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "openai/self-consistency",
+      "tm": 100.0,
+      "grade": "A",
+      "currentStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "stanfordnlp/dspy",
+      "tm": 100.0,
+      "grade": "A",
+      "currentStars": "1★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/flow-nexus",
+      "tm": 96.0,
+      "grade": "B",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "obra/brainstorming",
+      "tm": 95.15,
+      "grade": "B",
+      "currentStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "obra/executing-plans",
+      "tm": 95.15,
+      "grade": "B",
+      "currentStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "obra/verification-before-completion",
+      "tm": 95.15,
+      "grade": "B",
+      "currentStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "anthropic/skill-creator",
+      "tm": 90.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/browse",
+      "tm": 88.5,
+      "grade": "B",
+      "currentStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "addy-osmani/performance-optimization",
+      "tm": 83.2,
+      "grade": "B",
+      "currentStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/retro",
+      "tm": 81.0,
+      "grade": "B",
+      "currentStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/chembl_database",
+      "tm": 70.82,
+      "grade": "B",
+      "currentStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/clinical_trials_database",
+      "tm": 70.82,
+      "grade": "B",
+      "currentStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/clinvar_database",
+      "tm": 70.82,
+      "grade": "B",
+      "currentStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/dbsnp_database",
+      "tm": 70.82,
+      "grade": "B",
+      "currentStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/literature_search_arxiv",
+      "tm": 70.82,
+      "grade": "B",
+      "currentStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/literature_search_biorxiv",
+      "tm": 70.82,
+      "grade": "B",
+      "currentStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/pdb_database",
+      "tm": 70.82,
+      "grade": "B",
+      "currentStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/protein_sequence_msa",
+      "tm": 70.82,
+      "grade": "B",
+      "currentStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/pubmed_database",
+      "tm": 70.82,
+      "grade": "B",
+      "currentStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/string_database",
+      "tm": 70.82,
+      "grade": "B",
+      "currentStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/uniprot_database",
+      "tm": 70.82,
+      "grade": "B",
+      "currentStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/careful",
+      "tm": 66.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/office-hours",
+      "tm": 66.0,
+      "grade": "B",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/plan-eng-review",
+      "tm": 66.0,
+      "grade": "B",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/github-suite",
+      "tm": 66.0,
+      "grade": "B",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "obra/systematic-debugging",
+      "tm": 65.15,
+      "grade": "B",
+      "currentStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "tm": 63.71,
+      "grade": "B",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/grill-with-docs",
+      "tm": 63.71,
+      "grade": "B",
+      "currentStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/handoff",
+      "tm": 63.71,
+      "grade": "B",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/to-prd",
+      "tm": 63.71,
+      "grade": "B",
+      "currentStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/personal",
+      "tm": 60.0,
+      "grade": "B",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/setup-matt-pocock-skills",
+      "tm": 56.21,
+      "grade": "B",
+      "currentStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/triage",
+      "tm": 56.21,
+      "grade": "B",
+      "currentStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/improve-codebase-architecture",
+      "tm": 45.0,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/write-a-skill",
+      "tm": 45.0,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/prototype",
+      "tm": 41.21,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "addy-osmani/test-driven-development",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "anthropic/pptx",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "browser-use/browser-harness",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "firecrawl/firecrawl",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "gaiabot/repo-docs-before-pr",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/benchmark-models",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/benchmark",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/canary",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/codex",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/context-restore",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/context-save",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/cso",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/design-consultation",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/design-html",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/design-review",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/design-shotgun",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/devex-review",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/document-generate",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/document-release",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/freeze",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/gstack-upgrade",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/guard",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/health",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/investigate",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/land-and-deploy",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/landing-report",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/learn",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/make-pdf",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/open-gstack-browser",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/pair-agent",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/plan-ceo-review",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/plan-design-review",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/plan-devex-review",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/plan-tune",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/qa-only",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/qa",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/review",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/scrape",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/setup-browser-cookies",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/setup-deploy",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/setup-gbrain",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/ship",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/skillify",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/sync-gbrain",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "garrytan/unfreeze",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "getagentseal/codeburn",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "huggingface/semantic-cache",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "1★",
+      "g7Stars": "2★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "karpathy/autoresearch",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "laravel/upgrade-laravel-v13",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "Manavarya09/design-extract",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mbtiongson1/gaia-audit",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mbtiongson1/gaia-curation-review",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mbtiongson1/gaia-meta-audit",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mbtiongson1/gaia-preview",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mbtiongson1/graphify-triage",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "nexu-io/open-design",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "1★",
+      "g7Stars": "2★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "nousresearch/feed-monitoring",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "1★",
+      "g7Stars": "2★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "obra/dispatching-parallel-agents",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "obra/finishing-a-development-branch",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "obra/receiving-code-review",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "obra/requesting-code-review",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/agentdb-advanced",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "1★",
+      "g7Stars": "2★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/agentdb-memory-patterns",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/agentdb-optimization",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/agentdb-vector-search",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/agentic-jujutsu",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/dual-collect",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/dual-coordinate",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/dual-spawn",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/flow-nexus-neural",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "1★",
+      "g7Stars": "2★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/flow-nexus-platform",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "1★",
+      "g7Stars": "2★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/github-multi-repo",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/hive-mind-coordination",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/pair-programming",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/reasoningbank-intelligence",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "1★",
+      "g7Stars": "2★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/stream-chain",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/swarm-advanced",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "1★",
+      "g7Stars": "2★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/swarm-orchestration",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "1★",
+      "g7Stars": "2★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/v3-cli-modernization",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/v3-core-implementation",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/v3-ddd-architecture",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/v3-integration-deep",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/verification-quality",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/worker-integration",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "santifer/career-ops",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "spring-ai/readme-generate",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "vercel/find-skills",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "upsonic/unittest-generator",
+      "tm": 33.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "devin-ai/autonomous-swe",
+      "tm": 30.0,
+      "grade": "C",
+      "currentStars": "1★",
+      "g7Stars": "2★",
+      "flag": "[up]",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/caveman",
+      "tm": 30.0,
+      "grade": "C",
+      "currentStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/diagnose",
+      "tm": 11.21,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/edit-article",
+      "tm": 11.21,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/obsidian-vault",
+      "tm": 11.21,
+      "grade": "ungraded",
+      "currentStars": "3★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/to-issues",
+      "tm": 11.21,
+      "grade": "ungraded",
+      "currentStars": "3★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/ubiquitous-language",
+      "tm": 11.21,
+      "grade": "ungraded",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/embl_ebi_ols",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/encode_ccres_database",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/ensembl_database",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/foldseek_structural_search",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/human_protein_atlas_database",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/interpro_database",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/jaspar_database",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/literature_search_europepmc",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/literature_search_openalex",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/ncbi_sequence_fetch",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/openfda_database",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/opentargets_database",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/protein_sequence_similarity_search",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/pubchem_database",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/pymol",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/quickgo_database",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/reactome_database",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/science_skills_common",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/ucsc_conservation_and_tfbs",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/unibind_database",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/uv",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "google-deepmind/workflow_skill_creator",
+      "tm": 10.82,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "xquik-dev/hermes-tweet",
+      "tm": 6.12,
+      "grade": "ungraded",
+      "currentStars": "4★",
+      "g7Stars": "3★",
+      "flag": "[floor]",
+      "apexResults": null
+    },
+    {
+      "skillId": "martin-stepanoski/nielsen-heuristics-audit",
+      "tm": 4.9,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "intelligentcode-ai/database-engineer",
+      "tm": 1.3,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "intelligentcode-ai/devops-engineer",
+      "tm": 1.3,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "intelligentcode-ai/mcp-client",
+      "tm": 1.3,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "intelligentcode-ai/parallel-execution",
+      "tm": 1.3,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "intelligentcode-ai/release",
+      "tm": 1.3,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "intelligentcode-ai/requirements-engineer",
+      "tm": 1.3,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "intelligentcode-ai/security-engineer",
+      "tm": 1.3,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "intelligentcode-ai/user-tester",
+      "tm": 1.3,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "bradautomates/claude-video",
+      "tm": 1.22,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "glincker/readme-generator",
+      "tm": 1.22,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "0xdarkmatter/pytest-patterns",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "3★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "browserbase/stagehand",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "changkun/plan-decompose-gh-wallfacer",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "gaiabot/gaia-triage",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "gooseworks/notte-browser",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "huggingface/hf-cli",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "huggingface/huggingface-datasets",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "huggingface/huggingface-llm-trainer",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "3★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "huggingface/huggingface-papers",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "huggingface/huggingface-vision-trainer",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "3★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "huggingface/transformers-js",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "langgenius/backend-code-review",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "langgenius/component-refactoring",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "langgenius/e2e-cucumber-playwright",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "langgenius/frontend-code-review",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "langgenius/frontend-testing",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/ask-matt",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/codebase-design",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/diagnosing-bugs",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/domain-modeling",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/git-guardrails-claude-code",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/grilling",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/implement",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/migrate-to-shoehorn",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/resolving-merge-conflicts",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/scaffold-exercises",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/setup-pre-commit",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/tdd",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/teach",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/writing-great-skills",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/zoom-out",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mbtiongson1/gaia-bot-curate",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mbtiongson1/gaia-curate",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mbtiongson1/gaia-docs-sync",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mbtiongson1/gaia-draft-curate",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mbtiongson1/gaia-integrity",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mbtiongson1/gaia-triage",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mbtiongson1/gaia-wiki-sync",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/agentdb-learning",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/browser",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/flow-nexus-swarm",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/github-code-review",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/github-project-management",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/github-release-management",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/github-workflow-automation",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/hooks-automation",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/performance-analysis",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/reasoningbank-agentdb",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/skill-builder",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/sparc-methodology",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/v3-mcp-optimization",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/v3-memory-unification",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/v3-performance-optimization",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/v3-security-overhaul",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/v3-swarm-coordination",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "ruvnet/worker-benchmarks",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "sickn33/ai-dev-jobs-mcp",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "sickn33/mcp-builder",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "3★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "sickn33/n8n-mcp-tools-expert",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "Taoidle/plan-decompose-gh-plan-cascade",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "yonatangross/orchestkit-rag",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "yundu-ai/mcp-tool-developer",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    }
+  ]
+}
