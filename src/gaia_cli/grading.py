@@ -10,7 +10,13 @@ import json
 import os
 
 _GRADE_ORDER = ["S", "A", "B", "C"]
-_DEFAULT_THRESHOLDS = {"S": 90, "A": 80, "B": 60, "C": 40}
+# G7 Trust Magnitude floors (S≥250, A≥100, B≥50, C≥20). The legacy trustNumber
+# thresholds (S≥90, A≥80, B≥60, C≥40) shipped with this file before the G7 cutover;
+# they're now wrong because the trustNumber aggregate was replaced by Trust Magnitude
+# (unbounded, set-bonus driven). The single source of truth is meta.json
+# evidence.gradeThresholds; these defaults exist only as a last-resort fallback when
+# meta.json is missing entirely (e.g. lib import outside a registry checkout).
+_DEFAULT_THRESHOLDS = {"S": 250, "A": 100, "B": 50, "C": 20}
 _DEFAULT_ULTIMATE_GATE = {
     "minEvidencedComponents": 3,
     "requiredComponentGrades": {"S": 1, "A": 2},
@@ -70,10 +76,14 @@ def load_evidence_types_full(registry_path=".") -> list[dict]:
 
 
 def derive_grade(trust_number: float | int, thresholds: dict | None = None) -> str | None:
-    """Map a trust number to a grade letter (S/A/B/C) or None (ungraded).
+    """Map a Trust Magnitude value to a grade letter (S/A/B/C) or None (ungraded).
 
-    Thresholds are inclusive lower bounds:
-      S ≥ 90, A ≥ 80, B ≥ 60, C ≥ 40, < 40 → None (ungraded).
+    Thresholds are inclusive lower bounds (G7 RFC, ratified 2026-06-18):
+      S ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20, < 20 → None (ungraded).
+
+    The ``trust_number`` parameter name is preserved for backward compatibility with
+    callers that haven't migrated yet, but the value is now expected to be a Trust
+    Magnitude (unbounded float), not the legacy bounded trustNumber.
     """
     if thresholds is None:
         thresholds = _DEFAULT_THRESHOLDS

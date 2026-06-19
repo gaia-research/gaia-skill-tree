@@ -71,6 +71,16 @@ INDEX_SKILL_FIELDS = [
     "type",
     "suiteRef",
     "suiteComponents",
+    # G7 trust fields — frontmatter values are canonical (written by the migration
+    # with full named-skill-map context); the index propagates them as-is.
+    # Including them here means _inject_trust_grades() reads them via fm_tm/fm_grade
+    # and skips the recompute path, which without the context-dependent fix would
+    # diverge for suite skills (e.g. gstack: frontmatter 589 → recompute 109).
+    # See Issue #755.
+    "trustMagnitude",
+    "overallTrustGrade",
+    "trustMagnitudeInputHash",
+    "apexGateStatus",
 ]
 
 
@@ -449,15 +459,32 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
     for _ref, entries in buckets.items():
         for entry in entries:
             effective = _effective(entry)
-            grade = overall_trust_grade(effective)
-            if grade is not None:
-                entry["overallTrustGrade"] = grade
 
-            # Compute Trust Magnitude — use a skill dict that includes the
-            # effective evidence pool so inherited rows are counted.
+            # Frontmatter values written by the migration are CANONICAL — they
+            # are computed once with the full named-skill-map context, signed by
+            # the trustMagnitudeInputHash, and reflect suite-fusion sqrt-softening
+            # correctly. Only recompute when the frontmatter is missing or when the
+            # input hash mismatches (i.e. the migration hasn't caught up to a
+            # registry change yet). See Issue #755.
+            fm_tm = entry.get("trustMagnitude")
+            fm_grade = entry.get("overallTrustGrade")
+
             skill_with_effective = {**entry, "evidence": effective}
-            tm = computeTrustMagnitude(skill_with_effective, generic_skills_map)
-            entry["trustMagnitude"] = round(tm, 2)
+            if fm_tm is not None and fm_grade is not None:
+                # Trust the frontmatter — propagate to index unchanged.
+                entry["trustMagnitude"] = round(float(fm_tm), 2)
+                entry["overallTrustGrade"] = fm_grade
+            else:
+                # Missing frontmatter values — recompute via G7 path.
+                tm = computeTrustMagnitude(skill_with_effective, generic_skills_map)
+                entry["trustMagnitude"] = round(tm, 2)
+                grade = overall_trust_grade(
+                    effective,
+                    skill=skill_with_effective,
+                    generic_skill_map=generic_skills_map,
+                )
+                if grade is not None:
+                    entry["overallTrustGrade"] = grade
 
             # Compute apex gate predicate status for each named skill.
             registry_state = {

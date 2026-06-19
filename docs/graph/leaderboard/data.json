@@ -1,13 +1,13 @@
 {
   "version": "4.11.0",
-  "generatedAt": "2026-06-19T17:35:06Z",
+  "generatedAt": "2026-06-19T19:20:40Z",
   "summary": {
     "total": 249,
     "S": 4,
     "A": 42,
     "B": 56,
-    "C": 76,
-    "ungraded": 71,
+    "C": 77,
+    "ungraded": 70,
     "floor": 1,
     "up": 64
   },
@@ -985,6 +985,15 @@
       "apexResults": null
     },
     {
+      "skillId": "mattpocock/teach",
+      "tm": 44.48,
+      "grade": "C",
+      "currentStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
       "skillId": "xquik-dev/hermes-tweet",
       "tm": 42.47,
       "grade": "C",
@@ -1732,6 +1741,123 @@
       "apexResults": null
     },
     {
+      "skillId": "mattpocock/ask-matt",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/codebase-design",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/diagnosing-bugs",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/domain-modeling",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/git-guardrails-claude-code",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/grilling",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/implement",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/migrate-to-shoehorn",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/resolving-merge-conflicts",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/scaffold-exercises",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/setup-pre-commit",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/tdd",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
+      "skillId": "mattpocock/writing-great-skills",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null
+    },
+    {
       "skillId": "0xdarkmatter/pytest-patterns",
       "tm": 0.0,
       "grade": "ungraded",
@@ -1868,132 +1994,6 @@
     },
     {
       "skillId": "langgenius/frontend-testing",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "mattpocock/ask-matt",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "mattpocock/codebase-design",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "mattpocock/diagnosing-bugs",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "mattpocock/domain-modeling",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "mattpocock/git-guardrails-claude-code",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "mattpocock/grilling",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "mattpocock/implement",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "mattpocock/migrate-to-shoehorn",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "mattpocock/resolving-merge-conflicts",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "mattpocock/scaffold-exercises",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "mattpocock/setup-pre-commit",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "mattpocock/tdd",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "mattpocock/teach",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "mattpocock/writing-great-skills",
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "2★",
