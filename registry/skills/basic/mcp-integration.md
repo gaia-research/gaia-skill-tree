@@ -21,7 +21,7 @@ _None._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | garrytan/pair-agent | garrytan | 3★ | 1 |
-| intelligentcode-ai/mcp-client | intelligentcode-ai | 2★ | 1 |
+| intelligentcode-ai/mcp-client | intelligentcode-ai | 2★ | 2 |
 | ruvnet/v3-mcp-optimization | ruvnet | 2★ | 0 |
 
 ## Evidence (inherited capability)

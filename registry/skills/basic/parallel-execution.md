@@ -19,7 +19,7 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| intelligentcode-ai/parallel-execution | intelligentcode-ai | 2★ | 1 |
+| intelligentcode-ai/parallel-execution | intelligentcode-ai | 2★ | 2 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

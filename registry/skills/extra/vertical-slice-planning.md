@@ -24,7 +24,7 @@ _None specified._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | garrytan/garrytan ⭑ | garrytan | 4★ | 1 |
-| mattpocock/to-issues | mattpocock | 3★ | 1 |
+| mattpocock/to-issues | mattpocock | 3★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

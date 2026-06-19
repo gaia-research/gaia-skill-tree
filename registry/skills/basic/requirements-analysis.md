@@ -20,7 +20,7 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| intelligentcode-ai/requirements-engineer | intelligentcode-ai | 2★ | 1 |
+| intelligentcode-ai/requirements-engineer | intelligentcode-ai | 2★ | 2 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._
