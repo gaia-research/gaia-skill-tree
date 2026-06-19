@@ -28,10 +28,10 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/office-hours/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). YC-style
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). YC-style
     startup and builder brainstorming. Startup mode uses six forcing questions (demand
     reality, status quo, desperate specificity, narrowest… (backfilled — class-to-type
-    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
   commits: 323
   contributors: 9
@@ -50,8 +50,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:15Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -61,9 +64,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 495d646eccff796aa940f3a5f5d4ade660715d7d3500d846165ac74ddf189029
 verification:
   firstEvidenceAt: '2026-06-03T05:51:35Z'
+trustMagnitudeInputHash: 495d646eccff796aa940f3a5f5d4ade660715d7d3500d846165ac74ddf189029
 ---
 
 ## Overview

@@ -22,8 +22,9 @@ evidence:
   source: https://github.com/bradautomates/claude-video
   evaluator: gemini-cli
   date: '2026-05-14'
-  notes: Claude Video -- enables AI agents to watch videos by downloading, frame extraction,
-    and transcription. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
+  notes: 'Claude Video -- enables AI agents to watch videos by downloading, frame
+    extraction, and transcription. (backfilled — class-to-type migration) (CLI gap:
+    commits+contributors not writable via gaia dev evidence)'
   type: repo
   commits: 6
   contributors: 1
@@ -38,7 +39,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:14Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 1.22, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 1.22
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false

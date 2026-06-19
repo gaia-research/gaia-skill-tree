@@ -74,8 +74,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/health/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Executes the full automated test suite, collects pass/fail counts and coverage deltas, and surfaces any newly introduced failures with concise… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Executes the full automated test suite, collects pass/fail counts and coverage deltas, and surfaces any newly introduced failures with concise… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -99,13 +101,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -145,8 +152,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Builds a complete design system by researching the product and competitors, then proposing a coherent package of typography, colours, spacing,… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Builds a complete design system by researching the product and competitors, then proposing a coherent package of typography, colours, spacing,… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -176,13 +185,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -218,8 +232,10 @@
             "source": "https://github.com/Manavarya09/design-extract",
             "evaluator": "gemini-cli",
             "date": "2026-05-14",
-            "notes": "Design Extract -- extracts complete design systems (Tailwind, Figma variables, etc.) from any URL. (backfilled — class-to-type migration)",
+            "notes": "Design Extract -- extracts complete design systems (Tailwind, Figma variables, etc.) from any URL. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 262,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -243,12 +259,17 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:18Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -288,8 +309,10 @@
             "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-05-31",
-            "notes": "Addy Osmani's performance-optimization SKILL.md in agent-skills repo (47.2k stars, verified 2026-05-31). Defines a measurement-driven 5-step workflow (Measure → Identify → Fix → Verify → Guard) with explicit Core Web Vitals thresholds. Qualifies for Class A per META §2.1 large-scale adoption criterion. (backfilled — class-to-type migration)",
+            "notes": "Addy Osmani's performance-optimization SKILL.md in agent-skills repo (47.2k stars, verified 2026-05-31). Defines a measurement-driven 5-step workflow (Measure → Identify → Fix → Verify → Guard) with explicit Core Web Vitals thresholds. Qualifies for Class A per META §2.1 large-scale adoption criterion. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 260,
+            "contributors": 36,
             "trustNumber": 70.0,
             "grade": "B"
           },
@@ -350,13 +373,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T09:34:46Z",
             "details": "TM 0.0 -> 47.2, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:25Z",
+            "details": "TM 47.2 -> 83.2, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "installBody": "Install via [gaia](https://github.com/mbtiongson1/gaia-skill-tree):\n\n```bash\ngaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md\n```\n\nOr copy the raw skill file directly into your agent context:\n\n```\nhttps://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md\n```\n\n**Usage**: Invoke `/performance-optimization` (Claude Code) to trigger the measurement-driven 5-step performance audit workflow.",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 47.2,
+        "trustMagnitude": 83.2,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -499,8 +527,10 @@
             "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-04-30",
-            "notes": "Addy Osmani /test-driven-development slash command -- forces strict TDD workflow, stopping agents from skipping tests. (backfilled — class-to-type migration)",
+            "notes": "Addy Osmani /test-driven-development slash command -- forces strict TDD workflow, stopping agents from skipping tests. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 260,
+            "contributors": 36,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -524,13 +554,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:25Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "installBody": "Install via [gaia](https://github.com/mbtiongson1/gaia-skill-tree):\n\n```bash\ngaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md\n```\n\nOr copy the raw skill file directly into your agent context:\n\n```\nhttps://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md\n```\n\n**Usage**: Invoke `/test-driven-development` (Claude Code) to enforce the red-green-refactor TDD cycle. The skill blocks horizontal slicing and enforces coverage thresholds before marking any task complete.",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -570,8 +605,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/document-generate/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Generates structured documentation using the Diataxis framework — tutorials, how-to guides, reference materials, and explanations — by thoroughly… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Generates structured documentation using the Diataxis framework — tutorials, how-to guides, reference materials, and explanations — by thoroughly… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -601,13 +638,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -646,8 +688,10 @@
             "source": "https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-04-30",
-            "notes": "Anthropic /pptx slash command -- extracts, edits, packs, and applies design principles to PowerPoint files using markitdown. (backfilled — class-to-type migration)",
+            "notes": "Anthropic /pptx slash command -- extracts, edits, packs, and applies design principles to PowerPoint files using markitdown. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 41,
+            "contributors": 16,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -671,12 +715,17 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -713,8 +762,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/document-release/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Reads the diff between two version tags and drafts concise, user-facing release notes following the Gstack changelog format. (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Reads the diff between two version tags and drafts concise, user-facing release notes following the Gstack changelog format. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -738,13 +789,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -991,8 +1047,10 @@
             "source": "https://github.com/bradautomates/claude-video",
             "evaluator": "gemini-cli",
             "date": "2026-05-14",
-            "notes": "Claude Video -- enables AI agents to watch videos by downloading, frame extraction, and transcription. (backfilled — class-to-type migration)",
+            "notes": "Claude Video -- enables AI agents to watch videos by downloading, frame extraction, and transcription. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 6,
+            "contributors": 1,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -1010,12 +1068,17 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 1.22, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 1.22,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -1054,8 +1117,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/browse/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Drives a browser to a target URL, navigates multi-step user journeys, and captures screenshots or structured observations for downstream… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Drives a browser to a target URL, navigates multi-step user journeys, and captures screenshots or structured observations for downstream… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -1097,13 +1162,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -1139,14 +1209,24 @@
             "source": "https://github.com/browser-use/browser-harness",
             "evaluator": "gemini-cli",
             "date": "2026-05-14",
-            "notes": "Browser Harness -- self-healing harness connecting LLMs to browser via CDP. (backfilled — class-to-type migration)",
+            "notes": "Browser Harness -- self-healing harness connecting LLMs to browser via CDP. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 400,
+            "contributors": 59,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://browser-use.com/posts/online-mind2web-benchmark",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "benchmark-result",
+            "class": "A",
+            "notes": "BU Bench V1 (100 verified tasks from WebArena/Mind2Web): 78-97% task success rate using bu-ultra/max. 80% using Claude Fable 5 (Mid-2026)."
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:32:59Z",
@@ -1164,12 +1244,23 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T10:39:17Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://browser-use.com/posts/online-mind2web-benchmark (type: benchmark-result)"
           }
         ],
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -1274,8 +1365,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/setup-browser-cookies/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Injects pre-authenticated session cookies into the browser context so subsequent automation steps can access gated pages without a manual login flow. (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Injects pre-authenticated session cookies into the browser context so subsequent automation steps can access gated pages without a manual login flow. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -1299,13 +1392,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -1559,14 +1657,24 @@
             "source": "https://github.com/cognition-labs/devin",
             "evaluator": "mbtiongson1",
             "date": "2026-05-17",
-            "notes": "Replaced missing seed evidence with live repository from real-skills catalog. (backfilled — class-to-type migration)",
+            "notes": "Replaced missing seed evidence with live repository from real-skills catalog. (backfilled — class-to-type migration) repo not found on GitHub as of 2026-06-19 (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 0,
+            "contributors": 0,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://arxiv.org/abs/2403.02128",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "benchmark-result",
+            "class": "A",
+            "notes": "SWE-bench unassisted: 13.86% resolved (2294 real-world GitHub issues, March 2024). Previous SOTA was 1.96%. Score: 13.86"
           }
         ],
         "createdAt": "2026-04-29",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:17Z",
@@ -1584,6 +1692,17 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T10:34:41Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2403.02128 (type: benchmark-result)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -1703,14 +1822,24 @@
             "source": "https://github.com/firecrawl/firecrawl",
             "evaluator": "mbtiongson1",
             "date": "2026-06-10",
-            "notes": "Origin repository — open-source web search/scrape/crawl API for LLM agents; reproducible public implementation with documented usage. (backfilled — class-to-type migration)",
+            "notes": "Origin repository — open-source web search/scrape/crawl API for LLM agents; reproducible public implementation with documented usage. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 5679,
+            "contributors": 150,
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/firecrawl/firecrawl",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "benchmark-result",
+            "class": "A",
+            "notes": "scrape-content-dataset-v1 (1000 URLs): >95% dynamic page scrape success, P95 latency ~3.4s. JS-heavy SPAs and anti-bot protected sites (May 2026)."
           }
         ],
         "createdAt": "2026-05-17",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:01Z",
@@ -1734,12 +1863,23 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T10:40:05Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/firecrawl/firecrawl (type: benchmark-result)"
           }
         ],
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -1778,8 +1918,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/benchmark-models/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Runs a standardised prompt suite across multiple model versions, records latency and quality scores, and produces a ranked comparison table to… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Runs a standardised prompt suite across multiple model versions, records latency and quality scores, and produces a ranked comparison table to… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -1803,13 +1945,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -1895,8 +2042,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/benchmark/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Web performance benchmarking that captures baseline metrics, compares current performance against those baselines, and identifies regressions in… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Web performance benchmarking that captures baseline metrics, compares current performance against those baselines, and identifies regressions in… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -1920,13 +2069,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -1964,8 +2118,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/plan-ceo-review/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Rigorous product strategy and scope review in four modes — SCOPE EXPANSION, SELECTIVE EXPANSION, HOLD SCOPE, and SCOPE REDUCTION — evaluating… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Rigorous product strategy and scope review in four modes — SCOPE EXPANSION, SELECTIVE EXPANSION, HOLD SCOPE, and SCOPE REDUCTION — evaluating… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -1989,13 +2145,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2035,8 +2196,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/canary/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Post-deployment monitoring that captures pre-release baseline screenshots, then continuously watches pages for console errors, performance… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Post-deployment monitoring that captures pre-release baseline screenshots, then continuously watches pages for console errors, performance… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -2060,13 +2223,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2105,8 +2273,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/guard/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Applies configurable content and output guardrails to agent responses, flagging or blocking unsafe outputs and logging violations with structured… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Applies configurable content and output guardrails to agent responses, flagging or blocking unsafe outputs and logging violations with structured… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -2130,13 +2300,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2173,8 +2348,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/careful/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Activates a conservative execution profile that pauses before irreversible actions, requests explicit confirmation for destructive operations, and… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Activates a conservative execution profile that pauses before irreversible actions, requests explicit confirmation for destructive operations, and… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -2198,13 +2375,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2241,8 +2423,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/freeze/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Sets a change-freeze flag that blocks non-critical commits and PR merges until explicitly lifted, protecting release branches or post-incident… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Sets a change-freeze flag that blocks non-critical commits and PR merges until explicitly lifted, protecting release branches or post-incident… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -2266,13 +2450,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2309,8 +2498,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/unfreeze/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Clears the active change-freeze flag and restores normal merge permissions, logging the unfreeze event with a timestamp and justification. (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Clears the active change-freeze flag and restores normal merge permissions, logging the unfreeze event with a timestamp and justification. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -2334,13 +2525,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:16Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2379,8 +2575,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/codex/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Spins up a structured Claude-versus-Codex debate over a proposed implementation, with each agent mounting adversarial critiques, to surface hidden… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Spins up a structured Claude-versus-Codex debate over a proposed implementation, with each agent mounting adversarial critiques, to surface hidden… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -2404,13 +2602,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2488,8 +2691,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/context-restore/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Reads a saved context snapshot and reconstructs a warm session state, surfacing the last decision point and pending tasks so work can resume… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Reads a saved context snapshot and reconstructs a warm session state, surfacing the last decision point and pending tasks so work can resume… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -2513,13 +2718,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2556,8 +2766,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/context-save/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Compresses the current session context into a compact summary file that can be restored later, enabling long-running workflows to survive… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Compresses the current session context into a compact summary file that can be restored later, enabling long-running workflows to survive… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -2581,13 +2793,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2628,8 +2845,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/cso/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Infrastructure-first security audit focusing on secrets archaeology, dependency supply chain, and CI/CD security. Includes OWASP Top 10, STRIDE… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Infrastructure-first security audit focusing on secrets archaeology, dependency supply chain, and CI/CD security. Includes OWASP Top 10, STRIDE… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -2653,13 +2872,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2807,8 +3031,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/design-html/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Generates production-quality, Pretext-native HTML/CSS with real text reflow and dynamic layout from approved design mockups, CEO plans, or user… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Generates production-quality, Pretext-native HTML/CSS with real text reflow and dynamic layout from approved design mockups, CEO plans, or user… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -2838,13 +3064,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2883,8 +3114,10 @@
             "source": "https://github.com/pbakaus/impeccable",
             "evaluator": "mbtiongson1",
             "date": "2026-05-14",
-            "notes": "Paul Bakaus /impeccable -- Elite design vocabulary and audit tool with 23 specialized polishing commands. (backfilled — class-to-type migration)",
+            "notes": "Paul Bakaus /impeccable -- Elite design vocabulary and audit tool with 23 specialized polishing commands. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 804,
+            "contributors": 27,
             "trustNumber": 70.0,
             "grade": "B"
           },
@@ -2948,12 +3181,17 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T09:34:47Z",
             "details": "TM 0.0 -> 41.8, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 41.8 -> 77.8, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 41.8,
+        "trustMagnitude": 77.8,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2991,8 +3229,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Interactive, designer-led audit of UI/UX plans rating seven dimensions — information architecture, interaction states, user journey, AI slop risk,… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Interactive, designer-led audit of UI/UX plans rating seven dimensions — information architecture, interaction states, user journey, AI slop risk,… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -3016,13 +3256,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -3060,8 +3305,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Interactive multi-pass DX review for developer-facing products — APIs, CLIs, SDKs, and libraries — scoring eight UX dimensions from onboarding to… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Interactive multi-pass DX review for developer-facing products — APIs, CLIs, SDKs, and libraries — scoring eight UX dimensions from onboarding to… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -3085,13 +3332,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -3128,8 +3380,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/design-review/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Runs a structured UX audit over a product interface, scoring layout clarity, affordance, and accessibility against the Gstack design rubric to… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Runs a structured UX audit over a product interface, scoring layout clarity, affordance, and accessibility against the Gstack design rubric to… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -3165,13 +3419,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -3208,8 +3467,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/devex-review/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Audits CLI ergonomics, API surface clarity, and onboarding friction from a developer perspective, producing a scored report with prioritised fixes. (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Audits CLI ergonomics, API surface clarity, and onboarding friction from a developer perspective, producing a scored report with prioritised fixes. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -3245,13 +3506,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -3360,8 +3626,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/design-shotgun/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Rapid design exploration that generates multiple AI design variants, opens a comparison board for the user, collects structured feedback, and… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Rapid design exploration that generates multiple AI design variants, opens a comparison board for the user, collects structured feedback, and… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -3385,13 +3653,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -3432,8 +3705,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). The definitive autonomous \"Founder mode\" review and decision suite. An auto-review pipeline that reads the full CEO, design, engineering, and DX… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). The definitive autonomous \"Founder mode\" review and decision suite. An auto-review pipeline that reads the full CEO, design, engineering, and DX… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -3469,6 +3744,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -3481,7 +3761,7 @@
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -3592,8 +3872,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/gstack-upgrade/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Scans the workspace for outdated dependencies, runs upgrades within semver-compatible bounds, re-runs tests, and commits a clean dependency bump PR. (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Scans the workspace for outdated dependencies, runs upgrades within semver-compatible bounds, re-runs tests, and commits a clean dependency bump PR. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -3617,13 +3899,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -3666,8 +3953,10 @@
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "mbtiongson1",
             "date": "2026-05-18",
-            "notes": "garrytan/gstack — 19 named garrytan skills registered in Gaia across 16 generic skill buckets; meets the >=5 named-skills threshold for Class A designation. Additionally: 98.9k GitHub stars, multi-platform adoption across 8+ runtimes (Claude Code, OpenAI Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes). (backfilled — class-to-type migration)",
+            "notes": "garrytan/gstack — 19 named garrytan skills registered in Gaia across 16 generic skill buckets; meets the >=5 named-skills threshold for Class A designation. Additionally: 98.9k GitHub stars, multi-platform adoption across 8+ runtimes (Claude Code, OpenAI Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes). (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           },
@@ -3726,6 +4015,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T09:34:47Z",
             "details": "TM 0.0 -> 73.32, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 73.32 -> 109.32, grade B -> A (direct edit -- CLI gap)"
           }
         ],
         "suiteComponents": [
@@ -3780,7 +4074,7 @@
         "installBody": "**Requirements:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Git](https://git-scm.com/), [Bun](https://bun.sh/) v1.0+, [Node.js](https://nodejs.org/) (Windows only)\n\n### Step 1: Install on your machine\n\nOpen Claude Code and paste this. Claude does the rest.\n\n> Install gstack: run **`git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup`** then add a \"gstack\" section to CLAUDE.md that says to use the /browse skill from gstack for all web browsing, never use mcp\\_\\_claude-in-chrome\\_\\_\\* tools, and lists the available skills: /office-hours, /plan-ceo-review, /plan-eng-review, /plan-design-review, /design-consultation, /design-shotgun, /design-html, /review, /ship, /land-and-deploy, /canary, /benchmark, /browse, /connect-chrome, /qa, /qa-only, /design-review, /setup-browser-cookies, /setup-deploy, /setup-gbrain, /retro, /investigate, /document-release, /document-generate, /codex, /cso, /autoplan, /plan-devex-review, /devex-review, /careful, /freeze, /guard, /unfreeze, /gstack-upgrade, /learn. Then ask the user if they also want to add gstack to the current project so teammates get it.\n\n### Step 2: Team mode — auto-update for shared repos (recommended)\n\nFrom inside your repo, paste this. Switches you to team mode, bootstraps the repo so teammates get gstack automatically, and commits the change:\n\n```bash\n(cd ~/.claude/skills/gstack && ./setup --team) && ~/.claude/skills/gstack/bin/gstack-team-init required && git add .claude/ CLAUDE.md && git commit -m \"require gstack for AI-assisted work\"\n```bash\nNo vendored files in your repo, no version drift, no manual upgrades. Every Claude Code session starts with a fast auto-update check (throttled to once/hour, network-failure-safe, completely silent).\n\nSwap `required` for `optional` if you'd rather nudge teammates than block them.\n\n### OpenClaw\n\nOpenClaw spawns Claude Code sessions via ACP, so every gstack skill just works\nwhen Claude Code has gstack installed. Paste this to your OpenClaw agent:\n\n> Install gstack: run `git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup` to install gstack for Claude Code. Then add a \"Coding Tasks\" section to AGENTS.md that says: when spawning Claude Code sessions for coding work, tell the session to use gstack skills. Include these examples — security audit: \"Load gstack. Run /cso\", code review: \"Load gstack. Run /review\", QA test a URL: \"Load gstack. Run /qa https://...\", build a feature end-to-end: \"Load gstack. Run /autoplan, implement the plan, then run /ship\", plan before building: \"Load gstack. Run /office-hours then /autoplan. Save the plan, don't implement.\"\n\n**After setup, just talk to your OpenClaw agent naturally:**\n\n| You say | What happens |\n|---------|-------------|\n| \"Fix the typo in README\" | Simple — Claude Code session, no gstack needed |\n| \"Run a security audit on this repo\" | Spawns Claude Code with `Run /cso` |\n| \"Build me a notifications feature\" | Spawns Claude Code with /autoplan → implement → /ship |\n| \"Help me plan the v2 API redesign\" | Spawns Claude Code with /office-hours → /autoplan, saves plan |\n\nSee [docs/OPENCLAW.md](docs/OPENCLAW.md) for advanced dispatch routing and\nthe gstack-lite/gstack-full prompt templates.\n\n### Native OpenClaw Skills (via ClawHub)\n\nFour methodology skills that work directly in your OpenClaw agent, no Claude Code\nsession needed. Install from ClawHub:\n\n```\nclawhub install gstack-openclaw-office-hours gstack-openclaw-ceo-review gstack-openclaw-investigate gstack-openclaw-retro\n```bash\n| Skill | What it does |\n|-------|-------------|\n| `gstack-openclaw-office-hours` | Product interrogation with 6 forcing questions |\n| `gstack-openclaw-ceo-review` | Strategic challenge with 4 scope modes |\n| `gstack-openclaw-investigate` | Root cause debugging methodology |\n| `gstack-openclaw-retro` | Weekly engineering retrospective |\n\nThese are conversational skills. Your OpenClaw agent runs them directly via chat.\n\n### Other AI Agents\n\ngstack works on 10 AI coding agents, not just Claude. Setup auto-detects which\nagents you have installed:\n\n```bash\ngit clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/gstack\ncd ~/gstack && ./setup\n```\n\nOr target a specific agent with `./setup --host <name>`:\n\n| Agent | Flag | Skills install to |\n|-------|------|-------------------|\n| OpenAI Codex CLI | `--host codex` | `~/.codex/skills/gstack-*/` |\n| OpenCode | `--host opencode` | `~/.config/opencode/skills/gstack-*/` |\n| Cursor | `--host cursor` | `~/.cursor/skills/gstack-*/` |\n| Factory Droid | `--host factory` | `~/.factory/skills/gstack-*/` |\n| Slate | `--host slate` | `~/.slate/skills/gstack-*/` |\n| Kiro | `--host kiro` | `~/.kiro/skills/gstack-*/` |\n| Hermes | `--host hermes` | `~/.hermes/skills/gstack-*/` |\n| GBrain (mod) | `--host gbrain` | `~/.gbrain/skills/gstack-*/` |\n\n**Want to add support for another agent?** See [docs/ADDING_A_HOST.md](docs/ADDING_A_HOST.md).\nIt's one TypeScript config file, zero code changes.",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 73.32,
+        "trustMagnitude": 109.32,
         "apexGateStatus": {
           "aGradedOriginsGte5": true,
           "sourceTenureDaysGte180AorS": false,
@@ -3824,8 +4118,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Systematic root-cause debugging enforcing an Iron Law — no fix without first identifying root cause — guiding through four phases: investigation,… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Systematic root-cause debugging enforcing an Iron Law — no fix without first identifying root cause — guiding through four phases: investigation,… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -3855,13 +4151,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -3970,8 +4271,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/land-and-deploy/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Automates the final production shipping stages — merging a PR, monitoring CI/deploy completion, and verifying live site health through canary… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Automates the final production shipping stages — merging a PR, monitoring CI/deploy completion, and verifying live site health through canary… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -3995,13 +4298,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -4038,8 +4346,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/setup-deploy/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Provisions the deployment environment by creating secrets, configuring environment variables, and running infrastructure-as-code init steps before… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Provisions the deployment environment by creating secrets, configuring environment variables, and running infrastructure-as-code init steps before… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -4063,13 +4373,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -4168,8 +4483,10 @@
             "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-10",
-            "notes": "Project-local agent skill driving branch preview deploys via sync-artifacts.yml; implementation public at SKILL.md. (backfilled — class-to-type migration)",
+            "notes": "Project-local agent skill driving branch preview deploys via sync-artifacts.yml; implementation public at SKILL.md. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 90,
+            "contributors": 10,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -4199,12 +4516,17 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -4359,8 +4681,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/learn/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Reads the active memory store, consolidates new observations from the current session, deduplicates stale entries, and writes back an updated,… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Reads the active memory store, consolidates new observations from the current session, deduplicates stale entries, and writes back an updated,… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -4384,13 +4708,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -4559,8 +4888,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/office-hours/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). YC-style startup and builder brainstorming. Startup mode uses six forcing questions (demand reality, status quo, desperate specificity, narrowest… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). YC-style startup and builder brainstorming. Startup mode uses six forcing questions (demand reality, status quo, desperate specificity, narrowest… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -4584,13 +4915,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -4806,8 +5142,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/plan-eng-review/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Comprehensive, interactive architecture and implementation review before coding begins, systematically evaluating scope, architecture, code… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Comprehensive, interactive architecture and implementation review before coding begins, systematically evaluating scope, architecture, code… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -4831,13 +5169,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -4875,8 +5218,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/review/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Pre-landing code review combining structured checklist analysis with specialist subagents covering testing, security, and performance — plus… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Pre-landing code review combining structured checklist analysis with specialist subagents covering testing, security, and performance — plus… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -4900,13 +5245,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5141,8 +5491,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/qa/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Browser-driven web application testing that explores pages as a real user, documents bugs with annotated screenshots, fixes issues with atomic… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Browser-driven web application testing that explores pages as a real user, documents bugs with annotated screenshots, fixes issues with atomic… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -5166,13 +5518,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5209,8 +5566,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/qa-only/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Runs the scoped end-to-end test suite for a single feature or route without launching the full QA pipeline, for fast targeted regression checks. (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Runs the scoped end-to-end test suite for a single feature or route without launching the full QA pipeline, for fast targeted regression checks. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -5234,13 +5593,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5341,8 +5705,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/retro/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Synthesises commit history, PR comments, and issue notes into a written sprint retrospective covering wins, misses, root causes, and action items. (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Synthesises commit history, PR comments, and issue notes into a written sprint retrospective covering wins, misses, root causes, and action items. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -5384,13 +5750,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5428,8 +5799,10 @@
             "source": "https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-10",
-            "notes": "Published implementation in the GLINCKER Claude Code Marketplace; reproducible from SKILL.md. (backfilled — class-to-type migration)",
+            "notes": "Published implementation in the GLINCKER Claude Code Marketplace; reproducible from SKILL.md. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 8,
+            "contributors": 1,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -5459,12 +5832,17 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:16Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 1.22, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 1.22,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5572,8 +5950,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/setup-gbrain/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Bootstraps the GBrain knowledge store for a new project: creates the index structure, ingests seed documents, and validates retrieval with a… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Bootstraps the GBrain knowledge store for a new project: creates the index structure, ingests seed documents, and validates retrieval with a… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -5597,13 +5977,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5711,8 +6096,10 @@
             "source": "https://github.com/garrytan/gstack/blob/main/ship/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Automated end-to-end deployment workflow that merges the base branch, runs tests, reviews the diff, bumps the VERSION file, updates the CHANGELOG,… (backfilled — class-to-type migration)",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Automated end-to-end deployment workflow that merges the base branch, runs tests, reviews the diff, bumps the VERSION file, updates the CHANGELOG,… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 323,
+            "contributors": 9,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -5742,13 +6129,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:16Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -6268,8 +6660,10 @@
             "source": "https://github.com/codefuse-ai/ModelCache",
             "evaluator": "mbtiongson1",
             "date": "2026-04-30",
-            "notes": "ModelCache -- LLM semantic caching system reducing response time via cached query-result pairs; reproducible, MIT license. (backfilled — class-to-type migration)",
+            "notes": "ModelCache -- LLM semantic caching system reducing response time via cached query-result pairs; reproducible, MIT license. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 192,
+            "contributors": 10,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -6317,12 +6711,17 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:17Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -7885,8 +8284,10 @@
             "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
             "evaluator": "mbtiongson1",
             "date": "2026-05-20",
-            "notes": "Self-referential implementation doc inside the gaia repo (seed evidence). Downgraded A->C per META §2.4 — seed / self-referential links are insufficient for Class A — by the 2026-06-02 meta sweep. Credible demo of the codified 7-phase audit workflow. (backfilled — class-to-type migration)",
+            "notes": "Self-referential implementation doc inside the gaia repo (seed evidence). Downgraded A->C per META §2.4 — seed / self-referential links are insufficient for Class A — by the 2026-06-02 meta sweep. Credible demo of the codified 7-phase audit workflow. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 90,
+            "contributors": 10,
             "trustNumber": 50.0,
             "grade": "C"
           }
@@ -7916,12 +8317,17 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "C",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -7957,8 +8363,10 @@
             "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-10",
-            "notes": "Project-local agent skill used for curation PR review in this repository; implementation public at SKILL.md. (backfilled — class-to-type migration)",
+            "notes": "Project-local agent skill used for curation PR review in this repository; implementation public at SKILL.md. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 90,
+            "contributors": 10,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -7994,12 +8402,17 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -8355,8 +8768,10 @@
             "source": "https://github.com/mbtiongson1/gaia-skill-tree",
             "evaluator": "mbtiongson1",
             "date": "2026-05-03",
-            "notes": "Derived from registry hygiene work that audits source-backed named skills, generated projections, and demotion candidates across canonical and real-skill review surfaces. (backfilled — class-to-type migration)",
+            "notes": "Derived from registry hygiene work that audits source-backed named skills, generated projections, and demotion candidates across canonical and real-skill review surfaces. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 90,
+            "contributors": 10,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -8394,12 +8809,17 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -8438,8 +8858,10 @@
             "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-05-30",
-            "notes": "Reproducible playbook: graphify-triage script ingests safishamsi/graphify GRAPH_REPORT.md output, parses architectural-debt findings, and converts each into a tracked GitHub issue via gh issue create. First implementation of the fusion generic (graphify + triage). (backfilled — class-to-type migration)",
+            "notes": "Reproducible playbook: graphify-triage script ingests safishamsi/graphify GRAPH_REPORT.md output, parses architectural-debt findings, and converts each into a tracked GitHub issue via gh issue create. First implementation of the fusion generic (graphify + triage). (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 90,
+            "contributors": 10,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -8469,12 +8891,17 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -8584,8 +9011,10 @@
             "source": "https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md",
             "evaluator": "openai-codex",
             "date": "2026-05-06",
-            "notes": "Hermes Agent blogwatcher skill monitors blogs and RSS/Atom feeds with feed discovery, scraping fallback, OPML import, and read/unread article management. (backfilled — class-to-type migration)",
+            "notes": "Hermes Agent blogwatcher skill monitors blogs and RSS/Atom feeds with feed discovery, scraping fallback, OPML import, and read/unread article management. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 66,
+            "contributors": 100,
             "trustNumber": 70.0,
             "grade": "B"
           }
@@ -8609,12 +9038,17 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9113,8 +9547,10 @@
             "source": "https://github.com/obra/superpowers",
             "evaluator": "mbtiongson1",
             "date": "2026-05-18",
-            "notes": "obra/superpowers v5.1.0 — 196k+ GitHub stars, 17.5k forks, multi-platform adoption (Claude Code, Codex CLI, Factory Droid, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI). Most widely adopted AI agent discipline framework; confirms landmark methodology status. (backfilled — class-to-type migration)",
+            "notes": "obra/superpowers v5.1.0 — 196k+ GitHub stars, 17.5k forks, multi-platform adoption (Claude Code, Codex CLI, Factory Droid, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI). Most widely adopted AI agent discipline framework; confirms landmark methodology status. (backfilled — class-to-type migration) repo not found on GitHub as of 2026-06-19 (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 0,
+            "contributors": 0,
             "trustNumber": 70.0,
             "grade": "B"
           },
@@ -9158,6 +9594,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T09:34:47Z",
             "details": "TM 0.0 -> 50.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 50.0 -> 50.0, grade B -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteComponents": [
@@ -11286,8 +11727,10 @@
             "source": "https://github.com/ruvnet/ruflo",
             "evaluator": "mbtiongson1",
             "date": "2026-05-19",
-            "notes": "Ruflo orchestration platform — 34k+ GitHub stars. Meets Class A threshold: ≥5 named skills registered across 6 generic buckets in Gaia. (backfilled — class-to-type migration)",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars. Meets Class A threshold: ≥5 named skills registered across 6 generic buckets in Gaia. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
             "type": "repo",
+            "commits": 6899,
+            "contributors": 32,
             "trustNumber": 70.0,
             "grade": "B"
           },
@@ -11352,6 +11795,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T09:34:47Z",
             "details": "TM 0.0 -> 18.99, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 18.99 -> 54.99, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteComponents": [
@@ -11407,7 +11855,7 @@
         "installBody": "The quickest path to Ruflo:\n\n```bash\nnpx ruflo@latest init\n```\n\nThis launches an interactive wizard that detects your platform and configures\nthe full Ruflo loop (98 agents, 60+ commands, MCP server, hooks, and daemon).\nFor Claude Code plugin installs, Windows specifics, or the complete options\nreference, see the [full installation guide on GitHub](https://github.com/ruvnet/ruflo#installation).",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 18.99,
+        "trustMagnitude": 54.99,
         "apexGateStatus": {
           "aGradedOriginsGte5": true,
           "sourceTenureDaysGte180AorS": false,
@@ -12406,8 +12854,10 @@
           "source": "https://github.com/mbtiongson1/gaia-skill-tree",
           "evaluator": "mbtiongson1",
           "date": "2026-06-10",
-          "notes": "Exercised in this repository's own CI: the docs drift check (gaia docs build --check) gates every PR, demonstrating the skill in production. (backfilled — class-to-type migration)",
+          "notes": "Exercised in this repository's own CI: the docs drift check (gaia docs build --check) gates every PR, demonstrating the skill in production. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
           "type": "repo",
+          "commits": 90,
+          "contributors": 10,
           "trustNumber": 70.0,
           "grade": "B"
         }
@@ -12431,6 +12881,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:14Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T10:36:26Z",
+          "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14311,8 +14766,10 @@
           "source": "https://github.com/Xquik-dev/hermes-tweet",
           "evaluator": "kriptoburak",
           "date": "2026-05-15",
-          "notes": "Hermes Tweet provides an installable Hermes Agent X/Twitter skill and plugin for searching tweets, reading replies, looking up users, monitoring tweets, exporting followers, and gating post, reply, and DM actions. (backfilled — class-to-type migration)",
+          "notes": "Hermes Tweet provides an installable Hermes Agent X/Twitter skill and plugin for searching tweets, reading replies, looking up users, monitoring tweets, exporting followers, and gating post, reply, and DM actions. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
           "type": "repo",
+          "commits": 439,
+          "contributors": 2,
           "trustNumber": 70.0,
           "grade": "B"
         }
@@ -14330,6 +14787,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:21Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T10:36:26Z",
+          "details": "TM 0.0 -> 6.12, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra"

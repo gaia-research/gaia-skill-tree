@@ -27,9 +27,10 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/plan-ceo-review/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Rigorous
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Rigorous
     product strategy and scope review in four modes — SCOPE EXPANSION, SELECTIVE EXPANSION,
-    HOLD SCOPE, and SCOPE REDUCTION — evaluating… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
+    HOLD SCOPE, and SCOPE REDUCTION — evaluating… (backfilled — class-to-type migration)
+    (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
   commits: 323
   contributors: 9
@@ -48,8 +49,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:15Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -59,9 +63,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 77918505751a08a39d1cb97e5bf67796f664228a4b73590cd31c080dd7bf991c
 verification:
   firstEvidenceAt: '2026-06-03T05:51:29Z'
+trustMagnitudeInputHash: 77918505751a08a39d1cb97e5bf67796f664228a4b73590cd31c080dd7bf991c
 ---
 
 ## Overview

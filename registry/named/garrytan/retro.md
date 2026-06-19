@@ -44,22 +44,25 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:15Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/retro/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Synthesises
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Synthesises
     commit history, PR comments, and issue notes into a written sprint retrospective
     covering wins, misses, root causes, and action items. (backfilled — class-to-type
-    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
   commits: 323
   contributors: 9
   trustNumber: 70.0
   grade: B
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -69,9 +72,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: a3b676a7a49b869b3d76cb57b2b0159d27d444bed509ec46aafd2f110fce3026
 verification:
   firstEvidenceAt: '2026-06-03T05:51:36Z'
+trustMagnitudeInputHash: a3b676a7a49b869b3d76cb57b2b0159d27d444bed509ec46aafd2f110fce3026
 ---
 
 ## Overview

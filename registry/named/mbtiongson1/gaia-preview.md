@@ -35,20 +35,24 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:19Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-10'
-  notes: Project-local agent skill driving branch preview deploys via sync-artifacts.yml;
-    implementation public at SKILL.md. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
+  notes: 'Project-local agent skill driving branch preview deploys via sync-artifacts.yml;
+    implementation public at SKILL.md. (backfilled — class-to-type migration) (CLI
+    gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
   commits: 90
   contributors: 10
   trustNumber: 70.0
   grade: B
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -58,9 +62,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 3a5d74bb37e0f4fad2bcae34b2209fb45472f4bd11f941075a5caab34c618eeb
 verification:
   firstEvidenceAt: '2026-06-10T05:38:17Z'
+trustMagnitudeInputHash: 3a5d74bb37e0f4fad2bcae34b2209fb45472f4bd11f941075a5caab34c618eeb
 ---
 
 ## Overview

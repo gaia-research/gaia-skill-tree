@@ -37,19 +37,23 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:16Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 1.22, grade ungraded -> ungraded (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-10'
-  notes: Published implementation in the GLINCKER Claude Code Marketplace; reproducible
-    from SKILL.md. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
+  notes: 'Published implementation in the GLINCKER Claude Code Marketplace; reproducible
+    from SKILL.md. (backfilled — class-to-type migration) (CLI gap: commits+contributors
+    not writable via gaia dev evidence)'
   type: repo
   commits: 8
   contributors: 1
   trustNumber: 70.0
   grade: B
-trustMagnitude: 0.0
+trustMagnitude: 1.22
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -60,9 +64,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 6cc4f4860ea86ad034181702eb1ead696daced2fc23d13a65f6b72477bcba5d3
 verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
+trustMagnitudeInputHash: 6cc4f4860ea86ad034181702eb1ead696daced2fc23d13a65f6b72477bcba5d3
 ---
 
 ## Overview

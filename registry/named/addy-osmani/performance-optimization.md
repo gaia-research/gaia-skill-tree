@@ -53,16 +53,19 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T09:34:46Z'
   details: TM 0.0 -> 47.2, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:25Z'
+  details: TM 47.2 -> 83.2, grade C -> B (direct edit -- CLI gap)
 evidence:
 - class: A
   source: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
   evaluator: mbtiongson1
   date: '2026-05-31'
-  notes: Addy Osmani's performance-optimization SKILL.md in agent-skills repo (47.2k
+  notes: 'Addy Osmani''s performance-optimization SKILL.md in agent-skills repo (47.2k
     stars, verified 2026-05-31). Defines a measurement-driven 5-step workflow (Measure
     → Identify → Fix → Verify → Guard) with explicit Core Web Vitals thresholds. Qualifies
     for Class A per META §2.1 large-scale adoption criterion. (backfilled — class-to-type
-    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
   commits: 260
   contributors: 36
@@ -76,8 +79,8 @@ evidence:
   notes: 47,200 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
     standalone skill)
   stars: 47200
-trustMagnitude: 47.2
-overallTrustGrade: C
+trustMagnitude: 83.2
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
