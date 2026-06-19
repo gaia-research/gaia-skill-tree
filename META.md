@@ -22,7 +22,7 @@ Gaia uses a tiered star system (`0★`–`6★`) to rank skills. Levels are both
 | **3★** | **Evolved** | Demonstrates reproducibility and stability. | Grade B+ | community-verified / benchmark-verified |
 | **4★** | **Hardened** | Production-ready, well-documented, reliable. | Grade B+ (rank-floor protected) | up to security-reviewed |
 | **5★** | **Transcendent** | Mastery level, often an Ultimate capstone. | Grade B+ (rank-floor protected) | up to enterprise-ready |
-| **6★** | **Apex** | The pinnacle of Gaia; extreme ecosystem impact. | Grade A+ + 9-predicate gate | enterprise-ready required |
+| **6★** | **Apex** | The pinnacle of Gaia; extreme ecosystem impact. | Grade S + 6-predicate gate (was 9, see §4.3) | enterprise-ready required |
 
 ### 1.2 Skill Types
 - **○ Basic Skill**: Root primitives. 0 prerequisites.
@@ -111,7 +111,7 @@ Key mechanics (summary; see `founder/handovers/G7_TRUST_TAXONOMY_RFC.md` for the
 
 The Overall Trust Grade is computed at the skill level from the accumulated Trust Magnitude and is **never stored on a node** — it materialises only in generated catalogs. Distinct from any single row's Evidence Grade.
 
-**Note:** The current implementation in `src/gaia_cli/verification.py` uses MAX-grade across evidence rows as a proxy for the Overall Trust Grade until the full Trust Magnitude formula lands in code. The full formula is targeted for a recalibration RFC (scheduled 2026-07-10).
+**Implementation status (updated 2026-06-20):** the Trust Magnitude formula is **live in code** as of Phase 1.5 (`src/gaia_cli/trustMagnitude.py`). Migration regrade has run across all 249 named skills; current distribution is **S=4 / A=42 / B=56 / C=76 / ungraded=71** (post-I11 source-curation pass). The public Trust Magnitude leaderboard at `/trust/leaderboard/` reads `docs/graph/leaderboard/data.json`. The recalibration RFC v3 (depth-2 amendments, evidence-tier weights) is scheduled for follow-up — tracked in issue #749.
 
 ### 2.1d Anti-auto-mint clause (registry-wide)
 
@@ -165,21 +165,24 @@ The **Canonical Level** (e.g., 4★) is the claimed tier based on evidence. The 
 - **Ultimate Fusion**: Proposer must hold Origin status on at least 1 of the 5+ named prerequisites. Requires ≥ 10k repository stars.
 - **The Ascension Cycle (6★ Apex)**: Reaching the **Apex** rank requires Grade A evidence AND that the skill is the product of a fusion involving at least one **Origin 5★ Transcendent** skill. Additionally, any skill currently recorded at 6★ before the G7 cutover will be subject to demotion review against the new 9-predicate gate (§4.3) at migration time.
 
-### 4.3 NEW: Apex (6★) Gate — 9-Predicate Requirements
+### 4.3 Apex (6★) Gate — 6-Predicate Requirements (active set, post-2026-06-17 delta)
 
-Reaching or retaining 6★ Apex rank requires satisfying all nine predicates enumerated in the G7 Trust Taxonomy RFC (`founder/handovers/G7_TRUST_TAXONOMY_RFC.md` §10.12). The predicates are:
+Reaching or retaining 6★ Apex rank requires satisfying the six **active** predicates from the G7 Trust Taxonomy RFC (`founder/handovers/G7_TRUST_TAXONOMY_RFC.md` §11.12). The original RFC defined nine predicates; per the 2026-06-17 delta (`founder/handovers/G7_HANDOVER_DELTA_2026-06-17.md`) two were moved behind a feature flag (`crossOrgVerifierGte2`, `systemWideCapRespected`) and one was reframed as a sign-off gate. The active set is:
 
-1. **≥ 12 nested origins** — transitive `suiteComponents` closure, deduplicated, each graded ≥ C.
-2. **≥ 1 direct nest** — at least one direct component must itself be a suite or Ultimate skill.
-3. **≥ 1 deep-nested origin** — at least one origin reachable only through nesting, not also a direct component.
-4. **Trust Magnitude ≥ 250** from physically-present evidence rows (no phantom rows; anti-auto-mint clause §2.1d applies).
-5. **≥ 8 nodes in the closure** with Overall Trust Grade ≥ A.
-6. **≥ 2 verifier cosigns** from 2 distinct GitHub organizations.
-7. **≥ 180-day tenure** — earliest evidence row must be at least 180 calendar days old.
-8. **PR-gated promotion** — must carry the `apex-promotion` label and receive ≥ 2 verifier sign-offs in the PR.
-9. **System-wide cap of 5** concurrent 6★ Apex skills.
+1. **§11.12.1 — ≥ 5 A-graded origins** in the transitive `suiteComponents` closure (deduplicated).
+2. **§11.12.2 — ≥ 1 direct component with `suiteComponents`** (at least one direct child is itself a suite).
+3. **§11.12.3 — ≥ 1 node reachable only at depth ≥ 2.** As of I12 (2026-06-20) the depth-2 walker includes overlap with depth-1 — the prior strict-no-overlap rule was relaxed; cycle-self guard kept. Awaits RFC v3 ratification (issue #749).
+4. **§11.12.4 — Overall Trust Grade S** (Trust Magnitude ≥ 250).
+5. **§11.12.7 — Tenure ≥ 180 days.** Earliest evidence row's `sourceStartedAt` must be at least 180 calendar days old. The `gaia dev evidence --source-started-at YYYY-MM-DD` flag (I12) populates this field.
+6. **§11.12.8 — `apexPromotionPrSigned`** by Marco (the verifier) on the named skill's frontmatter `apexGateStatus`. Stamped via PR review, not auto-derived.
 
-The G7 RFC is the normative spec; META.md is a summary only. Enforcement of all nine predicates in code is scheduled as post-recalibration work (see §8 implementation status).
+**Feature-flagged (not enforced today):**
+- §11.12.5 cross-org verifier ≥ 2 — gated on `crossOrgVerifierGte2` flag; awaits Verifier-Signoff sub-system.
+- §11.12.6 system-wide cap of 5 concurrent 6★ — gated on `systemWideCapRespected` flag.
+
+Enforcement is **live in code** as of Phase 1.5 (`src/gaia_cli/trustMagnitude.py::checkApexGate*` family). Top-4 S-grade skills (`garrytan/gstack`, `ruvnet/ruflo`, `mattpocock/skills`, `obra/superpowers`) currently pass 4/6 predicates each — §11.12.1 (A-graded origins) and §11.12.7 (tenure) await deeper origin curation and historical `sourceStartedAt` backfill respectively.
+
+The G7 RFC is the normative spec; META.md is a summary.
 
 ---
 
@@ -265,6 +268,11 @@ To maintain high prestige and avoid "Vendor Bloat," Gaia employs a proactive pru
 | Benchmark Framework RFC | ✅ Designed | PR #706 (G7) |
 | 4-tier Verification Workflow | ✅ Implemented | PR #709 (G4) |
 | `verification.firstEvidenceAt` write path | ✅ Implemented | PR #709 (G4) |
-| Trust Magnitude formula in code | 🟡 Planned | Recalibration RFC 2026-07-10 |
-| 9-predicate Apex gate enforcement | 🟡 Designed | G7 RFC, post-recalibration |
+| Trust Magnitude formula in code | ✅ Implemented | `src/gaia_cli/trustMagnitude.py` (Phase 1.5, 2026-06-20) |
+| 6-predicate Apex gate enforcement | ✅ Implemented | `trustMagnitude.py::checkApexGate*` (post-delta active set) |
+| Public Trust Magnitude Leaderboard | ✅ Implemented | `docs/trust/leaderboard/` (Phase 1.5, I10) |
+| `gaia dev evidence --source-started-at` (tenure baseline) | ✅ Implemented | `src/gaia_cli/main.py` argparse (Phase 1.5, I12) |
+| `gaia dev evidence` numeric payload flags | ✅ Implemented | `src/gaia_cli/main.py` argparse (Phase 1.5, I9) |
+| RFC v3 ratification (depth-2 + apex_pr_signed enum + tenure calibration) | 🟡 Pending | Issue #749, post-Phase-1.5 |
+| 9→6 predicate Apex gate (cross-org + cap moved to feature flag) | ✅ Implemented | `G7_HANDOVER_DELTA_2026-06-17.md` |
 | `security_scan_passed` timeline emit wiring | 🟡 Planned | Follow-up PR (G4 TODO) |
