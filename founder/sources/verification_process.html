@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verification Pipeline — The Codex — Gaia</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* Canonical Colors (DESIGN.md) */
+      --bg: #030712;
+      --surface: #0f172a;
+      --border: #1e293b;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      
+      /* Tier Accents */
+      --tier-basic: #38bdf8;
+      --tier-extra: #c084fc;
+      --tier-unique: #7c3aed;
+      --tier-ultimate: #f59e0b;
+      
+      /* Brand-Color Roles */
+      --honor-red: #ef4444;
+      --apex-gold: #fbbf24;
+      
+      /* Fonts */
+      --font-body: 'Bricolage Grotesque', Inter, system-ui, sans-serif;
+      --font-display: 'EB Garamond', Georgia, serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+      
+      --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(at 10% 20%, rgba(56, 189, 248, 0.03) 0px, transparent 50%),
+        radial-gradient(at 90% 80%, rgba(124, 58, 237, 0.03) 0px, transparent 50%);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.65;
+      padding: 4rem 1.5rem;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* Header styling */
+    header {
+      text-align: center;
+      margin-bottom: 4rem;
+      position: relative;
+    }
+
+    /* Brand mark */
+    .diamond-seal {
+      margin-bottom: 1.5rem;
+      display: inline-block;
+      filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.25));
+    }
+
+    header h1 {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 600;
+      font-family: var(--font-display);
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .underline-accent {
+      border-bottom: 1px solid var(--apex-gold);
+    }
+
+    header p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0.5rem auto 0 auto;
+      font-weight: 300;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 4.5rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--tier-basic);
+    }
+
+    .stat-value {
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+      font-family: var(--font-mono);
+      letter-spacing: -0.02em;
+    }
+
+    .stat-card.success .stat-value {
+      color: var(--tier-basic);
+    }
+
+    .stat-card.error .stat-value {
+      color: var(--honor-red);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 500;
+      font-family: var(--font-mono);
+    }
+
+    /* Process Flow layout */
+    .timeline {
+      position: relative;
+      margin: 2rem 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+      z-index: 1;
+    }
+
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-left: 100px;
+      margin-bottom: 3.5rem;
+      padding: 2.25rem;
+      position: relative;
+      box-shadow: var(--shadow);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* Glow only on hover */
+    .step-card.step-1:hover { border-color: var(--tier-basic); box-shadow: 0 0 30px rgba(56, 189, 248, 0.15), var(--shadow); }
+    .step-card.step-2:hover { border-color: var(--tier-extra); box-shadow: 0 0 30px rgba(192, 132, 252, 0.15), var(--shadow); }
+    .step-card.step-3:hover { border-color: var(--tier-unique); box-shadow: 0 0 30px rgba(124, 58, 237, 0.15), var(--shadow); }
+    .step-card.step-4:hover { border-color: var(--tier-ultimate); box-shadow: 0 0 30px rgba(245, 158, 11, 0.15), var(--shadow); }
+
+    /* Timeline bullet badge */
+    .step-badge {
+      position: absolute;
+      left: -71px;
+      top: 2.25rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      box-shadow: var(--shadow);
+      font-family: var(--font-mono);
+      transition: all 0.25s ease;
+    }
+
+    .step-card:hover .step-badge {
+      color: var(--bg);
+      transform: scale(1.05);
+    }
+
+    .step-1:hover .step-badge { background: var(--tier-basic); border-color: var(--tier-basic); }
+    .step-2:hover .step-badge { background: var(--tier-extra); border-color: var(--tier-extra); }
+    .step-3:hover .step-badge { background: var(--tier-unique); border-color: var(--tier-unique); }
+    .step-4:hover .step-badge { background: var(--tier-ultimate); border-color: var(--tier-ultimate); }
+
+    .step-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .step-title {
+      font-size: 1.6rem;
+      font-weight: 600;
+      font-family: var(--font-display);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--text);
+    }
+
+    .step-tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      font-family: var(--font-mono);
+    }
+
+    .step-1 .step-tag { color: var(--tier-basic); border-color: rgba(56, 189, 248, 0.2); }
+    .step-2 .step-tag { color: var(--tier-extra); border-color: rgba(192, 132, 252, 0.2); }
+    .step-3 .step-tag { color: var(--tier-unique); border-color: rgba(124, 58, 237, 0.2); }
+    .step-4 .step-tag { color: var(--tier-ultimate); border-color: rgba(245, 158, 11, 0.2); }
+
+    .step-content p {
+      color: var(--text);
+      font-size: 1rem;
+      margin-bottom: 1.25rem;
+      font-weight: 300;
+    }
+
+    /* Lists inside steps */
+    .step-details {
+      list-style-type: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .step-details li {
+      position: relative;
+      padding-left: 1.75rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+      color: var(--text);
+      font-weight: 300;
+    }
+
+    .step-details li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      font-weight: 500;
+      font-family: var(--font-mono);
+    }
+
+    .step-1 .step-details li::before { color: var(--tier-basic); }
+    .step-2 .step-details li::before { color: var(--tier-extra); }
+    .step-3 .step-details li::before { color: var(--tier-unique); }
+    .step-4 .step-details li::before { color: var(--tier-ultimate); }
+
+    /* Code Block Panel */
+    .code-panel {
+      background: #020617;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
+
+    .code-line {
+      display: block;
+      line-height: 1.6;
+    }
+
+    .code-cmd {
+      color: var(--tier-basic);
+    }
+
+    .code-comment {
+      color: #4b6378;
+      font-style: italic;
+    }
+
+    /* Footer styling */
+    footer {
+      text-align: center;
+      margin-top: 6rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+    }
+
+    footer a {
+      color: var(--tier-basic);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    footer a:hover {
+      color: var(--tier-extra);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .timeline::before {
+        left: 20px;
+      }
+      .step-card {
+        margin-left: 45px;
+        padding: 1.5rem;
+      }
+      .step-badge {
+        left: -36px;
+        width: 32px;
+        height: 32px;
+        font-size: 0.75rem;
+        top: 1.5rem;
+      }
+      header h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <header>
+      <!-- The Diamond Seal Brand Mark -->
+      <svg class="diamond-seal" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M24 4L44 24L24 44L4 24Z" stroke="var(--apex-gold)" stroke-width="1.5" stroke-linejoin="miter"/>
+        <text x="24" y="30" font-family="'EB Garamond', Georgia, serif" font-size="21" font-weight="600" fill="var(--text)" text-anchor="middle">G</text>
+      </svg>
+      
+      <h1>Evidence Verification <span class="underline-accent">Pipeline</span></h1>
+      <p>A multi-stage programmatic, adversarial, and API-driven validation flow securing the integrity of evidence mapped to the Gaia Registry.</p>
+    </header>
+
+    <!-- Stats Block -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value">287</div>
+        <div class="stat-label">Unique URLs Audited</div>
+      </div>
+      <div class="stat-card success">
+        <div class="stat-value">286</div>
+        <div class="stat-label">Verified Links (200 OK)</div>
+      </div>
+      <div class="stat-card error">
+        <div class="stat-value">1</div>
+        <div class="stat-label">Validation Timeout</div>
+      </div>
+      <div class="stat-card success">
+        <div class="stat-value">0</div>
+        <div class="stat-label">Broken Links (404)</div>
+      </div>
+    </div>
+
+    <!-- Timeline Wrapper -->
+    <div class="timeline">
+      
+      <!-- Phase 1 -->
+      <div class="step-card step-1" id="phase-1">
+        <div class="step-badge">1</div>
+        <div class="step-title-row">
+          <h2 class="step-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Collection Phase
+          </h2>
+          <span class="step-tag">Data Intake</span>
+        </div>
+        <div class="step-content">
+          <p>The collection phase aggregates raw proof vectors from several primary channels. External metadata, package versions, and contributor assertions are harvested and mapped directly to registry slots.</p>
+          <ul class="step-details">
+            <li><strong>Multi-Channel Scraping:</strong> Automated collector scripts harvest metrics directly from GitHub API, YouTube showcasing videos, blogs, and arXiv paper citation repositories.</li>
+            <li><strong>Granular Categorization:</strong> Raw evidence is classified based on metric type: <code>repo</code>, <code>proxy-containment</code>, <code>arxiv</code>, or <code>social-signal</code>.</li>
+            <li><strong>Master Evidence Consolidation:</strong> Merges individual star tiers (Tiers 1★ to 6★) into a central data structure: <code>unified_evidence_lake.md</code>.</li>
+          </ul>
+          <div class="code-panel">
+            <span class="code-line"><span class="code-comment"># Compiles individual tier dumps into the master evidence data lake</span></span>
+            <span class="code-line"><span class="code-cmd">.venv/bin/python founder/sources/scripts/compile_data_lake.py</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="step-card step-2" id="phase-2">
+        <div class="step-badge">2</div>
+        <div class="step-title-row">
+          <h2 class="step-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Validation & Live Mapping Phase
+          </h2>
+          <span class="step-tag">Star Verification</span>
+        </div>
+        <div class="step-content">
+          <p>The validation and live mapping phase validates registry files against live GitHub metrics, resolving repository path counts and generating partitioned raw source tier dumps.</p>
+          <ul class="step-details">
+            <li><strong>Registry Loading & Parsing:</strong> Reads evidence data directly from canonical index structures (<code>gaia.json</code>, <code>named-skills.json</code>, and <code>registry/named/</code>).</li>
+            <li><strong>GitHub Live Star Retrieval:</strong> Invokes the GitHub CLI (<code>gh repo view</code>) to check and cache live stargazer counts for all primary repositories and proxy-containment targets.</li>
+            <li><strong>Partitioning & Formatting:</strong> Separates evidence records into their corresponding star tiers (1★ to 6★) and generates raw markdown files inside <code>founder/sources/data_lake/</code>.</li>
+          </ul>
+          <div class="code-panel">
+            <span class="code-line"><span class="code-comment"># Programmatically updates live star counts and partitions data dumps by tier</span></span>
+            <span class="code-line"><span class="code-cmd">.venv/bin/python founder/sources/scripts/generate_source_dump.py</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="step-card step-3" id="phase-3">
+        <div class="step-badge">3</div>
+        <div class="step-title-row">
+          <h2 class="step-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Adversarial Check
+          </h2>
+          <span class="step-tag">Vulnerability Scans</span>
+        </div>
+        <div class="step-content">
+          <p>Parallel adversarial subagents stress-test the data lake, analyzing evidence descriptors, repository links, star counts, and proxies from a "Devil's Advocate" perspective to catch quality slippage.</p>
+          <ul class="step-details">
+            <li><strong>Subagent Parallelization:</strong> The data lake files are divided among 4 parallel adversarial reviewer subagents to test links and assess qualitative claims.</li>
+            <li><strong>Noise Filtering:</strong> Identifies subjective wording ("elite", "best"), procedural rank annotations, or stale database migration notes.</li>
+            <li><strong>Audit Synthesis:</strong> A 5th synthesis subagent aggregates findings and appends them to the master source report (e.g. <code>source_report_2026_06_19.md</code>).</li>
+          </ul>
+          <div class="code-panel">
+            <span class="code-line"><span class="code-comment"># Orchestrated via the local gaia-adversarial-audit agent workflow</span></span>
+            <span class="code-line"><span class="code-cmd">/gaia-adversarial-audit</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 4 -->
+      <div class="step-card step-4" id="phase-4">
+        <div class="step-badge">4</div>
+        <div class="step-title-row">
+          <h2 class="step-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Firecrawl Links Check
+          </h2>
+          <span class="step-tag">Active API Scrapes</span>
+        </div>
+        <div class="step-content">
+          <p>An automated API sweep fetches and scrapes all unique links inside the evidence data lake. Firecrawl's scraping engine resolves HTTP statuses, handles redirects, and verifies actual link availability.</p>
+          <ul class="step-details">
+            <li><strong>Dynamic Link Extraction:</strong> The validator script extracts unique links across all tier documents, deduplicating them to prevent redundant sweeps.</li>
+            <li><strong>API Scrape Verification:</strong> Hits the Firecrawl scraper API in parallel (limited to 2 concurrency) to check status codes and verify output structural formats.</li>
+            <li><strong>Failures & Outages Logging:</strong> Captures timeouts (greater than 45 seconds) and registers HTTP 404 broken links, outputting the results into the official verification log.</li>
+          </ul>
+          <div class="code-panel">
+            <span class="code-line"><span class="code-comment"># Initiates the full verification process via the official validation script</span></span>
+            <span class="code-line"><span class="code-cmd">.venv/bin/python founder/sources/scripts/validate_sources.py</span></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      <p>Gaia Registry System • Trust Methodology. Logs persisted in <a href="file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/verification/">founder/sources/collectors/verification/</a></p>
+    </footer>
+
+  </div>
+
+</body>
+</html>
