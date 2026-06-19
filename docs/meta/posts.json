@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "id": "2026-06-20-gaia-trust-infrastructure-a-june-2026-retrospective",
+      "type": "report",
+      "date": "2026-06-20",
+      "title": "GAIA Trust Infrastructure: A June 2026 Retrospective",
+      "summary": "Phase 1 baseline through Phase 1.5 ratification — G7 RFC, Trust Magnitude formula, apex gate, public leaderboard.",
+      "label": "Trust Model",
+      "url": "meta/reports/2026-06-20-gaia-trust-infrastructure-a-june-2026-retrospective.html",
+      "author": "Marcus Rafael Tiongson, Maintainer",
+      "source": "docs/meta/2026-06-FULL-recap.md"
+    },
+    {
       "id": "2026-06-17-g7-trust-magnitude-supersedes-the-2026-06-15-methodology",
       "type": "report",
       "date": "2026-06-17",
