@@ -240,39 +240,78 @@
   }
 
   // ── Trust Grade notch field helper (I8) ─────────────────────────
-  // Returns the .plaque__trust-notch HTML when skill.overallTrustGrade
-  // is a real grade (S/A/B/C), or an empty string when absent/ungraded.
-  // The notch is injected via _shell so every variant gets it automatically.
+  // ── Trust Grade notch field helper (I8) ─────────────────────────
+  // Pixel-thin colored bar flush at the card bottom.
+  // On plaque hover: bar expands to full label height, "MAG X.X" counts up
+  // from 0 to the real TM in <0.4s.
   //
-  // Source fields checked in priority order:
-  //   1. ns.overallTrustGrade  (named-skills.json + docs/graph/named/index.json)
-  //   2. ns.trustGrade         (legacy alias, if present)
+  // DOM structure:
+  //   <div class="plaque__trust-notch" data-trust-grade="A" data-tm="122.8">
+  //     <span class="trust-notch-label">MAG <span class="trust-notch-num">0</span></span>
+  //   </div>
   //
-  // Hover reveal:
-  //   Default (no hover): shows TM number (.trust-notch-default).
-  //   Hover: shine sweep animation reveals grade letter S/A/B/C
-  //          (.trust-notch-reveal) while TM number fades out.
+  // The counter is wired in _wireTrustNotches(), called once per render cycle.
   var GRADE_NAMES = { S: 'Platinum', A: 'Gold', B: 'Silver', C: 'Bronze' };
 
   function _fieldTrustNotch(ns) {
     var tg = (ns && (ns.overallTrustGrade || ns.trustGrade)) || '';
-    // Normalise: only accept canonical grades; ignore 'ungraded' / nullish
     if (!tg || tg === 'ungraded' || !GRADE_NAMES[tg]) return '';
-
-    var gradeName = GRADE_NAMES[tg];
     var tm = (ns && (ns.trustMagnitude || ns.overallTrustMagnitude));
-    var tmRounded = (tm != null && tm !== '') ? Math.round(Number(tm)) : 0;
-    var tmLabel = tmRounded > 0 ? String(tmRounded) : '';
-
-    var ariaLabel = 'Trust grade: ' + gradeName + (tmRounded > 0 ? ', magnitude ' + tmRounded : '');
-    // .trust-notch-default: TM number visible by default, fades on hover
-    // .trust-notch-reveal: grade letter hidden by default, reveals on hover
+    var tmVal = (tm != null && tm !== '') ? parseFloat(Number(tm).toFixed(1)) : 0;
+    var gradeName = GRADE_NAMES[tg];
+    var ariaLabel = 'Trust grade: ' + gradeName + (tmVal > 0 ? ', magnitude ' + tmVal : '');
     return '<div class="plaque__trust-notch" data-trust-grade="' + esc(tg) + '"' +
+      ' data-tm="' + esc(String(tmVal)) + '"' +
       ' aria-label="' + esc(ariaLabel) + '">' +
-      '<span class="trust-notch-default">' + esc(tmLabel) + '</span>' +
-      '<span class="trust-notch-reveal">' + esc(tg) + '</span>' +
+      '<span class="trust-notch-label">MAG <span class="trust-notch-num">0</span></span>' +
       '</div>';
   }
+
+  // Wire up the count-up animation for all notches inside a container.
+  // Safe to call multiple times — skips already-wired notches.
+  function _wireTrustNotches(root) {
+    root = root || document;
+    var notches = root.querySelectorAll
+      ? root.querySelectorAll('.plaque__trust-notch[data-tm]')
+      : [];
+    for (var i = 0; i < notches.length; i++) {
+      (function(notch) {
+        if (notch._tmWired) return;
+        notch._tmWired = true;
+        var target = parseFloat(notch.getAttribute('data-tm')) || 0;
+        var numEl = notch.querySelector('.trust-notch-num');
+        if (!numEl) return;
+        var plaque = notch.closest ? notch.closest('.plaque') : notch.parentElement;
+        if (!plaque) return;
+        var raf, startTs;
+        var DURATION = 380;
+        function countUp(ts) {
+          if (!startTs) startTs = ts;
+          var progress = Math.min((ts - startTs) / DURATION, 1);
+          var eased = 1 - (1 - progress) * (1 - progress);
+          var current = eased * target;
+          numEl.textContent = target % 1 === 0
+            ? Math.round(current).toString()
+            : current.toFixed(1);
+          if (progress < 1) raf = requestAnimationFrame(countUp);
+        }
+        function onEnter() {
+          cancelAnimationFrame(raf);
+          startTs = null;
+          numEl.textContent = '0';
+          raf = requestAnimationFrame(countUp);
+        }
+        function onLeave() {
+          cancelAnimationFrame(raf);
+          numEl.textContent = '0';
+        }
+        plaque.addEventListener('mouseenter', onEnter);
+        plaque.addEventListener('mouseleave', onLeave);
+      }(notches[i]));
+    }
+  }
+
+  if (typeof window !== 'undefined') window._wireTrustNotches = _wireTrustNotches;
 
   // ── plaque shell ─────────────────────────────────────────────────
   function _shell(variant, ns, innerHtml, extraOpts) {
