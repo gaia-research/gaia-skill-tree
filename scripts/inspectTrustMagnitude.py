@@ -62,6 +62,34 @@ def buildGenericSkillMap(nodesDir: Path) -> dict[str, dict]:
     return gmap
 
 
+def buildNamedSkillMap(namedDir: Path) -> dict[str, dict]:
+    """Walk registry/named/**/*.md and return a dict keyed by skill id.
+
+    Used so fusion-recipe origin lookups for suite components resolve to graded
+    named skills rather than falling back to ``None`` (ungraded).
+    """
+    nmap: dict[str, dict] = {}
+    for p in namedDir.rglob("*.md"):
+        fm, _ = loadNamedSkill(p)
+        if fm is None:
+            continue
+        sid = fm.get("id")
+        if sid:
+            nmap[sid] = fm
+    return nmap
+
+
+def buildMergedMap(nodesDir: Path, namedDir: Path) -> dict[str, dict]:
+    """Return genericSkillMap merged with namedSkillMap.
+
+    Named skill IDs use ``owner/name`` form and never collide with generic IDs.
+    The merged map lets ``_gradedOriginCount`` resolve suite-component origins.
+    """
+    gmap = buildGenericSkillMap(nodesDir)
+    nmap = buildNamedSkillMap(namedDir)
+    return {**gmap, **nmap}
+
+
 def loadAllNamedSkills() -> list[dict]:
     skills = []
     for p in sorted(NAMED_DIR.rglob("*.md")):
@@ -108,8 +136,8 @@ def mostEfficientNextType(skill: dict, genericSkillMap: dict) -> str:
 
 
 def inspectMode(skillId: str) -> int:
-    print(f"Loading genericSkillMap from {NODES_DIR}...")
-    genericSkillMap = buildGenericSkillMap(NODES_DIR)
+    print(f"Loading skill maps from {NODES_DIR} + {NAMED_DIR}...")
+    genericSkillMap = buildMergedMap(NODES_DIR, NAMED_DIR)
 
     # Find the skill file
     found = None
@@ -162,8 +190,8 @@ def inspectMode(skillId: str) -> int:
 
 
 def leaderboardMode() -> int:
-    print(f"Loading genericSkillMap from {NODES_DIR}...")
-    genericSkillMap = buildGenericSkillMap(NODES_DIR)
+    print(f"Loading skill maps from {NODES_DIR} + {NAMED_DIR}...")
+    genericSkillMap = buildMergedMap(NODES_DIR, NAMED_DIR)
 
     print(f"Loading all named skills from {NAMED_DIR}...")
     skills = loadAllNamedSkills()
