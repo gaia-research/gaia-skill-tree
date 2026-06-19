@@ -24,8 +24,12 @@ This is the **single consolidation PR** for all Phase 1.5 work. Per `founder/GIT
 | I10 | #747 → #750 | Public Trust Magnitude Leaderboard at `/trust/leaderboard/` + CTAs | ✅ merged at e111ae5e |
 | I11 | #753 → #751 | Source curation pass — 58 evidence rows, 19/20 floor lifts to C+, google-deepmind cluster to A | ✅ merged at eae4c124 |
 | I12 | #748 → #746 | Apex gate — depth-2 walker includes suiteComponents, `--source-started-at` CLI flag, 4 apex stamps | ✅ merged at 2090ee31 |
+| RFC v3 | — → #749 | Depth-2 amendment + `apex_pr_signed` enum + `sourceStartedAt` formalization | ✅ ratified at 9ff1bc78 |
 | Sources | — | `founder/sources/` data lake from `dev/sources` (10-type evidence taxonomy) | ✅ in branch |
 | CLI fix | #738 | `gaia dev timeline --user` routing fix | ✅ in branch |
+| Meta-post | — | June 2026 retrospective via L3-mechanical fallback | ✅ at e4e6d954 |
+| Docs sync | — | README/CONTRIBUTING/DEV.md updated for Phase 1.5 reality | ✅ at 694fdcb6 |
+| Archive | — | METASHIFT.md, pr_report.md, reports/ → `docs/meta/archive/` | ✅ at 844c95d5 |
 
 ### Final TM distribution snapshot (post-merge, SHA d0bf9184)
 
@@ -64,9 +68,13 @@ Apex Promotion PR signed by `mbtiongson1` on 2026-06-20 (frontmatter `apexGateSt
 ### Known follow-ups (tracked, not blocking this merge)
 
 - **#746** — Apex gate: A-graded origins ≥ 5 predicate (`§11.12.1`) for the 4 S-grade suites — needs deeper origin source curation; queued after Phase 1.5 ships.
-- **#749** — RFC v3 ratification follow-ups: depth-2 amendment language (now allows suiteComponent overlap with depth-1), `apex_pr_signed` timeline action enum, source-tenure predicate calibration.
+- **~~#749~~** — RFC v3 ratification follow-ups: ~~depth-2 amendment language~~, ~~`apex_pr_signed` timeline action enum~~, ~~source-tenure predicate calibration~~. **✅ Ratified at 9ff1bc78** (`founder/handovers/G7_RFC_V3_RATIFICATION_2026-06-20.md`).
 - **#751** — I11 P3 batch: ~71 skills still ungraded; mostly low-signal generic-only candidates. Fast-follow after Phase 1.5.
 - **`generateNamedIndex.py` legacy threshold bug** (S≥90/A≥80) — frontmatter values are canonical; index thresholds need realignment to G7 floors (S≥250/A≥100). Tracked as tech-debt; non-blocking.
+
+### Post-merge — release path
+
+A 5.0.0 major release is queued for execution post-merge. See `founder/handovers/RELEASE_5.0.0_RUNBOOK.md` for the step-by-step runbook (version-bump, PyPI publish, npm publish, GitHub release, rollback path). Do not execute until this PR merges.
 
 ### Conflict resolution
 
@@ -76,4 +84,4 @@ Any conflicts with `main`: take ours (`dev/phase-1.5-inspection` is canonical fo
 
 This PR spans every branch prefix (schema, cli, design, review/meta, infra, docs) by design — it's the consolidation lane. Label `skip-scope-check` is applied per `founder/GIT.md` §3.3 standing pre-approval.
 
-Resolves #726 #728 #732 #733 #734 #735 #736 #738 #743 #744 #746 #750 #751
+Resolves #719 #720 #726 #728 #732 #733 #734 #735 #736 #738 #740 #743 #744 #746 #749 #750 #751
