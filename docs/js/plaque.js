@@ -248,8 +248,10 @@
   //   1. ns.overallTrustGrade  (named-skills.json + docs/graph/named/index.json)
   //   2. ns.trustGrade         (legacy alias, if present)
   //
-  // Shows letter + interpunct + TM on ALL variants (e.g. "A · 47").
-  // Grade name labels are never shown. TM omitted only when zero/null.
+  // Hover reveal:
+  //   Default (no hover): shows TM number (.trust-notch-default).
+  //   Hover: shine sweep animation reveals grade letter S/A/B/C
+  //          (.trust-notch-reveal) while TM number fades out.
   var GRADE_NAMES = { S: 'Platinum', A: 'Gold', B: 'Silver', C: 'Bronze' };
 
   function _fieldTrustNotch(ns) {
@@ -258,20 +260,17 @@
     if (!tg || tg === 'ungraded' || !GRADE_NAMES[tg]) return '';
 
     var gradeName = GRADE_NAMES[tg];
-    var letterHtml = '<span class="trust-notch-letter">' + esc(tg) + '</span>';
-
-    // TM number on ALL variants — show when tm > 0
-    var tmHtml = '';
     var tm = (ns && (ns.trustMagnitude || ns.overallTrustMagnitude));
     var tmRounded = (tm != null && tm !== '') ? Math.round(Number(tm)) : 0;
-    if (tmRounded > 0) {
-      tmHtml = '<span class="trust-notch-tm"> · ' + esc(String(tmRounded)) + '</span>';
-    }
+    var tmLabel = tmRounded > 0 ? String(tmRounded) : '';
 
     var ariaLabel = 'Trust grade: ' + gradeName + (tmRounded > 0 ? ', magnitude ' + tmRounded : '');
+    // .trust-notch-default: TM number visible by default, fades on hover
+    // .trust-notch-reveal: grade letter hidden by default, reveals on hover
     return '<div class="plaque__trust-notch" data-trust-grade="' + esc(tg) + '"' +
       ' aria-label="' + esc(ariaLabel) + '">' +
-      letterHtml + tmHtml +
+      '<span class="trust-notch-default">' + esc(tmLabel) + '</span>' +
+      '<span class="trust-notch-reveal">' + esc(tg) + '</span>' +
       '</div>';
   }
 
@@ -289,12 +288,12 @@
     }
     var role = extraOpts.role ? ' role="' + esc(extraOpts.role) + '" tabindex="0"' : '';
     var extraAttrs = extraOpts.attrs || '';
-    // Trust Grade notch — injected for every variant except hall/mini-stack
-    // (those are contributor plates, not individual skill cards).
-    var trustNotch = '';
-    if (variant !== 'hall' && !(extraOpts.extraClass && extraOpts.extraClass.indexOf('plaque--mini-stack') !== -1)) {
-      trustNotch = _fieldTrustNotch(ns);
-    }
+    // Inject trust notch at card bottom for all variants except mini-stack
+    // (mini-stack is a contributor mosaic with multiple skills; HoH individual
+    //  cards, tile, settled, row, og, detail, and hall all show the notch).
+    var isMiniStack = extraOpts.extraClass &&
+      extraOpts.extraClass.indexOf('plaque--mini-stack') !== -1;
+    var trustNotch = (!isMiniStack) ? _fieldTrustNotch(ns) : '';
     return '<article class="plaque plaque--' + esc(variant) + apex + extraCls +
       '" data-type="' + esc(type) + '" data-level="' + esc(n) +
       '" data-skill-id="' + esc(ns && ns.id || '') + '"' +
@@ -365,6 +364,9 @@
   // Field set: same as tile, laid horizontally. Description hidden via
   // CSS only — no silent field drops at the JS level.
   function renderRow(ns, opts) {
+    var evBadge = ns && ns.level
+      ? '<span class="plaque__ev-badge">' + esc(_evidenceClass(ns.level)) + '</span>'
+      : '';
     var inner =
       _fieldOrb(ns, 'sm') +
       _fieldSlug(ns) +
@@ -374,6 +376,7 @@
       _fieldInstallRow(ns) +
       _fieldRank(ns, 'chip') +
       _fieldGhLink(ns) +
+      evBadge +
       '<span class="plaque__arrow ns-lr-arrow" aria-hidden="true">›</span>';
 
     return _shell('row', ns, inner, opts);
