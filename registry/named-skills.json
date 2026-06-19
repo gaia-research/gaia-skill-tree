@@ -37,6 +37,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:36Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -115,6 +120,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -205,6 +215,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -283,6 +298,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -403,6 +423,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 83.2, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:36Z",
+            "details": "TM 0.0 -> 83.2, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -460,6 +485,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -512,6 +542,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -598,6 +633,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:36Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -688,6 +728,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -770,6 +815,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:36Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -848,6 +898,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -936,6 +991,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
             "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -1031,6 +1091,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
             "details": "TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -1149,6 +1214,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 90.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:36Z",
+            "details": "TM 0.0 -> 90.0, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -1222,6 +1292,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 1.22, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:36Z",
             "details": "TM 0.0 -> 1.22, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -1397,6 +1472,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
@@ -1523,6 +1603,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:36Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -1601,6 +1686,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -1682,6 +1772,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1733,6 +1828,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:36Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -1782,6 +1882,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -1839,6 +1944,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -1922,6 +2032,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
             "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -2053,6 +2168,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:36Z",
+            "details": "TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -2139,6 +2259,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -2260,6 +2385,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:36Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -2341,6 +2471,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:36Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2391,6 +2526,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:45Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -2475,6 +2615,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:36Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2555,6 +2700,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -2639,6 +2789,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2720,6 +2875,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -2820,6 +2980,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2900,6 +3065,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2979,6 +3149,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -3062,6 +3237,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -3127,6 +3307,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
             "details": "TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -3209,6 +3394,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -3288,6 +3478,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -3373,6 +3568,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
@@ -3448,6 +3648,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
+            "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -3497,6 +3702,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:45Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -3586,6 +3796,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -3761,6 +3976,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 122.8, grade ungraded -> A (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 122.8, grade ungraded -> A (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -3840,6 +4060,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -3921,6 +4146,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -4014,6 +4244,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
@@ -4106,6 +4341,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -4188,6 +4428,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 4.9, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
+            "details": "TM 0.0 -> 4.9, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -4269,6 +4514,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -4366,6 +4616,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 156.0, grade ungraded -> A (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -4455,6 +4710,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
+            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -4537,6 +4797,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -4659,6 +4924,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 109.32, grade ungraded -> A (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 589.32, grade ungraded -> S (direct edit -- CLI gap)"
           }
         ],
         "suiteComponents": [
@@ -4800,6 +5070,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -4900,6 +5175,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -4983,6 +5263,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -5063,6 +5348,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -5138,6 +5428,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -5223,6 +5518,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -5304,6 +5604,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -5354,6 +5659,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -5437,6 +5747,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -5487,6 +5802,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -5581,6 +5901,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -5685,6 +6010,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
@@ -5767,6 +6097,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -5840,6 +6175,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
+            "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -5889,6 +6229,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -5992,6 +6337,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
+            "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -6073,6 +6423,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -6128,6 +6483,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -6211,6 +6571,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -6290,6 +6655,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:45Z",
             "details": "TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)"
           }
         ],
@@ -6373,6 +6743,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -6453,6 +6828,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -6527,6 +6907,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -6660,6 +7045,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 81.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
+            "details": "TM 0.0 -> 81.0, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -6747,6 +7137,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 1.22, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
+            "details": "TM 0.0 -> 1.22, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -6827,6 +7222,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:45Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -6909,6 +7309,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -6988,6 +7393,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -7077,6 +7487,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -7192,6 +7607,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -7274,6 +7694,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -7324,6 +7749,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -7400,6 +7830,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:37Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -7451,6 +7886,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -7504,6 +7944,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -7555,6 +8000,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -7608,6 +8058,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -7659,6 +8114,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -7764,6 +8224,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -7815,6 +8280,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -7893,6 +8363,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
+            "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -7966,6 +8441,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -8043,6 +8523,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
+            "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -8098,6 +8583,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -8174,6 +8664,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
+            "details": "TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -8248,6 +8743,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -8325,6 +8825,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:40Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -8366,6 +8871,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
+            "details": "TM 0.0 -> 270.0, grade ungraded -> A (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -8522,6 +9032,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
+            "details": "TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/productivity",
@@ -8663,6 +9178,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
             "details": "TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
@@ -8824,6 +9344,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
+            "details": "TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/productivity",
@@ -8914,6 +9439,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
+            "details": "TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -8985,6 +9515,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
+            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/personal",
@@ -9028,6 +9563,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
+            "details": "TM 0.0 -> 60.0, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -9075,6 +9615,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
+            "details": "TM 0.0 -> 120.0, grade ungraded -> A (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -9170,6 +9715,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 41.21, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
             "details": "TM 0.0 -> 41.21, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -9274,6 +9824,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
             "details": "TM 0.0 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
@@ -9403,6 +9958,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 73.7, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
+            "details": "TM 0.0 -> 440.78, grade ungraded -> S (direct edit -- CLI gap)"
           }
         ],
         "suiteComponents": [
@@ -9567,6 +10127,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
+            "details": "TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -9679,6 +10244,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
+            "details": "TM 0.0 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -9733,6 +10303,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -9811,6 +10386,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
             "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -9895,6 +10475,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
@@ -9947,6 +10532,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -10036,6 +10626,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -10127,6 +10722,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -10190,6 +10790,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -10249,6 +10854,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -10301,6 +10911,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -10360,6 +10975,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -10421,6 +11041,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -10473,6 +11098,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -10569,6 +11199,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -10656,6 +11291,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -10736,6 +11376,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -10819,6 +11464,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -10929,6 +11579,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
+            "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -11005,6 +11660,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -11115,6 +11775,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
+            "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -11211,6 +11876,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -11287,6 +11957,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -11426,6 +12101,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -11507,6 +12187,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -11630,6 +12315,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 86.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 416.0, grade ungraded -> S (direct edit -- CLI gap)"
           }
         ],
         "suiteComponents": [
@@ -11785,6 +12475,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -11895,6 +12590,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -11976,6 +12676,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:45Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -12129,6 +12834,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 81.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 81.0, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -12210,6 +12920,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -12288,6 +13003,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
             "details": "TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)"
           }
         ],
@@ -12371,6 +13091,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/agentdb",
@@ -12422,6 +13147,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -12478,6 +13208,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -12556,6 +13291,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/agentdb",
@@ -12632,6 +13372,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -12710,6 +13455,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -12822,6 +13572,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 81.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 201.0, grade ungraded -> A (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -12912,6 +13667,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -12991,6 +13751,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/dual-mode",
@@ -13068,6 +13833,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -13147,6 +13917,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 126.0, grade ungraded -> A (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -13230,6 +14005,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -13315,6 +14095,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/flow-nexus",
@@ -13399,6 +14184,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/flow-nexus",
@@ -13458,6 +14248,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/flow-nexus",
@@ -13514,6 +14309,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:45Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -13595,6 +14395,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 96.0, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -13679,6 +14484,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/github-suite",
@@ -13757,6 +14567,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -13818,6 +14633,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -13873,6 +14693,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
@@ -13969,6 +14794,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -14052,6 +14882,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -14205,6 +15040,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 118.5, grade ungraded -> A (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -14289,6 +15129,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 186.0, grade ungraded -> A (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -14462,6 +15307,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 54.99, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 482.27, grade ungraded -> S (direct edit -- CLI gap)"
           }
         ],
         "suiteComponents": [
@@ -14574,6 +15424,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -14652,6 +15507,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -14738,6 +15598,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
@@ -14823,6 +15688,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
@@ -14901,6 +15771,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -14981,6 +15856,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
@@ -15060,6 +15940,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:44Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
@@ -15138,6 +16023,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:45Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -15271,6 +16161,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 116.57, grade ungraded -> A (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:45Z",
+            "details": "TM 0.0 -> 116.57, grade ungraded -> A (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -15344,6 +16239,11 @@
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:45Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
@@ -15457,6 +16357,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 33.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:45Z",
+            "details": "TM 0.0 -> 33.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -15533,6 +16438,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:45Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -15593,6 +16503,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:19:39Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:45Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
@@ -15634,6 +16549,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:39Z",
           "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:45Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic",
@@ -15659,6 +16579,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:36Z",
           "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -15695,6 +16620,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:36Z",
           "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -15762,6 +16692,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
           "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:36Z",
+          "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -15814,6 +16749,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -15868,6 +16808,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:38Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra"
@@ -15920,6 +16865,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -15974,6 +16924,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:38Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -16026,6 +16981,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -16080,6 +17040,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:38Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -16132,6 +17097,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -16186,6 +17156,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:38Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -16238,6 +17213,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -16292,6 +17272,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:38Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -16344,6 +17329,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -16398,6 +17388,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -16450,6 +17445,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -16504,6 +17504,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -16556,6 +17561,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -16610,6 +17620,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -16662,6 +17677,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -16716,6 +17736,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -16768,6 +17793,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -16822,6 +17852,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -16874,6 +17909,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -16928,6 +17968,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -16981,6 +18026,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17033,6 +18083,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -17103,6 +18158,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17155,6 +18215,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -17209,6 +18274,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17261,6 +18331,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:37Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -17315,6 +18390,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17367,6 +18447,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -17421,6 +18506,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17473,6 +18563,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -17527,6 +18622,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17579,6 +18679,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -17633,6 +18738,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:39Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17685,6 +18795,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:40Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -17739,6 +18854,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:40Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra"
@@ -17772,6 +18892,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:40Z",
           "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -17808,6 +18933,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:40Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic",
@@ -17842,6 +18972,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:40Z",
           "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -17878,6 +19013,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:40Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra",
@@ -17912,6 +19052,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:40Z",
           "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -17957,6 +19102,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:41Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic",
@@ -18001,6 +19151,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:41Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic",
@@ -18045,6 +19200,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:41Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra",
@@ -18089,6 +19249,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:41Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic",
@@ -18133,6 +19298,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:41Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra",
@@ -18177,6 +19347,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:41Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra",
@@ -18221,6 +19396,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:41Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra",
@@ -18265,6 +19445,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:41Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic",
@@ -18309,6 +19494,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:41Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra",
@@ -18353,6 +19543,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:41Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra",
@@ -18397,6 +19592,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:41Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra",
@@ -18441,6 +19641,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:41Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic",
@@ -18485,6 +19690,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:41Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra",
@@ -18529,6 +19739,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:42Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra",
@@ -18627,6 +19842,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:38Z",
           "details": "TM 0.0 -> 192.8, grade ungraded -> A (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:43Z",
+          "details": "TM 0.0 -> 192.8, grade ungraded -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -18651,6 +19871,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:39Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:45Z",
           "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -18690,6 +19915,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:39Z",
           "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:45Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra",
@@ -18715,6 +19945,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:39Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:45Z",
           "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
@@ -18778,6 +20013,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:39Z",
           "details": "TM 0.0 -> 6.12, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:45Z",
+          "details": "TM 0.0 -> 6.12, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra"
@@ -18802,6 +20042,11 @@
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:19:39Z",
+          "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T13:26:45Z",
           "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],

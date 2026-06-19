@@ -79,6 +79,9 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:19:37Z'
   details: TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:37Z'
+  details: TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/browse/SKILL.md
@@ -123,8 +126,8 @@ evidence:
   type: peer-review
   class: A
   notes: Bug report for /browse
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 88.5
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -136,6 +139,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:28Z'
+trustMagnitudeInputHash: 8b118293b5736517f6fe3f384a082a4dfc8eb7a8b9d2b882f0c5062fb1c6675d
 ---
 
 ## Overview

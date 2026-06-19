@@ -24,6 +24,9 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:19:38Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:41Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md
   evaluator: unknown
@@ -42,6 +45,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
+trustMagnitudeInputHash: ac7e99815540d5245b73b80a00d5ff8da9c3a86c47f30dadd666fc8e27ad0b44
 ---
 
 ## Installation
