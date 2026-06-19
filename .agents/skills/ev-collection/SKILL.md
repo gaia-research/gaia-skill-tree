@@ -1,9 +1,9 @@
 ---
-name: evidence-collection
+name: ev-collection
 description: Collects raw evidence sources from different channels (GitHub, YouTube, arXiv, blogs) for all named skills in the registry.
 ---
 
-# Evidence Collection
+# Evidence Collection (ev-collection)
 
 This skill coordinates the aggregation of raw proof vectors from multiple primary channels to populate the evidence data lake.
 

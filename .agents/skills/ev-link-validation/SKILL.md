@@ -1,9 +1,9 @@
 ---
-name: firecrawl-link-validation
+name: ev-link-validation
 description: Automatically validates link status codes and scrapes evidence links using the Firecrawl API and CLI tools.
 ---
 
-# Firecrawl Link Validation
+# Firecrawl Link Validation (ev-link-validation)
 
 This skill handles Phase 4 of the evidence verification pipeline, dynamically scraping URLs inside the data lake to find dead (404) links or network errors.
 
@@ -25,7 +25,7 @@ All external links compiled into the evidence data lake (Tiers 1★ to 6★) mus
 
 *Note: For debugging/testing a subset of URLs, you can pass a limit parameter (e.g. `.venv/bin/python founder/sources/scripts/validate_sources.py 10`)*
 
-3. Copy the output report `founder/sources/data_lake_validation_report.md` to a timestamped file under verification folder:
+3. Copy the output report `founder/sources/data_lake_validation_report.md` to a timestamped file under the verification folder:
 
 ```bash
 cp founder/sources/data_lake_validation_report.md \
