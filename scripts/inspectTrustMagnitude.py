@@ -30,6 +30,8 @@ from gaia_cli.trustMagnitude import (  # noqa: E402
     computeTrustMagnitude,
     computeOverallTrustGradeFromSkill,
     explainTrustMagnitude,
+    passesApexGate,
+    isApex,
 )
 
 NAMED_DIR = REPO_ROOT / "registry" / "named"
@@ -38,6 +40,43 @@ FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n?(.*)", re.DOTALL)
 
 # Force UTF-8 stdout (handles Windows cp1252)
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+
+# CONTEXT.md nomenclature: the axis is "stars"; individual values use rank names
+STARS_TO_RANK_NAME: dict[str, str] = {
+    "0★": "Unawakened",
+    "1★": "Awakened",
+    "2★": "Named",
+    "3★": "Evolved",
+    "4★": "Hardened",
+    "5★": "Transcendent",
+    "6★": "Transcendent ★",
+}
+
+# G7 RFC §10.10: trust grade -> effective stars
+GRADE_TO_EFFECTIVE_STARS: dict[str, str] = {
+    "S":        "5★",
+    "A":        "4★",
+    "B":        "3★",
+    "C":        "2★",
+    "ungraded": "1★",
+}
+
+STARS_ORDER: dict[str, int] = {
+    "0★": 0, "1★": 1, "2★": 2, "3★": 3,
+    "4★": 4, "5★": 5, "6★": 6,
+}
+
+# Human-readable labels for apex gate predicates (RFC §11.12)
+APEX_GATE_LABELS: dict[str, str] = {
+    "aGradedOriginsGte5":          "§11.12.5  >=8 A-graded origins in transitive closure",
+    "sourceTenureDaysGte180AorS":  "§11.12.7  Tenure >= 180 days at A-or-S",
+    "directNestedSuiteGte1":       "§11.12.2  >=1 direct component with suiteComponents",
+    "depth2OnlyReachableGte1":     "§11.12.3  >=1 node reachable only at depth >= 2",
+    "overallGradeS":               "§11.12.4  Overall Trust Grade S (strict-evidence reading)",
+    "apexPromotionPrSigned":       "§11.12.8  apex-promotion PR signed by >=2 verifiers",
+    "crossOrgVerifier":            "§11.12.6  >=2 cross-org 4-star+ verifier-attestations  [flagged OFF]",
+    "systemWideCap":               "§11.12.9  System-wide <=5 apex skills  [flagged OFF]",
+}
 
 
 def loadNamedSkill(path: Path) -> tuple[dict | None, str]:
@@ -63,11 +102,7 @@ def buildGenericSkillMap(nodesDir: Path) -> dict[str, dict]:
 
 
 def buildNamedSkillMap(namedDir: Path) -> dict[str, dict]:
-    """Walk registry/named/**/*.md and return a dict keyed by skill id.
-
-    Used so fusion-recipe origin lookups for suite components resolve to graded
-    named skills rather than falling back to ``None`` (ungraded).
-    """
+    """Walk registry/named/**/*.md, keyed by skill id."""
     nmap: dict[str, dict] = {}
     for p in namedDir.rglob("*.md"):
         fm, _ = loadNamedSkill(p)
@@ -79,15 +114,11 @@ def buildNamedSkillMap(namedDir: Path) -> dict[str, dict]:
     return nmap
 
 
-def buildMergedMap(nodesDir: Path, namedDir: Path) -> dict[str, dict]:
-    """Return genericSkillMap merged with namedSkillMap.
-
-    Named skill IDs use ``owner/name`` form and never collide with generic IDs.
-    The merged map lets ``_gradedOriginCount`` resolve suite-component origins.
-    """
-    gmap = buildGenericSkillMap(nodesDir)
-    nmap = buildNamedSkillMap(namedDir)
-    return {**gmap, **nmap}
+def buildMaps() -> tuple[dict, dict]:
+    """Return (mergedMap, namedSkillMap)."""
+    gmap = buildGenericSkillMap(NODES_DIR)
+    nmap = buildNamedSkillMap(NAMED_DIR)
+    return {**gmap, **nmap}, nmap
 
 
 def loadAllNamedSkills() -> list[dict]:
@@ -100,8 +131,33 @@ def loadAllNamedSkills() -> list[dict]:
     return skills
 
 
+def starsLabel(stars: str) -> str:
+    """Return 'X★ RankName' e.g. '4★ Hardened'."""
+    name = STARS_TO_RANK_NAME.get(stars, "")
+    return f"{stars} {name}" if name else stars
+
+
+def effectiveRank(grade: str, currentStars: str) -> tuple[str, str]:
+    """Return (effectiveStars, flag) per G7 RFC.
+
+    flag: '' clean | '[floor]' rank-floor §10.10 | '[up]' G7 implies promotion
+    """
+    g7Stars = GRADE_TO_EFFECTIVE_STARS.get(grade, "1★")
+    currentOrd = STARS_ORDER.get(currentStars, -1)
+    g7Ord = STARS_ORDER.get(g7Stars, 1)
+
+    # Rank-floor: 4★+ blocked from landing below Evolved (3★)
+    if currentOrd >= 4 and g7Ord < 3:
+        return ("3★", "[floor]")
+
+    # G7 grade implies higher stars than current
+    if g7Ord > currentOrd >= 0:
+        return (g7Stars, "[up]")
+
+    return (g7Stars, "")
+
+
 def nextGradeInfo(tm: float) -> tuple[str, float]:
-    """Return (nextGrade, pointsNeeded) for current TM."""
     if tm >= GRADE_S_FLOOR:
         return ("S (already at top)", 0.0)
     if tm >= GRADE_A_FLOOR:
@@ -113,8 +169,7 @@ def nextGradeInfo(tm: float) -> tuple[str, float]:
     return ("C", GRADE_C_FLOOR - tm)
 
 
-def mostEfficientNextType(skill: dict, genericSkillMap: dict) -> str:
-    """Suggest the most efficient evidence type to add for more TM."""
+def mostEfficientNextType(skill: dict, mergedMap: dict) -> str:
     existingTypes = {
         r.get("type") for r in (skill.get("evidence") or [])
         if isinstance(r, dict) and r.get("type")
@@ -123,31 +178,47 @@ def mostEfficientNextType(skill: dict, genericSkillMap: dict) -> str:
     if "verifier-attestation" not in existingTypes:
         suggestions.append("verifier-attestation (30 TM per verifier, weight 1.5 = 45 raw)")
     if "github-stars-own" not in existingTypes:
-        suggestions.append("github-stars-own (1000 stars = 1.0 magnitude, weight 1.0 = 1.0 TM)")
+        suggestions.append("github-stars-own (1000 stars = 1.0 magnitude, weight 1.0)")
     if "benchmark-result" not in existingTypes:
         suggestions.append("benchmark-result (percentile-based, weight 1.4, cap 100)")
     if "proxy-containment" not in existingTypes:
         suggestions.append("proxy-containment (10k+ external stars required, weight 1.0, cap 160)")
     if "arxiv" not in existingTypes:
         suggestions.append("arxiv (citations/5 magnitude, weight 1.0, cap 100)")
-    if suggestions:
-        return suggestions[0]
-    return "Add more evidence rows with higher grades (A/S)"
+    return suggestions[0] if suggestions else "Add more evidence rows with higher grades (A/S)"
+
+
+def formatApexGateLines(skill: dict, mergedMap: dict, namedSkillMap: dict) -> list[str]:
+    """Return formatted lines for the apex gate (6-star predicates)."""
+    state = {"genericSkillMap": mergedMap, "namedSkillMap": namedSkillMap}
+    results = passesApexGate(skill, state)
+    apex = isApex(results)
+    activeResults = {k: v for k, v in results.items() if v is not None}
+    passedCount = sum(1 for v in activeResults.values() if v)
+
+    lines = []
+    verdict = "PASS — apex-eligible" if apex else f"FAIL — {passedCount}/{len(activeResults)} active predicates passed"
+    lines.append(f"  Apex gate (6-star Transcendent):  {verdict}")
+    lines.append(f"  {'─'*64}")
+    for key, val in results.items():
+        mark = "PASS" if val is True else ("FAIL" if val is False else "OFF ")
+        lines.append(f"    {mark}  {APEX_GATE_LABELS.get(key, key)}")
+    lines.append(f"  {'─'*64}")
+    return lines
 
 
 def inspectMode(skillId: str) -> int:
     print(f"Loading skill maps from {NODES_DIR} + {NAMED_DIR}...")
-    genericSkillMap = buildMergedMap(NODES_DIR, NAMED_DIR)
+    mergedMap, namedSkillMap = buildMaps()
 
-    # Find the skill file
     found = None
     for p in NAMED_DIR.rglob("*.md"):
         fm, _ = loadNamedSkill(p)
         if fm is None:
             continue
         fmId = fm.get("id") or p.stem
-        # Accept exact match or contributor/name match
-        if fmId == skillId or p.stem == skillId or str(p.relative_to(NAMED_DIR)).replace("\\", "/").replace(".md", "") == skillId:
+        if (fmId == skillId or p.stem == skillId or
+                str(p.relative_to(NAMED_DIR)).replace("\\", "/").replace(".md", "") == skillId):
             found = (p, fm)
             break
 
@@ -157,27 +228,38 @@ def inspectMode(skillId: str) -> int:
 
     path, fm = found
     skillDisplayId = fm.get("id") or path.stem
+    currentStars = fm.get("level") or fm.get("rank") or "?"
     print(f"\n{'='*70}")
     print(f"Trust Magnitude Inspection: {skillDisplayId}")
     print(f"File: {path.relative_to(REPO_ROOT).as_posix()}")
     print(f"{'='*70}\n")
 
-    explanation = explainTrustMagnitude(fm, genericSkillMap)
+    explanation = explainTrustMagnitude(fm, mergedMap)
     print(explanation)
 
-    # Next grade analysis
-    tm = computeTrustMagnitude(fm, genericSkillMap)
+    tm = computeTrustMagnitude(fm, mergedMap)
+    grade = computeOverallTrustGradeFromSkill(fm, mergedMap)
+    g7Stars, flag = effectiveRank(grade, currentStars)
     nextGrade, pointsNeeded = nextGradeInfo(tm)
+
+    print(f"\n--- Stars & Grade ---")
+    print(f"  Current stars:  {starsLabel(currentStars)}")
+    print(f"  Trust Grade:    {grade}  (TM {tm:.2f})")
+    print(f"  G7 Eff. stars:  {starsLabel(g7Stars)}{'  ' + flag if flag else ''}")
+
     print(f"\n--- Next Grade Analysis ---")
     if pointsNeeded > 0:
-        print(f"  Current TM: {tm:.2f}")
         print(f"  Next grade: {nextGrade}")
         print(f"  Points needed: {pointsNeeded:.2f}")
-        print(f"  Most efficient type to add: {mostEfficientNextType(fm, genericSkillMap)}")
+        print(f"  Most efficient type to add: {mostEfficientNextType(fm, mergedMap)}")
     else:
         print(f"  Already at top grade (S, TM={tm:.2f})")
 
-    # Suite components info
+    if grade == "S":
+        print(f"\n--- Apex Gate (6-star predicates, RFC §11.12) ---")
+        for line in formatApexGateLines(fm, mergedMap, namedSkillMap):
+            print(line)
+
     suiteComponents = fm.get("suiteComponents") or []
     if suiteComponents:
         print(f"\n--- Fusion Recipe (auto-derived) ---")
@@ -191,62 +273,110 @@ def inspectMode(skillId: str) -> int:
 
 def leaderboardMode() -> int:
     print(f"Loading skill maps from {NODES_DIR} + {NAMED_DIR}...")
-    genericSkillMap = buildMergedMap(NODES_DIR, NAMED_DIR)
+    mergedMap, namedSkillMap = buildMaps()
 
     print(f"Loading all named skills from {NAMED_DIR}...")
     skills = loadAllNamedSkills()
     print(f"Found {len(skills)} named skills\n")
 
-    # Compute TM for all skills with live calculation
+    apexState = {"genericSkillMap": mergedMap, "namedSkillMap": namedSkillMap}
+
     rows = []
     for fm in skills:
         skillId = fm.get("id") or "unknown"
-        tm = computeTrustMagnitude(fm, genericSkillMap)
-        grade = computeOverallTrustGradeFromSkill(fm, genericSkillMap)
-        level = fm.get("level") or fm.get("rank") or "?"
-        contributor = skillId.split("/")[0] if "/" in skillId else "?"
+        tm = computeTrustMagnitude(fm, mergedMap)
+        grade = computeOverallTrustGradeFromSkill(fm, mergedMap)
+        currentStars = fm.get("level") or fm.get("rank") or "?"
+        g7Stars, flag = effectiveRank(grade, currentStars)
+
+        apexResults = None
+        if grade == "S":
+            apexResults = passesApexGate(fm, apexState)
+
         rows.append({
             "skillId": skillId,
             "tm": tm,
             "grade": grade,
-            "level": level,
-            "contributor": contributor,
+            "currentStars": currentStars,
+            "g7Stars": g7Stars,
+            "flag": flag,
+            "apexResults": apexResults,
         })
 
     rows.sort(key=lambda r: -r["tm"])
 
-    # Print leaderboard
     grade_bands = [
-        ("S", "S grade (TM >= 250)", lambda r: r["grade"] == "S"),
-        ("A", "A grade (TM >= 100, <250)", lambda r: r["grade"] == "A"),
-        ("B", "B grade (TM >= 50, <100)", lambda r: r["grade"] == "B"),
-        ("C", "C grade (TM >= 20, <50)", lambda r: r["grade"] == "C"),
-        ("ungraded", "Ungraded (TM < 20)", lambda r: r["grade"] == "ungraded"),
+        ("S",        "S grade (TM >= 250)",    lambda r: r["grade"] == "S"),
+        ("A",        "A grade (TM >= 100)",     lambda r: r["grade"] == "A"),
+        ("B",        "B grade (TM >= 50)",      lambda r: r["grade"] == "B"),
+        ("C",        "C grade (TM >= 20)",      lambda r: r["grade"] == "C"),
+        ("ungraded", "Ungraded (TM < 20)",      lambda r: r["grade"] == "ungraded"),
     ]
 
-    print(f"{'='*75}")
+    W = 100
+    print(f"{'='*W}")
     print(f"GAIA TRUST MAGNITUDE LEADERBOARD — {len(rows)} named skills")
-    print(f"{'='*75}")
+    print(f"{'='*W}")
+    print(f"  Stars     = current stars (CONTEXT.md rank names: Awakened/Named/Evolved/Hardened/Transcendent)")
+    print(f"  G7 Stars  = effective stars per G7 RFC (S=5-star A=4-star B=3-star C=2-star ungraded=1-star)")
+    print(f"  [floor]   = rank-floor §10.10: 4-star+ held at >= Evolved (3-star) despite grade")
+    print(f"  [up]      = G7 grade implies promotion above current stars")
+    print(f"  Apex      = predicates passed / active (S-grade only, RFC §11.12)")
 
-    rank = 1
+    pos = 1
     for bandKey, bandLabel, filterFn in grade_bands:
         bandRows = [r for r in rows if filterFn(r)]
         if not bandRows:
             continue
         print(f"\n[ {bandLabel} ] ({len(bandRows)} skills)")
-        print(f"  {'Rank':<6} {'ID':<45} {'TM':>8}  {'Grade':<7} {'Level'}")
-        print(f"  {'-'*6} {'-'*45} {'-'*8}  {'-'*7} {'-'*10}")
-        for r in bandRows:
-            print(f"  {rank:<6} {r['skillId']:<45} {r['tm']:>8.2f}  {r['grade']:<7} {r['level']}")
-            rank += 1
 
-    print(f"\n{'='*75}")
+        if bandKey == "S":
+            print(f"  {'#':<5} {'ID':<47} {'TM':>8}  {'Grade':<6} {'Stars':<6} {'G7 Stars':<8} {'Note':<10} Apex")
+            print(f"  {'-'*5} {'-'*47} {'-'*8}  {'-'*6} {'-'*6} {'-'*8} {'-'*10} {'-'*16}")
+            for r in bandRows:
+                ar = r["apexResults"] or {}
+                activeVals = {k: v for k, v in ar.items() if v is not None}
+                passedCount = sum(1 for v in activeVals.values() if v)
+                failedKeys = [k for k, v in activeVals.items() if not v]
+                apexSummary = f"{passedCount}/{len(activeVals)}"
+                if failedKeys:
+                    shortFailed = ", ".join(
+                        k.replace("aGradedOriginsGte5", "A-origins")
+                         .replace("sourceTenureDaysGte180AorS", "tenure")
+                         .replace("directNestedSuiteGte1", "directNest")
+                         .replace("depth2OnlyReachableGte1", "depth2")
+                         .replace("overallGradeS", "gradeS")
+                         .replace("apexPromotionPrSigned", "prSigned")
+                        for k in failedKeys
+                    )
+                    apexSummary += f" FAIL:{shortFailed}"
+
+                print(f"  {pos:<5} {r['skillId']:<47} {r['tm']:>8.2f}  {r['grade']:<6} {r['currentStars']:<6} {r['g7Stars']:<8} {r['flag']:<10} {apexSummary}")
+
+                # Per-predicate detail inline (all, including flagged-OFF)
+                for key, val in r["apexResults"].items():
+                    mark = "PASS" if val is True else ("FAIL" if val is False else "OFF ")
+                    label = APEX_GATE_LABELS.get(key, key)
+                    print(f"         {' '*49}  {mark}  {label}")
+                print()
+                pos += 1
+        else:
+            print(f"  {'#':<5} {'ID':<47} {'TM':>8}  {'Grade':<6} {'Stars':<6} {'G7 Stars':<8} Note")
+            print(f"  {'-'*5} {'-'*47} {'-'*8}  {'-'*6} {'-'*6} {'-'*8} {'-'*10}")
+            for r in bandRows:
+                print(f"  {pos:<5} {r['skillId']:<47} {r['tm']:>8.2f}  {r['grade']:<6} {r['currentStars']:<6} {r['g7Stars']:<8} {r['flag']}")
+                pos += 1
+
+    print(f"\n{'='*W}")
     print(f"Total: {len(rows)} skills | Grades: " +
           " | ".join(
               f"{g}={sum(1 for r in rows if r['grade']==g)}"
               for g in ["S", "A", "B", "C", "ungraded"]
           ))
-    print(f"{'='*75}")
+    floors = sum(1 for r in rows if r["flag"] == "[floor]")
+    ups = sum(1 for r in rows if r["flag"] == "[up]")
+    print(f"Rank-floor protections: {floors} | Implied promotions [up]: {ups}")
+    print(f"{'='*W}")
     return 0
 
 
