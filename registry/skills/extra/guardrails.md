@@ -28,6 +28,8 @@ Requires a defined policy schema and an evaluation loop.
 | garrytan/freeze | garrytan | 2★ | 1 |
 | garrytan/guard | garrytan | 3★ | 1 |
 | garrytan/unfreeze | garrytan | 2★ | 1 |
+| mattpocock/git-guardrails-claude-code | mattpocock | 2★ | 3 |
+| mattpocock/setup-pre-commit | mattpocock | 2★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

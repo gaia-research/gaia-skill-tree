@@ -69,7 +69,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ○ pbakaus/impeccable  [4★]
   ├─ · ◇ garrytan/garrytan  [4★]
   │  ├─ · ○ /plan-decompose
-  │  └─ · ○ /route-intent
+  │  └─ · ○ mattpocock/ask-matt  [2★]
   ├─ · ◇ garrytan/design-consultation  [4★]
   │  ├─ · ◇ browserbase/stagehand  [2★]
   │  │  ├─ · ○ /web-search
@@ -152,10 +152,10 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ◇ ruvnet/flow-nexus  [4★]
   │  ├─ · ◇ ████████/flow-nexus-swarm
   │  │  ├─ · ◇ /plan-and-execute
-  │  │  │  ├─ · ○ /route-intent
+  │  │  │  ├─ · ○ mattpocock/ask-matt  [2★]
   │  │  │  ├─ · ○ /plan-decompose
   │  │  │  └─ · ○ /tool-select
-  │  │  ├─ · ○ /route-intent  (↑ see above)
+  │  │  ├─ · ○ mattpocock/ask-matt  [2★]  (↑ see above)
   │  │  └─ · ○ /tool-select  (↑ see above)
   │  ├─ · ◇ ████████/flow-nexus-platform
   │  │  ├─ · ○ huggingface/hf-cli  [2★]
@@ -258,7 +258,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ mattpocock/improve-codebase-architecture  [3★]
   │  ├─ · ◇ garrytan/garrytan  [4★]
   │  │  ├─ · ○ /plan-decompose
-  │  │  └─ · ○ /route-intent
+  │  │  └─ · ○ mattpocock/ask-matt  [2★]
   │  ├─ · ◇ mattpocock/to-prd  [2★]
   │  │  ├─ · ○ garrytan/retro  [3★]
   │  │  └─ · ○ /plan-decompose  (↑ see above)
@@ -312,7 +312,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ /autonomous-engineering-platform
   · ○ /clinical-data-retrieval
   · ○ /cultural-localization
-  · ○ /domain-modeling
+  · ○ mattpocock/domain-modeling  [2★]
   · ○ openai/few-shot-learning  [2★]
   · ○ laravel/upgrade-laravel-v13  [2★]
   · ○ ruvnet/agentic-jujutsu  [2★]
@@ -324,7 +324,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ openai/self-consistency  [2★]
   · ○ ████████/semantic-cache
   · ○ ruvnet/stream-chain  [2★]
-  · ○ /software-design
+  · ○ mattpocock/codebase-design  [2★]
   · ○ /synthetic-data-generation
   · ○ addy-osmani/test-driven-development  [3★]
   · ○ /time-series-forecasting

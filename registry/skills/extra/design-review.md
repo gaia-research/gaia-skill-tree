@@ -24,6 +24,7 @@ _None specified._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | garrytan/design-shotgun | garrytan | 4★ | 2 |
+| mattpocock/grilling | mattpocock | 2★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

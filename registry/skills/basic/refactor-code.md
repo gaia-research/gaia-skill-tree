@@ -20,6 +20,7 @@ _None._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | mattpocock/improve-codebase-architecture | mattpocock | 3★ | 2 |
+| mattpocock/migrate-to-shoehorn | mattpocock | 2★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

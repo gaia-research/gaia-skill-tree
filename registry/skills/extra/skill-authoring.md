@@ -27,6 +27,8 @@ Requires a target agent skill format and a repeatable evaluation loop for trigge
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | garrytan/skillify | garrytan | 4★ | 2 |
+| mattpocock/scaffold-exercises | mattpocock | 2★ | 3 |
+| mattpocock/writing-great-skills | mattpocock | 2★ | 3 |
 | ruvnet/skill-builder | ruvnet | 2★ | 0 |
 
 ## Evidence (inherited capability)

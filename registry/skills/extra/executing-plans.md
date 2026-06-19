@@ -25,6 +25,7 @@ _None specified._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | obra/executing-plans ⭑ | obra | 2★ | 5 |
+| mattpocock/implement | mattpocock | 2★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

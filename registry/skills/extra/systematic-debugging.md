@@ -25,6 +25,7 @@ _None specified._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | garrytan/investigate ⭑ | garrytan | 4★ | 2 |
+| mattpocock/diagnosing-bugs | mattpocock | 2★ | 3 |
 | obra/systematic-debugging | obra | 3★ | 4 |
 
 ## Evidence (inherited capability)

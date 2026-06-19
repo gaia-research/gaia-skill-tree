@@ -26,6 +26,7 @@ _None specified._
 |---|---|---|---|
 | garrytan/setup-gbrain | garrytan | 2★ | 1 |
 | garrytan/sync-gbrain | garrytan | 2★ | 1 |
+| mattpocock/teach | mattpocock | 2★ | 4 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

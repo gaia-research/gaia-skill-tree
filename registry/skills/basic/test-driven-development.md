@@ -20,6 +20,7 @@ _None._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | addy-osmani/test-driven-development ⭑ | addy-osmani | 3★ | 1 |
+| mattpocock/tdd | mattpocock | 2★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

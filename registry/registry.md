@@ -155,7 +155,7 @@
 | ○ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/requirements-engineer | Basic Skill | 2★ | `/requirements-analysis` |
 | ◇ /research | Extra Skill | — | `/research` |
 | ○ /retrieve | Basic Skill | — | `/retrieve` |
-| ○ /route-intent | Basic Skill | — | `/route-intent` |
+| ○ [mattpocock](../docs/u/mattpocock/)/ask-matt | Basic Skill | 2★ | `/route-intent` |
 | ○ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/database-engineer | Basic Skill | 2★ | `/schema-design` |
 | ◇ /scientific-discovery | Extra Skill | — | `/scientific-discovery` |
 | ○ /scientific-visualization | Basic Skill | — | `/scientific-visualization` |
@@ -231,7 +231,7 @@
 | ○ Autonomous Engineering Platform | Intrinsic Skill | — | `/autonomous-engineering-platform` |
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
 | ○ Cultural Localization | Intrinsic Skill | — | `/cultural-localization` |
-| ○ Domain Modeling | Intrinsic Skill | — | `/domain-modeling` |
+| ○ Domain Modeling | Intrinsic Skill | 2★ | `/domain-modeling` |
 | ○ Few-Shot Learning | Intrinsic Skill | 2★ | `/few-shot-learning` |
 | ○ Framework Upgrade | Intrinsic Skill | 2★ | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
@@ -243,7 +243,7 @@
 | ○ Self-Consistency | Intrinsic Skill | 2★ | `/self-consistency` |
 | ○ Semantic Cache | Intrinsic Skill | — | `/semantic-cache` |
 | ○ Sequential Agent Pipeline | Intrinsic Skill | 2★ | `/sequential-agent-pipeline` |
-| ○ Software Design | Intrinsic Skill | — | `/software-design` |
+| ○ Software Design | Intrinsic Skill | 2★ | `/software-design` |
 | ○ Synthetic Data Generation | Intrinsic Skill | — | `/synthetic-data-generation` |
 | ○ Test-Driven Development | Intrinsic Skill | 3★ | `/test-driven-development` |
 | ○ Time Series Forecasting | Intrinsic Skill | — | `/time-series-forecasting` |

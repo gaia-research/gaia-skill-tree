@@ -1,6 +1,6 @@
 # Skill Tree — mattpocock
 **Last Updated:** 2026-05-25
-**Total Skills Unlocked:** 20
+**Total Skills Unlocked:** 34
 **Highest Tier:** —
 **Deepest Lineage:** 1
 
@@ -30,6 +30,20 @@
 | ○ mattpocock/ubiquitous-language | Basic Skill | 4★ | Hardened | mattpocock/gaia-skill-tree | 2026-05-15T00:00:00Z |
 | ○ mattpocock/write-a-skill | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/zoom-out | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ mattpocock/ask-matt | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/codebase-design | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/diagnosing-bugs | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/domain-modeling | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/git-guardrails-claude-code | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/grilling | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/implement | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/migrate-to-shoehorn | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/resolving-merge-conflicts | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/scaffold-exercises | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/setup-pre-commit | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/tdd | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/teach | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/writing-great-skills | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 
 ---
 
@@ -52,7 +66,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ○ pbakaus/impeccable  [4★]
   ├─ · ◇ garrytan/garrytan  [4★]
   │  ├─ · ○ /plan-decompose
-  │  └─ · ○ /route-intent
+  │  └─ · ○ mattpocock/ask-matt  [2★]
   ├─ · ◇ garrytan/design-consultation  [4★]
   │  ├─ · ◇ browserbase/stagehand  [2★]
   │  │  ├─ · ○ /web-search
@@ -135,10 +149,10 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ◇ ruvnet/flow-nexus  [4★]
   │  ├─ · ◇ ████████/flow-nexus-swarm
   │  │  ├─ · ◇ /plan-and-execute
-  │  │  │  ├─ · ○ /route-intent
+  │  │  │  ├─ · ○ mattpocock/ask-matt  [2★]
   │  │  │  ├─ · ○ /plan-decompose
   │  │  │  └─ · ○ /tool-select
-  │  │  ├─ · ○ /route-intent  (↑ see above)
+  │  │  ├─ · ○ mattpocock/ask-matt  [2★]  (↑ see above)
   │  │  └─ · ○ /tool-select  (↑ see above)
   │  ├─ · ◇ ████████/flow-nexus-platform
   │  │  ├─ · ○ huggingface/hf-cli  [2★]
@@ -241,7 +255,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ mattpocock/improve-codebase-architecture  [3★]
   │  ├─ · ◇ garrytan/garrytan  [4★]
   │  │  ├─ · ○ /plan-decompose
-  │  │  └─ · ○ /route-intent
+  │  │  └─ · ○ mattpocock/ask-matt  [2★]
   │  ├─ · ◇ mattpocock/to-prd  [2★]
   │  │  ├─ · ○ garrytan/retro  [3★]
   │  │  └─ · ○ /plan-decompose  (↑ see above)
@@ -295,7 +309,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ /autonomous-engineering-platform
   · ○ /clinical-data-retrieval
   · ○ /cultural-localization
-  · ○ /domain-modeling
+  · ○ mattpocock/domain-modeling  [2★]
   · ○ openai/few-shot-learning  [2★]
   · ○ laravel/upgrade-laravel-v13  [2★]
   · ○ ruvnet/agentic-jujutsu  [2★]
@@ -307,7 +321,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ openai/self-consistency  [2★]
   · ○ ████████/semantic-cache
   · ○ ruvnet/stream-chain  [2★]
-  · ○ /software-design
+  · ○ mattpocock/codebase-design  [2★]
   · ○ /synthetic-data-generation
   · ○ addy-osmani/test-driven-development  [3★]
   · ○ /time-series-forecasting

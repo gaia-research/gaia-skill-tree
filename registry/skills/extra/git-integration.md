@@ -27,6 +27,7 @@ _None specified._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | ruvnet/github-suite ⭑ | ruvnet | 4★ | 1 |
+| mattpocock/resolving-merge-conflicts | mattpocock | 2★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._
