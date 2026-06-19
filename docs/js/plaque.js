@@ -248,31 +248,30 @@
   //   1. ns.overallTrustGrade  (named-skills.json + docs/graph/named/index.json)
   //   2. ns.trustGrade         (legacy alias, if present)
   //
-  // For the .plaque--settled variant, the Trust Magnitude (TM) number is
-  // appended when available (ns.trustMagnitude || ns.overallTrustMagnitude).
+  // Shows letter + interpunct + TM on ALL variants (e.g. "A · 47").
+  // Grade name labels are never shown. TM omitted only when zero/null.
   var GRADE_NAMES = { S: 'Platinum', A: 'Gold', B: 'Silver', C: 'Bronze' };
 
-  function _fieldTrustNotch(ns, variant) {
+  function _fieldTrustNotch(ns) {
     var tg = (ns && (ns.overallTrustGrade || ns.trustGrade)) || '';
     // Normalise: only accept canonical grades; ignore 'ungraded' / nullish
     if (!tg || tg === 'ungraded' || !GRADE_NAMES[tg]) return '';
 
     var gradeName = GRADE_NAMES[tg];
     var letterHtml = '<span class="trust-notch-letter">' + esc(tg) + '</span>';
-    var nameHtml   = '<span class="trust-notch-name">' + esc(gradeName) + '</span>';
 
-    // Settled variant: append TM number when available
+    // TM number on ALL variants — show when tm > 0
     var tmHtml = '';
-    if (variant === 'settled') {
-      var tm = (ns && (ns.trustMagnitude || ns.overallTrustMagnitude));
-      if (tm != null && tm !== '') {
-        tmHtml = '<span class="trust-notch-tm" aria-hidden="true"> ·' + esc(String(tm)) + '</span>';
-      }
+    var tm = (ns && (ns.trustMagnitude || ns.overallTrustMagnitude));
+    var tmRounded = (tm != null && tm !== '') ? Math.round(Number(tm)) : 0;
+    if (tmRounded > 0) {
+      tmHtml = '<span class="trust-notch-tm"> · ' + esc(String(tmRounded)) + '</span>';
     }
 
+    var ariaLabel = 'Trust grade: ' + gradeName + (tmRounded > 0 ? ', magnitude ' + tmRounded : '');
     return '<div class="plaque__trust-notch" data-trust-grade="' + esc(tg) + '"' +
-      ' aria-label="Trust grade: ' + esc(gradeName) + '">' +
-      letterHtml + nameHtml + tmHtml +
+      ' aria-label="' + esc(ariaLabel) + '">' +
+      letterHtml + tmHtml +
       '</div>';
   }
 
@@ -294,7 +293,7 @@
     // (those are contributor plates, not individual skill cards).
     var trustNotch = '';
     if (variant !== 'hall' && !(extraOpts.extraClass && extraOpts.extraClass.indexOf('plaque--mini-stack') !== -1)) {
-      trustNotch = _fieldTrustNotch(ns, variant);
+      trustNotch = _fieldTrustNotch(ns);
     }
     return '<article class="plaque plaque--' + esc(variant) + apex + extraCls +
       '" data-type="' + esc(type) + '" data-level="' + esc(n) +
@@ -472,7 +471,6 @@
       _fieldTags(ns, 5) +
       _fieldRank(ns, 'stars') +
       _fieldInstallRow(ns) +
-      '<div class="plaque__evidence plaque-evidence">' + esc(_evidenceClass(ns && ns.level)) + '</div>' +
       '<div class="plaque__underline plaque-underline plaque-underline--settled"></div>';
 
     return _shell('settled', ns, inner, opts);
