@@ -26,7 +26,7 @@ Requires demonstrating all 5 AgentDB discipline skills in a production distribut
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| ruvnet/agentdb ⭑ | ruvnet | 5★ | 1 |
+| ruvnet/agentdb ⭑ | ruvnet | 5★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

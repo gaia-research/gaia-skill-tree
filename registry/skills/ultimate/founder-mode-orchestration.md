@@ -52,7 +52,7 @@ Requires demonstrating all 31 garrytan discipline skills together in a real mult
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/gstack ⭑ | garrytan | 5★ | 1 |
+| garrytan/gstack ⭑ | garrytan | 5★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

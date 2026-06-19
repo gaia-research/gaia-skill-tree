@@ -1,0 +1,22 @@
+{
+  "id": "domain-modeling",
+  "name": "Domain Modeling",
+  "type": "basic",
+  "description": "Build and maintain a shared domain model with ubiquitous language and architectural decision records.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-06-19",
+  "updatedAt": "2026-06-19",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-06-19T12:57:54Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill domain-modeling"
+    }
+  ]
+}

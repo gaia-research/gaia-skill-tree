@@ -20,9 +20,9 @@ tags:
 - gpt-3
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-05-15'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+updatedAt: '2026-06-19'
+trustMagnitude: 100.0
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -32,11 +32,37 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 55008cdf22ea7876abb446dbba090b867652ee56e608c9aecd6ee8908ef5c69a
 timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:19Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T09:24:47Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/abs/2005.14165 (type: arxiv)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:47Z'
+  details: TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:43Z'
+  details: TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)
+evidence:
+- source: https://arxiv.org/abs/2005.14165
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: arxiv
+  class: A
+  notes: GPT-3 few-shot learning paper (Brown et al. 2020) — foundational, 50k+ citations
+  citations: 50000
+verification:
+  firstEvidenceAt: '2026-06-19T09:24:47Z'
+trustMagnitudeInputHash: 408d42e006dd910b5242b50e03126276ff7961527565125dd179b17b8cfb14dd
 ---
 
 ## Overview

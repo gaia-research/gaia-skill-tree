@@ -18,7 +18,7 @@ tags:
 - quality-gate
 - discipline
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -31,6 +31,32 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 609
+  contributors: 36
+- source: https://github.com/obra/superpowers/issues/1783
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: Design-Fidelity Gate framed as UI-specific instance of verification-before-completion.
+- source: https://github.com/obra/superpowers/issues/1755
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Updates verification-before-completion to require outcome checks, not just
+    command success.
+- source: https://www.youtube.com/watch?v=6YltXh12W-g
+  evaluator: unknown
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering
+    brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).'
+  views: 4402
+- source: https://www.youtube.com/watch?v=6YltXh12W-g
+  evaluator: unknown
+  date: '2026-06-19'
 timeline:
 - timestamp: '2026-06-14T12:32:49Z'
   action: evidence_graded
@@ -40,8 +66,45 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:19Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:58Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:47:33Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1783 (type:
+    social-signal)'
+- timestamp: '2026-06-19T12:47:50Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1755 (type:
+    peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:53:51Z'
+  details: TM 36.0 -> 66.0, grade C -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:43Z'
+  details: TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:26:01Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type:
+    social-signal)'
+- timestamp: '2026-06-19T14:27:36Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:47Z'
+  details: TM 66.0 -> 95.15, grade B -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:19Z'
+  details: TM 95.15 -> 95.15, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 95.15
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -51,7 +114,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: ebee612b016560457e8ba4faf5f42d20db61731ca408ed89b38fc6caa00a0737
+verification:
+  firstEvidenceAt: '2026-06-19T12:47:33Z'
+trustMagnitudeInputHash: 510420642b8632599e83ce4408243157a165de0c3bb070bc9549a1da49682f7e
 ---
 
 ## Overview

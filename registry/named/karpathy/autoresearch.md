@@ -23,11 +23,14 @@ evidence:
   source: https://github.com/karpathy/autoresearch
   evaluator: mbtiongson1
   date: '2026-06-02'
-  notes: Karpathy's autoresearch repo serving as the evidence/inspiration for the
-    skill. (backfilled — class-to-type migration)
+  notes: 'Karpathy''s autoresearch repo serving as the evidence/inspiration for the"
+    skill. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors
+    not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 36
+  contributors: 9
 timeline:
 - timestamp: '2026-06-14T12:32:42Z'
   action: evidence_graded
@@ -37,8 +40,17 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:40Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -48,7 +60,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: fc9b0a2b3ee407e4112f851596a03d6d00844cbbebdc0aa4814e93e6200311de
+trustMagnitudeInputHash: 3e19af891001ee423fdd491bd17445b8d1e5424c7f89c35068512ceba684505d
 ---
 
 ## Overview

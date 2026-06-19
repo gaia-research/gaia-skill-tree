@@ -7,9 +7,31 @@ title: The Matt Pocock Engineering Discipline
 genericSkillRef: engineering-discipline
 status: named
 level: 5★
-description: Engineering category suite for Matt Pocock's skills.
+description: Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills
+  suite in v1.0.1.
 createdAt: '2026-05-21'
 updatedAt: '2026-06-10'
+trustMagnitude: 270.0
+overallTrustGrade: A
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:18Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:41Z'
+  details: TM 0.0 -> 270.0, grade ungraded -> A (direct edit -- CLI gap)
 suiteRef: mattpocock/skills
 suiteComponents:
 - mattpocock/diagnose
@@ -22,22 +44,7 @@ suiteComponents:
 - mattpocock/triage
 - mattpocock/ubiquitous-language
 - mattpocock/zoom-out
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
-apexGateStatus:
-  aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
-  directNestedSuiteGte1: false
-  depth2OnlyReachableGte1: false
-  overallGradeS: false
-  apexPromotionPrSigned: false
-  crossOrgVerifier: null
-  systemWideCap: null
-trustMagnitudeInputHash: 7d257b90e6e19e12a665695a758ce86cb9d614b96686bd3eb9bf61f9f0a81aae
-timeline:
-- action: migrate_trust_magnitude
-  timestamp: '2026-06-18T11:27:18Z'
-  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitudeInputHash: 4c0c7b233e624b41fc0b52204b68f31891b2e5d33b311a17b288573ab2927bca
 ---
 
 ## Overview

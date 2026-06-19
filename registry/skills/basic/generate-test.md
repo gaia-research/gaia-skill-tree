@@ -27,7 +27,7 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| upsonic/unittest-generator ⭑ | upsonic | 2★ | 0 |
+| upsonic/unittest-generator ⭑ | upsonic | 2★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

@@ -22,9 +22,12 @@ evidence:
   source: https://github.com/bradautomates/claude-video
   evaluator: gemini-cli
   date: '2026-05-14'
-  notes: Claude Video -- enables AI agents to watch videos by downloading, frame extraction,
-    and transcription. (backfilled — class-to-type migration)
+  notes: 'Claude Video -- enables AI agents to watch videos by downloading, frame
+    extraction, and transcription. (backfilled — class-to-type migration) (CLI gap:
+    commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 6
+  contributors: 1
   trustNumber: 70.0
   grade: B
 timeline:
@@ -36,7 +39,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:14Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 1.22, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 1.22, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:36Z'
+  details: TM 0.0 -> 1.22, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 1.22
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -47,7 +59,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 849dd3681def81781177344323b0a52d336bd4768f0b39c17a9b633441e6143f
+trustMagnitudeInputHash: 2e0ec01eaaa7d47db85a777dbd233d4a8425cb114b632e9c09c00d9aa46d0b90
 ---
 
 ## Overview

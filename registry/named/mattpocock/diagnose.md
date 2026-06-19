@@ -11,7 +11,7 @@ level: 2★
 description: Drives a rigorous five-phase debugging discipline — build a feedback
   loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed
   until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance
-  regressions.
+  regressions. Removed from mattpocock/skills suite in v1.0.1.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
 tags:
@@ -22,17 +22,19 @@ tags:
 - root-cause-analysis
 createdAt: '2026-04-30'
 updatedAt: '2026-06-14'
-suiteRef: mattpocock/engineering
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-10'
-  notes: Published implementation in Matt Pocock's skills repository; five-phase debugging
-    discipline documented and reproducible. (backfilled — class-to-type migration)
+  notes: 'Published implementation in Matt Pocock''s skills repository; five-phase
+    debugging" discipline documented and reproducible. (backfilled — class-to-type
+    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 137
+  contributors: 3
 timeline:
 - timestamp: '2026-06-10T05:38:16Z'
   action: evidence_added
@@ -46,7 +48,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:41Z'
+  details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 11.21
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -57,9 +68,10 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 8b89ddfb192097b469f84d620bb6df2b0f28ba9c0b10f1aee8ad8d2d4f819efb
 verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
+suiteRef: mattpocock/engineering
+trustMagnitudeInputHash: 1f6fcb93fe1c868de47375eb417c24f6451ee60328294f5f8001ab64859cbd10
 ---
 
 ## Overview

@@ -23,6 +23,8 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
 timeline:
 - timestamp: '2026-06-14T12:32:36Z'
   action: evidence_graded
@@ -32,7 +34,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:17Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:57Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:39Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -43,7 +54,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 45a1f71aeae4f1c281aef1c9c32f53699013ad28fe6f87810fd920816928318f
+trustMagnitudeInputHash: 71b4e06ee61109b71fee4c81efd9c8473db134230658cd96f51e91dcf23e5ce1
 ---
 
 # PubChem Database

@@ -1,0 +1,22 @@
+{
+  "id": "software-design",
+  "name": "Software Design",
+  "type": "basic",
+  "description": "Design software modules with clean interfaces, seams, and deep implementations for maintainability and testability.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-06-19",
+  "updatedAt": "2026-06-19",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-06-19T12:57:35Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill software-design"
+    }
+  ]
+}

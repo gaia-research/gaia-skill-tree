@@ -19,7 +19,7 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| addy-osmani/performance-optimization ⭑ | addy-osmani | 3★ | 1 |
+| addy-osmani/performance-optimization ⭑ | addy-osmani | 3★ | 2 |
 | ruvnet/performance-analysis | ruvnet | 2★ | 0 |
 | ruvnet/v3-performance-optimization | ruvnet | 2★ | 0 |
 

@@ -32,11 +32,17 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 9c1399eed3413efcf51d9478aee5d8f1c6b7c642899701954c4a48cf7b099bc4
 timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:17Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:40Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitudeInputHash: 71a712396b0b1922b00967d041b6e89ce6f2ec18b7d2c6fead4c9cbfcc12f757
 ---
 
 ## Overview

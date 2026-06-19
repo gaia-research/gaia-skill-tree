@@ -231,6 +231,7 @@
 | ○ Autonomous Engineering Platform | Intrinsic Skill | — | `/autonomous-engineering-platform` |
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
 | ○ Cultural Localization | Intrinsic Skill | — | `/cultural-localization` |
+| ○ Domain Modeling | Intrinsic Skill | — | `/domain-modeling` |
 | ○ Few-Shot Learning | Intrinsic Skill | 2★ | `/few-shot-learning` |
 | ○ Framework Upgrade | Intrinsic Skill | 2★ | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
@@ -242,6 +243,7 @@
 | ○ Self-Consistency | Intrinsic Skill | 2★ | `/self-consistency` |
 | ○ Semantic Cache | Intrinsic Skill | — | `/semantic-cache` |
 | ○ Sequential Agent Pipeline | Intrinsic Skill | 2★ | `/sequential-agent-pipeline` |
+| ○ Software Design | Intrinsic Skill | — | `/software-design` |
 | ○ Synthetic Data Generation | Intrinsic Skill | — | `/synthetic-data-generation` |
 | ○ Test-Driven Development | Intrinsic Skill | 3★ | `/test-driven-development` |
 | ○ Time Series Forecasting | Intrinsic Skill | — | `/time-series-forecasting` |

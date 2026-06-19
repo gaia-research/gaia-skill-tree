@@ -36,20 +36,32 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:19Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:42Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
 - class: C
   source: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md
   evaluator: mbtiongson1
   date: '2026-05-20'
-  notes: Self-referential implementation doc inside the gaia repo (seed evidence).
+  notes: 'Self-referential implementation doc inside the gaia repo (seed evidence).
     Downgraded A->C per META §2.4 — seed / self-referential links are insufficient
     for Class A — by the 2026-06-02 meta sweep. Credible demo of the codified 7-phase
-    audit workflow. (backfilled — class-to-type migration)
+    audit workflow. (backfilled — class-to-type migration) (CLI gap: commits+contributors
+    not writable via gaia dev evidence)'
   type: repo
+  commits: 90
+  contributors: 10
   trustNumber: 50.0
   grade: C
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -59,7 +71,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 6ff56148ec05d0010fb091a104fb3866d2682c41e32f16d0658fd80e43166418
+trustMagnitudeInputHash: cfc35363718ee7fd481d6d2c8c822de0976b7b7e7be7b97d39ea5f482ae0d548
 ---
 
 ## Overview

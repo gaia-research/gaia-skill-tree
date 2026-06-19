@@ -1,0 +1,52 @@
+---
+id: mattpocock/setup-pre-commit
+name: Setup Pre-Commit
+contributor: mattpocock
+origin: false
+genericSkillRef: guardrails
+status: awakened
+links:
+  github: https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md
+level: 2★
+description: Set up Husky pre-commit hooks with lint-staged, Prettier, type checking,
+  and tests.
+createdAt: '2026-06-19'
+updatedAt: '2026-06-19'
+timeline:
+- timestamp: '2026-06-19T13:02:03Z'
+  action: add
+  contributor: unknown
+  details: Added named skill mattpocock/setup-pre-commit
+- timestamp: '2026-06-19T13:06:47Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:41Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+evidence:
+- source: https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md
+  evaluator: unknown
+  date: '2026-06-19'
+  class: B
+verification:
+  firstEvidenceAt: '2026-06-19T13:06:47Z'
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: cb6fefdbfe4c11bc6c71d908e0e19fa9cebcbad077152a66a87c79153a3722c2
+---
+
+## Installation
+Add installation instructions here.

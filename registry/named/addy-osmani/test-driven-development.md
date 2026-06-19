@@ -37,18 +37,30 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:14Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:25Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:36Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: Addy Osmani /test-driven-development slash command -- forces strict TDD workflow,
-    stopping agents from skipping tests. (backfilled — class-to-type migration)
+  notes: 'Addy Osmani /test-driven-development slash command -- forces strict TDD
+    workflow, stopping agents from skipping tests. (backfilled — class-to-type migration)
+    (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 260
+  contributors: 36
   trustNumber: 70.0
   grade: B
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -58,7 +70,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: f9f365b9ff2ed82fb1e28f2ccaf2e7697e01e5446ee38dd2f78b113b9bf7b791
+trustMagnitudeInputHash: 650f0466e751f4446ba928c959d5b8aa50cb4ff5b844c60a905f3f41f4286fa0
 ---
 
 ## Overview

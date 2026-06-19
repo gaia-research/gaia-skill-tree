@@ -20,8 +20,9 @@ evidence:
   source: https://github.com/google-deepmind/science-skills
   evaluator: unknown
   date: '2026-05-23'
-  notes: Foundational canonical generic skill for Bioinformatic Sequence Analysis.
-    (backfilled — class-to-type migration)
+  notes: 'Foundational canonical generic skill for Bioinformatic Sequence Analysis."
+    (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not
+    supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
@@ -29,11 +30,13 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind protein_sequence_similarity_search science-skill
+  notes: Official Google DeepMind protein_sequence_similarity_search science-skill"
     implementation. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
 timeline:
 - timestamp: '2026-06-14T12:32:36Z'
   action: evidence_graded
@@ -48,7 +51,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:17Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:39Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -59,7 +71,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: cc0f1ff57992b3de6be27e25dfd870220af603a804c1533190ebd036b68dc1f7
+trustMagnitudeInputHash: 0b6cd76fe91652e55f418d42dc234d07c58a4823167a56c5e8175a532713182e
 ---
 
 ## Prerequisites

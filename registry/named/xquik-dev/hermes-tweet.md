@@ -24,11 +24,13 @@ evidence:
   source: https://github.com/Xquik-dev/hermes-tweet
   evaluator: kriptoburak
   date: '2026-05-15'
-  notes: Hermes Tweet provides an installable Hermes Agent X/Twitter skill and plugin
+  notes: 'Hermes Tweet provides an installable Hermes Agent X/Twitter skill and plugin
     for searching tweets, reading replies, looking up users, monitoring tweets, exporting
     followers, and gating post, reply, and DM actions. (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 439
+  contributors: 2
   trustNumber: 70.0
   grade: B
 timeline:
@@ -40,7 +42,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:21Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 6.12, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:39Z'
+  details: TM 0.0 -> 6.12, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:45Z'
+  details: TM 0.0 -> 6.12, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 6.12
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -51,7 +62,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 487dda9ad1b68b4569a83c8caaf6a10c465273d22fb4625ead283e7af75e6ab3
+trustMagnitudeInputHash: a2837ad0ce4900c7d7dcec95a1f2d89e8211140330f353ea77f7815e1b2b2ee3
 ---
 
 ## Overview

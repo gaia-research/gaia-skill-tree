@@ -11,7 +11,7 @@ description: Use when you want to search for or download experimentally-determin
   searching by sequence similarity, structure similarity, chemical and other attributes.
   Also use to get metadata about biomolecular structure experiments.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md
 evidence:
@@ -24,6 +24,16 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
+- source: https://academic.oup.com/nar/article/28/1/235/2384399
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Berman et al. 2000 NAR: The Protein Data Bank. 10,060 citations (Semantic
+    Scholar 2026-06-19). Foundational PDB database paper.'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:35Z'
   action: evidence_graded
@@ -33,8 +43,28 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:16Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:57Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:39Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:21Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/28/1/235/2384399
+    (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -44,7 +74,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: b6d2e891fe9e6dac0d4b7f88f9b2c26fa381767dcad0eea8cc5dbdef8f8c0c09
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:20Z'
+trustMagnitudeInputHash: b643de23ba1c4a842f2b3b143ae842a07b5c540a735f7831688b1550cf08b05b
 ---
 
 # RCSB Protein Data Bank skill

@@ -26,6 +26,8 @@ evidence:
     with independence verification and configurable concurrency (default 5). (backfilled
     — class-to-type migration)
   type: repo
+  commits: 34
+  contributors: 1
   trustNumber: 50.0
   grade: C
 timeline:
@@ -37,7 +39,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:17Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:10:48Z'
+  details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:40Z'
+  details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 1.3
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -48,7 +59,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 31059cb648f62a2975d21363e0d97409a7799ce0028a43e77f135eb46679f9ac
+trustMagnitudeInputHash: 89beb800a84500a48d8773cc638f065e40f38c39675122463eda2f7617240b8f
 ---
 
 ## Overview

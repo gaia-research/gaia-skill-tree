@@ -23,11 +23,14 @@ evidence:
   source: https://github.com/nexu-io/open-design
   evaluator: gemini-cli
   date: '2026-05-14'
-  notes: Open Design -- local-first design engine generating high-fidelity prototypes
-    and brand assets. (backfilled — class-to-type migration)
+  notes: 'Open Design -- local-first design engine generating high-fidelity prototypes"
+    and brand assets. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors
+    not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 2382
+  contributors: 332
 timeline:
 - timestamp: '2026-06-02T23:48:19Z'
   action: demote
@@ -41,8 +44,17 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:19Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:42Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -52,7 +64,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: ac4206d4c2f7db2a2372b19ada0f7ad0c7fb0356776899eb695fa95ae8cf5e6d
+trustMagnitudeInputHash: 8160ffbdfe5eea8db15945eca7d38f15ffb9c6efe3f3a10845062976ca4e76e2
 ---
 
 ## Overview

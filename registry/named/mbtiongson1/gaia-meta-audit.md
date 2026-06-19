@@ -43,19 +43,31 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:19Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:42Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/mbtiongson1/gaia-skill-tree
   evaluator: mbtiongson1
   date: '2026-05-03'
-  notes: Derived from registry hygiene work that audits source-backed named skills,
+  notes: 'Derived from registry hygiene work that audits source-backed named skills,
     generated projections, and demotion candidates across canonical and real-skill
-    review surfaces. (backfilled — class-to-type migration)
+    review surfaces. (backfilled — class-to-type migration) (CLI gap: commits+contributors
+    not writable via gaia dev evidence)'
   type: repo
+  commits: 90
+  contributors: 10
   trustNumber: 70.0
   grade: B
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -65,7 +77,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e99b3d80b1875e1d923666537f143f495100309d7cd7bea3c9a6a74e23d0f31f
+trustMagnitudeInputHash: a3f29b1653856287eda15aba25ae5cc16e26ae696ac3a739b57b11ed0b39c6dc
 ---
 
 ## Overview

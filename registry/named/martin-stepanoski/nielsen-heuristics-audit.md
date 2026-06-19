@@ -26,12 +26,15 @@ evidence:
   source: https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: Martin Stepanoski @mastepanoski/claude-skills -- /nielsen-heuristics-audit
+  notes: 'Martin Stepanoski @mastepanoski/claude-skills -- /nielsen-heuristics-audit"
     audits UI against Nielsen 10 usability heuristics step-by-step. (backfilled —
-    class-to-type migration)
+    class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia
+    dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 32
+  contributors: 2
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
   action: demote
@@ -45,7 +48,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 4.9, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 4.9, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:40Z'
+  details: TM 0.0 -> 4.9, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 4.9
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -56,7 +68,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 939993febaef44a14d5522e1df36595de64071fe7e4d98347f187ea3b353edfd
+trustMagnitudeInputHash: 88f04044992f19990fd9a7bc46e321911eae258732d49e68a5f981f03e0aa39f
 ---
 
 ## Overview

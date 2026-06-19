@@ -25,11 +25,13 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/codex/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Spins
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Spins
     up a structured Claude-versus-Codex debate over a proposed implementation, with
     each agent mounting adversarial critiques, to surface hidden… (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:
@@ -45,8 +47,17 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:14Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -56,9 +67,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 84970de7eedc57d4f2736b37fc3682f900d042390ba6215e5949be9c4764c0c6
 verification:
   firstEvidenceAt: '2026-06-03T05:51:31Z'
+trustMagnitudeInputHash: d54a9d371ae4883d7265f0981c0d98930d5ec546daeb489a8b9921aa84da8bb4
 ---
 
 ## Overview

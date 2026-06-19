@@ -31,6 +31,8 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6899
+  contributors: 32
 timeline:
 - timestamp: '2026-06-14T12:32:51Z'
   action: evidence_graded
@@ -40,8 +42,17 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:20Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:58Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:43Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -51,7 +62,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 7828f934567afe6ee667b3966e3ca0c37e2ff77d4079a377a4d03c8863c1865c
+trustMagnitudeInputHash: d2d124fb23276fef5762cb043e85e967f53d4d9785600d0e57784f226a13dd5e
 ---
 
 ## Overview

@@ -23,7 +23,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| ruvnet/reasoningbank ⭑ | ruvnet | 3★ | 1 |
+| ruvnet/reasoningbank ⭑ | ruvnet | 3★ | 6 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

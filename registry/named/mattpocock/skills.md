@@ -7,14 +7,106 @@ title: The Matt Pocock Discipline
 genericSkillRef: skill-mastery
 status: named
 level: 5★
-provisional: true
 provisionalUntil: '2026-12-17'
 description: The ultimate capstone suite encompassing all of Matt Pocock's engineering,
   productivity, and personal skills.
 links:
   github: https://github.com/mattpocock/skills
 createdAt: '2026-05-22'
-updatedAt: '2026-05-22'
+updatedAt: '2026-06-19'
+trustMagnitude: 480.29
+overallTrustGrade: S
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: true
+  depth2OnlyReachableGte1: false
+  overallGradeS: true
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:18Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-18T12:46:31Z'
+  action: demote
+  contributor: mbtiongson1
+  details: G7 apex cutover — apex gate failed all 6 active predicates (aGradedOriginsGte5,
+    sourceTenureDaysGte180AorS, directNestedSuiteGte1, depth2OnlyReachableGte1, overallGradeS,
+    apexPromotionPrSigned); re-application open immediately once all predicates pass
+- timestamp: '2026-06-19T09:18:11Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)'
+- timestamp: '2026-06-19T09:22:46Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/abs/2602.20867 (type: arxiv)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:47Z'
+  details: TM 0.0 -> 43.7, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T10:43:32Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=s5T5oQJcJ6U (type:
+    social-signal)'
+- timestamp: '2026-06-19T10:48:50Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:52:25Z'
+  details: TM 43.7 -> 73.7, grade C -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 73.7, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:41Z'
+  details: TM 0.0 -> 440.78, grade ungraded -> S (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 440.78 -> 480.29, grade S -> S (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:18Z'
+  details: TM 480.29 -> 480.29, grade S -> S (direct edit -- CLI gap)
+evidence:
+- source: https://github.com/mattpocock/skills/stargazers
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: github-stars-own
+  class: A
+  notes: 133,210 GitHub stars as of 2026-06-19 (verified via firecrawl validation
+    report; mothership with 19 sub-skills, divisor=4)
+  stars: 133210
+  skillCountInRepo: 19
+- source: https://arxiv.org/abs/2602.20867
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: arxiv
+  class: A
+  notes: Skills/tool-use paper — ~52 citations as of 2026-06-19 (arXiv:2602.20867)
+  citations: 52
+- source: https://www.youtube.com/watch?v=s5T5oQJcJ6U
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'Matt Pocock official YouTube: "Learn anything with the /teach skill." Creator
+    demonstrating his own skills suite.'
+  views: 86670
+- source: https://github.com/mattpocock/skills
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'G7 Trust Taxonomy Audit (June 2026): high adoption (132k stars), apex gate
+    failure on tenure (<26 days vs 180 required), recommended role:variant filtering.'
+verification:
+  firstEvidenceAt: '2026-06-19T09:18:11Z'
 suiteComponents:
 - mattpocock/caveman
 - mattpocock/diagnose
@@ -35,28 +127,7 @@ suiteComponents:
 - mattpocock/ubiquitous-language
 - mattpocock/write-a-skill
 - mattpocock/zoom-out
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
-apexGateStatus:
-  aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
-  directNestedSuiteGte1: false
-  depth2OnlyReachableGte1: false
-  overallGradeS: false
-  apexPromotionPrSigned: false
-  crossOrgVerifier: null
-  systemWideCap: null
-trustMagnitudeInputHash: 11fc6fb44298c99eebaad9c04de5334bd4a643ed72bf140d9f252f493b7e5184
-timeline:
-- action: migrate_trust_magnitude
-  timestamp: '2026-06-18T11:27:18Z'
-  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-- timestamp: '2026-06-18T12:46:31Z'
-  action: demote
-  contributor: mbtiongson1
-  details: G7 apex cutover — apex gate failed all 6 active predicates (aGradedOriginsGte5,
-    sourceTenureDaysGte180AorS, directNestedSuiteGte1, depth2OnlyReachableGte1, overallGradeS,
-    apexPromotionPrSigned); re-application open immediately once all predicates pass
+trustMagnitudeInputHash: 349d174f8f94cd100299e12ac72dde50e45702118e3e22c9d36cf4091e48f522
 ---
 
 ## Installation

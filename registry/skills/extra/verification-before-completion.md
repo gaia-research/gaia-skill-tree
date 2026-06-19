@@ -24,7 +24,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| obra/verification-before-completion ⭑ | obra | 2★ | 1 |
+| obra/verification-before-completion ⭑ | obra | 2★ | 5 |
 | ruvnet/verification-quality | ruvnet | 2★ | 1 |
 
 ## Evidence (inherited capability)

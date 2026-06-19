@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  v4.11.0  ·  generated 2026-06-18
+GAIA SKILL TREE  v4.11.0  ·  generated 2026-06-19
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -265,6 +265,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   ○ /autonomous-engineering-platform
   ○ /clinical-data-retrieval
   ○ /cultural-localization
+  ○ /domain-modeling
   ○ openai/few-shot-learning  [2★]
   ○ laravel/upgrade-laravel-v13  [2★]
   ○ ruvnet/agentic-jujutsu  [2★]
@@ -276,6 +277,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   ○ openai/self-consistency  [2★]
   ○ ████████/semantic-cache
   ○ ruvnet/stream-chain  [2★]
+  ○ /software-design
   ○ /synthetic-data-generation
   ○ addy-osmani/test-driven-development  [3★]
   ○ /time-series-forecasting
@@ -283,4 +285,4 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   ○ ruvnet/worker-integration  [2★]
 ```
 
-*Generated from gaia.json on 2026-06-18. Do not edit directly.*
+*Generated from gaia.json on 2026-06-19. Do not edit directly.*

@@ -26,11 +26,14 @@ evidence:
   source: https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-10'
-  notes: Published implementation in the Spring AI Alibaba examples repository; reproducible
-    from SKILL.md. (backfilled — class-to-type migration)
+  notes: 'Published implementation in the Spring AI Alibaba examples repository; reproducible"
+    from SKILL.md. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors
+    not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 1245
+  contributors: 82
 timeline:
 - timestamp: '2026-06-10T05:38:19Z'
   action: evidence_added
@@ -44,8 +47,17 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:21Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:39Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:45Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -55,9 +67,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 4cf895d5a5f8779f9c1de5171cd00d3dc625a73f16f33f573d952cfa64f5030c
 verification:
   firstEvidenceAt: '2026-06-10T05:38:19Z'
+trustMagnitudeInputHash: fb22ef042a11c75baad4933cffc86a898dc62b3b228469ed39fdfbe65ab5cecc
 ---
 
 ## Overview

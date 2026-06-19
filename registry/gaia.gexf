@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <gexf xmlns="http://www.gexf.net/1.2draft" version="1.2">
-  <meta lastmodifieddate="2026-06-18">
+  <meta lastmodifieddate="2026-06-19">
     <creator>Gaia</creator>
     <description>Gaia Skill Registry Graph</description>
   </meta>
@@ -397,6 +397,13 @@
         </attvalues>
       </node>
       <node id="document-editing" label="Document Editing">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="domain-modeling" label="Domain Modeling">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
@@ -1269,6 +1276,13 @@
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
+      <node id="software-design" label="Software Design">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
         </attvalues>
       </node>
       <node id="speech-to-text" label="Speech to Text">

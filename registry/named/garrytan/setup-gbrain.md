@@ -26,8 +26,11 @@ evidence:
   date: '2026-06-03'
   notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Bootstraps
     the GBrain knowledge store for a new project: creates the index structure, ingests
-    seed documents, and validates retrieval with a… (backfilled — class-to-type migration)'
+    seed documents, and validates retrieval with a… (backfilled — class-to-type migration)
+    (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:
@@ -43,8 +46,17 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:15Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:38Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -54,9 +66,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: f0ddfec4a6c2c9c971b5553630112f04d36d50a6c3c677699d45fa126710dcc6
 verification:
   firstEvidenceAt: '2026-06-03T05:51:36Z'
+trustMagnitudeInputHash: 4e3d50e63fd410252d1a0003a250f5152dff9bcc815ff0856a8172bdced64e5b
 ---
 
 ## Overview

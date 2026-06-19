@@ -23,7 +23,7 @@ Enforces a strict questioning loop that prevents the agent from proceeding to im
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| mattpocock/grill-me | mattpocock | 4★ | 1 |
+| mattpocock/grill-me | mattpocock | 4★ | 5 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

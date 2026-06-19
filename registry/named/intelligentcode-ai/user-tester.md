@@ -28,6 +28,8 @@ evidence:
     automation and cross-browser user journey validation. (backfilled — class-to-type
     migration)
   type: repo
+  commits: 34
+  contributors: 1
   trustNumber: 50.0
   grade: C
 timeline:
@@ -39,7 +41,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:10:48Z'
+  details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:40Z'
+  details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 1.3
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -50,7 +61,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 5c2bde2c36d41380fac68a7fe69ee324bf9df70896760c5dfad3e69694bbe508
+trustMagnitudeInputHash: f40d779465285879f2c5eda1a0b5c3d47854f9776b1a3af1350f6fa781aebc82
 ---
 
 ## Overview

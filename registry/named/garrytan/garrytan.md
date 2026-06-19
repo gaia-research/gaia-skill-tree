@@ -49,19 +49,31 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:15Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:37Z'
+  details: TM 0.0 -> 156.0, grade ungraded -> A (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). The definitive
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). The definitive
     autonomous "Founder mode" review and decision suite. An auto-review pipeline that
     reads the full CEO, design, engineering, and DX… (backfilled — class-to-type migration)
+    (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 156.0
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -71,9 +83,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 2da79a1ddb73d30429b34da71373f2c6d55eb083f481548e9c94abcac84dd769
 verification:
   firstEvidenceAt: '2026-06-03T05:51:33Z'
+trustMagnitudeInputHash: ec1f20ff427d774d3a34ce7be3af756648602ea99e6bd82fdd03dc95776f068a
 ---
 
 ## Overview

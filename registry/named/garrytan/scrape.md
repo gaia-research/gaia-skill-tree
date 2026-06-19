@@ -37,20 +37,31 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:15Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:38Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/scrape/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Fetches
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Fetches"
     target URLs with a headless browser, parses structured data from rendered HTML,
     and returns clean JSON or markdown ready for downstream… (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+  commits: 323
+  contributors: 9
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -60,9 +71,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 3f6a28329eecf2207d82a0d257f77b6b90d65051a6e8039bf7c9d2be88b330e8
 verification:
   firstEvidenceAt: '2026-06-03T05:51:28Z'
+trustMagnitudeInputHash: 5a97c5d6329aef8f85a5cb1e441bf68e9ea1616772193dbbc137887259aee941
 ---
 
 ## Overview
