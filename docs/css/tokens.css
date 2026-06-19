@@ -100,4 +100,11 @@
   --grade-B-rgb: var(--evidence-silver-rgb);
   --grade-C: var(--evidence-bronze);
   --grade-C-rgb: var(--evidence-bronze-rgb);
+
+  /* ── Trust Grade notch tokens ────────────────────────────────── */
+  /* Used by .plaque__trust-notch in plaque.css */
+  --trust-notch-h: 18px;
+  --trust-notch-pad-x: 6px;
+  --trust-notch-font: var(--font-mono);
+  --trust-notch-font-size: 0.68rem;
 }
