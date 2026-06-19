@@ -23,6 +23,57 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 - **2026-06-19** — I8 notch design: Marco changed spec from bottom-right corner stamp to centered footer row. Grade name removed; TM number shown instead (e.g. `A · 47`). Visual inspection required before merge.
 - **2026-06-19** — `generateNamedIndex.py` uses legacy grading (S≥90/A≥80), diverging from G7 RFC (S≥250/A≥100). Frontmatter is canonical. Follow-up issue needed to align index generator.
 
+## State Snapshot (2026-06-19, session 12 — evidence backfill complete, I8 hover-reveal design, ev-pipeline + mattpocock curation running)
+
+### Active branch: `review/meta/g7-evidence-backfill` (latest: 9f85fc4f)
+
+**TM coverage after 3 crawl passes + data lake ingest + grill-me curation:**
+- **181 of 235 named skills with TM > 0** (was 0 before this session)
+- Grade distribution (TM>0): A=6, B=6, C=108, ungraded=61
+- Top skills: pexp13/sentiment-analysis 192.8 A, safishamsi/graphify 116.6 A, garrytan/gstack 109.3 A, openai/* 100 A, stanfordnlp/dspy 100 B, anthropic/skill-creator 90 B, obra/superpowers 86 B
+
+**What was done this session (session 12):**
+1. **I9 scorer alias** — `repo → repo-own` in `trustMagnitude.py`. All 174 legacy rows now score.
+2. **3-pass commits+contributors crawl** — all 235 named skill repo-own rows patched with real GitHub data. Key fix: obra/superpowers first crawl used wrong repo `nichochar/obra-superpowers` → corrected to 609/36. Hash-lock bug found and fixed (43 skills locked at TM=0 despite having commits — cleared hashes, re-ran migration).
+3. **Data lake ingest** — benchmark-result, social-signal, peer-review rows added from `founder/sources/`. Contextual routing via Haiku adversarial agents: named-layer vs generic-layer per evidence. Data lake entries flagged with `<!-- injected: ... -->` after ingest (new workflow standard).
+4. **grill-me / grill-with-docs curation** — added 3 peer-review + 1 social-signal rows each. TM jumped 11→63 (B grade). Pattern proven: suite components DO have rich evidence in GitHub Issues/Discussions.
+5. **I8 trust grade notch** — full redesign after Marco feedback: centered footer row, TM number only by default, hover reveals grade letter with diagonal shine sweep (named `trust-notch-shimmer`). Platinum = iridescent titanium (`#ecf4ff→#a5c7eb`). Silver = dark steel (`#8a99ad→#475569`, white text, WCAG 6.2:1). All hex literals tokenized. PR #743 (`design/trust-grade-notch → dev/phase-1.5-inspection`), server live at `http://localhost:8081`.
+6. **ev-pipeline running** — Haiku agents crawling garrytan/gstack, ruvnet/ruflo, obra/superpowers, mattpocock/skills, pbakaus/impeccable Issues/Discussions for named sub-skill evidence. Adversarial layer routing. 121 suite components targeted.
+7. **mattpocock/skills v1.0.1 curation** — issue #731. 34 active skills (was 20). 14 new to register, 9 deprecated to update. Running via gaia-curate-chain from `.agents/skills/gaia-curate-chain/SKILL.md`. L4 human gate: ALL APPROVED (pre-authorized by Marco this session). Deprecated skills: remove suiteRef/suiteComponents, note "Removed from mattpocock/skills in v1.0.1", RETAIN fusion evidence.
+
+**Active workflows (background):**
+- `wf_ce280cfc` — ev-pipeline suite curation (garrytan/gstack, ruvnet/ruflo, obra, mattpocock, pbakaus) — Collect→Adversarial→Ingest→Migrate
+- gaia-curate-chain agent re-dispatching for mattpocock v1.0.1
+
+**CLI gaps logged this session:**
+1. `gaia dev evidence` no `--commits/--contributors` flags — patched via direct YAML (documented in all notes)
+2. `merge_evidence()` deduplicates by URL only — github-stars-own vs repo-own collision workaround: `/stargazers` URL suffix
+3. `trustMagnitudeInputHash` does not include `commits`/`contributors` — re-runs skip these fields silently. Fix: clear hash before re-migration when those fields change.
+4. `generateNamedIndex.py` uses legacy grade thresholds (S≥90/A≥80) vs G7 RFC (S≥250/A≥100) — index grade stale; frontmatter is canonical.
+
+**Key operational learnings this session:**
+- Suite components have rich evidence in GitHub Issues/Discussions — grill-me pattern is replicable at scale
+- URL liveness is irrelevant for evidence verification (firecrawl already ran). Contextual routing (named vs generic layer) is the critical check.
+- Data lake entries MUST be flagged `<!-- injected: ... -->` after ingest so future passes don't re-process
+- ev-pipeline is the right tool for systematic curation: `.agents/skills/ev-pipeline/SKILL.md` orchestrates 4 sub-skills
+- gaia-curate-chain lives in `.agents/skills/gaia-curate-chain/SKILL.md` — NOT `.claude/skills/`
+- Agents MUST commit+push after every logical unit — never batch. Hash-lock and worktree cutoffs make unbatched pushes critical.
+- firecrawl installed and authenticated (1596 credits, Team: Personal). `firecrawl --status` confirms.
+
+**Next steps after active workflows complete:**
+1. Review ev-pipeline results — check how many suite components gained peer-review/social rows, verify TM lift
+2. Review gaia-curate-chain L4 output (all approved) — confirm 14 new mattpocock skills registered
+3. YouTube + benchmark signals pass for suite components (next curation wave)
+4. Generic node evidence pass — add arxiv/peer-review to generic nodes so children inherit
+5. Merge I9 (#744) into dev/phase-1.5-inspection
+6. Marco visual inspection of I8 at `http://localhost:8081` → merge #743
+7. Final CI check on dev/phase-1.5-inspection → ready PR #742 for main merge
+8. Open follow-up issue: align `generateNamedIndex.py` to read frontmatter grades
+
+**Token spend (session 12):** Orchestrator ~45k in / ~18k out ~$0.70. Crawl workflows: ~2.1M subagent tokens ~$8.00. I8 impeccable corrections: ~130k ~$0.55. ev-pipeline + chain running. Total session ~$9.25+. Cumulative G7: **~$30.50+**.
+
+---
+
 ## State Snapshot (2026-06-19, session 11 — I9 + I8 dispatched, PRs opened, impeccable corrections running)
 
 - **Repo:** `main` @ **v4.11.0** (unchanged — no merges to main this session).
