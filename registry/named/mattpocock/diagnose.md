@@ -11,7 +11,7 @@ level: 2★
 description: Drives a rigorous five-phase debugging discipline — build a feedback
   loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed
   until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance
-  regressions.
+  regressions. Removed from mattpocock/skills suite in v1.0.1.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
 tags:
@@ -22,7 +22,6 @@ tags:
 - root-cause-analysis
 createdAt: '2026-04-30'
 updatedAt: '2026-06-14'
-suiteRef: mattpocock/engineering
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
@@ -66,6 +65,7 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
 trustMagnitudeInputHash: 8b89ddfb192097b469f84d620bb6df2b0f28ba9c0b10f1aee8ad8d2d4f819efb
+suiteRef: "mattpocock/engineering"
 ---
 
 ## Overview

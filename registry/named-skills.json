@@ -906,7 +906,7 @@
         "genericSkillRef": "tool-creation",
         "status": "named",
         "level": "3★",
-        "description": "Guides creation of new agent skills through a structured requirements interview, then produces a SKILL.md with a trigger-aware description, progressive-disclosure layout, and optional bundled scripts or reference files — ready for installation in any Claude Code, Cursor, or Codex CLI skills directory.",
+        "description": "Guides creation of new agent skills through a structured requirements interview, then produces a SKILL.md with a trigger-aware description, progressive-disclosure layout, and optional bundled scripts or reference files — ready for installation in any Claude Code, Cursor, or Codex CLI skills directory. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Skill Scaffolder",
         "catalogRef": "mattpocock-write-a-skill",
         "tags": [
@@ -1757,7 +1757,7 @@
         "genericSkillRef": "autonomous-debug",
         "status": "named",
         "level": "2★",
-        "description": "Drives a rigorous five-phase debugging discipline — build a feedback loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance regressions.",
+        "description": "Drives a rigorous five-phase debugging discipline — build a feedback loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance regressions. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Disciplined Diagnosis Loop",
         "catalogRef": "mattpocock-diagnose",
         "tags": [
@@ -2910,7 +2910,7 @@
         "genericSkillRef": "context-compression",
         "status": "named",
         "level": "3★",
-        "description": "An ultra-compressed communication mode designed to save tokens by dropping articles and filler words.",
+        "description": "An ultra-compressed communication mode designed to save tokens by dropping articles and filler words. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Caveman Console",
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman"
@@ -7847,7 +7847,7 @@
         "genericSkillRef": "engineering-discipline",
         "status": "named",
         "level": "5★",
-        "description": "Engineering category suite for Matt Pocock's skills.",
+        "description": "Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Engineering Discipline",
         "createdAt": "2026-05-21",
         "updatedAt": "2026-06-10",
@@ -8479,7 +8479,7 @@
         "genericSkillRef": "personal",
         "status": "named",
         "level": "4★",
-        "description": "Personal category suite for Matt Pocock's skills.",
+        "description": "Personal category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Personal Suite",
         "createdAt": "2026-05-21",
         "updatedAt": "2026-06-10",
@@ -8521,7 +8521,7 @@
         "genericSkillRef": "productivity",
         "status": "named",
         "level": "4★",
-        "description": "Productivity category suite for Matt Pocock's skills.",
+        "description": "Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Productivity Suite",
         "createdAt": "2026-05-21",
         "updatedAt": "2026-06-10",
@@ -9186,7 +9186,7 @@
         "genericSkillRef": "ubiquitous-language",
         "status": "named",
         "level": "4★",
-        "description": "Extracts and formalises a project's domain terminology into a shared glossary, enforcing consistent naming across code and conversations to eliminate ambiguity.",
+        "description": "Extracts and formalises a project's domain terminology into a shared glossary, enforcing consistent naming across code and conversations to eliminate ambiguity. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Domain Linguist",
         "catalogRef": "mattpocock-ubiquitous-language",
         "tags": [
@@ -9338,7 +9338,7 @@
         "genericSkillRef": "code-explain",
         "status": "named",
         "level": "2★",
-        "description": "Signals the agent to ascend one layer of abstraction and produce a map of all relevant modules, callers, and domain-glossary terms in the unfamiliar code area, without explaining implementation details.",
+        "description": "Signals the agent to ascend one layer of abstraction and produce a map of all relevant modules, callers, and domain-glossary terms in the unfamiliar code area, without explaining implementation details. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Abstraction Lift",
         "catalogRef": "mattpocock-zoom-out",
         "tags": [
@@ -16774,6 +16774,552 @@
       "installBody": "No additional setup required. Vitest and React Testing Library are pre-configured in Dify.\n\n### Prerequisites\n\n- Node.js and pnpm package manager\n- Access to the Dify repository\n- Familiarity with React and TypeScript\n\n### Quick Start\n\nThe test infrastructure is pre-configured in your Dify workspace:\n\n- **Test runner**: Vitest (configured in `web/vite.config.ts`)\n- **Testing library**: React Testing Library\n- **Setup file**: `web/vitest.setup.ts` (includes global mocks)\n\n### Core Commands\n\nRun from the `web/` directory. From repo root, prefix with `pnpm -C web`:\n\n```bash\n# Execute all tests\npnpm test\n\n# Watch mode for active development\npnpm test --watch\n\n# Run a specific test file\npnpm test path/to/file.spec.tsx\n\n# Generate coverage report\npnpm test --coverage\n\n# Analyze component complexity before testing\npnpm analyze-component <path>\n```\n\n### How to Use This Skill\n\n**Apply when you:**\n- Write or review frontend component/hook/utility tests\n- Work with Vitest, React Testing Library, or spec files\n- Improve test coverage\n- Follow testing patterns in Dify\n\n**Do NOT apply for:**\n- Backend/Python tests\n- E2E tests (Cucumber + Playwright)\n- Conceptual questions without code\n\n### Key Resource\n\nRefer to `web/docs/test.md` for complete specifications and patterns."
     },
     {
+      "id": "mattpocock/ask-matt",
+      "name": "Ask Matt",
+      "contributor": "mattpocock",
+      "origin": false,
+      "genericSkillRef": "route-intent",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Productivity skill for routing questions to the right expert or skill in a workspace.",
+      "links": {
+        "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "class": "B"
+        }
+      ],
+      "createdAt": "2026-06-19",
+      "updatedAt": "2026-06-19",
+      "timeline": [
+        {
+          "timestamp": "2026-06-19T12:58:22Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill mattpocock/ask-matt"
+        },
+        {
+          "timestamp": "2026-06-19T13:03:36Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md"
+        }
+      ],
+      "type": "basic",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "mattpocock/codebase-design",
+      "name": "Codebase Design",
+      "contributor": "mattpocock",
+      "origin": false,
+      "genericSkillRef": "software-design",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Design deep modules with small interfaces and large implementations for better testability.",
+      "links": {
+        "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "class": "B"
+        }
+      ],
+      "createdAt": "2026-06-19",
+      "updatedAt": "2026-06-19",
+      "timeline": [
+        {
+          "timestamp": "2026-06-19T12:58:38Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill mattpocock/codebase-design"
+        },
+        {
+          "timestamp": "2026-06-19T13:03:53Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design/SKILL.md"
+        }
+      ],
+      "type": "basic",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "mattpocock/diagnosing-bugs",
+      "name": "Diagnosing Bugs",
+      "contributor": "mattpocock",
+      "origin": false,
+      "genericSkillRef": "systematic-debugging",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Systematic diagnosis loop for hard bugs and performance regressions using a tight feedback loop.",
+      "links": {
+        "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "class": "B"
+        }
+      ],
+      "createdAt": "2026-06-19",
+      "updatedAt": "2026-06-19",
+      "timeline": [
+        {
+          "timestamp": "2026-06-19T12:58:59Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill mattpocock/diagnosing-bugs"
+        },
+        {
+          "timestamp": "2026-06-19T13:04:15Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "mattpocock/domain-modeling",
+      "name": "Domain Modeling",
+      "contributor": "mattpocock",
+      "origin": false,
+      "genericSkillRef": "domain-modeling",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Build and sharpen a project domain model with ubiquitous language and CONTEXT.md maintenance.",
+      "links": {
+        "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "class": "B"
+        }
+      ],
+      "createdAt": "2026-06-19",
+      "updatedAt": "2026-06-19",
+      "timeline": [
+        {
+          "timestamp": "2026-06-19T12:59:14Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill mattpocock/domain-modeling"
+        },
+        {
+          "timestamp": "2026-06-19T13:04:31Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md"
+        }
+      ],
+      "type": "basic",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "mattpocock/git-guardrails-claude-code",
+      "name": "Git Guardrails Claude Code",
+      "contributor": "mattpocock",
+      "origin": false,
+      "genericSkillRef": "guardrails",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Set up Claude Code hooks to block dangerous git commands before they execute.",
+      "links": {
+        "github": "https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "class": "B"
+        }
+      ],
+      "createdAt": "2026-06-19",
+      "updatedAt": "2026-06-19",
+      "timeline": [
+        {
+          "timestamp": "2026-06-19T12:59:34Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill mattpocock/git-guardrails-claude-code"
+        },
+        {
+          "timestamp": "2026-06-19T13:04:53Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code/SKILL.md"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "mattpocock/grilling",
+      "name": "Grilling",
+      "contributor": "mattpocock",
+      "origin": false,
+      "genericSkillRef": "design-review",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Interview the user relentlessly about a plan to stress-test it before building.",
+      "links": {
+        "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "class": "B"
+        }
+      ],
+      "createdAt": "2026-06-19",
+      "updatedAt": "2026-06-19",
+      "timeline": [
+        {
+          "timestamp": "2026-06-19T12:59:50Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill mattpocock/grilling"
+        },
+        {
+          "timestamp": "2026-06-19T13:05:10Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "mattpocock/implement",
+      "name": "Implement",
+      "contributor": "mattpocock",
+      "origin": false,
+      "genericSkillRef": "executing-plans",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Implement a piece of work based on a PRD or issues using TDD at pre-agreed seams.",
+      "links": {
+        "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "class": "B"
+        }
+      ],
+      "createdAt": "2026-06-19",
+      "updatedAt": "2026-06-19",
+      "timeline": [
+        {
+          "timestamp": "2026-06-19T13:00:19Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill mattpocock/implement"
+        },
+        {
+          "timestamp": "2026-06-19T13:05:32Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "mattpocock/migrate-to-shoehorn",
+      "name": "Migrate to Shoehorn",
+      "contributor": "mattpocock",
+      "origin": false,
+      "genericSkillRef": "refactor-code",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Migrate test files from type assertions to shoehorn for type-safe partial test data.",
+      "links": {
+        "github": "https://github.com/mattpocock/skills/blob/main/skills/misc/migrate-to-shoehorn/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/misc/migrate-to-shoehorn/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "class": "B"
+        }
+      ],
+      "createdAt": "2026-06-19",
+      "updatedAt": "2026-06-19",
+      "timeline": [
+        {
+          "timestamp": "2026-06-19T13:01:05Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill mattpocock/migrate-to-shoehorn"
+        },
+        {
+          "timestamp": "2026-06-19T13:05:47Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/migrate-to-shoehorn/SKILL.md"
+        }
+      ],
+      "type": "basic",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "mattpocock/resolving-merge-conflicts",
+      "name": "Resolving Merge Conflicts",
+      "contributor": "mattpocock",
+      "origin": false,
+      "genericSkillRef": "git-integration",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Resolve in-progress git merge and rebase conflicts preserving both intents with automated checks.",
+      "links": {
+        "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "class": "B"
+        }
+      ],
+      "createdAt": "2026-06-19",
+      "updatedAt": "2026-06-19",
+      "timeline": [
+        {
+          "timestamp": "2026-06-19T13:01:24Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill mattpocock/resolving-merge-conflicts"
+        },
+        {
+          "timestamp": "2026-06-19T13:06:09Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts/SKILL.md"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "mattpocock/scaffold-exercises",
+      "name": "Scaffold Exercises",
+      "contributor": "mattpocock",
+      "origin": false,
+      "genericSkillRef": "skill-authoring",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Create exercise directory structures with sections, problems, solutions, and explainers that pass linting.",
+      "links": {
+        "github": "https://github.com/mattpocock/skills/blob/main/skills/misc/scaffold-exercises/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/misc/scaffold-exercises/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "class": "B"
+        }
+      ],
+      "createdAt": "2026-06-19",
+      "updatedAt": "2026-06-19",
+      "timeline": [
+        {
+          "timestamp": "2026-06-19T13:01:41Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill mattpocock/scaffold-exercises"
+        },
+        {
+          "timestamp": "2026-06-19T13:06:26Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/scaffold-exercises/SKILL.md"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "mattpocock/setup-pre-commit",
+      "name": "Setup Pre-Commit",
+      "contributor": "mattpocock",
+      "origin": false,
+      "genericSkillRef": "guardrails",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Set up Husky pre-commit hooks with lint-staged, Prettier, type checking, and tests.",
+      "links": {
+        "github": "https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "class": "B"
+        }
+      ],
+      "createdAt": "2026-06-19",
+      "updatedAt": "2026-06-19",
+      "timeline": [
+        {
+          "timestamp": "2026-06-19T13:02:03Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill mattpocock/setup-pre-commit"
+        },
+        {
+          "timestamp": "2026-06-19T13:06:47Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "mattpocock/tdd",
+      "name": "TDD",
+      "contributor": "mattpocock",
+      "origin": false,
+      "genericSkillRef": "test-driven-development",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Test-driven development with red-green-refactor, verifying behavior through public interfaces.",
+      "links": {
+        "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "class": "B"
+        }
+      ],
+      "createdAt": "2026-06-19",
+      "updatedAt": "2026-06-19",
+      "timeline": [
+        {
+          "timestamp": "2026-06-19T13:02:23Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill mattpocock/tdd"
+        },
+        {
+          "timestamp": "2026-06-19T13:07:04Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md"
+        }
+      ],
+      "type": "basic",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "mattpocock/teach",
+      "name": "Teach",
+      "contributor": "mattpocock",
+      "origin": false,
+      "genericSkillRef": "knowledge-management",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Teach the user a new skill or concept in a workspace with mission, reference materials, and lessons.",
+      "links": {
+        "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "class": "B"
+        }
+      ],
+      "createdAt": "2026-06-19",
+      "updatedAt": "2026-06-19",
+      "timeline": [
+        {
+          "timestamp": "2026-06-19T13:02:46Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill mattpocock/teach"
+        },
+        {
+          "timestamp": "2026-06-19T13:07:26Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "mattpocock/writing-great-skills",
+      "name": "Writing Great Skills",
+      "contributor": "mattpocock",
+      "origin": false,
+      "genericSkillRef": "skill-authoring",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Reference for writing and editing skills to be predictable — vocabulary and principles for deterministic skills.",
+      "links": {
+        "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "class": "B"
+        }
+      ],
+      "createdAt": "2026-06-19",
+      "updatedAt": "2026-06-19",
+      "timeline": [
+        {
+          "timestamp": "2026-06-19T13:03:02Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill mattpocock/writing-great-skills"
+        },
+        {
+          "timestamp": "2026-06-19T13:07:43Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills/SKILL.md"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
       "id": "pexp13/sentiment-analysis",
       "name": "Sentiment Analysis",
       "contributor": "pexp13",
@@ -17191,25 +17737,39 @@
       "martin-stepanoski/nielsen-heuristics-audit"
     ],
     "mattpocock": [
+      "mattpocock/ask-matt",
       "mattpocock/caveman",
+      "mattpocock/codebase-design",
       "mattpocock/diagnose",
+      "mattpocock/diagnosing-bugs",
+      "mattpocock/domain-modeling",
       "mattpocock/edit-article",
       "mattpocock/engineering",
+      "mattpocock/git-guardrails-claude-code",
       "mattpocock/grill-me",
       "mattpocock/grill-with-docs",
+      "mattpocock/grilling",
       "mattpocock/handoff",
+      "mattpocock/implement",
       "mattpocock/improve-codebase-architecture",
+      "mattpocock/migrate-to-shoehorn",
       "mattpocock/obsidian-vault",
       "mattpocock/personal",
       "mattpocock/productivity",
       "mattpocock/prototype",
+      "mattpocock/resolving-merge-conflicts",
+      "mattpocock/scaffold-exercises",
       "mattpocock/setup-matt-pocock-skills",
+      "mattpocock/setup-pre-commit",
       "mattpocock/skills",
+      "mattpocock/tdd",
+      "mattpocock/teach",
       "mattpocock/to-issues",
       "mattpocock/to-prd",
       "mattpocock/triage",
       "mattpocock/ubiquitous-language",
       "mattpocock/write-a-skill",
+      "mattpocock/writing-great-skills",
       "mattpocock/zoom-out"
     ],
     "mbtiongson1": [

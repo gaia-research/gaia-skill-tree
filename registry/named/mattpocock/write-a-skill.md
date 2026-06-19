@@ -11,7 +11,7 @@ level: 3★
 description: Guides creation of new agent skills through a structured requirements
   interview, then produces a SKILL.md with a trigger-aware description, progressive-disclosure
   layout, and optional bundled scripts or reference files — ready for installation
-  in any Claude Code, Cursor, or Codex CLI skills directory.
+  in any Claude Code, Cursor, or Codex CLI skills directory. Removed from mattpocock/skills suite in v1.0.1.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md
 tags:
@@ -22,7 +22,6 @@ tags:
 - progressive-disclosure
 createdAt: '2026-04-30'
 updatedAt: '2026-06-19'
-suiteRef: mattpocock/productivity
 timeline:
 - timestamp: '2026-06-02T23:33:00Z'
   action: rank_up
@@ -71,6 +70,7 @@ evidence:
   notes: GitHub discussion comparing write-a-skill skill with skill-creator.
 verification:
   firstEvidenceAt: '2026-06-19T12:38:21Z'
+suiteRef: "mattpocock/productivity"
 ---
 
 ## Overview
