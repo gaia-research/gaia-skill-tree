@@ -403,6 +403,13 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="domain-modeling" label="Domain Modeling">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="dual-mode" label="Dual Mode">
         <attvalues>
           <attvalue for="level" value="" />
@@ -1269,6 +1276,13 @@
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
+      <node id="software-design" label="Software Design">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
         </attvalues>
       </node>
       <node id="speech-to-text" label="Speech to Text">

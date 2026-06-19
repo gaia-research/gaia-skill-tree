@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "4.11.0",
-  "generatedAt": "2026-06-19T12:52:33.653921Z",
+  "generatedAt": "2026-06-19T13:07:44.568484Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -86,7 +86,7 @@
       "heavyweight-dependency": "Heavyweight dependencies"
     },
     "clusterNames": {
-      "0": "Text & Audit",
+      "0": "Text & Modeling",
       "1": "Memory & Swarm",
       "2": "Retrieval & Web",
       "3": "Agent & Tool",
@@ -3128,6 +3128,28 @@
           "details": "Skill created as 0★ (provisional)",
           "previousValue": null,
           "newValue": "0★"
+        }
+      ]
+    },
+    {
+      "id": "domain-modeling",
+      "name": "Domain Modeling",
+      "type": "basic",
+      "description": "Build and maintain a shared domain model with ubiquitous language and architectural decision records.",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-06-19",
+      "updatedAt": "2026-06-19",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-06-19T12:57:54Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill domain-modeling"
         }
       ]
     },
@@ -10306,6 +10328,28 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://arxiv.org/abs/2604.25109 as A (trustNumber: 85.0)"
+        }
+      ]
+    },
+    {
+      "id": "software-design",
+      "name": "Software Design",
+      "type": "basic",
+      "description": "Design software modules with clean interfaces, seams, and deep implementations for maintainability and testability.",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-06-19",
+      "updatedAt": "2026-06-19",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-06-19T12:57:35Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill software-design"
         }
       ]
     },

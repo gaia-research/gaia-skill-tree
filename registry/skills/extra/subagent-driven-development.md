@@ -24,7 +24,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| obra/subagent-driven-development ⭑ | obra | 4★ | 1 |
+| obra/subagent-driven-development ⭑ | obra | 4★ | 5 |
 | ruvnet/pair-programming | ruvnet | 2★ | 1 |
 
 ## Evidence (inherited capability)

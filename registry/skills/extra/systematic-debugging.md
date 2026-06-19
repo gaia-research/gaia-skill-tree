@@ -25,7 +25,7 @@ _None specified._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | garrytan/investigate ⭑ | garrytan | 4★ | 1 |
-| obra/systematic-debugging | obra | 3★ | 1 |
+| obra/systematic-debugging | obra | 3★ | 2 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

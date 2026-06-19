@@ -24,7 +24,7 @@ Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs fo
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| mattpocock/grill-with-docs ⭑ | mattpocock | 3★ | 1 |
+| mattpocock/grill-with-docs ⭑ | mattpocock | 3★ | 5 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

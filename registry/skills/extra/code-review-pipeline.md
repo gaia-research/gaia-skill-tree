@@ -29,7 +29,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/plan-eng-review | garrytan | 4★ | 1 |
+| garrytan/plan-eng-review | garrytan | 4★ | 2 |
 | garrytan/review | garrytan | 4★ | 1 |
 | ruvnet/github-code-review | ruvnet | 1★ | 0 |
 
