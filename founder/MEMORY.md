@@ -2,6 +2,102 @@
 
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
+## State Snapshot (2026-06-20, session 15 epilogue — 5.0.0 shipped, /trust nav + MAG=0 fixed, Phase 1 fully closed)
+
+### TLDR
+
+- **GAIA 5.0.0 IS LIVE.** PyPI gaia-cli==5.0.0 published (workflow_dispatch run 27845809253, 37s success). GitHub release page live at https://github.com/mbtiongson1/gaia-skill-tree/releases/tag/v5.0.0. Tag `v5.0.0` at commit `13fd104f`.
+- **Two web bugs fixed in same release PR**:
+  - **MAG=0 on plaques** — `_wireTrustNotches` was registered on `window` but never called from live render paths (`named-skills.js`, `page-ia.js`). Static template emitted literal `MAG <span>0</span>`. Fix: emit real magnitude as initial textContent (works WITHOUT JS), wire `_wireTrustNotches` at all 3 live render sites, fix `onLeave` to restore real value (was bouncing back to 0).
+  - **/trust/leaderboard/ Home link broken** — `docs/js/site-nav.js` MOUNTS list missing `trust`. Depth defaulted to 0, root='', Home resolved to non-existent `/trust/leaderboard/index.html`. Fix: add `trust` + `api` (forward-thinking for Sprint B) to MOUNTS.
+- **Release PR #763 merged** at `df3e40da` (merge-commit, never squashed). Phase 1.5 milestone (#8) remains closed. Sprint A milestone (#9) carries the close-out tasks.
+- **PyPI auto-trigger on tag push failed** with HTTP 400 "filename was previously used by a file that has since been deleted" — a 5.0.0 wheel had been uploaded then yanked at some prior point. Marco rescued via manual `workflow_dispatch`. Lesson: when `gh` pushes a tag and the auto-publish 400s, the manual dispatch path is the recovery.
+- **CHANGELOG.md established** as the canonical changelog going forward. 5.0.0 is the first entry.
+
+### What changed this session (epilogue turn)
+
+| Layer | State |
+|---|---|
+| Version manifests (4 in lockstep) | ✅ all at 5.0.0 (`pyproject.toml`, `packages/cli-npm/package.json`, `packages/mcp/package.json`, `registry/gaia.json`) |
+| PyPI gaia-cli | ✅ 5.0.0 published (manual workflow_dispatch after tag-trigger 400'd) |
+| GitHub release page | ✅ v5.0.0 published, target=main |
+| npm `@gaia-registry/cli@5.0.0` | ⏳ **Marco's manual call** — runbook §9 (`cd packages/cli-npm && npm publish --access public`) |
+| npm `@gaia-registry/mcp-server@5.0.0` | ⏳ **Marco's manual call** — runbook §9 (`cd packages/mcp && npm run build && npm publish --access public`) |
+| CHANGELOG.md | ✅ established with 5.0.0 entry |
+| MAG=0 plaque bug | ✅ fixed in `docs/js/plaque.js` + `docs/js/named-skills.js` + `docs/js/page-ia.js` |
+| `/trust/leaderboard/` nav Home | ✅ fixed in `docs/js/site-nav.js` (added `trust` + `api` to MOUNTS) |
+
+### Branches at end of session
+
+| Branch | Head | Status |
+|---|---|---|
+| `main` | `df3e40da` (Merge #763 — release: 5.0.0 + bugfixes) | latest; 5.0.0 lockstep complete |
+| `cli/v5.0.0-release` | merged | auto-deleted on merge |
+| `dev/phase-1.5-inspection` | local only (`f1822ea2`) | stale; safe to delete locally |
+
+### Issues + PRs touched this session
+
+| # | Type | Title | State |
+|---|---|---|---|
+| 763 | PR | release: 5.0.0 — Phase 1.5 G7 Trust Infrastructure + MAG=0 plaque fix + /trust nav fix | ✅ MERGED at `df3e40da` |
+| 742 | PR | Phase 1.5 consolidation → main | ✅ MERGED at `4dd4e945` (prior turn) |
+
+### Routing — where things live now
+
+| Artifact | Path |
+|---|---|
+| Live release (PyPI) | `pip install gaia-cli==5.0.0` |
+| Live release (GitHub) | https://github.com/mbtiongson1/gaia-skill-tree/releases/tag/v5.0.0 |
+| Pending: npm cli + mcp | `packages/cli-npm/`, `packages/mcp/` (manual `npm publish` from each) |
+| CHANGELOG (canonical) | `CHANGELOG.md` (repo root) |
+| Trust notch animation hook | `docs/js/plaque.js::_wireTrustNotches` (must be called after every plaque innerHTML write) |
+| Site nav MOUNTS list | `docs/js/site-nav.js:20` — add new top-level mount names here |
+| Roadmap v3 active | `founder/GAIA_ROADMAP v3 (BUILD).md` |
+| Sprint A close-out tasks | issues #759, #761, #746, #739 |
+| Sprint B implementation order | `founder/handovers/API_PLATFORM_DESIGN_2026-06-20.md` Day 1–13 |
+| `/memory-snapshot` skill | `.claude/skills/memory-snapshot/SKILL.md` (used for the first time this turn) |
+
+### Lessons / hazards preserved for next orchestrator
+
+1. **PyPI tag-trigger 400 on filename-reuse is recoverable.** Don't panic — the workflow file is fine; PyPI just blocks reupload of any filename that ever existed. Manual `workflow_dispatch` from Actions tab works (it builds whatever version is in `pyproject.toml` at the selected ref). Only fails if you actually need the SAME version number twice — bump to next patch otherwise.
+
+2. **`window._wireTrustNotches` must be called after EVERY `grid.innerHTML = ...`** in the named-skills render pipeline. The fix wired it at three sites; new render paths added in Sprint B (the API documentation page, semantic search results) MUST also call it or MAG will silently revert to 0. Pattern: any time you `innerHTML = ...something with plaques...`, immediately follow with `if (typeof window._wireTrustNotches === 'function') window._wireTrustNotches(<container>);`. Better: extract a `renderInto(container, html)` helper that bundles both.
+
+3. **`docs/js/site-nav.js` MOUNTS list is the registry of top-level URL prefixes.** When adding a new mount (e.g. `/api/v1/` for Sprint B, `/trending/` for B2, `/heroes/` for B3), edit `MOUNTS` first or every link on those pages will break the depth calculator. Already added `trust` + `api`; Sprint B should add `trending` and `heroes`.
+
+4. **`gaia release major --sync` pushes the tag DIRECTLY to origin** without going through a PR. The version-bump commit lands on the local feature branch, and a separate PR carries it to main. Don't be surprised when origin/main hasn't moved post-release — it hasn't, the PR is what brings it in.
+
+5. **CHANGELOG.md didn't exist before 5.0.0.** Established this turn. From now on every release MUST add an entry; the runbook step 4 is no longer "create if missing".
+
+6. **The release runbook is still accurate** — `founder/handovers/RELEASE_5.0.0_RUNBOOK.md` step-for-step matched reality, except for the PyPI 400 recovery (now documented above as Lesson #1). Worth porting back into the runbook before the 5.1.0 release.
+
+### Open questions for next orchestrator (Sprint A continuation)
+
+- **npm publish for `@gaia-registry/cli@5.0.0` and `@gaia-registry/mcp-server@5.0.0`.** Marco said "byebye" — he didn't ask for npm. Defer to him. Steps in runbook §9.
+- **Cloudflare Pages deploy** of the new `docs/` artifacts. Auto-deploy should fire on the PR #763 merge; verify gaia.tiongson.co/trust/leaderboard/ Home link works post-deploy + skim a plaque to confirm MAG renders correctly.
+- **#739 (cp1252 glyph fix in `gaia dev timeline`)** is now in Sprint A milestone. Marco's call when to address.
+- **#746 §11.12.1 (≥5 A-graded origins) + §11.12.7 (tenure ≥ 180 days)** still pending on top-4 S skills. Tenure resolves itself by ~2026-09-15. A-graded origins need targeted curation.
+
+### Token cost (this session — epilogue turn only)
+
+| Bucket | Spend |
+|---|---|
+| Session 15 cumulative (entering this turn) | ~$33.85 |
+| This epilogue turn (release runbook + bugfixes + merge) | ~50k in / ~32k out / **~$3.10** |
+| **Session 15 cumulative (final)** | **~$36.95** |
+| **G7 cumulative (sessions 11→15)** | **~$64.42** |
+
+### Marco's framing
+
+> *"execute release runbook and byebye!"*
+> *"quick patch needed on gaia website-- skills show 'MAG 0' instead of 'MAG XXX'"*
+> *"fix nav bar on trust leaderboard--clicking home doesnt go anywhere"*
+> *"merge and loop after green ci"*
+
+All four directives executed. Session 15 closes; Phase 1 fully closed; Sprint A is the next ratchet.
+
+---
+
 ## State Snapshot (2026-06-20, session 15 FINAL — Phase 1 closed, ready to merge)
 
 ### TLDR — the celebration entry
