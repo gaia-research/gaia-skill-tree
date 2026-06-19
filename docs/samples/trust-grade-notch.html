@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trust Grade Notch Sampler — Gaia (I8)</title>
+  <meta name="description" content="Trust Grade notch (I8): 4 grades × 6 plaque variants. S=Platinum, A=Gold, B=Silver, C=Bronze. Dev/review artifact — not in public nav.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/plaque.css">
+  <script src="../js/icons.js"></script>
+  <script src="../js/rank-badge.js"></script>
+  <script src="../js/atlas-helpers.js"></script>
+  <script src="../js/plaque.js"></script>
+  <style>
+    body {
+      padding: 4rem 1.5rem 8rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .sampler-h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 600;
+      margin-bottom: .2rem;
+    }
+    .sampler-sub {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+    .sampler-intro {
+      color: rgba(226, 232, 240, 0.6);
+      font-family: var(--font-body);
+      font-size: .9rem;
+      line-height: 1.65;
+      max-width: 66ch;
+      margin-bottom: 2.5rem;
+    }
+    .sampler-intro code {
+      font-family: var(--font-mono);
+      color: var(--tier-basic);
+      font-size: .85em;
+    }
+
+    /* ── Grade row ── */
+    .grade-section {
+      margin: 3rem 0 0;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .grade-heading {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-bottom: .25rem;
+    }
+    .grade-heading h2 {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 600;
+    }
+    .grade-notch-preview {
+      /* Standalone notch preview badge — same CSS classes as the live notch */
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      height: 22px;
+      padding: 0 8px;
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      border-radius: 3px;
+    }
+    .grade-notch-preview[data-trust-grade="S"] {
+      background: linear-gradient(135deg,
+        color-mix(in srgb, var(--grade-S) 60%, #c8d8f0) 0%,
+        var(--grade-S) 45%,
+        color-mix(in srgb, var(--grade-S) 70%, #8899bb) 100%);
+      color: #0b2545;
+      animation: trust-notch-shimmer 3.5s linear infinite;
+      background-size: 200% 200%;
+    }
+    .grade-notch-preview[data-trust-grade="A"] {
+      background: linear-gradient(135deg,
+        color-mix(in srgb, var(--grade-A) 65%, #fff) 0%,
+        var(--grade-A) 55%,
+        color-mix(in srgb, var(--grade-A) 75%, #7a5c00) 100%);
+      color: #451a03;
+    }
+    .grade-notch-preview[data-trust-grade="B"] {
+      background: linear-gradient(135deg,
+        color-mix(in srgb, var(--grade-B) 55%, #8a99ad) 0%,
+        var(--grade-B) 50%,
+        color-mix(in srgb, var(--grade-B) 60%, #475569) 100%);
+      color: #0f172a;
+    }
+    .grade-notch-preview[data-trust-grade="C"] {
+      background: linear-gradient(135deg,
+        color-mix(in srgb, var(--grade-C) 70%, #d97706) 0%,
+        var(--grade-C) 50%,
+        color-mix(in srgb, var(--grade-C) 80%, #7c5a2a) 100%);
+      color: #fffbeb;
+    }
+    .grade-desc {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    .grade-note {
+      font-family: var(--font-body);
+      font-size: .82rem;
+      color: rgba(226, 232, 240, 0.45);
+      margin-bottom: 1rem;
+    }
+    .grade-note strong {
+      color: rgba(226, 232, 240, 0.75);
+      font-weight: 600;
+    }
+
+    /* ── Variant strip ── */
+    .variant-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 1.25rem;
+      background: rgba(255, 255, 255, 0.012);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+    .variant-label {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .35rem;
+    }
+    .variant-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* OG card wrap: scale down to fit */
+    .og-wrap {
+      position: relative;
+      width: 360px;
+      height: 189px; /* 630*0.3 */
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    .og-wrap .plaque--og {
+      transform-origin: top left;
+      transform: scale(0.3);
+      width: 1200px;
+    }
+    .og-wrap::after {
+      content: '1200×630 @ 0.3×';
+      position: absolute;
+      bottom: 4px;
+      right: 6px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: rgba(226, 232, 240, 0.3);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    /* row variant needs a minimum width container */
+    .row-wrap { width: 560px; max-width: 100%; }
+    /* tile variant width */
+    .tile-wrap { width: 300px; max-width: 100%; }
+    /* settled variant width */
+    .settled-wrap { width: 300px; max-width: 100%; }
+
+    /* ── Reduced motion note ── */
+    .rm-note {
+      margin-top: 1.5rem;
+      padding: .85rem 1.1rem;
+      background: rgba(56, 189, 248, 0.05);
+      border: 1px solid rgba(56, 189, 248, 0.12);
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      color: rgba(226, 232, 240, 0.55);
+      line-height: 1.55;
+    }
+    .rm-note strong {
+      color: var(--tier-basic);
+    }
+    .rm-note code {
+      color: rgba(226, 232, 240, 0.75);
+      background: rgba(255,255,255,.05);
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    /* ── Ungraded check ── */
+    .ungraded-section {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .ungraded-section h2 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: .2rem;
+    }
+    .ungraded-section .grade-desc {
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="sampler-h1">Trust Grade Notch</h1>
+  <p class="sampler-sub">I8 — 4 grades × 6 plaque variants — dev/review artifact</p>
+
+  <p class="sampler-intro">
+    The <strong>Trust Grade notch</strong> is a small rectangular metallic corner stamp that appears at
+    the bottom-right of every <code>.plaque</code> variant. It shows the skill's
+    <code>overallTrustGrade</code> field: <code>S</code> (Platinum), <code>A</code> (Gold),
+    <code>B</code> (Silver), <code>C</code> (Bronze). Ungraded skills show nothing — zero
+    markup cost when absent. This notch is <em>distinct</em> from the star-rank system; both
+    coexist on the same card.
+  </p>
+
+  <!-- ── S — Platinum ─────────────────────────────────────────────── -->
+  <section class="grade-section" id="grade-S">
+    <div class="grade-heading">
+      <h2>S — Platinum</h2>
+      <span class="grade-notch-preview" data-trust-grade="S">S Platinum</span>
+    </div>
+    <p class="grade-desc">Animated shimmer · deep-navy text (#0b2545) · contrast ≈ 10.8:1 ✓</p>
+    <p class="grade-note">
+      <strong>Reduced motion:</strong> the shimmer animation is suppressed under
+      <code>prefers-reduced-motion: reduce</code>; the notch falls back to a static
+      linear-gradient. Use your OS accessibility settings to verify, or see the note below.
+    </p>
+    <div class="variant-strip" id="strip-S"></div>
+  </section>
+
+  <!-- ── A — Gold ──────────────────────────────────────────────────── -->
+  <section class="grade-section" id="grade-A">
+    <div class="grade-heading">
+      <h2>A — Gold</h2>
+      <span class="grade-notch-preview" data-trust-grade="A">A Gold</span>
+    </div>
+    <p class="grade-desc">Static gradient · deep-brown text (#451a03) · contrast ≈ 7.2:1 ✓</p>
+    <div class="variant-strip" id="strip-A"></div>
+  </section>
+
+  <!-- ── B — Silver ────────────────────────────────────────────────── -->
+  <section class="grade-section" id="grade-B">
+    <div class="grade-heading">
+      <h2>B — Silver</h2>
+      <span class="grade-notch-preview" data-trust-grade="B">B Silver</span>
+    </div>
+    <p class="grade-desc">Static gradient (darker matte) · dark-slate text (#0f172a) · contrast ≈ 11.4:1 ✓</p>
+    <div class="variant-strip" id="strip-B"></div>
+  </section>
+
+  <!-- ── C — Bronze ────────────────────────────────────────────────── -->
+  <section class="grade-section" id="grade-C">
+    <div class="grade-heading">
+      <h2>C — Bronze</h2>
+      <span class="grade-notch-preview" data-trust-grade="C">C Bronze</span>
+    </div>
+    <p class="grade-desc">Static gradient (tarnished) · light-warm text (#fffbeb) · contrast ≈ 4.8:1 ✓</p>
+    <div class="variant-strip" id="strip-C"></div>
+  </section>
+
+  <!-- ── Ungraded — no notch ───────────────────────────────────────── -->
+  <section class="ungraded-section" id="grade-none">
+    <h2>Ungraded — no notch rendered</h2>
+    <p class="grade-desc">overallTrustGrade: null / "ungraded" — zero markup emitted</p>
+    <div class="variant-strip" id="strip-none"></div>
+  </section>
+
+  <!-- ── Reduced motion note ──────────────────────────────────────── -->
+  <div class="rm-note">
+    <strong>prefers-reduced-motion note:</strong> Grade S (Platinum) animates a background-position
+    shimmer via <code>@keyframes trust-notch-shimmer</code>. Under
+    <code>@media (prefers-reduced-motion: reduce)</code> the animation is suppressed and a static
+    linear-gradient is applied instead. To verify: enable Reduce Motion in your OS accessibility
+    settings, reload this page, and confirm the Platinum notch is static. All other grades are
+    static by default and unaffected.
+  </div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    // ── Sample skill data for each grade ──────────────────────────
+    // Hard-coded so the sampler works offline with no server.
+    // Grades picked to match real-world data in docs/graph/gaia.json.
+    var SAMPLES = {
+      S: {
+        id: 'mattpocock/skills',
+        name: 'Skills Suite',
+        contributor: 'mattpocock',
+        origin: true,
+        genericSkillRef: 'skills',
+        status: 'named',
+        level: '5★',
+        type: 'ultimate',
+        title: 'The Complete TS Skill Suite',
+        description: 'A comprehensive suite of TypeScript agent skills covering type inference, generics, and advanced patterns for production codebases.',
+        tags: ['typescript', 'agent-skills', 'suite'],
+        links: { github: 'https://github.com/mattpocock/skills' },
+        overallTrustGrade: 'S',
+        overallTrustMagnitude: 42,
+      },
+      A: {
+        id: 'karpathy/autoresearch',
+        name: 'AutoResearch',
+        contributor: 'karpathy',
+        origin: true,
+        genericSkillRef: 'autonomous-research-agent',
+        status: 'named',
+        level: '5★',
+        type: 'ultimate',
+        title: "The Scholar's Compass",
+        description: 'Autonomous research agent that iteratively searches, reads, and synthesizes academic papers into structured summaries with citation graphs.',
+        tags: ['research', 'autonomous', 'paper-synthesis'],
+        links: { github: 'https://github.com/karpathy/autoresearch' },
+        overallTrustGrade: 'A',
+        overallTrustMagnitude: 31,
+      },
+      B: {
+        id: 'stanfordnlp/dspy',
+        name: 'DSPy',
+        contributor: 'stanfordnlp',
+        origin: false,
+        genericSkillRef: 'dspy',
+        status: 'named',
+        level: '4★',
+        type: 'extra',
+        title: 'Declarative Self-Improving LM Programs',
+        description: 'Framework for algorithmically optimizing LM prompts and weights using declarative modules and automatic compilers.',
+        tags: ['dspy', 'optimization', 'prompting'],
+        links: { github: 'https://github.com/stanfordnlp/dspy' },
+        overallTrustGrade: 'B',
+        overallTrustMagnitude: 18,
+      },
+      C: {
+        id: 'anthropics/computer-use',
+        name: 'Computer Use',
+        contributor: 'anthropics',
+        origin: false,
+        genericSkillRef: 'computer-use',
+        status: 'named',
+        level: '3★',
+        type: 'basic',
+        title: 'Desktop GUI Automation',
+        description: 'Enables agents to interact with desktop applications through simulated keyboard and mouse inputs, screenshot parsing, and UI element detection.',
+        tags: ['computer-use', 'gui', 'automation'],
+        links: { github: 'https://github.com/anthropics/computer-use-demo' },
+        overallTrustGrade: 'C',
+        overallTrustMagnitude: 7,
+      },
+      none: {
+        id: 'garrytan/gstack',
+        name: 'gstack',
+        contributor: 'garrytan',
+        origin: false,
+        genericSkillRef: 'gstack',
+        status: 'named',
+        level: '3★',
+        type: 'ultimate',
+        title: 'The Full-Stack Agent Suite',
+        description: 'Comprehensive suite of agent skills for end-to-end web product development, from design to deployment.',
+        tags: ['fullstack', 'deployment', 'design'],
+        links: { github: 'https://github.com/garrytan/gstack' },
+        overallTrustGrade: null, // intentionally ungraded — no notch should render
+      },
+    };
+
+    // ── Variant renderer ─────────────────────────────────────────
+    function renderStrip(grade) {
+      var p = window.plaque;
+      if (!p) return;
+      var ns = SAMPLES[grade];
+      var el = document.getElementById('strip-' + grade);
+      if (!el) return;
+
+      // mini
+      var miniCol = document.createElement('div');
+      miniCol.className = 'variant-col';
+      miniCol.innerHTML = '<p class="variant-label">--mini</p>' + p.renderMini(ns);
+      el.appendChild(miniCol);
+
+      // tile
+      var tileCol = document.createElement('div');
+      tileCol.className = 'variant-col tile-wrap';
+      tileCol.innerHTML = '<p class="variant-label">--tile</p>' + p.renderTile(ns);
+      el.appendChild(tileCol);
+
+      // row
+      var rowCol = document.createElement('div');
+      rowCol.className = 'variant-col row-wrap';
+      rowCol.innerHTML = '<p class="variant-label">--row</p>' + p.renderRow(ns);
+      el.appendChild(rowCol);
+
+      // detail
+      var detailCol = document.createElement('div');
+      detailCol.className = 'variant-col';
+      detailCol.style.flex = '1 1 600px';
+      detailCol.innerHTML = '<p class="variant-label">--detail</p>' + p.renderDetail(ns);
+      el.appendChild(detailCol);
+
+      // settled
+      var settledCol = document.createElement('div');
+      settledCol.className = 'variant-col settled-wrap';
+      settledCol.innerHTML = '<p class="variant-label">--settled</p>' + p.renderSettled(ns);
+      el.appendChild(settledCol);
+
+      // og (scaled)
+      var ogCol = document.createElement('div');
+      ogCol.className = 'variant-col';
+      ogCol.innerHTML = '<p class="variant-label">--og (0.3×)</p>';
+      var ogWrap = document.createElement('div');
+      ogWrap.className = 'og-wrap';
+      ogWrap.innerHTML = p.renderOg(ns);
+      ogCol.appendChild(ogWrap);
+      el.appendChild(ogCol);
+    }
+
+    // ── Render all grades ─────────────────────────────────────────
+    ['S', 'A', 'B', 'C', 'none'].forEach(renderStrip);
+
+  })();
+  </script>
+
+</body>
+</html>
