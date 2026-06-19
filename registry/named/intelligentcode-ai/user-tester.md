@@ -26,6 +26,8 @@ evidence:
   date: '2026-04-30'
   notes: intelligentcode-ai/skills user-tester — E2E testing specialist with Puppeteer/Playwright automation and cross-browser user journey validation. (backfilled — class-to-type migration)
   type: repo
+  commits: 34
+  contributors: 1
   trustNumber: 50.0
   grade: C
 timeline:

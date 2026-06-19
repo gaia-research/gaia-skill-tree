@@ -26,6 +26,8 @@ evidence:
   date: '2026-04-30'
   notes: intelligentcode-ai/skills release — automates semantic versioning, CHANGELOG updates, PR merging, git tagging, and GitHub release creation with verification gates. (backfilled — class-to-type migration)
   type: repo
+  commits: 34
+  contributors: 1
   trustNumber: 50.0
   grade: C
 timeline:

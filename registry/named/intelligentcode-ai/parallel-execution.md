@@ -24,6 +24,8 @@ evidence:
   date: '2026-04-30'
   notes: intelligentcode-ai/skills parallel-execution — concurrent work item execution with independence verification and configurable concurrency (default 5). (backfilled — class-to-type migration)
   type: repo
+  commits: 34
+  contributors: 1
   trustNumber: 50.0
   grade: C
 timeline:

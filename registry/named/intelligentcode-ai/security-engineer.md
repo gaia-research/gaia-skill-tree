@@ -27,6 +27,8 @@ evidence:
   date: '2026-04-30'
   notes: intelligentcode-ai/skills security-engineer — vulnerability assessment and security architecture with zero-trust principles and compliance management. (backfilled — class-to-type migration)
   type: repo
+  commits: 34
+  contributors: 1
   trustNumber: 50.0
   grade: C
 timeline:
