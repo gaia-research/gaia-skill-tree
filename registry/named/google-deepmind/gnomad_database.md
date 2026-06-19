@@ -40,7 +40,7 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:07:57Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 10.82
+trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -51,7 +51,6 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: ce98399fb38cb7bb4160a23f815e393233a7913f1fcce3b57dcf8e8f14a6638d
 ---
 
 # gnomAD Database

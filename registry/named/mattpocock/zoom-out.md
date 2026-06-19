@@ -10,7 +10,8 @@ catalogRef: mattpocock-zoom-out
 level: 2★
 description: Signals the agent to ascend one layer of abstraction and produce a map
   of all relevant modules, callers, and domain-glossary terms in the unfamiliar code
-  area, without explaining implementation details. Removed from mattpocock/skills suite in v1.0.1.
+  area, without explaining implementation details. Removed from mattpocock/skills
+  suite in v1.0.1.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/zoom-out/SKILL.md
 tags:
@@ -32,12 +33,11 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 2d68edb314be3bd508fa140c4d61b80f43a6b67f52ddb9dc2fe6e11a04f68661
 timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-suiteRef: "mattpocock/engineering"
+suiteRef: mattpocock/engineering
 ---
 
 ## Overview

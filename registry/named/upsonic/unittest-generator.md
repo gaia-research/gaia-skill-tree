@@ -21,8 +21,8 @@ tags:
 - autonomous-agent
 createdAt: '2026-04-30'
 updatedAt: '2026-06-19'
-trustMagnitude: 33.0
-overallTrustGrade: C
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -82,7 +82,6 @@ evidence:
     struggles with highly coupled enterprise framework mocking. April 2026.'
 verification:
   firstEvidenceAt: '2026-06-19T09:23:55Z'
-trustMagnitudeInputHash: c9b722054f3ef469cdd1b9f580058e020c42423edd6fd4cb8f255a72fadf354c
 ---
 
 ## Overview

@@ -21,8 +21,8 @@ tags:
 - unique
 createdAt: '2026-05-15'
 updatedAt: '2026-06-19'
-trustMagnitude: 100.0
-overallTrustGrade: A
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -56,7 +56,6 @@ evidence:
   citations: 50000
 verification:
   firstEvidenceAt: '2026-06-19T09:24:47Z'
-trustMagnitudeInputHash: 1d06e06e813991b9b699eb781ac5198d7d6e4f7fa562e2345c0347e5558521e1
 ---
 
 ## Overview

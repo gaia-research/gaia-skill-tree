@@ -53,7 +53,8 @@ evidence:
   date: '2026-06-19'
   type: github-stars-own
   class: A
-  notes: 230,818 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 11+ sub-skills, divisor=4)
+  notes: 230,818 GitHub stars as of 2026-06-19 (verified via firecrawl validation
+    report; mothership with 11+ sub-skills, divisor=4)
   stars: 230818
   skillCountInRepo: 11
 - source: https://www.youtube.com/watch?v=gT5R01Z2J-0
@@ -93,8 +94,8 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T10:52:25Z'
   details: TM 50.0 -> 86.0, grade B -> B (direct edit -- CLI gap)
-trustMagnitude: 86.0
-overallTrustGrade: B
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -106,7 +107,6 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:17:53Z'
-trustMagnitudeInputHash: 2a7b73cd49ff272c3eda137061a3c7d77f4f80ce9f15f07521dd7385f1a9ee60
 ---
 
 ## Overview

@@ -14,8 +14,8 @@ links:
   github: https://github.com/mattpocock/skills
 createdAt: '2026-05-22'
 updatedAt: '2026-06-19'
-trustMagnitude: 73.7
-overallTrustGrade: B
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -67,7 +67,8 @@ evidence:
   date: '2026-06-19'
   type: github-stars-own
   class: A
-  notes: 133,210 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 19 sub-skills, divisor=4)
+  notes: 133,210 GitHub stars as of 2026-06-19 (verified via firecrawl validation
+    report; mothership with 19 sub-skills, divisor=4)
   stars: 133210
   skillCountInRepo: 19
 - source: https://arxiv.org/abs/2602.20867
@@ -93,27 +94,26 @@ evidence:
     failure on tenure (<26 days vs 180 required), recommended role:variant filtering.'
 verification:
   firstEvidenceAt: '2026-06-19T09:18:11Z'
-trustMagnitudeInputHash: 5f066f3a6cc05f5de620a8a0c1806306c333f46d37faea5131a2045a3e0f067b
 suiteComponents:
-  - mattpocock/caveman
-  - mattpocock/diagnose
-  - mattpocock/edit-article
-  - mattpocock/engineering
-  - mattpocock/grill-me
-  - mattpocock/grill-with-docs
-  - mattpocock/handoff
-  - mattpocock/improve-codebase-architecture
-  - mattpocock/obsidian-vault
-  - mattpocock/personal
-  - mattpocock/productivity
-  - mattpocock/prototype
-  - mattpocock/setup-matt-pocock-skills
-  - mattpocock/to-issues
-  - mattpocock/to-prd
-  - mattpocock/triage
-  - mattpocock/ubiquitous-language
-  - mattpocock/write-a-skill
-  - mattpocock/zoom-out
+- mattpocock/caveman
+- mattpocock/diagnose
+- mattpocock/edit-article
+- mattpocock/engineering
+- mattpocock/grill-me
+- mattpocock/grill-with-docs
+- mattpocock/handoff
+- mattpocock/improve-codebase-architecture
+- mattpocock/obsidian-vault
+- mattpocock/personal
+- mattpocock/productivity
+- mattpocock/prototype
+- mattpocock/setup-matt-pocock-skills
+- mattpocock/to-issues
+- mattpocock/to-prd
+- mattpocock/triage
+- mattpocock/ubiquitous-language
+- mattpocock/write-a-skill
+- mattpocock/zoom-out
 ---
 
 ## Installation

@@ -86,8 +86,8 @@ evidence:
   type: peer-review
   class: A
   notes: GitHub issue discussing /retro skill
-trustMagnitude: 81.0
-overallTrustGrade: B
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -99,7 +99,6 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:36Z'
-trustMagnitudeInputHash: c4564b25998ab11c3ad5126e20c4338e05a62cfebbfdd99afcae4449e281a1ff
 ---
 
 ## Overview

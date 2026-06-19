@@ -78,8 +78,8 @@ evidence:
   class: A
   notes: 'Tyler AI YouTube: "Firecrawl Full Beginner Course | Let''s Scrape EVERYTHING."
     Comprehensive tutorial. Third-party validated.'
-trustMagnitude: 36.0
-overallTrustGrade: C
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -91,7 +91,6 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
-trustMagnitudeInputHash: a7ceec171faf93f047127170d8aba78956872a0380f3b022f95f028e2ac50e5a
 ---
 
 ## Overview

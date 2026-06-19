@@ -7,7 +7,8 @@ title: The Matt Pocock Engineering Discipline
 genericSkillRef: engineering-discipline
 status: named
 level: 5★
-description: Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.
+description: Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills
+  suite in v1.0.1.
 createdAt: '2026-05-21'
 updatedAt: '2026-06-10'
 trustMagnitude: 0.0
@@ -21,23 +22,22 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 7d257b90e6e19e12a665695a758ce86cb9d614b96686bd3eb9bf61f9f0a81aae
 timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-suiteRef: "mattpocock/skills"
+suiteRef: mattpocock/skills
 suiteComponents:
-  - mattpocock/diagnose
-  - mattpocock/grill-with-docs
-  - mattpocock/improve-codebase-architecture
-  - mattpocock/prototype
-  - mattpocock/setup-matt-pocock-skills
-  - mattpocock/to-issues
-  - mattpocock/to-prd
-  - mattpocock/triage
-  - mattpocock/ubiquitous-language
-  - mattpocock/zoom-out
+- mattpocock/diagnose
+- mattpocock/grill-with-docs
+- mattpocock/improve-codebase-architecture
+- mattpocock/prototype
+- mattpocock/setup-matt-pocock-skills
+- mattpocock/to-issues
+- mattpocock/to-prd
+- mattpocock/triage
+- mattpocock/ubiquitous-language
+- mattpocock/zoom-out
 ---
 
 ## Overview

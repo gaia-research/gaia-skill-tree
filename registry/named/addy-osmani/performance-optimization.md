@@ -76,10 +76,11 @@ evidence:
   date: '2026-06-19'
   type: github-stars-own
   class: A
-  notes: 47,200 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)
+  notes: 47,200 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
+    standalone skill)
   stars: 47200
-trustMagnitude: 83.2
-overallTrustGrade: B
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -91,7 +92,6 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:20:40Z'
-trustMagnitudeInputHash: 2d82c6ee5ac9e86e5dd3d1b4664385daf1eca3161cb78c89da2e4e2fd84b71ff
 ---
 
 ## Installation

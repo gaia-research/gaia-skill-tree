@@ -30,7 +30,6 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 0e6c1cdd17c08563dd2ea5858af28a0bc90910bc13d532e8104aab858dd10156
 timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:14Z'

@@ -92,7 +92,8 @@ evidence:
   date: '2026-06-19'
   type: github-stars-own
   class: A
-  notes: 110,930 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 47 sub-skills, divisor=4)
+  notes: 110,930 GitHub stars as of 2026-06-19 (verified via firecrawl validation
+    report; mothership with 47 sub-skills, divisor=4)
   stars: 110930
   skillCountInRepo: 47
 - source: https://www.youtube.com/watch?v=wkv2ifxPpF8
@@ -100,7 +101,8 @@ evidence:
   date: '2026-06-19'
   type: social-signal
   class: A
-  notes: Y Combinator YouTube feature — Garry Tan demonstrates Gstack as AI Engineering Team (official YC channel); topical authority signal (creator_mult 1.0)
+  notes: Y Combinator YouTube feature — Garry Tan demonstrates Gstack as AI Engineering
+    Team (official YC channel); topical authority signal (creator_mult 1.0)
   views: 500000
 timeline:
 - timestamp: '2026-06-14T12:32:22Z'
@@ -129,8 +131,8 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T10:36:26Z'
   details: TM 73.32 -> 109.32, grade B -> A (direct edit -- CLI gap)
-trustMagnitude: 109.32
-overallTrustGrade: A
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -142,7 +144,6 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:18:27Z'
-trustMagnitudeInputHash: 94514136b57b737c0b82526aa03002b482740aa10981ba6ce16bdf57ed58d038
 ---
 
 ## Overview

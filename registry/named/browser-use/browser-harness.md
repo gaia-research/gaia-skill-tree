@@ -85,8 +85,8 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T10:52:24Z'
   details: TM 36.0 -> 36.0, grade C -> C (direct edit -- CLI gap)
-trustMagnitude: 36.0
-overallTrustGrade: C
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -96,7 +96,6 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: bb8bddf832dbed0ead1f39e471c2db7e1b932c84f95e02a8012ddb21b8a71e5d
 verification:
   firstEvidenceAt: '2026-06-19T10:39:17Z'
 ---

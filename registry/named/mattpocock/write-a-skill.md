@@ -11,7 +11,8 @@ level: 3★
 description: Guides creation of new agent skills through a structured requirements
   interview, then produces a SKILL.md with a trigger-aware description, progressive-disclosure
   layout, and optional bundled scripts or reference files — ready for installation
-  in any Claude Code, Cursor, or Codex CLI skills directory. Removed from mattpocock/skills suite in v1.0.1.
+  in any Claude Code, Cursor, or Codex CLI skills directory. Removed from mattpocock/skills
+  suite in v1.0.1.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md
 tags:
@@ -43,8 +44,8 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T12:53:50Z'
   details: TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)
-trustMagnitude: 45.0
-overallTrustGrade: C
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -54,7 +55,6 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 933c9ff3bcb149283784f39af0426151dd630ce77751d44327d115d2f64f02c4
 evidence:
 - source: https://github.com/mattpocock/skills/issues/271
   evaluator: mbtiongson1
@@ -70,7 +70,7 @@ evidence:
   notes: GitHub discussion comparing write-a-skill skill with skill-creator.
 verification:
   firstEvidenceAt: '2026-06-19T12:38:21Z'
-suiteRef: "mattpocock/productivity"
+suiteRef: mattpocock/productivity
 ---
 
 ## Overview

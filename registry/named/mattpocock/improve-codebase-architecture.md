@@ -24,8 +24,8 @@ tags:
 createdAt: '2026-04-30'
 updatedAt: '2026-06-19'
 suiteRef: mattpocock/engineering
-trustMagnitude: 45.0
-overallTrustGrade: C
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -35,7 +35,6 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: fa22578b1bd2d4bcd49b6519b402ffe4b736b36af8896667340102630dc5730f
 timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'

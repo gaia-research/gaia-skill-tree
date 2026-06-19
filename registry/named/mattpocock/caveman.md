@@ -13,8 +13,8 @@ createdAt: '2026-05-21'
 updatedAt: '2026-06-19'
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman
-trustMagnitude: 30.0
-overallTrustGrade: C
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -24,7 +24,6 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: bf9f45764bc306d6f2ae6a3ff12e3e2221041394a1765a73dd96a5810e1adda3
 timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
@@ -46,7 +45,7 @@ evidence:
   notes: GitHub issue about caveman skill feature request.
 verification:
   firstEvidenceAt: '2026-06-19T12:32:51Z'
-suiteRef: "mattpocock/productivity"
+suiteRef: mattpocock/productivity
 ---
 
 ## Installation
