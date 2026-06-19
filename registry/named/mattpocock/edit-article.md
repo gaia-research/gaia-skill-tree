@@ -39,18 +39,23 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-10'
-  notes: "Published implementation in Matt Pocock's skills repository; DAG-sectioned\" rewrite workflow documented and reproducible. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
+  notes: 'Published implementation in Matt Pocock''s skills repository; DAG-sectioned"
+    rewrite workflow documented and reproducible. (backfilled — class-to-type migration)
+    (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
   commits: 137
   contributors: 3
-trustMagnitude: 0.0
+trustMagnitude: 11.21
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -61,9 +66,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: b57f4d661a6459b45a592c9dbde8b4bd8ee78e61a9c49697bcbe2232896174a9
 verification:
   firstEvidenceAt: '2026-06-10T05:38:17Z'
+trustMagnitudeInputHash: b57f4d661a6459b45a592c9dbde8b4bd8ee78e61a9c49697bcbe2232896174a9
 ---
 
 ## Overview

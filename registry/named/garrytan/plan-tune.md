@@ -24,7 +24,10 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/plan-tune/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: "Public SKILL.md in the garrytan/gstack suite repo (verified live). Takes\" a draft plan or system prompt, identifies vague or ambiguous instructions, and rewrites them to reduce hallucination and improve task… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Takes"
+    a draft plan or system prompt, identifies vague or ambiguous instructions, and
+    rewrites them to reduce hallucination and improve task… (backfilled — class-to-type
+    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
@@ -43,8 +46,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:15Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -54,9 +60,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 39c78b5bde246b38dc0205e2518adb3d26a18b470306b20038c277a897e03218
 verification:
   firstEvidenceAt: '2026-06-03T05:51:35Z'
+trustMagnitudeInputHash: 39c78b5bde246b38dc0205e2518adb3d26a18b470306b20038c277a897e03218
 ---
 
 ## Overview

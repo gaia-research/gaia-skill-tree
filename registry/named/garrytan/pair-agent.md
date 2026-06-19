@@ -24,7 +24,10 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/pair-agent/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: "Public SKILL.md in the garrytan/gstack suite repo (verified live). Wires\" a new MCP server into the Gstack agent environment, validates the tool manifest, and demonstrates round-trip invocation through a test prompt. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Wires"
+    a new MCP server into the Gstack agent environment, validates the tool manifest,
+    and demonstrates round-trip invocation through a test prompt. (backfilled — class-to-type
+    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
@@ -43,8 +46,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:15Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -54,9 +60,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 240e918f413b2ffb84c652a4bd40fd2488eed326c06bb8517b22a01bdefc8cc2
 verification:
   firstEvidenceAt: '2026-06-03T05:51:35Z'
+trustMagnitudeInputHash: 240e918f413b2ffb84c652a4bd40fd2488eed326c06bb8517b22a01bdefc8cc2
 ---
 
 ## Overview

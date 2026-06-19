@@ -28,7 +28,9 @@ evidence:
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-10'
-  notes: "Published implementation in Matt Pocock's skills repository; five-phase debugging\" discipline documented and reproducible. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
+  notes: 'Published implementation in Matt Pocock''s skills repository; five-phase
+    debugging" discipline documented and reproducible. (backfilled — class-to-type
+    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
@@ -47,7 +49,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 11.21
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -58,9 +63,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 8b89ddfb192097b469f84d620bb6df2b0f28ba9c0b10f1aee8ad8d2d4f819efb
 verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
+trustMagnitudeInputHash: 8b89ddfb192097b469f84d620bb6df2b0f28ba9c0b10f1aee8ad8d2d4f819efb
 ---
 
 ## Overview

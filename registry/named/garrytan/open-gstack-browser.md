@@ -24,7 +24,10 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/open-gstack-browser/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: "Public SKILL.md in the garrytan/gstack suite repo (verified live). Launches\" a new headless or headed browser session with the Gstack environment variables and extension profile pre-loaded, ready for automation… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Launches"
+    a new headless or headed browser session with the Gstack environment variables
+    and extension profile pre-loaded, ready for automation… (backfilled — class-to-type
+    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
@@ -43,8 +46,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:15Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -54,9 +60,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: c272ee9f5d080fa861790c1b6b6027612c924e530d6036953f79d118a30f30d3
 verification:
   firstEvidenceAt: '2026-06-03T05:51:28Z'
+trustMagnitudeInputHash: c272ee9f5d080fa861790c1b6b6027612c924e530d6036953f79d118a30f30d3
 ---
 
 ## Overview

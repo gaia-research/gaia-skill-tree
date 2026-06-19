@@ -25,9 +25,10 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/skillify/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: "Public SKILL.md in the garrytan/gstack suite repo (verified live). Converts
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Converts
     a freeform prompt, repo pattern, or workflow description into a complete, registry-ready
-    named skill: writes the SKILL.md definition,… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
+    named skill: writes the SKILL.md definition,… (backfilled — class-to-type migration)
+    (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
@@ -46,8 +47,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:16Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -57,9 +61,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 85f5c7b4f135bb2886f24e89055f05578055d5a303faca33e44cad4496b22da8
 verification:
   firstEvidenceAt: '2026-06-03T05:51:37Z'
+trustMagnitudeInputHash: 85f5c7b4f135bb2886f24e89055f05578055d5a303faca33e44cad4496b22da8
 ---
 
 ## Overview

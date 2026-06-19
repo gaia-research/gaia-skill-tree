@@ -26,7 +26,10 @@ evidence:
   source: https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: "Martin Stepanoski @mastepanoski/claude-skills -- /nielsen-heuristics-audit\" audits UI against Nielsen 10 usability heuristics step-by-step. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
+  notes: 'Martin Stepanoski @mastepanoski/claude-skills -- /nielsen-heuristics-audit"
+    audits UI against Nielsen 10 usability heuristics step-by-step. (backfilled —
+    class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia
+    dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
@@ -45,7 +48,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 4.9, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 4.9
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
