@@ -14,7 +14,7 @@ description: Analyzes genetic variant effects on gene expression (RNA-seq), chro
   Also use for resolving biological terms to tissue/cell-type ontologies (UBERON/CL)
   or analyzing variants in chr:pos:ref>alt format.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md
 evidence:
@@ -22,11 +22,23 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind alphagenome_single_variant_analysis science-skill
-    implementation. (backfilled — class-to-type migration)
+  notes: 'Official Google DeepMind alphagenome_single_variant_analysis science-skill"
+    implementation. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors
+    not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
+- source: https://www.nature.com/articles/s41586-025-10014-0
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Avsec et al. 2026 Nature: Advancing regulatory variant effect prediction
+    with AlphaGenome. 107 citations (Semantic Scholar 2026-06-19). Nature paper for
+    the AlphaGenome variant analysis tool.'
+  reviewers: 3
 timeline:
 - timestamp: '2026-06-14T12:32:28Z'
   action: evidence_graded
@@ -36,8 +48,28 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:16Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:38Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:23:26Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.nature.com/articles/s41586-025-10014-0
+    (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:45Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 100.82 -> 100.82, grade A -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -47,7 +79,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 1891e3e98d95809ff7f25e8047602056165bf8a6fba433b91be10ba8cf380042
+verification:
+  firstEvidenceAt: '2026-06-19T14:23:25Z'
+trustMagnitudeInputHash: 19839c9c6892fdd3a55211b1d7cf543a9b4dcb7c9d6daf9c6b419ee9deda8aef
 ---
 
 # Variant Analysis using AlphaGenome

@@ -29,11 +29,14 @@ evidence:
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: Production skill implementing tracer-bullet vertical slicing with HITL/AFK
+  notes: 'Production skill implementing tracer-bullet vertical slicing with HITL/AFK"
     classification and issue-tracker publication. (backfilled — class-to-type migration)
+    (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 137
+  contributors: 3
 timeline:
 - timestamp: '2026-06-02T23:33:00Z'
   action: demote
@@ -47,7 +50,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:41Z'
+  details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 11.21
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -58,7 +70,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: f67cd6c0575631756de66dfe9073794164288dc38d922d6750ec3f9e3bf67002
+trustMagnitudeInputHash: 84c233c3f35fb23c46e7d12d6b45999e50ba50b10f1abd2c13a27e055d1fa6f0
 ---
 
 ## Overview

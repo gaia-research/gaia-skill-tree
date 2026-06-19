@@ -22,9 +22,12 @@ evidence:
   source: https://github.com/Manavarya09/design-extract
   evaluator: gemini-cli
   date: '2026-05-14'
-  notes: Design Extract -- extracts complete design systems (Tailwind, Figma variables,
-    etc.) from any URL. (backfilled — class-to-type migration)
+  notes: 'Design Extract -- extracts complete design systems (Tailwind, Figma variables,
+    etc.) from any URL. (backfilled — class-to-type migration) (CLI gap: commits+contributors
+    not writable via gaia dev evidence)'
   type: repo
+  commits: 262
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:
@@ -40,8 +43,17 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:40Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -51,7 +63,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 6af22344e814422a02919bc89a207e0151dbd5d1aa46c1dbfde5a541e96be325
+trustMagnitudeInputHash: e6a67963e6916ea87b9db72e7d37ff0df05305e13129a0084d6ed463ed36ac8e
 ---
 
 ## Overview

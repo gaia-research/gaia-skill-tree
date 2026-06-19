@@ -25,8 +25,8 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| mattpocock/write-a-skill ⭑ | mattpocock | 3★ | 0 |
-| anthropic/skill-creator | anthropic | 2★ | 0 |
+| mattpocock/write-a-skill ⭑ | mattpocock | 3★ | 2 |
+| anthropic/skill-creator | anthropic | 2★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

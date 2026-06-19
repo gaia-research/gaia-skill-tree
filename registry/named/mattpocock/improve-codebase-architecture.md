@@ -22,10 +22,10 @@ tags:
 - testability
 - deletion-test
 createdAt: '2026-04-30'
-updatedAt: '2026-04-30'
+updatedAt: '2026-06-19'
 suiteRef: mattpocock/engineering
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 45.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -35,11 +35,45 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 46af657cc4ee9beff6e5b00c676dc3299efb9800417a4954aa2e60e869ec3a51
 timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:35:07Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/issues/180 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:35:22Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/discussions/287
+    (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:53:50Z'
+  details: TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:41Z'
+  details: TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)
+evidence:
+- source: https://github.com/mattpocock/skills/issues/180
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: GitHub issue about improve-codebase-architecture skill enhancement.
+- source: https://github.com/mattpocock/skills/discussions/287
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: GitHub discussion about improve-codebase-architecture skill workflow.
+verification:
+  firstEvidenceAt: '2026-06-19T12:35:07Z'
+trustMagnitudeInputHash: a7d3b4e1553ee703b7b7e3258d6e5555323dd1a9451efcabecaa042733d4989b
 ---
 
 ## Overview

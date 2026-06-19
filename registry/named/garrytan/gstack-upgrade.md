@@ -24,11 +24,13 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/gstack-upgrade/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Scans
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Scans
     the workspace for outdated dependencies, runs upgrades within semver-compatible
     bounds, re-runs tests, and commits a clean dependency bump PR. (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:
@@ -44,8 +46,17 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:15Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -55,9 +66,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 4c390af4682aa78d69b385238ab94e024894ddb0654f5f2e525267420504036a
 verification:
   firstEvidenceAt: '2026-06-03T05:51:33Z'
+trustMagnitudeInputHash: ad3f44c4a0039a5afdd714b86f44ce6383fdcfbbf85e0154029f5d441ce8a0c3
 ---
 
 ## Overview

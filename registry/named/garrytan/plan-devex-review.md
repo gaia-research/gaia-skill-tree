@@ -27,11 +27,13 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Interactive
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Interactive
     multi-pass DX review for developer-facing products — APIs, CLIs, SDKs, and libraries
     — scoring eight UX dimensions from onboarding to… (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:
@@ -47,8 +49,17 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:15Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:38Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -58,9 +69,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 641dace52431bbda3b143e4d8e9e7c94c3063f34b6f9c1bc08d262682cffbdc2
 verification:
   firstEvidenceAt: '2026-06-03T05:51:32Z'
+trustMagnitudeInputHash: b3a0ce45b5ccded613f32a71d94e9022d8b76cdac5d2e2b75f3e0906ed21525e
 ---
 
 ## Overview

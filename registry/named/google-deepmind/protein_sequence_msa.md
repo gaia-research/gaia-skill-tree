@@ -13,7 +13,7 @@ description: Performs multiple sequence alignment of proteins with EBI Clustal O
   BLAST), align non-protein sequences (DNA, RNA), perform structural alignment (use
   Foldseek, PyMOL), or if you only have a single sequence.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md
 evidence:
@@ -21,11 +21,23 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind protein_sequence_msa science-skill implementation.
-    (backfilled — class-to-type migration)
+  notes: 'Official Google DeepMind protein_sequence_msa science-skill implementation."
+    (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not
+    supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
+- source: https://academic.oup.com/nar/article/39/suppl_2/W13/2506516
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Sievers et al. 2011 Molecular Systems Biology: Clustal Omega multiple sequence
+    alignment. Peer-reviewed MSA tool paper underpinning the protein_sequence_msa
+    skill (uses EBI Clustal Omega endpoint).'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:35Z'
   action: evidence_graded
@@ -35,8 +47,28 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:17Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:39Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:24:04Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/39/suppl_2/W13/2506516
+    (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -46,7 +78,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 933145e9e7e599279d69e211b891d2f71f679ed87f74941f2c8ebb2d2beea1e9
+verification:
+  firstEvidenceAt: '2026-06-19T14:24:03Z'
+trustMagnitudeInputHash: 631aa5051cb03e0ffd99b24d07c9f79c648b5fe843f74364b7db07a8f95f9339
 ---
 
 ## Prerequisites

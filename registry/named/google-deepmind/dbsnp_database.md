@@ -11,7 +11,7 @@ description: Use when you want to look up, map, and search for short genetic var
   in VCF format, and HGVS strings. For an rsID, returns variant type, gene associations,
   clinical significance, allele frequencies, and genomic coordinates (GRCh38).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md
 evidence:
@@ -24,6 +24,16 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
+- source: https://academic.oup.com/nar/article/29/1/308/1116395
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Sherry et al. 2001 NAR: dbSNP NCBI database of genetic variation. 7,285
+    citations (Semantic Scholar 2026-06-19).'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:29Z'
   action: evidence_graded
@@ -33,8 +43,28 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:16Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:57Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:38Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:37Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/29/1/308/1116395
+    (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -44,7 +74,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 1b898d0fefc6889ddb3d12bd03d95371f65c5ac8f20ff8c59a02913d19e6bc2f
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:36Z'
+trustMagnitudeInputHash: 7ad65013c3d761cfd008a7e3407a1a36fc15731654d30c04db9700b9d10d5899
 ---
 
 # dbSNP Database Integration

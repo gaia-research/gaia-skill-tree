@@ -21,7 +21,7 @@ tags:
 - product-management
 - issue-tracker
 createdAt: '2026-04-30'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -33,6 +33,32 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 137
+  contributors: 3
+- source: https://github.com/mattpocock/skills/issues/156
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: GitHub issue about to-prd skill behavior.
+- source: https://github.com/mattpocock/skills/issues/212
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: GitHub issue about to-prd skill workflow question.
+- source: https://github.com/mattpocock/skills/issues/240
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: GitHub issue about to-prd skill interaction with grill-me.
+- source: https://github.com/mattpocock/skills/discussions/217
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: GitHub discussion about to-prd skill workflow.
 timeline:
 - timestamp: '2026-06-14T12:32:44Z'
   action: evidence_graded
@@ -42,8 +68,40 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:58Z'
+  details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:36:40Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/issues/156 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:36:55Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/issues/212 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:37:11Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/issues/240 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:37:26Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/discussions/217
+    (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:53:50Z'
+  details: TM 11.21 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:41Z'
+  details: TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)
+trustMagnitude: 63.71
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -53,7 +111,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e560b51c837148d4f7e4c5cf724261c219e496425f45c6f56262d828e7a8c73f
+verification:
+  firstEvidenceAt: '2026-06-19T12:36:40Z'
+trustMagnitudeInputHash: a9e47a620a0d1cfb65630b7802c8c79f150dd5d77f0afedf33ead9bde0ea11cb
 ---
 
 ## Overview

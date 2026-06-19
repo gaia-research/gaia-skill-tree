@@ -77,7 +77,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
   ◉ ruvnet/hive-mind-coordination  [4★]
 
-(228 skills total — see docs/tree.md)
+(230 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 

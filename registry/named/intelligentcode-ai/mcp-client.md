@@ -23,12 +23,14 @@ evidence:
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: intelligentcode-ai/skills mcp-client — portable CLI MCP client with server
+  notes: 'intelligentcode-ai/skills mcp-client — portable CLI MCP client with server"
     enumeration, tool display, and on-demand execution. (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 50.0
   grade: C
+  commits: 34
+  contributors: 1
 timeline:
 - timestamp: '2026-06-14T12:32:41Z'
   action: evidence_graded
@@ -38,7 +40,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:17Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:40Z'
+  details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 1.3
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -49,7 +60,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 6cc6a92f0534296cb6e64910e386c2e4646c2c991030e35f19adb0f5c5311d4c
+trustMagnitudeInputHash: 6291be4eb9fef258d6db869682eca659882168edfe463d100572fe6d276a5db7
 ---
 
 ## Overview

@@ -25,11 +25,13 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/benchmark-models/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Runs a
-    standardised prompt suite across multiple model versions, records latency and
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Runs
+    a standardised prompt suite across multiple model versions, records latency and
     quality scores, and produces a ranked comparison table to… (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:
@@ -45,8 +47,17 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:14Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:36Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -56,9 +67,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: f7364bd644ab9f17fc1a96ecf2db691e807aa3c039fb21aa9754cf586a835dad
 verification:
   firstEvidenceAt: '2026-06-03T05:51:29Z'
+trustMagnitudeInputHash: d9653a3ba47a096d1e0e40556df669acb579415cf01e8e96904abca73249d363
 ---
 
 ## Overview

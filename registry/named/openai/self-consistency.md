@@ -20,9 +20,9 @@ tags:
 - cot
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-05-15'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+updatedAt: '2026-06-19'
+trustMagnitude: 100.0
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -32,11 +32,37 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 140e60e64eb52479386604e5f0d20a6c86bafc335c6bfb9d89dfd4880b870c81
 timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:19Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T09:25:06Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/abs/2203.11171 (type: arxiv)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:47Z'
+  details: TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:43Z'
+  details: TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)
+evidence:
+- source: https://arxiv.org/abs/2203.11171
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: arxiv
+  class: A
+  notes: Self-Consistency CoT paper (Wang et al. 2022) — ~2000+ citations
+  citations: 2000
+verification:
+  firstEvidenceAt: '2026-06-19T09:25:06Z'
+trustMagnitudeInputHash: d23306f7b62a1ac700203a79421bbf217c5704eeaafe0ccb952ffda85a17e19d
 ---
 
 ## Overview

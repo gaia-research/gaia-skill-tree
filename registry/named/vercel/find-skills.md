@@ -25,12 +25,14 @@ evidence:
   source: https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: Vercel /find-skills slash command -- queries the skills.sh registry, checks
+  notes: 'Vercel /find-skills slash command -- queries the skills.sh registry, checks"
     install counts, and auto-installs matching skills. (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 330
+  contributors: 102
 timeline:
 - timestamp: '2026-06-14T12:33:03Z'
   action: evidence_graded
@@ -40,8 +42,17 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:21Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:39Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:45Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -51,7 +62,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: ed2fea85251c76fa7de44219179ac06726c163f4775ff2821d1e12faa2c13082
+trustMagnitudeInputHash: 13b29f6ebd1d111a2cc9da9c09dfb796d5c0165bc5c9fafae198358af494bfdb
 ---
 
 ## Overview

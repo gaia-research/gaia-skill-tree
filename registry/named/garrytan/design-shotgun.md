@@ -26,11 +26,13 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/design-shotgun/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Rapid
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Rapid
     design exploration that generates multiple AI design variants, opens a comparison
     board for the user, collects structured feedback, and… (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:
@@ -46,8 +48,17 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:14Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -57,9 +68,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 50c4344b29e7e7fd8a636814ddb8cc63d761d7632c0e91a66b856c13a7233960
 verification:
   firstEvidenceAt: '2026-06-03T05:51:33Z'
+trustMagnitudeInputHash: c08baee0e0d9cbc10c58c4f4ef78eeb35699b1a4cfe14f96ea36f1a6593adc17
 ---
 
 ## Overview

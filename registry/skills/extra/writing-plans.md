@@ -24,7 +24,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| obra/writing-plans ⭑ | obra | 2★ | 1 |
+| obra/writing-plans ⭑ | obra | 2★ | 8 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

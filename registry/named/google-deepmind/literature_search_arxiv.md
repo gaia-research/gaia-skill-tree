@@ -10,7 +10,7 @@ description: Search for scientific papers, preprints, and publications on arXiv.
   metadata, abstracts, and download full-text PDFs or HTML versions of papers. Use
   when the user asks to find research papers, literature, or specific arXiv IDs.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md
 evidence:
@@ -23,6 +23,16 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
+- source: https://arxiv.org/about
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'arXiv e-print repository: Cornell University open-access preprint platform.
+    Launched 1991, >2M papers. Primary infrastructure for the arXiv search skill.'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:33Z'
   action: evidence_graded
@@ -32,8 +42,27 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:16Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:57Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:39Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:50Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/about (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -43,7 +72,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 028a063469f070705a49fa9ed3e7b0be1f611c82c012e609eed756462c7240e9
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:49Z'
+trustMagnitudeInputHash: eee3b1b5a5f3c090ba0e91c9c4af6f8a17dc85f520a2ecac40e81e0b9f02ce04
 ---
 
 # arXiv Search and Retrieval

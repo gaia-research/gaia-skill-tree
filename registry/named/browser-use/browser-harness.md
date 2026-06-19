@@ -16,17 +16,41 @@ tags:
 - cdp
 - automation
 createdAt: '2026-05-14'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 evidence:
 - class: B
   source: https://github.com/browser-use/browser-harness
   evaluator: gemini-cli
   date: '2026-05-14'
-  notes: Browser Harness -- self-healing harness connecting LLMs to browser via CDP.
-    (backfilled — class-to-type migration)
+  notes: 'Browser Harness -- self-healing harness connecting LLMs to browser via CDP.
+    (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable
+    via gaia dev evidence)'
   type: repo
+  commits: 400
+  contributors: 59
   trustNumber: 70.0
   grade: B
+- source: https://browser-use.com/posts/online-mind2web-benchmark
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: benchmark-result
+  class: A
+  notes: 'BU Bench V1 (100 verified tasks from WebArena/Mind2Web): 78-97% task success
+    rate using bu-ultra/max. 80% using Claude Fable 5 (Mid-2026).'
+- source: https://www.youtube.com/watch?v=XQn6yGq6oN8
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'Codex Developer YouTube: demo of browser-use CDP library for AI agent browser
+    automation. Third-party developer showcase.'
+- source: https://github.com/browser-use/browser-harness
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'AI Agent Developer Community: commended as lightweight CDP bridge, self-healing
+    via runtime agent_helpers.py, steeper learning curve than Playwright. Mid-2026.'
 timeline:
 - timestamp: '2026-06-02T23:32:59Z'
   action: demote
@@ -40,8 +64,35 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:14Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T10:39:17Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://browser-use.com/posts/online-mind2web-benchmark
+    (type: benchmark-result)'
+- timestamp: '2026-06-19T10:41:47Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=XQn6yGq6oN8 (type:
+    social-signal)'
+- timestamp: '2026-06-19T10:47:25Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/browser-use/browser-harness (type:
+    peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:52:24Z'
+  details: TM 36.0 -> 36.0, grade C -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:36Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -51,7 +102,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 80b954336c6990877bec2de6e17a70e8d721837fa12de3b43e35595cf72eca0c
+verification:
+  firstEvidenceAt: '2026-06-19T10:39:17Z'
+trustMagnitudeInputHash: 82dc8fee9df833fbea019d280dbbd45ff9803cc16ef9c09f4e463a0910138baf
 ---
 
 ## Overview

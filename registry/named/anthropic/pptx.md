@@ -26,9 +26,12 @@ evidence:
   source: https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: Anthropic /pptx slash command -- extracts, edits, packs, and applies design
+  notes: 'Anthropic /pptx slash command -- extracts, edits, packs, and applies design
     principles to PowerPoint files using markitdown. (backfilled — class-to-type migration)
+    (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 41
+  contributors: 16
   trustNumber: 70.0
   grade: B
 timeline:
@@ -44,8 +47,17 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:14Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:36Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -55,7 +67,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: db745e194100bed50b4bac4873a2adb8101d55d012f74ec4095bd0e00871443d
+trustMagnitudeInputHash: ed475aa7f004de37562229e394a554eba5427e1a8b34bc0e6ac08b81d904f30d
 ---
 
 ## Overview

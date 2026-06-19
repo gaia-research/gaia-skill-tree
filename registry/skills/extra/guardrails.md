@@ -24,7 +24,7 @@ Requires a defined policy schema and an evaluation loop.
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/careful | garrytan | 2★ | 1 |
+| garrytan/careful | garrytan | 2★ | 2 |
 | garrytan/freeze | garrytan | 2★ | 1 |
 | garrytan/guard | garrytan | 3★ | 1 |
 | garrytan/unfreeze | garrytan | 2★ | 1 |

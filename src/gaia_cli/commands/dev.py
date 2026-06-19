@@ -1175,6 +1175,21 @@ def meta_evidence_command(args):
         evidence["class"] = evidence_class
     if getattr(args, "notes", None):
         evidence["notes"] = args.notes
+    # Numeric payload fields (type-specific magnitude drivers)
+    if getattr(args, "stars", None) is not None:
+        evidence["stars"] = args.stars
+    if getattr(args, "views", None) is not None:
+        evidence["views"] = args.views
+    if getattr(args, "citations", None) is not None:
+        evidence["citations"] = args.citations
+    if getattr(args, "reviewers", None) is not None:
+        evidence["reviewers"] = args.reviewers
+    if getattr(args, "commits", None) is not None:
+        evidence["commits"] = args.commits
+    if getattr(args, "contributors", None) is not None:
+        evidence["contributors"] = args.contributors
+    if getattr(args, "skill_count_in_repo", None) is not None:
+        evidence["skillCountInRepo"] = args.skill_count_in_repo
 
     def _apply(ev_list: list) -> dict:
         """Append the new entry, or update the entry at ``index`` in place.
@@ -1211,6 +1226,21 @@ def meta_evidence_command(args):
             entry["evaluator"] = args.evaluator
         if getattr(args, "date", None):
             entry["date"] = args.date
+        # Numeric payload fields — also patchable via --index
+        if getattr(args, "stars", None) is not None:
+            entry["stars"] = args.stars
+        if getattr(args, "views", None) is not None:
+            entry["views"] = args.views
+        if getattr(args, "citations", None) is not None:
+            entry["citations"] = args.citations
+        if getattr(args, "reviewers", None) is not None:
+            entry["reviewers"] = args.reviewers
+        if getattr(args, "commits", None) is not None:
+            entry["commits"] = args.commits
+        if getattr(args, "contributors", None) is not None:
+            entry["contributors"] = args.contributors
+        if getattr(args, "skill_count_in_repo", None) is not None:
+            entry["skillCountInRepo"] = args.skill_count_in_repo
         return entry
 
     if "/" in skill_id:

@@ -7,17 +7,12 @@ title: The Matt Pocock Productivity Suite
 genericSkillRef: productivity
 status: named
 level: 4★
-description: Productivity category suite for Matt Pocock's skills.
+description: Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills
+  suite in v1.0.1.
 createdAt: '2026-05-21'
 updatedAt: '2026-06-10'
-suiteRef: mattpocock/skills
-suiteComponents:
-- mattpocock/caveman
-- mattpocock/grill-me
-- mattpocock/handoff
-- mattpocock/write-a-skill
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 120.0
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -27,11 +22,23 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 8e95ca6e88ff9b1d549b68af2ca8a93a53a1998a78d3de0bad4b329bdda860e8
 timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:41Z'
+  details: TM 0.0 -> 120.0, grade ungraded -> A (direct edit -- CLI gap)
+suiteRef: mattpocock/skills
+suiteComponents:
+- mattpocock/caveman
+- mattpocock/grill-me
+- mattpocock/handoff
+- mattpocock/write-a-skill
+trustMagnitudeInputHash: aa642025793e17cfcbb52c5a22e59c701ec8ac599342bec37e02979bf496e192
 ---
 
 ## Overview

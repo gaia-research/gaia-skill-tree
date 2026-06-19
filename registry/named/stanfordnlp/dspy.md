@@ -12,7 +12,7 @@ description: Declarative programming of language model pipelines, automatically 
 title: The Programmatic Prompt Engineer
 catalogRef: stanfordnlp-dspy
 createdAt: '2026-06-02'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-19'
 timeline:
 - timestamp: '2026-06-02T01:44:00Z'
   action: demote
@@ -26,8 +26,24 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:21Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- timestamp: '2026-06-19T09:21:47Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/abs/2310.03714 (type: arxiv)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:47Z'
+  details: TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:39Z'
+  details: TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:45Z'
+  details: TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.0
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -37,7 +53,17 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e9cd537f39b5215dc5121b19ca2017995236c6ded320a1680389a13114c4edaa
+evidence:
+- source: https://arxiv.org/abs/2310.03714
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: arxiv
+  class: A
+  notes: DSPy paper — ~700 citations as of 2026-06-19 (arXiv:2310.03714, ICLR 2024)
+  citations: 700
+verification:
+  firstEvidenceAt: '2026-06-19T09:21:47Z'
+trustMagnitudeInputHash: 379258625357acb056eaaf3a0ff982d04f9b5f903aed8b94ea0614b6277e2645
 ---
 
 # DSPy

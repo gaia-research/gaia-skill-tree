@@ -8,7 +8,6 @@ status: named
 title: The Agentic Sovereign
 catalogRef: ruvnet-ruflo
 level: 5★
-provisional: true
 provisionalUntil: '2026-12-17'
 description: 'The complete Ruflo orchestration platform: flow nexus, AgentDB memory
   sovereignty, GitHub operations, hive-mind consensus, reasoning bank, and v3 modernization
@@ -23,7 +22,7 @@ tags:
 - multi-agent
 - platform
 createdAt: '2026-05-19'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteComponents:
 - ruvnet/agentdb
 - ruvnet/agentdb-advanced
@@ -79,10 +78,42 @@ evidence:
   date: '2026-05-19'
   notes: 'Ruflo orchestration platform — 34k+ GitHub stars. Meets Class A threshold:
     ≥5 named skills registered across 6 generic buckets in Gaia. (backfilled — class-to-type
-    migration)'
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 6899
+  contributors: 32
   trustNumber: 70.0
   grade: B
+- source: https://github.com/ruvnet/ruflo/stargazers
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: github-stars-own
+  class: A
+  notes: 59,957 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
+    mothership with sub-skills, divisor=4)
+  stars: 59957
+  skillCountInRepo: 4
+- source: https://arxiv.org/abs/2602.06547
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: arxiv
+  class: A
+  notes: Multi-agent orchestration paper — ~20 citations as of 2026-06-19 (arXiv:2602.06547)
+  citations: 20
+- source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: benchmark-result
+  class: A
+  notes: 'SWE-bench swarm solve rate: 84.8% (vendor claim, Feb 2026). Multi-agent
+    SONA routing, up to 75% API cost savings.'
+- source: https://www.youtube.com/@ReuvenCohen
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: Reuven Cohen (rUv) official YouTube channel covering Ruflo/SPARC/multi-agent
+    swarm orchestration. Official creator channel.
 timeline:
 - timestamp: '2026-06-14T12:32:58Z'
   action: evidence_graded
@@ -92,23 +123,59 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:20Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
-apexGateStatus:
-  aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
-  directNestedSuiteGte1: false
-  depth2OnlyReachableGte1: false
-  overallGradeS: false
-  apexPromotionPrSigned: false
-  crossOrgVerifier: null
-  systemWideCap: null
-trustMagnitudeInputHash: b16f8d0f6a17e08434d7f18056a220edb0fd9539e94356467f5f6ec91469a395
 - timestamp: '2026-06-18T12:46:36Z'
   action: demote
   contributor: mbtiongson1
   details: G7 apex cutover — apex gate failed all 6 active predicates; re-application
     open immediately once all predicates pass
+- timestamp: '2026-06-19T09:21:01Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/ruvnet/ruflo (type: github-stars-own)'
+- timestamp: '2026-06-19T09:23:31Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/abs/2602.06547 (type: arxiv)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:47Z'
+  details: TM 0.0 -> 18.99, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 18.99 -> 54.99, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-19T10:40:45Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/ruvnet/ruflo (type: benchmark-result)'
+- timestamp: '2026-06-19T10:45:51Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/@ReuvenCohen (type: social-signal)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:52:25Z'
+  details: TM 54.99 -> 54.99, grade B -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:39Z'
+  details: TM 0.0 -> 54.99, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:44Z'
+  details: TM 0.0 -> 482.27, grade ungraded -> S (direct edit -- CLI gap)
+trustMagnitude: 482.27
+overallTrustGrade: S
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: true
+  depth2OnlyReachableGte1: false
+  overallGradeS: true
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-19T09:21:01Z'
+trustMagnitudeInputHash: 490f123ef91fa042713964e1a8ff96a6da965a81539693e3c33e3237b823eaf2
 ---
 
 ## Overview

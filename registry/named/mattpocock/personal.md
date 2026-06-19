@@ -7,15 +7,12 @@ title: The Matt Pocock Personal Suite
 genericSkillRef: personal
 status: named
 level: 4★
-description: Personal category suite for Matt Pocock's skills.
+description: Personal category suite for Matt Pocock's skills. Removed from mattpocock/skills
+  suite in v1.0.1.
 createdAt: '2026-05-21'
 updatedAt: '2026-06-10'
-suiteRef: mattpocock/skills
-suiteComponents:
-- mattpocock/edit-article
-- mattpocock/obsidian-vault
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 60.0
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -25,11 +22,21 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: a5475109344aec0705426f33006e04cce471d96312dfd3df743c910a303d68be
 timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:41Z'
+  details: TM 0.0 -> 60.0, grade ungraded -> B (direct edit -- CLI gap)
+suiteRef: mattpocock/skills
+suiteComponents:
+- mattpocock/edit-article
+- mattpocock/obsidian-vault
+trustMagnitudeInputHash: 6d3e8fe18d151d7cb6dd617859e75e659faa6cc3bce88adf66195ef1886aa841
 ---
 
 ## Overview

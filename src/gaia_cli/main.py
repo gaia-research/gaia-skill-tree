@@ -3620,6 +3620,49 @@ def get_parser():
     dev_evidence.add_argument("--date", help="Date of evaluation (ISO 8601)")
     dev_evidence.add_argument("--notes", help="Optional notes about the evaluation")
     dev_evidence.add_argument(
+        "--stars",
+        type=int,
+        metavar="N",
+        help="GitHub star count (for github-stars-own / github-stars-proxy types)",
+    )
+    dev_evidence.add_argument(
+        "--views",
+        type=int,
+        metavar="N",
+        help="View count (for social-signal type)",
+    )
+    dev_evidence.add_argument(
+        "--citations",
+        type=int,
+        metavar="N",
+        help="Citation count (for arxiv / peer-review types)",
+    )
+    dev_evidence.add_argument(
+        "--reviewers",
+        type=int,
+        metavar="N",
+        help="Number of peer reviewers (for peer-review type)",
+    )
+    dev_evidence.add_argument(
+        "--commits",
+        type=int,
+        metavar="N",
+        help="Commit count (for repo / repo-own types)",
+    )
+    dev_evidence.add_argument(
+        "--contributors",
+        type=int,
+        metavar="N",
+        help="Contributor count (for repo / repo-own types)",
+    )
+    dev_evidence.add_argument(
+        "--skill-count-in-repo",
+        dest="skill_count_in_repo",
+        type=int,
+        metavar="N",
+        help="Number of skills in the repo (mothership discount divisor for github-stars-own)",
+    )
+    dev_evidence.add_argument(
         "--no-build",
         action="store_true",
         help="Skip rebuilding docs and graph assets after adding evidence",

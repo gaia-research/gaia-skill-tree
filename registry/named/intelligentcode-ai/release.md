@@ -28,6 +28,8 @@ evidence:
     updates, PR merging, git tagging, and GitHub release creation with verification
     gates. (backfilled — class-to-type migration)
   type: repo
+  commits: 34
+  contributors: 1
   trustNumber: 50.0
   grade: C
 timeline:
@@ -39,7 +41,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:17Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:10:48Z'
+  details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:40Z'
+  details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 1.3
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -50,7 +61,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 04d59c0e12b9abc89d0b128d8e941dbd8d0384f97a899237a290d45c8846b13a
+trustMagnitudeInputHash: 5346f585d2c4cd77c10607ed220c72f6829522d27b43e8c9df9e0582397e561a
 ---
 
 ## Overview

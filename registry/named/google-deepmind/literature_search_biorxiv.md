@@ -11,7 +11,7 @@ description: Browse, filter, and download life sciences, biology, and medical pr
   by date range with category and keyword filters. Keyword filtering is local, so
   date ranges MUST be narrow (1-4 weeks) with a category to prevent timeouts.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md
 evidence:
@@ -24,6 +24,17 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
+- source: https://biorxiv.org/about-biorxiv
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'bioRxiv: Cold Spring Harbor Laboratory open-access biology preprint server.
+    Launched 2013, >200k preprints. Primary infrastructure for the bioRxiv search
+    skill.'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:33Z'
   action: evidence_graded
@@ -33,8 +44,27 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:16Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:57Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:39Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:51Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://biorxiv.org/about-biorxiv (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -44,7 +74,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: f144a5f2eb02be0217c74e320889b0ac728b30b2538881d23167cd926de64cb1
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:51Z'
+trustMagnitudeInputHash: 423f7cfb15b7e9361231d53cb74e3066396aad298bc1a8b804ec8c60f88fc5d9
 ---
 
 # bioRxiv and medRxiv Literature Search
