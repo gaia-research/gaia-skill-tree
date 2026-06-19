@@ -137,6 +137,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:37Z'
   details: TM 0.0 -> 589.32, grade ungraded -> S (direct edit -- CLI gap)
+- timestamp: '2026-06-19T16:27:29Z'
+  action: verified
+  contributor: unknown
+  details: 'Apex promotion PR stamped by Marco (founder/mbtiongson1) per #746 directive
+    — gstack qualifies for §11.12.8 (apexPromotionPrSigned)'
 trustMagnitude: 589.32
 overallTrustGrade: S
 apexGateStatus:
@@ -145,7 +150,9 @@ apexGateStatus:
   directNestedSuiteGte1: true
   depth2OnlyReachableGte1: false
   overallGradeS: true
-  apexPromotionPrSigned: false
+  apexPromotionPrSigned: true
+  apexPromotionPrSignedBy: mbtiongson1
+  apexPromotionPrSignedAt: '2026-06-20'
   crossOrgVerifier: null
   systemWideCap: null
 verification:
