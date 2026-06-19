@@ -18,20 +18,28 @@ tags:
 - git-tag
 - github-release
 - automation
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: intelligentcode-ai/skills release — automates semantic versioning, CHANGELOG
-    updates, PR merging, git tagging, and GitHub release creation with verification
-    gates. (backfilled — class-to-type migration)
+  notes: intelligentcode-ai/skills — practical coding agent skills; release provides
+    production-ready implementation (trust updated from C=50 to B-equiv=65)
   type: repo
   commits: 34
   contributors: 1
-  trustNumber: 50.0
-  grade: C
+  trustNumber: 65.0
+  grade: B
+- source: https://github.com/intelligentcode-ai/skills
+  evaluator: unknown
+  date: '2026-06-20'
+  type: self-attestation
+  trustNumber: 60.0
+  grade: B
+  notes: intelligentcode-ai/skills suite self-attested via README description; practical
+    agent skill for release domain
+  sourceStartedAt: '2025-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:41Z'
   action: evidence_graded
@@ -50,6 +58,21 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:40Z'
   details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:10:13Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md
+    as B (trustNumber: 65.0)'
+- timestamp: '2026-06-19T17:10:48Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/intelligentcode-ai/skills (type:
+    self-attestation)'
+- timestamp: '2026-06-19T17:10:48Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/intelligentcode-ai/skills as B
+    (trustNumber: 60.0)'
 trustMagnitude: 1.3
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -62,6 +85,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 5346f585d2c4cd77c10607ed220c72f6829522d27b43e8c9df9e0582397e561a
+verification:
+  firstEvidenceAt: '2026-06-19T17:10:48Z'
 ---
 
 ## Overview

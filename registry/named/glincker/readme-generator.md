@@ -19,7 +19,7 @@ tags:
 - code-analysis
 - project-structure
 createdAt: '2026-04-30'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 timeline:
 - timestamp: '2026-06-02T23:33:02Z'
   action: demote
@@ -46,6 +46,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:38Z'
   details: TM 0.0 -> 1.22, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:12:31Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/GLINCKER/claude-code-marketplace
+    (type: self-attestation)'
+- timestamp: '2026-06-19T17:12:31Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/GLINCKER/claude-code-marketplace
+    as B (trustNumber: 60.0)'
 evidence:
 - class: B
   source: https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md
@@ -59,6 +69,15 @@ evidence:
   contributors: 1
   trustNumber: 70.0
   grade: B
+- source: https://github.com/GLINCKER/claude-code-marketplace
+  evaluator: unknown
+  date: '2026-06-20'
+  type: self-attestation
+  trustNumber: 60.0
+  grade: B
+  notes: GLINCKER claude-code-marketplace — 32 GitHub stars; readme-generator skill
+    included in marketplace
+  sourceStartedAt: '2025-01-01'
 trustMagnitude: 1.22
 overallTrustGrade: ungraded
 apexGateStatus:
