@@ -26,7 +26,8 @@ evidence:
   source: https://github.com/ruvnet/ruflo
   evaluator: mbtiongson1
   date: '2026-06-10'
-  notes: Part of the Ruflo orchestration platform (public repo); two-agent implement/review pattern documented in the suite. (backfilled — class-to-type migration)
+  notes: Part of the Ruflo orchestration platform (public repo); two-agent implement/review
+    pattern documented in the suite. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
   grade: B
@@ -45,8 +46,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:20Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:58Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -56,9 +60,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: cd0ee1abc6692112202d00b217acbba00ffd22fd5a68dcb7c2f1c5812185f70a
 verification:
   firstEvidenceAt: '2026-06-10T05:38:18Z'
+trustMagnitudeInputHash: cd0ee1abc6692112202d00b217acbba00ffd22fd5a68dcb7c2f1c5812185f70a
 ---
 
 ## Overview

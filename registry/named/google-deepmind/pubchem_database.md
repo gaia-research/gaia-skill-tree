@@ -18,7 +18,8 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind pubchem_database science-skill implementation. (backfilled — class-to-type migration)
+  notes: Official Google DeepMind pubchem_database science-skill implementation. (backfilled
+    — class-to-type migration)
   type: repo
   trustNumber: 70.0
   grade: B
@@ -33,7 +34,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:17Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:57Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false

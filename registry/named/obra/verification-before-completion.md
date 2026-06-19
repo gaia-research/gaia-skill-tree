@@ -25,7 +25,9 @@ evidence:
   source: https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md
   evaluator: mbtiongson1
   date: '2026-05-18'
-  notes: obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)
+  notes: obra/superpowers — complete software development methodology for coding agents,
+    196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode,
+    Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
   grade: B
@@ -40,8 +42,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:19Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:58Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false

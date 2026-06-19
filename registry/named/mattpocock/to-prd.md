@@ -28,7 +28,8 @@ evidence:
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: Production skill that synthesises live conversation context into a fully-structured PRD and publishes it to the issue tracker. (backfilled — class-to-type migration)
+  notes: Production skill that synthesises live conversation context into a fully-structured
+    PRD and publishes it to the issue tracker. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
   grade: B
@@ -43,7 +44,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:58Z'
+  details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 11.21
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false

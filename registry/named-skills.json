@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-19",
+  "generatedAt": "2026-06-18",
   "buckets": {
     "automated-testing": [
       {
@@ -4352,7 +4352,9 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 609,
+            "contributors": 36
           }
         ],
         "createdAt": "2026-05-18",
@@ -4374,13 +4376,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -6191,7 +6198,9 @@
             "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Incrementally syncs new documents and updated pages into the GBrain index, deduplicates embeddings, and reports ingestion counts and any errors. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 323,
+            "contributors": 9
           }
         ],
         "createdAt": "2026-05-18",
@@ -6213,13 +6222,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:16Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:57Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -6344,7 +6358,9 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 609,
+            "contributors": 36
           }
         ],
         "createdAt": "2026-05-18",
@@ -6366,13 +6382,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -8138,7 +8159,9 @@
             "notes": "Production skill that synthesises live conversation context into a fully-structured PRD and publishes it to the issue tracker. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 137,
+            "contributors": 3
           }
         ],
         "createdAt": "2026-04-30",
@@ -8154,6 +8177,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:18Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -8161,7 +8189,7 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 11.21,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -8390,7 +8418,9 @@
             "notes": "Part of the Ruflo orchestration platform (public repo); DDD restructuring of the v3 codebase documented in the suite. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -8412,13 +8442,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:21Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9315,7 +9350,9 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 609,
+            "contributors": 36
           }
         ],
         "createdAt": "2026-05-18",
@@ -9331,13 +9368,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9380,7 +9422,9 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 609,
+            "contributors": 36
           }
         ],
         "createdAt": "2026-05-18",
@@ -9396,13 +9440,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9444,7 +9493,9 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 609,
+            "contributors": 36
           }
         ],
         "createdAt": "2026-05-18",
@@ -9460,13 +9511,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9509,7 +9565,9 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 609,
+            "contributors": 36
           }
         ],
         "createdAt": "2026-05-18",
@@ -9525,13 +9583,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9574,7 +9637,9 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 609,
+            "contributors": 36
           }
         ],
         "createdAt": "2026-05-18",
@@ -9590,13 +9655,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9639,7 +9709,9 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 609,
+            "contributors": 36
           }
         ],
         "createdAt": "2026-05-18",
@@ -9655,13 +9727,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9703,7 +9780,9 @@
             "notes": "Part of the Ruflo orchestration platform (public repo); two-agent implement/review pattern documented in the suite. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -9725,13 +9804,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:20Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9908,7 +9992,9 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 609,
+            "contributors": 36
           }
         ],
         "createdAt": "2026-05-18",
@@ -9924,13 +10010,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9973,7 +10064,9 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 609,
+            "contributors": 36
           }
         ],
         "createdAt": "2026-05-18",
@@ -9989,13 +10082,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -10037,7 +10135,9 @@
             "notes": "Part of the Ruflo orchestration platform (public repo); pre-completion quality gates documented in the suite. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -10059,13 +10159,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:21Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -10108,7 +10213,9 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 609,
+            "contributors": 36
           }
         ],
         "createdAt": "2026-05-18",
@@ -10124,13 +10231,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -10628,7 +10740,9 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -10644,13 +10758,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:20Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/agentdb",
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -10694,7 +10813,9 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -10710,6 +10831,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:20Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -10724,7 +10850,7 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -10772,7 +10898,9 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -10788,6 +10916,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:20Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -10795,7 +10928,7 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -10839,7 +10972,9 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -10855,13 +10990,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:20Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/dual-mode",
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -10905,7 +11045,9 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -10921,13 +11063,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:20Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/dual-mode",
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -11045,7 +11192,9 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -11061,13 +11210,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:20Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/dual-mode",
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -11111,7 +11265,9 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -11133,13 +11289,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:20Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/flow-nexus",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -11183,7 +11344,9 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -11205,13 +11368,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:20Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/flow-nexus",
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -11437,7 +11605,9 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -11453,13 +11623,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:20Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/github-suite",
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -11763,7 +11938,9 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -11785,13 +11962,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:20Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/reasoningbank",
         "type": "basic",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12252,7 +12434,9 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -12268,6 +12452,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:21Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -12275,7 +12464,7 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12319,7 +12508,9 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -12341,6 +12532,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:21Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
@@ -12348,7 +12544,7 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12392,7 +12588,9 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -12414,6 +12612,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:21Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
@@ -12421,7 +12624,7 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12465,7 +12668,9 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -12481,6 +12686,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:21Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
@@ -12488,7 +12698,7 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12532,7 +12742,9 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -12548,6 +12760,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:21Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
@@ -12555,7 +12772,7 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12599,7 +12816,9 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -12615,6 +12834,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:21Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo-v3",
@@ -12622,7 +12846,7 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12666,7 +12890,9 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B"
+            "grade": "B",
+            "commits": 6899,
+            "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
@@ -12682,6 +12908,11 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:21Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -12689,7 +12920,7 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 36.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -13404,7 +13635,9 @@
           "notes": "Official Google DeepMind clinical_trials_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -13420,6 +13653,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -13445,7 +13683,9 @@
           "notes": "Official Google DeepMind clinvar_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -13461,6 +13701,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -13486,7 +13731,9 @@
           "notes": "Official Google DeepMind dbsnp_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -13502,6 +13749,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -13527,7 +13779,9 @@
           "notes": "Official Google DeepMind embl_ebi_ols science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -13543,6 +13797,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -13568,7 +13827,9 @@
           "notes": "Official Google DeepMind encode_ccres_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -13584,6 +13845,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -13609,7 +13875,9 @@
           "notes": "Official Google DeepMind ensembl_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -13625,6 +13893,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -13650,7 +13923,9 @@
           "notes": "Official Google DeepMind foldseek_structural_search science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -13666,6 +13941,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -13691,7 +13971,9 @@
           "notes": "Official Google DeepMind gnomad_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -13707,6 +13989,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -13732,7 +14019,9 @@
           "notes": "Official Google DeepMind gtex_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -13748,6 +14037,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -13773,7 +14067,9 @@
           "notes": "Official Google DeepMind human_protein_atlas_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -13789,6 +14085,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -13814,7 +14115,9 @@
           "notes": "Official Google DeepMind interpro_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -13830,6 +14133,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -13855,7 +14163,9 @@
           "notes": "Official Google DeepMind jaspar_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -13871,6 +14181,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -13896,7 +14211,9 @@
           "notes": "Official Google DeepMind literature_search_arxiv science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -13912,6 +14229,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -13937,7 +14259,9 @@
           "notes": "Official Google DeepMind literature_search_biorxiv science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -13953,6 +14277,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -13978,7 +14307,9 @@
           "notes": "Official Google DeepMind literature_search_europepmc science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -13994,6 +14325,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14019,7 +14355,9 @@
           "notes": "Official Google DeepMind literature_search_openalex science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -14035,6 +14373,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14060,7 +14403,9 @@
           "notes": "Official Google DeepMind ncbi_sequence_fetch science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -14076,6 +14421,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14101,7 +14451,9 @@
           "notes": "Official Google DeepMind openfda_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -14117,6 +14469,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14142,7 +14499,9 @@
           "notes": "Official Google DeepMind opentargets_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -14158,6 +14517,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14183,7 +14547,9 @@
           "notes": "Official Google DeepMind pdb_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -14199,6 +14565,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:16Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14326,7 +14697,9 @@
           "notes": "Official Google DeepMind pubchem_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -14342,6 +14715,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:17Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14367,7 +14745,9 @@
           "notes": "Official Google DeepMind pubmed_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -14383,6 +14763,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:17Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14408,7 +14793,9 @@
           "notes": "Official Google DeepMind pymol science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -14424,6 +14811,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:17Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14449,7 +14841,9 @@
           "notes": "Official Google DeepMind quickgo_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -14465,6 +14859,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:17Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14490,7 +14889,9 @@
           "notes": "Official Google DeepMind reactome_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -14506,6 +14907,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:17Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14531,7 +14937,9 @@
           "notes": "Official Google DeepMind science_skills_common science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -14547,6 +14955,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:17Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14572,7 +14985,9 @@
           "notes": "Official Google DeepMind string_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -14588,6 +15003,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:17Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14613,7 +15033,9 @@
           "notes": "Official Google DeepMind ucsc_conservation_and_tfbs science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -14629,6 +15051,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:17Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14654,7 +15081,9 @@
           "notes": "Official Google DeepMind unibind_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -14670,6 +15099,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:17Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14695,7 +15129,9 @@
           "notes": "Official Google DeepMind uniprot_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -14711,6 +15147,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:17Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14736,7 +15177,9 @@
           "notes": "Official Google DeepMind uv science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -14752,6 +15195,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:17Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -14777,7 +15225,9 @@
           "notes": "Official Google DeepMind workflow_skill_creator science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B"
+          "grade": "B",
+          "commits": 6,
+          "contributors": 3
         }
       ],
       "createdAt": "2026-05-23",
@@ -14793,6 +15243,11 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:17Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T11:07:57Z",
+          "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
         }
       ],
       "type": "extra"
