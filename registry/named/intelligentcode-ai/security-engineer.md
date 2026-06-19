@@ -25,7 +25,9 @@ evidence:
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: intelligentcode-ai/skills security-engineer — vulnerability assessment and security architecture with zero-trust principles and compliance management. (backfilled — class-to-type migration)
+  notes: intelligentcode-ai/skills security-engineer — vulnerability assessment and
+    security architecture with zero-trust principles and compliance management. (backfilled
+    — class-to-type migration)
   type: repo
   commits: 34
   contributors: 1
@@ -40,7 +42,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:17Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:10:48Z'
+  details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 1.3
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
