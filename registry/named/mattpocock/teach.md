@@ -57,6 +57,11 @@ timeline:
   contributor: testuser
   details: 'Graded evidence from https://www.youtube.com/watch?v=s5T5oQJcJ6U as B
     (trustNumber: 65.0)'
+- timestamp: '2026-06-19T18:41:33Z'
+  action: rank_up
+  contributor: testuser
+  details: 'I13 classify: status promoted from awakened to named (evidence floor met:
+    repo-own B + self-attestation C)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md
   evaluator: unknown

@@ -51,7 +51,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
   │  ├─ ○ mattpocock/improve-codebase-architecture  [3★]
   │  ├─ ◇ garrytan/garrytan  [4★]
   │  │  ├─ ○ /plan-decompose
-  │  │  └─ ○ /route-intent
+  │  │  └─ ○ mattpocock/ask-matt  [2★]
   │  ├─ ◇ mattpocock/to-prd  [2★]
   │  │  ├─ ○ garrytan/retro  [3★]
   │  │  └─ ○ /plan-decompose  (↑ see above)
@@ -68,7 +68,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
   ├─ ○ pbakaus/impeccable  [4★]
   ├─ ◇ garrytan/garrytan  [4★]
   │  ├─ ○ /plan-decompose
-  │  └─ ○ /route-intent
+  │  └─ ○ mattpocock/ask-matt  [2★]
   ├─ ◇ garrytan/design-consultation  [4★]
   │  ├─ ◇ browserbase/stagehand  [2★]
   │  │  ├─ ○ /web-search

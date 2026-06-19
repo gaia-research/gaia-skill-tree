@@ -281,6 +281,202 @@
           "source": "promotion"
         }
       ]
+    },
+    {
+      "skillId": "mattpocock/ask-matt",
+      "level": "2★",
+      "unlockedAt": "2026-06-20T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/codebase-design",
+      "level": "2★",
+      "unlockedAt": "2026-06-20T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/diagnosing-bugs",
+      "level": "2★",
+      "unlockedAt": "2026-06-20T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/domain-modeling",
+      "level": "2★",
+      "unlockedAt": "2026-06-20T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/git-guardrails-claude-code",
+      "level": "2★",
+      "unlockedAt": "2026-06-20T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/grilling",
+      "level": "2★",
+      "unlockedAt": "2026-06-20T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/implement",
+      "level": "2★",
+      "unlockedAt": "2026-06-20T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/migrate-to-shoehorn",
+      "level": "2★",
+      "unlockedAt": "2026-06-20T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/resolving-merge-conflicts",
+      "level": "2★",
+      "unlockedAt": "2026-06-20T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/scaffold-exercises",
+      "level": "2★",
+      "unlockedAt": "2026-06-20T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/setup-pre-commit",
+      "level": "2★",
+      "unlockedAt": "2026-06-20T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/tdd",
+      "level": "2★",
+      "unlockedAt": "2026-06-20T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/teach",
+      "level": "2★",
+      "unlockedAt": "2026-06-20T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/writing-great-skills",
+      "level": "2★",
+      "unlockedAt": "2026-06-20T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
     }
   ],
   "timeline": [
@@ -450,10 +646,122 @@
       "skillId": "mattpocock/skills",
       "details": "G7 apex cutover — registry level demoted 6★→5★; re-application open once all 6 apex predicates pass",
       "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-06-20T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/ask-matt",
+      "details": "Registered named skill mattpocock/ask-matt (I13 classify: awakened→named, direct edit — CLI gap)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/codebase-design",
+      "details": "Registered named skill mattpocock/codebase-design (I13 classify: awakened→named, direct edit — CLI gap)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/diagnosing-bugs",
+      "details": "Registered named skill mattpocock/diagnosing-bugs (I13 classify: awakened→named, direct edit — CLI gap)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/domain-modeling",
+      "details": "Registered named skill mattpocock/domain-modeling (I13 classify: awakened→named, direct edit — CLI gap)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/git-guardrails-claude-code",
+      "details": "Registered named skill mattpocock/git-guardrails-claude-code (I13 classify: awakened→named, direct edit — CLI gap)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/grilling",
+      "details": "Registered named skill mattpocock/grilling (I13 classify: awakened→named, direct edit — CLI gap)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/implement",
+      "details": "Registered named skill mattpocock/implement (I13 classify: awakened→named, direct edit — CLI gap)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/migrate-to-shoehorn",
+      "details": "Registered named skill mattpocock/migrate-to-shoehorn (I13 classify: awakened→named, direct edit — CLI gap)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/resolving-merge-conflicts",
+      "details": "Registered named skill mattpocock/resolving-merge-conflicts (I13 classify: awakened→named, direct edit — CLI gap)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/scaffold-exercises",
+      "details": "Registered named skill mattpocock/scaffold-exercises (I13 classify: awakened→named, direct edit — CLI gap)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/setup-pre-commit",
+      "details": "Registered named skill mattpocock/setup-pre-commit (I13 classify: awakened→named, direct edit — CLI gap)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/tdd",
+      "details": "Registered named skill mattpocock/tdd (I13 classify: awakened→named, direct edit — CLI gap)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/teach",
+      "details": "Registered named skill mattpocock/teach (I13 classify: awakened→named, direct edit — CLI gap)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/writing-great-skills",
+      "details": "Registered named skill mattpocock/writing-great-skills (I13 classify: awakened→named, direct edit — CLI gap)",
+      "previousValue": null,
+      "newValue": "2★"
     }
   ],
   "stats": {
-    "totalUnlocked": 20,
+    "totalUnlocked": 34,
     "deepestLineage": 1
   },
   "pendingCombinations": []

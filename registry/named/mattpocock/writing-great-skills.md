@@ -47,6 +47,11 @@ timeline:
   contributor: testuser
   details: 'Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills
     as C (trustNumber: 45.0)'
+- timestamp: '2026-06-19T18:41:34Z'
+  action: rank_up
+  contributor: testuser
+  details: 'I13 classify: status promoted from awakened to named (evidence floor met:
+    repo-own B + self-attestation C)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills/SKILL.md
   evaluator: unknown
