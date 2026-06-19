@@ -22,7 +22,9 @@ apexGateStatus:
   directNestedSuiteGte1: true
   depth2OnlyReachableGte1: false
   overallGradeS: true
-  apexPromotionPrSigned: false
+  apexPromotionPrSigned: true
+  apexPromotionPrSignedBy: mbtiongson1
+  apexPromotionPrSignedAt: '2026-06-20'
   crossOrgVerifier: null
   systemWideCap: null
 timeline:
@@ -73,6 +75,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T14:32:18Z'
   details: TM 480.29 -> 480.29, grade S -> S (direct edit -- CLI gap)
+- timestamp: '2026-06-19T16:27:39Z'
+  action: verified
+  contributor: unknown
+  details: 'Apex promotion PR stamped by Marco (founder/mbtiongson1) per #746 directive
+    — mattpocock/skills qualifies for §11.12.8 (apexPromotionPrSigned)'
 evidence:
 - source: https://github.com/mattpocock/skills/stargazers
   evaluator: mbtiongson1
