@@ -57,7 +57,7 @@
     }
 
     .container {
-      max-width: 960px;
+      max-width: 1200px;
       margin: 0 auto;
     }
 
@@ -145,16 +145,34 @@
       font-family: var(--font-mono);
     }
 
+    /* Split Two-Column Layout */
+    .split-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 4rem;
+      align-items: start;
+      margin-top: 2rem;
+    }
+
+    .left-col {
+      position: sticky;
+      top: 3rem;
+    }
+
+    .right-col {
+      /* Scrolls naturally */
+    }
+
     /* Process Flow layout */
     .timeline {
       position: relative;
-      margin: 2rem 0;
+      margin: 1rem 0;
     }
 
     .timeline::before {
       content: '';
       position: absolute;
-      left: 50px;
+      left: 35px;
       top: 0;
       bottom: 0;
       width: 1px;
@@ -166,8 +184,8 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
-      margin-left: 100px;
-      margin-bottom: 3.5rem;
+      margin-left: 70px;
+      margin-bottom: 3rem;
       padding: 2.25rem;
       position: relative;
       box-shadow: var(--shadow);
@@ -183,15 +201,15 @@
     /* Timeline bullet badge */
     .step-badge {
       position: absolute;
-      left: -71px;
+      left: -49px;
       top: 2.25rem;
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: var(--bg);
       border: 1px solid var(--border);
       color: var(--muted);
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 500;
       display: flex;
       align-items: center;
@@ -331,7 +349,14 @@
     }
 
     /* Responsive adjustments */
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
+      .split-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .left-col {
+        position: static;
+      }
       .timeline::before {
         left: 20px;
       }
@@ -357,7 +382,7 @@
       border: 1px solid var(--border, #222);
       border-radius: 12px;
       overflow: hidden;
-      margin: 3.5rem 0 2rem 0;
+      margin: 1.5rem 0 2rem 0;
       font-family: var(--font-mono, ui-monospace, monospace);
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
     }
@@ -417,7 +442,7 @@
       padding: 1.25rem;
       font-size: 0.85rem;
       line-height: 1.6;
-      height: 360px;
+      height: 380px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
@@ -474,124 +499,136 @@
       </div>
     </div>
 
-    <!-- Timeline Wrapper -->
-    <div class="timeline">
+    <!-- Split Column Layout Wrapper -->
+    <div class="split-layout">
       
-      <!-- Phase 1 -->
-      <div class="step-card step-1" id="phase-1">
-        <div class="step-badge">1</div>
-        <div class="step-title-row">
-          <h2 class="step-title">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            ev-collection
-          </h2>
-          <span class="step-tag">Data Intake</span>
-        </div>
-        <div class="step-content">
-          <p>The collection phase aggregates raw proof vectors from several primary channels. External metadata, package versions, and contributor assertions are harvested and mapped directly to registry slots.</p>
-          <ul class="step-details">
-            <li><strong>Multi-Channel Scraping:</strong> Automated collector scripts harvest metrics directly from GitHub API, YouTube showcasing videos, blogs, and arXiv paper citation repositories.</li>
-            <li><strong>Granular Categorization:</strong> Raw evidence is classified based on metric type: <code>repo</code>, <code>proxy-containment</code>, <code>arxiv</code>, or <code>social-signal</code>.</li>
-            <li><strong>Master Evidence Consolidation:</strong> Merges individual star tiers (Tiers 1★ to 6★) into a central data structure: <code>unified_evidence_lake.md</code>.</li>
-          </ul>
-          <div class="code-panel">
-            <span class="code-line"><span class="code-comment"># Compiles individual tier dumps into the master evidence data lake</span></span>
-            <span class="code-line"><span class="code-cmd">.venv/bin/python founder/sources/scripts/compile_data_lake.py</span></span>
+      <!-- Left Column: Sticky Terminal Simulation -->
+      <div class="left-col">
+        <h2 style="font-family: var(--font-display); font-size: 2rem; margin-bottom: 0.5rem; text-align: left;">Pipeline Orchestration</h2>
+        <p style="color: var(--muted); font-size: 0.95rem; font-weight: 300; margin-bottom: 1rem; text-align: left; line-height: 1.5;">
+          The entire verification process is driven programmatically by the coordinating agent skill: <strong style="color: var(--text);"><code>ev-pipeline</code></strong>. 
+          The timeline on the right illustrates the individual sub-skills compiled as the sum of its parts.
+        </p>
+        
+        <div class="simulator-wrapper" id="simWrapper">
+          <div class="simulator-header">
+            <div class="simulator-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <div class="simulator-title">ev-pipeline-simulation.sh</div>
+            <button class="simulator-btn" id="startSimBtn">Run Simulation</button>
+          </div>
+          <div class="simulator-body" id="simulatorConsole">
+            <div class="console-line system">> Scroll down or click "Run Simulation" to execute the mock ev-pipeline process.</div>
           </div>
         </div>
       </div>
 
-      <!-- Phase 2 -->
-      <div class="step-card step-2" id="phase-2">
-        <div class="step-badge">2</div>
-        <div class="step-title-row">
-          <h2 class="step-title">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            ev-star-verification
-          </h2>
-          <span class="step-tag">Star Verification</span>
-        </div>
-        <div class="step-content">
-          <p>The validation and live mapping phase validates registry files against live GitHub metrics, resolving repository path counts and generating partitioned raw source tier dumps.</p>
-          <ul class="step-details">
-            <li><strong>Registry Loading & Parsing:</strong> Reads evidence data directly from canonical index structures (<code>gaia.json</code>, <code>named-skills.json</code>, and <code>registry/named/</code>).</li>
-            <li><strong>GitHub Live Star Retrieval:</strong> Invokes the GitHub CLI (<code>gh repo view</code>) to check and cache live stargazer counts for all primary repositories and proxy-containment targets.</li>
-            <li><strong>Partitioning & Formatting:</strong> Separates evidence records into their corresponding star tiers (1★ to 6★) and generates raw markdown files inside <code>founder/sources/data_lake/</code>.</li>
-          </ul>
-          <div class="code-panel">
-            <span class="code-line"><span class="code-comment"># Programmatically updates live star counts and partitions data dumps by tier</span></span>
-            <span class="code-line"><span class="code-cmd">.venv/bin/python founder/sources/scripts/generate_source_dump.py</span></span>
+      <!-- Right Column: Scrollable Timeline Steps -->
+      <div class="right-col">
+        <div class="timeline">
+          
+          <!-- Phase 1 -->
+          <div class="step-card step-1" id="phase-1">
+            <div class="step-badge">1</div>
+            <div class="step-title-row">
+              <h2 class="step-title">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                ev-collection
+              </h2>
+              <span class="step-tag">Data Intake</span>
+            </div>
+            <div class="step-content">
+              <p>The collection phase aggregates raw proof vectors from several primary channels. External metadata, package versions, and contributor assertions are harvested and mapped directly to registry slots.</p>
+              <ul class="step-details">
+                <li><strong>Multi-Channel Scraping:</strong> Automated collector scripts harvest metrics directly from GitHub API, YouTube showcasing videos, blogs, and arXiv paper citation repositories.</li>
+                <li><strong>Granular Categorization:</strong> Raw evidence is classified based on metric type: <code>repo</code>, <code>proxy-containment</code>, <code>arxiv</code>, or <code>social-signal</code>.</li>
+                <li><strong>Master Evidence Consolidation:</strong> Merges individual star tiers (Tiers 1★ to 6★) into a central data structure: <code>unified_evidence_lake.md</code>.</li>
+              </ul>
+              <div class="code-panel">
+                <span class="code-line"><span class="code-comment"># Compiles individual tier dumps into the master evidence data lake</span></span>
+                <span class="code-line"><span class="code-cmd">.venv/bin/python founder/sources/scripts/compile_data_lake.py</span></span>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Phase 3 -->
-      <div class="step-card step-3" id="phase-3">
-        <div class="step-badge">3</div>
-        <div class="step-title-row">
-          <h2 class="step-title">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            ev-adversarial-audit
-          </h2>
-          <span class="step-tag">Vulnerability Scans</span>
-        </div>
-        <div class="step-content">
-          <p>Parallel adversarial subagents stress-test the data lake, analyzing evidence descriptors, repository links, star counts, and proxies from a "Devil's Advocate" perspective to catch quality slippage.</p>
-          <ul class="step-details">
-            <li><strong>Subagent Parallelization:</strong> The data lake files are divided among 4 parallel adversarial reviewer subagents to test links and assess qualitative claims.</li>
-            <li><strong>Noise Filtering:</strong> Identifies subjective wording ("elite", "best"), procedural rank annotations, or stale database migration notes.</li>
-            <li><strong>Audit Synthesis:</strong> A 5th synthesis subagent aggregates findings and appends them to the master source report (e.g. <code>source_report_2026_06_19.md</code>).</li>
-          </ul>
-          <div class="code-panel">
-            <span class="code-line"><span class="code-comment"># Orchestrated via the local ev-adversarial-audit agent workflow</span></span>
-            <span class="code-line"><span class="code-cmd">/ev-adversarial-audit</span></span>
+          <!-- Phase 2 -->
+          <div class="step-card step-2" id="phase-2">
+            <div class="step-badge">2</div>
+            <div class="step-title-row">
+              <h2 class="step-title">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                ev-star-verification
+              </h2>
+              <span class="step-tag">Star Verification</span>
+            </div>
+            <div class="step-content">
+              <p>The validation and live mapping phase validates registry files against live GitHub metrics, resolving repository path counts and generating partitioned raw source tier dumps.</p>
+              <ul class="step-details">
+                <li><strong>Registry Loading & Parsing:</strong> Reads evidence data directly from canonical index structures (<code>gaia.json</code>, <code>named-skills.json</code>, and <code>registry/named/</code>).</li>
+                <li><strong>GitHub Live Star Retrieval:</strong> Invokes the GitHub CLI (<code>gh repo view</code>) to check and cache live stargazer counts for all primary repositories and proxy-containment targets.</li>
+                <li><strong>Partitioning & Formatting:</strong> Separates evidence records into their corresponding star tiers (1★ to 6★) and generates raw markdown files inside <code>founder/sources/data_lake/</code>.</li>
+              </ul>
+              <div class="code-panel">
+                <span class="code-line"><span class="code-comment"># Programmatically updates live star counts and partitions data dumps by tier</span></span>
+                <span class="code-line"><span class="code-cmd">.venv/bin/python founder/sources/scripts/generate_source_dump.py</span></span>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Phase 4 -->
-      <div class="step-card step-4" id="phase-4">
-        <div class="step-badge">4</div>
-        <div class="step-title-row">
-          <h2 class="step-title">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            ev-link-validation
-          </h2>
-          <span class="step-tag">Active API Scrapes</span>
-        </div>
-        <div class="step-content">
-          <p>An automated API sweep fetches and scrapes all unique links inside the evidence data lake. Firecrawl's scraping engine resolves HTTP statuses, handles redirects, and verifies actual link availability.</p>
-          <ul class="step-details">
-            <li><strong>Dynamic Link Extraction:</strong> The validator script extracts unique links across all tier documents, deduplicating them to prevent redundant sweeps.</li>
-            <li><strong>API Scrape Verification:</strong> Hits the Firecrawl scraper API in parallel (limited to 2 concurrency) to check status codes and verify output structural formats.</li>
-            <li><strong>Failures & Outages Logging:</strong> Captures timeouts (greater than 45 seconds) and registers HTTP 404 broken links, outputting the results into the official verification log.</li>
-          </ul>
-          <div class="code-panel">
-            <span class="code-line"><span class="code-comment"># Initiates the full verification process via the official validation script</span></span>
-            <span class="code-line"><span class="code-cmd">.venv/bin/python founder/sources/scripts/validate_sources.py</span></span>
+          <!-- Phase 3 -->
+          <div class="step-card step-3" id="phase-3">
+            <div class="step-badge">3</div>
+            <div class="step-title-row">
+              <h2 class="step-title">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                ev-adversarial-audit
+              </h2>
+              <span class="step-tag">Vulnerability Scans</span>
+            </div>
+            <div class="step-content">
+              <p>Parallel adversarial subagents stress-test the data lake, analyzing evidence descriptors, repository links, star counts, and proxies from a "Devil's Advocate" perspective to catch quality slippage.</p>
+              <ul class="step-details">
+                <li><strong>Subagent Parallelization:</strong> The data lake files are divided among 4 parallel adversarial reviewer subagents to test links and assess qualitative claims.</li>
+                <li><strong>Noise Filtering:</strong> Identifies subjective wording ("elite", "best"), procedural rank annotations, or stale database migration notes.</li>
+                <li><strong>Audit Synthesis:</strong> A 5th synthesis subagent aggregates findings and appends them to the master source report (e.g. <code>source_report_2026_06_19.md</code>).</li>
+              </ul>
+              <div class="code-panel">
+                <span class="code-line"><span class="code-comment"># Orchestrated via the local ev-adversarial-audit agent workflow</span></span>
+                <span class="code-line"><span class="code-cmd">/ev-adversarial-audit</span></span>
+              </div>
+            </div>
           </div>
+
+          <!-- Phase 4 -->
+          <div class="step-card step-4" id="phase-4">
+            <div class="step-badge">4</div>
+            <div class="step-title-row">
+              <h2 class="step-title">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                ev-link-validation
+              </h2>
+              <span class="step-tag">Active API Scrapes</span>
+            </div>
+            <div class="step-content">
+              <p>An automated API sweep fetches and scrapes all unique links inside the evidence data lake. Firecrawl's scraping engine resolves HTTP statuses, handles redirects, and verifies actual link availability.</p>
+              <ul class="step-details">
+                <li><strong>Dynamic Link Extraction:</strong> The validator script extracts unique links across all tier documents, deduplicating them to prevent redundant sweeps.</li>
+                <li><strong>API Scrape Verification:</strong> Hits the Firecrawl scraper API in parallel (limited to 2 concurrency) to check status codes and verify output structural formats.</li>
+                <li><strong>Failures & Outages Logging:</strong> Captures timeouts (greater than 45 seconds) and registers HTTP 404 broken links, outputting the results into the official verification log.</li>
+              </ul>
+              <div class="code-panel">
+                <span class="code-line"><span class="code-comment"># Initiates the full verification process via the official validation script</span></span>
+                <span class="code-line"><span class="code-cmd">.venv/bin/python founder/sources/scripts/validate_sources.py</span></span>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
-
-    </div>
-
-    <!-- ev-pipeline Terminal Simulation -->
-    <h2 style="font-family: var(--font-display); font-size: 2rem; margin-top: 4rem; text-align: center;">Pipeline Orchestrator <span class="underline-accent">Simulation</span></h2>
-    <p style="text-align: center; color: var(--muted); max-width: 600px; margin: 0.5rem auto 1.5rem auto; font-weight: 300;">Interact with the mock CLI terminal below to simulate the execution of <strong><code>ev-pipeline</code></strong> sequentially coordinating all 4 verification phases.</p>
-    
-    <div class="simulator-wrapper" id="simWrapper">
-      <div class="simulator-header">
-        <div class="simulator-dots">
-          <span class="dot red"></span>
-          <span class="dot yellow"></span>
-          <span class="dot green"></span>
-        </div>
-        <div class="simulator-title">ev-pipeline-simulation.sh</div>
-        <button class="simulator-btn" id="startSimBtn">Run Simulation</button>
-      </div>
-      <div class="simulator-body" id="simulatorConsole">
-        <div class="console-line system">> Click "Run Simulation" to execute the mock ev-pipeline process.</div>
-      </div>
+      
     </div>
 
     <footer>
@@ -615,6 +652,20 @@
       }
 
       if (startBtn && consoleBox) {
+        // IntersectionObserver to auto-start simulation on scroll
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              if (!isRunning) {
+                // Auto trigger simulator run
+                startBtn.click();
+              }
+            }
+          });
+        }, { threshold: 0.25 });
+
+        observer.observe(document.getElementById("simWrapper"));
+
         startBtn.addEventListener("click", () => {
           if (isRunning) return;
           isRunning = true;
@@ -688,3 +739,4 @@
   </script>
 </body>
 </html>
+

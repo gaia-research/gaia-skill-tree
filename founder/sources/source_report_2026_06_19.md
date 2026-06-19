@@ -34,7 +34,9 @@ Registry evidence parsed directly from the local repository (with updated star c
 
 ## 3. Adversarial Data Lake Audit Findings (June 19, 2026)
 
-Following a comprehensive multi-agent adversarial audit of Tiers 1★ to 6★ in the Gaia data lake (`tier_1.md` through `tier_6.md`), the following discrepancies, link failures, formatting violations, and classification errors were identified.
+Following a comprehensive multi-agent adversarial audit of Tiers 1★ to 6★ in the Gaia data lake (`tier_1.md` through `tier_6.md`), the following discrepancies, link failures, formatting violations, and classification errors were identified. 
+
+Additionally, an automated URL validation sweep was performed across all 287 unique evidence sources in the data lake using the Firecrawl API to verify HTTP request resolution. Out of 287 URLs, 286 valid links returned successful HTTP 200 responses, with only 1 validation timeout error found (https://lobehub.com/plugins). Detailed logs can be found in the [Firecrawl URL Verification Sweep](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/verification/firecrawl_validation_report_2026_06_19.md) log.
 
 ### 3.1 Dead/Broken Links (404)
 A total of 8 active 404/broken link failures were confirmed:
@@ -123,3 +125,17 @@ All raw evidence collection reports are organized and stored locally within the 
     *   [Academic Papers & arXiv Preprints](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/technical/academic_papers.md)
 *   **Adversarial Audit Logs:**
     *   [Verification Report](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/verification/verification_report_2026_06_19.md)
+    *   [Firecrawl URL Verification Sweep](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/verification/firecrawl_validation_report_2026_06_19.md)
+
+---
+
+## 6. Programmatic Pipeline Execution (ev-pipeline)
+
+To maintain absolute data lake integrity, the entire trust methodology validation is orchestrated via the coordinating agent skill: **`ev-pipeline`**.
+
+The visual process flow and interactive simulation at [verification_process.html](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/verification_process.html) represent the consolidated execution of this pipeline, which is the sum of the following specialized sub-skills:
+1. **`ev-collection`**: Scrapes and compiles raw source files into the unified index database.
+2. **`ev-star-verification`**: Queries the GitHub API to check/cache live repository stargazers and partition files by star tier.
+3. **`ev-adversarial-audit`**: Automatically deploys 4 parallel adversarial subagents across data tiers to flag formatting errors and subjective noise.
+4. **`ev-link-validation`**: Uses the Firecrawl API to run thread-safe scrape sweeps verifying HTTP 200 uptime across all compiled links.
+
