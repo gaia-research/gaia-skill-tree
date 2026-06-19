@@ -7,7 +7,6 @@ title: The Matt Pocock Discipline
 genericSkillRef: skill-mastery
 status: named
 level: 5★
-provisional: true
 provisionalUntil: '2026-12-17'
 description: The ultimate capstone suite encompassing all of Matt Pocock's engineering,
   productivity, and personal skills.
@@ -35,8 +34,8 @@ suiteComponents:
 - mattpocock/ubiquitous-language
 - mattpocock/write-a-skill
 - mattpocock/zoom-out
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 43.7
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -46,7 +45,6 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 11fc6fb44298c99eebaad9c04de5334bd4a643ed72bf140d9f252f493b7e5184
 timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
@@ -65,22 +63,32 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://arxiv.org/abs/2602.20867 (type: arxiv)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:47Z'
+  details: TM 0.0 -> 43.7, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
-- source: https://github.com/mattpocock/skills
+- source: https://github.com/mattpocock/skills/stargazers
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: github-stars-own
   class: A
   notes: 133,210 GitHub stars as of 2026-06-19 (verified via firecrawl validation
     report; mothership with 19 sub-skills, divisor=4)
+  stars: 133210
+  skillCountInRepo: 19
 - source: https://arxiv.org/abs/2602.20867
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: arxiv
   class: A
   notes: Skills/tool-use paper — ~52 citations as of 2026-06-19 (arXiv:2602.20867)
+  citations: 52
 verification:
   firstEvidenceAt: '2026-06-19T09:18:11Z'
+trustMagnitudeInputHash: 30231a973184fbe60cbeb8d4187e5c35cd56b6e76788a9c09fa298e75f31ba4b
 ---
 
 ## Installation

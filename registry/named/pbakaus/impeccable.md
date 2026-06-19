@@ -28,19 +28,21 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
-- source: https://github.com/pbakaus/impeccable
+- source: https://github.com/pbakaus/impeccable/stargazers
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: github-stars-own
   class: A
   notes: 38,000 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
     standalone skill)
+  stars: 38000
 - source: https://arxiv.org/abs/2411.01606
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: arxiv
   class: A
   notes: Design systems / UI automation paper — ~19 citations as of 2026-06-19 (arXiv:2411.01606)
+  citations: 19
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
   action: rank_up
@@ -62,8 +64,14 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://arxiv.org/abs/2411.01606 (type: arxiv)'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:47Z'
+  details: TM 0.0 -> 41.8, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 41.8
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -73,9 +81,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: b9fad4a425c6e9350b92311f83d47ec92297738932f1c24371d5f411fc0e0261
 verification:
   firstEvidenceAt: '2026-06-19T09:20:18Z'
+trustMagnitudeInputHash: ce59d68021db89999e77ee93975fad82f4e8841b4f427bee9b3b234756a39424
 ---
 
 ## Overview

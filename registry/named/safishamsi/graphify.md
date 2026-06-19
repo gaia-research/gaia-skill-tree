@@ -33,8 +33,14 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://arxiv.org/abs/2408.03910 (type: arxiv)'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:47Z'
+  details: TM 0.0 -> 86.57, grade ungraded -> B (direct edit -- CLI gap)
+trustMagnitude: 86.57
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -44,23 +50,25 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 82aa4345c52f1895c80cefd295461b4b9ce97c210857844029e92d39e3529262
 evidence:
-- source: https://github.com/safishamsi/graphify
+- source: https://github.com/safishamsi/graphify/stargazers
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: github-stars-own
   class: A
   notes: 68,766 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
     standalone skill)
+  stars: 68766
 - source: https://arxiv.org/abs/2408.03910
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: arxiv
   class: A
   notes: GraphRAG / knowledge graph paper — ~89 citations as of 2026-06-19 (arXiv:2408.03910)
+  citations: 89
 verification:
   firstEvidenceAt: '2026-06-19T09:19:58Z'
+trustMagnitudeInputHash: 301014660931c34ae8ce9092ffc4c080d0ae5051871a9d3d9ffd50e7a7f5aceb
 ---
 
 ## Overview

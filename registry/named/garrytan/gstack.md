@@ -84,13 +84,15 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
-- source: https://github.com/garrytan/gstack
+- source: https://github.com/garrytan/gstack/stargazers
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: github-stars-own
   class: A
   notes: 110,930 GitHub stars as of 2026-06-19 (verified via firecrawl validation
     report; mothership with 47 sub-skills, divisor=4)
+  stars: 110930
+  skillCountInRepo: 47
 - source: https://www.youtube.com/watch?v=wkv2ifxPpF8
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -98,6 +100,7 @@ evidence:
   class: A
   notes: Y Combinator YouTube feature — Garry Tan demonstrates Gstack as AI Engineering
     Team (official YC channel); topical authority signal (creator_mult 1.0)
+  views: 500000
 timeline:
 - timestamp: '2026-06-14T12:32:22Z'
   action: evidence_graded
@@ -116,8 +119,14 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://www.youtube.com/watch?v=wkv2ifxPpF8 (type:
     social-signal)'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:47Z'
+  details: TM 0.0 -> 73.32, grade ungraded -> B (direct edit -- CLI gap)
+trustMagnitude: 73.32
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -127,9 +136,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 3343789dd0080e1e3088010242684ddea2b81d89271e86417485bfbba3e2a901
 verification:
   firstEvidenceAt: '2026-06-19T09:18:27Z'
+trustMagnitudeInputHash: 94514136b57b737c0b82526aa03002b482740aa10981ba6ce16bdf57ed58d038
 ---
 
 ## Overview

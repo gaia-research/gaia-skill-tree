@@ -47,6 +47,12 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://github.com/addyosmani/agent-skills (type:
     github-stars-own)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:46Z'
+  details: TM 0.0 -> 47.2, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
 - class: A
   source: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
@@ -60,15 +66,16 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
-- source: https://github.com/addyosmani/agent-skills
+- source: https://github.com/addyosmani/agent-skills/stargazers
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: github-stars-own
   class: A
   notes: 47,200 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
     standalone skill)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+  stars: 47200
+trustMagnitude: 47.2
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -78,9 +85,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: eeb8bcc6135c6b8fd737e704be7957613a070715c0e377c311f5a1b7a27af1fb
 verification:
   firstEvidenceAt: '2026-06-19T09:20:40Z'
+trustMagnitudeInputHash: 2d82c6ee5ac9e86e5dd3d1b4664385daf1eca3161cb78c89da2e4e2fd84b71ff
 ---
 
 ## Installation

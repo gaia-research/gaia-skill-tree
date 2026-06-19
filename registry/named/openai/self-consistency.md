@@ -21,8 +21,8 @@ tags:
 - unique
 createdAt: '2026-05-15'
 updatedAt: '2026-06-19'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 100.0
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -32,7 +32,6 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 140e60e64eb52479386604e5f0d20a6c86bafc335c6bfb9d89dfd4880b870c81
 timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:19Z'
@@ -41,6 +40,12 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://arxiv.org/abs/2203.11171 (type: arxiv)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:47Z'
+  details: TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)
 evidence:
 - source: https://arxiv.org/abs/2203.11171
   evaluator: mbtiongson1
@@ -48,8 +53,10 @@ evidence:
   type: arxiv
   class: A
   notes: Self-Consistency CoT paper (Wang et al. 2022) — ~2000+ citations
+  citations: 2000
 verification:
   firstEvidenceAt: '2026-06-19T09:25:06Z'
+trustMagnitudeInputHash: 83a9b434b8784be068a99e165c425e11b77676b95f44976809d6387c32227a55
 ---
 
 ## Overview

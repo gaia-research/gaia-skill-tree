@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-18",
+  "generatedAt": "2026-06-19",
   "buckets": {
     "automated-testing": [
       {
@@ -292,10 +292,19 @@
             "type": "repo",
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/addyosmani/agent-skills/stargazers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "github-stars-own",
+            "class": "A",
+            "notes": "47,200 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
+            "stars": 47200
           }
         ],
         "createdAt": "2026-05-31",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-05-31T02:15:44Z",
@@ -325,13 +334,29 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:20:40Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/addyosmani/agent-skills (type: github-stars-own)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:29:08Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:34:46Z",
+            "details": "TM 0.0 -> 47.2, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "installBody": "Install via [gaia](https://github.com/mbtiongson1/gaia-skill-tree):\n\n```bash\ngaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md\n```\n\nOr copy the raw skill file directly into your agent context:\n\n```\nhttps://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md\n```\n\n**Usage**: Invoke `/performance-optimization` (Claude Code) to trigger the measurement-driven 5-step performance audit workflow.",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 47.2,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -883,8 +908,19 @@
         "links": {
           "github": "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md"
         },
+        "evidence": [
+          {
+            "source": "https://arxiv.org/abs/2305.17126",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "Toolformer / self-expanding agent paper — ~300 citations as of 2026-06-19 (arXiv:2305.17126)",
+            "citations": 300
+          }
+        ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -896,12 +932,28 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:22:07Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2305.17126 (type: arxiv)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:29:08Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:34:46Z",
+            "details": "TM 0.0 -> 60.0, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "overallTrustGrade": "B",
+        "trustMagnitude": 60.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -2835,10 +2887,28 @@
             "type": "repo",
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/pbakaus/impeccable/stargazers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "github-stars-own",
+            "class": "A",
+            "notes": "38,000 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
+            "stars": 38000
+          },
+          {
+            "source": "https://arxiv.org/abs/2411.01606",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "Design systems / UI automation paper — ~19 citations as of 2026-06-19 (arXiv:2411.01606)",
+            "citations": 19
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
@@ -2856,12 +2926,34 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:20:18Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/pbakaus/impeccable (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T09:23:05Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2411.01606 (type: arxiv)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:29:08Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:34:47Z",
+            "details": "TM 0.0 -> 41.8, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 41.8,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -3578,10 +3670,29 @@
             "type": "repo",
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack/stargazers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "github-stars-own",
+            "class": "A",
+            "notes": "110,930 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 47 sub-skills, divisor=4)",
+            "stars": 110930,
+            "skillCountInRepo": 47
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=wkv2ifxPpF8",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Y Combinator YouTube feature — Garry Tan demonstrates Gstack as AI Engineering Team (official YC channel); topical authority signal (creator_mult 1.0)",
+            "views": 500000
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:22Z",
@@ -3593,6 +3704,28 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:18:28Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T09:28:10Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=wkv2ifxPpF8 (type: social-signal)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:29:08Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:34:47Z",
+            "details": "TM 0.0 -> 73.32, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteComponents": [
@@ -3647,7 +3780,7 @@
         "installBody": "**Requirements:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Git](https://git-scm.com/), [Bun](https://bun.sh/) v1.0+, [Node.js](https://nodejs.org/) (Windows only)\n\n### Step 1: Install on your machine\n\nOpen Claude Code and paste this. Claude does the rest.\n\n> Install gstack: run **`git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup`** then add a \"gstack\" section to CLAUDE.md that says to use the /browse skill from gstack for all web browsing, never use mcp\\_\\_claude-in-chrome\\_\\_\\* tools, and lists the available skills: /office-hours, /plan-ceo-review, /plan-eng-review, /plan-design-review, /design-consultation, /design-shotgun, /design-html, /review, /ship, /land-and-deploy, /canary, /benchmark, /browse, /connect-chrome, /qa, /qa-only, /design-review, /setup-browser-cookies, /setup-deploy, /setup-gbrain, /retro, /investigate, /document-release, /document-generate, /codex, /cso, /autoplan, /plan-devex-review, /devex-review, /careful, /freeze, /guard, /unfreeze, /gstack-upgrade, /learn. Then ask the user if they also want to add gstack to the current project so teammates get it.\n\n### Step 2: Team mode — auto-update for shared repos (recommended)\n\nFrom inside your repo, paste this. Switches you to team mode, bootstraps the repo so teammates get gstack automatically, and commits the change:\n\n```bash\n(cd ~/.claude/skills/gstack && ./setup --team) && ~/.claude/skills/gstack/bin/gstack-team-init required && git add .claude/ CLAUDE.md && git commit -m \"require gstack for AI-assisted work\"\n```bash\nNo vendored files in your repo, no version drift, no manual upgrades. Every Claude Code session starts with a fast auto-update check (throttled to once/hour, network-failure-safe, completely silent).\n\nSwap `required` for `optional` if you'd rather nudge teammates than block them.\n\n### OpenClaw\n\nOpenClaw spawns Claude Code sessions via ACP, so every gstack skill just works\nwhen Claude Code has gstack installed. Paste this to your OpenClaw agent:\n\n> Install gstack: run `git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup` to install gstack for Claude Code. Then add a \"Coding Tasks\" section to AGENTS.md that says: when spawning Claude Code sessions for coding work, tell the session to use gstack skills. Include these examples — security audit: \"Load gstack. Run /cso\", code review: \"Load gstack. Run /review\", QA test a URL: \"Load gstack. Run /qa https://...\", build a feature end-to-end: \"Load gstack. Run /autoplan, implement the plan, then run /ship\", plan before building: \"Load gstack. Run /office-hours then /autoplan. Save the plan, don't implement.\"\n\n**After setup, just talk to your OpenClaw agent naturally:**\n\n| You say | What happens |\n|---------|-------------|\n| \"Fix the typo in README\" | Simple — Claude Code session, no gstack needed |\n| \"Run a security audit on this repo\" | Spawns Claude Code with `Run /cso` |\n| \"Build me a notifications feature\" | Spawns Claude Code with /autoplan → implement → /ship |\n| \"Help me plan the v2 API redesign\" | Spawns Claude Code with /office-hours → /autoplan, saves plan |\n\nSee [docs/OPENCLAW.md](docs/OPENCLAW.md) for advanced dispatch routing and\nthe gstack-lite/gstack-full prompt templates.\n\n### Native OpenClaw Skills (via ClawHub)\n\nFour methodology skills that work directly in your OpenClaw agent, no Claude Code\nsession needed. Install from ClawHub:\n\n```\nclawhub install gstack-openclaw-office-hours gstack-openclaw-ceo-review gstack-openclaw-investigate gstack-openclaw-retro\n```bash\n| Skill | What it does |\n|-------|-------------|\n| `gstack-openclaw-office-hours` | Product interrogation with 6 forcing questions |\n| `gstack-openclaw-ceo-review` | Strategic challenge with 4 scope modes |\n| `gstack-openclaw-investigate` | Root cause debugging methodology |\n| `gstack-openclaw-retro` | Weekly engineering retrospective |\n\nThese are conversational skills. Your OpenClaw agent runs them directly via chat.\n\n### Other AI Agents\n\ngstack works on 10 AI coding agents, not just Claude. Setup auto-detects which\nagents you have installed:\n\n```bash\ngit clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/gstack\ncd ~/gstack && ./setup\n```\n\nOr target a specific agent with `./setup --host <name>`:\n\n| Agent | Flag | Skills install to |\n|-------|------|-------------------|\n| OpenAI Codex CLI | `--host codex` | `~/.codex/skills/gstack-*/` |\n| OpenCode | `--host opencode` | `~/.config/opencode/skills/gstack-*/` |\n| Cursor | `--host cursor` | `~/.cursor/skills/gstack-*/` |\n| Factory Droid | `--host factory` | `~/.factory/skills/gstack-*/` |\n| Slate | `--host slate` | `~/.slate/skills/gstack-*/` |\n| Kiro | `--host kiro` | `~/.kiro/skills/gstack-*/` |\n| Hermes | `--host hermes` | `~/.hermes/skills/gstack-*/` |\n| GBrain (mod) | `--host gbrain` | `~/.gbrain/skills/gstack-*/` |\n\n**Want to add support for another agent?** See [docs/ADDING_A_HOST.md](docs/ADDING_A_HOST.md).\nIt's one TypeScript config file, zero code changes.",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 73.32,
         "apexGateStatus": {
           "aGradedOriginsGte5": true,
           "sourceTenureDaysGte180AorS": false,
@@ -4917,8 +5050,19 @@
         "description": "Declarative programming of language model pipelines, automatically optimizing prompts and RAG retrieval using bootstrapping and teleprompters.",
         "title": "The Programmatic Prompt Engineer",
         "catalogRef": "stanfordnlp-dspy",
+        "evidence": [
+          {
+            "source": "https://arxiv.org/abs/2310.03714",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "DSPy paper — ~700 citations as of 2026-06-19 (arXiv:2310.03714, ICLR 2024)",
+            "citations": 700
+          }
+        ],
         "createdAt": "2026-06-02",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:44:00Z",
@@ -4936,12 +5080,28 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:21Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:21:47Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2310.03714 (type: arxiv)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:29:08Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:34:47Z",
+            "details": "TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "overallTrustGrade": "B",
+        "trustMagnitude": 100.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -7230,8 +7390,29 @@
         "links": {
           "github": "https://github.com/mattpocock/skills"
         },
+        "evidence": [
+          {
+            "source": "https://github.com/mattpocock/skills/stargazers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "github-stars-own",
+            "class": "A",
+            "notes": "133,210 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 19 sub-skills, divisor=4)",
+            "stars": 133210,
+            "skillCountInRepo": 19
+          },
+          {
+            "source": "https://arxiv.org/abs/2602.20867",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "Skills/tool-use paper — ~52 citations as of 2026-06-19 (arXiv:2602.20867)",
+            "citations": 52
+          }
+        ],
         "createdAt": "2026-05-22",
-        "updatedAt": "2026-05-22",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -7243,6 +7424,28 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "G7 apex cutover — apex gate failed all 6 active predicates (aGradedOriginsGte5, sourceTenureDaysGte180AorS, directNestedSuiteGte1, depth2OnlyReachableGte1, overallGradeS, apexPromotionPrSigned); re-application open immediately once all predicates pass"
+          },
+          {
+            "timestamp": "2026-06-19T09:18:11Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T09:22:46Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2602.20867 (type: arxiv)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:29:08Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:34:47Z",
+            "details": "TM 0.0 -> 43.7, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteComponents": [
@@ -7270,7 +7473,7 @@
         "installBody": "Install the full Matt Pocock skills suite with:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 43.7,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -8914,10 +9117,20 @@
             "type": "repo",
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/obra/superpowers/stargazers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "github-stars-own",
+            "class": "A",
+            "notes": "230,818 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 11+ sub-skills, divisor=4)",
+            "stars": 230818,
+            "skillCountInRepo": 11
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -8929,6 +9142,22 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:17:53Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers (type: github-stars-own)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:29:08Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:34:47Z",
+            "details": "TM 0.0 -> 50.0, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteComponents": [
@@ -8948,7 +9177,7 @@
         "installBody": "Installation differs by harness. If you use more than one, install Superpowers separately for each one.\n\n### Claude Code\n\nSuperpowers is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers)\n\n#### Official Marketplace\n\n- Install the plugin from Anthropic's official marketplace:\n\n  ```bash\n  /plugin install superpowers@claude-plugins-official\n  ```\n\n#### Superpowers Marketplace\n\nThe Superpowers marketplace provides Superpowers and some other related plugins for Claude Code.\n\n- Register the marketplace:\n\n  ```bash\n  /plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin from this marketplace:\n\n  ```bash\n  /plugin install superpowers@superpowers-marketplace\n  ```\n\n### Codex CLI\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- Open the plugin search interface:\n\n  ```bash\n  /plugins\n  ```\n\n- Search for Superpowers:\n\n  ```bash\n  superpowers\n  ```\n\n- Select `Install Plugin`.\n\n### Codex App\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- In the Codex app, click on Plugins in the sidebar.\n- You should see `Superpowers` in the Coding section.\n- Click the `+` next to Superpowers and follow the prompts.\n\n### Factory Droid\n\n- Register the marketplace:\n\n  ```bash\n  droid plugin marketplace add https://github.com/obra/superpowers\n  ```\n\n- Install the plugin:\n\n  ```bash\n  droid plugin install superpowers@superpowers\n  ```\n\n### Gemini CLI\n\n- Install the extension:\n\n  ```bash\n  gemini extensions install https://github.com/obra/superpowers\n  ```\n\n- Update later:\n\n  ```bash\n  gemini extensions update superpowers\n  ```\n\n### OpenCode\n\nOpenCode uses its own plugin install; install Superpowers separately even if you\nalready use it in another harness.\n\n- Tell OpenCode:\n\n  ```\n  Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md\n  ```\n\n- Detailed docs: [docs/README.opencode.md](docs/README.opencode.md)\n\n### Cursor\n\n- In Cursor Agent chat, install from marketplace:\n\n  ```bash\n  /add-plugin superpowers\n  ```\n\n- Or search for \"superpowers\" in the plugin marketplace.\n\n### GitHub Copilot CLI\n\n- Register the marketplace:\n\n  ```bash\n  copilot plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin:\n\n  ```bash\n  copilot plugin install superpowers@superpowers-marketplace\n  ```",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 50.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9253,19 +9482,45 @@
           "installable": false,
           "arxiv": "https://arxiv.org/abs/2005.14165"
         },
+        "evidence": [
+          {
+            "source": "https://arxiv.org/abs/2005.14165",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "GPT-3 few-shot learning paper (Brown et al. 2020) — foundational, 50k+ citations",
+            "citations": 50000
+          }
+        ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-05-15",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:24:47Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2005.14165 (type: arxiv)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:29:08Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:34:47Z",
+            "details": "TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 100.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9301,19 +9556,45 @@
           "installable": false,
           "arxiv": "https://arxiv.org/abs/2203.11171"
         },
+        "evidence": [
+          {
+            "source": "https://arxiv.org/abs/2203.11171",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "Self-Consistency CoT paper (Wang et al. 2022) — ~2000+ citations",
+            "citations": 2000
+          }
+        ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-05-15",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:25:06Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2203.11171 (type: arxiv)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:29:08Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:34:47Z",
+            "details": "TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 100.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -11009,10 +11290,29 @@
             "type": "repo",
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/ruvnet/ruflo/stargazers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "github-stars-own",
+            "class": "A",
+            "notes": "59,957 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with sub-skills, divisor=4)",
+            "stars": 59957,
+            "skillCountInRepo": 4
+          },
+          {
+            "source": "https://arxiv.org/abs/2602.06547",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "Multi-agent orchestration paper — ~20 citations as of 2026-06-19 (arXiv:2602.06547)",
+            "citations": 20
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -11030,6 +11330,28 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "G7 apex cutover — apex gate failed all 6 active predicates; re-application open immediately once all predicates pass"
+          },
+          {
+            "timestamp": "2026-06-19T09:21:01Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/ruvnet/ruflo (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T09:23:31Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2602.06547 (type: arxiv)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:29:08Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:34:47Z",
+            "details": "TM 0.0 -> 18.99, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "suiteComponents": [
@@ -11085,7 +11407,7 @@
         "installBody": "The quickest path to Ruflo:\n\n```bash\nnpx ruflo@latest init\n```\n\nThis launches an interactive wizard that detects your platform and configures\nthe full Ruflo loop (98 agents, 60+ commands, MCP server, hooks, and daemon).\nFor Claude Code plugin installs, Windows specifics, or the complete options\nreference, see the [full installation guide on GitHub](https://github.com/ruvnet/ruflo#installation).",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 18.99,
         "apexGateStatus": {
           "aGradedOriginsGte5": true,
           "sourceTenureDaysGte180AorS": false,
@@ -11657,8 +11979,28 @@
         "links": {
           "github": "https://github.com/safishamsi/graphify"
         },
+        "evidence": [
+          {
+            "source": "https://github.com/safishamsi/graphify/stargazers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "github-stars-own",
+            "class": "A",
+            "notes": "68,766 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
+            "stars": 68766
+          },
+          {
+            "source": "https://arxiv.org/abs/2408.03910",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "GraphRAG / knowledge graph paper — ~89 citations as of 2026-06-19 (arXiv:2408.03910)",
+            "citations": 89
+          }
+        ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:24Z",
@@ -11670,12 +12012,34 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:21Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:19:58Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/safishamsi/graphify (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T09:22:28Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2408.03910 (type: arxiv)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:29:08Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:34:47Z",
+            "details": "TM 0.0 -> 86.57, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 86.57,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -11772,19 +12136,46 @@
         "links": {
           "github": "https://github.com/Upsonic/Upsonic"
         },
+        "evidence": [
+          {
+            "source": "https://arxiv.org/abs/2403.16218",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "Automated unit test generation paper — ~15 citations as of 2026-06-19 (arXiv:2403.16218)",
+            "citations": 15
+          }
+        ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:21Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:23:55Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2403.16218 (type: arxiv)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:29:08Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:34:47Z",
+            "details": "TM 0.0 -> 3.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "A",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 3.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -13736,13 +14127,85 @@
       "status": "awakened",
       "level": "2★",
       "description": "Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers the full pipeline from raw noisy input through preprocessing, inference, and output normalisation. Stack is intentionally tool-agnostic — three implementation tracks are documented below.\n",
+      "evidence": [
+        {
+          "source": "https://aclanthology.org/S17-2088/",
+          "evaluator": "mbtiongson1",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "SemEval-2017 Task 4 (Twitter SA benchmark) — ACL Anthology; establishes macro-F1 as primary metric for sentiment analysis",
+          "reviewers": 3
+        },
+        {
+          "source": "https://arxiv.org/abs/2202.03829",
+          "evaluator": "mbtiongson1",
+          "date": "2026-06-19",
+          "type": "arxiv",
+          "class": "A",
+          "notes": "CardiffNLP Twitter-RoBERTa-base-sentiment (Barbieri et al., 2022) — SOTA transformer baseline for social-media SA (arXiv:2202.03829)",
+          "citations": 200
+        },
+        {
+          "source": "https://ojs.aaai.org/index.php/ICWSM/article/view/14550",
+          "evaluator": "mbtiongson1",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "VADER (Hutto & Gilbert, 2014) — canonical lexicon-based SA baseline; AAAI/ICWSM; validated on social media corpora",
+          "reviewers": 3
+        },
+        {
+          "source": "https://arxiv.org/abs/2203.01054",
+          "evaluator": "mbtiongson1",
+          "date": "2026-06-19",
+          "type": "arxiv",
+          "class": "A",
+          "notes": "Aspect-Based Sentiment Analysis survey (Zhang et al., 2022) — covers ABSA methods for structured review analysis (arXiv:2203.01054)",
+          "citations": 89
+        }
+      ],
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-05-17",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:19Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T09:26:06Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://aclanthology.org/S17-2088/ (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T09:26:24Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://arxiv.org/abs/2202.03829 (type: arxiv)"
+        },
+        {
+          "timestamp": "2026-06-19T09:26:57Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://ojs.aaai.org/index.php/ICWSM/article/view/14550 (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T09:27:15Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://arxiv.org/abs/2203.01054 (type: arxiv)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T09:29:08Z",
+          "details": "TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T09:34:47Z",
+          "details": "TM 45.0 -> 192.8, grade C -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"

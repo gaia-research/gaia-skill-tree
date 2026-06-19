@@ -21,7 +21,7 @@ tags:
 - autonomous-agent
 createdAt: '2026-04-30'
 updatedAt: '2026-06-19'
-trustMagnitude: 0.0
+trustMagnitude: 3.0
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -32,7 +32,6 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 7f7489e8b6f6bf764848f67353bd9aa1a358de71cb9eb72e0ffbbe3f837ce1d1
 timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:21Z'
@@ -41,6 +40,12 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://arxiv.org/abs/2403.16218 (type: arxiv)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:47Z'
+  details: TM 0.0 -> 3.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 evidence:
 - source: https://arxiv.org/abs/2403.16218
   evaluator: mbtiongson1
@@ -48,8 +53,10 @@ evidence:
   type: arxiv
   class: A
   notes: Automated unit test generation paper — ~15 citations as of 2026-06-19 (arXiv:2403.16218)
+  citations: 15
 verification:
   firstEvidenceAt: '2026-06-19T09:23:55Z'
+trustMagnitudeInputHash: 2319c72a8f27ec65a2be295ccce0d2622c9e712f547ec98b7f63dd30356cd8d4
 ---
 
 ## Overview

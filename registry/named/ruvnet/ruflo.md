@@ -8,7 +8,6 @@ status: named
 title: The Agentic Sovereign
 catalogRef: ruvnet-ruflo
 level: 5★
-provisional: true
 provisionalUntil: '2026-12-17'
 description: 'The complete Ruflo orchestration platform: flow nexus, AgentDB memory
   sovereignty, GitHub operations, hive-mind consensus, reasoning bank, and v3 modernization
@@ -83,19 +82,22 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
-- source: https://github.com/ruvnet/ruflo
+- source: https://github.com/ruvnet/ruflo/stargazers
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: github-stars-own
   class: A
   notes: 59,957 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
     mothership with sub-skills, divisor=4)
+  stars: 59957
+  skillCountInRepo: 4
 - source: https://arxiv.org/abs/2602.06547
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: arxiv
   class: A
   notes: Multi-agent orchestration paper — ~20 citations as of 2026-06-19 (arXiv:2602.06547)
+  citations: 20
 timeline:
 - timestamp: '2026-06-14T12:32:58Z'
   action: evidence_graded
@@ -118,7 +120,13 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://arxiv.org/abs/2602.06547 (type: arxiv)'
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:47Z'
+  details: TM 0.0 -> 18.99, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 18.99
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -129,9 +137,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: b16f8d0f6a17e08434d7f18056a220edb0fd9539e94356467f5f6ec91469a395
 verification:
   firstEvidenceAt: '2026-06-19T09:21:01Z'
+trustMagnitudeInputHash: 1ee42c30b54203146362ed46870c58f7df8b5bf61e5a4332e3358734fca9780d
 ---
 
 ## Overview

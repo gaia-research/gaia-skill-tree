@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-18",
+  "generatedAt": "2026-06-19",
   "buckets": {
     "automated-testing": [
       {
@@ -292,10 +292,18 @@
             "type": "repo",
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/addyosmani/agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "github-stars-own",
+            "class": "A",
+            "notes": "47,200 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)"
           }
         ],
         "createdAt": "2026-05-31",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-05-31T02:15:44Z",
@@ -325,6 +333,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:20:40Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/addyosmani/agent-skills (type: github-stars-own)"
           }
         ],
         "type": "basic",
@@ -883,8 +897,18 @@
         "links": {
           "github": "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md"
         },
+        "evidence": [
+          {
+            "source": "https://arxiv.org/abs/2305.17126",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "Toolformer / self-expanding agent paper — ~300 citations as of 2026-06-19 (arXiv:2305.17126)"
+          }
+        ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -896,11 +920,17 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:14Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:22:07Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2305.17126 (type: arxiv)"
           }
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A",
+        "overallTrustGrade": "B",
         "trustMagnitude": 0.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -2835,10 +2865,26 @@
             "type": "repo",
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/pbakaus/impeccable",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "github-stars-own",
+            "class": "A",
+            "notes": "38,000 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)"
+          },
+          {
+            "source": "https://arxiv.org/abs/2411.01606",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "Design systems / UI automation paper — ~19 citations as of 2026-06-19 (arXiv:2411.01606)"
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
@@ -2856,6 +2902,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:20:18Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/pbakaus/impeccable (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T09:23:05Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2411.01606 (type: arxiv)"
           }
         ],
         "type": "basic",
@@ -3578,10 +3636,26 @@
             "type": "repo",
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "github-stars-own",
+            "class": "A",
+            "notes": "110,930 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 47 sub-skills, divisor=4)"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=wkv2ifxPpF8",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Y Combinator YouTube feature — Garry Tan demonstrates Gstack as AI Engineering Team (official YC channel); topical authority signal (creator_mult 1.0)"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:22Z",
@@ -3593,6 +3667,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:15Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:18:28Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T09:28:10Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=wkv2ifxPpF8 (type: social-signal)"
           }
         ],
         "suiteComponents": [
@@ -4917,8 +5003,18 @@
         "description": "Declarative programming of language model pipelines, automatically optimizing prompts and RAG retrieval using bootstrapping and teleprompters.",
         "title": "The Programmatic Prompt Engineer",
         "catalogRef": "stanfordnlp-dspy",
+        "evidence": [
+          {
+            "source": "https://arxiv.org/abs/2310.03714",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "DSPy paper — ~700 citations as of 2026-06-19 (arXiv:2310.03714, ICLR 2024)"
+          }
+        ],
         "createdAt": "2026-06-02",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:44:00Z",
@@ -4936,11 +5032,17 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:21Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:21:47Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2310.03714 (type: arxiv)"
           }
         ],
         "type": "extra",
         "role": "variant",
-        "overallTrustGrade": "A",
+        "overallTrustGrade": "B",
         "trustMagnitude": 0.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -7230,8 +7332,26 @@
         "links": {
           "github": "https://github.com/mattpocock/skills"
         },
+        "evidence": [
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "github-stars-own",
+            "class": "A",
+            "notes": "133,210 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 19 sub-skills, divisor=4)"
+          },
+          {
+            "source": "https://arxiv.org/abs/2602.20867",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "Skills/tool-use paper — ~52 citations as of 2026-06-19 (arXiv:2602.20867)"
+          }
+        ],
         "createdAt": "2026-05-22",
-        "updatedAt": "2026-05-22",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -7243,6 +7363,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "G7 apex cutover — apex gate failed all 6 active predicates (aGradedOriginsGte5, sourceTenureDaysGte180AorS, directNestedSuiteGte1, depth2OnlyReachableGte1, overallGradeS, apexPromotionPrSigned); re-application open immediately once all predicates pass"
+          },
+          {
+            "timestamp": "2026-06-19T09:18:11Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T09:22:46Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2602.20867 (type: arxiv)"
           }
         ],
         "suiteComponents": [
@@ -8914,10 +9046,18 @@
             "type": "repo",
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/obra/superpowers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "github-stars-own",
+            "class": "A",
+            "notes": "230,818 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 11+ sub-skills, divisor=4)"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -8929,6 +9069,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:17:53Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/obra/superpowers (type: github-stars-own)"
           }
         ],
         "suiteComponents": [
@@ -9253,18 +9399,33 @@
           "installable": false,
           "arxiv": "https://arxiv.org/abs/2005.14165"
         },
+        "evidence": [
+          {
+            "source": "https://arxiv.org/abs/2005.14165",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "GPT-3 few-shot learning paper (Brown et al. 2020) — foundational, 50k+ citations"
+          }
+        ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-05-15",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:24:47Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2005.14165 (type: arxiv)"
           }
         ],
         "type": "basic",
         "role": "origin",
-        "overallTrustGrade": "A",
         "trustMagnitude": 0.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -9301,18 +9462,33 @@
           "installable": false,
           "arxiv": "https://arxiv.org/abs/2203.11171"
         },
+        "evidence": [
+          {
+            "source": "https://arxiv.org/abs/2203.11171",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "Self-Consistency CoT paper (Wang et al. 2022) — ~2000+ citations"
+          }
+        ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-05-15",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:19Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:25:06Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2203.11171 (type: arxiv)"
           }
         ],
         "type": "basic",
         "role": "variant",
-        "overallTrustGrade": "A",
         "trustMagnitude": 0.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -11009,10 +11185,26 @@
             "type": "repo",
             "trustNumber": 70.0,
             "grade": "B"
+          },
+          {
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "github-stars-own",
+            "class": "A",
+            "notes": "59,957 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with sub-skills, divisor=4)"
+          },
+          {
+            "source": "https://arxiv.org/abs/2602.06547",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "Multi-agent orchestration paper — ~20 citations as of 2026-06-19 (arXiv:2602.06547)"
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -11030,6 +11222,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "G7 apex cutover — apex gate failed all 6 active predicates; re-application open immediately once all predicates pass"
+          },
+          {
+            "timestamp": "2026-06-19T09:21:01Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/ruvnet/ruflo (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T09:23:31Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2602.06547 (type: arxiv)"
           }
         ],
         "suiteComponents": [
@@ -11657,8 +11861,26 @@
         "links": {
           "github": "https://github.com/safishamsi/graphify"
         },
+        "evidence": [
+          {
+            "source": "https://github.com/safishamsi/graphify",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "github-stars-own",
+            "class": "A",
+            "notes": "68,766 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)"
+          },
+          {
+            "source": "https://arxiv.org/abs/2408.03910",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "GraphRAG / knowledge graph paper — ~89 citations as of 2026-06-19 (arXiv:2408.03910)"
+          }
+        ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:24Z",
@@ -11670,6 +11892,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:21Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:19:58Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/safishamsi/graphify (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T09:22:28Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2408.03910 (type: arxiv)"
           }
         ],
         "type": "extra",
@@ -11772,13 +12006,29 @@
         "links": {
           "github": "https://github.com/Upsonic/Upsonic"
         },
+        "evidence": [
+          {
+            "source": "https://arxiv.org/abs/2403.16218",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "Automated unit test generation paper — ~15 citations as of 2026-06-19 (arXiv:2403.16218)"
+          }
+        ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
+        "updatedAt": "2026-06-19",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-18T11:27:21Z",
             "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:23:55Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2403.16218 (type: arxiv)"
           }
         ],
         "type": "basic",
@@ -13736,13 +13986,71 @@
       "status": "awakened",
       "level": "2★",
       "description": "Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers the full pipeline from raw noisy input through preprocessing, inference, and output normalisation. Stack is intentionally tool-agnostic — three implementation tracks are documented below.\n",
+      "evidence": [
+        {
+          "source": "https://aclanthology.org/S17-2088/",
+          "evaluator": "mbtiongson1",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "SemEval-2017 Task 4 (Twitter SA benchmark) — ACL Anthology; establishes macro-F1 as primary metric for sentiment analysis"
+        },
+        {
+          "source": "https://arxiv.org/abs/2202.03829",
+          "evaluator": "mbtiongson1",
+          "date": "2026-06-19",
+          "type": "arxiv",
+          "class": "A",
+          "notes": "CardiffNLP Twitter-RoBERTa-base-sentiment (Barbieri et al., 2022) — SOTA transformer baseline for social-media SA (arXiv:2202.03829)"
+        },
+        {
+          "source": "https://ojs.aaai.org/index.php/ICWSM/article/view/14550",
+          "evaluator": "mbtiongson1",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "VADER (Hutto & Gilbert, 2014) — canonical lexicon-based SA baseline; AAAI/ICWSM; validated on social media corpora"
+        },
+        {
+          "source": "https://arxiv.org/abs/2203.01054",
+          "evaluator": "mbtiongson1",
+          "date": "2026-06-19",
+          "type": "arxiv",
+          "class": "A",
+          "notes": "Aspect-Based Sentiment Analysis survey (Zhang et al., 2022) — covers ABSA methods for structured review analysis (arXiv:2203.01054)"
+        }
+      ],
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-05-17",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-18T11:27:19Z",
           "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T09:26:06Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://aclanthology.org/S17-2088/ (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T09:26:24Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://arxiv.org/abs/2202.03829 (type: arxiv)"
+        },
+        {
+          "timestamp": "2026-06-19T09:26:57Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://ojs.aaai.org/index.php/ICWSM/article/view/14550 (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T09:27:15Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://arxiv.org/abs/2203.01054 (type: arxiv)"
         }
       ],
       "type": "basic"

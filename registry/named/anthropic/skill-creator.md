@@ -32,8 +32,14 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://arxiv.org/abs/2305.17126 (type: arxiv)'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:46Z'
+  details: TM 0.0 -> 60.0, grade ungraded -> B (direct edit -- CLI gap)
+trustMagnitude: 60.0
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -43,7 +49,6 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: ce4a2092ef8853b1b7310389a5a9e4c154e94d31b01c351cb655c77a17596f55
 evidence:
 - source: https://arxiv.org/abs/2305.17126
   evaluator: mbtiongson1
@@ -52,8 +57,10 @@ evidence:
   class: A
   notes: Toolformer / self-expanding agent paper — ~300 citations as of 2026-06-19
     (arXiv:2305.17126)
+  citations: 300
 verification:
   firstEvidenceAt: '2026-06-19T09:22:07Z'
+trustMagnitudeInputHash: f86e9e3961bf28584e79a90ec130c75771c8d13f4710a4619655ebfd70ca0aec
 ---
 
 ## Overview

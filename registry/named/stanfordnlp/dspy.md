@@ -30,8 +30,14 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://arxiv.org/abs/2310.03714 (type: arxiv)'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:47Z'
+  details: TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.0
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -41,7 +47,6 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e9cd537f39b5215dc5121b19ca2017995236c6ded320a1680389a13114c4edaa
 evidence:
 - source: https://arxiv.org/abs/2310.03714
   evaluator: mbtiongson1
@@ -49,8 +54,10 @@ evidence:
   type: arxiv
   class: A
   notes: DSPy paper — ~700 citations as of 2026-06-19 (arXiv:2310.03714, ICLR 2024)
+  citations: 700
 verification:
   firstEvidenceAt: '2026-06-19T09:21:47Z'
+trustMagnitudeInputHash: 9339a2a9e4fdba43eefcf45636ef27c097cd4fdda212b09accf20162d997d13b
 ---
 
 # DSPy
