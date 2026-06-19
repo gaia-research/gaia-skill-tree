@@ -44,8 +44,7 @@ evidence:
   source: https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-10'
-  notes: Published implementation in Matt Pocock's skills repository; DAG-sectioned
-    rewrite workflow documented and reproducible. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "Published implementation in Matt Pocock's skills repository; DAG-sectioned\" rewrite workflow documented and reproducible. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 70.0
   grade: B

@@ -25,9 +25,7 @@ evidence:
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: intelligentcode-ai/skills devops-engineer — CI/CD pipeline design and deployment
-    automation with build systems and release management. (backfilled — class-to-type
-    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "intelligentcode-ai/skills devops-engineer — CI/CD pipeline design and deployment\" automation with build systems and release management. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 50.0
   grade: C

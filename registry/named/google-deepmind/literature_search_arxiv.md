@@ -18,8 +18,7 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind literature_search_arxiv science-skill implementation.
-    (backfilled — class-to-type migration)
+  notes: Official Google DeepMind literature_search_arxiv science-skill implementation. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
   grade: B

@@ -20,8 +20,7 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind alphafold_database_fetch_and_analyze science-skill
-    implementation. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "Official Google DeepMind alphafold_database_fetch_and_analyze science-skill\" implementation. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 70.0
   grade: B

@@ -25,10 +25,7 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/landing-report/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Generates
-    a one-page project landing report from open issues, recent commits, and milestone
-    progress, giving stakeholders a quick read on health… (backfilled — class-to-type
-    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "Public SKILL.md in the garrytan/gstack suite repo (verified live). Generates\" a one-page project landing report from open issues, recent commits, and milestone progress, giving stakeholders a quick read on health… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 70.0
   grade: B

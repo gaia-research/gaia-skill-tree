@@ -19,8 +19,7 @@ evidence:
   source: https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md
   evaluator: mbtiongson1
   date: '2026-05-22'
-  notes: Obsidian vault management and PKM automation. (backfilled — class-to-type
-    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "Obsidian vault management and PKM automation. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 70.0
   grade: B

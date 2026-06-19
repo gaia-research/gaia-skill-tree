@@ -973,6 +973,22 @@
             "class": "A",
             "notes": "Toolformer / self-expanding agent paper — ~300 citations as of 2026-06-19 (arXiv:2305.17126)",
             "citations": 300
+          },
+          {
+            "source": "https://dev.to/debs_obrien/i-used-skill-creator-v2-to-improve-one-of-my-agent-skills-in-vs-code-fhd",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "DEV.to article by Debbie O'Brien on using Skill Creator v2 to improve agent skills in VS Code. Community practitioner."
+          },
+          {
+            "source": "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Claude Code community: engineering discipline for prompt engineering praised, A/B eval harness noted for overhead on long refinement loops. Mid-2026."
           }
         ],
         "createdAt": "2026-04-30",
@@ -1004,12 +1020,24 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T09:34:46Z",
             "details": "TM 0.0 -> 60.0, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T10:42:49Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://dev.to/debs_obrien/i-used-skill-creator-v2-to-improve-one-of-my-agent-skills-in-vs-code-fhd (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T10:47:43Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md (type: peer-review)"
           }
         ],
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 60.0,
+        "trustMagnitude": 90.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -1223,6 +1251,22 @@
             "type": "benchmark-result",
             "class": "A",
             "notes": "BU Bench V1 (100 verified tasks from WebArena/Mind2Web): 78-97% task success rate using bu-ultra/max. 80% using Claude Fable 5 (Mid-2026)."
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=XQn6yGq6oN8",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Codex Developer YouTube: demo of browser-use CDP library for AI agent browser automation. Third-party developer showcase."
+          },
+          {
+            "source": "https://github.com/browser-use/browser-harness",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "AI Agent Developer Community: commended as lightweight CDP bridge, self-healing via runtime agent_helpers.py, steeper learning curve than Playwright. Mid-2026."
           }
         ],
         "createdAt": "2026-05-14",
@@ -1255,6 +1299,18 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://browser-use.com/posts/online-mind2web-benchmark (type: benchmark-result)"
+          },
+          {
+            "timestamp": "2026-06-19T10:41:47Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=XQn6yGq6oN8 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T10:47:25Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/browser-use/browser-harness (type: peer-review)"
           }
         ],
         "type": "basic",
@@ -1671,6 +1727,22 @@
             "type": "benchmark-result",
             "class": "A",
             "notes": "SWE-bench unassisted: 13.86% resolved (2294 real-world GitHub issues, March 2024). Previous SOTA was 1.96%. Score: 13.86"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=fjyAWpz3Qm8",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Official Cognition YouTube: \"Introducing Devin, the first AI software engineer.\" Channel: Cognition (official). Massive viral reach, millions of views."
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=tNzgM37BUTo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Karl Brown (Internet of Bugs): frame-by-frame analysis of Devin Upwork demo. Documents staged demos, autonomy loops, context withholding. April 2024."
           }
         ],
         "createdAt": "2026-04-29",
@@ -1703,12 +1775,24 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T10:36:26Z",
             "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T10:41:11Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=fjyAWpz3Qm8 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T10:46:49Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=tNzgM37BUTo (type: peer-review)"
           }
         ],
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "B",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 30.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -1836,6 +1920,14 @@
             "type": "benchmark-result",
             "class": "A",
             "notes": "scrape-content-dataset-v1 (1000 URLs): >95% dynamic page scrape success, P95 latency ~3.4s. JS-heavy SPAs and anti-bot protected sites (May 2026)."
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=kY0hN5-xK8U",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Tyler AI YouTube: \"Firecrawl Full Beginner Course | Let's Scrape EVERYTHING.\" Comprehensive tutorial. Third-party validated."
           }
         ],
         "createdAt": "2026-05-17",
@@ -1874,6 +1966,12 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/firecrawl/firecrawl (type: benchmark-result)"
+          },
+          {
+            "timestamp": "2026-06-19T10:42:24Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=kY0hN5-xK8U (type: social-signal)"
           }
         ],
         "type": "extra",
@@ -3138,6 +3236,14 @@
             "class": "A",
             "notes": "Design systems / UI automation paper — ~19 citations as of 2026-06-19 (arXiv:2411.01606)",
             "citations": 19
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=k5f2uP33u5g",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Full Stack YouTube: \"Every AI Website Looks the Same | Here's the Fix.\" Paul Bakaus' Impeccable design steering skill walkthrough. Topical authority."
           }
         ],
         "createdAt": "2026-05-14",
@@ -3186,6 +3292,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T10:36:26Z",
             "details": "TM 41.8 -> 77.8, grade C -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T10:46:29Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=k5f2uP33u5g (type: social-signal)"
           }
         ],
         "type": "basic",
@@ -7808,6 +7920,22 @@
             "class": "A",
             "notes": "Skills/tool-use paper — ~52 citations as of 2026-06-19 (arXiv:2602.20867)",
             "citations": 52
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=s5T5oQJcJ6U",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Matt Pocock official YouTube: \"Learn anything with the /teach skill.\" Creator demonstrating his own skills suite."
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "G7 Trust Taxonomy Audit (June 2026): high adoption (132k stars), apex gate failure on tenure (<26 days vs 180 required), recommended role:variant filtering."
           }
         ],
         "createdAt": "2026-05-22",
@@ -7845,6 +7973,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T09:34:47Z",
             "details": "TM 0.0 -> 43.7, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T10:43:32Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=s5T5oQJcJ6U (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T10:48:50Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: peer-review)"
           }
         ],
         "suiteComponents": [
@@ -7872,7 +8012,7 @@
         "installBody": "Install the full Matt Pocock skills suite with:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.",
         "role": "origin",
         "overallTrustGrade": "B",
-        "trustMagnitude": 43.7,
+        "trustMagnitude": 73.7,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9563,6 +9703,14 @@
             "notes": "230,818 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 11+ sub-skills, divisor=4)",
             "stars": 230818,
             "skillCountInRepo": 11
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=gT5R01Z2J-0",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "CodeRabbit YouTube \"The Merge\" podcast: Jesse Vincent (obra) on Superpowers, agentic discipline, treating AI like MIT interns. High-signal technical interview."
           }
         ],
         "createdAt": "2026-05-18",
@@ -9599,6 +9747,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T10:36:26Z",
             "details": "TM 50.0 -> 50.0, grade B -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T10:46:09Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=gT5R01Z2J-0 (type: social-signal)"
           }
         ],
         "suiteComponents": [
@@ -11752,6 +11906,22 @@
             "class": "A",
             "notes": "Multi-agent orchestration paper — ~20 citations as of 2026-06-19 (arXiv:2602.06547)",
             "citations": 20
+          },
+          {
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "benchmark-result",
+            "class": "A",
+            "notes": "SWE-bench swarm solve rate: 84.8% (vendor claim, Feb 2026). Multi-agent SONA routing, up to 75% API cost savings."
+          },
+          {
+            "source": "https://www.youtube.com/@ReuvenCohen",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Reuven Cohen (rUv) official YouTube channel covering Ruflo/SPARC/multi-agent swarm orchestration. Official creator channel."
           }
         ],
         "createdAt": "2026-05-19",
@@ -11800,6 +11970,18 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T10:36:26Z",
             "details": "TM 18.99 -> 54.99, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T10:40:45Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/ruvnet/ruflo (type: benchmark-result)"
+          },
+          {
+            "timestamp": "2026-06-19T10:45:51Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/@ReuvenCohen (type: social-signal)"
           }
         ],
         "suiteComponents": [
@@ -12445,6 +12627,22 @@
             "class": "A",
             "notes": "GraphRAG / knowledge graph paper — ~89 citations as of 2026-06-19 (arXiv:2408.03910)",
             "citations": 89
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=q6t8xTjV5rM",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Charlie Automates YouTube: creator interview with Safi Shamsi explaining Graphify architecture and 70x token savings claim. Validated third-party creator."
+          },
+          {
+            "source": "https://github.com/safishamsi/graphify",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Consolidated GitHub community reviews (Issues + r/LocalLLaMA): token efficiency praised, Leiden clustering limits on non-modular codebases documented. Mid-2026."
           }
         ],
         "createdAt": "2026-05-14",
@@ -12482,12 +12680,24 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T09:34:47Z",
             "details": "TM 0.0 -> 86.57, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T10:41:29Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=q6t8xTjV5rM (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T10:47:07Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/safishamsi/graphify (type: peer-review)"
           }
         ],
         "type": "extra",
         "role": "variant",
         "overallTrustGrade": "A",
-        "trustMagnitude": 86.57,
+        "trustMagnitude": 116.57,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12593,6 +12803,22 @@
             "class": "A",
             "notes": "Automated unit test generation paper — ~15 citations as of 2026-06-19 (arXiv:2403.16218)",
             "citations": 15
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=fHNTpPpQQBo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Fahd Mirza YouTube: walkthrough of Upsonic Tiger local install as AI agent function hub. Third-party walkthrough."
+          },
+          {
+            "source": "https://github.com/Upsonic/Upsonic",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "SkillsMP Community: TestCase scaffolding works well for isolated classes, struggles with highly coupled enterprise framework mocking. April 2026."
           }
         ],
         "createdAt": "2026-04-30",
@@ -12618,12 +12844,24 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T09:34:47Z",
             "details": "TM 0.0 -> 3.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T10:43:12Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=fHNTpPpQQBo (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-06-19T10:48:02Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/Upsonic/Upsonic (type: peer-review)"
           }
         ],
         "type": "basic",
         "role": "origin",
         "overallTrustGrade": "A",
-        "trustMagnitude": 3.0,
+        "trustMagnitude": 33.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,

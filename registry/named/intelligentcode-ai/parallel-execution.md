@@ -22,9 +22,7 @@ evidence:
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: intelligentcode-ai/skills parallel-execution — concurrent work item execution
-    with independence verification and configurable concurrency (default 5). (backfilled
-    — class-to-type migration)
+  notes: intelligentcode-ai/skills parallel-execution — concurrent work item execution with independence verification and configurable concurrency (default 5). (backfilled — class-to-type migration)
   type: repo
   trustNumber: 50.0
   grade: C

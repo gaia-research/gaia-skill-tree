@@ -25,8 +25,7 @@ evidence:
   source: https://github.com/ruvnet/ruflo
   evaluator: mbtiongson1
   date: '2026-05-19'
-  notes: Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type
-    migration)
+  notes: Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
   grade: B

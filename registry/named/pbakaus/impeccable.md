@@ -36,8 +36,7 @@ evidence:
   date: '2026-06-19'
   type: github-stars-own
   class: A
-  notes: 38,000 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
-    standalone skill)
+  notes: 38,000 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)
   stars: 38000
 - source: https://arxiv.org/abs/2411.01606
   evaluator: mbtiongson1
@@ -88,6 +87,9 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://www.youtube.com/watch?v=k5f2uP33u5g (type:
     social-signal)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:52:25Z'
+  details: TM 77.8 -> 77.8, grade B -> B (direct edit -- CLI gap)
 trustMagnitude: 77.8
 overallTrustGrade: B
 apexGateStatus:
@@ -101,7 +103,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:20:18Z'
-trustMagnitudeInputHash: ce59d68021db89999e77ee93975fad82f4e8841b4f427bee9b3b234756a39424
+trustMagnitudeInputHash: e0a8aae0511e190f5fd35749bab3cecfd518a998c6d0361870fdf90d2dc3f4a7
 ---
 
 ## Overview

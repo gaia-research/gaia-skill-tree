@@ -48,6 +48,9 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://www.youtube.com/watch?v=kY0hN5-xK8U (type:
     social-signal)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:52:24Z'
+  details: TM 36.0 -> 36.0, grade C -> C (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/firecrawl/firecrawl
@@ -88,7 +91,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
-trustMagnitudeInputHash: 90c0823722780cb6ce523dca4ace8738d12d62e2f0ff49a1a5d4c660b4ff41e2
+trustMagnitudeInputHash: a7ceec171faf93f047127170d8aba78956872a0380f3b022f95f028e2ac50e5a
 ---
 
 ## Overview

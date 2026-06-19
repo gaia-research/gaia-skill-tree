@@ -18,8 +18,7 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind science_skills_common science-skill implementation.
-    (backfilled — class-to-type migration)
+  notes: Official Google DeepMind science_skills_common science-skill implementation. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
   grade: B

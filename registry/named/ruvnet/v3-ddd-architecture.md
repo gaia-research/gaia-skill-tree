@@ -27,8 +27,7 @@ evidence:
   source: https://github.com/ruvnet/ruflo
   evaluator: mbtiongson1
   date: '2026-06-10'
-  notes: Part of the Ruflo orchestration platform (public repo); DDD restructuring
-    of the v3 codebase documented in the suite. (backfilled — class-to-type migration)
+  notes: Part of the Ruflo orchestration platform (public repo); DDD restructuring of the v3 codebase documented in the suite. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
   grade: B

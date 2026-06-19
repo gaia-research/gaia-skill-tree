@@ -34,8 +34,8 @@ suiteComponents:
 - mattpocock/ubiquitous-language
 - mattpocock/write-a-skill
 - mattpocock/zoom-out
-trustMagnitude: 43.7
-overallTrustGrade: C
+trustMagnitude: 73.7
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -78,14 +78,16 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://github.com/mattpocock/skills (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:52:25Z'
+  details: TM 43.7 -> 73.7, grade C -> B (direct edit -- CLI gap)
 evidence:
 - source: https://github.com/mattpocock/skills/stargazers
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: github-stars-own
   class: A
-  notes: 133,210 GitHub stars as of 2026-06-19 (verified via firecrawl validation
-    report; mothership with 19 sub-skills, divisor=4)
+  notes: 133,210 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 19 sub-skills, divisor=4)
   stars: 133210
   skillCountInRepo: 19
 - source: https://arxiv.org/abs/2602.20867
@@ -111,7 +113,7 @@ evidence:
     failure on tenure (<26 days vs 180 required), recommended role:variant filtering.'
 verification:
   firstEvidenceAt: '2026-06-19T09:18:11Z'
-trustMagnitudeInputHash: 30231a973184fbe60cbeb8d4187e5c35cd56b6e76788a9c09fa298e75f31ba4b
+trustMagnitudeInputHash: 5f066f3a6cc05f5de620a8a0c1806306c333f46d37faea5131a2045a3e0f067b
 ---
 
 ## Installation

@@ -28,8 +28,7 @@ evidence:
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: Production skill that synthesises live conversation context into a fully-structured
-    PRD and publishes it to the issue tracker. (backfilled — class-to-type migration)
+  notes: Production skill that synthesises live conversation context into a fully-structured PRD and publishes it to the issue tracker. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
   grade: B

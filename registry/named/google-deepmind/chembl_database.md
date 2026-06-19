@@ -18,8 +18,7 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind chembl_database science-skill implementation. (backfilled
-    — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "Official Google DeepMind chembl_database science-skill implementation. (backfilled\" — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 70.0
   grade: B

@@ -24,10 +24,7 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/pair-agent/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Wires
-    a new MCP server into the Gstack agent environment, validates the tool manifest,
-    and demonstrates round-trip invocation through a test prompt. (backfilled — class-to-type
-    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "Public SKILL.md in the garrytan/gstack suite repo (verified live). Wires\" a new MCP server into the Gstack agent environment, validates the tool manifest, and demonstrates round-trip invocation through a test prompt. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 70.0
   grade: B

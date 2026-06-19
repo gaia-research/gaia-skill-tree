@@ -42,10 +42,7 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/scrape/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Fetches
-    target URLs with a headless browser, parses structured data from rendered HTML,
-    and returns clean JSON or markdown ready for downstream… (backfilled — class-to-type
-    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "Public SKILL.md in the garrytan/gstack suite repo (verified live). Fetches\" target URLs with a headless browser, parses structured data from rendered HTML, and returns clean JSON or markdown ready for downstream… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 70.0
   grade: B

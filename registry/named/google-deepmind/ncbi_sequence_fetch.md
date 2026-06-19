@@ -20,8 +20,7 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind ncbi_sequence_fetch science-skill implementation.
-    (backfilled — class-to-type migration)
+  notes: Official Google DeepMind ncbi_sequence_fetch science-skill implementation. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
   grade: B

@@ -24,10 +24,7 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/plan-tune/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Takes
-    a draft plan or system prompt, identifies vague or ambiguous instructions, and
-    rewrites them to reduce hallucination and improve task… (backfilled — class-to-type
-    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "Public SKILL.md in the garrytan/gstack suite repo (verified live). Takes\" a draft plan or system prompt, identifies vague or ambiguous instructions, and rewrites them to reduce hallucination and improve task… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 70.0
   grade: B
