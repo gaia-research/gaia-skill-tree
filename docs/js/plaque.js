@@ -239,6 +239,80 @@
       '</button>';
   }
 
+  // ── Trust Grade notch field helper (I8) ─────────────────────────
+  // ── Trust Grade notch field helper (I8) ─────────────────────────
+  // Pixel-thin colored bar flush at the card bottom.
+  // On plaque hover: bar expands to full label height, "MAG X.X" counts up
+  // from 0 to the real TM in <0.4s.
+  //
+  // DOM structure:
+  //   <div class="plaque__trust-notch" data-trust-grade="A" data-tm="122.8">
+  //     <span class="trust-notch-label">MAG <span class="trust-notch-num">0</span></span>
+  //   </div>
+  //
+  // The counter is wired in _wireTrustNotches(), called once per render cycle.
+  var GRADE_NAMES = { S: 'Platinum', A: 'Gold', B: 'Silver', C: 'Bronze' };
+
+  function _fieldTrustNotch(ns) {
+    var tg = (ns && (ns.overallTrustGrade || ns.trustGrade)) || '';
+    if (!tg || tg === 'ungraded' || !GRADE_NAMES[tg]) return '';
+    var tm = (ns && (ns.trustMagnitude || ns.overallTrustMagnitude));
+    var tmVal = (tm != null && tm !== '') ? parseFloat(Number(tm).toFixed(1)) : 0;
+    var gradeName = GRADE_NAMES[tg];
+    var ariaLabel = 'Trust grade: ' + gradeName + (tmVal > 0 ? ', magnitude ' + tmVal : '');
+    return '<div class="plaque__trust-notch" data-trust-grade="' + esc(tg) + '"' +
+      ' data-tm="' + esc(String(tmVal)) + '"' +
+      ' aria-label="' + esc(ariaLabel) + '">' +
+      '<span class="trust-notch-label">MAG <span class="trust-notch-num">0</span></span>' +
+      '</div>';
+  }
+
+  // Wire up the count-up animation for all notches inside a container.
+  // Safe to call multiple times — skips already-wired notches.
+  function _wireTrustNotches(root) {
+    root = root || document;
+    var notches = root.querySelectorAll
+      ? root.querySelectorAll('.plaque__trust-notch[data-tm]')
+      : [];
+    for (var i = 0; i < notches.length; i++) {
+      (function(notch) {
+        if (notch._tmWired) return;
+        notch._tmWired = true;
+        var target = parseFloat(notch.getAttribute('data-tm')) || 0;
+        var numEl = notch.querySelector('.trust-notch-num');
+        if (!numEl) return;
+        var plaque = notch.closest ? notch.closest('.plaque') : notch.parentElement;
+        if (!plaque) return;
+        var raf, startTs;
+        var DURATION = 380;
+        function countUp(ts) {
+          if (!startTs) startTs = ts;
+          var progress = Math.min((ts - startTs) / DURATION, 1);
+          var eased = 1 - (1 - progress) * (1 - progress);
+          var current = eased * target;
+          numEl.textContent = target % 1 === 0
+            ? Math.round(current).toString()
+            : current.toFixed(1);
+          if (progress < 1) raf = requestAnimationFrame(countUp);
+        }
+        function onEnter() {
+          cancelAnimationFrame(raf);
+          startTs = null;
+          numEl.textContent = '0';
+          raf = requestAnimationFrame(countUp);
+        }
+        function onLeave() {
+          cancelAnimationFrame(raf);
+          numEl.textContent = '0';
+        }
+        plaque.addEventListener('mouseenter', onEnter);
+        plaque.addEventListener('mouseleave', onLeave);
+      }(notches[i]));
+    }
+  }
+
+  if (typeof window !== 'undefined') window._wireTrustNotches = _wireTrustNotches;
+
   // ── plaque shell ─────────────────────────────────────────────────
   function _shell(variant, ns, innerHtml, extraOpts) {
     var type = (ns && ns.type) || 'basic';
@@ -253,11 +327,18 @@
     }
     var role = extraOpts.role ? ' role="' + esc(extraOpts.role) + '" tabindex="0"' : '';
     var extraAttrs = extraOpts.attrs || '';
+    // Inject trust notch at card bottom for all variants except mini-stack
+    // (mini-stack is a contributor mosaic with multiple skills; HoH individual
+    //  cards, tile, settled, row, og, detail, and hall all show the notch).
+    var isMiniStack = extraOpts.extraClass &&
+      extraOpts.extraClass.indexOf('plaque--mini-stack') !== -1;
+    var trustNotch = (!isMiniStack) ? _fieldTrustNotch(ns) : '';
     return '<article class="plaque plaque--' + esc(variant) + apex + extraCls +
       '" data-type="' + esc(type) + '" data-level="' + esc(n) +
       '" data-skill-id="' + esc(ns && ns.id || '') + '"' +
       clickAttr + role + extraAttrs + '>' +
       innerHtml +
+      trustNotch +
       '</article>';
   }
 
@@ -322,6 +403,9 @@
   // Field set: same as tile, laid horizontally. Description hidden via
   // CSS only — no silent field drops at the JS level.
   function renderRow(ns, opts) {
+    var evBadge = ns && ns.level
+      ? '<span class="plaque__ev-badge">' + esc(_evidenceClass(ns.level)) + '</span>'
+      : '';
     var inner =
       _fieldOrb(ns, 'sm') +
       _fieldSlug(ns) +
@@ -331,6 +415,7 @@
       _fieldInstallRow(ns) +
       _fieldRank(ns, 'chip') +
       _fieldGhLink(ns) +
+      evBadge +
       '<span class="plaque__arrow ns-lr-arrow" aria-hidden="true">›</span>';
 
     return _shell('row', ns, inner, opts);
@@ -428,7 +513,6 @@
       _fieldTags(ns, 5) +
       _fieldRank(ns, 'stars') +
       _fieldInstallRow(ns) +
-      '<div class="plaque__evidence plaque-evidence">' + esc(_evidenceClass(ns && ns.level)) + '</div>' +
       '<div class="plaque__underline plaque-underline plaque-underline--settled"></div>';
 
     return _shell('settled', ns, inner, opts);
