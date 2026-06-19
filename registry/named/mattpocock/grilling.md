@@ -4,7 +4,7 @@ name: Grilling
 contributor: mattpocock
 origin: false
 genericSkillRef: design-review
-status: awakened
+status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md
 level: 2★

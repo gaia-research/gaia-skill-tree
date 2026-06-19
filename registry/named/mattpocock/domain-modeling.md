@@ -4,7 +4,7 @@ name: Domain Modeling
 contributor: mattpocock
 origin: false
 genericSkillRef: domain-modeling
-status: awakened
+status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md
 level: 2★

@@ -4,7 +4,7 @@ name: Diagnosing Bugs
 contributor: mattpocock
 origin: false
 genericSkillRef: systematic-debugging
-status: awakened
+status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md
 level: 2★

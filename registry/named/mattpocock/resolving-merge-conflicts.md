@@ -4,7 +4,7 @@ name: Resolving Merge Conflicts
 contributor: mattpocock
 origin: false
 genericSkillRef: git-integration
-status: awakened
+status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts/SKILL.md
 level: 2★

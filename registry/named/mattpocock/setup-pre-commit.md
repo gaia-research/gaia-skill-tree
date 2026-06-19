@@ -4,7 +4,7 @@ name: Setup Pre-Commit
 contributor: mattpocock
 origin: false
 genericSkillRef: guardrails
-status: awakened
+status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md
 level: 2★

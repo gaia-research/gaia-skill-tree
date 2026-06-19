@@ -4,7 +4,7 @@ name: Scaffold Exercises
 contributor: mattpocock
 origin: false
 genericSkillRef: skill-authoring
-status: awakened
+status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/misc/scaffold-exercises/SKILL.md
 level: 2★

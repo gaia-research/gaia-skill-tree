@@ -4,7 +4,7 @@ name: Codebase Design
 contributor: mattpocock
 origin: false
 genericSkillRef: software-design
-status: awakened
+status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design/SKILL.md
 level: 2★

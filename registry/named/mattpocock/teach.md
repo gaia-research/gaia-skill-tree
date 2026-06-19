@@ -4,7 +4,7 @@ name: Teach
 contributor: mattpocock
 origin: false
 genericSkillRef: knowledge-management
-status: awakened
+status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md
 level: 2★
@@ -47,6 +47,16 @@ timeline:
   contributor: testuser
   details: 'Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/teach
     as C (trustNumber: 45.0)'
+- timestamp: '2026-06-19T18:39:16Z'
+  action: evidence_added
+  contributor: testuser
+  details: 'Added evidence from https://www.youtube.com/watch?v=s5T5oQJcJ6U (type:
+    social-signal)'
+- timestamp: '2026-06-19T18:39:16Z'
+  action: evidence_graded
+  contributor: testuser
+  details: 'Graded evidence from https://www.youtube.com/watch?v=s5T5oQJcJ6U as B
+    (trustNumber: 65.0)'
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md
   evaluator: unknown
@@ -68,6 +78,16 @@ evidence:
   trustNumber: 45.0
   grade: C
   notes: 'I13 classify: contributor-owned skill directory evidence'
+  sourceStartedAt: '2026-06-19'
+- source: https://www.youtube.com/watch?v=s5T5oQJcJ6U
+  evaluator: testuser
+  date: '2026-06-20'
+  type: social-signal
+  trustNumber: 65.0
+  grade: B
+  notes: 'I13 classify: YouTube video ''Learn anything with the /teach skill'' (86K
+    views) — mattpocock''s own channel'
+  views: 86000
   sourceStartedAt: '2026-06-19'
 verification:
   firstEvidenceAt: '2026-06-19T13:07:26Z'

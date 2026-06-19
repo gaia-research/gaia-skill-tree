@@ -4,7 +4,7 @@ name: Writing Great Skills
 contributor: mattpocock
 origin: false
 genericSkillRef: skill-authoring
-status: awakened
+status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills/SKILL.md
 level: 2★

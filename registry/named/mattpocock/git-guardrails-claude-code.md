@@ -4,7 +4,7 @@ name: Git Guardrails Claude Code
 contributor: mattpocock
 origin: false
 genericSkillRef: guardrails
-status: awakened
+status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code/SKILL.md
 level: 2★

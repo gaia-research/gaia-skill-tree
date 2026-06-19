@@ -4,7 +4,7 @@ name: Implement
 contributor: mattpocock
 origin: false
 genericSkillRef: executing-plans
-status: awakened
+status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md
 level: 2★

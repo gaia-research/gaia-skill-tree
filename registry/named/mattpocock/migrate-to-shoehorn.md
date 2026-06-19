@@ -4,7 +4,7 @@ name: Migrate to Shoehorn
 contributor: mattpocock
 origin: false
 genericSkillRef: refactor-code
-status: awakened
+status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/misc/migrate-to-shoehorn/SKILL.md
 level: 2★

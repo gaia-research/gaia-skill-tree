@@ -4,7 +4,7 @@ name: TDD
 contributor: mattpocock
 origin: false
 genericSkillRef: test-driven-development
-status: awakened
+status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md
 level: 2★

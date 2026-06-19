@@ -4,7 +4,7 @@ name: Ask Matt
 contributor: mattpocock
 origin: false
 genericSkillRef: route-intent
-status: awakened
+status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md
 level: 2★
