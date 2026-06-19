@@ -64,6 +64,7 @@
     { type: 'btn',  id: 'treeNavBtn',  label: 'Skill Tree',          color: '#34d399', cls: 'nav-tree' },
     { type: 'btn',  id: 'navGraphBtn', label: 'Skill Graph',          color: 'var(--tier-basic)', cls: 'nav-graph-trigger', attr: 'data-graph-trigger' },
     { type: 'link', href: root + 'codex.html',    label: 'The Codex',          color: 'var(--tier-basic)' },
+    { type: 'link', href: root + 'trust/leaderboard/', label: 'Trust Leaderboard', color: 'var(--evidence-gold)' },
     { type: 'link', href: root + 'starless.html', label: 'Starless',           color: 'var(--muted)' },
     { type: 'link', href: root + 'u/',            label: 'Named Contributors', color: 'var(--honor-red)' },
     { type: 'link', href: root + 'meta.html',     label: 'Meta Reports',       cls: 'nav-meta', id: 'metaNavBtn' },
