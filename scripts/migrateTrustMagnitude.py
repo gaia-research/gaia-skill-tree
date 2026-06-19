@@ -76,6 +76,28 @@ def buildGenericSkillMap(nodesDir: Path) -> dict[str, dict]:
     return gmap
 
 
+def buildNamedSkillMap(namedDir: Path) -> dict[str, dict]:
+    """Walk registry/named/**/*.md and return a dict keyed by skill id.
+
+    Named skills have IDs like ``obra/brainstorming`` (with a slash) so they
+    will never collide with generic node IDs.  The returned dicts carry the
+    full frontmatter so ``_gradedOriginCount`` can inspect ``overallTrustGrade``
+    when resolving fusion-recipe origins.
+    """
+    nmap: dict[str, dict] = {}
+    for p in namedDir.rglob("*.md"):
+        try:
+            fm, _ = loadNamedSkill(p)
+        except Exception:
+            continue
+        if fm is None:
+            continue
+        sid = fm.get("id")
+        if sid:
+            nmap[sid] = fm
+    return nmap
+
+
 def computeInputHash(skill: dict) -> str:
     """Stable hash of (skillId + sorted evidence row keys + suiteComponents).
 
@@ -156,7 +178,7 @@ def nowIso() -> str:
 
 def migrateSkill(
     path: Path,
-    genericSkillMap: dict[str, dict],
+    mergedMap: dict[str, dict],
     stats: dict[str, Any],
     dryRun: bool,
 ) -> None:
@@ -201,10 +223,10 @@ def migrateSkill(
         stats["phantomRemovals"].extend(removed)
 
     # Compute new TM, grade, apex gate
-    tmRaw = computeTrustMagnitude(fm, genericSkillMap)
+    tmRaw = computeTrustMagnitude(fm, mergedMap)
     tm = round(float(tmRaw), 2) if tmRaw is not None else 0.0
-    grade = computeOverallTrustGradeFromSkill(fm, genericSkillMap) or "ungraded"
-    gateResult = passesApexGate(fm, {"genericSkillMap": genericSkillMap})
+    grade = computeOverallTrustGradeFromSkill(fm, mergedMap) or "ungraded"
+    gateResult = passesApexGate(fm, {"genericSkillMap": mergedMap})
 
     # Provisional check — A/S rows missing sourceStartedAt
     provisional = hasMissingSourceStartedAt(fm)
@@ -286,6 +308,16 @@ def main(args: argparse.Namespace) -> int:
     genericSkillMap = buildGenericSkillMap(NODES_DIR)
     print(f"  loaded {len(genericSkillMap)} generic skills")
 
+    print(f"Building namedSkillMap from {NAMED_DIR}...")
+    namedSkillMap = buildNamedSkillMap(NAMED_DIR)
+    print(f"  loaded {len(namedSkillMap)} named skills")
+
+    # Merge: named skill IDs use 'owner/name' form — no collision with generic IDs.
+    # Named skill grades are initially whatever is on disk (all cleared to 'ungraded'
+    # before this run).  As each skill is migrated its updated frontmatter is written
+    # back into mergedMap so subsequent skills (esp. suites) see fresh grades.
+    mergedMap: dict[str, dict] = {**genericSkillMap, **namedSkillMap}
+
     paths = sorted(NAMED_DIR.rglob("*.md"))
     print(f"Found {len(paths)} named skill files")
 
@@ -304,7 +336,14 @@ def main(args: argparse.Namespace) -> int:
 
     for p in paths:
         try:
-            migrateSkill(p, genericSkillMap, stats, args.dryRun)
+            migrateSkill(p, mergedMap, stats, args.dryRun)
+            # Update mergedMap with the newly-migrated frontmatter so later skills
+            # (especially suites) see accurate grades for their components.
+            fm, _ = loadNamedSkill(p)
+            if fm is not None:
+                sid = fm.get("id")
+                if sid:
+                    mergedMap[sid] = fm
         except Exception as exc:
             print(f"  [err] {p.relative_to(REPO_ROOT)}: {exc}", file=sys.stderr)
             stats.setdefault("errors", []).append({
