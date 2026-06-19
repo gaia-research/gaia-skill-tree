@@ -26,10 +26,14 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:18Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 suiteRef: mattpocock/skills
 suiteComponents:
 - mattpocock/edit-article
 - mattpocock/obsidian-vault
+trustMagnitudeInputHash: 6d3e8fe18d151d7cb6dd617859e75e659faa6cc3bce88adf66195ef1886aa841
 ---
 
 ## Overview

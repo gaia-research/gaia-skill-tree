@@ -39,7 +39,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:07:57Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -50,6 +53,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
+trustMagnitudeInputHash: 82fcba6670a541fe676377eb9e9a3b16aadf48cb0aef73aef6fcbe4a70ed5409
 ---
 
 # UniBind Database Skill

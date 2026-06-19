@@ -38,6 +38,9 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T10:36:26Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md
@@ -51,8 +54,8 @@ evidence:
   contributors: 10
   trustNumber: 70.0
   grade: B
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -64,6 +67,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:17Z'
+trustMagnitudeInputHash: 3d01123aac42521b009db4ca9803edb48c63d32523bde8516740c444e299c722
 ---
 
 ## Overview

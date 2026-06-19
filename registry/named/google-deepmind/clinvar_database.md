@@ -37,7 +37,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:07:57Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -48,6 +51,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
+trustMagnitudeInputHash: 87f3cbbdecc70c80768d0f4507523df2ed16c69e115c294adc6ee82abc35386d
 ---
 
 # ClinVar Database

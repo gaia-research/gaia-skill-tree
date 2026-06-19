@@ -38,7 +38,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:07:57Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -49,6 +52,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
+trustMagnitudeInputHash: 70e660c8c4525d72d39ff29821cc859f5981d7bc2cdb2b665989312f3bb9e8d1
 ---
 
 # JASPAR Skill

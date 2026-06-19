@@ -44,8 +44,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T12:53:50Z'
   details: TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 45.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -71,6 +74,7 @@ evidence:
 verification:
   firstEvidenceAt: '2026-06-19T12:38:21Z'
 suiteRef: mattpocock/productivity
+trustMagnitudeInputHash: 1d906afe9a855f5ede2526bbb6693737df6c39405057dbb08ba7d96fa6abd8c5
 ---
 
 ## Overview

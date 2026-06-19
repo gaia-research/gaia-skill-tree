@@ -32,6 +32,9 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:19Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -43,6 +46,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
+trustMagnitudeInputHash: 4a4629c8d09e83dea07cf7913e06c679e92eb7627f2fb73f3f67f579bc5d9f55
 ---
 
 ## Overview

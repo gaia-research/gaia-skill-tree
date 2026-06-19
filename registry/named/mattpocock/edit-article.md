@@ -42,6 +42,9 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:52:12Z'
   details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md
@@ -55,7 +58,7 @@ evidence:
   grade: B
   commits: 137
   contributors: 3
-trustMagnitude: 0.0
+trustMagnitude: 11.21
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -68,6 +71,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:17Z'
+trustMagnitudeInputHash: 71225e279e7726a2ff06e1942a8e50ae29b6fd065eeb670f29c95201712fb452
 ---
 
 ## Overview

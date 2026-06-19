@@ -7,7 +7,7 @@ genericSkillRef: executing-plans
 status: awakened
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md
-level: "2★"
+level: 2★
 description: Implement a piece of work based on a PRD or issues using TDD at pre-agreed
   seams.
 createdAt: '2026-06-19'
@@ -21,6 +21,9 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md
   evaluator: unknown
@@ -28,6 +31,18 @@ evidence:
   class: B
 verification:
   firstEvidenceAt: '2026-06-19T13:05:31Z'
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 8e7f70de077103de425ca1ea8ff4b8afeef6d848874306414e47679def4d3383
 ---
 
 ## Installation

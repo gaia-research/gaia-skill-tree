@@ -79,8 +79,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T12:53:51Z'
   details: TM 36.0 -> 81.0, grade C -> B (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 81.0, grade ungraded -> B (direct edit -- CLI gap)
+trustMagnitude: 81.0
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -92,6 +95,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:51:31Z'
+trustMagnitudeInputHash: 57eb32192c3caef4855ec9363e47a5695af318f4bd39395758ff0f7966bcb492
 ---
 
 ## Overview

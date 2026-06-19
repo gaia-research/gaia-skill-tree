@@ -38,7 +38,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:07:57Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -49,6 +52,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
+trustMagnitudeInputHash: 580888f5a64fba3f19640eabaa681dc7bb94a32983b09d348eedfbcf6c382fd1
 ---
 
 # UniProt Database Access

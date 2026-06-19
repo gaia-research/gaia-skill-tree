@@ -13,8 +13,8 @@ createdAt: '2026-05-21'
 updatedAt: '2026-06-19'
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 30.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -36,6 +36,9 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T12:53:50Z'
   details: TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
 - source: https://github.com/mattpocock/skills/issues/189
   evaluator: mbtiongson1
@@ -46,6 +49,7 @@ evidence:
 verification:
   firstEvidenceAt: '2026-06-19T12:32:51Z'
 suiteRef: mattpocock/productivity
+trustMagnitudeInputHash: b465d715e6b28aa3c1fcc03f36ba73520d63fee9cba499c0e2c70600c1bcd51e
 ---
 
 ## Installation

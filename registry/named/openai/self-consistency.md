@@ -21,8 +21,8 @@ tags:
 - unique
 createdAt: '2026-05-15'
 updatedAt: '2026-06-19'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 100.0
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -46,6 +46,9 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T09:34:47Z'
   details: TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)
 evidence:
 - source: https://arxiv.org/abs/2203.11171
   evaluator: mbtiongson1
@@ -56,6 +59,7 @@ evidence:
   citations: 2000
 verification:
   firstEvidenceAt: '2026-06-19T09:25:06Z'
+trustMagnitudeInputHash: d23306f7b62a1ac700203a79421bbf217c5704eeaafe0ccb952ffda85a17e19d
 ---
 
 ## Overview
