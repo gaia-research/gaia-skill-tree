@@ -222,14 +222,16 @@ def _canonicalUrl(url: Optional[str]) -> Optional[str]:
     return s.lower()
 
 
+TYPE_ALIASES: dict = {'repo': 'repo-own'}
+
+
 def _typeOf(row: dict) -> Optional[str]:
-    """Resolve evidence row type, normalizing legacy 'repo' -> 'repo-own'."""
+    """Resolve evidence row type, normalizing legacy aliases (e.g. 'repo' -> 'repo-own')."""
     t = row.get("type")
     if not t:
         return None
-    if t == "repo":
-        return "repo-own"
-    return t
+    effectiveType = TYPE_ALIASES.get(t, t)
+    return effectiveType
 
 
 def _freshnessFactor(row: dict, evidenceType: str) -> float:
