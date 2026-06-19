@@ -239,6 +239,43 @@
       '</button>';
   }
 
+  // ── Trust Grade notch field helper (I8) ─────────────────────────
+  // Returns the .plaque__trust-notch HTML when skill.overallTrustGrade
+  // is a real grade (S/A/B/C), or an empty string when absent/ungraded.
+  // The notch is injected via _shell so every variant gets it automatically.
+  //
+  // Source fields checked in priority order:
+  //   1. ns.overallTrustGrade  (named-skills.json + docs/graph/named/index.json)
+  //   2. ns.trustGrade         (legacy alias, if present)
+  //
+  // For the .plaque--settled variant, the Trust Magnitude (TM) number is
+  // appended when available (ns.trustMagnitude || ns.overallTrustMagnitude).
+  var GRADE_NAMES = { S: 'Platinum', A: 'Gold', B: 'Silver', C: 'Bronze' };
+
+  function _fieldTrustNotch(ns, variant) {
+    var tg = (ns && (ns.overallTrustGrade || ns.trustGrade)) || '';
+    // Normalise: only accept canonical grades; ignore 'ungraded' / nullish
+    if (!tg || tg === 'ungraded' || !GRADE_NAMES[tg]) return '';
+
+    var gradeName = GRADE_NAMES[tg];
+    var letterHtml = '<span class="trust-notch-letter">' + esc(tg) + '</span>';
+    var nameHtml   = '<span class="trust-notch-name">' + esc(gradeName) + '</span>';
+
+    // Settled variant: append TM number when available
+    var tmHtml = '';
+    if (variant === 'settled') {
+      var tm = (ns && (ns.trustMagnitude || ns.overallTrustMagnitude));
+      if (tm != null && tm !== '') {
+        tmHtml = '<span class="trust-notch-tm" aria-hidden="true"> ·' + esc(String(tm)) + '</span>';
+      }
+    }
+
+    return '<div class="plaque__trust-notch" data-trust-grade="' + esc(tg) + '"' +
+      ' aria-label="Trust grade: ' + esc(gradeName) + '">' +
+      letterHtml + nameHtml + tmHtml +
+      '</div>';
+  }
+
   // ── plaque shell ─────────────────────────────────────────────────
   function _shell(variant, ns, innerHtml, extraOpts) {
     var type = (ns && ns.type) || 'basic';
@@ -253,11 +290,18 @@
     }
     var role = extraOpts.role ? ' role="' + esc(extraOpts.role) + '" tabindex="0"' : '';
     var extraAttrs = extraOpts.attrs || '';
+    // Trust Grade notch — injected for every variant except hall/mini-stack
+    // (those are contributor plates, not individual skill cards).
+    var trustNotch = '';
+    if (variant !== 'hall' && !(extraOpts.extraClass && extraOpts.extraClass.indexOf('plaque--mini-stack') !== -1)) {
+      trustNotch = _fieldTrustNotch(ns, variant);
+    }
     return '<article class="plaque plaque--' + esc(variant) + apex + extraCls +
       '" data-type="' + esc(type) + '" data-level="' + esc(n) +
       '" data-skill-id="' + esc(ns && ns.id || '') + '"' +
       clickAttr + role + extraAttrs + '>' +
       innerHtml +
+      trustNotch +
       '</article>';
   }
 
