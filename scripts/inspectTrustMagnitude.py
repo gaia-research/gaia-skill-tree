@@ -2,7 +2,9 @@
 """Inspect Trust Magnitude for named skills — single-skill breakdown or leaderboard.
 
 Usage:
-    python scripts/inspectTrustMagnitude.py --skill <skillId>
+    python scripts/inspectTrustMagnitude.py --skill <skillId>          # terminal
+    python scripts/inspectTrustMagnitude.py --skill <skillId> --json   # JSON to stdout
+    python scripts/inspectTrustMagnitude.py --skill <skillId> --html [--out path.html]
     python scripts/inspectTrustMagnitude.py --leaderboard
 """
 
@@ -380,6 +382,125 @@ def leaderboardMode() -> int:
     return 0
 
 
+def buildSkillJson(skillId: str, mergedMap: dict, namedSkillMap: dict) -> dict | None:
+    """Return a structured dict for a skill — used by both --json and --html modes."""
+    found = None
+    for p in NAMED_DIR.rglob("*.md"):
+        fm, _ = loadNamedSkill(p)
+        if fm is None:
+            continue
+        fmId = fm.get("id") or p.stem
+        if (fmId == skillId or p.stem == skillId or
+                str(p.relative_to(NAMED_DIR)).replace("\\", "/").replace(".md", "") == skillId):
+            found = (p, fm)
+            break
+    if found is None:
+        return None
+
+    path, fm = found
+    tm = computeTrustMagnitude(fm, mergedMap)
+    grade = computeOverallTrustGradeFromSkill(fm, mergedMap)
+    currentStars = fm.get("level") or fm.get("rank") or "?"
+    g7Stars, rankFlag = effectiveRank(grade, currentStars)
+    nextGrade, pointsNeeded = nextGradeInfo(tm)
+
+    apexResults = None
+    if grade == "S":
+        state = {"genericSkillMap": mergedMap, "namedSkillMap": namedSkillMap}
+        apexResults = passesApexGate(fm, state)
+
+    # Evidence rows
+    evidenceRows = []
+    for row in (fm.get("evidence") or []):
+        if not isinstance(row, dict):
+            continue
+        evidenceRows.append({
+            "type": row.get("type", ""),
+            "source": row.get("source") or row.get("url") or "",
+            "grade": row.get("grade") or row.get("class") or "",
+            "sourceStartedAt": row.get("sourceStartedAt"),
+            "lastVerified": row.get("lastVerified"),
+            "stars": row.get("stars"),
+            "views": row.get("views"),
+            "citations": row.get("citations"),
+        })
+
+    # Suite components with sub-data
+    suiteComponents = fm.get("suiteComponents") or []
+    compRows = []
+    for cid in suiteComponents:
+        cfm = namedSkillMap.get(cid) or {}
+        ctm = computeTrustMagnitude(cfm, mergedMap) if cfm else 0
+        cgrade = computeOverallTrustGradeFromSkill(cfm, mergedMap) if cfm else "ungraded"
+        cStars = cfm.get("level") or cfm.get("rank") or "?"
+        cNested = cfm.get("suiteComponents") or []
+        compRows.append({
+            "id": cid,
+            "name": cfm.get("name") or cfm.get("title") or cid.split("/")[-1],
+            "tm": round(ctm, 2),
+            "grade": cgrade,
+            "stars": cStars,
+            "nestedCount": len(cNested),
+        })
+    compRows.sort(key=lambda r: -r["tm"])
+
+    return {
+        "id": fm.get("id") or skillId,
+        "name": fm.get("name") or fm.get("title") or skillId,
+        "contributor": fm.get("contributor") or skillId.split("/")[0],
+        "description": fm.get("description") or "",
+        "stars": currentStars,
+        "starsLabel": starsLabel(currentStars),
+        "tm": round(tm, 2),
+        "grade": grade,
+        "g7Stars": g7Stars,
+        "g7StarsLabel": starsLabel(g7Stars),
+        "rankFlag": rankFlag,
+        "nextGrade": nextGrade,
+        "pointsNeeded": round(pointsNeeded, 2),
+        "createdAt": fm.get("createdAt") or "",
+        "updatedAt": fm.get("updatedAt") or "",
+        "evidence": evidenceRows,
+        "apexGate": apexResults,
+        "components": compRows,
+    }
+
+
+def jsonMode(skillId: str) -> int:
+    mergedMap, namedSkillMap = buildMaps()
+    data = buildSkillJson(skillId, mergedMap, namedSkillMap)
+    if data is None:
+        print(f"ERROR: skill '{skillId}' not found", file=sys.stderr)
+        return 1
+    print(json.dumps(data, indent=2, ensure_ascii=False))
+    return 0
+
+
+def htmlMode(skillId: str, outPath: str | None) -> int:
+    mergedMap, namedSkillMap = buildMaps()
+    data = buildSkillJson(skillId, mergedMap, namedSkillMap)
+    if data is None:
+        print(f"ERROR: skill '{skillId}' not found", file=sys.stderr)
+        return 1
+
+    templatePath = REPO_ROOT / "scripts" / "inspect_skill.html"
+    if not templatePath.exists():
+        print(f"ERROR: HTML template not found at {templatePath}", file=sys.stderr)
+        return 1
+    template = templatePath.read_text(encoding="utf-8")
+    html = template.replace("__SKILL_DATA__", json.dumps(data, ensure_ascii=False))
+
+    if outPath is None:
+        safeId = skillId.replace("/", "_")
+        outDir = REPO_ROOT / "generated-output"
+        outDir.mkdir(exist_ok=True)
+        outPath = str(outDir / f"inspect_{safeId}.html")
+
+    Path(outPath).write_text(html, encoding="utf-8")
+    print(f"Written: {outPath}")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Inspect Trust Magnitude for named skills")
     group = parser.add_mutually_exclusive_group(required=True)
@@ -387,12 +508,21 @@ def main() -> int:
                        help="Skill ID (e.g. contributor/name) to inspect in detail")
     group.add_argument("--leaderboard", action="store_true",
                        help="Show ranked leaderboard of all named skills by TM")
+    parser.add_argument("--json", action="store_true",
+                        help="Emit structured JSON instead of terminal text (--skill only)")
+    parser.add_argument("--html", action="store_true",
+                        help="Write interactive HTML viewer (--skill only)")
+    parser.add_argument("--out", metavar="PATH",
+                        help="Output path for --html (default: generated-output/<skillId>.html)")
     args = parser.parse_args()
 
     if args.leaderboard:
         return leaderboardMode()
-    else:
-        return inspectMode(args.skill)
+    if args.json:
+        return jsonMode(args.skill)
+    if args.html:
+        return htmlMode(args.skill, args.out)
+    return inspectMode(args.skill)
 
 
 if __name__ == "__main__":
