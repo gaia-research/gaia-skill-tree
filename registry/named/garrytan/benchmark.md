@@ -26,9 +26,10 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/benchmark/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Web performance
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Web performance
     benchmarking that captures baseline metrics, compares current performance against
-    those baselines, and identifies regressions in… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
+    those baselines, and identifies regressions in… (backfilled — class-to-type migration)
+    (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
   commits: 323
   contributors: 9
@@ -47,8 +48,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:14Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -58,9 +62,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e4e51edccd685ad24c6a2208ff9ecae7c12231ac6e1eeeae6a98849513dfe7e3
 verification:
   firstEvidenceAt: '2026-06-03T05:51:29Z'
+trustMagnitudeInputHash: e4e51edccd685ad24c6a2208ff9ecae7c12231ac6e1eeeae6a98849513dfe7e3
 ---
 
 ## Overview

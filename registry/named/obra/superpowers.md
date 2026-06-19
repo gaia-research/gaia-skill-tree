@@ -37,10 +37,12 @@ evidence:
   source: https://github.com/obra/superpowers
   evaluator: mbtiongson1
   date: '2026-05-18'
-  notes: obra/superpowers v5.1.0 — 196k+ GitHub stars, 17.5k forks, multi-platform
+  notes: 'obra/superpowers v5.1.0 — 196k+ GitHub stars, 17.5k forks, multi-platform
     adoption (Claude Code, Codex CLI, Factory Droid, Gemini CLI, OpenCode, Cursor,
     GitHub Copilot CLI). Most widely adopted AI agent discipline framework; confirms
-    landmark methodology status. (backfilled — class-to-type migration) repo not found on GitHub as of 2026-06-19 (CLI gap: commits+contributors not writable via gaia dev evidence)
+    landmark methodology status. (backfilled — class-to-type migration) repo not found
+    on GitHub as of 2026-06-19 (CLI gap: commits+contributors not writable via gaia
+    dev evidence)'
   type: repo
   commits: 0
   contributors: 0
@@ -74,6 +76,9 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T09:34:47Z'
   details: TM 0.0 -> 50.0, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 50.0 -> 50.0, grade B -> B (direct edit -- CLI gap)
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:

@@ -39,20 +39,24 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:19Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-10'
-  notes: Project-local agent skill used for curation PR review in this repository;
-    implementation public at SKILL.md. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
+  notes: 'Project-local agent skill used for curation PR review in this repository;
+    implementation public at SKILL.md. (backfilled — class-to-type migration) (CLI
+    gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
   commits: 90
   contributors: 10
   trustNumber: 70.0
   grade: B
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -62,9 +66,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: f682cbd19ddd24d961e8aca6f2e81fb5b6c0d4bffb026c5e7531ad48a82c3aaf
 verification:
   firstEvidenceAt: '2026-06-10T05:38:17Z'
+trustMagnitudeInputHash: f682cbd19ddd24d961e8aca6f2e81fb5b6c0d4bffb026c5e7531ad48a82c3aaf
 ---
 
 ## Overview

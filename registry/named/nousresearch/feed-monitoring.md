@@ -25,9 +25,10 @@ evidence:
   source: https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md
   evaluator: openai-codex
   date: '2026-05-06'
-  notes: Hermes Agent blogwatcher skill monitors blogs and RSS/Atom feeds with feed
+  notes: 'Hermes Agent blogwatcher skill monitors blogs and RSS/Atom feeds with feed
     discovery, scraping fallback, OPML import, and read/unread article management.
-    (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
+    (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable
+    via gaia dev evidence)'
   type: repo
   commits: 66
   contributors: 100
@@ -46,8 +47,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:19Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false

@@ -19,19 +19,27 @@ tags:
 - code-generation
 - self-correction
 createdAt: '2026-04-29'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 evidence:
 - class: B
   source: https://github.com/cognition-labs/devin
   evaluator: mbtiongson1
   date: '2026-05-17'
-  notes: Replaced missing seed evidence with live repository from real-skills catalog.
-    (backfilled — class-to-type migration) repo not found on GitHub as of 2026-06-19 (CLI gap: commits+contributors not writable via gaia dev evidence)
+  notes: 'Replaced missing seed evidence with live repository from real-skills catalog.
+    (backfilled — class-to-type migration) repo not found on GitHub as of 2026-06-19
+    (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
   commits: 0
   contributors: 0
   trustNumber: 70.0
   grade: B
+- source: https://arxiv.org/abs/2403.02128
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: benchmark-result
+  class: A
+  notes: 'SWE-bench unassisted: 13.86% resolved (2294 real-world GitHub issues, March
+    2024). Previous SOTA was 1.96%. Score: 13.86'
 timeline:
 - timestamp: '2026-06-02T23:48:17Z'
   action: demote
@@ -45,6 +53,13 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:14Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T10:34:41Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/abs/2403.02128 (type: benchmark-result)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -56,7 +71,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 75d8a46784a357df8b7c7abce35767c994ea0f514842fce452ea1381b1502215
+verification:
+  firstEvidenceAt: '2026-06-19T10:34:41Z'
+trustMagnitudeInputHash: c8eec9df5ad854fe7a5feed67f172478433366d30dda91e7d261653cf0af20d9
 ---
 
 ## Overview

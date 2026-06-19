@@ -26,7 +26,8 @@ evidence:
   date: '2026-06-10'
   notes: 'Exercised in this repository''s own CI: the docs drift check (gaia docs
     build --check) gates every PR, demonstrating the skill in production. (backfilled
-    — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
+    — class-to-type migration) (CLI gap: commits+contributors not writable via gaia
+    dev evidence)'
   type: repo
   commits: 90
   contributors: 10
@@ -45,8 +46,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:14Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -56,9 +60,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: d02eca188ada0d54c2033455cbee19d9b9c211973872c0bc4346a3aa4673f5f2
 verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
+trustMagnitudeInputHash: d02eca188ada0d54c2033455cbee19d9b9c211973872c0bc4346a3aa4673f5f2
 ---
 
 ## Overview

@@ -37,20 +37,24 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:14Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:25Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: Addy Osmani /test-driven-development slash command -- forces strict TDD workflow,
-    stopping agents from skipping tests. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
+  notes: 'Addy Osmani /test-driven-development slash command -- forces strict TDD
+    workflow, stopping agents from skipping tests. (backfilled — class-to-type migration)
+    (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
   commits: 260
   contributors: 36
   trustNumber: 70.0
   grade: B
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false

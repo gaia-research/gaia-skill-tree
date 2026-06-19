@@ -24,10 +24,10 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/unfreeze/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Clears
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Clears
     the active change-freeze flag and restores normal merge permissions, logging the
     unfreeze event with a timestamp and justification. (backfilled — class-to-type
-    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
   commits: 323
   contributors: 9
@@ -46,8 +46,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:16Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -57,9 +60,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 876d84293ed8e5a89a4ca73b3747dc4285bbc09725b55c81f010c754ff18e58a
 verification:
   firstEvidenceAt: '2026-06-03T05:51:30Z'
+trustMagnitudeInputHash: 876d84293ed8e5a89a4ca73b3747dc4285bbc09725b55c81f010c754ff18e58a
 ---
 
 ## Overview

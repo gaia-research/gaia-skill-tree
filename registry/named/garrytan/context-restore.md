@@ -24,10 +24,10 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/context-restore/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Reads
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Reads
     a saved context snapshot and reconstructs a warm session state, surfacing the
     last decision point and pending tasks so work can resume… (backfilled — class-to-type
-    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
   commits: 323
   contributors: 9
@@ -46,8 +46,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:14Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -57,9 +60,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 3853d4dc897b7a750348e721e768d51a372fc00f2dbdc84be0d0f6febcbc8366
 verification:
   firstEvidenceAt: '2026-06-03T05:51:31Z'
+trustMagnitudeInputHash: 3853d4dc897b7a750348e721e768d51a372fc00f2dbdc84be0d0f6febcbc8366
 ---
 
 ## Overview

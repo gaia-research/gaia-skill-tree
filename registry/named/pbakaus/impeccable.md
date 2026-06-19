@@ -23,8 +23,9 @@ evidence:
   source: https://github.com/pbakaus/impeccable
   evaluator: mbtiongson1
   date: '2026-05-14'
-  notes: Paul Bakaus /impeccable -- Elite design vocabulary and audit tool with 23
-    specialized polishing commands. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
+  notes: 'Paul Bakaus /impeccable -- Elite design vocabulary and audit tool with 23
+    specialized polishing commands. (backfilled — class-to-type migration) (CLI gap:
+    commits+contributors not writable via gaia dev evidence)'
   type: repo
   commits: 804
   contributors: 27
@@ -72,8 +73,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T09:34:47Z'
   details: TM 0.0 -> 41.8, grade ungraded -> C (direct edit -- CLI gap)
-trustMagnitude: 41.8
-overallTrustGrade: C
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 41.8 -> 77.8, grade C -> B (direct edit -- CLI gap)
+trustMagnitude: 77.8
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false

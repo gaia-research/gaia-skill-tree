@@ -25,10 +25,10 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/setup-deploy/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Provisions
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Provisions
     the deployment environment by creating secrets, configuring environment variables,
     and running infrastructure-as-code init steps before… (backfilled — class-to-type
-    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
   commits: 323
   contributors: 9
@@ -47,8 +47,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:15Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -58,9 +61,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 590e36924c0d8903168062c538a7e0e2d545e896db5744150503a4010bde3107
 verification:
   firstEvidenceAt: '2026-06-03T05:51:34Z'
+trustMagnitudeInputHash: 590e36924c0d8903168062c538a7e0e2d545e896db5744150503a4010bde3107
 ---
 
 ## Overview

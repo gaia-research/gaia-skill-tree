@@ -24,10 +24,10 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/freeze/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Sets a
-    change-freeze flag that blocks non-critical commits and PR merges until explicitly
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Sets
+    a change-freeze flag that blocks non-critical commits and PR merges until explicitly
     lifted, protecting release branches or post-incident… (backfilled — class-to-type
-    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
   commits: 323
   contributors: 9
@@ -46,8 +46,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:15Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -57,9 +60,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 7e81891d649c006cd1b5065cb4e7da8d11430d170061cacdf648dd7fbf8c2cc7
 verification:
   firstEvidenceAt: '2026-06-03T05:51:30Z'
+trustMagnitudeInputHash: 7e81891d649c006cd1b5065cb4e7da8d11430d170061cacdf648dd7fbf8c2cc7
 ---
 
 ## Overview

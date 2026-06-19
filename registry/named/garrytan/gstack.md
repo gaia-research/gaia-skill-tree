@@ -80,7 +80,8 @@ evidence:
     generic skill buckets; meets the >=5 named-skills threshold for Class A designation.
     Additionally: 98.9k GitHub stars, multi-platform adoption across 8+ runtimes (Claude
     Code, OpenAI Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes).
-    (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
+    (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable
+    via gaia dev evidence)'
   type: repo
   commits: 323
   contributors: 9
@@ -127,8 +128,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T09:34:47Z'
   details: TM 0.0 -> 73.32, grade ungraded -> B (direct edit -- CLI gap)
-trustMagnitude: 73.32
-overallTrustGrade: B
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 73.32 -> 109.32, grade B -> A (direct edit -- CLI gap)
+trustMagnitude: 109.32
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
