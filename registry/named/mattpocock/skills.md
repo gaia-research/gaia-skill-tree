@@ -61,6 +61,10 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)'
+- timestamp: '2026-06-19T09:22:46Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/abs/2602.20867 (type: arxiv)'
 evidence:
 - source: https://github.com/mattpocock/skills
   evaluator: mbtiongson1
@@ -69,6 +73,12 @@ evidence:
   class: A
   notes: 133,210 GitHub stars as of 2026-06-19 (verified via firecrawl validation
     report; mothership with 19 sub-skills, divisor=4)
+- source: https://arxiv.org/abs/2602.20867
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: arxiv
+  class: A
+  notes: Skills/tool-use paper — ~52 citations as of 2026-06-19 (arXiv:2602.20867)
 verification:
   firstEvidenceAt: '2026-06-19T09:18:11Z'
 ---

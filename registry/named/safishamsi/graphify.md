@@ -29,6 +29,10 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://github.com/safishamsi/graphify (type: github-stars-own)'
+- timestamp: '2026-06-19T09:22:28Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/abs/2408.03910 (type: arxiv)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -49,6 +53,12 @@ evidence:
   class: A
   notes: 68,766 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
     standalone skill)
+- source: https://arxiv.org/abs/2408.03910
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: arxiv
+  class: A
+  notes: GraphRAG / knowledge graph paper — ~89 citations as of 2026-06-19 (arXiv:2408.03910)
 verification:
   firstEvidenceAt: '2026-06-19T09:19:58Z'
 ---

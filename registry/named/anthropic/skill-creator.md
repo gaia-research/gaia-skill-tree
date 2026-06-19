@@ -19,7 +19,7 @@ tags:
 - claude-code
 - tool-creation
 createdAt: '2026-04-30'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-19'
 timeline:
 - timestamp: '2026-06-02T23:33:00Z'
   action: demote
@@ -28,6 +28,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:14Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T09:22:07Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/abs/2305.17126 (type: arxiv)'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -40,6 +44,16 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: ce4a2092ef8853b1b7310389a5a9e4c154e94d31b01c351cb655c77a17596f55
+evidence:
+- source: https://arxiv.org/abs/2305.17126
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: arxiv
+  class: A
+  notes: Toolformer / self-expanding agent paper — ~300 citations as of 2026-06-19
+    (arXiv:2305.17126)
+verification:
+  firstEvidenceAt: '2026-06-19T09:22:07Z'
 ---
 
 ## Overview
