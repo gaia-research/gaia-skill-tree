@@ -88,6 +88,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 5a285ad4ce39781560b51ab109e896053606239fe117082494fc6bd73efef651
+title: Codebase Design
 ---
 
 ## Installation

@@ -88,6 +88,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: d31d6dd3c0c78cbe391add61a21cff15dc0ac02eba367cebb5a1ad96eced2419
+title: Resolving Merge Conflicts
 ---
 
 ## Installation
