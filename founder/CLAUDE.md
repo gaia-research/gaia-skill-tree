@@ -26,6 +26,7 @@ The Orchestrator: tracks high-level goals against the roadmap, audits GitHub sta
 | `handovers/G7_IMPLEMENTATION_HANDOVER.md` | Active I1–I7 spec (Phase 1.5) |
 | `handovers/G7_TRUST_TAXONOMY_RFC.md` | G7 Trust Magnitude RFC v2 (ratified 2026-06-18) |
 | `handovers/G7_HANDOVER_DELTA_2026-06-17.md` | Amendments to G7 handover (apex gate 9→6 predicates, I7 addition) |
+| `handovers/WORKFLOW_PATTERNS.md` | Dynamic-workflow patterns: synthesizer-fallback (L1→L2→L3 mechanical), commit-frequently, recovery paths |
 | `handovers/phase-1.5/` | Per-issue specs I1–I9 + P6 zero-evidence skills list |
 | `handovers/done/` | Archived handovers (Phase 1 pre-G7 plans, hygiene batch, G7 proposals) |
 | `sources/` | Pre-collected evidence data lake (tiers 1–6) — verify before ingesting into registry |

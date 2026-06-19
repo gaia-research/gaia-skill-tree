@@ -2,6 +2,107 @@
 
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
+## State Snapshot (2026-06-20, session 15 final — Phase 1.5 consolidation complete)
+
+### TLDR
+
+- **All Phase 1.5 work shipped** to `dev/phase-1.5-inspection`. PR #742 (draft, → main) is the giant consolidation PR Marco reviews. Per founder/GIT.md §3.2 / Marco's standing rule: **never squash** — every commit on the consolidation lane is preserved.
+- **I10 / I11 / I12 merged in clean sequence** (no conflicts):
+  - I12 → dev at `2090ee31` (apex gate: depth-2 walker + suiteComponents, `--source-started-at` flag, 4 apex stamps)
+  - I11 → dev at `eae4c124` (58 evidence rows curated, 19/20 floor lifts, google-deepmind cluster to A)
+  - I10 → dev at `e111ae5e` (public `/trust/leaderboard/` page + CTAs + generator script)
+  - data.json regen at `d0bf9184`
+- **TM distribution:** S=4 / A=42 / B=56 / C=76 / ungraded=71 (was S=4/A=20/B=31/C=93/ungraded=101 pre-Phase-1.5). +30 across the C floor, +22 to A.
+- **Apex Promotion PR signed** by `mbtiongson1` for top-4 S-grade skills (gstack, ruflo, mattpocock/skills, superpowers). 4/6 predicates pass; §11.12.5 + §11.12.7 await follow-up curation.
+- **Stale PR #745 closed** (commits already absorbed by dev branch — was a rogue path to main).
+- **Single PR pattern enforced:** PR #742 is the only PR targeting main during Phase 1.5; all feature branches merged into the consolidation lane.
+- **founder/GIT.md polished** to reflect consolidation-PR pattern, current label set, skip-scope-check pre-approval, sprint hygiene.
+- **Meta-post workflow** (`wx5yz90ix`) running async — June 2026 retrospective with figures + fact-checking. Will commit when done.
+
+### Final routing — where to find everything
+
+| Artifact | Path |
+|---|---|
+| Active branch (Phase 1.5 lane) | `origin/dev/phase-1.5-inspection` @ `d0bf9184` |
+| Consolidation PR | #742 (draft, → main) |
+| Closed rogue PR | #745 (was → main; superseded) |
+| Tracking issues (open, Phase 1.5 milestone) | #746, #749, #750, #751 |
+| Final visual inspection | `generated-output/leaderboard.html` (54.5 KB), `generated-output/inspect_garrytan_gstack.html` |
+| Public trust leaderboard page | `docs/trust/leaderboard/` |
+| Public leaderboard data | `docs/graph/leaderboard/data.json` |
+| TM engine | `src/gaia_cli/trustMagnitude.py` |
+| Inspection CLI | `scripts/inspectTrustMagnitude.py` |
+| HTML template (committed at 246ac05c) | `scripts/leaderboard.html` |
+| Data lake (curation source) | `founder/sources/data_lake/i11_floor_pass.md` |
+| I11 target list | `founder/handovers/phase-1.5/I11_TARGETS.txt` |
+| PR #742 body source | `founder/handovers/phase-1.5/PR742_BODY.md` |
+| G7 RFC v2 (ratified) | `founder/handovers/G7_TRUST_TAXONOMY_RFC.md` |
+| Apex stamps (frontmatter) | `registry/named/garrytan/gstack.md`, `registry/named/ruvnet/ruflo.md`, `registry/named/mattpocock/skills.md`, `registry/named/obra/superpowers.md` |
+| Token cost ledger | `founder/COST.md` |
+| Worktree warmup boilerplate | `founder/CLAUDE.md` § Worktree rules |
+| GitHub hygiene rulebook | `founder/GIT.md` |
+
+### Branches at end of session
+
+| Branch | Head | Status |
+|---|---|---|
+| `dev/phase-1.5-inspection` | `d0bf9184` | All 3 feature branches merged; data.json regenerated; pushed. **DO NOT SQUASH on merge to main.** |
+| `design/trust-leaderboard` | `5cc1b9c6` | I10 merged into dev. Branch retained pending main merge. |
+| `cli/apex-gate-fixes` | `42e11c92` | I12 merged into dev. Branch retained. |
+| `review/meta/i11-floor-curation` | (head from I11 dispatch) | I11 merged into dev. Branch retained. |
+
+### Issues + PRs filed/touched this session
+
+| # | Type | Title | Milestone | State |
+|---|---|---|---|---|
+| 742 | PR (draft) | Phase 1.5 consolidation → main | Phase 1.5 | open, body refreshed with I10/I11/I12 |
+| 745 | PR | mattpocock v1.0.1 | Phase 1.5 | **closed (superseded)** |
+| 746 | issue | Apex gate predicates | Phase 1.5 | open (partially closed by #748) |
+| 747 | PR | I10 leaderboard | Phase 1.5 | merged into dev |
+| 748 | PR | I12 apex gate fixes | Phase 1.5 | merged into dev |
+| 749 | issue | RFC v3 ratification follow-ups | Phase 1.5 | open |
+| 750 | issue | I10 tracking | Phase 1.5 | open (resolved by #747 on main merge) |
+| 751 | issue | I11 source curation | Phase 1.5 | open (resolved by #753 on main merge) |
+| 753 | PR | I11 source curation | Phase 1.5 | merged into dev |
+
+### Apex gate state — top 4 S-grade skills (post-I12)
+
+```
+Apex gate: 4/6 active predicates pass (was 2/6 pre-I12)
+  PASS  §11.12.2  ≥1 direct component with suiteComponents
+  PASS  §11.12.3  ≥1 node reachable only at depth ≥ 2     ← I12 fix landed
+  PASS  §11.12.4  Overall Trust Grade S
+  PASS  §11.12.8  apex-promotion PR signed                ← Marco signed 2026-06-20
+  FAIL  §11.12.1  ≥5 A-graded origins (deeper origin curation pending)
+  FAIL  §11.12.7  Tenure ≥ 180 days (sourceStartedAt mostly empty pre-I11)
+```
+
+Applies identically to: `garrytan/gstack`, `ruvnet/ruflo`, `mattpocock/skills`, `obra/superpowers`.
+
+### What got locked in this session
+
+1. **Consolidation-PR pattern formalized** in `founder/GIT.md` §3.2 — single giant PR from `dev/<phase>-inspection` to main; feature branches target the consolidation lane, not main.
+2. **`skip-scope-check` standing pre-approval** documented in `founder/GIT.md` §3.3.
+3. **Worktree warmup boilerplate** baked into `founder/CLAUDE.md` (Marco 2026-06-20: agents always forget worktree rules — front-load them).
+4. **GIT.md hygiene checklist** in `founder/CLAUDE.md` — milestone + functional-label + `Resolves #<n>` always.
+5. **I12 depth-2 semantics** — Marco amended mid-task to allow overlap with depth-1 (cycle-self guard kept). RFC v3 ratification tracked in #749.
+6. **I12 `apex_pr_signed`** timeline action — no enum value in `gaia dev timeline --action`; agent fell back to `verified`. CLI extension tracked in #749.
+7. **Same-source dedup** + **mothership discount formula** + **peer-review highest-impact** + **benchmark percentile floor** + **CLI PYTHONPATH worktree quirk** + **social-signal view floor** documented in project-root `CLAUDE.md` §5 (I11 evidence-pipeline learnings).
+
+### Next steps (post-meta-post)
+
+1. Marco reviews PR #742 (the giant consolidation PR) and merges to main when satisfied. **Do not squash.**
+2. Post-merge cleanup: prune feature branches (`design/trust-leaderboard`, `cli/apex-gate-fixes`, `review/meta/i11-floor-curation`) one cycle later.
+3. Address #749 RFC v3 ratification follow-ups in Phase 2 kickoff.
+4. Address #746 §11.12.1 (A-graded origins) via deeper origin source curation — fast-follow.
+5. Address `generateNamedIndex.py` legacy threshold bug (S≥90/A≥80 vs G7 S≥250/A≥100) — tech-debt issue.
+
+### Token spend (session 15)
+
+See `founder/COST.md` for the full ledger and cumulative G7 totals.
+
+---
+
 ## State Snapshot (2026-06-20, session 15 — I10 + I12 shipped, I11 running in background)
 
 - **Repo:** `main` @ **v4.11.0** (unchanged). All Phase 1.5 work on `dev/phase-1.5-inspection`.
