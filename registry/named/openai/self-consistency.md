@@ -20,7 +20,7 @@ tags:
 - cot
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-05-15'
+updatedAt: '2026-06-19'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -37,6 +37,19 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:19Z'
   details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T09:25:06Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/abs/2203.11171 (type: arxiv)'
+evidence:
+- source: https://arxiv.org/abs/2203.11171
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: arxiv
+  class: A
+  notes: Self-Consistency CoT paper (Wang et al. 2022) — ~2000+ citations
+verification:
+  firstEvidenceAt: '2026-06-19T09:25:06Z'
 ---
 
 ## Overview
