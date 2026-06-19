@@ -938,70 +938,49 @@
         }
       ]
     },
-    "anthropic": {
-      "repos": [
-        "anthropics/skills"
-      ],
-      "skillsByRepo": {
-        "anthropics/skills": [
-          "anthropic/pptx",
-          "anthropic/skill-creator"
-        ]
-      },
-      "topSkill": "anthropic/pptx",
-      "topRank": 2,
-      "topIsUnique": false,
-      "count": 2,
-      "namedSkills": [
-        {
-          "id": "anthropic/pptx",
-          "name": "PPTX Editor",
-          "rank": 2,
-          "type": "basic",
-          "slash": "/pptx",
-          "file": "pptx.svg",
-          "fileSeal": "pptx-seal.svg"
-        },
-        {
-          "id": "anthropic/skill-creator",
-          "name": "Skill Creator",
-          "rank": 2,
-          "type": "extra",
-          "slash": "/skill-creator",
-          "file": "skill-creator.svg",
-          "fileSeal": "skill-creator-seal.svg"
-        }
-      ]
-    },
     "mattpocock": {
       "repos": [
         "mattpocock/skills"
       ],
       "skillsByRepo": {
         "mattpocock/skills": [
+          "mattpocock/ask-matt",
           "mattpocock/caveman",
+          "mattpocock/codebase-design",
           "mattpocock/diagnose",
+          "mattpocock/diagnosing-bugs",
+          "mattpocock/domain-modeling",
           "mattpocock/edit-article",
+          "mattpocock/git-guardrails-claude-code",
           "mattpocock/grill-me",
           "mattpocock/grill-with-docs",
+          "mattpocock/grilling",
           "mattpocock/handoff",
+          "mattpocock/implement",
           "mattpocock/improve-codebase-architecture",
+          "mattpocock/migrate-to-shoehorn",
           "mattpocock/obsidian-vault",
           "mattpocock/prototype",
+          "mattpocock/resolving-merge-conflicts",
+          "mattpocock/scaffold-exercises",
           "mattpocock/setup-matt-pocock-skills",
+          "mattpocock/setup-pre-commit",
           "mattpocock/skills",
+          "mattpocock/tdd",
+          "mattpocock/teach",
           "mattpocock/to-issues",
           "mattpocock/to-prd",
           "mattpocock/triage",
           "mattpocock/ubiquitous-language",
           "mattpocock/write-a-skill",
+          "mattpocock/writing-great-skills",
           "mattpocock/zoom-out"
         ]
       },
       "topSkill": "mattpocock/engineering",
       "topRank": 5,
       "topIsUnique": false,
-      "count": 20,
+      "count": 34,
       "namedSkills": [
         {
           "id": "mattpocock/engineering",
@@ -1148,6 +1127,24 @@
           "fileSeal": "write-a-skill-seal.svg"
         },
         {
+          "id": "mattpocock/ask-matt",
+          "name": "Ask Matt",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/ask-matt",
+          "file": "ask-matt.svg",
+          "fileSeal": "ask-matt-seal.svg"
+        },
+        {
+          "id": "mattpocock/codebase-design",
+          "name": "Codebase Design",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/codebase-design",
+          "file": "codebase-design.svg",
+          "fileSeal": "codebase-design-seal.svg"
+        },
+        {
           "id": "mattpocock/diagnose",
           "name": "Diagnose",
           "rank": 2,
@@ -1155,6 +1152,24 @@
           "slash": "/diagnose",
           "file": "diagnose.svg",
           "fileSeal": "diagnose-seal.svg"
+        },
+        {
+          "id": "mattpocock/diagnosing-bugs",
+          "name": "Diagnosing Bugs",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/diagnosing-bugs",
+          "file": "diagnosing-bugs.svg",
+          "fileSeal": "diagnosing-bugs-seal.svg"
+        },
+        {
+          "id": "mattpocock/domain-modeling",
+          "name": "Domain Modeling",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/domain-modeling",
+          "file": "domain-modeling.svg",
+          "fileSeal": "domain-modeling-seal.svg"
         },
         {
           "id": "mattpocock/edit-article",
@@ -1166,6 +1181,87 @@
           "fileSeal": "edit-article-seal.svg"
         },
         {
+          "id": "mattpocock/git-guardrails-claude-code",
+          "name": "Git Guardrails Claude Code",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/git-guardrails-claude-code",
+          "file": "git-guardrails-claude-code.svg",
+          "fileSeal": "git-guardrails-claude-code-seal.svg"
+        },
+        {
+          "id": "mattpocock/grilling",
+          "name": "Grilling",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/grilling",
+          "file": "grilling.svg",
+          "fileSeal": "grilling-seal.svg"
+        },
+        {
+          "id": "mattpocock/implement",
+          "name": "Implement",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/implement",
+          "file": "implement.svg",
+          "fileSeal": "implement-seal.svg"
+        },
+        {
+          "id": "mattpocock/migrate-to-shoehorn",
+          "name": "Migrate to Shoehorn",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/migrate-to-shoehorn",
+          "file": "migrate-to-shoehorn.svg",
+          "fileSeal": "migrate-to-shoehorn-seal.svg"
+        },
+        {
+          "id": "mattpocock/resolving-merge-conflicts",
+          "name": "Resolving Merge Conflicts",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/resolving-merge-conflicts",
+          "file": "resolving-merge-conflicts.svg",
+          "fileSeal": "resolving-merge-conflicts-seal.svg"
+        },
+        {
+          "id": "mattpocock/scaffold-exercises",
+          "name": "Scaffold Exercises",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/scaffold-exercises",
+          "file": "scaffold-exercises.svg",
+          "fileSeal": "scaffold-exercises-seal.svg"
+        },
+        {
+          "id": "mattpocock/setup-pre-commit",
+          "name": "Setup Pre-Commit",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/setup-pre-commit",
+          "file": "setup-pre-commit.svg",
+          "fileSeal": "setup-pre-commit-seal.svg"
+        },
+        {
+          "id": "mattpocock/tdd",
+          "name": "TDD",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/tdd",
+          "file": "tdd.svg",
+          "fileSeal": "tdd-seal.svg"
+        },
+        {
+          "id": "mattpocock/teach",
+          "name": "Teach",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/teach",
+          "file": "teach.svg",
+          "fileSeal": "teach-seal.svg"
+        },
+        {
           "id": "mattpocock/to-prd",
           "name": "To PRD",
           "rank": 2,
@@ -1175,6 +1271,15 @@
           "fileSeal": "to-prd-seal.svg"
         },
         {
+          "id": "mattpocock/writing-great-skills",
+          "name": "Writing Great Skills",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/writing-great-skills",
+          "file": "writing-great-skills.svg",
+          "fileSeal": "writing-great-skills-seal.svg"
+        },
+        {
           "id": "mattpocock/zoom-out",
           "name": "Zoom Out",
           "rank": 2,
@@ -1182,6 +1287,41 @@
           "slash": "/zoom-out",
           "file": "zoom-out.svg",
           "fileSeal": "zoom-out-seal.svg"
+        }
+      ]
+    },
+    "anthropic": {
+      "repos": [
+        "anthropics/skills"
+      ],
+      "skillsByRepo": {
+        "anthropics/skills": [
+          "anthropic/pptx",
+          "anthropic/skill-creator"
+        ]
+      },
+      "topSkill": "anthropic/pptx",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 2,
+      "namedSkills": [
+        {
+          "id": "anthropic/pptx",
+          "name": "PPTX Editor",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/pptx",
+          "file": "pptx.svg",
+          "fileSeal": "pptx-seal.svg"
+        },
+        {
+          "id": "anthropic/skill-creator",
+          "name": "Skill Creator",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/skill-creator",
+          "file": "skill-creator.svg",
+          "fileSeal": "skill-creator-seal.svg"
         }
       ]
     },

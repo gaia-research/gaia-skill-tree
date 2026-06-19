@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "4.11.0",
-  "generatedAt": "2026-06-19T14:17:36.854776Z",
+  "generatedAt": "2026-06-19T18:42:09.188040Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -4406,7 +4406,8 @@
           0.526604717503043,
           -0.0007202703942079338
         ]
-      }
+      },
+      "namedMaxLevel": "2★"
     },
     {
       "id": "dual-mode",
@@ -12723,7 +12724,8 @@
           0.3852506485939317,
           -0.00841347143083665
         ]
-      }
+      },
+      "namedMaxLevel": "2★"
     },
     {
       "id": "schema-design",
@@ -14381,7 +14383,8 @@
           -0.5923141180103954,
           -0.0007717891741297445
         ]
-      }
+      },
+      "namedMaxLevel": "2★"
     },
     {
       "id": "speech-to-text",
