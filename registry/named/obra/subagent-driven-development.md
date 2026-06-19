@@ -19,7 +19,7 @@ tags:
 - two-stage-review
 - multi-agent
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -32,12 +32,115 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 609
+  contributors: 36
+- source: https://github.com/obra/superpowers/issues/1809
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Fixes #1799 by adding -C DIR flag to review-package script to allow better
+    harness allowlisting.'
+- source: https://github.com/obra/superpowers/issues/1804
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'SDD: treatment arm 3/3 correct, control arm 0/3.'
+- source: https://github.com/obra/superpowers/issues/1799
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: SDD review-package friction with worktree workflows, resolved by -C DIR flag.
+- source: https://github.com/obra/superpowers/issues/1772
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Fixes task-brief path collision in SDD; repeated runs overwrite previous
+    briefs.
+- source: https://www.youtube.com/watch?v=6YltXh12W-g
+  evaluator: unknown
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering
+    brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).'
+  views: 4402
+- source: https://www.youtube.com/watch?v=6YltXh12W-g
+  evaluator: unknown
+  date: '2026-06-19'
 timeline:
 - timestamp: '2026-06-14T12:32:48Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/subagent-driven-development/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:19Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:58Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:41:59Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1809 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:42:16Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1804 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:42:32Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1799 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:42:48Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1772 (type:
+    peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:53:50Z'
+  details: TM 36.0 -> 88.5, grade C -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:43Z'
+  details: TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:25:53Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type:
+    social-signal)'
+- timestamp: '2026-06-19T14:26:11Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:47Z'
+  details: TM 88.5 -> 117.65, grade B -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:19Z'
+  details: TM 117.65 -> 117.65, grade A -> A (direct edit -- CLI gap)
+trustMagnitude: 117.65
+overallTrustGrade: A
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-19T12:41:58Z'
+trustMagnitudeInputHash: d7a7754e0096e07a63d0c78644848cd26091c03662b86cf3cca7af5135b1215b
 ---
 
 ## Overview

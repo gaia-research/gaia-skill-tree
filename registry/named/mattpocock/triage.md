@@ -22,24 +22,78 @@ tags:
 - agent-brief
 - github-issues
 createdAt: '2026-04-30'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: Production triage skill with state-machine workflow, HITL/AFK routing, and
-    structured agent-brief output. (backfilled — class-to-type migration)
+  notes: 'Production triage skill with state-machine workflow, HITL/AFK routing, and"
+    structured agent-brief output. (backfilled — class-to-type migration) (CLI gap:
+    --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 137
+  contributors: 3
+- source: https://github.com/mattpocock/skills/issues/205
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: GitHub issue about triage skill requirements.
+- source: https://github.com/mattpocock/skills/issues/289
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: GitHub issue about triage skill classification gap.
 timeline:
 - timestamp: '2026-06-14T12:32:44Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:18Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:37:49Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/issues/205 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:38:05Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/issues/289 (type:
+    peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:53:50Z'
+  details: TM 11.21 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:42Z'
+  details: TM 0.0 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)
+trustMagnitude: 56.21
+overallTrustGrade: B
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-19T12:37:49Z'
+trustMagnitudeInputHash: b42ad58a3257d98f302c8af93e6764416cb0013fcbf194586aef8699be94c842
 ---
 
 ## Overview

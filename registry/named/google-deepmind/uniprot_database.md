@@ -11,7 +11,7 @@ description: Access protein metadata, function, taxonomy, and sequences across U
   functional annotations and publications. Don't use for sequence alignment, protein
   folding, or sequence similarity search (use specialized skills for those tasks).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md
 evidence:
@@ -24,12 +24,59 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
+- source: https://academic.oup.com/nar/article/51/D1/D523/6835362
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'UniProt Consortium 2022 NAR: UniProt Universal Protein Knowledgebase in
+    2023. 5,729 citations (Semantic Scholar 2026-06-19).'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:39Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:17Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:57Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:39Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:22Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/51/D1/D523/6835362
+    (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:22Z'
+trustMagnitudeInputHash: aaf01865208b700817c1d42d5090578415b46fab3428a61e9006faa96c7faf70
 ---
 
 # UniProt Database Access

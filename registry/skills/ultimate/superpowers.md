@@ -32,7 +32,7 @@ Requires demonstrating all 11 obra discipline skills together in a real multi-st
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| obra/superpowers ⭑ | obra | 5★ | 1 |
+| obra/superpowers ⭑ | obra | 5★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

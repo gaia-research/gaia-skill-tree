@@ -5,21 +5,44 @@ contributor: ruvnet
 origin: false
 genericSkillRef: security-audit
 status: named
-title: "The Security Sentinel"
+title: The Security Sentinel
 catalogRef: ruvnet-v3-security-overhaul
-level: "2★"
-description: "Comprehensive Ruflo v3 security overhaul: zero-trust federation, PII detection, mTLS/ed25519 authentication, and CVE scanning."
+level: 2★
+description: 'Comprehensive Ruflo v3 security overhaul: zero-trust federation, PII
+  detection, mTLS/ed25519 authentication, and CVE scanning.'
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - security
-  - zero-trust
-  - mtls
-  - pii-detection
-  - v3-sprint
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo-v3"
+- security
+- zero-trust
+- mtls
+- pii-detection
+- v3-sprint
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo-v3
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:21Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:39Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:45Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitudeInputHash: 7e6907c41e2cee18d159bb817ec126d16f4a9efc5624dd108bdf57bafb99084d
 ---
 
 ## Overview

@@ -12,7 +12,7 @@ description: Retrieve protein and nucleotide sequences from NCBI databases using
   search. Use when you need to fetch biological sequences by accession, gene name,
   locus tag, PubMed ID, or patent number.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md
 evidence:
@@ -25,12 +25,63 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
+- source: https://academic.oup.com/nar/article/42/D1/D7/1054454
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 82.0
+  grade: A
+  notes: NCBI 2014 — NAR; GenBank/BLAST/Entrez infrastructure for sequence retrieval;
+    foundational bioinformatics resource
+  reviewers: 3
+  sourceStartedAt: '2014-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:34Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:16Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:57Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:39Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:06:58Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/42/D1/D7/1054454
+    (type: peer-review)'
+- timestamp: '2026-06-19T17:06:58Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://academic.oup.com/nar/article/42/D1/D7/1054454
+    as A (trustNumber: 82.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: true
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: c03993ef71fd4318c9967f5baf4af1bf13b9ef82bf3a5faaba2c33baae39c006
+verification:
+  firstEvidenceAt: '2026-06-19T17:06:58Z'
 ---
 
 # NCBI Sequence Fetch

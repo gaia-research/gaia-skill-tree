@@ -10,7 +10,7 @@ description: Use when you want to retrieve quantitative RNA expression data and 
   eQTL information from the GTEx (Genotype-Tissue Expression) Project across 54 non-diseased
   tissue sites.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md
 evidence:
@@ -23,12 +23,59 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
+- source: https://www.science.org/doi/10.1126/science.aaz1776
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'GTEx Consortium 2019 Science: GTEx atlas of genetic regulatory effects across
+    human tissues. 4,618 citations (Semantic Scholar 2026-06-19).'
+  reviewers: 3
 timeline:
 - timestamp: '2026-06-14T12:32:31Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:16Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:57Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:39Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:35Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.science.org/doi/10.1126/science.aaz1776
+    (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 100.82 -> 100.82, grade A -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:34Z'
+trustMagnitudeInputHash: efa65568e1ce4ed3ba621c3b2bcfbd63e14582c5440cd02dd18fc7c407763965
 ---
 
 # GTEx Database Integration

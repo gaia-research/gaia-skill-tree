@@ -12,7 +12,7 @@ description: Distills a completed user workflow or interaction into a reusable a
   what we just did", "package this workflow" or similar. Do not use for creating skills
   from scratch without an existing workflow (use a generic skill-creator for that).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md
 evidence:
@@ -25,12 +25,63 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
+- source: https://github.com/google-deepmind/science-skills
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 78.0
+  grade: B
+  notes: google-deepmind/science-skills workflow creator — meta-skill for composing
+    science database skill workflows
+  reviewers: 3
+  sourceStartedAt: '2024-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:40Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:17Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:57Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:40Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:06:48Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/google-deepmind/science-skills
+    (type: peer-review)'
+- timestamp: '2026-06-19T17:06:48Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/google-deepmind/science-skills
+    as B (trustNumber: 78.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: c8b411f2ad420b10dc898fd32a3f584b790df498231e6a3178b7353f75db7d30
+verification:
+  firstEvidenceAt: '2026-06-19T17:06:48Z'
 ---
 
 # Workflow-to-Skill Distiller

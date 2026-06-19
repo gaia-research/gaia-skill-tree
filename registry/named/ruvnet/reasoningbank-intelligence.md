@@ -30,6 +30,8 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6899
+  contributors: 32
 timeline:
 - timestamp: '2026-06-02T23:48:22Z'
   action: demote
@@ -40,6 +42,30 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber:
     70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:20Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:58Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:39Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:44Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 57bfaeddfe25fe1520c17cf9e65e3a5deb04808bde1c2f440bbc32756b18d2ba
 ---
 
 ## Overview

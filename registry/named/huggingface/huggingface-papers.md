@@ -5,20 +5,44 @@ contributor: huggingface
 origin: false
 genericSkillRef: literature-review
 status: named
-title: "The Paper Indexer"
+title: The Paper Indexer
 catalogRef: huggingface-papers
-level: "2★"
-description: Looks up Hugging Face paper pages and arXiv IDs, fetching markdown paper content and structured metadata such as authors, linked models, datasets, Spaces, GitHub repos, and project pages.
+level: 2★
+description: Looks up Hugging Face paper pages and arXiv IDs, fetching markdown paper
+  content and structured metadata such as authors, linked models, datasets, Spaces,
+  GitHub repos, and project pages.
 links:
   github: https://github.com/huggingface/skills/blob/main/skills/huggingface-papers/SKILL.md
 tags:
-  - huggingface
-  - papers
-  - arxiv
-  - metadata
-  - research
-createdAt: "2026-05-03"
-updatedAt: "2026-05-03"
+- huggingface
+- papers
+- arxiv
+- metadata
+- research
+createdAt: '2026-05-03'
+updatedAt: '2026-05-03'
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:17Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:40Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitudeInputHash: caa3be23d215c328005383bc1c45a6f26b9eb75b0540560329c34236054638a0
 ---
 
 ## Overview

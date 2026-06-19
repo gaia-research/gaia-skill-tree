@@ -9,6 +9,28 @@ level: 2★
 description: Chat, specs, tasks, and code. An autonomous engineering platform.
 createdAt: '2026-05-23'
 updatedAt: '2026-06-10'
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:14Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:36Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitudeInputHash: 6dce174228be06454c254121515bd283b15f0400e045fc6217d09808e81912d4
 ---
 
 ## Overview

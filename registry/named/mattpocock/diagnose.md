@@ -11,7 +11,7 @@ level: 2★
 description: Drives a rigorous five-phase debugging discipline — build a feedback
   loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed
   until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance
-  regressions.
+  regressions. Removed from mattpocock/skills suite in v1.0.1.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
 tags:
@@ -21,18 +21,40 @@ tags:
 - regression
 - root-cause-analysis
 createdAt: '2026-04-30'
-updatedAt: '2026-06-14'
-suiteRef: mattpocock/engineering
+updatedAt: '2026-06-20'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-10'
-  notes: Published implementation in Matt Pocock's skills repository; five-phase debugging
-    discipline documented and reproducible. (backfilled — class-to-type migration)
+  notes: 'Published implementation in Matt Pocock''s skills repository; five-phase
+    debugging" discipline documented and reproducible. (backfilled — class-to-type
+    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 137
+  contributors: 3
+- source: https://github.com/mattpocock/skills
+  evaluator: unknown
+  date: '2026-06-20'
+  type: github-stars-own
+  trustNumber: 88.0
+  grade: A
+  notes: mattpocock/skills suite — 137k GitHub stars; diagnose is part of this repo
+  stars: 137000
+  skillCountInRepo: 21
+  sourceStartedAt: '2025-01-01'
+- source: https://www.youtube.com/watch?v=EJyuu6zlQCg
+  evaluator: unknown
+  date: '2026-06-20'
+  type: social-signal
+  trustNumber: 82.0
+  grade: A
+  notes: Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers
+    mattpocock/skills repo (verified 2026-06-20)
+  views: 412000
+  sourceStartedAt: '2025-01-01'
 timeline:
 - timestamp: '2026-06-10T05:38:16Z'
   action: evidence_added
@@ -43,6 +65,55 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:18Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:41Z'
+  details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:07:27Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)'
+- timestamp: '2026-06-19T17:07:27Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/mattpocock/skills as A (trustNumber:
+    88.0)'
+- timestamp: '2026-06-19T17:07:28Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg (type:
+    social-signal)'
+- timestamp: '2026-06-19T17:07:29Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg as A
+    (trustNumber: 82.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:03Z'
+  details: TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)
+trustMagnitude: 90.38
+overallTrustGrade: B
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: true
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-10T05:38:16Z'
+suiteRef: mattpocock/engineering
+trustMagnitudeInputHash: 4bc1966f539e634f304282dbaa5f91ab0f894c0d45971725a69e36bd9a21b9de
 ---
 
 ## Overview

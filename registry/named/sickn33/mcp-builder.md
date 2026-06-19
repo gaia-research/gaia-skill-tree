@@ -20,6 +20,27 @@ timeline:
   action: demote
   contributor: unknown
   details: 'No installable code available; marked installable: false.'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:21Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:39Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:45Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 29aaab30000ac114bcf0293dc42016584f4ba66c3918f07d0ebe835ce90c17e3
 ---
 
 ## Overview

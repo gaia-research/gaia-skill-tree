@@ -3512,6 +3512,14 @@ def get_parser():
     )
     dev_update_named.add_argument("skill_id", help="Named skill ID (e.g. author/skill)")
     dev_update_named.add_argument("--status", help="New status (e.g. awakened, named)")
+    dev_update_named.add_argument(
+        "--title",
+        help="Display title (lore title) for the named skill — required by schema when status=named",
+    )
+    dev_update_named.add_argument(
+        "--catalog-ref",
+        help="Catalog reference slug (e.g. mattpocock-grill-me) — alternative to --title for satisfying the named-skill identity requirement",
+    )
     dev_update_named.add_argument("--generic-ref", help="New generic skill reference")
     dev_update_named.add_argument(
         "--suite-components", help="Comma-separated list of suite components"
@@ -3565,6 +3573,7 @@ def get_parser():
             "type_change",
             "suite_ref_set",
             "note",
+            "apex_pr_signed",
         ),
         help="The type of event action",
     )
@@ -3619,6 +3628,55 @@ def get_parser():
     dev_evidence.add_argument("--evaluator", help="GitHub username of the evaluator")
     dev_evidence.add_argument("--date", help="Date of evaluation (ISO 8601)")
     dev_evidence.add_argument("--notes", help="Optional notes about the evaluation")
+    dev_evidence.add_argument(
+        "--stars",
+        type=int,
+        metavar="N",
+        help="GitHub star count (for github-stars-own / github-stars-proxy types)",
+    )
+    dev_evidence.add_argument(
+        "--views",
+        type=int,
+        metavar="N",
+        help="View count (for social-signal type)",
+    )
+    dev_evidence.add_argument(
+        "--citations",
+        type=int,
+        metavar="N",
+        help="Citation count (for arxiv / peer-review types)",
+    )
+    dev_evidence.add_argument(
+        "--reviewers",
+        type=int,
+        metavar="N",
+        help="Number of peer reviewers (for peer-review type)",
+    )
+    dev_evidence.add_argument(
+        "--commits",
+        type=int,
+        metavar="N",
+        help="Commit count (for repo / repo-own types)",
+    )
+    dev_evidence.add_argument(
+        "--contributors",
+        type=int,
+        metavar="N",
+        help="Contributor count (for repo / repo-own types)",
+    )
+    dev_evidence.add_argument(
+        "--skill-count-in-repo",
+        dest="skill_count_in_repo",
+        type=int,
+        metavar="N",
+        help="Number of skills in the repo (mothership discount divisor for github-stars-own)",
+    )
+    dev_evidence.add_argument(
+        "--source-started-at",
+        dest="source_started_at",
+        metavar="YYYY-MM-DD",
+        help="ISO date the source content first existed (for tenure decay; populates evidence[].sourceStartedAt)",
+    )
     dev_evidence.add_argument(
         "--no-build",
         action="store_true",

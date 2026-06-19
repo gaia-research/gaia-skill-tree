@@ -1,8 +1,8 @@
-# [ruvnet](../../../docs/u/ruvnet/)/ruflo  [6★]
+# [ruvnet](../../../docs/u/ruvnet/)/ruflo  [5★]
 **ID:** multi-topology-orchestration  
 **Type:** Ultimate Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 6★  
+**Top named variant:** 5★  
 **Skill Call:** `/multi-topology-orchestration`
 
 ---
@@ -27,7 +27,7 @@ Requires demonstrating all 6 Ruflo suite fusions together in a production multi-
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| ruvnet/ruflo ⭑ | ruvnet | 6★ | 1 |
+| ruvnet/ruflo ⭑ | ruvnet | 5★ | 5 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

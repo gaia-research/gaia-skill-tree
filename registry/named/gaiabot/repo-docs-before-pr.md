@@ -26,8 +26,11 @@ evidence:
   date: '2026-06-10'
   notes: 'Exercised in this repository''s own CI: the docs drift check (gaia docs
     build --check) gates every PR, demonstrating the skill in production. (backfilled
-    — class-to-type migration)'
+    — class-to-type migration) (CLI gap: commits+contributors not writable via gaia
+    dev evidence)'
   type: repo
+  commits: 90
+  contributors: 10
   trustNumber: 70.0
   grade: B
 timeline:
@@ -40,6 +43,32 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:14Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:36Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-10T05:38:16Z'
+trustMagnitudeInputHash: 73a9df9acba590a4a8bb7d99df1e6f4827ffc7ed045571ac6d7c39f3ed1797ef
 ---
 
 ## Overview

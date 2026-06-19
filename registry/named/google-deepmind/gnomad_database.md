@@ -13,7 +13,7 @@ description: Query the Genome Aggregation Database (gnomAD). Use when determinin
   individual patient genomes, tracking somatic mutations in cancer (use COSMIC), or
   requesting raw sequencing reads (use ENA).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md
 evidence:
@@ -26,12 +26,59 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
+- source: https://www.nature.com/articles/s41586-020-2308-7
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Karczewski et al. 2020 Nature: The mutational constraint spectrum quantified
+    from 141,456 humans. 8,320 citations (Semantic Scholar 2026-06-19).'
+  reviewers: 3
 timeline:
 - timestamp: '2026-06-14T12:32:31Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:16Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:57Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:39Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:19Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.nature.com/articles/s41586-020-2308-7
+    (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 100.82 -> 100.82, grade A -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:19Z'
+trustMagnitudeInputHash: 27923e8b16fa85da1591afd2f703975961102b66632f8a8a7be54ec482ed5aea
 ---
 
 # gnomAD Database

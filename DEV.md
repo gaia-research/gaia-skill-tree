@@ -57,6 +57,18 @@ pip install -e ".[docs]"
 | `gaia promote <skillId>` | Promote a skill in your tree after a scan |
 | `gaia tree` | View your local-first user skill tree |
 | `gaia dev list --generic --named` | List generic and named skills |
+| `gaia dev evidence <skillId> <url> --class <S\|A\|B\|C\|D> --type <type>` | Add an evidence row to a skill (use the typed numeric flags below to drive Trust Magnitude correctly) |
+| `gaia dev evidence ... --stars N` | GitHub star count (for `github-stars-own` / `github-stars-proxy`) |
+| `gaia dev evidence ... --views N` | View count (for `social-signal`) |
+| `gaia dev evidence ... --citations N` | Citation count (for `arxiv` / `peer-review`) |
+| `gaia dev evidence ... --reviewers N` | Peer reviewer count (for `peer-review`; highest-impact type for science skills) |
+| `gaia dev evidence ... --commits N` | Commit count (for `repo` / `repo-own`) |
+| `gaia dev evidence ... --contributors N` | Contributor count (for `repo` / `repo-own`) |
+| `gaia dev evidence ... --skill-count-in-repo N` | Mothership discount divisor for `github-stars-own` (per-skill star contribution) |
+| `gaia dev evidence ... --source-started-at YYYY-MM-DD` | ISO date the source content first existed; populates `evidence[].sourceStartedAt` for the apex tenure predicate (RFC §11.12.7) |
+| `gaia dev evidence ... --index N` | Patch an existing evidence row in place (combine with any of the numeric flags above or `--source-started-at` to amend without re-adding) |
+
+> Numeric payload flags above (added during Phase 1.5) close the long-standing CLI gap that previously forced direct YAML edits for fields like `magnitude`, `reviewers`, and `views`. Always prefer the CLI so the timeline records the change.
 
 ---
 
@@ -159,7 +171,15 @@ Refer to [CLAUDE.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/CLAUD
   - `test_tui_tokens.py`, `test_meta_merge`, and `test_docs_build_can_run_from_registry_clone_without_registry_flag` fail in environments missing optional dependencies or due to CLI packaging constraints. Do not attempt to fix them in unrelated PRs.
   - `test_built_wheel_contains_only_python_package_data` and `test_wheel_install_smoke_tests_console_script` fail if your system has `setuptools<77` installed. Run `pip install "setuptools>=77"` to resolve this.
 
-### D. Version Lockstep Violation
+### D. Worktree CLI Resolves to Installed Version, Not Branch Source
+* **Symptom:** Running `python3 -m gaia_cli ...` (or the `gaia` shim) inside a `.claude/worktrees/<branch>/` checkout uses the system-installed CLI rather than the worktree source. New flags introduced on the branch (e.g. `--source-started-at`, `--reviewers`) are reported as unrecognized arguments.
+* **Fix:** Force the interpreter to import from the worktree source by setting `PYTHONPATH`:
+  ```bash
+  PYTHONPATH=/path/to/worktree/src python3 -m gaia_cli dev evidence ...
+  ```
+  Alternatively, run `pip install -e .` from inside the worktree to rebind the editable install to that checkout.
+
+### E. Version Lockstep Violation
 * **Symptom:** Pre-commit hook fails complaining about version mismatches.
 * **Fix:** The version strings in `pyproject.toml`, `packages/cli-npm/package.json`, `packages/mcp/package.json`, and `registry/gaia.json` must be identical. Align them automatically:
   ```bash

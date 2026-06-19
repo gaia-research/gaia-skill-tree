@@ -19,7 +19,7 @@ tags:
 - discipline
 - multi-skill
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteComponents:
 - obra/brainstorming
 - obra/dispatching-parallel-agents
@@ -37,19 +37,107 @@ evidence:
   source: https://github.com/obra/superpowers
   evaluator: mbtiongson1
   date: '2026-05-18'
-  notes: obra/superpowers v5.1.0 — 196k+ GitHub stars, 17.5k forks, multi-platform
+  notes: 'obra/superpowers v5.1.0 — 196k+ GitHub stars, 17.5k forks, multi-platform
     adoption (Claude Code, Codex CLI, Factory Droid, Gemini CLI, OpenCode, Cursor,
     GitHub Copilot CLI). Most widely adopted AI agent discipline framework; confirms
-    landmark methodology status. (backfilled — class-to-type migration)
+    landmark methodology status. (backfilled — class-to-type migration) commits+contributors
+    patched 2026-06-19 via obra/superpowers repo (CLI gap: no --commits flag on gaia
+    dev evidence)'
   type: repo
+  commits: 609
+  contributors: 36
   trustNumber: 70.0
   grade: B
+- source: https://github.com/obra/superpowers/stargazers
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: github-stars-own
+  class: A
+  notes: 230,818 GitHub stars as of 2026-06-19 (verified via firecrawl validation
+    report; mothership with 11+ sub-skills, divisor=4)
+  stars: 230818
+  skillCountInRepo: 11
+- source: https://www.youtube.com/watch?v=6YltXh12W-g
+  evaluator: unknown
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'Larridin podcast: ''Superpowers: How Jesse Built the #1 AI Claude Code/Codex
+    Plugin''. Jesse Vincent explains obra/superpowers agentic discipline. 4,402 views
+    (firecrawl verified 2026-06-19).'
+  views: 4402
 timeline:
 - timestamp: '2026-06-14T12:32:48Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/obra/superpowers as B (trustNumber:
     70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:19Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T09:17:53Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers (type: github-stars-own)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:47Z'
+  details: TM 0.0 -> 50.0, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 50.0 -> 50.0, grade B -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-19T10:46:09Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=gT5R01Z2J-0 (type:
+    social-signal)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:52:25Z'
+  details: TM 50.0 -> 86.0, grade B -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 86.0, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:43Z'
+  details: TM 0.0 -> 416.0, grade ungraded -> S (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:25:32Z'
+  action: evidence_removed
+  contributor: unknown
+  details: 'Removed dead/invalid evidence: https://www.youtube.com/watch?v=gT5R01Z2J-0'
+- timestamp: '2026-06-19T14:25:41Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type:
+    social-signal)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:47Z'
+  details: TM 416.0 -> 445.15, grade S -> S (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:19Z'
+  details: TM 445.15 -> 445.15, grade S -> S (direct edit -- CLI gap)
+- timestamp: '2026-06-19T16:27:40Z'
+  action: verified
+  contributor: unknown
+  details: 'Apex promotion PR stamped by Marco (founder/mbtiongson1) per #746 directive
+    — superpowers qualifies for §11.12.8 (apexPromotionPrSigned)'
+trustMagnitude: 445.15
+overallTrustGrade: S
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: true
+  apexPromotionPrSigned: true
+  apexPromotionPrSignedBy: mbtiongson1
+  apexPromotionPrSignedAt: '2026-06-20'
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-19T09:17:53Z'
+trustMagnitudeInputHash: 2d67b35c36b1d3e307febe93181725bf1ac72fc1f25555849b9517d275189606
 ---
 
 ## Overview

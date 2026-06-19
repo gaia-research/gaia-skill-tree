@@ -23,7 +23,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| safishamsi/graphify | safishamsi | 1★ | 0 |
+| safishamsi/graphify | safishamsi | 1★ | 4 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._
@@ -32,6 +32,7 @@ _Capability-level evidence for this generic reference. Every named implementatio
 |---|---|---|---|
 | A | https://arxiv.org/abs/2306.08302 | mbtiongson1 | 2026-04-28 |
 | B | https://github.com/microsoft/graphrag | mbtiongson1 | 2026-04-28 |
+| A | https://arxiv.org/abs/2408.03910 | mbtiongson1 | 2026-06-19 |
 
 ## Known Agents
 _None verified yet._

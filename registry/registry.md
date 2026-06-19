@@ -114,7 +114,7 @@
 | ◇ ████████/flow-nexus-swarm | Extra Skill | — | `/multi-agent-orchestration-v` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus | Extra Skill | 4★ | `/multi-node-orchestration` |
 | ○ [ruvnet](../docs/u/ruvnet/)/github-multi-repo | Basic Skill | 2★ | `/multi-repo-coordination` |
-| ◆ [ruvnet](../docs/u/ruvnet/)/ruflo | Ultimate Skill | 6★ | `/multi-topology-orchestration` |
+| ◆ [ruvnet](../docs/u/ruvnet/)/ruflo | Ultimate Skill | 5★ | `/multi-topology-orchestration` |
 | ◇ [huggingface](../docs/u/huggingface/)/transformers-js | Extra Skill | 2★ | `/multimodal-reasoning` |
 | ◇ /ontology-alignment | Extra Skill | — | `/ontology-alignment` |
 | ○ /optical-character-recognition | Basic Skill | — | `/optical-character-recognition` |
@@ -167,7 +167,7 @@
 | ○ /sentiment-analysis | Basic Skill | — | `/sentiment-analysis` |
 | ◇ [garrytan](../docs/u/garrytan/)/skillify | Extra Skill | 4★ | `/skill-authoring` |
 | ○ [vercel](../docs/u/vercel/)/find-skills | Basic Skill | 2★ | `/skill-discovery` |
-| ◆ [mattpocock](../docs/u/mattpocock/)/skills | Ultimate Skill | 6★ | `/skill-mastery` |
+| ◆ [mattpocock](../docs/u/mattpocock/)/skills | Ultimate Skill | 5★ | `/skill-mastery` |
 | ◇ [garrytan](../docs/u/garrytan/)/benchmark-models | Extra Skill | 3★ | `/skill-performance-benchmarking` |
 | ◇ /skill-security-analysis | Extra Skill | — | `/skill-security-analysis` |
 | ○ /speech-to-text | Basic Skill | — | `/speech-to-text` |
@@ -231,6 +231,7 @@
 | ○ Autonomous Engineering Platform | Intrinsic Skill | — | `/autonomous-engineering-platform` |
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
 | ○ Cultural Localization | Intrinsic Skill | — | `/cultural-localization` |
+| ○ Domain Modeling | Intrinsic Skill | — | `/domain-modeling` |
 | ○ Few-Shot Learning | Intrinsic Skill | 2★ | `/few-shot-learning` |
 | ○ Framework Upgrade | Intrinsic Skill | 2★ | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
@@ -242,6 +243,7 @@
 | ○ Self-Consistency | Intrinsic Skill | 2★ | `/self-consistency` |
 | ○ Semantic Cache | Intrinsic Skill | — | `/semantic-cache` |
 | ○ Sequential Agent Pipeline | Intrinsic Skill | 2★ | `/sequential-agent-pipeline` |
+| ○ Software Design | Intrinsic Skill | — | `/software-design` |
 | ○ Synthetic Data Generation | Intrinsic Skill | — | `/synthetic-data-generation` |
 | ○ Test-Driven Development | Intrinsic Skill | 3★ | `/test-driven-development` |
 | ○ Time Series Forecasting | Intrinsic Skill | — | `/time-series-forecasting` |

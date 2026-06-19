@@ -11,7 +11,7 @@ description: 'Measurement-driven performance workflow: baseline with Lighthouse 
   blocking, unoptimized images), verify against Core Web Vitals thresholds (LCP ≤2.5s,
   INP ≤200ms, CLS ≤0.1), and guard against regression with perf budgets.'
 createdAt: '2026-05-31'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 title: The Perf Loop
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
@@ -39,19 +39,66 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:14Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T09:20:40Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/addyosmani/agent-skills (type:
+    github-stars-own)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:46Z'
+  details: TM 0.0 -> 47.2, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:25Z'
+  details: TM 47.2 -> 83.2, grade C -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 83.2, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:36Z'
+  details: TM 0.0 -> 83.2, grade ungraded -> B (direct edit -- CLI gap)
 evidence:
 - class: A
   source: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
   evaluator: mbtiongson1
   date: '2026-05-31'
-  notes: Addy Osmani's performance-optimization SKILL.md in agent-skills repo (47.2k
+  notes: 'Addy Osmani''s performance-optimization SKILL.md in agent-skills repo (47.2k
     stars, verified 2026-05-31). Defines a measurement-driven 5-step workflow (Measure
     → Identify → Fix → Verify → Guard) with explicit Core Web Vitals thresholds. Qualifies
     for Class A per META §2.1 large-scale adoption criterion. (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 260
+  contributors: 36
   trustNumber: 70.0
   grade: B
+- source: https://github.com/addyosmani/agent-skills/stargazers
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: github-stars-own
+  class: A
+  notes: 47,200 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
+    standalone skill)
+  stars: 47200
+trustMagnitude: 83.2
+overallTrustGrade: B
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-19T09:20:40Z'
+trustMagnitudeInputHash: 32dbe25f29d47c797933a404beeec42d5f9e81254e88df6a574205f2153637a6
 ---
 
 ## Installation

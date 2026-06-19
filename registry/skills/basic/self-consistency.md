@@ -20,7 +20,7 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| openai/self-consistency | openai | 2★ | 0 |
+| openai/self-consistency | openai | 2★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

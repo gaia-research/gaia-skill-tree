@@ -23,7 +23,7 @@ tags:
 - orchestration
 - ultimate
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteComponents:
 - garrytan/benchmark
 - garrytan/benchmark-models
@@ -80,16 +80,84 @@ evidence:
     generic skill buckets; meets the >=5 named-skills threshold for Class A designation.
     Additionally: 98.9k GitHub stars, multi-platform adoption across 8+ runtimes (Claude
     Code, OpenAI Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes).
-    (backfilled — class-to-type migration)'
+    (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable
+    via gaia dev evidence)'
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
+- source: https://github.com/garrytan/gstack/stargazers
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: github-stars-own
+  class: A
+  notes: 110,930 GitHub stars as of 2026-06-19 (verified via firecrawl validation
+    report; mothership with 47 sub-skills, divisor=4)
+  stars: 110930
+  skillCountInRepo: 47
+- source: https://www.youtube.com/watch?v=wkv2ifxPpF8
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: Y Combinator YouTube feature — Garry Tan demonstrates Gstack as AI Engineering
+    Team (official YC channel); topical authority signal (creator_mult 1.0)
+  views: 500000
 timeline:
 - timestamp: '2026-06-14T12:32:22Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/garrytan/gstack as B (trustNumber:
     70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:15Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T09:18:28Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)'
+- timestamp: '2026-06-19T09:28:10Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=wkv2ifxPpF8 (type:
+    social-signal)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:29:08Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T09:34:47Z'
+  details: TM 0.0 -> 73.32, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 73.32 -> 109.32, grade B -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 109.32, grade ungraded -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:37Z'
+  details: TM 0.0 -> 589.32, grade ungraded -> S (direct edit -- CLI gap)
+- timestamp: '2026-06-19T16:27:29Z'
+  action: verified
+  contributor: unknown
+  details: 'Apex promotion PR stamped by Marco (founder/mbtiongson1) per #746 directive
+    — gstack qualifies for §11.12.8 (apexPromotionPrSigned)'
+trustMagnitude: 589.32
+overallTrustGrade: S
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: true
+  depth2OnlyReachableGte1: false
+  overallGradeS: true
+  apexPromotionPrSigned: true
+  apexPromotionPrSignedBy: mbtiongson1
+  apexPromotionPrSignedAt: '2026-06-20'
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-19T09:18:27Z'
+trustMagnitudeInputHash: 1487c2042544e947cfda07cc8779022ed8747a69c3dfac8c1ec225b1400389fc
 ---
 
 ## Overview

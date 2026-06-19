@@ -10,7 +10,7 @@ description: Query the ChEMBL database for bioactive molecules, drug targets, bi
   data, approved drugs, and chemical structures. Use when the user asks about compounds,
   targets, IC50/Ki values, drug mechanisms, or structure searches.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md
 evidence:
@@ -18,17 +18,65 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind chembl_database science-skill implementation. (backfilled
-    — class-to-type migration)
+  notes: 'Official Google DeepMind chembl_database science-skill implementation. (backfilled"
+    — class-to-type migration) (CLI gap: --commits/--contributors not supported by
+    gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
+- source: https://academic.oup.com/nar/article/47/D1/D930/5162468
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Mendez et al. 2018 NAR: ChEMBL towards direct deposition of bioassay data.
+    1,976 citations (Semantic Scholar 2026-06-19). Primary ChEMBL database paper.'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:28Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:16Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:38Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:23:42Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/47/D1/D930/5162468
+    (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:45Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-19T14:23:42Z'
+trustMagnitudeInputHash: b1c6b84332039ff3c718f5857e0d62b8eb5ca00ad919c3b29ddd0b3a66fb4c50
 ---
 
 # ChEMBL Database Query

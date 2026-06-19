@@ -21,40 +21,43 @@ from gaia_cli.grading import (
 # ---------------------------------------------------------------------------
 
 class TestDeriveGrade:
+    # G7 Trust Magnitude floors (ratified 2026-06-18): S≥250, A≥100, B≥50, C≥20.
+    # The legacy bounded trustNumber thresholds (40/60/80/90) were retired in the
+    # G7 cutover; derive_grade now consumes Trust Magnitude (unbounded float).
     def test_below_floor_is_ungraded(self):
-        assert derive_grade(39) is None
+        assert derive_grade(19) is None
 
     def test_c_floor(self):
-        assert derive_grade(40) == "C"
+        assert derive_grade(20) == "C"
 
     def test_c_interior(self):
-        assert derive_grade(59) == "C"
+        assert derive_grade(49) == "C"
 
     def test_b_floor(self):
-        assert derive_grade(60) == "B"
+        assert derive_grade(50) == "B"
 
     def test_b_interior(self):
-        assert derive_grade(79) == "B"
+        assert derive_grade(99) == "B"
 
     def test_a_floor(self):
-        assert derive_grade(80) == "A"
+        assert derive_grade(100) == "A"
 
     def test_a_interior(self):
-        assert derive_grade(89) == "A"
+        assert derive_grade(249) == "A"
 
     def test_s_floor(self):
-        assert derive_grade(90) == "S"
+        assert derive_grade(250) == "S"
 
     def test_s_above(self):
-        assert derive_grade(100) == "S"
+        assert derive_grade(500) == "S"
 
     def test_zero_is_ungraded(self):
         assert derive_grade(0) is None
 
     def test_float_trust(self):
-        assert derive_grade(80.0) == "A"
-        assert derive_grade(39.9) is None
-        assert derive_grade(40.0) == "C"
+        assert derive_grade(100.0) == "A"
+        assert derive_grade(19.9) is None
+        assert derive_grade(20.0) == "C"
 
     def test_custom_thresholds(self):
         thresholds = {"S": 95, "A": 85, "B": 70, "C": 50}
@@ -456,14 +459,14 @@ class TestEvidenceCLI:
         monkeypatch.setattr(sys, "argv", [
             "gaia", "--registry", str(tmp_path), "dev", "evidence",
             "test-skill", "http://example.com/paper",
-            "--type", "arxiv", "--trust", "85", "--no-build",
+            "--type", "arxiv", "--trust", "150", "--no-build",
         ])
         from gaia_cli.main import main
         main()
         node = json.loads((tmp_path / "registry" / "nodes" / "basic" / "test-skill.json").read_text())
         ev = node["evidence"][-1]
         assert ev["grade"] == "A"
-        assert ev["trustNumber"] == 85.0
+        assert ev["trustNumber"] == 150.0
         assert ev["type"] == "arxiv"
 
     def test_trust_below_40_is_ungraded(self, tmp_path, monkeypatch):
@@ -471,14 +474,14 @@ class TestEvidenceCLI:
         monkeypatch.setattr(sys, "argv", [
             "gaia", "--registry", str(tmp_path), "dev", "evidence",
             "test-skill", "http://example.com/x",
-            "--trust", "30", "--no-build",
+            "--trust", "10", "--no-build",
         ])
         from gaia_cli.main import main
         main()
         node = json.loads((tmp_path / "registry" / "nodes" / "basic" / "test-skill.json").read_text())
         ev = node["evidence"][-1]
         assert "grade" not in ev
-        assert ev["trustNumber"] == 30.0
+        assert ev["trustNumber"] == 10.0
 
     def test_invalid_type_rejected(self, tmp_path, monkeypatch):
         self.write_fixture_skill(tmp_path)
@@ -528,7 +531,7 @@ class TestEvidenceCLI:
         monkeypatch.setattr(sys, "argv", [
             "gaia", "--registry", str(tmp_path), "dev", "evidence",
             "test-skill", "http://example.com/x",
-            "--trust", "90", "--no-build",
+            "--trust", "300", "--no-build",
         ])
         from gaia_cli.main import main
         main()

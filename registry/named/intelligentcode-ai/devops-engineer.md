@@ -19,24 +19,78 @@ tags:
 - kubernetes
 - terraform
 - rollback
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: intelligentcode-ai/skills devops-engineer — CI/CD pipeline design and deployment
-    automation with build systems and release management. (backfilled — class-to-type
-    migration)
+  notes: intelligentcode-ai/skills — practical coding agent skills; devops-engineer
+    provides production-ready implementation (trust updated from C=50 to B-equiv=65)
   type: repo
-  trustNumber: 50.0
-  grade: C
+  trustNumber: 65.0
+  grade: B
+  commits: 34
+  contributors: 1
+- source: https://github.com/intelligentcode-ai/skills
+  evaluator: unknown
+  date: '2026-06-20'
+  type: self-attestation
+  trustNumber: 60.0
+  grade: B
+  notes: intelligentcode-ai/skills suite self-attested via README description; practical
+    agent skill for devops-engineer domain
+  sourceStartedAt: '2025-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:41Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md
     as C (trustNumber: 50.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:17Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:40Z'
+  details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:10:08Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md
+    as B (trustNumber: 65.0)'
+- timestamp: '2026-06-19T17:10:43Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/intelligentcode-ai/skills (type:
+    self-attestation)'
+- timestamp: '2026-06-19T17:10:44Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/intelligentcode-ai/skills as B
+    (trustNumber: 60.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 6.3
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 69abf5236f9a1a5aa4b8f1faa39ff215cc29866b13b0e0d77e8f551a31059e08
+verification:
+  firstEvidenceAt: '2026-06-19T17:10:43Z'
 ---
 
 ## Overview

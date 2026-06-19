@@ -11,7 +11,7 @@ description: Query ClinicalTrials.gov via APIv2. Use when you want to search for
   check eligibility/inclusion criteria; count trials across conditions or time periods;
   identify a sponsor's trial portfolio; find recruiting trials for patient matching.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md
 evidence:
@@ -24,12 +24,60 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
+- source: https://clinicaltrials.gov/about-site/about-ctgov
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'ClinicalTrials.gov: NIH/NLM clinical study registry. Primary infrastructure
+    for the ClinicalTrials database skill. Mandatory registration required by FDA/NIH
+    since 2007.'
+  reviewers: 2
 timeline:
 - timestamp: '2026-06-14T12:32:29Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:16Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:57Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:38Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:49Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://clinicaltrials.gov/about-site/about-ctgov
+    (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:45Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:48Z'
+trustMagnitudeInputHash: cfd8143ddd2067e469ab37e441446e05261f526dbe7fef4bbb3d797aaecf7ed1
 ---
 
 # Clinical Trials Database

@@ -10,7 +10,7 @@ description: Query PubChem, search by name/CID/SMILES, retrieve properties, simi
   searches, bioactivity, for cheminformatics. Use when a user asks about a specific
   chemical, drug, or molecule.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md
 evidence:
@@ -23,12 +23,63 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
+- source: https://academic.oup.com/nar/article/53/D1/D1516/7903365
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 85.0
+  grade: A
+  notes: PubChem 2025 — NAR; comprehensive public chemical database, biological activities
+    data
+  reviewers: 3
+  sourceStartedAt: '2025-01-07'
 timeline:
 - timestamp: '2026-06-14T12:32:36Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:17Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:57Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:39Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:05:44Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/53/D1/D1516/7903365
+    (type: peer-review)'
+- timestamp: '2026-06-19T17:05:44Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://academic.oup.com/nar/article/53/D1/D1516/7903365
+    as A (trustNumber: 85.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: true
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 9628973e66bc1b5f94eda26b168eec00aea477114e2ca118d2a6073ef61934fb
+verification:
+  firstEvidenceAt: '2026-06-19T17:05:44Z'
 ---
 
 # PubChem Database

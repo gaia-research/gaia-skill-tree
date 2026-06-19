@@ -42,7 +42,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
 
 <!-- gaia:registry-start -->
 ```text
-◆ mattpocock/skills  [6★]
+◆ mattpocock/skills  [5★]
   ├─ ◆ mattpocock/engineering  [5★]
   │  ├─ ◇ mattpocock/diagnose  [2★]
   │  │  ├─ ○ garrytan/design-html  [4★]
@@ -51,7 +51,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
   │  ├─ ○ mattpocock/improve-codebase-architecture  [3★]
   │  ├─ ◇ garrytan/garrytan  [4★]
   │  │  ├─ ○ /plan-decompose
-  │  │  └─ ○ /route-intent
+  │  │  └─ ○ mattpocock/ask-matt  [2★]
   │  ├─ ◇ mattpocock/to-prd  [2★]
   │  │  ├─ ○ garrytan/retro  [3★]
   │  │  └─ ○ /plan-decompose  (↑ see above)
@@ -68,7 +68,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
   ├─ ○ pbakaus/impeccable  [4★]
   ├─ ◇ garrytan/garrytan  [4★]
   │  ├─ ○ /plan-decompose
-  │  └─ ○ /route-intent
+  │  └─ ○ mattpocock/ask-matt  [2★]
   ├─ ◇ garrytan/design-consultation  [4★]
   │  ├─ ◇ browserbase/stagehand  [2★]
   │  │  ├─ ○ /web-search
@@ -77,7 +77,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
   ◉ ruvnet/hive-mind-coordination  [4★]
 
-(228 skills total — see docs/tree.md)
+(230 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 
@@ -110,9 +110,11 @@ Gaia uses a tiered star system (**0★–6★**) to rank agent capabilities.
 | ◇ Extra | Composite workflow | 2★ → 4★ |
 | ◆ Ultimate | Platform capstone | 5★ → 6★ |
 
-Skills rank up through **verifiable evidence** (Class A/B/C) and can be demoted by **demerits**.
+Skills rank up through **verifiable evidence** scored on two axes — **Evidence Type** (provenance: one of 10 canonical types per the G7 Trust Taxonomy RFC, e.g. `arxiv`, `repo`, `repo-own`, `github-stars`, `github-stars-own`, `peer-review`, `social-signal`, `proxy-containment`, `benchmark-result`, `verifier-attestation`, `fusion-recipe`) and **Evidence Grade** (S / A / B / C, derived from the row's Trust Magnitude) — and can be demoted by **demerits**. The legacy single-axis Class A/B/C is deprecated and read only as a fallback during migration. The skill-level **Trust Magnitude** is now live in code (`src/gaia_cli/promotion.py` / `verification.py`).
 
 > **Detailed Policy:** See [META.md](META.md) for the full evidence methodology, ranking floors, and prestige requirements.
+
+> **Public leaderboard:** The Trust Magnitude leaderboard ranks every named skill by computed Trust Magnitude — see [`docs/trust/leaderboard/`](docs/trust/leaderboard/) (deployed at <https://gaia.tiongson.co/trust/leaderboard/> once the site rebuilds).
 
 ---
 
@@ -346,7 +348,7 @@ Thank you to everyone who has expanded the Gaia registry.
 | [@ruvnet](https://github.com/ruvnet) | 48 — agentdb, flow-nexus, hive-mind-coordination, browser, and 44 others |
 | [@garrytan](https://github.com/garrytan) | 47 — gstack ecosystem: browse, qa, ship, review, benchmark, learn, and 41 others |
 | [@google-deepmind](https://github.com/google-deepmind) | 37 — alphafold, alphagenome, ensembl, clinvar, foldseek, and 32 others |
-| [@mattpocock](https://github.com/mattpocock) | 20 — to-prd, triage, diagnose, tdd, zoom-out, grill-me, and 14 others |
+| [@mattpocock](https://github.com/mattpocock) | 34 — to-prd, triage, diagnose, tdd, zoom-out, grill-me, and 28 others |
 | [@obra](https://github.com/obra) | 12 — superpowers ecosystem: systematic-debugging, dispatching-parallel-agents, and 10 others |
 | [@intelligentcode-ai](https://github.com/intelligentcode-ai) | 8 — database-engineer, devops-engineer, security-engineer, and 5 others |
 | @[anonymous] | 7 — hf-cli, llm-trainer, datasets, transformers-js, and 3 others |

@@ -460,7 +460,8 @@
             "type_change",
             "verified",
             "disputed",
-            "security_scan_passed"
+            "security_scan_passed",
+            "apex_pr_signed"
           ],
           "description": "The meta-action that occurred."
         },

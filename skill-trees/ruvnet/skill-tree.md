@@ -40,7 +40,7 @@
 | ○ ruvnet/reasoningbank-intelligence | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/reasoningbank | Basic Skill | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/ruflo-v3 | Basic Skill | 4★ | Hardened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/ruflo | Basic Skill | 6★ | Apex | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/ruflo | Basic Skill | 5★ | Transcendent | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/skill-builder | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/sparc-methodology | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/stream-chain | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
@@ -64,7 +64,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — ruvnet  ·  generated 2026-06-18
+GAIA SKILL TREE — ruvnet  ·  generated 2026-06-19
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -159,7 +159,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ · ○ garrytan/benchmark  [4★]  (↑ see above)
      └─ · ○ /generate-text  (↑ see above)
 
-· ◆ ruvnet/ruflo  [6★]
+· ◆ ruvnet/ruflo  [5★]
   ├─ · ◇ ruvnet/flow-nexus  [4★]
   │  ├─ · ◇ ████████/flow-nexus-swarm
   │  │  ├─ · ◇ /plan-and-execute
@@ -260,7 +260,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ◇ obra/verification-before-completion  [2★]  (↑ see above)
   └─ · ◇ obra/writing-plans  [2★]  (↑ see above)
 
-· ◆ mattpocock/skills  [6★]
+· ◆ mattpocock/skills  [5★]
   ├─ · ◆ mattpocock/engineering  [5★]
   │  ├─ · ◇ mattpocock/diagnose  [2★]
   │  │  ├─ · ○ garrytan/design-html  [4★]
@@ -323,6 +323,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ /autonomous-engineering-platform
   · ○ /clinical-data-retrieval
   · ○ /cultural-localization
+  · ○ /domain-modeling
   · ○ openai/few-shot-learning  [2★]
   · ○ laravel/upgrade-laravel-v13  [2★]
   · ○ ruvnet/agentic-jujutsu  [2★]
@@ -334,6 +335,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ openai/self-consistency  [2★]
   · ○ ████████/semantic-cache
   · ○ ruvnet/stream-chain  [2★]
+  · ○ /software-design
   · ○ /synthetic-data-generation
   · ○ addy-osmani/test-driven-development  [3★]
   · ○ /time-series-forecasting

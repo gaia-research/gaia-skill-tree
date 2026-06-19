@@ -340,6 +340,7 @@
       <ol class="codex-toc__list">
         <li><a href="#trust-magnitude">Trust Magnitude formula</a></li>
         <li><a href="#evidence-types">Evidence types table</a></li>
+        <li><a href="#inheritance-contract">Evidence Inheritance — Generic and Named Layers</a></li>
         <li><a href="#grade-thresholds">Overall Trust Grade thresholds</a></li>
         <li><a href="#suite-vs-fusion">Suite vs Fusion</a></li>
         <li><a href="#apex-gate">The Apex Gate (6 predicates)</a></li>
@@ -364,6 +365,7 @@
         <span class="fm-key">artifactScore</span>(e) = <span class="fm-val">magnitude</span>(e.type, e.raw)<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">weight</span>(e.type)<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">freshness</span>(e.type, e.date)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">inheritMultiplier</span>(e, skill) <span class="fm-comment">// = 1.0 for own-layer rows; per-type discount for inherited rows — see §Inheritance</span><br>
         <br>
         <span class="fm-comment">// Dedup applied BEFORE summation</span><br>
         <span class="fm-comment">// When multiple rows share the same type, plateau multipliers</span><br>
@@ -502,6 +504,151 @@
       <p style="font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem;">
         <em>C</em> in the fusion-recipe formula is the minimum origin count threshold configured in <code>meta.json</code> (default 3). Origins below <em>C</em> use the flat 15 × origins term only.
       </p>
+    </section>
+
+    <!-- ─── §2b EVIDENCE INHERITANCE ─── -->
+    <section class="process-section" id="inheritance-contract">
+      <h2>Evidence Inheritance — Generic and Named Layers</h2>
+      <p class="section-sub">
+        Every evidence row carries a layer designation — <code>generic</code> or <code>named</code> — that governs
+        whether it can cross the generic→named boundary when computing Trust Magnitude for a Named Skill.
+      </p>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.1rem; margin: 1.5rem 0 0.5rem;">Layer Model</h3>
+      <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">
+        Layer is a property of an evidence <em>row</em>, not of the evidence type.
+        Named Skills — those with a <code>genericSkillRef</code> pointing to a parent generic skill — can
+        inherit <code>generic</code>-layer rows from that parent. Generic skills (no <code>genericSkillRef</code>)
+        compute Trust Magnitude from their own rows only and the inheritance path is never traversed.
+      </p>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.1rem; margin: 1.5rem 0 0.5rem;">Effective Pool</h3>
+      <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">
+        A Named Skill’s Trust Magnitude is computed over its <strong style="color: var(--text);">effective pool</strong>:
+        the union of its own rows and all <code>generic</code>-layer rows inherited from the parent generic skill,
+        deduped by source URL. Own-layer rows always receive an <code>inheritMultiplier</code> of 1.0 — no discount
+        is applied. Inherited rows receive the per-type discount documented in the table below.
+      </p>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.1rem; margin: 1.5rem 0 0.5rem;"><code>allowedLayers</code> per Type</h3>
+      <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem;">
+        Each evidence type declares which layers it may sit at and what discount applies when a row is inherited
+        across the generic→named boundary. Types pinned to <code>[named]</code> only cannot be inherited.
+      </p>
+
+      <p style="font-size: 0.82rem; color: var(--muted); margin-bottom: 0.4rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+        Pinned to named layer — cannot be inherited
+      </p>
+      <div style="overflow-x: auto; margin-bottom: 1.5rem;">
+        <table class="tm-table" aria-label="Evidence types pinned to named layer only">
+          <thead>
+            <tr>
+              <th scope="col">Evidence Type</th>
+              <th scope="col">Allowed Layers</th>
+              <th scope="col">inheritMultiplier</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>fusion-recipe</code></td>
+              <td>named</td>
+              <td>1.0 (own only)</td>
+            </tr>
+            <tr>
+              <td><code>github-stars-own</code></td>
+              <td>named</td>
+              <td>1.0 (own only)</td>
+            </tr>
+            <tr>
+              <td><code>repo-own</code></td>
+              <td>named</td>
+              <td>1.0 (own only)</td>
+            </tr>
+            <tr>
+              <td><code>self-attestation</code></td>
+              <td>named</td>
+              <td>1.0 (own only)</td>
+            </tr>
+            <tr>
+              <td><code>verifier-attestation</code></td>
+              <td>named</td>
+              <td>1.0 (own only)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="font-size: 0.82rem; color: var(--muted); margin-bottom: 0.4rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+        Flexible — can sit at either layer; discount applied when inherited
+      </p>
+      <div style="overflow-x: auto; margin-bottom: 1.5rem;">
+        <table class="tm-table" aria-label="Evidence types flexible across layers with inheritance discount">
+          <thead>
+            <tr>
+              <th scope="col">Evidence Type</th>
+              <th scope="col">Allowed Layers</th>
+              <th scope="col">inheritMultiplier</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>arxiv</code></td>
+              <td>generic, named</td>
+              <td>0.70</td>
+            </tr>
+            <tr>
+              <td><code>peer-review</code></td>
+              <td>generic, named</td>
+              <td>0.30</td>
+            </tr>
+            <tr>
+              <td><code>social-signal</code></td>
+              <td>generic, named</td>
+              <td>0.35</td>
+            </tr>
+            <tr>
+              <td><code>proxy-containment</code></td>
+              <td>generic, named</td>
+              <td>0.25</td>
+            </tr>
+            <tr>
+              <td><code>benchmark-result</code></td>
+              <td>generic, named</td>
+              <td>0.15</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.1rem; margin: 1.5rem 0 0.5rem;">Rationale</h3>
+      <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">
+        The discount reflects that a capability claim (for example, an arxiv paper describing a generic
+        algorithm) projects less cleanly onto a specific named implementation. A lower multiplier signals
+        that the evidence type binds less tightly to individual Named Skills. <code>benchmark-result</code>
+        carries the lowest multiplier (0.15) because it already carries the highest artifact weight (1.4)
+        in the scoring formula — allowing full inheritance would disproportionately amplify benchmark rows
+        that were published against the generic capability rather than the specific named implementation.
+      </p>
+
+      <div class="tm-callout">
+        <div class="tm-callout-label">Formula annotation — inheritMultiplier</div>
+        <p>
+          The full per-row product in the Trust Magnitude formula is:
+        </p>
+        <div class="tm-formula-block" style="margin: 0.75rem 0;">
+          <span class="fm-key">artifactScore</span>(e) = <span class="fm-val">magnitude</span>(e.type, e.raw)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">weight</span>(e.type)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">freshness</span>(e.type, e.date)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">plateau</span>(e.type, position)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">creatorMult</span>(e)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">engagementRatio</span>(e)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">mothershipDiscount</span>(e)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; × <span class="fm-val">inheritMultiplier</span>(e, skill) <span class="fm-comment">// ¹</span>
+        </div>
+        <p style="font-size: 0.82rem; color: var(--muted); margin-bottom: 0;">
+          <sup>¹</sup> <code>inheritMultiplier</code> = 1.0 for own-layer rows; per-type discount (see table above) for rows inherited from a parent generic skill.
+        </p>
+      </div>
     </section>
 
     <!-- ─── §3 GRADE THRESHOLDS ─── -->
@@ -702,6 +849,68 @@
         The failure is logged against the skill's timeline as a <code>gate-fail</code> event so
         the history is auditable.
       </p>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.1rem; margin: 1.5rem 0 0.5rem;">
+        Feature-flagged OFF — deferred to 2026-Q4
+      </h3>
+      <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 0.75rem;">
+        Two additional predicates exist in the implementation but are excluded from gate
+        evaluation until ecosystem conditions justify them. They return <code>None</code>
+        (skipped) rather than <code>False</code> (failed) so callers can distinguish
+        "not yet active" from "failed":
+      </p>
+      <ul class="tm-predicate-list" aria-label="OFF predicates">
+        <li class="pred-off" style="opacity: 0.55;">
+          <span class="pred-id" style="color: var(--muted);">crossOrgVerifier <span style="font-size:0.72rem;">(OFF)</span></span>
+          <span class="pred-desc">
+            Requires ≥2 cosigning verifiers from distinct GitHub organisations. Disabled
+            until the registry has enough active cross-org verifiers to make the requirement
+            non-trivial. Re-enable at 2026-Q4 review.
+          </span>
+        </li>
+        <li class="pred-off" style="opacity: 0.55;">
+          <span class="pred-id" style="color: var(--muted);">systemWideCap <span style="font-size:0.72rem;">(OFF)</span></span>
+          <span class="pred-desc">
+            Enforces a registry-wide cap on the number of active Apex skills (cap = 5).
+            Disabled as a per-skill predicate; cap enforcement lives in CI (Phase 1.5 I4),
+            not in the <code>apexGateStatus</code> object. Re-enable at 2026-Q4 review.
+          </span>
+        </li>
+      </ul>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.1rem; margin: 1.5rem 0 0.5rem;">
+        Removed predicates — 2026-06-17 amendments (historical context)
+      </h3>
+      <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 0.75rem;">
+        The following predicates existed in earlier drafts of the Apex Gate specification and
+        were removed or consolidated in the 2026-06-17 amendments. They are recorded here for
+        auditability — they are not active and must not be re-introduced:
+      </p>
+      <ul class="tm-predicate-list" aria-label="Removed predicates">
+        <li class="pred-off" style="opacity: 0.45; text-decoration: line-through; text-decoration-color: var(--muted);">
+          <span class="pred-id" style="color: var(--muted);">transitiveOriginsGte12</span>
+          <span class="pred-desc" style="text-decoration: none;">
+            Required ≥12 transitively-reachable A-graded origin components. Consolidated
+            into the more precise <code>aGradedOriginsGte5</code> (direct origins, threshold
+            lowered to 5) to eliminate double-counting via suite-component paths.
+          </span>
+        </li>
+        <li class="pred-off" style="opacity: 0.45; text-decoration: line-through; text-decoration-color: var(--muted);">
+          <span class="pred-id" style="color: var(--muted);">aGradedClosureGte8</span>
+          <span class="pred-desc" style="text-decoration: none;">
+            Required ≥8 A-graded skills in the transitive closure. Also consolidated into
+            <code>aGradedOriginsGte5</code>; the two checks overlapped in practice.
+          </span>
+        </li>
+        <li class="pred-off" style="opacity: 0.45; text-decoration: line-through; text-decoration-color: var(--muted);">
+          <span class="pred-id" style="color: var(--muted);">tenureDaysGte180</span>
+          <span class="pred-desc" style="text-decoration: none;">
+            Checked source tenure on all evidence rows regardless of grade. Replaced by
+            <code>sourceTenureDaysGte180AorS</code> which applies the tenure check only to
+            A- or S-graded rows for precision.
+          </span>
+        </li>
+      </ul>
     </section>
 
     <!-- ─── §6 WORKED EXAMPLE ─── -->
@@ -709,18 +918,42 @@
       <h2>Worked Example — mattpocock/skills</h2>
       <p class="section-sub">
         A concrete application of the Trust Magnitude formula and Apex Gate to an existing
-        named skill, showing where the synthesis lands and which predicates are not yet satisfied.
+        named skill. The table below shows a pre-G7-cutover synthesis projection — see the
+        post-migration baseline callout for the actual registry values after I3 merged.
       </p>
+
+      <div class="tm-callout" style="margin-bottom: 1.5rem;">
+        <div class="tm-callout-label">Post-G7-cutover baseline (as of I3 migration, 2026-06-18)</div>
+        <p>
+          After the G7 Phase 1.5 I3 migration, <code>registry/named-skills.json</code> shows
+          <code>mattpocock/skills</code> at <strong>TM = 0.0 / Trust Grade B</strong>.
+          This is the expected post-cutover baseline: the G7 evidence schema uses 10 canonical
+          evidence types (e.g. <code>github-stars-own</code>, <code>fusion-recipe</code>,
+          <code>verifier-attestation</code>) and no rows of those types have been formally
+          ingested through the new pipeline yet. The synthesis estimate below (TM ≈ 1 187)
+          was computed from pre-migration evidence annotations and remains useful as a formula
+          illustration; it does not reflect the live registry state.
+        </p>
+        <p style="margin-bottom: 0;">
+          Watch <code>registry/named-skills.json</code> → <code>mattpocock/skills</code>
+          → <code>trustMagnitude</code> and <code>overallTrustGrade</code> as evidence ingestion
+          proceeds through Phase 2 (Trending Engine).
+        </p>
+      </div>
 
       <div class="tm-example-header">
         <span class="skill-id">mattpocock/skills</span>
-        <span class="grade-pill grade-s">S</span>
-        <span class="skill-tm">TM 1 187 (synthesis)</span>
+        <span class="grade-pill grade-b" title="Post-I3 registry value">B</span>
+        <span class="skill-tm" style="color: var(--muted);">TM 0.0 (registry) · TM ≈ 1 187 (synthesis projection)</span>
         <span style="font-size: 0.82rem; color: var(--muted);">Apex Gate: 3 / 6 — not eligible for promotion</span>
       </div>
 
+      <p style="font-size: 0.82rem; color: var(--muted); margin: 0 0 1rem 0;">
+        The table below uses the synthesis projection. Once 10-type evidence rows are ingested
+        the registry will recompute TM automatically.
+      </p>
       <div style="overflow-x: auto; margin-bottom: 1.5rem;">
-        <table class="tm-table" aria-label="Trust Magnitude breakdown for mattpocock/skills">
+        <table class="tm-table" aria-label="Trust Magnitude breakdown for mattpocock/skills (synthesis projection)">
           <thead>
             <tr>
               <th scope="col">Evidence Type</th>
@@ -788,7 +1021,7 @@
               <td><span class="grade-pill grade-a">A</span></td>
             </tr>
             <tr style="border-top: 2px solid var(--border);">
-              <td colspan="5" style="font-weight: 700; color: var(--text); text-align: right;">Total TM (synthesis)</td>
+              <td colspan="5" style="font-weight: 700; color: var(--text); text-align: right;">Total TM (synthesis projection)</td>
               <td colspan="2" style="font-weight: 700; color: var(--tier-ultimate);">≈ 1 187</td>
             </tr>
           </tbody>
@@ -821,8 +1054,10 @@
         <li class="pred-pass">
           <span class="pred-id">overallGradeS ✓</span>
           <span class="pred-desc">
-            TM 1 187 ≫ threshold 250. Diversity gate passed (3 types, verifier-attestation
-            present, 1 S-tier row). Overall Trust Grade confirmed S.
+            Synthesis projection TM ≈ 1 187 ≫ threshold 250. Diversity gate passed (3 types,
+            verifier-attestation present, 1 S-tier row). Overall Trust Grade S in the
+            synthesis projection. Post-I3 registry grade is B (no 10-type evidence ingested
+            yet — this predicate will re-evaluate as evidence is entered).
           </span>
         </li>
         <li class="pred-pass">
@@ -842,11 +1077,13 @@
       </ul>
 
       <p style="font-size: 0.88rem; color: var(--muted); margin-top: 0.75rem;">
-        Result: <strong style="color: var(--text);">3 / 6 predicates pass.</strong>
-        The skill holds Overall Trust Grade S and would satisfy three gate conditions immediately
-        upon a valid promotion PR, but the structural gaps (<code>aGradedOriginsGte5</code> and
-        <code>depth2OnlyReachableGte1</code>) require genuine fusion-graph work — they cannot be
-        satisfied by adding self-producible evidence rows or suite variants.
+        Synthesis projection result: <strong style="color: var(--text);">3 / 6 predicates pass.</strong>
+        Under the synthesis estimate, the skill holds Overall Trust Grade S and would satisfy
+        three gate conditions immediately upon a valid promotion PR, but the structural gaps
+        (<code>aGradedOriginsGte5</code> and <code>depth2OnlyReachableGte1</code>) require
+        genuine fusion-graph work — they cannot be satisfied by adding self-producible evidence
+        rows or suite variants. Post-I3 registry baseline: TM 0.0 / grade B. All gate
+        evaluations above will re-run automatically as 10-type evidence rows are ingested.
       </p>
     </section>
 

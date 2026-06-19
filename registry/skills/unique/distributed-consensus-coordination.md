@@ -19,7 +19,7 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| ruvnet/hive-mind-coordination ⭑ | ruvnet | 4★ | 1 |
+| ruvnet/hive-mind-coordination ⭑ | ruvnet | 4★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

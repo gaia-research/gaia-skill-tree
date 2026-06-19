@@ -23,7 +23,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| obra/receiving-code-review ⭑ | obra | 2★ | 1 |
+| obra/receiving-code-review ⭑ | obra | 2★ | 2 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

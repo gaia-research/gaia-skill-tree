@@ -5,20 +5,44 @@ contributor: huggingface
 origin: false
 genericSkillRef: object-detection
 status: named
-title: "The Vision Forge"
+title: The Vision Forge
 catalogRef: huggingface-vision-trainer
-level: "3★"
-description: Trains and fine-tunes object detection, image classification, and SAM/SAM2 segmentation models on Hugging Face Jobs or locally with dataset validation, metrics, Trackio, and Hub persistence.
+level: 3★
+description: Trains and fine-tunes object detection, image classification, and SAM/SAM2
+  segmentation models on Hugging Face Jobs or locally with dataset validation, metrics,
+  Trackio, and Hub persistence.
 links:
   github: https://github.com/huggingface/skills/blob/main/skills/huggingface-vision-trainer/SKILL.md
 tags:
-  - huggingface
-  - vision
-  - object-detection
-  - segmentation
-  - fine-tuning
-createdAt: "2026-05-03"
-updatedAt: "2026-05-03"
+- huggingface
+- vision
+- object-detection
+- segmentation
+- fine-tuning
+createdAt: '2026-05-03'
+updatedAt: '2026-05-03'
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:17Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:40Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitudeInputHash: 71a712396b0b1922b00967d041b6e89ce6f2ec18b7d2c6fead4c9cbfcc12f757
 ---
 
 ## Overview

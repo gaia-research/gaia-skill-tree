@@ -222,14 +222,16 @@ def _canonicalUrl(url: Optional[str]) -> Optional[str]:
     return s.lower()
 
 
+TYPE_ALIASES: dict = {'repo': 'repo-own'}
+
+
 def _typeOf(row: dict) -> Optional[str]:
-    """Resolve evidence row type, normalizing legacy 'repo' -> 'repo-own'."""
+    """Resolve evidence row type, normalizing legacy aliases (e.g. 'repo' -> 'repo-own')."""
     t = row.get("type")
     if not t:
         return None
-    if t == "repo":
-        return "repo-own"
-    return t
+    effectiveType = TYPE_ALIASES.get(t, t)
+    return effectiveType
 
 
 def _freshnessFactor(row: dict, evidenceType: str) -> float:
@@ -937,35 +939,54 @@ def checkDepth2OnlyReachableGte1(
     skill: dict,
     registryState: Optional[dict] = None,
 ) -> bool:
-    """Walks fusion graph (role='origin' edges only); excludes suite components.
+    """Walks fusion graph (role='origin' edges + suiteComponents).
 
-    Counts skills reachable only at depth-2 (not at depth-1). Must be >= 1.
+    Counts skills reachable at depth-2 via fusion-recipe origins or
+    suiteComponents. Must be >= 1.
 
-    `registryState` carries a `genericSkillMap`.
+    `registryState` carries `genericSkillMap` and (optionally) `namedSkillMap`.
+    Suite-based ultimates have no `fusion-recipe` rows; their fusion graph IS
+    the `suiteComponents` array, so we walk both fusion-recipe origins AND
+    suiteComponents at every depth (RFC §11.12.3, founder ruling per #746).
+
+    A node is counted as "depth-2 reachable" if it sits two hops from `skill`
+    via the union graph; nodes at depth-1 are excluded only when `skill` itself
+    appears among them (cycle guard). Per Marco's #746 ruling, suite ultimates
+    whose nested components also appear at depth-1 (a flat redundancy that
+    suite authors typically include) still qualify on the basis of nested
+    structural depth.
     """
     if registryState is None:
         return False
     genericSkillMap = registryState.get("genericSkillMap") or {}
+    namedSkillMap = registryState.get("namedSkillMap") or {}
     skillId = skill.get("id") or skill.get("skillId")
     if not skillId:
         return False
 
-    # Depth-1 set: direct fusion-recipe origins (NOT suite components).
-    depth1 = set(_fusionOriginIds(skill, genericSkillMap))
+    # Depth-1 set: direct fusion-recipe origins UNION suiteComponents.
+    depth1 = set(
+        _fusionAndSuiteOriginIds(skill, genericSkillMap, namedSkillMap)
+    )
     if not depth1:
         return False
 
-    depth2Only: set[str] = set()
+    depth2: set[str] = set()
     for d1id in depth1:
-        d1node = genericSkillMap.get(d1id) or {}
-        d2 = _fusionOriginIds(d1node, genericSkillMap)
+        # Look up depth-1 node in named map first (suiteComponent IDs like
+        # "garrytan/garrytan" live there), then fall back to the generic map
+        # for fusion-recipe origins.
+        d1node = (
+            namedSkillMap.get(d1id)
+            or genericSkillMap.get(d1id)
+            or {}
+        )
+        d2 = _fusionAndSuiteOriginIds(d1node, genericSkillMap, namedSkillMap)
         for d2id in d2:
             if d2id == skillId:
                 continue
-            if d2id in depth1:
-                continue
-            depth2Only.add(d2id)
-    return len(depth2Only) >= 1
+            depth2.add(d2id)
+    return len(depth2) >= 1
 
 
 def _fusionOriginIds(skill: dict, genericSkillMap: dict) -> list[str]:
@@ -991,6 +1012,28 @@ def _fusionOriginIds(skill: dict, genericSkillMap: dict) -> list[str]:
             if role == "variant":
                 continue
             out.append(originId)
+    return out
+
+
+def _fusionAndSuiteOriginIds(
+    skill: dict,
+    genericSkillMap: dict,
+    namedSkillMap: Optional[dict] = None,
+) -> list[str]:
+    """Union of fusion-recipe origins and suiteComponents.
+
+    Suite-based ultimates (e.g. `garrytan/gstack`) carry no `fusion-recipe`
+    evidence row; their fusion graph IS the `suiteComponents` array. Per
+    RFC §11.12.3 founder ruling (#746), apex depth walks must include both.
+    """
+    del namedSkillMap  # reserved — suiteComponent IDs are looked up by caller
+    out: list[str] = list(_fusionOriginIds(skill, genericSkillMap))
+    seen = set(out)
+    for cid in skill.get("suiteComponents") or []:
+        if not cid or cid in seen:
+            continue
+        seen.add(cid)
+        out.append(cid)
     return out
 
 

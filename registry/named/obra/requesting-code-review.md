@@ -32,12 +32,38 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 609
+  contributors: 36
 timeline:
 - timestamp: '2026-06-14T12:32:48Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:19Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:58Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:42Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 36.0
+overallTrustGrade: C
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 137bb6d275f16fd372c3cf8d98a484390a148d5f614b65cf96e9969f8724d6e6
 ---
 
 ## Overview

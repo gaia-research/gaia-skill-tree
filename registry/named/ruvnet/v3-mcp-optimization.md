@@ -6,21 +6,44 @@ origin: false
 role: variant
 genericSkillRef: mcp-integration
 status: named
-title: "The Protocol Tuner"
+title: The Protocol Tuner
 catalogRef: ruvnet-v3-mcp-optimization
-level: "2★"
-description: Optimizes Ruflo v3 MCP server performance through connection pooling, request batching, tool schema caching, and latency reduction strategies.
+level: 2★
+description: Optimizes Ruflo v3 MCP server performance through connection pooling,
+  request batching, tool schema caching, and latency reduction strategies.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - mcp
-  - optimization
-  - connection-pooling
-  - caching
-  - v3-sprint
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo-v3"
+- mcp
+- optimization
+- connection-pooling
+- caching
+- v3-sprint
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo-v3
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:21Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:39Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:44Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitudeInputHash: 9ad845f3faa0fa5178bee6a28fbd3c2857e495ca5fd91a4ca18688c495f8e0ab
 ---
 
 ## Overview

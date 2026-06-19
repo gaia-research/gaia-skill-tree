@@ -107,6 +107,10 @@ This RFC replaces the legacy `trustNumber` aggregate with **Trust Magnitude** �
 11. **§10.13 — No grandfathering at G7 cutover**. Every currently-6★ skill is re-evaluated; failures demote to 5★ in the migration PR. Both standing 6★ skills (`mattpocock/skills`, `ruvnet/ruflo`) demote at G7+0; system-wide 6★ count post-cutover = **0 of 5** slots filled.
 12. **§10.14 — Registry-wide anti-auto-mint clause**. Only fusion-recipe is auto-derived (per §10.8). Every other evidence type must be physically present in the skill's `evidence:` frontmatter array to contribute to Trust Magnitude. Phantom rows do not count. Applies across all grades, not just apex.
 
+**Late addition (2026-06-17, post-Lane-A spec freeze):**
+
+13. **§2.14 / §10.15 — Evidence inheritance: layer-as-row-property with per-type `inheritMultiplier`.** The registry ships `genericSkillRef`-driven inheritance (`evidence.py::inherited_evidence`, schema prose at `skill.schema.json:88`). G7 ratifies the mechanism and constrains it: each row declares a `layer` (`"generic"` or `"named"`); each type declares `allowedLayers`; a per-type `inheritMultiplier` (≤ 1.0) discounts rows that reach a named skill via inheritance rather than direct attachment. Trust Magnitude, the diversity gate, the rank-floor sanity rule, and the apex-gate predicates all operate on the *effective pool* (own ∪ inherited). Magnitudes and thresholds are unchanged; the multiplier and layer constraints are the defense against multiplied evidence. Filed because PR #728's `trustMagnitude.py` regressed against deployed inheritance behavior; gating PR #730. Detailed in §2.14 and §10.15.
+
 **Migration is big-bang:** a single major PR re-grades all evidence under the new formula at merge time. Old entries are preserved verbatim; new artifact scores are computed in place. A stamp report (`docs/meta/JUN_2026_TRUST_REGRADE.md`) ships via the `gaia-post` skill (type=report, label="Meta-Shift", hero badge ON), **leading with the apex demotions** per Marco's 2026-06-16 call. No tenures, no rolling cutover. See §10 for the full migration plan and §10.4 for the rank-floor enforcement hook.
 
 **Calibration impact** (sample; full table §9): `ruvnet/ruflo` 6★→5★ A *provisional* (apex demotion under §11.12), `mattpocock/skills` 6★→5★ A *provisional* (apex demotion under §11.12), `garrytan/gstack` B→S, `obra/superpowers` B→S, `garrytan/cso` stays B (mothership discount protects), `garrytan/benchmark` stays B (rank-floor rule protects 4★+), `obra/dispatching-parallel-agents` 4★→A (avoids 4★>5★ inversions), `agent-memory-learning` B→C (same-source dedup collapses identical-URL stars), `skill-mastery` synthesis A (3 repo-own rows fail diversity, not S). **System-wide 6★ count: 2 → 0** at G7 cutover.
@@ -143,18 +147,20 @@ The diversity gate (§4) keeps contributor-minted types from reaching S or A on 
 
 ### 2.1 Master table
 
-| Type | Magnitude | Weight | Freshness | Cap | Grade ceiling |
-|---|---|---|---|---|---|
-| fusion-recipe | `20 × origins` (sqrt-softened past 10) | 1.5 | 1.0 (intrinsic) | softened | S @ ≥5 graded≥C origins |
-| github-stars-own | `stars / 1000` (mothership-discounted) | 1.0 | refresh quarterly | 200 | S @ 100k+ |
-| proxy-containment | `(external_stars / 1000) × 0.8` | 1.0 | quarterly | 160 | S @ 125k+ |
-| verifier-attestation | `30 × verifiers (4★+)` | 1.5 | null on derank | — | S @ 3+ verifiers |
-| benchmark-result | percentile (0–100) | 1.4 | 50%/year | 100 | S @ 95th+ |
-| arxiv | `citations / 5` | 1.0 | quarterly | 100 | A |
-| peer-review | `25 × reviewers (4★+)` | 1.2 | 25%/2yr | — | A |
-| repo-own | `commits/200 + contributors² × 2` | 0.6 | quarterly | 60 | B |
-| self-attestation | flat 10 (1 entry max) | 0.5 | static | 10 | C |
-| social-signal | `log10(views) × 8 × creator_mult × engagement_ratio` | 1.0 | 50%/year | 80 | A (hard cap) |
+| Type | Magnitude | Weight | Freshness | Cap | Grade ceiling | `allowedLayers`¹ | `inheritMultiplier`¹ |
+|---|---|---|---|---|---|---|---|
+| fusion-recipe | `20 × origins` (sqrt-softened past 10) | 1.5 | 1.0 (intrinsic) | softened | S @ ≥5 graded≥C origins | `["named"]` | n/a |
+| github-stars-own | `stars / 1000` (mothership-discounted) | 1.0 | refresh quarterly | 200 | S @ 100k+ | `["named"]` | n/a |
+| proxy-containment | `(external_stars / 1000) × 0.8` | 1.0 | quarterly | 160 | S @ 125k+ | `["generic", "named"]` | **0.25** |
+| verifier-attestation | `30 × verifiers (4★+)` | 1.5 | null on derank | — | S @ 3+ verifiers | `["named"]` | n/a |
+| benchmark-result | percentile (0–100) | 1.4 | 50%/year | 100 | S @ 95th+ | `["generic", "named"]` | **0.15** |
+| arxiv | `citations / 5` | 1.0 | quarterly | 100 | A | `["generic", "named"]` | **0.70** |
+| peer-review | `25 × reviewers (4★+)` | 1.2 | 25%/2yr | — | A | `["generic", "named"]` | **0.30** |
+| repo-own | `commits/200 + contributors² × 2` | 0.6 | quarterly | 60 | B | `["named"]` | n/a |
+| self-attestation | flat 10 (1 entry max) | 0.5 | static | 10 | C | `["named"]` | n/a |
+| social-signal | `log10(views) × 8 × creator_mult × engagement_ratio` | 1.0 | 50%/year | 80 | A (hard cap) | `["generic", "named"]` | **0.35** |
+
+¹ **Layer model (v2)** — `layer` is a property of each evidence *row*, not of the type. Each type declares `allowedLayers`: a row whose `layer` is not in `allowedLayers` is rejected by `gaia validate` (`evidence-layer-not-allowed`, publish blocker). **Pinned types** (`allowedLayers: ["named"]`) may only be attached at the named layer; `inheritMultiplier` is n/a because they never traverse the inheritance channel. **Flexible types** (`allowedLayers: ["generic", "named"]`) may live at either layer; rows that reach a named skill via inheritance (i.e. attached to the generic and read through `inherited_evidence`) are discounted by `inheritMultiplier`. Rows attached at the named layer directly are never discounted, even for flexible types. Defined in full in §2.14.
 
 Weights cluster at 1.0. The two outliers above (1.4–1.5) are evidence that is hard to fabricate and easy to verify: a percentile rank on a public benchmark, a 4★ Verifier signature, a fusion graph whose origins must already be graded. The two outliers below (0.5–0.6) are evidence the contributor produces unilaterally — they earn placement on the grade scale but cannot anchor a high grade alone.
 
@@ -320,28 +326,120 @@ The numbers above are calibrated against three constraints:
 2. **Contributor-minted evidence (repo-own + self-attestation + fusion-recipe) cannot exceed `60 × 0.6 + 10 × 0.5 + sqrt-softened-fusion ≈ 250` without external types.** This is the math behind the diversity gate's "≥1 non-self-producible type" rule for A and S.
 3. **Headline grade thresholds (S=250, A=100, B=50, C=20)** stay at baseline so the three loosenings in P4 — view-floor, identity-tier creator multipliers, only-graded-origins counting — don't compound into grade inflation. See §5 for the full calibration walkthrough.
 
+### 2.14 Evidence inheritance (generic → named)
+
+GAIA's data model has two layers: **generic skills** (rank-less capability nodes, the registry's taxonomy) and **named skills** (specific implementations that point at a generic via `genericSkillRef`). One generic can host any number of named children. The registry has shipped evidence inheritance from the generic layer downward since the mid-2026 Class-A backfill (production CLI: `evidence.py::inherited_evidence(named, generic)` returns own ∪ inherited; schema prose at `skill.schema.json:88`). G7's Trust Magnitude formula ratifies that mechanism and constrains it via the layer-on-row model.
+
+#### 2.14.1 The layer-on-row model
+
+`layer` is a property of each evidence **row**, not of the type. A row explicitly declares `"layer": "generic"` or `"layer": "named"`. Default when the field is absent: the layer of the containing skill node (`"generic"` for rows on a generic skill, `"named"` for rows on a named skill — matching pre-G7 behavior for the common case).
+
+Each type declares `allowedLayers` — a set drawn from `{"generic", "named"}`. A row whose `layer` is not in its type's `allowedLayers` is rejected by `gaia validate` with error `evidence-layer-not-allowed` (publish blocker, not warning).
+
+#### 2.14.2 The per-type partition
+
+| Type | `allowedLayers` | Rationale |
+|---|---|---|
+| `arxiv` | `["generic", "named"]` | Citations describe an *idea* (the capability). Attaching at either layer is defensible; inheriting with a discount is the honest reading for capability-level papers. |
+| `peer-review` | `["generic", "named"]` | A structured walkthrough may assess either the capability class or a specific implementation. |
+| `social-signal` | `["generic", "named"]` | Content may address the capability concept or a specific tool; creator-multiplier and engagement-ratio still apply per-row. |
+| `proxy-containment` | `["generic", "named"]` | Downstream adoption evidence may be discovered at either layer; relayering to the most-matched named child is the migration default. |
+| `benchmark-result` | `["generic", "named"]` | Benchmark datasets may evaluate the capability class; individual named implementations also run benchmarks. |
+| `fusion-recipe` | `["named"]` | Origins are the named skill's own `suiteComponents`. |
+| `github-stars-own` | `["named"]` | Stars accrue to a specific repo. |
+| `verifier-attestation` | `["named"]` | A 4★+ Verifier signs *this implementation*. Inheriting one signature across N siblings is the most acute auto-mint vector. |
+| `repo-own` | `["named"]` | Commits and contributors are repo properties. |
+| `self-attestation` | `["named"]` | The contributor declares *their* implementation. |
+
+**Pinned types** (`allowedLayers: ["named"]`) may only be attached at the named layer; inheritance is not possible by construction. **Flexible types** (`allowedLayers: ["generic", "named"]`) may live at either layer and flow through inheritance with a per-type `inheritMultiplier`.
+
+#### 2.14.3 The inheritance multiplier
+
+`inheritMultiplier` applies as the **last** term in the artifact-score chain **when the row was inherited** — i.e. the row sits on the generic and the named skill is reading it through `inherited_evidence`. Rows attached at the named layer are **not** discounted, even for flexible types.
+
+| Type | `inheritMultiplier` |
+|---|---|
+| `arxiv` | **0.70** |
+| `peer-review` | **0.30** |
+| `social-signal` | **0.35** |
+| `proxy-containment` | **0.25** |
+| `benchmark-result` | **0.15** |
+
+These values were ratified 2026-06-18 by the founder following a 20-agent Sonnet adversarial bake-off (3 stances × 5 types + 5 synthesis; all synthesis verdicts moved DOWN from drafts; run id `wf_7cbe217f-006`). Drafts → ratified: arxiv 0.80→0.70, peer-review 0.40→0.30, social-signal 0.50→0.35, proxy-containment 0.30→0.25, benchmark-result 0.20→0.15.
+
+The formula term is explicit:
+
+```
+inheritMultiplier(r, skill) = 1.0                           if r.layer == "named" (own-layer)
+                            = type(r).inheritMultiplier      if r.layer == "generic" (inherited)
+```
+
+`gaia trust explain <skill>` must print the full multiplier chain per row with `inheritMultiplier` explicit. Any row whose effective multiplier ≠ 1.0 is tagged in display.
+
+#### 2.14.4 Why magnitudes do not change
+
+Founder asked the patch author to challenge whether the magnitudes in §2.1 should change once inheritance is enshrined. They do not. The reasoning:
+
+1. **The formula sums over the effective pool.** `TM(named)` is computed against `inherited_evidence(named, generic)`. The same magnitude formulas apply to each row whether it landed via inheritance or direct attachment; `inheritMultiplier` is the only additional term.
+2. **Caps remain per-type, not per-source-layer.** Two named siblings each inheriting the same `arxiv` row each see that row discounted by 0.70 — but each sibling's TM includes it once, not twice. No double-counting on a single skill.
+3. **N-child amplification is bounded by magnitude.** Consider a generic with one capped `arxiv` row (100 raw magnitude) and 8 named children. Each child's inherited contribution from that row = `100 × 1.0 × 0.70 = 70 TM`. Aggregate across 8 children = 560 TM total registry exposure — well-behaved because the arxiv grade ceiling is A (TM cap per child is effectively 100 × 0.70 = 70, below the A=100 threshold per child) and no single child approaches S via arxiv alone.
+4. **Anti-auto-mint already covers the high-leverage vectors.** The pinned-named restriction means `verifier-attestation`, `github-stars-own`, and `repo-own` cannot be inherited at all. The multiplier governs residual flexible-type exposure.
+
+The thresholds (S=250 / A=100 / B=50 / C=20) likewise hold.
+
+#### 2.14.5 Same-source dedup over the effective pool
+
+`gaia validate` and `computeTrustMagnitude` run same-source dedup **across the union** of own and inherited rows before plateau, weight, and cap. Inherited `arxiv` plus the named's own `arxiv` (if any) pointing at the same URL collapse to one row — highest-magnitude metadata wins, both source paths preserved on the merged entry. The §4 diversity gate sees **at most one** `arxiv` slot per skill regardless of inheritance.
+
+#### 2.14.6 Validation enforcement
+
+`gaia validate` enforces the layer model at three points:
+
+1. **Schema layer** — `evidenceEntry.layer` is validated against `meta.json::evidence.types[].allowedLayers`. Rows in the wrong layer fail schema validation as `evidence-layer-not-allowed` (publish blocker).
+2. **TM compute layer** — `computeTrustMagnitude(skill)` resolves the effective pool via `inherited_evidence(skill, genericMap)`. Same-source dedup and `inheritMultiplier` apply before plateau, weight, and cap. Anti-auto-mint (§10.14) operates over the union: a phantom row in either layer is removed.
+3. **Apex predicate layer** — predicates that walk evidence (`overallGradeS`, `aGradedOriginsGte5`) operate on the effective pool of every node visited.
+
+#### 2.14.7 Migration partition repair (I3)
+
+`scripts/migrateTrustMagnitude.py` carries a one-time **partition repair** pass at step 0 (before `enforceAntiAutoMint`):
+
+1. Walk every generic node — for each row whose type has `"generic"` NOT in `allowedLayers`, attempt to relayer to the most-evidenced named child. If no defensible relayer, reject the row and log to the stamp report's "Partition repairs — rejected" section.
+2. Walk every named skill — for each row whose type has `"named"` NOT in `allowedLayers`, promote the row up to the `genericSkillRef` parent (or merge via same-source dedup).
+3. Pre-G7 flexible-type rows that lack an explicit `layer` field are assigned `layer = "named"` (conservative default — they were attached at the named layer historically).
+4. Re-emit both layers; THEN run `enforceAntiAutoMint` over the effective pool.
+
+Stamp report gains a "Partition repairs" section: count + list of moves and rejections.
+
+*Adversarial provenance: multiplier values ratified 2026-06-18, adversarial bake-off run id `wf_7cbe217f-006`, all 5 flexible types revised downward from drafts.*
+
 ## §3 Aggregation
 
 ### Trust Magnitude formula
 
-Trust Magnitude (`TM`) is the per-skill aggregate over all evidence entries attached to that skill, after per-evidence normalization, freshness, weight, plateau, and dedup.
+Trust Magnitude (`TM`) is the per-skill aggregate over all evidence entries in the **effective pool** of that skill, after per-evidence normalization, freshness, weight, plateau, dedup, and inheritance discount. The effective pool is `inherited_evidence(skill, genericMap)` per §2.14: own rows ∪ inherited flexible-type rows, deduplicated by `source`.
 
 ```
-TM(skill) = Σ over evidence e in skill:
+TM(skill) = Σ over evidence e in effective_pool(skill):
               artifact_score(e)
               × type_weight(e.type)
               × freshness(e)
               × plateau_factor(e, skill)
-              × creator_mult(e)         # social-signal only; 1.0 elsewhere
-              × engagement_ratio(e)     # social-signal only; 1.0 elsewhere
-              × mothership_discount(e)  # github-stars-own only; 1.0 elsewhere
+              × creator_mult(e)              # social-signal only; 1.0 elsewhere
+              × engagement_ratio(e)          # social-signal only; 1.0 elsewhere
+              × mothership_discount(e)       # github-stars-own only; 1.0 elsewhere
+              × inheritMultiplier(e, skill)  # 1.0 if e.layer == "named" (own-layer);
+                                             # type's inheritMultiplier if inherited
+                                             # (see §2.14.3)
 
   subject to:
-    - same-source dedup (collapse identical URLs to one entry)            §2.3
-    - fork-network canonicalization (forks of same upstream → one pool)   §2.4
+    - layer model (§2.14): allowedLayers governs which rows are legal at each layer;
+      inheritMultiplier discounts rows reaching named skills via inheritance
+    - same-source dedup across the effective pool union                      §2.14.5
+    - same-source dedup (collapse identical URLs to one entry)               §2.3
+    - fork-network canonicalization (forks of same upstream → one pool)      §2.4
     - per-type magnitude caps (see §2 type table)
     - social-signal hard A-cap: contribution to TM never exceeds 80
-    - fusion-recipe origins counted only if origin grade ≥ C              §2.5
+    - fusion-recipe origins counted only if origin grade ≥ C                 §2.5
 ```
 
 `artifact_score(e)` is the raw per-evidence number from the §2 type table (e.g. `stars/1000`, `30 × verifiers`, `20 × origins` with sqrt-softening past 10). It is the only field a per-evidence row carries; per-evidence "artifact tier" (S/A/B/C-capable) is a property of the **type**, not the evidence row, and gates the overall grade through the diversity rule in §4 — not through the sum.
@@ -430,7 +528,7 @@ A grade does **not** require this — pure-stars and pure-fusion paths are both 
 
 ### Rank-floor sanity rule
 
-Per Marco's hard decision #10, any skill whose user-tree rank is 4★+ cannot land below B. `gaia validate` raises `rank-floor-violation` as a **publish blocker** (not a warning) on the migration PR if a 4★+ skill computes to C or ungraded. Manual override requires the PR-gated review path from decision #4 — a maintainer adds the `rank-floor-override` label and writes the justification in the PR body.
+Per Marco's hard decision #10, any skill whose user-tree rank is 4★+ cannot land below B. `gaia validate` raises `rank-floor-violation` as a **publish blocker** (not a warning) on the migration PR if a 4★+ skill computes to C or ungraded. The rule operates on the **effective pool** (§2.14): inherited rows (with their `inheritMultiplier` applied) count toward the floor check the same way they count toward `TM`. Manual override requires the PR-gated review path from decision #4 — a maintainer adds the `rank-floor-override` label and writes the justification in the PR body.
 
 ### Provisional-grade flag
 
@@ -872,7 +970,31 @@ The strict-evidence reading codified for the apex tier in §11.12.4 applies **re
 
 **Migration impact.** The G7 migration PR re-evaluates every Overall Trust Grade across the full registry under strict-evidence reading. Skills whose pre-migration grade was supported by phantom rows drift downward in the §9 calibration table; skills whose evidence was already faithful to frontmatter are unaffected. The blast radius is bounded by the migration PR's atomic merge (§10.6 big bang) and the regrade tooling at `scripts/migrate_trust_magnitude.py`, which is extended to flag every row whose source path doesn't match `registry/named/<owner>/<skill>.md` frontmatter or `registry/nodes/<id>.json` evidence array.
 
+**Reading against §2.14 inheritance.** Anti-auto-mint operates on the **effective pool** (own rows ∪ inherited flexible-type rows with `inheritMultiplier` applied). A row reached through legitimate `genericSkillRef` inheritance is NOT a phantom row — the inheritance channel is registry-native and was shipped via the mid-2026 Class-A backfill. What the anti-auto-mint clause forbids is inflating a skill with rows that are not present in either layer (the `mattpocock/skills` audit failure mode). Inheritance flows down through one well-defined channel (flexible-type generic rows → named, discounted by per-type `inheritMultiplier`); anything outside that channel is a phantom and is removed.
+
 This is the central anti-honesty-failure predicate: it locks down the auto-mint vulnerability the G7 audit surfaced on `mattpocock/skills` (where the regrader silently credited the apex with `github-stars-own + repo-own + self-attestation` rows that don't physically exist). The clause prevents the same failure from inflating any grade going forward. **Honored.**
+
+### §10.15 Evidence inheritance is layer-on-row with per-type multipliers
+
+The registry has shipped capability-layer evidence inheritance since the mid-2026 backfill (`evidence.py::inherited_evidence`, `promotion.py::_effective_grade`, `verification.py::effectiveGrade`, schema prose at `skill.schema.json:88`). G7 ratifies the mechanism under the v2 contract, **ratified by the founder 2026-06-18**:
+
+- `layer` is a property of each evidence **row**; each type declares `allowedLayers`.
+- Five types are **flexible** (`allowedLayers: ["generic", "named"]`): `arxiv`, `peer-review`, `social-signal`, `proxy-containment`, `benchmark-result`.
+- Five types are **pinned named** (`allowedLayers: ["named"]`): `fusion-recipe`, `github-stars-own`, `verifier-attestation`, `repo-own`, `self-attestation`.
+- A row whose `layer` is not in its type's `allowedLayers` fails `gaia validate` (`evidence-layer-not-allowed`, publish blocker).
+- Rows inherited by a named skill (attached at the generic layer) are discounted by `inheritMultiplier`; rows attached at the named layer are never discounted.
+
+**Ratified `inheritMultiplier` values (2026-06-18):**
+
+| Type | `inheritMultiplier` |
+|---|---|
+| `arxiv` | **0.70** |
+| `peer-review` | **0.30** |
+| `social-signal` | **0.35** |
+| `proxy-containment` | **0.25** |
+| `benchmark-result` | **0.15** |
+
+Trust Magnitude, the diversity gate, the rank-floor sanity rule, and the apex-gate predicates all operate on the effective pool (own ∪ inherited, with `inheritMultiplier` applied). Magnitudes and thresholds are unchanged. Adversarial bake-off provenance: run id `wf_7cbe217f-006`, 2026-06-18, all 5 flexible type values revised downward from drafts. **Ratified at G7 cutover.**
 
 ## §11 Open Questions & Decisions
 

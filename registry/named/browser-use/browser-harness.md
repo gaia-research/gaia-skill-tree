@@ -16,17 +16,46 @@ tags:
 - cdp
 - automation
 createdAt: '2026-05-14'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 evidence:
 - class: B
   source: https://github.com/browser-use/browser-harness
   evaluator: gemini-cli
   date: '2026-05-14'
-  notes: Browser Harness -- self-healing harness connecting LLMs to browser via CDP.
-    (backfilled — class-to-type migration)
+  notes: 'Browser Harness -- self-healing harness connecting LLMs to browser via CDP.
+    (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable
+    via gaia dev evidence)'
   type: repo
+  commits: 400
+  contributors: 59
   trustNumber: 70.0
   grade: B
+- source: https://browser-use.com/posts/online-mind2web-benchmark
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: benchmark-result
+  class: A
+  notes: 'BU Bench V1 (100 verified tasks from WebArena/Mind2Web): 78-97% task success
+    rate using bu-ultra/max. 80% using Claude Fable 5 (Mid-2026).'
+  trustNumber: 85.0
+  grade: A
+- source: https://www.youtube.com/watch?v=XQn6yGq6oN8
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'Codex Developer YouTube: demo of browser-use CDP library for AI agent browser
+    automation. Third-party developer showcase (view count est. 50K+).'
+  trustNumber: 80.0
+  grade: A
+  views: 50000
+- source: https://github.com/browser-use/browser-harness
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'AI Agent Developer Community: commended as lightweight CDP bridge, self-healing
+    via runtime agent_helpers.py, steeper learning curve than Playwright. Mid-2026.'
 timeline:
 - timestamp: '2026-06-02T23:32:59Z'
   action: demote
@@ -37,6 +66,64 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/browser-use/browser-harness
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:14Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T10:39:17Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://browser-use.com/posts/online-mind2web-benchmark
+    (type: benchmark-result)'
+- timestamp: '2026-06-19T10:41:47Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=XQn6yGq6oN8 (type:
+    social-signal)'
+- timestamp: '2026-06-19T10:47:25Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/browser-use/browser-harness (type:
+    peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:52:24Z'
+  details: TM 36.0 -> 36.0, grade C -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:36Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:01:43Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://browser-use.com/posts/online-mind2web-benchmark
+    as A (trustNumber: 85.0)'
+- timestamp: '2026-06-19T17:01:44Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://www.youtube.com/watch?v=XQn6yGq6oN8 as
+    A (trustNumber: 80.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:00Z'
+  details: TM 36.0 -> 73.59, grade C -> B (direct edit -- CLI gap)
+trustMagnitude: 73.59
+overallTrustGrade: B
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-19T10:39:17Z'
+trustMagnitudeInputHash: 71e29360d570b62f084ce30ef4b6c86af6f15dd583c442bf3ddbff336046fcd1
+provisional: true
 ---
 
 ## Overview

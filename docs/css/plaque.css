@@ -3727,3 +3727,147 @@ button.plaque__slug:focus-visible {
   outline: 2px solid var(--tier-extra);
   outline-offset: 2px;
 }
+
+
+/* ============================================================
+   Trust Grade notch — I8 (redesign: pixel-thin bar → expand on hover)
+
+   Default: 3px colored bar flush at the very card bottom (full-width,
+   boxy — no radius). Grade color is always visible as a thin stripe.
+
+   Hover (whole plaque): bar expands to 24px, "MAG X.X" counts up from
+   0 to the real TM in <0.4s via JS (_wireTrustNotches). The label fades
+   in as the bar opens. Transition ≤0.35s so the whole motion is snappy.
+
+   Ungraded skills emit no element — zero markup cost.
+   ============================================================ */
+
+/* ── Base bar ────────────────────────────────────────────────── */
+.plaque__trust-notch {
+  /* Push to very bottom of the flex column card */
+  margin-top: auto;
+  /* Full width, boxy — no radius, no gap */
+  width: 100%;
+  margin-bottom: calc(-1 * var(--plaque-pad, 20px));
+  margin-left: calc(-1 * var(--plaque-pad, 20px));
+  /* Compensate for card padding on both sides */
+  width: calc(100% + 2 * var(--plaque-pad, 20px));
+  /* Thin bar by default */
+  height: 3px;
+  overflow: hidden;
+  transition: height 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  /* Label hidden at 3px height, revealed as bar expands */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* ── Expand on plaque hover ──────────────────────────────────── */
+.plaque:hover .plaque__trust-notch {
+  height: 24px;
+}
+
+/* ── Label: invisible at rest, fades in as bar opens ─────────── */
+.trust-notch-label {
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.18s ease 0.12s;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.plaque:hover .trust-notch-label {
+  opacity: 1;
+}
+
+/* ── Grade fills ─────────────────────────────────────────────── */
+/* S — Platinum: animated iridescent sweep */
+.plaque__trust-notch[data-trust-grade="S"] {
+  background: linear-gradient(
+    90deg,
+    var(--trust-notch-S-hi2, #d1e8ff) 0%,
+    color-mix(in srgb, var(--trust-notch-S-mid, #a5c7eb) 80%, var(--trust-notch-S-violet, #c8d8ff)) 30%,
+    var(--trust-notch-S-mid, #a5c7eb) 60%,
+    var(--trust-notch-S-hi2, #d1e8ff) 100%
+  );
+  background-size: 200% 100%;
+  animation: trust-notch-shimmer 2.8s linear infinite;
+  color: var(--trust-notch-text-S, #0f172a);
+}
+
+@keyframes trust-notch-shimmer {
+  0%   { background-position: 0%   0%; }
+  100% { background-position: 200% 0%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plaque__trust-notch[data-trust-grade="S"] {
+    animation: none;
+    background: var(--trust-notch-S-mid, #a5c7eb);
+  }
+}
+
+/* A — Gold */
+.plaque__trust-notch[data-trust-grade="A"] {
+  background: var(--grade-A, #d4af37);
+  color: #030712;
+}
+
+/* B — Silver (steel) */
+.plaque__trust-notch[data-trust-grade="B"] {
+  background: var(--trust-notch-B-hi, rgba(148,163,184,0.55));
+  color: var(--text, #e2e8f0);
+}
+
+/* C — Bronze */
+.plaque__trust-notch[data-trust-grade="C"] {
+  background: var(--grade-C, #b45309);
+  color: #fff8f0;
+}
+
+/* ── OG card: proportional bar at social-card scale ─────────── */
+.plaque--og .plaque__trust-notch {
+  height: 5px;
+}
+.plaque--og:hover .plaque__trust-notch {
+  height: 32px;
+}
+.plaque--og .trust-notch-label {
+  font-size: 13px;
+}
+
+/* ── Reduced-motion: skip height transition, show label always ── */
+@media (prefers-reduced-motion: reduce) {
+  .plaque__trust-notch {
+    height: 24px;
+    transition: none;
+  }
+  .trust-notch-label {
+    opacity: 1;
+    transition: none;
+  }
+}
+
+
+/* ── Row variant: evidence badge ─────────────────────────────────
+   Shown at the end of list-view rows as a small muted label.
+   Positioned just before the › arrow. */
+.plaque--row .plaque__ev-badge {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  opacity: 0.55;
+  margin-left: auto;
+  align-self: center;
+  padding: 1px 4px;
+  text-transform: uppercase;
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
+  white-space: nowrap;
+  flex-shrink: 0;
+}

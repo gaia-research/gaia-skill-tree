@@ -517,35 +517,38 @@ def test_apex_gate_source_tenure_absent_treats_as_age_zero():
     assert gate["sourceTenureDaysGte180AorS"] is False
 
 
-def test_apex_gate_depth2_suite_exclusion():
-    """Delta §B: suiteComponents edges are NOT fusion edges — depth2 check ignores them."""
-    # The skill has suiteComponents, which would reach "suiteChild" at depth-1
-    # if suite edges counted. But _fusionOriginIds only reads fusion-recipe evidence,
-    # not suiteComponents. So depth-1 set is empty -> depth2OnlyReachableGte1=False.
+def test_apex_gate_depth2_suite_inclusion():
+    """Founder ruling #746: suiteComponents edges DO count in the fusion graph.
+
+    Suite-based ultimates (e.g. garrytan/gstack) carry no fusion-recipe rows;
+    their fusion graph IS the suiteComponents array. Per RFC §11.12.3 founder
+    ruling, the apex depth walker must include both fusion-recipe origins AND
+    suiteComponents at every depth.
+    """
     skill = {
         "id": "suite-host",
         "suiteComponents": ["suiteChild"],
-        # No fusion-recipe evidence row — only suite structure
+        # No fusion-recipe evidence row — depth-1 must come from suiteComponents.
         "evidence": [],
     }
     suiteChildNode = {
         "id": "suiteChild",
         "suiteComponents": ["grandchild"],
-        "evidence": [
-            {"type": "fusion-recipe", "origins": ["grandchild"]},
-        ],
     }
     state = {
         "genericSkillMap": {
             "suiteChild": suiteChildNode,
             "grandchild": {"id": "grandchild"},
-        }
+        },
+        "namedSkillMap": {
+            "suiteChild": suiteChildNode,
+        },
     }
+    # depth1 = {"suiteChild"}; depth2 reaches "grandchild" via suiteComponents.
     result = checkDepth2OnlyReachableGte1(skill, state)
-    # Suite edges excluded; no fusion-recipe evidence on skill -> depth1=empty -> False.
-    assert result is False
+    assert result is True
     gate = passesApexGate(skill, state)
-    assert gate["depth2OnlyReachableGte1"] is False
+    assert gate["depth2OnlyReachableGte1"] is True
 
 
 # ---------------------------------------------------------------------------

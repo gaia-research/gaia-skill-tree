@@ -223,3 +223,137 @@ Delta from v1: +$1.20 (I7 Codex methodology page). Comparable to Phase 1 closeou
 **Note:** Dispatch checklist in §9 should be updated with two additional steps:
 - Add `☐ Open I7 issue, attach to milestone Phase 1.5, label phase-1.5`.
 - Update step 8 to read: "When I3 + I4 land: dispatch I5 + I6 + I7 (parallel, Lanes D and E)."
+
+---
+
+### Section H — Inheritance amendment (2026-06-18, post-#730)
+
+This amendment supersedes § Section H v1 (the rigid 1/9 generic-only / named-only partition). It propagates the v2 inheritance contract — layer-as-row-property with per-type `inheritMultiplier` — into the I-task specs that touch evidence aggregation.
+
+#### H.1 — Layer-on-row model + per-type partition (ratified 2026-06-18)
+
+The v2 contract (ratified by the founder 2026-06-18 following adversarial bake-off run `wf_7cbe217f-006`):
+
+- `layer` is a property of each evidence **row** (`"generic"` or `"named"`); default = the layer of the containing skill node.
+- Each type declares `allowedLayers` ∈ `{"generic"}`, `{"named"}`, or `{"generic", "named"}`.
+- A row whose `layer` is not in `allowedLayers` fails `gaia validate` (`evidence-layer-not-allowed`, publish blocker).
+- Rows inherited by a named skill (via `genericSkillRef`) are discounted by `inheritMultiplier`. Rows attached at the named layer are never discounted, even for flexible types.
+
+| Type | `allowedLayers` | `inheritMultiplier` |
+|---|---|---|
+| `fusion-recipe` | `["named"]` | n/a |
+| `github-stars-own` | `["named"]` | n/a |
+| `repo-own` | `["named"]` | n/a |
+| `self-attestation` | `["named"]` | n/a |
+| `verifier-attestation` | `["named"]` | n/a |
+| `arxiv` | `["generic", "named"]` | **0.70** |
+| `peer-review` | `["generic", "named"]` | **0.30** |
+| `social-signal` | `["generic", "named"]` | **0.35** |
+| `proxy-containment` | `["generic", "named"]` | **0.25** |
+| `benchmark-result` | `["generic", "named"]` | **0.15** |
+
+Magnitudes and thresholds (S=250 / A=100 / B=50 / C=20) do **not** change. The `inheritMultiplier` is the only new term in the artifact-score chain.
+
+#### H.2 — I1 schema additions (PR #726)
+
+Concrete schema deltas:
+
+**`meta.json::evidence.types[]`** — each type entry gains:
+- `allowedLayers: string[]` (enum values `"generic"`, `"named"`) — required.
+- `inheritMultiplier: number` — optional; present only for flexible types (`arxiv`, `peer-review`, `social-signal`, `proxy-containment`, `benchmark-result`).
+
+Example entries:
+```json
+{
+  "id": "arxiv",
+  "allowedLayers": ["generic", "named"],
+  "inheritMultiplier": 0.70,
+  ...
+},
+{
+  "id": "verifier-attestation",
+  "allowedLayers": ["named"],
+  ...
+}
+```
+
+**`skill.schema.json::evidenceEntry` and `namedSkill.schema.json::evidenceEntry`** — gain:
+```json
+"layer": {
+  "type": "string",
+  "enum": ["generic", "named"],
+  "description": "The layer at which this evidence row was attached. Defaults to the layer of the containing skill node when absent."
+}
+```
+
+**`gaia validate`** — gains `evidence-layer-not-allowed` error (publish blocker) when a row's `layer` is not in its type's `allowedLayers`.
+
+Add a new `partitionRepair` section to the migration stamp report (RFC §8) listing every pre-G7 row moved or rejected.
+
+#### H.3 — I2 CLI compute (PR #728) — REGRESSION FIX
+
+`computeTrustMagnitude(skill)` MUST resolve the effective pool and apply `inheritMultiplier` before summation:
+
+```python
+def computeTrustMagnitude(skill, generic_map):
+    pool = inherited_evidence(skill, generic_map.get(skill.get('genericSkillRef')))
+    pool = same_source_dedup(pool)
+    pool = enforce_anti_auto_mint(pool, skill)
+    return sum(artifact_score(e, skill) for e in pool)
+
+def artifact_score(e, skill):
+    base = (raw_magnitude(e) * type_weight(e) * freshness(e) * plateau(e)
+            * creator_mult(e) * engagement_ratio(e) * mothership_discount(e))
+    mult = inherit_multiplier_for(e, skill)  # 1.0 if own-layer; type's inheritMultiplier if inherited
+    return base * mult
+```
+
+Every I2 predicate that walks evidence (`overallGradeS`, `aGradedOriginsGte5`, `directNestedSuiteGte1`, `depth2OnlyReachableGte1`, `sourceTenureDaysGte180AorS`) operates on the effective pool of every node it visits — not on the raw `skill.evidence[]`.
+
+New tests required (add to existing 51-test suite, replacing the 5 v1 cases in Section H):
+- `test_inheritance_arxiv_inherits_with_multiplier_0_70` — generic carries an arxiv row of 100 raw magnitude; named child's effective TM contribution from that row is `100 × 1.0 × 0.70 = 70`, not 100.
+- `test_inheritance_named_layer_arxiv_no_discount` — same arxiv row attached at the named layer directly (not inherited); contribution is 100, not 70.
+- `test_inheritance_pinned_named_only_rejected_on_generic` — `verifier-attestation` row attached to a generic node fails `gaia validate` with `evidence-layer-not-allowed`.
+- `test_inheritance_multi_child_amplification_bounded` — one generic with one capped arxiv row (100 raw), 8 named children; sum of inherited contribution across all 8 children = 560 TM (8 × 70).
+- `test_inheritance_multiplier_chain_visible_in_explain` — `gaia trust explain` output for an inherited row includes the `inheritMultiplier` term explicitly (e.g. `100 × 1.0 freshness × 0.70 inherit = 70 TM`).
+- `test_inheritance_diversity_gate_one_slot` — inherited arxiv plus named's own arxiv collapse to one distinct-type slot at §4 (preserved behavior).
+
+#### H.4 — I3 migration partition repair pass
+
+`scripts/migrateTrustMagnitude.py` adds a one-time **partition repair** pass at step 0, before `enforceAntiAutoMint`:
+
+1. Walk every generic node — for each row whose type has `"generic"` NOT in `allowedLayers`, attempt to relayer to the most-evidenced named child (heuristic: child whose `links.github` matches the row's `source`). If no defensible relayer, reject the row and log to "Partition repairs — rejected".
+2. Walk every named skill — for each row whose type has `"named"` NOT in `allowedLayers`, promote the row up to the `genericSkillRef` parent (or merge via same-source dedup).
+3. Pre-G7 flexible-type rows that lack an explicit `layer` field are assigned `layer = "named"` (conservative default — they were historically attached at the named layer).
+4. Re-emit both layers; THEN run `enforceAntiAutoMint` over the effective pool.
+
+Stamp report gains a "Partition repairs" section (between "Phantom-row removals" and "Apex-gate methodology"): count + list of moves and rejections.
+
+#### H.5 — I6 display layer
+
+Skill Explorer modal + `report.html` Trust Magnitude card render the **effective pool** with:
+
+- Inherited rows tagged `↑ inherited from <generic>` annotation.
+- Multiplier chain visible per row (one line, e.g. `100 × 1.0 freshness × 0.70 inherit = 70 TM`). On hover or in the report card detail view.
+- `gaia trust explain <skill>` CLI output mirrors this — full chain per row, `inheritMultiplier` explicit. Any row whose effective multiplier ≠ 1.0 is tagged.
+
+No per-row magnitude discount in the display for own-layer rows — only inherited rows show the discount.
+
+#### H.6 — I7 codex methodology page
+
+Add a new section "Evidence inheritance" between the existing "Evidence types" and "Trust Magnitude formula" sections. Cover:
+
+- Layer-on-row model — `layer` on each row, `allowedLayers` on each type.
+- The partition table (`allowedLayers` and `inheritMultiplier` per type) — 10-row table.
+- Per-type `inheritMultiplier` for flexible types — show all 5 ratified values.
+- Multi-child amplification math — worked example: `100 × 1.0 × 0.70 = 70 TM per child, × 8 children = 560 aggregate, well-behaved at S=250`.
+- One paragraph on adversarial workflow provenance: run id `wf_7cbe217f-006`, 2026-06-18, 20-agent Sonnet bake-off, all 5 values revised downward from drafts.
+
+Reuse existing CSS tokens; no new color hex literals.
+
+#### H.7 — Token budget delta
+
+This amendment adds ~$1.50–$2.50 across I-tasks (I1 schema additions, I2 multiplier-chain plumbing + new tests, I3 partition-repair pass, I6 display multiplier chain, I7 codex section). Updated subtotal: **~$15.00** for Phase 1.5 coding work.
+
+---
+

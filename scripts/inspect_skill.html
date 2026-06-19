@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TM Inspect</title>
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #161820;
+    --border: #252830;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --sans: system-ui, -apple-system, sans-serif;
+    --grade-S: #e2d5f8;
+    --grade-A: #fbbf24;
+    --grade-B: #94a3b8;
+    --grade-C: #b87333;
+    --grade-u: #475569;
+    --pass: #4ade80;
+    --fail: #f87171;
+    --off: #475569;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; }
+  a { color: var(--grade-A); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Layout */
+  .page { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  .header { margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; }
+  .header h1 { font-size: 1.6rem; font-weight: 700; font-family: var(--mono); }
+  .header .meta { color: var(--muted); font-size: .8rem; margin-top: .3rem; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  /* Cards */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem 1.5rem; }
+  .card h2 { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: .75rem; }
+
+  /* Grade chip */
+  .grade { display: inline-flex; align-items: center; gap: .4rem; font-family: var(--mono); font-weight: 700; font-size: 1.1rem; }
+  .grade[data-grade="S"] { color: var(--grade-S); }
+  .grade[data-grade="A"] { color: var(--grade-A); }
+  .grade[data-grade="B"] { color: var(--grade-B); }
+  .grade[data-grade="C"] { color: var(--grade-C); }
+  .grade[data-grade="ungraded"] { color: var(--grade-u); }
+  .tm-val { font-size: 2rem; font-weight: 700; font-family: var(--mono); line-height: 1; }
+
+  /* Stats row */
+  .stat-row { display: flex; flex-direction: column; gap: .1rem; }
+  .stat-label { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; }
+  .stat-value { font-family: var(--mono); font-size: .95rem; }
+
+  /* Apex gate */
+  .apex-grid { display: flex; flex-direction: column; gap: .45rem; }
+  .apex-row { display: flex; align-items: flex-start; gap: .6rem; font-family: var(--mono); font-size: .8rem; }
+  .apex-mark { flex-shrink: 0; width: 3rem; text-align: center; font-weight: 700; padding: .1rem .3rem; border-radius: 4px; font-size: .72rem; }
+  .apex-mark.pass { background: rgba(74,222,128,.15); color: var(--pass); }
+  .apex-mark.fail { background: rgba(248,113,113,.15); color: var(--fail); }
+  .apex-mark.off  { background: rgba(71,85,105,.2);   color: var(--off); }
+  .apex-label { color: var(--muted); }
+  .apex-label strong { color: var(--text); }
+  .apex-issue { margin-left: .5rem; font-size: .75rem; color: #f59e0b; }
+
+  /* Evidence table */
+  table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+  th { text-align: left; color: var(--muted); font-weight: 500; font-size: .72rem; text-transform: uppercase; letter-spacing: .07em; padding: .4rem .6rem; border-bottom: 1px solid var(--border); }
+  td { padding: .45rem .6rem; border-bottom: 1px solid rgba(37,40,48,.6); vertical-align: top; font-family: var(--mono); }
+  tr:last-child td { border-bottom: none; }
+  .ev-type { color: var(--grade-A); }
+  .ev-source { max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); }
+  .ev-source a { color: var(--muted); }
+  .ev-source a:hover { color: var(--text); }
+  .ev-missing { color: #f87171; font-size: .72rem; }
+  .badge { display: inline-block; padding: .1rem .4rem; border-radius: 3px; font-size: .72rem; font-weight: 600; }
+  .badge-S { background: rgba(226,213,248,.15); color: var(--grade-S); }
+  .badge-A { background: rgba(251,191,36,.15); color: var(--grade-A); }
+  .badge-B { background: rgba(148,163,184,.15); color: var(--grade-B); }
+  .badge-C { background: rgba(184,115,51,.15); color: var(--grade-C); }
+  .badge-u { background: rgba(71,85,105,.2); color: var(--grade-u); }
+
+  /* Component tree */
+  .comp-filter { display: flex; gap: .5rem; margin-bottom: .75rem; flex-wrap: wrap; }
+  .filter-btn { padding: .25rem .75rem; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; font-size: .78rem; transition: all .15s; }
+  .filter-btn:hover, .filter-btn.active { background: var(--border); color: var(--text); }
+  .comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: .5rem; }
+  .comp-card { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: .7rem .85rem; cursor: pointer; transition: border-color .15s; }
+  .comp-card:hover { border-color: #3b4252; }
+  .comp-card .comp-name { font-size: .88rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .comp-card .comp-id { font-size: .7rem; color: var(--muted); font-family: var(--mono); margin-top: .1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .comp-card .comp-tm { font-family: var(--mono); font-size: .78rem; margin-top: .35rem; }
+  .comp-card .comp-nested { font-size: .68rem; color: var(--muted); margin-top: .2rem; }
+  .comp-card[data-grade="A"] { border-left: 3px solid var(--grade-A); }
+  .comp-card[data-grade="S"] { border-left: 3px solid var(--grade-S); }
+  .comp-card[data-grade="B"] { border-left: 3px solid var(--grade-B); }
+  .comp-card[data-grade="C"] { border-left: 3px solid var(--grade-C); }
+  .comp-card[data-grade="ungraded"] { border-left: 3px solid var(--grade-u); }
+  .comp-card.hidden { display: none; }
+
+  /* Section titles */
+  .section { margin-top: 1.75rem; }
+  .section-title { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: .75rem; display: flex; align-items: center; gap: .5rem; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* Progress bar */
+  .progress-wrap { display: flex; align-items: center; gap: .75rem; margin-top: .5rem; }
+  .progress-bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; background: var(--grade-A); transition: width .4s ease; }
+  .progress-fill.grade-S { background: var(--grade-S); }
+  .progress-fill.grade-A { background: var(--grade-A); }
+  .progress-fill.grade-B { background: var(--grade-B); }
+  .progress-fill.grade-C { background: var(--grade-C); }
+  .progress-label { font-family: var(--mono); font-size: .75rem; color: var(--muted); white-space: nowrap; }
+
+  /* Tooltip */
+  [data-tip] { position: relative; cursor: help; }
+  [data-tip]:hover::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #1e2230; border: 1px solid var(--border); border-radius: 5px; padding: .4rem .65rem; font-size: .75rem; white-space: nowrap; color: var(--text); z-index: 100; pointer-events: none; max-width: 320px; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<script>
+const SKILL = __SKILL_DATA__;
+</script>
+<div class="page" id="root"></div>
+<script>
+(function() {
+  const S = SKILL;
+
+  const APEX_LABELS = {
+    aGradedOriginsGte5:          { ref: '§11.12.5', text: '≥8 A-graded origins in transitive closure', issue: '#746' },
+    sourceTenureDaysGte180AorS:  { ref: '§11.12.7', text: 'Tenure ≥ 180 days at A-or-S evidence row', issue: '#746' },
+    directNestedSuiteGte1:       { ref: '§11.12.2', text: '≥1 direct component with nested suiteComponents', issue: null },
+    depth2OnlyReachableGte1:     { ref: '§11.12.3', text: '≥1 node reachable only at depth ≥ 2 (no flat collapse)', issue: '#746' },
+    overallGradeS:               { ref: '§11.12.4', text: 'Overall Trust Grade S (strict-evidence reading)', issue: null },
+    apexPromotionPrSigned:       { ref: '§11.12.8', text: 'apex-promotion PR signed by ≥2 verifiers', issue: null },
+    crossOrgVerifier:            { ref: '§11.12.6', text: '≥2 cross-org 4★+ verifier-attestations', issue: null, off: true },
+    systemWideCap:               { ref: '§11.12.9', text: 'System-wide ≤5 apex skills', issue: null, off: true },
+  };
+
+  const GRADE_FLOORS = { S: 250, A: 100, B: 50, C: 20 };
+
+  function gradeClass(g) {
+    return { S: 'badge-S', A: 'badge-A', B: 'badge-B', C: 'badge-C' }[g] || 'badge-u';
+  }
+
+  function badge(g) {
+    return `<span class="badge ${gradeClass(g)}">${g === 'ungraded' ? '—' : g}</span>`;
+  }
+
+  function progressBar(tm, grade) {
+    const floors = [250, 100, 50, 20, 0];
+    const gradeKeys = ['S', 'A', 'B', 'C', 'ungraded'];
+    const idx = gradeKeys.indexOf(grade);
+    const floor = floors[idx] ?? 0;
+    const ceil = floors[idx - 1] ?? 500;
+    const pct = ceil === floor ? 100 : Math.min(100, ((tm - floor) / (ceil - floor)) * 100);
+    const nextGrade = gradeKeys[idx - 1] || '';
+    const needed = ceil - tm;
+    return `
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill grade-${grade}" style="width:${pct.toFixed(1)}%"></div></div>
+        <div class="progress-label">${needed > 0 ? '+' + needed.toFixed(1) + ' → ' + nextGrade : '★ top grade'}</div>
+      </div>`;
+  }
+
+  function renderHeader() {
+    return `
+      <div class="header">
+        <h1>${S.id}</h1>
+        <div class="meta">${S.description || ''}</div>
+      </div>`;
+  }
+
+  function renderHero() {
+    const tmDisplay = S.tm >= 500 ? '500+' : S.tm.toFixed(2);
+    return `
+      <div class="grid-2">
+        <div class="card">
+          <h2>Trust Magnitude</h2>
+          <div class="tm-val" style="color:var(--grade-${S.grade})">${tmDisplay}</div>
+          ${progressBar(S.tm, S.grade)}
+          <div style="margin-top:.75rem; display:flex; gap:1rem; flex-wrap:wrap;">
+            <div class="stat-row">
+              <span class="stat-label">Grade</span>
+              <span class="grade" data-grade="${S.grade}">${S.grade === 'ungraded' ? 'Ungraded' : S.grade}</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Current Stars</span>
+              <span class="stat-value">${S.stars} ${S.starsLabel.split(' ').slice(1).join(' ')}</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">G7 Eff. Stars</span>
+              <span class="stat-value" style="color:${S.rankFlag === '[up]' ? 'var(--pass)' : S.rankFlag === '[floor]' ? 'var(--grade-A)' : 'inherit'}">${S.g7Stars} ${S.g7StarsLabel.split(' ').slice(1).join(' ')}${S.rankFlag ? '  <span style="font-size:.72rem;color:var(--muted)">' + S.rankFlag + '</span>' : ''}</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Skill</h2>
+          <div style="display:flex;flex-direction:column;gap:.6rem;">
+            ${[
+              ['Contributor', S.contributor],
+              ['Created', S.createdAt || '—'],
+              ['Updated', S.updatedAt || '—'],
+              ['Components', S.components.length ? S.components.length + ' suite members' : '—'],
+            ].map(([l,v]) => `<div class="stat-row"><span class="stat-label">${l}</span><span class="stat-value" style="font-family:var(--mono)">${v}</span></div>`).join('')}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function renderApexGate() {
+    if (!S.apexGate) return '';
+    const entries = Object.entries(S.apexGate);
+    const active = entries.filter(([,v]) => v !== null);
+    const passed = active.filter(([,v]) => v === true).length;
+    const verdict = passed === active.length ? 'PASS' : `${passed}/${active.length} passed`;
+    const verdictColor = passed === active.length ? 'var(--pass)' : 'var(--fail)';
+    return `
+      <div class="section">
+        <div class="section-title">Apex Gate — 6★ Transcendent ★ <span style="font-family:var(--mono);font-size:.8rem;color:${verdictColor}">${verdict}</span></div>
+        <div class="card">
+          <div class="apex-grid">
+            ${entries.map(([key, val]) => {
+              const info = APEX_LABELS[key] || { ref: key, text: key, issue: null };
+              const mark = val === true ? 'pass' : val === false ? 'fail' : 'off';
+              const markText = val === true ? 'PASS' : val === false ? 'FAIL' : 'OFF';
+              const issueLink = (val === false && info.issue)
+                ? `<a class="apex-issue" href="https://github.com/mbtiongson1/gaia-skill-tree/issues/${info.issue.replace('#','')}" target="_blank">↗ issue ${info.issue}</a>`
+                : '';
+              return `<div class="apex-row">
+                <span class="apex-mark ${mark}">${markText}</span>
+                <span class="apex-label"><strong>${info.ref}</strong> ${info.text}${info.off ? ' <em style="color:var(--off)">[flagged OFF]</em>' : ''}${issueLink}</span>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function renderEvidence() {
+    if (!S.evidence || !S.evidence.length) return '';
+    return `
+      <div class="section">
+        <div class="section-title">Evidence (${S.evidence.length} rows)</div>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <table>
+            <thead><tr><th>Type</th><th>Grade</th><th>Source</th><th>Stars/Views/Citations</th><th style="color:#f59e0b">sourceStartedAt</th></tr></thead>
+            <tbody>
+              ${S.evidence.map(e => {
+                const payload = [e.stars ? e.stars + '★' : null, e.views ? e.views.toLocaleString() + ' views' : null, e.citations ? e.citations + ' citations' : null].filter(Boolean).join(' · ') || '—';
+                const srcDisplay = e.source ? `<a href="${e.source}" target="_blank" title="${e.source}">${e.source.replace(/https?:\/\/(www\.)?/, '').slice(0,40)}…</a>` : '<span class="ev-missing">no source</span>';
+                const tenureFlag = !e.sourceStartedAt
+                  ? '<span class="ev-missing" title="sourceStartedAt missing — blocks §11.12.7 tenure predicate">missing ↗ #746</span>'
+                  : e.sourceStartedAt;
+                return `<tr>
+                  <td class="ev-type">${e.type || '—'}</td>
+                  <td>${e.grade ? badge(e.grade) : '—'}</td>
+                  <td class="ev-source">${srcDisplay}</td>
+                  <td style="font-family:var(--mono);font-size:.78rem;">${payload}</td>
+                  <td style="font-family:var(--mono);font-size:.78rem;">${tenureFlag}</td>
+                </tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>`;
+  }
+
+  function renderComponents() {
+    if (!S.components || !S.components.length) return '';
+    const grades = ['A', 'S', 'B', 'C', 'ungraded'];
+    const counts = {};
+    grades.forEach(g => { counts[g] = S.components.filter(c => c.grade === g).length; });
+
+    return `
+      <div class="section">
+        <div class="section-title">Suite Components (${S.components.length})</div>
+        <div class="comp-filter">
+          <button class="filter-btn active" data-filter="all">All ${S.components.length}</button>
+          ${grades.filter(g => counts[g] > 0).map(g =>
+            `<button class="filter-btn" data-filter="${g}">${badge(g)} ${counts[g]}</button>`
+          ).join('')}
+        </div>
+        <div class="comp-grid" id="compGrid">
+          ${S.components.map(c => `
+            <div class="comp-card" data-grade="${c.grade}" data-id="${c.id}">
+              <div class="comp-name">${c.name || c.id.split('/').pop()}</div>
+              <div class="comp-id">${c.id}</div>
+              <div class="comp-tm">${badge(c.grade)} <span style="font-family:var(--mono);font-size:.75rem">TM ${c.tm.toFixed(2)}</span> <span style="font-size:.72rem;color:var(--muted)">${c.stars}</span></div>
+              ${c.nestedCount > 0 ? `<div class="comp-nested">↳ ${c.nestedCount} nested components</div>` : ''}
+            </div>`
+          ).join('')}
+        </div>
+      </div>`;
+  }
+
+  function render() {
+    const root = document.getElementById('root');
+    root.innerHTML = renderHeader() + renderHero() + renderApexGate() + renderEvidence() + renderComponents();
+
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const f = this.dataset.filter;
+        document.querySelectorAll('.comp-card').forEach(card => {
+          card.classList.toggle('hidden', f !== 'all' && card.dataset.grade !== f);
+        });
+      });
+    });
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

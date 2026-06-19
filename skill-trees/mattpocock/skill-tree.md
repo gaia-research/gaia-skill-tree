@@ -23,7 +23,7 @@
 | ○ mattpocock/productivity | Basic Skill | 4★ | Hardened | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/prototype | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/setup-matt-pocock-skills | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
-| ○ mattpocock/skills | Basic Skill | 6★ | Apex | mattpocock/gaia-skill-tree | 2026-05-22T00:00:00Z |
+| ○ mattpocock/skills | Basic Skill | 5★ | Transcendent | mattpocock/gaia-skill-tree | 2026-05-22T00:00:00Z |
 | ○ mattpocock/to-issues | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/to-prd | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/triage | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
@@ -36,7 +36,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — mattpocock  ·  generated 2026-06-18
+GAIA SKILL TREE — mattpocock  ·  generated 2026-06-19
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -131,7 +131,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ · ○ garrytan/benchmark  [4★]  (↑ see above)
      └─ · ○ /generate-text  (↑ see above)
 
-· ◆ ruvnet/ruflo  [6★]
+· ◆ ruvnet/ruflo  [5★]
   ├─ · ◇ ruvnet/flow-nexus  [4★]
   │  ├─ · ◇ ████████/flow-nexus-swarm
   │  │  ├─ · ◇ /plan-and-execute
@@ -232,7 +232,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ◇ obra/verification-before-completion  [2★]  (↑ see above)
   └─ · ◇ obra/writing-plans  [2★]  (↑ see above)
 
-· ◆ mattpocock/skills  [6★]
+· ◆ mattpocock/skills  [5★]
   ├─ · ◆ mattpocock/engineering  [5★]
   │  ├─ · ◇ mattpocock/diagnose  [2★]
   │  │  ├─ · ○ garrytan/design-html  [4★]
@@ -295,6 +295,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ /autonomous-engineering-platform
   · ○ /clinical-data-retrieval
   · ○ /cultural-localization
+  · ○ /domain-modeling
   · ○ openai/few-shot-learning  [2★]
   · ○ laravel/upgrade-laravel-v13  [2★]
   · ○ ruvnet/agentic-jujutsu  [2★]
@@ -306,6 +307,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ openai/self-consistency  [2★]
   · ○ ████████/semantic-cache
   · ○ ruvnet/stream-chain  [2★]
+  · ○ /software-design
   · ○ /synthetic-data-generation
   · ○ addy-osmani/test-driven-development  [3★]
   · ○ /time-series-forecasting

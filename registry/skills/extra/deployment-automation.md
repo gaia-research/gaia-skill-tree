@@ -23,9 +23,9 @@ Requires environment credentials and a configured pipeline definition.
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/land-and-deploy | garrytan | 4★ | 1 |
+| garrytan/land-and-deploy | garrytan | 4★ | 2 |
 | garrytan/setup-deploy | garrytan | 2★ | 1 |
-| intelligentcode-ai/devops-engineer | intelligentcode-ai | 2★ | 1 |
+| intelligentcode-ai/devops-engineer | intelligentcode-ai | 2★ | 2 |
 | mbtiongson1/gaia-preview | mbtiongson1 | 2★ | 1 |
 
 ## Evidence (inherited capability)

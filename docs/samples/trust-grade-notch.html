@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trust Grade Notch Sampler — I8</title>
+  <meta name="description" content="Visual test for the I8 trust grade notch feature on .plaque cards. Hover any card to see the TM number fade and the grade letter reveal via shine sweep.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/plaque.css">
+  <script src="../js/icons.js"></script>
+  <script src="../js/rank-badge.js"></script>
+  <script src="../js/atlas-helpers.js"></script>
+  <script src="../js/plaque.js"></script>
+  <style>
+    body {
+      padding: 4rem 1.5rem 8rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .sampler-h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 600;
+      margin-bottom: .25rem;
+    }
+    .sampler-sub {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+    }
+    .sampler-section {
+      margin: 3rem 0;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .sampler-section h2 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: .15rem;
+    }
+    .sampler-section .density {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    .sampler-stage {
+      position: relative;
+      padding: 1.25rem;
+      background: rgba(255, 255, 255, 0.015);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .sampler-tile-grid {
+      width: 320px;
+      max-width: 100%;
+    }
+    .sampler-row-wrap { width: 100%; max-width: 720px; }
+
+    /* Hover hint strip */
+    .hover-hint {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      letter-spacing: .06em;
+      color: var(--muted);
+      margin-bottom: .75rem;
+      opacity: .75;
+    }
+    .hover-hint strong { color: var(--text); }
+
+    /* Grade legend */
+    .grade-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+    .grade-legend-item { display: inline-flex; align-items: center; gap: .45rem; }
+    .grade-swatch {
+      width: 28px; height: 14px;
+      border-radius: 3px;
+      border: 1px solid;
+      display: inline-block;
+    }
+    .grade-swatch--S { background: rgba(226,232,240,.2); border-color: rgba(226,232,240,.35); }
+    .grade-swatch--A { background: rgba(212,175,55,.22); border-color: rgba(212,175,55,.4); }
+    .grade-swatch--B { background: rgba(203,213,225,.18); border-color: rgba(203,213,225,.32); }
+    .grade-swatch--C { background: rgba(180,83,9,.2); border-color: rgba(180,83,9,.38); }
+  </style>
+</head>
+<body>
+
+  <h1 class="sampler-h1">Trust Grade Notch — I8</h1>
+  <p class="sampler-sub">design/trust-grade-notch · Hover reveal: TM number → grade letter + shine sweep</p>
+
+  <p style="color: var(--muted); max-width: 64ch; margin-bottom: 1.5rem;">
+    The trust notch is a small pill pinned to the card's bottom center.
+    By default it shows the <strong style="color:var(--text);">TM number</strong> (trustMagnitude).
+    On hover, a shine sweep animation reveals the
+    <strong style="color:var(--text);">grade letter</strong> (S / A / B / C) and
+    the TM number fades out.
+  </p>
+
+  <div class="grade-legend">
+    <span class="grade-legend-item"><span class="grade-swatch grade-swatch--S"></span>S — Platinum (4★+)</span>
+    <span class="grade-legend-item"><span class="grade-swatch grade-swatch--A"></span>A — Gold (3★)</span>
+    <span class="grade-legend-item"><span class="grade-swatch grade-swatch--B"></span>B — Silver (2★)</span>
+    <span class="grade-legend-item"><span class="grade-swatch grade-swatch--C"></span>C — Bronze (1★)</span>
+  </div>
+
+  <p class="hover-hint">Hover any card below — the TM number will fade and the grade letter will appear.</p>
+
+  <!-- ── Four grades in --tile variant ── -->
+  <section class="sampler-section">
+    <h2>--tile · All four grades</h2>
+    <p class="density">Tile cards with S / A / B / C grades — hover each to trigger the reveal</p>
+    <div class="sampler-stage" id="stageTile"></div>
+  </section>
+
+  <!-- ── --settled with grade A ── -->
+  <section class="sampler-section">
+    <h2>--settled (Profile trophy)</h2>
+    <p class="density">Trophy card with trust notch — Grade A, TM 122</p>
+    <div class="sampler-stage">
+      <div class="sampler-tile-grid" id="stageSettled"></div>
+    </div>
+  </section>
+
+  <!-- ── --mini (HoH) with grade S ── -->
+  <section class="sampler-section">
+    <h2>--mini (Hall of Heroes)</h2>
+    <p class="density">HoH card — Grade S, TM 310</p>
+    <div class="sampler-stage" id="stageMini"></div>
+  </section>
+
+  <!-- ── --row (list view) with evidence badge ── -->
+  <section class="sampler-section">
+    <h2>--row (list view) · Evidence badge</h2>
+    <p class="density">List rows show a small CLASS A / B / C label at the end — before the › arrow. Trust notch appears at bottom (small pill).</p>
+    <div class="sampler-stage">
+      <div class="sampler-row-wrap" id="stageRow"></div>
+    </div>
+  </section>
+
+  <!-- ── No data edge case ── -->
+  <section class="sampler-section">
+    <h2>No trust data (notch hidden)</h2>
+    <p class="density">When overallTrustGrade and trustMagnitude are absent, no notch is rendered.</p>
+    <div class="sampler-stage">
+      <div class="sampler-tile-grid" id="stageNoNotch"></div>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      // Base skill data — reused across all samples.
+      var BASE = {
+        id: 'karpathy/autoresearch',
+        name: 'AutoResearch',
+        contributor: 'karpathy',
+        origin: true,
+        genericSkillRef: 'autonomous-research-agent',
+        status: 'named',
+        type: 'basic',
+        title: "The Scholar's Compass",
+        description: 'Autonomous research agent that iteratively searches, reads, and synthesizes academic papers into structured summaries.',
+        tags: ['research', 'autonomous', 'synthesis'],
+        links: { github: 'https://github.com/karpathy/autoresearch/blob/main/SKILL.md' }
+      };
+
+      function skill(overrides) {
+        var s = {};
+        for (var k in BASE) s[k] = BASE[k];
+        for (var k2 in overrides) s[k2] = overrides[k2];
+        return s;
+      }
+
+      // ── Tile — four grades ──
+      var tileEl = document.getElementById('stageTile');
+      if (tileEl && window.plaque) {
+        var tiledSkills = [
+          skill({ level: 6, type: 'ultimate', overallTrustGrade: 'S', trustMagnitude: 589.3, name: 'gstack', contributor: 'garrytan' }),
+          skill({ level: 5, type: 'ultimate', overallTrustGrade: 'S', trustMagnitude: 416.0, name: 'superpowers', contributor: 'obra' }),
+          skill({ level: 4, type: 'extra',    overallTrustGrade: 'A', trustMagnitude: 122.8, name: 'impeccable', contributor: 'pbakaus' }),
+          skill({ level: 3, type: 'basic',    overallTrustGrade: 'B', trustMagnitude: 81.0,  name: 'writing-plans', contributor: 'obra' }),
+          skill({ level: 2, type: 'basic',    overallTrustGrade: 'C', trustMagnitude: 36.0,  name: 'careful', contributor: 'garrytan' }),
+          skill({ level: 2, type: 'basic',    overallTrustGrade: 'C', trustMagnitude: 18.0,  name: 'readme-gen', contributor: 'glincker' })
+        ];
+        tiledSkills.forEach(function (ns) {
+          var wrap = document.createElement('div');
+          wrap.style.width = '300px';
+          wrap.innerHTML = window.plaque.renderTile(ns, { click: false });
+          tileEl.appendChild(wrap);
+        });
+      }
+
+      // ── Settled ──
+      var settledEl = document.getElementById('stageSettled');
+      if (settledEl && window.plaque) {
+        settledEl.innerHTML = window.plaque.renderSettled(
+          skill({ level: 5, type: 'ultimate', overallTrustGrade: 'S', trustMagnitude: 482.3, name: 'ruflo', contributor: 'ruvnet' }),
+          { click: false }
+        );
+      }
+
+      // ── Mini (HoH) ──
+      var miniEl = document.getElementById('stageMini');
+      if (miniEl && window.plaque) {
+        miniEl.innerHTML = window.plaque.renderMini(
+          skill({ level: 5, type: 'ultimate', overallTrustGrade: 'S', trustMagnitude: 440.8, name: 'skills', contributor: 'mattpocock' }),
+          { click: false }
+        );
+      }
+
+      // ── Row (list view) ──
+      var rowEl = document.getElementById('stageRow');
+      if (rowEl && window.plaque) {
+        var rowSkills = [
+          skill({ level: 5, type: 'ultimate', overallTrustGrade: 'S', trustMagnitude: 589.3, name: 'gstack', contributor: 'garrytan' }),
+          skill({ level: 4, type: 'extra',    overallTrustGrade: 'A', trustMagnitude: 270.0, name: 'engineering', contributor: 'mattpocock' }),
+          skill({ level: 3, type: 'basic',    overallTrustGrade: 'B', trustMagnitude: 88.5,  name: 'subagent-driven-development', contributor: 'obra' }),
+          skill({ level: 2, type: 'basic',    overallTrustGrade: 'C', trustMagnitude: 36.0,  name: 'careful', contributor: 'garrytan' })
+        ];
+        rowSkills.forEach(function (ns) {
+          var div = document.createElement('div');
+          div.style.width = '100%';
+          div.innerHTML = window.plaque.renderRow(ns, { click: false });
+          rowEl.appendChild(div);
+        });
+      }
+
+      // ── No notch (no trust data) ──
+      var noNotchEl = document.getElementById('stageNoNotch');
+      if (noNotchEl && window.plaque) {
+        noNotchEl.innerHTML = window.plaque.renderTile(
+          skill({ level: 3, type: 'basic' }),
+          { click: false }
+        );
+      }
+
+      // Wire count-up animation for all rendered notches
+      if (typeof window._wireTrustNotches === 'function') {
+        window._wireTrustNotches(document);
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1138,6 +1138,18 @@ def meta_evidence_command(args):
             )
             sys.exit(1)
 
+    # Validate --source-started-at as ISO YYYY-MM-DD; reject bad input loudly.
+    source_started_at = getattr(args, "source_started_at", None)
+    if source_started_at is not None:
+        try:
+            datetime.date.fromisoformat(source_started_at)
+        except ValueError:
+            print(
+                f"Error: --source-started-at must be ISO YYYY-MM-DD; got '{source_started_at}'.",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+
     # Derive grade from trust number
     derived_grade: str | None = None
     if trust_number is not None:
@@ -1150,10 +1162,10 @@ def meta_evidence_command(args):
 
     if index is not None and trust_number is None and evidence_type is None and (
         not getattr(args, "notes", None)
-    ):
+    ) and source_started_at is None:
         print(
-            "Error: --index requires at least one of --trust, --type, or --notes "
-            "to update on the existing entry.",
+            "Error: --index requires at least one of --trust, --type, --notes, "
+            "or --source-started-at to update on the existing entry.",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -1175,6 +1187,23 @@ def meta_evidence_command(args):
         evidence["class"] = evidence_class
     if getattr(args, "notes", None):
         evidence["notes"] = args.notes
+    # Numeric payload fields (type-specific magnitude drivers)
+    if getattr(args, "stars", None) is not None:
+        evidence["stars"] = args.stars
+    if getattr(args, "views", None) is not None:
+        evidence["views"] = args.views
+    if getattr(args, "citations", None) is not None:
+        evidence["citations"] = args.citations
+    if getattr(args, "reviewers", None) is not None:
+        evidence["reviewers"] = args.reviewers
+    if getattr(args, "commits", None) is not None:
+        evidence["commits"] = args.commits
+    if getattr(args, "contributors", None) is not None:
+        evidence["contributors"] = args.contributors
+    if getattr(args, "skill_count_in_repo", None) is not None:
+        evidence["skillCountInRepo"] = args.skill_count_in_repo
+    if source_started_at is not None:
+        evidence["sourceStartedAt"] = source_started_at
 
     def _apply(ev_list: list) -> dict:
         """Append the new entry, or update the entry at ``index`` in place.
@@ -1211,6 +1240,23 @@ def meta_evidence_command(args):
             entry["evaluator"] = args.evaluator
         if getattr(args, "date", None):
             entry["date"] = args.date
+        # Numeric payload fields — also patchable via --index
+        if getattr(args, "stars", None) is not None:
+            entry["stars"] = args.stars
+        if getattr(args, "views", None) is not None:
+            entry["views"] = args.views
+        if getattr(args, "citations", None) is not None:
+            entry["citations"] = args.citations
+        if getattr(args, "reviewers", None) is not None:
+            entry["reviewers"] = args.reviewers
+        if getattr(args, "commits", None) is not None:
+            entry["commits"] = args.commits
+        if getattr(args, "contributors", None) is not None:
+            entry["contributors"] = args.contributors
+        if getattr(args, "skill_count_in_repo", None) is not None:
+            entry["skillCountInRepo"] = args.skill_count_in_repo
+        if source_started_at is not None:
+            entry["sourceStartedAt"] = source_started_at
         return entry
 
     if "/" in skill_id:
@@ -1588,10 +1634,37 @@ def meta_update_named_command(args):
         sys.exit(1)
 
     meta, body = _parse_md(target_file)
+    prior_status = meta.get("status")
     changed = False
+    status_promoted_to_named = False
 
     if getattr(args, "status", None):
-        meta["status"] = args.status
+        new_status = args.status
+        # Schema rule: status=named requires title or catalogRef. Block premature promotion
+        # so I13-style intake bugs don't slip past validation again.
+        if new_status == "named" and not (
+            meta.get("title")
+            or meta.get("catalogRef")
+            or getattr(args, "title", None)
+            or getattr(args, "catalog_ref", None)
+        ):
+            print(
+                f"Error: status='named' requires 'title' or 'catalogRef' on {skill_id}. "
+                f"Re-run with --title \"<lore title>\" (or --catalog-ref <slug>) to satisfy "
+                f"the schema constraint."
+            )
+            sys.exit(1)
+        if prior_status != "named" and new_status == "named":
+            status_promoted_to_named = True
+        meta["status"] = new_status
+        changed = True
+
+    if getattr(args, "title", None):
+        meta["title"] = args.title
+        changed = True
+
+    if getattr(args, "catalog_ref", None):
+        meta["catalogRef"] = args.catalog_ref
         changed = True
 
     if getattr(args, "generic_ref", None):
@@ -1675,6 +1748,14 @@ def meta_update_named_command(args):
                 contributor,
                 f"Origin status set to {'true' if target_val else 'false'}.",
                 registry_path=registry_path
+            )
+        if status_promoted_to_named:
+            append_skill_event(
+                skill_id,
+                "name",
+                contributor,
+                f"Promoted from {prior_status or 'unknown'} to named.",
+                registry_path=registry_path,
             )
         if getattr(args, "suite_ref", None):
             append_skill_event(
@@ -2035,17 +2116,25 @@ def meta_timeline_command(args):
     timestamp = getattr(args, "timestamp", None)
 
     if user:
-        from gaia_cli.timeline import append_skill_tree_event
-        append_skill_tree_event(
-            user,
-            skill_id,
-            action,
-            notes,
-            registry_path=registry_path,
-            timestamp=timestamp,
-        )
-        marker = f" (at {timestamp})" if timestamp else ""
-        print(f"Appended '{action}' event for '{skill_id}' to skill-trees/{user}/skill-tree.json{marker}.")
+        # Check if skill_id refers to a named skill first; if so write there.
+        from gaia_cli.timeline import _named_skill_file
+        named_file = _named_skill_file(skill_id, registry_path)
+        if named_file:
+            from gaia_cli.timeline import append_skill_event
+            append_skill_event(skill_id, action, user, notes, registry_path=registry_path)
+            print(f"Appended '{action}' event for '{skill_id}' to named skill file.")
+        else:
+            from gaia_cli.timeline import append_skill_tree_event
+            append_skill_tree_event(
+                user,
+                skill_id,
+                action,
+                notes,
+                registry_path=registry_path,
+                timestamp=timestamp,
+            )
+            marker = f" (at {timestamp})" if timestamp else ""
+            print(f"Appended '{action}' event for '{skill_id}' to skill-trees/{user}/skill-tree.json{marker}.")
     else:
         from gaia_cli.timeline import append_skill_event
         append_skill_event(

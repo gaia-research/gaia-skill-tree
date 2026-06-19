@@ -32,17 +32,43 @@ evidence:
   source: https://github.com/ruvnet/ruflo
   evaluator: mbtiongson1
   date: '2026-05-19'
-  notes: Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type
-    migration)
+  notes: 'Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type"
+    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6899
+  contributors: 32
 timeline:
 - timestamp: '2026-06-14T12:32:56Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber:
     70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:20Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:39Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:44Z'
+  details: TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)
+trustMagnitude: 66.0
+overallTrustGrade: B
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 1df987fbdd79a999a7c3ca1ec7cf7a3b8f276f5dae52dbbc43911436f3012813
 ---
 
 ## Overview

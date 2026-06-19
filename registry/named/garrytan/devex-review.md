@@ -37,18 +37,46 @@ timeline:
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/garrytan/gstack/blob/main/devex-review/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:14Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:36:26Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:37Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/devex-review/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Audits
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Audits
     CLI ergonomics, API surface clarity, and onboarding friction from a developer
     perspective, producing a scored report with prioritised fixes. (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
+trustMagnitude: 36.0
+overallTrustGrade: C
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-03T05:51:32Z'
+trustMagnitudeInputHash: 08499be1ad32387c92ab3fa04d9aaa23bb0923fb545bc03cc5a47a942e65dfb9
 ---
 
 ## Overview

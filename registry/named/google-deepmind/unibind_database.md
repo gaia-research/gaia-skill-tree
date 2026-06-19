@@ -12,7 +12,7 @@ description: Queries the UniBind database for experimentally validated transcrip
   available datasets by species, cell line, or TF name. Don't use to query specific
   intervals, locations, genes, motif models or expression data.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md
 evidence:
@@ -25,12 +25,63 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
+- source: https://pmc.ncbi.nlm.nih.gov/articles/PMC8236138/
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 82.0
+  grade: A
+  notes: UniBind 2021 — PMC NAR database issue; 72M+ direct TF-DNA interactions from
+    ChIP-seq across 9 species
+  reviewers: 3
+  sourceStartedAt: '2021-06-01'
 timeline:
 - timestamp: '2026-06-14T12:32:39Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:17Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:57Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:39Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:06:51Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://pmc.ncbi.nlm.nih.gov/articles/PMC8236138/
+    (type: peer-review)'
+- timestamp: '2026-06-19T17:06:51Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://pmc.ncbi.nlm.nih.gov/articles/PMC8236138/
+    as A (trustNumber: 82.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: true
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: f8c509bf94a9c084026882c8f9438f4709b7cc14f2eb108e07629839237cf743
+verification:
+  firstEvidenceAt: '2026-06-19T17:06:50Z'
 ---
 
 # UniBind Database Skill

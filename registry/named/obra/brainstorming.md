@@ -18,7 +18,7 @@ tags:
 - collaboration
 - pre-implementation
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -31,12 +31,92 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 609
+  contributors: 36
+- source: https://github.com/obra/superpowers/issues/1773
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'v6.0.0 regression: brainstorming uses AskUserQuestion instead of conversational
+    text.'
+- source: https://github.com/obra/superpowers/issues/1690
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: Shows brainstorming as part of workflow producing plans in default location.
+- source: https://www.youtube.com/watch?v=6YltXh12W-g
+  evaluator: unknown
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering
+    brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).'
+  views: 4402
+- source: https://www.youtube.com/watch?v=6YltXh12W-g
+  evaluator: unknown
+  date: '2026-06-19'
 timeline:
 - timestamp: '2026-06-14T12:32:46Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/brainstorming/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:19Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:58Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:48:14Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1773 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:48:31Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1690 (type:
+    social-signal)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:53:50Z'
+  details: TM 36.0 -> 66.0, grade C -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:42Z'
+  details: TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:25:58Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type:
+    social-signal)'
+- timestamp: '2026-06-19T14:27:02Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:47Z'
+  details: TM 66.0 -> 95.15, grade B -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:18Z'
+  details: TM 95.15 -> 95.15, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 95.15
+overallTrustGrade: B
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-19T12:48:14Z'
+trustMagnitudeInputHash: c4bb503427298e66e85aef80869d5aaf4fa8f1286f98ae55fe1f9122c7660fc0
 ---
 
 ## Overview

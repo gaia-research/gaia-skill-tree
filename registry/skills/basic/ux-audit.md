@@ -19,12 +19,12 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| pbakaus/impeccable ⭑ | pbakaus | 4★ | 1 |
+| pbakaus/impeccable ⭑ | pbakaus | 4★ | 6 |
 | garrytan/design-review | garrytan | 3★ | 1 |
 | garrytan/devex-review | garrytan | 3★ | 1 |
-| garrytan/plan-design-review | garrytan | 4★ | 1 |
-| garrytan/plan-devex-review | garrytan | 4★ | 1 |
-| martin-stepanoski/nielsen-heuristics-audit | martin-stepanoski | 2★ | 1 |
+| garrytan/plan-design-review | garrytan | 4★ | 2 |
+| garrytan/plan-devex-review | garrytan | 4★ | 2 |
+| martin-stepanoski/nielsen-heuristics-audit | martin-stepanoski | 2★ | 2 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

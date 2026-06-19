@@ -23,7 +23,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| mattpocock/prototype | mattpocock | 3★ | 1 |
+| mattpocock/prototype | mattpocock | 3★ | 2 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

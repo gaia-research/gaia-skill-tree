@@ -12,7 +12,7 @@ description: Retrieve and analyze AlphaFold predicted structures for a protein. 
   the user only has a protein name, gene name, or amino acid sequence — ask for a
   UniProt ID first.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md
 evidence:
@@ -20,17 +20,60 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind alphafold_database_fetch_and_analyze science-skill
-    implementation. (backfilled — class-to-type migration)
+  notes: 'Official Google DeepMind alphafold_database_fetch_and_analyze science-skill"
+    implementation. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors
+    not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
+- source: https://www.nature.com/articles/s41586-021-03819-2
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Jumper et al. 2021 Nature: AlphaFold protein structure prediction. 36,575
+    citations (Semantic Scholar 2026-06-19). Nature paper directly describing the
+    AlphaFold database tool.'
+  reviewers: 3
 timeline:
 - timestamp: '2026-06-14T12:32:28Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:16Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:52:12Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:23:07Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.nature.com/articles/s41586-021-03819-2
+    (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:45Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 100.82 -> 100.82, grade A -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-19T14:23:06Z'
+trustMagnitudeInputHash: 512a42040fbc5bc17fe5cb3f1539aa9775c280f8dd80571ad9aa8478e55cb46c
 ---
 
 # AlphaFold Database: Fetch and Analyze

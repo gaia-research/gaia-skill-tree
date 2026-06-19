@@ -18,7 +18,7 @@ tags:
 - pre-coding
 - task-breakdown
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -31,12 +31,126 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 609
+  contributors: 36
+- source: https://github.com/obra/superpowers/issues/1808
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Requires writing-plans outputs to start with WHAT/WHY bullets.
+- source: https://github.com/obra/superpowers/issues/1803
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: Detailed Phase 4 checkpoint and Phase 5 adversarial review workflow across
+    90+ sessions.
+- source: https://github.com/obra/superpowers/issues/1746
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Adds Global Constraints and per-task Interfaces to writing-plans template.
+- source: https://github.com/obra/superpowers/issues/1690
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: Security concern shows widespread writing-plans usage and integration.
+- source: https://github.com/obra/superpowers/issues/1574
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: Enhancement to coordinate plan-tune preferences across writing-plans, finishing-a-development-branch,
+    executing-plans.
+- source: https://www.youtube.com/watch?v=6YltXh12W-g
+  evaluator: unknown
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering
+    brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).'
+  views: 4402
+- source: https://www.youtube.com/watch?v=6YltXh12W-g
+  evaluator: unknown
+  date: '2026-06-19'
 timeline:
 - timestamp: '2026-06-14T12:32:49Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/writing-plans/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:19Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:58Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:43:14Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1808 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:43:29Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1803 (type:
+    social-signal)'
+- timestamp: '2026-06-19T12:43:46Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1746 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:44:03Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1690 (type:
+    social-signal)'
+- timestamp: '2026-06-19T12:44:19Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers/issues/1574 (type:
+    social-signal)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:53:51Z'
+  details: TM 36.0 -> 81.0, grade C -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 81.0, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:43Z'
+  details: TM 0.0 -> 81.0, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:25:54Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type:
+    social-signal)'
+- timestamp: '2026-06-19T14:26:28Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:47Z'
+  details: TM 81.0 -> 110.15, grade B -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:19Z'
+  details: TM 110.15 -> 110.15, grade A -> A (direct edit -- CLI gap)
+trustMagnitude: 110.15
+overallTrustGrade: A
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-19T12:43:14Z'
+trustMagnitudeInputHash: 56dbccb84c853516119e37ba33db1034f5a7ed1d7aaa57481bb6ded96e900c5b
 ---
 
 ## Overview

@@ -54,6 +54,21 @@ gaia dev evidence skill-id "url" --class B
 
 **All meta shifts (merging, splitting, adding skills, adding evidence) MUST be done via CLI commands.** Manual edits to `registry/nodes/` are deprecated to ensure programmatic schema integrity and automated timeline logging. AI agents must prioritize these tools over direct file manipulation.
 
+### CLI Pre-Flight Rule (CRITICAL — added 2026-06-20)
+
+**Every mutating `gaia dev` subcommand MUST validate the schema invariant it would produce BEFORE writing.** A CLI that lets an agent ship a state that fails CI is a CLI that the next agent will work around — and around, and around. Each gap erodes the registry; the cumulative drift is irreversible.
+
+When adding or extending a `gaia dev` verb, the implementation must:
+
+1. **Check the schema constraint** that would be violated by the proposed write. Examples:
+   - `update-named --status named` requires `title` or `catalogRef` (frontmatter or via flag) — reject with a clear error if missing rather than writing a state that fails `gaia validate`.
+   - `dev evidence` numeric flags must validate ranges before writing.
+   - `dev calibrate` to a 3★+ level must check the skill has a verified `links.github` blob URL (META.md §2.4 "Star Bar").
+2. **Surface the gap, don't paper over it.** If the CLI cannot satisfy the request without producing an invalid state, error out with the path to the right command. NEVER fall back to direct frontmatter edits — those skip timeline logging (META.md §5 transparency mandate) and pollute the audit trail.
+3. **If the right command does not exist**, file an issue tagged `CLI` + `tech-debt` describing the gap. Do not let a coding agent "work around it" — that's how the registry got 14 broken-state mattpocock skills past local validate (PR #754 retro, 2026-06-20).
+
+This rule is non-negotiable. The CLI is the canonical mutation interface; if it lets bad states through, the gap is the bug, not the agent that hit it.
+
 ### Skill-Tree Timeline — Strict CLI-Only
 
 Every change to a user's `skill-trees/<username>/skill-tree.json` **must** be accompanied by a timeline event so progression history is auditable. Use the CLI — never hand-edit the `timeline` array.
@@ -277,7 +292,25 @@ For non-suite skills at 2★ or below with no known public repo: mark `installab
 ### 4. Suite component links need subpaths
 A suite skill (has `suiteComponents`) whose `links.github` is a bare repo root will install symlinks pointing to the repo root. Every component must have a `blob/branch/subpath` URL pointing to its actual skill directory.
 
+### 5. Evidence pipeline — Trust Magnitude learnings (I11, 2026-06-20)
 
+Key facts for evidence curation that affect computed TM scores:
+
+**Same-source dedup**: When a skill already has `repo-own` evidence at URL `https://github.com/owner/repo`, adding a new `github-stars-own` entry at the SAME URL will be deduped — only the higher-scoring entry counts. Use the specific `SKILL.md` blob URL for `github-stars-own` to avoid dedup (e.g. `https://github.com/owner/repo/blob/main/skills/foo/SKILL.md`).
+
+**github-stars-own mothership discount formula**: `artifact_score = (stars/1000) / skill_count_in_repo * weight`. For large suites (34+ skills), per-skill contribution is tiny. Prefer `social-signal` or `peer-review` for high-impact additions.
+
+**peer-review is the highest-impact type for science skills**: `reviewers=3` gives magnitude=75, weight=1.2, so artifact_score≈90. One published NAR/Nature paper lifts a skill from TM=10 to TM=100+ (A grade) immediately.
+
+**benchmark-result requires `percentile` field**: The magnitude formula uses `row.get("percentile", 0)`. Without it, score=0. Without a percentile score, use `peer-review` type instead.
+
+**rm-evidence --source removes ALL entries at that URL**: If two entries share the same source URL (e.g. `repo` and `github-stars-own`), `--source URL` removes both. Inspect indices first.
+
+**CLI run path in worktrees**: In worktrees, `python3 -m gaia_cli` may resolve to the installed system version, not the worktree source. Use `PYTHONPATH=/path/to/worktree/src python3 -m gaia_cli` to ensure branch-local CLI (e.g. when testing a new flag from a pending branch).
+
+**social-signal view floor**: views < 1000 → score = 0. Formula: `log10(views) * 8.0`. 10K views ≈ 32 score; hard-capped at 80 per skill.
+
+**firecrawl-search as WebSearch fallback**: When WebSearch API is down, use `firecrawl search "<query>" -o .firecrawl/result.json --json`. Always write to `.firecrawl/` directory.
 
 ---
 

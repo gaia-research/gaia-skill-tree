@@ -24,7 +24,7 @@ Requires headless browser (Playwright/Puppeteer).
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/design-consultation ⭑ | garrytan | 4★ | 1 |
+| garrytan/design-consultation ⭑ | garrytan | 4★ | 2 |
 | Manavarya09/design-extract | Manavarya09 | 2★ | 1 |
 
 ## Evidence (inherited capability)

@@ -20,7 +20,7 @@ tags:
 - ultimate
 - memory-platform
 createdAt: '2026-05-19'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/agentdb-advanced
@@ -38,12 +38,67 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6899
+  contributors: 32
+- source: https://github.com/ruvnet/ruflo/issues/1207
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: Major AgentDB upgrade introducing RVF backend, self-learning capabilities,
+    and witness chain for memory persistence.
+- source: https://github.com/ruvnet/ruflo/issues/829
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: High-engagement feature request demonstrating AgentDB performance benefits
+    (150x-12,500x improvements) with backward compatibility.
 timeline:
 - timestamp: '2026-06-14T12:32:52Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber:
     70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:20Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:58Z'
+  details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T12:51:31Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/ruvnet/ruflo/issues/1207 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:51:49Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/ruvnet/ruflo/issues/829 (type:
+    peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:53:51Z'
+  details: TM 36.0 -> 81.0, grade C -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 81.0, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:43Z'
+  details: TM 0.0 -> 201.0, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 201.0
+overallTrustGrade: A
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-19T12:51:31Z'
+trustMagnitudeInputHash: 57eb32192c3caef4855ec9363e47a5695af318f4bd39395758ff0f7966bcb492
 ---
 
 ## Overview

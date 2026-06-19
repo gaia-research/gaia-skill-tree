@@ -5,21 +5,44 @@ contributor: ruvnet
 origin: false
 genericSkillRef: workflow-automation
 status: named
-title: "The Event Weaver"
+title: The Event Weaver
 catalogRef: ruvnet-hooks-automation
-level: "2★"
-description: Designs agent lifecycle hooks and timer-based background tasks for automated quality gates and scheduled workflows.
+level: 2★
+description: Designs agent lifecycle hooks and timer-based background tasks for automated
+  quality gates and scheduled workflows.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - hooks
-  - automation
-  - lifecycle
-  - background-workers
-  - quality-gates
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo"
+- hooks
+- automation
+- lifecycle
+- background-workers
+- quality-gates
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+timeline:
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:20Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:39Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:44Z'
+  details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitudeInputHash: 4afcb22e4a41cf2702f6683a406cfd95d98f3aced45131117adac65a7b633006
 ---
 
 ## Overview

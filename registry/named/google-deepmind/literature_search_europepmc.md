@@ -10,7 +10,7 @@ description: Search Europe PMC for scientific literature and download open-acces
   full texts and PDFs. Retrieve full-text XML/plain text by PMCID, get citation lists
   and bibliography.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md
 evidence:
@@ -23,12 +23,62 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 6
+  contributors: 3
+- source: https://europepmc.org/RestfulWebService
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 78.0
+  grade: B
+  notes: Europe PMC REST API — curated access to 48M+ life-science articles, preprints,
+    patents; EMBL-EBI maintained
+  reviewers: 3
+  sourceStartedAt: '2015-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:33Z'
   action: evidence_graded
   contributor: unknown
   details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md
     as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:16Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:57Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:37Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:39Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:07:03Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://europepmc.org/RestfulWebService (type: peer-review)'
+- timestamp: '2026-06-19T17:07:03Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://europepmc.org/RestfulWebService as B (trustNumber:
+    78.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: df011f78f8ea39675c019c5cc28968916c1385ec08c9a6e3002ceb1483141134
+verification:
+  firstEvidenceAt: '2026-06-19T17:07:02Z'
 ---
 
 # Europe PMC Database

@@ -32,12 +32,20 @@
       "type": "repo",
       "trustNumber": 70.0,
       "grade": "B"
+    },
+    {
+      "source": "https://arxiv.org/abs/2408.03910",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "benchmark-result",
+      "class": "A",
+      "notes": "RAG token compression benchmark: up to 71.5x token reduction per query vs raw file reading. AST-based knowledge graph (May 2026). [generic layer; inherits to safishamsi/graphify]"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-19",
   "version": "0.2.0",
   "timeline": [
     {
@@ -59,6 +67,15 @@
       "action": "evidence_graded",
       "contributor": "unknown",
       "details": "Re-graded evidence from https://github.com/microsoft/graphrag as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-19T10:50:12Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/2408.03910 (type: benchmark-result)"
     }
-  ]
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-06-19T10:50:11Z"
+  }
 }
