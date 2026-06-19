@@ -9,7 +9,7 @@ level: 2★
 description: Use when you want to retrieve semi-quantitative protein expression and
   spatial localisation data from the Human Protein Atlas (HPA).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md
 evidence:
@@ -24,6 +24,16 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://www.nature.com/articles/s41587-025-02659-z
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 85.0
+  grade: A
+  notes: Human Protein Atlas 2025 — Nature Biotechnology; protein association atlas
+    covering 116M protein pairs across cells/tissues
+  reviewers: 3
+  sourceStartedAt: '2025-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:32Z'
   action: evidence_graded
@@ -42,6 +52,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:06:46Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.nature.com/articles/s41587-025-02659-z
+    (type: peer-review)'
+- timestamp: '2026-06-19T17:06:47Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://www.nature.com/articles/s41587-025-02659-z
+    as A (trustNumber: 85.0)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -54,6 +74,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 7fdcff4503f5b5ef7057d2b179cd42c1aab506090a85692bdcb00279dbc87432
+verification:
+  firstEvidenceAt: '2026-06-19T17:06:46Z'
 ---
 
 # Human Protein Atlas (HPA) Database Integration

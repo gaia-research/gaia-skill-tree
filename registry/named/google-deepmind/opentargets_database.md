@@ -10,7 +10,7 @@ description: Query Open Targets Platform for target-disease associations, drug t
   discovery, tractability/safety data, genetics/omics evidence, known drugs, for therapeutic
   target identification.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md
 evidence:
@@ -25,6 +25,16 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://academic.oup.com/nar/article/53/D1/D1467/7917960
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 85.0
+  grade: A
+  notes: Open Targets Platform 2025 — NAR; drug target identification and prioritization
+    platform
+  reviewers: 3
+  sourceStartedAt: '2025-01-07'
 timeline:
 - timestamp: '2026-06-14T12:32:35Z'
   action: evidence_graded
@@ -43,6 +53,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:05:43Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/53/D1/D1467/7917960
+    (type: peer-review)'
+- timestamp: '2026-06-19T17:05:43Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://academic.oup.com/nar/article/53/D1/D1467/7917960
+    as A (trustNumber: 85.0)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -55,6 +75,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: e5a74323873c7633a1136ebce29408ef417365fa7c3ba9a80d12e66c16505bc9
+verification:
+  firstEvidenceAt: '2026-06-19T17:05:43Z'
 ---
 
 # Open Targets Database Skill

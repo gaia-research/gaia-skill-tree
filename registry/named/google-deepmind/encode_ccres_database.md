@@ -11,7 +11,7 @@ description: Query the ENCODE Registry of cis-Regulatory Elements (cCREs) via th
   and files (ChIP-seq peaks, etc.). Use when you want to query regulatory annotations
   or raw experimental data across human cell types.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md
 evidence:
@@ -26,6 +26,16 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://www.nature.com/articles/s41586-025-09909-9
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 90.0
+  grade: S
+  notes: ENCODE cCREs registry expansion Nature 2026 — 2.37M human + 967K mouse regulatory
+    elements; cited 64 times
+  reviewers: 3
+  sourceStartedAt: '2026-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:30Z'
   action: evidence_graded
@@ -44,6 +54,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:38Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:05:46Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.nature.com/articles/s41586-025-09909-9
+    (type: peer-review)'
+- timestamp: '2026-06-19T17:05:46Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://www.nature.com/articles/s41586-025-09909-9
+    as S (trustNumber: 90.0)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -56,6 +76,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 1fa6d5ff43aa88c78bb083759044c4be832e85fe1c44de0e7fcebb55af04125f
+verification:
+  firstEvidenceAt: '2026-06-19T17:05:45Z'
 ---
 
 # ENCODE Database Skill

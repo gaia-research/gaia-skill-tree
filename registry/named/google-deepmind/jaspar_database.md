@@ -11,7 +11,7 @@ description: Query the JASPAR database for Transcription Factor (TF) binding pro
   (PWMs) for specific TFs, resolving gene symbols to JASPAR Matrix IDs, or getting
   TF metadata. Supports multiple output formats (MEME, TRANSFAC, PFM, JASPAR, YAML).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md
 evidence:
@@ -26,6 +26,16 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://academic.oup.com/nar/article/52/D1/D174/7420101
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 85.0
+  grade: A
+  notes: JASPAR 2024 — NAR; largest open-access TF binding profile database; 8-organism
+    TFBS tracks
+  reviewers: 3
+  sourceStartedAt: '2024-01-04'
 timeline:
 - timestamp: '2026-06-14T12:32:32Z'
   action: evidence_graded
@@ -44,6 +54,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:05:36Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/52/D1/D174/7420101
+    (type: peer-review)'
+- timestamp: '2026-06-19T17:05:36Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://academic.oup.com/nar/article/52/D1/D174/7420101
+    as A (trustNumber: 85.0)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -56,6 +76,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 70e660c8c4525d72d39ff29821cc859f5981d7bc2cdb2b665989312f3bb9e8d1
+verification:
+  firstEvidenceAt: '2026-06-19T17:05:36Z'
 ---
 
 # JASPAR Skill

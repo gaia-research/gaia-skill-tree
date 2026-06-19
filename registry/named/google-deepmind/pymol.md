@@ -12,7 +12,7 @@ description: Visualize, analyze, and render protein and molecular structures usi
   or active site residues, color by B-factor/pLDDT, or analyze protein-ligand interactions.
   Do not use for docking, molecular dynamics, or sequence-only analysis.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md
 evidence:
@@ -27,6 +27,16 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://pymol.org/support.html
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 80.0
+  grade: A
+  notes: PyMOL — Schrodinger; widely-used molecular visualization system; canonical
+    reference for 3D protein structure analysis
+  reviewers: 3
+  sourceStartedAt: '2002-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:37Z'
   action: evidence_graded
@@ -45,6 +55,15 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:06:54Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://pymol.org/support.html (type: peer-review)'
+- timestamp: '2026-06-19T17:06:54Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://pymol.org/support.html as A (trustNumber:
+    80.0)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -57,6 +76,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 8da6efc7b2af255267c4a98afac2387ea51ac87ae842d7188aa0492aa6f9b055
+verification:
+  firstEvidenceAt: '2026-06-19T17:06:54Z'
 ---
 
 # PyMOL

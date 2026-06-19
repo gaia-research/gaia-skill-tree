@@ -12,7 +12,7 @@ description: Searches for homologous protein sequences using MMseqs2 (fast, defa
   infer protein function based on sequence similarity, but not when the user wants
   to infer protein function based on structural similarity.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md
 evidence:
@@ -37,6 +37,16 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://www.nature.com/articles/s41587-023-01773-0
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 88.0
+  grade: A
+  notes: Foldseek — Nature Biotechnology 2023; protein structure and sequence similarity
+    search at scale; core method
+  reviewers: 3
+  sourceStartedAt: '2023-05-08'
 timeline:
 - timestamp: '2026-06-14T12:32:36Z'
   action: evidence_graded
@@ -60,6 +70,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:07:01Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.nature.com/articles/s41587-023-01773-0
+    (type: peer-review)'
+- timestamp: '2026-06-19T17:07:01Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://www.nature.com/articles/s41587-023-01773-0
+    as A (trustNumber: 88.0)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -72,6 +92,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 0b6cd76fe91652e55f418d42dc234d07c58a4823167a56c5e8175a532713182e
+verification:
+  firstEvidenceAt: '2026-06-19T17:07:01Z'
 ---
 
 ## Prerequisites

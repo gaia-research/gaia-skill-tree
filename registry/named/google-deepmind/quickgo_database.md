@@ -12,7 +12,7 @@ description: Query the QuickGO and Evidence & Conclusion Ontology (ECO) REST API
   explore the Gene Ontology hierarchy. Do not use for querying drug targets (use OpenTargets)
   or mechanistic signaling pathway diagrams (use KEGG).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md
 evidence:
@@ -27,6 +27,16 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://pmc.ncbi.nlm.nih.gov/articles/PMC12807639/
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 85.0
+  grade: A
+  notes: Gene Ontology 2025 — PMC; comprehensive GO knowledgebase; QuickGO is EBI's
+    GO browser
+  reviewers: 3
+  sourceStartedAt: '2025-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:37Z'
   action: evidence_graded
@@ -45,6 +55,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:05:48Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://pmc.ncbi.nlm.nih.gov/articles/PMC12807639/
+    (type: peer-review)'
+- timestamp: '2026-06-19T17:05:49Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://pmc.ncbi.nlm.nih.gov/articles/PMC12807639/
+    as A (trustNumber: 85.0)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -57,6 +77,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: f0d0d0bfe770a6521b6b8a03487f629e2415d9aaaf65685953d089086fb65b20
+verification:
+  firstEvidenceAt: '2026-06-19T17:05:48Z'
 ---
 
 # QuickGO Database Skill

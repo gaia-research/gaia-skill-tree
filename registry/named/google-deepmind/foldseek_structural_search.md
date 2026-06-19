@@ -12,7 +12,7 @@ description: Performs 3D structural searches of proteins against various databas
   structurally similar proteins. Do NOT use if the user only provides a protein sequence,
   gene name, or UniProt ID.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md
 evidence:
@@ -27,6 +27,16 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://www.nature.com/articles/s41587-023-01773-0
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 90.0
+  grade: S
+  notes: 'Foldseek: fast and accurate protein structure search — Nature Biotechnology
+    2023; 3D structure alignment at sequence search speed'
+  reviewers: 3
+  sourceStartedAt: '2023-05-08'
 timeline:
 - timestamp: '2026-06-14T12:32:31Z'
   action: evidence_graded
@@ -45,6 +55,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:38Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:05:41Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.nature.com/articles/s41587-023-01773-0
+    (type: peer-review)'
+- timestamp: '2026-06-19T17:05:42Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://www.nature.com/articles/s41587-023-01773-0
+    as S (trustNumber: 90.0)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -57,6 +77,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: a94e48f4cf8bd4465c3b3eb635149db84472dd49edbc6d2066db8cb89d3c5b8d
+verification:
+  firstEvidenceAt: '2026-06-19T17:05:41Z'
 ---
 
 ## Prerequisites

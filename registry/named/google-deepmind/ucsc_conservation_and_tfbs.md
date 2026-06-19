@@ -11,7 +11,7 @@ description: Fetch Evolutionary Conservation scores (phyloP, phastCons) and Tran
   genomic variants or regions are evolutionarily conserved, functionally important,
   or bounded by TF regulators across major projects (ENCODE, JASPAR, ReMap).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md
 evidence:
@@ -26,6 +26,16 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://genome.cshlp.org/content/17/12/1797
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 82.0
+  grade: A
+  notes: UCSC 28-vertebrate alignment 2007 — Genome Research; PhyloP conservation
+    tracks used by UCSC TFBS browser
+  reviewers: 3
+  sourceStartedAt: '2007-12-01'
 timeline:
 - timestamp: '2026-06-14T12:32:39Z'
   action: evidence_graded
@@ -44,6 +54,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:07:00Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://genome.cshlp.org/content/17/12/1797 (type:
+    peer-review)'
+- timestamp: '2026-06-19T17:07:00Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://genome.cshlp.org/content/17/12/1797 as A
+    (trustNumber: 82.0)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -56,6 +76,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: e7b88216ae47f14c90ef92ca635dacd288df492fa187df29371abcd2982f191d
+verification:
+  firstEvidenceAt: '2026-06-19T17:06:59Z'
 ---
 
 # Conservation Scores & TFBS Lookup (UCSC)

@@ -10,7 +10,7 @@ description: Search Europe PMC for scientific literature and download open-acces
   full texts and PDFs. Retrieve full-text XML/plain text by PMCID, get citation lists
   and bibliography.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md
 evidence:
@@ -25,6 +25,16 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://europepmc.org/RestfulWebService
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 78.0
+  grade: B
+  notes: Europe PMC REST API — curated access to 48M+ life-science articles, preprints,
+    patents; EMBL-EBI maintained
+  reviewers: 3
+  sourceStartedAt: '2015-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:33Z'
   action: evidence_graded
@@ -43,6 +53,15 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:07:03Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://europepmc.org/RestfulWebService (type: peer-review)'
+- timestamp: '2026-06-19T17:07:03Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://europepmc.org/RestfulWebService as B (trustNumber:
+    78.0)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -55,6 +74,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: fc5ebd9c3c2809b6240cb012b3c5259025505def4c844439e2776ac2c467cab9
+verification:
+  firstEvidenceAt: '2026-06-19T17:07:02Z'
 ---
 
 # Europe PMC Database

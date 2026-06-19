@@ -12,7 +12,7 @@ description: Distills a completed user workflow or interaction into a reusable a
   what we just did", "package this workflow" or similar. Do not use for creating skills
   from scratch without an existing workflow (use a generic skill-creator for that).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md
 evidence:
@@ -27,6 +27,16 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://github.com/google-deepmind/science-skills
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 78.0
+  grade: B
+  notes: google-deepmind/science-skills workflow creator — meta-skill for composing
+    science database skill workflows
+  reviewers: 3
+  sourceStartedAt: '2024-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:40Z'
   action: evidence_graded
@@ -45,6 +55,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:40Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:06:48Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/google-deepmind/science-skills
+    (type: peer-review)'
+- timestamp: '2026-06-19T17:06:48Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/google-deepmind/science-skills
+    as B (trustNumber: 78.0)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -57,6 +77,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: ed033c277d43372bdb06a4476511e6aa12f2176e28c2ff0824c48d3d686cf9cc
+verification:
+  firstEvidenceAt: '2026-06-19T17:06:48Z'
 ---
 
 # Workflow-to-Skill Distiller

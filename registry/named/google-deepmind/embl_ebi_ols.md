@@ -12,7 +12,7 @@ description: Query and search the EMBL-EBI Ontology Lookup Service (OLS) for bio
   (parents, children, ancestors), look up properties and individuals, get autocomplete
   suggestions, or access ontology metadata and statistics.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md
 evidence:
@@ -27,6 +27,16 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://pmc.ncbi.nlm.nih.gov/articles/PMC12094816/
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 85.0
+  grade: A
+  notes: OLS4 (Ontology Lookup Service) 2025 — PMC/NAR; open source search engine
+    for biomedical ontologies
+  reviewers: 3
+  sourceStartedAt: '2025-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:30Z'
   action: evidence_graded
@@ -45,6 +55,16 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:38Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T17:05:39Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://pmc.ncbi.nlm.nih.gov/articles/PMC12094816/
+    (type: peer-review)'
+- timestamp: '2026-06-19T17:05:39Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://pmc.ncbi.nlm.nih.gov/articles/PMC12094816/
+    as A (trustNumber: 85.0)'
 trustMagnitude: 10.82
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -57,6 +77,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: ba7b274c27df01c43145bccaa9269586bff615e7aa5d43e9ec47086bd5d5fc67
+verification:
+  firstEvidenceAt: '2026-06-19T17:05:39Z'
 ---
 
 # EMBL-EBI Ontology Lookup Service (OLS)
