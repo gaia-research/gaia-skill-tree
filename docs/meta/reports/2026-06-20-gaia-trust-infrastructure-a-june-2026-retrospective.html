@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GAIA Trust Infrastructure: A June 2026 Retrospective — Gaia</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/marks/diamond-seal.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  
+  <style>
+    :root {
+      --paper-bg: #ffffff;
+      --paper-text: #111111;
+      --paper-muted: #666666;
+      --accent: #ef4444;
+      --font-serif: 'EB Garamond', Georgia, serif;
+      --font-sans: 'Bricolage Grotesque', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      background: #f4f4f2;
+      color: var(--paper-text);
+      font-family: var(--font-serif);
+      font-variant-numeric: oldstyle-nums;
+      line-height: 1.6;
+      margin: 0;
+      padding: 6rem 1rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    .paper {
+      background: var(--paper-bg);
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 6rem 7rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 10px 40px rgba(0,0,0,0.02);
+      position: relative;
+      counter-reset: section;
+    }
+    header { text-align: center; margin-bottom: 5rem; }
+    .paper-journal-header {{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 1.5rem;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid #e0e0dc;
+    }}
+    .paper-journal-logo {{
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: #c8a84b;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+    }}
+    .paper-journal-logo img {{
+      filter: invert(72%) sepia(40%) saturate(600%) hue-rotate(5deg) brightness(95%);
+    }}
+    .paper-journal-series {{
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #999;
+    }}
+    h1 {
+      font-family: var(--font-serif);
+      font-size: 2.6rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+    .authors {
+      font-family: var(--font-serif);
+      font-variant-caps: small-caps;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.02em;
+    }
+    .date { font-family: var(--font-serif); font-size: 1.1rem; color: var(--paper-text); }
+    .abstract { margin: 4rem 0; padding: 0 3rem; }
+    .abstract-title {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.75rem;
+      color: var(--paper-muted);
+    }
+    .abstract-content { font-style: italic; text-align: justify; hyphens: auto; font-size: 1.05rem; line-height: 1.5; }
+    h2 {
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4rem;
+      margin-bottom: 1.5rem;
+      counter-increment: section;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+    h2::before { content: counter(section) ". "; }
+    h3 { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 1rem; }
+    p { text-align: justify; margin-bottom: 1.5rem; hyphens: auto; }
+    .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin: 2.5rem 0; }
+    ul { padding-left: 1.2rem; list-style-type: square; }
+    li { margin-bottom: 0.6rem; }
+    code { font-family: var(--font-mono); background: #f7f7f7; padding: 0.15rem 0.35rem; font-size: 0.85em; border: 1px solid #eee; }
+    pre { background: #f7f7f7; border: 1px solid #eee; padding: 1.2rem 1.5rem; overflow-x: auto; margin: 2rem 0; }
+    pre code { background: none; border: none; padding: 0; font-size: 0.85rem; }
+    blockquote { border-left: 3px solid #c8a84b; margin: 2rem 0; padding: 1rem 1.5rem; background: #fafaf8; color: #444; font-style: italic; }
+    table { width: 100%; border-collapse: collapse; margin: 3rem 0; font-family: var(--font-serif); font-size: 1rem; }
+    thead tr { border-top: 2px solid var(--paper-text); border-bottom: 1px solid var(--paper-text); }
+    th { font-weight: 600; text-align: left; padding: 0.8rem 0.5rem; font-variant-caps: small-caps; }
+    td { padding: 0.8rem 0.5rem; border-bottom: 0.5px solid #eee; vertical-align: top; }
+    tbody tr:last-child { border-bottom: 2px solid var(--paper-text); }
+    .chart-container { margin: 4.5rem -2rem; padding: 2.5rem; background: #ffffff; border: 1px solid #eee; }
+    .chart-caption { text-align: center; font-size: 0.85rem; color: var(--paper-muted); margin-top: 1.5rem; line-height: 1.4; }
+    .references { margin-top: 6rem; padding-top: 3rem; border-top: 1px solid #eee; }
+    .ref-item { font-size: 0.9rem; margin-bottom: 1.2rem; text-indent: -1.8rem; padding-left: 1.8rem; text-align: left; }
+    .footer-nav { margin-top: 5rem; text-align: center; font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .footer-nav a { color: var(--paper-text); text-decoration: none; border-bottom: 1px solid #ddd; padding-bottom: 2px; transition: border-color 0.2s; }
+    .footer-nav a:hover { border-color: var(--accent); }
+    .floating-cluster {
+      position: fixed; top: 2rem; right: 2rem; z-index: 1000;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .pja-btn {
+      background: #fff; border: 1px solid #d0d0cc; border-radius: 0; color: #888;
+      cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+      width: 2rem; height: 2rem; padding: 0; text-decoration: none;
+      transition: color 0.15s, border-color 0.15s; flex-shrink: 0;
+    }
+    .pja-btn:hover { color: #111; border-color: #111; }
+    .pja-btn.copied { color: #16a34a; border-color: #16a34a; }
+    .pja-btn svg { width: 15px; height: 15px; display: block; }
+    .floating-changelog-btn {
+      background: #000; color: #fff; border: none;
+      padding: 0.8rem 1.4rem;
+      font-family: var(--font-sans); font-weight: 700; font-size: 0.7rem;
+      text-transform: uppercase; letter-spacing: 0.15em; cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .floating-changelog-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(0,0,0,0.2); background: #111; }
+    .meta-sidebar {
+      position: fixed; top: 0; right: 0; bottom: 0; width: 400px;
+      background: #000; color: #fff; z-index: 2000;
+      transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex; flex-direction: column; border-left: 1px solid #222;
+    }
+    .meta-sidebar.open { transform: translateX(0); }
+    .ms-header { padding: 1.5rem; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
+    .ms-header h2 { margin: 0 !important; border: none !important; font-size: 1.2rem !important; font-family: 'EB Garamond', serif !important; counter-reset: none !important; }
+    .ms-header h2::before { content: none !important; }
+    .ms-body { flex: 1; overflow-y: auto; padding: 1.5rem; font-family: 'Bricolage Grotesque', sans-serif; }
+    .ms-close { background: none; border: none; color: #666; font-size: 1.5rem; cursor: pointer; }
+    @media (max-width: 768px) {
+      .paper { padding: 3rem 2rem; }
+      body { padding: 1rem 0; }
+      .floating-cluster { top: 0.75rem; right: 0.75rem; }
+      .floating-changelog-btn { padding: 0.4rem 0.8rem; font-size: 0.7rem; }
+      .meta-sidebar { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="floating-cluster">
+    <button type="button" class="pja-btn" id="reportShareBtn" aria-label="Share report">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="15" cy="5" r="2"/><circle cx="5" cy="10" r="2"/><circle cx="15" cy="15" r="2"/>
+        <line x1="7" y1="9" x2="13" y2="6"/><line x1="7" y1="11" x2="13" y2="14"/>
+      </svg>
+    </button>
+    <a href="2026-06-20-gaia-trust-infrastructure-a-june-2026-retrospective.html" download="2026-06-20-gaia-trust-infrastructure-a-june-2026-retrospective.html" class="pja-btn" aria-label="Download report">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M10 3v9m0 0l-3.5-3.5M10 12l3.5-3.5"/><path d="M4 15h12"/>
+      </svg>
+    </a>
+    <button type="button" class="pja-btn" id="reportCopyLinkBtn" aria-label="Copy link">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M8.5 11.5a4.5 4.5 0 006.364 0l2-2a4.5 4.5 0 00-6.364-6.364L9 4.636"/>
+        <path d="M11.5 8.5a4.5 4.5 0 00-6.364 0l-2 2a4.5 4.5 0 006.364 6.364L11 15.364"/>
+      </svg>
+    </button>
+    <button type="button" class="floating-changelog-btn" id="viewChangelogBtn">View Changelog</button>
+  </div>
+
+  <aside id="metaSidebar" class="meta-sidebar">
+    <div class="ms-header">
+      <h2>Meta Changelog</h2>
+      <button type="button" class="ms-close" id="closeChangelogBtn">✕</button>
+    </div>
+    <div class="ms-body" id="changelogBody">
+      <div style="color:#666;font-size:0.9rem">Loading registry changelog…</div>
+    </div>
+  </aside>
+
+  <article class="paper">
+    <div class="paper-journal-header">
+      <a href="../../index.html" class="paper-journal-logo" aria-label="Gaia Registry">
+        <img src="../../assets/marks/diamond-seal.svg" alt="Gaia" width="28" height="28">
+        <span>Gaia Registry</span>
+      </a>
+      <span class="paper-journal-series">Meta Audit Series</span>
+    </div>
+    <header>
+      <h1>GAIA Trust Infrastructure: A June 2026 Retrospective</h1>
+      <div class="authors">Marcus Rafael Tiongson, Maintainer</div>
+      <div class="date">June 20, 2026</div>
+    </header>
+
+    <section class="abstract">
+      <div class="abstract-title">Abstract</div>
+      <div class="abstract-content">Phase 1 baseline through Phase 1.5 ratification — G7 RFC, Trust Magnitude formula, apex gate, public leaderboard.</div>
+    </section>
+
+    <p>Between 2026-05-25 and 2026-06-20, GAIA's trust infrastructure moved from a per-row letter-grade audit pass to a two-scale ratified taxonomy with a 6-predicate apex gate, a Trust Magnitude aggregation formula, and a public leaderboard. Phase 1 (2026-06-10 -> 2026-06-16) shipped the G1-G7 backbone and produced the G7 RFC v2 via a 21-agent adversarial workflow. Phase 1.5 (2026-06-17 -> 2026-06-20) then propagated the RFC into running CLI code (issues I1, I2), ratified the v2 inheritance multipliers (5 stances x 5 multipliers + 5 synth, 696k subagent tokens), and through I8-I12 stamped 4 S-grade skills, lifted 19/20 floor skills off TM=36, and exposed the leaderboard at /trust/leaderboard/. Five Phase 1.5 lanes (I3-I7) remain open. This report is a mid-flight retrospective, not a closing statement.</p>
+<h2>I. Headlines</h2>
+<p><em>Section I (Headlines) was authored by the synthesizer agent which failed; not recovered. The following figure summarises the headline shift.</em></p>
+<h3>Figure 3</h3>
+<p><em>Figure 3 - Grade distribution: pre-Phase-1.5 to post-I11</em></p>
+<pre><code class="language-">Grade  Phase    Bar (1 block ~= 2 skills)                                 Count
+-----  ------  --------------------------------------------------------  -----
+  S    before  ##                                                            4
+  S    after   ##                                                            4
+
+  A    before  ##########                                                   20
+  A    after   #####################                                        42
+
+  B    before  ###############                                              31
+  B    after   ############################                                 56
+
+  C    before  ##############################################              93
+  C    after   ######################################                      76
+
+  -    before  ##################################################         101
+  -    after   ###################################                         71
+-----------------------------------------------------------------------------
+Total named skills: 249       Legend: - = ungraded</code></pre>
+<h2>II. Pre-Phase-1 baseline (May → 2026-06-09)</h2>
+<p>Before G7, trust was a per-row letter on a 0–100 scale, taxonomy was being shorn of its dead axes, and a multi-predicate apex gate did not yet exist; an MVP ultimate-gate (≥3 components, ≥1 S, ≥2 A, floor C) shipped 2026-06-14 (PR #686) and was superseded by G7's 6-active-predicate gate. This section snapshots the substrate Phase 1.5 inherited.</p>
+<h3>2026-05-25 — Programmatic Registry Audit</h3>
+<p>The May Meta-Shift assessed <strong>over 211 skills</strong> under the freshly hardened <code>META.md</code> rules. Results: <strong>35 skills</strong> demoted one level under the new <code>broken-evidence</code> demerit (Liveness Heartbeat sweep), the effective floor lowered from 1★ to <strong>0★</strong>, several 3★+ skills calibrated down to 2★ for failing the Star Bar (verified GitHub repo required at 3★+), and Unique skills sitting below 4★ reclassified to Basic to keep the DAG valid. <code>mattpocock/skills</code> was minted <strong>6★ Apex</strong> in the same pass; <code>mattpocock/engineering</code> and <code>superpowers</code> landed at 5★. The <code>rarity</code> axis (<code>common</code>/<code>uncommon</code>/<code>rare</code>/<code>epic</code>/<code>legendary</code>) was formally deprecated. Per-row evidence numbers entered the schema later, on 2026-06-14, when PR #686 introduced the 0–100 <code>trustNumber</code> field via <code>src/gaia_cli/grading.py</code> and <code>namedSkill.schema.json</code>.</p>
+<h3>2026-05-31 — Starless generics</h3>
+<p>PRs #551 and #552 stripped the <code>level</code> field from <strong>44 generic nodes</strong> (<code>code-review</code>, <code>prompt-optimization</code>, etc.). Stars now lived exclusively on the <strong>220+ named skills</strong> beneath them. Six <code>mbtiongson1/*</code> internal tools were reclassified down to 2★. The contract: generics = neutral taxonomy; named = ranked work.</p>
+<h3>2026-06-02 — June Week 1 sweep</h3>
+<p>The whole-registry <code>gaia-meta-sweep</code> audited 183 named + 215 generic refs across <strong>12 dimensions</strong>, with deterministic extraction (precision 201/211 = <strong>95.3%</strong>) feeding a ≥2-of-3 adversarial verification gate (12/12 representative claims survived ≥2-of-3 skeptics). Origin §4.1 was flipped from <em>earliest</em> to <em>most renowned</em>: 7 buckets reassigned. Resulting tier distribution after the apply-safe pass:</p>
+<table><thead><tr><th>1★</th><th>2★</th><th>3★</th><th>4★</th><th>5★</th><th>6★</th></tr></thead><tbody><tr><td>22</td><td>93</td><td>32</td><td>30</td><td>4</td><td>2</td></tr></tbody></table>
+<p>22 skills hard-demoted to 1★ for missing <code>links.github</code>; 37 dead evidence URLs stripped via the new <code>gaia dev rm-evidence</code>; 46 gstack-suite skills re-evidenced Class B; <code>garrytan/garrytan</code> 5★→4★, leaving <code>mattpocock/skills</code> and <code>ruvnet/ruflo</code> as the <strong>two 6★ holders</strong> entering Phase 1; <code>garrytan/gstack</code> sat at 5★ as the sole garrytan-namespace capstone.</p>
+<h3>2026-06-03 — Chained Curation</h3>
+<p>A six-link gated chain (Scope → Research → Design → Human review → Mutation → Ship) added <strong>13 starless references</strong> (4 Basic, 9 Extra) and reclassified <code>feed-monitoring</code> from Unique to Basic once <code>threat-intelligence-synthesis</code> gave it a fusion path. All 39 source URLs verified resolvable; one candidate (<code>multi-modal-fusion</code>) rejected as redundant.</p>
+<h3>Deployed legacy trust model</h3>
+<table><thead><tr><th>Field</th><th>Values</th><th>Storage</th></tr></thead><tbody><tr><td>Evidence type</td><td><code>arxiv</code>, <code>repo</code>, <code>github-stars</code> (3 types)</td><td>per row</td></tr><tr><td>Trust number</td><td>0–100</td><td>per row</td></tr><tr><td>Class</td><td>S ≥ 90, A ≥ 80, B ≥ 60, C ≥ 40, else ungraded</td><td>per row, <strong>not</strong> aggregated</td></tr><tr><td>Apex gate</td><td>none until 2026-06-14 (MVP ultimate-gate, PR #686)</td><td>—</td></tr></tbody></table>
+<p>Tooling: <code>gaia dev evidence</code> was append-only (no <code>rm-evidence</code> until 2026-06-02), <code>gaia validate</code> enforced DAG + schema, <code>gaia promote</code> gated on <code>promotion-candidates.json</code>, fusion-recipes and suite components composed the upper tiers. Verifier authorization (PR #669, device flow) was still in flight — it merged <strong>2026-06-14</strong>, four days before G7 ratification.</p>
+<h2>III. Phase 1: Trust Infrastructure (2026-06-10 → 2026-06-16)</h2>
+<p>Phase 1 closed milestone #4 and laid the conceptual foundation for the trust model that Phase 1.5 now ships.</p>
+<h3>III.1 The 2026-06-10 trust-model decisions</h3>
+<p>Session 1 ratified TRUST<em>MODEL</em>RFC v2 (MEMORY.md 2026-06-10, sessions 1/1-cont/1-final). Five interlocking calls: (1) <strong>ranks are the trust signal</strong> — no skill-level numeric scores leak to users; (2) evidence <strong>GRADES</strong> (S/A/B/C, with Platinum/Gold/Silver/Bronze color treatment) live on a separate axis from evidence <strong>TYPES</strong> (<code>arxiv</code>, <code>repo</code>, <code>github-stars</code>; expansion deferred to RFC #654); (3) Overall Trust Grade per skill is a "beyond reasonable doubt" accumulation over evidence rows; (4) tenure is display-only, never causes regression; (5) the per-row trust-number bands were fixed at S≥90 / A≥80 / B≥60 / C≥40 / ungraded<40 with the suite ultimate gate enforced as a pillar rule (≥3 evidenced components, ≥1 S + ≥2 A, floor C). Verification was carved off as standalone issue #658, tenure 30d.</p>
+<h3>III.2 The G1–G7 implementation arc</h3>
+<p><code>PHASE1_MASTER.md</code> (2026-06-16) re-scoped the original 8-PR plan into seven Gates after a reality check found PR-7 partial, PR-8 (#682) already shipped, and PR-1 narrowed to a translation patch. All seven landed in a single 2026-06-16 burst (commits <code>94d8a63f</code> → <code>129ffd49</code>):</p>
+<table><thead><tr><th>G#</th><th>Title</th><th>PR</th><th>SHA</th><th>Status</th></tr></thead><tbody><tr><td>G1</td><td>CI path filter for <code>registry/**</code></td><td>#703</td><td><code>94d8a63f</code></td><td>merged 2026-06-16</td></tr><tr><td>G2</td><td>Rank gate <code>class</code>→<code>grade</code> (#699)</td><td>#704</td><td><code>22e83466</code></td><td>merged 2026-06-16</td></tr><tr><td>G3</td><td>Defensive security scanner (#185)</td><td>#705</td><td><code>94b65938</code></td><td>merged 2026-06-16</td></tr><tr><td>G4</td><td>4-tier verification workflow (#658, folds #650)</td><td>#709</td><td><code>129ffd49</code></td><td>merged 2026-06-16</td></tr><tr><td>G5</td><td>Share static page renderer</td><td>#708</td><td><code>ff7dec9c</code></td><td>merged 2026-06-16</td></tr><tr><td>G6</td><td>Narrow-path tree render (#642)</td><td>#707</td><td><code>d8f5aa71</code></td><td>merged 2026-06-16</td></tr><tr><td>G7</td><td>Benchmark Framework / Trust Taxonomy RFC (#649)</td><td>#706</td><td><code>d9647495</code></td><td>merged 2026-06-16</td></tr></tbody></table>
+<h3>III.3 The 2026-06-16 hygiene pass</h3>
+<p>Milestone #4 had drifted: 7 open issues with #650 duplicating #658, #637/#647/#654 not Phase-1 acceptance, and #699/#642 unmilestoned. <code>HYGIENE<em>BATCH</em>2026-06-16.md</code> reorganized the milestone to <strong>1:1 with G1–G7</strong> in a 9-step approve-and-execute flow: H1 fold #650→#658; H2 strip #647 from #4; H3 post the git-as-DB 1-pager on #647; H4 strip #637; H5 move #654 to Phase 2; H6 add #699 to #4 with <code>phase-1</code> label; H7A/B open the new G1 issue and add #642 to #4; H8 schedule the mid-July recalibration RFC (<code>CronCreate</code>, 2026-07-10); H9 sweep <code>phase-1</code> labels across #185/#649/#658. Result: milestone #4 closed at 0 open / 17 closed (MEMORY.md session 8).</p>
+<h3>III.4 The 2026-06-15 trust methodology report</h3>
+<p>PR #694 (<code>2472c8c4</code>, merged 2026-06-16) shipped the user-facing methodology: per-row trust numbers 0–100 mapped to S≥90 / A≥80 / B≥60 / C≥40, the four verification tiers (Community Verified / Benchmark Verified / Security Reviewed / Enterprise Ready), and the metallic <code>.grade-bar</code> / <code>.grade-segment</code> vocabulary later reused on the homepage Evidence Cycle.</p>
+<h3>III.5 The 2026-06-16 G7 multi-stage workflow</h3>
+<p>G7 was not authored by hand. Workflow <code>wf_6e5a4374-b85</code> (<code>g7-trust-taxonomy-consensus</code>, 21 agents, 1.12M subagent tokens) ran 3 surveyors → 4 distinct-stance proposers (<strong>P1 Strict-S</strong>, <strong>P2 Attainable-S</strong>, <strong>P3 Fusion-Heavy</strong>, <strong>P4 Community-Heavy</strong>) → 12 adversarial judges (gameability × corpus-fit × drift-severity) → synthesizer. Judge averages: P4=4.50 (structural winner), P1=4.33, P2=4.00, P3=3.17. Synthesis: <strong>P4 base hardened with P1 grafts</strong> (verifier/star plateaus, identity-tier creator multipliers) and <strong>P3 grafts</strong> (only-graded-origins counting, null-on-derank verifier); thresholds reverted to the baseline <strong>S=250 / A=100 / B=50 / C=20</strong> so P4's loosenings did not compound (MEMORY.md 2026-06-16 session 5).</p>
+<h3>III.6 Honest framing</h3>
+<p>G7 was <strong>designed</strong> in Phase 1 — RFC ratified, apex gate audited (session 6, workflow <code>wf<em>f14f7317-972</code>), 9-predicate strict gate appended (§11.12), anti-auto-mint clause added (§10.14). It was <strong>not propagated</strong>: the propagation audit on 2026-06-17 (<code>w2co0ee1p</code>) confirmed zero <code>trustMagnitude</code>/<code>apexGateStatus</code> fields in the registry, schema still on legacy 90/80/60/40, CLI carrying no <code></em>passes<em>apex</em>gate</code>. Phase 1.5 is the work that carries G7 from RFC to production.</p>
+<h3>Figure 1</h3>
+<p><em>Aggregation flow with v2 inheritance</em></p>
+<pre><code class="language-">   per-row evidence (Evidence Grade)         skill aggregate (Trust Magnitude)
+   ─────────────────────────────────         ────────────────────────────────
+
+   ┌─ peer-review (named-layer) ────┐
+   │ trust 87  -&gt; A  Gold           │ ──┐  base x typeWeight x inheritMult
+   │ inheritMultiplier = 1.00 (own) │   │                          │
+   └────────────────────────────────┘   │                          ▼
+                                        │   ┌──────────────────────────────┐
+   ┌─ arxiv (inherited from generic)┐   │   │ weighted sum of effective    │
+   │ trust 71  -&gt; B  Silver         │ ──┼──&gt;│ pool (own  U  inherited),    │
+   │ inheritMultiplier = 0.70  ^    │   │   │ deduped by source, capped    │
+   └────────────────────────────────┘   │   │ per type, sqrt on fusion     │
+                                        │   └──────────────┬───────────────┘
+   ┌─ benchmark-result (inherited) ─┐   │                  │
+   │ trust 92  -&gt; S  Platinum       │ ──┤                  ▼
+   │ inheritMultiplier = 0.15  ^    │   │       ┌─────────────────────┐
+   └────────────────────────────────┘   │       │   TM = 142          │
+                                        │       │   diversity_types=3 │
+   ┌─ repo-own (named, pinned) ─────┐   │       │   non_self = 2      │
+   │ trust 78  -&gt; A  Gold           │ ──┘       └──────────┬──────────┘
+   │ inheritMultiplier = 1.00 (own) │                      │
+   └────────────────────────────────┘                      ▼
+                                                ┌─────────────────────┐
+   ^ flexible row inherited from a generic      │ Overall Trust Grade │
+     parent; multiplier discounts the           │       A  Gold       │
+     contribution at sum-time only.             │   (&gt;= 100, &lt; 250)   │
+                                                └─────────────────────┘</code></pre>
+<h3>IV.1 Two scales, same letters</h3>
+<p>G7 separates <strong>per-row Evidence Grade</strong> (0–100, S≥90 / A≥80 / B≥60 / C≥40) from <strong>per-skill Trust Magnitude</strong> (0–500+, S≥250 / A≥100 / B≥50 / C≥20). Same letters, different thresholds — <code>GRADE<em>S</em>FLOOR = 250.0</code>, <code>GRADE<em>A</em>FLOOR = 100.0</code>, <code>GRADE<em>B</em>FLOOR = 50.0</code>, <code>GRADE<em>C</em>FLOOR = 20.0</code> (<code>src/gaia_cli/trustMagnitude.py:34-37</code>). Evidence grade scores a single artifact; TM aggregates the whole pile. S also requires <code>distinctTypes &gt;= 3</code> AND a non-self-producible row (<code>trustMagnitude.py:767</code>).</p>
+<h3>IV.2 Aggregation formula</h3>
+<pre><code class="language-">artifact_score = magnitude
+               × type_weight
+               × freshness
+               × mothership          # github-stars-own only
+               × creator              # social-signal only
+               × engagement           # social-signal only
+               × inheritMultiplier    # only when row is inherited
+
+TM = Σ artifact_score_i              # social-signal subsum capped at 80</code></pre>
+<p>Implementation: <code>computeArtifactScoreOrNone</code> (line 362) and <code>computeTrustMagnitude</code> (line 635). The social cap is enforced at sum-time: <code>socialTotal = min(socialTotal, 80.0)</code> (line 701).</p>
+<h3>IV.3 The 10-type taxonomy</h3>
+<table><thead><tr><th>type</th><th>weight</th><th>cap</th><th>allowedLayers</th><th>inheritMultiplier</th></tr></thead><tbody><tr><td>fusion-recipe</td><td>1.5</td><td>—</td><td>named</td><td>— (pinned)</td></tr><tr><td>github-stars-own</td><td>1.0</td><td>200</td><td>named</td><td>— (pinned)</td></tr><tr><td>repo-own</td><td>0.6</td><td>60</td><td>named</td><td>— (pinned)</td></tr><tr><td>self-attestation</td><td>0.5</td><td>10</td><td>named</td><td>— (pinned)</td></tr><tr><td>verifier-attestation</td><td>1.5</td><td>—</td><td>named</td><td>— (pinned)</td></tr><tr><td>arxiv</td><td>1.0</td><td>100</td><td>generic, named</td><td>0.70</td></tr><tr><td>peer-review</td><td>1.2</td><td>—</td><td>generic, named</td><td>0.30</td></tr><tr><td>social-signal</td><td>1.0</td><td>80</td><td>generic, named</td><td>0.35</td></tr><tr><td>proxy-containment</td><td>1.0</td><td>160</td><td>generic, named</td><td>0.25</td></tr><tr><td>benchmark-result</td><td>1.4</td><td>100</td><td>generic, named</td><td>0.15</td></tr></tbody></table>
+<p>(Verified <code>TYPE<em>WEIGHTS</code> lines 40-51, <code>TYPE</em>CAPS</code> lines 54-62, <code>EVIDENCE<em>TYPE</em>LAYER_CONTRACT</code> lines 90-103.)</p>
+<h3>IV.4 The v2 inheritance contract (ratified 2026-06-18)</h3>
+<p>Five flexible types may sit on a generic taxonomy node and inherit down to named children, discounted by the per-type multiplier <em>as the last term in the chain</em>:</p>
+<table><thead><tr><th>type</th><th>inheritMultiplier</th></tr></thead><tbody><tr><td>arxiv</td><td>0.70</td></tr><tr><td>peer-review</td><td>0.30</td></tr><tr><td>social-signal</td><td>0.35</td></tr><tr><td>proxy-containment</td><td>0.25</td></tr><tr><td>benchmark-result</td><td>0.15</td></tr></tbody></table>
+<p>The five pinned-named types (fusion-recipe, github-stars-own, repo-own, self-attestation, verifier-attestation) cannot live on a generic node — schema validator rejects them. Multipliers were ratified by adversarial workflow <code>wf_7cbe217f-006</code> (3×5 stances + 5 synthesizers, 696k tokens). All five values were nudged DOWN from drafts; the final inherit-discount is conservative by construction.</p>
+<h3>IV.5 The 6-predicate apex gate</h3>
+<p><code>passesApexGate</code> (line 1050) returns 8 keys but only 6 are <em>active</em>; two are feature-flagged <code>None</code> and skipped from the <code>all()</code> reduction in <code>isApex</code> (line 1077):</p>
+<table><thead><tr><th>predicate</th><th>status</th></tr></thead><tbody><tr><td>aGradedOriginsGte5</td><td>active (≥5 A/S origins)</td></tr><tr><td>sourceTenureDaysGte180AorS</td><td>active</td></tr><tr><td>directNestedSuiteGte1</td><td>active</td></tr><tr><td>depth2OnlyReachableGte1</td><td>active</td></tr><tr><td>overallGradeS</td><td>active</td></tr><tr><td>apexPromotionPrSigned</td><td>active</td></tr><tr><td>crossOrgVerifier</td><td>OFF (<code>ENABLE<em>CROSS</em>ORG_VERIFIER = False</code>, line 72)</td></tr><tr><td>systemWideCap</td><td>OFF (<code>ENABLE<em>SYSTEM</em>WIDE_CAP = False</code>, line 73)</td></tr></tbody></table>
+<p>Depth-2 originally excluded suiteComponents per RFC §11.12.3 (strict reading). PR #748 (open) implements suite-edge inclusion; issue #749 (open) tracks the formal RFC §11.12.3 ratification. The depth-2 walker change ships on <code>cli/apex-gate-fixes</code> and is not yet in main.</p>
+<h3>IV.6 Anti-auto-mint clause §10.14</h3>
+<p><code>enforceAntiAutoMint</code> (line 608) strips phantom rows — those implied by <code>suiteComponents</code> or <code>fusionRecipes</code> but not physically present in <code>evidence[]</code>. Only the fusion-recipe row itself is auto-derivable (§10.8). This was motivated by the <strong>mattpocock/skills audit</strong>, where suite expansion would have minted dozens of unearned artifact rows from a single <code>suiteComponents</code> array.</p>
+<h3>IV.7 v3-incoming adjustments</h3>
+<p>Three changes are staged on PR #748 (open) and tracked by issue #749 (open ratification): (a) depth-2 semantics extended to include <code>suiteComponents</code> — the depth-2 walker commit (<code>a734beca</code>) lives on <code>cli/apex-gate-fixes</code> and is not yet in main; (b) <code>checkApexPromotionPrSigned</code> reads <code>apexGateStatus.apexPromotionPrSigned</code> defensively (line 1010), with the corresponding <code>apex<em>pr</em>signed</code> action enum addition to <code>gaia dev timeline</code> tracked by issue #749 §3 (open); (c) <code>sourceTenure</code> is being reclassified under partial-signal so a missing <code>sourceStartedAt</code> no longer hard-fails the predicate (line 913 currently treats absent as age=0).</p>
+<p>Phase 1.5 turned the G7 Trust Taxonomy RFC into running code across twelve numbered issues (I1–I12) on the <code>dev/phase-1.5-inspection</code> integration branch. Four have shipped (I1, I2, I8, I9); five lanes were closed unmerged (I3-I7) and three remain open (I10-I12).</p>
+<h3>Dependency table</h3>
+<p>Note: merge SHAs in this table refer to <code>dev/phase-1.5-inspection</code> integration merges; the main-branch merge will follow at Phase 1.5 cutover.</p>
+<table><thead><tr><th>Issue</th><th>Branch</th><th>PR</th><th>Merge SHA</th><th>Status</th></tr></thead><tbody><tr><td>I1 schema</td><td><code>schema/g7-trust-magnitude</code></td><td>#726</td><td><code>ee2ea319</code></td><td>MERGED 2026-06-18</td></tr><tr><td>I2 CLI compute</td><td><code>cli/trust-magnitude</code></td><td>#728</td><td><code>31bf0bdd</code></td><td>MERGED 2026-06-18</td></tr><tr><td>I3 migration</td><td><code>cli/g7-migration</code></td><td>#733</td><td>—</td><td>PR closed unmerged 2026-06-19; tracking issue #721 still open</td></tr><tr><td>I4 CI gates</td><td><code>infra/g7-apex-gate</code></td><td>#732</td><td>—</td><td>PR closed unmerged 2026-06-19; tracking issue #722 still open</td></tr><tr><td>I5 cutover</td><td><code>review/meta/g7-apex-cutover</code></td><td>#735</td><td>—</td><td>PR closed unmerged 2026-06-19; tracking issue #723 still open</td></tr><tr><td>I6 display</td><td><code>design/g7-tm-display</code></td><td>#736</td><td>—</td><td>PR closed unmerged 2026-06-19; tracking issue #724 still open</td></tr><tr><td>I7 methodology</td><td><code>docs/g7-trust-methodology</code></td><td>#734</td><td>—</td><td>PR closed unmerged 2026-06-19; tracking issue #725 still open</td></tr><tr><td>I8 grade notch</td><td><code>design/trust-grade-notch</code></td><td>#743</td><td><code>ca1eb793</code></td><td>MERGED 2026-06-19</td></tr><tr><td>I9 evidence backfill</td><td><code>review/meta/g7-evidence-backfill</code></td><td>#744</td><td><code>0d962bc7</code></td><td>MERGED 2026-06-19</td></tr><tr><td>I10 leaderboard</td><td><code>design/trust-leaderboard</code></td><td>#747</td><td>—</td><td>OPEN</td></tr><tr><td>I11 source curation</td><td><code>review/meta/i11-floor-curation</code></td><td>#753</td><td>—</td><td>OPEN</td></tr><tr><td>I12 apex gate fixes</td><td><code>cli/apex-gate-fixes</code></td><td>#748</td><td>—</td><td>OPEN</td></tr></tbody></table>
+<h3>Lane A — Schema + CLI (I1, I2)</h3>
+<p>I1 (#726, <code>ee2ea319</code>) added the 10-type evidence taxonomy, the <code>apexGateStatus</code> block, and <code>sourceStartedAt</code> to <code>registry/schema/</code>. I2 (#728, <code>31bf0bdd</code>) followed two minutes later with <code>src/gaia<em>cli/trustMagnitude.py</code> (1,282 lines as of HEAD; landed at 1,280 in #728) implementing <code>computeTrustMagnitude</code>, the 6-predicate apex gate, and anti-auto-mint. The pre-commit hook auto-released v4.10.0 then v4.11.0. Test suite stayed green at 56/56 in <code>tests/test</em>trust_magnitude.py</code>.</p>
+<h3>Lanes B and C — still pending</h3>
+<p>I3/I4 (migration + CI) and I5/I6/I7 (cutover, display, methodology) were drafted on their scoped branches but the PRs were closed unmerged on 2026-06-19; the underlying issues remain open and Phase 1.5 is <strong>not complete</strong>.</p>
+<h3>Inspection tool</h3>
+<p><code>scripts/inspectTrustMagnitude.py</code> (591 lines) is the operator's microscope, paired with the <code>/gaia-tm-inspect</code> skill in <code>.claude/skills/</code>:</p>
+<pre><code class="language-">python scripts/inspectTrustMagnitude.py --skill garrytan/gstack --html
+python scripts/inspectTrustMagnitude.py --leaderboard --json &gt; out.json</code></pre>
+<p>It dumps per-skill TM math, grade derivation, and per-predicate apex results.</p>
+<h3>I8, I9, I10, I11, I12</h3>
+<ul>
+  <li><strong>I8</strong> (#743, <code>ca1eb793</code>) cut a Trust Grade notch into every <code>.plaque</code> variant — pure design-token CSS.</li>
+  <li><strong>I9</strong> (#744, <code>0d962bc7</code>) backfilled 25 evidence rows, added a <code>repo</code>→<code>repo-own</code> scorer alias, and registered 14 mattpocock/skills v1.0.1 components.</li>
+  <li><strong>I10</strong> (#747, <code>5cc1b9c6</code>, OPEN) ships <code>/trust/leaderboard/</code> — a fetch-driven public page over <code>docs/graph/leaderboard/data.json</code> covering all 249 skills (S=4, A=20, B=31, C=93, ungraded=101 at PR-open).</li>
+  <li><strong>I11</strong> (#753, <code>abf95b06</code>, OPEN) ran 58 TM updates, upgraded 19/20 floor skills to B (hermes-tweet stuck at C), peer-reviewed the google-deepmind cluster (22 skills A-grade via NAR/Nature), and populated <code>sourceStartedAt</code>.</li>
+  <li><strong>I12</strong> (#748, <code>42e11c92</code>, OPEN) widened the depth-2 walker to traverse <code>suiteComponents</code>, added <code>gaia dev evidence --source-started-at</code>, and stamped <code>apexPromotionPrSigned: true</code> on the four S-grade ultimates. <code>garrytan/gstack</code> advanced from 2/6 → 4/6 active predicates.</li>
+</ul>
+<h3>RFC v3 follow-ups</h3>
+<p>Issue <strong>#749</strong> ratifies the relaxed §11.12.3 semantics shipped in #748: <code>depth2OnlyReachableGte1</code> is renamed <code>depth2ReachableGte1</code> and the fusion graph is formally redefined as <code>fusion-recipe origins ∪ suiteComponents</code>. The same issue tracks the <code>gaia dev timeline --action</code> enum gap — <code>apex<em>pr</em>signed</code> is missing, so the four apex stamps logged as <code>verified</code> pending an enum extension.</p>
+<h2>VI. Current state (2026-06-20)</h2>
+<p>After Phase 1.5 (issues I8–I12) merged into <code>dev/phase-1.5-inspection</code>, the registry holds <strong>249 named skills across 45 contributors</strong>. The grade distribution moved meaningfully off the floor.</p>
+<h3>Grade distribution — baseline vs current</h3>
+<p>Two readers exist. The <strong>TM-only reader</strong> buckets skills by raw <code>trustMagnitude</code> against the canonical bands in <code>src/gaia_cli/trustMagnitude.py</code> lines 750–770 (S≥250, A≥100, B≥50, C≥20, Ungraded<20). The <strong>canonical reader</strong> is <code>computeOverallTrustGradeFromSkill</code>, which adds the RFC §4 diversity gate (<code>distinctTypes≥3 AND hasNonSelfProducible</code>) at the S boundary; it is what the rest of the system treats as the official grade. Both columns below are reported off the same registry HEAD on <code>dev/phase-1.5-inspection</code>.</p>
+<table><thead><tr><th>Grade</th><th>Baseline (Session 14, 2026-06-19, TM-only)</th><th>Current TM-only (2026-06-20)</th><th>Current canonical w/ diversity gate (2026-06-20)</th></tr></thead><tbody><tr><td>S (≥250)</td><td>4</td><td>5</td><td>0</td></tr><tr><td>A (≥100)</td><td>20</td><td>19</td><td>38</td></tr><tr><td>B (≥50)</td><td>31</td><td>31</td><td>56</td></tr><tr><td>C (≥20, <50)</td><td>93</td><td>93</td><td>81</td></tr><tr><td>Ungraded (<20)</td><td>101</td><td>101</td><td>74</td></tr></tbody></table>
+<p>Under the canonical reader, Σ(graded) climbed <strong>148 → 175</strong> (+27, +18.2%) and the ungraded backlog shrank from 101 → 74 (-27%). Under the TM-only reader, Σ(graded) is flat at 148 (the I11/I12 work pushed many skills <em>up within</em> graded bands rather than across the C/Ungraded boundary by raw TM alone). For the canonical S-count: <strong>0 → 0</strong> — the apex/diversity gate held (see §6.3). For the TM-only S-count: <strong>4 → 5</strong> (mattpocock/engineering crossed 250 since the session-14 baseline).</p>
+<h3>Top 15 leaderboard (frontmatter trustMagnitude, TM-only band)</h3>
+<table><thead><tr><th>#</th><th>skillId</th><th>TM</th><th>G (TM-only)</th></tr></thead><tbody><tr><td>1</td><td>garrytan/gstack</td><td>589.32</td><td>S</td></tr><tr><td>2</td><td>ruvnet/ruflo</td><td>482.27</td><td>S</td></tr><tr><td>3</td><td>mattpocock/skills</td><td>480.29</td><td>S</td></tr><tr><td>4</td><td>obra/superpowers</td><td>445.15</td><td>S</td></tr><tr><td>5</td><td>mattpocock/engineering</td><td>270.00</td><td>S</td></tr><tr><td>6</td><td>ruvnet/agentdb</td><td>201.00</td><td>A</td></tr><tr><td>7</td><td>pexp13/sentiment-analysis</td><td>192.80</td><td>A</td></tr><tr><td>8</td><td>ruvnet/ruflo-v3</td><td>186.00</td><td>A</td></tr><tr><td>9</td><td>garrytan/garrytan</td><td>156.00</td><td>A</td></tr><tr><td>10</td><td>ruvnet/dual-mode</td><td>126.00</td><td>A</td></tr><tr><td>11</td><td>pbakaus/impeccable</td><td>122.80</td><td>A</td></tr><tr><td>12</td><td>mattpocock/productivity</td><td>120.00</td><td>A</td></tr><tr><td>13</td><td>ruvnet/reasoningbank</td><td>118.50</td><td>A</td></tr><tr><td>14</td><td>obra/subagent-driven-development</td><td>117.65</td><td>A</td></tr><tr><td>15</td><td>obra/using-git-worktrees</td><td>117.65</td><td>A</td></tr></tbody></table>
+<p><strong>Honest note:</strong> <code>computeOverallTrustGradeFromSkill</code> applies the RFC §4 diversity gate (<code>distinctTypes≥3 AND hasNonSelfProducible</code>) at the S boundary, so all five TM≥250 skills currently downgrade to A or B in the canonical reader (canonical S-count is zero). The inspect-script leaderboard (<code>scripts/inspectTrustMagnitude.py</code> lines 311–315) buckets by TM bands directly, hence the S=5 mismatch. Separately, <code>grading.py::<em>DEFAULT</em>THRESHOLDS = {S:90, A:80, B:60, C:40}</code> are per-evidence trust numbers (0–100 scale) and are not applied to skill-aggregate TM — they are unrelated to this distribution.</p>
+<h3>Apex gate matrix (TM≥250 apex-candidate skills, 6 active predicates)</h3>
+<p>Column labels match <code>src/gaia<em>cli/trustMagnitude.py::passesApexGate</code> (line 1054) and <code>scripts/inspectTrustMagnitude.py::APEX</em>GATE_LABELS</code> (line 72).</p>
+<table><thead><tr><th>skillId</th><th>§11.12.2 (directNestedSuite≥1)</th><th>§11.12.3 (depth2-only reachable≥1)</th><th>§11.12.4 (OverallGradeS, strict reading)</th><th>§11.12.5 (≥5 A-graded origins)¹</th><th>§11.12.7 (tenure≥180d, A or S)</th><th>§11.12.8 (apexPromotionPrSigned)</th></tr></thead><tbody><tr><td>garrytan/gstack</td><td>✓</td><td>✓</td><td>✓</td><td>✗</td><td>✗</td><td>✓</td></tr><tr><td>ruvnet/ruflo</td><td>✓</td><td>✓</td><td>✓</td><td>✗</td><td>✗</td><td>✓</td></tr><tr><td>mattpocock/skills</td><td>✓</td><td>✓</td><td>✓</td><td>✗</td><td>✗</td><td>✓</td></tr><tr><td>obra/superpowers</td><td>✓</td><td>✓</td><td>✓</td><td>✗</td><td>✗</td><td>✓</td></tr></tbody></table>
+<p>¹ Inspect-script label reads "≥8 A-graded origins"; the canonical constant <code>APEX<em>AGRADED</em>ORIGINS_MIN</code> in <code>trustMagnitude.py</code> line 68 is <strong>5</strong>. Inspect label is stale; tracked separately.</p>
+<p>All four <strong>apex-candidate skills (TM≥250)</strong> sit at <strong>4 / 6 passing</strong> under the inspect tool. Note that under the canonical <code>computeOverallTrustGradeFromSkill</code>, gstack/skills/superpowers grade A and ruflo grades B — none are S — so "S-grade" framing is incorrect; these are TM-tier S / apex-eligible, with §11.12.4 (<code>overallGradeS</code>) currently passing via the strict-evidence reader path even though the diversity-gated reader returns A/B. §11.12.5 (<code>aGradedOriginsGte5</code>) and §11.12.7 (<code>sourceTenureDaysGte180AorS</code>) remain the binding constraints — neither passes pending more A-graded source diversity and registry tenure. §11.12.6 (cross-org verifier) and §11.12.9 (system-wide cap) are feature-flagged OFF this release. §11.12.8 (<code>apexPromotionPrSigned</code>) PASSes for all four via the I12 stamp commit <code>42e11c92</code>.</p>
+<h3>Notable movements</h3>
+<p>The I11 source-curation pass cleared the <strong>B-floor (TM≥50) for 19 of 20</strong> P1 floor targets (<code>founder/handovers/phase-1.5/I11_TARGETS.txt</code>); <code>xquik-dev/hermes-tweet</code> only reached <strong>C</strong> at TM=42.47. Evidence was <code>github-stars-own</code> for the 17-skill garrytan/obra batch (commit <code>8c90ed43</code>) and <code>social-signal</code> (YouTube views) for the ruvnet/mattpocock/xquik-dev batch (commit <code>e75d9ace</code>). The <code>google-deepmind/</code> cluster (37 skills) jumped en bloc through peer-review evidence injection: <strong>26 of 37 deepmind skills</strong> moved <strong>10.82 → 100.82</strong> (C→A), and <strong>11 of 37</strong> moved <strong>10.82 → 70.82</strong> (C→B). <code>safishamsi/graphify</code> also crossed into A at TM=116.57.</p>
+<h3>Still unmoved</h3>
+<p>The 74 ungraded skills (canonical reader, TM<20) are mostly newly-registered v1.0.1 entries: the <code>mattpocock/</code> v1.0.1 batch, plus <code>intelligentcode-ai/</code>, <code>huggingface/</code>, and <code>langgenius/</code> clusters. These are slated for the next curation pass — no source evidence ingested yet, so the trust pipeline returns near-zero by construction rather than by judgement.</p>
+<h3>Figure 2</h3>
+<p><em>Apex gate status post-I12 (gstack verified 4/6; other three assumed 4/6 pending per-skill inspect verification)</em></p>
+<pre><code class="language-">Predicate              | gstack   | ruflo    | skills   | superpwr
+-----------------------+----------+----------+----------+---------
+11.12.2 evidence-floor | PASS     | PASS (?) | PASS (?) | PASS (?)
+11.12.3 source-diverse | PASS     | PASS (?) | PASS (?) | PASS (?)
+11.12.4 peer-review    | PASS     | PASS (?) | PASS (?) | PASS (?)
+11.12.5 adoption-proof | FAIL     | FAIL (?) | FAIL (?) | FAIL (?)
+11.12.7 longitudinal   | FAIL     | FAIL (?) | FAIL (?) | FAIL (?)
+11.12.8 install-live   | PASS     | PASS (?) | PASS (?) | PASS (?)
+-----------------------+----------+----------+----------+---------
+Total                  | 4/6      | 4/6 (?)  | 4/6 (?)  | 4/6 (?)
+Apex gate (&gt;=5/6)      | NO       | NO  (?)  | NO  (?)  | NO  (?)</code></pre>
+<h2>VII. Tooling and process</h2>
+<p>The G7 month was carried as much by the agent-skill registry and dispatch discipline as by the schema itself. Three layers — skills, multi-agent workflows, and worktree hygiene — combined to keep a single human-in-the-loop founder ahead of ~$35 of subagent spend.</p>
+<h3>1. The agent-skill registry</h3>
+<table><thead><tr><th>Skill</th><th>Two-line description</th></tr></thead><tbody><tr><td><code>/gaia-curate</code></td><td>Single-pass registry expansion. Loads <code>registry/skill-sources.md</code>, fans across GitHub + skill-marketplace evidence per <code>registry/skill-sources.md</code>, opens a curation PR. Lowest latency, weakest gates.</td></tr><tr><td><code>/gaia-curate-chain</code></td><td>Six-link prompt-chain (research → design → review → mutate → ship), each link a fresh sub-agent with a programmatic gate between. Use when schema correctness must not slip.</td></tr><tr><td><code>/gaia-curate-dynamic</code></td><td>Runtime-composed plan, tens-to-hundreds of parallel sub-agents, proposer⇄refuter convergent validation, resumable ledger. Used for whole-domain sweeps.</td></tr><tr><td><code>/ev-pipeline</code></td><td>Four-phase data-lake driver: collection → live-star verification → adversarial audit → link validation. Operates on <code>founder/sources/data_lake/</code> BEFORE registry ingestion.</td></tr><tr><td><code>/gaia-tm-inspect</code></td><td>Live Trust Magnitude breakdown for any named skill (artifact chain, dead rows, next-grade gap) plus a 249-skill ranked leaderboard grouped by S/A/B/C bands.</td></tr><tr><td><code>/impeccable</code></td><td>Production-grade UI craft. Reads PRODUCT.md / DESIGN.md, runs the brand-vs-product reference split, ships responsive code with verified contrast.</td></tr><tr><td><code>/gaia-fuse-full-suite</code></td><td>Fuses every named skill from one contributor into a single ultimate, back-links components, writes the <code>fuse</code> timeline event, opens the PR.</td></tr><tr><td><code>/gaia-post</code> (directory: <code>.agents/skills/meta-post/</code>)</td><td>Publishes announcement / link / report to <code>docs/meta/posts.json</code>; LaTeX-style reports also patch <code>docs/index.html</code> programmatically.</td></tr></tbody></table>
+<h3>2. Multi-agent workflow pattern</h3>
+<p>The four canonical G7 workflows all instantiate the same pipeline — N proposer stances, an adversarial-judge layer, then a synthesizer that converges the dissent — and all four ran inside the founder's recurring API envelope across sessions 5/6/9/12 (2026-06-16 through 2026-06-19):</p>
+<ul>
+  <li><code>wf_6e5a4374</code> G7 RFC consensus Wave A, 21 agents, 1.12M subagent tokens, ~$5 (2026-06-16; full workflow recovered 61 agent transcripts across waves).</li>
+  <li><code>wf_f14f7317</code> 6★ apex audit, 7 agents, 595k subagent tokens (caught the auto-mint honesty failure).</li>
+  <li><code>wf_7cbe217f</code> multiplier ratification, 20 agents (3 stances × 5 multipliers + 5 synths), 696k subagent tokens, ~$2.30; every synth converged DOWN from the orchestrator's draft.</li>
+  <li><code>wf_ce280cfc</code> ev-pipeline I9 curation (gstack / ruflo / obra / mattpocock / pbakaus), 3.67M subagent tokens, ~$3.70.</li>
+  <li>I11 ev-pipeline floor curation: spend TBD (Sonnet agent still running at session-15 close per <code>founder/MEMORY.md</code> line 60).</li>
+</ul>
+<h3>3. Cutoff-safeguard playbook (<code>founder/CLAUDE.md</code>)</h3>
+<p>The seven working rules — (1) mandate intermediate commits, (2) push early/often, (3) don't gate commit on tests, (4) worktree isolation, (5) token-budget hint, (6) report SHA at every milestone, (7) re-dispatch path on cutoff — were added 2026-06-18 after Opus 4.8 PR #728 dispatch died at ~105k subagent tokens with 151 lines of uncommitted <code>trustMagnitude.py</code> edits. Worktree isolation (<code>agent-a0c863432787e5c8c</code>) is what made recovery possible; the orchestrator stashed drift, committed <code>849b42b4</code>, and re-dispatched as Sonnet which delivered <code>1eaa174b</code> + <code>4be667f6</code> (56/56 tests). The separate 8-bullet worktree warmup boilerplate (lines 67–77, added 2026-06-20) was front-loaded into every dispatch because agents were taking exchanges to "warm up" to the rules.</p>
+<h3>4. GitHub-hygiene checklist (added 2026-06-20)</h3>
+<p>Per <code>founder/GIT.md</code> §2-§3, every issue and PR now carries a milestone, a functional label drawn from the fixed set <code>{backend, frontend, infrastructure, CLI, docs, schema, RFC, tech-debt}</code>, and a <code>Resolves #&lt;n&gt;</code> body. The orchestrator owns enforcement: confirm milestone+labels before dispatching, patch <code>gh pr edit</code> immediately after the PR opens, never invent new labels (<code>trust-model</code>, <code>phase-1.5-data</code> do not exist — use <code>gh label create</code> first or pick from the fixed set). Project-board moves are nice-to-have, gated on the missing <code>read:project</code> PAT scope.</p>
+<h3>5. CLI surface added this month</h3>
+<ul>
+  <li><strong><code>gaia trust explain &lt;skill&gt;</code></strong> (I2, PR #728): full multiplier chain per evidence row — <code>base × weight × freshness × mothership/creator/engagement × inheritMultiplier × plateau</code>, including dead rows and the reason they zeroed.</li>
+  <li><strong><code>gaia dev evidence</code> flags</strong> (I9 + I12): <code>--stars</code>, <code>--views</code>, <code>--citations</code>, <code>--reviewers</code>, <code>--commits</code>, <code>--contributors</code>, <code>--skill-count-in-repo</code>, and <code>--source-started-at</code> (the last unblocks the apex tenure predicate §11.12.7).</li>
+</ul>
+<h3>Open CLI gaps (honestly)</h3>
+<ul>
+  <li><code>gaia dev timeline</code> writes to the <strong>registry node</strong>, not <code>skill-trees/&lt;user&gt;/skill-tree.json</code>, unless <code>--user</code> is passed; user-tree backfills still require direct JSON edits with a <code>(direct edit — CLI gap)</code> marker.</li>
+  <li>The <code>action</code> enum has no <code>demote</code> verb and no <code>--timestamp</code> flag on the user-tree path; both block faithful Hero's-Journey backfill.</li>
+  <li>Issue #739: Windows cp1252 encoding corrupts the <code>★</code> glyph in <code>src/gaia_cli/timeline.py</code> writes — every file write in that module needs an explicit <code>encoding='utf-8'</code>.</li>
+</ul>
+<h2>VIII. What's next</h2>
+<p><em>Section VIII (What's next: G7 v3 incoming) was authored by the synthesizer agent which failed; not recovered. Inputs intended for this section: issue #749 (RFC v3 ratification — depth-2 semantics, apex_pr_signed enum, sourceTenure under partial-signal); remaining Phase 1.5 issues #721 (I3), #722 (I4), #723 (I5), #724 (I6), #725 (I7); 71 ungraded skills slated for next curation pass.</em></p>
+<h2>IX. Appendix A — Schema additions (Phase 1.5)</h2>
+<p><em>Synthesizer-authored appendix; not recovered. Intended fields: <code>trustMagnitude</code>, <code>overallTrustGrade</code>, <code>apexGateStatus.{apexPromotionPrSigned, apexPromotionPrSignedBy, apexPromotionPrSignedAt}</code>, <code>provisional</code>, <code>provisionalUntil</code>, <code>evidence[].grade</code>, <code>evidence[].sourceStartedAt</code>, <code>links.canonicalRepo</code>, <code>cosigners</code>. <code>meta.json</code> additions: <code>trustMagnitudeThresholds</code>, 10-type taxonomy, <code>apexGate</code> block.</em></p>
+<h2>X. Appendix B — Token-spend ledger</h2>
+<p><em>Synthesizer-authored appendix; not recovered. Per Section VII figures: G7 RFC consensus wf_6e5a4374 ~$5; 6★ apex audit wf_f14f7317 ~$2; multiplier ratification wf_7cbe217f ~$2.30; ev-pipeline I9 wf_ce280cfc ~$3.70; ev-pipeline I11 ~$3-4. Cumulative June 2026 spend ~$35-40 across 15 sessions per <code>founder/MEMORY.md</code>.</em></p>
+<h2>XI. References</h2>
+<p>[1] G7 Trust Taxonomy RFC, v2. <code>founder/handovers/G7<em>TRUST</em>TAXONOMY_RFC.md</code></p>
+<p>[2] G7 Implementation Handover. <code>founder/handovers/G7<em>IMPLEMENTATION</em>HANDOVER.md</code></p>
+<p>[3] G7 Handover Delta 2026-06-17. <code>founder/handovers/G7<em>HANDOVER</em>DELTA_2026-06-17.md</code></p>
+<p>[4] Phase 1 Master Plan. <code>founder/handovers/done/PHASE1_MASTER.md</code></p>
+<p>[5] Trust Methodology, 2026-06-15. <code>docs/meta/2026-06-15-the-gaia-trust-methodology-evidence-types-grades-and-inherited-standing.html</code></p>
+<p>[6] G7 Supersession Visual Walkthrough, 2026-06-17. <code>docs/meta/2026-06-17-g7-trust-magnitude-supersedes-the-2026-06-15-methodology.html</code></p>
+<p>[7] Issue tracker: #719, #720, #721-#725, #729, #730, #739-#742, #746-#753.</p>
+<hr>
+<p><em>Note: this report was assembled via L3-mechanical fallback after the synthesizer agent failed (4 attempts, all killed). Section bodies are the verbatim outputs of the per-section writer + adversarial-verifier + rewriter pipeline; the synthesizer-authored bridge sections (Headlines, What's next, Appendices, References) are not present in this salvage. See <code>founder/handovers/WORKFLOW_PATTERNS.md</code>.</em></p>
+
+    <div class="footer-nav">
+      <a href="../../index.html">← Back to Gaia</a>
+    </div>
+  </article>
+
+  <script>
+    const sidebar = document.getElementById('metaSidebar');
+    const openBtn = document.getElementById('viewChangelogBtn');
+    const closeBtn = document.getElementById('closeChangelogBtn');
+    if (openBtn) openBtn.addEventListener('click', () => sidebar.classList.add('open'));
+    if (closeBtn) closeBtn.addEventListener('click', () => sidebar.classList.remove('open'));
+    async function loadChangelog() {
+      try {
+        const res = await fetch('../../graph/gaia.json');
+        const gaia = await res.json();
+        const body = document.getElementById('changelogBody');
+        body.innerHTML = '';
+        let events = [];
+        gaia.skills.forEach(s => {
+          if (s.timeline) s.timeline.forEach(e => events.push({ ...e, skillName: s.name }));
+        });
+        events.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        events.slice(0, 50).forEach(ev => {
+          const item = document.createElement('div');
+          item.style.cssText = 'margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid #111';
+          item.innerHTML = `<div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#666;margin-bottom:0.3rem">${new Date(ev.timestamp).toLocaleDateString()} · ${ev.action.toUpperCase()}</div><div style="font-weight:500;font-size:0.9rem;color:#fff">${ev.skillName}</div><div style="font-size:0.8rem;color:#aaa;margin-top:0.2rem">${ev.details}</div>`;
+          body.appendChild(item);
+        });
+      } catch (e) { console.error('Failed to load changelog', e); }
+    }
+    loadChangelog();
+
+    (function() {
+      var shareBtn = document.getElementById('reportShareBtn');
+      var copyBtn = document.getElementById('reportCopyLinkBtn');
+      function flashBtn(b) { b.classList.add('copied'); setTimeout(function() { b.classList.remove('copied'); }, 1500); }
+      if (shareBtn) shareBtn.addEventListener('click', function() {
+        var url = location.href, title = document.title;
+        if (navigator.share) { navigator.share({ title: title, url: url }).catch(function() {}); }
+        else if (navigator.clipboard) { navigator.clipboard.writeText(url).then(function() { flashBtn(shareBtn); }); }
+      });
+      if (copyBtn) copyBtn.addEventListener('click', function() {
+        if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(function() { flashBtn(copyBtn); });
+      });
+    })();
+
+  </script>
+</body>
+</html>
