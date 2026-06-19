@@ -20,7 +20,80 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 - **2026-06-10** — #637 scope per Marco's comment: #635 covers `gaia tree`/`gaia graph`; everything else except `gaia skills` stays RFC.
 - **2026-06-10** — Trust implementation finalized: bands S≥90/A≥80/B≥60/C≥40/ungraded<40; `class` removed at next major; type values kebab-case (`github-stars`); suite ultimate gate = pillar rule (≥3 evidenced components, ≥1 S + ≥2 A, floor C) with a recalibration RFC due ~1 month post-ship; verification workflow = issue #658 (standalone, tenure 30d).
 
-## State Snapshot (2026-06-19, session 10 — evidence audit, dev/* consolidation complete, I9 designed)
+## State Snapshot (2026-06-19, session 13 — I8 redesign, I9 curation running, migration bugs fixed, next: merge both to dev)
+
+- **Repo:** `main` @ **v4.11.0** (unchanged). All Phase 1.5 work on `dev/phase-1.5-inspection` + feature branches.
+
+### Branch state
+
+| Branch | Head SHA | Status |
+|---|---|---|
+| `design/trust-grade-notch` | `236ce7b2` | I8 redesign complete — pixel-thin bar, hover count-up. Visual inspection needed. |
+| `review/meta/g7-evidence-backfill` | `ebb760a3` | I9 curation in progress (agent running). |
+| `dev/phase-1.5-inspection` | `8cc5d352` | Consolidation branch. Needs I8 + I9 merged in. |
+
+### I8 — Trust Grade Notch (design/trust-grade-notch)
+
+**Current design (236ce7b2):**
+- Default state: 3px colored bar flush at very bottom of every `.plaque`, full-width, boxy (no radius). Grade color always visible as a thin stripe.
+- Hover (whole plaque): bar expands to 24px in 0.28s (cubic-bezier), `MAG X.X` counts up from 0 to real TM in 380ms simultaneously via `_wireTrustNotches()` JS.
+- Four grade fills: S = animated platinum sweep (90deg, 2.8s), A = gold, B = dark steel, C = bronze.
+- `_wireTrustNotches(root)` exposed as `window._wireTrustNotches` — must be called after any dynamic render.
+- Sampler at `docs/samples/trust-grade-notch.html` with real TM numbers (gstack 589.3, superpowers 416.0, etc.). Added to sampler index.
+- HoH exclusion removed — all plaque variants show the notch.
+- **Still pending:** visual inspection at `http://localhost:8081/samples/trust-grade-notch.html`. Marco said "far from over" on design — iteration expected after merge.
+
+**Known I8 gaps:**
+- `_wireTrustNotches` must be called on every page that dynamically renders plaques (`docs/named/index.html`, `docs/u/*/index.html`, etc.). Not yet wired into those pages.
+- OG card generator (`scripts/generateOgCards.py`) and profile page generator (`scripts/generateProfilePages.py`) may not pass `overallTrustGrade`/`trustMagnitude` to all plaque variants — needs check after merge.
+
+### I9 — Evidence Backfill (review/meta/g7-evidence-backfill)
+
+**Migration bugs fixed (all on this branch):**
+1. `computeInputHash` in `migrateTrustMagnitude.py` used `r.get("url")` — should be `r.get("source")`. Also missing numeric payload fields (commits, stars, views, etc.) and `suiteComponents`. Fixed at `517588eb`.
+2. Migration only built `genericSkillMap` from `registry/nodes/` — named skill IDs in `suiteComponents` not found → fusion origins = 0 → TM wrong. Fixed: build `namedSkillMap` + merge before passing to TM engine. Fixed at `74f29d04`.
+3. Both `migrateTrustMagnitude.py` and `inspectTrustMagnitude.py` now use merged map.
+
+**Current TM leaderboard (249 skills, commit e0ce1cf0 + ebb760a3):**
+- S grade (≥250): garrytan/gstack=589.3, ruvnet/ruflo=482.3, mattpocock/skills=440.8, obra/superpowers=416.0
+- A grade (≥100): 13 skills; top = mattpocock/engineering 270, ruvnet/agentdb 201, pexp13/sentiment-analysis 192.8
+- B grade (≥50): 22 skills
+- C grade (≥20): 94 skills
+- Ungraded: 116 skills (incl. all 14 new mattpocock v1.0.1 skills, google-deepmind cluster)
+
+**I9 curation status (agent a74731d66fceccfbb still running):**
+- ev-pipeline completed: 62 rows added across 25 suite skills (commit `1e5376b3`)
+- gaia-curate-chain completed: 14 new mattpocock/skills v1.0.1 skills + 8 deprecated skills updated (PR #745)
+- Social signals (YouTube views) + Google DeepMind arxiv/peer-review curation: IN PROGRESS
+
+**New tools added:**
+- `scripts/inspectTrustMagnitude.py` — `--skill <id>` + `--leaderboard` modes
+- `.agents/skills/gaia-tm-inspect/SKILL.md` — `/gaia-tm-inspect` skill
+
+### Key architectural decisions this session
+
+- `trustMagnitudeInputHash` now covers: source field, all numeric payload fields, suiteComponents. Old hashes were invalid — all were cleared and recomputed.
+- Named skill IDs in `suiteComponents` must be in `mergedMap` (genericSkillMap + namedSkillMap) for fusion-recipe origins to score correctly.
+- Data lake injected flag protocol: `<!-- injected: YYYY-MM-DD | skillId: X | type: Y | layer: Z -->` marks rows already imported.
+
+### Next steps
+
+1. **Wait for I9 agent to complete** — will notify when done
+2. **Merge I8 → dev/phase-1.5-inspection**: `git merge design/trust-grade-notch`
+3. **Merge I9 → dev/phase-1.5-inspection**: `git merge review/meta/g7-evidence-backfill`
+4. **Run full `/gaia-tm-inspect --leaderboard`** on merged dev branch to show Marco final scores
+5. **Visual inspection** of trust notch on real pages (named/, u/ profile pages) — `_wireTrustNotches` wiring needed
+6. **Further I8 iteration** expected (Marco: "far from over") — iterate on design after seeing it live
+
+### Token spend (session 13)
+- ev-pipeline workflow: ~3.67M subagent tokens / ~$3.70
+- gaia-curate-chain: ~111k subagent / ~$0.50
+- Migration fix agents: ~157k subagent / ~$1.05
+- Direct orchestrator work (CSS/JS rewrite, hash fix analysis): ~$0.40
+- I9 curation agent (still running): TBD
+- **Session 13 so far: ~$5.65**. Cumulative G7: **~$25.37**
+
+
 
 - **Repo:** `main` @ **v4.11.0** (unchanged — no merges to main this session).
 - **`dev/phase-1.5-inspection`** is the single consolidated branch carrying ALL Phase 1.5 work:
