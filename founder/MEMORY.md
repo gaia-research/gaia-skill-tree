@@ -2,6 +2,66 @@
 
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
+## State Snapshot (2026-06-20, session 15 — I10 + I12 shipped, I11 running in background)
+
+- **Repo:** `main` @ **v4.11.0** (unchanged). All Phase 1.5 work on `dev/phase-1.5-inspection`.
+
+### Branches (end of session 15 dispatch wave)
+
+| Branch | Head | Status |
+|---|---|---|
+| `dev/phase-1.5-inspection` | `13c7077c` | + worktree warmup boilerplate (`founder/CLAUDE.md`), + GIT.md hygiene checklist, + I11_TARGETS.txt list. Pushed. |
+| `design/trust-leaderboard` | `5cc1b9c6` | I10 complete — public `/trust/leaderboard/` page + `scripts/generateLeaderboardData.py` + 3 CTAs (homepage hero pill, trust-page callout, site-nav entry). PR #747 (draft). |
+| `cli/apex-gate-fixes` | `42e11c92` | I12 complete — depth2 walker now includes suiteComponents, new `gaia dev evidence --source-started-at` flag, 4 apex skills stamped `apexPromotionPrSigned: true`. PR #748. |
+| `review/meta/i11-floor-curation` | TBD | I11 ev-pipeline pass, **running async** (agent `a0a12f1285b15a60c`, Sonnet, worktree-isolated). Branched off `cli/apex-gate-fixes` for the new CLI flag. |
+
+### Issues + PRs filed this session (per founder/GIT.md §2-§3)
+
+| # | Type | Title | Milestone | Labels | State |
+|---|---|---|---|---|---|
+| 750 | issue | I10 — Public Trust Magnitude Leaderboard | Phase 1.5 | phase-1.5,frontend,docs,enhancement | open |
+| 751 | issue | I11 — Source curation: floor + ungraded skills | Phase 1.5 | phase-1.5,backend,enhancement | open |
+| 746 | issue | apex gate: depth2 / tenure / A-origins | Phase 1.5 | phase-1.5,backend,enhancement | open (partially closed by #748) |
+| 749 | issue | RFC ratification: depth2 + apex_pr_signed timeline action | Phase 1.5 | phase-1.5,RFC,backend | open |
+| 747 | PR | I10 leaderboard | Phase 1.5 | phase-1.5,frontend,docs | draft |
+| 748 | PR | I12 apex gate fixes | Phase 1.5 | phase-1.5,backend,CLI | open |
+
+### Apex gate state — `garrytan/gstack` after I12
+
+```
+Apex gate: 4/6 active predicates pass (was 2/6)
+  PASS  §11.12.2  ≥1 direct component with suiteComponents
+  PASS  §11.12.3  ≥1 node reachable only at depth ≥ 2     ← was FAIL
+  PASS  §11.12.4  Overall Trust Grade S
+  PASS  §11.12.8  apex-promotion PR signed                ← was FAIL
+  FAIL  §11.12.5  ≥8 A-graded origins (I11 in flight)
+  FAIL  §11.12.7  Tenure ≥ 180 days (I11 will populate sourceStartedAt)
+```
+
+### What's locked in this session
+
+1. **Worktree warmup boilerplate** (`founder/CLAUDE.md`) — all future dispatch prompts paste an 8-bullet "Worktree rules — READ BEFORE EDITING ANY FILE" at the TOP. Marco called out 2026-06-20 that agents always need warmup for worktree convention.
+2. **GIT.md hygiene checklist** added to `founder/CLAUDE.md` — every issue+PR gets milestone+functional-label+`Resolves #<n>` body. Lists actually-existing functional labels (`backend`, `frontend`, `infrastructure`, `CLI`, `docs`, `schema`, `RFC`, `tech-debt`) — `trust-model`, `design`, `phase-1.5-data` do NOT exist.
+3. **I12 depth2 semantics** — Marco mid-task amended depth-2 to allow overlap with depth-1 (cycle-self guard kept). RFC ratification tracked in #749.
+4. **I12 apex_pr_signed** — no enum value in `gaia dev timeline --action`; agent fell back to `verified`. CLI gap tracked in #749 (extend enum).
+
+### Next steps (after I11 completes)
+
+1. Run `/gaia-tm-inspect --html --leaderboard` to capture the post-I11 grade distribution → present to Marco.
+2. Marco visual inspection of `/trust/leaderboard/` (PR #747) — local server at `http://localhost:8081/trust/leaderboard/`.
+3. Merge order: #748 (I12) → #747 (I10) → I11 PR → final dev push → ready PR #742 for main merge.
+4. Address #749 RFC ratification as Phase 2 follow-up.
+
+### Token spend (session 15 so far)
+
+- Orchestrator (planning, dispatch, GIT hygiene, memory): ~$1.20
+- I10 agent (Opus): ~55k in / 16k out / ~$3.50 / 116k subagent
+- I12 agent (Opus): ~75k in / 15k out / ~$3.50 / 145k subagent
+- I11 agent (Sonnet, running): TBD
+- **Session 15 so far: ~$8.20.** Cumulative G7: **~$35.47**.
+
+---
+
 ## High-Level Goals
 
 1. **Phase 1 — Trust Infrastructure** (milestone #4, due Sep 10, 2026): trust model, security scanner, verification workflow delivered; benchmarks + cert tiers designed. Currently 0/6.
