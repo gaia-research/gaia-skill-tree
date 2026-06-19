@@ -20,7 +20,7 @@ tags:
 - ceo-review
 - pre-implementation
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -36,6 +36,17 @@ evidence:
   contributors: 9
   trustNumber: 70.0
   grade: B
+- source: https://github.com/garrytan/gstack
+  evaluator: unknown
+  date: '2026-06-20'
+  type: github-stars-own
+  trustNumber: 85.0
+  grade: A
+  notes: gstack suite repo — 110,930 GitHub stars; plan-ceo-review is 1 of 42 named
+    skills (verified 2026-06-20)
+  stars: 110930
+  skillCountInRepo: 42
+  sourceStartedAt: '2024-01-01'
 timeline:
 - timestamp: '2026-06-03T05:51:29Z'
   action: evidence_added
@@ -58,6 +69,15 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:37Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T16:47:44Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)'
+- timestamp: '2026-06-19T16:47:44Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/garrytan/gstack as A (trustNumber:
+    85.0)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
