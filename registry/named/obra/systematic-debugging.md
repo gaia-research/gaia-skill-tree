@@ -30,6 +30,8 @@ evidence:
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 609
+  contributors: 36
 timeline:
 - timestamp: '2026-06-02T23:33:00Z'
   action: demote
