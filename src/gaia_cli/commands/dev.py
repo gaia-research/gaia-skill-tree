@@ -1138,6 +1138,18 @@ def meta_evidence_command(args):
             )
             sys.exit(1)
 
+    # Validate --source-started-at as ISO YYYY-MM-DD; reject bad input loudly.
+    source_started_at = getattr(args, "source_started_at", None)
+    if source_started_at is not None:
+        try:
+            datetime.date.fromisoformat(source_started_at)
+        except ValueError:
+            print(
+                f"Error: --source-started-at must be ISO YYYY-MM-DD; got '{source_started_at}'.",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+
     # Derive grade from trust number
     derived_grade: str | None = None
     if trust_number is not None:
@@ -1150,10 +1162,10 @@ def meta_evidence_command(args):
 
     if index is not None and trust_number is None and evidence_type is None and (
         not getattr(args, "notes", None)
-    ):
+    ) and source_started_at is None:
         print(
-            "Error: --index requires at least one of --trust, --type, or --notes "
-            "to update on the existing entry.",
+            "Error: --index requires at least one of --trust, --type, --notes, "
+            "or --source-started-at to update on the existing entry.",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -1190,6 +1202,8 @@ def meta_evidence_command(args):
         evidence["contributors"] = args.contributors
     if getattr(args, "skill_count_in_repo", None) is not None:
         evidence["skillCountInRepo"] = args.skill_count_in_repo
+    if source_started_at is not None:
+        evidence["sourceStartedAt"] = source_started_at
 
     def _apply(ev_list: list) -> dict:
         """Append the new entry, or update the entry at ``index`` in place.
@@ -1241,6 +1255,8 @@ def meta_evidence_command(args):
             entry["contributors"] = args.contributors
         if getattr(args, "skill_count_in_repo", None) is not None:
             entry["skillCountInRepo"] = args.skill_count_in_repo
+        if source_started_at is not None:
+            entry["sourceStartedAt"] = source_started_at
         return entry
 
     if "/" in skill_id:

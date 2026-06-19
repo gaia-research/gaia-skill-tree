@@ -135,3 +135,50 @@ def test_index_requires_update_field(tmp_path):
     root = _build_registry(tmp_path, [{"source": "https://a", "class": "A"}])
     with pytest.raises(SystemExit):
         meta_evidence_command(_args(root, index=0))
+
+
+def test_source_started_at_appended(tmp_path):
+    """`gaia dev evidence ... --source-started-at YYYY-MM-DD` writes sourceStartedAt."""
+    root = _build_registry(tmp_path, [])
+    meta_evidence_command(
+        _args(
+            root,
+            source="https://example.com/evidence",
+            evidence_type="repo",
+            trust=80,
+            source_started_at="2024-01-15",
+        )
+    )
+    ev = _load_node(root)["evidence"]
+    assert len(ev) == 1
+    assert ev[0]["sourceStartedAt"] == "2024-01-15"
+
+
+def test_source_started_at_in_place_update(tmp_path):
+    """--index can also patch sourceStartedAt on an existing entry."""
+    root = _build_registry(
+        tmp_path,
+        [{"source": "https://a", "type": "repo", "trustNumber": 80, "grade": "A"}],
+    )
+    meta_evidence_command(
+        _args(root, index=0, source_started_at="2023-06-01")
+    )
+    entry = _load_node(root)["evidence"][0]
+    assert entry["sourceStartedAt"] == "2023-06-01"
+    # untouched fields preserved
+    assert entry["trustNumber"] == 80
+
+
+def test_source_started_at_invalid_iso_exits(tmp_path):
+    """Bad ISO date is rejected loudly (not silently coerced)."""
+    root = _build_registry(tmp_path, [])
+    with pytest.raises(SystemExit):
+        meta_evidence_command(
+            _args(
+                root,
+                source="https://example.com/evidence",
+                evidence_type="repo",
+                trust=80,
+                source_started_at="not-a-date",
+            )
+        )

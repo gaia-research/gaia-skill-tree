@@ -3663,6 +3663,12 @@ def get_parser():
         help="Number of skills in the repo (mothership discount divisor for github-stars-own)",
     )
     dev_evidence.add_argument(
+        "--source-started-at",
+        dest="source_started_at",
+        metavar="YYYY-MM-DD",
+        help="ISO date the source content first existed (for tenure decay; populates evidence[].sourceStartedAt)",
+    )
+    dev_evidence.add_argument(
         "--no-build",
         action="store_true",
         help="Skip rebuilding docs and graph assets after adding evidence",
