@@ -61,8 +61,14 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://academic.oup.com/nar/article/39/suppl_2/W13/2506516
     (type: peer-review)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -72,9 +78,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 431b29dd6a40eef101befa45677953481bd1cc424fc9471cb98c47c8e39e2bf4
 verification:
   firstEvidenceAt: '2026-06-19T14:24:03Z'
+trustMagnitudeInputHash: 631aa5051cb03e0ffd99b24d07c9f79c648b5fe843f74364b7db07a8f95f9339
 ---
 
 ## Prerequisites

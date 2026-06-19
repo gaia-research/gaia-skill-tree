@@ -14,7 +14,7 @@ links:
   github: https://github.com/mattpocock/skills
 createdAt: '2026-05-22'
 updatedAt: '2026-06-19'
-trustMagnitude: 440.78
+trustMagnitude: 480.29
 overallTrustGrade: S
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -67,6 +67,12 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:41Z'
   details: TM 0.0 -> 440.78, grade ungraded -> S (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 440.78 -> 480.29, grade S -> S (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:18Z'
+  details: TM 480.29 -> 480.29, grade S -> S (direct edit -- CLI gap)
 evidence:
 - source: https://github.com/mattpocock/skills/stargazers
   evaluator: mbtiongson1
@@ -121,7 +127,7 @@ suiteComponents:
 - mattpocock/ubiquitous-language
 - mattpocock/write-a-skill
 - mattpocock/zoom-out
-trustMagnitudeInputHash: b150d384526e38059b38224d011b311c49672cae5d7d17fe4fb11a3c694ddaa9
+trustMagnitudeInputHash: 349d174f8f94cd100299e12ac72dde50e45702118e3e22c9d36cf4091e48f522
 ---
 
 ## Installation

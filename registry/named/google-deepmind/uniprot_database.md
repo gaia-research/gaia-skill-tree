@@ -57,8 +57,14 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://academic.oup.com/nar/article/51/D1/D523/6835362
     (type: peer-review)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -68,9 +74,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 580888f5a64fba3f19640eabaa681dc7bb94a32983b09d348eedfbcf6c382fd1
 verification:
   firstEvidenceAt: '2026-06-19T14:29:22Z'
+trustMagnitudeInputHash: aaf01865208b700817c1d42d5090578415b46fab3428a61e9006faa96c7faf70
 ---
 
 # UniProt Database Access

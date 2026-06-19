@@ -58,8 +58,14 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://clinicaltrials.gov/about-site/about-ctgov
     (type: peer-review)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:45Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -69,9 +75,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 997dcf1a88a22e36b760b406af80db558f4fec068a6fc1ecec8c74b88e47cde0
 verification:
   firstEvidenceAt: '2026-06-19T14:29:48Z'
+trustMagnitudeInputHash: cfd8143ddd2067e469ab37e441446e05261f526dbe7fef4bbb3d797aaecf7ed1
 ---
 
 # Clinical Trials Database

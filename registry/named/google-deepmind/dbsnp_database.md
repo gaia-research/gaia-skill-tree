@@ -57,8 +57,14 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://academic.oup.com/nar/article/29/1/308/1116395
     (type: peer-review)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -68,9 +74,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 5b1b6e2c41e441934d499b0fb9344b074141be1faca6b7ec5ed51d495258c552
 verification:
   firstEvidenceAt: '2026-06-19T14:29:36Z'
+trustMagnitudeInputHash: 7ad65013c3d761cfd008a7e3407a1a36fc15731654d30c04db9700b9d10d5899
 ---
 
 # dbSNP Database Integration

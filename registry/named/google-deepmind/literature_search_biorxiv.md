@@ -57,8 +57,14 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://biorxiv.org/about-biorxiv (type: peer-review)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -68,9 +74,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 8146686d8b7fa66223a24a6a36e27ebc236ba7b78917782f044379c6dd29b400
 verification:
   firstEvidenceAt: '2026-06-19T14:29:51Z'
+trustMagnitudeInputHash: 423f7cfb15b7e9361231d53cb74e3066396aad298bc1a8b804ec8c60f88fc5d9
 ---
 
 # bioRxiv and medRxiv Literature Search

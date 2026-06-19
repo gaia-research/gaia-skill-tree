@@ -59,8 +59,14 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://www.nature.com/articles/s41586-020-2308-7
     (type: peer-review)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 100.82 -> 100.82, grade A -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -70,9 +76,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 1cf7ed16089c4256a55fa651292e06f273c4b074572f22fcea479e9e5e32d779
 verification:
   firstEvidenceAt: '2026-06-19T14:29:19Z'
+trustMagnitudeInputHash: 27923e8b16fa85da1591afd2f703975961102b66632f8a8a7be54ec482ed5aea
 ---
 
 # gnomAD Database

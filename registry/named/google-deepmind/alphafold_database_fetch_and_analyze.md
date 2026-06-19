@@ -54,8 +54,14 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://www.nature.com/articles/s41586-021-03819-2
     (type: peer-review)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:45Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 100.82 -> 100.82, grade A -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -65,9 +71,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: fbc4da63a54f7899950b8f2ee9dc7d5222b23d5fbf43176d5f6bae53eba20e48
 verification:
   firstEvidenceAt: '2026-06-19T14:23:06Z'
+trustMagnitudeInputHash: 512a42040fbc5bc17fe5cb3f1539aa9775c280f8dd80571ad9aa8478e55cb46c
 ---
 
 # AlphaFold Database: Fetch and Analyze

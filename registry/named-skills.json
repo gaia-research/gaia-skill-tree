@@ -5206,6 +5206,16 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:31:47Z",
+            "details": "TM 36.0 -> 65.15, grade C -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:32:19Z",
+            "details": "TM 65.15 -> 65.15, grade B -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -9990,6 +10000,16 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:41Z",
             "details": "TM 0.0 -> 440.78, grade ungraded -> S (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:31:46Z",
+            "details": "TM 440.78 -> 480.29, grade S -> S (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:32:18Z",
+            "details": "TM 480.29 -> 480.29, grade S -> S (direct edit -- CLI gap)"
           }
         ],
         "suiteComponents": [
@@ -11637,6 +11657,16 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:31:47Z",
+            "details": "TM 66.0 -> 95.15, grade B -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:32:18Z",
+            "details": "TM 95.15 -> 95.15, grade B -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -11859,6 +11889,16 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:31:47Z",
+            "details": "TM 66.0 -> 95.15, grade B -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:32:18Z",
+            "details": "TM 95.15 -> 95.15, grade B -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -12211,6 +12251,16 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:31:47Z",
+            "details": "TM 88.5 -> 117.65, grade B -> A (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:32:19Z",
+            "details": "TM 117.65 -> 117.65, grade A -> A (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -12438,6 +12488,16 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type: social-signal)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:31:47Z",
+            "details": "TM 416.0 -> 445.15, grade S -> S (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:32:19Z",
+            "details": "TM 445.15 -> 445.15, grade S -> S (direct edit -- CLI gap)"
           }
         ],
         "suiteComponents": [
@@ -12624,6 +12684,16 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:31:47Z",
+            "details": "TM 88.5 -> 117.65, grade B -> A (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:32:19Z",
+            "details": "TM 117.65 -> 117.65, grade A -> A (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -12765,6 +12835,16 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:31:47Z",
+            "details": "TM 66.0 -> 95.15, grade B -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:32:19Z",
+            "details": "TM 95.15 -> 95.15, grade B -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -13035,6 +13115,16 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:31:47Z",
+            "details": "TM 81.0 -> 110.15, grade B -> A (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T14:32:19Z",
+            "details": "TM 110.15 -> 110.15, grade A -> A (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -16956,6 +17046,16 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added evidence from https://www.nature.com/articles/s41586-021-03819-2 (type: peer-review)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:31:45Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:32:17Z",
+          "details": "TM 100.82 -> 100.82, grade A -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "extra"
@@ -17029,6 +17129,16 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added evidence from https://www.nature.com/articles/s41586-025-10014-0 (type: peer-review)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:31:45Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:32:17Z",
+          "details": "TM 100.82 -> 100.82, grade A -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "extra"
@@ -17102,6 +17212,16 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added evidence from https://academic.oup.com/nar/article/47/D1/D930/5162468 (type: peer-review)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:31:45Z",
+          "details": "TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:32:17Z",
+          "details": "TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17130,10 +17250,19 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://clinicaltrials.gov/about-site/about-ctgov",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "ClinicalTrials.gov: NIH/NLM clinical study registry. Primary infrastructure for the ClinicalTrials database skill. Mandatory registration required by FDA/NIH since 2007.",
+          "reviewers": 2
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:29Z",
@@ -17160,6 +17289,22 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T14:29:49Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://clinicaltrials.gov/about-site/about-ctgov (type: peer-review)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:31:45Z",
+          "details": "TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:32:17Z",
+          "details": "TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17188,10 +17333,19 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://academic.oup.com/nar/article/44/D1/D862/2502717",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "Landrum et al. 2015 NAR: ClinVar public archive of interpretations of clinically relevant variants. 2,571 citations (Semantic Scholar 2026-06-19).",
+          "reviewers": 2
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:29Z",
@@ -17218,6 +17372,22 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T14:29:36Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://academic.oup.com/nar/article/44/D1/D862/2502717 (type: peer-review)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:31:45Z",
+          "details": "TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:32:17Z",
+          "details": "TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17246,10 +17416,19 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://academic.oup.com/nar/article/29/1/308/1116395",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "Sherry et al. 2001 NAR: dbSNP NCBI database of genetic variation. 7,285 citations (Semantic Scholar 2026-06-19).",
+          "reviewers": 2
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:29Z",
@@ -17276,6 +17455,22 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:38Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T14:29:37Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://academic.oup.com/nar/article/29/1/308/1116395 (type: peer-review)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:31:46Z",
+          "details": "TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:32:17Z",
+          "details": "TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17536,10 +17731,19 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://www.nature.com/articles/s41586-020-2308-7",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "Karczewski et al. 2020 Nature: The mutational constraint spectrum quantified from 141,456 humans. 8,320 citations (Semantic Scholar 2026-06-19).",
+          "reviewers": 3
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:31Z",
@@ -17566,6 +17770,22 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T14:29:19Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://www.nature.com/articles/s41586-020-2308-7 (type: peer-review)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:31:46Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:32:17Z",
+          "details": "TM 100.82 -> 100.82, grade A -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17594,10 +17814,19 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://www.science.org/doi/10.1126/science.aaz1776",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "GTEx Consortium 2019 Science: GTEx atlas of genetic regulatory effects across human tissues. 4,618 citations (Semantic Scholar 2026-06-19).",
+          "reviewers": 3
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:31Z",
@@ -17624,6 +17853,22 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T14:29:35Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://www.science.org/doi/10.1126/science.aaz1776 (type: peer-review)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:31:46Z",
+          "details": "TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:32:17Z",
+          "details": "TM 100.82 -> 100.82, grade A -> A (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17826,10 +18071,19 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://arxiv.org/about",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "arXiv e-print repository: Cornell University open-access preprint platform. Launched 1991, >2M papers. Primary infrastructure for the arXiv search skill.",
+          "reviewers": 2
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:33Z",
@@ -17856,6 +18110,22 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T14:29:50Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://arxiv.org/about (type: peer-review)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:31:46Z",
+          "details": "TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:32:17Z",
+          "details": "TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -17884,10 +18154,19 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://biorxiv.org/about-biorxiv",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "bioRxiv: Cold Spring Harbor Laboratory open-access biology preprint server. Launched 2013, >200k preprints. Primary infrastructure for the bioRxiv search skill.",
+          "reviewers": 2
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:33Z",
@@ -17914,6 +18193,22 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T14:29:51Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://biorxiv.org/about-biorxiv (type: peer-review)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:31:46Z",
+          "details": "TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:32:17Z",
+          "details": "TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -18232,10 +18527,19 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://academic.oup.com/nar/article/28/1/235/2384399",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "Berman et al. 2000 NAR: The Protein Data Bank. 10,060 citations (Semantic Scholar 2026-06-19). Foundational PDB database paper.",
+          "reviewers": 2
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:35Z",
@@ -18262,6 +18566,22 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T14:29:21Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://academic.oup.com/nar/article/28/1/235/2384399 (type: peer-review)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:31:46Z",
+          "details": "TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:32:17Z",
+          "details": "TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -18335,6 +18655,16 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added evidence from https://academic.oup.com/nar/article/39/suppl_2/W13/2506516 (type: peer-review)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:31:46Z",
+          "details": "TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:32:17Z",
+          "details": "TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)"
         }
       ],
       "type": "extra"
@@ -18540,6 +18870,28 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added evidence from https://pubmed.ncbi.nlm.nih.gov/ (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T14:29:38Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://pubmed.ncbi.nlm.nih.gov/ (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-06-19T14:30:19Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://pubmed.ncbi.nlm.nih.gov/"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:31:46Z",
+          "details": "TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:32:17Z",
+          "details": "TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -18800,10 +19152,19 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://academic.oup.com/nar/article/51/D1/D638/6825349",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "Szklarczyk et al. 2022 NAR: STRING database in 2023 — protein-protein association networks. 7,077 citations (Semantic Scholar 2026-06-19).",
+          "reviewers": 2
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:38Z",
@@ -18830,6 +19191,22 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T14:29:23Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://academic.oup.com/nar/article/51/D1/D638/6825349 (type: peer-review)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:31:46Z",
+          "details": "TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:32:17Z",
+          "details": "TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"
@@ -18974,10 +19351,19 @@
           "grade": "B",
           "commits": 6,
           "contributors": 3
+        },
+        {
+          "source": "https://academic.oup.com/nar/article/51/D1/D523/6835362",
+          "evaluator": "unknown",
+          "date": "2026-06-19",
+          "type": "peer-review",
+          "class": "A",
+          "notes": "UniProt Consortium 2022 NAR: UniProt Universal Protein Knowledgebase in 2023. 5,729 citations (Semantic Scholar 2026-06-19).",
+          "reviewers": 2
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-19",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:39Z",
@@ -19004,6 +19390,22 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:39Z",
           "details": "TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-06-19T14:29:22Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://academic.oup.com/nar/article/51/D1/D523/6835362 (type: peer-review)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:31:46Z",
+          "details": "TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)"
+        },
+        {
+          "action": "migrate_trust_magnitude",
+          "timestamp": "2026-06-19T14:32:17Z",
+          "details": "TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)"
         }
       ],
       "type": "basic"

@@ -57,8 +57,14 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://academic.oup.com/nar/article/47/D1/D930/5162468
     (type: peer-review)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:45Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -68,9 +74,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: af9f560d496a5e3ccf1c7d4885877fffc3374409e653c952ec341149fe445a88
 verification:
   firstEvidenceAt: '2026-06-19T14:23:42Z'
+trustMagnitudeInputHash: b1c6b84332039ff3c718f5857e0d62b8eb5ca00ad919c3b29ddd0b3a66fb4c50
 ---
 
 # ChEMBL Database Query

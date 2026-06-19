@@ -56,8 +56,14 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://www.science.org/doi/10.1126/science.aaz1776
     (type: peer-review)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 100.82 -> 100.82, grade A -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -67,9 +73,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 67ba8ecb260bdc3e4b15c3b13fd13decbf3f7c4a77a529534ca75a5f63f9aa8a
 verification:
   firstEvidenceAt: '2026-06-19T14:29:34Z'
+trustMagnitudeInputHash: efa65568e1ce4ed3ba621c3b2bcfbd63e14582c5440cd02dd18fc7c407763965
 ---
 
 # GTEx Database Integration

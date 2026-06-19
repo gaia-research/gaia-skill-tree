@@ -66,8 +66,14 @@ timeline:
   action: evidence_removed
   contributor: unknown
   details: 'Removed dead/invalid evidence: https://pubmed.ncbi.nlm.nih.gov/'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -77,9 +83,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: de2a2a93cdea9f12515957155b3ed24ec3181e80e5f05e5106b7127621f892c9
 verification:
   firstEvidenceAt: '2026-06-19T14:23:55Z'
+trustMagnitudeInputHash: 6b1b943e73a31e3a709640049bb4be455ab87a26ecd6dcde00938f983814fc33
 ---
 
 # PubMed API

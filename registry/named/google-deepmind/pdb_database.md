@@ -57,8 +57,14 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://academic.oup.com/nar/article/28/1/235/2384399
     (type: peer-review)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -68,9 +74,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: df222608ef25fdfa7f776abc232eb37632b02fe9a02755d64ba968a35a0bb66a
 verification:
   firstEvidenceAt: '2026-06-19T14:29:20Z'
+trustMagnitudeInputHash: b643de23ba1c4a842f2b3b143ae842a07b5c540a735f7831688b1550cf08b05b
 ---
 
 # RCSB Protein Data Bank skill

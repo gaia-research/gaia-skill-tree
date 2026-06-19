@@ -121,8 +121,14 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g
-trustMagnitude: 88.5
-overallTrustGrade: B
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:47Z'
+  details: TM 88.5 -> 117.65, grade B -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:19Z'
+  details: TM 117.65 -> 117.65, grade A -> A (direct edit -- CLI gap)
+trustMagnitude: 117.65
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -134,7 +140,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T12:41:58Z'
-trustMagnitudeInputHash: c575bffd567703ce55f60ef4bfe8d2e540eca566bab9e878aceefaeaa512bee5
+trustMagnitudeInputHash: d7a7754e0096e07a63d0c78644848cd26091c03662b86cf3cca7af5135b1215b
 ---
 
 ## Overview

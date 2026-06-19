@@ -62,8 +62,14 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://www.nature.com/articles/s41586-025-10014-0
     (type: peer-review)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:45Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 100.82 -> 100.82, grade A -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -73,9 +79,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 4839b2fd64a54f661b9a861a5e105b516e33ffb0f853b7232ce00762bdd3692f
 verification:
   firstEvidenceAt: '2026-06-19T14:23:25Z'
+trustMagnitudeInputHash: 19839c9c6892fdd3a55211b1d7cf543a9b4dcb7c9d6daf9c6b419ee9deda8aef
 ---
 
 # Variant Analysis using AlphaGenome

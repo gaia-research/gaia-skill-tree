@@ -55,8 +55,14 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://arxiv.org/about (type: peer-review)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -66,9 +72,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: b0245047f18f27e5ba6e5c6b3a9ac09e8247d738048c87b110759b8eacba729f
 verification:
   firstEvidenceAt: '2026-06-19T14:29:49Z'
+trustMagnitudeInputHash: eee3b1b5a5f3c090ba0e91c9c4af6f8a17dc85f520a2ecac40e81e0b9f02ce04
 ---
 
 # arXiv Search and Retrieval

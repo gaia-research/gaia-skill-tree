@@ -111,7 +111,13 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type:
     social-signal)'
-trustMagnitude: 416.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:47Z'
+  details: TM 416.0 -> 445.15, grade S -> S (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:19Z'
+  details: TM 445.15 -> 445.15, grade S -> S (direct edit -- CLI gap)
+trustMagnitude: 445.15
 overallTrustGrade: S
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -124,7 +130,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:17:53Z'
-trustMagnitudeInputHash: c5d3140c937aa8300399af73a397d08ab6d631c4645206d65aa6b142bf406a46
+trustMagnitudeInputHash: 2d67b35c36b1d3e307febe93181725bf1ac72fc1f25555849b9517d275189606
 ---
 
 ## Overview

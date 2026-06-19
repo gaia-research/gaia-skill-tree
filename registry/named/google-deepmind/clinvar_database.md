@@ -56,8 +56,14 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://academic.oup.com/nar/article/44/D1/D862/2502717
     (type: peer-review)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:45Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 70.82
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -67,9 +73,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 87f3cbbdecc70c80768d0f4507523df2ed16c69e115c294adc6ee82abc35386d
 verification:
   firstEvidenceAt: '2026-06-19T14:29:35Z'
+trustMagnitudeInputHash: b0e3691464b50be259453c99015972869a1638e61be9d6a1693aae2eec59ffe7
 ---
 
 # ClinVar Database
