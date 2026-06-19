@@ -19,7 +19,7 @@ tags:
 - core-web-vitals
 - regression
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -35,6 +35,17 @@ evidence:
   contributors: 9
   trustNumber: 70.0
   grade: B
+- source: https://github.com/garrytan/gstack
+  evaluator: unknown
+  date: '2026-06-20'
+  type: github-stars-own
+  trustNumber: 85.0
+  grade: A
+  notes: gstack suite repo — 110,930 GitHub stars; benchmark is 1 of 42 named skills
+    (verified 2026-06-20)
+  stars: 110930
+  skillCountInRepo: 42
+  sourceStartedAt: '2024-01-01'
 timeline:
 - timestamp: '2026-06-03T05:51:29Z'
   action: evidence_added
@@ -57,11 +68,23 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:36Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
-trustMagnitude: 36.0
-overallTrustGrade: C
+- timestamp: '2026-06-19T16:47:21Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)'
+- timestamp: '2026-06-19T16:47:22Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/garrytan/gstack as A (trustNumber:
+    85.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:00Z'
+  details: TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)
+trustMagnitude: 63.73
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
@@ -70,7 +93,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:29Z'
-trustMagnitudeInputHash: cee3021b1e6fda990fe66417d776bd33fa1ca5f0307815884bdf18a280ea6fd7
+trustMagnitudeInputHash: 0643b2928c2c22d4d97a3152e13a990e84f7d2fa620a3aeed50710b281711d67
 ---
 
 ## Overview

@@ -18,7 +18,7 @@ tags:
 - multi-agent
 - subagent
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -33,6 +33,17 @@ evidence:
   grade: B
   commits: 609
   contributors: 36
+- source: https://github.com/obra/superpowers
+  evaluator: unknown
+  date: '2026-06-20'
+  type: github-stars-own
+  trustNumber: 88.0
+  grade: A
+  notes: obra/superpowers — 233k GitHub stars, complete AI coding methodology adopted
+    across Claude Code, Codex CLI, Gemini CLI (verified 2026-06-20)
+  stars: 233000
+  skillCountInRepo: 13
+  sourceStartedAt: '2023-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:47Z'
   action: evidence_graded
@@ -51,18 +62,32 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:42Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
-trustMagnitude: 36.0
-overallTrustGrade: C
+- timestamp: '2026-06-19T16:48:24Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/obra/superpowers (type: github-stars-own)'
+- timestamp: '2026-06-19T16:48:25Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/obra/superpowers as A (trustNumber:
+    88.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:03Z'
+  details: TM 36.0 -> 86.0, grade C -> B (direct edit -- CLI gap)
+trustMagnitude: 86.0
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 69e3bffa5ac7f7bffc76b98d6693be21356b252816f68d474f3e683a3dbec690
+trustMagnitudeInputHash: 6e8062f6ddf3e6c27847a65d11b3d94b686e8c1916f4a66d04e13951bdd65054
+verification:
+  firstEvidenceAt: '2026-06-19T16:48:24Z'
 ---
 
 ## Overview

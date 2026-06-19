@@ -20,7 +20,7 @@ tags:
 - canary
 - anomaly-detection
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -36,6 +36,17 @@ evidence:
   contributors: 9
   trustNumber: 70.0
   grade: B
+- source: https://github.com/garrytan/gstack
+  evaluator: unknown
+  date: '2026-06-20'
+  type: github-stars-own
+  trustNumber: 85.0
+  grade: A
+  notes: gstack suite repo — 110,930 GitHub stars; canary is 1 of 42 named skills
+    (verified 2026-06-20)
+  stars: 110930
+  skillCountInRepo: 42
+  sourceStartedAt: '2024-01-01'
 timeline:
 - timestamp: '2026-06-03T05:51:29Z'
   action: evidence_added
@@ -58,11 +69,23 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:37Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
-trustMagnitude: 36.0
-overallTrustGrade: C
+- timestamp: '2026-06-19T16:47:23Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/garrytan/gstack (type: github-stars-own)'
+- timestamp: '2026-06-19T16:47:23Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/garrytan/gstack as A (trustNumber:
+    85.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:00Z'
+  details: TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)
+trustMagnitude: 63.73
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
@@ -71,7 +94,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:29Z'
-trustMagnitudeInputHash: dbae03c2f8ddac91196c952b467c3182b605813b96a50289044ed5dac829665b
+trustMagnitudeInputHash: ff7df02acc13f47113e1a53168d602761c35bc07d468f00b25fc149d335ef7bd
 ---
 
 ## Overview

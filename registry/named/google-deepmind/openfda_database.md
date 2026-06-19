@@ -12,7 +12,7 @@ description: Query, search, and download data from the openFDA API for drugs, de
   clearances, NDC lookups, and any FDA safety or regulatory data query across all
   28 API endpoints.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md
 evidence:
@@ -27,6 +27,16 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://open.fda.gov/apis/drug/event/
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 75.0
+  grade: B
+  notes: openFDA FAERS API — FDA public adverse event reporting system; US drug safety
+    surveillance database
+  reviewers: 3
+  sourceStartedAt: '2015-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:34Z'
   action: evidence_graded
@@ -45,8 +55,20 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- timestamp: '2026-06-19T17:06:55Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://open.fda.gov/apis/drug/event/ (type: peer-review)'
+- timestamp: '2026-06-19T17:06:56Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://open.fda.gov/apis/drug/event/ as B (trustNumber:
+    75.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -56,7 +78,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 85523a0c60147fd0080fc151d48c6019d25431a57115f0cb7a9192897f54be70
+trustMagnitudeInputHash: cd27c08ced223785f8d45964ddc1ecd9005cbd91337a26552799b080847aa7f9
+verification:
+  firstEvidenceAt: '2026-06-19T17:06:55Z'
 ---
 
 # openFDA Search and Query

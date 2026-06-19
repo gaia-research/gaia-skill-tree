@@ -30,7 +30,7 @@ _None specified._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | garrytan/plan-eng-review | garrytan | 4★ | 2 |
-| garrytan/review | garrytan | 4★ | 1 |
+| garrytan/review | garrytan | 4★ | 2 |
 | ruvnet/github-code-review | ruvnet | 1★ | 0 |
 
 ## Evidence (inherited capability)

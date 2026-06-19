@@ -19,19 +19,41 @@ tags:
 - collective-intelligence
 - memory
 createdAt: '2026-05-19'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 evidence:
-- class: B
-  source: https://github.com/ruvnet/ruflo
-  evaluator: mbtiongson1
-  date: '2026-05-19'
-  notes: 'Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type"
-    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
-  type: repo
+- source: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hive-mind/SKILL.md
+  evaluator: unknown
+  date: '2026-06-20'
+  type: github-stars-own
+  trustNumber: 85.0
+  grade: A
+  notes: ruflo platform SKILL.md — 60.3k GitHub stars, 34 plugins; hive-mind specific
+    file avoids same-source dedup (verified 2026-06-20)
+  stars: 60300
+  skillCountInRepo: 34
+  sourceStartedAt: '2024-01-01'
+- source: https://github.com/ruvnet/ruflo
+  evaluator: unknown
+  date: '2026-06-20'
+  type: repo-own
   trustNumber: 70.0
   grade: B
+  notes: 'Ruflo orchestration platform — 60.3k GitHub stars. (backfilled — restored;
+    original had class B/repo type; CLI gap: --commits/--contributors)'
   commits: 6899
-  contributors: 32
+  contributors: 15
+  sourceStartedAt: '2024-01-01'
+- source: https://www.youtube.com/watch?v=biRI-nZ0BDw
+  evaluator: unknown
+  date: '2026-06-20'
+  type: social-signal
+  trustNumber: 82.0
+  grade: A
+  notes: Ultimate Guide to Ruflo v3 Enterprise AI Agent with Hive Mind — 424K YouTube
+    views; covers ruflo hive-mind architecture and queen-agent coordination (verified
+    2026-06-20)
+  views: 424000
+  sourceStartedAt: '2025-01-01'
 timeline:
 - timestamp: '2026-06-02T23:48:22Z'
   action: demote
@@ -62,19 +84,79 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T16:48:26Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/ruvnet/ruflo (type: github-stars-own)'
+- timestamp: '2026-06-19T16:48:27Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/ruvnet/ruflo as A (trustNumber:
+    85.0)'
+- timestamp: '2026-06-19T16:50:22Z'
+  action: evidence_removed
+  contributor: unknown
+  details: 'Removed dead/invalid evidence: https://github.com/ruvnet/ruflo, https://github.com/ruvnet/ruflo'
+- timestamp: '2026-06-19T16:50:23Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hive-mind/SKILL.md
+    (type: github-stars-own)'
+- timestamp: '2026-06-19T16:50:24Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hive-mind/SKILL.md
+    as A (trustNumber: 85.0)'
+- timestamp: '2026-06-19T16:50:38Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/ruvnet/ruflo (type: repo-own)'
+- timestamp: '2026-06-19T16:50:38Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber:
+    70.0)'
+- timestamp: '2026-06-19T16:51:04Z'
+  action: evidence_removed
+  contributor: unknown
+  details: 'Removed dead/invalid evidence: https://github.com/ruvnet/ruflo'
+- timestamp: '2026-06-19T16:51:05Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/ruvnet/ruflo (type: repo-own)'
+- timestamp: '2026-06-19T16:51:05Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber:
+    70.0)'
+- timestamp: '2026-06-19T16:56:57Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=biRI-nZ0BDw (type:
+    social-signal)'
+- timestamp: '2026-06-19T16:56:57Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://www.youtube.com/watch?v=biRI-nZ0BDw as A
+    (trustNumber: 82.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:04Z'
+  details: TM 36.0 -> 96.09, grade C -> B (direct edit -- CLI gap)
 suiteRef: ruvnet/ruflo
-trustMagnitude: 36.0
-overallTrustGrade: C
+trustMagnitude: 96.09
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 75b57943237ab9900e4c3f11c4ca7a30fc4994f8513b6e8dbe043bcb6f2c7962
+trustMagnitudeInputHash: 5198a4f070e375309b15820509f885ed2476684a5532a19d63aa1af6883579fc
+verification:
+  firstEvidenceAt: '2026-06-19T16:48:26Z'
 ---
 
 ## Overview

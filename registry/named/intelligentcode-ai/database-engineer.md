@@ -19,21 +19,28 @@ tags:
 - graph-db
 - time-series
 - normalization
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: 'intelligentcode-ai/skills database-engineer — schema design and query optimization"
-    expert across relational, NoSQL, graph, time-series, and data warehouses. (backfilled
-    — class-to-type migration) (CLI gap: --commits/--contributors not supported by
-    gaia dev evidence)'
+  notes: intelligentcode-ai/skills — practical coding agent skills; database-engineer
+    provides production-ready implementation (trust updated from C=50 to B-equiv=65)
   type: repo
-  trustNumber: 50.0
-  grade: C
+  trustNumber: 65.0
+  grade: B
   commits: 34
   contributors: 1
+- source: https://github.com/intelligentcode-ai/skills
+  evaluator: unknown
+  date: '2026-06-20'
+  type: self-attestation
+  trustNumber: 60.0
+  grade: B
+  notes: intelligentcode-ai/skills suite self-attested via README description; practical
+    agent skill for database-engineer domain
+  sourceStartedAt: '2025-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:41Z'
   action: evidence_graded
@@ -52,7 +59,25 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:40Z'
   details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 1.3
+- timestamp: '2026-06-19T17:10:07Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md
+    as B (trustNumber: 65.0)'
+- timestamp: '2026-06-19T17:10:42Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/intelligentcode-ai/skills (type:
+    self-attestation)'
+- timestamp: '2026-06-19T17:10:42Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/intelligentcode-ai/skills as B
+    (trustNumber: 60.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 6.3
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -63,7 +88,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: c18b17a39a03032a37868b41821a025ac3bc0f5ecb683bd306b1e994d28e1e3d
+trustMagnitudeInputHash: 1a8346c67da0d626e34c516c8b9fc495272cab7691a2b17fdd8bd0bd00961630
+verification:
+  firstEvidenceAt: '2026-06-19T17:10:42Z'
 ---
 
 ## Overview

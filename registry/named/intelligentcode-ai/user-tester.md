@@ -18,20 +18,28 @@ tags:
 - cross-browser
 - user-journey
 - visual-regression
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: intelligentcode-ai/skills user-tester — E2E testing specialist with Puppeteer/Playwright
-    automation and cross-browser user journey validation. (backfilled — class-to-type
-    migration)
+  notes: intelligentcode-ai/skills — practical coding agent skills; user-tester provides
+    production-ready implementation (trust updated from C=50 to B-equiv=65)
   type: repo
   commits: 34
   contributors: 1
-  trustNumber: 50.0
-  grade: C
+  trustNumber: 65.0
+  grade: B
+- source: https://github.com/intelligentcode-ai/skills
+  evaluator: unknown
+  date: '2026-06-20'
+  type: self-attestation
+  trustNumber: 60.0
+  grade: B
+  notes: intelligentcode-ai/skills suite self-attested via README description; practical
+    agent skill for user-tester domain
+  sourceStartedAt: '2025-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:41Z'
   action: evidence_graded
@@ -50,7 +58,25 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:40Z'
   details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 1.3
+- timestamp: '2026-06-19T17:10:18Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md
+    as B (trustNumber: 65.0)'
+- timestamp: '2026-06-19T17:10:52Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/intelligentcode-ai/skills (type:
+    self-attestation)'
+- timestamp: '2026-06-19T17:10:53Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/intelligentcode-ai/skills as B
+    (trustNumber: 60.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:03Z'
+  details: TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 6.3
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -61,7 +87,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: f40d779465285879f2c5eda1a0b5c3d47854f9776b1a3af1350f6fa781aebc82
+trustMagnitudeInputHash: ed010fb59ee82c805db443ff7f60c3aac9b7f86742a45f4d974de2fbf869c35b
+verification:
+  firstEvidenceAt: '2026-06-19T17:10:52Z'
 ---
 
 ## Overview
