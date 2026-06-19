@@ -378,7 +378,10 @@ The Gaia registry is programmatically managed. All meta shifts (adding, merging,
 
 ## Trust & Evidence Verification
 
-The trust methodology's data lake undergoes rigorous multi-stage audits orchestrated programmatically using the coordinating agent skill: **`ev-pipeline`**.
+The trust methodology's data lake undergoes rigorous multi-stage audits orchestrated programmatically using the coordinating agent skill: **`evidence-verification-pipeline`** (also aliased as **`ev-pipeline`**).
+
+> [!IMPORTANT]
+> **Data Lake Lifecycle Note:** This pipeline validates the raw evidence **data lake** (`founder/sources/data_lake/`) and NOT the canonical registry itself. This validation is performed at the **START** of the ingestion cycle before any evidence is merged or written to the registry.
 
 This pipeline coordinates four specialized sub-skills to build, partition, and scan evidence:
 1. **`ev-collection`**: Scrapes and compiles raw source files under `founder/sources/collectors/` into the unified index database.
@@ -387,6 +390,7 @@ This pipeline coordinates four specialized sub-skills to build, partition, and s
 4. **`ev-link-validation`**: Uses the Firecrawl API to run thread-safe scrape sweeps verifying HTTP 200 uptime across all compiled links.
 
 A visual breakdown and interactive command simulation showing how these parts link together is documented in [verification_process.html](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/verification_process.html).
+
 
 
 ---

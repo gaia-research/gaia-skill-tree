@@ -1,9 +1,9 @@
 ---
-name: ev-pipeline
+name: evidence-verification-pipeline
 description: Orchestrates all evidence collection, live star verification, adversarial auditing, and link checking phases in a single coordinated pipeline. Can be invoked as /evidence-verification-pipeline or /ev-pipeline.
 ---
 
-# Evidence Verification Pipeline (ev-pipeline)
+# Evidence Verification Pipeline (evidence-verification-pipeline)
 
 This skill orchestrates the four primary verification phases to compile, audit, and validate the Gaia Registry evidence data lake. It can be invoked as `/evidence-verification-pipeline` or `/ev-pipeline`.
 
@@ -51,5 +51,5 @@ Performs an active API link scrape verifying uptime and 200 OK statuses across a
 ## Post-Run Tasks
 
 1. **Verification Records:** Save the validation report inside `founder/sources/collectors/verification/firecrawl_validation_report_YYYY_MM_DD.md`.
-2. **Master Source Report:** Document the audit log, star updates, and compiled adversarial details in `founder/sources/source_report_2026_06_19.md`.
+2. **Master Source Report:** Document the audit log, star updates, and compiled adversarial details in `founder/sources/source_report_YYYY_MM_DD.md`.
 3. **Visual Process Update:** Manually verify and update the statistics and pipeline statuses inside `founder/sources/verification_process.html`.

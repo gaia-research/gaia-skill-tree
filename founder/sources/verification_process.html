@@ -499,6 +499,14 @@
       </div>
     </div>
 
+    <!-- Data Lake Lifecycle Note -->
+    <div style="background: rgba(245, 158, 11, 0.04); border: 1px solid rgba(245, 158, 11, 0.15); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 3.5rem; font-size: 0.95rem; line-height: 1.5; color: var(--text); display: flex; align-items: flex-start; gap: 1rem;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--tier-ultimate)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div>
+        <strong style="color: var(--tier-ultimate); font-weight: 600;">⚠️ Data Lake Lifecycle Note:</strong> This pipeline validates the raw evidence <strong>data lake</strong> and is executed at the <strong>START</strong> before any evidence gets integrated, compiled, or written into the canonical registry itself.
+      </div>
+    </div>
+
     <!-- Split Column Layout Wrapper -->
     <div class="split-layout">
       
@@ -506,7 +514,7 @@
       <div class="left-col">
         <h2 style="font-family: var(--font-display); font-size: 2rem; margin-bottom: 0.5rem; text-align: left;">Pipeline Orchestration</h2>
         <p style="color: var(--muted); font-size: 0.95rem; font-weight: 300; margin-bottom: 1rem; text-align: left; line-height: 1.5;">
-          The entire verification process is driven programmatically by the coordinating agent skill: <strong style="color: var(--text);"><code>ev-pipeline</code></strong>. 
+          The entire verification process is driven programmatically by the coordinating agent skill: <strong style="color: var(--text);"><code>evidence-verification-pipeline</code></strong> (also aliased as <strong style="color: var(--text);"><code>ev-pipeline</code></strong>). 
           The timeline on the right illustrates the individual sub-skills compiled as the sum of its parts.
         </p>
         
@@ -517,11 +525,11 @@
               <span class="dot yellow"></span>
               <span class="dot green"></span>
             </div>
-            <div class="simulator-title">ev-pipeline-simulation.sh</div>
+            <div class="simulator-title">evidence-verification-pipeline-simulation.sh</div>
             <button class="simulator-btn" id="startSimBtn">Run Simulation</button>
           </div>
           <div class="simulator-body" id="simulatorConsole">
-            <div class="console-line system">> Scroll down or click "Run Simulation" to execute the mock ev-pipeline process.</div>
+            <div class="console-line system">> Scroll down or click "Run Simulation" to execute the mock evidence-verification-pipeline process.</div>
           </div>
         </div>
       </div>
@@ -548,8 +556,8 @@
                 <li><strong>Master Evidence Consolidation:</strong> Merges individual star tiers (Tiers 1★ to 6★) into a central data structure: <code>unified_evidence_lake.md</code>.</li>
               </ul>
               <div class="code-panel">
-                <span class="code-line"><span class="code-comment"># Compiles individual tier dumps into the master evidence data lake</span></span>
-                <span class="code-line"><span class="code-cmd">.venv/bin/python founder/sources/scripts/compile_data_lake.py</span></span>
+                <span class="code-line"><span class="code-comment"># Invoked via the local ev-collection agent skill workflow</span></span>
+                <span class="code-line"><span class="code-cmd">/ev-collection</span></span>
               </div>
             </div>
           </div>
@@ -572,8 +580,8 @@
                 <li><strong>Partitioning & Formatting:</strong> Separates evidence records into their corresponding star tiers (1★ to 6★) and generates raw markdown files inside <code>founder/sources/data_lake/</code>.</li>
               </ul>
               <div class="code-panel">
-                <span class="code-line"><span class="code-comment"># Programmatically updates live star counts and partitions data dumps by tier</span></span>
-                <span class="code-line"><span class="code-cmd">.venv/bin/python founder/sources/scripts/generate_source_dump.py</span></span>
+                <span class="code-line"><span class="code-comment"># Invoked via the local ev-star-verification agent skill workflow</span></span>
+                <span class="code-line"><span class="code-cmd">/ev-star-verification</span></span>
               </div>
             </div>
           </div>
@@ -596,7 +604,7 @@
                 <li><strong>Audit Synthesis:</strong> A 5th synthesis subagent aggregates findings and appends them to the master source report (e.g. <code>source_report_2026_06_19.md</code>).</li>
               </ul>
               <div class="code-panel">
-                <span class="code-line"><span class="code-comment"># Orchestrated via the local ev-adversarial-audit agent workflow</span></span>
+                <span class="code-line"><span class="code-comment"># Orchestrated via the local ev-adversarial-audit agent skill workflow</span></span>
                 <span class="code-line"><span class="code-cmd">/ev-adversarial-audit</span></span>
               </div>
             </div>
@@ -620,8 +628,8 @@
                 <li><strong>Failures & Outages Logging:</strong> Captures timeouts (greater than 45 seconds) and registers HTTP 404 broken links, outputting the results into the official verification log.</li>
               </ul>
               <div class="code-panel">
-                <span class="code-line"><span class="code-comment"># Initiates the full verification process via the official validation script</span></span>
-                <span class="code-line"><span class="code-cmd">.venv/bin/python founder/sources/scripts/validate_sources.py</span></span>
+                <span class="code-line"><span class="code-comment"># Invoked via the local ev-link-validation agent skill workflow</span></span>
+                <span class="code-line"><span class="code-cmd">/ev-link-validation</span></span>
               </div>
             </div>
           </div>
@@ -675,31 +683,31 @@
           
           let currentFrame = 0;
 
-          // ev-pipeline sequence simulation
+          // evidence-verification-pipeline sequence simulation
           const timeline = [
-            { delay: 300, action: () => addLog("[System] Initializing ev-pipeline orchestration...", "system") },
-            { delay: 700, action: () => addLog("[CLI] Executing command: <code>/ev-pipeline</code>", "cmd") },
+            { delay: 300, action: () => addLog("[System] Initializing evidence-verification-pipeline orchestration...", "system") },
+            { delay: 700, action: () => addLog("[CLI] Executing command: <code>/evidence-verification-pipeline</code>", "cmd") },
             
             // Phase 1
             { delay: 1200, action: () => addLog("[System] Step 1/4: Running ev-collection phase...", "system") },
-            { delay: 1500, action: () => addLog("[CLI] Running: <code>.venv/bin/python founder/sources/scripts/compile_data_lake.py</code>", "cmd") },
+            { delay: 1500, action: () => addLog("[CLI] Executing skill: <code>/ev-collection</code>", "cmd") },
             { delay: 2000, action: () => addLog("[Gate] PASS! Compiled and unified 287 evidence records to <code>unified_evidence_lake.md</code>.", "gate-pass") },
             
             // Phase 2
             { delay: 2500, action: () => addLog("[System] Step 2/4: Running ev-star-verification phase...", "system") },
-            { delay: 2800, action: () => addLog("[CLI] Running: <code>.venv/bin/python founder/sources/scripts/generate_source_dump.py</code>", "cmd") },
+            { delay: 2800, action: () => addLog("[CLI] Executing skill: <code>/ev-star-verification</code>", "cmd") },
             { delay: 3200, action: () => addLog("[Agent] Fetching live stargazers for primary and proxy repositories via GitHub API...", "agent") },
             { delay: 3700, action: () => addLog("[Gate] PASS! Stargazer counts updated in cache. Segregated dumps generated in <code>founder/sources/data_lake/tier_[1-6].md</code>.", "gate-pass") },
             
             // Phase 3
             { delay: 4200, action: () => addLog("[System] Step 3/4: Executing ev-adversarial-audit scan...", "system") },
-            { delay: 4500, action: () => addLog("[CLI] Running: <code>/ev-adversarial-audit</code>", "cmd") },
+            { delay: 4500, action: () => addLog("[CLI] Executing skill: <code>/ev-adversarial-audit</code>", "cmd") },
             { delay: 4900, action: () => addLog("[Agent] Fanning out 4 parallel adversarial subagents across data lake tiers...", "agent") },
             { delay: 5400, action: () => addLog("[Agent] Synthesis agent reports: 0 broken links, 2 style warnings logged to <code>source_report_2026_06_19.md</code>.", "gate-pass") },
             
             // Phase 4
             { delay: 5900, action: () => addLog("[System] Step 4/4: Executing ev-link-validation sweep...", "system") },
-            { delay: 6200, action: () => addLog("[CLI] Running: <code>.venv/bin/python founder/sources/scripts/validate_sources.py</code>", "cmd") },
+            { delay: 6200, action: () => addLog("[CLI] Executing skill: <code>/ev-link-validation</code>", "cmd") },
             { delay: 6700, action: () => addLog("[Agent] Fetching and parsing links. Initiating parallel Firecrawl scrapes (concurrency=2)...", "agent") },
             { delay: 7200, action: () => addLog("[Agent] [143/287] Scraped <code>https://github.com/mbtiongson1/gaia-skill-tree</code> -> 200 OK", "system") },
             { delay: 7500, action: () => addLog("[Agent] [287/287] Scraped <code>https://arxiv.org/abs/2402.14201</code> -> 200 OK", "system") },
@@ -707,7 +715,7 @@
             
             // Completion
             { delay: 8400, action: () => addLog("[System] Updating statistics inside <code>verification_process.html</code>...", "system") },
-            { delay: 8900, action: () => addLog("[Gate] ev-pipeline finished successfully. All checks complete.", "gate-pass") }
+            { delay: 8900, action: () => addLog("[Gate] evidence-verification-pipeline finished successfully. All checks complete.", "gate-pass") }
           ];
 
           function runNext() {

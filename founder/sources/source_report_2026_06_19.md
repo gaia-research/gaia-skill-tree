@@ -129,13 +129,17 @@ All raw evidence collection reports are organized and stored locally within the 
 
 ---
 
-## 6. Programmatic Pipeline Execution (ev-pipeline)
+## 6. Programmatic Pipeline Execution (evidence-verification-pipeline)
 
-To maintain absolute data lake integrity, the entire trust methodology validation is orchestrated via the coordinating agent skill: **`ev-pipeline`**.
+To maintain absolute data lake integrity, the entire trust methodology validation is orchestrated via the coordinating agent skill: **`evidence-verification-pipeline`** (also aliased as **`ev-pipeline`**).
+
+> [!NOTE]
+> **Data Lake Lifecycle Note:** This pipeline validates the raw evidence **data lake** (`founder/sources/data_lake/`) and NOT the canonical registry itself. This validation is performed at the **START** of the ingestion cycle before any evidence is merged or written to the registry.
 
 The visual process flow and interactive simulation at [verification_process.html](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/verification_process.html) represent the consolidated execution of this pipeline, which is the sum of the following specialized sub-skills:
 1. **`ev-collection`**: Scrapes and compiles raw source files into the unified index database.
 2. **`ev-star-verification`**: Queries the GitHub API to check/cache live repository stargazers and partition files by star tier.
 3. **`ev-adversarial-audit`**: Automatically deploys 4 parallel adversarial subagents across data tiers to flag formatting errors and subjective noise.
 4. **`ev-link-validation`**: Uses the Firecrawl API to run thread-safe scrape sweeps verifying HTTP 200 uptime across all compiled links.
+
 
