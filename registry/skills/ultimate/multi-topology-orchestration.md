@@ -27,7 +27,7 @@ Requires demonstrating all 6 Ruflo suite fusions together in a production multi-
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| ruvnet/ruflo ⭑ | ruvnet | 5★ | 1 |
+| ruvnet/ruflo ⭑ | ruvnet | 5★ | 5 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

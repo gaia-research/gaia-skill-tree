@@ -19,7 +19,7 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| pbakaus/impeccable ⭑ | pbakaus | 4★ | 1 |
+| pbakaus/impeccable ⭑ | pbakaus | 4★ | 4 |
 | garrytan/design-review | garrytan | 3★ | 1 |
 | garrytan/devex-review | garrytan | 3★ | 1 |
 | garrytan/plan-design-review | garrytan | 4★ | 1 |
