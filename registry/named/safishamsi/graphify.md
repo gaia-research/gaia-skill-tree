@@ -39,6 +39,15 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T09:34:47Z'
   details: TM 0.0 -> 86.57, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-19T10:41:29Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=q6t8xTjV5rM (type:
+    social-signal)'
+- timestamp: '2026-06-19T10:47:07Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/safishamsi/graphify (type: peer-review)'
 trustMagnitude: 86.57
 overallTrustGrade: B
 apexGateStatus:
@@ -66,6 +75,20 @@ evidence:
   class: A
   notes: GraphRAG / knowledge graph paper — ~89 citations as of 2026-06-19 (arXiv:2408.03910)
   citations: 89
+- source: https://www.youtube.com/watch?v=q6t8xTjV5rM
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'Charlie Automates YouTube: creator interview with Safi Shamsi explaining
+    Graphify architecture and 70x token savings claim. Validated third-party creator.'
+- source: https://github.com/safishamsi/graphify
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Consolidated GitHub community reviews (Issues + r/LocalLLaMA): token efficiency
+    praised, Leiden clustering limits on non-modular codebases documented. Mid-2026.'
 verification:
   firstEvidenceAt: '2026-06-19T09:19:58Z'
 trustMagnitudeInputHash: 301014660931c34ae8ce9092ffc4c080d0ae5051871a9d3d9ffd50e7a7f5aceb

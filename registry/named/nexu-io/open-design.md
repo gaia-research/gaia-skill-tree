@@ -24,10 +24,12 @@ evidence:
   evaluator: gemini-cli
   date: '2026-05-14'
   notes: Open Design -- local-first design engine generating high-fidelity prototypes
-    and brand assets. (backfilled — class-to-type migration)
+    and brand assets. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 2382
+  contributors: 332
 timeline:
 - timestamp: '2026-06-02T23:48:19Z'
   action: demote

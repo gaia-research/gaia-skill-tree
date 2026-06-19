@@ -27,10 +27,12 @@ evidence:
   date: '2026-04-30'
   notes: intelligentcode-ai/skills devops-engineer — CI/CD pipeline design and deployment
     automation with build systems and release management. (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 50.0
   grade: C
+  commits: 34
+  contributors: 1
 timeline:
 - timestamp: '2026-06-14T12:32:41Z'
   action: evidence_graded

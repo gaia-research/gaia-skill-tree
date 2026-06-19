@@ -27,10 +27,12 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-06-10'
   notes: Published implementation in the Spring AI Alibaba examples repository; reproducible
-    from SKILL.md. (backfilled — class-to-type migration)
+    from SKILL.md. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 1245
+  contributors: 82
 timeline:
 - timestamp: '2026-06-10T05:38:19Z'
   action: evidence_added

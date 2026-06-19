@@ -43,6 +43,11 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://github.com/firecrawl/firecrawl (type: benchmark-result)'
+- timestamp: '2026-06-19T10:42:24Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=kY0hN5-xK8U (type:
+    social-signal)'
 evidence:
 - class: B
   source: https://github.com/firecrawl/firecrawl
@@ -63,6 +68,13 @@ evidence:
   class: A
   notes: 'scrape-content-dataset-v1 (1000 URLs): >95% dynamic page scrape success,
     P95 latency ~3.4s. JS-heavy SPAs and anti-bot protected sites (May 2026).'
+- source: https://www.youtube.com/watch?v=kY0hN5-xK8U
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'Tyler AI YouTube: "Firecrawl Full Beginner Course | Let''s Scrape EVERYTHING."
+    Comprehensive tutorial. Third-party validated.'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

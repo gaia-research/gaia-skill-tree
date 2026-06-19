@@ -46,6 +46,15 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T09:34:47Z'
   details: TM 0.0 -> 3.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T10:43:12Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=fHNTpPpQQBo (type:
+    social-signal)'
+- timestamp: '2026-06-19T10:48:02Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/Upsonic/Upsonic (type: peer-review)'
 evidence:
 - source: https://arxiv.org/abs/2403.16218
   evaluator: mbtiongson1
@@ -54,6 +63,20 @@ evidence:
   class: A
   notes: Automated unit test generation paper — ~15 citations as of 2026-06-19 (arXiv:2403.16218)
   citations: 15
+- source: https://www.youtube.com/watch?v=fHNTpPpQQBo
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'Fahd Mirza YouTube: walkthrough of Upsonic Tiger local install as AI agent
+    function hub. Third-party walkthrough.'
+- source: https://github.com/Upsonic/Upsonic
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'SkillsMP Community: TestCase scaffolding works well for isolated classes,
+    struggles with highly coupled enterprise framework mocking. April 2026.'
 verification:
   firstEvidenceAt: '2026-06-19T09:23:55Z'
 trustMagnitudeInputHash: 2319c72a8f27ec65a2be295ccce0d2622c9e712f547ec98b7f63dd30356cd8d4

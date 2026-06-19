@@ -46,6 +46,13 @@ evidence:
   class: A
   notes: Design systems / UI automation paper — ~19 citations as of 2026-06-19 (arXiv:2411.01606)
   citations: 19
+- source: https://www.youtube.com/watch?v=k5f2uP33u5g
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'Full Stack YouTube: "Every AI Website Looks the Same | Here''s the Fix."
+    Paul Bakaus'' Impeccable design steering skill walkthrough. Topical authority.'
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
   action: rank_up
@@ -76,6 +83,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T10:36:26Z'
   details: TM 41.8 -> 77.8, grade C -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-19T10:46:29Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=k5f2uP33u5g (type:
+    social-signal)'
 trustMagnitude: 77.8
 overallTrustGrade: B
 apexGateStatus:

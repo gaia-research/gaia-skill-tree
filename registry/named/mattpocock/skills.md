@@ -69,6 +69,15 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T09:34:47Z'
   details: TM 0.0 -> 43.7, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-19T10:43:32Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=s5T5oQJcJ6U (type:
+    social-signal)'
+- timestamp: '2026-06-19T10:48:50Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills (type: peer-review)'
 evidence:
 - source: https://github.com/mattpocock/skills/stargazers
   evaluator: mbtiongson1
@@ -86,6 +95,20 @@ evidence:
   class: A
   notes: Skills/tool-use paper — ~52 citations as of 2026-06-19 (arXiv:2602.20867)
   citations: 52
+- source: https://www.youtube.com/watch?v=s5T5oQJcJ6U
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'Matt Pocock official YouTube: "Learn anything with the /teach skill." Creator
+    demonstrating his own skills suite.'
+- source: https://github.com/mattpocock/skills
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'G7 Trust Taxonomy Audit (June 2026): high adoption (132k stars), apex gate
+    failure on tenure (<26 days vs 180 required), recommended role:variant filtering.'
 verification:
   firstEvidenceAt: '2026-06-19T09:18:11Z'
 trustMagnitudeInputHash: 30231a973184fbe60cbeb8d4187e5c35cd56b6e76788a9c09fa298e75f31ba4b

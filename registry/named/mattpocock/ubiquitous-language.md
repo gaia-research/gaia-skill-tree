@@ -29,10 +29,12 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-05-15'
   notes: Original implementation by Matt Pocock; formalizes DDD principles for AI
-    agent contexts. (backfilled — class-to-type migration)
+    agent contexts. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 137
+  contributors: 3
 timeline:
 - timestamp: '2026-06-14T12:32:44Z'
   action: evidence_graded

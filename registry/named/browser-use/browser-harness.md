@@ -37,6 +37,20 @@ evidence:
   class: A
   notes: 'BU Bench V1 (100 verified tasks from WebArena/Mind2Web): 78-97% task success
     rate using bu-ultra/max. 80% using Claude Fable 5 (Mid-2026).'
+- source: https://www.youtube.com/watch?v=XQn6yGq6oN8
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'Codex Developer YouTube: demo of browser-use CDP library for AI agent browser
+    automation. Third-party developer showcase.'
+- source: https://github.com/browser-use/browser-harness
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'AI Agent Developer Community: commended as lightweight CDP bridge, self-healing
+    via runtime agent_helpers.py, steeper learning curve than Playwright. Mid-2026.'
 timeline:
 - timestamp: '2026-06-02T23:32:59Z'
   action: demote
@@ -58,6 +72,16 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://browser-use.com/posts/online-mind2web-benchmark
     (type: benchmark-result)'
+- timestamp: '2026-06-19T10:41:47Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=XQn6yGq6oN8 (type:
+    social-signal)'
+- timestamp: '2026-06-19T10:47:25Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/browser-use/browser-harness (type:
+    peer-review)'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

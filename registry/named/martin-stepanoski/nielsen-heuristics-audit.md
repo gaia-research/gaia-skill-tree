@@ -28,10 +28,12 @@ evidence:
   date: '2026-04-30'
   notes: Martin Stepanoski @mastepanoski/claude-skills -- /nielsen-heuristics-audit
     audits UI against Nielsen 10 usability heuristics step-by-step. (backfilled —
-    class-to-type migration)
+    class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
   type: repo
   trustNumber: 70.0
   grade: B
+  commits: 32
+  contributors: 2
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
   action: demote

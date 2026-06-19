@@ -40,12 +40,12 @@ evidence:
   notes: 'obra/superpowers v5.1.0 — 196k+ GitHub stars, 17.5k forks, multi-platform
     adoption (Claude Code, Codex CLI, Factory Droid, Gemini CLI, OpenCode, Cursor,
     GitHub Copilot CLI). Most widely adopted AI agent discipline framework; confirms
-    landmark methodology status. (backfilled — class-to-type migration) repo not found
-    on GitHub as of 2026-06-19 (CLI gap: commits+contributors not writable via gaia
+    landmark methodology status. (backfilled — class-to-type migration) commits+contributors
+    patched 2026-06-19 via obra/superpowers repo (CLI gap: no --commits flag on gaia
     dev evidence)'
   type: repo
-  commits: 0
-  contributors: 0
+  commits: 609
+  contributors: 36
   trustNumber: 70.0
   grade: B
 - source: https://github.com/obra/superpowers/stargazers
@@ -57,6 +57,13 @@ evidence:
     report; mothership with 11+ sub-skills, divisor=4)
   stars: 230818
   skillCountInRepo: 11
+- source: https://www.youtube.com/watch?v=gT5R01Z2J-0
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'CodeRabbit YouTube "The Merge" podcast: Jesse Vincent (obra) on Superpowers,
+    agentic discipline, treating AI like MIT interns. High-signal technical interview.'
 timeline:
 - timestamp: '2026-06-14T12:32:48Z'
   action: evidence_graded
@@ -79,6 +86,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T10:36:26Z'
   details: TM 50.0 -> 50.0, grade B -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-19T10:46:09Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=gT5R01Z2J-0 (type:
+    social-signal)'
 trustMagnitude: 50.0
 overallTrustGrade: B
 apexGateStatus:
