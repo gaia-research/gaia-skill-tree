@@ -48,7 +48,44 @@ The Orchestrator: tracks high-level goals against the roadmap, audits GitHub sta
 - Ping Marco about paywalls encountered; look for free alternatives.
 - Respect repo nomenclature: `CONTEXT.md` in gaia-skill-tree is the vocabulary source of truth; the rarity axis is deprecated — never reference it in new copy.
 
+## GitHub hygiene — every issue/PR must be wired (per founder/GIT.md)
+
+Per `founder/GIT.md` §2-§3, every issue and PR must carry a milestone + functional label, and PRs must use `Resolves #<issue>` in the body. The orchestrator owns this — coding-agent dispatches do not consistently apply these, so the orchestrator must:
+
+1. **Before dispatching** — confirm the target issue exists with milestone + labels. If not, file a tracking issue first (e.g. "I10 — Public Trust Magnitude Leaderboard") and link the dispatched PR via `Resolves #<n>`.
+2. **After PR opens** — within the same orchestrator turn:
+   - `gh issue edit <n> --milestone "Phase 1.5 — G7 Implementation" --add-label "phase-1.5,<functional>"`
+   - `gh pr edit <PR> --milestone "..." --add-label "..."` — match the issue's milestone.
+   - Verify body has `Resolves #<n>`. If the agent wrote `Closes I10` (no number), patch with `gh pr edit <PR> --body`.
+3. **Functional labels available**: `backend`, `frontend`, `infrastructure`, `CLI`, `docs`, `schema`, `RFC`, `tech-debt`. (Custom labels like `trust-model`, `design`, `phase-1.5-data` do NOT exist — don't try to add them; either use what exists or `gh label create` first.)
+4. **Project board moves** are nice-to-have but not blocking — `gh project` requires the `read:project` PAT scope which isn't always present in the sandbox.
+
+This isn't ceremonial — milestones drive the roadmap progress dashboard Marco reads at the end of every session.
+
 ## Dispatching coding agents — cutoff safeguards
+
+### Worktree warmup boilerplate (paste at the TOP of every dispatch prompt)
+
+Marco observation 2026-06-20: agents always forget worktree rules — they take a few exchanges to warm up to the convention. Front-load this boilerplate in every coding-agent dispatch so the agent reads the rules **before** writing the first file:
+
+```
+## Worktree rules — READ BEFORE EDITING ANY FILE
+
+You are running with `isolation: "worktree"`. Your working directory is `.claude/worktrees/agent-<id>/`. This means:
+
+1. The worktree is a SEPARATE checkout — your edits are NOT visible to the parent session until pushed.
+2. **Branch from origin** — start with `git checkout -b <branch> origin/<base-branch>` (NOT local `<base-branch>`); local refs in the worktree may be stale.
+3. **Commit + push after EACH logical unit.** Never batch. A pushed commit survives cutoff; a local commit dies with the worktree.
+4. **Push to `origin/<branch>` not `worktree-agent-<id>`.** The worktree gets a synthetic branch on creation; ALWAYS create+checkout your real feature branch first, then push that.
+5. **Branch-scope check is enforced by CI.** `design/...` may only touch `docs/` + `*.md`; `cli/...` only touches `src/`, `tests/`, `packages/`, `*.md`; `schema/...` only `registry/schema/` + `*.md`. Don't cross lanes — the CI will reject the PR.
+6. If you must regenerate `docs/graph/...` or `registry/gaia.json` to test something, **revert those files** before committing — they are timestamp-only side-effects that belong in a separate `infra/` PR (per founder/CLAUDE.md hazard #9).
+7. Report each commit's SHA + push status as you finish it, not in a final summary.
+8. If you hit ~80k tokens before completing the spec, **commit what you have, push, report status** — do not try to fit the rest into the same dispatch.
+```
+
+(Adjust the bullets per dispatch — e.g. drop bullet 6 if the agent isn't touching display layers — but keep bullets 1-3 verbatim.)
+
+### Working rules below
 
 Marco's API envelope cuts agents off mid-edit. **Always design dispatch prompts so progress is durable**, not "all-or-nothing." Working rules (added 2026-06-18 after Opus 4.8 #728 agent died at ~105k tokens with 151 lines of uncommitted `trustMagnitude.py` edits — recoverable from the worktree, but should not have happened):
 
