@@ -28,6 +28,25 @@ feature-pipeline-workspace/
 .agents/skills/writing-fragments/
 .agents/skills/writing-great-skills/
 .agents/skills/writing-shape/
+.agents/skills/caveman
+.agents/skills/diagnose
+.agents/skills/edit-article/
+.agents/skills/grill-me/
+.agents/skills/grill-with-docs/
+.agents/skills/handoff/
+.agents/skills/improve-codebase-architecture/
+.agents/skills/obsidian-vault/
+.agents/skills/prototype/
+.agents/skills/qa/
+.agents/skills/review/
+.agents/skills/setup-matt-pocock-skills/
+.agents/skills/to-issues/
+.agents/skills/to-prd/
+.agents/skills/triage/
+.agents/skills/ubiquitous-language/
+.agents/skills/write-a-skill
+.agents/skills/zoom-out
+
 
 .claude/skills/ask-matt/
 .claude/skills/codebase-design/
