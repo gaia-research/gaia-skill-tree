@@ -253,9 +253,10 @@ Compare to even a $5/mo Hetzner VPS: $60/year + dev time + ops complexity. Stati
 1. **Day 1–2** — Author `scripts/buildApiProjection.py`. Wire to `gaia docs build`. Land a happy path for `/skills/` and `/contributors/`.
 2. **Day 3–4** — Add `/api/v1/leaderboard`, `/api/v1/skills/<contrib>/<skill>`, `/api/v1/skills/<contrib>/<skill>/evidence`, `/api/v1/skills/<contrib>/<skill>/timeline`.
 3. **Day 5** — Generate OpenAPI spec from the implemented endpoints. Smoke test with `swagger-codegen` in Python + JS.
-4. **Day 6–7** — Search index + `/api/v1/search?q=`. Static JSON + browser-side filter for v1.
+4. **Day 6–7** — Search index + `/api/v1/search?q=`. **Semantic-first** per Marco's call: if `registry/named-skills.json` already carries embeddings, project them into a static `search-vectors.json`; else add a one-time embedding step (cached) to the build pipeline. Substring fallback always present.
 5. **Day 8** — Documentation page at `gaia.tiongson.co/api/` with copy-pastable curl examples.
 6. **Day 9–10** — Cross-link from CLI, README, MCP server. Each says "or use the public API at gaia.tiongson.co/api/v1/...".
+7. **Day 11–13** — `@gaia-registry/api-client` SDK (Python + TS). Generated from OpenAPI spec; published to PyPI + npm alongside the API. Includes typed `searchSkills(query, mode='semantic')` helper.
 
 `/trending/` defers to Sprint B B2 (depends on the trending engine landing first).
 
@@ -281,14 +282,14 @@ Compare to even a $5/mo Hetzner VPS: $60/year + dev time + ops complexity. Stati
 
 ---
 
-## What needs Marco's call before Sprint B starts
+## Marco's calls — RATIFIED 2026-06-20
 
-1. **API base URL** — `gaia.tiongson.co/api/v1/` ✅ recommended (no separate domain). Alternative: `api.gaia.tiongson.co` would require a new Cloudflare Pages project. Recommend keeping it on the same project.
-2. **Anonymous rate limit posture** — accept Cloudflare's defaults? Recommend yes; revisit only if a real consumer hits the cap.
-3. **Search quality bar** — basic substring is fine for v1, or do we want fuzzy/semantic from day one? Recommend basic for v1; ship semantic in Sprint C if there's demand.
-4. **Whether to publish an `@gaia-registry/api-client` SDK** at the same time as the API. Recommend deferring to Sprint C — the API is JSON-on-HTTP; consumers don't need a wrapper for v1.
+1. **API base URL: `gaia.tiongson.co/api/v1/`** ✅ — same Cloudflare Pages project, no new DNS surface.
+2. **Anonymous rate limit posture: Cloudflare defaults** ✅ — revisit only when a real consumer hits the cap.
+3. **Search quality bar: SEMANTIC from day one** ✅ — Marco's lean: *"I believe I have the embeddings already in the json..."* The v1 search index becomes a vector-augmented inverted index. Implementation note for Sprint B B1: detect existing embeddings on `registry/named-skills.json` records (look for `embedding`, `vector`, or analogous field). If present, ship semantic-first. If absent, ship substring v1 and queue embeddings as a B1 sub-task before the SDK lands. Either way: substring is the always-available fallback.
+4. **Ship `@gaia-registry/api-client` SDK in Sprint B** ✅ — wraps the JSON-on-HTTP. Two language targets: Python (matches CLI) + TypeScript (matches MCP). Day-1 bonus: agent platforms (Claude Code, Cursor, Continue) get a typed import on the same week the API ships.
 
-These are 5-minute conversations, not blockers.
+All four ratified. Sprint B B1 implementation order updated below.
 
 ---
 
