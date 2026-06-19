@@ -24,7 +24,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/investigate ⭑ | garrytan | 4★ | 1 |
+| garrytan/investigate ⭑ | garrytan | 4★ | 2 |
 | obra/systematic-debugging | obra | 3★ | 4 |
 
 ## Evidence (inherited capability)

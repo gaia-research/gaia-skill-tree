@@ -21,7 +21,7 @@ tags:
 - regression
 - root-cause-analysis
 createdAt: '2026-04-30'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
@@ -35,6 +35,26 @@ evidence:
   grade: B
   commits: 137
   contributors: 3
+- source: https://github.com/mattpocock/skills
+  evaluator: unknown
+  date: '2026-06-20'
+  type: github-stars-own
+  trustNumber: 88.0
+  grade: A
+  notes: mattpocock/skills suite — 137k GitHub stars; diagnose is part of this repo
+  stars: 137000
+  skillCountInRepo: 21
+  sourceStartedAt: '2025-01-01'
+- source: https://www.youtube.com/watch?v=EJyuu6zlQCg
+  evaluator: unknown
+  date: '2026-06-20'
+  type: social-signal
+  trustNumber: 82.0
+  grade: A
+  notes: Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers
+    mattpocock/skills repo (verified 2026-06-20)
+  views: 412000
+  sourceStartedAt: '2025-01-01'
 timeline:
 - timestamp: '2026-06-10T05:38:16Z'
   action: evidence_added
@@ -57,11 +77,33 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:41Z'
   details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 11.21
-overallTrustGrade: ungraded
+- timestamp: '2026-06-19T17:07:27Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)'
+- timestamp: '2026-06-19T17:07:27Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/mattpocock/skills as A (trustNumber:
+    88.0)'
+- timestamp: '2026-06-19T17:07:28Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg (type:
+    social-signal)'
+- timestamp: '2026-06-19T17:07:29Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg as A
+    (trustNumber: 82.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:03Z'
+  details: TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)
+trustMagnitude: 90.38
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
@@ -71,7 +113,7 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
 suiteRef: mattpocock/engineering
-trustMagnitudeInputHash: 1f6fcb93fe1c868de47375eb417c24f6451ee60328294f5f8001ab64859cbd10
+trustMagnitudeInputHash: 4bc1966f539e634f304282dbaa5f91ab0f894c0d45971725a69e36bd9a21b9de
 ---
 
 ## Overview

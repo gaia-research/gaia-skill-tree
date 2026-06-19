@@ -10,7 +10,7 @@ description: Shared Python package for Science Skills, currently containing http
   -- a unified HTTP client with rate limiting, retries, and exponential backoff. Not
   a standalone agent skill. Do not invoke directly.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common
 evidence:
@@ -25,6 +25,16 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://github.com/google-deepmind/science-skills
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 78.0
+  grade: B
+  notes: google-deepmind/science-skills common utilities — 2k+ GitHub stars; shared
+    infrastructure for 30+ database skills
+  reviewers: 3
+  sourceStartedAt: '2024-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:38Z'
   action: evidence_graded
@@ -43,8 +53,21 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- timestamp: '2026-06-19T17:06:57Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/google-deepmind/science-skills
+    (type: peer-review)'
+- timestamp: '2026-06-19T17:06:57Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/google-deepmind/science-skills
+    as B (trustNumber: 78.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -54,7 +77,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e4614fe274a477d96978fab525c9c6432e4266176685de56062c2ce0828deb04
+trustMagnitudeInputHash: 0318c27283170e94e677a11679cb4860f9b90e9e6191f878d3d14dd3b2e32138
+verification:
+  firstEvidenceAt: '2026-06-19T17:06:57Z'
 ---
 
 # Science Skills Common

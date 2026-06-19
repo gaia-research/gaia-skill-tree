@@ -24,7 +24,7 @@ Requires write access to the repository and a configured release token.
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| intelligentcode-ai/release | intelligentcode-ai | 2★ | 1 |
+| intelligentcode-ai/release | intelligentcode-ai | 2★ | 2 |
 | ruvnet/github-release-management | ruvnet | 1★ | 0 |
 
 ## Evidence (inherited capability)

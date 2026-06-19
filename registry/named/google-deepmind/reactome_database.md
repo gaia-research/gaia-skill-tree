@@ -12,7 +12,7 @@ description: Query the Reactome database (Analysis and Content Services). Use wh
   participants (inputs, outputs), pathway hierarchy (including top-level pathways),
   diagram export, cross-reference mapping, or searching the knowledgebase.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md
 evidence:
@@ -27,6 +27,16 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://academic.oup.com/nar/article/52/D1/D672/7369850
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 85.0
+  grade: A
+  notes: Reactome 2024 — NAR; manually curated pathway knowledgebase, Elixir/GCBR
+    core data resource
+  reviewers: 3
+  sourceStartedAt: '2024-01-04'
 timeline:
 - timestamp: '2026-06-14T12:32:38Z'
   action: evidence_graded
@@ -45,18 +55,33 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:39Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- timestamp: '2026-06-19T17:05:47Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/52/D1/D672/7369850
+    (type: peer-review)'
+- timestamp: '2026-06-19T17:05:47Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://academic.oup.com/nar/article/52/D1/D672/7369850
+    as A (trustNumber: 85.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: ca41cca87b481d510062d97dd508f58e610a872db59c1abf57561a1a802ea94a
+trustMagnitudeInputHash: 0ae16500d0c5ab8bb1cd8fde696842e7f33afa40e0c41bba9df6b378ff6f9fe7
+verification:
+  firstEvidenceAt: '2026-06-19T17:05:47Z'
 ---
 
 # Reactome Analysis & Content Service

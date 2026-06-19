@@ -11,7 +11,7 @@ description: Query the Ensembl database to resolve gene, transcript, and protein
   consequence and effect predictions (VEP). Use this skill as a primary ID translator,
   genomic sequence database and variant effect prediction tool.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md
 evidence:
@@ -26,6 +26,16 @@ evidence:
   grade: B
   commits: 6
   contributors: 3
+- source: https://academic.oup.com/nar/article/54/D1/D1053/8343504
+  evaluator: unknown
+  date: '2026-06-20'
+  type: peer-review
+  trustNumber: 85.0
+  grade: A
+  notes: Ensembl 2025 — NAR database issue; genome annotation, gene models, genetic
+    variation
+  reviewers: 3
+  sourceStartedAt: '2025-01-08'
 timeline:
 - timestamp: '2026-06-14T12:32:30Z'
   action: evidence_graded
@@ -44,18 +54,33 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:38Z'
   details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- timestamp: '2026-06-19T17:05:37Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/54/D1/D1053/8343504
+    (type: peer-review)'
+- timestamp: '2026-06-19T17:05:38Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://academic.oup.com/nar/article/54/D1/D1053/8343504
+    as A (trustNumber: 85.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:01Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e24c79256a2c96ae66964304595a63648f257074789b8c55528f77b18b61b5aa
+trustMagnitudeInputHash: a7cb6d55e67bf4f3e8ec023d89a72366d2e4c68cd495ee76c1f7285c39b67764
+verification:
+  firstEvidenceAt: '2026-06-19T17:05:37Z'
 ---
 
 # Ensembl Database: ID Mapping and Genomic Features

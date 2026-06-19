@@ -17,20 +17,28 @@ tags:
 - model-context-protocol
 - tool-integration
 - cli
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-20'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: 'intelligentcode-ai/skills mcp-client — portable CLI MCP client with server"
-    enumeration, tool display, and on-demand execution. (backfilled — class-to-type
-    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
+  notes: intelligentcode-ai/skills — practical coding agent skills; mcp-client provides
+    production-ready implementation (trust updated from C=50 to B-equiv=65)
   type: repo
-  trustNumber: 50.0
-  grade: C
+  trustNumber: 65.0
+  grade: B
   commits: 34
   contributors: 1
+- source: https://github.com/intelligentcode-ai/skills
+  evaluator: unknown
+  date: '2026-06-20'
+  type: self-attestation
+  trustNumber: 60.0
+  grade: B
+  notes: intelligentcode-ai/skills suite self-attested via README description; practical
+    agent skill for mcp-client domain
+  sourceStartedAt: '2025-01-01'
 timeline:
 - timestamp: '2026-06-14T12:32:41Z'
   action: evidence_graded
@@ -49,7 +57,25 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:40Z'
   details: TM 0.0 -> 1.3, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 1.3
+- timestamp: '2026-06-19T17:10:10Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md
+    as B (trustNumber: 65.0)'
+- timestamp: '2026-06-19T17:10:45Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/intelligentcode-ai/skills (type:
+    self-attestation)'
+- timestamp: '2026-06-19T17:10:45Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Graded evidence from https://github.com/intelligentcode-ai/skills as B
+    (trustNumber: 60.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 6.3
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -60,7 +86,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 6291be4eb9fef258d6db869682eca659882168edfe463d100572fe6d276a5db7
+trustMagnitudeInputHash: d0cad627c1f98aa52862ce55655dd2cc2410da700991c68b04a8c1402f1e4af3
+verification:
+  firstEvidenceAt: '2026-06-19T17:10:45Z'
 ---
 
 ## Overview

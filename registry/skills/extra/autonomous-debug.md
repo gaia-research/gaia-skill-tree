@@ -25,7 +25,7 @@ _None specified._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | devin-ai/autonomous-swe | devin-ai | 1★ | 4 |
-| mattpocock/diagnose | mattpocock | 2★ | 1 |
+| mattpocock/diagnose | mattpocock | 2★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

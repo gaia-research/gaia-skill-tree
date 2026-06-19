@@ -23,7 +23,7 @@ Requires FFmpeg and multimodal LLM support.
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| bradautomates/claude-video ⭑ | bradautomates | 2★ | 1 |
+| bradautomates/claude-video ⭑ | bradautomates | 2★ | 2 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

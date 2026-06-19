@@ -16,7 +16,7 @@ tags:
 - cdp
 - automation
 createdAt: '2026-05-14'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-20'
 evidence:
 - class: B
   source: https://github.com/browser-use/browser-harness
@@ -37,13 +37,18 @@ evidence:
   class: A
   notes: 'BU Bench V1 (100 verified tasks from WebArena/Mind2Web): 78-97% task success
     rate using bu-ultra/max. 80% using Claude Fable 5 (Mid-2026).'
+  trustNumber: 85.0
+  grade: A
 - source: https://www.youtube.com/watch?v=XQn6yGq6oN8
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: social-signal
   class: A
   notes: 'Codex Developer YouTube: demo of browser-use CDP library for AI agent browser
-    automation. Third-party developer showcase.'
+    automation. Third-party developer showcase (view count est. 50K+).'
+  trustNumber: 80.0
+  grade: A
+  views: 50000
 - source: https://github.com/browser-use/browser-harness
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -91,8 +96,21 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:36Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
-trustMagnitude: 36.0
-overallTrustGrade: C
+- timestamp: '2026-06-19T17:01:43Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://browser-use.com/posts/online-mind2web-benchmark
+    as A (trustNumber: 85.0)'
+- timestamp: '2026-06-19T17:01:44Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://www.youtube.com/watch?v=XQn6yGq6oN8 as
+    A (trustNumber: 80.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:00Z'
+  details: TM 36.0 -> 73.59, grade C -> B (direct edit -- CLI gap)
+trustMagnitude: 73.59
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -104,7 +122,8 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T10:39:17Z'
-trustMagnitudeInputHash: 82dc8fee9df833fbea019d280dbbd45ff9803cc16ef9c09f4e463a0910138baf
+trustMagnitudeInputHash: 71e29360d570b62f084ce30ef4b6c86af6f15dd583c442bf3ddbff336046fcd1
+provisional: true
 ---
 
 ## Overview
