@@ -258,58 +258,21 @@
     if (!tg || tg === 'ungraded' || !GRADE_NAMES[tg]) return '';
     var tm = (ns && (ns.trustMagnitude || ns.overallTrustMagnitude));
     var tmVal = (tm != null && tm !== '') ? parseFloat(Number(tm).toFixed(1)) : 0;
+    if (tmVal <= 0) return '';
     var gradeName = GRADE_NAMES[tg];
-    var ariaLabel = 'Trust grade: ' + gradeName + (tmVal > 0 ? ', magnitude ' + tmVal : '');
+    var ariaLabel = 'Trust grade: ' + gradeName + ', magnitude ' + tmVal;
+    var numDisplay = tmVal % 1 === 0 ? String(Math.round(tmVal)) : tmVal.toFixed(1);
     return '<div class="plaque__trust-notch" data-trust-grade="' + esc(tg) + '"' +
       ' data-tm="' + esc(String(tmVal)) + '"' +
       ' aria-label="' + esc(ariaLabel) + '">' +
-      '<span class="trust-notch-label">MAG <span class="trust-notch-num">0</span></span>' +
+      '<span class="trust-notch-num">' + esc(numDisplay) + '</span>' +
+      '<span class="trust-notch-grade" aria-hidden="true">' + esc(tg) + '</span>' +
       '</div>';
   }
 
-  // Wire up the count-up animation for all notches inside a container.
-  // Safe to call multiple times — skips already-wired notches.
-  function _wireTrustNotches(root) {
-    root = root || document;
-    var notches = root.querySelectorAll
-      ? root.querySelectorAll('.plaque__trust-notch[data-tm]')
-      : [];
-    for (var i = 0; i < notches.length; i++) {
-      (function(notch) {
-        if (notch._tmWired) return;
-        notch._tmWired = true;
-        var target = parseFloat(notch.getAttribute('data-tm')) || 0;
-        var numEl = notch.querySelector('.trust-notch-num');
-        if (!numEl) return;
-        var plaque = notch.closest ? notch.closest('.plaque') : notch.parentElement;
-        if (!plaque) return;
-        var raf, startTs;
-        var DURATION = 380;
-        function countUp(ts) {
-          if (!startTs) startTs = ts;
-          var progress = Math.min((ts - startTs) / DURATION, 1);
-          var eased = 1 - (1 - progress) * (1 - progress);
-          var current = eased * target;
-          numEl.textContent = target % 1 === 0
-            ? Math.round(current).toString()
-            : current.toFixed(1);
-          if (progress < 1) raf = requestAnimationFrame(countUp);
-        }
-        function onEnter() {
-          cancelAnimationFrame(raf);
-          startTs = null;
-          numEl.textContent = '0';
-          raf = requestAnimationFrame(countUp);
-        }
-        function onLeave() {
-          cancelAnimationFrame(raf);
-          numEl.textContent = '0';
-        }
-        plaque.addEventListener('mouseenter', onEnter);
-        plaque.addEventListener('mouseleave', onLeave);
-      }(notches[i]));
-    }
-  }
+  // Values are rendered inline in the HTML; reveal logic is CSS-driven.
+  // Retained for API compatibility — callers that invoke window._wireTrustNotches() still work.
+  function _wireTrustNotches(root) {}
 
   if (typeof window !== 'undefined') window._wireTrustNotches = _wireTrustNotches;
 
