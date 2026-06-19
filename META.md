@@ -220,6 +220,7 @@ The following `action` values are defined in `registry/schema/skill.schema.json`
 - **`evidence_graded`**: Recorded when an evidence row's grade is updated.
 - **`security_scan_passed`**: Recorded when a skill's content passes the defensive security scanner clean. Read by the `security-reviewed` verification tier (G4). The scanner-to-timeline emit wiring is a follow-up PR; the action enum entry is live in the schema as of PR #709.
 - **`type_change`**: Recorded when the skill's taxonomy type changes (e.g. `basic` → `unique`).
+- **`apex_pr_signed`**: Recorded when a verifier signs the apex-promotion PR for a 6★ candidate (G7 RFC §11.12.8). Sets `apexGateStatus.apexPromotionPrSigned` on the named skill. Ratified in v3 (`founder/handovers/G7_RFC_V3_RATIFICATION_2026-06-20.md`).
 
 ---
 
