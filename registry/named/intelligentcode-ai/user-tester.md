@@ -24,9 +24,7 @@ evidence:
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: intelligentcode-ai/skills user-tester — E2E testing specialist with Puppeteer/Playwright
-    automation and cross-browser user journey validation. (backfilled — class-to-type
-    migration)
+  notes: intelligentcode-ai/skills user-tester — E2E testing specialist with Puppeteer/Playwright automation and cross-browser user journey validation. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 50.0
   grade: C

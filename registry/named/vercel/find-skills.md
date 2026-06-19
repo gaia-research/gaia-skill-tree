@@ -25,9 +25,7 @@ evidence:
   source: https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: Vercel /find-skills slash command -- queries the skills.sh registry, checks
-    install counts, and auto-installs matching skills. (backfilled — class-to-type
-    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "Vercel /find-skills slash command -- queries the skills.sh registry, checks\" install counts, and auto-installs matching skills. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 70.0
   grade: B

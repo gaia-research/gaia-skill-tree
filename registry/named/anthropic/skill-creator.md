@@ -48,7 +48,10 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md
     (type: peer-review)'
-trustMagnitude: 60.0
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:52:24Z'
+  details: TM 60.0 -> 90.0, grade B -> B (direct edit -- CLI gap)
+trustMagnitude: 90.0
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -65,16 +68,14 @@ evidence:
   date: '2026-06-19'
   type: arxiv
   class: A
-  notes: Toolformer / self-expanding agent paper — ~300 citations as of 2026-06-19
-    (arXiv:2305.17126)
+  notes: Toolformer / self-expanding agent paper — ~300 citations as of 2026-06-19 (arXiv:2305.17126)
   citations: 300
 - source: https://dev.to/debs_obrien/i-used-skill-creator-v2-to-improve-one-of-my-agent-skills-in-vs-code-fhd
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: social-signal
   class: A
-  notes: DEV.to article by Debbie O'Brien on using Skill Creator v2 to improve agent
-    skills in VS Code. Community practitioner.
+  notes: DEV.to article by Debbie O'Brien on using Skill Creator v2 to improve agent skills in VS Code. Community practitioner.
 - source: https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -84,7 +85,7 @@ evidence:
     A/B eval harness noted for overhead on long refinement loops. Mid-2026.'
 verification:
   firstEvidenceAt: '2026-06-19T09:22:07Z'
-trustMagnitudeInputHash: f86e9e3961bf28584e79a90ec130c75771c8d13f4710a4619655ebfd70ca0aec
+trustMagnitudeInputHash: 8e80426bd99ecfc9b462c64ac249a900d0d0b7cca5a893acd646db953fcbf9f9
 ---
 
 ## Overview

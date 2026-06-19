@@ -21,8 +21,8 @@ tags:
 - autonomous-agent
 createdAt: '2026-04-30'
 updatedAt: '2026-06-19'
-trustMagnitude: 3.0
-overallTrustGrade: ungraded
+trustMagnitude: 33.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -55,6 +55,9 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://github.com/Upsonic/Upsonic (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:52:25Z'
+  details: TM 3.0 -> 33.0, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
 - source: https://arxiv.org/abs/2403.16218
   evaluator: mbtiongson1
@@ -79,7 +82,7 @@ evidence:
     struggles with highly coupled enterprise framework mocking. April 2026.'
 verification:
   firstEvidenceAt: '2026-06-19T09:23:55Z'
-trustMagnitudeInputHash: 2319c72a8f27ec65a2be295ccce0d2622c9e712f547ec98b7f63dd30356cd8d4
+trustMagnitudeInputHash: c9b722054f3ef469cdd1b9f580058e020c42423edd6fd4cb8f255a72fadf354c
 ---
 
 ## Overview

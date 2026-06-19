@@ -48,8 +48,11 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://github.com/safishamsi/graphify (type: peer-review)'
-trustMagnitude: 86.57
-overallTrustGrade: B
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:52:25Z'
+  details: TM 86.57 -> 116.57, grade B -> A (direct edit -- CLI gap)
+trustMagnitude: 116.57
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -65,8 +68,7 @@ evidence:
   date: '2026-06-19'
   type: github-stars-own
   class: A
-  notes: 68,766 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
-    standalone skill)
+  notes: 68,766 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)
   stars: 68766
 - source: https://arxiv.org/abs/2408.03910
   evaluator: mbtiongson1
@@ -91,7 +93,7 @@ evidence:
     praised, Leiden clustering limits on non-modular codebases documented. Mid-2026.'
 verification:
   firstEvidenceAt: '2026-06-19T09:19:58Z'
-trustMagnitudeInputHash: 301014660931c34ae8ce9092ffc4c080d0ae5051871a9d3d9ffd50e7a7f5aceb
+trustMagnitudeInputHash: a2ea220ca8da486d2d8eaef8d499040586aa446afe3cbf2e18f780cce01f658d
 ---
 
 ## Overview

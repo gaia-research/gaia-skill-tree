@@ -20,8 +20,7 @@ evidence:
   source: https://github.com/google-deepmind/science-skills
   evaluator: unknown
   date: '2026-05-23'
-  notes: Foundational canonical generic skill for Bioinformatic Sequence Analysis.
-    (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "Foundational canonical generic skill for Bioinformatic Sequence Analysis.\" (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 70.0
   grade: B
@@ -29,8 +28,7 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind protein_sequence_similarity_search science-skill
-    implementation. (backfilled — class-to-type migration)
+  notes: Official Google DeepMind protein_sequence_similarity_search science-skill" implementation. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
   grade: B

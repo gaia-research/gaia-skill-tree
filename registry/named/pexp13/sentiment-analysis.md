@@ -58,32 +58,28 @@ evidence:
   date: '2026-06-19'
   type: peer-review
   class: A
-  notes: SemEval-2017 Task 4 (Twitter SA benchmark) — ACL Anthology; establishes macro-F1
-    as primary metric for sentiment analysis
+  notes: SemEval-2017 Task 4 (Twitter SA benchmark) — ACL Anthology; establishes macro-F1 as primary metric for sentiment analysis
   reviewers: 3
 - source: https://arxiv.org/abs/2202.03829
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: arxiv
   class: A
-  notes: CardiffNLP Twitter-RoBERTa-base-sentiment (Barbieri et al., 2022) — SOTA
-    transformer baseline for social-media SA (arXiv:2202.03829)
+  notes: CardiffNLP Twitter-RoBERTa-base-sentiment (Barbieri et al., 2022) — SOTA transformer baseline for social-media SA (arXiv:2202.03829)
   citations: 200
 - source: https://ojs.aaai.org/index.php/ICWSM/article/view/14550
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: peer-review
   class: A
-  notes: VADER (Hutto & Gilbert, 2014) — canonical lexicon-based SA baseline; AAAI/ICWSM;
-    validated on social media corpora
+  notes: VADER (Hutto & Gilbert, 2014) — canonical lexicon-based SA baseline; AAAI/ICWSM; validated on social media corpora
   reviewers: 3
 - source: https://arxiv.org/abs/2203.01054
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: arxiv
   class: A
-  notes: Aspect-Based Sentiment Analysis survey (Zhang et al., 2022) — covers ABSA
-    methods for structured review analysis (arXiv:2203.01054)
+  notes: Aspect-Based Sentiment Analysis survey (Zhang et al., 2022) — covers ABSA methods for structured review analysis (arXiv:2203.01054)
   citations: 89
 verification:
   firstEvidenceAt: '2026-06-19T09:26:06Z'

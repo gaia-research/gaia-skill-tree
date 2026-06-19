@@ -28,8 +28,7 @@ evidence:
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md
   evaluator: mbtiongson1
   date: '2026-05-15'
-  notes: Original implementation by Matt Pocock; formalizes DDD principles for AI
-    agent contexts. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "Original implementation by Matt Pocock; formalizes DDD principles for AI\" agent contexts. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 70.0
   grade: B

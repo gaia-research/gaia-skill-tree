@@ -20,8 +20,7 @@ evidence:
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md
   evaluator: unknown
   date: '2026-05-23'
-  notes: Official Google DeepMind embl_ebi_ols science-skill implementation. (backfilled
-    — class-to-type migration)
+  notes: Official Google DeepMind embl_ebi_ols science-skill implementation. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
   grade: B

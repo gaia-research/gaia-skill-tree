@@ -25,9 +25,7 @@ evidence:
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: intelligentcode-ai/skills database-engineer — schema design and query optimization
-    expert across relational, NoSQL, graph, time-series, and data warehouses. (backfilled
-    — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "intelligentcode-ai/skills database-engineer — schema design and query optimization\" expert across relational, NoSQL, graph, time-series, and data warehouses. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 50.0
   grade: C

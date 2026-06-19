@@ -24,9 +24,7 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/sync-gbrain/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Incrementally
-    syncs new documents and updated pages into the GBrain index, deduplicates embeddings,
-    and reports ingestion counts and any errors. (backfilled — class-to-type migration)
+  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Incrementally syncs new documents and updated pages into the GBrain index, deduplicates embeddings, and reports ingestion counts and any errors. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
   grade: B

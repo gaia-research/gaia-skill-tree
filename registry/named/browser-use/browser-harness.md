@@ -82,6 +82,9 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://github.com/browser-use/browser-harness (type:
     peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:52:24Z'
+  details: TM 36.0 -> 36.0, grade C -> C (direct edit -- CLI gap)
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -93,7 +96,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 80b954336c6990877bec2de6e17a70e8d721837fa12de3b43e35595cf72eca0c
+trustMagnitudeInputHash: bb8bddf832dbed0ead1f39e471c2db7e1b932c84f95e02a8012ddb21b8a71e5d
 verification:
   firstEvidenceAt: '2026-06-19T10:39:17Z'
 ---

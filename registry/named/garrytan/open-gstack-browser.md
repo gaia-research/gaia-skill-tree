@@ -24,10 +24,7 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/open-gstack-browser/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Launches
-    a new headless or headed browser session with the Gstack environment variables
-    and extension profile pre-loaded, ready for automation… (backfilled — class-to-type
-    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "Public SKILL.md in the garrytan/gstack suite repo (verified live). Launches\" a new headless or headed browser session with the Gstack environment variables and extension profile pre-loaded, ready for automation… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 70.0
   grade: B

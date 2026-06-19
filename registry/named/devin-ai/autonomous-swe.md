@@ -84,8 +84,11 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://www.youtube.com/watch?v=tNzgM37BUTo (type:
     peer-review)'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T10:52:24Z'
+  details: TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 30.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -97,7 +100,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T10:34:41Z'
-trustMagnitudeInputHash: c8eec9df5ad854fe7a5feed67f172478433366d30dda91e7d261653cf0af20d9
+trustMagnitudeInputHash: 9e9dbbb72886d4df800f6ae2251e7fa97fc310090d23dfb5f5e9669ccc9baeef
 ---
 
 ## Overview

@@ -25,9 +25,7 @@ evidence:
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: intelligentcode-ai/skills security-engineer — vulnerability assessment and
-    security architecture with zero-trust principles and compliance management. (backfilled
-    — class-to-type migration)
+  notes: intelligentcode-ai/skills security-engineer — vulnerability assessment and security architecture with zero-trust principles and compliance management. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 50.0
   grade: C

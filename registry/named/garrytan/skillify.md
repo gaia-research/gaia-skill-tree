@@ -25,9 +25,9 @@ evidence:
   source: https://github.com/garrytan/gstack/blob/main/skillify/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-03'
-  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Converts
+  notes: "Public SKILL.md in the garrytan/gstack suite repo (verified live). Converts
     a freeform prompt, repo pattern, or workflow description into a complete, registry-ready
-    named skill: writes the SKILL.md definition,… (backfilled — class-to-type migration)' (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+    named skill: writes the SKILL.md definition,… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 70.0
   grade: B

@@ -22,8 +22,7 @@ evidence:
   source: https://github.com/santifer/career-ops
   evaluator: gemini-cli
   date: '2026-05-14'
-  notes: Career-Ops -- AI-powered job search system with CV tailoring and dashboard.
-    (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "Career-Ops -- AI-powered job search system with CV tailoring and dashboard.\" (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 70.0
   grade: B

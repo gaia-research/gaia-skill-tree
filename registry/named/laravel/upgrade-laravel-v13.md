@@ -25,8 +25,7 @@ evidence:
   source: https://github.com/laravel/boost/issues/698
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: Laravel /upgrade-laravel-v13 slash command -- real-world agentic framework
-    upgrade workflow published by the Laravel team. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "Laravel /upgrade-laravel-v13 slash command -- real-world agentic framework\" upgrade workflow published by the Laravel team. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 70.0
   grade: B

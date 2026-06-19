@@ -23,9 +23,7 @@ evidence:
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: intelligentcode-ai/skills mcp-client — portable CLI MCP client with server
-    enumeration, tool display, and on-demand execution. (backfilled — class-to-type
-    migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "intelligentcode-ai/skills mcp-client — portable CLI MCP client with server\" enumeration, tool display, and on-demand execution. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 50.0
   grade: C

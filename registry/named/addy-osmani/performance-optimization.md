@@ -76,8 +76,7 @@ evidence:
   date: '2026-06-19'
   type: github-stars-own
   class: A
-  notes: 47,200 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
-    standalone skill)
+  notes: 47,200 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)
   stars: 47200
 trustMagnitude: 83.2
 overallTrustGrade: B

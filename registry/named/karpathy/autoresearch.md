@@ -23,8 +23,7 @@ evidence:
   source: https://github.com/karpathy/autoresearch
   evaluator: mbtiongson1
   date: '2026-06-02'
-  notes: Karpathy's autoresearch repo serving as the evidence/inspiration for the
-    skill. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "Karpathy's autoresearch repo serving as the evidence/inspiration for the\" skill. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 70.0
   grade: B

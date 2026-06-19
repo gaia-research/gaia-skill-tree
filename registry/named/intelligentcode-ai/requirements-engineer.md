@@ -24,9 +24,7 @@ evidence:
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md
   evaluator: mbtiongson1
   date: '2026-04-30'
-  notes: intelligentcode-ai/skills requirements-engineer — business analysis specialist
-    bridging stakeholders and technical teams for full requirements lifecycle. (backfilled
-    — class-to-type migration)
+  notes: intelligentcode-ai/skills requirements-engineer — business analysis specialist bridging stakeholders and technical teams for full requirements lifecycle. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 50.0
   grade: C

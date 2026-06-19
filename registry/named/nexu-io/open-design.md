@@ -23,8 +23,7 @@ evidence:
   source: https://github.com/nexu-io/open-design
   evaluator: gemini-cli
   date: '2026-05-14'
-  notes: Open Design -- local-first design engine generating high-fidelity prototypes
-    and brand assets. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)
+  notes: "Open Design -- local-first design engine generating high-fidelity prototypes\" and brand assets. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)"
   type: repo
   trustNumber: 70.0
   grade: B
