@@ -81,9 +81,10 @@
     }
     .grade-notch-preview[data-trust-grade="S"] {
       background: linear-gradient(135deg,
-        color-mix(in srgb, var(--grade-S) 60%, var(--trust-notch-S-hi)) 0%,
-        var(--grade-S) 45%,
-        color-mix(in srgb, var(--grade-S) 70%, var(--trust-notch-S-lo)) 100%);
+        var(--trust-notch-S-hi2) 0%,
+        color-mix(in srgb, var(--trust-notch-S-mid) 80%, var(--trust-notch-S-violet)) 35%,
+        var(--trust-notch-S-mid) 65%,
+        color-mix(in srgb, var(--trust-notch-S-violet) 60%, var(--trust-notch-S-mid)) 100%);
       color: var(--trust-notch-text-S);
       animation: trust-notch-shimmer 3.5s linear infinite;
       background-size: 200% 200%;
@@ -97,9 +98,9 @@
     }
     .grade-notch-preview[data-trust-grade="B"] {
       background: linear-gradient(135deg,
-        color-mix(in srgb, var(--grade-B) 55%, var(--trust-notch-B-hi)) 0%,
-        var(--grade-B) 50%,
-        color-mix(in srgb, var(--grade-B) 60%, var(--trust-notch-B-lo)) 100%);
+        var(--trust-notch-B-hi) 0%,
+        color-mix(in srgb, var(--trust-notch-B-hi) 55%, var(--trust-notch-B-lo)) 50%,
+        var(--trust-notch-B-lo) 100%);
       color: var(--trust-notch-text-B);
     }
     .grade-notch-preview[data-trust-grade="C"] {
@@ -231,21 +232,20 @@
   <p class="sampler-sub">I8 · 4 grades × 6 plaque variants / dev/review artifact</p>
 
   <p class="sampler-intro">
-    The <strong>Trust Grade notch</strong> is a small rectangular metallic corner stamp that appears at
-    the bottom-right of every <code>.plaque</code> variant. It shows the skill's
-    <code>overallTrustGrade</code> field: <code>S</code> (Platinum), <code>A</code> (Gold),
-    <code>B</code> (Silver), <code>C</code> (Bronze). Ungraded skills show nothing; zero
-    markup cost when absent. This notch is <em>distinct</em> from the star-rank system; both
-    coexist on the same card.
+    The <strong>Trust Grade notch</strong> is a full-width centered footer row at the bottom of every
+    <code>.plaque</code> variant. It shows the skill's <code>overallTrustGrade</code> letter plus
+    Trust Magnitude number (e.g. <code>A · 47</code>). Grade name labels are never shown.
+    Ungraded skills show nothing; zero markup cost when absent. This notch is <em>distinct</em>
+    from the star-rank system; both coexist on the same card.
   </p>
 
   <!-- S · Platinum -->
   <section class="grade-section" id="grade-S">
     <div class="grade-heading">
       <h2>S · Platinum</h2>
-      <span class="grade-notch-preview" data-trust-grade="S">S Platinum</span>
+      <span class="grade-notch-preview" data-trust-grade="S">S · 42</span>
     </div>
-    <p class="grade-desc">Animated shimmer · deep-navy text · contrast ≈ 10.8:1 ✓</p>
+    <p class="grade-desc">Animated iridescent shimmer · deep-navy text · contrast ≈ 10.8:1 ✓</p>
     <p class="grade-note">
       <strong>Reduced motion:</strong> the shimmer animation is suppressed under
       <code>prefers-reduced-motion: reduce</code>; the notch falls back to a static
@@ -258,7 +258,7 @@
   <section class="grade-section" id="grade-A">
     <div class="grade-heading">
       <h2>A · Gold</h2>
-      <span class="grade-notch-preview" data-trust-grade="A">A Gold</span>
+      <span class="grade-notch-preview" data-trust-grade="A">A · 31</span>
     </div>
     <p class="grade-desc">Static gradient · deep-brown text · contrast ≈ 7.2:1 ✓</p>
     <div class="variant-strip" id="strip-A"></div>
@@ -268,9 +268,9 @@
   <section class="grade-section" id="grade-B">
     <div class="grade-heading">
       <h2>B · Silver</h2>
-      <span class="grade-notch-preview" data-trust-grade="B">B Silver</span>
+      <span class="grade-notch-preview" data-trust-grade="B">B · 18</span>
     </div>
-    <p class="grade-desc">Static gradient (darker matte) · dark-slate text · contrast ≈ 11.4:1 ✓</p>
+    <p class="grade-desc">Dark steel gradient (#8a99ad → #475569) · light text · contrast ≈ 6.2:1 ✓</p>
     <div class="variant-strip" id="strip-B"></div>
   </section>
 
@@ -278,7 +278,7 @@
   <section class="grade-section" id="grade-C">
     <div class="grade-heading">
       <h2>C · Bronze</h2>
-      <span class="grade-notch-preview" data-trust-grade="C">C Bronze</span>
+      <span class="grade-notch-preview" data-trust-grade="C">C · 7</span>
     </div>
     <p class="grade-desc">Static gradient (tarnished) · light-warm text · contrast ≈ 4.8:1 ✓</p>
     <div class="variant-strip" id="strip-C"></div>
