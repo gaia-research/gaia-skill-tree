@@ -59,6 +59,9 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:19:37Z'
   details: TM 0.0 -> 83.2, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:36Z'
+  details: TM 0.0 -> 83.2, grade ungraded -> B (direct edit -- CLI gap)
 evidence:
 - class: A
   source: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
@@ -82,8 +85,8 @@ evidence:
   notes: 47,200 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
     standalone skill)
   stars: 47200
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 83.2
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -95,6 +98,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:20:40Z'
+trustMagnitudeInputHash: 32dbe25f29d47c797933a404beeec42d5f9e81254e88df6a574205f2153637a6
 ---
 
 ## Installation

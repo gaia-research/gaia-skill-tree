@@ -21,8 +21,8 @@ tags:
 - autonomous-agent
 createdAt: '2026-04-30'
 updatedAt: '2026-06-19'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 33.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -61,6 +61,9 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:19:39Z'
   details: TM 0.0 -> 33.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:45Z'
+  details: TM 0.0 -> 33.0, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
 - source: https://arxiv.org/abs/2403.16218
   evaluator: mbtiongson1
@@ -85,6 +88,7 @@ evidence:
     struggles with highly coupled enterprise framework mocking. April 2026.'
 verification:
   firstEvidenceAt: '2026-06-19T09:23:55Z'
+trustMagnitudeInputHash: 6b3fef7f19fab551c00e99cbf661282004523fb0e79418487fd1fde173a76079
 ---
 
 ## Overview

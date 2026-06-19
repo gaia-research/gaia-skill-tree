@@ -24,8 +24,8 @@ tags:
 createdAt: '2026-04-30'
 updatedAt: '2026-06-19'
 suiteRef: mattpocock/engineering
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 45.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -55,6 +55,9 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:19:38Z'
   details: TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:41Z'
+  details: TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
 - source: https://github.com/mattpocock/skills/issues/180
   evaluator: mbtiongson1
@@ -70,6 +73,7 @@ evidence:
   notes: GitHub discussion about improve-codebase-architecture skill workflow.
 verification:
   firstEvidenceAt: '2026-06-19T12:35:07Z'
+trustMagnitudeInputHash: a7d3b4e1553ee703b7b7e3258d6e5555323dd1a9451efcabecaa042733d4989b
 ---
 
 ## Overview

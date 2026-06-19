@@ -14,8 +14,8 @@ description: 'Classifies the affective polarity (positive / negative / neutral, 
   '
 createdAt: '2026-05-17'
 updatedAt: '2026-06-19'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+trustMagnitude: 192.8
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -55,6 +55,9 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:19:38Z'
   details: TM 0.0 -> 192.8, grade ungraded -> A (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:43Z'
+  details: TM 0.0 -> 192.8, grade ungraded -> A (direct edit -- CLI gap)
 evidence:
 - source: https://aclanthology.org/S17-2088/
   evaluator: mbtiongson1
@@ -90,6 +93,7 @@ evidence:
   citations: 89
 verification:
   firstEvidenceAt: '2026-06-19T09:26:06Z'
+trustMagnitudeInputHash: 0fe967fac44ef008cb3a675f5da2775693274cff366b4bfaf33bd2bf9112e728
 ---
 
 ## Implementation
