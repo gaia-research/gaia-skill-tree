@@ -64,8 +64,11 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://github.com/garrytan/gstack/issues/1958 (type:
     peer-review)'
-trustMagnitude: 36.0
-overallTrustGrade: C
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:53:50Z'
+  details: TM 36.0 -> 66.0, grade C -> B (direct edit -- CLI gap)
+trustMagnitude: 66.0
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -77,7 +80,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:35Z'
-trustMagnitudeInputHash: 495d646eccff796aa940f3a5f5d4ade660715d7d3500d846165ac74ddf189029
+trustMagnitudeInputHash: 3fc8feae66d93f617ccdfe5ca59c834aab09f9575ca08622549f72870649746c
 ---
 
 ## Overview

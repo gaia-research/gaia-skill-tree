@@ -91,8 +91,11 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://github.com/obra/superpowers/issues/1782 (type:
     peer-review)'
-trustMagnitude: 36.0
-overallTrustGrade: C
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:53:51Z'
+  details: TM 36.0 -> 88.5, grade C -> B (direct edit -- CLI gap)
+trustMagnitude: 88.5
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -102,7 +105,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 2a31affb21edfd6d7fb3da6e4e55314e9514efdafe69e182d4120ad45ca07339
+trustMagnitudeInputHash: bb0f327640179bfcb7c640b88804c16f4b14c90e13b4fb4c96469e2bc4409a7b
 verification:
   firstEvidenceAt: '2026-06-19T12:44:46Z'
 ---

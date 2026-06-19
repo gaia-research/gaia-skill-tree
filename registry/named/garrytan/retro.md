@@ -57,6 +57,9 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://github.com/garrytan/gstack/issues/1834 (type:
     peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:53:50Z'
+  details: TM 36.0 -> 81.0, grade C -> B (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/retro/SKILL.md
@@ -83,8 +86,8 @@ evidence:
   type: peer-review
   class: A
   notes: GitHub issue discussing /retro skill
-trustMagnitude: 36.0
-overallTrustGrade: C
+trustMagnitude: 81.0
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -96,7 +99,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:36Z'
-trustMagnitudeInputHash: a3b676a7a49b869b3d76cb57b2b0159d27d444bed509ec46aafd2f110fce3026
+trustMagnitudeInputHash: c4564b25998ab11c3ad5126e20c4338e05a62cfebbfdd99afcae4449e281a1ff
 ---
 
 ## Overview

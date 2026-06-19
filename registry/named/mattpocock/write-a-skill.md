@@ -41,8 +41,11 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://github.com/mattpocock/skills/discussions/246
     (type: peer-review)'
-trustMagnitude: 0.0
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:53:50Z'
+  details: TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)
+trustMagnitude: 45.0
+overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -52,7 +55,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: b183da119865e57bcb36ecf0b580b07960f04cdb18337bea4893eaf7cb7422bf
+trustMagnitudeInputHash: 933c9ff3bcb149283784f39af0426151dd630ce77751d44327d115d2f64f02c4
 evidence:
 - source: https://github.com/mattpocock/skills/issues/271
   evaluator: mbtiongson1

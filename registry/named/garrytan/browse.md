@@ -73,6 +73,9 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://github.com/garrytan/gstack/issues/1784 (type:
     peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:53:50Z'
+  details: TM 36.0 -> 88.5, grade C -> B (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/browse/SKILL.md
@@ -117,8 +120,8 @@ evidence:
   type: peer-review
   class: A
   notes: Bug report for /browse
-trustMagnitude: 36.0
-overallTrustGrade: C
+trustMagnitude: 88.5
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -130,7 +133,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:28Z'
-trustMagnitudeInputHash: 0f0c3d3a7de27a43a257aea0995f66b6dd58dae3af701b8708b24dc2f3514f0a
+trustMagnitudeInputHash: 661d9f499a2f75cf4654480866c55ad6024f00d3f7fafe1f6a577c8d1e3fc67a
 ---
 
 ## Overview

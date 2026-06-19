@@ -105,8 +105,11 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://github.com/mattpocock/skills/issues/349 (type:
     peer-review)'
-trustMagnitude: 11.21
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:53:50Z'
+  details: TM 11.21 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)
+trustMagnitude: 63.71
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -116,7 +119,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 50f47d5e66a654ba2b92dc1089e5ce8b8f5c52fd4ec651ad0ec34824684e679a
+trustMagnitudeInputHash: b4776b554822e6cb5768724a2cc24557933645239d2b7e04f031b0de0f920b16
 verification:
   firstEvidenceAt: '2026-06-19T12:33:32Z'
 ---

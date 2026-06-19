@@ -962,6 +962,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/mattpocock/skills/discussions/246 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/productivity",
@@ -1307,6 +1312,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/garrytan/gstack/issues/1784 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 36.0 -> 88.5, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
@@ -2640,6 +2650,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/garrytan/gstack/issues/2039 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 36.0 -> 66.0, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2923,6 +2938,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/mattpocock/skills/issues/189 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/productivity",
@@ -3516,6 +3536,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/pbakaus/impeccable/issues/183 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:51Z",
+            "details": "TM 77.8 -> 122.8, grade B -> A (direct edit -- CLI gap)"
           }
         ],
         "type": "basic",
@@ -4590,6 +4615,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/obra/superpowers/issues/1795 (type: social-signal)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:51Z",
+            "details": "TM 36.0 -> 36.0, grade C -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -5320,6 +5350,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/garrytan/gstack/issues/1958 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 36.0 -> 66.0, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
@@ -5602,6 +5637,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/garrytan/gstack/issues/1791 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 36.0 -> 66.0, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -6225,6 +6265,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/garrytan/gstack/issues/1834 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 36.0 -> 81.0, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -6722,6 +6767,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/obra/superpowers/issues/1609 (type: social-signal)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 36.0 -> 36.0, grade C -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -8244,6 +8294,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/mattpocock/skills/issues/349 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 11.21 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/productivity",
@@ -8324,6 +8379,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/mattpocock/skills/discussions/287 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -8556,6 +8616,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/mattpocock/skills/issues/145 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 11.21 -> 41.21, grade ungraded -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -8650,6 +8715,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/mattpocock/skills/issues/220 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 11.21 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -8927,6 +8997,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/mattpocock/skills/discussions/217 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 11.21 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -9029,6 +9104,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/mattpocock/skills/issues/289 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 11.21 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -10189,6 +10269,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/obra/superpowers/issues/1690 (type: social-signal)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 36.0 -> 66.0, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -10360,6 +10445,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/obra/superpowers/issues/1574 (type: social-signal)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 36.0 -> 66.0, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -10446,6 +10536,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/obra/superpowers/issues/701 (type: social-signal)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 36.0 -> 36.0, grade C -> C (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -10646,6 +10741,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/obra/superpowers/issues/1772 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 36.0 -> 88.5, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -10985,6 +11085,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/obra/superpowers/issues/1782 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:51Z",
+            "details": "TM 36.0 -> 88.5, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -11085,6 +11190,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/obra/superpowers/issues/1755 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:51Z",
+            "details": "TM 36.0 -> 66.0, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -11304,6 +11414,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/obra/superpowers/issues/1574 (type: social-signal)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:51Z",
+            "details": "TM 36.0 -> 81.0, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -11947,6 +12062,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/ruvnet/ruflo/issues/829 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:51Z",
+            "details": "TM 36.0 -> 81.0, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -13240,6 +13360,11 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://github.com/ruvnet/ruflo/issues/801 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:51Z",
+            "details": "TM 36.0 -> 88.5, grade C -> B (direct edit -- CLI gap)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",

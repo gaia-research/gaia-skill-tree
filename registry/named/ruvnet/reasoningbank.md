@@ -107,8 +107,11 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://github.com/ruvnet/ruflo/issues/801 (type:
     peer-review)'
-trustMagnitude: 36.0
-overallTrustGrade: C
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:53:51Z'
+  details: TM 36.0 -> 88.5, grade C -> B (direct edit -- CLI gap)
+trustMagnitude: 88.5
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -118,7 +121,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: f2f5d7a532ae38efd6f520b2fb610e2ea77d34e28e1f8e3b17d3fafa2a8f30dd
+trustMagnitudeInputHash: 7a36ced1c39a24eb38668ed599dbb457a5e04b118f801248cbe5208f8e8435ea
 verification:
   firstEvidenceAt: '2026-06-19T12:49:58Z'
 ---

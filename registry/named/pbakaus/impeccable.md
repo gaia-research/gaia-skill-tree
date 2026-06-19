@@ -115,8 +115,11 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://github.com/pbakaus/impeccable/issues/183 (type:
     peer-review)'
-trustMagnitude: 77.8
-overallTrustGrade: B
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:53:51Z'
+  details: TM 77.8 -> 122.8, grade B -> A (direct edit -- CLI gap)
+trustMagnitude: 122.8
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -128,7 +131,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:20:18Z'
-trustMagnitudeInputHash: e0a8aae0511e190f5fd35749bab3cecfd518a998c6d0361870fdf90d2dc3f4a7
+trustMagnitudeInputHash: dca251835b3105e243892ba968881a89c95e83e757d7fcec62af23e0749918fe
 ---
 
 ## Overview
