@@ -3727,3 +3727,138 @@ button.plaque__slug:focus-visible {
   outline: 2px solid var(--tier-extra);
   outline-offset: 2px;
 }
+
+
+/* ============================================================
+   Trust Grade notch — I8
+   A small rectangular metallic corner stamp at the bottom-right
+   of every .plaque variant, showing the skill's overallTrustGrade
+   (S=Platinum / A=Gold / B=Silver / C=Bronze). Ungraded skills
+   emit no element at all — zero markup cost when absent.
+
+   Design rules:
+   - position:absolute on the notch, resolved against .plaque's
+     existing position:relative (set in base .plaque rule).
+   - Card's border-radius clips the corner naturally; DO NOT add
+     border-radius on .plaque__trust-notch itself.
+   - WCAG AA: all grade text has ≥4.5:1 contrast on its fill.
+   - No border-left >1px colored accent (DESIGN.md absolute ban).
+   - Platinum earns a shimmer animation; reduced-motion fallback
+     converts it to a static linear-gradient.
+   ============================================================ */
+
+/* ── Notch base ──────────────────────────────────────────────── */
+.plaque__trust-notch {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: var(--trust-notch-h, 18px);
+  padding: 0 var(--trust-notch-pad-x, 6px);
+  font-family: var(--trust-notch-font, var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace));
+  font-size: var(--trust-notch-font-size, 0.68rem);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  /* No border-radius — card's existing radius clips this corner. */
+  /* z-index above the card surface but below absolute overlays. */
+  z-index: 2;
+  pointer-events: none; /* decorative — not interactive */
+}
+
+/* ── Grade S — Platinum ──────────────────────────────────────── */
+/* Text: #0b2545 (deep navy) on iridescent blue-silver fill.
+   Contrast: #0b2545 on --evidence-platinum (#e2e8f0) ≈ 10.8:1 ✓ */
+.plaque__trust-notch[data-trust-grade="S"] {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--grade-S) 60%, #c8d8f0) 0%,
+    var(--grade-S) 45%,
+    color-mix(in srgb, var(--grade-S) 70%, #8899bb) 100%
+  );
+  color: #0b2545;
+  animation: trust-notch-shimmer 3.5s linear infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes trust-notch-shimmer {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plaque__trust-notch[data-trust-grade="S"] {
+    animation: none;
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--grade-S) 80%, #fff) 0%,
+      var(--grade-S) 100%
+    );
+  }
+}
+
+/* ── Grade A — Gold ──────────────────────────────────────────── */
+/* Text: #451a03 (deep brown) on gold fill.
+   Contrast: #451a03 on --evidence-gold (#d4af37) ≈ 7.2:1 ✓ */
+.plaque__trust-notch[data-trust-grade="A"] {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--grade-A) 65%, #fff) 0%,
+    var(--grade-A) 55%,
+    color-mix(in srgb, var(--grade-A) 75%, #7a5c00) 100%
+  );
+  color: #451a03;
+}
+
+/* ── Grade B — Silver ────────────────────────────────────────── */
+/* Text: #0f172a (dark slate) on silver fill.
+   Contrast: #0f172a on --evidence-silver (#cbd5e1) ≈ 11.4:1 ✓ */
+.plaque__trust-notch[data-trust-grade="B"] {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--grade-B) 55%, #8a99ad) 0%,
+    var(--grade-B) 50%,
+    color-mix(in srgb, var(--grade-B) 60%, #475569) 100%
+  );
+  color: #0f172a;
+}
+
+/* ── Grade C — Bronze ────────────────────────────────────────── */
+/* Text: #fffbeb (light warm) on bronze/tarnished fill.
+   Contrast: #fffbeb on --evidence-bronze (#b45309) ≈ 4.8:1 ✓ */
+.plaque__trust-notch[data-trust-grade="C"] {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--grade-C) 70%, #d97706) 0%,
+    var(--grade-C) 50%,
+    color-mix(in srgb, var(--grade-C) 80%, #7c5a2a) 100%
+  );
+  color: #fffbeb;
+}
+
+/* ── Variant overrides: mini + row = letter only ─────────────── */
+/* These variants are too dense to show the grade name label.
+   The .trust-notch-name span is hidden via CSS so the DOM slot
+   stays consistent and screen readers still get the aria-label. */
+.plaque--mini .plaque__trust-notch .trust-notch-name,
+.plaque--row  .plaque__trust-notch .trust-notch-name {
+  display: none;
+}
+
+/* ── OG card: notch at print scale ──────────────────────────── */
+/* The OG variant is scaled to 1200×630 — bump the notch
+   proportionally so it reads at the social-card preview size. */
+.plaque--og .plaque__trust-notch {
+  height: 40px;
+  padding: 0 14px;
+  font-size: 1.1rem;
+  gap: 6px;
+}
+
+/* ── Settled: notch z-index above the gold corner ornament ───── */
+/* .plaque--settled has ::before / ::after corner ornaments at
+   z-index auto. The notch sits at z-index 2 (base rule) which
+   already clears them; no override needed. */
