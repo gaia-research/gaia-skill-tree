@@ -22,7 +22,7 @@ tags:
 - socratic-method
 - fusion
 createdAt: '2026-04-30'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -37,6 +37,34 @@ evidence:
   grade: B
   commits: 137
   contributors: 3
+- source: https://github.com/mattpocock/skills/discussions
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'GitHub Discussions: 5+ threads naming grill-with-docs directly (#275 #293
+    #300 #304). Origin implementation for grill pattern. Named-layer.'
+- source: https://github.com/mattpocock/skills/issues/341
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Issue #341: ''grill-with-docs: resolved answers not traceable through PRD/issues/implementation''
+    — 6 comments. Most-engaged grill-with-docs issue. Named-layer.'
+- source: https://github.com/mattpocock/skills/issues/299
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Issue #299: ''grill-with-docs poisoning docs/adr with unimplemented decisions''
+    — 3 comments. Active real-world usage feedback. Named-layer.'
+- source: https://www.youtube.com/@mattpocockuk
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: Matt Pocock official YouTube channel (Total TypeScript) — creator of grill-with-docs,
+    origin implementation. topicalAuthority creator_mult.
 timeline:
 - timestamp: '2026-06-14T12:32:43Z'
   action: evidence_graded
@@ -49,8 +77,30 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:52:12Z'
   details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 11.21
-overallTrustGrade: ungraded
+- timestamp: '2026-06-19T12:01:52Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/discussions (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:02:06Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/issues/341 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:02:20Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/issues/299 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:02:51Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/@mattpocockuk (type: social-signal)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:03:11Z'
+  details: TM 11.21 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)
+trustMagnitude: 63.71
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -60,7 +110,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 02939ad2abd2f950ba96603c4fe20508673bd7db88d2edde606879c55ccbc07a
+trustMagnitudeInputHash: f01878fcad9d46cbec15fbb62438b6cea5efdb3afece3f6cc5966c4fff26f477
+verification:
+  firstEvidenceAt: '2026-06-19T12:01:52Z'
 ---
 
 ## Overview

@@ -21,7 +21,7 @@ tags:
 - plan-stress-test
 - one-question-at-a-time
 createdAt: '2026-04-30'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-19'
 suiteRef: mattpocock/productivity
 evidence:
 - class: B
@@ -36,6 +36,36 @@ evidence:
   grade: B
   commits: 137
   contributors: 3
+- source: https://github.com/mattpocock/skills/discussions
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'GitHub Discussions: 7+ threads naming grill-me directly (usage patterns,
+    cross-skill combos, model behaviour). 136k-star suite, 24.8k-follower creator.
+    Named-layer: skill referenced by name.'
+- source: https://github.com/mattpocock/skills/issues/240
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Issue #240: ''GPT 5.5 jumps to implementation after /grill-me'' — 11 comments,
+    highest-engagement grill-me issue. Cross-model adoption signal. Named-layer.'
+- source: https://github.com/mattpocock/skills/issues/311
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'Issue #311: ''grill-me: no durable output artifact'' — 5 comments, active
+    users reporting real-world usage gaps. Named-layer.'
+- source: https://www.youtube.com/@mattpocockuk
+  evaluator: mbtiongson1
+  date: '2026-06-19'
+  type: social-signal
+  class: A
+  notes: 'Matt Pocock official YouTube channel (Total TypeScript) — creator of grill-me.
+    Skills suite featured on channel, 136k-star repo. topicalAuthority creator_mult:
+    creator is the named contributor.'
 timeline:
 - timestamp: '2026-06-14T12:32:43Z'
   action: evidence_graded
@@ -48,8 +78,30 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T11:52:12Z'
   details: TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)
-trustMagnitude: 11.21
-overallTrustGrade: ungraded
+- timestamp: '2026-06-19T12:00:20Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/discussions (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:01:12Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/issues/240 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:01:26Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/mattpocock/skills/issues/311 (type:
+    peer-review)'
+- timestamp: '2026-06-19T12:02:36Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/@mattpocockuk (type: social-signal)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T12:03:11Z'
+  details: TM 11.21 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)
+trustMagnitude: 63.71
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -59,7 +111,9 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 90f863093ccde55b568743eb8c28bcc7ab1c5b3e82627d14a2484e6080a07111
+trustMagnitudeInputHash: 30bc9817067da539afe196bfd380ce60d5440ec35463b0ee9314833b27bbfaae
+verification:
+  firstEvidenceAt: '2026-06-19T12:00:13Z'
 ---
 
 ## Overview
