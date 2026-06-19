@@ -29,8 +29,10 @@ evidence:
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Rapid
     design exploration that generates multiple AI design variants, opens a comparison
     board for the user, collects structured feedback, and… (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:

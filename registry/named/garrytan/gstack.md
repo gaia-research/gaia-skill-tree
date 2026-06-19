@@ -80,8 +80,10 @@ evidence:
     generic skill buckets; meets the >=5 named-skills threshold for Class A designation.
     Additionally: 98.9k GitHub stars, multi-platform adoption across 8+ runtimes (Claude
     Code, OpenAI Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes).
-    (backfilled — class-to-type migration)'
+    (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 - source: https://github.com/garrytan/gstack/stargazers

@@ -50,8 +50,10 @@ evidence:
   date: '2026-05-03'
   notes: Derived from registry hygiene work that audits source-backed named skills,
     generated projections, and demotion candidates across canonical and real-skill
-    review surfaces. (backfilled — class-to-type migration)
+    review surfaces. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 90
+  contributors: 10
   trustNumber: 70.0
   grade: B
 trustMagnitude: 0.0

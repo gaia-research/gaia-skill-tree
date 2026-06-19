@@ -30,8 +30,10 @@ evidence:
   date: '2026-06-03'
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Infrastructure-first
     security audit focusing on secrets archaeology, dependency supply chain, and CI/CD
-    security. Includes OWASP Top 10, STRIDE… (backfilled — class-to-type migration)
+    security. Includes OWASP Top 10, STRIDE… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:

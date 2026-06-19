@@ -23,8 +23,10 @@ evidence:
   evaluator: gemini-cli
   date: '2026-05-14'
   notes: Design Extract -- extracts complete design systems (Tailwind, Figma variables,
-    etc.) from any URL. (backfilled — class-to-type migration)
+    etc.) from any URL. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 262
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:

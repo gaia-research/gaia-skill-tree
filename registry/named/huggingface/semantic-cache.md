@@ -23,8 +23,10 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-04-30'
   notes: ModelCache -- LLM semantic caching system reducing response time via cached
-    query-result pairs; reproducible, MIT license. (backfilled — class-to-type migration)
+    query-result pairs; reproducible, MIT license. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 192
+  contributors: 10
   trustNumber: 70.0
   grade: B
 timeline:

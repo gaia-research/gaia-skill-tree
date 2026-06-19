@@ -44,8 +44,10 @@ evidence:
   notes: Self-referential implementation doc inside the gaia repo (seed evidence).
     Downgraded A->C per META §2.4 — seed / self-referential links are insufficient
     for Class A — by the 2026-06-02 meta sweep. Credible demo of the codified 7-phase
-    audit workflow. (backfilled — class-to-type migration)
+    audit workflow. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 90
+  contributors: 10
   trustNumber: 50.0
   grade: C
 trustMagnitude: 0.0

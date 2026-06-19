@@ -29,8 +29,10 @@ evidence:
   date: '2026-06-03'
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Comprehensive,
     interactive architecture and implementation review before coding begins, systematically
-    evaluating scope, architecture, code… (backfilled — class-to-type migration)
+    evaluating scope, architecture, code… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:

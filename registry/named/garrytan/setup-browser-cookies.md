@@ -27,8 +27,10 @@ evidence:
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Injects
     pre-authenticated session cookies into the browser context so subsequent automation
     steps can access gated pages without a manual login flow. (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:

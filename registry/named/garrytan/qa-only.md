@@ -27,8 +27,10 @@ evidence:
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Runs the
     scoped end-to-end test suite for a single feature or route without launching the
     full QA pipeline, for fast targeted regression checks. (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:

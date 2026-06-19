@@ -27,8 +27,10 @@ evidence:
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Sets a
     change-freeze flag that blocks non-critical commits and PR merges until explicitly
     lifted, protecting release branches or post-incident… (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:

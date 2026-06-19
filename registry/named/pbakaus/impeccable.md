@@ -24,8 +24,10 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-05-14'
   notes: Paul Bakaus /impeccable -- Elite design vocabulary and audit tool with 23
-    specialized polishing commands. (backfilled — class-to-type migration)
+    specialized polishing commands. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 804
+  contributors: 27
   trustNumber: 70.0
   grade: B
 - source: https://github.com/pbakaus/impeccable/stargazers

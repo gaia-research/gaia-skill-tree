@@ -28,8 +28,10 @@ evidence:
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Runs a
     standardised prompt suite across multiple model versions, records latency and
     quality scores, and produces a ranked comparison table to… (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:

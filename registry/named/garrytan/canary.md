@@ -29,8 +29,10 @@ evidence:
   date: '2026-06-03'
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Post-deployment
     monitoring that captures pre-release baseline screenshots, then continuously watches
-    pages for console errors, performance… (backfilled — class-to-type migration)
+    pages for console errors, performance… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:

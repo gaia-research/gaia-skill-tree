@@ -27,8 +27,10 @@ evidence:
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Reads
     a saved context snapshot and reconstructs a warm session state, surfacing the
     last decision point and pending tasks so work can resume… (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:

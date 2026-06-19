@@ -30,8 +30,10 @@ evidence:
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Interactive
     multi-pass DX review for developer-facing products — APIs, CLIs, SDKs, and libraries
     — scoring eight UX dimensions from onboarding to… (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:

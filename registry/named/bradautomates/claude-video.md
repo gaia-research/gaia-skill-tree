@@ -23,8 +23,10 @@ evidence:
   evaluator: gemini-cli
   date: '2026-05-14'
   notes: Claude Video -- enables AI agents to watch videos by downloading, frame extraction,
-    and transcription. (backfilled — class-to-type migration)
+    and transcription. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 6
+  contributors: 1
   trustNumber: 70.0
   grade: B
 timeline:

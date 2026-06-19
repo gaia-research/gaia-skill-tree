@@ -44,8 +44,10 @@ evidence:
   notes: 'Reproducible playbook: graphify-triage script ingests safishamsi/graphify
     GRAPH_REPORT.md output, parses architectural-debt findings, and converts each
     into a tracked GitHub issue via gh issue create. First implementation of the fusion
-    generic (graphify + triage). (backfilled — class-to-type migration)'
+    generic (graphify + triage). (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 90
+  contributors: 10
   trustNumber: 70.0
   grade: B
 trustMagnitude: 0.0

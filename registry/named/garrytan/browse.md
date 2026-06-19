@@ -52,8 +52,10 @@ evidence:
   date: '2026-06-03'
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Drives
     a browser to a target URL, navigates multi-step user journeys, and captures screenshots
-    or structured observations for downstream… (backfilled — class-to-type migration)
+    or structured observations for downstream… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 trustMagnitude: 0.0

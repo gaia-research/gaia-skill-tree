@@ -43,8 +43,10 @@ evidence:
   date: '2026-06-10'
   notes: Origin repository — open-source web search/scrape/crawl API for LLM agents;
     reproducible public implementation with documented usage. (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 5679
+  contributors: 150
   trustNumber: 70.0
   grade: B
 trustMagnitude: 0.0

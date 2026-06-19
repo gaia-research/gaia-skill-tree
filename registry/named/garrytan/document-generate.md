@@ -46,8 +46,10 @@ evidence:
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Generates
     structured documentation using the Diataxis framework — tutorials, how-to guides,
     reference materials, and explanations — by thoroughly… (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 trustMagnitude: 0.0

@@ -27,8 +27,10 @@ evidence:
   date: '2026-05-06'
   notes: Hermes Agent blogwatcher skill monitors blogs and RSS/Atom feeds with feed
     discovery, scraping fallback, OPML import, and read/unread article management.
-    (backfilled — class-to-type migration)
+    (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 66
+  contributors: 100
   trustNumber: 70.0
   grade: B
 timeline:

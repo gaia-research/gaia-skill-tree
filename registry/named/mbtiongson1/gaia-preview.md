@@ -41,8 +41,10 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-06-10'
   notes: Project-local agent skill driving branch preview deploys via sync-artifacts.yml;
-    implementation public at SKILL.md. (backfilled — class-to-type migration)
+    implementation public at SKILL.md. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 90
+  contributors: 10
   trustNumber: 70.0
   grade: B
 trustMagnitude: 0.0

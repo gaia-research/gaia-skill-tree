@@ -27,8 +27,10 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-04-30'
   notes: Anthropic /pptx slash command -- extracts, edits, packs, and applies design
-    principles to PowerPoint files using markitdown. (backfilled — class-to-type migration)
+    principles to PowerPoint files using markitdown. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 41
+  contributors: 16
   trustNumber: 70.0
   grade: B
 timeline:

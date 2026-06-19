@@ -52,8 +52,10 @@ evidence:
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Synthesises
     commit history, PR comments, and issue notes into a written sprint retrospective
     covering wins, misses, root causes, and action items. (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 trustMagnitude: 0.0

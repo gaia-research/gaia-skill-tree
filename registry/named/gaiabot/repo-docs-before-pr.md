@@ -26,8 +26,10 @@ evidence:
   date: '2026-06-10'
   notes: 'Exercised in this repository''s own CI: the docs drift check (gaia docs
     build --check) gates every PR, demonstrating the skill in production. (backfilled
-    — class-to-type migration)'
+    — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 90
+  contributors: 10
   trustNumber: 70.0
   grade: B
 timeline:

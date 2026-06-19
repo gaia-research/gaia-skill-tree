@@ -43,8 +43,10 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-04-30'
   notes: Addy Osmani /test-driven-development slash command -- forces strict TDD workflow,
-    stopping agents from skipping tests. (backfilled — class-to-type migration)
+    stopping agents from skipping tests. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 260
+  contributors: 36
   trustNumber: 70.0
   grade: B
 trustMagnitude: 0.0

@@ -23,8 +23,10 @@ evidence:
   evaluator: gemini-cli
   date: '2026-05-14'
   notes: Browser Harness -- self-healing harness connecting LLMs to browser via CDP.
-    (backfilled — class-to-type migration)
+    (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 400
+  contributors: 59
   trustNumber: 70.0
   grade: B
 timeline:

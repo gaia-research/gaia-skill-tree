@@ -26,8 +26,10 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-05-17'
   notes: Replaced missing seed evidence with live repository from real-skills catalog.
-    (backfilled — class-to-type migration)
+    (backfilled — class-to-type migration) repo not found on GitHub as of 2026-06-19 (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 0
+  contributors: 0
   trustNumber: 70.0
   grade: B
 timeline:

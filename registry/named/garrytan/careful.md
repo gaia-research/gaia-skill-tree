@@ -28,8 +28,10 @@ evidence:
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Activates
     a conservative execution profile that pauses before irreversible actions, requests
     explicit confirmation for destructive operations, and… (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:

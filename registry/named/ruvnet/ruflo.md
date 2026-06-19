@@ -78,8 +78,10 @@ evidence:
   date: '2026-05-19'
   notes: 'Ruflo orchestration platform — 34k+ GitHub stars. Meets Class A threshold:
     ≥5 named skills registered across 6 generic buckets in Gaia. (backfilled — class-to-type
-    migration)'
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)'
   type: repo
+  commits: 6899
+  contributors: 32
   trustNumber: 70.0
   grade: B
 - source: https://github.com/ruvnet/ruflo/stargazers

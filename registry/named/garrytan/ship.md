@@ -46,8 +46,10 @@ evidence:
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Automated
     end-to-end deployment workflow that merges the base branch, runs tests, reviews
     the diff, bumps the VERSION file, updates the CHANGELOG,… (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 trustMagnitude: 0.0

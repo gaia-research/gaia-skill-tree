@@ -28,8 +28,10 @@ evidence:
   notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Spins
     up a structured Claude-versus-Codex debate over a proposed implementation, with
     each agent mounting adversarial critiques, to surface hidden… (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 323
+  contributors: 9
   trustNumber: 70.0
   grade: B
 timeline:

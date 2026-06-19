@@ -27,8 +27,10 @@ evidence:
   notes: Hermes Tweet provides an installable Hermes Agent X/Twitter skill and plugin
     for searching tweets, reading replies, looking up users, monitoring tweets, exporting
     followers, and gating post, reply, and DM actions. (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 439
+  contributors: 2
   trustNumber: 70.0
   grade: B
 timeline:

@@ -62,8 +62,10 @@ evidence:
     stars, verified 2026-05-31). Defines a measurement-driven 5-step workflow (Measure
     → Identify → Fix → Verify → Guard) with explicit Core Web Vitals thresholds. Qualifies
     for Class A per META §2.1 large-scale adoption criterion. (backfilled — class-to-type
-    migration)
+    migration) (CLI gap: commits+contributors not writable via gaia dev evidence)
   type: repo
+  commits: 260
+  contributors: 36
   trustNumber: 70.0
   grade: B
 - source: https://github.com/addyosmani/agent-skills/stargazers
