@@ -3769,16 +3769,14 @@ button.plaque__slug:focus-visible {
 }
 
 /* ── Grade S — Platinum ──────────────────────────────────────── */
-/* Text: #0b2545 (deep navy) on iridescent blue-silver fill.
-   Contrast: #0b2545 on --evidence-platinum (#e2e8f0) ≈ 10.8:1 ✓ */
 .plaque__trust-notch[data-trust-grade="S"] {
   background: linear-gradient(
     135deg,
-    color-mix(in srgb, var(--grade-S) 60%, #c8d8f0) 0%,
+    color-mix(in srgb, var(--grade-S) 60%, var(--trust-notch-S-hi)) 0%,
     var(--grade-S) 45%,
-    color-mix(in srgb, var(--grade-S) 70%, #8899bb) 100%
+    color-mix(in srgb, var(--grade-S) 70%, var(--trust-notch-S-lo)) 100%
   );
-  color: #0b2545;
+  color: var(--trust-notch-text-S);
   animation: trust-notch-shimmer 3.5s linear infinite;
   background-size: 200% 200%;
 }
@@ -3794,49 +3792,43 @@ button.plaque__slug:focus-visible {
     animation: none;
     background: linear-gradient(
       135deg,
-      color-mix(in srgb, var(--grade-S) 80%, #fff) 0%,
+      color-mix(in srgb, var(--grade-S) 80%, var(--trust-notch-S-hi-rm)) 0%,
       var(--grade-S) 100%
     );
   }
 }
 
 /* ── Grade A — Gold ──────────────────────────────────────────── */
-/* Text: #451a03 (deep brown) on gold fill.
-   Contrast: #451a03 on --evidence-gold (#d4af37) ≈ 7.2:1 ✓ */
 .plaque__trust-notch[data-trust-grade="A"] {
   background: linear-gradient(
     135deg,
-    color-mix(in srgb, var(--grade-A) 65%, #fff) 0%,
+    color-mix(in srgb, var(--grade-A) 65%, var(--trust-notch-A-hi)) 0%,
     var(--grade-A) 55%,
-    color-mix(in srgb, var(--grade-A) 75%, #7a5c00) 100%
+    color-mix(in srgb, var(--grade-A) 75%, var(--trust-notch-A-lo)) 100%
   );
-  color: #451a03;
+  color: var(--trust-notch-text-A);
 }
 
 /* ── Grade B — Silver ────────────────────────────────────────── */
-/* Text: #0f172a (dark slate) on silver fill.
-   Contrast: #0f172a on --evidence-silver (#cbd5e1) ≈ 11.4:1 ✓ */
 .plaque__trust-notch[data-trust-grade="B"] {
   background: linear-gradient(
     135deg,
-    color-mix(in srgb, var(--grade-B) 55%, #8a99ad) 0%,
+    color-mix(in srgb, var(--grade-B) 55%, var(--trust-notch-B-hi)) 0%,
     var(--grade-B) 50%,
-    color-mix(in srgb, var(--grade-B) 60%, #475569) 100%
+    color-mix(in srgb, var(--grade-B) 60%, var(--trust-notch-B-lo)) 100%
   );
-  color: #0f172a;
+  color: var(--trust-notch-text-B);
 }
 
 /* ── Grade C — Bronze ────────────────────────────────────────── */
-/* Text: #fffbeb (light warm) on bronze/tarnished fill.
-   Contrast: #fffbeb on --evidence-bronze (#b45309) ≈ 4.8:1 ✓ */
 .plaque__trust-notch[data-trust-grade="C"] {
   background: linear-gradient(
     135deg,
-    color-mix(in srgb, var(--grade-C) 70%, #d97706) 0%,
+    color-mix(in srgb, var(--grade-C) 70%, var(--trust-notch-C-hi)) 0%,
     var(--grade-C) 50%,
-    color-mix(in srgb, var(--grade-C) 80%, #7c5a2a) 100%
+    color-mix(in srgb, var(--grade-C) 80%, var(--trust-notch-C-lo)) 100%
   );
-  color: #fffbeb;
+  color: var(--trust-notch-text-C);
 }
 
 /* ── Variant overrides: mini + row = letter only ─────────────── */

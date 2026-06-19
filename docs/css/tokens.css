@@ -107,4 +107,21 @@
   --trust-notch-pad-x: 6px;
   --trust-notch-font: var(--font-mono);
   --trust-notch-font-size: 0.68rem;
+
+  /* Text colors — WCAG AA verified against each metallic fill */
+  --trust-notch-text-S: #0b2545; /* deep navy on platinum ≈ 10.8:1 */
+  --trust-notch-text-A: #451a03; /* deep brown on gold ≈ 7.2:1 */
+  --trust-notch-text-B: #0f172a; /* dark slate on silver ≈ 11.4:1 */
+  --trust-notch-text-C: #fffbeb; /* warm white on bronze ≈ 4.8:1 */
+
+  /* Metallic highlight and shadow stops for color-mix() gradients */
+  --trust-notch-S-hi: #c8d8f0;
+  --trust-notch-S-lo: #8899bb;
+  --trust-notch-S-hi-rm: #ffffff; /* reduced-motion highlight */
+  --trust-notch-A-hi: #ffffff;
+  --trust-notch-A-lo: #7a5c00;
+  --trust-notch-B-hi: #8a99ad;
+  --trust-notch-B-lo: #475569;
+  --trust-notch-C-hi: #d97706;
+  --trust-notch-C-lo: #7c5a2a;
 }

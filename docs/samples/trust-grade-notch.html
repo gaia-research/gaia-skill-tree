@@ -81,33 +81,33 @@
     }
     .grade-notch-preview[data-trust-grade="S"] {
       background: linear-gradient(135deg,
-        color-mix(in srgb, var(--grade-S) 60%, #c8d8f0) 0%,
+        color-mix(in srgb, var(--grade-S) 60%, var(--trust-notch-S-hi)) 0%,
         var(--grade-S) 45%,
-        color-mix(in srgb, var(--grade-S) 70%, #8899bb) 100%);
-      color: #0b2545;
+        color-mix(in srgb, var(--grade-S) 70%, var(--trust-notch-S-lo)) 100%);
+      color: var(--trust-notch-text-S);
       animation: trust-notch-shimmer 3.5s linear infinite;
       background-size: 200% 200%;
     }
     .grade-notch-preview[data-trust-grade="A"] {
       background: linear-gradient(135deg,
-        color-mix(in srgb, var(--grade-A) 65%, #fff) 0%,
+        color-mix(in srgb, var(--grade-A) 65%, var(--trust-notch-A-hi)) 0%,
         var(--grade-A) 55%,
-        color-mix(in srgb, var(--grade-A) 75%, #7a5c00) 100%);
-      color: #451a03;
+        color-mix(in srgb, var(--grade-A) 75%, var(--trust-notch-A-lo)) 100%);
+      color: var(--trust-notch-text-A);
     }
     .grade-notch-preview[data-trust-grade="B"] {
       background: linear-gradient(135deg,
-        color-mix(in srgb, var(--grade-B) 55%, #8a99ad) 0%,
+        color-mix(in srgb, var(--grade-B) 55%, var(--trust-notch-B-hi)) 0%,
         var(--grade-B) 50%,
-        color-mix(in srgb, var(--grade-B) 60%, #475569) 100%);
-      color: #0f172a;
+        color-mix(in srgb, var(--grade-B) 60%, var(--trust-notch-B-lo)) 100%);
+      color: var(--trust-notch-text-B);
     }
     .grade-notch-preview[data-trust-grade="C"] {
       background: linear-gradient(135deg,
-        color-mix(in srgb, var(--grade-C) 70%, #d97706) 0%,
+        color-mix(in srgb, var(--grade-C) 70%, var(--trust-notch-C-hi)) 0%,
         var(--grade-C) 50%,
-        color-mix(in srgb, var(--grade-C) 80%, #7c5a2a) 100%);
-      color: #fffbeb;
+        color-mix(in srgb, var(--grade-C) 80%, var(--trust-notch-C-lo)) 100%);
+      color: var(--trust-notch-text-C);
     }
     .grade-desc {
       color: var(--muted);
@@ -228,24 +228,24 @@
 <body>
 
   <h1 class="sampler-h1">Trust Grade Notch</h1>
-  <p class="sampler-sub">I8 — 4 grades × 6 plaque variants — dev/review artifact</p>
+  <p class="sampler-sub">I8 · 4 grades × 6 plaque variants / dev/review artifact</p>
 
   <p class="sampler-intro">
     The <strong>Trust Grade notch</strong> is a small rectangular metallic corner stamp that appears at
     the bottom-right of every <code>.plaque</code> variant. It shows the skill's
     <code>overallTrustGrade</code> field: <code>S</code> (Platinum), <code>A</code> (Gold),
-    <code>B</code> (Silver), <code>C</code> (Bronze). Ungraded skills show nothing — zero
+    <code>B</code> (Silver), <code>C</code> (Bronze). Ungraded skills show nothing; zero
     markup cost when absent. This notch is <em>distinct</em> from the star-rank system; both
     coexist on the same card.
   </p>
 
-  <!-- ── S — Platinum ─────────────────────────────────────────────── -->
+  <!-- S · Platinum -->
   <section class="grade-section" id="grade-S">
     <div class="grade-heading">
-      <h2>S — Platinum</h2>
+      <h2>S · Platinum</h2>
       <span class="grade-notch-preview" data-trust-grade="S">S Platinum</span>
     </div>
-    <p class="grade-desc">Animated shimmer · deep-navy text (#0b2545) · contrast ≈ 10.8:1 ✓</p>
+    <p class="grade-desc">Animated shimmer · deep-navy text · contrast ≈ 10.8:1 ✓</p>
     <p class="grade-note">
       <strong>Reduced motion:</strong> the shimmer animation is suppressed under
       <code>prefers-reduced-motion: reduce</code>; the notch falls back to a static
@@ -254,39 +254,39 @@
     <div class="variant-strip" id="strip-S"></div>
   </section>
 
-  <!-- ── A — Gold ──────────────────────────────────────────────────── -->
+  <!-- A · Gold -->
   <section class="grade-section" id="grade-A">
     <div class="grade-heading">
-      <h2>A — Gold</h2>
+      <h2>A · Gold</h2>
       <span class="grade-notch-preview" data-trust-grade="A">A Gold</span>
     </div>
-    <p class="grade-desc">Static gradient · deep-brown text (#451a03) · contrast ≈ 7.2:1 ✓</p>
+    <p class="grade-desc">Static gradient · deep-brown text · contrast ≈ 7.2:1 ✓</p>
     <div class="variant-strip" id="strip-A"></div>
   </section>
 
-  <!-- ── B — Silver ────────────────────────────────────────────────── -->
+  <!-- B · Silver -->
   <section class="grade-section" id="grade-B">
     <div class="grade-heading">
-      <h2>B — Silver</h2>
+      <h2>B · Silver</h2>
       <span class="grade-notch-preview" data-trust-grade="B">B Silver</span>
     </div>
-    <p class="grade-desc">Static gradient (darker matte) · dark-slate text (#0f172a) · contrast ≈ 11.4:1 ✓</p>
+    <p class="grade-desc">Static gradient (darker matte) · dark-slate text · contrast ≈ 11.4:1 ✓</p>
     <div class="variant-strip" id="strip-B"></div>
   </section>
 
-  <!-- ── C — Bronze ────────────────────────────────────────────────── -->
+  <!-- C · Bronze -->
   <section class="grade-section" id="grade-C">
     <div class="grade-heading">
-      <h2>C — Bronze</h2>
+      <h2>C · Bronze</h2>
       <span class="grade-notch-preview" data-trust-grade="C">C Bronze</span>
     </div>
-    <p class="grade-desc">Static gradient (tarnished) · light-warm text (#fffbeb) · contrast ≈ 4.8:1 ✓</p>
+    <p class="grade-desc">Static gradient (tarnished) · light-warm text · contrast ≈ 4.8:1 ✓</p>
     <div class="variant-strip" id="strip-C"></div>
   </section>
 
-  <!-- ── Ungraded — no notch ───────────────────────────────────────── -->
+  <!-- Ungraded: no notch -->
   <section class="ungraded-section" id="grade-none">
-    <h2>Ungraded — no notch rendered</h2>
+    <h2>Ungraded</h2>
     <p class="grade-desc">overallTrustGrade: null / "ungraded" — zero markup emitted</p>
     <div class="variant-strip" id="strip-none"></div>
   </section>
