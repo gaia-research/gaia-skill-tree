@@ -54,6 +54,21 @@ gaia dev evidence skill-id "url" --class B
 
 **All meta shifts (merging, splitting, adding skills, adding evidence) MUST be done via CLI commands.** Manual edits to `registry/nodes/` are deprecated to ensure programmatic schema integrity and automated timeline logging. AI agents must prioritize these tools over direct file manipulation.
 
+### CLI Pre-Flight Rule (CRITICAL — added 2026-06-20)
+
+**Every mutating `gaia dev` subcommand MUST validate the schema invariant it would produce BEFORE writing.** A CLI that lets an agent ship a state that fails CI is a CLI that the next agent will work around — and around, and around. Each gap erodes the registry; the cumulative drift is irreversible.
+
+When adding or extending a `gaia dev` verb, the implementation must:
+
+1. **Check the schema constraint** that would be violated by the proposed write. Examples:
+   - `update-named --status named` requires `title` or `catalogRef` (frontmatter or via flag) — reject with a clear error if missing rather than writing a state that fails `gaia validate`.
+   - `dev evidence` numeric flags must validate ranges before writing.
+   - `dev calibrate` to a 3★+ level must check the skill has a verified `links.github` blob URL (META.md §2.4 "Star Bar").
+2. **Surface the gap, don't paper over it.** If the CLI cannot satisfy the request without producing an invalid state, error out with the path to the right command. NEVER fall back to direct frontmatter edits — those skip timeline logging (META.md §5 transparency mandate) and pollute the audit trail.
+3. **If the right command does not exist**, file an issue tagged `CLI` + `tech-debt` describing the gap. Do not let a coding agent "work around it" — that's how the registry got 14 broken-state mattpocock skills past local validate (PR #754 retro, 2026-06-20).
+
+This rule is non-negotiable. The CLI is the canonical mutation interface; if it lets bad states through, the gap is the bug, not the agent that hit it.
+
 ### Skill-Tree Timeline — Strict CLI-Only
 
 Every change to a user's `skill-trees/<username>/skill-tree.json` **must** be accompanied by a timeline event so progression history is auditable. Use the CLI — never hand-edit the `timeline` array.
