@@ -64,8 +64,11 @@ timeline:
   contributor: unknown
   details: 'Graded evidence from https://open.fda.gov/apis/drug/event/ as B (trustNumber:
     75.0)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -75,7 +78,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 85523a0c60147fd0080fc151d48c6019d25431a57115f0cb7a9192897f54be70
+trustMagnitudeInputHash: cd27c08ced223785f8d45964ddc1ecd9005cbd91337a26552799b080847aa7f9
 verification:
   firstEvidenceAt: '2026-06-19T17:06:55Z'
 ---

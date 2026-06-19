@@ -56,6 +56,9 @@ timeline:
   contributor: unknown
   details: 'Graded evidence from https://github.com/garrytan/gstack as A (trustNumber:
     85.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:01Z'
+  details: TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/document-generate/SKILL.md
@@ -81,11 +84,11 @@ evidence:
   stars: 110930
   skillCountInRepo: 42
   sourceStartedAt: '2024-01-01'
-trustMagnitude: 36.0
-overallTrustGrade: C
+trustMagnitude: 63.73
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
@@ -94,7 +97,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:27Z'
-trustMagnitudeInputHash: bf8b1376d2e28e35115798fc3d8c263aee391cc9bfd81b068b5f5bd83067ec24
+trustMagnitudeInputHash: 9a183ef2d178af58b29d15dddffe7a618a3bfa827b6e3594f4aa80c48f6e428c
 ---
 
 ## Overview

@@ -56,6 +56,9 @@ timeline:
   contributor: unknown
   details: 'Graded evidence from https://github.com/GLINCKER/claude-code-marketplace
     as B (trustNumber: 60.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:01Z'
+  details: TM 1.22 -> 6.22, grade ungraded -> ungraded (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md
@@ -78,7 +81,7 @@ evidence:
   notes: GLINCKER claude-code-marketplace — 32 GitHub stars; readme-generator skill
     included in marketplace
   sourceStartedAt: '2025-01-01'
-trustMagnitude: 1.22
+trustMagnitude: 6.22
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -91,7 +94,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
-trustMagnitudeInputHash: e56318149ba55f7176dc825480b36688ac1a80737801f420a45b204948231fb1
+trustMagnitudeInputHash: 07ab0eb5da249713d7bf31d24b345a2451e7cacd5eae1369b8955f6a03e0da2c
 ---
 
 ## Overview

@@ -62,18 +62,21 @@ timeline:
   contributor: unknown
   details: 'Graded evidence from https://www.nature.com/articles/s41587-025-02659-z
     as A (trustNumber: 85.0)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 7fdcff4503f5b5ef7057d2b179cd42c1aab506090a85692bdcb00279dbc87432
+trustMagnitudeInputHash: aaa007cacad69b64ea41fa8ee4d7eb616169475e03ad25c6bbdbd5301f688223
 verification:
   firstEvidenceAt: '2026-06-19T17:06:46Z'
 ---

@@ -63,8 +63,11 @@ timeline:
   action: evidence_graded
   contributor: unknown
   details: 'Graded evidence from https://openalex.org/about as B (trustNumber: 78.0)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -74,7 +77,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 4a67d13d7e09755275ae1a26d17574a7840f5d0c161f476796cd4f093d998e83
+trustMagnitudeInputHash: 0bd8ed800e255c7aa45f871f228c1e54c3c0adda5f7c9b582c110be21b80d513
 verification:
   firstEvidenceAt: '2026-06-19T17:06:49Z'
 ---

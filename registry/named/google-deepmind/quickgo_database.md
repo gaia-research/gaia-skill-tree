@@ -65,18 +65,21 @@ timeline:
   contributor: unknown
   details: 'Graded evidence from https://pmc.ncbi.nlm.nih.gov/articles/PMC12807639/
     as A (trustNumber: 85.0)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: f0d0d0bfe770a6521b6b8a03487f629e2415d9aaaf65685953d089086fb65b20
+trustMagnitudeInputHash: f775e5276f956557ea7473ce3cffd8b0ee4de59694aa61bde8d172d656a62ef5
 verification:
   firstEvidenceAt: '2026-06-19T17:05:48Z'
 ---

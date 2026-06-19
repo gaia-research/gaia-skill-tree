@@ -63,18 +63,21 @@ timeline:
   contributor: unknown
   details: 'Graded evidence from https://academic.oup.com/nar/article/53/D1/D1516/7903365
     as A (trustNumber: 85.0)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 71b4e06ee61109b71fee4c81efd9c8473db134230658cd96f51e91dcf23e5ce1
+trustMagnitudeInputHash: 9628973e66bc1b5f94eda26b168eec00aea477114e2ca118d2a6073ef61934fb
 verification:
   firstEvidenceAt: '2026-06-19T17:05:44Z'
 ---

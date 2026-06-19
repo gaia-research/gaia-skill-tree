@@ -139,19 +139,22 @@ timeline:
   contributor: unknown
   details: 'Graded evidence from https://www.youtube.com/watch?v=biRI-nZ0BDw as A
     (trustNumber: 82.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:04Z'
+  details: TM 36.0 -> 96.09, grade C -> B (direct edit -- CLI gap)
 suiteRef: ruvnet/ruflo
-trustMagnitude: 36.0
-overallTrustGrade: C
+trustMagnitude: 96.09
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 75b57943237ab9900e4c3f11c4ca7a30fc4994f8513b6e8dbe043bcb6f2c7962
+trustMagnitudeInputHash: 5198a4f070e375309b15820509f885ed2476684a5532a19d63aa1af6883579fc
 verification:
   firstEvidenceAt: '2026-06-19T16:48:26Z'
 ---

@@ -73,7 +73,10 @@ timeline:
   contributor: unknown
   details: 'Graded evidence from https://github.com/intelligentcode-ai/skills as B
     (trustNumber: 60.0)'
-trustMagnitude: 1.3
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:03Z'
+  details: TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+trustMagnitude: 6.3
 overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -84,7 +87,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 5346f585d2c4cd77c10607ed220c72f6829522d27b43e8c9df9e0582397e561a
+trustMagnitudeInputHash: 0512b7b95ce24b2fef04cfd3e94c72318d4d57b05c5d1ec6f0587e6939c4f2a3
 verification:
   firstEvidenceAt: '2026-06-19T17:10:48Z'
 ---

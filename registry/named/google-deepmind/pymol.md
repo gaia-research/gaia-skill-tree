@@ -64,18 +64,21 @@ timeline:
   contributor: unknown
   details: 'Graded evidence from https://pymol.org/support.html as A (trustNumber:
     80.0)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: 8da6efc7b2af255267c4a98afac2387ea51ac87ae842d7188aa0492aa6f9b055
+trustMagnitudeInputHash: 4c017577f2c3dc460521a4f0f190b6826ff363a97d7ef01686b303305185e814
 verification:
   firstEvidenceAt: '2026-06-19T17:06:54Z'
 ---

@@ -67,6 +67,9 @@ timeline:
   contributor: unknown
   details: 'Graded evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg as A
     (trustNumber: 82.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:03Z'
+  details: TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md
@@ -101,11 +104,11 @@ evidence:
     mattpocock/skills repo (verified 2026-06-20)
   views: 412000
   sourceStartedAt: '2025-01-01'
-trustMagnitude: 11.21
-overallTrustGrade: ungraded
+trustMagnitude: 90.38
+overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
@@ -114,7 +117,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:17Z'
-trustMagnitudeInputHash: 71225e279e7726a2ff06e1942a8e50ae29b6fd065eeb670f29c95201712fb452
+trustMagnitudeInputHash: 991dc9dc09633b202ec9657470e5c24b81e22590d0e1f97f4b73cfe4d59376d9
 ---
 
 ## Overview

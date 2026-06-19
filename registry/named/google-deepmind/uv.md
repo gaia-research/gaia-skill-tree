@@ -61,8 +61,11 @@ timeline:
   contributor: unknown
   details: 'Graded evidence from https://github.com/astral-sh/uv as B (trustNumber:
     78.0)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -72,7 +75,7 @@ apexGateStatus:
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: c9c219ada303ecd1290d9e3d45bb5430148fef58ae97375a14d30e7398ce8d3a
+trustMagnitudeInputHash: 1e681dd683e378e65adadcc58e92dd0560095480fea01e7c5d82c251c2c403e6
 verification:
   firstEvidenceAt: '2026-06-19T17:06:52Z'
 ---

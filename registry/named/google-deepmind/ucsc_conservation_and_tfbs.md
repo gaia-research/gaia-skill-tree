@@ -64,18 +64,21 @@ timeline:
   contributor: unknown
   details: 'Graded evidence from https://genome.cshlp.org/content/17/12/1797 as A
     (trustNumber: 82.0)'
-trustMagnitude: 10.82
-overallTrustGrade: ungraded
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T17:13:02Z'
+  details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+trustMagnitude: 100.82
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
-  sourceTenureDaysGte180AorS: false
+  sourceTenureDaysGte180AorS: true
   directNestedSuiteGte1: false
   depth2OnlyReachableGte1: false
   overallGradeS: false
   apexPromotionPrSigned: false
   crossOrgVerifier: null
   systemWideCap: null
-trustMagnitudeInputHash: e7b88216ae47f14c90ef92ca635dacd288df492fa187df29371abcd2982f191d
+trustMagnitudeInputHash: 05fbaa7ec5279eaf658677e37dc562f4f3c6cc42f4c5dafb401f1593d372f3f8
 verification:
   firstEvidenceAt: '2026-06-19T17:06:59Z'
 ---
