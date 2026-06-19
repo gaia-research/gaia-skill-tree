@@ -1,0 +1,90 @@
+FLOOR (20):
+  garrytan/benchmark TM=36.0
+  garrytan/canary TM=36.0
+  garrytan/cso TM=36.0
+  garrytan/design-consultation TM=36.0
+  garrytan/design-html TM=36.0
+  garrytan/design-shotgun TM=36.0
+  garrytan/document-generate TM=36.0
+  garrytan/investigate TM=36.0
+  garrytan/land-and-deploy TM=36.0
+  garrytan/plan-ceo-review TM=36.0
+  garrytan/plan-design-review TM=36.0
+  garrytan/plan-devex-review TM=36.0
+  garrytan/qa TM=36.0
+  garrytan/review TM=36.0
+  garrytan/ship TM=36.0
+  garrytan/skillify TM=36.0
+  obra/dispatching-parallel-agents TM=36.0
+  ruvnet/hive-mind-coordination TM=36.0
+  mattpocock/ubiquitous-language TM=11.21
+  xquik-dev/hermes-tweet TM=6.12
+
+UNGRADED with TM>0 (curate to push to C):
+  mattpocock/diagnose TM=11.21
+  mattpocock/edit-article TM=11.21
+  mattpocock/obsidian-vault TM=11.21
+  mattpocock/to-issues TM=11.21
+  mattpocock/ubiquitous-language TM=11.21
+  google-deepmind/embl_ebi_ols TM=10.82
+  google-deepmind/encode_ccres_database TM=10.82
+  google-deepmind/ensembl_database TM=10.82
+  google-deepmind/foldseek_structural_search TM=10.82
+  google-deepmind/human_protein_atlas_database TM=10.82
+  google-deepmind/interpro_database TM=10.82
+  google-deepmind/jaspar_database TM=10.82
+  google-deepmind/literature_search_europepmc TM=10.82
+  google-deepmind/literature_search_openalex TM=10.82
+  google-deepmind/ncbi_sequence_fetch TM=10.82
+  google-deepmind/openfda_database TM=10.82
+  google-deepmind/opentargets_database TM=10.82
+  google-deepmind/protein_sequence_similarity_search TM=10.82
+  google-deepmind/pubchem_database TM=10.82
+  google-deepmind/pymol TM=10.82
+  google-deepmind/quickgo_database TM=10.82
+  google-deepmind/reactome_database TM=10.82
+  google-deepmind/science_skills_common TM=10.82
+  google-deepmind/ucsc_conservation_and_tfbs TM=10.82
+  google-deepmind/unibind_database TM=10.82
+  google-deepmind/uv TM=10.82
+  google-deepmind/workflow_skill_creator TM=10.82
+  xquik-dev/hermes-tweet TM=6.12
+  martin-stepanoski/nielsen-heuristics-audit TM=4.9
+  intelligentcode-ai/database-engineer TM=1.3
+  intelligentcode-ai/devops-engineer TM=1.3
+  intelligentcode-ai/mcp-client TM=1.3
+  intelligentcode-ai/parallel-execution TM=1.3
+  intelligentcode-ai/release TM=1.3
+  intelligentcode-ai/requirements-engineer TM=1.3
+  intelligentcode-ai/security-engineer TM=1.3
+  intelligentcode-ai/user-tester TM=1.3
+  bradautomates/claude-video TM=1.22
+  glincker/readme-generator TM=1.22
+
+UNGRADED with TM=0 (62, deepest gap):
+  0xdarkmatter/pytest-patterns
+  Taoidle/plan-decompose-gh-plan-cascade
+  browserbase/stagehand
+  changkun/plan-decompose-gh-wallfacer
+  gaiabot/gaia-triage
+  gooseworks/notte-browser
+  huggingface/hf-cli
+  huggingface/huggingface-datasets
+  huggingface/huggingface-llm-trainer
+  huggingface/huggingface-papers
+  huggingface/huggingface-vision-trainer
+  huggingface/transformers-js
+  langgenius/backend-code-review
+  langgenius/component-refactoring
+  langgenius/e2e-cucumber-playwright
+  langgenius/frontend-code-review
+  langgenius/frontend-testing
+  mattpocock/ask-matt
+  mattpocock/codebase-design
+  mattpocock/diagnosing-bugs
+  mattpocock/domain-modeling
+  mattpocock/git-guardrails-claude-code
+  mattpocock/grilling
+  mattpocock/implement
+  mattpocock/migrate-to-shoehorn
+  ... and 37 more
