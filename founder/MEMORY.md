@@ -19,6 +19,33 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 - **2026-06-10** — Workstream A reframed: no implementation handover until Trust Model RFC settles (ranks + evidence grading vs numeric scores).
 - **2026-06-10** — #637 scope per Marco's comment: #635 covers `gaia tree`/`gaia graph`; everything else except `gaia skills` stays RFC.
 - **2026-06-10** — Trust implementation finalized: bands S≥90/A≥80/B≥60/C≥40/ungraded<40; `class` removed at next major; type values kebab-case (`github-stars`); suite ultimate gate = pillar rule (≥3 evidenced components, ≥1 S + ≥2 A, floor C) with a recalibration RFC due ~1 month post-ship; verification workflow = issue #658 (standalone, tenure 30d).
+- **2026-06-19** — All 6 individual Phase 1.5 PRs (#732–#738) closed; consolidated into single draft PR #742 (`dev/phase-1.5-inspection → main`). Do not open individual PRs again.
+- **2026-06-19** — I8 notch design: Marco changed spec from bottom-right corner stamp to centered footer row. Grade name removed; TM number shown instead (e.g. `A · 47`). Visual inspection required before merge.
+- **2026-06-19** — `generateNamedIndex.py` uses legacy grading (S≥90/A≥80), diverging from G7 RFC (S≥250/A≥100). Frontmatter is canonical. Follow-up issue needed to align index generator.
+
+## State Snapshot (2026-06-19, session 11 — I9 + I8 dispatched, PRs opened, impeccable corrections running)
+
+- **Repo:** `main` @ **v4.11.0** (unchanged — no merges to main this session).
+- **PRs open:**
+  - #742 (draft) — `dev/phase-1.5-inspection → main` — consolidation PR, DO NOT MERGE yet
+  - #744 — `review/meta/g7-evidence-backfill → dev/phase-1.5-inspection` — I9 evidence backfill, 7 commits, ready to merge
+  - #743 (draft) — `design/trust-grade-notch → dev/phase-1.5-inspection` — I8 notch design, HOLD for Marco visual inspection
+- **Individual PRs #732–#738 all closed** — superseded by #742.
+- **I9 complete (PR #744):** 25 evidence rows added via CLI, scorer alias `repo→repo-own` added, migration re-run. TM non-zero for 12 skills. Frontmatter grades correct. Index grade stale (architectural gap — documented in PR).
+- **I8 design corrections running (impeccable agent):** 4 fixes in progress — TM number instead of grade name, centered footer position, platinum iridescent titanium + dark silver colors, deprecated CLASS A chip removal from settled+OG.
+- **Architectural gap (follow-up issue needed):** `generateNamedIndex.py` calls `grading.overall_trust_grade()` (legacy thresholds S≥90/A≥80) instead of reading frontmatter `overallTrustGrade`. Display layer should prefer frontmatter. Index will be stale for new-type evidence rows until fixed.
+- **CLI gaps surfaced by I9:**
+  1. `gaia dev evidence` has no `--stars` / `--citations` flags — numeric scoring fields injected via workaround (URL suffix for dedup)
+  2. `merge_evidence()` deduplicates by `source` URL only — `github-stars-own` and `repo-own` for same repo collide without URL differentiation
+- **Next steps after I8 visual inspection:**
+  1. Merge I9 (#744) into `dev/phase-1.5-inspection`
+  2. Merge I8 (#743) into `dev/phase-1.5-inspection` after Marco signs off
+  3. Run final CI check on `dev/phase-1.5-inspection`
+  4. Open follow-up issue: align `generateNamedIndex.py` to read frontmatter grades
+  5. Mark PR #742 ready for merge
+- **Token spend (session 11):** Sonnet orchestrator ~15k in / ~6k out ~$0.25. I9 agent ~142k / ~$0.65. I8 agent ~151k / ~$0.65. Impeccable agent running. Total session ~$1.55+. Cumulative G7: **~$21.27+**.
+
+
 
 ## State Snapshot (2026-06-19, session 10 — evidence audit, dev/* consolidation complete, I9 designed)
 
