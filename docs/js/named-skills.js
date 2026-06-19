@@ -624,6 +624,7 @@
         if (viewMode === 'flow') {
           grid.className = 'ns-grid-flow';
           grid.innerHTML = renderFlowchartView(filtered);
+          if (typeof window._wireTrustNotches === 'function') window._wireTrustNotches(grid);
           // Flow markers mirror the DAG rank tiers present (apex-first = visual
           // top, matching the column-reverse layout). renderFlowchartView
           // records them on window._gaiaFlowRanks.
@@ -704,6 +705,7 @@
 
         grid.className = viewMode === 'list' ? 'ns-grid-list' : 'ns-grid-tile';
         grid.innerHTML = html;
+        if (typeof window._wireTrustNotches === 'function') window._wireTrustNotches(grid);
         publishExplorerMarkers(markers);
       }
 
