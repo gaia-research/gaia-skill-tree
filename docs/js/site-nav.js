@@ -17,7 +17,7 @@
   //   /u/                        → depth 1  → root = '../'
   //   /u/mbtiongson1/            → depth 2  → root = '../../'
   //
-  const MOUNTS = ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api'];
+  const MOUNTS = ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex'];
   const segs = window.location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
   const dir = /\.html?$/i.test(segs[segs.length - 1]) ? segs.slice(0, -1) : segs;
 
