@@ -63,7 +63,7 @@
       console.error('[ledger] failed to load', err);
       var body = document.getElementById('lbTableBody');
       if (body) {
-        body.innerHTML = '<tr><td colspan="8" class="lb-empty">Could not load data. ' +
+        body.innerHTML = '<tr><td colspan="6" class="lb-empty">Could not load data. ' +
           '<a href="' + DATA_URL + '">Try the raw JSON →</a></td></tr>';
       }
     });
@@ -151,7 +151,7 @@
     sortRowsInPlace(filtered, state.sort);
 
     if (filtered.length === 0) {
-      body.innerHTML = '<tr><td colspan="7" class="lb-empty">No skills match the current filter.</td></tr>';
+      body.innerHTML = '<tr><td colspan="6" class="lb-empty">No skills match the current filter.</td></tr>';
     } else {
       body.innerHTML = filtered.map(function (r, i) { return renderRow(r, i + 1); }).join('');
     }
@@ -191,7 +191,7 @@
       }
     }
 
-    var apexHtml = renderApex(r.apexResults, gradeRaw);
+    var apexInfo = renderApexInfo(r.apexResults, juneStars, gradeRaw);
 
     var tmText = (typeof r.tm === 'number' ? r.tm.toFixed(1) : esc(String(r.tm)));
 
@@ -208,30 +208,30 @@
           '<span class="lb-grade-pill" data-trust-grade="' + esc(gradeKey) + '">' + esc(gradeLabel) + '</span>' +
         '</td>' +
         '<td class="col-stars"><span class="lb-stars ' + mayCls + '" title="' + esc(mayTitle) + '">' + esc(mayStars) + '</span></td>' +
-        '<td class="col-g7"><span class="lb-stars ' + juneCls + '" title="' + esc(juneTitle) + '">' + esc(juneStars) + '</span></td>' +
-        '<td class="col-apex">' + apexHtml + '</td>' +
+        '<td class="col-g7"><span class="lb-stars ' + juneCls + '" title="' + esc(juneTitle) + '">' + esc(juneStars) + '</span>' + apexInfo + '</td>' +
       '</tr>';
   }
 
-  function renderApex(apexResults, grade) {
-    if (!apexResults || grade !== 'S') return '<span class="lb-apex-empty">—</span>';
+  function renderApexInfo(apexResults, juneStars, grade) {
+    // Apex info only meaningful for 5★+ skills (S-grade gate is enforced by builder).
+    if (!apexResults) return '';
+    var ord = STARS_ORDER.hasOwnProperty(juneStars) ? STARS_ORDER[juneStars] : -1;
+    if (ord < 5) return '';
+
     var keys = Object.keys(apexResults);
     var active = keys.filter(function (k) { return apexResults[k] !== null; });
+    if (active.length === 0) return '';
     var passed = active.filter(function (k) { return apexResults[k] === true; });
     var failed = active.filter(function (k) { return apexResults[k] === false; });
-    var isApex = active.length > 0 && passed.length === active.length;
+    var isApex = passed.length === active.length;
 
-    var label = passed.length + '/' + active.length;
-    var detail = '';
+    var lines = ['Apex eligibility: ' + passed.length + '/' + active.length + (isApex ? ' (apex)' : '')];
     if (failed.length) {
-      var shortFails = failed.map(function (k) { return APEX_LABELS[k] || k; }).slice(0, 2);
-      detail = ' <span class="lb-apex__detail">' + esc(shortFails.join(', ')) +
-               (failed.length > 2 ? '…' : '') + '</span>';
-    } else if (isApex) {
-      detail = ' <span class="lb-apex__detail">apex</span>';
+      lines.push('Missing: ' + failed.map(function (k) { return APEX_LABELS[k] || k; }).join(', '));
     }
-    var cls = isApex ? 'lb-apex lb-apex--apex' : (failed.length ? 'lb-apex lb-apex--fail' : 'lb-apex lb-apex--pass');
-    return '<span class="' + cls + '"><span class="lb-apex__count">' + label + '</span>' + detail + '</span>';
+    var title = lines.join('\n');
+    var cls = 'lb-apex-info' + (isApex ? ' lb-apex-info--apex' : '');
+    return ' <span class="' + cls + '" title="' + esc(title) + '" aria-label="' + esc(title) + '" tabindex="0">i</span>';
   }
 
   /* ── Sort ──────────────────────────────────────────────────── */
@@ -258,9 +258,6 @@
         case 'june':
           av = STARS_ORDER[a.juneStars || a.currentStars] != null ? STARS_ORDER[a.juneStars || a.currentStars] : -1;
           bv = STARS_ORDER[b.juneStars || b.currentStars] != null ? STARS_ORDER[b.juneStars || b.currentStars] : -1;
-          break;
-        case 'apex':
-          av = apexScore(a.apexResults); bv = apexScore(b.apexResults);
           break;
         default:
           av = 0; bv = 0;

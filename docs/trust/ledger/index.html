@@ -22,8 +22,9 @@
   <nav id="site-nav"></nav>
   <script src="../../js/mounts.js?v=5.0.7"></script>
   <script src="../../js/site-nav.js?v=5.0.7"></script>
+  <script src="../../js/ui.js?v=5.0.7"></script>
 
-  <main style="padding: 0 2rem; max-width: min(1680px, 96vw); margin: 0 auto;">
+  <main class="ledger-main">
 
     <!-- ─── BACK ─── -->
     <div class="tm-back-row">
@@ -73,15 +74,14 @@
           <tr>
             <th class="col-rank" data-col="rank">#</th>
             <th class="col-id" data-col="id">Skill ID</th>
-            <th class="col-tm" data-col="tm" data-default-dir="desc">Trust Magnitude</th>
+            <th class="col-tm" data-col="tm" data-default-dir="desc" title="Trust Magnitude — evidence-backed score">MAG</th>
             <th class="col-grade" data-col="grade">Grade</th>
             <th class="col-stars" data-col="may" title="Stars on the eve of the G7 cutover (2026-06-18) — pre-ratification meta">May</th>
             <th class="col-g7" data-col="june" title="Current stars under G7 — post-ratification meta">June</th>
-            <th class="col-apex" data-col="apex">Apex</th>
           </tr>
         </thead>
         <tbody id="lbTableBody">
-          <tr><td colspan="7" class="lb-empty">Loading…</td></tr>
+          <tr><td colspan="6" class="lb-empty">Loading…</td></tr>
         </tbody>
       </table>
     </div>
@@ -89,8 +89,8 @@
     <!-- ─── FOOTER LEDGER ─── -->
     <section class="lb-ledger" aria-label="Legend">
       <div class="lb-ledger__row">
-        <span class="lb-ledger__key">Trust Magnitude</span>
-        <span class="lb-ledger__val">S ≥ 250 · A ≥ 100 · B ≥ 50 · C ≥ 20. The arrow next to TM shows whether June stars rose, fell, or held vs. May. See <a href="../../codex/trust-methodology.html#quick-math">Quick Math Reference</a>.</span>
+        <span class="lb-ledger__key">MAG</span>
+        <span class="lb-ledger__val">Trust Magnitude — evidence-backed score. S ≥ 250 · A ≥ 100 · B ≥ 50 · C ≥ 20. The arrow next to MAG shows whether June stars rose, fell, or held vs. May. See <a href="../../codex/trust-methodology.html#quick-math">Quick Math Reference</a>.</span>
       </div>
       <div class="lb-ledger__row">
         <span class="lb-ledger__key">May / June</span>
@@ -98,11 +98,11 @@
       </div>
       <div class="lb-ledger__row">
         <span class="lb-ledger__key">Rank #</span>
-        <span class="lb-ledger__val"><strong>Not stored.</strong> The rank column is the row's display position under the active sort and filters — re-sorting renumbers every row. Skills are identified by ID and TM, not by rank.</span>
+        <span class="lb-ledger__val"><strong>Not stored.</strong> The rank column is the row's display position under the active sort and filters — re-sorting renumbers every row. Skills are identified by ID and MAG, not by rank.</span>
       </div>
       <div class="lb-ledger__row">
-        <span class="lb-ledger__key">Apex</span>
-        <span class="lb-ledger__val">Predicates passed / active for 6★ apex eligibility (<a href="../../codex/trust-methodology.html#apex-gate">RFC §11.12</a>). S-grade only.</span>
+        <span class="lb-ledger__key">Apex (i)</span>
+        <span class="lb-ledger__val">For 5★+ skills, an info icon appears beside the June stars showing predicates passed / active for 6★ apex eligibility (<a href="../../codex/trust-methodology.html#apex-gate">RFC §11.12</a>).</span>
       </div>
       <div class="lb-ledger__row lb-ledger__row--meta">
         <span class="lb-ledger__key">Updated</span>

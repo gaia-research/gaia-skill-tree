@@ -95,9 +95,6 @@
       SEAL_SVG +
       '<span class="nav-wordmark">Gaia</span>' +
     '</a>' +
-    '<button type="button" class="nav-search-btn-mobile" id="navSearchBtnMobile" aria-label="Search named" hidden>' +
-      '<svg class="ico" width="18" height="18" aria-hidden="true"><use href="' + root + 'assets/icons.svg#search"/></svg>' +
-    '</button>' +
     '<button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">' +
       '<span></span><span></span><span></span>' +
     '</button>' +

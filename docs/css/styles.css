@@ -550,18 +550,56 @@ nav ul.nav-primary {
   pointer-events: none;
 }
 
-/* Override the white !important hover above — keep tier hue. */
-.nav-more-menu li a:hover,
-.nav-more-menu li button:hover,
+/* Override the white !important hover above — keep tier hue.
+   Constrain the slide effect to true mouse-pointer environments — on
+   touch/mobile a tap fires :hover for one frame and the items appear
+   to "slide left" awkwardly. The plate-marker, glow, and color tween
+   are still applied to focus-visible (keyboard) on every device. */
+@media (hover: hover) and (pointer: fine) {
+  .nav-more-menu li a:hover,
+  .nav-more-menu li button:hover,
+  .nav-more-menu li a:focus-visible,
+  .nav-more-menu li button:focus-visible {
+    color: inherit !important;
+    letter-spacing: .03em;
+    transform: translateX(4px);
+    text-shadow: 0 0 10px currentColor, 0 0 22px currentColor;
+    background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, .03) 100%);
+  }
+}
 .nav-more-menu li a:focus-visible,
 .nav-more-menu li button:focus-visible {
   color: inherit !important;
-  letter-spacing: .03em;
-  transform: translateX(4px);
-  text-shadow: 0 0 10px currentColor, 0 0 22px currentColor;
-  background: linear-gradient(90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, .03) 100%);
+  text-shadow: 0 0 10px currentColor;
+}
+
+/* Belt-and-braces: at narrow widths the hover-slide reads as a glitch
+   even if the device claims `hover: hover` (e.g. a docked phone or a
+   touch laptop with mouse). Force-pin transform/letter-spacing under
+   700px so nothing slides regardless of pointer capability. */
+@media (max-width: 700px) {
+  .nav-more-menu li a,
+  .nav-more-menu li button,
+  .nav-more-menu li a:hover,
+  .nav-more-menu li button:hover,
+  .nav-more-menu li a:focus,
+  .nav-more-menu li button:focus,
+  .nav-more-menu li a:focus-visible,
+  .nav-more-menu li button:focus-visible,
+  nav.nav-open ul.nav-primary > li > a,
+  nav.nav-open ul.nav-primary > li > button,
+  nav.nav-open ul.nav-primary > li > a:hover,
+  nav.nav-open ul.nav-primary > li > button:hover,
+  nav.nav-open ul.nav-primary > li > a:focus,
+  nav.nav-open ul.nav-primary > li > button:focus,
+  nav.nav-open ul.nav-primary > li > a:focus-visible,
+  nav.nav-open ul.nav-primary > li > button:focus-visible {
+    transform: none !important;
+    letter-spacing: .01em !important;
+    background: transparent !important;
+  }
 }
 
 .nav-more-menu li a:hover::before,
@@ -1122,13 +1160,29 @@ nav.docs-nav:hover .nav-sep {
     display: none !important
   }
 
-  /* Lifted slightly to clear the field view toggle below it */
+  /* Mobile: tuck the report notification into the nav row beside the
+     hamburger, not floating over hero CTAs (it was covering the Trust
+     Ledger button). Compact icon+label, fixed to the top-right next to
+     the menu toggle (~38px wide + .9rem right + .25rem margin = ~3.5rem). */
   .hero-audit-btn {
-    top: 4.8rem;
-    right: 1rem;
-    padding: 0.8rem 1.2rem;
-    font-size: 0.85rem;
-    z-index: 101;
+    position: fixed;
+    top: .85rem;
+    right: 3.5rem;            /* clear the hamburger toggle */
+    bottom: auto;
+    left: auto;
+    padding: .35rem .55rem;
+    font-size: .68rem;
+    gap: .3rem;
+    z-index: 201;             /* above nav (z=200) */
+    box-shadow: 0 2px 8px rgba(0,0,0,.4);
+    background: rgba(0,0,0,.85);
+    backdrop-filter: blur(6px);
+  }
+  .hero-audit-btn span:first-of-type {  /* "Trust Model" label */
+    /* Keep the label visible on tablets, hide on the smallest screens */
+  }
+  .hero-audit-btn .hero-audit-btn-arrow {
+    display: none;            /* arrow is decorative — drop on mobile to save room */
   }
 }
 
@@ -7980,7 +8034,16 @@ code {
 
   .nav-menu-toggle {
     display: flex;
-    flex-shrink: 0
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    margin-right: -.25rem;
+    gap: 3px;
+    border-radius: 6px;
+  }
+  .nav-menu-toggle span {
+    width: 16px;
+    height: 1.5px;
   }
 
   nav ul.nav-primary {
@@ -7992,19 +8055,24 @@ code {
     position: fixed;
     left: 0;
     right: 0;
+    top: 0;                     /* full-height — needed because there are
+                                   ~13 items including the More group, more
+                                   than fit a half-screen sheet on small
+                                   phones (cut "More" items off the top). */
     bottom: 0;
-    top: auto;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1.5rem;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 0;
     background: #000;
     z-index: 9999;
-    padding: 2.5rem 2rem;
+    padding: 4rem 1.25rem 2rem;  /* clear the close (X) at top */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     transform: translateY(100%);
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    border-top: 1px solid var(--border);
-    border-radius: 20px 20px 0 0;
+    border-top: 0;
+    border-radius: 0;
   }
 
   /* Mobile: expand More dropdown to show all items */
@@ -8028,15 +8096,51 @@ code {
     min-width: unset;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: .25rem;
   }
 
   .nav-more-menu li a,
   .nav-more-menu li button {
-    padding: 0;
-    font-size: 1.4rem;
+    padding: .5rem .25rem;
+    font-size: .9rem;
     width: auto;
     text-align: center;
+  }
+
+  /* Mobile menu — kill the desktop ::before plate-marker, the translateX(4px)
+     slide-on-hover, and the tracking-widen that all together caused the
+     items to drift left and feel jittery. Keep the gentle color/glow only. */
+  nav.nav-open .nav-more-menu li a::before,
+  nav.nav-open .nav-more-menu li button::before {
+    display: none;
+  }
+  nav.nav-open .nav-more-menu li a,
+  nav.nav-open .nav-more-menu li button,
+  nav.nav-open ul.nav-primary > li > a,
+  nav.nav-open ul.nav-primary > li > button {
+    transition: color .2s ease, text-shadow .2s ease;
+    will-change: auto;
+  }
+  nav.nav-open .nav-more-menu li a:hover,
+  nav.nav-open .nav-more-menu li button:hover,
+  nav.nav-open .nav-more-menu li a:focus-visible,
+  nav.nav-open .nav-more-menu li button:focus-visible,
+  nav.nav-open ul.nav-primary > li > a:hover,
+  nav.nav-open ul.nav-primary > li > button:hover,
+  nav.nav-open ul.nav-primary > li > a:focus-visible,
+  nav.nav-open ul.nav-primary > li > button:focus-visible {
+    transform: none;
+    letter-spacing: .01em;
+    background: transparent;
+    text-shadow: 0 0 10px currentColor;
+  }
+  nav.nav-open .nav-menu-toggle {
+    width: 30px;
+    height: 30px;
+  }
+  nav.nav-open .nav-menu-toggle span {
+    width: 16px;
+    height: 1.5px;
   }
 
   nav.nav-open.active ul {
@@ -8056,12 +8160,12 @@ code {
   nav.nav-open ul li a,
   nav.nav-open ul li button {
     font-family: var(--font-display);
-    font-size: 1.4rem;
+    font-size: .95rem;
     font-weight: 500;
     color: var(--muted);
     display: block;
     width: 100%;
-    padding: .8rem;
+    padding: .55rem .25rem;
     text-decoration: none;
     background: transparent;
     border: none;

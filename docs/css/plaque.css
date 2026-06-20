@@ -1634,12 +1634,40 @@ button.plaque__slug:focus-visible {
   margin-left: calc(-1 * 32px);
   width: calc(100% + 2 * 32px);
   transition: none;
+  /* Mobile/medium: allow the bar to grow vertically so the long
+     "PLATINUM (S) · MAG xxx" label wraps or fits without overflow. */
+  height: auto !important;
+  min-height: 36px;
+  padding: 6px 12px;
 }
 .plaque--detail .trust-notch-label {
   opacity: 1 !important;
   font-size: 11px;
   letter-spacing: 0.14em;
   transition: none;
+  white-space: normal;          /* allow wrap on narrow screens */
+  text-align: center;
+  line-height: 1.25;
+  max-width: 100%;
+  word-break: break-word;
+}
+
+@media (max-width: 720px) {
+  .plaque--detail .trust-notch-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+}
+@media (max-width: 480px) {
+  .plaque--detail .trust-notch-label {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+  /* Drop the "PLATINUM (S) · " prefix on very narrow screens — the
+     plaque already shows the grade pill elsewhere. */
+  .plaque--detail .plaque__trust-notch .trust-notch-label::before {
+    content: "" !important;
+  }
 }
 /* In detail, the JS prepends the grade name via data-trust-grade attr */
 .plaque--detail .plaque__trust-notch[data-trust-grade="S"] .trust-notch-label::before { content: "PLATINUM (S) · "; }
@@ -3802,6 +3830,10 @@ button.plaque__slug:focus-visible {
   line-height: 1;
   pointer-events: none;
   user-select: none;
+  /* Don't burst out of narrow plaques on medium widths */
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .plaque:hover .trust-notch-label {
   opacity: 1;

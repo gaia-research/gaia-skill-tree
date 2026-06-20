@@ -7,8 +7,11 @@
  */
 
 /* ── Page container — full-bleed override of .process-page defaults ─── */
-.ledger-page main {
+.ledger-page main.ledger-main {
   width: 100%;
+  max-width: min(1680px, 96vw);
+  margin: 0 auto;
+  padding: 4.5rem 2rem 0;     /* top clears the fixed nav (~3.4rem tall) + breathing room */
 }
 
 /* Global `section { max-width: 1000px; margin: 0 auto; padding: 5rem 1.5rem }`
@@ -235,7 +238,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin: 1rem 0 1rem;
+  margin: 2.75rem 0 1.25rem;   /* breathing room before filters */
   padding: 0.85rem 1rem;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -459,10 +462,36 @@
   text-align: center;
 }
 
-.lb-table .col-apex {
-  text-align: left;
-  font-size: 0.72rem;
+/* ── (i) Apex info icon beside June stars (5★+ only) ─────── */
+.lb-apex-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.45em;
+  width: 1.1em;
+  height: 1.1em;
+  border-radius: 50%;
+  border: 1px solid var(--border);
   color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-style: italic;
+  font-weight: 600;
+  cursor: help;
+  transition: color 0.15s, border-color 0.15s;
+  vertical-align: 1px;
+}
+
+.lb-apex-info:hover,
+.lb-apex-info:focus-visible {
+  color: var(--text);
+  border-color: var(--text);
+  outline: none;
+}
+
+.lb-apex-info--apex {
+  color: var(--tier-ultimate);
+  border-color: var(--tier-ultimate);
 }
 
 /* ── Per-row grade pill (no circles) ───────────────────────── */
@@ -521,36 +550,9 @@
 .lb-flag--up    { color: var(--tier-extra); background: var(--tier-extra-bg); border: 1px solid var(--tier-extra-border); }
 .lb-flag-empty  { color: var(--border); }
 
-/* ── Apex cell ──────────────────────────────────────────────── */
-.lb-apex {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4em;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-}
-
-.lb-apex--pass { color: var(--tier-ultimate); }
-.lb-apex--fail { color: var(--muted); }
-
-.lb-apex__count {
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-
-.lb-apex__detail {
-  color: var(--muted);
-  font-size: 0.66rem;
-}
-
-.lb-apex--apex {
-  color: var(--tier-ultimate);
-  text-shadow: 0 0 6px rgba(var(--tier-ultimate-rgb), 0.5);
-}
-
-.lb-apex-empty {
-  color: var(--border);
-}
+/* ── Apex cell ──────────────────────────────────────────────
+   (Apex column was removed in favor of an inline (i) tooltip
+   beside June stars — see .lb-apex-info above.) */
 
 /* ── Empty state ────────────────────────────────────────────── */
 .lb-empty {
@@ -625,15 +627,88 @@
 
 /* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 720px) {
+  .ledger-page main.ledger-main {
+    padding: 4rem 0.85rem 0;       /* edge-to-edge feel on small screens */
+  }
+  .lb-hero {
+    min-height: auto;
+    padding-top: 1.75rem;
+    padding-bottom: 0.5rem;
+  }
+  .lb-hero h1 {
+    margin-bottom: 0.5rem;
+  }
+  .lb-hero .lb-rank-note {
+    font-size: 0.66rem;
+    padding: 0.35rem 0.55rem;
+    line-height: 1.4;
+  }
+  .lb-distribution {
+    margin: 0.75rem 0 1rem;
+    padding: 0.75rem 0.85rem;
+  }
   .lb-controls {
     flex-direction: column;
     align-items: stretch;
+    gap: 0.65rem;
+    margin: 1.75rem 0 1rem;        /* still has breathing room above */
+    padding: 0.7rem 0.75rem;
   }
   .lb-search {
     flex: 1 1 auto;
+    padding: 0.45rem 0.7rem;
   }
+  .lb-search input {
+    font-size: 0.78rem;
+  }
+  /* Filter pills: shrink, allow wrap so all 6 fit on 320–360px screens */
   .lb-filters {
-    align-self: flex-start;
+    align-self: stretch;
+    display: flex;
+    flex-wrap: wrap;
+    border: 0;
+    border-radius: 0;
+    overflow: visible;
+    gap: 0.3rem;
+  }
+  .lb-tab {
+    flex: 1 1 auto;
+    padding: 0.45rem 0.6rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+  .lb-tab:last-child {
+    border-right: 1px solid var(--border);
+  }
+  /* Table: smaller text + tighter cell padding so it fits without horizontal scroll */
+  .lb-table {
+    min-width: 0;
+    font-size: 0.72rem;
+  }
+  .lb-table thead th {
+    padding: 0.55rem 0.5rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+  }
+  .lb-table tbody td {
+    padding: 0.5rem 0.5rem;
+  }
+  .lb-table .col-rank {
+    width: 2rem;
+  }
+  .lb-table .col-id {
+    min-width: 8rem;
+  }
+  .lb-table .col-tm {
+    width: 5rem;
+    font-size: 0.78rem;
+  }
+  .lb-ledger {
+    margin: 1.5rem 0;
+    padding: 1rem 0.85rem;
+    font-size: 0.72rem;
   }
   .lb-ledger__row {
     grid-template-columns: 1fr;
