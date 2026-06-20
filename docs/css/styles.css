@@ -408,19 +408,26 @@ nav.docs-nav .nav-logo > span {
   will-change: transform, filter;
 }
 
-/* docs/en pages: site-nav (fixed, 54px) at top, then a breadcrumb strip
-   (.docs-nav) directly below. Pad the body so page content clears both. */
+/* docs/en pages: site-nav (fixed, 54px) at top. The legacy .docs-nav
+   element still exists in the markup but we transform it into a thin
+   breadcrumb strip directly below the site-nav, with the redundant
+   "Gaia ◆" logo and version chip removed (site-nav already shows the
+   logo). Only docs/en pairs site-nav with .docs-nav. */
 body:has(> nav#site-nav) {
   padding-top: 54px;
 }
 body:has(> nav#site-nav) nav.docs-nav {
-  position: static !important;   /* in-flow so it sits naturally below site-nav */
+  position: static !important;
   top: auto !important;
   z-index: auto !important;
 }
 body:has(> nav#site-nav) nav.docs-nav .nav-version,
-body:has(> nav#site-nav) nav.docs-nav .docs-nav-version {
-  display: none !important;      /* breadcrumbs replace the version chip */
+body:has(> nav#site-nav) nav.docs-nav .docs-nav-version,
+body:has(> nav#site-nav) nav.docs-nav .nav-logo,
+body:has(> nav#site-nav) nav.docs-nav .docs-nav-logo,
+body:has(> nav#site-nav) nav.docs-nav .docs-nav-sep:first-of-type,
+body:has(> nav#site-nav) nav.docs-nav .nav-sep:first-of-type {
+  display: none !important;
 }
 
 @media (max-width: 600px) {
@@ -8106,35 +8113,54 @@ code {
 
   /* Mobile: expand More dropdown to show all items */
   .nav-more-dropdown {
-    width: 100%;
-    display: block;
+    width: 100% !important;
+    display: block !important;
+    position: static !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
   }
 
   .nav-more-toggle {
-    display: none;
+    display: none !important;
   }
 
-  .nav-more-menu {
-    position: static;
+  .nav-more-menu,
+  nav.nav-open .nav-more-menu,
+  .nav-more-dropdown .nav-more-menu {
+    position: static !important;
     opacity: 1 !important;
     visibility: visible !important;
-    transform: none;
-    background: transparent;
-    border: none;
-    backdrop-filter: none;
-    padding: 0;
-    min-width: unset;
+    transform: none !important;
+    background: transparent !important;
+    border: none !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+    min-width: 0 !important;
     display: flex !important;
-    flex-direction: column;
-    gap: .25rem;
-    width: 100%;
-    list-style: none;
+    flex-direction: column !important;
+    gap: .25rem !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    list-style: none !important;
+    pointer-events: auto !important;
   }
 
   .nav-more-menu > li {
-    width: 100%;
-    display: block;
-    text-align: center;
+    width: 100% !important;
+    display: block !important;
+    text-align: center !important;
+    height: auto !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .nav-more-menu > li > a,
+  .nav-more-menu > li > button {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   .nav-more-menu li a,
