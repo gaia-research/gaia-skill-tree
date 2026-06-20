@@ -413,8 +413,9 @@
   // Field set: same as tile, laid horizontally. Description hidden via
   // CSS only — no silent field drops at the JS level.
   function renderRow(ns, opts) {
-    var evBadge = ns && ns.level
-      ? '<span class="plaque__ev-badge">' + esc(_evidenceClass(ns.level)) + '</span>'
+    var evText = _evidenceClass(ns);
+    var evBadge = evText
+      ? '<span class="plaque__ev-badge">' + esc(evText) + '</span>'
       : '';
     var inner =
       _fieldOrb(ns, 'sm') +
@@ -514,6 +515,11 @@
         _fieldGhLink(ns) +
       '</div>';
 
+    var evText = _evidenceClass(ns);
+    var evHtml = evText
+      ? '<div class="plaque__evidence plaque-evidence">' + esc(evText) + '</div>'
+      : '';
+
     var inner =
       header +
       _fieldSlug(ns) +
@@ -523,17 +529,18 @@
       _fieldTags(ns, 5) +
       _fieldRank(ns, 'stars') +
       _fieldInstallRow(ns) +
+      evHtml +
       '<div class="plaque__underline plaque-underline plaque-underline--settled"></div>';
 
     return _shell('settled', ns, inner, opts);
   }
 
-  function _evidenceClass(level) {
-    var n = levelNum(level);
-    if (n >= 4) return 'CLASS A';
-    if (n >= 3) return 'CLASS B';
-    if (n >= 2) return 'CLASS C';
-    return 'AWAITED';
+  function _evidenceClass(ns) {
+    var tg = (ns && (ns.overallTrustGrade || ns.trustGrade)) || '';
+    if (tg && tg !== 'ungraded') {
+      return 'GRADE ' + tg.toUpperCase();
+    }
+    return '';
   }
 
   // ── variant: og (HTML mock of the 1200×630 social card) ──────────

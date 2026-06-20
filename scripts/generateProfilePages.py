@@ -473,6 +473,11 @@ def plaque_settled_html(ns: dict, handle: str = "") -> str:
         + _field_gh_link(ns)
         + "</div>"
     )
+    tgVal = ns.get("overallTrustGrade") or ns.get("trustGrade") or ""
+    evHtml = ""
+    if tgVal and tgVal.lower() != "ungraded":
+        evHtml = f'<div class="plaque__evidence plaque-evidence">GRADE {html.escape(tgVal.upper())}</div>'
+
     inner = (
         header
         + _field_slug(ns)
@@ -481,7 +486,7 @@ def plaque_settled_html(ns: dict, handle: str = "") -> str:
         + _field_description(ns)
         + _field_tags(ns, 5)
         + _field_rank(ns, "stars")
-        + f'<div class="plaque__evidence plaque-evidence">{html.escape(evidence_class(ns.get("level", "")))}</div>'
+        + evHtml
         + '<div class="plaque__underline plaque-underline plaque-underline--settled"></div>'
         + _plaque_actions_html(ns, handle)
     )
