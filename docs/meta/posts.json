@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "id": "2026-06-21-per-evidence-row-grading-is-live",
+      "type": "report",
+      "date": "2026-06-21",
+      "title": "Per-Evidence Row Grading is Live",
+      "summary": "Evidence rows now carry individual S/A/B/C grades from per-type artifact_score floors. arxiv and peer-review are now S-capable — 33 rows upgraded in migration.",
+      "label": "Evidence Update",
+      "url": "meta/reports/2026-06-21-per-evidence-row-grading-is-live.html",
+      "author": "Gaia Registry",
+      "source": "docs/meta/2026-06-21-evidence-row-grading.md"
+    },
+    {
       "id": "2026-06-20-gaia-trust-infrastructure-a-june-2026-retrospective",
       "type": "report",
       "date": "2026-06-20",
