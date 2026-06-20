@@ -39,6 +39,7 @@
   // Single source of truth for formulas: window.TM_CONFIG (docs/js/tm-config.js).
   // Per-row, pre-weight, pre-plateau artifact magnitude.
   function _deriveTrustNum(ev) {
+    if (ev._noScore) return null;   // synthetic tile with backend-only score (e.g. fusion-recipe without graded map)
     if (ev.trustNumber != null) return ev.trustNumber;
     var TM = window.TM_CONFIG;
     if (!TM) {
@@ -834,8 +835,9 @@
         type: 'fusion-recipe',
         origins: suiteComponents,
         grade: ns.overallTrustGrade || null,
-        // trustNumber intentionally absent — let _deriveTrustNum compute from origins.length
-        // so the per-row score shows 15×N+5×√N, not the full skill TM.
+        // _noScore: true — fusion score requires graded origin lookup (backend-only).
+        // The frontend can't replicate it; show the tile as structural info only.
+        _noScore: true,
         _synthetic: true,
         _layer: 'named',
       });
@@ -937,7 +939,9 @@
             : '';
 
           // Ungraded: greyed-out missing treatment matching unnamed skill cards
-          var cardClass = 'se-ev-card' + (isUngraded ? ' se-ev-card--ungraded' : '');
+          // Richness drives collage width: wide if has notes/origins/many metrics, compact otherwise
+          var hasRichContent = !!(ev.notes || originsHtml || chips.length >= 2);
+          var cardClass = 'se-ev-card' + (isUngraded ? ' se-ev-card--ungraded' : '') + (hasRichContent ? ' se-ev-card--wide' : '');
 
           return '<div class="' + cardClass + '">' +
             '<div class="se-ev-card-body">' +
