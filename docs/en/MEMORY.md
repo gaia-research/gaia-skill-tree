@@ -2,6 +2,70 @@
 
 ---
 
+## 2026-06-20 — Routine 010
+
+**Branch:** `documentation`
+**Task chosen:** Routine version audit and update for English documentation folder (`docs/en/`).
+
+### Trigger
+
+User request / maintainer request to update version numbers to align with the release of v5.0.3.
+
+### What I did
+
+1. **Updated 12 HTML files in `docs/en/`**:
+   - Replaced old version references (e.g., `v4.7.12`, `v4.7.7`, `v4.7.6`, `v4.7.1`, `v4.7.0`, `v4.6.0`) with `v5.0.3` / `5.0.3`.
+   - Updated files: `cli-reference.html`, `contributing.html`, `evidence-classes.html`, `faq.html`, `fusion.html`, `getting-started.html`, `index.html`, `mcp-server.html`, `named-skills.html`, `share-bundles.html`, `skill-hierarchy.html`, and `timeline-audit.html`.
+2. **Updated `docs/en/MEMORY.md`**:
+   - Logged this entry as Routine 010.
+
+### Design decisions
+
+- Explicitly performed manual updates to version strings in `docs/en/` files because `scripts/patch_nav_footer.py` and `scripts/build_docs.py` do not process the English docs due to their custom navigation structure.
+
+### Files created / modified
+
+- `docs/en/MEMORY.md` (modified)
+- All 12 HTML files in `docs/en/` (modified)
+
+---
+
+## 2026-06-20 — Routine 009
+
+**Branch:** `documentation`
+**Task chosen:** Implement terminal copy window UI per flag in every section, update note typography colors, and refine table column widths.
+
+### Trigger
+
+User request to add terminal-style copy window UI for all section flags in `cli-reference.html` and improve text color contrast.
+
+### What I did
+
+1. **Updated `docs/en/cli-reference.html`**:
+   - Replaced simple flag text copying with a dynamic generator script that wraps flag text, parses command names, and constructs macOS-style terminal copy mockups (`.mini-terminal-copy`) inside flag cells.
+   - Designed interactive mini-terminals: traffic light control dots that light up on hover, custom clipboard copying, and success icon swap states (using inline SVGs for copy and checkmark icons).
+   - Configured `.mini-terminal-screen` with flex-wrap and responsive word-wrapping (`white-space: pre-wrap; word-break: break-all`) to keep commands fully visible at a glance.
+   - Refined tables by setting `max-width: 420px;` on the flag descriptions to improve widescreen line-length readability.
+   - Set all body text, introductions, page lead elements, and callout blocks to high-contrast white font (`#ffffff`) to ensure WCAG compliance.
+2. **Updated `docs/en/DOCS.md`**:
+   - Incorporated layout positioning constraints, white font accessibility rules, and interactive terminal-copy requirements into the Information Architecture & Design System guidelines.
+3. **Updated `docs/en/MEMORY.md`**:
+   - Logged this entry as Routine 009.
+
+### Design decisions
+
+- Decided to wrap flags in a `.flag-text` container to allow copying just the flag name when clicking the text itself, while clicking the mini-terminal copies the complete command invocation.
+- Allowed tables to size columns automatically to fit contents organically, avoiding awkward blank space on widescreen displays.
+- Integrated SVGs natively within the copy widgets instead of external webfonts to reduce layout shifts and guarantee cross-device compatibility.
+
+### Files created / modified
+
+- `docs/en/cli-reference.html` ← updated (mini-terminals, SVGs, style updates, layout overrides)
+- `docs/en/DOCS.md` ← updated (design rules, column widths, white text rules)
+- `docs/en/MEMORY.md` ← updated (this entry)
+
+---
+
 ## 2026-06-14 — Routine 008
 
 **Branch:** `docs/routines/008`
