@@ -11,7 +11,8 @@
 Queen-led collective intelligence with Byzantine, majority, and weighted consensus mechanisms, eight worker specializations, and persistent collective SQLite memory with LRU caching.
 
 ## Prerequisites
-_None._
+- [Swarm Topology Management](../basic/swarm-topology-management.md)
+- [Worker Agent Dispatch](../basic/worker-agent-dispatch.md)
 
 ## Unlocks
 _None._

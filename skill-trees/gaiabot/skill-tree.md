@@ -14,7 +14,7 @@
 | ○ Plan and Decompose | Basic Skill | 2★ | Named | gaia-registry/gaiabot-core | 2026-04-21 |
 | ○ Tool Select | Basic Skill | 2★ | Named | gaia-registry/gaiabot-core | 2026-04-22 |
 | ◇ Plan and Execute | Extra Skill | 3★ | Evolved | local-repo | 2026-04-26 |
-| ○ gaiabot/gaia-triage | Basic Skill | 2★ | Named | gaiabot/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ gaiabot/gaia-triage | Basic Skill | 1★ | Awakened | gaiabot/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ gaiabot/repo-docs-before-pr | Basic Skill | 2★ | Named | gaiabot/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ dify-agent-suite | Basic Skill | 2★ | Named | gaiabot/gaia-skill-tree | 2026-05-20T23:14:03Z |
 
@@ -293,7 +293,6 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
-  · ○ ruvnet/worker-integration  [2★]
 ```
 
 ## Pending Combinations

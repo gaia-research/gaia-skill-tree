@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "martin-stepanoski/nielsen-heuristics-audit",
-      "level": "2★",
+      "level": "3★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "martin-stepanoski/gaia-skill-tree",
       "combinedFrom": [],
@@ -12,6 +12,11 @@
         {
           "level": "2★",
           "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:30Z",
           "source": "promotion"
         }
       ]
@@ -25,6 +30,14 @@
       "details": "Registered named skill martin-stepanoski/nielsen-heuristics-audit",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:30Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
+      "skillId": "martin-stepanoski/nielsen-heuristics-audit"
     }
   ],
   "stats": {

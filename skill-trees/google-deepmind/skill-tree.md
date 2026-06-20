@@ -11,42 +11,42 @@
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
 | ○ google-deepmind/alphafold_database_fetch_and_analyze | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/alphagenome_single_variant_analysis | Basic Skill | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/chembl_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/clinical_trials_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/clinvar_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/dbsnp_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/embl_ebi_ols | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/encode_ccres_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/ensembl_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/foldseek_structural_search | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/gnomad_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/gtex_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/human_protein_atlas_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/interpro_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/jaspar_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/literature_search_arxiv | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/literature_search_biorxiv | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/literature_search_europepmc | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/literature_search_openalex | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/ncbi_sequence_fetch | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/openfda_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/opentargets_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/pdb_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/alphagenome_single_variant_analysis | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/chembl_database | Basic Skill | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/clinical_trials_database | Basic Skill | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/clinvar_database | Basic Skill | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/dbsnp_database | Basic Skill | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/embl_ebi_ols | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/encode_ccres_database | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/ensembl_database | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/foldseek_structural_search | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/gnomad_database | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/gtex_database | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/human_protein_atlas_database | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/interpro_database | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/jaspar_database | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/literature_search_arxiv | Basic Skill | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/literature_search_biorxiv | Basic Skill | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/literature_search_europepmc | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/literature_search_openalex | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/ncbi_sequence_fetch | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/openfda_database | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/opentargets_database | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/pdb_database | Basic Skill | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/protein_sequence_msa | Basic Skill | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/protein_sequence_similarity_search | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/pubchem_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/pubmed_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/pymol | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/quickgo_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/reactome_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/science_skills_common | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/string_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/ucsc_conservation_and_tfbs | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/unibind_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/uniprot_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/uv | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/workflow_skill_creator | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/protein_sequence_similarity_search | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/pubchem_database | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/pubmed_database | Basic Skill | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/pymol | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/quickgo_database | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/reactome_database | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/science_skills_common | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/string_database | Basic Skill | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/ucsc_conservation_and_tfbs | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/unibind_database | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/uniprot_database | Basic Skill | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/uv | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/workflow_skill_creator | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 
 ---
 
@@ -323,7 +323,6 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
-  · ○ ruvnet/worker-integration  [2★]
 ```
 
 ## Pending Combinations

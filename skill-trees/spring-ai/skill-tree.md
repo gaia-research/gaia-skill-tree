@@ -287,7 +287,6 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
-  · ○ ruvnet/worker-integration  [2★]
 ```
 
 ## Pending Combinations

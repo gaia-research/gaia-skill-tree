@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "glincker/readme-generator",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "glincker/gaia-skill-tree",
       "combinedFrom": [],
@@ -13,6 +13,11 @@
           "level": "2★",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:24Z",
+          "source": "demote"
         }
       ]
     }
@@ -25,6 +30,14 @@
       "details": "Registered named skill glincker/readme-generator",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:24Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "glincker/readme-generator"
     }
   ],
   "stats": {

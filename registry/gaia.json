@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "5.0.2",
-  "generatedAt": "2026-06-20T06:37:14.546147Z",
+  "generatedAt": "2026-06-20T06:39:53.800049Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -2938,7 +2938,10 @@
       "name": "Hive Mind Coordination",
       "type": "extra",
       "description": "Queen-led collective intelligence with Byzantine, majority, and weighted consensus mechanisms, eight worker specializations, and persistent collective SQLite memory with LRU caching.",
-      "prerequisites": [],
+      "prerequisites": [
+        "swarm-topology-management",
+        "worker-agent-dispatch"
+      ],
       "derivatives": [],
       "conditions": "Requires demonstrating queen-led multi-agent consensus across at least 3 specialized worker types.",
       "evidence": [],
@@ -14460,6 +14463,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "swarm-topology-management",
+      "targetSkillId": "distributed-consensus-coordination",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "system-integration",
       "targetSkillId": "platform-modernization-sprint",
       "edgeType": "prerequisite"
@@ -14692,6 +14700,11 @@
     {
       "sourceSkillId": "web-search",
       "targetSkillId": "web-scrape",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "worker-agent-dispatch",
+      "targetSkillId": "distributed-consensus-coordination",
       "edgeType": "prerequisite"
     },
     {

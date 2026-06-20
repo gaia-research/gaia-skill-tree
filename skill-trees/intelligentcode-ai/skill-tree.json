@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "intelligentcode-ai/database-engineer",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "intelligentcode-ai/gaia-skill-tree",
       "combinedFrom": [],
@@ -13,12 +13,17 @@
           "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:28Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "intelligentcode-ai/devops-engineer",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "intelligentcode-ai/gaia-skill-tree",
       "combinedFrom": [],
@@ -27,12 +32,17 @@
           "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:28Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "intelligentcode-ai/mcp-client",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "intelligentcode-ai/gaia-skill-tree",
       "combinedFrom": [],
@@ -41,12 +51,17 @@
           "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:28Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "intelligentcode-ai/parallel-execution",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "intelligentcode-ai/gaia-skill-tree",
       "combinedFrom": [],
@@ -55,12 +70,17 @@
           "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:29Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "intelligentcode-ai/release",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "intelligentcode-ai/gaia-skill-tree",
       "combinedFrom": [],
@@ -69,12 +89,17 @@
           "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:29Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "intelligentcode-ai/requirements-engineer",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "intelligentcode-ai/gaia-skill-tree",
       "combinedFrom": [],
@@ -83,12 +108,17 @@
           "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:29Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "intelligentcode-ai/security-engineer",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "intelligentcode-ai/gaia-skill-tree",
       "combinedFrom": [],
@@ -97,12 +127,17 @@
           "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:29Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "intelligentcode-ai/user-tester",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "intelligentcode-ai/gaia-skill-tree",
       "combinedFrom": [],
@@ -111,6 +146,11 @@
           "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:29Z",
+          "source": "demote"
         }
       ]
     }
@@ -179,6 +219,70 @@
       "details": "Registered named skill intelligentcode-ai/user-tester",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:28Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "intelligentcode-ai/database-engineer"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:28Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "intelligentcode-ai/devops-engineer"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:28Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "intelligentcode-ai/mcp-client"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:29Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "intelligentcode-ai/parallel-execution"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:29Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "intelligentcode-ai/release"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:29Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "intelligentcode-ai/requirements-engineer"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:29Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "intelligentcode-ai/security-engineer"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:29Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "intelligentcode-ai/user-tester"
     }
   ],
   "stats": {

@@ -10,18 +10,18 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ obra/brainstorming | Basic Skill | 2★ | Named | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ obra/dispatching-parallel-agents | Basic Skill | 4★ | Hardened | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ obra/executing-plans | Basic Skill | 2★ | Named | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ obra/brainstorming | Basic Skill | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ obra/dispatching-parallel-agents | Basic Skill | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ obra/executing-plans | Basic Skill | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/finishing-a-development-branch | Basic Skill | 2★ | Named | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/receiving-code-review | Basic Skill | 2★ | Named | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ obra/requesting-code-review | Basic Skill | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ obra/requesting-code-review | Basic Skill | 2★ | Named | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/subagent-driven-development | Basic Skill | 4★ | Hardened | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/superpowers | Basic Skill | 5★ | Transcendent | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ obra/systematic-debugging | Basic Skill | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ obra/using-git-worktrees | Basic Skill | 2★ | Named | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ obra/verification-before-completion | Basic Skill | 2★ | Named | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ obra/writing-plans | Basic Skill | 2★ | Named | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ obra/using-git-worktrees | Basic Skill | 4★ | Hardened | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ obra/verification-before-completion | Basic Skill | 3★ | Evolved | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ obra/writing-plans | Basic Skill | 4★ | Hardened | obra/gaia-skill-tree | 2026-05-18T00:00:00Z |
 
 ---
 
@@ -298,7 +298,6 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
-  · ○ ruvnet/worker-integration  [2★]
 ```
 
 ## Pending Combinations

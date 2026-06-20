@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ 0xdarkmatter/pytest-patterns | Basic Skill | 3★ | Evolved | 0xdarkmatter/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ 0xdarkmatter/pytest-patterns | Basic Skill | 1★ | Awakened | 0xdarkmatter/gaia-skill-tree | 2026-04-30T00:00:00Z |
 
 ---
 
@@ -287,7 +287,6 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
-  · ○ ruvnet/worker-integration  [2★]
 ```
 
 ## Pending Combinations

@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "0xdarkmatter/pytest-patterns",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "0xdarkmatter/gaia-skill-tree",
       "combinedFrom": [],
@@ -13,6 +13,11 @@
           "level": "3★",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:19Z",
+          "source": "demote"
         }
       ]
     }
@@ -25,6 +30,14 @@
       "details": "Registered named skill 0xdarkmatter/pytest-patterns",
       "previousValue": null,
       "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:19Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "1★",
+      "details": "Level updated from 3★ to 1★ per G7 final rankings calibration.",
+      "skillId": "0xdarkmatter/pytest-patterns"
     }
   ],
   "stats": {

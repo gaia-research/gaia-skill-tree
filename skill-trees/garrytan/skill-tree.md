@@ -10,51 +10,51 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ garrytan/benchmark-models | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/benchmark | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/benchmark-models | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/benchmark | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/browse | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/canary | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/careful | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/codex | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/canary | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/careful | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/codex | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/context-restore | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/context-save | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/cso | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-12T00:00:00Z |
-| ○ garrytan/design-consultation | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/design-html | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/design-review | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/design-shotgun | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-12T00:00:00Z |
-| ○ garrytan/devex-review | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/document-generate | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/cso | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-12T00:00:00Z |
+| ○ garrytan/design-consultation | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/design-html | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/design-review | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/design-shotgun | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-12T00:00:00Z |
+| ○ garrytan/devex-review | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/document-generate | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/document-release | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/freeze | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/garrytan | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-12T00:00:00Z |
 | ○ garrytan/gstack-upgrade | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/gstack | Basic Skill | 5★ | Transcendent | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/guard | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/health | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/investigate | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/land-and-deploy | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/guard | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/health | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/investigate | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/land-and-deploy | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/landing-report | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/learn | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/make-pdf | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/office-hours | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-12T00:00:00Z |
+| ○ garrytan/learn | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/make-pdf | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/office-hours | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-12T00:00:00Z |
 | ○ garrytan/open-gstack-browser | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/pair-agent | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/plan-ceo-review | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/plan-design-review | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/plan-devex-review | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/plan-eng-review | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/pair-agent | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/plan-ceo-review | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/plan-design-review | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/plan-devex-review | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/plan-eng-review | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/plan-tune | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/qa-only | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/qa | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/qa | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/retro | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/review | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/scrape | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/review | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/scrape | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/setup-browser-cookies | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/setup-deploy | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/setup-gbrain | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/ship | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/skillify | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/ship | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
+| ○ garrytan/skillify | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/sync-gbrain | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/unfreeze | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 
@@ -333,7 +333,6 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
-  · ○ ruvnet/worker-integration  [2★]
 ```
 
 ## Pending Combinations

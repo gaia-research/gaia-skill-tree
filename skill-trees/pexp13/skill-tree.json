@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "pexp13/sentiment-analysis",
-      "level": "2★",
+      "level": "4★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "pexp13/gaia-skill-tree",
       "combinedFrom": [],
@@ -12,6 +12,11 @@
         {
           "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-06-20T06:31:35Z",
           "source": "promotion"
         }
       ]
@@ -25,6 +30,14 @@
       "details": "Registered named skill pexp13/sentiment-analysis",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:35Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
+      "skillId": "pexp13/sentiment-analysis"
     }
   ],
   "stats": {

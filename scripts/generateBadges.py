@@ -497,6 +497,14 @@ def collect_contributors() -> dict[str, dict]:
                 continue
             per[handle]["named_skills"].append(entry)
 
+    # Also collect awakened/pre-named entries awaiting classification
+    awaiting = data.get("awaitingClassification", [])
+    for entry in awaiting:
+        handle = entry.get("contributor")
+        if not handle:
+            continue
+        per[handle]["named_skills"].append(entry)
+
     result: dict[str, dict] = {}
     for handle, info in per.items():
         skills = info["named_skills"]

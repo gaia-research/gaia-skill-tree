@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "garrytan/benchmark-models",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -13,12 +13,17 @@
           "level": "3★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:20Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/benchmark",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -27,6 +32,11 @@
           "level": "4★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:20Z",
+          "source": "demote"
         }
       ]
     },
@@ -46,7 +56,7 @@
     },
     {
       "skillId": "garrytan/canary",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -55,12 +65,17 @@
           "level": "4★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:21Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/careful",
-      "level": "2★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -69,12 +84,17 @@
           "level": "2★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:21Z",
+          "source": "promotion"
         }
       ]
     },
     {
       "skillId": "garrytan/codex",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -83,6 +103,11 @@
           "level": "3★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:21Z",
+          "source": "demote"
         }
       ]
     },
@@ -116,7 +141,7 @@
     },
     {
       "skillId": "garrytan/cso",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-12T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -125,12 +150,17 @@
           "level": "4★",
           "achievedAt": "2026-05-12T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:21Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/design-consultation",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -139,12 +169,17 @@
           "level": "4★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:21Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/design-html",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -153,12 +188,17 @@
           "level": "4★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:21Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/design-review",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -167,12 +207,27 @@
           "level": "3★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-02T23:45:09Z",
+          "source": "demote"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-03T05:51:38Z",
+          "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:21Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/design-shotgun",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-12T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -181,12 +236,17 @@
           "level": "4★",
           "achievedAt": "2026-05-12T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:21Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/devex-review",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -195,12 +255,27 @@
           "level": "3★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-02T23:45:09Z",
+          "source": "demote"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-03T05:51:38Z",
+          "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:21Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/document-generate",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -209,6 +284,11 @@
           "level": "4★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:22Z",
+          "source": "demote"
         }
       ]
     },
@@ -289,7 +369,7 @@
     },
     {
       "skillId": "garrytan/guard",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -298,12 +378,17 @@
           "level": "3★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:22Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/health",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -312,12 +397,17 @@
           "level": "3★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:22Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/investigate",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -326,12 +416,17 @@
           "level": "4★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:22Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/land-and-deploy",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -340,6 +435,11 @@
           "level": "4★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:22Z",
+          "source": "demote"
         }
       ]
     },
@@ -359,7 +459,7 @@
     },
     {
       "skillId": "garrytan/learn",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -368,12 +468,17 @@
           "level": "3★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:22Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/make-pdf",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -382,12 +487,27 @@
           "level": "3★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-02T23:45:10Z",
+          "source": "demote"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-03T05:51:38Z",
+          "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:22Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/office-hours",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-12T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -396,6 +516,11 @@
           "level": "4★",
           "achievedAt": "2026-05-12T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:22Z",
+          "source": "demote"
         }
       ]
     },
@@ -415,7 +540,7 @@
     },
     {
       "skillId": "garrytan/pair-agent",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -424,12 +549,17 @@
           "level": "3★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:22Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/plan-ceo-review",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -438,12 +568,17 @@
           "level": "4★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:23Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/plan-design-review",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -452,12 +587,17 @@
           "level": "4★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:23Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/plan-devex-review",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -466,12 +606,17 @@
           "level": "4★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:23Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/plan-eng-review",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -480,6 +625,11 @@
           "level": "4★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:23Z",
+          "source": "demote"
         }
       ]
     },
@@ -513,7 +663,7 @@
     },
     {
       "skillId": "garrytan/qa",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -522,6 +672,11 @@
           "level": "4★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:23Z",
+          "source": "demote"
         }
       ]
     },
@@ -541,7 +696,7 @@
     },
     {
       "skillId": "garrytan/review",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -550,12 +705,17 @@
           "level": "4★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:23Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/scrape",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -564,6 +724,11 @@
           "level": "3★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:23Z",
+          "source": "demote"
         }
       ]
     },
@@ -611,7 +776,7 @@
     },
     {
       "skillId": "garrytan/ship",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -620,12 +785,17 @@
           "level": "4★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:23Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "garrytan/skillify",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -634,6 +804,11 @@
           "level": "4★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:23Z",
+          "source": "demote"
         }
       ]
     },
@@ -1044,12 +1219,292 @@
       "newValue": "2★"
     },
     {
+      "timestamp": "2026-06-02T23:45:09Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Calibrated level from 3★ to 2★",
+      "skillId": "garrytan/design-review"
+    },
+    {
+      "timestamp": "2026-06-02T23:45:09Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Calibrated level from 3★ to 2★",
+      "skillId": "garrytan/devex-review"
+    },
+    {
+      "timestamp": "2026-06-02T23:45:10Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Calibrated level from 3★ to 2★",
+      "skillId": "garrytan/make-pdf"
+    },
+    {
       "timestamp": "2026-06-03T05:51:37Z",
       "action": "demote",
       "previousValue": "5★",
       "newValue": "4★",
       "details": "Calibrated level from 5★ to 4★",
       "skillId": "garrytan/garrytan"
+    },
+    {
+      "timestamp": "2026-06-03T05:51:38Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Calibrated level from 2★ to 3★",
+      "skillId": "garrytan/design-review"
+    },
+    {
+      "timestamp": "2026-06-03T05:51:38Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Calibrated level from 2★ to 3★",
+      "skillId": "garrytan/devex-review"
+    },
+    {
+      "timestamp": "2026-06-03T05:51:38Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Calibrated level from 2★ to 3★",
+      "skillId": "garrytan/make-pdf"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:20Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "skillId": "garrytan/benchmark-models"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:20Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/benchmark"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:21Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/canary"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:21Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/careful"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:21Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "skillId": "garrytan/codex"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:21Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/cso"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:21Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/design-consultation"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:21Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/design-html"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:21Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "skillId": "garrytan/design-review"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:21Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/design-shotgun"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:21Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "skillId": "garrytan/devex-review"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:22Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/document-generate"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:22Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "skillId": "garrytan/guard"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:22Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "skillId": "garrytan/health"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:22Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/investigate"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:22Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/land-and-deploy"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:22Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "skillId": "garrytan/learn"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:22Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "skillId": "garrytan/make-pdf"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:22Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/office-hours"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:22Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "skillId": "garrytan/pair-agent"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:23Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/plan-ceo-review"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:23Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/plan-design-review"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:23Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/plan-devex-review"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:23Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/plan-eng-review"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:23Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/qa"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:23Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/review"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:23Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "skillId": "garrytan/scrape"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:23Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/ship"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:23Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "garrytan/skillify"
     }
   ],
   "stats": {

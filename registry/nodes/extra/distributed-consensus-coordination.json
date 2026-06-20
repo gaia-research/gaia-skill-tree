@@ -3,7 +3,10 @@
   "name": "Hive Mind Coordination",
   "type": "extra",
   "description": "Queen-led collective intelligence with Byzantine, majority, and weighted consensus mechanisms, eight worker specializations, and persistent collective SQLite memory with LRU caching.",
-  "prerequisites": [],
+  "prerequisites": [
+    "swarm-topology-management",
+    "worker-agent-dispatch"
+  ],
   "derivatives": [],
   "conditions": "Requires demonstrating queen-led multi-agent consensus across at least 3 specialized worker types.",
   "evidence": [],
