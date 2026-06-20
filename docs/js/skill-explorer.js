@@ -35,15 +35,13 @@
     return String(num);
   }
 
-  // Derive a display trustNumber from magnitude drivers when trustNumber is absent.
-  // Single source of truth for formulas: window.TM_CONFIG (docs/js/tm-config.js).
-  // Per-row, pre-weight, pre-plateau artifact magnitude.
+  // Derive the pre-weight artifact magnitude (for tooltip chain display only).
+  // Returns the capped base magnitude — used as input to _deriveWeightedScore.
   function _deriveTrustNum(ev) {
-    if (ev._noScore) return null;   // synthetic tile with backend-only score (e.g. fusion-recipe without graded map)
+    if (ev._noScore) return null;
     if (ev.trustNumber != null) return ev.trustNumber;
     var TM = window.TM_CONFIG;
     if (!TM) {
-      // tm-config.js not loaded — legacy fallback so the UI doesn't blank
       var t0 = ev.type || '';
       if (t0 === 'github-stars' || t0 === 'github-stars-own') {
         if (ev.stars != null) return Math.min(200, parseFloat(ev.stars) / 1000).toFixed(1) * 1;
@@ -54,19 +52,11 @@
       }
       return null;
     }
-
     var t = TM.canonicalType(ev.type || '');
     var cfg = TM.TYPES[t];
     if (!cfg) return null;
-
-    // Driver-based path: invoke the type's describe() with the evidence row.
     var d = cfg.describe(ev);
-    if (d != null && d.value != null) {
-      var capped = TM.applyCap(t, d.value);
-      return Math.round(capped * 10) / 10;
-    }
-
-    // Fallback: human-graded row with no metric drivers — use the per-type grade floor.
+    if (d != null && d.value != null) return Math.round(TM.applyCap(t, d.value) * 10) / 10;
     var gradeChar = (ev.grade || ev.class || '').toUpperCase().charAt(0);
     if (gradeChar) {
       var floor = TM.gradeFloor(t, gradeChar);
@@ -75,6 +65,65 @@
     return null;
   }
 
+  // Derive the fully-weighted artifact score: base × weight × freshness × creator × engagement.
+  // This is what the MAG bar displays — the actual contribution before plateau stacking.
+  // Mirrors computeArtifactScoreOrNone() in trustMagnitude.py: prefer live formula over
+  // stored trustNumber, which may be stale from before formula changes.
+  function _deriveWeightedScore(ev) {
+    if (ev._noScore) return null;
+    var TM = window.TM_CONFIG;
+    if (!TM) return _deriveTrustNum(ev);
+
+    var t = TM.canonicalType(ev.type || '');
+    var cfg = TM.TYPES[t];
+    if (!cfg) return null;
+
+    // Get base (capped) magnitude — prefer live formula over stored trustNumber
+    var base = null;
+    var d = cfg.describe(ev);
+    if (d != null && d.value != null) {
+      base = TM.applyCap(t, d.value);
+    } else if (ev.trustNumber != null) {
+      // No metric drivers in ev — trustNumber is the best we have (may be stale)
+      return ev.trustNumber;
+    } else {
+      var gradeChar = (ev.grade || ev.class || '').toUpperCase().charAt(0);
+      base = gradeChar ? TM.gradeFloor(t, gradeChar) : null;
+    }
+    if (base == null) return null;
+
+    // × weight
+    var score = base * cfg.weight;
+
+    // × freshness
+    if (cfg.freshness && cfg.freshness.decayPerYear) {
+      var lv = ev.lastVerified || ev.date || null;
+      if (lv) {
+        var ageYrs = (Date.now() - new Date(lv).getTime()) / (1000 * 365.25 * 24 * 3600);
+        var ff = Math.max(0, 1 - cfg.freshness.decayPerYear * ageYrs);
+        score *= ff;
+      }
+    }
+
+    // × creator + engagement (social-signal)
+    if (t === 'social-signal') {
+      var cm = ev.creatorMultiplier != null ? Number(ev.creatorMultiplier) : 1.0;
+      var er = ev.engagementRatio   != null ? Number(ev.engagementRatio)   : 1.0;
+      score *= cm * er;
+    }
+
+    // × inheritMultiplier (generic-layer rows)
+    if (ev._layer === 'generic') {
+      var iContracts = {
+        'arxiv': 0.70, 'peer-review': 0.30, 'social-signal': 0.35,
+        'proxy-containment': 0.25, 'benchmark-result': 0.15
+      };
+      var im = iContracts[t];
+      if (im != null) score *= im;
+    }
+
+    return Math.round(score * 10) / 10;
+  }
   // Build a tooltip showing the FULL multiplier chain, mirroring inspectTrustMagnitude.py:
   //   base × weight × freshness [× mothership] [× creator] [× engagement] [× inheritMult] [× plateau] = final
   // All values read from window.TM_CONFIG — no hardcoded numbers.
@@ -160,9 +209,10 @@
           }
         }
 
-        // ≈ final  (approximation: pre-plateau, pre-freshness)
+        // ← MAG on bar = this value (pre-plateau; plateau applied at aggregate time)
         lines.push('');
-        lines.push('≈ final:       ' + (capped * cfg.weight).toFixed(2) + '  (pre-plateau, pre-freshness approximation)');
+        var weighted = Math.round(capped * cfg.weight * 10) / 10;
+        lines.push('= MAG ' + weighted.toFixed(1) + '  (displayed on card; pre-plateau approximation)');
 
       } else {
         var gc = (ev.grade || ev.class || '').toUpperCase().charAt(0);
@@ -323,31 +373,36 @@
             'Weighted aggregate Trust Magnitude across all evidence rows.',
           ];
 
-          // Per-row contributions from combinedEvidence (computed at render time)
-          // combinedEvidence is in scope via renderDocs closure — but renderHero is separate.
-          // Instead, derive from ns.evidence + generic.evidence directly here.
+          // Per-row contributions: use _deriveWeightedScore so each number matches the MAG bar
           var allEv = (ns.evidence || []).concat((generic ? generic.evidence : null) || []);
           if (allEv.length && TM_N) {
             tipLines.push('');
-            tipLines.push('Row contributions (artifact score × weight):');
+            tipLines.push('Row weighted scores (what each card\'s MAG bar shows):');
             var rowLines = [];
             allEv.forEach(function(ev) {
               if (!ev) return;
               var t = TM_N.canonicalType(ev.type || '');
               var cfg = TM_N.TYPES[t];
               if (!cfg) return;
-              var score = ev.trustNumber != null ? Number(ev.trustNumber) : null;
-              if (score == null) {
-                var d = cfg.describe(ev);
-                if (d != null && d.value != null) score = Math.round(TM_N.applyCap(t, d.value) * 10) / 10;
-              }
-              if (score == null) return;
-              var contrib = Math.round(score * cfg.weight * 10) / 10;
-              rowLines.push('  ' + cfg.label + ': ' + score + ' × ' + cfg.weight + ' = ' + contrib);
+              var weighted = _deriveWeightedScore(ev);
+              if (weighted == null) return;
+              rowLines.push('  ' + cfg.label + ': ' + weighted.toFixed(1));
             });
+            // Also synthesize fusion row if suiteComponents present
+            var suiteComps = ns.suiteComponents || [];
+            var hasFusionEv = allEv.some(function(e){ return (e.type||'') === 'fusion-recipe'; });
+            if (suiteComps.length && !hasFusionEv) {
+              var synFusion = { type: 'fusion-recipe', origins: suiteComps };
+              var fCfg = TM_N.TYPES['fusion-recipe'];
+              if (fCfg) {
+                var fWeighted = _deriveWeightedScore(synFusion);
+                if (fWeighted != null) rowLines.push('  fusion: ' + fWeighted.toFixed(1) + ' (raw count)');
+              }
+            }
             if (rowLines.length) {
               tipLines = tipLines.concat(rowLines);
-              tipLines.push('(Plateau & freshness discounts applied on top — see Trust Methodology for exact formula.)');
+              tipLines.push('Plateau & freshness discounts reduce final contributions.');
+              tipLines.push('Sum ≈ skill TM (before plateau stacking).');
             }
           }
 
@@ -972,13 +1027,14 @@
             }
           }
 
-          // MAG bar — shows per-row artifact score for this evidence row.
-          // (i) tooltip shows the formula derivation + the skill's aggregate TM for context.
-          var tmRaw = _deriveTrustNum(ev);    // per-row artifact score (pre-weight, pre-plateau)
-          var skillTm = ns.trustMagnitude || ns.overallTrustMagnitude || null;
-          var barGrade = trustGrade;          // row-level grade, not skill aggregate grade
-          var tmDisplay = tmRaw != null
-            ? (Number.isInteger(tmRaw) ? String(tmRaw) : parseFloat(tmRaw).toFixed(1))
+          // MAG bar — shows the fully-weighted artifact score (base × weight × freshness × …).
+          // (i) tooltip shows the full multiplier chain so users can verify each step.
+          var tmRaw      = _deriveTrustNum(ev);       // pre-weight base (used inside tooltip chain)
+          var tmWeighted = _deriveWeightedScore(ev);  // post-weight score — displayed on bar
+          var skillTm    = ns.trustMagnitude || ns.overallTrustMagnitude || null;
+          var barGrade   = trustGrade;
+          var tmDisplay  = tmWeighted != null
+            ? (Number.isInteger(tmWeighted) ? String(tmWeighted) : parseFloat(tmWeighted).toFixed(1))
             : '—';
           var magTooltipText = _magTooltip(ev, tmRaw, skillTm);
           var magBarHtml = '<div class="se-ev-mag-bar"' +
