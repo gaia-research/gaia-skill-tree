@@ -7,7 +7,7 @@ genericSkillRef: advanced-swarm-coordination
 status: named
 title: The Grand Swarm Master
 catalogRef: ruvnet-swarm-advanced
-level: 1★
+level: 2★
 description: Domain-specific swarm orchestration patterns for research, development,
   testing, and analysis workflows with neural learning and cross-session state persistence.
 links:
@@ -55,6 +55,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:37Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 1★ to 2★ per G7 final rankings calibration.
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

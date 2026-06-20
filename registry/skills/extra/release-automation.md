@@ -1,8 +1,7 @@
-# [intelligentcode-ai](../../../docs/u/intelligentcode-ai/)/release  [2★]
+# ████████/release
 **ID:** release-automation  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 2★  
 **Skill Call:** `/release-automation`
 
 ---
@@ -24,7 +23,7 @@ Requires write access to the repository and a configured release token.
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| intelligentcode-ai/release | intelligentcode-ai | 2★ | 2 |
+| intelligentcode-ai/release | intelligentcode-ai | 1★ | 2 |
 | ruvnet/github-release-management | ruvnet | 1★ | 0 |
 
 ## Evidence (inherited capability)

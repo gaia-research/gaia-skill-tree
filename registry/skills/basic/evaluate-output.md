@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/benchmark  [4★]
+# [garrytan](../../../docs/u/garrytan/)/benchmark  [3★]
 **ID:** evaluate-output  
 **Type:** Basic Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 4★  
+**Top named variant:** 3★  
 **Skill Call:** `/evaluate-output`
 
 ---
@@ -29,8 +29,8 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/benchmark | garrytan | 4★ | 2 |
-| garrytan/plan-ceo-review | garrytan | 4★ | 2 |
+| garrytan/benchmark | garrytan | 3★ | 2 |
+| garrytan/plan-ceo-review | garrytan | 3★ | 2 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

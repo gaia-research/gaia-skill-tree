@@ -7,7 +7,7 @@ genericSkillRef: question-answer
 status: named
 title: YC Office Hours
 catalogRef: garrytan-office-hours
-level: 4★
+level: 3★
 description: YC-style startup and builder brainstorming. Startup mode uses six forcing
   questions (demand reality, status quo, desperate specificity, narrowest wedge, observation,
   future-fit) to expose reality. Builder mode focuses on design thinking for side
@@ -73,6 +73,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:37Z'
   details: TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:22Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 66.0
 overallTrustGrade: B
 apexGateStatus:

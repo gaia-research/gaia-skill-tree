@@ -1,8 +1,8 @@
-# [ruvnet](../../../docs/u/ruvnet/)/agentdb  [5★]
+# [ruvnet](../../../docs/u/ruvnet/)/agentdb  [4★]
 **ID:** agent-memory-platform  
 **Type:** Ultimate Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 5★  
+**Top named variant:** 4★  
 **Skill Call:** `/agent-memory-platform`
 
 ---
@@ -26,7 +26,7 @@ Requires demonstrating all 5 AgentDB discipline skills in a production distribut
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| ruvnet/agentdb ⭑ | ruvnet | 5★ | 3 |
+| ruvnet/agentdb ⭑ | ruvnet | 4★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

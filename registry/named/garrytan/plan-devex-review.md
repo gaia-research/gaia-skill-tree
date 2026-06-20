@@ -7,7 +7,7 @@ genericSkillRef: ux-audit
 status: named
 title: Developer Experience Review
 catalogRef: garrytan-plan-devex-review
-level: 4★
+level: 3★
 description: Interactive multi-pass DX review for developer-facing products — APIs,
   CLIs, SDKs, and libraries — scoring eight UX dimensions from onboarding to error
   messaging via persona discovery and competitive benchmarking, producing an actionable
@@ -81,6 +81,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:01Z'
   details: TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:23Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 63.73
 overallTrustGrade: B
 apexGateStatus:

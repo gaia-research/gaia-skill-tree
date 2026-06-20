@@ -7,7 +7,7 @@ genericSkillRef: multi-agent-debate
 status: named
 title: Gstack Codex — Multi-Agent Code Debate
 catalogRef: garrytan-codex
-level: 3★
+level: 2★
 description: Spins up a structured Claude-versus-Codex debate over a proposed implementation,
   with each agent mounting adversarial critiques, to surface hidden design flaws before
   code lands.
@@ -56,6 +56,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:37Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:21Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 3★ to 2★ per G7 final rankings calibration.
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

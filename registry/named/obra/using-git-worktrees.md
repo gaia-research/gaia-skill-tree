@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: using-git-worktrees
 status: named
 title: The Isolated Workspace
-level: 2★
+level: 4★
 description: Ensures every piece of feature work begins in an isolated workspace —
   creating a native git worktree when available, falling back to tool-provided isolation
   otherwise.
@@ -126,6 +126,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T14:32:19Z'
   details: TM 117.65 -> 117.65, grade A -> A (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:34Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 4★ per G7 final rankings calibration.
 trustMagnitude: 117.65
 overallTrustGrade: A
 apexGateStatus:

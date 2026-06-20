@@ -7,7 +7,7 @@ genericSkillRef: design-review
 status: named
 title: Design Shotgun
 catalogRef: garrytan-design-shotgun
-level: 4★
+level: 3★
 description: Rapid design exploration that generates multiple AI design variants,
   opens a comparison board for the user, collects structured feedback, and iterates
   until a preferred visual direction is reached.
@@ -80,6 +80,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:01Z'
   details: TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:21Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 63.73
 overallTrustGrade: B
 apexGateStatus:

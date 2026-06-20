@@ -7,7 +7,7 @@ genericSkillRef: ux-audit
 status: named
 title: Design Plan Review
 catalogRef: garrytan-plan-design-review
-level: 4★
+level: 3★
 description: Interactive, designer-led audit of UI/UX plans rating seven dimensions
   — information architecture, interaction states, user journey, AI slop risk, design
   system alignment, responsive/accessibility, and unresolved decisions — before implementation
@@ -81,6 +81,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:01Z'
   details: TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:23Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 63.73
 overallTrustGrade: B
 apexGateStatus:

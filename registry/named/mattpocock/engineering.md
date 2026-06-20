@@ -6,7 +6,7 @@ origin: true
 title: The Matt Pocock Engineering Discipline
 genericSkillRef: engineering-discipline
 status: named
-level: 5★
+level: 4★
 description: Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills
   suite in v1.0.1.
 createdAt: '2026-05-21'
@@ -32,6 +32,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:41Z'
   details: TM 0.0 -> 270.0, grade ungraded -> A (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:31Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 5★ to 4★ per G7 final rankings calibration.
 suiteRef: mattpocock/skills
 suiteComponents:
 - mattpocock/diagnose

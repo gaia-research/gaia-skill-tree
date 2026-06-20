@@ -43,39 +43,36 @@ So that means, its the developers who make skills maintaining this. I have a tho
 <!-- gaia:registry-start -->
 ```text
 ◆ mattpocock/skills  [5★]
-  ├─ ◆ mattpocock/engineering  [5★]
-  │  ├─ ◇ mattpocock/diagnose  [2★]
-  │  │  ├─ ○ garrytan/design-html  [4★]
+  ├─ ◆ mattpocock/engineering  [4★]
+  │  ├─ ◇ devin-ai/autonomous-swe  [3★]
+  │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /code-execution
   │  │  └─ ○ /error-interpretation
-  │  ├─ ○ mattpocock/improve-codebase-architecture  [3★]
+  │  ├─ ○ mattpocock/improve-codebase-architecture  [2★]
   │  ├─ ◇ garrytan/garrytan  [4★]
   │  │  ├─ ○ /plan-decompose
-  │  │  └─ ○ mattpocock/ask-matt  [2★]
-  │  ├─ ◇ mattpocock/to-prd  [2★]
+  │  │  └─ ○ ████████/ask-matt
+  │  ├─ ◇ mattpocock/to-prd  [3★]
   │  │  ├─ ○ garrytan/retro  [3★]
   │  │  └─ ○ /plan-decompose  (↑ see above)
   │  ├─ ○ mattpocock/triage  [3★]
-  │  ├─ ◇ mattpocock/ubiquitous-language  [4★]
+  │  ├─ ◇ mattpocock/ubiquitous-language  [3★]
 
 ◆ garrytan/gstack  [5★]
-  ├─ ○ garrytan/office-hours  [4★]
-  ├─ ○ garrytan/benchmark  [4★]
-  ├─ ◇ garrytan/plan-eng-review  [4★]
-  │  ├─ ○ garrytan/design-html  [4★]
+  ├─ ○ garrytan/office-hours  [3★]
+  ├─ ○ garrytan/benchmark  [3★]
+  ├─ ◇ garrytan/plan-eng-review  [3★]
+  │  ├─ ○ garrytan/design-html  [3★]
   │  ├─ ○ /diff-content
-  │  └─ ○ garrytan/benchmark  [4★]  (↑ see above)
+  │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ ○ pbakaus/impeccable  [4★]
   ├─ ◇ garrytan/garrytan  [4★]
   │  ├─ ○ /plan-decompose
-  │  └─ ○ mattpocock/ask-matt  [2★]
-  ├─ ◇ garrytan/design-consultation  [4★]
-  │  ├─ ◇ browserbase/stagehand  [2★]
+  │  └─ ○ ████████/ask-matt
+  ├─ ◇ garrytan/design-consultation  [3★]
+  │  ├─ ◇ ████████/stagehand
   │  │  ├─ ○ /web-search
   │  │  └─ ○ /computer-use
-
-Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
-  ◉ ruvnet/hive-mind-coordination  [4★]
 
 (230 skills total — see docs/tree.md)
 ```

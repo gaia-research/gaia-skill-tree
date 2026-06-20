@@ -5,7 +5,7 @@ contributor: mbtiongson1
 origin: true
 genericSkillRef: registry-curation
 status: named
-level: 2★
+level: 1★
 description: Expands the Gaia skill registry with new, fully evidenced AI agent skills
   — researching skill sources, running validation, opening versioned PRs, and appending
   discovered marketplaces to the sources registry in one end-to-end workflow.
@@ -38,6 +38,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:42Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:33Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:

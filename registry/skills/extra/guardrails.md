@@ -1,4 +1,4 @@
-# [garrytan](../../../docs/u/garrytan/)/guard  [3★]
+# [garrytan](../../../docs/u/garrytan/)/careful  [3★]
 **ID:** guardrails  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
@@ -24,12 +24,12 @@ Requires a defined policy schema and an evaluation loop.
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/careful | garrytan | 2★ | 2 |
+| garrytan/careful | garrytan | 3★ | 2 |
 | garrytan/freeze | garrytan | 2★ | 1 |
-| garrytan/guard | garrytan | 3★ | 1 |
+| garrytan/guard | garrytan | 2★ | 1 |
 | garrytan/unfreeze | garrytan | 2★ | 1 |
-| mattpocock/git-guardrails-claude-code | mattpocock | 2★ | 3 |
-| mattpocock/setup-pre-commit | mattpocock | 2★ | 3 |
+| mattpocock/git-guardrails-claude-code | mattpocock | 1★ | 3 |
+| mattpocock/setup-pre-commit | mattpocock | 1★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

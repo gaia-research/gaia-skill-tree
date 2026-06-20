@@ -1,8 +1,8 @@
-# [mattpocock](../../../docs/u/mattpocock/)/improve-codebase-architecture  [3★]
+# [mattpocock](../../../docs/u/mattpocock/)/improve-codebase-architecture  [2★]
 **ID:** refactor-code  
 **Type:** Basic Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 3★  
+**Top named variant:** 2★  
 **Skill Call:** `/refactor-code`
 
 ---
@@ -19,8 +19,8 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| mattpocock/improve-codebase-architecture | mattpocock | 3★ | 2 |
-| mattpocock/migrate-to-shoehorn | mattpocock | 2★ | 3 |
+| mattpocock/improve-codebase-architecture | mattpocock | 2★ | 2 |
+| mattpocock/migrate-to-shoehorn | mattpocock | 1★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

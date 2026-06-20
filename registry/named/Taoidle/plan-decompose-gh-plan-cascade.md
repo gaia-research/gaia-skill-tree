@@ -5,7 +5,7 @@ contributor: Taoidle
 origin: false
 genericSkillRef: autonomous-engineering-platform
 status: awakened
-level: 2★
+level: 1★
 description: AI-powered cascading development framework.
 createdAt: '2026-05-23'
 updatedAt: '2026-06-10'
@@ -30,6 +30,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:45Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:19Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: b7863aec63d2e23ab73663d330b0a710a8184b3a0f8436a504af1afc36b02a97
 ---
 

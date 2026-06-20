@@ -7,7 +7,7 @@ genericSkillRef: tool-creation
 status: named
 title: The Skill Scaffolder
 catalogRef: mattpocock-write-a-skill
-level: 3★
+level: 2★
 description: Guides creation of new agent skills through a structured requirements
   interview, then produces a SKILL.md with a trigger-aware description, progressive-disclosure
   layout, and optional bundled scripts or reference files — ready for installation
@@ -50,6 +50,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:42Z'
   details: TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:33Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 3★ to 2★ per G7 final rankings calibration.
 trustMagnitude: 45.0
 overallTrustGrade: C
 apexGateStatus:

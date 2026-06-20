@@ -7,7 +7,7 @@ genericSkillRef: multimodal-reasoning
 status: named
 title: The Browser Modelwright
 catalogRef: huggingface-transformers-js
-level: 2★
+level: 1★
 description: Runs Hugging Face Transformers.js models directly in JavaScript and TypeScript
   across browser and server runtimes for NLP, vision, audio, and multimodal inference
   with WebGPU or WASM.
@@ -42,6 +42,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:40Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:28Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: 86d7bae4832f978cb6f924f94969f34b792c883993cd3613914e7761cbcf6fbc
 ---
 

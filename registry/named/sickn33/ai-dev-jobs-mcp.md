@@ -5,7 +5,7 @@ contributor: sickn33
 origin: false
 genericSkillRef: mcp-integration
 status: awakened
-level: 2★
+level: 1★
 description: MCP tool for finding AI dev jobs.
 createdAt: '2026-05-22'
 updatedAt: '2026-06-10'
@@ -30,6 +30,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:45Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:38Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: 5f0ee7848aabdf1f12e350f0917addc9ac00831b16547c9dd148e96b27653d21
 ---
 

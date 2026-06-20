@@ -5,7 +5,7 @@ contributor: gaiabot
 origin: false
 genericSkillRef: issue-triage
 status: awakened
-level: 2★
+level: 1★
 description: Automates repository triage for the Gaia Skill Tree, including fixing
   documentation drift, managing build dependencies (build, setuptools, wheel), and
   synchronizing generated graph projections and GEXF exports.
@@ -40,6 +40,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:36Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:20Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: f5d76bb435e95dce64f4fb2bab2dc3d4e5242664209a4fa9ca9f4a3086977baa
 ---
 

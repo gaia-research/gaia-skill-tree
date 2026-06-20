@@ -7,7 +7,7 @@ genericSkillRef: test-driven-development
 status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md
-level: 2★
+level: 1★
 description: Test-driven development with red-green-refactor, verifying behavior through
   public interfaces.
 createdAt: '2026-06-19'
@@ -52,6 +52,10 @@ timeline:
   contributor: testuser
   details: 'I13 classify: status promoted from awakened to named (evidence floor met:
     repo-own B + self-attestation C)'
+- timestamp: '2026-06-20T06:31:32Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md
   evaluator: unknown

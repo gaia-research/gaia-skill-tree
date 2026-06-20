@@ -7,7 +7,7 @@ genericSkillRef: deployment-automation
 status: named
 title: Land and Deploy
 catalogRef: garrytan-land-and-deploy
-level: 4★
+level: 3★
 description: Automates the final production shipping stages — merging a PR, monitoring
   CI/deploy completion, and verifying live site health through canary checks — picking
   up where /ship leaves off with safety gates at each step to prevent broken deployments
@@ -81,6 +81,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:01Z'
   details: TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:22Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 63.73
 overallTrustGrade: B
 apexGateStatus:

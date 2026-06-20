@@ -7,7 +7,7 @@ genericSkillRef: reasoning-pattern-bank
 status: named
 title: The Pattern Sage
 catalogRef: ruvnet-reasoningbank
-level: 3★
+level: 4★
 description: Fuses adaptive pattern learning with persistent vector memory to build
   a self-improving agent knowledge base across sessions.
 links:
@@ -116,6 +116,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 118.5, grade ungraded -> A (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:36Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 3★ to 4★ per G7 final rankings calibration.
 trustMagnitude: 118.5
 overallTrustGrade: A
 apexGateStatus:

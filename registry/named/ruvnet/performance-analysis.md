@@ -7,7 +7,7 @@ genericSkillRef: performance-tuning
 status: named
 title: The Bottleneck Hunter
 catalogRef: ruvnet-performance-analysis
-level: 2★
+level: 1★
 description: Profiles agent and system execution for CPU, memory, and I/O hotspots
   and produces actionable optimization recommendations.
 links:
@@ -35,6 +35,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:36Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:

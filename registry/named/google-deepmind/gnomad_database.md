@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 2★
+level: 4★
 description: Query the Genome Aggregation Database (gnomAD). Use when determining
   the rarity or allele frequency of specific genetic variants, retrieving gene constraint
   metrics (pLI, LOEUF) to assess loss-of-function intolerance, finding variants in
@@ -65,6 +65,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T14:32:17Z'
   details: TM 100.82 -> 100.82, grade A -> A (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:25Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 4★ per G7 final rankings calibration.
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

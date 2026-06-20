@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/codex  [3★]
+# [garrytan](../../../docs/u/garrytan/)/codex  [2★]
 **ID:** multi-agent-debate  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 3★  
+**Top named variant:** 2★  
 **Skill Call:** `/multi-agent-debate`
 
 ---
@@ -24,7 +24,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/codex | garrytan | 3★ | 1 |
+| garrytan/codex | garrytan | 2★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

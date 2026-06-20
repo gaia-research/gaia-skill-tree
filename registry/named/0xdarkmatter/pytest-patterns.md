@@ -7,7 +7,7 @@ genericSkillRef: automated-testing
 status: named
 title: The Quality Guardian
 catalogRef: 0xdarkmatter-pytest-patterns
-level: 3★
+level: 1★
 description: Comprehensive pytest skill covering modern patterns for Python test automation
   including fixtures, parametrize, async testing, mocking, coverage strategies, integration
   tests, and conftest organisation for pytest 7.0+ projects.
@@ -44,6 +44,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:36Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:19Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 3★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: df96fd45f9f7e854df3919d0cf4bedec5dfda3dd2adbc0c748bb033d68437231
 ---
 

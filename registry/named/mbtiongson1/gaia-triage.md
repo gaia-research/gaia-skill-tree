@@ -5,7 +5,7 @@ contributor: mbtiongson1
 origin: false
 genericSkillRef: issue-triage
 status: named
-level: 2★
+level: 1★
 description: Triages incoming skill proposals and issues against the Gaia registry
   backlog — sorting by impact, feasibility, and dependency order to produce an actionable
   prioritized work queue.
@@ -32,6 +32,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:42Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:34Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:

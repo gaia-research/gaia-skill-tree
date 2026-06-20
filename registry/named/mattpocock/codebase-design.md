@@ -7,7 +7,7 @@ genericSkillRef: software-design
 status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design/SKILL.md
-level: 2★
+level: 1★
 description: Design deep modules with small interfaces and large implementations for
   better testability.
 createdAt: '2026-06-19'
@@ -52,6 +52,10 @@ timeline:
   contributor: testuser
   details: 'I13 classify: status promoted from awakened to named (evidence floor met:
     repo-own B + self-attestation C)'
+- timestamp: '2026-06-20T06:31:30Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design/SKILL.md
   evaluator: unknown

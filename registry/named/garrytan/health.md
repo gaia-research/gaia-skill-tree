@@ -7,7 +7,7 @@ genericSkillRef: automated-testing
 status: named
 title: Gstack Health — Automated Test Suite Runner
 catalogRef: garrytan-health
-level: 3★
+level: 2★
 description: Executes the full automated test suite, collects pass/fail counts and
   coverage deltas, and surfaces any newly introduced failures with concise root-cause
   notes.
@@ -56,6 +56,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:37Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:22Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 3★ to 2★ per G7 final rankings calibration.
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

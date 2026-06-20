@@ -7,7 +7,7 @@ genericSkillRef: skill-authoring
 status: named
 title: Gstack Skillify — Skill Authoring Pipeline
 catalogRef: garrytan-skillify
-level: 4★
+level: 3★
 description: 'Converts a freeform prompt, repo pattern, or workflow description into
   a complete, registry-ready named skill: writes the SKILL.md definition, populates
   frontmatter fields, and opens a PR for review.'
@@ -79,6 +79,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:01Z'
   details: TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:23Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 63.73
 overallTrustGrade: B
 apexGateStatus:

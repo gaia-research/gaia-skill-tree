@@ -8,7 +8,7 @@ links:
 genericSkillRef: security-audit
 status: named
 title: The Bastion's Eye
-level: 2★
+level: 1★
 description: Security architecture specialist — vulnerability assessment, zero-trust
   design, compliance management, and incident response with severity-classified remediation
   guidance.
@@ -77,6 +77,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:03Z'
   details: TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:29Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitude: 6.3
 overallTrustGrade: ungraded
 apexGateStatus:

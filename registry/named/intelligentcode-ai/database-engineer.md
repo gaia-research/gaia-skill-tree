@@ -8,7 +8,7 @@ links:
 genericSkillRef: schema-design
 status: named
 title: The Database Oracle
-level: 2★
+level: 1★
 description: Schema design and query optimization expert across relational, NoSQL,
   graph, time-series, and data warehouse stores with sub-second response targets.
 tags:
@@ -77,6 +77,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:02Z'
   details: TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:28Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitude: 6.3
 overallTrustGrade: ungraded
 apexGateStatus:

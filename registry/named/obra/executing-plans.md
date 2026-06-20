@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: executing-plans
 status: named
 title: The Faithful Executor
-level: 2★
+level: 3★
 description: Loads a written implementation plan, reviews it critically, executes
   all tasks sequentially, and reports when complete — without improvising beyond the
   plan's scope.
@@ -102,6 +102,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T14:32:18Z'
   details: TM 95.15 -> 95.15, grade B -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:34Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 95.15
 overallTrustGrade: B
 apexGateStatus:

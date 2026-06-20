@@ -8,7 +8,7 @@ links:
 genericSkillRef: deployment-automation
 status: named
 title: The DevOps Sentinel
-level: 2★
+level: 1★
 description: CI/CD pipeline design and deployment automation specialist — build systems,
   artifact publishing, environment promotion, and rollback strategies.
 tags:
@@ -77,6 +77,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:02Z'
   details: TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:28Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitude: 6.3
 overallTrustGrade: ungraded
 apexGateStatus:

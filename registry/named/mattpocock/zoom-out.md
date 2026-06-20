@@ -7,7 +7,7 @@ genericSkillRef: code-explain
 status: named
 title: The Abstraction Lift
 catalogRef: mattpocock-zoom-out
-level: 2★
+level: 1★
 description: Signals the agent to ascend one layer of abstraction and produce a map
   of all relevant modules, callers, and domain-glossary terms in the unfamiliar code
   area, without explaining implementation details. Removed from mattpocock/skills
@@ -43,6 +43,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:42Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:33Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 suiteRef: mattpocock/engineering
 trustMagnitudeInputHash: 70f00b628a79c9da2191cf0e1578a1e382448eb0e1f6c450959f3bbc6c3352a8
 ---

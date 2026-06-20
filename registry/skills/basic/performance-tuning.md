@@ -20,8 +20,8 @@ _None._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | addy-osmani/performance-optimization ⭑ | addy-osmani | 3★ | 2 |
-| ruvnet/performance-analysis | ruvnet | 2★ | 0 |
-| ruvnet/v3-performance-optimization | ruvnet | 2★ | 0 |
+| ruvnet/performance-analysis | ruvnet | 1★ | 0 |
+| ruvnet/v3-performance-optimization | ruvnet | 1★ | 0 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

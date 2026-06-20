@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/ship  [4★]
+# [garrytan](../../../docs/u/garrytan/)/ship  [3★]
 **ID:** finishing-a-development-branch  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 4★  
+**Top named variant:** 3★  
 **Skill Call:** `/finishing-a-development-branch`
 
 ---
@@ -25,7 +25,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/ship ⭑ | garrytan | 4★ | 2 |
+| garrytan/ship ⭑ | garrytan | 3★ | 2 |
 | obra/finishing-a-development-branch | obra | 2★ | 3 |
 
 ## Evidence (inherited capability)

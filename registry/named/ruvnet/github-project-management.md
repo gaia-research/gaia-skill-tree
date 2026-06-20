@@ -8,7 +8,7 @@ genericSkillRef: project-management
 status: named
 title: The Backlog Warden
 catalogRef: ruvnet-github-project-management
-level: 2★
+level: 1★
 description: Manages GitHub Projects boards, milestones, issue tracking, and sprint
   planning through automated workflow integration.
 links:
@@ -43,6 +43,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:36Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: 28f2a47a0260d1fe32fb1b66317e83af81fac99d65d1c9a94166da97ce6e9be4
 ---
 

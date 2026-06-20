@@ -8,7 +8,7 @@ links:
 genericSkillRef: mcp-integration
 status: named
 title: The Protocol Bridge
-level: 2★
+level: 1★
 description: Portable CLI tool that connects to MCP servers on-demand, enumerates
   available tools, displays them, and executes calls — works with any MCP-compatible
   backend without platform lock-in.
@@ -75,6 +75,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:02Z'
   details: TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:28Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitude: 6.3
 overallTrustGrade: ungraded
 apexGateStatus:

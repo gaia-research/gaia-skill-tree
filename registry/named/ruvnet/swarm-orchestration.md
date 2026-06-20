@@ -7,7 +7,7 @@ genericSkillRef: swarm-topology-management
 status: named
 title: The Topology Architect
 catalogRef: ruvnet-swarm-orchestration
-level: 1★
+level: 2★
 description: Initializes and manages multi-agent swarm network topologies (hierarchical,
   mesh, ring, star) with automatic load balancing, fault tolerance, and shared memory
   coordination.
@@ -56,6 +56,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:37Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 1★ to 2★ per G7 final rankings calibration.
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

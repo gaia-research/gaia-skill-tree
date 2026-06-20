@@ -24,7 +24,7 @@ _None._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | garrytan/retro ⭑ | garrytan | 3★ | 3 |
-| glincker/readme-generator | glincker | 2★ | 2 |
+| glincker/readme-generator | glincker | 1★ | 2 |
 | spring-ai/readme-generate | spring-ai | 2★ | 1 |
 
 ## Evidence (inherited capability)

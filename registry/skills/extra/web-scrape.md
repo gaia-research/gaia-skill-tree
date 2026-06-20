@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/scrape  [3★]
+# [garrytan](../../../docs/u/garrytan/)/scrape  [2★]
 **ID:** web-scrape  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 3★  
+**Top named variant:** 2★  
 **Skill Call:** `/web-scrape`
 
 ---
@@ -26,7 +26,7 @@ Structured output mode required.
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/scrape ⭑ | garrytan | 3★ | 1 |
+| garrytan/scrape ⭑ | garrytan | 2★ | 1 |
 | firecrawl/firecrawl | firecrawl | 2★ | 3 |
 
 ## Evidence (inherited capability)

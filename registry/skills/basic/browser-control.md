@@ -32,7 +32,7 @@ _None._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | garrytan/browse ⭑ | garrytan | 3★ | 6 |
-| browser-use/browser-harness | browser-use | 2★ | 4 |
+| browser-use/browser-harness | browser-use | 3★ | 4 |
 | garrytan/open-gstack-browser | garrytan | 2★ | 1 |
 | garrytan/setup-browser-cookies | garrytan | 2★ | 1 |
 

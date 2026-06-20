@@ -7,7 +7,7 @@ genericSkillRef: workflow-automation
 status: named
 title: The Event Weaver
 catalogRef: ruvnet-hooks-automation
-level: 2★
+level: 1★
 description: Designs agent lifecycle hooks and timer-based background tasks for automated
   quality gates and scheduled workflows.
 links:
@@ -42,6 +42,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:36Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: 4afcb22e4a41cf2702f6683a406cfd95d98f3aced45131117adac65a7b633006
 ---
 

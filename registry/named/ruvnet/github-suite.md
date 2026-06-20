@@ -7,7 +7,7 @@ genericSkillRef: git-integration
 status: named
 title: The GitHub Maestro
 catalogRef: ruvnet-github-suite
-level: 4★
+level: 3★
 description: Full GitHub platform automation fused from 5 skills — code review, multi-repo
   coordination, project management, release management, and workflow automation.
 links:
@@ -57,6 +57,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:36Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 66.0
 overallTrustGrade: B
 apexGateStatus:

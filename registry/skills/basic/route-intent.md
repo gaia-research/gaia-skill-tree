@@ -1,8 +1,7 @@
-# [mattpocock](../../../docs/u/mattpocock/)/ask-matt  [2★]
+# ████████/ask-matt
 **ID:** route-intent  
 **Type:** Basic Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 2★  
 **Skill Call:** `/route-intent`
 
 ---
@@ -21,7 +20,7 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| mattpocock/ask-matt | mattpocock | 2★ | 5 |
+| mattpocock/ask-matt | mattpocock | 1★ | 5 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

@@ -7,7 +7,7 @@ genericSkillRef: multi-node-orchestration
 status: named
 title: The Grand Conductor's Trilogy
 catalogRef: ruvnet-flow-nexus
-level: 4★
+level: 3★
 description: 'Complete Flow Nexus platform: multi-topology swarm deployment, cloud
   platform management with Queen Seraphina AI assistant, and distributed neural training.'
 links:
@@ -56,6 +56,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 96.0, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:36Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 96.0
 overallTrustGrade: B
 apexGateStatus:

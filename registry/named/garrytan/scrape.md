@@ -7,7 +7,7 @@ genericSkillRef: web-scrape
 status: named
 title: Gstack Scrape — Structured Web Extraction
 catalogRef: garrytan-scrape
-level: 3★
+level: 2★
 description: Fetches target URLs with a headless browser, parses structured data from
   rendered HTML, and returns clean JSON or markdown ready for downstream analysis
   or ingestion.
@@ -46,6 +46,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:38Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:23Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 3★ to 2★ per G7 final rankings calibration.
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/scrape/SKILL.md

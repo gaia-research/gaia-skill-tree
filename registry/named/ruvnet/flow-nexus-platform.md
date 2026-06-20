@@ -7,7 +7,7 @@ genericSkillRef: cloud-platform-management
 status: named
 title: Queen Seraphina's Court
 catalogRef: ruvnet-flow-nexus-platform
-level: 1★
+level: 2★
 description: 'Full lifecycle management of the Flow Nexus cloud AI platform: user
   authentication, sandbox environments, app store deployment, payment processing,
   and challenge systems with Queen Seraphina AI assistant.'
@@ -56,6 +56,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:36Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 1★ to 2★ per G7 final rankings calibration.
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

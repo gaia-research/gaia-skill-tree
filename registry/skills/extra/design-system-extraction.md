@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/design-consultation  [4★]
+# [garrytan](../../../docs/u/garrytan/)/design-consultation  [3★]
 **ID:** design-system-extraction  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 4★  
+**Top named variant:** 3★  
 **Skill Call:** `/design-system-extraction`
 
 ---
@@ -24,7 +24,7 @@ Requires headless browser (Playwright/Puppeteer).
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/design-consultation ⭑ | garrytan | 4★ | 2 |
+| garrytan/design-consultation ⭑ | garrytan | 3★ | 2 |
 | Manavarya09/design-extract | Manavarya09 | 2★ | 1 |
 
 ## Evidence (inherited capability)

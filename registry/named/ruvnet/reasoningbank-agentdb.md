@@ -7,7 +7,7 @@ genericSkillRef: agent-memory-learning
 status: named
 title: The Knowledge Crystallizer
 catalogRef: ruvnet-reasoningbank-agentdb
-level: 2★
+level: 1★
 description: Persists agent reasoning patterns in AgentDB vector memory and retrieves
   them semantically for continuous self-improvement across sessions.
 links:
@@ -41,6 +41,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:37Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: 12a3dc0d1d60b194d1984c85fa896d21ac13170ce51dd2441646f681e85e7d42
 ---
 

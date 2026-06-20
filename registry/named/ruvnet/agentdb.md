@@ -7,7 +7,7 @@ genericSkillRef: agent-memory-platform
 status: named
 title: The Memory Sovereign
 catalogRef: ruvnet-agentdb
-level: 5★
+level: 4★
 description: Complete AgentDB vector memory platform fused from 5 discipline skills
   — QUIC-synchronized distributed storage, pattern learning, memory design, optimization,
   and vector search.
@@ -85,6 +85,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:43Z'
   details: TM 0.0 -> 201.0, grade ungraded -> A (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:35Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 5★ to 4★ per G7 final rankings calibration.
 trustMagnitude: 201.0
 overallTrustGrade: A
 apexGateStatus:

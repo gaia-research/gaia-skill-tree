@@ -1,8 +1,8 @@
-# [karpathy](../../../docs/u/karpathy/)/autoresearch  [3★]
+# [karpathy](../../../docs/u/karpathy/)/autoresearch  [2★]
 **ID:** autonomous-web-research  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 3★  
+**Top named variant:** 2★  
 **Skill Call:** `/autonomous-web-research`
 
 ---
@@ -26,7 +26,7 @@ Requires a multi-step crawling engine and mapping logic to resolve site structur
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| karpathy/autoresearch ⭑ | karpathy | 3★ | 1 |
+| karpathy/autoresearch ⭑ | karpathy | 2★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

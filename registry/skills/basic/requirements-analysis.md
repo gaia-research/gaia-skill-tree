@@ -1,8 +1,7 @@
-# [intelligentcode-ai](../../../docs/u/intelligentcode-ai/)/requirements-engineer  [2★]
+# ████████/requirements-engineer
 **ID:** requirements-analysis  
 **Type:** Basic Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 2★  
 **Skill Call:** `/requirements-analysis`
 
 ---
@@ -20,7 +19,7 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| intelligentcode-ai/requirements-engineer | intelligentcode-ai | 2★ | 2 |
+| intelligentcode-ai/requirements-engineer | intelligentcode-ai | 1★ | 2 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

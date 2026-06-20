@@ -5,7 +5,7 @@ contributor: sickn33
 origin: false
 genericSkillRef: mcp-server-creation
 status: awakened
-level: 3★
+level: 1★
 installable: false
 description: A community implementation of the MCP builder skill from the antigravity-awesome-skills
   repository, capable of creating Model Context Protocol servers in Python and Node.js.
@@ -29,6 +29,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:45Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:38Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 3★ to 1★ per G7 final rankings calibration.
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:

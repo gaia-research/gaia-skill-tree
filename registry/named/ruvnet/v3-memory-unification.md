@@ -8,7 +8,7 @@ genericSkillRef: memory-manage
 status: named
 title: The Memory Consolidator
 catalogRef: ruvnet-v3-memory-unification
-level: 2★
+level: 1★
 description: Unifies disparate Ruflo v3 memory subsystems (AgentDB, RVF, RAG memory)
   into a single coherent memory management layer.
 links:
@@ -43,6 +43,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:37Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: 0be0499946a317702b9c3b3e4a12ff1ae39d9c5903aa0f63d1c254e3031f91e8
 ---
 

@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/cso  [4★]
+# [garrytan](../../../docs/u/garrytan/)/cso  [3★]
 **ID:** security-audit  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 4★  
+**Top named variant:** 3★  
 **Skill Call:** `/security-audit`
 
 ---
@@ -24,9 +24,9 @@ Requires access to the full codebase or diff; output must include severity class
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/cso ⭑ | garrytan | 4★ | 2 |
-| intelligentcode-ai/security-engineer | intelligentcode-ai | 2★ | 2 |
-| ruvnet/v3-security-overhaul | ruvnet | 2★ | 0 |
+| garrytan/cso ⭑ | garrytan | 3★ | 2 |
+| intelligentcode-ai/security-engineer | intelligentcode-ai | 1★ | 2 |
+| ruvnet/v3-security-overhaul | ruvnet | 1★ | 0 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

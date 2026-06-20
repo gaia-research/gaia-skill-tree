@@ -7,7 +7,7 @@ genericSkillRef: self-consistency
 status: named
 title: The Majority Consensus
 catalogRef: openai-self-consistency
-level: 2★
+level: 4★
 description: Samples multiple reasoning paths and selects the most consistent answer
   by majority vote.
 links:
@@ -52,6 +52,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:43Z'
   details: TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:35Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 4★ per G7 final rankings calibration.
 evidence:
 - source: https://arxiv.org/abs/2203.11171
   evaluator: mbtiongson1

@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: writing-plans
 status: named
 title: The Blueprint Writer
-level: 2★
+level: 4★
 description: Writes comprehensive implementation plans that break multi-step tasks
   into bite-sized, independently executable sub-tasks before any code is touched.
 links:
@@ -137,6 +137,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T14:32:19Z'
   details: TM 110.15 -> 110.15, grade A -> A (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:35Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 4★ per G7 final rankings calibration.
 trustMagnitude: 110.15
 overallTrustGrade: A
 apexGateStatus:

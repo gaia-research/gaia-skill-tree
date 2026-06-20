@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: molecular-databases
 status: awakened
-level: 2★
+level: 3★
 description: Query the ChEMBL database for bioactive molecules, drug targets, bioactivity
   data, approved drugs, and chemical structures. Use when the user asks about compounds,
   targets, IC50/Ki values, drug mechanisms, or structure searches.
@@ -63,6 +63,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T14:32:17Z'
   details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:24Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 70.82
 overallTrustGrade: B
 apexGateStatus:

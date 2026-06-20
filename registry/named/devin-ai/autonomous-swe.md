@@ -7,7 +7,7 @@ genericSkillRef: autonomous-debug
 status: named
 title: The Codebreaker's Will
 catalogRef: devin-ai-autonomous-swe
-level: 1★
+level: 2★
 description: Autonomous software engineering agent capable of end-to-end debugging,
   code generation, and self-correction across complex multi-file codebases.
 links:
@@ -93,6 +93,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:36Z'
   details: TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:20Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 1★ to 2★ per G7 final rankings calibration.
 trustMagnitude: 30.0
 overallTrustGrade: C
 apexGateStatus:

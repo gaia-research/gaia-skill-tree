@@ -7,7 +7,7 @@ genericSkillRef: systematic-debugging
 status: named
 title: Gstack Investigate
 catalogRef: garrytan-investigate
-level: 4★
+level: 3★
 description: 'Systematic root-cause debugging enforcing an Iron Law — no fix without
   first identifying root cause — guiding through four phases: investigation, analysis,
   hypothesis formation, and verified implementation with evidence gathering and pattern
@@ -60,6 +60,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:01Z'
   details: TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:22Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md

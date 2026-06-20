@@ -110,10 +110,11 @@
 
     // Resolve effective level from the named entry because canonical nodes
     // don't carry a level field — only named/claimed entries do.
+    // Ultimate platform capstones show their correct 5★ / 6★ tier, defaulting to 5★.
     var levelFor = {};
     ultimates.forEach(function (u) {
-      var claim = claimedBy[u.id];
-      levelFor[u.id] = (claim && claim.level) || u.level || null;
+      var canonicalLevel = (u.id === 'multi-topology-orchestration' || u.id === 'skill-mastery') ? '6★' : '5★';
+      levelFor[u.id] = canonicalLevel;
     });
 
     // Ledger strip
@@ -170,7 +171,7 @@
             ? window.namedSlug(claim)
             : '/' + u.id;
           var contribLink = (typeof window.handleLink === 'function')
-            ? window.handleLink(claim.contributor || '', { extraClass: 'ult-contrib', level: claim.level || uLevel })
+            ? window.handleLink(claim.contributor || '', { extraClass: 'ult-contrib', level: uLevel })
             : '<a class="ult-contrib atlas-handle" href="./u/' + encodeURIComponent(claim.contributor || '') + '/">@' + esc(claim.contributor || '') + '</a>';
           
           var lvlN = levelNum(uLevel);
@@ -231,7 +232,11 @@
           canonical = byId[e.id.split('/').pop()];
         }
         if (!canonical) return;
-        if (canonical.type !== 'ultimate' && canonical.type !== 'unique') return;
+        var lvlN = levelNum(e.level);
+        var is6Star = (lvlN === 6);
+        var is5Star = (lvlN === 5);
+        var isUnique = (canonical.type === 'unique');
+        if (!is6Star && !is5Star && !isUnique) return;
         if (canonical.level) e.level = canonical.level;
         allOrigin.push({
           entry: e,
