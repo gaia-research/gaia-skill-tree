@@ -674,10 +674,10 @@
       origin: anyOrigin,
       level: primary.level,
       type: primary.type,
+      trustMagnitude: primary.trustMagnitude,
     };
 
     var TIER_GLYPH = { ultimate: '◆', unique: '◉', extra: '◇', basic: '○' };
-    var ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI'];
 
     // Resolve OG art path (primary skill).
     var handle = primary.contributor || '';
@@ -721,15 +721,17 @@
         _fieldFullscreenBtn(primaryNs) +
       '</div>';
 
-    // Roman-numeral divider keyed off the primary's rank.
-    var rNum = ROMAN[Math.max(0, Math.min(6, levelNum(primary.level)))] || '';
-    var dividerHtml = rNum
-      ? '<div class="plaque__hall-divider" aria-hidden="true">' +
-          '<span class="plaque__hall-divider-line"></span>' +
-          '<span class="plaque__hall-divider-numeral">' + esc(rNum) + '</span>' +
-          '<span class="plaque__hall-divider-line"></span>' +
-        '</div>'
-      : '';
+    // Trust magnitude divider showing "MAG XXX" instead of Roman numerals
+    var tm = primary.trustMagnitude;
+    var tmVal = (tm != null && tm !== '') ? parseFloat(Number(tm).toFixed(1)) : 0;
+    var tmDisplay = tmVal % 1 === 0 ? String(Math.round(tmVal)) : tmVal.toFixed(1);
+    var magText = 'MAG ' + tmDisplay;
+    var dividerHtml =
+      '<div class="plaque__hall-divider" aria-hidden="true">' +
+        '<span class="plaque__hall-divider-line"></span>' +
+        '<span class="plaque__hall-divider-numeral">' + esc(magText) + '</span>' +
+        '<span class="plaque__hall-divider-line"></span>' +
+      '</div>';
 
     // Skill rows — reuse the existing .plaque__stack-row markup so the
     // tier-aware per-row CSS in plaque.css just works.
