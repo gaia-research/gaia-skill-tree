@@ -2,6 +2,34 @@
 
 ---
 
+## 2026-06-20 — Routine 010
+
+**Branch:** `documentation`
+**Task chosen:** Routine version audit and update for English documentation folder (`docs/en/`).
+
+### Trigger
+
+User request / maintainer request to update version numbers to align with the release of v5.0.3.
+
+### What I did
+
+1. **Updated 12 HTML files in `docs/en/`**:
+   - Replaced old version references (e.g., `v4.7.12`, `v4.7.7`, `v4.7.6`, `v4.7.1`, `v4.7.0`, `v4.6.0`) with `v5.0.3` / `5.0.3`.
+   - Updated files: `cli-reference.html`, `contributing.html`, `evidence-classes.html`, `faq.html`, `fusion.html`, `getting-started.html`, `index.html`, `mcp-server.html`, `named-skills.html`, `share-bundles.html`, `skill-hierarchy.html`, and `timeline-audit.html`.
+2. **Updated `docs/en/MEMORY.md`**:
+   - Logged this entry as Routine 010.
+
+### Design decisions
+
+- Explicitly performed manual updates to version strings in `docs/en/` files because `scripts/patch_nav_footer.py` and `scripts/build_docs.py` do not process the English docs due to their custom navigation structure.
+
+### Files created / modified
+
+- `docs/en/MEMORY.md` (modified)
+- All 12 HTML files in `docs/en/` (modified)
+
+---
+
 ## 2026-06-20 — Routine 009
 
 **Branch:** `documentation`
