@@ -194,7 +194,8 @@ class TestSkillExplorerJS:
         assert "se-ev-card" in SE_JS
 
     def test_se_ev_list_wrapper_present(self):
-        assert "se-ev-list" in SE_JS
+        # se-ev-list renamed to se-ev-grid for tile layout
+        assert "se-ev-grid" in SE_JS
 
 
 # ── evidence/index.html ───────────────────────────────────────────────────────
@@ -279,10 +280,23 @@ class TestStylesCSS:
         assert ".se-ev-origin-chip" in STYLES_CSS
 
     def test_se_ev_list_rule_present(self):
-        assert ".se-ev-list" in STYLES_CSS
+        # se-ev-list replaced by se-ev-grid tile layout
+        assert ".se-ev-grid" in STYLES_CSS
 
     def test_ungraded_card_muted_rule_present(self):
         assert ".se-ev-card--ungraded" in STYLES_CSS
+
+    def test_ghost_tile_rule_present(self):
+        assert ".se-ev-card--ghost" in STYLES_CSS
+
+    def test_ghost_placeholder_in_js(self):
+        assert "se-ev-card--ghost" in SE_JS
+
+    def test_derive_trust_num_helper_present(self):
+        assert "_deriveTrustNum" in SE_JS
+
+    def test_tile_grid_class_used(self):
+        assert "se-ev-grid" in SE_JS
 
 
 # ── trust-methodology.html ────────────────────────────────────────────────────

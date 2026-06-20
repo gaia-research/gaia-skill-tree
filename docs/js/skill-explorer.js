@@ -35,6 +35,34 @@
     return String(num);
   }
 
+  // Derive a display trustNumber from magnitude drivers when trustNumber is absent.
+  // Mirrors the simplified backend formula for display-only use (no plateau/weight).
+  function _deriveTrustNum(ev) {
+    if (ev.trustNumber != null) return ev.trustNumber;
+    var t = ev.type || '';
+    if (t === 'github-stars' || t === 'github-stars-own') {
+      if (ev.stars != null) return Math.min(200, parseFloat(ev.stars) / 1000).toFixed(1) * 1;
+    }
+    if (t === 'arxiv') {
+      if (ev.citations != null) return Math.min(100, parseFloat(ev.citations) / 5);
+    }
+    if (t === 'peer-review') {
+      if (ev.reviewers != null) return Math.min(150, parseFloat(ev.reviewers) * 30);
+    }
+    if (t === 'social-signal') {
+      if (ev.views != null && ev.views >= 1000) {
+        return Math.min(80, Math.log10(ev.views) * 8);
+      }
+    }
+    if (t === 'benchmark-result') {
+      if (ev.percentile != null) return Math.min(100, parseFloat(ev.percentile));
+    }
+    if (t === 'verifier-attestation') {
+      if (ev.verifiers != null) return Math.min(150, parseFloat(ev.verifiers) * 30);
+    }
+    return null;
+  }
+
   function effectiveLabel(skill) {
     if (!skill) return '';
     var level = skill.level || '';
@@ -119,6 +147,9 @@
       tags: Array.isArray(ns.tags) ? ns.tags : [],
       links: links,
       genericSkillRef: ns.genericSkillRef,
+      // Trust magnitude fields — power the MAG notch at the bottom of the plaque
+      overallTrustGrade: ns.overallTrustGrade || ns.trustGrade || null,
+      trustMagnitude: ns.trustMagnitude || ns.overallTrustMagnitude || ns.trustNumber || null,
     };
 
     var heroHtml = (window.plaque && typeof window.plaque.renderDetail === 'function')
@@ -641,7 +672,7 @@
 
     var evidenceContent = '';
     if (combinedEvidence.length) {
-      evidenceContent = '<div class="se-ev-list">' +
+      evidenceContent = '<div class="se-ev-grid">' +
         combinedEvidence.map(function(ev){
           var gradeChar = (ev.grade || ev.class || '').toUpperCase().charAt(0);
           var isUngraded = !gradeChar;
@@ -696,10 +727,14 @@
           }
 
           // MAG bar -- plaque design language, always expanded, no animation
-          var tmVal = ev.trustNumber != null ? ev.trustNumber : '';
+          // Use trustNumber if present, otherwise derive from magnitude drivers
+          var tmRaw = _deriveTrustNum(ev);
+          var tmDisplay = tmRaw != null
+            ? (Number.isInteger(tmRaw) ? String(tmRaw) : parseFloat(tmRaw).toFixed(1))
+            : '—';
           var magBarHtml = '<div class="se-ev-mag-bar"' +
             (trustGrade ? ' data-trust-grade="' + esc(trustGrade) + '"' : ' data-trust-grade="none"') + '>' +
-            '<span class="se-ev-mag-label">MAG <span class="se-ev-mag-num">' + esc(tmVal !== '' ? String(tmVal) : '—') + '</span></span>' +
+            '<span class="se-ev-mag-label">MAG <span class="se-ev-mag-num">' + esc(tmDisplay) + '</span></span>' +
           '</div>';
 
           // Ungraded: greyed-out missing treatment matching unnamed skill cards
@@ -721,7 +756,32 @@
             '</div>' +
             magBarHtml +
           '</div>';
-        }).join('') + '</div>';
+        }).join('') +
+        // Ghost placeholder tiles: pad grid to at least 3 tiles wide,
+        // visually communicating "more evidence can be submitted here"
+        (function() {
+          var real = combinedEvidence.length;
+          var minTiles = 3;
+          var ghosts = Math.max(0, minTiles - real);
+          var ghostHtml = '';
+          for (var i = 0; i < ghosts; i++) {
+            ghostHtml += '<div class="se-ev-card se-ev-card--ghost">' +
+              '<div class="se-ev-card-body">' +
+                '<div class="se-ev-card-top">' +
+                  '<span class="se-ev-ghost-label">No evidence</span>' +
+                '</div>' +
+                '<div class="se-ev-card-meta">' +
+                  '<span class="se-ev-ghost-hint">Submit a source to support this skill</span>' +
+                '</div>' +
+              '</div>' +
+              '<div class="se-ev-mag-bar" data-trust-grade="none">' +
+                '<span class="se-ev-mag-label">MAG <span class="se-ev-mag-num">—</span></span>' +
+              '</div>' +
+            '</div>';
+          }
+          return ghostHtml;
+        })() +
+      '</div>';
     } else {
       evidenceContent = '<p style="color: var(--muted); font-style: italic; font-size: 0.85rem; margin: 0.5rem 0 0;">No evidence sources registered for this skill.</p>';
     }
@@ -1814,7 +1874,8 @@
       _safeRender('Install',         'se-install',   function(){ renderInstall(ns); });
       _safeRender('Docs',            'se-docs',      function(){ renderDocs(ns, generic); });
       _safeRender('Upgrade',         'se-upgrade',   function(){ renderFlowchart(ns, generic); });
-      _safeRender('Trust Magnitude', 'se-tm',        function(){ renderTrustMagnitude(ns); });
+      // Trust Magnitude section disabled — MAG is surfaced on the plaque hero notch instead
+      document.getElementById('se-tm').innerHTML = '';
       _safeRender('Timeline',        'se-changelog', function(){ renderTimeline(ns, generic); });
 
       // Accessibility: Move focus to the modal close button

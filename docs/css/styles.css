@@ -10659,10 +10659,10 @@ body[data-overall-grade="S"] .report-card {
 .ev-type-pill.type-social-signal        { background: rgba(52,211,153,.12);  color: #34d399; border: 1px solid rgba(52,211,153,.25); }
 
 /* ── Per-skill modal evidence cards — plaque design language ── */
-.se-ev-list {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+.se-ev-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 6px;
   margin-top: 0.5rem;
 }
 
@@ -10674,6 +10674,7 @@ body[data-overall-grade="S"] .report-card {
   border-radius: 0;
   background: rgba(255,255,255,0.02);
   overflow: hidden;
+  min-height: 80px;
 }
 .se-ev-card:hover {
   border-color: rgba(167,139,250,.3);
@@ -10684,9 +10685,164 @@ body[data-overall-grade="S"] .report-card {
   opacity: 0.5;
   filter: grayscale(0.4);
 }
-.se-ev-card--ungraded .se-ev-card-top,
-.se-ev-card--ungraded .se-ev-link {
+
+/* Ghost tile — hatched border, muted, communicates "slot available" */
+.se-ev-card--ghost {
+  border: 1px dashed rgba(255,255,255,0.12);
+  background: transparent;
+  opacity: 0.45;
+  pointer-events: none;
+}
+.se-ev-ghost-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
   color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.se-ev-ghost-hint {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.3;
+}
+
+.se-ev-card-body {
+  padding: 8px 10px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+.se-ev-card-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.se-ev-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.se-ev-eval {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+.se-ev-date {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  opacity: 0.6;
+  margin-left: auto;
+}
+.se-ev-notes {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 2px;
+  border-left: 2px solid var(--border);
+  padding-left: 8px;
+}
+.se-ev-metrics {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+.se-ev-metric {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--muted);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  padding: 1px 5px;
+}
+.se-ev-origins {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.se-ev-origin-chip {
+  display: inline-block;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  padding: 1px 5px;
+  color: var(--basic, #38bdf8);
+  font-size: 0.68rem;
+}
+.se-ev-link {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--border);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+.se-ev-link:hover {
+  color: var(--rank-3);
+  border-bottom-color: var(--rank-3);
+}
+
+/* MAG bar — full-width metallic bar at card bottom, plaque-style */
+.se-ev-mag-bar {
+  width: 100%;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+}
+
+/* Grade fills — match plaque__trust-notch fills exactly */
+.se-ev-mag-bar[data-trust-grade="S"] {
+  background: linear-gradient(90deg, #d1e8ff 0%, #a5c7eb 50%, #d1e8ff 100%);
+  color: #0f172a;
+}
+.se-ev-mag-bar[data-trust-grade="A"] {
+  background: var(--grade-A, #d4af37);
+  color: #030712;
+}
+.se-ev-mag-bar[data-trust-grade="B"] {
+  background: rgba(148,163,184,0.45);
+  color: var(--text, #e2e8f0);
+}
+.se-ev-mag-bar[data-trust-grade="C"] {
+  background: var(--grade-C, #b45309);
+  color: #fff8f0;
+}
+.se-ev-mag-bar[data-trust-grade="none"] {
+  background: rgba(255,255,255,0.04);
+  color: var(--muted);
+}
+
+.se-ev-mag-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.se-ev-mag-num {
+  font-weight: 700;
 }
 
 .se-ev-card-body {
