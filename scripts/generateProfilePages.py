@@ -619,6 +619,7 @@ def build_ascension_log(skills: list) -> str:
 
 
 NAV_HTML = """<nav id="site-nav"></nav>
+<script src="../../js/mounts.js"></script>
 <script src="../../js/site-nav.js"></script>"""
 
 FOOTER_HTML = """<!-- ─── FOOTER ─── -->
@@ -1191,6 +1192,7 @@ def build_directory_page(by_contributor: dict) -> str:
     contributors_cards_html = "\n".join(tier_sections)
 
     NAV_DIR_HTML = """<nav id="site-nav"></nav>
+<script src="../js/mounts.js"></script>
 <script src="../js/site-nav.js"></script>"""
 
     FOOTER_DIR_HTML = """<!-- ─── FOOTER ─── -->

@@ -7,7 +7,7 @@
   const el = document.getElementById('site-footer-mount');
   if (!el) return;
 
-  const MOUNTS = ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex'];
+  const MOUNTS = window.GAIA_MOUNTS || ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex'];
   const segs = window.location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
   const dir = /\.html?$/i.test(segs[segs.length - 1]) ? segs.slice(0, -1) : segs;
   let depth = 0;
