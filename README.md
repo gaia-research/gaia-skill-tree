@@ -120,16 +120,10 @@ Skills rank up through **verifiable evidence** scored on two axes — **Evidence
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `5.0.4`.
+Current Gaia CLI version: `5.0.5`.
 
 ```bash
 curl -fsSL https://gaia.tiongson.co/install.sh | sh
-```
-
-npm wrapper alternative:
-
-```bash
-npm install -g @gaia-registry/cli
 ```
 <!-- gaia:version-end -->
 
