@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ devin-ai/autonomous-swe | Basic Skill | 1★ | Awakened | devin-ai/gaia-skill-tree | 2026-04-29T00:00:00Z |
+| ○ devin-ai/autonomous-swe | Basic Skill | 2★ | Named | devin-ai/gaia-skill-tree | 2026-04-29T00:00:00Z |
 
 ---
 
@@ -287,7 +287,6 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
-  · ○ ruvnet/worker-integration  [2★]
 ```
 
 ## Pending Combinations

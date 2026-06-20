@@ -10,53 +10,53 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ ruvnet/agentdb-advanced | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/agentdb-advanced | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/agentdb-learning | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/agentdb-memory-patterns | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/agentdb-optimization | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/agentdb-vector-search | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/agentdb | Basic Skill | 5★ | Transcendent | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/agentdb | Basic Skill | 4★ | Hardened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/agentic-jujutsu | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/browser | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/browser | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/dual-collect | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/dual-coordinate | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/dual-mode | Basic Skill | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/dual-mode | Basic Skill | 4★ | Hardened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/dual-spawn | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/flow-nexus-neural | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/flow-nexus-platform | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/flow-nexus-neural | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/flow-nexus-platform | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/flow-nexus-swarm | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ ruvnet/flow-nexus | Basic Skill | 4★ | Hardened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/flow-nexus | Basic Skill | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/github-code-review | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/github-multi-repo | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/github-project-management | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/github-project-management | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/github-release-management | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/github-suite | Basic Skill | 4★ | Hardened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/github-suite | Basic Skill | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/github-workflow-automation | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/hive-mind-coordination | Basic Skill | 4★ | Hardened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/hooks-automation | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/hive-mind-coordination | Basic Skill | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/hooks-automation | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/pair-programming | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/performance-analysis | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/reasoningbank-agentdb | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/reasoningbank-intelligence | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/reasoningbank | Basic Skill | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/performance-analysis | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/reasoningbank-agentdb | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/reasoningbank-intelligence | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/reasoningbank | Basic Skill | 4★ | Hardened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/ruflo-v3 | Basic Skill | 4★ | Hardened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/ruflo | Basic Skill | 5★ | Transcendent | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/skill-builder | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/skill-builder | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/sparc-methodology | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/stream-chain | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/swarm-advanced | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/swarm-orchestration | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/swarm-advanced | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/swarm-orchestration | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/v3-cli-modernization | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/v3-core-implementation | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/v3-ddd-architecture | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/v3-integration-deep | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/v3-mcp-optimization | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/v3-memory-unification | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/v3-performance-optimization | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/v3-security-overhaul | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/v3-mcp-optimization | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/v3-memory-unification | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/v3-performance-optimization | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/v3-security-overhaul | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/v3-swarm-coordination | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/verification-quality | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/worker-benchmarks | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/worker-benchmarks | Basic Skill | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/worker-integration | Basic Skill | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 
 ---
@@ -334,7 +334,6 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
-  · ○ ruvnet/worker-integration  [2★]
 ```
 
 ## Pending Combinations

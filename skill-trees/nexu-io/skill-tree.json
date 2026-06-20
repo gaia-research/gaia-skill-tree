@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "nexu-io/open-design",
-      "level": "1★",
+      "level": "2★",
       "unlockedAt": "2026-05-14T00:00:00Z",
       "unlockedIn": "nexu-io/gaia-skill-tree",
       "combinedFrom": [],
@@ -18,6 +18,11 @@
           "level": "1★",
           "achievedAt": "2026-06-02T23:48:19Z",
           "source": "demote"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:34Z",
+          "source": "promotion"
         }
       ]
     }
@@ -37,6 +42,14 @@
       "previousValue": "3★",
       "newValue": "1★",
       "details": "Calibrated level from 3★ to 1★",
+      "skillId": "nexu-io/open-design"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:34Z",
+      "action": "rank_up",
+      "previousValue": "1★",
+      "newValue": "2★",
+      "details": "Level updated from 1★ to 2★ per G7 final rankings calibration.",
       "skillId": "nexu-io/open-design"
     }
   ],

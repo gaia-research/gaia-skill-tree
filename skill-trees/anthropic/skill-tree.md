@@ -11,7 +11,7 @@
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
 | ○ anthropic/pptx | Basic Skill | 2★ | Named | anthropic/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ anthropic/skill-creator | Basic Skill | 2★ | Named | anthropic/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ anthropic/skill-creator | Basic Skill | 3★ | Evolved | anthropic/gaia-skill-tree | 2026-04-30T00:00:00Z |
 
 ---
 
@@ -288,7 +288,6 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
-  · ○ ruvnet/worker-integration  [2★]
 ```
 
 ## Pending Combinations

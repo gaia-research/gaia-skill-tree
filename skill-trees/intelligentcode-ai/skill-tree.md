@@ -10,14 +10,14 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ intelligentcode-ai/database-engineer | Basic Skill | 2★ | Named | intelligentcode-ai/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ intelligentcode-ai/devops-engineer | Basic Skill | 2★ | Named | intelligentcode-ai/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ intelligentcode-ai/mcp-client | Basic Skill | 2★ | Named | intelligentcode-ai/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ intelligentcode-ai/parallel-execution | Basic Skill | 2★ | Named | intelligentcode-ai/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ intelligentcode-ai/release | Basic Skill | 2★ | Named | intelligentcode-ai/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ intelligentcode-ai/requirements-engineer | Basic Skill | 2★ | Named | intelligentcode-ai/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ intelligentcode-ai/security-engineer | Basic Skill | 2★ | Named | intelligentcode-ai/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ intelligentcode-ai/user-tester | Basic Skill | 2★ | Named | intelligentcode-ai/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ intelligentcode-ai/database-engineer | Basic Skill | 1★ | Awakened | intelligentcode-ai/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ intelligentcode-ai/devops-engineer | Basic Skill | 1★ | Awakened | intelligentcode-ai/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ intelligentcode-ai/mcp-client | Basic Skill | 1★ | Awakened | intelligentcode-ai/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ intelligentcode-ai/parallel-execution | Basic Skill | 1★ | Awakened | intelligentcode-ai/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ intelligentcode-ai/release | Basic Skill | 1★ | Awakened | intelligentcode-ai/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ intelligentcode-ai/requirements-engineer | Basic Skill | 1★ | Awakened | intelligentcode-ai/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ intelligentcode-ai/security-engineer | Basic Skill | 1★ | Awakened | intelligentcode-ai/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ intelligentcode-ai/user-tester | Basic Skill | 1★ | Awakened | intelligentcode-ai/gaia-skill-tree | 2026-05-25T00:00:00Z |
 
 ---
 
@@ -294,7 +294,6 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
-  · ○ ruvnet/worker-integration  [2★]
 ```
 
 ## Pending Combinations

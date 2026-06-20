@@ -208,6 +208,7 @@
 | ◇ [garrytan](../docs/u/garrytan/)/scrape | Extra Skill | 2★ | `/web-scrape` |
 | ○ /web-search | Basic Skill | — | `/web-search` |
 | ◇ /wiki-search | Extra Skill | — | `/wiki-search` |
+| ○ [ruvnet](../docs/u/ruvnet/)/worker-integration | Basic Skill | 2★ | `/worker-agent-dispatch` |
 | ◇ ████████/github-workflow-automation | Extra Skill | — | `/workflow-automation` |
 | ◇ [garrytan](../docs/u/garrytan/)/gstack-upgrade | Extra Skill | 2★ | `/workspace-automation` |
 | ○ [garrytan](../docs/u/garrytan/)/retro | Basic Skill | 3★ | `/write-report` |
@@ -240,5 +241,4 @@
 | ○ Test-Driven Development | Intrinsic Skill | 2★ | `/test-driven-development` |
 | ○ Time Series Forecasting | Intrinsic Skill | — | `/time-series-forecasting` |
 | ○ Token Observability | Intrinsic Skill | 2★ | `/token-observability` |
-| ○ Worker Agent Dispatch | Intrinsic Skill | 2★ | `/worker-agent-dispatch` |
 

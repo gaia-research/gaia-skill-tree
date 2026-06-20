@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "devin-ai/autonomous-swe",
-      "level": "1★",
+      "level": "2★",
       "unlockedAt": "2026-04-29T00:00:00Z",
       "unlockedIn": "devin-ai/gaia-skill-tree",
       "combinedFrom": [],
@@ -18,6 +18,11 @@
           "level": "1★",
           "achievedAt": "2026-06-02T23:48:17Z",
           "source": "demote"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:20Z",
+          "source": "promotion"
         }
       ]
     }
@@ -37,6 +42,14 @@
       "previousValue": "3★",
       "newValue": "1★",
       "details": "Calibrated level from 3★ to 1★",
+      "skillId": "devin-ai/autonomous-swe"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:20Z",
+      "action": "rank_up",
+      "previousValue": "1★",
+      "newValue": "2★",
+      "details": "Level updated from 1★ to 2★ per G7 final rankings calibration.",
       "skillId": "devin-ai/autonomous-swe"
     }
   ],

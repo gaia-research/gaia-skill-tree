@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "addy-osmani/test-driven-development",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "addy-osmani/gaia-skill-tree",
       "combinedFrom": [],
@@ -13,6 +13,11 @@
           "level": "3★",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:20Z",
+          "source": "demote"
         }
       ]
     }
@@ -25,6 +30,14 @@
       "details": "Registered named skill addy-osmani/test-driven-development",
       "previousValue": null,
       "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:20Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "skillId": "addy-osmani/test-driven-development"
     }
   ],
   "stats": {

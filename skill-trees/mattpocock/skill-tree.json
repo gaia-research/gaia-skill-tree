@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "mattpocock/caveman",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -13,12 +13,17 @@
           "level": "3★",
           "achievedAt": "2026-05-21T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:30Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/diagnose",
-      "level": "2★",
+      "level": "3★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -26,13 +31,18 @@
         {
           "level": "2★",
           "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:30Z",
           "source": "promotion"
         }
       ]
     },
     {
       "skillId": "mattpocock/edit-article",
-      "level": "2★",
+      "level": "3★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -41,12 +51,17 @@
           "level": "2★",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:31Z",
+          "source": "promotion"
         }
       ]
     },
     {
       "skillId": "mattpocock/engineering",
-      "level": "5★",
+      "level": "4★",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -55,12 +70,17 @@
           "level": "5★",
           "achievedAt": "2026-05-21T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-06-20T06:31:31Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/grill-me",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -69,6 +89,11 @@
           "level": "4★",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:31Z",
+          "source": "demote"
         }
       ]
     },
@@ -88,7 +113,7 @@
     },
     {
       "skillId": "mattpocock/handoff",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -97,12 +122,17 @@
           "level": "4★",
           "achievedAt": "2026-05-21T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:31Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/improve-codebase-architecture",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -111,6 +141,11 @@
           "level": "3★",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:31Z",
+          "source": "demote"
         }
       ]
     },
@@ -130,7 +165,7 @@
     },
     {
       "skillId": "mattpocock/personal",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -139,6 +174,11 @@
           "level": "4★",
           "achievedAt": "2026-05-21T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:32Z",
+          "source": "demote"
         }
       ]
     },
@@ -158,7 +198,7 @@
     },
     {
       "skillId": "mattpocock/prototype",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -167,6 +207,11 @@
           "level": "3★",
           "achievedAt": "2026-05-21T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:32Z",
+          "source": "demote"
         }
       ]
     },
@@ -214,7 +259,7 @@
     },
     {
       "skillId": "mattpocock/to-prd",
-      "level": "2★",
+      "level": "3★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -222,6 +267,11 @@
         {
           "level": "2★",
           "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:32Z",
           "source": "promotion"
         }
       ]
@@ -242,7 +292,7 @@
     },
     {
       "skillId": "mattpocock/ubiquitous-language",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-15T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -251,12 +301,17 @@
           "level": "4★",
           "achievedAt": "2026-05-15T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:33Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/write-a-skill",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -265,12 +320,17 @@
           "level": "3★",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:33Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/zoom-out",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -279,12 +339,17 @@
           "level": "2★",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:33Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/ask-matt",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -293,12 +358,17 @@
           "level": "2★",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:30Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/codebase-design",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -307,12 +377,17 @@
           "level": "2★",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:30Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/diagnosing-bugs",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -321,12 +396,17 @@
           "level": "2★",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:30Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/domain-modeling",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -335,12 +415,17 @@
           "level": "2★",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:31Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/git-guardrails-claude-code",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -349,12 +434,17 @@
           "level": "2★",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:31Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/grilling",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -363,12 +453,17 @@
           "level": "2★",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:31Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/implement",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -377,12 +472,17 @@
           "level": "2★",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:31Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/migrate-to-shoehorn",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -391,12 +491,17 @@
           "level": "2★",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:32Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/resolving-merge-conflicts",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -405,12 +510,17 @@
           "level": "2★",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:32Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/scaffold-exercises",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -419,12 +529,17 @@
           "level": "2★",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:32Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/setup-pre-commit",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -433,12 +548,17 @@
           "level": "2★",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:32Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "mattpocock/tdd",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -447,6 +567,11 @@
           "level": "2★",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:32Z",
+          "source": "demote"
         }
       ]
     },
@@ -466,7 +591,7 @@
     },
     {
       "skillId": "mattpocock/writing-great-skills",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -475,6 +600,11 @@
           "level": "2★",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:33Z",
+          "source": "demote"
         }
       ]
     }
@@ -758,6 +888,214 @@
       "details": "Registered named skill mattpocock/writing-great-skills (I13 classify: awakened→named, direct edit — CLI gap)",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:30Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/caveman"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:30Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/diagnose"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:30Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/ask-matt"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:30Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/codebase-design"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:30Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/diagnosing-bugs"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:31Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/edit-article"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:31Z",
+      "action": "demote",
+      "previousValue": "5★",
+      "newValue": "4★",
+      "details": "Level updated from 5★ to 4★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/engineering"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:31Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/grill-me"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:31Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/handoff"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:31Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/improve-codebase-architecture"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:31Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/domain-modeling"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:31Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/git-guardrails-claude-code"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:31Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/grilling"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:31Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/implement"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:32Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/personal"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:32Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/prototype"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:32Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/to-prd"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:32Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/migrate-to-shoehorn"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:32Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/resolving-merge-conflicts"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:32Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/scaffold-exercises"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:32Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/setup-pre-commit"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:32Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/tdd"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:33Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/ubiquitous-language"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:33Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/write-a-skill"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:33Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/zoom-out"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:33Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "mattpocock/writing-great-skills"
     }
   ],
   "stats": {

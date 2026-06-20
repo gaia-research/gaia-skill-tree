@@ -32,7 +32,7 @@
 | ◇ [garrytan](../docs/u/garrytan/)/design-consultation | Extra Skill | Browser Automation, Parse HTML | 3★ | Requires headless browser (Playwright/Puppeteer). |
 | ◇ [garrytan](../docs/u/garrytan/)/canary | Extra Skill | Evaluate Output, Error Interpretation | 3★ |  |
 | ◇ [obra](../docs/u/obra/)/dispatching-parallel-agents | Extra Skill | Plan and Decompose, Parallel Execution | 3★ |  |
-| ◇ [ruvnet](../docs/u/ruvnet/)/hive-mind-coordination | Extra Skill |  | 3★ | Requires demonstrating queen-led multi-agent consensus across at least 3 specialized worker types. |
+| ◇ [ruvnet](../docs/u/ruvnet/)/hive-mind-coordination | Extra Skill | Swarm Topology Management, Worker Agent Dispatch | 3★ | Requires demonstrating queen-led multi-agent consensus across at least 3 specialized worker types. |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Extra Skill | Parallel Execution, Embed Text | 2★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Extra Skill | Vector Search, Memory Manage | 2★ |  |
 | ◇ /document-analyst | Extra Skill | Extract Entities, Format Output, OCR, Parse JSON, Parse PDF, Summarize | — |  |

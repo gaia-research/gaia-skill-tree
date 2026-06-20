@@ -10,40 +10,40 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ mattpocock/caveman | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
-| ○ mattpocock/diagnose | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ mattpocock/edit-article | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ mattpocock/engineering | Basic Skill | 5★ | Transcendent | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
-| ○ mattpocock/grill-me | Basic Skill | 4★ | Hardened | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ mattpocock/caveman | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
+| ○ mattpocock/diagnose | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ mattpocock/edit-article | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ mattpocock/engineering | Basic Skill | 4★ | Hardened | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
+| ○ mattpocock/grill-me | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/grill-with-docs | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ mattpocock/handoff | Basic Skill | 4★ | Hardened | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
-| ○ mattpocock/improve-codebase-architecture | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ mattpocock/handoff | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
+| ○ mattpocock/improve-codebase-architecture | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/obsidian-vault | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
-| ○ mattpocock/personal | Basic Skill | 4★ | Hardened | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
+| ○ mattpocock/personal | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/productivity | Basic Skill | 4★ | Hardened | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
-| ○ mattpocock/prototype | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
+| ○ mattpocock/prototype | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/setup-matt-pocock-skills | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/skills | Basic Skill | 5★ | Transcendent | mattpocock/gaia-skill-tree | 2026-05-22T00:00:00Z |
 | ○ mattpocock/to-issues | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ mattpocock/to-prd | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ mattpocock/to-prd | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/triage | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ mattpocock/ubiquitous-language | Basic Skill | 4★ | Hardened | mattpocock/gaia-skill-tree | 2026-05-15T00:00:00Z |
-| ○ mattpocock/write-a-skill | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ mattpocock/zoom-out | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ mattpocock/ask-matt | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/codebase-design | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/diagnosing-bugs | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/domain-modeling | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/git-guardrails-claude-code | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/grilling | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/implement | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/migrate-to-shoehorn | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/resolving-merge-conflicts | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/scaffold-exercises | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/setup-pre-commit | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/tdd | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/ubiquitous-language | Basic Skill | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-15T00:00:00Z |
+| ○ mattpocock/write-a-skill | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ mattpocock/zoom-out | Basic Skill | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ mattpocock/ask-matt | Basic Skill | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/codebase-design | Basic Skill | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/diagnosing-bugs | Basic Skill | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/domain-modeling | Basic Skill | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/git-guardrails-claude-code | Basic Skill | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/grilling | Basic Skill | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/implement | Basic Skill | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/migrate-to-shoehorn | Basic Skill | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/resolving-merge-conflicts | Basic Skill | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/scaffold-exercises | Basic Skill | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/setup-pre-commit | Basic Skill | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/tdd | Basic Skill | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 | ○ mattpocock/teach | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/writing-great-skills | Basic Skill | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/writing-great-skills | Basic Skill | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 
 ---
 
@@ -320,7 +320,6 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
-  · ○ ruvnet/worker-integration  [2★]
 ```
 
 ## Pending Combinations

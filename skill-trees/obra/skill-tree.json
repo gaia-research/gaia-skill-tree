@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "obra/brainstorming",
-      "level": "2★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "obra/gaia-skill-tree",
       "combinedFrom": [],
@@ -13,12 +13,17 @@
           "level": "2★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:34Z",
+          "source": "promotion"
         }
       ]
     },
     {
       "skillId": "obra/dispatching-parallel-agents",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "obra/gaia-skill-tree",
       "combinedFrom": [],
@@ -27,12 +32,17 @@
           "level": "4★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:34Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "obra/executing-plans",
-      "level": "2★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "obra/gaia-skill-tree",
       "combinedFrom": [],
@@ -40,6 +50,11 @@
         {
           "level": "2★",
           "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:34Z",
           "source": "promotion"
         }
       ]
@@ -74,7 +89,7 @@
     },
     {
       "skillId": "obra/requesting-code-review",
-      "level": "3★",
+      "level": "2★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "obra/gaia-skill-tree",
       "combinedFrom": [],
@@ -83,6 +98,11 @@
           "level": "3★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-06-20T06:31:34Z",
+          "source": "demote"
         }
       ]
     },
@@ -130,7 +150,7 @@
     },
     {
       "skillId": "obra/using-git-worktrees",
-      "level": "2★",
+      "level": "4★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "obra/gaia-skill-tree",
       "combinedFrom": [],
@@ -138,13 +158,18 @@
         {
           "level": "2★",
           "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-06-20T06:31:34Z",
           "source": "promotion"
         }
       ]
     },
     {
       "skillId": "obra/verification-before-completion",
-      "level": "2★",
+      "level": "3★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "obra/gaia-skill-tree",
       "combinedFrom": [],
@@ -153,12 +178,17 @@
           "level": "2★",
           "achievedAt": "2026-05-18T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-06-20T06:31:35Z",
+          "source": "promotion"
         }
       ]
     },
     {
       "skillId": "obra/writing-plans",
-      "level": "2★",
+      "level": "4★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "obra/gaia-skill-tree",
       "combinedFrom": [],
@@ -166,6 +196,11 @@
         {
           "level": "2★",
           "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-06-20T06:31:35Z",
           "source": "promotion"
         }
       ]
@@ -267,6 +302,62 @@
       "details": "Registered named skill obra/writing-plans",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:34Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
+      "skillId": "obra/brainstorming"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:34Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "skillId": "obra/dispatching-parallel-agents"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:34Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
+      "skillId": "obra/executing-plans"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:34Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "2★",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "skillId": "obra/requesting-code-review"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:34Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
+      "skillId": "obra/using-git-worktrees"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:35Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
+      "skillId": "obra/verification-before-completion"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:35Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration.",
+      "skillId": "obra/writing-plans"
     }
   ],
   "stats": {

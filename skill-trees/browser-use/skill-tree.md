@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ browser-use/browser-harness | Basic Skill | 2★ | Named | browser-use/gaia-skill-tree | 2026-05-14T00:00:00Z |
+| ○ browser-use/browser-harness | Basic Skill | 3★ | Evolved | browser-use/gaia-skill-tree | 2026-05-14T00:00:00Z |
 
 ---
 
@@ -287,7 +287,6 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
-  · ○ ruvnet/worker-integration  [2★]
 ```
 
 ## Pending Combinations

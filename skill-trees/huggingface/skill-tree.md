@@ -10,13 +10,13 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ huggingface/hf-cli | Basic Skill | 2★ | Named | huggingface/gaia-skill-tree | 2026-05-03T00:00:00Z |
-| ○ huggingface/huggingface-datasets | Basic Skill | 2★ | Named | huggingface/gaia-skill-tree | 2026-05-03T00:00:00Z |
-| ○ huggingface/huggingface-llm-trainer | Basic Skill | 3★ | Evolved | huggingface/gaia-skill-tree | 2026-05-03T00:00:00Z |
-| ○ huggingface/huggingface-papers | Basic Skill | 2★ | Named | huggingface/gaia-skill-tree | 2026-05-03T00:00:00Z |
-| ○ huggingface/huggingface-vision-trainer | Basic Skill | 3★ | Evolved | huggingface/gaia-skill-tree | 2026-05-03T00:00:00Z |
-| ○ huggingface/semantic-cache | Basic Skill | 1★ | Awakened | huggingface/gaia-skill-tree | 2026-05-15T00:00:00Z |
-| ○ huggingface/transformers-js | Basic Skill | 2★ | Named | huggingface/gaia-skill-tree | 2026-05-03T00:00:00Z |
+| ○ huggingface/hf-cli | Basic Skill | 1★ | Awakened | huggingface/gaia-skill-tree | 2026-05-03T00:00:00Z |
+| ○ huggingface/huggingface-datasets | Basic Skill | 1★ | Awakened | huggingface/gaia-skill-tree | 2026-05-03T00:00:00Z |
+| ○ huggingface/huggingface-llm-trainer | Basic Skill | 1★ | Awakened | huggingface/gaia-skill-tree | 2026-05-03T00:00:00Z |
+| ○ huggingface/huggingface-papers | Basic Skill | 1★ | Awakened | huggingface/gaia-skill-tree | 2026-05-03T00:00:00Z |
+| ○ huggingface/huggingface-vision-trainer | Basic Skill | 1★ | Awakened | huggingface/gaia-skill-tree | 2026-05-03T00:00:00Z |
+| ○ huggingface/semantic-cache | Basic Skill | 2★ | Named | huggingface/gaia-skill-tree | 2026-05-15T00:00:00Z |
+| ○ huggingface/transformers-js | Basic Skill | 1★ | Awakened | huggingface/gaia-skill-tree | 2026-05-03T00:00:00Z |
 
 ---
 
@@ -293,7 +293,6 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
-  · ○ ruvnet/worker-integration  [2★]
 ```
 
 ## Pending Combinations
