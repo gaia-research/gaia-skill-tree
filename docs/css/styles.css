@@ -408,18 +408,19 @@ nav.docs-nav .nav-logo > span {
   will-change: transform, filter;
 }
 
-/* When the main fixed site-nav (~54px) is also rendered on docs/en pages,
-   push the docs-nav breadcrumb below it so neither covers the other. The
-   site-nav has the hamburger menu (mobile-friendly); the docs-nav stays as
-   a breadcrumb-only strip beneath it. Also hide the version chip — the
-   breadcrumb itself is the wayfinder, not the version number. */
+/* docs/en pages: site-nav (fixed, 54px) at top, then a breadcrumb strip
+   (.docs-nav) directly below. Pad the body so page content clears both. */
+body:has(> nav#site-nav) {
+  padding-top: 54px;
+}
 body:has(> nav#site-nav) nav.docs-nav {
-  top: 54px !important;
-  margin-top: 54px;             /* clear the fixed site-nav */
+  position: static !important;   /* in-flow so it sits naturally below site-nav */
+  top: auto !important;
+  z-index: auto !important;
 }
 body:has(> nav#site-nav) nav.docs-nav .nav-version,
 body:has(> nav#site-nav) nav.docs-nav .docs-nav-version {
-  display: none !important;
+  display: none !important;      /* breadcrumbs replace the version chip */
 }
 
 @media (max-width: 600px) {
@@ -427,8 +428,6 @@ body:has(> nav#site-nav) nav.docs-nav .docs-nav-version {
     height: 44px !important;
     padding: 0 .9rem !important;
     gap: .4rem !important;
-    top: 54px !important;
-    margin-top: 54px;
   }
   body:has(> nav#site-nav) .sidebar {
     position: static !important;
