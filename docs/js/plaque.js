@@ -721,11 +721,11 @@
         _fieldFullscreenBtn(primaryNs) +
       '</div>';
 
-    // Trust magnitude divider showing "MAG XXX" instead of Roman numerals
+    // Trust magnitude divider showing trust magnitude instead of Roman numerals
     var tm = primary.trustMagnitude;
     var tmVal = (tm != null && tm !== '') ? parseFloat(Number(tm).toFixed(1)) : 0;
     var tmDisplay = tmVal % 1 === 0 ? String(Math.round(tmVal)) : tmVal.toFixed(1);
-    var magText = 'MAG ' + tmDisplay;
+    var magText = tmDisplay;
     var dividerHtml =
       '<div class="plaque__hall-divider" aria-hidden="true">' +
         '<span class="plaque__hall-divider-line"></span>' +
