@@ -110,13 +110,15 @@ class TestSkillExplorerJS:
         assert "se-ev-card" in SE_JS
 
     def test_se_ev_grade_sq_class_used(self):
-        assert "se-ev-grade-sq" in SE_JS
+        # Old grade-sq replaced by MAG bar; se-ev-mag-bar is the new grade surface
+        assert "se-ev-mag-bar" in SE_JS
 
     def test_type_pill_in_modal(self):
         assert "ev-type-pill type-" in SE_JS
 
     def test_trust_score_in_modal(self):
-        assert "se-ev-trust" in SE_JS
+        # Trust score surfaced via MAG bar (se-ev-mag-num) instead of se-ev-trust inline chip
+        assert "se-ev-mag-num" in SE_JS
         assert "trustNumber" in SE_JS
 
     def test_evaluator_rendered(self):
@@ -148,11 +150,10 @@ class TestSkillExplorerJS:
         """Legacy 'repo' and 'github-stars' must be normalized inside renderDocs."""
         assert "repo-own" in SE_JS
         assert "github-stars-own" in SE_JS
-        # Check normalization logic is present
         assert "rawType === 'repo'" in SE_JS or "if (rawType === 'repo')" in SE_JS
 
     def test_submit_evidence_cta_present(self):
-        assert "seSubmitEvidenceInline" in SE_JS
+        # CTA lives in the evidence section header outside the evidence card map
         assert "Submit Evidence" in SE_JS
 
     def test_submit_evidence_cta_uses_issues_url(self):
@@ -168,7 +169,17 @@ class TestSkillExplorerJS:
         assert "evidenceLibraryUrl" in SE_JS or "evidence/" in SE_JS
 
     def test_grade_class_uses_plat_not_raw_s(self):
-        assert "grade-plat" in SE_JS
+        # Grade surface is now the MAG bar with data-trust-grade attribute, not grade-plat class
+        assert "data-trust-grade" in SE_JS
+
+    def test_ungraded_card_gets_missing_class(self):
+        """Ungraded evidence cards must get the se-ev-card--ungraded class."""
+        assert "se-ev-card--ungraded" in SE_JS
+
+    def test_mag_bar_label_present(self):
+        """MAG label must be present in evidence card rendering."""
+        assert "se-ev-mag-label" in SE_JS
+        assert "se-ev-mag-bar" in SE_JS
 
     def test_all_10_type_labels_defined_in_modal(self):
         for t in ["fusion-recipe", "github-stars-own", "proxy-containment",
@@ -243,11 +254,20 @@ class TestStylesCSS:
     def test_se_ev_card_rules_present(self):
         assert ".se-ev-card" in STYLES_CSS
 
-    def test_se_ev_grade_sq_rule_present(self):
-        assert ".se-ev-grade-sq" in STYLES_CSS
+    def test_se_ev_mag_bar_rule_present(self):
+        # MAG bar replaces the old grade square
+        assert ".se-ev-mag-bar" in STYLES_CSS
+
+    def test_se_ev_mag_grade_fills_present(self):
+        # Four grade fills using data-trust-grade attribute
+        assert 'data-trust-grade="S"' in STYLES_CSS
+        assert 'data-trust-grade="A"' in STYLES_CSS
+        assert 'data-trust-grade="B"' in STYLES_CSS
+        assert 'data-trust-grade="C"' in STYLES_CSS
 
     def test_se_ev_trust_rule_present(self):
-        assert ".se-ev-trust" in STYLES_CSS
+        # se-ev-trust may be gone; se-ev-mag-label is the replacement
+        assert ".se-ev-mag-label" in STYLES_CSS
 
     def test_se_ev_origins_rule_present(self):
         assert ".se-ev-origins" in STYLES_CSS
@@ -260,6 +280,9 @@ class TestStylesCSS:
 
     def test_se_ev_list_rule_present(self):
         assert ".se-ev-list" in STYLES_CSS
+
+    def test_ungraded_card_muted_rule_present(self):
+        assert ".se-ev-card--ungraded" in STYLES_CSS
 
 
 # ── trust-methodology.html ────────────────────────────────────────────────────

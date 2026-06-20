@@ -644,12 +644,8 @@
       evidenceContent = '<div class="se-ev-list">' +
         combinedEvidence.map(function(ev){
           var gradeChar = (ev.grade || ev.class || '').toUpperCase().charAt(0);
-          var gradeClass = 'grade-ungraded';
-          if (gradeChar === 'S') gradeClass = 'grade-plat';
-          else if (gradeChar === 'A') gradeClass = 'grade-gold';
-          else if (gradeChar === 'B') gradeClass = 'grade-silver';
-          else if (gradeChar === 'C') gradeClass = 'grade-bronze';
-          var gradeName = gradeChar || '—';
+          var isUngraded = !gradeChar;
+          var trustGrade = isUngraded ? '' : gradeChar;
 
           // Type normalization
           var rawType = (ev.type || 'repo-own');
@@ -664,15 +660,10 @@
           };
           var typeLbl = typeLabels[rawType] || rawType;
 
-          // Trust number — always show; label as "TM N" to communicate it's Trust Magnitude
-          var trustHtml = (ev.trustNumber != null)
-            ? '<span class="se-ev-trust" title="Trust Magnitude score">TM ' + esc(String(ev.trustNumber)) + '</span>'
-            : '<span class="se-ev-trust se-ev-trust--empty" title="No Trust Magnitude score">TM —</span>';
-
           // Short source URL
           var shortSrc = (ev.source || '');
           shortSrc = shortSrc.replace(/^https?:\/\/(www\.)?/, '');
-          if (shortSrc.length > 45) shortSrc = shortSrc.substring(0, 20) + '…' + shortSrc.substring(shortSrc.length - 20);
+          if (shortSrc.length > 50) shortSrc = shortSrc.substring(0, 22) + '…' + shortSrc.substring(shortSrc.length - 22);
 
           // Notes
           var notesHtml = ev.notes
@@ -704,17 +695,21 @@
             evalHtml = '<span class="se-ev-eval">@' + esc(ev.evaluator) + '</span>';
           }
 
-          return '<div class="se-ev-card">' +
-            '<div class="se-ev-card-left">' +
-              '<div class="grade-segment ' + gradeClass + ' se-ev-grade-sq">' +
-                '<span class="grade-label">' + esc(gradeName) + '</span>' +
-              '</div>' +
-            '</div>' +
+          // MAG bar -- plaque design language, always expanded, no animation
+          var tmVal = ev.trustNumber != null ? ev.trustNumber : '';
+          var magBarHtml = '<div class="se-ev-mag-bar"' +
+            (trustGrade ? ' data-trust-grade="' + esc(trustGrade) + '"' : ' data-trust-grade="none"') + '>' +
+            '<span class="se-ev-mag-label">MAG <span class="se-ev-mag-num">' + esc(tmVal !== '' ? String(tmVal) : '—') + '</span></span>' +
+          '</div>';
+
+          // Ungraded: greyed-out missing treatment matching unnamed skill cards
+          var cardClass = 'se-ev-card' + (isUngraded ? ' se-ev-card--ungraded' : '');
+
+          return '<div class="' + cardClass + '">' +
             '<div class="se-ev-card-body">' +
               '<div class="se-ev-card-top">' +
                 '<span class="ev-type-pill type-' + rawType + '">' + esc(typeLbl) + '</span>' +
                 '<a class="se-ev-link" href="' + esc(ev.source||'#') + '" target="_blank" rel="noopener" title="' + esc(ev.source||'') + '">' + esc(shortSrc) + '</a>' +
-                trustHtml +
               '</div>' +
               '<div class="se-ev-card-meta">' +
                 evalHtml +
@@ -724,6 +719,7 @@
               metricsHtml +
               originsHtml +
             '</div>' +
+            magBarHtml +
           '</div>';
         }).join('') + '</div>';
     } else {
