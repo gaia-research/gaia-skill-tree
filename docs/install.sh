@@ -27,6 +27,14 @@ fi
 # ── Install ───────────────────────────────────────────────────────────────────
 # macOS pipx bootstrap support
 if [ "$(uname)" = "Darwin" ]; then
+  # Ensure setuptools is installed and up-to-date before attempting any pip operations
+  echo "Ensuring setuptools is installed..."
+  if "$PYTHON" -m pip install --upgrade --user setuptools >/dev/null 2>&1; then
+    true
+  else
+    echo "Warning: Could not upgrade setuptools, continuing anyway..."
+  fi
+
   if ! command -v pipx >/dev/null 2>&1; then
     echo "pipx not found. Attempting to install pipx on macOS..."
     if command -v brew >/dev/null 2>&1; then
