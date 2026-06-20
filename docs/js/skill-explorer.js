@@ -75,8 +75,9 @@
   }
 
   // Build a tooltip explaining how the per-row MAG number was derived.
+  // skillTm (optional) is the skill's aggregate TM — shown as context at the bottom.
   // All formulas and thresholds read from window.TM_CONFIG — no hardcoded values.
-  function _magTooltip(ev, tmRaw) {
+  function _magTooltip(ev, tmRaw, skillTm) {
     var TM = window.TM_CONFIG;
     if (!TM) return 'Trust config unavailable. See ' + 'https://gaia.tiongson.co/trust/';
     if (tmRaw == null) return 'No magnitude drivers present for this evidence type.\nSee ' + TM.RFC.types;
@@ -143,12 +144,15 @@
     });
     if (floorStrs.length) lines.push('Row grade floors: ' + floorStrs.join(' · '));
     if (ev.grade)       lines.push('This row\'s grade: ' + ev.grade);
-    else if (ev.class)  lines.push('This row\'s grade (legacy): ' + ev.class);
+    else if (ev.class)  lines.push('This row\'s grade: ' + ev.class);
 
     // ── Aggregate context ─────────────────────────────────────────
     lines.push('');
-    lines.push('→ Per-row artifact score (before weight × plateau).');
-    lines.push('   Skill TM = weighted aggregate across all evidence rows.');
+    lines.push('→ Per-row artifact score (pre-weight, pre-plateau).');
+    var aggNote = skillTm != null
+      ? 'Skill TM = ' + (Number.isInteger(skillTm) ? skillTm : parseFloat(skillTm).toFixed(1)) + ' (weighted aggregate across all evidence rows).'
+      : 'Skill TM = weighted aggregate across all evidence rows.';
+    lines.push('   ' + aggNote);
     lines.push('Full methodology: ' + TM.RFC[cfg.anchor || 'types']);
 
     return lines.join('\n');
@@ -271,14 +275,50 @@
         var tm = detailNs.trustMagnitude;
         var tg = detailNs.overallTrustGrade;
         if (tm != null && tg) {
-          var infoTip = (tg === 'S' ? 'Platinum' : tg === 'A' ? 'Gold' : tg === 'B' ? 'Silver' : 'Bronze') +
-            ' (' + tg + ') · MAG ' + parseFloat(Number(tm).toFixed(1)) +
-            '\nWeighted aggregate Trust Magnitude across all evidence rows.' +
-            '\nIndividual evidence cards show per-row artifact scores.';
+          var TM_N = window.TM_CONFIG;
+          var tmName = tg === 'S' ? 'Platinum' : tg === 'A' ? 'Gold' : tg === 'B' ? 'Silver' : 'Bronze';
+          var tipLines = [
+            tmName + ' (' + tg + ') · MAG ' + parseFloat(Number(tm).toFixed(1)),
+            'Weighted aggregate Trust Magnitude across all evidence rows.',
+          ];
+
+          // Per-row contributions from combinedEvidence (computed at render time)
+          // combinedEvidence is in scope via renderDocs closure — but renderHero is separate.
+          // Instead, derive from ns.evidence + generic.evidence directly here.
+          var allEv = (ns.evidence || []).concat((generic ? generic.evidence : null) || []);
+          if (allEv.length && TM_N) {
+            tipLines.push('');
+            tipLines.push('Row contributions (artifact score × weight):');
+            var rowLines = [];
+            allEv.forEach(function(ev) {
+              if (!ev) return;
+              var t = TM_N.canonicalType(ev.type || '');
+              var cfg = TM_N.TYPES[t];
+              if (!cfg) return;
+              var score = ev.trustNumber != null ? Number(ev.trustNumber) : null;
+              if (score == null) {
+                var d = cfg.describe(ev);
+                if (d != null && d.value != null) score = Math.round(TM_N.applyCap(t, d.value) * 10) / 10;
+              }
+              if (score == null) return;
+              var contrib = Math.round(score * cfg.weight * 10) / 10;
+              rowLines.push('  ' + cfg.label + ': ' + score + ' × ' + cfg.weight + ' = ' + contrib);
+            });
+            if (rowLines.length) {
+              tipLines = tipLines.concat(rowLines);
+              tipLines.push('(Plateau & freshness discounts applied on top — see Trust Methodology for exact formula.)');
+            }
+          }
+
+          if (TM_N) {
+            tipLines.push('');
+            tipLines.push('Full methodology: ' + TM_N.RFC.grades);
+          }
+
           var infoBtn = document.createElement('button');
           infoBtn.className = 'se-notch-info';
           infoBtn.type = 'button';
-          infoBtn.title = infoTip;
+          infoBtn.title = tipLines.join('\n');
           infoBtn.setAttribute('aria-label', 'Trust Magnitude calculation details');
           infoBtn.textContent = 'i';
           notch.appendChild(infoBtn);
@@ -764,7 +804,7 @@
     var combinedEvidence = [];
     var seenKeys = new Set();
 
-    function addEvidences(list) {
+    function addEvidences(list, layer) {
       if (Array.isArray(list)) {
         list.forEach(function(ev) {
           if (!ev) return;
@@ -772,14 +812,15 @@
           var key = (ev.type || '') + '|' + (ev.source || '');
           if (!seenKeys.has(key)) {
             seenKeys.add(key);
-            combinedEvidence.push(ev);
+            // Tag each row with its layer so the card can show "via generic" hint
+            combinedEvidence.push(layer ? Object.assign({}, ev, { _layer: layer }) : ev);
           }
         });
       }
     }
-    
-    addEvidences(ns.evidence);
-    addEvidences(generic ? generic.evidence : null);
+
+    addEvidences(ns.evidence, 'named');
+    addEvidences(generic ? generic.evidence : null, 'generic');
 
     // Synthesize fusion-recipe tile from suiteComponents when no fusion-recipe
     // row exists in the on-disk evidence (it's auto-derived at TM-compute time
@@ -793,8 +834,10 @@
         type: 'fusion-recipe',
         origins: suiteComponents,
         grade: ns.overallTrustGrade || null,
-        trustNumber: ns.trustMagnitude || ns.overallTrustMagnitude || null,
+        // trustNumber intentionally absent — let _deriveTrustNum compute from origins.length
+        // so the per-row score shows 15×N+5×√N, not the full skill TM.
         _synthetic: true,
+        _layer: 'named',
       });
     }
 
@@ -862,23 +905,36 @@
             evalHtml = '<span class="se-ev-eval">@' + esc(ev.evaluator) + '</span>';
           }
 
-          // MAG bar — shows the skill's aggregate Trust Magnitude (consistent across all cards)
-          // (i) tooltip shows the per-row artifact score and its derivation formula.
-          var tmRaw = _deriveTrustNum(ev);    // per-row raw artifact score
+          // MAG bar — shows per-row artifact score for this evidence row.
+          // (i) tooltip shows the formula derivation + the skill's aggregate TM for context.
+          var tmRaw = _deriveTrustNum(ev);    // per-row artifact score (pre-weight, pre-plateau)
           var skillTm = ns.trustMagnitude || ns.overallTrustMagnitude || null;
-          var skillGrade = (ns.overallTrustGrade || ns.trustGrade || '').toUpperCase().charAt(0) || null;
-          // Use skill-level aggregate for the bar display; fall back to per-row if not available
-          var barTm = skillTm != null ? skillTm : tmRaw;
-          var barGrade = skillGrade || trustGrade;
-          var tmDisplay = barTm != null
-            ? (Number.isInteger(barTm) ? String(barTm) : parseFloat(barTm).toFixed(1))
+          var barGrade = trustGrade;          // row-level grade, not skill aggregate grade
+          var tmDisplay = tmRaw != null
+            ? (Number.isInteger(tmRaw) ? String(tmRaw) : parseFloat(tmRaw).toFixed(1))
             : '—';
-          var magTooltipText = _magTooltip(ev, tmRaw);
+          var magTooltipText = _magTooltip(ev, tmRaw, skillTm);
           var magBarHtml = '<div class="se-ev-mag-bar"' +
             (barGrade ? ' data-trust-grade="' + esc(barGrade) + '"' : ' data-trust-grade="none"') + '>' +
             '<span class="se-ev-mag-label">MAG <span class="se-ev-mag-num">' + esc(tmDisplay) + '</span></span>' +
-            (tmRaw != null ? '<button class="se-ev-mag-info" type="button" title="' + esc(magTooltipText) + '" aria-label="Per-row artifact score details">i</button>' : '') +
+            (tmRaw != null ? '<button class="se-ev-mag-info" type="button" title="' + esc(magTooltipText) + '" aria-label="Evidence score details">i</button>' : '') +
           '</div>';
+
+          // Type pill with (i) tooltip from TM_CONFIG
+          var TM_CFG = window.TM_CONFIG;
+          var typeCfg = TM_CFG ? TM_CFG.TYPES[rawType] : null;
+          var typePillTip = typeCfg
+            ? (typeCfg.label.toUpperCase() + ' evidence\nFormula: ' + typeCfg.formula +
+               '\nweight ×' + typeCfg.weight +
+               (typeCfg.cap != null ? '  ·  per-row cap ' + typeCfg.cap : '') +
+               (typeCfg.gradeCeiling ? '  ·  ceiling grade ' + typeCfg.gradeCeiling : '') +
+               '\nSee: ' + (TM_CFG.RFC.types || TM_CFG.RFC_BASE))
+            : rawType;
+
+          // Layer hint: rows pulled from the generic skill registry show a subtle tag
+          var layerHint = (ev._layer === 'generic')
+            ? '<span class="se-ev-layer-hint" title="Inherited from the generic skill registry">via generic</span>'
+            : '';
 
           // Ungraded: greyed-out missing treatment matching unnamed skill cards
           var cardClass = 'se-ev-card' + (isUngraded ? ' se-ev-card--ungraded' : '');
@@ -886,8 +942,11 @@
           return '<div class="' + cardClass + '">' +
             '<div class="se-ev-card-body">' +
               '<div class="se-ev-card-top">' +
-                '<span class="ev-type-pill type-' + rawType + '">' + esc(typeLbl) + '</span>' +
+                '<span class="ev-type-pill type-' + rawType + '">' + esc(typeLbl) +
+                  '<button class="ev-type-pill-info" type="button" title="' + esc(typePillTip) + '" aria-label="' + esc(rawType) + ' evidence type info">i</button>' +
+                '</span>' +
                 '<a class="se-ev-link" href="' + esc(ev.source||'#') + '" target="_blank" rel="noopener" title="' + esc(ev.source||'') + '">' + esc(shortSrc) + '</a>' +
+                layerHint +
               '</div>' +
               '<div class="se-ev-card-meta">' +
                 evalHtml +
@@ -900,47 +959,59 @@
             magBarHtml +
           '</div>';
         }).join('') +
-        // Ghost placeholder tiles: pad grid to at least 3 tiles wide.
-        // Show the evidence types most likely to be missing for this skill tier.
+        // Ghost placeholder tiles — show ALL missing evidence types, not just padding.
+        // Every type slot entices users to submit that type of evidence.
         (function() {
-          var real = combinedEvidence.length;
-          var minTiles = 3;
-          var ghosts = Math.max(0, minTiles - real);
-          if (ghosts === 0) return '';
-
-          // Determine which types are already present so ghosts suggest something new
+          // Normalize present types so 'repo' and 'repo-own' are treated the same
           var presentTypes = {};
-          combinedEvidence.forEach(function(ev) { presentTypes[ev.type || ''] = true; });
+          combinedEvidence.forEach(function(ev) {
+            var t = ev.type || '';
+            if (t === 'repo') t = 'repo-own';
+            if (t === 'github-stars') t = 'github-stars-own';
+            presentTypes[t] = true;
+          });
 
-          // Candidate types in priority order for named skills
-          var candidates = ['github-stars-own', 'peer-review', 'arxiv', 'benchmark-result',
-                            'verifier-attestation', 'social-signal', 'proxy-containment'];
+          // All 10 canonical types, in display priority order
+          var allTypes = [
+            'github-stars-own', 'peer-review', 'arxiv', 'benchmark-result',
+            'verifier-attestation', 'social-signal', 'proxy-containment',
+            'repo-own', 'fusion-recipe', 'self-attestation',
+          ];
           var typeLabels = {
             'github-stars-own': 'stars', 'peer-review': 'peer-review',
             'arxiv': 'arxiv', 'benchmark-result': 'benchmark',
             'verifier-attestation': 'verifier', 'social-signal': 'social',
-            'proxy-containment': 'proxy'
+            'proxy-containment': 'proxy', 'repo-own': 'repo',
+            'fusion-recipe': 'fusion', 'self-attestation': 'self',
           };
-          var suggestions = candidates.filter(function(t) { return !presentTypes[t]; });
+
+          var TM_G = window.TM_CONFIG;
 
           var ghostHtml = '';
-          for (var i = 0; i < ghosts; i++) {
-            var sugType = suggestions[i] || candidates[i % candidates.length];
+          allTypes.forEach(function(sugType) {
+            if (presentTypes[sugType]) return;   // already has a real card
             var sugLbl = typeLabels[sugType] || sugType;
+            // Short description for ghost pill tooltip
+            var ghostCfg = TM_G ? TM_G.TYPES[sugType] : null;
+            var pillTip = ghostCfg
+              ? (ghostCfg.label.toUpperCase() + ' · ' + ghostCfg.formula)
+              : sugType;
             ghostHtml += '<div class="se-ev-card se-ev-card--ghost">' +
               '<div class="se-ev-card-body">' +
                 '<div class="se-ev-card-top">' +
-                  '<span class="ev-type-pill type-' + sugType + '">' + sugLbl + '</span>' +
+                  '<span class="ev-type-pill type-' + sugType + '">' + esc(sugLbl) +
+                    '<button class="ev-type-pill-info" type="button" title="' + esc(pillTip) + '" aria-label="' + esc(sugType) + ' info" tabindex="-1">i</button>' +
+                  '</span>' +
                 '</div>' +
                 '<div class="se-ev-card-meta">' +
-                  '<span class="se-ev-ghost-hint">Submit evidence</span>' +
+                  '<span class="se-ev-ghost-hint">No evidence yet</span>' +
                 '</div>' +
               '</div>' +
               '<div class="se-ev-mag-bar" data-trust-grade="none">' +
                 '<span class="se-ev-mag-label">MAG <span class="se-ev-mag-num">—</span></span>' +
               '</div>' +
             '</div>';
-          }
+          });
           return ghostHtml;
         })() +
       '</div>';
@@ -948,10 +1019,18 @@
       evidenceContent = '<p style="color: var(--muted); font-style: italic; font-size: 0.85rem; margin: 0.5rem 0 0;">No evidence sources registered for this skill.</p>';
     }
 
+    var trustMethodologyUrl = rootPath + 'codex/trust-methodology.html';
+
     var evidenceHtml = '<div class="se-docs-block">' +
-      '<h4 style="display: flex; justify-content: space-between; align-items: center;">' +
-        '<span>Evidence</span>' +
-        '<div style="display: flex; align-items: center; gap: 10px;">' +
+      '<div class="se-ev-section-header">' +
+        '<h4>Evidence</h4>' +
+        '<div class="se-ev-header-actions">' +
+          '<a href="' + esc(trustMethodologyUrl) + '" target="_blank" rel="noopener" class="se-ev-tm-link" title="How Trust Magnitude is calculated">' +
+            'Trust Methodology ↗' +
+          '</a>' +
+          '<a href="' + esc(evidenceLibraryUrl) + '" class="se-ev-tm-link" title="Browse all evidence">' +
+            'Library ↗' +
+          '</a>' +
           ((!redacted && ns.contributor && ns.contributor !== 'generic')
             ? '<a id="seSubmitEvidenceInline" href="' +
                 'https://github.com/mbtiongson1/gaia-skill-tree/issues/new' +
@@ -969,15 +1048,12 @@
                   'Add any context that helps a reviewer verify the source (date accessed, star count at time of submission, etc.).\n\n' +
                   'A maintainer will audit the sources and open a registry PR after the evidence pipeline review. See the [Trust Methodology](https://gaia.tiongson.co/codex/trust-methodology.html) for evidence type definitions.'
                 ) + '" ' +
-                'target="_blank" rel="noopener" style="font-size: 0.75rem; font-weight: normal; color: var(--basic); text-decoration: none; display: flex; align-items: center; gap: 4px;" title="Submit evidence for this skill">' +
-                '+ Submit Evidence' +
+                'target="_blank" rel="noopener" class="se-ev-submit-btn" title="Submit evidence for this skill">' +
+                '+ Boost this skill\'s rank' +
               '</a>'
             : '') +
-          '<a href="' + evidenceLibraryUrl + '" style="font-size: 0.75rem; font-weight: normal; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 4px;">' +
-            'Library ↗' +
-          '</a>' +
         '</div>' +
-      '</h4>' +
+      '</div>' +
       evidenceContent +
     '</div>';
 

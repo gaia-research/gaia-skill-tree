@@ -407,7 +407,7 @@
   function renderRow(ev) {
     const g = ev.grade || 'ungraded';
     const gradeLabel = g === 'ungraded' ? '—' : g;
-    const gradeClass = g === 'S' ? 'plat' : (g === 'A' ? 'gold' : (g === 'B' ? 'silver' : (g === 'C' ? 'bronze' : 'ungraded')));
+    const gradeClass = g === 'S' ? 'S' : (g === 'A' ? 'A' : (g === 'B' ? 'B' : (g === 'C' ? 'C' : 'ungraded')));
     const normType = ev.type || 'repo-own'; // already normalized in processData
     const typeLbl = typeLabel(normType);
     const cleanUrl = formatUrl(ev.source);

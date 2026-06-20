@@ -10985,3 +10985,110 @@ body[data-overall-grade="S"] .report-card {
 .se-notch-info:hover {
   opacity: 1;
 }
+
+/* (i) button inside type pills */
+.ev-type-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.ev-type-pill-info {
+  background: transparent;
+  border: 1px solid currentColor;
+  color: currentColor;
+  border-radius: 50%;
+  width: 11px;
+  height: 11px;
+  font-size: 7px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  line-height: 1;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: help;
+  pointer-events: auto;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+.ev-type-pill-info:hover { opacity: 1; }
+/* Ghost tiles: allow pointer events on the (i) but not the card itself */
+.se-ev-card--ghost .ev-type-pill-info {
+  pointer-events: auto;
+  cursor: help;
+}
+
+/* Layer hint — subtle "via generic" tag on evidence rows */
+.se-ev-layer-hint {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--muted);
+  opacity: 0.55;
+  letter-spacing: 0.04em;
+  cursor: default;
+  margin-left: auto;
+}
+
+/* Evidence section header — title + action row */
+.se-ev-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.se-ev-section-header h4 {
+  margin: 0;
+}
+.se-ev-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Trust Methodology / Library links — small, muted */
+.se-ev-tm-link {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.se-ev-tm-link:hover { color: var(--text); }
+
+/* Submit CTA button */
+.se-ev-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 5px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+  cursor: pointer;
+}
+.se-ev-submit-btn:hover {
+  background: rgba(255,255,255,0.11);
+  border-color: rgba(255,255,255,0.35);
+  color: var(--text);
+}
+
+/* Ghost tiles: pointer-events off for the card body, on for info buttons */
+.se-ev-card--ghost {
+  cursor: default;
+}
+.se-ev-card--ghost .se-ev-card-body {
+  pointer-events: none;
+}
+.se-ev-card--ghost .ev-type-pill-info {
+  pointer-events: auto;
+}
