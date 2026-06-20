@@ -62,6 +62,19 @@
     if (t === 'verifier-attestation') {
       if (ev.verifiers != null) return Math.min(150, parseFloat(ev.verifiers) * 30);
     }
+    // No metric drivers available — fall back to grade-implied estimate using type A floors.
+    // This handles manually-graded rows (class/grade field) without raw metric data.
+    var gradeChar = (ev.grade || ev.class || '').toUpperCase().charAt(0);
+    if (gradeChar) {
+      var GRADE_FLOOR = {
+        'S': { 'github-stars-own': 88, 'arxiv': 95, 'peer-review': 88, 'benchmark-result': 90, 'verifier-attestation': 90, 'social-signal': 80, 'fusion-recipe': 200, 'proxy-containment': 112 },
+        'A': { 'github-stars-own': 60, 'arxiv': 70, 'peer-review': 60, 'benchmark-result': 70, 'verifier-attestation': 54, 'social-signal': 60, 'fusion-recipe': 120, 'proxy-containment': 64, 'repo-own': 40, 'repo': 40 },
+        'B': { 'github-stars-own': 35, 'arxiv': 40, 'peer-review': 35, 'benchmark-result': 40, 'verifier-attestation': 27, 'social-signal': 28, 'fusion-recipe': 60, 'proxy-containment': 32, 'repo-own': 22, 'repo': 22 },
+        'C': { 'github-stars-own': 20, 'arxiv': 15, 'peer-review': 14, 'benchmark-result': 20, 'verifier-attestation': 14, 'social-signal': 12, 'fusion-recipe': 30, 'proxy-containment': 16, 'repo-own': 9, 'repo': 9, 'self-attestation': 4 },
+      };
+      var floors = GRADE_FLOOR[gradeChar];
+      if (floors && floors[t] != null) return floors[t];
+    }
     return null;
   }
 
@@ -97,6 +110,13 @@
       if (vr != null) lines.push('verifiers × 30 = ' + (vr*30).toFixed(0) + ' (cap 150)');
     }
     if (ev.grade) lines.push('Grade: ' + ev.grade);
+    else if (ev.class) lines.push('Grade (legacy class): ' + ev.class);
+    // If no metric drivers were found but we fell back to grade-implied floor
+    var hasDrivers = ev.trustNumber != null || ev.stars != null || ev.citations != null ||
+      ev.reviewers != null || ev.views != null || ev.percentile != null || ev.verifiers != null;
+    if (!hasDrivers && tmRaw != null) {
+      lines.push('~ Estimated from grade floor (no metric drivers recorded)');
+    }
     lines.push('Row score only — skill TM = weighted aggregate across all rows');
     return lines.join('\n') || 'MAG ' + tmRaw;
   }
