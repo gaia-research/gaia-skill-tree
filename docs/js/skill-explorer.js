@@ -667,6 +667,23 @@
     addEvidences(ns.evidence);
     addEvidences(generic ? generic.evidence : null);
 
+    // Synthesize fusion-recipe tile from suiteComponents when no fusion-recipe
+    // row exists in the on-disk evidence (it's auto-derived at TM-compute time
+    // and never serialized, so we reconstruct it here for display only).
+    var hasFusionRow = combinedEvidence.some(function(ev) {
+      return (ev.type || '') === 'fusion-recipe';
+    });
+    var suiteComponents = ns.suiteComponents || [];
+    if (suiteComponents.length && !hasFusionRow) {
+      combinedEvidence.unshift({
+        type: 'fusion-recipe',
+        origins: suiteComponents,
+        grade: ns.overallTrustGrade || null,
+        trustNumber: ns.trustMagnitude || ns.overallTrustMagnitude || null,
+        _synthetic: true,
+      });
+    }
+
     var rootPath = getRootPath();
     var evidenceLibraryUrl = rootPath + 'evidence/';
 
@@ -716,7 +733,12 @@
           var originsHtml = '';
           if (rawType === 'fusion-recipe' && Array.isArray(ev.origins) && ev.origins.length) {
             originsHtml = '<div class="se-ev-origins">Components: ' +
-              ev.origins.map(function(o){ return '<span class="se-ev-origin-chip">/' + esc(o) + '</span>'; }).join(' ') +
+              ev.origins.slice(0, 8).map(function(o){
+                // Strip contributor prefix for display: "garrytan/browse" → "/browse"
+                var slug = o.indexOf('/') !== -1 ? o.split('/').pop() : o;
+                return '<span class="se-ev-origin-chip" title="' + esc(o) + '">/' + esc(slug) + '</span>';
+              }).join(' ') +
+              (ev.origins.length > 8 ? ' <span class="se-ev-origin-chip" style="opacity:0.6">+' + (ev.origins.length - 8) + ' more</span>' : '') +
             '</div>';
           }
 
