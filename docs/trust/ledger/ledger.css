@@ -1,5 +1,5 @@
 /*
- * /codex/leaderboard/leaderboard.css
+ * /trust/ledger/ledger.css
  *
  * Single sortable, filterable table. No circles, no modals, no bands.
  * Metallic grade colors inherit from styles.css unified rules
@@ -30,10 +30,28 @@
   border-bottom: 1px solid currentColor;
 }
 
+.lb-hero .lb-rank-note {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  background: rgba(255,255,255,0.02);
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+}
+
+.lb-hero .lb-rank-note strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
 /* ── Back row ───────────────────────────────────────────────── */
 .tm-back-row {
-  max-width: 1280px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   padding: 1.5rem 0 0;
 }
 
@@ -55,6 +73,7 @@
 
 /* ── Distribution strip (replaces stat cards) ───────────────── */
 .lb-distribution {
+  width: 100%;
   margin: 1rem 0 1.5rem;
   padding: 1rem 1.25rem;
   background: var(--surface);
@@ -193,6 +212,7 @@
   gap: 1rem;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   margin: 1rem 0 1rem;
   padding: 0.85rem 1rem;
   background: var(--surface);
@@ -277,6 +297,7 @@
 
 /* ── Single sortable table ──────────────────────────────────── */
 .lb-table-wrap {
+  width: 100%;
   overflow-x: auto;
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -290,6 +311,7 @@
   font-family: var(--font-mono);
   font-size: 0.78rem;
   min-width: 880px;
+  table-layout: auto;
 }
 
 .lb-table thead th {
@@ -368,7 +390,7 @@
   color: var(--text);
   white-space: normal;
   min-width: 16rem;
-  max-width: 24rem;
+  width: auto;
   word-break: break-all;
 }
 
@@ -390,13 +412,28 @@
   font-variant-numeric: tabular-nums;
   font-weight: 500;
   font-size: 0.84rem;
-  width: 8rem;
+  width: 9rem;
+  white-space: nowrap;
+}
+
+.lb-table .col-tm .lb-arrow {
+  display: inline-block;
+  width: 1em;
+  margin-right: 0.4em;
+  font-size: 0.78em;
+  vertical-align: 0.06em;
+}
+.lb-arrow--up   { color: var(--tier-extra); }
+.lb-arrow--down { color: #fb7185; }
+.lb-arrow--flat { color: var(--muted); opacity: 0.5; }
+
+.lb-table .col-tm .lb-tm-num {
+  font-variant-numeric: tabular-nums;
 }
 
 .lb-table .col-grade,
 .lb-table .col-stars,
-.lb-table .col-g7,
-.lb-table .col-flag {
+.lb-table .col-g7 {
   text-align: center;
 }
 
@@ -493,6 +530,7 @@
 
 /* ── Footer ledger ──────────────────────────────────────────── */
 .lb-ledger {
+  width: 100%;
   margin: 2rem 0 2rem;
   padding: 1.25rem 1.5rem;
   background: var(--surface);

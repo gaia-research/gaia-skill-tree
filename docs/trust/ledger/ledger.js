@@ -1,20 +1,20 @@
 /*
- * /codex/leaderboard/leaderboard.js
+ * /trust/ledger/ledger.js
  *
- * Single-table sortable, filterable Trust Magnitude leaderboard.
+ * Single-table sortable, filterable Trust Ledger.
  * No bands, no modals, no circles. Pure flat ranked list.
  *
  * Data shape — see scripts/generateLeaderboardData.py:
  *   { version, generatedAt, summary, rows: [
- *       { skillId, tm, grade, currentStars, g7Stars, flag, apexResults }
+ *       { skillId, tm, grade, currentStars, mayStars, juneStars, g7Stars, flag, apexResults }
  *     ]
  *   }
  */
 (function () {
   'use strict';
 
-  var DATA_URL    = '../../graph/leaderboard/data.json';
-  var SKILL_LINK  = '../../named/?s=';
+  var DATA_URL    = '../../graph/ledger/data.json';
+  var SKILL_LINK  = '../../named/#explorer/';
   var GAIA_VER    = window.GAIA_VERSION || '';
   var STARS_ORDER = { '0★': 0, '1★': 1, '2★': 2, '3★': 3, '4★': 4, '5★': 5, '6★': 6 };
   var STARS_NAMES = {
@@ -60,7 +60,7 @@
       renderGeneratedAt();
     })
     .catch(function (err) {
-      console.error('[leaderboard] failed to load', err);
+      console.error('[ledger] failed to load', err);
       var body = document.getElementById('lbTableBody');
       if (body) {
         body.innerHTML = '<tr><td colspan="8" class="lb-empty">Could not load data. ' +
@@ -151,7 +151,7 @@
     sortRowsInPlace(filtered, state.sort);
 
     if (filtered.length === 0) {
-      body.innerHTML = '<tr><td colspan="8" class="lb-empty">No skills match the current filter.</td></tr>';
+      body.innerHTML = '<tr><td colspan="7" class="lb-empty">No skills match the current filter.</td></tr>';
     } else {
       body.innerHTML = filtered.map(function (r, i) { return renderRow(r, i + 1); }).join('');
     }
@@ -162,35 +162,53 @@
   function renderRow(r, rank) {
     var skillId = r.skillId || '';
     var idLink = SKILL_LINK + encodeURIComponent(skillId);
-    var stars = r.currentStars || '?';
-    var starsCls = STARS_ORDER.hasOwnProperty(stars) ? ('lb-stars--' + STARS_ORDER[stars]) : '';
-    var starsTitle = STARS_NAMES[stars] ? (stars + ' ' + STARS_NAMES[stars]) : stars;
-    var g7 = r.g7Stars || '';
-    var g7Cls = STARS_ORDER.hasOwnProperty(g7) ? ('lb-stars--' + STARS_ORDER[g7]) : '';
+
+    // May / June stars (with G7 cutover semantics)
+    var mayStars = r.mayStars || r.currentStars || '?';
+    var juneStars = r.juneStars || r.currentStars || '?';
+    var mayCls = STARS_ORDER.hasOwnProperty(mayStars) ? ('lb-stars--' + STARS_ORDER[mayStars]) : '';
+    var juneCls = STARS_ORDER.hasOwnProperty(juneStars) ? ('lb-stars--' + STARS_ORDER[juneStars]) : '';
+    var mayTitle = STARS_NAMES[mayStars] ? (mayStars + ' ' + STARS_NAMES[mayStars] + ' (pre-G7)') : mayStars;
+    var juneTitle = STARS_NAMES[juneStars] ? (juneStars + ' ' + STARS_NAMES[juneStars] + ' (current)') : juneStars;
 
     var gradeRaw = r.grade || 'ungraded';
     var gradeKey = gradeRaw === 'ungraded' ? 'none' : gradeRaw;
     var gradeLabel = gradeRaw === 'ungraded' ? '—' : gradeRaw;
 
-    var flagHtml = '';
-    if (r.flag === '[floor]') flagHtml = '<span class="lb-flag lb-flag--floor">floor</span>';
-    else if (r.flag === '[up]') flagHtml = '<span class="lb-flag lb-flag--up">up</span>';
-    else flagHtml = '<span class="lb-flag-empty">·</span>';
+    // Stars-direction arrow inline with TM
+    var mayOrd = STARS_ORDER.hasOwnProperty(mayStars) ? STARS_ORDER[mayStars] : -1;
+    var juneOrd = STARS_ORDER.hasOwnProperty(juneStars) ? STARS_ORDER[juneStars] : -1;
+    var arrow = '·', arrowCls = 'lb-arrow lb-arrow--flat', arrowTitle = 'No change vs. May';
+    if (mayOrd >= 0 && juneOrd >= 0) {
+      if (juneOrd > mayOrd) {
+        arrow = '▲'; arrowCls = 'lb-arrow lb-arrow--up';
+        arrowTitle = 'June stars rose vs. May (' + mayStars + ' → ' + juneStars + ')';
+      } else if (juneOrd < mayOrd) {
+        arrow = '▼'; arrowCls = 'lb-arrow lb-arrow--down';
+        arrowTitle = 'June stars fell vs. May (' + mayStars + ' → ' + juneStars + ')';
+      } else {
+        arrowTitle = 'June stars held vs. May (' + mayStars + ')';
+      }
+    }
 
     var apexHtml = renderApex(r.apexResults, gradeRaw);
 
+    var tmText = (typeof r.tm === 'number' ? r.tm.toFixed(1) : esc(String(r.tm)));
+
     return '' +
       '<tr data-trust-grade="' + esc(gradeKey) + '">' +
-        '<td class="col-rank">' + rank + '</td>' +
+        '<td class="col-rank" title="Rank is computed live; not stored">' + rank + '</td>' +
         '<td class="col-id"><a href="' + esc(idLink) + '" title="' + esc(skillId) + '">' +
           esc(skillId) + '</a></td>' +
-        '<td class="col-tm">' + (typeof r.tm === 'number' ? r.tm.toFixed(1) : esc(String(r.tm))) + '</td>' +
+        '<td class="col-tm">' +
+          '<span class="' + arrowCls + '" title="' + esc(arrowTitle) + '" aria-label="' + esc(arrowTitle) + '">' + arrow + '</span>' +
+          '<span class="lb-tm-num">' + tmText + '</span>' +
+        '</td>' +
         '<td class="col-grade">' +
           '<span class="lb-grade-pill" data-trust-grade="' + esc(gradeKey) + '">' + esc(gradeLabel) + '</span>' +
         '</td>' +
-        '<td class="col-stars"><span class="lb-stars ' + starsCls + '" title="' + esc(starsTitle) + '">' + esc(stars) + '</span></td>' +
-        '<td class="col-g7"><span class="lb-stars ' + g7Cls + '">' + esc(g7) + '</span></td>' +
-        '<td class="col-flag">' + flagHtml + '</td>' +
+        '<td class="col-stars"><span class="lb-stars ' + mayCls + '" title="' + esc(mayTitle) + '">' + esc(mayStars) + '</span></td>' +
+        '<td class="col-g7"><span class="lb-stars ' + juneCls + '" title="' + esc(juneTitle) + '">' + esc(juneStars) + '</span></td>' +
         '<td class="col-apex">' + apexHtml + '</td>' +
       '</tr>';
   }
@@ -233,16 +251,13 @@
         case 'grade':
           av = gradeOrder(a.grade); bv = gradeOrder(b.grade);
           break;
-        case 'stars':
-          av = STARS_ORDER[a.currentStars] != null ? STARS_ORDER[a.currentStars] : -1;
-          bv = STARS_ORDER[b.currentStars] != null ? STARS_ORDER[b.currentStars] : -1;
+        case 'may':
+          av = STARS_ORDER[a.mayStars || a.currentStars] != null ? STARS_ORDER[a.mayStars || a.currentStars] : -1;
+          bv = STARS_ORDER[b.mayStars || b.currentStars] != null ? STARS_ORDER[b.mayStars || b.currentStars] : -1;
           break;
-        case 'g7':
-          av = STARS_ORDER[a.g7Stars] != null ? STARS_ORDER[a.g7Stars] : -1;
-          bv = STARS_ORDER[b.g7Stars] != null ? STARS_ORDER[b.g7Stars] : -1;
-          break;
-        case 'flag':
-          av = flagOrder(a.flag); bv = flagOrder(b.flag);
+        case 'june':
+          av = STARS_ORDER[a.juneStars || a.currentStars] != null ? STARS_ORDER[a.juneStars || a.currentStars] : -1;
+          bv = STARS_ORDER[b.juneStars || b.currentStars] != null ? STARS_ORDER[b.juneStars || b.currentStars] : -1;
           break;
         case 'apex':
           av = apexScore(a.apexResults); bv = apexScore(b.apexResults);
@@ -265,11 +280,6 @@
 
   function gradeOrder(g) {
     return { S: 4, A: 3, B: 2, C: 1, ungraded: 0 }[g] || 0;
-  }
-  function flagOrder(f) {
-    if (f === '[up]')   return 2;
-    if (f === '[floor]') return 1;
-    return 0;
   }
   function apexScore(ar) {
     if (!ar) return -1;

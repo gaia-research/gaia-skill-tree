@@ -319,7 +319,7 @@ def build_html_cache_busting(check: bool) -> bool:
         "named/report.html",
         "share/index.html",
         "trust/index.html",
-        "trust/leaderboard/index.html",
+        "trust/ledger/index.html",
         "codex/trust-methodology.html",
         "u/index.html",
     ):
