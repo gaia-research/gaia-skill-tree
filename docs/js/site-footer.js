@@ -7,12 +7,13 @@
   const el = document.getElementById('site-footer-mount');
   if (!el) return;
 
-  const parts = window.location.pathname.replace(/\/$/, '').split('/');
-  const filename = parts[parts.length - 1];
-  const isFile = filename.includes('.');
-  const dirParts = isFile ? parts.slice(0, -1) : parts;
-  const docsDirIndex = dirParts.findIndex(p => p === 'docs');
-  const depth = docsDirIndex >= 0 ? dirParts.length - docsDirIndex - 1 : 0;
+  const MOUNTS = ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex'];
+  const segs = window.location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
+  const dir = /\.html?$/i.test(segs[segs.length - 1]) ? segs.slice(0, -1) : segs;
+  let depth = 0;
+  for (let i = 0; i < dir.length; i++) {
+    if (MOUNTS.includes(dir[i])) { depth = dir.length - i; break; }
+  }
   const r = depth === 0 ? '' : '../'.repeat(depth);
 
   el.innerHTML = `
