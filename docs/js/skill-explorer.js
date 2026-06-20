@@ -368,16 +368,20 @@
           var TM_N = window.TM_CONFIG;
           var tmName = tg === 'S' ? 'Platinum' : tg === 'A' ? 'Gold' : tg === 'B' ? 'Silver' : 'Bronze';
           var tipLines = [
-            tmName + ' (' + tg + ') · MAG ' + parseFloat(Number(tm).toFixed(1)),
-            'Weighted aggregate Trust Magnitude across all evidence rows.',
+            tmName + ' (' + tg + ') · TM ' + parseFloat(Number(tm).toFixed(1)),
+            'Trust Magnitude = sum of per-row artifact scores after all multipliers.',
+            'Each row\'s contribution = base × weight × freshness [× creator] [× inheritMult] × plateau.',
           ];
 
-          // Per-row contributions: use _deriveWeightedScore so each number matches the MAG bar
+          // Per-row contributions: use _deriveWeightedScore so each number matches the MAG bar.
+          // These are pre-plateau individual scores; the actual sum may differ slightly because
+          // plateau factors are applied at aggregate time by the backend (not displayed row-by-row).
           var allEv = (ns.evidence || []).concat((generic ? generic.evidence : null) || []);
           if (allEv.length && TM_N) {
             tipLines.push('');
-            tipLines.push('Row weighted scores (what each card\'s MAG bar shows):');
+            tipLines.push('Per-row weighted scores (matches each card\'s MAG bar):');
             var rowLines = [];
+            var rowSum = 0;
             allEv.forEach(function(ev) {
               if (!ev) return;
               var t = TM_N.canonicalType(ev.type || '');
@@ -385,7 +389,9 @@
               if (!cfg) return;
               var weighted = _deriveWeightedScore(ev);
               if (weighted == null) return;
-              rowLines.push('  ' + cfg.label + ': ' + weighted.toFixed(1));
+              rowSum += weighted;
+              var plateauNote = cfg.plateau && cfg.plateau.maxRows > 1 ? '*' : '';
+              rowLines.push('  ' + cfg.label + ': ' + weighted.toFixed(1) + plateauNote);
             });
             // Also synthesize fusion row if suiteComponents present
             var suiteComps = ns.suiteComponents || [];
@@ -395,13 +401,25 @@
               var fCfg = TM_N.TYPES['fusion-recipe'];
               if (fCfg) {
                 var fWeighted = _deriveWeightedScore(synFusion);
-                if (fWeighted != null) rowLines.push('  fusion: ' + fWeighted.toFixed(1) + ' (raw count)');
+                if (fWeighted != null) {
+                  rowSum += fWeighted;
+                  rowLines.push('  fusion: ' + fWeighted.toFixed(1) + ' (raw origin count — backend uses graded ≥C)');
+                }
               }
             }
             if (rowLines.length) {
               tipLines = tipLines.concat(rowLines);
-              tipLines.push('Plateau & freshness discounts reduce final contributions.');
-              tipLines.push('Sum ≈ skill TM (before plateau stacking).');
+              tipLines.push('');
+              // Show row-sum vs actual TM so the user can see any gap
+              var rowSumStr = rowSum.toFixed(1);
+              var actualTmStr = parseFloat(Number(tm).toFixed(1)).toString();
+              if (Math.abs(rowSum - tm) > 0.5) {
+                tipLines.push('Row sum (pre-plateau): ' + rowSumStr);
+                tipLines.push('Actual TM: ' + actualTmStr + '  (plateau stacking adjusts the sum)');
+                tipLines.push('* plateau: multi-row types discount 2nd+ rows');
+              } else {
+                tipLines.push('Row sum: ' + rowSumStr + '  ≈ TM ' + actualTmStr);
+              }
             }
           }
 
@@ -946,6 +964,15 @@
       evidenceContent = '<div class="se-ev-grid">' +
         combinedEvidence.map(function(ev){
           var gradeChar = (ev.grade || '').toUpperCase().charAt(0);
+          // Fallback: if no persisted per-row grade, derive from live weighted score + gradeFloors.
+          // Logic lives in TM_CONFIG.effectiveGrade — single source shared with evidence-library.js.
+          if (!gradeChar) {
+            var TM_G = window.TM_CONFIG;
+            if (TM_G && TM_G.effectiveGrade) {
+              var liveScore = _deriveWeightedScore(ev);
+              gradeChar = TM_G.effectiveGrade(ev, liveScore);
+            }
+          }
           var isUngraded = !gradeChar;
           var trustGrade = isUngraded ? '' : gradeChar;
 

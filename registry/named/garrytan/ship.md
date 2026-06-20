@@ -76,6 +76,7 @@ evidence:
   commits: 323
   contributors: 9
   trustNumber: 70.0
+  grade: B
 - source: https://github.com/garrytan/gstack
   evaluator: unknown
   date: '2026-06-20'

@@ -17,8 +17,7 @@
       "date": "2026-04-30",
       "notes": "Sargsyan (2025) — Structural Enforcement of Statistical Rigor in AI-Driven Discovery; monadic architecture achieves 1.1% false discovery rate vs 41% for naive LLM approaches across automated hypothesis-testing pipelines. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     }
   ],
   "knownAgents": [],

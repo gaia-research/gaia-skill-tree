@@ -32,6 +32,7 @@ evidence:
   trustNumber: 70.0
   commits: 609
   contributors: 36
+  grade: B
 - source: https://github.com/obra/superpowers
   evaluator: unknown
   date: '2026-06-20'

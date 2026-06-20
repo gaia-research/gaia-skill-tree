@@ -16,8 +16,7 @@
       "date": "2026-04-30",
       "notes": "LLMLingua-2 (ACL 2024 Findings) — data-distillation for efficient task-agnostic prompt compression; 3x-6x speed-up, BERT-base token classifier; demonstrates measurable perplexity-based faithfulness. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

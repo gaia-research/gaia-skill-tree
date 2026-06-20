@@ -39,6 +39,7 @@ evidence:
   trustNumber: 70.0
   commits: 6899
   contributors: 32
+  grade: B
 - source: https://github.com/ruvnet/ruflo/issues/1207
   evaluator: mbtiongson1
   date: '2026-06-19'

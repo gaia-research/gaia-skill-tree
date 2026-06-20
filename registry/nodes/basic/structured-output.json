@@ -20,8 +20,7 @@
       "date": "2026-04-28",
       "notes": "Willard & Louf (2023) â€” Efficient Guided Generation for LLMs; finite-state machine approach guarantees schema-valid output with <1% throughput overhead. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

@@ -74,7 +74,7 @@
       cap: 200,
       plateau: { factors: [1.0], maxRows: 1 },
       freshness: null,
-      gradeFloors: { S: 100, A: 50, B: 20, C: 5 },
+      gradeFloors: { S: 88, A: 60, B: 35, C: 20 },
       gradeCeiling: null,
       anchor: 'types',
     },
@@ -92,7 +92,7 @@
       cap: 160,
       plateau: { factors: [1.0], maxRows: 1 },
       freshness: null,
-      gradeFloors: { S: 100, A: 64, B: 32, C: 16 },
+      gradeFloors: { S: 112, A: 64, B: 32, C: 16 },
       gradeCeiling: null,
       anchor: 'types',
     },
@@ -144,8 +144,8 @@
       cap: 100,
       plateau: { factors: [1.0, 0.5, 0.25, 0.125], maxRows: 4 },
       freshness: null,
-      gradeFloors: { A: 80, B: 40, C: 10 },
-      gradeCeiling: 'A',
+      gradeFloors: { S: 95, A: 70, B: 40, C: 15 },
+      gradeCeiling: 'S',
       anchor: 'types',
     },
 
@@ -166,8 +166,8 @@
       cap: null,
       plateau: { factors: [1.0, 0.5, 0.25], maxRows: 3 },
       freshness: { decayPerYear: 0.125 },
-      gradeFloors: { A: 75, B: 25, C: 10 },
-      gradeCeiling: 'A',
+      gradeFloors: { S: 88, A: 60, B: 35, C: 14 },
+      gradeCeiling: 'S',
       anchor: 'types',
     },
 
@@ -200,7 +200,7 @@
       cap: 10,
       plateau: { factors: [1.0], maxRows: 1 },
       freshness: null,
-      gradeFloors: { C: 5 },
+      gradeFloors: { C: 4 },
       gradeCeiling: 'C',
       anchor: 'types',
     },
@@ -227,7 +227,7 @@
       cap: 80,
       plateau: { factors: [1.0, 0.5, 0.25], maxRows: 3 },
       freshness: { decayPerYear: 0.5 },
-      gradeFloors: { A: 60, B: 28, C: 10 },
+      gradeFloors: { A: 60, B: 28, C: 12 },
       gradeCeiling: 'A',
       anchor: 'types',
     },
@@ -303,6 +303,37 @@
     return '';
   }
 
+  // Derive the effective display grade for an evidence row.
+  // Single source of truth used by both skill-explorer.js and evidence-library.js.
+  // Priority: persisted ev.grade (written by calibrate-evidence-grades) → live score derivation
+  // from metric fields + gradeFloors. The live fallback covers legacy rows that only have
+  // class: (not grade:) and rows added before the next calibration sweep.
+  //
+  // weightedScore must be the result of _deriveWeightedScore / deriveWeightedScore
+  // already computed for the MAG bar. Pass null if not yet computed (function derives it
+  // via gradeFloors grade-floor lookup instead, which is less precise).
+  function effectiveGrade(ev, weightedScore) {
+    var g = (ev.grade || '').toUpperCase().charAt(0);
+    if (g) return g;
+    var t = canonicalType(ev.type || '');
+    var cfg = TYPES[t];
+    if (!cfg) return '';
+    var floors = cfg.gradeFloors;
+    var ceiling = cfg.gradeCeiling;
+    if (!floors) return '';
+    var ceilOrd = {S:0, A:1, B:2, C:3};
+    var score = weightedScore;
+    // If no pre-computed score provided, estimate from gradeFloors only (no multipliers).
+    if (score == null) return '';
+    var d = '';
+    var order = ['S','A','B','C'];
+    for (var i = 0; i < order.length; i++) {
+      if (floors[order[i]] != null && score >= floors[order[i]]) { d = order[i]; break; }
+    }
+    if (d && ceiling && ceilOrd[d] < ceilOrd[ceiling]) d = ceiling;
+    return d;
+  }
+
   window.TM_CONFIG = {
     RFC_BASE: RFC_BASE,
     RFC: RFC,
@@ -313,6 +344,7 @@
     canonicalType: canonicalType,
     applyCap: applyCap,
     gradeFloor: gradeFloor,
+    effectiveGrade: effectiveGrade,
     overallGradeFor: overallGradeFor,
     gradeName: gradeName,
   };

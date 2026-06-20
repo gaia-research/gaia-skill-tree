@@ -86,6 +86,7 @@ evidence:
   trustNumber: 70.0
   commits: 137
   contributors: 3
+  grade: C
 - source: https://github.com/mattpocock/skills
   evaluator: unknown
   date: '2026-06-20'

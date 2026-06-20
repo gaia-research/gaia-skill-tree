@@ -25,6 +25,7 @@ evidence:
   trustNumber: 70.0
   commits: 137
   contributors: 3
+  grade: C
 - source: https://github.com/mattpocock/skills/issues/145
   evaluator: mbtiongson1
   date: '2026-06-19'

@@ -62,6 +62,7 @@ evidence:
   commits: 260
   contributors: 36
   trustNumber: 70.0
+  grade: B
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

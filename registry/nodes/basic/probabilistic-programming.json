@@ -13,8 +13,7 @@
       "date": "2026-06-03",
       "notes": "Uncertainty Quantification in Probabilistic Machine Learning Models: Theory, Methods, and Insights — GP-LVM with Random Fourier Features, epistemic/aleatoric uncertainty (EUSIPCO 2025) (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -23,8 +22,7 @@
       "date": "2026-06-03",
       "notes": "posteriordb: Testing, Benchmarking and Developing Bayesian Inference Algorithms — 120 reference models across Stan, PyMC, Pyro, NumPyro (2024) (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

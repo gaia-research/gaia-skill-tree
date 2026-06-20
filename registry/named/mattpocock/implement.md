@@ -69,7 +69,6 @@ evidence:
   notes: 'I13 classify: repo-own evidence backfill (skill file)'
   skillCountInRepo: 34
   sourceStartedAt: '2026-06-19'
-  grade: B
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/implement
   evaluator: testuser
   date: '2026-06-20'

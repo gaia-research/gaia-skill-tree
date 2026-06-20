@@ -18,8 +18,7 @@
       "date": "2026-04-28",
       "notes": "Self-Refine (Madaan et al., 2023) â€” iterative self-feedback loop; +20% on code generation and +13% on math reasoning vs single-pass generation. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

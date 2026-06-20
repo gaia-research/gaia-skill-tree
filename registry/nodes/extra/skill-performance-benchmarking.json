@@ -22,8 +22,7 @@
       "date": "2026-05-10",
       "notes": "AgentSkillOS paper introduces ecosystem-scale organization, orchestration, and benchmarking with a 30-task suite spanning data computation, documents, video, design, and web interaction. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

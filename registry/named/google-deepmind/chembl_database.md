@@ -25,6 +25,7 @@ evidence:
   trustNumber: 70.0
   commits: 6
   contributors: 3
+  grade: C
 - source: https://academic.oup.com/nar/article/47/D1/D930/5162468
   evaluator: unknown
   date: '2026-06-19'

@@ -19,8 +19,7 @@
       "date": "2026-04-30",
       "notes": "Agent-SafetyBench (2024) -- benchmark with 349 interaction environments and 2,000 test cases covering safety risks in agent deployments; establishes reproducible trajectory-level metrics. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

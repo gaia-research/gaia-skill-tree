@@ -21,8 +21,7 @@
       "date": "2026-04-28",
       "notes": "MemGPT â€” virtual context management system enabling LLMs to handle unbounded memory; benchmarked on multi-session dialogue and document QA. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     }
   ],
   "knownAgents": [],

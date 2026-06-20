@@ -30,6 +30,7 @@ evidence:
   commits: 804
   contributors: 27
   trustNumber: 70.0
+  grade: B
 - source: https://github.com/pbakaus/impeccable/stargazers
   evaluator: mbtiongson1
   date: '2026-06-19'

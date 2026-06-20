@@ -17,8 +17,7 @@
       "date": "2026-04-30",
       "notes": "InstructGPT (Ouyang et al., 2022) -- RLHF with reward model trained on 33K human comparisons; 1.3B InstructGPT preferred over 175B GPT-3 by 85% of labelers, demonstrating reward modeling as the key alignment primitive. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

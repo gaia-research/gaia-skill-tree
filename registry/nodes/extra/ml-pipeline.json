@@ -18,8 +18,7 @@
       "date": "2026-04-30",
       "notes": "Xue et al. (2025) — IMPROVE: Iterative Model Pipeline Refinement and Optimization Leveraging LLM Experts; iterative component-level refinement consistently outperforms single-step zero-shot LLM-based ML pipeline optimization with theoretical convergence guarantees. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

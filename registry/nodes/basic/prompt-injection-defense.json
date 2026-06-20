@@ -16,8 +16,7 @@
       "date": "2026-04-30",
       "notes": "PlanGuard (2026) — training-free indirect prompt injection defense; planning-based consistency verification reduces InjecAgent attack success rate from 72.8% to 0%. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

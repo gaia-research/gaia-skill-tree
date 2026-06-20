@@ -23,8 +23,7 @@
       "date": "2026-04-28",
       "notes": "PAL (Gao et al., 2023) â€” Program-Aided Language Models; delegates computation to Python interpreter, achieving +7% on GSM8K over direct CoT. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

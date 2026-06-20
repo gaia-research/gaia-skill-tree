@@ -16,8 +16,7 @@
       "date": "2026-04-28",
       "notes": "VALL-E (Microsoft) â€” neural codec language model achieving SOTA speech synthesis with 3-second voice cloning on LibriSpeech. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     }
   ],
   "knownAgents": [],

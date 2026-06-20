@@ -36,6 +36,7 @@ evidence:
   commits: 323
   contributors: 9
   trustNumber: 70.0
+  grade: B
 - source: https://github.com/garrytan/gstack/issues/1958
   evaluator: mbtiongson1
   date: '2026-06-19'

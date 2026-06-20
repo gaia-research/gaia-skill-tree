@@ -19,8 +19,7 @@
       "date": "2026-04-28",
       "notes": "ChemCrow (Bran et al., 2023) â€” autonomous chemistry agent completes synthesis planning and molecular design tasks rated expert-level by human chemists. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -29,8 +28,7 @@
       "date": "2026-04-28",
       "notes": "Coscientist (Boiko et al., 2023) â€” autonomously planned and executed real wet-lab chemistry experiments, confirmed by GC-MS analysis. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

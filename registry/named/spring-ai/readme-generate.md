@@ -33,6 +33,7 @@ evidence:
   trustNumber: 70.0
   commits: 1245
   contributors: 82
+  grade: B
 timeline:
 - timestamp: '2026-06-10T05:38:19Z'
   action: evidence_added

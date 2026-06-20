@@ -29,6 +29,7 @@ evidence:
   commits: 400
   contributors: 59
   trustNumber: 70.0
+  grade: B
 - source: https://browser-use.com/posts/online-mind2web-benchmark
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -37,7 +38,6 @@ evidence:
   notes: 'BU Bench V1 (100 verified tasks from WebArena/Mind2Web): 78-97% task success
     rate using bu-ultra/max. 80% using Claude Fable 5 (Mid-2026).'
   trustNumber: 85.0
-  grade: A
 - source: https://www.youtube.com/watch?v=XQn6yGq6oN8
   evaluator: mbtiongson1
   date: '2026-06-19'

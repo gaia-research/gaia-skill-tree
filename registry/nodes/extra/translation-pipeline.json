@@ -18,8 +18,7 @@
       "date": "2026-04-28",
       "notes": "SeamlessM4T (Meta AI) â€” unified speech and text translation model with tone and register control; BLEU +3.3 over NLLB on FLORES-200. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     }
   ],
   "knownAgents": [],

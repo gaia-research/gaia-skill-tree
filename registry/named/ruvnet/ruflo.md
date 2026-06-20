@@ -83,6 +83,7 @@ evidence:
   commits: 6899
   contributors: 32
   trustNumber: 70.0
+  grade: B
 - source: https://github.com/ruvnet/ruflo/stargazers
   evaluator: mbtiongson1
   date: '2026-06-19'

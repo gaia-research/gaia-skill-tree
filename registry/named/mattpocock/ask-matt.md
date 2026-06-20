@@ -89,7 +89,6 @@ evidence:
   notes: 'I13 classify: repo-own evidence backfill (skill file)'
   skillCountInRepo: 34
   sourceStartedAt: '2026-06-19'
-  grade: B
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt
   evaluator: testuser
   date: '2026-06-20'
@@ -106,7 +105,6 @@ evidence:
   notes: 'I13 classify: repo-own evidence backfill (skill file)'
   skillCountInRepo: 34
   sourceStartedAt: '2026-06-19'
-  grade: B
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt
   evaluator: testuser
   date: '2026-06-20'

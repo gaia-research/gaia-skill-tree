@@ -21,8 +21,7 @@
       "date": "2026-04-29",
       "notes": "RAGAS peer-reviewed demo paper defines reproducible metrics for retrieval-augmented generation, including context relevance, faithfulness, and answer relevance; these directly evaluate known RAG failure modes such as irrelevant retrieval and unfaithful generation. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

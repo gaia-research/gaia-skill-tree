@@ -240,7 +240,7 @@
     // Type counts for top-3 stat cards
     const typeCounts = {};
     allEntries.forEach(ev => {
-      const g = ev.grade || 'ungraded';
+      const g = effectiveGrade(ev) || 'ungraded';
       if (gradeCounts[g] !== undefined) gradeCounts[g]++;
       typeCounts[ev.type] = (typeCounts[ev.type] || 0) + 1;
     });
@@ -293,7 +293,7 @@
 
       // Grade filter
       if (currentFilters.grade !== 'all') {
-        const g = ev.grade || 'ungraded';
+        const g = effectiveGrade(ev) || 'ungraded';
         if (g !== currentFilters.grade) return false;
       }
 
@@ -328,7 +328,7 @@
     // Compute aggregate group sorting parameters
     groups.forEach(g => {
       g.entries.forEach(ev => {
-        const w = gradeWeight[ev.grade || 'ungraded'];
+        const w = gradeWeight[effectiveGrade(ev) || 'ungraded'];
         if (w > g.maxGradeWeight) g.maxGradeWeight = w;
 
         const d = ev.date || '';
@@ -442,6 +442,14 @@
     return Math.round(score * 10) / 10;
   }
 
+  // Derive the effective display grade for an evidence row.
+  // Delegates to TM_CONFIG.effectiveGrade (single source of truth in tm-config.js).
+  function effectiveGrade(ev) {
+    const TM = window.TM_CONFIG;
+    if (!TM || !TM.effectiveGrade) return (ev.grade || '').toUpperCase().charAt(0) || '';
+    return TM.effectiveGrade(ev, deriveWeightedScore(ev));
+  }
+
   // Build (i) tooltip for a type pill — reads from TM_CONFIG
   function typePillTooltip(normType) {
     const TM = window.TM_CONFIG;
@@ -534,7 +542,8 @@
 
     // Weighted MAG score + MAG bar grade colour
     const weighted = deriveWeightedScore(ev);
-    const barGrade = gradeChar || 'none';
+    const barGradeChar = effectiveGrade(ev);
+    const barGrade = barGradeChar || 'none';
     const magDisplay = weighted != null
       ? (Number.isInteger(weighted) ? String(weighted) : weighted.toFixed(1))
       : '—';

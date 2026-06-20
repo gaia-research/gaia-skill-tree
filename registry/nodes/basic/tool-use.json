@@ -21,8 +21,7 @@
       "date": "2026-04-28",
       "notes": "Toolformer (Schick et al., 2023) â€” self-supervised method teaching LLMs to call APIs; zero-shot tool use surpasses GPT-3 175B on several benchmarks. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

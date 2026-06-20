@@ -14,8 +14,7 @@
       "date": "2026-04-30",
       "notes": "LARS (2026) -- Parameter Efficiency Is Not Memory Efficiency: Rethinking Fine-Tuning on-Device LLM Adaptation; reduces GPU memory footprint 33.54% vs LoRA. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

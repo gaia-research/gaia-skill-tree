@@ -69,6 +69,7 @@ evidence:
   commits: 5679
   contributors: 150
   trustNumber: 70.0
+  grade: B
 - source: https://github.com/firecrawl/firecrawl
   evaluator: mbtiongson1
   date: '2026-06-19'

@@ -17,8 +17,7 @@
       "date": "2026-06-03",
       "notes": "Edge-Cloud Collaborative Computing on Distributed Intelligence and Model Optimization: A Survey — covers quantization, pruning, distillation, federated learning for edge deployment (IEEE ComST 2026) (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

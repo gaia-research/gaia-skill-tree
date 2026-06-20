@@ -25,6 +25,7 @@ evidence:
   trustNumber: 70.0
   commits: 6
   contributors: 3
+  grade: C
 - source: https://genome.cshlp.org/content/17/12/1797
   evaluator: unknown
   date: '2026-06-20'

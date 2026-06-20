@@ -25,6 +25,7 @@ evidence:
   trustNumber: 70.0
   commits: 6
   contributors: 3
+  grade: C
 - source: https://biorxiv.org/about-biorxiv
   evaluator: unknown
   date: '2026-06-19'

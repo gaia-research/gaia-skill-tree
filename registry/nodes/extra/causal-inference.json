@@ -17,8 +17,7 @@
       "date": "2026-06-03",
       "notes": "Causal machine learning for predicting treatment outcomes — individualized treatment effects from RCT + observational data; published Nature Medicine 2024 (Feuerriegel et al.) (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

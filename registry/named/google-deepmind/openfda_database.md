@@ -26,6 +26,7 @@ evidence:
   trustNumber: 70.0
   commits: 6
   contributors: 3
+  grade: C
 - source: https://open.fda.gov/apis/drug/event/
   evaluator: unknown
   date: '2026-06-20'

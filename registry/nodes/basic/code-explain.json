@@ -17,8 +17,7 @@
       "date": "2026-04-30",
       "notes": "CodeT5 (Wang et al., 2021) -- unified pre-trained model for code understanding and generation; 73.7 BLEU on CodeSearchNet code summarization (Python), SOTA across 4 programming languages on the NL4Code benchmark. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

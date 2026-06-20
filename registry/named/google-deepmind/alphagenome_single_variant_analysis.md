@@ -29,6 +29,7 @@ evidence:
   trustNumber: 70.0
   commits: 6
   contributors: 3
+  grade: C
 - source: https://www.nature.com/articles/s41586-025-10014-0
   evaluator: unknown
   date: '2026-06-19'

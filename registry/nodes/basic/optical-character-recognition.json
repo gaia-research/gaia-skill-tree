@@ -16,8 +16,7 @@
       "date": "2026-04-30",
       "notes": "TrOCR (Li et al., 2021) -- transformer-based OCR model achieving SOTA on IIIT-5K (97.9%), SVT (97.0%), and CUTE80 (97.9%) scene-text benchmarks, outperforming CNN+attention baselines across all datasets. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",

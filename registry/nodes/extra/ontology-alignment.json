@@ -17,8 +17,7 @@
       "date": "2026-06-03",
       "notes": "OntoEA: Ontology-guided Entity Alignment via Joint Knowledge Graph Embedding — class hierarchy and disjointness for entity alignment across KGs (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -27,8 +26,7 @@
       "date": "2026-06-03",
       "notes": "PARIS: Ontology Alignment at the Instance and Schema Level — probabilistic holistic alignment at both instance and class/relation levels (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "C",

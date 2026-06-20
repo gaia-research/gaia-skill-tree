@@ -30,6 +30,7 @@ evidence:
   trustNumber: 70.0
   commits: 2382
   contributors: 332
+  grade: B
 timeline:
 - timestamp: '2026-06-02T23:48:19Z'
   action: demote

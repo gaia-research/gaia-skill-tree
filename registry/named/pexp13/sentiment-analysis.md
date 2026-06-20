@@ -98,7 +98,6 @@ evidence:
   notes: Aspect-Based Sentiment Analysis survey (Zhang et al., 2022) — covers ABSA
     methods for structured review analysis (arXiv:2203.01054)
   citations: 89
-  grade: C
 verification:
   firstEvidenceAt: '2026-06-19T09:26:06Z'
 trustMagnitudeInputHash: 0fe967fac44ef008cb3a675f5da2775693274cff366b4bfaf33bd2bf9112e728

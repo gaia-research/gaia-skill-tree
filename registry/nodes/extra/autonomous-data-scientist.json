@@ -18,8 +18,7 @@
       "date": "2026-04-28",
       "notes": "DS-1000 â€” benchmark of 1000 data science problems across NumPy/Pandas/Scikit-learn; GPT-4 achieves 43.3% pass@1, establishing reproducible DS evaluation. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -28,8 +27,7 @@
       "date": "2026-04-28",
       "notes": "AutoML Survey (He et al., ACM CSUR) â€” systematic review of autonomous ML pipeline search; demonstrates automated feature engineering, model selection, and HPO. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
