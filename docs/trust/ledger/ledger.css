@@ -11,6 +11,18 @@
   width: 100%;
 }
 
+/* Global `section { max-width: 1000px; margin: 0 auto; padding: 5rem 1.5rem }`
+   in styles.css clamps every <section> to 1000px and centres it. The
+   distribution strip, controls, hero, and footer ledger are <section>s,
+   so they were squeezed inside a 1000px column while the table-wrap
+   <div> stretched to 1680px — visible misalignment. Reset for this
+   page only. */
+.ledger-page main > section {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
 /* ── Hero ───────────────────────────────────────────────────── */
 .lb-hero {
   width: 100%;
