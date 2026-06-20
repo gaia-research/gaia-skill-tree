@@ -132,8 +132,8 @@ def test_arxiv_at_100_gets_s_grade(tmp_path):
 def test_arxiv_at_95_gets_s_grade(tmp_path):
     """arxiv at exactly S floor — citations giving score ≥95 must reach S."""
     root = _build_registry(tmp_path, [
-        # citations=475 → score = min(100, 475/5) = 95.0
-        {"type": "arxiv", "source": "https://arxiv.org/abs/test", "citations": 475},
+        # citations=380 → score = min(380, 400) / 4 = 95.0 (= S floor exactly)
+        {"type": "arxiv", "source": "https://arxiv.org/abs/test", "citations": 380},
     ])
     calibrate_evidence_grades_command(_args(root))
     ev = _load_node(root)["evidence"]
@@ -143,8 +143,8 @@ def test_arxiv_at_95_gets_s_grade(tmp_path):
 def test_arxiv_below_s_floor_gets_a(tmp_path):
     """arxiv score 90 (between A=70 and S=95) must get A."""
     root = _build_registry(tmp_path, [
-        # citations=450 → score = min(100, 450/5) = 90.0
-        {"type": "arxiv", "source": "https://arxiv.org/abs/test", "citations": 450},
+        # citations=360 → score = min(360, 400) / 4 = 90.0 (A floor 70, below S=95)
+        {"type": "arxiv", "source": "https://arxiv.org/abs/test", "citations": 360},
     ])
     calibrate_evidence_grades_command(_args(root))
     ev = _load_node(root)["evidence"]

@@ -27,6 +27,9 @@ SE_JS = (ROOT / "docs" / "js" / "skill-explorer.js").read_text(encoding="utf-8")
 EV_HTML = (ROOT / "docs" / "evidence" / "index.html").read_text(encoding="utf-8")
 STYLES_CSS = (ROOT / "docs" / "css" / "styles.css").read_text(encoding="utf-8")
 TM_HTML = (ROOT / "docs" / "codex" / "trust-methodology.html").read_text(encoding="utf-8")
+TM_CONFIG_JS = (ROOT / "docs" / "js" / "tm-config.js").read_text(encoding="utf-8")
+NAMED_HTML = (ROOT / "docs" / "named" / "index.html").read_text(encoding="utf-8")
+PLAQUE_JS = (ROOT / "docs" / "js" / "plaque.js").read_text(encoding="utf-8")
 
 
 # ── evidence-library.js ───────────────────────────────────────────────────────
@@ -431,3 +434,70 @@ class TestMetaJSON:
                 floors = self.thresholds[t["id"]]
                 assert "S" not in floors and "A" not in floors, \
                     f"Type {t['id']} has gradeCeiling=C but defines S or A floors"
+
+# ── tm-config.js — single source of truth ────────────────────────────────────
+
+class TestTMConfigJS:
+    """Structural invariants for the single-source-of-truth formula config."""
+
+    def test_file_exists(self):
+        assert (ROOT / "docs" / "js" / "tm-config.js").exists()
+
+    def test_window_tm_config_exported(self):
+        assert "window.TM_CONFIG" in TM_CONFIG_JS
+
+    def test_all_10_types_present(self):
+        for t in ["fusion-recipe", "github-stars-own", "proxy-containment",
+                  "verifier-attestation", "benchmark-result", "arxiv",
+                  "peer-review", "repo-own", "self-attestation", "social-signal"]:
+            assert f"'{t}'" in TM_CONFIG_JS or f'"{t}"' in TM_CONFIG_JS, \
+                f"Type '{t}' missing from tm-config.js"
+
+    def test_overall_grades_array_present(self):
+        assert "OVERALL_GRADES" in TM_CONFIG_JS
+        assert "250" in TM_CONFIG_JS  # S floor
+        assert "100" in TM_CONFIG_JS  # A floor
+        assert "50"  in TM_CONFIG_JS  # B floor
+        assert "20"  in TM_CONFIG_JS  # C floor
+
+    def test_canonical_type_function(self):
+        assert "canonicalType" in TM_CONFIG_JS
+
+    def test_grade_floor_function(self):
+        assert "gradeFloor" in TM_CONFIG_JS
+
+    def test_apply_cap_function(self):
+        assert "applyCap" in TM_CONFIG_JS
+
+    def test_rfc_links_present(self):
+        assert "gaia.tiongson.co/trust/" in TM_CONFIG_JS
+
+    def test_migration_comment_present(self):
+        """MIGRATION block tells developers what to update when formulas change."""
+        assert "MIGRATION" in TM_CONFIG_JS
+        assert "trustMagnitude.py" in TM_CONFIG_JS
+
+    def test_self_producible_list_present(self):
+        assert "SELF_PRODUCIBLE" in TM_CONFIG_JS
+        assert "fusion-recipe" in TM_CONFIG_JS
+        assert "self-attestation" in TM_CONFIG_JS
+
+    def test_skill_explorer_reads_tm_config(self):
+        """_deriveTrustNum and _magTooltip must reference window.TM_CONFIG."""
+        assert "window.TM_CONFIG" in SE_JS
+
+    def test_plaque_reads_tm_config(self):
+        """_fieldTrustNotch must reference window.TM_CONFIG."""
+        assert "window.TM_CONFIG" in PLAQUE_JS
+
+    def test_named_page_loads_tm_config_before_plaque(self):
+        """named/index.html must load tm-config.js before plaque.js."""
+        tm_idx = NAMED_HTML.find("tm-config.js")
+        plaque_idx = NAMED_HTML.find("plaque.js")
+        assert tm_idx != -1, "tm-config.js not found in named/index.html"
+        assert tm_idx < plaque_idx, "tm-config.js must be loaded before plaque.js"
+
+    def test_no_hardcoded_grade_floor_dict_in_skill_explorer(self):
+        """The old hardcoded GRADE_FLOOR dict must be gone from skill-explorer.js."""
+        assert "GRADE_FLOOR" not in SE_JS, \
+            "Hardcoded GRADE_FLOOR dict found — should use TM_CONFIG.gradeFloor() instead"

@@ -36,89 +36,122 @@
   }
 
   // Derive a display trustNumber from magnitude drivers when trustNumber is absent.
-  // Mirrors the simplified backend formula for display-only use (no plateau/weight).
+  // Single source of truth for formulas: window.TM_CONFIG (docs/js/tm-config.js).
+  // Per-row, pre-weight, pre-plateau artifact magnitude.
   function _deriveTrustNum(ev) {
     if (ev.trustNumber != null) return ev.trustNumber;
-    var t = ev.type || '';
-    if (t === 'github-stars' || t === 'github-stars-own') {
-      if (ev.stars != null) return Math.min(200, parseFloat(ev.stars) / 1000).toFixed(1) * 1;
-    }
-    if (t === 'arxiv') {
-      if (ev.citations != null) return Math.min(100, parseFloat(ev.citations) / 5);
-    }
-    if (t === 'peer-review') {
-      // Default to 1 reviewer when the evaluator field is populated but reviewers count is absent
-      var reviewerCount = ev.reviewers != null ? parseFloat(ev.reviewers) : (ev.evaluator ? 1 : null);
-      if (reviewerCount != null) return Math.min(150, reviewerCount * 30);
-    }
-    if (t === 'social-signal') {
-      if (ev.views != null && ev.views >= 1000) {
-        return Math.min(80, Math.log10(ev.views) * 8);
+    var TM = window.TM_CONFIG;
+    if (!TM) {
+      // tm-config.js not loaded — legacy fallback so the UI doesn't blank
+      var t0 = ev.type || '';
+      if (t0 === 'github-stars' || t0 === 'github-stars-own') {
+        if (ev.stars != null) return Math.min(200, parseFloat(ev.stars) / 1000).toFixed(1) * 1;
       }
+      if (t0 === 'peer-review') {
+        var rc = ev.reviewers != null ? parseFloat(ev.reviewers) : (ev.evaluator ? 1 : null);
+        if (rc != null) return Math.min(150, rc * 30);
+      }
+      return null;
     }
-    if (t === 'benchmark-result') {
-      if (ev.percentile != null) return Math.min(100, parseFloat(ev.percentile));
+
+    var t = TM.canonicalType(ev.type || '');
+    var cfg = TM.TYPES[t];
+    if (!cfg) return null;
+
+    // Driver-based path: invoke the type's describe() with the evidence row.
+    var d = cfg.describe(ev);
+    if (d != null && d.value != null) {
+      var capped = TM.applyCap(t, d.value);
+      return Math.round(capped * 10) / 10;
     }
-    if (t === 'verifier-attestation') {
-      if (ev.verifiers != null) return Math.min(150, parseFloat(ev.verifiers) * 30);
-    }
-    // No metric drivers available — fall back to grade-implied estimate using type A floors.
-    // This handles manually-graded rows (class/grade field) without raw metric data.
+
+    // Fallback: human-graded row with no metric drivers — use the per-type grade floor.
     var gradeChar = (ev.grade || ev.class || '').toUpperCase().charAt(0);
     if (gradeChar) {
-      var GRADE_FLOOR = {
-        'S': { 'github-stars-own': 88, 'arxiv': 95, 'peer-review': 88, 'benchmark-result': 90, 'verifier-attestation': 90, 'social-signal': 80, 'fusion-recipe': 200, 'proxy-containment': 112 },
-        'A': { 'github-stars-own': 60, 'arxiv': 70, 'peer-review': 60, 'benchmark-result': 70, 'verifier-attestation': 54, 'social-signal': 60, 'fusion-recipe': 120, 'proxy-containment': 64, 'repo-own': 40, 'repo': 40 },
-        'B': { 'github-stars-own': 35, 'arxiv': 40, 'peer-review': 35, 'benchmark-result': 40, 'verifier-attestation': 27, 'social-signal': 28, 'fusion-recipe': 60, 'proxy-containment': 32, 'repo-own': 22, 'repo': 22 },
-        'C': { 'github-stars-own': 20, 'arxiv': 15, 'peer-review': 14, 'benchmark-result': 20, 'verifier-attestation': 14, 'social-signal': 12, 'fusion-recipe': 30, 'proxy-containment': 16, 'repo-own': 9, 'repo': 9, 'self-attestation': 4 },
-      };
-      var floors = GRADE_FLOOR[gradeChar];
-      if (floors && floors[t] != null) return floors[t];
+      var floor = TM.gradeFloor(t, gradeChar);
+      if (floor != null) return floor;
     }
     return null;
   }
 
-  // Build a tooltip string explaining how the MAG number was computed for an evidence row.
-  // Note: row MAG = artifact_score for this row only (before type weight + plateau discount).
-  // Skill-level Trust Magnitude = weighted aggregate across all evidence rows.
+  // Build a tooltip explaining how the per-row MAG number was derived.
+  // All formulas and thresholds read from window.TM_CONFIG — no hardcoded values.
   function _magTooltip(ev, tmRaw) {
-    if (tmRaw == null) return 'No magnitude drivers present for this evidence type.';
-    var t = ev.type || '';
+    var TM = window.TM_CONFIG;
+    if (!TM) return 'Trust config unavailable. See ' + 'https://gaia.tiongson.co/trust/';
+    if (tmRaw == null) return 'No magnitude drivers present for this evidence type.\nSee ' + TM.RFC.types;
+
+    var t = TM.canonicalType(ev.type || '');
+    var cfg = TM.TYPES[t];
     var lines = [];
+
+    if (!cfg) {
+      lines.push('Unknown evidence type: ' + (ev.type || '(none)'));
+      lines.push('Full methodology: ' + TM.RFC_BASE);
+      return lines.join('\n');
+    }
+
+    // ── Header ────────────────────────────────────────────────────
+    lines.push(cfg.label.toUpperCase() + ' · ' + cfg.formula);
+
+    // ── Per-row computation ───────────────────────────────────────
     if (ev.trustNumber != null) {
-      lines.push('Artifact score: ' + ev.trustNumber + ' (stored)');
-    } else if (t === 'github-stars' || t === 'github-stars-own') {
-      var s = ev.stars != null ? parseFloat(ev.stars) : null;
-      if (s != null) lines.push('stars / 1000 = ' + (s/1000).toFixed(1) + ' (cap 200)');
-    } else if (t === 'arxiv') {
-      var c = ev.citations != null ? parseFloat(ev.citations) : null;
-      if (c != null) lines.push('citations / 5 = ' + (c/5).toFixed(1) + ' (cap 100)');
-    } else if (t === 'peer-review') {
-      var r = ev.reviewers != null ? parseFloat(ev.reviewers) : (ev.evaluator ? 1 : null);
-      if (r != null) {
-        lines.push('reviewers × 30 = ' + (r*30).toFixed(0) + ' (cap 150)');
-        if (ev.reviewers == null && ev.evaluator) lines.push('reviewers defaulted to 1 (evaluator present)');
+      lines.push('Stored artifact score: ' + ev.trustNumber);
+    } else {
+      var d = cfg.describe(ev);
+      if (d) {
+        var raw = d.value;
+        var capped = TM.applyCap(t, raw);
+        var capStr = cfg.cap != null
+          ? (raw > cfg.cap ? ', capped at ' + cfg.cap : ' (cap ' + cfg.cap + ')')
+          : '';
+        lines.push(d.expr + ' = ' + raw.toFixed(1) + capStr);
+        if (Math.abs(capped - raw) > 0.05) lines.push('→ capped: ' + capped.toFixed(1));
+      } else {
+        // Grade-floor fallback
+        var gc = (ev.grade || ev.class || '').toUpperCase().charAt(0);
+        var floor = gc ? TM.gradeFloor(t, gc) : null;
+        if (floor != null) {
+          lines.push('No metric drivers; estimated from grade ' + gc + ' floor = ' + floor);
+          lines.push('(Add metric fields to get a precise score)');
+        }
       }
-    } else if (t === 'social-signal') {
-      var v = ev.views != null ? parseFloat(ev.views) : null;
-      if (v != null && v >= 1000) lines.push('log₁₀(' + v + ') × 8 = ' + (Math.log10(v)*8).toFixed(1) + ' (cap 80)');
-    } else if (t === 'benchmark-result') {
-      var p = ev.percentile != null ? parseFloat(ev.percentile) : null;
-      if (p != null) lines.push('percentile = ' + p + ' (cap 100)');
-    } else if (t === 'verifier-attestation') {
-      var vr = ev.verifiers != null ? parseFloat(ev.verifiers) : null;
-      if (vr != null) lines.push('verifiers × 30 = ' + (vr*30).toFixed(0) + ' (cap 150)');
     }
-    if (ev.grade) lines.push('Grade: ' + ev.grade);
-    else if (ev.class) lines.push('Grade (legacy class): ' + ev.class);
-    // If no metric drivers were found but we fell back to grade-implied floor
-    var hasDrivers = ev.trustNumber != null || ev.stars != null || ev.citations != null ||
-      ev.reviewers != null || ev.views != null || ev.percentile != null || ev.verifiers != null;
-    if (!hasDrivers && tmRaw != null) {
-      lines.push('~ Estimated from grade floor (no metric drivers recorded)');
+
+    // ── Type metadata ─────────────────────────────────────────────
+    var meta = ['weight ×' + cfg.weight];
+    if (cfg.plateau) {
+      if (cfg.plateau.maxRows === 1) {
+        meta.push('1 row max');
+      } else {
+        meta.push('plateau ' + cfg.plateau.factors.join('/') +
+                  ' (max ' + cfg.plateau.maxRows + ')');
+      }
     }
-    lines.push('Row score only — skill TM = weighted aggregate across all rows');
-    return lines.join('\n') || 'MAG ' + tmRaw;
+    if (cfg.freshness && cfg.freshness.decayPerYear) {
+      meta.push('freshness −' + Math.round(cfg.freshness.decayPerYear * 100) + '%/yr');
+    }
+    if (cfg.sumCap) meta.push('per-skill sum cap ' + cfg.sumCap);
+    if (cfg.gradeCeiling) meta.push('ceiling grade ' + cfg.gradeCeiling);
+    lines.push(meta.join(' · '));
+
+    // ── Grade info ────────────────────────────────────────────────
+    var gradeFloors = cfg.gradeFloors || {};
+    var floorStrs = [];
+    ['S', 'A', 'B', 'C'].forEach(function(g) {
+      if (gradeFloors[g] != null) floorStrs.push(g + '≥' + gradeFloors[g]);
+    });
+    if (floorStrs.length) lines.push('Row grade floors: ' + floorStrs.join(' · '));
+    if (ev.grade)       lines.push('This row\'s grade: ' + ev.grade);
+    else if (ev.class)  lines.push('This row\'s grade (legacy): ' + ev.class);
+
+    // ── Aggregate context ─────────────────────────────────────────
+    lines.push('');
+    lines.push('→ Per-row artifact score (before weight × plateau).');
+    lines.push('   Skill TM = weighted aggregate across all evidence rows.');
+    lines.push('Full methodology: ' + TM.RFC[cfg.anchor || 'types']);
+
+    return lines.join('\n');
   }
 
   function effectiveLabel(skill) {

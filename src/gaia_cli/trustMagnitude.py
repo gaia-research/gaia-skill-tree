@@ -38,7 +38,7 @@ GRADE_C_FLOOR = 20.0
 
 # Per-type weights (RFC §2.1)
 TYPE_WEIGHTS = {
-    "fusion-recipe": 1.5,
+    "fusion-recipe": 1.4,
     "github-stars-own": 1.0,
     "proxy-containment": 1.0,
     "verifier-attestation": 1.5,
@@ -46,8 +46,8 @@ TYPE_WEIGHTS = {
     "arxiv": 1.0,
     "peer-review": 1.2,
     "repo-own": 0.6,
-    "self-attestation": 0.5,
-    "social-signal": 1.0,
+    "self-attestation": 0.4,
+    "social-signal": 0.6,
 }
 
 # Per-type magnitude caps (RFC §2.1; social-signal is hard-capped per §10.7)
@@ -261,12 +261,10 @@ def _freshnessFactor(row: dict, evidenceType: str) -> float:
 
 
 def _fusionRecipeMagnitude(origins: int) -> float:
-    """RFC §2.2: m = 20*origins for <=10; 200 + 20*sqrt(origins-10) past."""
+    """RFC §2.2: m = 15*origins + 5*sqrt(origins) for origins >= C."""
     if origins <= 0:
         return 0.0
-    if origins <= 10:
-        return 20.0 * origins
-    return 200.0 + 20.0 * math.sqrt(origins - 10)
+    return 15.0 * origins + 5.0 * math.sqrt(origins)
 
 
 def _gradedOriginCount(origins: list, genericSkillMap: Optional[dict]) -> int:
@@ -443,13 +441,11 @@ def _rawMagnitudeForType(
 
     if evidenceType == "github-stars-own":
         stars = float(row.get("stars", 0) or 0)
-        return stars / 1000.0
+        return math.log2(stars + 1) * 18.0
 
     if evidenceType == "proxy-containment":
         externalStars = float(row.get("externalStars", 0) or 0)
-        if externalStars < 10000:
-            return 0.0
-        return (externalStars / 1000.0) * 0.8
+        return math.log2(externalStars + 1) * 18.0
 
     if evidenceType == "verifier-attestation":
         verifiers = int(row.get("verifiers", 1) or 1)
@@ -460,7 +456,7 @@ def _rawMagnitudeForType(
 
     if evidenceType == "arxiv":
         citations = float(row.get("citations", 0) or 0)
-        return citations / 5.0
+        return min(citations, 400.0) / 4.0
 
     if evidenceType == "peer-review":
         reviewers = int(row.get("reviewers", 1) or 1)
@@ -475,6 +471,11 @@ def _rawMagnitudeForType(
         return 10.0
 
     if evidenceType == "social-signal":
+        # Canonical: log₂(engagements+1) × 12 (RFC §2.10)
+        engagements = row.get("engagements")
+        if engagements is not None:
+            return math.log2(float(engagements) + 1) * 12.0
+        # Views fallback: log₁₀(views) × 8
         views = float(row.get("views", 0) or 0)
         if views < 1000:
             return 0.0
@@ -549,14 +550,29 @@ def _rowComparableMagnitude(row: dict) -> float:
 
 _PLATEAU_FACTORS = [1.0, 0.5, 0.25]
 
+# Per-type plateau configs: (factors_list, max_rows)
+_PLATEAU_CONFIG: dict = {
+    "proxy-containment":    ([1.0],                       1),
+    "verifier-attestation": ([1.0, 0.85, 0.70],           5),
+    "arxiv":                ([1.0, 0.5, 0.25, 0.125],     4),
+    "peer-review":          ([1.0, 0.5, 0.25],            3),
+    "social-signal":        ([1.0, 0.5, 0.25],            3),
+    "repo-own":             ([1.0, 0.5, 0.25],            3),
+    "github-stars-own":     ([1.0],                       1),
+    "self-attestation":     ([1.0],                       1),
+    "benchmark-result":     ([1.0],                       1),
+    "fusion-recipe":        ([1.0],                       1),
+}
+
 
 def _applyPlateauAndCreatorDedup(
     rowsWithScores: list[tuple[dict, Optional[float]]],
 ) -> list[tuple[dict, Optional[float]]]:
-    """Apply per-type plateau (1.0 / 0.5 / 0.25) for stackable types.
+    """Apply per-type plateau for stackable types (RFC §2.1).
 
-    Stackable types: proxy-containment (max 3), peer-review, social-signal
-    (with per-creator dedup as well).
+    Each type in _PLATEAU_CONFIG is capped at maxRows rows; rows beyond the
+    cap get score 0.0.  social-signal also deduplicates by creator within
+    its plateau pass.
 
     Rows with score=None (null-on-derank) are passed through unchanged.
     """
@@ -568,17 +584,13 @@ def _applyPlateauAndCreatorDedup(
     out: list[tuple[dict, Optional[float]]] = list(rowsWithScores)
 
     for t, indices in byType.items():
-        if t in ("proxy-containment", "peer-review"):
-            scored = [(i, rowsWithScores[i][1]) for i in indices]
-            scored.sort(key=lambda x: (x[1] is None, -(x[1] or 0.0)))
-            for rank, (i, score) in enumerate(scored):
-                if score is None:
-                    continue
-                if rank >= 3:
-                    out[i] = (rowsWithScores[i][0], 0.0)
-                else:
-                    out[i] = (rowsWithScores[i][0], score * _PLATEAU_FACTORS[rank])
-        elif t == "social-signal":
+        cfg = _PLATEAU_CONFIG.get(t)
+        if cfg is None:
+            continue
+        plateauFactors, maxRows = cfg
+
+        if t == "social-signal":
+            # Per-creator dedup within the plateau pass
             byCreator: dict[str, list[int]] = {}
             for i in indices:
                 creator = (
@@ -593,10 +605,22 @@ def _applyPlateauAndCreatorDedup(
                 for rank, (i, score) in enumerate(scored):
                     if score is None:
                         continue
-                    if rank >= 3:
+                    if rank >= maxRows:
                         out[i] = (rowsWithScores[i][0], 0.0)
                     else:
-                        out[i] = (rowsWithScores[i][0], score * _PLATEAU_FACTORS[rank])
+                        factor = plateauFactors[rank] if rank < len(plateauFactors) else plateauFactors[-1]
+                        out[i] = (rowsWithScores[i][0], score * factor)
+        else:
+            scored = [(i, rowsWithScores[i][1]) for i in indices]
+            scored.sort(key=lambda x: (x[1] is None, -(x[1] or 0.0)))
+            for rank, (i, score) in enumerate(scored):
+                if score is None:
+                    continue
+                if rank >= maxRows:
+                    out[i] = (rowsWithScores[i][0], 0.0)
+                else:
+                    factor = plateauFactors[rank] if rank < len(plateauFactors) else plateauFactors[-1]
+                    out[i] = (rowsWithScores[i][0], score * factor)
     return out
 
 
@@ -785,6 +809,44 @@ def computeOverallTrustGradeFromSkill(
     distinctTypes = _countDistinctEvidenceTypes(skill)
     hasNonSelf = _hasNonSelfProducible(skill)
     return computeOverallTrustGrade(tm, distinctTypes, hasNonSelf)
+
+
+def computeRowArtifactScores(
+    skill: dict,
+    genericSkillMap: Optional[dict] = None,
+) -> list:
+    """Return [(row_dict, artifact_score), ...] for every on-disk evidence row.
+
+    Applies the same effective-pool, anti-auto-mint, dedup, and plateau logic
+    as computeTrustMagnitude, but returns per-row scores for grade backfill.
+    Auto-derived rows (_autoDerived: True) are flagged so callers can skip them
+    during write-back. Null-on-derank verifier rows are included with score=0.0.
+    """
+    pool = _effectivePool(skill, genericSkillMap)
+    evidence = enforceAntiAutoMint({"evidence": pool})
+    deduped = _dedupeSameSource(evidence)
+
+    suiteComponents = skill.get("suiteComponents") or []
+    hasFusionRow = any(_typeOf(r) == "fusion-recipe" for r in deduped)
+    if suiteComponents and not hasFusionRow:
+        deduped = list(deduped) + [{
+            "type": "fusion-recipe",
+            "origins": list(suiteComponents),
+            "_autoDerived": True,
+            "layer": _ownLayerOf(skill),
+        }]
+
+    rowsWithScores: list = []
+    for row in deduped:
+        baseScore = computeArtifactScoreOrNone(row, genericSkillMap)
+        if baseScore is None:
+            rowsWithScores.append((row, 0.0))
+            continue
+        mult = _inheritMultiplierFor(row, skill)
+        rowsWithScores.append((row, baseScore * mult))
+
+    rowsWithScores = _applyPlateauAndCreatorDedup(rowsWithScores)
+    return rowsWithScores
 
 
 def _countDistinctEvidenceTypes(skill: dict) -> int:
