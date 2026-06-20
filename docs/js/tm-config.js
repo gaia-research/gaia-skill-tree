@@ -1,12 +1,12 @@
 /* docs/js/tm-config.js  —  G7 Trust Magnitude single source of truth (frontend)
  *
  * When RFC G7 formulas change, update:
- *   1. THIS FILE                          ← frontend SoT
- *   2. src/gaia_cli/trustMagnitude.py     ← backend mirror
- *   3. docs/trust/index.html              ← human-readable RFC reference
- *   4. registry/schema/meta.json          ← perRowGradeThresholds fixture
- *   5. tests/test_row_grading.py          ← bump hardcoded expected values
- *   6. python scripts/build_docs.py       ← regenerate docs/graph/named/index.json
+ *   1. THIS FILE                               ← frontend SoT
+ *   2. src/gaia_cli/trustMagnitude.py          ← backend mirror
+ *   3. docs/codex/trust-methodology.html       ← canonical public RFC
+ *   4. registry/schema/meta.json               ← perRowGradeThresholds fixture
+ *   5. tests/test_row_grading.py               ← bump hardcoded expected values
+ *   6. python scripts/build_docs.py            ← regenerate docs/graph/named/index.json
  *
  * Everything else in docs/js/ reads from window.TM_CONFIG — no other
  * file needs touching when formulas change.
@@ -16,7 +16,7 @@
 (function () {
   'use strict';
 
-  var RFC_BASE = 'https://gaia.tiongson.co/trust/';
+  var RFC_BASE = 'https://gaia.tiongson.co/codex/trust-methodology.html';
   var RFC = {
     overview:      RFC_BASE + '#trust-magnitude',
     types:         RFC_BASE + '#evidence-types',
@@ -59,43 +59,47 @@
 
     'github-stars-own': {
       label: 'stars',
-      formula: 'log₂(stars+1) × 18',
+      formula: 'stars / 1000  (÷ skillCountInRepo for motherships)',
       describe: function (row) {
         var s = row.stars != null ? Number(row.stars) : null;
         if (s == null) return null;
-        return { value: Math.log2(s + 1) * 18,
-                 expr:  'log₂(' + s + '+1) × 18' };
+        var k = row.skillCountInRepo != null ? Math.max(1, Number(row.skillCountInRepo)) : 1;
+        var val = (s / 1000) / k;
+        var expr = k > 1
+          ? '(' + s + '/1000) ÷ ' + k + ' skills'
+          : s + '/1000';
+        return { value: val, expr: expr };
       },
       weight: 1.0,
       cap: 200,
       plateau: { factors: [1.0], maxRows: 1 },
       freshness: null,
-      gradeFloors: { S: 88, A: 60, B: 35, C: 20 },
+      gradeFloors: { S: 100, A: 50, B: 20, C: 5 },
       gradeCeiling: null,
       anchor: 'types',
     },
 
     'proxy-containment': {
       label: 'proxy',
-      formula: 'log₂(containingRepoStars+1) × 18',
+      formula: '(containingRepoStars / 1000) × 0.8',
       describe: function (row) {
         var s = row.externalStars != null ? Number(row.externalStars) : null;
-        if (s == null) return null;
-        return { value: Math.log2(s + 1) * 18,
-                 expr:  'log₂(' + s + '+1) × 18' };
+        if (s == null || s < 10000) return null;
+        return { value: (s / 1000) * 0.8,
+                 expr:  '(' + s + '/1000) × 0.8' };
       },
       weight: 1.0,
       cap: 160,
       plateau: { factors: [1.0], maxRows: 1 },
       freshness: null,
-      gradeFloors: { S: 112, A: 64, B: 32, C: 16 },
+      gradeFloors: { S: 100, A: 64, B: 32, C: 16 },
       gradeCeiling: null,
       anchor: 'types',
     },
 
     'verifier-attestation': {
       label: 'verifier',
-      formula: '30 × N verifiers',
+      formula: '30 × N verifiers (4★+)',
       describe: function (row) {
         var n = row.verifiers != null ? Number(row.verifiers) : null;
         if (n == null) return null;
@@ -103,7 +107,7 @@
                  expr:  '30 × ' + n + ' verifier' + (n === 1 ? '' : 's') };
       },
       weight: 1.5,
-      cap: null,  // dynamic: 30×N per row
+      cap: null,
       plateau: { factors: [1.0, 0.85, 0.70], maxRows: 5 },
       freshness: null,
       gradeFloors: { S: 90, A: 54, B: 27, C: 14 },
@@ -113,44 +117,41 @@
 
     'benchmark-result': {
       label: 'benchmark',
-      formula: 'normalised score × 100  (50% decay/yr)',
+      formula: 'percentile (0–100)  (50% decay/yr)',
       describe: function (row) {
         var p = row.percentile != null ? Number(row.percentile) : null;
         if (p == null) return null;
-        return { value: p,
-                 expr:  'percentile = ' + p };
+        return { value: p, expr: 'percentile = ' + p };
       },
       weight: 1.4,
       cap: 100,
       plateau: { factors: [1.0], maxRows: 1 },
       freshness: { decayPerYear: 0.5 },
-      gradeFloors: { S: 90, A: 70, B: 40, C: 20 },
+      gradeFloors: { S: 95, A: 70, B: 40, C: 20 },
       gradeCeiling: null,
       anchor: 'types',
     },
 
     'arxiv': {
       label: 'arxiv',
-      formula: 'min(citations, 400) / 4',
+      formula: 'citations / 5',
       describe: function (row) {
         var c = row.citations != null ? Number(row.citations) : null;
         if (c == null) return null;
-        var capped = Math.min(c, 400);
-        return { value: capped / 4,
-                 expr:  'min(' + c + ', 400) / 4' };
+        return { value: c / 5, expr: c + ' / 5' };
       },
       weight: 1.0,
       cap: 100,
       plateau: { factors: [1.0, 0.5, 0.25, 0.125], maxRows: 4 },
       freshness: null,
-      gradeFloors: { S: 95, A: 70, B: 40, C: 15 },
-      gradeCeiling: null,
+      gradeFloors: { A: 80, B: 40, C: 10 },
+      gradeCeiling: 'A',
       anchor: 'types',
     },
 
     'peer-review': {
       label: 'peer-review',
-      formula: '25 × N reviewers',
+      formula: '25 × N reviewers (4★+)',
       describe: function (row) {
         var n = row.reviewers != null
           ? Number(row.reviewers)
@@ -162,11 +163,11 @@
                  expr:  '25 × ' + n + ' reviewer' + (n === 1 ? '' : 's') + note };
       },
       weight: 1.2,
-      cap: null,  // dynamic: 25×N per row
+      cap: null,
       plateau: { factors: [1.0, 0.5, 0.25], maxRows: 3 },
       freshness: { decayPerYear: 0.125 },
-      gradeFloors: { S: 88, A: 60, B: 35, C: 14 },
-      gradeCeiling: null,
+      gradeFloors: { A: 75, B: 25, C: 10 },
+      gradeCeiling: 'A',
       anchor: 'types',
     },
 
@@ -195,44 +196,39 @@
       describe: function (_row) {
         return { value: 10, expr: 'flat 10' };
       },
-      weight: 0.4,
+      weight: 0.5,
       cap: 10,
       plateau: { factors: [1.0], maxRows: 1 },
       freshness: null,
-      gradeFloors: { C: 4 },
+      gradeFloors: { C: 5 },
       gradeCeiling: 'C',
       anchor: 'types',
     },
 
     'social-signal': {
       label: 'social',
-      formula: 'log₂(engagements+1) × 12  (views path: log₁₀(views) × 8)',
+      formula: 'log₁₀(views) × 8 × creator_mult × engagement_ratio',
       describe: function (row) {
-        // Canonical: log₂(engagements+1) × 12
-        var e = row.engagements != null ? Number(row.engagements) : null;
-        if (e != null) {
-          return { value: Math.log2(e + 1) * 12,
-                   expr:  'log₂(' + e + '+1) × 12' };
-        }
-        // Views fallback (backend stores log₁₀(views)×8 for view-only rows)
         var v = row.views != null ? Number(row.views) : null;
-        if (v != null && v >= 1000) {
-          return { value: Math.min(80, Math.log10(v) * 8),
-                   expr:  'log₁₀(' + v + ') × 8 (views path)' };
+        if (v == null || v < 1000) {
+          return v != null
+            ? { value: 0, expr: 'views ' + v + ' < 1000 → score 0' }
+            : null;
         }
-        if (v != null) {
-          return { value: 0,
-                   expr:  'views ' + v + ' < 1000 → score 0 (RFC §10.7 floor)' };
-        }
-        return null;
+        var cm = row.creatorMultiplier != null ? Number(row.creatorMultiplier) : 1.0;
+        var er = row.engagementRatio   != null ? Number(row.engagementRatio)   : 1.0;
+        var raw = Math.log10(v) * 8 * cm * er;
+        var expr = 'log₁₀(' + v + ') × 8';
+        if (cm !== 1.0) expr += ' × ' + cm + ' creator';
+        if (er !== 1.0) expr += ' × ' + er + ' eng';
+        return { value: raw, expr: expr };
       },
-      weight: 0.6,
-      cap: 60,      // per-row cap
-      sumCap: 80,   // per-skill aggregate cap (RFC §10.7)
+      weight: 1.0,
+      cap: 80,
       plateau: { factors: [1.0, 0.5, 0.25], maxRows: 3 },
-      freshness: null,
-      gradeFloors: { A: 60, B: 28, C: 12 },
-      gradeCeiling: null,
+      freshness: { decayPerYear: 0.5 },
+      gradeFloors: { A: 60, B: 28, C: 10 },
+      gradeCeiling: 'A',
       anchor: 'types',
     },
 
@@ -335,7 +331,7 @@
  * Update in this exact order:
  *   1. docs/js/tm-config.js                      ← THIS FILE (frontend SoT)
  *   2. src/gaia_cli/trustMagnitude.py             ← backend mirror
- *   3. docs/trust/index.html                      ← human-readable RFC reference
+ *   3. docs/codex/trust-methodology.html          ← canonical public RFC
  *   4. registry/schema/meta.json::perRowGradeThresholds
  *   5. tests/test_row_grading.py + tests/test_calibrate_evidence_grades.py
  *   6. Run: python scripts/build_docs.py

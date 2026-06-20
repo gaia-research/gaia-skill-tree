@@ -470,7 +470,7 @@ class TestTMConfigJS:
         assert "applyCap" in TM_CONFIG_JS
 
     def test_rfc_links_present(self):
-        assert "gaia.tiongson.co/trust/" in TM_CONFIG_JS
+        assert "gaia.tiongson.co/codex/trust-methodology.html" in TM_CONFIG_JS
 
     def test_migration_comment_present(self):
         """MIGRATION block tells developers what to update when formulas change."""

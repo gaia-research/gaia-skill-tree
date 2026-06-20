@@ -46,8 +46,8 @@ TYPE_WEIGHTS = {
     "arxiv": 1.0,
     "peer-review": 1.2,
     "repo-own": 0.6,
-    "self-attestation": 0.4,
-    "social-signal": 0.6,
+    "self-attestation": 0.5,
+    "social-signal": 1.0,
 }
 
 # Per-type magnitude caps (RFC §2.1; social-signal is hard-capped per §10.7)
@@ -448,11 +448,16 @@ def _rawMagnitudeForType(
 
     if evidenceType == "github-stars-own":
         stars = float(row.get("stars", 0) or 0)
-        return math.log2(stars + 1) * 18.0
+        skillCount = int(row.get("skillCountInRepo", 1) or 1)
+        # RFC §2.3: stars/1000, mothership-discounted by skill count in repo
+        return (stars / 1000.0) / max(1, skillCount)
 
     if evidenceType == "proxy-containment":
         externalStars = float(row.get("externalStars", 0) or 0)
-        return math.log2(externalStars + 1) * 18.0
+        if externalStars < 10000:
+            return 0.0
+        # RFC §2.4: (external_stars/1000) × 0.8
+        return (externalStars / 1000.0) * 0.8
 
     if evidenceType == "verifier-attestation":
         verifiers = int(row.get("verifiers", 1) or 1)
@@ -463,7 +468,8 @@ def _rawMagnitudeForType(
 
     if evidenceType == "arxiv":
         citations = float(row.get("citations", 0) or 0)
-        return min(citations, 400.0) / 4.0
+        # RFC §2.6: citations/5
+        return citations / 5.0
 
     if evidenceType == "peer-review":
         reviewers = int(row.get("reviewers", 1) or 1)
@@ -478,15 +484,24 @@ def _rawMagnitudeForType(
         return 10.0
 
     if evidenceType == "social-signal":
-        # Canonical: log₂(engagements+1) × 12 (RFC §2.10)
-        engagements = row.get("engagements")
-        if engagements is not None:
-            return math.log2(float(engagements) + 1) * 12.0
-        # Views fallback: log₁₀(views) × 8
+        # RFC §2.10: log10(views) × 8 × creator_mult × engagement_ratio
         views = float(row.get("views", 0) or 0)
         if views < 1000:
             return 0.0
-        return math.log10(views) * 8.0
+        creatorMult = float(row.get("creatorMultiplier", 1.0))
+        if "engagementRatio" in row:
+            engagementRatio = float(row["engagementRatio"])
+        elif "likes" in row or "comments" in row:
+            rawViews = float(row.get("views", 0) or 0)
+            if rawViews > 0:
+                rawLikes = float(row.get("likes", 0) or 0)
+                rawComments = float(row.get("comments", 0) or 0)
+                engagementRatio = min(1.5, (rawLikes + rawComments * 5.0) / rawViews * 50.0)
+            else:
+                engagementRatio = 1.0
+        else:
+            engagementRatio = 1.0
+        return math.log10(views) * 8.0 * creatorMult * engagementRatio
 
     return 0.0
 

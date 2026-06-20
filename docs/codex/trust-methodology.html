@@ -410,34 +410,34 @@
           <tbody>
             <tr>
               <td><code>github-stars-own</code></td>
-              <td>log₂(stars + 1) × 18</td>
+              <td>stars / 1000  (÷ skillCountInRepo for motherships)</td>
               <td>1.0</td>
               <td>200</td>
               <td>—  (1 row max)</td>
-              <td>None</td>
+              <td>Refresh quarterly</td>
               <td>Public adoption of the contributor's own repo implementing the skill.</td>
             </tr>
             <tr>
               <td><code>proxy-containment</code></td>
-              <td>log₂(containingRepoStars + 1) × 18</td>
+              <td>(containingRepoStars / 1000) × 0.8</td>
               <td>1.0</td>
               <td>160</td>
               <td>—  (1 row max; requires verifiable dep link)</td>
-              <td>None</td>
+              <td>Quarterly</td>
               <td>The skill appears as a verifiable dependency in a widely-starred third-party repo — proxied adoption signal.</td>
             </tr>
             <tr>
               <td><code>verifier-attestation</code></td>
-              <td>30 × N (N = number of attesting verifiers)</td>
+              <td>30 × N (N = number of attesting 4★+ verifiers)</td>
               <td>1.5</td>
               <td>30 × N total</td>
               <td>1.0 / 0.85 / 0.7 — max 5 attestations</td>
-              <td>None</td>
+              <td>Null on derank</td>
               <td>A 4★+ Verifier has confirmed the skill demonstration is real and reproducible.</td>
             </tr>
             <tr>
               <td><code>benchmark-result</code></td>
-              <td>normalised score × 100</td>
+              <td>percentile (0–100)</td>
               <td>1.4</td>
               <td>100</td>
               <td>—  (1 row max)</td>
@@ -446,7 +446,7 @@
             </tr>
             <tr>
               <td><code>arxiv</code></td>
-              <td>min(citationCount, 400) / 4</td>
+              <td>citations / 5</td>
               <td>1.0</td>
               <td>100</td>
               <td>1.0 / 0.5 / 0.25 / 0.125 — max 4 papers</td>
@@ -474,7 +474,7 @@
             <tr>
               <td><code>self-attestation</code></td>
               <td>flat 10</td>
-              <td>0.4</td>
+              <td>0.5</td>
               <td>10</td>
               <td>—  (max 1 entry ever)</td>
               <td>None</td>
@@ -482,28 +482,28 @@
             </tr>
             <tr>
               <td><code>social-signal</code></td>
-              <td>per-row: log₂(engagements + 1) × 12, cap 60</td>
-              <td>0.6</td>
-              <td>60 per row · 80 total</td>
+              <td>log₁₀(views) × 8 × creator_mult × engagement_ratio</td>
+              <td>1.0</td>
+              <td>80</td>
               <td>1.0 / 0.5 / 0.25 — max 3 rows</td>
-              <td>None</td>
-              <td>Public social engagement (blog posts, talks, threads) citing the skill demonstration.</td>
+              <td>50%/yr</td>
+              <td>Public social engagement (blog posts, talks, threads) citing the skill demonstration. Views floor 1 000; creator and engagement multipliers applied.</td>
             </tr>
             <tr>
               <td><code>fusion-recipe</code></td>
-              <td>15 × origins + 5 × √origins <em>(when origins ≥ C)</em></td>
-              <td>1.4</td>
+              <td>20 × N <em>(N ≤ 10)</em> &nbsp;|&nbsp; 200 + 20 × √(N−10) <em>(N &gt; 10)</em></td>
+              <td>1.5</td>
               <td>—</td>
               <td>—  (1 per skill; role='origin' only)</td>
               <td>None</td>
-              <td>The number of role='origin' fusion components, weighted to reward broad composition depth. Only valid when the skill has <code>role='origin'</code>.</td>
+              <td>N = graded ≥C origin skills in the fusion tree. Sqrt-softened past 10 to prevent large fusions dominating the aggregate. Suite role='variant' components do not score.</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <p style="font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem;">
-        <em>C</em> in the fusion-recipe formula is the minimum origin count threshold configured in <code>meta.json</code> (default 3). Origins below <em>C</em> use the flat 15 × origins term only.
+        N counts only <code>role='origin'</code> components graded ≥C. A 20-origin skill scores 200 + 20×√10 ≈ 263 × 1.5; a 10-origin skill scores 200 × 1.5 = 300. The sqrt-softening prevents pathological 35-component fusions from running away with the leaderboard.
       </p>
     </section>
 
@@ -626,7 +626,7 @@
         The discount reflects that a capability claim (for example, an arxiv paper describing a generic
         algorithm) projects less cleanly onto a specific named implementation. A lower multiplier signals
         that the evidence type binds less tightly to individual Named Skills. <code>benchmark-result</code>
-        carries the lowest multiplier (0.15) because it already carries the highest artifact weight (1.4)
+        carries the lowest multiplier (0.15) because it already carries a high artifact weight (1.4)
         in the scoring formula — allowing full inheritance would disproportionately amplify benchmark rows
         that were published against the generic capability rather than the specific named implementation.
       </p>
@@ -1015,11 +1015,11 @@
             </tr>
             <tr>
               <td><code>fusion-recipe</code></td>
-              <td>4 role='origin' components</td>
-              <td>15 × 4 = 60</td>
-              <td>1.4</td>
+              <td>4 role='origin' components (graded ≥C)</td>
+              <td>20 × 4 = 80</td>
+              <td>1.5</td>
               <td>1.0</td>
-              <td>84</td>
+              <td>120</td>
               <td><span class="grade-pill grade-a">A</span></td>
             </tr>
             <tr>
@@ -1035,10 +1035,10 @@
               <td><code>social-signal</code></td>
               <td>3 high-engagement posts</td>
               <td>~55 per row</td>
-              <td>0.6</td>
+              <td>1.0</td>
               <td>1.0 / 0.5 / 0.25</td>
-              <td>≈ 49.5</td>
-              <td><span class="grade-pill grade-b">B</span></td>
+              <td>≈ 96</td>
+              <td><span class="grade-pill grade-a">A</span></td>
             </tr>
             <tr>
               <td><code>verifier-attestation</code></td>

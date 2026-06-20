@@ -129,26 +129,26 @@ def test_arxiv_at_100_gets_s_grade(tmp_path):
     assert ev[0]["grade"] == "S"
 
 
-def test_arxiv_at_95_gets_s_grade(tmp_path):
-    """arxiv at exactly S floor — citations giving score ≥95 must reach S."""
+def test_arxiv_at_a_gets_a_grade(tmp_path):
+    """arxiv ceiling is A — even high citation counts should reach A, not S."""
     root = _build_registry(tmp_path, [
-        # citations=380 → score = min(380, 400) / 4 = 95.0 (= S floor exactly)
-        {"type": "arxiv", "source": "https://arxiv.org/abs/test", "citations": 380},
-    ])
-    calibrate_evidence_grades_command(_args(root))
-    ev = _load_node(root)["evidence"]
-    assert ev[0]["grade"] == "S"
-
-
-def test_arxiv_below_s_floor_gets_a(tmp_path):
-    """arxiv score 90 (between A=70 and S=95) must get A."""
-    root = _build_registry(tmp_path, [
-        # citations=360 → score = min(360, 400) / 4 = 90.0 (A floor 70, below S=95)
-        {"type": "arxiv", "source": "https://arxiv.org/abs/test", "citations": 360},
+        # citations=400 → score = 400/5 = 80.0 (≥ A floor 80; ceiling A, cannot reach S)
+        {"type": "arxiv", "source": "https://arxiv.org/abs/test", "citations": 400},
     ])
     calibrate_evidence_grades_command(_args(root))
     ev = _load_node(root)["evidence"]
     assert ev[0]["grade"] == "A"
+
+
+def test_arxiv_below_a_floor_gets_b(tmp_path):
+    """arxiv score 40 (B floor, below A=80) must get B."""
+    root = _build_registry(tmp_path, [
+        # citations=200 → score = 200/5 = 40.0 (B floor 40, below A=80)
+        {"type": "arxiv", "source": "https://arxiv.org/abs/test", "citations": 200},
+    ])
+    calibrate_evidence_grades_command(_args(root))
+    ev = _load_node(root)["evidence"]
+    assert ev[0]["grade"] == "B"
 
 
 def test_peer_review_at_88_gets_s_grade(tmp_path):
