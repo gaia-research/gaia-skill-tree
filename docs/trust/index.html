@@ -502,19 +502,20 @@
             </tr>
             <tr>
               <td><code>fusion-recipe</code></td>
-              <td>15 × origins + 5 × √origins <em>(when origins ≥ C)</em></td>
-              <td>1.4</td>
+              <td>20 × N <em>(N ≤ 10)</em>  |  200 + 20 × √(N−10) <em>(N &gt; 10)</em></td>
+              <td>1.5</td>
               <td>—</td>
               <td>—  (1 per skill; role='origin' only)</td>
               <td>None</td>
-              <td>The number of role='origin' fusion components, weighted to reward broad composition depth. Only valid when the skill has <code>role='origin'</code>.</td>
+              <td>N = graded ≥C origin skills in the fusion tree. Sqrt-softened past 10 to prevent large fusions from dominating the aggregate.</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <p style="font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem;">
-        <em>C</em> in the fusion-recipe formula is the minimum origin count threshold configured in <code>meta.json</code> (default 3). Origins below <em>C</em> use the flat 15 × origins term only.
+        N counts only <code>role='origin'</code> components graded ≥C. Suite <code>role='variant'</code> components do not score.
+        Sqrt-softening kicks in past 10 origins: a 20-origin skill scores 200 + 20×√10 ≈ 263; a 46-origin skill scores 200 + 20×√36 = 320.
       </p>
     </section>
 

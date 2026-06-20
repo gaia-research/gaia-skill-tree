@@ -238,26 +238,36 @@
 
     'fusion-recipe': {
       label: 'fusion',
-      formula: '15 × origins + 5 × √origins  (origins ≥ C; role=\'origin\' only)',
+      formula: '20 × N  (N ≤ 10)  |  200 + 20 × √(N−10)  (N > 10)  where N = graded ≥C origins',
       describe: function (row) {
         var n = null;
         var caveat = '';
-        // Priority 1: explicit graded-origin count (matches backend exactly)
+        // Priority 1: explicit graded-origin count written by backend (exact match)
         if (row.gradedOriginCount != null) {
           n = Number(row.gradedOriginCount);
-        // Priority 2: numeric origins field (already a graded count from CLI)
+        // Priority 2: numeric origins field (also a pre-computed graded count from CLI)
         } else if (!Array.isArray(row.origins) && row.origins != null) {
           n = Number(row.origins);
-        // Priority 3: raw array length — approximation; backend filters by grade>=C
+        // Priority 3: raw array length — approximation only; tooltip says so
         } else if (Array.isArray(row.origins)) {
           n = row.origins.length;
-          caveat = ' (raw count — backend uses graded origins only)';
+          caveat = ' (raw count — backend filters to graded ≥C origins only)';
         }
         if (n == null) return null;
-        return { value: 15 * n + 5 * Math.sqrt(n),
-                 expr:  '15 × ' + n + ' + 5 × √' + n + caveat };
+        var raw = n <= 10 ? 20 * n : 200 + 20 * Math.sqrt(n - 10);
+        var expr = n <= 10
+          ? '20 × ' + n + caveat
+          : '200 + 20 × √(' + n + '−10)' + caveat;
+        return { value: raw, expr: expr };
       },
-      weight: 1.4,
+      weight: 1.5,
+      cap: null,
+      plateau: { factors: [1.0], maxRows: 1 },
+      freshness: null,
+      gradeFloors: { S: 200, A: 120, B: 60, C: 30 },
+      gradeCeiling: null,
+      anchor: 'suiteVsFusion',
+    },
       cap: null,
       plateau: { factors: [1.0], maxRows: 1 },
       freshness: null,

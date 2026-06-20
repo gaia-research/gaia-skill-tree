@@ -38,7 +38,7 @@ GRADE_C_FLOOR = 20.0
 
 # Per-type weights (RFC §2.1)
 TYPE_WEIGHTS = {
-    "fusion-recipe": 1.4,
+    "fusion-recipe": 1.5,
     "github-stars-own": 1.0,
     "proxy-containment": 1.0,
     "verifier-attestation": 1.5,
@@ -261,10 +261,17 @@ def _freshnessFactor(row: dict, evidenceType: str) -> float:
 
 
 def _fusionRecipeMagnitude(origins: int) -> float:
-    """RFC §2.2: m = 15*origins + 5*sqrt(origins) for origins >= C."""
+    """RFC §2.2: m = 20*origins for origins ≤ 10; 200 + 20*sqrt(origins-10) past 10.
+
+    Sqrt-softening past 10 prevents pathological large fusions from
+    dominating the aggregate. Only graded ≥C origins count (see _gradedOriginCount).
+    Weight 1.5.
+    """
     if origins <= 0:
         return 0.0
-    return 15.0 * origins + 5.0 * math.sqrt(origins)
+    if origins <= 10:
+        return 20.0 * origins
+    return 200.0 + 20.0 * math.sqrt(origins - 10)
 
 
 def _gradedOriginCount(origins: list, genericSkillMap: Optional[dict]) -> int:
