@@ -33,14 +33,13 @@
       "date": "2026-06-03",
       "notes": "darts: 9400+ star Python library for user-friendly forecasting with seasonal decomposition, ensemble methods, anomaly detection; covers ARIMA, Prophet, TFT, NBEATS and more (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

@@ -31,12 +31,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:27Z",
@@ -190,8 +189,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack",
@@ -199,7 +197,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; design-consultation is 1 of 42 named skills (verified 2026-06-20)",
             "stars": 110930,
             "skillCountInRepo": 42,
@@ -207,7 +205,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:43:00Z",
@@ -277,7 +275,7 @@
         "trustMagnitudeInputHash": "63fd36d9ca424ed4f47afde8469abea3a4c9103503b246b41f6adfe9db11c294",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -316,12 +314,11 @@
             "type": "repo",
             "commits": 262,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:43:00Z",
@@ -404,8 +401,7 @@
             "type": "repo",
             "commits": 260,
             "contributors": 36,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/addyosmani/agent-skills/stargazers",
@@ -414,11 +410,12 @@
             "type": "github-stars-own",
             "class": "A",
             "notes": "47,200 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
-            "stars": 47200
+            "stars": 47200,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-05-31",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-05-31T02:15:44Z",
@@ -667,12 +664,11 @@
             "type": "repo",
             "commits": 260,
             "contributors": 36,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-05-31T02:17:00Z",
@@ -756,10 +752,10 @@
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
-            "grade": "B",
             "notes": "I13 classify: repo-own evidence backfill (skill file)",
             "skillCountInRepo": 34,
-            "sourceStartedAt": "2026-06-19"
+            "sourceStartedAt": "2026-06-19",
+            "grade": "B"
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd",
@@ -773,7 +769,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:02:23Z",
@@ -883,8 +879,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack",
@@ -892,7 +887,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; document-generate is 1 of 42 named skills (verified 2026-06-20)",
             "stars": 110930,
             "skillCountInRepo": 42,
@@ -900,7 +895,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:43:00Z",
@@ -970,7 +965,7 @@
         "trustMagnitudeInputHash": "9a183ef2d178af58b29d15dddffe7a618a3bfa827b6e3594f4aa80c48f6e428c",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -1011,7 +1006,6 @@
             "notes": "Published implementation in Matt Pocock's skills repository; DAG-sectioned\" rewrite workflow documented and reproducible. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 137,
             "contributors": 3
           },
@@ -1021,7 +1015,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 88.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "mattpocock/skills suite — 137k GitHub stars; edit-article is part of this repo",
             "stars": 137000,
             "skillCountInRepo": 21,
@@ -1033,14 +1027,14 @@
             "date": "2026-06-20",
             "type": "social-signal",
             "trustNumber": 82.0,
-            "grade": "A",
+            "grade": "B",
             "notes": "Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers mattpocock/skills repo (verified 2026-06-20)",
             "views": 412000,
             "sourceStartedAt": "2025-01-01"
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
@@ -1122,7 +1116,7 @@
         "trustMagnitudeInputHash": "991dc9dc09633b202ec9657470e5c24b81e22590d0e1f97f4b73cfe4d59376d9",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -1165,12 +1159,11 @@
             "type": "repo",
             "commits": 41,
             "contributors": 16,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:58Z",
@@ -1250,12 +1243,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:27Z",
@@ -1337,7 +1329,8 @@
             "type": "arxiv",
             "class": "A",
             "notes": "Toolformer / self-expanding agent paper — ~300 citations as of 2026-06-19 (arXiv:2305.17126)",
-            "citations": 300
+            "citations": 300,
+            "grade": "B"
           },
           {
             "source": "https://dev.to/debs_obrien/i-used-skill-creator-v2-to-improve-one-of-my-agent-skills-in-vs-code-fhd",
@@ -1353,11 +1346,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Claude Code community: engineering discipline for prompt engineering praised, A/B eval harness noted for overhead on long refinement loops. Mid-2026."
+            "notes": "Claude Code community: engineering discipline for prompt engineering praised, A/B eval harness noted for overhead on long refinement loops. Mid-2026.",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -1464,7 +1458,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub issue about write-a-skill skill documentation contradiction."
+            "notes": "GitHub issue about write-a-skill skill documentation contradiction.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/mattpocock/skills/discussions/246",
@@ -1472,11 +1467,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub discussion comparing write-a-skill skill with skill-creator."
+            "notes": "GitHub discussion comparing write-a-skill skill with skill-creator.",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -1571,8 +1567,7 @@
             "type": "repo",
             "commits": 6,
             "contributors": 1,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://www.youtube.com/watch?v=QZMljuD10sU",
@@ -1587,7 +1582,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:17Z",
@@ -1680,8 +1675,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack/issues/2055",
@@ -1689,7 +1683,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Bug report for /browse"
+            "notes": "Bug report for /browse",
+            "grade": "C"
           },
           {
             "source": "https://github.com/garrytan/gstack/issues/2048",
@@ -1697,7 +1692,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Bug report for /browse"
+            "notes": "Bug report for /browse",
+            "grade": "C"
           },
           {
             "source": "https://github.com/garrytan/gstack/issues/1989",
@@ -1725,7 +1721,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:32:59Z",
@@ -1858,8 +1854,7 @@
             "type": "repo",
             "commits": 400,
             "contributors": 59,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://browser-use.com/posts/online-mind2web-benchmark",
@@ -1879,7 +1874,7 @@
             "class": "A",
             "notes": "Codex Developer YouTube: demo of browser-use CDP library for AI agent browser automation. Third-party developer showcase (view count est. 50K+).",
             "trustNumber": 80.0,
-            "grade": "A",
+            "grade": "B",
             "views": 50000
           },
           {
@@ -1888,11 +1883,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "AI Agent Developer Community: commended as lightweight CDP bridge, self-healing via runtime agent_helpers.py, steeper learning curve than Playwright. Mid-2026."
+            "notes": "AI Agent Developer Community: commended as lightweight CDP bridge, self-healing via runtime agent_helpers.py, steeper learning curve than Playwright. Mid-2026.",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:32:59Z",
@@ -2017,13 +2013,12 @@
             "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Launches\" a new headless or headed browser session with the Gstack environment variables and extension profile pre-loaded, ready for automation… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 323,
             "contributors": 9
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:28Z",
@@ -2104,12 +2099,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:28Z",
@@ -2380,7 +2374,6 @@
             "notes": "Published implementation in Matt Pocock's skills repository; five-phase debugging\" discipline documented and reproducible. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 137,
             "contributors": 3
           },
@@ -2390,7 +2383,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 88.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "mattpocock/skills suite — 137k GitHub stars; diagnose is part of this repo",
             "stars": 137000,
             "skillCountInRepo": 21,
@@ -2402,14 +2395,14 @@
             "date": "2026-06-20",
             "type": "social-signal",
             "trustNumber": 82.0,
-            "grade": "A",
+            "grade": "B",
             "notes": "Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers mattpocock/skills repo (verified 2026-06-20)",
             "views": 412000,
             "sourceStartedAt": "2025-01-01"
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-10T05:38:16Z",
@@ -2485,7 +2478,7 @@
         "trustMagnitudeInputHash": "4bc1966f539e634f304282dbaa5f91ab0f894c0d45971725a69e36bd9a21b9de",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -2528,8 +2521,7 @@
             "type": "repo",
             "commits": 0,
             "contributors": 0,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://arxiv.org/abs/2403.02128",
@@ -2553,11 +2545,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Karl Brown (Internet of Bugs): frame-by-frame analysis of Devin Upwork demo. Documents staged demos, autonomy loops, context withholding. April 2024."
+            "notes": "Karl Brown (Internet of Bugs): frame-by-frame analysis of Devin Upwork demo. Documents staged demos, autonomy loops, context withholding. April 2024.",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-04-29",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:17Z",
@@ -2667,13 +2660,12 @@
             "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Fetches\" target URLs with a headless browser, parses structured data from rendered HTML, and returns clean JSON or markdown ready for downstream… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 323,
             "contributors": 9
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:01Z",
@@ -2767,8 +2759,7 @@
             "type": "repo",
             "commits": 5679,
             "contributors": 150,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/firecrawl/firecrawl",
@@ -2788,7 +2779,7 @@
           }
         ],
         "createdAt": "2026-05-17",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:01Z",
@@ -2893,12 +2884,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:29Z",
@@ -3051,8 +3041,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack",
@@ -3060,7 +3049,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; benchmark is 1 of 42 named skills (verified 2026-06-20)",
             "stars": 110930,
             "skillCountInRepo": 42,
@@ -3068,7 +3057,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:29Z",
@@ -3132,7 +3121,7 @@
         "trustMagnitudeInputHash": "0643b2928c2c22d4d97a3152e13a990e84f7d2fa620a3aeed50710b281711d67",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -3173,8 +3162,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack",
@@ -3182,7 +3170,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; plan-ceo-review is 1 of 42 named skills (verified 2026-06-20)",
             "stars": 110930,
             "skillCountInRepo": 42,
@@ -3190,7 +3178,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:29Z",
@@ -3254,7 +3242,7 @@
         "trustMagnitudeInputHash": "0bce47e22aff478fc093dec7749a34290ea0c1ebc7f300ca702bbbeb67e85c98",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -3297,8 +3285,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack",
@@ -3306,7 +3293,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; canary is 1 of 42 named skills (verified 2026-06-20)",
             "stars": 110930,
             "skillCountInRepo": 42,
@@ -3314,7 +3301,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:29Z",
@@ -3378,7 +3365,7 @@
         "trustMagnitudeInputHash": "ff7df02acc13f47113e1a53168d602761c35bc07d468f00b25fc149d335ef7bd",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -3420,8 +3407,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack/issues/2039",
@@ -3429,11 +3415,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Bug report for /careful"
+            "notes": "Bug report for /careful",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:30Z",
@@ -3531,12 +3518,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:30Z",
@@ -3617,12 +3603,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:30Z",
@@ -3709,12 +3694,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:30Z",
@@ -3792,10 +3776,10 @@
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
-            "grade": "B",
             "notes": "I13 classify: repo-own evidence backfill (skill file)",
             "skillCountInRepo": 34,
-            "sourceStartedAt": "2026-06-19"
+            "sourceStartedAt": "2026-06-19",
+            "grade": "B"
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/misc/git-guardrails-claude-code",
@@ -3809,7 +3793,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:59:34Z",
@@ -3913,10 +3897,10 @@
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
-            "grade": "B",
             "notes": "I13 classify: repo-own evidence backfill (skill file)",
             "skillCountInRepo": 34,
-            "sourceStartedAt": "2026-06-19"
+            "sourceStartedAt": "2026-06-19",
+            "grade": "B"
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit",
@@ -3930,7 +3914,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:02:03Z",
@@ -4039,12 +4023,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:31Z",
@@ -4133,12 +4116,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:31Z",
@@ -4219,12 +4201,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:31Z",
@@ -4296,11 +4277,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub issue about caveman skill feature request."
+            "notes": "GitHub issue about caveman skill feature request.",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -4386,8 +4368,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack",
@@ -4395,7 +4376,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; cso is 1 of 42 named skills (verified 2026-06-20)",
             "stars": 110930,
             "skillCountInRepo": 42,
@@ -4403,7 +4384,7 @@
           }
         ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:31Z",
@@ -4467,7 +4448,7 @@
         "trustMagnitudeInputHash": "1e1cdd622594fd26dd72c63d6112ddec0053a8552ee44814c7d55df7b9a3ad3a",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -4509,8 +4490,7 @@
             "type": "repo",
             "commits": 34,
             "contributors": 1,
-            "trustNumber": 65.0,
-            "grade": "B"
+            "trustNumber": 65.0
           },
           {
             "source": "https://github.com/intelligentcode-ai/skills",
@@ -4518,12 +4498,12 @@
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 60.0,
-            "grade": "B",
+            "grade": "C",
             "notes": "intelligentcode-ai/skills suite self-attested via README description; practical agent skill for security-engineer domain",
             "sourceStartedAt": "2025-01-01"
           }
         ],
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:41Z",
@@ -4692,8 +4672,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack",
@@ -4701,7 +4680,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; design-html is 1 of 42 named skills (verified 2026-06-20)",
             "stars": 110930,
             "skillCountInRepo": 42,
@@ -4709,7 +4688,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
@@ -4779,7 +4758,7 @@
         "trustMagnitudeInputHash": "59476342421b329329fedf5a7402082e6eafba26e7d288945c00dbe1658deac8",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -4821,8 +4800,7 @@
             "type": "repo",
             "commits": 804,
             "contributors": 27,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/pbakaus/impeccable/stargazers",
@@ -4831,7 +4809,8 @@
             "type": "github-stars-own",
             "class": "A",
             "notes": "38,000 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
-            "stars": 38000
+            "stars": 38000,
+            "grade": "B"
           },
           {
             "source": "https://arxiv.org/abs/2411.01606",
@@ -4856,7 +4835,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Production bug in live skill affecting session stability on frequently re-rendering pages; root cause and fix documented."
+            "notes": "Production bug in live skill affecting session stability on frequently re-rendering pages; root cause and fix documented.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/pbakaus/impeccable/issues/183",
@@ -4864,11 +4844,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Live skill incompatibility with Vite watcher; .impeccable state mutations trigger full-page reloads in watched project root."
+            "notes": "Live skill incompatibility with Vite watcher; .impeccable state mutations trigger full-page reloads in watched project root.",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
@@ -4999,8 +4980,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack",
@@ -5008,7 +4988,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; plan-design-review is 1 of 42 named skills (verified 2026-06-20)",
             "stars": 110930,
             "skillCountInRepo": 42,
@@ -5016,7 +4996,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:32Z",
@@ -5080,7 +5060,7 @@
         "trustMagnitudeInputHash": "077448b384430d9756cc6e630c18eb8abe15357559b9526ceb4af5343e39128e",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -5121,8 +5101,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack",
@@ -5130,7 +5109,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; plan-devex-review is 1 of 42 named skills (verified 2026-06-20)",
             "stars": 110930,
             "skillCountInRepo": 42,
@@ -5138,7 +5117,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:32Z",
@@ -5202,7 +5181,7 @@
         "trustMagnitudeInputHash": "8580d33277a7f70df855307ee67342509cdefd5d675f6230a7276d50a5823456",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -5243,7 +5222,6 @@
             "notes": "Martin Stepanoski @mastepanoski/claude-skills -- /nielsen-heuristics-audit\" audits UI against Nielsen 10 usability heuristics step-by-step. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 32,
             "contributors": 2
           },
@@ -5253,14 +5231,14 @@
             "date": "2026-06-20",
             "type": "peer-review",
             "trustNumber": 80.0,
-            "grade": "A",
+            "grade": "S",
             "notes": "NNGroup — Nielsen's 10 Usability Heuristics; foundational UX evaluation framework (original 1994 publication by Jakob Nielsen); this skill implements the canonical heuristic audit methodology",
             "reviewers": 3,
             "sourceStartedAt": "1995-01-01"
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
@@ -5363,12 +5341,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:45:09Z",
@@ -5467,12 +5444,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:45:09Z",
@@ -5574,8 +5550,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack",
@@ -5583,7 +5558,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; design-shotgun is 1 of 42 named skills (verified 2026-06-20)",
             "stars": 110930,
             "skillCountInRepo": 42,
@@ -5591,7 +5566,7 @@
           }
         ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:33Z",
@@ -5655,7 +5630,7 @@
         "trustMagnitudeInputHash": "be5820a8cdc5f8160520bfaaa0277ddfb4ac8179b0cfe83687a7e96e322a46e1",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -5692,10 +5667,10 @@
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
-            "grade": "B",
             "notes": "I13 classify: repo-own evidence backfill (skill file)",
             "skillCountInRepo": 34,
-            "sourceStartedAt": "2026-06-19"
+            "sourceStartedAt": "2026-06-19",
+            "grade": "B"
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling",
@@ -5709,7 +5684,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:59:50Z",
@@ -5820,12 +5795,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:01Z",
@@ -5926,7 +5900,6 @@
             "notes": "Production skill implementing tracer-bullet vertical slicing with HITL/AFK\" classification and issue-tracker publication. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 137,
             "contributors": 3
           },
@@ -5936,7 +5909,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 88.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "mattpocock/skills suite — 137k GitHub stars; to-issues is part of this repo",
             "stars": 137000,
             "skillCountInRepo": 21,
@@ -5948,14 +5921,14 @@
             "date": "2026-06-20",
             "type": "social-signal",
             "trustNumber": 82.0,
-            "grade": "A",
+            "grade": "B",
             "notes": "Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers mattpocock/skills repo (verified 2026-06-20)",
             "views": 412000,
             "sourceStartedAt": "2025-01-01"
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -6025,7 +5998,7 @@
         "trustMagnitudeInputHash": "848d74165305557c250a81ef7bdaa739c61a32f9474a7823d247db12b83549d7",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -6068,12 +6041,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:33Z",
@@ -6160,8 +6132,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack/stargazers",
@@ -6171,7 +6142,8 @@
             "class": "A",
             "notes": "110,930 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 47 sub-skills, divisor=4)",
             "stars": 110930,
-            "skillCountInRepo": 47
+            "skillCountInRepo": 47,
+            "grade": "C"
           },
           {
             "source": "https://www.youtube.com/watch?v=wkv2ifxPpF8",
@@ -6180,11 +6152,12 @@
             "type": "social-signal",
             "class": "A",
             "notes": "Y Combinator YouTube feature — Garry Tan demonstrates Gstack as AI Engineering Team (official YC channel); topical authority signal (creator_mult 1.0)",
-            "views": 500000
+            "views": 500000,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:22Z",
@@ -6342,8 +6315,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack",
@@ -6351,7 +6323,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; investigate is 1 of 42 named skills (verified 2026-06-20)",
             "stars": 110930,
             "skillCountInRepo": 42,
@@ -6359,7 +6331,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -6429,7 +6401,7 @@
         "trustMagnitudeInputHash": "3197d16ad889cab97d211ef4fc622f420478b7435caa0a0fa12025f85f5e8d31",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -6469,7 +6441,6 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 609,
             "contributors": 36
           },
@@ -6488,7 +6459,8 @@
             "type": "social-signal",
             "class": "A",
             "notes": "Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).",
-            "views": 4402
+            "views": 4402,
+            "grade": "B"
           },
           {
             "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
@@ -6497,7 +6469,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -6608,10 +6580,10 @@
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
-            "grade": "B",
             "notes": "I13 classify: repo-own evidence backfill (skill file)",
             "skillCountInRepo": 34,
-            "sourceStartedAt": "2026-06-19"
+            "sourceStartedAt": "2026-06-19",
+            "grade": "B"
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs",
@@ -6625,7 +6597,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:58:59Z",
@@ -6735,8 +6707,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack",
@@ -6744,7 +6715,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; land-and-deploy is 1 of 42 named skills (verified 2026-06-20)",
             "stars": 110930,
             "skillCountInRepo": 42,
@@ -6752,7 +6723,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:34Z",
@@ -6816,7 +6787,7 @@
         "trustMagnitudeInputHash": "77e3bde2ec82007386e2e77a793366528526bf578a9d9b0e1ce61d096a2e9330",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -6856,12 +6827,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:34Z",
@@ -6941,12 +6911,11 @@
             "type": "repo",
             "commits": 90,
             "contributors": 10,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-27",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-05-26T16:37:01Z",
@@ -7034,7 +7003,6 @@
             "notes": "intelligentcode-ai/skills — practical coding agent skills; devops-engineer provides production-ready implementation (trust updated from C=50 to B-equiv=65)",
             "type": "repo",
             "trustNumber": 65.0,
-            "grade": "B",
             "commits": 34,
             "contributors": 1
           },
@@ -7044,12 +7012,12 @@
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 60.0,
-            "grade": "B",
+            "grade": "C",
             "notes": "intelligentcode-ai/skills suite self-attested via README description; practical agent skill for devops-engineer domain",
             "sourceStartedAt": "2025-01-01"
           }
         ],
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:41Z",
@@ -7153,13 +7121,12 @@
             "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Generates\" a one-page project landing report from open issues, recent commits, and milestone progress, giving stakeholders a quick read on health… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 323,
             "contributors": 9
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:34Z",
@@ -7305,12 +7272,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:34Z",
@@ -7461,13 +7427,12 @@
             "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Converts\" markdown or structured data into a polished PDF document with consistent heading styles, table formatting, and page layout ready for… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 323,
             "contributors": 9
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:45:10Z",
@@ -7570,8 +7535,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack/issues/1958",
@@ -7579,11 +7543,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub issue discussing /office-hours"
+            "notes": "GitHub issue discussing /office-hours",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:35Z",
@@ -7682,13 +7647,12 @@
             "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Wires\" a new MCP server into the Gstack agent environment, validates the tool manifest, and demonstrates round-trip invocation through a test prompt. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 323,
             "contributors": 9
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:35Z",
@@ -7774,7 +7738,6 @@
             "notes": "intelligentcode-ai/skills — practical coding agent skills; mcp-client provides production-ready implementation (trust updated from C=50 to B-equiv=65)",
             "type": "repo",
             "trustNumber": 65.0,
-            "grade": "B",
             "commits": 34,
             "contributors": 1
           },
@@ -7784,12 +7747,12 @@
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 60.0,
-            "grade": "B",
+            "grade": "C",
             "notes": "intelligentcode-ai/skills suite self-attested via README description; practical agent skill for mcp-client domain",
             "sourceStartedAt": "2025-01-01"
           }
         ],
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:41Z",
@@ -7958,8 +7921,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack/issues/1791",
@@ -7967,11 +7929,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub issue discussing /plan-eng-review"
+            "notes": "GitHub issue discussing /plan-eng-review",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:35Z",
@@ -8070,8 +8033,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack",
@@ -8079,7 +8041,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; review is 1 of 42 named skills (verified 2026-06-20)",
             "stars": 110930,
             "skillCountInRepo": 42,
@@ -8087,7 +8049,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:35Z",
@@ -8151,7 +8113,7 @@
         "trustMagnitudeInputHash": "01c47f17582b841ffc7336c127bad10ea656673ce009b841afa47e18ffefd3a2",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -8245,11 +8207,12 @@
             "type": "arxiv",
             "class": "A",
             "notes": "DSPy paper — ~700 citations as of 2026-06-19 (arXiv:2310.03714, ICLR 2024)",
-            "citations": 700
+            "citations": 700,
+            "grade": "S"
           }
         ],
         "createdAt": "2026-06-02",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:44:00Z",
@@ -8345,13 +8308,12 @@
             "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Takes\" a draft plan or system prompt, identifies vague or ambiguous instructions, and rewrites them to reduce hallucination and improve task… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 323,
             "contributors": 9
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:35Z",
@@ -8435,8 +8397,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack",
@@ -8444,7 +8405,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; qa is 1 of 42 named skills (verified 2026-06-20)",
             "stars": 110930,
             "skillCountInRepo": 42,
@@ -8452,7 +8413,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:36Z",
@@ -8516,7 +8477,7 @@
         "trustMagnitudeInputHash": "16c58e0915bb3377d6fe7b76b2809103af83e02de4692c72a948868f55b737c5",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -8556,12 +8517,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:36Z",
@@ -8644,8 +8604,7 @@
             "type": "repo",
             "commits": 34,
             "contributors": 1,
-            "trustNumber": 65.0,
-            "grade": "B"
+            "trustNumber": 65.0
           },
           {
             "source": "https://github.com/intelligentcode-ai/skills",
@@ -8653,12 +8612,12 @@
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 60.0,
-            "grade": "B",
+            "grade": "C",
             "notes": "intelligentcode-ai/skills suite self-attested via README description; practical agent skill for user-tester domain",
             "sourceStartedAt": "2025-01-01"
           }
         ],
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:41Z",
@@ -8763,8 +8722,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack/issues/1999",
@@ -8772,7 +8730,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub issue discussing /retro skill"
+            "notes": "GitHub issue discussing /retro skill",
+            "grade": "C"
           },
           {
             "source": "https://github.com/garrytan/gstack/issues/1834",
@@ -8780,11 +8739,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub issue discussing /retro skill"
+            "notes": "GitHub issue discussing /retro skill",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:02Z",
@@ -8901,13 +8861,12 @@
             "notes": "Published implementation in the Spring AI Alibaba examples repository; reproducible\" from SKILL.md. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 1245,
             "contributors": 82
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-10T05:38:19Z",
@@ -8988,8 +8947,7 @@
             "type": "repo",
             "commits": 8,
             "contributors": 1,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/GLINCKER/claude-code-marketplace",
@@ -8997,13 +8955,13 @@
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 60.0,
-            "grade": "B",
+            "grade": "C",
             "notes": "GLINCKER claude-code-marketplace — 32 GitHub stars; readme-generator skill included in marketplace",
             "sourceStartedAt": "2025-01-01"
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:02Z",
@@ -9114,12 +9072,11 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:36Z",
@@ -9199,13 +9156,12 @@
             "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Incrementally syncs new documents and updated pages into the GBrain index, deduplicates embeddings, and reports ingestion counts and any errors. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 323,
             "contributors": 9
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:37Z",
@@ -9283,10 +9239,10 @@
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
-            "grade": "B",
             "notes": "I13 classify: repo-own evidence backfill (skill file)",
             "skillCountInRepo": 34,
-            "sourceStartedAt": "2026-06-19"
+            "sourceStartedAt": "2026-06-19",
+            "grade": "B"
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/teach",
@@ -9311,7 +9267,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:02:46Z",
@@ -9427,8 +9383,7 @@
             "type": "repo",
             "commits": 323,
             "contributors": 9,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/garrytan/gstack",
@@ -9436,7 +9391,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; ship is 1 of 42 named skills (verified 2026-06-20)",
             "stars": 110930,
             "skillCountInRepo": 42,
@@ -9444,7 +9399,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:32:59Z",
@@ -9514,7 +9469,7 @@
         "trustMagnitudeInputHash": "cd424c47cab4fab0d5809899aa0fa439b80ed5db43075612b29ce4fb0555bde9",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -9554,7 +9509,6 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 609,
             "contributors": 36
           },
@@ -9576,7 +9530,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:32:59Z",
@@ -9675,7 +9629,6 @@
             "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Converts a freeform prompt, repo pattern, or workflow description into a complete, registry-ready named skill: writes the SKILL.md definition,… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 323,
             "contributors": 9
           },
@@ -9685,7 +9638,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; skillify is 1 of 42 named skills (verified 2026-06-20)",
             "stars": 110930,
             "skillCountInRepo": 42,
@@ -9693,7 +9646,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:37Z",
@@ -9757,7 +9710,7 @@
         "trustMagnitudeInputHash": "afde557e68445b1914b3438d0cb5ddddd3747dd07f7ed534d6c19175782ce141",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -9794,10 +9747,10 @@
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
-            "grade": "B",
             "notes": "I13 classify: repo-own evidence backfill (skill file)",
             "skillCountInRepo": 34,
-            "sourceStartedAt": "2026-06-19"
+            "sourceStartedAt": "2026-06-19",
+            "grade": "B"
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/misc/scaffold-exercises",
@@ -9811,7 +9764,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:01:41Z",
@@ -9915,10 +9868,10 @@
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
-            "grade": "B",
             "notes": "I13 classify: repo-own evidence backfill (skill file)",
             "skillCountInRepo": 34,
-            "sourceStartedAt": "2026-06-19"
+            "sourceStartedAt": "2026-06-19",
+            "grade": "B"
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills",
@@ -9932,7 +9885,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:03:02Z",
@@ -10102,13 +10055,12 @@
             "notes": "CodeBurn -- provides cost and token observability for AI coding tools; integrated\" with 20 AI tools. Includes TUI dashboard, macOS menubar, optimization and yield analysis commands. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 721,
             "contributors": 45
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:27Z",
@@ -10503,12 +10455,11 @@
             "type": "repo",
             "commits": 192,
             "contributors": 10,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:18Z",
@@ -10686,7 +10637,6 @@
             "notes": "intelligentcode-ai/skills — practical coding agent skills; database-engineer provides production-ready implementation (trust updated from C=50 to B-equiv=65)",
             "type": "repo",
             "trustNumber": 65.0,
-            "grade": "B",
             "commits": 34,
             "contributors": 1
           },
@@ -10696,12 +10646,12 @@
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 60.0,
-            "grade": "B",
+            "grade": "C",
             "notes": "intelligentcode-ai/skills suite self-attested via README description; practical agent skill for database-engineer domain",
             "sourceStartedAt": "2025-01-01"
           }
         ],
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:41Z",
@@ -10806,8 +10756,7 @@
             "type": "repo",
             "commits": 34,
             "contributors": 1,
-            "trustNumber": 65.0,
-            "grade": "B"
+            "trustNumber": 65.0
           },
           {
             "source": "https://github.com/intelligentcode-ai/skills",
@@ -10815,12 +10764,12 @@
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 60.0,
-            "grade": "B",
+            "grade": "C",
             "notes": "intelligentcode-ai/skills suite self-attested via README description; practical agent skill for parallel-execution domain",
             "sourceStartedAt": "2025-01-01"
           }
         ],
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:41Z",
@@ -10927,8 +10876,7 @@
             "type": "repo",
             "commits": 34,
             "contributors": 1,
-            "trustNumber": 65.0,
-            "grade": "B"
+            "trustNumber": 65.0
           },
           {
             "source": "https://github.com/intelligentcode-ai/skills",
@@ -10936,12 +10884,12 @@
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 60.0,
-            "grade": "B",
+            "grade": "C",
             "notes": "intelligentcode-ai/skills suite self-attested via README description; practical agent skill for release domain",
             "sourceStartedAt": "2025-01-01"
           }
         ],
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:41Z",
@@ -11110,8 +11058,7 @@
             "type": "repo",
             "commits": 34,
             "contributors": 1,
-            "trustNumber": 65.0,
-            "grade": "B"
+            "trustNumber": 65.0
           },
           {
             "source": "https://github.com/intelligentcode-ai/skills",
@@ -11119,12 +11066,12 @@
             "date": "2026-06-20",
             "type": "self-attestation",
             "trustNumber": 60.0,
-            "grade": "B",
+            "grade": "C",
             "notes": "intelligentcode-ai/skills suite self-attested via README description; practical agent skill for requirements-engineer domain",
             "sourceStartedAt": "2025-01-01"
           }
         ],
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:41Z",
@@ -11228,13 +11175,12 @@
             "notes": "Karpathy's autoresearch repo serving as the evidence/inspiration for the\" skill. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 36,
             "contributors": 9
           }
         ],
         "createdAt": "2026-04-29",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:42Z",
@@ -11316,13 +11262,12 @@
             "notes": "Laravel /upgrade-laravel-v13 slash command -- real-world agentic framework\" upgrade workflow published by the Laravel team. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 965,
             "contributors": 107
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:42Z",
@@ -11395,10 +11340,10 @@
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
-            "grade": "B",
             "notes": "I13 classify: repo-own evidence backfill (skill file)",
             "skillCountInRepo": 34,
-            "sourceStartedAt": "2026-06-19"
+            "sourceStartedAt": "2026-06-19",
+            "grade": "B"
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt",
@@ -11416,10 +11361,10 @@
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
-            "grade": "B",
             "notes": "I13 classify: repo-own evidence backfill (skill file)",
             "skillCountInRepo": 34,
-            "sourceStartedAt": "2026-06-19"
+            "sourceStartedAt": "2026-06-19",
+            "grade": "B"
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt",
@@ -11433,7 +11378,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:58:22Z",
@@ -11563,10 +11508,10 @@
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
-            "grade": "B",
             "notes": "I13 classify: repo-own evidence backfill (skill file)",
             "skillCountInRepo": 34,
-            "sourceStartedAt": "2026-06-19"
+            "sourceStartedAt": "2026-06-19",
+            "grade": "B"
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design",
@@ -11580,7 +11525,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:58:38Z",
@@ -11686,10 +11631,10 @@
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
-            "grade": "B",
             "notes": "I13 classify: repo-own evidence backfill (skill file)",
             "skillCountInRepo": 34,
-            "sourceStartedAt": "2026-06-19"
+            "sourceStartedAt": "2026-06-19",
+            "grade": "B"
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling",
@@ -11703,7 +11648,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:59:14Z",
@@ -11880,7 +11825,6 @@
             "notes": "Original implementation by Matt Pocock; viral engineering pattern for disciplined\" agent alignment. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 137,
             "contributors": 3
           },
@@ -11890,7 +11834,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub Discussions: 7+ threads naming grill-me directly (usage patterns, cross-skill combos, model behaviour). 136k-star suite, 24.8k-follower creator. Named-layer: skill referenced by name."
+            "notes": "GitHub Discussions: 7+ threads naming grill-me directly (usage patterns, cross-skill combos, model behaviour). 136k-star suite, 24.8k-follower creator. Named-layer: skill referenced by name.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/mattpocock/skills/issues/240",
@@ -11898,7 +11843,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Issue #240: 'GPT 5.5 jumps to implementation after /grill-me' — 11 comments, highest-engagement grill-me issue. Cross-model adoption signal. Named-layer."
+            "notes": "Issue #240: 'GPT 5.5 jumps to implementation after /grill-me' — 11 comments, highest-engagement grill-me issue. Cross-model adoption signal. Named-layer.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/mattpocock/skills/issues/311",
@@ -11918,7 +11864,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:43Z",
@@ -12034,7 +11980,6 @@
             "notes": "Production implementation of the Grill With Docs pattern. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 137,
             "contributors": 3
           },
@@ -12044,7 +11989,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub Discussions: 5+ threads naming grill-with-docs directly (#275 #293 #300 #304). Origin implementation for grill pattern. Named-layer."
+            "notes": "GitHub Discussions: 5+ threads naming grill-with-docs directly (#275 #293 #300 #304). Origin implementation for grill pattern. Named-layer.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/mattpocock/skills/issues/341",
@@ -12052,7 +11998,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Issue #341: 'grill-with-docs: resolved answers not traceable through PRD/issues/implementation' — 6 comments. Most-engaged grill-with-docs issue. Named-layer."
+            "notes": "Issue #341: 'grill-with-docs: resolved answers not traceable through PRD/issues/implementation' — 6 comments. Most-engaged grill-with-docs issue. Named-layer.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/mattpocock/skills/issues/299",
@@ -12072,7 +12019,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:43Z",
@@ -12172,7 +12119,6 @@
             "notes": "High-fidelity agent handoff and context compaction skill. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 137,
             "contributors": 3
           },
@@ -12182,7 +12128,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub issue about handoff skill enhancement."
+            "notes": "GitHub issue about handoff skill enhancement.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/mattpocock/skills/issues/172",
@@ -12190,7 +12137,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub issue about handoff skill UX improvement."
+            "notes": "GitHub issue about handoff skill UX improvement.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/mattpocock/skills/issues/175",
@@ -12226,7 +12174,7 @@
           }
         ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:43Z",
@@ -12350,7 +12298,6 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 609,
             "contributors": 36
           },
@@ -12360,7 +12307,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Promotes using-git-worktrees into Step 0 of executing-plans."
+            "notes": "Promotes using-git-worktrees into Step 0 of executing-plans.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/obra/superpowers/issues/1574",
@@ -12377,7 +12325,8 @@
             "type": "social-signal",
             "class": "A",
             "notes": "Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).",
-            "views": 4402
+            "views": 4402,
+            "grade": "B"
           },
           {
             "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
@@ -12386,7 +12335,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:47Z",
@@ -12503,10 +12452,10 @@
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
-            "grade": "B",
             "notes": "I13 classify: repo-own evidence backfill (skill file)",
             "skillCountInRepo": 34,
-            "sourceStartedAt": "2026-06-19"
+            "sourceStartedAt": "2026-06-19",
+            "grade": "B"
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/implement",
@@ -12520,7 +12469,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:00:19Z",
@@ -12629,7 +12578,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub issue about improve-codebase-architecture skill enhancement."
+            "notes": "GitHub issue about improve-codebase-architecture skill enhancement.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/mattpocock/skills/discussions/287",
@@ -12637,11 +12587,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub discussion about improve-codebase-architecture skill workflow."
+            "notes": "GitHub discussion about improve-codebase-architecture skill workflow.",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -12726,10 +12677,10 @@
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
-            "grade": "B",
             "notes": "I13 classify: repo-own evidence backfill (skill file)",
             "skillCountInRepo": 34,
-            "sourceStartedAt": "2026-06-19"
+            "sourceStartedAt": "2026-06-19",
+            "grade": "B"
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/misc/migrate-to-shoehorn",
@@ -12743,7 +12694,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:01:05Z",
@@ -12845,7 +12796,6 @@
             "notes": "Obsidian vault management and PKM automation. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 137,
             "contributors": 3
           },
@@ -12855,7 +12805,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 88.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "mattpocock/skills suite — 137k GitHub stars; obsidian-vault is part of this repo",
             "stars": 137000,
             "skillCountInRepo": 21,
@@ -12867,14 +12817,14 @@
             "date": "2026-06-20",
             "type": "social-signal",
             "trustNumber": 82.0,
-            "grade": "A",
+            "grade": "B",
             "notes": "Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers mattpocock/skills repo (verified 2026-06-20)",
             "views": 412000,
             "sourceStartedAt": "2025-01-01"
           }
         ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:43Z",
@@ -12938,7 +12888,7 @@
         "trustMagnitudeInputHash": "a7ba764dc6d2a5d586b7773dd6f99205775a5fc6221851ffe43470f841373e6e",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -13088,7 +13038,6 @@
             "notes": "Production interactive prototyping skill. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 137,
             "contributors": 3
           },
@@ -13098,11 +13047,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub issue proposing prototype skill variant."
+            "notes": "GitHub issue proposing prototype skill variant.",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:43Z",
@@ -13198,13 +13148,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:56Z",
@@ -13290,10 +13239,10 @@
             "date": "2026-06-20",
             "type": "repo-own",
             "trustNumber": 65.0,
-            "grade": "B",
             "notes": "I13 classify: repo-own evidence backfill (skill file)",
             "skillCountInRepo": 34,
-            "sourceStartedAt": "2026-06-19"
+            "sourceStartedAt": "2026-06-19",
+            "grade": "B"
           },
           {
             "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts",
@@ -13307,7 +13256,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:01:24Z",
@@ -13409,7 +13358,6 @@
             "notes": "Scaffolding skill for Matt Pocock's engineering workspace. (backfilled —\" class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 137,
             "contributors": 3
           },
@@ -13419,7 +13367,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub issue about setup-matt-pocock-skills skill feature request."
+            "notes": "GitHub issue about setup-matt-pocock-skills skill feature request.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/mattpocock/skills/issues/220",
@@ -13427,11 +13376,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub issue about setup-matt-pocock-skills skill feature request."
+            "notes": "GitHub issue about setup-matt-pocock-skills skill feature request.",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:43Z",
@@ -13519,7 +13469,8 @@
             "class": "A",
             "notes": "133,210 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 19 sub-skills, divisor=4)",
             "stars": 133210,
-            "skillCountInRepo": 19
+            "skillCountInRepo": 19,
+            "grade": "C"
           },
           {
             "source": "https://arxiv.org/abs/2602.20867",
@@ -13537,7 +13488,8 @@
             "type": "social-signal",
             "class": "A",
             "notes": "Matt Pocock official YouTube: \"Learn anything with the /teach skill.\" Creator demonstrating his own skills suite.",
-            "views": 86670
+            "views": 86670,
+            "grade": "B"
           },
           {
             "source": "https://github.com/mattpocock/skills",
@@ -13545,11 +13497,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "G7 Trust Taxonomy Audit (June 2026): high adoption (132k stars), apex gate failure on tenure (<26 days vs 180 required), recommended role:variant filtering."
+            "notes": "G7 Trust Taxonomy Audit (June 2026): high adoption (132k stars), apex gate failure on tenure (<26 days vs 180 required), recommended role:variant filtering.",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-22",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -13702,7 +13655,6 @@
             "notes": "Production skill that synthesises live conversation context into a fully-structured PRD and publishes it to the issue tracker. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 137,
             "contributors": 3
           },
@@ -13712,7 +13664,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub issue about to-prd skill behavior."
+            "notes": "GitHub issue about to-prd skill behavior.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/mattpocock/skills/issues/212",
@@ -13720,7 +13673,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub issue about to-prd skill workflow question."
+            "notes": "GitHub issue about to-prd skill workflow question.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/mattpocock/skills/issues/240",
@@ -13740,7 +13694,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:44Z",
@@ -13854,7 +13808,6 @@
             "notes": "Production triage skill with state-machine workflow, HITL/AFK routing, and\" structured agent-brief output. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 137,
             "contributors": 3
           },
@@ -13864,7 +13817,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub issue about triage skill requirements."
+            "notes": "GitHub issue about triage skill requirements.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/mattpocock/skills/issues/289",
@@ -13872,11 +13826,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "GitHub issue about triage skill classification gap."
+            "notes": "GitHub issue about triage skill classification gap.",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:44Z",
@@ -14038,7 +13993,6 @@
             "notes": "Original implementation by Matt Pocock; formalizes DDD principles for AI\" agent contexts. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 137,
             "contributors": 3
           },
@@ -14048,7 +14002,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 88.0,
-            "grade": "A",
+            "grade": "C",
             "notes": "mattpocock/skills suite repo — 137k GitHub stars; ubiquitous-language was part of this suite (removed in v1.0.1 but authored by Matt Pocock)",
             "stars": 137000,
             "skillCountInRepo": 21,
@@ -14060,14 +14014,14 @@
             "date": "2026-06-20",
             "type": "social-signal",
             "trustNumber": 82.0,
-            "grade": "A",
+            "grade": "B",
             "notes": "Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers mattpocock/skills suite that includes ubiquitous-language (verified 2026-06-20)",
             "views": 412000,
             "sourceStartedAt": "2025-01-01"
           }
         ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:44Z",
@@ -14137,7 +14091,7 @@
         "trustMagnitudeInputHash": "93c720242a46b215789bae724573d16cd95c9b5acb9a4ed1a137fa308cdb34f8",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -14179,13 +14133,12 @@
             "notes": "Part of the Ruflo orchestration platform (public repo); DDD restructuring of the v3 codebase documented in the suite. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-10T05:38:18Z",
@@ -14334,12 +14287,11 @@
             "type": "repo",
             "commits": 90,
             "contributors": 10,
-            "trustNumber": 50.0,
-            "grade": "C"
+            "trustNumber": 50.0
           }
         ],
         "createdAt": "2026-05-27",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-05-26T16:36:57Z",
@@ -14424,12 +14376,11 @@
             "type": "repo",
             "commits": 90,
             "contributors": 10,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-27",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-05-26T16:36:59Z",
@@ -14942,12 +14893,11 @@
             "type": "repo",
             "commits": 90,
             "contributors": 10,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-27",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-05-26T16:36:56Z",
@@ -15043,12 +14993,11 @@
             "type": "repo",
             "commits": 90,
             "contributors": 10,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-27",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-05-26T16:36:59Z",
@@ -15135,13 +15084,12 @@
             "notes": "Open Design -- local-first design engine generating high-fidelity prototypes\" and brand assets. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 2382,
             "contributors": 332
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:19Z",
@@ -15231,12 +15179,11 @@
             "type": "repo",
             "commits": 66,
             "contributors": 100,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           }
         ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:19Z",
@@ -15324,7 +15271,6 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 609,
             "contributors": 36
           },
@@ -15334,7 +15280,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "v6.0.0 regression: brainstorming uses AskUserQuestion instead of conversational text."
+            "notes": "v6.0.0 regression: brainstorming uses AskUserQuestion instead of conversational text.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/obra/superpowers/issues/1690",
@@ -15351,7 +15298,8 @@
             "type": "social-signal",
             "class": "A",
             "notes": "Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).",
-            "views": 4402
+            "views": 4402,
+            "grade": "B"
           },
           {
             "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
@@ -15360,7 +15308,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:46Z",
@@ -15482,7 +15430,6 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 609,
             "contributors": 36
           },
@@ -15492,7 +15439,7 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 88.0,
-            "grade": "A",
+            "grade": "B",
             "notes": "obra/superpowers — 233k GitHub stars, complete AI coding methodology adopted across Claude Code, Codex CLI, Gemini CLI (verified 2026-06-20)",
             "stars": 233000,
             "skillCountInRepo": 13,
@@ -15500,7 +15447,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:47Z",
@@ -15558,7 +15505,7 @@
         "trustMagnitudeInputHash": "6e8062f6ddf3e6c27847a65d11b3d94b686e8c1916f4a66d04e13951bdd65054",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -15600,7 +15547,6 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 609,
             "contributors": 36
           },
@@ -15614,7 +15560,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:47Z",
@@ -15702,13 +15648,12 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 609,
             "contributors": 36
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -15791,7 +15736,6 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 609,
             "contributors": 36
           },
@@ -15801,7 +15745,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Fixes #1799 by adding -C DIR flag to review-package script to allow better harness allowlisting."
+            "notes": "Fixes #1799 by adding -C DIR flag to review-package script to allow better harness allowlisting.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/obra/superpowers/issues/1804",
@@ -15809,7 +15754,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "SDD: treatment arm 3/3 correct, control arm 0/3."
+            "notes": "SDD: treatment arm 3/3 correct, control arm 0/3.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/obra/superpowers/issues/1799",
@@ -15834,7 +15780,8 @@
             "type": "social-signal",
             "class": "A",
             "notes": "Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).",
-            "views": 4402
+            "views": 4402,
+            "grade": "B"
           },
           {
             "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
@@ -15843,7 +15790,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -15970,13 +15917,12 @@
             "notes": "Part of the Ruflo orchestration platform (public repo); two-agent implement/review pattern documented in the suite. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-10T05:38:18Z",
@@ -16060,8 +16006,7 @@
             "type": "repo",
             "commits": 609,
             "contributors": 36,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/obra/superpowers/stargazers",
@@ -16071,7 +16016,8 @@
             "class": "A",
             "notes": "230,818 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 11+ sub-skills, divisor=4)",
             "stars": 230818,
-            "skillCountInRepo": 11
+            "skillCountInRepo": 11,
+            "grade": "B"
           },
           {
             "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
@@ -16080,11 +16026,12 @@
             "type": "social-signal",
             "class": "A",
             "notes": "Larridin podcast: 'Superpowers: How Jesse Built the #1 AI Claude Code/Codex Plugin'. Jesse Vincent explains obra/superpowers agentic discipline. 4,402 views (firecrawl verified 2026-06-19).",
-            "views": 4402
+            "views": 4402,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -16233,7 +16180,6 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 609,
             "contributors": 36
           },
@@ -16243,7 +16189,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Promotes using-git-worktrees to Step 0 in executing-plans and SDD. Real-world: 0/4 worktrees without fix."
+            "notes": "Promotes using-git-worktrees to Step 0 in executing-plans and SDD. Real-world: 0/4 worktrees without fix.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/obra/superpowers/issues/1801",
@@ -16251,7 +16198,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Fixes #1797 by adding proper variable assignments in Step 1."
+            "notes": "Fixes #1797 by adding proper variable assignments in Step 1.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/obra/superpowers/issues/1797",
@@ -16276,7 +16224,8 @@
             "type": "social-signal",
             "class": "A",
             "notes": "Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).",
-            "views": 4402
+            "views": 4402,
+            "grade": "B"
           },
           {
             "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
@@ -16285,7 +16234,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:49Z",
@@ -16419,7 +16368,6 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 609,
             "contributors": 36
           },
@@ -16437,7 +16385,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Updates verification-before-completion to require outcome checks, not just command success."
+            "notes": "Updates verification-before-completion to require outcome checks, not just command success.",
+            "grade": "C"
           },
           {
             "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
@@ -16446,7 +16395,8 @@
             "type": "social-signal",
             "class": "A",
             "notes": "Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).",
-            "views": 4402
+            "views": 4402,
+            "grade": "B"
           },
           {
             "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
@@ -16455,7 +16405,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:49Z",
@@ -16576,13 +16526,12 @@
             "notes": "Part of the Ruflo orchestration platform (public repo); pre-completion quality gates documented in the suite. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-10T05:38:18Z",
@@ -16665,7 +16614,6 @@
             "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 609,
             "contributors": 36
           },
@@ -16675,7 +16623,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Requires writing-plans outputs to start with WHAT/WHY bullets."
+            "notes": "Requires writing-plans outputs to start with WHAT/WHY bullets.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/obra/superpowers/issues/1803",
@@ -16691,7 +16640,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Adds Global Constraints and per-task Interfaces to writing-plans template."
+            "notes": "Adds Global Constraints and per-task Interfaces to writing-plans template.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/obra/superpowers/issues/1690",
@@ -16716,7 +16666,8 @@
             "type": "social-signal",
             "class": "A",
             "notes": "Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).",
-            "views": 4402
+            "views": 4402,
+            "grade": "B"
           },
           {
             "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
@@ -16725,7 +16676,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:49Z",
@@ -16866,11 +16817,12 @@
             "type": "arxiv",
             "class": "A",
             "notes": "GPT-3 few-shot learning paper (Brown et al. 2020) — foundational, 50k+ citations",
-            "citations": 50000
+            "citations": 50000,
+            "grade": "S"
           }
         ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -16958,11 +16910,12 @@
             "type": "arxiv",
             "class": "A",
             "notes": "Self-Consistency CoT paper (Wang et al. 2022) — ~2000+ citations",
-            "citations": 2000
+            "citations": 2000,
+            "grade": "S"
           }
         ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -17050,13 +17003,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:19Z",
@@ -17271,13 +17223,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:50Z",
@@ -17354,13 +17305,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:51Z",
@@ -17438,13 +17388,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:51Z",
@@ -17522,7 +17471,6 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           },
@@ -17532,7 +17480,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Major AgentDB upgrade introducing RVF backend, self-learning capabilities, and witness chain for memory persistence."
+            "notes": "Major AgentDB upgrade introducing RVF backend, self-learning capabilities, and witness chain for memory persistence.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/ruvnet/ruflo/issues/829",
@@ -17540,11 +17489,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "High-engagement feature request demonstrating AgentDB performance benefits (150x-12,500x improvements) with backward compatibility."
+            "notes": "High-engagement feature request demonstrating AgentDB performance benefits (150x-12,500x improvements) with backward compatibility.",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:52Z",
@@ -17653,13 +17603,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:52Z",
@@ -17738,13 +17687,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:53Z",
@@ -17822,13 +17770,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:53Z",
@@ -17906,13 +17853,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:53Z",
@@ -18002,13 +17948,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:54Z",
@@ -18086,13 +18031,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:20Z",
@@ -18182,13 +18126,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:20Z",
@@ -18408,13 +18351,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:55Z",
@@ -18504,13 +18446,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:56Z",
@@ -18712,7 +18653,6 @@
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
-            "grade": "A",
             "notes": "ruflo platform SKILL.md — 60.3k GitHub stars, 34 plugins; hive-mind specific file avoids same-source dedup (verified 2026-06-20)",
             "stars": 60300,
             "skillCountInRepo": 34,
@@ -18736,14 +18676,14 @@
             "date": "2026-06-20",
             "type": "social-signal",
             "trustNumber": 82.0,
-            "grade": "A",
+            "grade": "B",
             "notes": "Ultimate Guide to Ruflo v3 Enterprise AI Agent with Hive Mind — 424K YouTube views; covers ruflo hive-mind architecture and queen-agent coordination (verified 2026-06-20)",
             "views": 424000,
             "sourceStartedAt": "2025-01-01"
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-20",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:22Z",
@@ -18879,7 +18819,7 @@
         "trustMagnitudeInputHash": "5198a4f070e375309b15820509f885ed2476684a5532a19d63aa1af6883579fc",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": true,
+          "sourceTenureDaysGte180AorS": false,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -18922,13 +18862,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:22Z",
@@ -19017,7 +18956,6 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           },
@@ -19027,7 +18965,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Dream cycle research issue documenting ReasoningBank performance gaps vs OPD-Evolver (11.5% improvement) and proposing bi-temporal indexing improvements via ADR-161."
+            "notes": "Dream cycle research issue documenting ReasoningBank performance gaps vs OPD-Evolver (11.5% improvement) and proposing bi-temporal indexing improvements via ADR-161.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/ruvnet/ruflo/issues/928",
@@ -19035,7 +18974,8 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Direct user feedback on reasoningbank-intelligence skill implementation and usage."
+            "notes": "Direct user feedback on reasoningbank-intelligence skill implementation and usage.",
+            "grade": "C"
           },
           {
             "source": "https://github.com/ruvnet/ruflo/issues/914",
@@ -19063,7 +19003,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -19188,13 +19128,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -19288,8 +19227,7 @@
             "type": "repo",
             "commits": 6899,
             "contributors": 32,
-            "trustNumber": 70.0,
-            "grade": "B"
+            "trustNumber": 70.0
           },
           {
             "source": "https://github.com/ruvnet/ruflo/stargazers",
@@ -19328,7 +19266,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -19576,13 +19514,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:59Z",
@@ -19661,13 +19598,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:23Z",
@@ -19758,13 +19694,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:23Z",
@@ -19855,13 +19790,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:33:00Z",
@@ -19940,13 +19874,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:33:01Z",
@@ -20025,13 +19958,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:33:01Z",
@@ -20110,13 +20042,12 @@
             "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 6899,
             "contributors": 32
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:33:02Z",
@@ -20191,7 +20122,8 @@
             "type": "github-stars-own",
             "class": "A",
             "notes": "68,766 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
-            "stars": 68766
+            "stars": 68766,
+            "grade": "A"
           },
           {
             "source": "https://arxiv.org/abs/2408.03910",
@@ -20200,7 +20132,8 @@
             "type": "arxiv",
             "class": "A",
             "notes": "GraphRAG / knowledge graph paper — ~89 citations as of 2026-06-19 (arXiv:2408.03910)",
-            "citations": 89
+            "citations": 89,
+            "grade": "C"
           },
           {
             "source": "https://www.youtube.com/watch?v=q6t8xTjV5rM",
@@ -20216,11 +20149,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "Consolidated GitHub community reviews (Issues + r/LocalLLaMA): token efficiency praised, Leiden clustering limits on non-modular codebases documented. Mid-2026."
+            "notes": "Consolidated GitHub community reviews (Issues + r/LocalLLaMA): token efficiency praised, Leiden clustering limits on non-modular codebases documented. Mid-2026.",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:24Z",
@@ -20334,13 +20268,12 @@
             "notes": "Career-Ops -- AI-powered job search system with CV tailoring and dashboard.\" (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 360,
             "contributors": 103
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:33:02Z",
@@ -20438,11 +20371,12 @@
             "date": "2026-06-19",
             "type": "peer-review",
             "class": "A",
-            "notes": "SkillsMP Community: TestCase scaffolding works well for isolated classes, struggles with highly coupled enterprise framework mocking. April 2026."
+            "notes": "SkillsMP Community: TestCase scaffolding works well for isolated classes, struggles with highly coupled enterprise framework mocking. April 2026.",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-19",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -20540,13 +20474,12 @@
             "notes": "Vercel /find-skills slash command -- queries the skills.sh registry, checks\" install counts, and auto-installs matching skills. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
             "type": "repo",
             "trustNumber": 70.0,
-            "grade": "B",
             "commits": 330,
             "contributors": 102
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-14",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:33:03Z",
@@ -20848,12 +20781,11 @@
           "type": "repo",
           "commits": 90,
           "contributors": 10,
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "createdAt": "2026-05-01",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-10T05:38:16Z",
@@ -20924,7 +20856,6 @@
           "notes": "Official Google DeepMind alphafold_database_fetch_and_analyze science-skill\" implementation. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -20935,11 +20866,12 @@
           "type": "peer-review",
           "class": "A",
           "notes": "Jumper et al. 2021 Nature: AlphaFold protein structure prediction. 36,575 citations (Semantic Scholar 2026-06-19). Nature paper directly describing the AlphaFold database tool.",
-          "reviewers": 3
+          "reviewers": 3,
+          "grade": "S"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-19",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:28Z",
@@ -21010,7 +20942,6 @@
           "notes": "Official Google DeepMind alphagenome_single_variant_analysis science-skill\" implementation. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -21021,11 +20952,12 @@
           "type": "peer-review",
           "class": "A",
           "notes": "Avsec et al. 2026 Nature: Advancing regulatory variant effect prediction with AlphaGenome. 107 citations (Semantic Scholar 2026-06-19). Nature paper for the AlphaGenome variant analysis tool.",
-          "reviewers": 3
+          "reviewers": 3,
+          "grade": "S"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-19",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:28Z",
@@ -21112,7 +21044,6 @@
           "notes": "Official Google DeepMind chembl_database science-skill implementation. (backfilled\" — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -21123,11 +21054,12 @@
           "type": "peer-review",
           "class": "A",
           "notes": "Mendez et al. 2018 NAR: ChEMBL towards direct deposition of bioassay data. 1,976 citations (Semantic Scholar 2026-06-19). Primary ChEMBL database paper.",
-          "reviewers": 2
+          "reviewers": 2,
+          "grade": "A"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-19",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:28Z",
@@ -21214,7 +21146,6 @@
           "notes": "Official Google DeepMind clinical_trials_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -21225,11 +21156,12 @@
           "type": "peer-review",
           "class": "A",
           "notes": "ClinicalTrials.gov: NIH/NLM clinical study registry. Primary infrastructure for the ClinicalTrials database skill. Mandatory registration required by FDA/NIH since 2007.",
-          "reviewers": 2
+          "reviewers": 2,
+          "grade": "A"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-19",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:29Z",
@@ -21316,7 +21248,6 @@
           "notes": "Official Google DeepMind clinvar_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -21327,11 +21258,12 @@
           "type": "peer-review",
           "class": "A",
           "notes": "Landrum et al. 2015 NAR: ClinVar public archive of interpretations of clinically relevant variants. 2,571 citations (Semantic Scholar 2026-06-19).",
-          "reviewers": 2
+          "reviewers": 2,
+          "grade": "A"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-19",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:29Z",
@@ -21418,7 +21350,6 @@
           "notes": "Official Google DeepMind dbsnp_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -21429,11 +21360,12 @@
           "type": "peer-review",
           "class": "A",
           "notes": "Sherry et al. 2001 NAR: dbSNP NCBI database of genetic variation. 7,285 citations (Semantic Scholar 2026-06-19).",
-          "reviewers": 2
+          "reviewers": 2,
+          "grade": "A"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-19",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:29Z",
@@ -21520,7 +21452,6 @@
           "notes": "Official Google DeepMind embl_ebi_ols science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -21530,14 +21461,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 85.0,
-          "grade": "A",
+          "grade": "S",
           "notes": "OLS4 (Ontology Lookup Service) 2025 — PMC/NAR; open source search engine for biomedical ontologies",
           "reviewers": 3,
           "sourceStartedAt": "2025-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:30Z",
@@ -21625,7 +21556,6 @@
           "notes": "Official Google DeepMind encode_ccres_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -21642,7 +21572,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:30Z",
@@ -21730,7 +21660,6 @@
           "notes": "Official Google DeepMind ensembl_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -21740,14 +21669,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 85.0,
-          "grade": "A",
+          "grade": "S",
           "notes": "Ensembl 2025 — NAR database issue; genome annotation, gene models, genetic variation",
           "reviewers": 3,
           "sourceStartedAt": "2025-01-08"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:30Z",
@@ -21835,7 +21764,6 @@
           "notes": "Official Google DeepMind foldseek_structural_search science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -21852,7 +21780,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:31Z",
@@ -21940,7 +21868,6 @@
           "notes": "Official Google DeepMind gnomad_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -21951,11 +21878,12 @@
           "type": "peer-review",
           "class": "A",
           "notes": "Karczewski et al. 2020 Nature: The mutational constraint spectrum quantified from 141,456 humans. 8,320 citations (Semantic Scholar 2026-06-19).",
-          "reviewers": 3
+          "reviewers": 3,
+          "grade": "S"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-19",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:31Z",
@@ -22042,7 +21970,6 @@
           "notes": "Official Google DeepMind gtex_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -22053,11 +21980,12 @@
           "type": "peer-review",
           "class": "A",
           "notes": "GTEx Consortium 2019 Science: GTEx atlas of genetic regulatory effects across human tissues. 4,618 citations (Semantic Scholar 2026-06-19).",
-          "reviewers": 3
+          "reviewers": 3,
+          "grade": "S"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-19",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:31Z",
@@ -22144,7 +22072,6 @@
           "notes": "Official Google DeepMind human_protein_atlas_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -22154,14 +22081,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 85.0,
-          "grade": "A",
+          "grade": "S",
           "notes": "Human Protein Atlas 2025 — Nature Biotechnology; protein association atlas covering 116M protein pairs across cells/tissues",
           "reviewers": 3,
           "sourceStartedAt": "2025-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:32Z",
@@ -22249,7 +22176,6 @@
           "notes": "Official Google DeepMind interpro_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -22259,14 +22185,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 85.0,
-          "grade": "A",
+          "grade": "S",
           "notes": "InterPro 2025 — NAR; annotations for 200M+ protein sequences, domain/family classification",
           "reviewers": 3,
           "sourceStartedAt": "2025-01-07"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:32Z",
@@ -22354,7 +22280,6 @@
           "notes": "Official Google DeepMind jaspar_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -22364,14 +22289,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 85.0,
-          "grade": "A",
+          "grade": "S",
           "notes": "JASPAR 2024 — NAR; largest open-access TF binding profile database; 8-organism TFBS tracks",
           "reviewers": 3,
           "sourceStartedAt": "2024-01-04"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:32Z",
@@ -22459,7 +22384,6 @@
           "notes": "Official Google DeepMind literature_search_arxiv science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -22470,11 +22394,12 @@
           "type": "peer-review",
           "class": "A",
           "notes": "arXiv e-print repository: Cornell University open-access preprint platform. Launched 1991, >2M papers. Primary infrastructure for the arXiv search skill.",
-          "reviewers": 2
+          "reviewers": 2,
+          "grade": "A"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-19",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:33Z",
@@ -22561,7 +22486,6 @@
           "notes": "Official Google DeepMind literature_search_biorxiv science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -22572,11 +22496,12 @@
           "type": "peer-review",
           "class": "A",
           "notes": "bioRxiv: Cold Spring Harbor Laboratory open-access biology preprint server. Launched 2013, >200k preprints. Primary infrastructure for the bioRxiv search skill.",
-          "reviewers": 2
+          "reviewers": 2,
+          "grade": "A"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-19",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:33Z",
@@ -22663,7 +22588,6 @@
           "notes": "Official Google DeepMind literature_search_europepmc science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -22673,14 +22597,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 78.0,
-          "grade": "B",
+          "grade": "S",
           "notes": "Europe PMC REST API — curated access to 48M+ life-science articles, preprints, patents; EMBL-EBI maintained",
           "reviewers": 3,
           "sourceStartedAt": "2015-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:33Z",
@@ -22768,7 +22692,6 @@
           "notes": "Official Google DeepMind literature_search_openalex science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -22778,14 +22701,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 78.0,
-          "grade": "B",
+          "grade": "S",
           "notes": "OpenAlex — fully open catalog 200M+ scholarly works; Priem & Heather 2022; replaces Microsoft Academic",
           "reviewers": 3,
           "sourceStartedAt": "2022-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:34Z",
@@ -22873,7 +22796,6 @@
           "notes": "Official Google DeepMind ncbi_sequence_fetch science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -22883,14 +22805,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 82.0,
-          "grade": "A",
+          "grade": "S",
           "notes": "NCBI 2014 — NAR; GenBank/BLAST/Entrez infrastructure for sequence retrieval; foundational bioinformatics resource",
           "reviewers": 3,
           "sourceStartedAt": "2014-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:34Z",
@@ -22978,7 +22900,6 @@
           "notes": "Official Google DeepMind openfda_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -22988,14 +22909,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 75.0,
-          "grade": "B",
+          "grade": "S",
           "notes": "openFDA FAERS API — FDA public adverse event reporting system; US drug safety surveillance database",
           "reviewers": 3,
           "sourceStartedAt": "2015-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:34Z",
@@ -23083,7 +23004,6 @@
           "notes": "Official Google DeepMind opentargets_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -23093,14 +23013,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 85.0,
-          "grade": "A",
+          "grade": "S",
           "notes": "Open Targets Platform 2025 — NAR; drug target identification and prioritization platform",
           "reviewers": 3,
           "sourceStartedAt": "2025-01-07"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:35Z",
@@ -23188,7 +23108,6 @@
           "notes": "Official Google DeepMind pdb_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -23199,11 +23118,12 @@
           "type": "peer-review",
           "class": "A",
           "notes": "Berman et al. 2000 NAR: The Protein Data Bank. 10,060 citations (Semantic Scholar 2026-06-19). Foundational PDB database paper.",
-          "reviewers": 2
+          "reviewers": 2,
+          "grade": "A"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-19",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:35Z",
@@ -23290,7 +23210,6 @@
           "notes": "Official Google DeepMind protein_sequence_msa science-skill implementation.\" (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -23301,11 +23220,12 @@
           "type": "peer-review",
           "class": "A",
           "notes": "Sievers et al. 2011 Molecular Systems Biology: Clustal Omega multiple sequence alignment. Peer-reviewed MSA tool paper underpinning the protein_sequence_msa skill (uses EBI Clustal Omega endpoint).",
-          "reviewers": 2
+          "reviewers": 2,
+          "grade": "A"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-19",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:35Z",
@@ -23385,8 +23305,7 @@
           "date": "2026-05-23",
           "notes": "Foundational canonical generic skill for Bioinformatic Sequence Analysis.\" (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "B",
@@ -23396,7 +23315,6 @@
           "notes": "Official Google DeepMind protein_sequence_similarity_search science-skill\" implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -23406,14 +23324,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 88.0,
-          "grade": "A",
+          "grade": "S",
           "notes": "Foldseek — Nature Biotechnology 2023; protein structure and sequence similarity search at scale; core method",
           "reviewers": 3,
           "sourceStartedAt": "2023-05-08"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:36Z",
@@ -23507,7 +23425,6 @@
           "notes": "Official Google DeepMind pubchem_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -23517,14 +23434,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 85.0,
-          "grade": "A",
+          "grade": "S",
           "notes": "PubChem 2025 — NAR; comprehensive public chemical database, biological activities data",
           "reviewers": 3,
           "sourceStartedAt": "2025-01-07"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:36Z",
@@ -23612,7 +23529,6 @@
           "notes": "Official Google DeepMind pubmed_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -23623,11 +23539,12 @@
           "type": "peer-review",
           "class": "A",
           "notes": "NCBI PubMed: NIH National Library of Medicine biomedical literature database. Peer-reviewed infrastructure used by millions of researchers globally (reviewed and maintained by NLM since 1996).",
-          "reviewers": 2
+          "reviewers": 2,
+          "grade": "A"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-19",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:37Z",
@@ -23726,7 +23643,6 @@
           "notes": "Official Google DeepMind pymol science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -23736,14 +23652,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 80.0,
-          "grade": "A",
+          "grade": "S",
           "notes": "PyMOL — Schrodinger; widely-used molecular visualization system; canonical reference for 3D protein structure analysis",
           "reviewers": 3,
           "sourceStartedAt": "2002-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:37Z",
@@ -23831,7 +23747,6 @@
           "notes": "Official Google DeepMind quickgo_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -23841,14 +23756,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 85.0,
-          "grade": "A",
+          "grade": "S",
           "notes": "Gene Ontology 2025 — PMC; comprehensive GO knowledgebase; QuickGO is EBI's GO browser",
           "reviewers": 3,
           "sourceStartedAt": "2025-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:37Z",
@@ -23936,7 +23851,6 @@
           "notes": "Official Google DeepMind reactome_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -23946,14 +23860,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 85.0,
-          "grade": "A",
+          "grade": "S",
           "notes": "Reactome 2024 — NAR; manually curated pathway knowledgebase, Elixir/GCBR core data resource",
           "reviewers": 3,
           "sourceStartedAt": "2024-01-04"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:38Z",
@@ -24041,7 +23955,6 @@
           "notes": "Official Google DeepMind science_skills_common science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -24051,14 +23964,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 78.0,
-          "grade": "B",
+          "grade": "S",
           "notes": "google-deepmind/science-skills common utilities — 2k+ GitHub stars; shared infrastructure for 30+ database skills",
           "reviewers": 3,
           "sourceStartedAt": "2024-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:38Z",
@@ -24146,7 +24059,6 @@
           "notes": "Official Google DeepMind string_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -24157,11 +24069,12 @@
           "type": "peer-review",
           "class": "A",
           "notes": "Szklarczyk et al. 2022 NAR: STRING database in 2023 — protein-protein association networks. 7,077 citations (Semantic Scholar 2026-06-19).",
-          "reviewers": 2
+          "reviewers": 2,
+          "grade": "A"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-19",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:38Z",
@@ -24248,7 +24161,6 @@
           "notes": "Official Google DeepMind ucsc_conservation_and_tfbs science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -24258,14 +24170,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 82.0,
-          "grade": "A",
+          "grade": "S",
           "notes": "UCSC 28-vertebrate alignment 2007 — Genome Research; PhyloP conservation tracks used by UCSC TFBS browser",
           "reviewers": 3,
           "sourceStartedAt": "2007-12-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:39Z",
@@ -24353,7 +24265,6 @@
           "notes": "Official Google DeepMind unibind_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -24363,14 +24274,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 82.0,
-          "grade": "A",
+          "grade": "S",
           "notes": "UniBind 2021 — PMC NAR database issue; 72M+ direct TF-DNA interactions from ChIP-seq across 9 species",
           "reviewers": 3,
           "sourceStartedAt": "2021-06-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:39Z",
@@ -24458,7 +24369,6 @@
           "notes": "Official Google DeepMind uniprot_database science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -24469,11 +24379,12 @@
           "type": "peer-review",
           "class": "A",
           "notes": "UniProt Consortium 2022 NAR: UniProt Universal Protein Knowledgebase in 2023. 5,729 citations (Semantic Scholar 2026-06-19).",
-          "reviewers": 2
+          "reviewers": 2,
+          "grade": "A"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-19",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:39Z",
@@ -24560,7 +24471,6 @@
           "notes": "Official Google DeepMind uv science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -24570,14 +24480,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 78.0,
-          "grade": "B",
+          "grade": "S",
           "notes": "uv — ultra-fast Python package manager by Astral (Ruff team); 51k+ GitHub stars; replaces pip+venv+poetry",
           "reviewers": 3,
           "sourceStartedAt": "2024-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:40Z",
@@ -24665,7 +24575,6 @@
           "notes": "Official Google DeepMind workflow_skill_creator science-skill implementation. (backfilled — class-to-type migration)",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "commits": 6,
           "contributors": 3
         },
@@ -24675,14 +24584,14 @@
           "date": "2026-06-20",
           "type": "peer-review",
           "trustNumber": 78.0,
-          "grade": "B",
+          "grade": "S",
           "notes": "google-deepmind/science-skills workflow creator — meta-skill for composing science database skill workflows",
           "reviewers": 3,
           "sourceStartedAt": "2024-01-01"
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:40Z",
@@ -25061,7 +24970,8 @@
           "type": "peer-review",
           "class": "A",
           "notes": "SemEval-2017 Task 4 (Twitter SA benchmark) — ACL Anthology; establishes macro-F1 as primary metric for sentiment analysis",
-          "reviewers": 3
+          "reviewers": 3,
+          "grade": "S"
         },
         {
           "source": "https://arxiv.org/abs/2202.03829",
@@ -25070,7 +24980,8 @@
           "type": "arxiv",
           "class": "A",
           "notes": "CardiffNLP Twitter-RoBERTa-base-sentiment (Barbieri et al., 2022) — SOTA transformer baseline for social-media SA (arXiv:2202.03829)",
-          "citations": 200
+          "citations": 200,
+          "grade": "B"
         },
         {
           "source": "https://ojs.aaai.org/index.php/ICWSM/article/view/14550",
@@ -25079,7 +24990,8 @@
           "type": "peer-review",
           "class": "A",
           "notes": "VADER (Hutto & Gilbert, 2014) — canonical lexicon-based SA baseline; AAAI/ICWSM; validated on social media corpora",
-          "reviewers": 3
+          "reviewers": 3,
+          "grade": "B"
         },
         {
           "source": "https://arxiv.org/abs/2203.01054",
@@ -25088,11 +25000,12 @@
           "type": "arxiv",
           "class": "A",
           "notes": "Aspect-Based Sentiment Analysis survey (Zhang et al., 2022) — covers ABSA methods for structured review analysis (arXiv:2203.01054)",
-          "citations": 89
+          "citations": 89,
+          "grade": "C"
         }
       ],
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-06-19",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "action": "migrate_trust_magnitude",
@@ -25357,8 +25270,7 @@
           "type": "repo",
           "commits": 439,
           "contributors": 2,
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "source": "https://www.youtube.com/watch?v=8VJKkftUY3M",
@@ -25373,7 +25285,7 @@
         }
       ],
       "createdAt": "2026-05-15",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:33:03Z",

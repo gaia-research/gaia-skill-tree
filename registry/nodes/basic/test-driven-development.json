@@ -14,14 +14,13 @@
       "date": "2026-04-30",
       "notes": "Matt Pocock /tdd -- Vertical-slice TDD enforcement with anti-horizontal-slicing rules. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

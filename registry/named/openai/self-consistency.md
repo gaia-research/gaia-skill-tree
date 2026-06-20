@@ -20,7 +20,7 @@ tags:
 - cot
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 trustMagnitude: 100.0
 overallTrustGrade: A
 apexGateStatus:
@@ -64,6 +64,7 @@ evidence:
   class: A
   notes: Self-Consistency CoT paper (Wang et al. 2022) — ~2000+ citations
   citations: 2000
+  grade: S
 verification:
   firstEvidenceAt: '2026-06-19T09:25:06Z'
 trustMagnitudeInputHash: d23306f7b62a1ac700203a79421bbf217c5704eeaafe0ccb952ffda85a17e19d

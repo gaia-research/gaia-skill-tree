@@ -31,14 +31,13 @@
       "date": "2026-04-29",
       "notes": "LATM repo â€” reproducible tool-maker/tool-user pipeline with evaluation on BigBench Hard tasks and tool reuse across problem batches. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-29",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

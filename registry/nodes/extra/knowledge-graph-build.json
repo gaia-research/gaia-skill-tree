@@ -30,8 +30,7 @@
       "date": "2026-04-28",
       "notes": "Microsoft GraphRAG â€” production KG construction pipeline; extracts community summaries and entity graphs from corpora, enabling global sensemaking queries. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     },
     {
       "source": "https://arxiv.org/abs/2408.03910",
@@ -45,7 +44,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-19",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

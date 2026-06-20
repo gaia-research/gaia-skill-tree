@@ -22,7 +22,7 @@ tags:
 - multi-agent
 - platform
 createdAt: '2026-05-19'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 suiteComponents:
 - ruvnet/agentdb
 - ruvnet/agentdb-advanced
@@ -83,7 +83,6 @@ evidence:
   commits: 6899
   contributors: 32
   trustNumber: 70.0
-  grade: B
 - source: https://github.com/ruvnet/ruflo/stargazers
   evaluator: mbtiongson1
   date: '2026-06-19'

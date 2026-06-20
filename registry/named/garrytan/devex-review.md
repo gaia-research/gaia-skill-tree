@@ -17,7 +17,7 @@ tags:
 - developer-experience
 - review
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T23:45:09Z'
@@ -66,7 +66,6 @@ evidence:
   commits: 323
   contributors: 9
   trustNumber: 70.0
-  grade: B
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

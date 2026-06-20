@@ -18,7 +18,7 @@ tags:
 - navigation
 - qa
 createdAt: '2026-05-18'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 suiteRef: garrytan/garrytan
 timeline:
 - timestamp: '2026-06-02T23:32:59Z'
@@ -95,19 +95,20 @@ evidence:
   commits: 323
   contributors: 9
   trustNumber: 70.0
-  grade: B
 - source: https://github.com/garrytan/gstack/issues/2055
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: peer-review
   class: A
   notes: Bug report for /browse
+  grade: C
 - source: https://github.com/garrytan/gstack/issues/2048
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: peer-review
   class: A
   notes: Bug report for /browse
+  grade: C
 - source: https://github.com/garrytan/gstack/issues/1989
   evaluator: mbtiongson1
   date: '2026-06-19'

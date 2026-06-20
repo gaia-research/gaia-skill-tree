@@ -25,7 +25,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "summary": "A fundamental skill that enables agents to interact with external services via HTTP API calls.",
   "useCase": "Useful for tasks that require real-time data fetching, invoking external web services, integrating with SaaS platforms (e.g., GitHub, Slack, JIRA), or triggering automated workflows via standard REST or GraphQL endpoints.",

@@ -21,7 +21,7 @@ tags:
 - y-combinator
 - ideation
 createdAt: '2026-05-12'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 suiteRef: garrytan/garrytan
 evidence:
 - class: B
@@ -36,13 +36,13 @@ evidence:
   commits: 323
   contributors: 9
   trustNumber: 70.0
-  grade: B
 - source: https://github.com/garrytan/gstack/issues/1958
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: peer-review
   class: A
   notes: GitHub issue discussing /office-hours
+  grade: C
 timeline:
 - timestamp: '2026-06-03T05:51:35Z'
   action: evidence_added

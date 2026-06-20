@@ -19,7 +19,7 @@ tags:
 - releases
 - automation
 createdAt: '2026-05-19'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/github-code-review
@@ -36,7 +36,6 @@ evidence:
     migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6899
   contributors: 32
 timeline:

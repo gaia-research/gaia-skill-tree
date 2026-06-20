@@ -38,14 +38,13 @@
       "date": "2026-04-28",
       "notes": "AutoGen (Microsoft) â€” multi-agent framework with reproducible data science notebooks; science agent achieves 44.3% on DS-1000 with full execution logs. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "title": "Primordial Oracle",
   "timeline": [

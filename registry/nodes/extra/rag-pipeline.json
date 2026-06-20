@@ -31,14 +31,13 @@
       "date": "2026-04-29",
       "notes": "RAGAS open-source implementation provides a reproducible evaluation toolkit for RAG pipelines. Notes: RAG pipelines can fail when retrieval misses relevant chunks, ambiguous queries retrieve misleading context, or generated answers drift from retrieved evidence. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

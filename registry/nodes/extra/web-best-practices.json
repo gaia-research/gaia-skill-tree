@@ -16,14 +16,13 @@
       "date": "2026-05-24",
       "type": "repo",
       "trustNumber": 70.0,
-      "grade": "B",
       "notes": "(backfilled — class-to-type migration)"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-24",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

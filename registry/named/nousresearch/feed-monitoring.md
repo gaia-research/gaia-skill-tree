@@ -19,7 +19,7 @@ tags:
 - signal-discovery
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md
@@ -33,7 +33,6 @@ evidence:
   commits: 66
   contributors: 100
   trustNumber: 70.0
-  grade: B
 timeline:
 - timestamp: '2026-06-02T23:48:19Z'
   action: demote

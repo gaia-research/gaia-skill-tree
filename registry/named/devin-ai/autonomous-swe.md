@@ -19,7 +19,7 @@ tags:
 - code-generation
 - self-correction
 createdAt: '2026-04-29'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/cognition-labs/devin
@@ -32,7 +32,6 @@ evidence:
   commits: 0
   contributors: 0
   trustNumber: 70.0
-  grade: B
 - source: https://arxiv.org/abs/2403.02128
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -54,6 +53,7 @@ evidence:
   class: A
   notes: 'Karl Brown (Internet of Bugs): frame-by-frame analysis of Devin Upwork demo.
     Documents staged demos, autonomy loops, context withholding. April 2024.'
+  grade: C
 timeline:
 - timestamp: '2026-06-02T23:48:17Z'
   action: demote

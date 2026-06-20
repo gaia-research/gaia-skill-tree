@@ -18,7 +18,7 @@ tags:
 - data-extraction
 - automation
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T23:33:01Z'
@@ -61,7 +61,6 @@ evidence:
     migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 323
   contributors: 9
 trustMagnitude: 36.0

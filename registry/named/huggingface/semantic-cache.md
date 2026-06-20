@@ -16,7 +16,7 @@ tags:
 - cost-optimization
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/codefuse-ai/ModelCache
@@ -29,7 +29,6 @@ evidence:
   commits: 192
   contributors: 10
   trustNumber: 70.0
-  grade: B
 timeline:
 - timestamp: '2026-06-02T23:48:18Z'
   action: demote

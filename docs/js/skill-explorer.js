@@ -27,6 +27,14 @@
       .replace(/\\/g,'\\\\').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
+  // Format a number as k (e.g. 60300 → "60.3k")
+  function _fmtK(n) {
+    var num = parseFloat(n);
+    if (isNaN(num)) return String(n);
+    if (num >= 1000) return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+    return String(num);
+  }
+
   function effectiveLabel(skill) {
     if (!skill) return '';
     var level = skill.level || '';
@@ -633,24 +641,88 @@
 
     var evidenceContent = '';
     if (combinedEvidence.length) {
-      evidenceContent = '<div class="grade-bar" style="max-width: 100%;">' +
+      evidenceContent = '<div class="se-ev-list">' +
         combinedEvidence.map(function(ev){
-          var gradeChar = (ev.grade || ev.class || '?').toUpperCase().charAt(0);
+          var gradeChar = (ev.grade || ev.class || '').toUpperCase().charAt(0);
           var gradeClass = 'grade-ungraded';
           if (gradeChar === 'S') gradeClass = 'grade-plat';
           else if (gradeChar === 'A') gradeClass = 'grade-gold';
           else if (gradeChar === 'B') gradeClass = 'grade-silver';
           else if (gradeChar === 'C') gradeClass = 'grade-bronze';
+          var gradeName = gradeChar || '—';
 
-          var gradeName = gradeChar !== '?' ? gradeChar : '-';
+          // Type normalization
+          var rawType = (ev.type || 'repo-own');
+          if (rawType === 'repo') rawType = 'repo-own';
+          if (rawType === 'github-stars') rawType = 'github-stars-own';
+          var typeLabels = {
+            'fusion-recipe': 'fusion', 'github-stars-own': 'stars',
+            'proxy-containment': 'proxy', 'verifier-attestation': 'verifier',
+            'benchmark-result': 'benchmark', 'arxiv': 'arxiv',
+            'peer-review': 'peer-review', 'repo-own': 'repo',
+            'self-attestation': 'self', 'social-signal': 'social'
+          };
+          var typeLbl = typeLabels[rawType] || rawType;
 
-          return '<div class="grade-row" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border);">' +
-            '<div class="grade-segment ' + gradeClass + '" style="flex: 0 0 40px; border-radius: 0; box-shadow: none;">' +
-              '<span class="grade-label">' + esc(gradeName) + '</span>' +
+          // Trust number
+          var trustHtml = (ev.trustNumber != null)
+            ? '<span class="se-ev-trust">' + esc(String(ev.trustNumber)) + '</span>'
+            : '';
+
+          // Short source URL
+          var shortSrc = (ev.source || '');
+          shortSrc = shortSrc.replace(/^https?:\/\/(www\.)?/, '');
+          if (shortSrc.length > 45) shortSrc = shortSrc.substring(0, 20) + '…' + shortSrc.substring(shortSrc.length - 20);
+
+          // Notes
+          var notesHtml = ev.notes
+            ? '<div class="se-ev-notes">' + esc(ev.notes) + '</div>'
+            : '';
+
+          // Metrics chips
+          var chips = [];
+          if (ev.stars)     chips.push('★ ' + _fmtK(ev.stars));
+          if (ev.views)     chips.push('👁 ' + _fmtK(ev.views));
+          if (ev.citations) chips.push('📄 ' + ev.citations + ' cit.');
+          if (ev.reviewers) chips.push(ev.reviewers + ' reviewers');
+          if (ev.commits)   chips.push(ev.commits + ' commits');
+          var metricsHtml = chips.length
+            ? '<div class="se-ev-metrics">' + chips.map(function(c){ return '<span class="se-ev-metric">' + esc(c) + '</span>'; }).join('') + '</div>'
+            : '';
+
+          // Fusion-recipe origins
+          var originsHtml = '';
+          if (rawType === 'fusion-recipe' && Array.isArray(ev.origins) && ev.origins.length) {
+            originsHtml = '<div class="se-ev-origins">Components: ' +
+              ev.origins.map(function(o){ return '<span class="se-ev-origin-chip">/' + esc(o) + '</span>'; }).join(' ') +
+            '</div>';
+          }
+
+          // Evaluator
+          var evalHtml = '';
+          if (ev.evaluator && ev.evaluator !== 'unknown' && ev.evaluator !== 'claude' && ev.evaluator !== 'system') {
+            evalHtml = '<span class="se-ev-eval">@' + esc(ev.evaluator) + '</span>';
+          }
+
+          return '<div class="se-ev-card">' +
+            '<div class="se-ev-card-left">' +
+              '<div class="grade-segment ' + gradeClass + ' se-ev-grade-sq">' +
+                '<span class="grade-label">' + esc(gradeName) + '</span>' +
+              '</div>' +
             '</div>' +
-            '<div style="flex: 1; display: flex; align-items: center; padding: 0 12px; gap: 12px; overflow: hidden;">' +
-              '<a class="se-ev-link" href="' + esc(ev.source||'#') + '" target="_blank" rel="noopener" style="flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text);">' + esc(ev.source||'—') + '</a>' +
-              '<span style="color: var(--muted); font-family: var(--font-mono); font-size: 0.8rem; flex-shrink: 0;">' + esc(ev.date||'') + '</span>' +
+            '<div class="se-ev-card-body">' +
+              '<div class="se-ev-card-top">' +
+                '<span class="ev-type-pill type-' + rawType + '">' + esc(typeLbl) + '</span>' +
+                '<a class="se-ev-link" href="' + esc(ev.source||'#') + '" target="_blank" rel="noopener" title="' + esc(ev.source||'') + '">' + esc(shortSrc) + '</a>' +
+                trustHtml +
+              '</div>' +
+              '<div class="se-ev-card-meta">' +
+                evalHtml +
+                (ev.date ? '<span class="se-ev-date">' + esc(ev.date) + '</span>' : '') +
+              '</div>' +
+              notesHtml +
+              metricsHtml +
+              originsHtml +
             '</div>' +
           '</div>';
         }).join('') + '</div>';
@@ -661,9 +733,32 @@
     var evidenceHtml = '<div class="se-docs-block">' +
       '<h4 style="display: flex; justify-content: space-between; align-items: center;">' +
         '<span>Evidence</span>' +
-        '<a href="' + evidenceLibraryUrl + '" style="font-size: 0.75rem; font-weight: normal; color: var(--basic); text-decoration: none; display: flex; align-items: center; gap: 4px;">' +
-          'Library ↗' +
-        '</a>' +
+        '<div style="display: flex; align-items: center; gap: 10px;">' +
+          ((!redacted && ns.contributor && ns.contributor !== 'generic')
+            ? '<a id="seSubmitEvidenceInline" href="' +
+                'https://github.com/mbtiongson1/gaia-skill-tree/issues/new' +
+                '?labels=evidence' +
+                '&title=' + encodeURIComponent('Evidence for ' + (ns.id||'')) +
+                '&body=' + encodeURIComponent(
+                  '## Evidence Submission for `' + (ns.id||'') + '`\n\n' +
+                  '**Skill:** ' + (ns.title||ns.name||ns.id||'') + ' (`' + (ns.id||'') + '`)\n' +
+                  '**Contributor:** ' + (ns.contributor||'') + '\n\n' +
+                  '### Evidence Row(s)\n\n' +
+                  '| Type | Source URL | Notes |\n' +
+                  '|------|-----------|-------|\n' +
+                  '| (e.g. arxiv, github-stars-own) | https://... | |\n\n' +
+                  '### Notes\n' +
+                  'Add any context that helps a reviewer verify the source (date accessed, star count at time of submission, etc.).\n\n' +
+                  'A maintainer will audit the sources and open a registry PR after the evidence pipeline review. See the [Trust Methodology](https://gaia.tiongson.co/codex/trust-methodology.html) for evidence type definitions.'
+                ) + '" ' +
+                'target="_blank" rel="noopener" style="font-size: 0.75rem; font-weight: normal; color: var(--basic); text-decoration: none; display: flex; align-items: center; gap: 4px;" title="Submit evidence for this skill">' +
+                '+ Submit Evidence' +
+              '</a>'
+            : '') +
+          '<a href="' + evidenceLibraryUrl + '" style="font-size: 0.75rem; font-weight: normal; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 4px;">' +
+            'Library ↗' +
+          '</a>' +
+        '</div>' +
       '</h4>' +
       evidenceContent +
     '</div>';
@@ -1778,6 +1873,9 @@
           window.open('report.html?id=' + encodeURIComponent(ns.id), '_blank', 'noopener');
         };
       }
+
+      // Topbar Submit Evidence button removed — CTA now lives inline in the Evidence
+      // section of renderDocs() so it appears in the right context.
 
       // Push hash (skip if already correct)
       var newHash = '#explorer/' + ns.id;

@@ -21,7 +21,7 @@ tags:
 - product-management
 - issue-tracker
 createdAt: '2026-04-30'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -32,7 +32,6 @@ evidence:
     PRD and publishes it to the issue tracker. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 137
   contributors: 3
 - source: https://github.com/mattpocock/skills/issues/156
@@ -41,12 +40,14 @@ evidence:
   type: peer-review
   class: A
   notes: GitHub issue about to-prd skill behavior.
+  grade: C
 - source: https://github.com/mattpocock/skills/issues/212
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: peer-review
   class: A
   notes: GitHub issue about to-prd skill workflow question.
+  grade: C
 - source: https://github.com/mattpocock/skills/issues/240
   evaluator: mbtiongson1
   date: '2026-06-19'

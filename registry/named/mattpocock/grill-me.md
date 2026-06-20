@@ -21,7 +21,7 @@ tags:
 - plan-stress-test
 - one-question-at-a-time
 createdAt: '2026-04-30'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 suiteRef: mattpocock/productivity
 evidence:
 - class: B
@@ -33,7 +33,6 @@ evidence:
     not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 137
   contributors: 3
 - source: https://github.com/mattpocock/skills/discussions
@@ -44,6 +43,7 @@ evidence:
   notes: 'GitHub Discussions: 7+ threads naming grill-me directly (usage patterns,
     cross-skill combos, model behaviour). 136k-star suite, 24.8k-follower creator.
     Named-layer: skill referenced by name.'
+  grade: C
 - source: https://github.com/mattpocock/skills/issues/240
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -51,6 +51,7 @@ evidence:
   class: A
   notes: 'Issue #240: ''GPT 5.5 jumps to implementation after /grill-me'' — 11 comments,
     highest-engagement grill-me issue. Cross-model adoption signal. Named-layer.'
+  grade: C
 - source: https://github.com/mattpocock/skills/issues/311
   evaluator: mbtiongson1
   date: '2026-06-19'

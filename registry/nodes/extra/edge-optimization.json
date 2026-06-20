@@ -27,14 +27,13 @@
       "date": "2026-06-03",
       "notes": "SKILL.md: Edge Model Compression — quantization, pruning, knowledge distillation, NAS for resource-constrained edge devices (majiayu000) (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

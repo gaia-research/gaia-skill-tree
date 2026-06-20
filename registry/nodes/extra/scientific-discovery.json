@@ -39,14 +39,13 @@
       "date": "2026-04-28",
       "notes": "AI Scientist (Lu et al., 2024) â€” generates idea, writes code, runs experiments, and produces a full NeurIPS-style paper; 50+ manuscripts auto-generated. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "title": "The Doctor",
   "timeline": [

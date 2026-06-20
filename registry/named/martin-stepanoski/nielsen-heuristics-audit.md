@@ -20,7 +20,7 @@ tags:
 - heuristics
 - accessibility
 createdAt: '2026-04-30'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md
@@ -32,7 +32,6 @@ evidence:
     dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 32
   contributors: 2
 - source: https://www.nngroup.com/articles/ten-usability-heuristics/
@@ -40,7 +39,7 @@ evidence:
   date: '2026-06-20'
   type: peer-review
   trustNumber: 80.0
-  grade: A
+  grade: S
   notes: NNGroup — Nielsen's 10 Usability Heuristics; foundational UX evaluation framework
     (original 1994 publication by Jakob Nielsen); this skill implements the canonical
     heuristic audit methodology

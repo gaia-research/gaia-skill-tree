@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>window.GAIA_VERSION = "4.9.5";</script>
+  <script>window.GAIA_VERSION = "5.0.6";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -12,8 +12,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="../css/styles.css?v=4.9.5">
-  <script src="../js/icons.js?v=4.9.5"></script>
+  <link rel="stylesheet" href="../css/styles.css?v=5.0.6">
+  <script src="../js/icons.js?v=5.0.6"></script>
   <style>
     /* ── Trust Methodology page — minimal additions on top of process-page tokens ── */
     .tm-formula-block {
@@ -307,8 +307,8 @@
 <body class="process-page">
 
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=5.0.4"></script>
-  <script src="../js/site-nav.js?v=4.9.5"></script>
+  <script src="../js/mounts.js?v=5.0.6"></script>
+  <script src="../js/site-nav.js?v=5.0.6"></script>
 
   <main style="padding: 0 2rem; max-width: 1060px; margin: 0 auto;">
 
@@ -723,6 +723,34 @@
           Grade A ≠ Class A.
         </p>
       </div>
+
+      <h3 style="margin-top: 1.75rem; font-size: 1rem; font-weight: 600; letter-spacing: 0.03em; color: var(--text);">Per-Evidence Row Grade Thresholds</h3>
+      <p class="section-sub" style="margin-bottom: 0.75rem;">Each evidence type has its own <code>artifact_score</code> floor for each grade. Grades above a type's ceiling are not achievable — the ceiling is a hard cap, not a rounding rule.</p>
+      <table class="tm-table" aria-label="Per-row grade thresholds by evidence type" style="font-size: 0.82rem;">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th><span class="grade-pill grade-s">S</span> floor</th>
+            <th><span class="grade-pill grade-a">A</span> floor</th>
+            <th><span class="grade-pill grade-b">B</span> floor</th>
+            <th><span class="grade-pill grade-c">C</span> floor</th>
+            <th>Ceiling</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>fusion-recipe</code></td><td>200</td><td>120</td><td>60</td><td>30</td><td><span class="grade-pill grade-s">S</span></td></tr>
+          <tr><td><code>github-stars-own</code></td><td>88</td><td>60</td><td>35</td><td>20</td><td><span class="grade-pill grade-s">S</span></td></tr>
+          <tr><td><code>proxy-containment</code></td><td>112</td><td>64</td><td>32</td><td>16</td><td><span class="grade-pill grade-s">S</span></td></tr>
+          <tr><td><code>verifier-attestation</code></td><td>90</td><td>54</td><td>27</td><td>14</td><td><span class="grade-pill grade-s">S</span></td></tr>
+          <tr><td><code>benchmark-result</code></td><td>90</td><td>70</td><td>40</td><td>20</td><td><span class="grade-pill grade-s">S</span></td></tr>
+          <tr><td><code>arxiv</code></td><td>95</td><td>70</td><td>40</td><td>15</td><td><span class="grade-pill grade-s">S</span></td></tr>
+          <tr><td><code>peer-review</code></td><td>88</td><td>60</td><td>35</td><td>14</td><td><span class="grade-pill grade-s">S</span></td></tr>
+          <tr><td><code>social-signal</code></td><td>—</td><td>60</td><td>28</td><td>12</td><td><span class="grade-pill grade-a">A</span></td></tr>
+          <tr><td><code>repo-own</code></td><td>—</td><td>—</td><td>22</td><td>9</td><td><span class="grade-pill grade-b">B</span></td></tr>
+          <tr><td><code>self-attestation</code></td><td>—</td><td>—</td><td>—</td><td>4</td><td><span class="grade-pill grade-c">C</span></td></tr>
+        </tbody>
+      </table>
+      <p style="font-size: 0.78rem; color: var(--muted); margin-top: 0.5rem;">Floors are against <code>artifact_score</code> (magnitude × weight × freshness × multipliers). A "—" means that grade is not achievable for this type regardless of score.</p>
     </section>
 
     <!-- ─── §4 SUITE VS FUSION ─── -->
@@ -1185,7 +1213,7 @@
 
   <!-- ─── FOOTER ─── -->
   <div id="site-footer-mount"></div>
-  <script src="../js/site-footer.js?v=4.9.5"></script>
+  <script src="../js/site-footer.js?v=5.0.6"></script>
 
   <!-- ─── SCROLL TO TOP ─── -->
   <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
@@ -1193,9 +1221,9 @@
   </button>
 
   <!-- ─── SCRIPTS ─── -->
-  <script src="../js/atlas-helpers.js?v=4.9.5"></script>
-  <script src="../js/ui.js?v=4.9.5"></script>
-  <script src="../js/page-ia.js?v=4.9.5"></script>
+  <script src="../js/atlas-helpers.js?v=5.0.6"></script>
+  <script src="../js/ui.js?v=5.0.6"></script>
+  <script src="../js/page-ia.js?v=5.0.6"></script>
 
 </body>
 </html>

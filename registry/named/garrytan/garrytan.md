@@ -21,7 +21,7 @@ tags:
 - ceo-review
 - orchestration
 createdAt: '2026-05-12'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 suiteRef: garrytan/gstack
 suiteComponents:
 - garrytan/browse
@@ -71,7 +71,6 @@ evidence:
   commits: 323
   contributors: 9
   trustNumber: 70.0
-  grade: B
 trustMagnitude: 156.0
 overallTrustGrade: A
 apexGateStatus:

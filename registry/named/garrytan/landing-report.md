@@ -18,7 +18,7 @@ tags:
 - reporting
 - status
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -31,7 +31,6 @@ evidence:
     migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 323
   contributors: 9
 timeline:

@@ -19,7 +19,7 @@ tags:
 - skills-sh
 - auto-install
 createdAt: '2026-04-30'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md
@@ -30,7 +30,6 @@ evidence:
     migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 330
   contributors: 102
 timeline:

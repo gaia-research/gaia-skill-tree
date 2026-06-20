@@ -37,14 +37,13 @@
       "date": "2026-06-03",
       "notes": "ontology-alignment-eval skill on SkillsMP — benchmarks semantic/lexical mapping of topic labels to 13 scientific ontologies, F1 vs 300-item gold standard (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

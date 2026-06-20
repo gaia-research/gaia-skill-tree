@@ -20,7 +20,7 @@ tags:
 - ultimate
 - memory-platform
 createdAt: '2026-05-19'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/agentdb-advanced
@@ -37,7 +37,6 @@ evidence:
     migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6899
   contributors: 32
 - source: https://github.com/ruvnet/ruflo/issues/1207
@@ -47,6 +46,7 @@ evidence:
   class: A
   notes: Major AgentDB upgrade introducing RVF backend, self-learning capabilities,
     and witness chain for memory persistence.
+  grade: C
 - source: https://github.com/ruvnet/ruflo/issues/829
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -54,6 +54,7 @@ evidence:
   class: A
   notes: High-engagement feature request demonstrating AgentDB performance benefits
     (150x-12,500x improvements) with backward compatibility.
+  grade: C
 timeline:
 - timestamp: '2026-06-14T12:32:52Z'
   action: evidence_graded

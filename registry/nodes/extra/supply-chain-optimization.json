@@ -37,14 +37,13 @@
       "date": "2026-06-03",
       "notes": "Comprehensive skill covering EOQ, safety stock, reorder points, ABC-XYZ classification, multi-SKU budget-constrained allocation, and Python implementations for inventory optimization (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

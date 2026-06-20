@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "5.0.6",
-  "generatedAt": "2026-06-20T17:00:34Z",
+  "generatedAt": "2026-06-20T18:51:25Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -97,52 +97,52 @@
     },
     "centroids": [
       [
-        -0.3078153858919522,
-        -0.3623053136838487,
-        0.05167976009856686,
-        0.15767951894829732
+        -0.30781538589195245,
+        -0.3623053136838485,
+        0.051679760098565196,
+        0.15767951894829688
       ],
       [
-        0.26597279992691375,
-        0.33959073555707653,
-        0.6269484582957382,
-        -0.049346431575137746
+        0.2659727999269135,
+        0.33959073555707303,
+        0.6269484582957384,
+        -0.04934643157513702
       ],
       [
-        -0.68051851311983,
-        0.262347178919643,
-        -0.0818426865462009,
-        -0.021559646043703834
+        -0.6805185131198298,
+        0.2623471789196431,
+        -0.08184268654620026,
+        -0.021559646043703643
       ],
       [
-        0.36165158318457236,
-        0.030885407904967084,
-        0.09334349116326088,
-        0.06598095859158618
+        0.3616515831845725,
+        0.030885407904966355,
+        0.09334349116326111,
+        0.06598095859158533
       ],
       [
-        -0.18587636420550321,
-        0.23144637434856435,
-        0.24717551966279774,
-        -0.09855209214596188
+        -0.18587636420550352,
+        0.2314463743485634,
+        0.24717551966279797,
+        -0.09855209214596013
       ],
       [
-        -0.027495509331432938,
-        0.07521478768533939,
-        -0.15361512911385025,
-        -0.19009158749345956
+        -0.02749550933143285,
+        0.07521478768534011,
+        -0.15361512911384964,
+        -0.1900915874934587
       ],
       [
-        0.3317405968196156,
-        -0.24343374843393964,
-        -0.44340265216366104,
-        -0.1940884131053197
+        0.33174059681961576,
+        -0.24343374843393709,
+        -0.44340265216366076,
+        -0.1940884131053193
       ],
       [
-        0.26012679408911343,
-        0.43205545880674756,
-        -0.20957822785695637,
-        0.09175789679102599
+        0.26012679408911393,
+        0.4320554588067482,
+        -0.20957822785695435,
+        0.0917578967910261
       ]
     ]
   },
@@ -242,14 +242,13 @@
           "date": "2026-06-03",
           "notes": "adversarial-robustness skill on SkillsMP — reviews AI resilience against evasion attacks, input perturbation, semantic-preserving transformations (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-06-03",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -382,8 +381,7 @@
           "date": "2026-04-30",
           "notes": "TruLens -- open-source evaluation and tracking for LLM experiments and AI agents; CI, active maintenance, 5k+ stars. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "B",
@@ -392,14 +390,13 @@
           "date": "2026-04-30",
           "notes": "Giskard OSS -- testing library for LLM agents with automated vulnerability scanning and RAG evaluation; Apache-2 license. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -505,8 +502,7 @@
           "date": "2026-05-19",
           "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
           "type": "github-stars",
-          "trustNumber": 50.0,
-          "grade": "C"
+          "trustNumber": 50.0
         },
         {
           "class": "B",
@@ -515,14 +511,13 @@
           "date": "2026-05-19",
           "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
           "type": "github-stars",
-          "trustNumber": 50.0,
-          "grade": "C"
+          "trustNumber": 50.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -617,8 +612,7 @@
           "date": "2026-05-14",
           "notes": "Airflow AGENTS.md defines agentic workflow design patterns using the TaskFlow API for dynamic DAG generation. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [
@@ -626,7 +620,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -680,7 +674,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "summary": "A fundamental skill that enables agents to interact with external services via HTTP API calls.",
       "useCase": "Useful for tasks that require real-time data fetching, invoking external web services, integrating with SaaS platforms (e.g., GitHub, Slack, JIRA), or triggering automated workflows via standard REST or GraphQL endpoints.",
@@ -714,8 +708,7 @@
           "date": "2026-05-06",
           "notes": "Hermes Agent architecture-diagram skill generates standalone HTML files with inline SVG architecture diagrams from system descriptions. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [
@@ -723,7 +716,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-06",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -816,14 +809,13 @@
           "date": "2026-04-28",
           "notes": "SWE-bench Verified â€” open-source evaluation harness where agents fix GitHub issues by generating and passing test suites; full execution logs archived. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -882,14 +874,13 @@
           "date": "2026-04-28",
           "notes": "AutoGen (Microsoft) â€” multi-agent framework with reproducible data science notebooks; science agent achieves 44.3% on DS-1000 with full execution logs. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "title": "Primordial Oracle",
       "timeline": [
@@ -1009,8 +1000,7 @@
           "date": "2026-05-23",
           "notes": "Auto-discovered from github. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "B",
@@ -1019,14 +1009,13 @@
           "date": "2026-05-23",
           "notes": "Auto-discovered from github. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1091,8 +1080,7 @@
           "date": "2026-05-14",
           "notes": "Firecrawl's Map and Crawl logic combined with the firecrawl_agent tool enables autonomous multi-source web research. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "B",
@@ -1101,8 +1089,7 @@
           "date": "2026-04-30",
           "notes": "Community reproduction of Karpathy's autoresearch pattern as a universal agent skill, demonstrating generalizability beyond the original repo. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [
@@ -1110,7 +1097,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1263,14 +1250,13 @@
           "date": "2026-04-28",
           "notes": "WebArena â€” self-hosted web environment with 812 realistic tasks; reproducible benchmark with ground-truth evaluation scripts. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -1384,14 +1370,13 @@
           "date": "2026-06-03",
           "notes": "SKILL.md: Causal Inference — propensity scoring, instrumental variables, causal graphs, treatment effects, policy evaluation (aj-geddes) (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-06-03",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1454,7 +1439,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -1665,14 +1650,13 @@
           "date": "2026-05-23",
           "notes": "Foundational canonical generic skill for Clinical Data Retrieval. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1790,14 +1774,13 @@
           "date": "2026-04-28",
           "notes": "PAL repo â€” reproducible harness across 13 reasoning benchmarks; evaluation scripts and baseline comparisons included. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -1885,14 +1868,13 @@
           "date": "2026-04-30",
           "notes": "Salesforce CodeT5/CodeT5+ open-source repository -- reproducible fine-tuning and evaluation scripts for code summarization, generation, and translation across 8 programming languages. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -2004,7 +1986,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -2056,8 +2038,7 @@
           "date": "2026-05-17",
           "notes": "Excalidraw -- virtual whiteboard for sketching hand-drawn like diagrams; widespread adoption for developer documentation. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [
@@ -2065,7 +2046,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2105,14 +2086,13 @@
           "date": "2026-05-23",
           "notes": "Foundational canonical generic skill for Computational Biology Workflows. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2189,14 +2169,13 @@
           "date": "2026-04-28",
           "notes": "OSWorld â€” 369 computer tasks across real OS environments (Windows, macOS, Ubuntu); reproducible VM-based evaluation harness. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -2241,14 +2220,13 @@
           "date": "2026-04-28",
           "notes": "OpenAI Moderation API â€” publicly documented multi-category content classifier with reproducible API calls, category scores, and evaluation methodology. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -2309,8 +2287,7 @@
           "date": "2026-04-30",
           "notes": "Microsoft LLMLingua — reproducible open-source implementation of LLMLingua-1/2/LongLLMLingua; CI, README, Apache-2.0 license. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "C",
@@ -2319,14 +2296,13 @@
           "date": "2026-04-30",
           "notes": "SkillsMP top hit: sickn33/antigravity-awesome-skills (35k+ stars), multiple community variants including context-compression-v2. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2492,14 +2468,13 @@
           "date": "2026-06-03",
           "notes": "cultural-localization skill on SkillsMP — per-country cultural copy profiles synthesizing three cultural frameworks for tone, trust-building, CTA style (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-06-03",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2570,14 +2545,13 @@
           "date": "2026-04-28",
           "notes": "pandas-ai â€” open-source agent for natural-language data analysis over pandas DataFrames; reproducible demos with logging and output artifacts. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -2615,14 +2589,13 @@
           "date": "2026-04-28",
           "notes": "LIDA (Microsoft) â€” open-source LLM-based data visualization tool with reproducible generation pipeline; evaluated on diverse real-world datasets. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -2722,8 +2695,7 @@
           "date": "2026-04-30",
           "notes": "Production interactive design-grilling skill; walks decision tree with recommended answers, one question at a time. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "B",
@@ -2732,14 +2704,13 @@
           "date": "2026-04-30",
           "notes": "Extended implementation with domain-model awareness: challenges language against CONTEXT.md, cross-references code, writes ADRs inline. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2824,7 +2795,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -3058,14 +3029,13 @@
           "date": "2026-04-28",
           "notes": "Marker â€” open-source PDF-to-markdown pipeline with reproducible benchmarks; outperforms Nougat on edit distance across 1000+ arXiv PDFs. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3218,14 +3188,13 @@
           "date": "2026-04-30",
           "notes": "autospec — AI agent that takes a web app URL and autonomously QAs it, saving passing specs as E2E test code (59 stars, active). (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -3273,14 +3242,13 @@
           "date": "2026-06-03",
           "notes": "SKILL.md: Edge Model Compression — quantization, pruning, knowledge distillation, NAS for resource-constrained edge devices (majiayu000) (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-06-03",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3390,14 +3358,13 @@
           "date": "2026-05-22",
           "notes": "Consolidated engineering suite for Matt Pocock's skills. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-06-20",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3655,14 +3622,13 @@
           "date": "2026-06-03",
           "notes": "explainability skill on SkillsMP — model transparency and interpretability for data science workflows (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-06-03",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3827,7 +3793,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -3921,14 +3887,13 @@
           "date": "2026-06-03",
           "notes": "Official Anthropic cookbook skill covering DCF valuation engine (WACC, terminal value), Monte Carlo simulation, sensitivity analysis, LBO and M&A models; includes dcf_model.py (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-06-03",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4001,8 +3966,7 @@
           "date": "2026-04-30",
           "notes": "HuggingFace PEFT -- state-of-the-art LoRA/QLoRA/IA3 fine-tuning; 100k+ stars, CI, active maintenance. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "B",
@@ -4011,14 +3975,13 @@
           "date": "2026-04-30",
           "notes": "LlamaFactory (ACL 2024) -- unified efficient fine-tuning of 100+ LLMs and VLMs; 50k+ stars, reproducible benchmarks. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4268,8 +4231,7 @@
           "date": "2026-04-28",
           "notes": "SWE-agent â€” open-source agent with AgentComputer Interface; reproducible harness achieving 12.5% on SWE-bench full with logs and eval scripts. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "A",
@@ -4285,7 +4247,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "title": "Sovereign Craftsman",
       "timeline": [
@@ -4362,7 +4324,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4427,7 +4389,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -4474,7 +4436,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -4547,8 +4509,7 @@
           "date": "2026-05-17",
           "notes": "ComfyUI -- most powerful and modular stable diffusion GUI and backend; node-based graph execution for generative media. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [
@@ -4556,7 +4517,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4590,14 +4551,13 @@
           "date": "2026-05-23",
           "notes": "Foundational canonical generic skill for Genomic Data Retrieval. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4943,7 +4903,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -5014,14 +4974,13 @@
           "date": "2026-04-30",
           "notes": "NeMo Guardrails -- open-source toolkit for adding programmable safety rails to LLM-based conversational systems; actively maintained. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5116,8 +5075,7 @@
           "date": "2026-05-06",
           "notes": "Hermes Agent humanizer skill identifies AI-generated writing patterns and rewrites text to sound more natural while retaining meaning. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [
@@ -5125,7 +5083,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-06",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5208,14 +5166,13 @@
           "date": "2026-04-28",
           "notes": "The AI Scientist (Sakana AI) â€” end-to-end pipeline generating ideas, running experiments, and writing ML papers; 50+ auto-generated manuscripts reviewed. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -5271,7 +5228,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -5313,7 +5270,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -5365,7 +5322,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5422,8 +5379,7 @@
           "date": "2026-04-28",
           "notes": "Microsoft GraphRAG â€” production KG construction pipeline; extracts community summaries and entity graphs from corpora, enabling global sensemaking queries. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "source": "https://arxiv.org/abs/2408.03910",
@@ -5437,7 +5393,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-19",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -5530,8 +5486,7 @@
           "date": "2026-05-17",
           "notes": "Hermes Skills Hub: Notion integration for structured notes and databases. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [
@@ -5539,7 +5494,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5586,7 +5541,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5626,14 +5581,13 @@
           "date": "2026-05-23",
           "notes": "Foundational canonical generic skill for Literature Search. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5714,7 +5668,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -5759,7 +5713,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -5797,8 +5751,7 @@
           "date": "2026-05-17",
           "notes": "Manim Community Edition -- programmatic animation engine for explanatory math videos; inspired by 3Blue1Brown. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [
@@ -5806,7 +5759,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5896,8 +5849,7 @@
           "date": "2026-04-30",
           "notes": "Official Go SDK for MCP servers and clients (4.4k stars, maintained by Anthropic + Google). Demonstrates production-grade MCP client integration pattern. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "B",
@@ -5906,14 +5858,13 @@
           "date": "2026-04-30",
           "notes": "Cross-platform AI assistant with full MCP client support (5.2k stars). Reproduces tool enumeration, execution, and multi-server routing. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -5962,8 +5913,7 @@
           "date": "2026-05-10",
           "notes": "Anthropic mcp-builder skill gives a reproducible guide for building high-quality MCP servers in Python FastMCP or the Node/TypeScript MCP SDK. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "B",
@@ -5972,8 +5922,7 @@
           "date": "2026-05-10",
           "notes": "Official MCP Python SDK is active and provides FastMCP server examples for exposing tools, resources, prompts, structured outputs, transports, and inspector-based testing. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "B",
@@ -5982,7 +5931,6 @@
           "date": "2026-05-27",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "notes": "(backfilled — class-to-type migration)"
         }
       ],
@@ -5991,7 +5939,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-10",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6050,7 +5998,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -6121,8 +6069,7 @@
           "date": "2026-05-17",
           "notes": "Hugging Face Hub CLI -- standard interface for managing ML artifacts. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [
@@ -6130,7 +6077,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6179,14 +6126,13 @@
           "date": "2026-04-30",
           "notes": "Jeffallan/claude-skills — reproducible ml-pipeline skill: full lifecycle from data validation and feature engineering through distributed training, experiment tracking, model evaluation gates, A/B testing, and automated retraining with DVC/Feast/MLflow/Kubeflow. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6226,14 +6172,13 @@
           "date": "2026-05-23",
           "notes": "Foundational canonical generic skill for Molecular Databases. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6309,7 +6254,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -6368,14 +6313,13 @@
           "date": "2026-05-17",
           "notes": "Replaced missing seed evidence with live repository from real-skills catalog. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "title": "Grand Conductor",
       "timeline": [
@@ -6550,7 +6494,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -6612,14 +6556,13 @@
           "date": "2026-04-30",
           "notes": "Ultralytics YOLOv8 -- production real-time detection library; COCO AP 50.2 at 8ms inference, 25k+ GitHub stars, reproducible training and evaluation scripts for detection and segmentation. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -6683,14 +6626,13 @@
           "date": "2026-06-03",
           "notes": "ontology-alignment-eval skill on SkillsMP — benchmarks semantic/lexical mapping of topic labels to 13 scientific ontologies, F1 vs 300-item gold standard (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-06-03",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6765,14 +6707,13 @@
           "date": "2026-04-30",
           "notes": "EasyOCR -- production-grade OCR library supporting 80+ languages; 24k+ GitHub stars, reproducible benchmarks, and documented performance across diverse real-world document types. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -6944,7 +6885,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -6978,14 +6919,13 @@
           "date": "2026-05-23",
           "notes": "Foundational canonical generic skill for Pathway Ontology Retrieval. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7044,14 +6984,13 @@
           "date": "2026-05-19",
           "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
           "type": "github-stars",
-          "trustNumber": 50.0,
-          "grade": "C"
+          "trustNumber": 50.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7094,14 +7033,13 @@
           "date": "2026-05-22",
           "notes": "Consolidated personal suite for Matt Pocock's skills. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7237,14 +7175,13 @@
           "date": "2026-05-17",
           "notes": "Replaced missing seed evidence with live repository from real-skills catalog. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7386,7 +7323,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7425,8 +7362,7 @@
           "date": "2026-05-06",
           "notes": "Hermes Agent polymarket skill queries markets, prices, order books, and historical prediction-market data through public read-only APIs. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [
@@ -7434,7 +7370,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-06",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7488,14 +7424,13 @@
           "date": "2026-06-03",
           "notes": "SKILL.md: pymc — Bayesian modeling, hierarchical models, MCMC (NUTS), variational inference, LOO/WAIC, probabilistic programming (K-Dense Inc.) (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-06-03",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7562,14 +7497,13 @@
           "date": "2026-05-22",
           "notes": "Consolidated productivity suite for Matt Pocock's skills. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7649,8 +7583,7 @@
           "date": "2026-05-17",
           "notes": "Hermes Skills Hub: Linear integration for issue and project management. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [
@@ -7658,7 +7591,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7705,8 +7638,7 @@
           "date": "2026-04-30",
           "notes": "tldrsec/prompt-injection-defenses (682 stars) — curated, reproducible catalog of defense techniques with implementation references; actively maintained. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "C",
@@ -7715,14 +7647,13 @@
           "date": "2026-04-30",
           "notes": "SkillsMP top hit: openclaw/prompt-injection-defense (4,419 stars) — 'Harden agent sessions against prompt injection from untrusted content'; references CaMeL benchmark. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7785,14 +7716,13 @@
           "date": "2026-04-29",
           "notes": "DSPy â€” Stanford NLP library for programmable LM pipelines; 18k+ GitHub stars, supports multiple optimizers (BootstrapFewShot, MIPRO, COPRO) across any LM. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -7832,14 +7762,13 @@
           "date": "2026-05-23",
           "notes": "Foundational canonical generic skill for Protein Structure Analysis. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7897,14 +7826,13 @@
           "date": "2026-05-23",
           "notes": "Foundational canonical generic skill for Proteomic Data Retrieval. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -8046,14 +7974,13 @@
           "date": "2026-04-30",
           "notes": "Garry Tan /office-hours -- Q&A skill grounded in specific document sets and founder context. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -8127,14 +8054,13 @@
           "date": "2026-04-29",
           "notes": "RAGAS open-source implementation provides a reproducible evaluation toolkit for RAG pipelines. Notes: RAG pipelines can fail when retrieval misses relevant chunks, ambiguous queries retrieve misleading context, or generated answers drift from retrieved evidence. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -8238,14 +8164,13 @@
           "date": "2026-04-28",
           "notes": "ReAct repo â€” reproducible prompts and evaluation harness for HotpotQA, FEVER, ALFWorld, and WebShop benchmarks. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -8310,14 +8235,13 @@
           "date": "2026-04-28",
           "notes": "Whisper + LLM integration demos â€” open-source real-time voice assistant pipelines combining Whisper STT, LLM reasoning, and TTS with documented latency benchmarks. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "title": "Eternal Herald",
       "timeline": [
@@ -8494,7 +8418,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -8535,8 +8459,7 @@
           "date": "2026-04-28",
           "notes": "Reproducible demonstration: Claude Code agent researched 30 popular AI skills, sourced 22 peer-reviewed papers, generated gaia.json via script, passed all 6 validator checks, and submitted PR â€” full inputs/outputs archived in the PR diff. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "B",
@@ -8545,8 +8468,7 @@
           "date": "2026-04-28",
           "notes": "Batch 2 curation: 11 skills added (7 atomic, 3 composite, 1 legendary) with verified Class A/B evidence. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "B",
@@ -8555,8 +8477,7 @@
           "date": "2026-04-29",
           "notes": "Batch 3 curation: 5 skills added (2 atomic, 3 composite) â€” self-consistency, few-shot-learning, tree-of-thought, prompt-optimization, tool-creation. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "B",
@@ -8565,8 +8486,7 @@
           "date": "2026-04-30",
           "notes": "Batch 4 curation: 6 skills added (4 atomic, 2 composite) -- optical-character-recognition, object-detection, code-explain, reward-modeling, grounding, multi-agent-debate. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "B",
@@ -8575,14 +8495,13 @@
           "date": "2026-04-30",
           "notes": "Batch 5 curation: 5 skills added (2 atomic, 3 composite) -- statistical-analysis, scientific-visualization, literature-review, scientific-writing, ml-pipeline. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -8752,14 +8671,13 @@
           "date": "2026-06-03",
           "notes": "SKILL.md covering GDPR, HIPAA, and SOC2 in a single cross-framework comparison matrix; core requirements checklist, control overlaps, and drift detection guidance across all three frameworks (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-06-03",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9037,14 +8955,13 @@
           "date": "2026-04-30",
           "notes": "TRL (HuggingFace) -- production RLHF library with reward model training, PPO, DPO, and GRPO support; 10k+ GitHub stars, reproducible training scripts and documented evaluation pipelines. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -9184,14 +9101,13 @@
           "date": "2026-04-28",
           "notes": "AI Scientist (Lu et al., 2024) â€” generates idea, writes code, runs experiments, and produces a full NeurIPS-style paper; 50+ manuscripts auto-generated. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "title": "The Doctor",
       "timeline": [
@@ -9314,7 +9230,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9405,14 +9321,13 @@
           "date": "2026-05-24",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "notes": "(backfilled — class-to-type migration)"
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-24",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9463,14 +9378,13 @@
           "date": "2026-04-30",
           "notes": "microsoft/PromptKit (42 stars) — composable prompt components for security audits, code review, and bug investigation with any LLM. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -9515,7 +9429,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -9600,14 +9514,13 @@
           "date": "2026-04-28",
           "notes": "Self-Refine repo â€” reproducible demos across 7 tasks (code, math, dialogue, sentiment reversal) with evaluation scripts. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -9658,14 +9571,13 @@
           "date": "2026-04-30",
           "notes": "vCache -- reliable and efficient semantic prompt caching; active research prototype with published benchmarks. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9763,8 +9675,7 @@
           "date": "2026-05-17",
           "notes": "NLPTown BERT multilingual - 5-class (star-rating) model fine-tuned on product reviews; direct UGC applicability. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "B",
@@ -9773,8 +9684,7 @@
           "date": "2026-05-17",
           "notes": "declare-lab/conv-emotion - Sentiment/emotion recognition in conversations (MELD, IEMOCAP); relevant for threaded comment SA. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "C",
@@ -9803,14 +9713,13 @@
           "date": "2026-05-17",
           "notes": "Curated reading list by DeCLaRe Lab; anchored by Poria et al. (2020) IEEE TAC survey on open challenges. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "1.0.0",
       "timeline": [
         {
@@ -9952,8 +9861,7 @@
           "date": "2026-05-10",
           "notes": "Anthropic skill-creator provides a reproducible workflow for creating, editing, evaluating, benchmarking, and optimizing agent skills. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [
@@ -9961,7 +9869,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-10",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10063,8 +9971,7 @@
           "date": "2026-05-22",
           "notes": "The ultimate Matt Pocock skill suite capstone. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "A",
@@ -10073,8 +9980,7 @@
           "date": "2026-05-22",
           "notes": "Peer-reviewed ultimate capstone suite consolidation. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "A",
@@ -10083,14 +9989,13 @@
           "date": "2026-05-25",
           "notes": "Matt Pocock complete agent discipline library with 100k+ GitHub stars across the ecosystem. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10207,8 +10112,7 @@
           "date": "2026-05-10",
           "notes": "Anthropic skill-creator explicitly includes measuring skill performance, benchmarking with variance analysis, and optimizing skill descriptions for triggering accuracy. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "B",
@@ -10217,8 +10121,7 @@
           "date": "2026-05-10",
           "notes": "AgentSkillOS repository provides the reproducible retrieval/orchestration framework and benchmark implementation for 30 artifact-rich agent-skill tasks with Bradley-Terry scoring. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [
@@ -10226,7 +10129,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-10",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10307,7 +10210,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-10",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10399,7 +10302,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -10444,7 +10347,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10554,14 +10457,13 @@
           "date": "2026-04-28",
           "notes": "Outlines library â€” production-grade constrained decoding supporting JSON Schema, regex, and CFG grammars; 2k+ GitHub stars. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -10750,14 +10652,13 @@
           "date": "2026-06-03",
           "notes": "Comprehensive skill covering EOQ, safety stock, reorder points, ABC-XYZ classification, multi-SKU budget-constrained allocation, and Python implementations for inventory optimization (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-06-03",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10864,14 +10765,13 @@
           "date": "2026-06-03",
           "notes": "SKILL.md: synthetic-data — LLM-based generation, tabular synthesis, SDV/Gretel, privacy-preserving data (omer-metin) (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-06-03",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10998,14 +10898,13 @@
           "date": "2026-04-30",
           "notes": "Matt Pocock /tdd -- Vertical-slice TDD enforcement with anti-horizontal-slicing rules. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -11071,7 +10970,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -11117,7 +11016,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -11189,14 +11088,13 @@
           "date": "2026-06-03",
           "notes": "threat-intelligence skill on SkillsMP — IoC/TTP management, threat hunting, MITRE ATT&CK mapping (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-06-03",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -11278,14 +11176,13 @@
           "date": "2026-06-03",
           "notes": "darts: 9400+ star Python library for user-friendly forecasting with seasonal decomposition, ensemble methods, anomaly detection; covers ARIMA, Prophet, TFT, NBEATS and more (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-06-03",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -11429,14 +11326,13 @@
           "date": "2026-04-30",
           "notes": "SkillsMP: dependency-aware-tool-chaining, build-agentic-workflows-chaining-tool-calls; emerging community consensus on the pattern. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -11494,14 +11390,13 @@
           "date": "2026-04-29",
           "notes": "LATM repo â€” reproducible tool-maker/tool-user pipeline with evaluation on BigBench Hard tasks and tool reuse across problem batches. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -11608,14 +11503,13 @@
           "date": "2026-04-28",
           "notes": "ToolBench â€” open benchmark with 16,000+ real-world APIs; end-to-end tool-use training and evaluation harness. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -11665,7 +11559,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -11711,7 +11605,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -11775,14 +11669,13 @@
           "date": "2026-04-29",
           "notes": "Princeton-NLP ToT repo â€” reproducible breadth-first and depth-first tree search implementations with evaluation scripts for Game of 24 and Mini Crosswords. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -12107,14 +12000,13 @@
           "date": "2026-04-30",
           "notes": "SkillsMP: 6+ named entries including visual-qa, vision-qa-workflow, claude-vision-qa, visual-qa-analysis from multiple contributors. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -12175,14 +12067,13 @@
           "date": "2026-04-28",
           "notes": "Rasa Open Source â€” production voice agent framework with ASR/TTS integrations; reproducible pipeline with test suite and documented benchmarks. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.2.0",
       "timeline": [
         {
@@ -12219,14 +12110,13 @@
           "date": "2026-05-24",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "notes": "(backfilled — class-to-type migration)"
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-24",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -12273,14 +12163,13 @@
           "date": "2026-05-24",
           "type": "repo",
           "trustNumber": 70.0,
-          "grade": "B",
           "notes": "(backfilled — class-to-type migration)"
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-24",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -12330,14 +12219,13 @@
           "date": "2026-05-31",
           "notes": "Addy Osmani's agent-skills repo (47k stars) contains performance-optimization, code-review-and-quality, security-and-hardening and other skills that compose a web quality audit workflow. The prior URL (addyosmani/web-quality-skills) was a non-existent repo — corrected to the verified canonical repo. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-24",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -12507,8 +12395,7 @@
           "date": "2026-05-06",
           "notes": "Hermes Agent llm-wiki skill documents a persistent interlinked markdown knowledge base pattern for compounding research notes and retrieval. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [
@@ -12516,7 +12403,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-06",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -12584,8 +12471,7 @@
           "date": "2026-04-30",
           "notes": "n8n -- fair-code workflow automation with 400+ integrations and native AI capabilities; 90k+ stars, Apache-2 + EE license. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "B",
@@ -12594,8 +12480,7 @@
           "date": "2026-04-30",
           "notes": "Activepieces -- AI agents and workflow automation with 400 MCP servers; MIT license, active community. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         },
         {
           "class": "B",
@@ -12604,14 +12489,13 @@
           "date": "2026-04-30",
           "notes": "Flowise -- visual AI agent and workflow builder; 40k+ stars, Apache-2 license, reproducible demos. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {
@@ -12663,8 +12547,7 @@
           "date": "2026-05-17",
           "notes": "Hermes Skills Hub: Google Workspace integration for unified email, calendar, and drive access. (backfilled — class-to-type migration)",
           "type": "repo",
-          "trustNumber": 70.0,
-          "grade": "B"
+          "trustNumber": 70.0
         }
       ],
       "knownAgents": [
@@ -12672,7 +12555,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-21",
       "version": "0.1.0",
       "timeline": [
         {

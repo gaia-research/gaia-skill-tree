@@ -27,14 +27,13 @@
       "date": "2026-04-30",
       "notes": "Salesforce CodeT5/CodeT5+ open-source repository -- reproducible fine-tuning and evaluation scripts for code summarization, generation, and translation across 8 programming languages. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

@@ -20,7 +20,7 @@ tags:
 - aggregate-roots
 - v3-sprint
 createdAt: '2026-05-19'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 suiteRef: ruvnet/ruflo-v3
 evidence:
 - class: B
@@ -31,7 +31,6 @@ evidence:
     of the v3 codebase documented in the suite. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6899
   contributors: 32
 timeline:

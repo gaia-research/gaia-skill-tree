@@ -11,7 +11,7 @@ level: 1★
 description: Productivity skill for routing questions to the right expert or skill
   in a workspace.
 createdAt: '2026-06-19'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 timeline:
 - timestamp: '2026-06-19T12:58:22Z'
   action: add
@@ -86,10 +86,10 @@ evidence:
   date: '2026-06-20'
   type: repo-own
   trustNumber: 65.0
-  grade: B
   notes: 'I13 classify: repo-own evidence backfill (skill file)'
   skillCountInRepo: 34
   sourceStartedAt: '2026-06-19'
+  grade: B
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt
   evaluator: testuser
   date: '2026-06-20'
@@ -103,10 +103,10 @@ evidence:
   date: '2026-06-20'
   type: repo-own
   trustNumber: 65.0
-  grade: B
   notes: 'I13 classify: repo-own evidence backfill (skill file)'
   skillCountInRepo: 34
   sourceStartedAt: '2026-06-19'
+  grade: B
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt
   evaluator: testuser
   date: '2026-06-20'

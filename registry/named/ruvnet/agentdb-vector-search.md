@@ -19,7 +19,7 @@ tags:
 - semantic-search
 - embeddings
 createdAt: '2026-05-19'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 suiteRef: ruvnet/agentdb
 evidence:
 - class: B
@@ -30,7 +30,6 @@ evidence:
     migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6899
   contributors: 32
 timeline:

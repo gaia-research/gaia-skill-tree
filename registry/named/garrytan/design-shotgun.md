@@ -19,7 +19,7 @@ tags:
 - prototyping
 - visual-qa
 createdAt: '2026-05-12'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -34,13 +34,12 @@ evidence:
   commits: 323
   contributors: 9
   trustNumber: 70.0
-  grade: B
 - source: https://github.com/garrytan/gstack
   evaluator: unknown
   date: '2026-06-20'
   type: github-stars-own
   trustNumber: 85.0
-  grade: A
+  grade: C
   notes: gstack suite repo — 110,930 GitHub stars; design-shotgun is 1 of 42 named
     skills (verified 2026-06-20)
   stars: 110930

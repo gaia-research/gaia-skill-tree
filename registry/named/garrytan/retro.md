@@ -17,7 +17,7 @@ tags:
 - retrospective
 - documentation
 createdAt: '2026-05-18'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T23:33:02Z'
@@ -79,19 +79,20 @@ evidence:
   commits: 323
   contributors: 9
   trustNumber: 70.0
-  grade: B
 - source: https://github.com/garrytan/gstack/issues/1999
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: peer-review
   class: A
   notes: GitHub issue discussing /retro skill
+  grade: C
 - source: https://github.com/garrytan/gstack/issues/1834
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: peer-review
   class: A
   notes: GitHub issue discussing /retro skill
+  grade: C
 trustMagnitude: 81.0
 overallTrustGrade: B
 apexGateStatus:

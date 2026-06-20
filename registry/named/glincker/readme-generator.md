@@ -19,7 +19,7 @@ tags:
 - code-analysis
 - project-structure
 createdAt: '2026-04-30'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 timeline:
 - timestamp: '2026-06-02T23:33:02Z'
   action: demote
@@ -75,13 +75,12 @@ evidence:
   commits: 8
   contributors: 1
   trustNumber: 70.0
-  grade: B
 - source: https://github.com/GLINCKER/claude-code-marketplace
   evaluator: unknown
   date: '2026-06-20'
   type: self-attestation
   trustNumber: 60.0
-  grade: B
+  grade: C
   notes: GLINCKER claude-code-marketplace — 32 GitHub stars; readme-generator skill
     included in marketplace
   sourceStartedAt: '2025-01-01'

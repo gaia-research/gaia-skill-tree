@@ -16,7 +16,7 @@ tags:
 - multimodal
 - vision
 createdAt: '2026-05-14'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/bradautomates/claude-video
@@ -29,7 +29,6 @@ evidence:
   commits: 6
   contributors: 1
   trustNumber: 70.0
-  grade: B
 - source: https://www.youtube.com/watch?v=QZMljuD10sU
   evaluator: unknown
   date: '2026-06-20'

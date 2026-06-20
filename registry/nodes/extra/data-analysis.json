@@ -22,14 +22,13 @@
       "date": "2026-04-28",
       "notes": "pandas-ai â€” open-source agent for natural-language data analysis over pandas DataFrames; reproducible demos with logging and output artifacts. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

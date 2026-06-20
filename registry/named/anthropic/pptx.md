@@ -20,7 +20,7 @@ tags:
 - markitdown
 - presentations
 createdAt: '2026-04-30'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md
@@ -33,7 +33,6 @@ evidence:
   commits: 41
   contributors: 16
   trustNumber: 70.0
-  grade: B
 timeline:
 - timestamp: '2026-06-02T01:42:58Z'
   action: demote

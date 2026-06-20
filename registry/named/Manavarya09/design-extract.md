@@ -16,7 +16,7 @@ tags:
 - tailwind
 - scraping
 createdAt: '2026-05-14'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/Manavarya09/design-extract
@@ -29,7 +29,6 @@ evidence:
   commits: 262
   contributors: 9
   trustNumber: 70.0
-  grade: B
 timeline:
 - timestamp: '2026-06-02T01:43:00Z'
   action: demote
