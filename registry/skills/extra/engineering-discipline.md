@@ -1,6 +1,6 @@
 # [mattpocock](../../../docs/u/mattpocock/)/engineering  [4★]
 **ID:** engineering-discipline  
-**Type:** Ultimate Skill  
+**Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Top named variant:** 4★  
 **Skill Call:** `/engineering-discipline`

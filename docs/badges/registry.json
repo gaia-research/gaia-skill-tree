@@ -604,7 +604,7 @@
           "id": "ruvnet/agentdb",
           "name": "AgentDB",
           "rank": 4,
-          "type": "ultimate",
+          "type": "extra",
           "slash": "/agentdb",
           "file": "agentdb.svg",
           "fileSeal": "agentdb-seal.svg"
@@ -906,7 +906,7 @@
           "id": "mattpocock/engineering",
           "name": "Engineering",
           "rank": 4,
-          "type": "ultimate",
+          "type": "extra",
           "slash": "/engineering",
           "file": "engineering.svg",
           "fileSeal": "engineering-seal.svg"

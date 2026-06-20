@@ -8,7 +8,7 @@
 | ◇ /agent-eval | Extra Skill | Evaluate Output, Score Relevance | — |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/handoff | Extra Skill | Summarize, Document Editing, Context Compression | 3★ |  |
 | ◇ ████████/agentdb-learning | Extra Skill | Adaptive Pattern Learning, Memory Manage | — |  |
-| ◆ [ruvnet](../docs/u/ruvnet/)/agentdb | Ultimate Skill | Distributed Vector Memory, Agent Memory Learning, Memory Pattern Design, Vector DB Optimization, Vector Search | 4★ | Requires demonstrating all 5 AgentDB discipline skills in a production distributed system context. |
+| ◇ [ruvnet](../docs/u/ruvnet/)/agentdb | Extra Skill | Distributed Vector Memory, Agent Memory Learning, Memory Pattern Design, Vector DB Optimization, Vector Search | 4★ | Requires demonstrating all 5 AgentDB discipline skills in a production distributed system context. |
 | ◇ ████████/sparc-methodology | Extra Skill | Workflow Automation, Plan and Decompose | — | Requires a workflow orchestration target (e.g. Airflow, Temporal) and access to its authoring API. |
 | ◇ /architecture-diagram | Extra Skill | Data Visualize, Format Output, Write Report | — | Requires enough system context to identify components, relationships, boundaries, and rendering constraints. |
 | ◇ [garrytan](../docs/u/garrytan/)/health | Extra Skill | Generate Test, Code Execution, Error Interpretation | 2★ |  |
@@ -39,7 +39,7 @@
 | ◇ [ruvnet](../docs/u/ruvnet/)/dual-mode | Extra Skill | Headless Worker Spawn, Headless Worker Collect, Hybrid Workflow Coordination | 4★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/qa | Extra Skill | Browser Automation, Automated Testing | 3★ | Requires a live or containerised target environment; browser automation must be available. |
 | ◇ /edge-optimization | Extra Skill | Evaluate Output, Fine-Tune, Performance Tuning | — |  |
-| ◆ [mattpocock](../docs/u/mattpocock/)/engineering | Ultimate Skill | Autonomous Debug, Refactor Code, Vertical Slice Planning, PRD Generation, Issue Triage, Ubiquitous Language, Code Explain, Grill With Docs, prototype, agent-environment-setup | 4★ |  |
+| ◇ [mattpocock](../docs/u/mattpocock/)/engineering | Extra Skill | Autonomous Debug, Refactor Code, Vertical Slice Planning, PRD Generation, Issue Triage, Ubiquitous Language, Code Explain, Grill With Docs, prototype, agent-environment-setup | 4★ |  |
 | ◇ [obra](../docs/u/obra/)/executing-plans | Extra Skill | Writing Plans, Tool Use | 3★ |  |
 | ◇ /explainability-audit | Extra Skill | Data Visualize, Evaluate Output, Statistical Analysis | — |  |
 | ◇ /financial-modeling | Extra Skill | Data Analysis, Generate SQL, Statistical Analysis | — |  |

@@ -64,7 +64,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="ultimate" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="agentic-workflow-design" label="Agentic Workflow Design">
@@ -442,7 +442,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="ultimate" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="error-interpretation" label="Error Interpretation">

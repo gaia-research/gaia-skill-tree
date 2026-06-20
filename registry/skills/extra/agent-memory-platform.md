@@ -1,6 +1,6 @@
 # [ruvnet](../../../docs/u/ruvnet/)/agentdb  [4★]
 **ID:** agent-memory-platform  
-**Type:** Ultimate Skill  
+**Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Top named variant:** 4★  
 **Skill Call:** `/agent-memory-platform`

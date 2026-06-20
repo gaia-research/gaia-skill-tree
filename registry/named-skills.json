@@ -11844,13 +11844,9 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "ultimate",
+        "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "origin",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "need ≥1 component(s) graded S+, have 0"
-        }
+        "role": "origin"
       }
     ],
     "grill-me": [
@@ -17621,13 +17617,9 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "ultimate",
+        "type": "extra",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "need ≥1 component(s) graded S+, have 0"
-        }
+        "role": "origin"
       }
     ],
     "git-diff-risk-analysis": [

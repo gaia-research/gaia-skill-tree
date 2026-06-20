@@ -1,7 +1,7 @@
 {
   "id": "agent-memory-platform",
   "name": "Agent Memory Platform",
-  "type": "ultimate",
+  "type": "extra",
   "description": "Complete AgentDB vector memory ecosystem: QUIC-synchronized distributed vector storage, adaptive pattern learning, memory pattern design, database optimization, and semantic vector search.",
   "prerequisites": [
     "distributed-vector-memory",
@@ -16,7 +16,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-19",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-20",
   "version": "0.1.0",
   "timeline": [
     {
@@ -32,6 +32,12 @@
       "details": "Skill created as 5★ (provisional)",
       "previousValue": null,
       "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-06-20T06:47:47Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from ultimate to extra"
     }
   ]
 }

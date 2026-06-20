@@ -11,7 +11,7 @@
 | ◇ /agent-eval | Extra Skill | — | `/agent-eval` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/handoff | Extra Skill | 3★ | `/agent-handoff` |
 | ◇ ████████/agentdb-learning | Extra Skill | — | `/agent-memory-learning` |
-| ◆ [ruvnet](../docs/u/ruvnet/)/agentdb | Ultimate Skill | 4★ | `/agent-memory-platform` |
+| ◇ [ruvnet](../docs/u/ruvnet/)/agentdb | Extra Skill | 4★ | `/agent-memory-platform` |
 | ◇ ████████/sparc-methodology | Extra Skill | — | `/agentic-workflow-design` |
 | ○ ████████/hf-cli | Basic Skill | — | `/api-call` |
 | ◇ /architecture-diagram | Extra Skill | — | `/architecture-diagram` |
@@ -61,7 +61,7 @@
 | ◇ [garrytan](../docs/u/garrytan/)/qa | Extra Skill | 3★ | `/e2e-testing` |
 | ◇ /edge-optimization | Extra Skill | — | `/edge-optimization` |
 | ○ /embed-text | Basic Skill | — | `/embed-text` |
-| ◆ [mattpocock](../docs/u/mattpocock/)/engineering | Ultimate Skill | 4★ | `/engineering-discipline` |
+| ◇ [mattpocock](../docs/u/mattpocock/)/engineering | Extra Skill | 4★ | `/engineering-discipline` |
 | ○ /error-interpretation | Basic Skill | — | `/error-interpretation` |
 | ○ [garrytan](../docs/u/garrytan/)/benchmark | Basic Skill | 3★ | `/evaluate-output` |
 | ◇ [obra](../docs/u/obra/)/executing-plans | Extra Skill | 3★ | `/executing-plans` |

@@ -114,7 +114,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ ◇ ruvnet/flow-nexus-neural  [2★]
   │     ├─ ○ ████████/parallel-execution
   │     └─ ○ /embed-text
-  ├─ ◆ ruvnet/agentdb  [4★]
+  ├─ ◇ ruvnet/agentdb  [4★]
   │  ├─ ◇ ruvnet/agentdb-advanced  [2★]
   │  │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
   │  │  └─ ◇ garrytan/learn  [2★]
@@ -203,7 +203,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 
 ◆ mattpocock/skills  [5★]
 ─────────────────────────────────────────────────────────────────
-  ├─ ◆ mattpocock/engineering  [4★]
+  ├─ ◇ mattpocock/engineering  [4★]
   │  ├─ ◇ devin-ai/autonomous-swe  [3★]
   │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /code-execution
