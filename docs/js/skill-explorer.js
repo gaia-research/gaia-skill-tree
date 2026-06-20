@@ -831,12 +831,14 @@
     });
     var suiteComponents = ns.suiteComponents || [];
     if (suiteComponents.length && !hasFusionRow) {
+      // Suite skills list components as role='variant' — variants are excluded from
+      // fusion-recipe magnitude by the RFC role guard (only role='origin' scores).
+      // Mark _noScore so we don't show a misleading MAG number.
+      // The tile still shows all components so the user sees the installation breadth.
       combinedEvidence.unshift({
         type: 'fusion-recipe',
         origins: suiteComponents,
-        grade: ns.overallTrustGrade || null,
-        // _noScore: true — fusion score requires graded origin lookup (backend-only).
-        // The frontend can't replicate it; show the tile as structural info only.
+        _isSuite: true,        // drives label: "Suite components" not "Origins"
         _noScore: true,
         _synthetic: true,
         _layer: 'named',
@@ -888,16 +890,25 @@
             ? '<div class="se-ev-metrics">' + chips.map(function(c){ return '<span class="se-ev-metric">' + esc(c) + '</span>'; }).join('') + '</div>'
             : '';
 
-          // Fusion-recipe origins
+          // Fusion-recipe origins display
           var originsHtml = '';
           if (rawType === 'fusion-recipe' && Array.isArray(ev.origins) && ev.origins.length) {
-            originsHtml = '<div class="se-ev-origins">Components: ' +
-              ev.origins.slice(0, 8).map(function(o){
-                // Strip contributor prefix for display: "garrytan/browse" → "/browse"
+            var originLabel = ev._isSuite
+              ? 'Suite components (' + ev.origins.length + ')'
+              : 'Origins (' + ev.origins.length + ')';
+            var suiteNote = ev._isSuite
+              ? '<span class="se-ev-suite-note" title="Suite components have role=\'variant\' — only role=\'origin\' components score fusion-recipe magnitude (RFC role guard)">variants · no fusion score</span>'
+              : '';
+            originsHtml = '<div class="se-ev-origins">' +
+              '<span class="se-ev-origins-label">' + esc(originLabel) + '</span>' +
+              suiteNote +
+              '<div class="se-ev-origins-chips">' +
+              ev.origins.slice(0, 12).map(function(o){
                 var slug = o.indexOf('/') !== -1 ? o.split('/').pop() : o;
                 return '<span class="se-ev-origin-chip" title="' + esc(o) + '">/' + esc(slug) + '</span>';
-              }).join(' ') +
-              (ev.origins.length > 8 ? ' <span class="se-ev-origin-chip" style="opacity:0.6">+' + (ev.origins.length - 8) + ' more</span>' : '') +
+              }).join('') +
+              (ev.origins.length > 12 ? '<span class="se-ev-origin-chip" style="opacity:0.5">+' + (ev.origins.length - 12) + ' more</span>' : '') +
+              '</div>' +
             '</div>';
           }
 

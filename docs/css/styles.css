@@ -10850,9 +10850,26 @@ body[data-overall-grade="S"] .report-card {
   color: var(--muted);
   margin-top: 3px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 4px;
+}
+.se-ev-origins-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+}
+.se-ev-origins-chips {
+  display: flex;
   flex-wrap: wrap;
+  gap: 3px;
+}
+.se-ev-suite-note {
+  font-size: 0.62rem;
+  color: var(--muted);
+  opacity: 0.55;
+  cursor: help;
+  font-style: italic;
 }
 .se-ev-origin-chip {
   display: inline-block;
