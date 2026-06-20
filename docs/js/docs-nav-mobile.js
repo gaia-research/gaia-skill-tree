@@ -63,6 +63,8 @@
     '<a href="' + root + 'named/' + v + '">Skills</a>',
     '<a href="index.html">Docs</a>',
     '<div class="group-label">More</div>',
+    '<a href="' + root + 'index.html?tree=1">Skill Tree</a>',
+    '<a href="' + root + 'index.html?field=1">Skill Graph</a>',
     '<a href="' + root + 'codex.html">The Codex</a>',
     '<a href="' + root + 'trust/ledger/' + v + '">Trust Ledger</a>',
     '<a href="' + root + 'starless.html">Starless</a>',
