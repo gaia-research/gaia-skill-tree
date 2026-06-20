@@ -400,12 +400,9 @@ def computeArtifactScoreOrNone(
 
     freshness = _freshnessFactor(evidenceRow, evidenceType)
 
-    # Mothership discount applies to github-stars-own only (RFC §3.1)
-    mothership = 1.0
-    if evidenceType == "github-stars-own":
-        skillCount = evidenceRow.get("skillCountInRepo")
-        if isinstance(skillCount, (int, float)) and skillCount > 1:
-            mothership = 1.0 / min(int(skillCount), 4)
+    # NOTE: mothership discount for github-stars-own is already baked into
+    # _rawMagnitudeForType (divides by min(skillCountInRepo, 4)). Do NOT
+    # apply it again here — that would double-discount.
 
     # Creator multiplier and engagement ratio for social-signal (RFC §2.11)
     creatorMult = 1.0
@@ -426,7 +423,7 @@ def computeArtifactScoreOrNone(
             # If views zero/absent, fall through leaving engagementRatio=1.0.
         # If neither stored ratio nor raw fields are present, fall through to 1.0.
 
-    score = rawMagnitude * weight * freshness * mothership * creatorMult * engagementRatio
+    score = rawMagnitude * weight * freshness * creatorMult * engagementRatio
     return score
 
 
@@ -1320,13 +1317,6 @@ def explainTrustMagnitude(
         if cap is not None:
             rawMag = min(rawMag, cap)
 
-        # Mothership discount (github-stars-own only)
-        mothership = 1.0
-        if rowType == "github-stars-own":
-            skillCount = row.get("skillCountInRepo")
-            if isinstance(skillCount, (int, float)) and skillCount > 1:
-                mothership = 1.0 / min(int(skillCount), 4)
-
         # Creator multiplier + engagement ratio (social-signal only)
         creatorMult = 1.0
         engagementRatio = 1.0
@@ -1343,14 +1333,14 @@ def explainTrustMagnitude(
 
         inheritMult = _inheritMultiplierFor(row, skill)
 
-        # Build factor chain line
+        # Mothership discount for github-stars-own is baked into rawMag already —
+        # do NOT show it as a separate factor (would imply double-discount).
+        # Instead note the divisor in the base description.
         factorParts = [
             f"base {rawMag:.2f}",
             f"x weight {weight}",
             f"x freshness {freshness:.2f}",
         ]
-        if mothership != 1.0:
-            factorParts.append(f"x mothership {mothership:.2f}")
         if rowType == "social-signal":
             factorParts.append(f"x creator {creatorMult}")
             factorParts.append(f"x engagement {engagementRatio:.2f}")

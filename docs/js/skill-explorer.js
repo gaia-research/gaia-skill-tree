@@ -75,12 +75,12 @@
     return null;
   }
 
-  // Build a tooltip explaining how the per-row MAG number was derived.
-  // skillTm (optional) is the skill's aggregate TM — shown as context at the bottom.
-  // All formulas and thresholds read from window.TM_CONFIG — no hardcoded values.
+  // Build a tooltip showing the FULL multiplier chain, mirroring inspectTrustMagnitude.py:
+  //   base × weight × freshness [× mothership] [× creator] [× engagement] [× inheritMult] [× plateau] = final
+  // All values read from window.TM_CONFIG — no hardcoded numbers.
   function _magTooltip(ev, tmRaw, skillTm) {
     var TM = window.TM_CONFIG;
-    if (!TM) return 'Trust config unavailable. See ' + 'https://gaia.tiongson.co/trust/';
+    if (!TM) return 'Trust config unavailable. See https://gaia.tiongson.co/codex/trust-methodology.html';
     if (tmRaw == null) return 'No magnitude drivers present for this evidence type.\nSee ' + TM.RFC.types;
 
     var t = TM.canonicalType(ev.type || '');
@@ -93,67 +93,100 @@
       return lines.join('\n');
     }
 
-    // ── Header ────────────────────────────────────────────────────
+    // ── Header: type label + formula ─────────────────────────────
     lines.push(cfg.label.toUpperCase() + ' · ' + cfg.formula);
+    lines.push('');
 
-    // ── Per-row computation ───────────────────────────────────────
+    // ── Full multiplier chain ─────────────────────────────────────
     if (ev.trustNumber != null) {
       lines.push('Stored artifact score: ' + ev.trustNumber);
+      lines.push('(calibrated at build time — chain unavailable from stored value)');
     } else {
       var d = cfg.describe(ev);
-      if (d) {
-        var raw = d.value;
-        var capped = TM.applyCap(t, raw);
-        var capStr = cfg.cap != null
-          ? (raw > cfg.cap ? ', capped at ' + cfg.cap : ' (cap ' + cfg.cap + ')')
-          : '';
-        lines.push(d.expr + ' = ' + raw.toFixed(1) + capStr);
-        if (Math.abs(capped - raw) > 0.05) lines.push('→ capped: ' + capped.toFixed(1));
+      if (d != null && d.value != null) {
+        var baseMag = d.value;
+        var capped  = TM.applyCap(t, baseMag);
+        var capNote = (cfg.cap != null && baseMag > cfg.cap) ? ' → capped at ' + cfg.cap : '';
+
+        // base
+        lines.push('base:          ' + d.expr + ' = ' + baseMag.toFixed(2) + capNote);
+
+        // × weight
+        lines.push('× weight:      ' + cfg.weight);
+
+        // × freshness
+        if (cfg.freshness && cfg.freshness.decayPerYear) {
+          lines.push('× freshness:   −' + Math.round(cfg.freshness.decayPerYear * 100) + '%/yr  (exact: needs lastVerified date)');
+        } else {
+          lines.push('× freshness:   1.00  (no decay)');
+        }
+
+        // NOTE: github-stars-own mothership divisor is already baked into base magnitude.
+        // No separate × mothership step — formula is min(200,stars/1000) ÷ min(skillCount,4).
+
+        // × creator + × engagement (social-signal only)
+        if (t === 'social-signal') {
+          var cm = ev.creatorMultiplier != null ? Number(ev.creatorMultiplier) : 1.0;
+          var er = ev.engagementRatio   != null ? Number(ev.engagementRatio)   : 1.0;
+          lines.push('× creator:     ' + cm.toFixed(2));
+          lines.push('× engagement:  ' + er.toFixed(2));
+        }
+
+        // × inheritMultiplier (generic-layer rows only)
+        if (ev._layer === 'generic') {
+          var iContracts = {
+            'arxiv': 0.70, 'peer-review': 0.30, 'social-signal': 0.35,
+            'proxy-containment': 0.25, 'benchmark-result': 0.15
+          };
+          var im = iContracts[t];
+          if (im != null) {
+            lines.push('× inheritMult: ' + im + '  (inherited from generic layer)');
+          }
+        }
+
+        // × plateau
+        if (cfg.plateau) {
+          if (cfg.plateau.maxRows === 1) {
+            lines.push('× plateau:     1.00  (max 1 row)');
+          } else {
+            lines.push('× plateau:     ' + cfg.plateau.factors.join(' / ') + '  (max ' + cfg.plateau.maxRows + ' rows; by descending score)');
+          }
+        }
+
+        // ≈ final  (approximation: pre-plateau, pre-freshness)
+        lines.push('');
+        lines.push('≈ final:       ' + (capped * cfg.weight).toFixed(2) + '  (pre-plateau, pre-freshness approximation)');
+
       } else {
-        // Grade-floor fallback
         var gc = (ev.grade || ev.class || '').toUpperCase().charAt(0);
         var floor = gc ? TM.gradeFloor(t, gc) : null;
         if (floor != null) {
-          lines.push('No metric drivers; estimated from grade ' + gc + ' floor = ' + floor);
-          lines.push('(Add metric fields to get a precise score)');
+          lines.push('No metric drivers recorded.');
+          lines.push('Estimated from grade ' + gc + ' floor = ' + floor);
+          lines.push('(Add metric fields for a precise score)');
+        } else {
+          lines.push('No metric drivers present.');
         }
       }
     }
 
-    // ── Type metadata ─────────────────────────────────────────────
-    var meta = ['weight ×' + cfg.weight];
-    if (cfg.plateau) {
-      if (cfg.plateau.maxRows === 1) {
-        meta.push('1 row max');
-      } else {
-        meta.push('plateau ' + cfg.plateau.factors.join('/') +
-                  ' (max ' + cfg.plateau.maxRows + ')');
-      }
-    }
-    if (cfg.freshness && cfg.freshness.decayPerYear) {
-      meta.push('freshness −' + Math.round(cfg.freshness.decayPerYear * 100) + '%/yr');
-    }
-    if (cfg.sumCap) meta.push('per-skill sum cap ' + cfg.sumCap);
-    if (cfg.gradeCeiling) meta.push('ceiling grade ' + cfg.gradeCeiling);
-    lines.push(meta.join(' · '));
+    lines.push('');
 
-    // ── Grade info ────────────────────────────────────────────────
-    var gradeFloors = cfg.gradeFloors || {};
+    // ── Grade ceiling + floors ────────────────────────────────────
+    if (cfg.gradeCeiling) lines.push('Grade ceiling for this type: ' + cfg.gradeCeiling);
+    var gf = cfg.gradeFloors || {};
     var floorStrs = [];
-    ['S', 'A', 'B', 'C'].forEach(function(g) {
-      if (gradeFloors[g] != null) floorStrs.push(g + '≥' + gradeFloors[g]);
-    });
+    ['S','A','B','C'].forEach(function(g){ if (gf[g] != null) floorStrs.push(g + '≥' + gf[g]); });
     if (floorStrs.length) lines.push('Row grade floors: ' + floorStrs.join(' · '));
-    if (ev.grade)       lines.push('This row\'s grade: ' + ev.grade);
-    else if (ev.class)  lines.push('This row\'s grade: ' + ev.class);
+    if (ev.grade)      lines.push("Row grade: " + ev.grade);
+    else if (ev.class) lines.push("Row grade: " + ev.class);
 
     // ── Aggregate context ─────────────────────────────────────────
     lines.push('');
-    lines.push('→ Per-row artifact score (pre-weight, pre-plateau).');
     var aggNote = skillTm != null
-      ? 'Skill TM = ' + (Number.isInteger(skillTm) ? skillTm : parseFloat(skillTm).toFixed(1)) + ' (weighted aggregate across all evidence rows).'
-      : 'Skill TM = weighted aggregate across all evidence rows.';
-    lines.push('   ' + aggNote);
+      ? 'Skill TM = ' + (Number.isInteger(skillTm) ? skillTm : parseFloat(skillTm).toFixed(1)) + '  (weighted aggregate across all rows)'
+      : 'Skill TM = weighted aggregate across all evidence rows';
+    lines.push(aggNote);
     lines.push('Full methodology: ' + TM.RFC[cfg.anchor || 'types']);
 
     return lines.join('\n');
