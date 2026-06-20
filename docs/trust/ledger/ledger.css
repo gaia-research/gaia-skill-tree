@@ -472,7 +472,18 @@
 .lb-stars--3 { color: var(--rank-3); }
 .lb-stars--4 { color: var(--rank-4); }
 .lb-stars--5 { color: var(--rank-5); }
-.lb-stars--6 { color: var(--rank-6); text-shadow: 0 0 6px rgba(var(--tier-ultimate-rgb), 0.45); }
+.lb-stars--6 {
+  /* 6★ Apex — rainbow cycle per DESIGN.md L249-262 (Ultimate Skill Cycle).
+     Reuses the global @keyframes tree-rainbow-glow defined in styles.css. */
+  animation: tree-rainbow-glow 4s linear infinite;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 6px currentColor;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lb-stars--6 { animation: none; color: var(--rank-6); }
+}
 
 /* ── Flags ──────────────────────────────────────────────────── */
 .lb-flag {
