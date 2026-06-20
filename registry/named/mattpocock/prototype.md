@@ -6,7 +6,7 @@ origin: false
 genericSkillRef: prototype
 status: named
 title: The Prototyping Engine
-level: 3★
+level: 2★
 description: Build throwaway prototypes to answer specific design or logic questions
   before committing to production code.
 createdAt: '2026-05-21'
@@ -58,6 +58,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:41Z'
   details: TM 0.0 -> 41.21, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:32Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 3★ to 2★ per G7 final rankings calibration.
 trustMagnitude: 41.21
 overallTrustGrade: C
 apexGateStatus:

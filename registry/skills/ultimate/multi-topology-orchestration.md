@@ -12,7 +12,7 @@ The complete Ruflo AI orchestration platform: multi-topology swarm deployment, c
 
 ## Prerequisites
 - [Flow Nexus Orchestration](../extra/multi-node-orchestration.md)
-- [Agent Memory Platform](../ultimate/agent-memory-platform.md)
+- [Agent Memory Platform](../extra/agent-memory-platform.md)
 - [GitHub Platform Mastery](../extra/git-integration.md)
 - [Reasoning Pattern Bank](../extra/reasoning-pattern-bank.md)
 - [Platform Modernization Sprint](../extra/platform-modernization-sprint.md)

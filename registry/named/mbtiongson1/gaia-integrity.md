@@ -5,7 +5,7 @@ contributor: mbtiongson1
 origin: false
 genericSkillRef: registry-curation
 status: named
-level: 2★
+level: 1★
 description: Validates the structural integrity of the Gaia registry — checking schema
   compliance, detecting duplicate IDs, verifying cross-references, and reporting any
   inconsistencies that would break build or generation.
@@ -37,6 +37,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:42Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:34Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:

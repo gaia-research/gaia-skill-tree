@@ -8,7 +8,7 @@ genericSkillRef: mcp-integration
 status: named
 title: The Protocol Tuner
 catalogRef: ruvnet-v3-mcp-optimization
-level: 2★
+level: 1★
 description: Optimizes Ruflo v3 MCP server performance through connection pooling,
   request batching, tool schema caching, and latency reduction strategies.
 links:
@@ -43,6 +43,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:37Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: 9ad845f3faa0fa5178bee6a28fbd3c2857e495ca5fd91a4ca18688c495f8e0ab
 ---
 

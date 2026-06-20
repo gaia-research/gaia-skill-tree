@@ -1,8 +1,7 @@
-# [intelligentcode-ai](../../../docs/u/intelligentcode-ai/)/database-engineer  [2★]
+# ████████/database-engineer
 **ID:** schema-design  
 **Type:** Basic Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 2★  
 **Skill Call:** `/schema-design`
 
 ---
@@ -19,7 +18,7 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| intelligentcode-ai/database-engineer | intelligentcode-ai | 2★ | 2 |
+| intelligentcode-ai/database-engineer | intelligentcode-ai | 1★ | 2 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

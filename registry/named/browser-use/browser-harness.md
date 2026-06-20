@@ -6,7 +6,7 @@ origin: false
 genericSkillRef: browser-control
 status: named
 title: The Dom Whispering
-level: 2★
+level: 3★
 description: Self-healing harness for direct browser control via CDP, enabling agents
   to write custom helpers at runtime.
 links:
@@ -109,6 +109,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:00Z'
   details: TM 36.0 -> 73.59, grade C -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:20Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 73.59
 overallTrustGrade: B
 apexGateStatus:

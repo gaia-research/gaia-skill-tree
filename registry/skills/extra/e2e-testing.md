@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/qa  [4★]
+# [garrytan](../../../docs/u/garrytan/)/qa  [3★]
 **ID:** e2e-testing  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 4★  
+**Top named variant:** 3★  
 **Skill Call:** `/e2e-testing`
 
 ---
@@ -23,9 +23,9 @@ Requires a live or containerised target environment; browser automation must be 
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/qa | garrytan | 4★ | 2 |
+| garrytan/qa | garrytan | 3★ | 2 |
 | garrytan/qa-only | garrytan | 2★ | 1 |
-| intelligentcode-ai/user-tester | intelligentcode-ai | 2★ | 2 |
+| intelligentcode-ai/user-tester | intelligentcode-ai | 1★ | 2 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

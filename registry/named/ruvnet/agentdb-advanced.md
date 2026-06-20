@@ -7,7 +7,7 @@ genericSkillRef: distributed-vector-memory
 status: named
 title: The Memory Architect
 catalogRef: ruvnet-agentdb-advanced
-level: 1★
+level: 2★
 description: Implements sub-millisecond cross-node vector synchronization using QUIC
   protocol with hybrid metadata-filtered search and MMR diversity retrieval.
 links:
@@ -55,6 +55,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:43Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:35Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 1★ to 2★ per G7 final rankings calibration.
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

@@ -7,7 +7,7 @@ genericSkillRef: autonomous-web-research
 status: named
 title: The Scholar's Compass
 catalogRef: karpathy-autoresearch
-level: 3★
+level: 2★
 description: Autonomous research agent that iteratively searches, reads, and synthesizes
   academic papers into structured summaries.
 links:
@@ -49,6 +49,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:40Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:29Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 3★ to 2★ per G7 final rankings calibration.
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

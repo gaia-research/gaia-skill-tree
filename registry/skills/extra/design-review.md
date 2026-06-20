@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/design-shotgun  [4★]
+# [garrytan](../../../docs/u/garrytan/)/design-shotgun  [3★]
 **ID:** design-review  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 4★  
+**Top named variant:** 3★  
 **Skill Call:** `/design-review`
 
 ---
@@ -23,8 +23,8 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/design-shotgun | garrytan | 4★ | 2 |
-| mattpocock/grilling | mattpocock | 2★ | 3 |
+| garrytan/design-shotgun | garrytan | 3★ | 2 |
+| mattpocock/grilling | mattpocock | 1★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

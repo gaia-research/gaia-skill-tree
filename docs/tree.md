@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  v5.0.2  ·  generated 2026-06-19
+GAIA SKILL TREE  v5.0.2  ·  generated 2026-06-20
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -10,253 +10,247 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 
 ◆ garrytan/gstack  [5★]
 ─────────────────────────────────────────────────────────────────
-  ├─ ○ garrytan/office-hours  [4★]
-  ├─ ○ garrytan/benchmark  [4★]
-  ├─ ◇ garrytan/plan-eng-review  [4★]
-  │  ├─ ○ garrytan/design-html  [4★]
+  ├─ ○ garrytan/office-hours  [3★]
+  ├─ ○ garrytan/benchmark  [3★]
+  ├─ ◇ garrytan/plan-eng-review  [3★]
+  │  ├─ ○ garrytan/design-html  [3★]
   │  ├─ ○ /diff-content
-  │  └─ ○ garrytan/benchmark  [4★]  (↑ see above)
+  │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ ○ pbakaus/impeccable  [4★]
   ├─ ◇ garrytan/garrytan  [4★]
   │  ├─ ○ /plan-decompose
-  │  └─ ○ mattpocock/ask-matt  [2★]
-  ├─ ◇ garrytan/design-consultation  [4★]
-  │  ├─ ◇ browserbase/stagehand  [2★]
+  │  └─ ○ ████████/ask-matt
+  ├─ ◇ garrytan/design-consultation  [3★]
+  │  ├─ ◇ ████████/stagehand
   │  │  ├─ ○ /web-search
   │  │  └─ ○ /computer-use
   │  └─ ○ /parse-html
-  ├─ ◇ garrytan/design-shotgun  [4★]
-  │  ├─ ○ garrytan/benchmark  [4★]  (↑ see above)
+  ├─ ◇ garrytan/design-shotgun  [3★]
+  │  ├─ ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ ○ /plan-decompose  (↑ see above)
-  ├─ ○ garrytan/design-html  [4★]  (↑ see above)
-  ├─ ◇ garrytan/investigate  [4★]
+  ├─ ○ garrytan/design-html  [3★]  (↑ see above)
+  ├─ ◇ garrytan/investigate  [3★]
   │  ├─ ○ /hypothesis-generate
   │  └─ ○ /error-interpretation
-  ├─ ◇ garrytan/qa  [4★]
-  │  ├─ ◇ browserbase/stagehand  [2★]  (↑ see above)
-  │  └─ ◇ 0xdarkmatter/pytest-patterns  [3★]
+  ├─ ◇ garrytan/qa  [3★]
+  │  ├─ ◇ ████████/stagehand  (↑ see above)
+  │  └─ ◇ garrytan/health  [2★]
   │     ├─ ○ upsonic/unittest-generator  [2★]
   │     ├─ ○ /code-execution
   │     └─ ○ /error-interpretation  (↑ see above)
-  ├─ ◇ garrytan/ship  [4★]
-  │  ├─ ◇ garrytan/plan-eng-review  [4★]  (↑ see above)
+  ├─ ◇ garrytan/ship  [3★]
+  │  ├─ ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
   │  └─ ○ /diff-content  (↑ see above)
-  ├─ ◇ garrytan/land-and-deploy  [4★]
-  │  ├─ ◇ ruvnet/hooks-automation  [2★]
+  ├─ ◇ garrytan/land-and-deploy  [3★]
+  │  ├─ ◇ ████████/github-workflow-automation
   │  │  ├─ ○ /plan-decompose  (↑ see above)
   │  │  ├─ ○ /tool-use
-  │  │  └─ ○ huggingface/hf-cli  [2★]
+  │  │  └─ ○ ████████/hf-cli
   │  └─ ○ /code-execution  (↑ see above)
-  ├─ ◇ garrytan/canary  [4★]
-  │  ├─ ○ garrytan/benchmark  [4★]  (↑ see above)
+  ├─ ◇ garrytan/canary  [3★]
+  │  ├─ ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ ○ /error-interpretation  (↑ see above)
-  ├─ ○ garrytan/document-generate  [4★]
-  ├─ ◇ browserbase/stagehand  [2★]  (↑ see above)
-  ├─ ◇ garrytan/cso  [4★]
-  │  ├─ ◇ garrytan/plan-eng-review  [4★]  (↑ see above)
-  │  └─ ○ garrytan/benchmark  [4★]  (↑ see above)
+  ├─ ○ garrytan/document-generate  [3★]
+  ├─ ◇ ████████/stagehand  (↑ see above)
+  ├─ ◇ garrytan/cso  [3★]
+  │  ├─ ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ ○ garrytan/browse  [3★]
-  ├─ ◇ garrytan/scrape  [3★]
+  ├─ ◇ garrytan/scrape  [2★]
   │  ├─ ○ /web-search  (↑ see above)
   │  ├─ ○ /parse-html  (↑ see above)
   │  └─ ○ /extract-entities
-  ├─ ◇ garrytan/skillify  [4★]
+  ├─ ◇ garrytan/skillify  [3★]
   │  ├─ ○ /generate-text
   │  ├─ ○ /structured-output
-  │  └─ ○ garrytan/design-html  [4★]  (↑ see above)
+  │  └─ ○ garrytan/design-html  [3★]  (↑ see above)
   ├─ ○ garrytan/retro  [3★]
-  ├─ ◇ garrytan/codex  [3★]
+  ├─ ◇ garrytan/codex  [2★]
   │  ├─ ○ /self-critique
-  │  ├─ ○ garrytan/benchmark  [4★]  (↑ see above)
+  │  ├─ ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ ○ /chain-of-thought
-  ├─ ◇ garrytan/benchmark-models  [3★]
+  ├─ ◇ garrytan/benchmark-models  [2★]
   │  ├─ ◇ /agent-eval
-  │  │  ├─ ○ garrytan/benchmark  [4★]  (↑ see above)
+  │  │  ├─ ○ garrytan/benchmark  [3★]  (↑ see above)
   │  │  └─ ○ /score-relevance
   │  ├─ ○ vercel/find-skills  [2★]
   │  └─ ○ /statistical-analysis
-  ├─ ◇ 0xdarkmatter/pytest-patterns  [3★]  (↑ see above)
-  ├─ ○ garrytan/pair-agent  [3★]
-  ├─ ◇ garrytan/learn  [3★]
-  │  ├─ ○ mattpocock/caveman  [3★]
+  ├─ ◇ garrytan/health  [2★]  (↑ see above)
+  ├─ ○ garrytan/pair-agent  [2★]
+  ├─ ◇ garrytan/learn  [2★]
+  │  ├─ ○ garrytan/context-restore  [2★]
   │  └─ ○ /retrieve
-  ├─ ◇ garrytan/guard  [3★]
-  │  ├─ ○ garrytan/benchmark  [4★]  (↑ see above)
+  ├─ ◇ garrytan/careful  [3★]
+  │  ├─ ○ garrytan/benchmark  [3★]  (↑ see above)
   │  ├─ ○ /classify
   │  └─ ○ /structured-output  (↑ see above)
   ├─ ◇ garrytan/setup-gbrain  [2★]
-  │  ├─ ○ huggingface/hf-cli  [2★]  (↑ see above)
+  │  ├─ ○ ████████/hf-cli  (↑ see above)
   │  └─ ○ /retrieve  (↑ see above)
-  ├─ ○ garrytan/make-pdf  [3★]
+  ├─ ○ garrytan/make-pdf  [2★]
   ├─ ◇ garrytan/gstack-upgrade  [2★]
-  │  ├─ ○ huggingface/hf-cli  [2★]  (↑ see above)
-  │  └─ ○ garrytan/document-generate  [4★]  (↑ see above)
+  │  ├─ ○ ████████/hf-cli  (↑ see above)
+  │  └─ ○ garrytan/document-generate  [3★]  (↑ see above)
   ├─ ◇ garrytan/landing-report  [2★]
-  │  ├─ ○ huggingface/hf-cli  [2★]  (↑ see above)
+  │  ├─ ○ ████████/hf-cli  (↑ see above)
   │  └─ ○ mattpocock/triage  [3★]
-  └─ ◇ garrytan/plan-tune  [2★]
-     ├─ ○ garrytan/benchmark  [4★]  (↑ see above)
+  └─ ◇ stanfordnlp/dspy  [4★]
+     ├─ ○ garrytan/benchmark  [3★]  (↑ see above)
      └─ ○ /generate-text  (↑ see above)
 
 ◆ ruvnet/ruflo  [5★]
 ─────────────────────────────────────────────────────────────────
-  ├─ ◇ ruvnet/flow-nexus  [4★]
+  ├─ ◇ ruvnet/flow-nexus  [3★]
   │  ├─ ◇ ████████/flow-nexus-swarm
   │  │  ├─ ◇ /plan-and-execute
-  │  │  │  ├─ ○ mattpocock/ask-matt  [2★]
+  │  │  │  ├─ ○ ████████/ask-matt
   │  │  │  ├─ ○ /plan-decompose
   │  │  │  └─ ○ /tool-select
-  │  │  ├─ ○ mattpocock/ask-matt  [2★]  (↑ see above)
+  │  │  ├─ ○ ████████/ask-matt  (↑ see above)
   │  │  └─ ○ /tool-select  (↑ see above)
-  │  ├─ ◇ ████████/flow-nexus-platform
-  │  │  ├─ ○ huggingface/hf-cli  [2★]
+  │  ├─ ◇ ruvnet/flow-nexus-platform  [2★]
+  │  │  ├─ ○ ████████/hf-cli
   │  │  └─ ○ /tool-use
-  │  └─ ◇ ████████/flow-nexus-neural
-  │     ├─ ○ intelligentcode-ai/parallel-execution  [2★]
+  │  └─ ◇ ruvnet/flow-nexus-neural  [2★]
+  │     ├─ ○ ████████/parallel-execution
   │     └─ ○ /embed-text
-  ├─ ◆ ruvnet/agentdb  [5★]
-  │  ├─ ◇ ████████/agentdb-advanced
+  ├─ ◇ ruvnet/agentdb  [4★]
+  │  ├─ ◇ ruvnet/agentdb-advanced  [2★]
   │  │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
-  │  │  └─ ◇ garrytan/learn  [3★]
-  │  │     ├─ ○ mattpocock/caveman  [3★]
+  │  │  └─ ◇ garrytan/learn  [2★]
+  │  │     ├─ ○ garrytan/context-restore  [2★]
   │  │     └─ ○ /retrieve
-  │  ├─ ◇ ruvnet/reasoningbank-agentdb  [2★]
-  │  │  ├─ ○ ████████/reasoningbank-intelligence
-  │  │  └─ ◇ garrytan/learn  [3★]  (↑ see above)
+  │  ├─ ◇ ████████/agentdb-learning
+  │  │  ├─ ○ ruvnet/reasoningbank-intelligence  [2★]
+  │  │  └─ ◇ garrytan/learn  [2★]  (↑ see above)
   │  ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
   │  ├─ ○ ruvnet/agentdb-optimization  [2★]
   │  └─ ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
-  ├─ ◇ ruvnet/github-suite  [4★]
-  │  ├─ ◇ garrytan/plan-eng-review  [4★]
-  │  │  ├─ ○ garrytan/design-html  [4★]
+  ├─ ◇ ruvnet/github-suite  [3★]
+  │  ├─ ◇ garrytan/plan-eng-review  [3★]
+  │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /diff-content
-  │  │  └─ ○ garrytan/benchmark  [4★]
+  │  │  └─ ○ garrytan/benchmark  [3★]
   │  ├─ ○ ruvnet/github-multi-repo  [2★]
-  │  ├─ ◇ garrytan/land-and-deploy  [4★]
-  │  │  ├─ ◇ ruvnet/hooks-automation  [2★]
+  │  ├─ ◇ garrytan/land-and-deploy  [3★]
+  │  │  ├─ ◇ ████████/github-workflow-automation
   │  │  │  ├─ ○ /plan-decompose  (↑ see above)
   │  │  │  ├─ ○ /tool-use  (↑ see above)
-  │  │  │  └─ ○ huggingface/hf-cli  [2★]  (↑ see above)
+  │  │  │  └─ ○ ████████/hf-cli  (↑ see above)
   │  │  └─ ○ /code-execution
   │  ├─ ◇ garrytan/landing-report  [2★]
-  │  │  ├─ ○ huggingface/hf-cli  [2★]  (↑ see above)
+  │  │  ├─ ○ ████████/hf-cli  (↑ see above)
   │  │  └─ ○ mattpocock/triage  [3★]
-  │  └─ ◇ ruvnet/hooks-automation  [2★]  (↑ see above)
-  ├─ ◇ ruvnet/reasoningbank  [3★]
-  │  ├─ ○ ████████/reasoningbank-intelligence  (↑ see above)
-  │  └─ ◇ ruvnet/reasoningbank-agentdb  [2★]  (↑ see above)
+  │  └─ ◇ ████████/github-workflow-automation  (↑ see above)
+  ├─ ◇ ruvnet/reasoningbank  [4★]
+  │  ├─ ○ ruvnet/reasoningbank-intelligence  [2★]  (↑ see above)
+  │  └─ ◇ ████████/agentdb-learning  (↑ see above)
   ├─ ◇ ruvnet/ruflo-v3  [4★]
   │  ├─ ○ ruvnet/v3-cli-modernization  [2★]
   │  ├─ ○ ruvnet/v3-core-implementation  [2★]
   │  ├─ ○ ruvnet/v3-integration-deep  [2★]
   │  ├─ ○ addy-osmani/performance-optimization  [3★]
-  │  └─ ◇ ████████/swarm-advanced
-  │     ├─ ○ ████████/swarm-orchestration
-  │     └─ ◇ garrytan/codex  [3★]
+  │  └─ ◇ ruvnet/swarm-advanced  [2★]
+  │     ├─ ○ ruvnet/swarm-orchestration  [2★]
+  │     └─ ◇ garrytan/codex  [2★]
   │        ├─ ○ /self-critique
-  │        ├─ ○ garrytan/benchmark  [4★]  (↑ see above)
+  │        ├─ ○ garrytan/benchmark  [3★]  (↑ see above)
   │        └─ ○ /chain-of-thought
-  └─ ◇ ruvnet/dual-mode  [3★]
+  └─ ◇ ruvnet/dual-mode  [4★]
      ├─ ○ ruvnet/dual-spawn  [2★]
      ├─ ○ ruvnet/dual-collect  [2★]
      └─ ○ ruvnet/dual-coordinate  [2★]
 
 ◆ obra/superpowers  [5★]
 ─────────────────────────────────────────────────────────────────
-  ├─ ◇ obra/brainstorming  [2★]
-  │  ├─ ○ intelligentcode-ai/requirements-engineer  [2★]
-  │  └─ ○ garrytan/office-hours  [4★]
-  ├─ ◇ obra/dispatching-parallel-agents  [4★]
+  ├─ ◇ obra/brainstorming  [3★]
+  │  ├─ ○ ████████/requirements-engineer
+  │  └─ ○ garrytan/office-hours  [3★]
+  ├─ ◇ obra/dispatching-parallel-agents  [3★]
   │  ├─ ○ /plan-decompose
-  │  └─ ○ intelligentcode-ai/parallel-execution  [2★]
-  ├─ ◇ obra/executing-plans  [2★]
-  │  ├─ ◇ obra/writing-plans  [2★]
+  │  └─ ○ ████████/parallel-execution
+  ├─ ◇ obra/executing-plans  [3★]
+  │  ├─ ◇ obra/writing-plans  [4★]
   │  │  ├─ ○ /plan-decompose  (↑ see above)
-  │  │  └─ ○ intelligentcode-ai/requirements-engineer  [2★]  (↑ see above)
+  │  │  └─ ○ ████████/requirements-engineer  (↑ see above)
   │  └─ ○ /tool-use
-  ├─ ◇ garrytan/ship  [4★]
-  │  ├─ ◇ garrytan/plan-eng-review  [4★]
-  │  │  ├─ ○ garrytan/design-html  [4★]
+  ├─ ◇ garrytan/ship  [3★]
+  │  ├─ ◇ garrytan/plan-eng-review  [3★]
+  │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /diff-content
-  │  │  └─ ○ garrytan/benchmark  [4★]
+  │  │  └─ ○ garrytan/benchmark  [3★]
   │  └─ ○ /diff-content  (↑ see above)
   ├─ ◇ obra/receiving-code-review  [2★]
-  │  ├─ ◇ obra/requesting-code-review  [3★]
-  │  │  ├─ ◇ garrytan/plan-eng-review  [4★]  (↑ see above)
-  │  │  └─ ◇ obra/dispatching-parallel-agents  [4★]  (↑ see above)
-  │  └─ ◇ obra/verification-before-completion  [2★]
+  │  ├─ ◇ obra/requesting-code-review  [2★]
+  │  │  ├─ ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  │  └─ ◇ obra/dispatching-parallel-agents  [3★]  (↑ see above)
+  │  └─ ◇ obra/verification-before-completion  [3★]
   │     ├─ ○ /code-execution
   │     └─ ○ /self-critique
-  ├─ ◇ obra/requesting-code-review  [3★]  (↑ see above)
+  ├─ ◇ obra/requesting-code-review  [2★]  (↑ see above)
   ├─ ◇ obra/subagent-driven-development  [4★]
-  │  ├─ ◇ obra/executing-plans  [2★]  (↑ see above)
-  │  ├─ ◇ obra/dispatching-parallel-agents  [4★]  (↑ see above)
-  │  └─ ◇ garrytan/plan-eng-review  [4★]  (↑ see above)
-  ├─ ◇ garrytan/investigate  [4★]
+  │  ├─ ◇ obra/executing-plans  [3★]  (↑ see above)
+  │  ├─ ◇ obra/dispatching-parallel-agents  [3★]  (↑ see above)
+  │  └─ ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+  ├─ ◇ garrytan/investigate  [3★]
   │  ├─ ○ /hypothesis-generate
   │  └─ ○ /error-interpretation
-  ├─ ◇ obra/using-git-worktrees  [2★]
+  ├─ ◇ obra/using-git-worktrees  [4★]
   │  ├─ ○ /code-execution  (↑ see above)
   │  └─ ○ /tool-use  (↑ see above)
-  ├─ ◇ obra/verification-before-completion  [2★]  (↑ see above)
-  └─ ◇ obra/writing-plans  [2★]  (↑ see above)
+  ├─ ◇ obra/verification-before-completion  [3★]  (↑ see above)
+  └─ ◇ obra/writing-plans  [4★]  (↑ see above)
 
 ◆ mattpocock/skills  [5★]
 ─────────────────────────────────────────────────────────────────
-  ├─ ◆ mattpocock/engineering  [5★]
-  │  ├─ ◇ mattpocock/diagnose  [2★]
-  │  │  ├─ ○ garrytan/design-html  [4★]
+  ├─ ◇ mattpocock/engineering  [4★]
+  │  ├─ ◇ devin-ai/autonomous-swe  [3★]
+  │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /code-execution
   │  │  └─ ○ /error-interpretation
-  │  ├─ ○ mattpocock/improve-codebase-architecture  [3★]
+  │  ├─ ○ mattpocock/improve-codebase-architecture  [2★]
   │  ├─ ◇ garrytan/garrytan  [4★]
   │  │  ├─ ○ /plan-decompose
-  │  │  └─ ○ mattpocock/ask-matt  [2★]
-  │  ├─ ◇ mattpocock/to-prd  [2★]
+  │  │  └─ ○ ████████/ask-matt
+  │  ├─ ◇ mattpocock/to-prd  [3★]
   │  │  ├─ ○ garrytan/retro  [3★]
   │  │  └─ ○ /plan-decompose  (↑ see above)
   │  ├─ ○ mattpocock/triage  [3★]
-  │  ├─ ◇ mattpocock/ubiquitous-language  [4★]
+  │  ├─ ◇ mattpocock/ubiquitous-language  [3★]
   │  │  ├─ ○ /extract-entities
-  │  │  └─ ○ intelligentcode-ai/requirements-engineer  [2★]
-  │  ├─ ○ mattpocock/zoom-out  [2★]
+  │  │  └─ ○ ████████/requirements-engineer
+  │  ├─ ○ ████████/zoom-out
   │  ├─ ◇ mattpocock/grill-with-docs  [3★]
-  │  │  ├─ ◇ mattpocock/grill-me  [4★]
-  │  │  │  ├─ ◇ garrytan/design-shotgun  [4★]
-  │  │  │  │  ├─ ○ garrytan/benchmark  [4★]
+  │  │  ├─ ◇ mattpocock/grill-me  [3★]
+  │  │  │  ├─ ◇ garrytan/design-shotgun  [3★]
+  │  │  │  │  ├─ ○ garrytan/benchmark  [3★]
   │  │  │  │  └─ ○ /plan-decompose  (↑ see above)
   │  │  │  └─ ○ /self-critique
-  │  │  ├─ ◇ mattpocock/ubiquitous-language  [4★]  (↑ see above)
-  │  │  └─ ○ garrytan/document-generate  [4★]
-  │  ├─ ◇ mattpocock/prototype  [3★]
-  │  │  ├─ ○ garrytan/design-html  [4★]  (↑ see above)
+  │  │  ├─ ◇ mattpocock/ubiquitous-language  [3★]  (↑ see above)
+  │  │  └─ ○ garrytan/document-generate  [3★]
+  │  ├─ ◇ mattpocock/prototype  [2★]
+  │  │  ├─ ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ ○ /code-execution  (↑ see above)
   │  └─ ◇ mattpocock/setup-matt-pocock-skills  [3★]
-  │     ├─ ○ garrytan/document-generate  [4★]  (↑ see above)
+  │     ├─ ○ garrytan/document-generate  [3★]  (↑ see above)
   │     └─ ○ /tool-use
   ├─ ◇ mattpocock/productivity  [4★]
-  │  ├─ ◇ mattpocock/handoff  [4★]
+  │  ├─ ◇ mattpocock/handoff  [3★]
   │  │  ├─ ○ /summarize
-  │  │  ├─ ○ garrytan/document-generate  [4★]  (↑ see above)
-  │  │  └─ ○ mattpocock/caveman  [3★]
-  │  ├─ ○ mattpocock/caveman  [3★]  (↑ see above)
-  │  ├─ ◇ mattpocock/grill-me  [4★]  (↑ see above)
+  │  │  ├─ ○ garrytan/document-generate  [3★]  (↑ see above)
+  │  │  └─ ○ garrytan/context-restore  [2★]
+  │  ├─ ○ garrytan/context-restore  [2★]  (↑ see above)
+  │  ├─ ◇ mattpocock/grill-me  [3★]  (↑ see above)
   │  └─ ◇ mattpocock/write-a-skill  [3★]
-  │     ├─ ○ garrytan/design-html  [4★]  (↑ see above)
+  │     ├─ ○ garrytan/design-html  [3★]  (↑ see above)
   │     └─ ○ /tool-use  (↑ see above)
-  ├─ ◇ mattpocock/personal  [4★]
-  │  ├─ ○ garrytan/document-generate  [4★]  (↑ see above)
+  ├─ ◇ mattpocock/personal  [3★]
+  │  ├─ ○ garrytan/document-generate  [3★]  (↑ see above)
   │  └─ ◇ mattpocock/obsidian-vault  [3★]
   │     ├─ ○ /retrieve
-  │     └─ ○ mattpocock/caveman  [3★]  (↑ see above)
+  │     └─ ○ garrytan/context-restore  [2★]  (↑ see above)
   ├─ ◇ mattpocock/write-a-skill  [3★]  (↑ see above)
-  └─ ◇ mattpocock/ubiquitous-language  [4★]  (↑ see above)
-
-══════════════════════════════════════════════════════════════════════
-Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
-══════════════════════════════════════════════════════════════════════
-
-  ◉ ruvnet/hive-mind-coordination  [4★]
+  └─ ◇ mattpocock/ubiquitous-language  [3★]  (↑ see above)
 
 ══════════════════════════════════════════════════════════════════════
 Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top named-variant stars; blank = no named implementation.)
@@ -265,24 +259,23 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   ○ /autonomous-engineering-platform
   ○ /clinical-data-retrieval
   ○ /cultural-localization
-  ○ mattpocock/domain-modeling  [2★]
-  ○ openai/few-shot-learning  [2★]
+  ○ ████████/domain-modeling
+  ○ openai/few-shot-learning  [4★]
   ○ laravel/upgrade-laravel-v13  [2★]
   ○ ruvnet/agentic-jujutsu  [2★]
   ○ /image-generate
-  ○ huggingface/huggingface-vision-trainer  [3★]
+  ○ ████████/huggingface-vision-trainer
   ○ /pathway-ontology-retrieval
   ○ /probabilistic-programming
   ○ /reward-modeling
-  ○ openai/self-consistency  [2★]
-  ○ ████████/semantic-cache
+  ○ openai/self-consistency  [4★]
+  ○ huggingface/semantic-cache  [2★]
   ○ ruvnet/stream-chain  [2★]
-  ○ mattpocock/codebase-design  [2★]
+  ○ ████████/codebase-design
   ○ /synthetic-data-generation
-  ○ addy-osmani/test-driven-development  [3★]
+  ○ addy-osmani/test-driven-development  [2★]
   ○ /time-series-forecasting
   ○ getagentseal/codeburn  [2★]
-  ○ ruvnet/worker-integration  [2★]
 ```
 
-*Generated from gaia.json on 2026-06-19. Do not edit directly.*
+*Generated from gaia.json on 2026-06-20. Do not edit directly.*

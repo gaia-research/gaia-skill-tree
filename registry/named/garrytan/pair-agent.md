@@ -7,7 +7,7 @@ genericSkillRef: mcp-integration
 status: named
 title: Gstack Pair Agent — MCP Tool Integration
 catalogRef: garrytan-pair-agent
-level: 3★
+level: 2★
 description: Wires a new MCP server into the Gstack agent environment, validates the
   tool manifest, and demonstrates round-trip invocation through a test prompt.
 links:
@@ -55,6 +55,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:37Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:22Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 3★ to 2★ per G7 final rankings calibration.
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

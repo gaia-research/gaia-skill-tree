@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/plan-eng-review  [4★]
+# [garrytan](../../../docs/u/garrytan/)/plan-eng-review  [3★]
 **ID:** code-review-pipeline  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 4★  
+**Top named variant:** 3★  
 **Skill Call:** `/code-review-pipeline`
 
 ---
@@ -29,8 +29,8 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/plan-eng-review | garrytan | 4★ | 2 |
-| garrytan/review | garrytan | 4★ | 2 |
+| garrytan/plan-eng-review | garrytan | 3★ | 2 |
+| garrytan/review | garrytan | 3★ | 2 |
 | ruvnet/github-code-review | ruvnet | 1★ | 0 |
 
 ## Evidence (inherited capability)

@@ -7,7 +7,7 @@ genericSkillRef: ux-audit
 status: named
 title: Gstack Design Review — UX Audit Pass
 catalogRef: garrytan-design-review
-level: 3★
+level: 2★
 description: Runs a structured UX audit over a product interface, scoring layout clarity,
   affordance, and accessibility against the Gstack design rubric to surface actionable
   improvements.
@@ -50,6 +50,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:37Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:21Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 3★ to 2★ per G7 final rankings calibration.
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/design-review/SKILL.md

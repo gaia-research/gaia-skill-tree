@@ -7,7 +7,7 @@ genericSkillRef: guardrails
 status: named
 title: Gstack Careful — Conservative Execution Mode
 catalogRef: garrytan-careful
-level: 2★
+level: 3★
 description: Activates a conservative execution profile that pauses before irreversible
   actions, requests explicit confirmation for destructive operations, and logs all
   side effects.
@@ -70,6 +70,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:37Z'
   details: TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:21Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 66.0
 overallTrustGrade: B
 apexGateStatus:

@@ -1,8 +1,8 @@
-# [obra](../../../docs/u/obra/)/writing-plans  [2★]
+# [obra](../../../docs/u/obra/)/writing-plans  [4★]
 **ID:** writing-plans  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 2★  
+**Top named variant:** 4★  
 **Skill Call:** `/writing-plans`
 
 ---
@@ -24,7 +24,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| obra/writing-plans ⭑ | obra | 2★ | 8 |
+| obra/writing-plans ⭑ | obra | 4★ | 8 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

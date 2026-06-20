@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "browserbase/stagehand",
-      "level": "2★",
+      "level": "1★",
       "unlockedAt": "2026-05-17T00:00:00Z",
       "unlockedIn": "browserbase/gaia-skill-tree",
       "combinedFrom": [],
@@ -13,6 +13,11 @@
           "level": "2★",
           "achievedAt": "2026-05-17T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:20Z",
+          "source": "demote"
         }
       ]
     }
@@ -25,6 +30,14 @@
       "details": "Registered named skill browserbase/stagehand",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:20Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "browserbase/stagehand"
     }
   ],
   "stats": {

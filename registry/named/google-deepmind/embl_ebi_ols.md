@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: pathway-ontology-retrieval
 status: awakened
-level: 2★
+level: 4★
 description: Query and search the EMBL-EBI Ontology Lookup Service (OLS) for biomedical
   ontology terms, definitions, and hierarchies across 250+ ontologies (e.g., GO, DOID,
   HP). Use when the user asks to search for terms, retrieve details, navigate hierarchies
@@ -68,6 +68,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:01Z'
   details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:24Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 4★ per G7 final rankings calibration.
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

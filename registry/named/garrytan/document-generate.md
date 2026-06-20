@@ -7,7 +7,7 @@ genericSkillRef: document-editing
 status: named
 title: Diataxis Doc Generator
 catalogRef: garrytan-document-generate
-level: 4★
+level: 3★
 description: Generates structured documentation using the Diataxis framework — tutorials,
   how-to guides, reference materials, and explanations — by thoroughly researching
   the codebase before writing, tailored to the needs of different reader types.
@@ -59,6 +59,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:01Z'
   details: TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:22Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/document-generate/SKILL.md

@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: proteomic-data-retrieval
 status: awakened
-level: 2★
+level: 3★
 description: Query the STRING database for protein-protein interactions (PPIs), functional
   enrichment, and homology. Use when the user asks about interactions between specific
   proteins, interaction evidence, confidence scores, protein interaction partners,
@@ -63,6 +63,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T14:32:17Z'
   details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:27Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 70.82
 overallTrustGrade: B
 apexGateStatus:

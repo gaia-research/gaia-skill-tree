@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: clinical-data-retrieval
 status: awakened
-level: 2★
+level: 4★
 description: Query, search, and download data from the openFDA API for drugs, devices,
   foods, tobacco, cosmetics, animal and veterinary products, substances, and transparency
   data. Use for FDA adverse events, recalls, labeling, approvals, shortages, 510(k)
@@ -67,6 +67,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:02Z'
   details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:26Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 4★ per G7 final rankings calibration.
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

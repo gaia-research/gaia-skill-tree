@@ -7,7 +7,7 @@ genericSkillRef: adaptive-pattern-learning
 status: named
 title: The Strategy Optimizer
 catalogRef: ruvnet-reasoningbank-intelligence
-level: 1★
+level: 2★
 description: Implements adaptive learning through pattern recognition, strategy optimization,
   and meta-learning that improves agent decision quality from cumulative experience.
 links:
@@ -54,6 +54,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:37Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 1★ to 2★ per G7 final rankings calibration.
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

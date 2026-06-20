@@ -7,7 +7,7 @@ genericSkillRef: skill-authoring
 status: named
 title: The Skill Forger
 catalogRef: ruvnet-skill-builder
-level: 2★
+level: 1★
 description: Guides creation of new Ruflo skills through templating, testing, and
   publishing workflows.
 links:
@@ -42,6 +42,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:37Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: b74ce526083c08bfdf6d38ed44abe89c9007cd1af91e02680c4735fff1e392cb
 ---
 

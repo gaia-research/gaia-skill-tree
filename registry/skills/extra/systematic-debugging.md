@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/investigate  [4★]
+# [garrytan](../../../docs/u/garrytan/)/investigate  [3★]
 **ID:** systematic-debugging  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 4★  
+**Top named variant:** 3★  
 **Skill Call:** `/systematic-debugging`
 
 ---
@@ -24,8 +24,8 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/investigate ⭑ | garrytan | 4★ | 2 |
-| mattpocock/diagnosing-bugs | mattpocock | 2★ | 3 |
+| garrytan/investigate ⭑ | garrytan | 3★ | 2 |
+| mattpocock/diagnosing-bugs | mattpocock | 1★ | 3 |
 | obra/systematic-debugging | obra | 3★ | 4 |
 
 ## Evidence (inherited capability)

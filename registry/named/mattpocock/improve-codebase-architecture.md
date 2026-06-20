@@ -7,7 +7,7 @@ genericSkillRef: refactor-code
 status: named
 title: The Depth Seeker
 catalogRef: mattpocock-improve-codebase-architecture
-level: 3★
+level: 2★
 description: Identifies architectural deepening opportunities in a codebase — shallow
   modules with high interface-to-implementation ratios — using domain-glossary vocabulary
   and the deletion test, then grills the developer on the chosen candidate to design
@@ -58,6 +58,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:41Z'
   details: TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:31Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 3★ to 2★ per G7 final rankings calibration.
 evidence:
 - source: https://github.com/mattpocock/skills/issues/180
   evaluator: mbtiongson1

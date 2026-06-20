@@ -1,8 +1,7 @@
-# [ruvnet](../../../docs/u/ruvnet/)/hooks-automation  [2★]
+# ████████/github-workflow-automation
 **ID:** workflow-automation  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 2★  
 **Skill Call:** `/workflow-automation`
 
 ---
@@ -27,7 +26,7 @@ _None specified._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | ruvnet/github-workflow-automation | ruvnet | 1★ | 0 |
-| ruvnet/hooks-automation | ruvnet | 2★ | 0 |
+| ruvnet/hooks-automation | ruvnet | 1★ | 0 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

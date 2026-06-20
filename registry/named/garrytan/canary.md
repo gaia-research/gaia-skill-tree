@@ -7,7 +7,7 @@ genericSkillRef: detect-anomaly
 status: named
 title: Gstack Canary
 catalogRef: garrytan-canary
-level: 4★
+level: 3★
 description: Post-deployment monitoring that captures pre-release baseline screenshots,
   then continuously watches pages for console errors, performance regressions, and
   broken links — designed to surface failures within the first 10 minutes so problems
@@ -81,6 +81,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:00Z'
   details: TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:21Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 63.73
 overallTrustGrade: B
 apexGateStatus:

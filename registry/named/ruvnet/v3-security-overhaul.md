@@ -7,7 +7,7 @@ genericSkillRef: security-audit
 status: named
 title: The Security Sentinel
 catalogRef: ruvnet-v3-security-overhaul
-level: 2★
+level: 1★
 description: 'Comprehensive Ruflo v3 security overhaul: zero-trust federation, PII
   detection, mTLS/ed25519 authentication, and CVE scanning.'
 links:
@@ -42,6 +42,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:45Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:37Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: 7e6907c41e2cee18d159bb817ec126d16f4a9efc5624dd108bdf57bafb99084d
 ---
 

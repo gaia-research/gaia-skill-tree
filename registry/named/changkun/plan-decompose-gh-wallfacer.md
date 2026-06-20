@@ -5,7 +5,7 @@ contributor: changkun
 origin: false
 genericSkillRef: autonomous-engineering-platform
 status: awakened
-level: 2★
+level: 1★
 description: Chat, specs, tasks, and code. An autonomous engineering platform.
 createdAt: '2026-05-23'
 updatedAt: '2026-06-10'
@@ -30,6 +30,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:36Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:20Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: 6dce174228be06454c254121515bd283b15f0400e045fc6217d09808e81912d4
 ---
 

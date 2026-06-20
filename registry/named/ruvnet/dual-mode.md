@@ -7,7 +7,7 @@ genericSkillRef: dual-mode
 status: named
 title: The Hybrid Conductor
 catalogRef: ruvnet-dual-mode
-level: 3★
+level: 4★
 description: Fuses headless worker spawning, result collection, and hybrid workflow
   coordination into a complete Claude+Codex parallel orchestration pattern.
 links:
@@ -55,6 +55,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:43Z'
   details: TM 0.0 -> 126.0, grade ungraded -> A (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:36Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 3★ to 4★ per G7 final rankings calibration.
 trustMagnitude: 126.0
 overallTrustGrade: A
 apexGateStatus:

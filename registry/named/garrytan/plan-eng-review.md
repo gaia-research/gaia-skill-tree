@@ -7,7 +7,7 @@ genericSkillRef: code-review-pipeline
 status: named
 title: Engineering Plan Review
 catalogRef: garrytan-plan-eng-review
-level: 4★
+level: 3★
 description: Comprehensive, interactive architecture and implementation review before
   coding begins, systematically evaluating scope, architecture, code quality, test
   coverage, and performance through structured questioning — synthesising findings
@@ -72,6 +72,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:38Z'
   details: TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:23Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 66.0
 overallTrustGrade: B
 apexGateStatus:

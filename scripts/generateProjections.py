@@ -261,6 +261,23 @@ def main():
             f.write("\n")
         print("Saved 4D Hyper-Atlas layout nodes to generated-output/layouts.json")
 
+        # Automatically update registry/layouts_3d.json so it stays in sync
+        layouts_3d_out = os.path.join(REPO_ROOT, "registry", "layouts_3d.json")
+        with open(layouts_3d_out, "w", encoding="utf-8") as f:
+            json.dump(layout_data, f, indent=2, ensure_ascii=False)
+            f.write("\n")
+        print("Saved 4D Hyper-Atlas layouts to registry/layouts_3d.json")
+
+        # Also run the 3D experimental visualizer layout builder to update docs/experiments/ml-graph-viz/layouts_3d.json
+        try:
+            import subprocess
+            viz_builder = os.path.join(REPO_ROOT, "docs", "experiments", "ml-graph-viz", "build_layouts_3d.py")
+            if os.path.isfile(viz_builder):
+                subprocess.run([sys.executable, viz_builder], check=True, capture_output=True)
+                print("Automatically regenerated docs/experiments/ml-graph-viz/layouts_3d.json")
+        except Exception as e:
+            print(f"Warning: failed to automatically update ml-graph-viz layouts: {e}")
+
     version = data.get("version", "0.1.0")
     timestamp = data.get("generatedAt", datetime.datetime.now().isoformat() + "Z")
     meta = data.get("meta", {})

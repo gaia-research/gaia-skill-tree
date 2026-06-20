@@ -7,7 +7,7 @@ genericSkillRef: evaluate-output
 status: named
 title: Gstack Benchmark
 catalogRef: garrytan-benchmark
-level: 4★
+level: 3★
 description: Web performance benchmarking that captures baseline metrics, compares
   current performance against those baselines, and identifies regressions in load
   times, Core Web Vitals, and bundle sizes across specified pages.
@@ -80,6 +80,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:00Z'
   details: TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:20Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 63.73
 overallTrustGrade: B
 apexGateStatus:

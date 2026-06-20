@@ -8,7 +8,7 @@ links:
 genericSkillRef: release-automation
 status: named
 title: The Shipwright's Will
-level: 2★
+level: 1★
 description: Automates the full release cycle — semantic version bump, CHANGELOG update,
   PR merge, git tag, and GitHub release creation with multiple verification gates.
 tags:
@@ -76,6 +76,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:03Z'
   details: TM 1.3 -> 6.3, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:29Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitude: 6.3
 overallTrustGrade: ungraded
 apexGateStatus:

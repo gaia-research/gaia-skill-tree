@@ -7,7 +7,7 @@ genericSkillRef: browser-automation
 status: named
 title: The Web Navigator
 catalogRef: ruvnet-browser
-level: 2★
+level: 1★
 description: Playwright-based browser automation for web scraping, E2E testing, form
   interaction, and screenshot capture within agent workflows.
 links:
@@ -42,6 +42,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:43Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:35Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: 2800d300af75cbe7c46f5a2a1021453fe365d4743f0e69e36fd763058958db17
 ---
 

@@ -1,8 +1,7 @@
-# [huggingface](../../../docs/u/huggingface/)/transformers-js  [2★]
+# ████████/transformers-js
 **ID:** multimodal-reasoning  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 2★  
 **Skill Call:** `/multimodal-reasoning`
 
 ---
@@ -24,7 +23,7 @@ Requires vision-language model capability.
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| huggingface/transformers-js | huggingface | 2★ | 0 |
+| huggingface/transformers-js | huggingface | 1★ | 0 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

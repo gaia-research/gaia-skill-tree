@@ -5,7 +5,7 @@ contributor: yundu-ai
 origin: false
 genericSkillRef: mcp-integration
 status: awakened
-level: 2★
+level: 1★
 description: Build Model Context Protocol (MCP) servers and tools from scratch. Full-stack
   MCP development with TypeScript/Python, testing, deployment, and registry publishing.
 createdAt: '2026-05-22'
@@ -31,6 +31,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:45Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:38Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: 61e15582b330bb29575ef667d3046316d18844f9d072a8e7e00bda963c4bcd3d
 ---
 

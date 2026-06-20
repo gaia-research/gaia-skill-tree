@@ -24,7 +24,7 @@ _None specified._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | garrytan/landing-report | garrytan | 2★ | 1 |
-| ruvnet/github-project-management | ruvnet | 2★ | 0 |
+| ruvnet/github-project-management | ruvnet | 1★ | 0 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

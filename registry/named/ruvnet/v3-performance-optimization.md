@@ -8,7 +8,7 @@ genericSkillRef: performance-tuning
 status: named
 title: The Speed Sculptor
 catalogRef: ruvnet-v3-performance-optimization
-level: 2★
+level: 1★
 description: Profiles and optimizes Ruflo v3 platform performance across startup time,
   request latency, memory footprint, and throughput.
 links:
@@ -44,6 +44,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:44Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:37Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: edf0d379a2b1db3dba26d9b3c589a556ffcb6b85cc7d78fea552ef3f343b891b
 ---
 

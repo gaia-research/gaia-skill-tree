@@ -7,7 +7,7 @@ genericSkillRef: data-analysis
 status: named
 title: The Dataset Cartographer
 catalogRef: huggingface-datasets
-level: 2★
+level: 1★
 description: Explores Hugging Face datasets through the Dataset Viewer API, resolving
   configs and splits, previewing rows, paginating records, searching text, filtering
   rows, and retrieving parquet metadata.
@@ -42,6 +42,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:40Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:28Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: 019a6f5d4b7f006329654997bedec28a7c94b028414f1d7b2e66ec54ae3cd09b
 ---
 

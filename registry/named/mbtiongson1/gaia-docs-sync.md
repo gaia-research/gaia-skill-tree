@@ -5,7 +5,7 @@ contributor: mbtiongson1
 origin: false
 genericSkillRef: registry-curation
 status: named
-level: 2★
+level: 1★
 description: Keeps the generated Gaia documentation site in sync with the registry
   — rebuilding HTML pages, updating skill indexes, and regenerating badges when registry
   content changes.
@@ -32,6 +32,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:42Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:33Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:

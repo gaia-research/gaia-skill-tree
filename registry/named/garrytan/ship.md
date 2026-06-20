@@ -7,7 +7,7 @@ genericSkillRef: finishing-a-development-branch
 status: named
 title: Gstack Ship
 catalogRef: garrytan-ship
-level: 4★
+level: 3★
 description: Automated end-to-end deployment workflow that merges the base branch,
   runs tests, reviews the diff, bumps the VERSION file, updates the CHANGELOG, commits,
   pushes to the remote, and creates a pull request in a single command.
@@ -59,6 +59,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:01Z'
   details: TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:23Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/ship/SKILL.md

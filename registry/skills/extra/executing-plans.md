@@ -1,8 +1,8 @@
-# [obra](../../../docs/u/obra/)/executing-plans  [2★]
+# [obra](../../../docs/u/obra/)/executing-plans  [3★]
 **ID:** executing-plans  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 2★  
+**Top named variant:** 3★  
 **Skill Call:** `/executing-plans`
 
 ---
@@ -24,8 +24,8 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| obra/executing-plans ⭑ | obra | 2★ | 5 |
-| mattpocock/implement | mattpocock | 2★ | 3 |
+| obra/executing-plans ⭑ | obra | 3★ | 5 |
+| mattpocock/implement | mattpocock | 1★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

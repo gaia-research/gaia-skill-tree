@@ -1,8 +1,8 @@
-# [ruvnet](../../../docs/u/ruvnet/)/flow-nexus  [4★]
+# [ruvnet](../../../docs/u/ruvnet/)/flow-nexus  [3★]
 **ID:** multi-node-orchestration  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 4★  
+**Top named variant:** 3★  
 **Skill Call:** `/multi-node-orchestration`
 
 ---
@@ -24,7 +24,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| ruvnet/flow-nexus ⭑ | ruvnet | 4★ | 1 |
+| ruvnet/flow-nexus ⭑ | ruvnet | 3★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

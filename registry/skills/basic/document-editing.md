@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/document-generate  [4★]
+# [garrytan](../../../docs/u/garrytan/)/document-generate  [3★]
 **ID:** document-editing  
 **Type:** Basic Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 4★  
+**Top named variant:** 3★  
 **Skill Call:** `/document-editing`
 
 ---
@@ -20,10 +20,10 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/document-generate ⭑ | garrytan | 4★ | 2 |
+| garrytan/document-generate ⭑ | garrytan | 3★ | 2 |
 | anthropic/pptx | anthropic | 2★ | 1 |
 | garrytan/document-release | garrytan | 2★ | 1 |
-| mattpocock/edit-article | mattpocock | 2★ | 3 |
+| mattpocock/edit-article | mattpocock | 3★ | 3 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

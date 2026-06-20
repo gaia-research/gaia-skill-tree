@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: clinical-data-retrieval
 status: awakened
-level: 2★
+level: 3★
 description: Use when needing clinical significance, pathogenicity classifications
   (e.g., Pathogenic, Benign, VUS), clinical evidence rationales, or finding "hard
   positive" benchmark controls for human genomic variants.
@@ -62,6 +62,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T14:32:17Z'
   details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:24Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 70.82
 overallTrustGrade: B
 apexGateStatus:

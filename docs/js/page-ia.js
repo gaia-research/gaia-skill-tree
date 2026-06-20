@@ -110,10 +110,12 @@
 
     // Resolve effective level from the named entry because canonical nodes
     // don't carry a level field — only named/claimed entries do.
+    // Ultimate platform capstones show their correct 5★ / 6★ tier, defaulting to 5★.
     var levelFor = {};
     ultimates.forEach(function (u) {
       var claim = claimedBy[u.id];
-      levelFor[u.id] = (claim && claim.level) || u.level || null;
+      var canonicalLevel = (claim && claim.level) ? claim.level : '5★';
+      levelFor[u.id] = canonicalLevel;
     });
 
     // Ledger strip
@@ -170,7 +172,7 @@
             ? window.namedSlug(claim)
             : '/' + u.id;
           var contribLink = (typeof window.handleLink === 'function')
-            ? window.handleLink(claim.contributor || '', { extraClass: 'ult-contrib', level: claim.level || uLevel })
+            ? window.handleLink(claim.contributor || '', { extraClass: 'ult-contrib', level: uLevel })
             : '<a class="ult-contrib atlas-handle" href="./u/' + encodeURIComponent(claim.contributor || '') + '/">@' + esc(claim.contributor || '') + '</a>';
           
           var lvlN = levelNum(uLevel);
@@ -231,7 +233,11 @@
           canonical = byId[e.id.split('/').pop()];
         }
         if (!canonical) return;
-        if (canonical.type !== 'ultimate' && canonical.type !== 'unique') return;
+        var lvlN = levelNum(e.level);
+        var is6Star = (lvlN === 6);
+        var is5Star = (lvlN === 5);
+        var isUnique = (canonical.type === 'unique');
+        if (!is6Star && !is5Star && !isUnique) return;
         if (canonical.level) e.level = canonical.level;
         allOrigin.push({
           entry: e,
@@ -318,6 +324,7 @@
             type: it.type,
             genericSkillRef: e.genericSkillRef,
             canonicalId: it.canonicalId,
+            trustMagnitude: e.trustMagnitude,
             onclick: '(function(){if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' +
               jsStr(e.id) + '\');})()',
           };
@@ -325,15 +332,14 @@
         return { skills: skills, primaryLevel: levelNum(group[0].entry.level) };
       });
 
-      var hasApex = groupsRendered.some(function (g) { return g.primaryLevel >= 6; });
-      var featuredCap = hasApex ? 2 : 1;
+      var hasFeatured = groupsRendered.some(function (g) { return g.primaryLevel >= 5; });
       var featured = [];
       var standard = [];
       groupsRendered.forEach(function (g) {
-        if (g.primaryLevel >= 6 && featured.length < featuredCap) {
+        if (g.primaryLevel >= 5) {
           featured.push(g);
-        } else if (!hasApex && featured.length < featuredCap) {
-          // No 6★ in the set — promote the very top group to featured.
+        } else if (!hasFeatured && featured.length < 1) {
+          // No 5★ or above in the set — promote the very top group to featured.
           featured.push(g);
         } else {
           standard.push(g);

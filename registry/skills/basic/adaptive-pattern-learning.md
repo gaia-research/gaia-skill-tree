@@ -1,7 +1,8 @@
-# ████████/reasoningbank-intelligence
+# [ruvnet](../../../docs/u/ruvnet/)/reasoningbank-intelligence  [2★]
 **ID:** adaptive-pattern-learning  
 **Type:** Basic Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 2★  
 **Skill Call:** `/adaptive-pattern-learning`
 
 ---
@@ -26,7 +27,7 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| ruvnet/reasoningbank-intelligence | ruvnet | 1★ | 1 |
+| ruvnet/reasoningbank-intelligence ⭑ | ruvnet | 2★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

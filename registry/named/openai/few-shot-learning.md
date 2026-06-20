@@ -7,7 +7,7 @@ genericSkillRef: few-shot-learning
 status: named
 title: The In-Context Learner
 catalogRef: openai-few-shot-learning
-level: 2★
+level: 4★
 description: Conditions the model on a small set of examples within the prompt to
   adapt to new tasks without weight updates.
 links:
@@ -52,6 +52,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:43Z'
   details: TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:35Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 4★ per G7 final rankings calibration.
 evidence:
 - source: https://arxiv.org/abs/2005.14165
   evaluator: mbtiongson1

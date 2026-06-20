@@ -20,7 +20,7 @@ _None._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | mattpocock/triage ⭑ | mattpocock | 3★ | 3 |
-| mbtiongson1/gaia-triage | mbtiongson1 | 2★ | 0 |
+| mbtiongson1/gaia-triage | mbtiongson1 | 1★ | 0 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

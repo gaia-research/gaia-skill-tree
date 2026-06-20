@@ -57,14 +57,12 @@
     return '○';
   }
 
-  function evidenceClass(level) {
-    var n = levelNum(level);
-    if (n >= 6) return 'CLASS A';
-    if (n >= 5) return 'CLASS A';
-    if (n >= 4) return 'CLASS A';
-    if (n >= 3) return 'CLASS B';
-    if (n >= 2) return 'CLASS C';
-    return 'AWAITED';
+  function evidenceClass(skillData) {
+    var tg = (skillData && (skillData.overallTrustGrade || skillData.trustGrade)) || '';
+    if (tg && tg !== 'ungraded') {
+      return 'GRADE ' + tg.toUpperCase();
+    }
+    return '';
   }
 
   /* ── Diamond Seal SVG ── */
@@ -79,6 +77,13 @@
     var settled = opts.settled || false;
     var isApex = levelNum(skillData.level) >= 6;
     var classes = 'plaque' + (isApex ? ' plaque--apex-vi' : '') + (settled ? ' plaque--settled' : '');
+
+    var evText = evidenceClass(skillData);
+    var evHtml = evText
+      ? '<div class="plaque-evidence ' + (settled ? '' : 'plaque-evidence--animate') + '">' +
+          esc(evText) +
+        '</div>'
+      : '';
 
     return '<div class="' + classes + '" data-skill-id="' + esc(skillData.id) + '">' +
       // Header row: seal + skill name + tier glyph
@@ -123,9 +128,7 @@
           '</div>'
         : '') +
       // Evidence chip
-      '<div class="plaque-evidence ' + (settled ? '' : 'plaque-evidence--animate') + '">' +
-        evidenceClass(skillData.level) +
-      '</div>' +
+      evHtml +
       // Underline
       '<div class="plaque-underline' + (settled ? ' plaque-underline--settled' : '') + '"></div>' +
     '</div>';

@@ -5,7 +5,7 @@ contributor: xquik-dev
 origin: true
 genericSkillRef: x-twitter-automation
 status: awakened
-level: 4★
+level: 3★
 description: Installable Hermes Agent skill and plugin for X/Twitter search, reply
   reading, user lookup, monitoring, follower export, and approval-gated write actions.
 links:
@@ -75,6 +75,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:04Z'
   details: TM 6.12 -> 42.47, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:38Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 42.47
 overallTrustGrade: C
 apexGateStatus:

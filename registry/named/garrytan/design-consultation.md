@@ -7,7 +7,7 @@ genericSkillRef: design-system-extraction
 status: named
 title: Gstack Design Consultation
 catalogRef: garrytan-design-consultation
-level: 4★
+level: 3★
 description: Builds a complete design system by researching the product and competitors,
   then proposing a coherent package of typography, colours, spacing, layout, and motion
   — persisted as a DESIGN.md file that serves as the project's authoritative design
@@ -60,6 +60,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:01Z'
   details: TM 36.0 -> 63.73, grade C -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:21Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md

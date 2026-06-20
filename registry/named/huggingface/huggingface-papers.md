@@ -7,7 +7,7 @@ genericSkillRef: literature-review
 status: named
 title: The Paper Indexer
 catalogRef: huggingface-papers
-level: 2★
+level: 1★
 description: Looks up Hugging Face paper pages and arXiv IDs, fetching markdown paper
   content and structured metadata such as authors, linked models, datasets, Spaces,
   GitHub repos, and project pages.
@@ -42,6 +42,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:40Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:28Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: caa3be23d215c328005383bc1c45a6f26b9eb75b0540560329c34236054638a0
 ---
 

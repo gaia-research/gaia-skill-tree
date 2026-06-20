@@ -1,8 +1,8 @@
-# [mattpocock](../../../docs/u/mattpocock/)/ubiquitous-language  [4★]
+# [mattpocock](../../../docs/u/mattpocock/)/ubiquitous-language  [3★]
 **ID:** ubiquitous-language  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 4★  
+**Top named variant:** 3★  
 **Skill Call:** `/ubiquitous-language`
 
 ---
@@ -23,7 +23,7 @@ Requires active persistence of terms and immediate conflict resolution during se
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| mattpocock/ubiquitous-language | mattpocock | 4★ | 3 |
+| mattpocock/ubiquitous-language | mattpocock | 3★ | 3 |
 | ruvnet/v3-ddd-architecture | ruvnet | 2★ | 1 |
 
 ## Evidence (inherited capability)

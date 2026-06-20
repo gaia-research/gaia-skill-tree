@@ -7,7 +7,7 @@ genericSkillRef: object-detection
 status: named
 title: The Vision Forge
 catalogRef: huggingface-vision-trainer
-level: 3★
+level: 1★
 description: Trains and fine-tunes object detection, image classification, and SAM/SAM2
   segmentation models on Hugging Face Jobs or locally with dataset validation, metrics,
   Trackio, and Hub persistence.
@@ -42,6 +42,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:40Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:28Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 3★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: 71a712396b0b1922b00967d041b6e89ce6f2ec18b7d2c6fead4c9cbfcc12f757
 ---
 

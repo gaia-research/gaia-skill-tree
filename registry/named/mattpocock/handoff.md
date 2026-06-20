@@ -6,7 +6,7 @@ origin: false
 genericSkillRef: agent-handoff
 status: named
 title: The Handoff Protocol
-level: 4★
+level: 3★
 description: Compacts the current conversation into a summary for a fresh agent to
   continue the work.
 createdAt: '2026-05-21'
@@ -114,6 +114,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:41Z'
   details: TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:31Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 63.71
 overallTrustGrade: B
 apexGateStatus:

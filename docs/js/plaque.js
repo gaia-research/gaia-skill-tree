@@ -413,8 +413,9 @@
   // Field set: same as tile, laid horizontally. Description hidden via
   // CSS only — no silent field drops at the JS level.
   function renderRow(ns, opts) {
-    var evBadge = ns && ns.level
-      ? '<span class="plaque__ev-badge">' + esc(_evidenceClass(ns.level)) + '</span>'
+    var evText = _evidenceClass(ns);
+    var evBadge = evText
+      ? '<span class="plaque__ev-badge">' + esc(evText) + '</span>'
       : '';
     var inner =
       _fieldOrb(ns, 'sm') +
@@ -514,6 +515,11 @@
         _fieldGhLink(ns) +
       '</div>';
 
+    var evText = _evidenceClass(ns);
+    var evHtml = evText
+      ? '<div class="plaque__evidence plaque-evidence">' + esc(evText) + '</div>'
+      : '';
+
     var inner =
       header +
       _fieldSlug(ns) +
@@ -523,17 +529,18 @@
       _fieldTags(ns, 5) +
       _fieldRank(ns, 'stars') +
       _fieldInstallRow(ns) +
+      evHtml +
       '<div class="plaque__underline plaque-underline plaque-underline--settled"></div>';
 
     return _shell('settled', ns, inner, opts);
   }
 
-  function _evidenceClass(level) {
-    var n = levelNum(level);
-    if (n >= 4) return 'CLASS A';
-    if (n >= 3) return 'CLASS B';
-    if (n >= 2) return 'CLASS C';
-    return 'AWAITED';
+  function _evidenceClass(ns) {
+    var tg = (ns && (ns.overallTrustGrade || ns.trustGrade)) || '';
+    if (tg && tg !== 'ungraded') {
+      return 'GRADE ' + tg.toUpperCase();
+    }
+    return '';
   }
 
   // ── variant: og (HTML mock of the 1200×630 social card) ──────────
@@ -667,10 +674,10 @@
       origin: anyOrigin,
       level: primary.level,
       type: primary.type,
+      trustMagnitude: primary.trustMagnitude,
     };
 
     var TIER_GLYPH = { ultimate: '◆', unique: '◉', extra: '◇', basic: '○' };
-    var ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI'];
 
     // Resolve OG art path (primary skill).
     var handle = primary.contributor || '';
@@ -714,15 +721,17 @@
         _fieldFullscreenBtn(primaryNs) +
       '</div>';
 
-    // Roman-numeral divider keyed off the primary's rank.
-    var rNum = ROMAN[Math.max(0, Math.min(6, levelNum(primary.level)))] || '';
-    var dividerHtml = rNum
-      ? '<div class="plaque__hall-divider" aria-hidden="true">' +
-          '<span class="plaque__hall-divider-line"></span>' +
-          '<span class="plaque__hall-divider-numeral">' + esc(rNum) + '</span>' +
-          '<span class="plaque__hall-divider-line"></span>' +
-        '</div>'
-      : '';
+    // Trust magnitude divider showing trust magnitude instead of Roman numerals
+    var tm = primary.trustMagnitude;
+    var tmVal = (tm != null && tm !== '') ? parseFloat(Number(tm).toFixed(1)) : 0;
+    var tmDisplay = tmVal % 1 === 0 ? String(Math.round(tmVal)) : tmVal.toFixed(1);
+    var magText = tmDisplay;
+    var dividerHtml =
+      '<div class="plaque__hall-divider" aria-hidden="true">' +
+        '<span class="plaque__hall-divider-line"></span>' +
+        '<span class="plaque__hall-divider-numeral">' + esc(magText) + '</span>' +
+        '<span class="plaque__hall-divider-line"></span>' +
+      '</div>';
 
     // Skill rows — reuse the existing .plaque__stack-row markup so the
     // tier-aware per-row CSS in plaque.css just works.

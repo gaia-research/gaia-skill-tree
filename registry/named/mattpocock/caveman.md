@@ -6,7 +6,7 @@ origin: false
 genericSkillRef: context-compression
 status: named
 title: The Caveman Console
-level: 3★
+level: 2★
 description: An ultra-compressed communication mode designed to save tokens by dropping
   articles and filler words. Removed from mattpocock/skills suite in v1.0.1.
 createdAt: '2026-05-21'
@@ -42,6 +42,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:41Z'
   details: TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:30Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 3★ to 2★ per G7 final rankings calibration.
 evidence:
 - source: https://github.com/mattpocock/skills/issues/189
   evaluator: mbtiongson1

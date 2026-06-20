@@ -7,7 +7,7 @@ genericSkillRef: prd-generation
 status: named
 title: The PRD Synthesiser
 catalogRef: mattpocock-to-prd
-level: 2★
+level: 3★
 description: Synthesises the current conversation context and codebase knowledge into
   a fully-structured PRD — problem statement, extensive numbered user stories, implementation
   decisions (modules, interfaces, schema), testing decisions, and out-of-scope items
@@ -100,6 +100,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:41Z'
   details: TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:32Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 63.71
 overallTrustGrade: B
 apexGateStatus:

@@ -7,7 +7,7 @@ genericSkillRef: skill-performance-benchmarking
 status: named
 title: The Performance Judge
 catalogRef: ruvnet-worker-benchmarks
-level: 2★
+level: 1★
 description: Benchmarks Ruflo background worker performance across latency, throughput,
   memory usage, and quality score dimensions.
 links:
@@ -42,6 +42,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:45Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:38Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: 993a4ba9e6056da8f292f060901ded87add3f1d23b1c84b090abc3ddbaddb7f3
 ---
 

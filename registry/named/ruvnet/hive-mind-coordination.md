@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: distributed-consensus-coordination
 status: named
 title: Queen Seraphina's Hive
-level: 4★
+level: 3★
 description: Queen-led collective intelligence with Byzantine, majority, and weighted
   consensus mechanisms, eight worker specializations, and persistent collective SQLite
   memory with LRU caching.
@@ -142,6 +142,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:04Z'
   details: TM 36.0 -> 96.09, grade C -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:36Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 suiteRef: ruvnet/ruflo
 trustMagnitude: 96.09
 overallTrustGrade: B

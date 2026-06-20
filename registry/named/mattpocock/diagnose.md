@@ -7,7 +7,7 @@ genericSkillRef: autonomous-debug
 status: named
 title: The Disciplined Diagnosis Loop
 catalogRef: mattpocock-diagnose
-level: 2★
+level: 3★
 description: Drives a rigorous five-phase debugging discipline — build a feedback
   loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed
   until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance
@@ -99,6 +99,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:03Z'
   details: TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:30Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 90.38
 overallTrustGrade: B
 apexGateStatus:

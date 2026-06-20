@@ -7,7 +7,7 @@ genericSkillRef: browser-automation
 status: named
 title: The SDK of Intent
 catalogRef: browserbase-stagehand
-level: 2★
+level: 1★
 description: SDK for browser agents that combines deterministic browser automation
   with AI-assisted page interaction.
 links:
@@ -39,6 +39,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:36Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:20Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: b81d88b6ee558769dea22df8e932d30b04e14b472875d4dbfa05ec7fc89b6625
 ---
 

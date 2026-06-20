@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 2★
+level: 4★
 description: Retrieve protein and nucleotide sequences from NCBI databases using E-utilities.
   Supports direct accession lookup, CDS translation, gene+organism search, locus lookup,
   PubMed-linked sequences, patent protein extraction, and organism+length fallback
@@ -68,6 +68,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:02Z'
   details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:26Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 4★ per G7 final rankings calibration.
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

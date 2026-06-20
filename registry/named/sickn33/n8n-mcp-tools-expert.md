@@ -5,7 +5,7 @@ contributor: sickn33
 origin: false
 genericSkillRef: mcp-integration
 status: awakened
-level: 2★
+level: 1★
 description: Expert at integrating n8n with MCP (Model Context Protocol). Build n8n
   workflows that expose MCP tools, or use MCP tools within n8n workflows.
 createdAt: '2026-05-22'
@@ -31,6 +31,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:45Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:38Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitudeInputHash: e7a063e718f959cc7eade220ab2ba64852d73d402b757ea61579962b7abe5110
 ---
 

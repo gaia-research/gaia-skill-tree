@@ -179,15 +179,23 @@ def level_num(level: str) -> int:
         return 0
 
 
-def evidence_class(level: str) -> str:
-    n = level_num(level)
-    if n >= 4:
-        return "CLASS A"
-    if n >= 3:
-        return "CLASS B"
-    if n >= 2:
-        return "CLASS C"
-    return "AWAITED"
+def resolveTrustData(skill: dict, fallbackMag: str) -> tuple[str, str]:
+    tm = skill.get("trustMagnitude")
+    if tm is not None:
+        try:
+            tmVal = float(tm)
+            magStr = f"{tmVal:.1f}" if tmVal > 0 else fallbackMag
+        except (ValueError, TypeError):
+            magStr = fallbackMag
+    else:
+        magStr = fallbackMag
+
+    grade = skill.get("overallTrustGrade", "")
+    if grade and grade.lower() != "ungraded":
+        gradeStr = f"GRADE {grade.upper()}"
+    else:
+        gradeStr = ""
+    return magStr, gradeStr
 
 
 def truncate(text: str, max_len: int) -> str:
@@ -281,15 +289,18 @@ def _engraved_rule() -> str:
 
 
 def _magnitude_band(magnitude: str, ev_class: str, stars_or_word: str, designation: str) -> str:
-    """Marginal mono data band: MAG · CLASS · STARS-OR-WORD · DESIGNATION."""
+    """Marginal mono data band: MAG · GRADE · STARS-OR-WORD · DESIGNATION."""
     y = RULE_Y + 28
     sep = '<tspan fill-opacity="0.35"> · · · </tspan>'
-    cells = [
-        f'<tspan>MAG {html.escape(magnitude)}</tspan>',
-        f'<tspan>{html.escape(ev_class)}</tspan>',
-        f'<tspan>{html.escape(stars_or_word)}</tspan>',
-        f'<tspan>{html.escape(designation)}</tspan>',
-    ]
+    cells = []
+    if magnitude and magnitude != "·":
+        cells.append(f'<tspan>MAG {html.escape(magnitude)}</tspan>')
+    if ev_class:
+        cells.append(f'<tspan>{html.escape(ev_class)}</tspan>')
+    if stars_or_word:
+        cells.append(f'<tspan>{html.escape(stars_or_word)}</tspan>')
+    if designation:
+        cells.append(f'<tspan>{html.escape(designation)}</tspan>')
     inner = sep.join(cells)
     return (
         f'<text x="{MARGIN}" y="{y}" '
@@ -415,15 +426,17 @@ def build_supernova_plate(skill: dict) -> str:
     stars_word = "★" * max(1, min(6, n_lvl))
     designation = f"α 6 OBS · {year}"
 
-    return f"""<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"
-  width=\"{OG_W}\" height=\"{OG_H}\" viewBox=\"0 0 {OG_W} {OG_H}\"
-  class=\"plate plate--apex\" data-plate=\"VI\" data-type=\"ultimate\" data-level=\"{n_lvl}\">
+    magVal, gradeVal = resolveTrustData(skill, "6.0")
+
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="{OG_W}" height="{OG_H}" viewBox="0 0 {OG_W} {OG_H}"
+  class="plate plate--apex" data-plate="VI" data-type="ultimate" data-level="{n_lvl}">
   <defs>
-    <radialGradient id=\"sn-core-{sid}\" cx=\"50%\" cy=\"50%\" r=\"50%\">
-      <stop offset=\"0%\" stop-color=\"#fff7d6\" stop-opacity=\"1\"/>
-      <stop offset=\"40%\" stop-color=\"{APEX_GOLD}\" stop-opacity=\"0.95\"/>
-      <stop offset=\"100%\" stop-color=\"{APEX_GOLD}\" stop-opacity=\"0\"/>
+    <radialGradient id="sn-core-{sid}" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff7d6" stop-opacity="1"/>
+      <stop offset="40%" stop-color="{APEX_GOLD}" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="{APEX_GOLD}" stop-opacity="0"/>
     </radialGradient>
   </defs>
 
@@ -439,26 +452,26 @@ def build_supernova_plate(skill: dict) -> str:
   {rays_svg}
 
   <!-- Hot core: blooming halo + bright disc -->
-  <circle cx=\"{cx}\" cy=\"{cy}\" r=\"58\" fill=\"url(#sn-core-{sid})\"/>
-  <circle cx=\"{cx}\" cy=\"{cy}\" r=\"{core_r}\" fill=\"#fff7d6\"/>
+  <circle cx="{cx}" cy="{cy}" r="58" fill="url(#sn-core-{sid})"/>
+  <circle cx="{cx}" cy="{cy}" r="{core_r}" fill="#fff7d6"/>
 
   <!-- SN designation (catalogue prefix) -->
-  <text x=\"{slug_x}\" y=\"{slug_y - 64}\" font-family=\"'Departure Mono','JetBrains Mono',ui-monospace,monospace\"
-    font-size=\"28\" letter-spacing=\"4.4\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.7\">SN</text>
+  <text x="{slug_x}" y="{slug_y - 64}" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace"
+    font-size="28" letter-spacing="4.4" fill="{CREAM_ENGRAVED}" fill-opacity="0.7">SN</text>
 
   <!-- Slash-skill slug (catalogue designation) -->
-  <text x=\"{slug_x}\" y=\"{slug_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-weight=\"600\"
-    font-size=\"{slug_size}\" fill=\"{CREAM_ENGRAVED}\" dominant-baseline=\"middle\">/{slug}</text>
+  <text x="{slug_x}" y="{slug_y}" font-family="'EB Garamond',Georgia,serif" font-weight="600"
+    font-size="{slug_size}" fill="{CREAM_ENGRAVED}" dominant-baseline="middle">/{slug}</text>
 
   <!-- Title kicker -->
-  <text x=\"{slug_x}\" y=\"{kicker_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-style=\"italic\"
-    font-size=\"24\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.6\" dominant-baseline=\"middle\">'{title}'</text>
+  <text x="{slug_x}" y="{kicker_y}" font-family="'EB Garamond',Georgia,serif" font-style="italic"
+    font-size="24" fill="{CREAM_ENGRAVED}" fill-opacity="0.6" dominant-baseline="middle">'{title}'</text>
 
   <!-- Discoverer signature -->
   {_catalog_signature(contributor, is_origin, year)}
 
   <!-- Marginal magnitude band -->
-  {_magnitude_band('6.0', 'CLASS A', stars_word, designation)}
+  {_magnitude_band(magVal, gradeVal, stars_word, designation)}
 </svg>
 """
 
@@ -526,15 +539,17 @@ def build_stellar_plate(skill: dict) -> str:
     stars_word = "★" * max(1, min(6, n_lvl))
     designation = f"α {slug_raw[:18].upper()} · {year}"
 
-    return f"""<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"
-  width=\"{OG_W}\" height=\"{OG_H}\" viewBox=\"0 0 {OG_W} {OG_H}\"
-  class=\"plate plate--stellar\" data-plate=\"V\" data-type=\"ultimate\" data-level=\"{n_lvl}\">
+    magVal, gradeVal = resolveTrustData(skill, "5.0")
+
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="{OG_W}" height="{OG_H}" viewBox="0 0 {OG_W} {OG_H}"
+  class="plate plate--stellar" data-plate="V" data-type="ultimate" data-level="{n_lvl}">
   <defs>
-    <radialGradient id=\"st-core-{sid}\" cx=\"50%\" cy=\"50%\" r=\"50%\">
-      <stop offset=\"0%\" stop-color=\"#fde2a4\" stop-opacity=\"1\"/>
-      <stop offset=\"55%\" stop-color=\"{AMBER_STAR}\" stop-opacity=\"0.95\"/>
-      <stop offset=\"100%\" stop-color=\"{AMBER_STAR}\" stop-opacity=\"0\"/>
+    <radialGradient id="st-core-{sid}" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fde2a4" stop-opacity="1"/>
+      <stop offset="55%" stop-color="{AMBER_STAR}" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="{AMBER_STAR}" stop-opacity="0"/>
     </radialGradient>
   </defs>
 
@@ -547,26 +562,26 @@ def build_stellar_plate(skill: dict) -> str:
   {dots_svg}
 
   <!-- Main-sequence disc -->
-  <circle cx=\"{cx}\" cy=\"{cy}\" r=\"{disc_r + 30}\" fill=\"url(#st-core-{sid})\"/>
-  <circle cx=\"{cx}\" cy=\"{cy}\" r=\"{disc_r}\" fill=\"{AMBER_STAR}\"/>
+  <circle cx="{cx}" cy="{cy}" r="{disc_r + 30}" fill="url(#st-core-{sid})"/>
+  <circle cx="{cx}" cy="{cy}" r="{disc_r}" fill="{AMBER_STAR}"/>
 
   <!-- Bayer designation (catalogue prefix) -->
-  <text x=\"{slug_x}\" y=\"{bayer_y}\" font-family=\"'Departure Mono','JetBrains Mono',ui-monospace,monospace\"
-    font-size=\"28\" letter-spacing=\"4.4\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.7\">α</text>
+  <text x="{slug_x}" y="{bayer_y}" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace"
+    font-size="28" letter-spacing="4.4" fill="{CREAM_ENGRAVED}" fill-opacity="0.7">α</text>
 
   <!-- Slash-skill slug -->
-  <text x=\"{slug_x}\" y=\"{slug_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-weight=\"600\"
-    font-size=\"{slug_size}\" fill=\"{CREAM_ENGRAVED}\" dominant-baseline=\"middle\">/{slug}</text>
+  <text x="{slug_x}" y="{slug_y}" font-family="'EB Garamond',Georgia,serif" font-weight="600"
+    font-size="{slug_size}" fill="{CREAM_ENGRAVED}" dominant-baseline="middle">/{slug}</text>
 
   <!-- Title kicker -->
-  <text x=\"{slug_x}\" y=\"{kicker_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-style=\"italic\"
-    font-size=\"24\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.6\" dominant-baseline=\"middle\">'{title}'</text>
+  <text x="{slug_x}" y="{kicker_y}" font-family="'EB Garamond',Georgia,serif" font-style="italic"
+    font-size="24" fill="{CREAM_ENGRAVED}" fill-opacity="0.6" dominant-baseline="middle">'{title}'</text>
 
   <!-- Discoverer signature -->
   {_catalog_signature(contributor, is_origin, year)}
 
   <!-- Marginal magnitude band -->
-  {_magnitude_band('5.0', 'CLASS A', stars_word, designation)}
+  {_magnitude_band(magVal, gradeVal, stars_word, designation)}
 </svg>
 """
 
@@ -644,15 +659,17 @@ def build_singularity_plate(skill: dict) -> str:
     rank_word = rank_words.get(n_lvl, "AWAITED")
     designation = f"BH {to_roman(max(1, n_lvl))} · {year}"
 
-    return f"""<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"
-  width=\"{OG_W}\" height=\"{OG_H}\" viewBox=\"0 0 {OG_W} {OG_H}\"
-  class=\"plate plate--singularity\" data-plate=\"IV\" data-type=\"unique\" data-level=\"{n_lvl}\">
+    magVal, gradeVal = resolveTrustData(skill, "∞")
+
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="{OG_W}" height="{OG_H}" viewBox="0 0 {OG_W} {OG_H}"
+  class="plate plate--singularity" data-plate="IV" data-type="unique" data-level="{n_lvl}">
   <defs>
-    <radialGradient id=\"bh-void-{sid}\" cx=\"50%\" cy=\"50%\" r=\"50%\">
-      <stop offset=\"0%\" stop-color=\"#050410\" stop-opacity=\"1\"/>
-      <stop offset=\"85%\" stop-color=\"#050410\" stop-opacity=\"1\"/>
-      <stop offset=\"100%\" stop-color=\"{INK_NIGHT}\" stop-opacity=\"1\"/>
+    <radialGradient id="bh-void-{sid}" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#050410" stop-opacity="1"/>
+      <stop offset="85%" stop-color="#050410" stop-opacity="1"/>
+      <stop offset="100%" stop-color="{INK_NIGHT}" stop-opacity="1"/>
     </radialGradient>
   </defs>
 
@@ -662,31 +679,31 @@ def build_singularity_plate(skill: dict) -> str:
   {field_svg}
 
   <!-- Accretion-disk hairline ring (thin violet) -->
-  <circle cx=\"{cx}\" cy=\"{cy}\" r=\"{ring_r_outer}\" fill=\"none\" stroke=\"{VIOLET_HALO}\"
-    stroke-opacity=\"0.85\" stroke-width=\"1.4\"/>
-  <circle cx=\"{cx}\" cy=\"{cy}\" r=\"{(ring_r_outer + ring_r_inner) / 2}\" fill=\"none\"
-    stroke=\"{VIOLET_HALO}\" stroke-opacity=\"0.35\" stroke-width=\"0.6\"/>
+  <circle cx="{cx}" cy="{cy}" r="{ring_r_outer}" fill="none" stroke="{VIOLET_HALO}"
+    stroke-opacity="0.85" stroke-width="1.4"/>
+  <circle cx="{cx}" cy="{cy}" r="{(ring_r_outer + ring_r_inner) / 2}" fill="none"
+    stroke="{VIOLET_HALO}" stroke-opacity="0.35" stroke-width="0.6"/>
 
   <!-- The void itself: same colour as the page, slightly darker, no glyph -->
-  <circle cx=\"{cx}\" cy=\"{cy}\" r=\"{void_r}\" fill=\"url(#bh-void-{sid})\"/>
+  <circle cx="{cx}" cy="{cy}" r="{void_r}" fill="url(#bh-void-{sid})"/>
 
   <!-- BH designation (catalogue prefix) -->
-  <text x=\"{slug_x}\" y=\"{bh_prefix_y}\" font-family=\"'Departure Mono','JetBrains Mono',ui-monospace,monospace\"
-    font-size=\"28\" letter-spacing=\"4.4\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.7\">BH-</text>
+  <text x="{slug_x}" y="{bh_prefix_y}" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace"
+    font-size="28" letter-spacing="4.4" fill="{CREAM_ENGRAVED}" fill-opacity="0.7">BH-</text>
 
   <!-- Slash-skill slug -->
-  <text x=\"{slug_x}\" y=\"{slug_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-weight=\"600\"
-    font-size=\"{slug_size}\" fill=\"{CREAM_ENGRAVED}\" dominant-baseline=\"middle\">/{slug}</text>
+  <text x="{slug_x}" y="{slug_y}" font-family="'EB Garamond',Georgia,serif" font-weight="600"
+    font-size="{slug_size}" fill="{CREAM_ENGRAVED}" dominant-baseline="middle">/{slug}</text>
 
   <!-- Title kicker -->
-  <text x=\"{slug_x}\" y=\"{kicker_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-style=\"italic\"
-    font-size=\"24\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.6\" dominant-baseline=\"middle\">'{title}'</text>
+  <text x="{slug_x}" y="{kicker_y}" font-family="'EB Garamond',Georgia,serif" font-style="italic"
+    font-size="24" fill="{CREAM_ENGRAVED}" fill-opacity="0.6" dominant-baseline="middle">'{title}'</text>
 
   <!-- Discoverer signature -->
   {_catalog_signature(contributor, is_origin, year)}
 
   <!-- Marginal magnitude band — MAG ∞ -->
-  {_magnitude_band('∞', 'CLASS A', f'⊘ {rank_word}', designation)}
+  {_magnitude_band(magVal, gradeVal, f'⊘ {rank_word}', designation)}
 </svg>
 """
 
@@ -722,24 +739,25 @@ def build_default_plate(skill: dict) -> str:
 
     stars = "★" * max(1, min(6, n_lvl))
     designation = f"GAIA · {year}"
-    mag_value = f"{n_lvl}.0" if n_lvl > 0 else "·"
+    fallbackMag = f"{n_lvl}.0" if n_lvl > 0 else "·"
+    magVal, gradeVal = resolveTrustData(skill, fallbackMag)
 
-    return f"""<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"
-  width=\"{OG_W}\" height=\"{OG_H}\" viewBox=\"0 0 {OG_W} {OG_H}\"
-  class=\"plate plate--default\" data-plate=\"{plate_css_val}\" data-level=\"{n_lvl}\">
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="{OG_W}" height="{OG_H}" viewBox="0 0 {OG_W} {OG_H}"
+  class="plate plate--default" data-plate="{plate_css_val}" data-level="{n_lvl}">
   {_shared_frame(plate_label)}
 
   <!-- Slash-skill slug (no celestial subject for sub-4★ skills) -->
-  <text x=\"{slug_x}\" y=\"{slug_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-weight=\"600\"
-    font-size=\"{slug_size}\" fill=\"{CREAM_ENGRAVED}\" dominant-baseline=\"middle\">/{slug}</text>
+  <text x="{slug_x}" y="{slug_y}" font-family="'EB Garamond',Georgia,serif" font-weight="600"
+    font-size="{slug_size}" fill="{CREAM_ENGRAVED}" dominant-baseline="middle">/{slug}</text>
 
-  <text x=\"{slug_x}\" y=\"{kicker_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-style=\"italic\"
-    font-size=\"24\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.6\" dominant-baseline=\"middle\">'{title}'</text>
+  <text x="{slug_x}" y="{kicker_y}" font-family="'EB Garamond',Georgia,serif" font-style="italic"
+    font-size="24" fill="{CREAM_ENGRAVED}" fill-opacity="0.6" dominant-baseline="middle">'{title}'</text>
 
   {_catalog_signature(contributor, is_origin, year)}
 
-  {_magnitude_band(mag_value, evidence_class(skill.get('level', '')), stars, designation)}
+  {_magnitude_band(magVal, gradeVal, stars, designation)}
 </svg>
 """
 

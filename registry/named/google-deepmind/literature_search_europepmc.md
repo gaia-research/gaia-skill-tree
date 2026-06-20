@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: literature-search
 status: awakened
-level: 2★
+level: 4★
 description: Search Europe PMC for scientific literature and download open-access
   full texts and PDFs. Retrieve full-text XML/plain text by PMCID, get citation lists
   and bibliography.
@@ -65,6 +65,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:02Z'
   details: TM 10.82 -> 100.82, grade ungraded -> A (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:25Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 4★ per G7 final rankings calibration.
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

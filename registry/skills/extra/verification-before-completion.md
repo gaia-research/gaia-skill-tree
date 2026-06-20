@@ -1,8 +1,8 @@
-# [obra](../../../docs/u/obra/)/verification-before-completion  [2★]
+# [obra](../../../docs/u/obra/)/verification-before-completion  [3★]
 **ID:** verification-before-completion  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 2★  
+**Top named variant:** 3★  
 **Skill Call:** `/verification-before-completion`
 
 ---
@@ -24,7 +24,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| obra/verification-before-completion ⭑ | obra | 2★ | 5 |
+| obra/verification-before-completion ⭑ | obra | 3★ | 5 |
 | ruvnet/verification-quality | ruvnet | 2★ | 1 |
 
 ## Evidence (inherited capability)

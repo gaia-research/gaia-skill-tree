@@ -5,7 +5,7 @@ contributor: stanfordnlp
 origin: true
 genericSkillRef: prompt-optimization
 status: named
-level: 1★
+level: 4★
 installable: false
 description: Declarative programming of language model pipelines, automatically optimizing
   prompts and RAG retrieval using bootstrapping and teleprompters.
@@ -42,6 +42,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:45Z'
   details: TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:38Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 1★ to 4★ per G7 final rankings calibration.
 trustMagnitude: 100.0
 overallTrustGrade: A
 apexGateStatus:

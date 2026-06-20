@@ -7,7 +7,7 @@ genericSkillRef: feed-monitoring
 status: named
 title: The Signal Scout
 catalogRef: nousresearch-feed-monitoring
-level: 1★
+level: 2★
 description: Continuous monitoring of content feeds with intelligent discovery and
   state tracking.
 links:
@@ -56,6 +56,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:42Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:34Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 1★ to 2★ per G7 final rankings calibration.
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

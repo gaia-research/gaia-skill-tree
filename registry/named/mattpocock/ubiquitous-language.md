@@ -7,7 +7,7 @@ genericSkillRef: ubiquitous-language
 status: named
 title: The Domain Linguist
 catalogRef: mattpocock-ubiquitous-language
-level: 4★
+level: 3★
 description: Extracts and formalises a project's domain terminology into a shared
   glossary, enforcing consistent naming across code and conversations to eliminate
   ambiguity. Removed from mattpocock/skills suite in v1.0.1.
@@ -96,6 +96,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:03Z'
   details: TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:33Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 90.38
 overallTrustGrade: B
 apexGateStatus:

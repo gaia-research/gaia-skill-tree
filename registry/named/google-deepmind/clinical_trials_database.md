@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: clinical-data-retrieval
 status: awakened
-level: 2★
+level: 3★
 description: Query ClinicalTrials.gov via APIv2. Use when you want to search for trials
   by condition, drug, location, status, or phase; retrieve trial details by NCT ID;
   check eligibility/inclusion criteria; count trials across conditions or time periods;
@@ -64,6 +64,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T14:32:17Z'
   details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:24Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 70.82
 overallTrustGrade: B
 apexGateStatus:

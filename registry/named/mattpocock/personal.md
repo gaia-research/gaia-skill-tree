@@ -6,7 +6,7 @@ origin: true
 title: The Matt Pocock Personal Suite
 genericSkillRef: personal
 status: named
-level: 4★
+level: 3★
 description: Personal category suite for Matt Pocock's skills. Removed from mattpocock/skills
   suite in v1.0.1.
 createdAt: '2026-05-21'
@@ -32,6 +32,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:41Z'
   details: TM 0.0 -> 60.0, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:32Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 suiteRef: mattpocock/skills
 suiteComponents:
 - mattpocock/edit-article

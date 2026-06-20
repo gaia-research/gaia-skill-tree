@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: verification-before-completion
 status: named
 title: The Completion Gate
-level: 2★
+level: 3★
 description: Requires running verification commands and confirming their output before
   claiming any work is complete, fixed, or passing — no claim without evidence.
 links:
@@ -103,6 +103,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T14:32:19Z'
   details: TM 95.15 -> 95.15, grade B -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:35Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 95.15
 overallTrustGrade: B
 apexGateStatus:

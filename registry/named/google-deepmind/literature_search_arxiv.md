@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: literature-search
 status: awakened
-level: 2★
+level: 3★
 description: Search for scientific papers, preprints, and publications on arXiv. Extract
   metadata, abstracts, and download full-text PDFs or HTML versions of papers. Use
   when the user asks to find research papers, literature, or specific arXiv IDs.
@@ -61,6 +61,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T14:32:17Z'
   details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:25Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 70.82
 overallTrustGrade: B
 apexGateStatus:

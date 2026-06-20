@@ -7,7 +7,7 @@ genericSkillRef: grill-me
 status: named
 title: The Relentless Interviewer
 catalogRef: mattpocock-grill-me
-level: 4★
+level: 3★
 description: Conducts a relentless one-question-at-a-time interview about a plan or
   design, walking every branch of the decision tree with a recommended answer per
   question, resolving dependencies in order, and substituting codebase exploration
@@ -106,6 +106,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:41Z'
   details: TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:31Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 63.71
 overallTrustGrade: B
 apexGateStatus:

@@ -7,7 +7,7 @@ genericSkillRef: distributed-neural-training
 status: named
 title: The Neural Conductor
 catalogRef: ruvnet-flow-nexus-neural
-level: 1★
+level: 2★
 description: Trains neural networks across distributed E2B sandbox clusters with support
   for feedforward, LSTM, GAN, autoencoder, and transformer architectures, federated
   learning, and a model marketplace.
@@ -56,6 +56,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:43Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:36Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 1★ to 2★ per G7 final rankings calibration.
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

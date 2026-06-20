@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "5.0.2",
-  "generatedAt": "2026-06-19T20:18:27.045352Z",
+  "generatedAt": "2026-06-20T07:25:55Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -97,52 +97,52 @@
     },
     "centroids": [
       [
-        -0.3078153858919522,
-        -0.3623053136838487,
-        0.05167976009856686,
-        0.15767951894829732
+        -0.30781538589195206,
+        -0.36230531368384755,
+        0.05167976009856861,
+        0.1576795189482963
       ],
       [
-        0.26597279992691375,
-        0.33959073555707653,
-        0.6269484582957382,
-        -0.049346431575137746
+        0.2659727999269139,
+        0.33959073555707947,
+        0.6269484582957354,
+        -0.04934643157513765
       ],
       [
-        -0.68051851311983,
-        0.262347178919643,
-        -0.0818426865462009,
-        -0.021559646043703834
+        -0.6805185131198292,
+        0.2623471789196421,
+        -0.08184268654620301,
+        -0.021559646043701915
       ],
       [
-        0.36165158318457236,
-        0.030885407904967084,
-        0.09334349116326088,
-        0.06598095859158618
+        0.3616515831845726,
+        0.030885407904967025,
+        0.09334349116326121,
+        0.06598095859158713
       ],
       [
-        -0.18587636420550321,
-        0.23144637434856435,
-        0.24717551966279774,
-        -0.09855209214596188
+        -0.18587636420550352,
+        0.23144637434856602,
+        0.2471755196627958,
+        -0.09855209214596183
       ],
       [
-        -0.027495509331432938,
-        0.07521478768533939,
-        -0.15361512911385025,
-        -0.19009158749345956
+        -0.02749550933143298,
+        0.07521478768533896,
+        -0.15361512911385086,
+        -0.19009158749346278
       ],
       [
-        0.3317405968196156,
-        -0.24343374843393964,
-        -0.44340265216366104,
-        -0.1940884131053197
+        0.3317405968196153,
+        -0.24343374843394133,
+        -0.44340265216365904,
+        -0.19408841310532
       ],
       [
-        0.26012679408911343,
-        0.43205545880674756,
-        -0.20957822785695637,
-        0.09175789679102599
+        0.26012679408911377,
+        0.4320554588067459,
+        -0.20957822785695823,
+        0.09175789679102644
       ]
     ]
   },
@@ -556,7 +556,7 @@
     {
       "id": "agent-memory-platform",
       "name": "Agent Memory Platform",
-      "type": "ultimate",
+      "type": "extra",
       "description": "Complete AgentDB vector memory ecosystem: QUIC-synchronized distributed vector storage, adaptive pattern learning, memory pattern design, database optimization, and semantic vector search.",
       "prerequisites": [
         "distributed-vector-memory",
@@ -571,7 +571,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-20",
       "version": "0.1.0",
       "timeline": [
         {
@@ -587,6 +587,12 @@
           "details": "Skill created as 5★ (provisional)",
           "previousValue": null,
           "newValue": "5★"
+        },
+        {
+          "timestamp": "2026-06-20T06:47:47Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Reclassified from ultimate to extra"
         }
       ]
     },
@@ -2936,16 +2942,19 @@
     {
       "id": "distributed-consensus-coordination",
       "name": "Hive Mind Coordination",
-      "type": "unique",
+      "type": "extra",
       "description": "Queen-led collective intelligence with Byzantine, majority, and weighted consensus mechanisms, eight worker specializations, and persistent collective SQLite memory with LRU caching.",
-      "prerequisites": [],
+      "prerequisites": [
+        "swarm-topology-management",
+        "worker-agent-dispatch"
+      ],
       "derivatives": [],
       "conditions": "Requires demonstrating queen-led multi-agent consensus across at least 3 specialized worker types.",
       "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-20",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2961,6 +2970,12 @@
           "action": "rename",
           "contributor": "unknown",
           "details": "Renamed from hive-mind-coordination to distributed-consensus-coordination"
+        },
+        {
+          "timestamp": "2026-06-20T06:35:20Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Reclassified from unique to extra"
         }
       ]
     },
@@ -3352,7 +3367,7 @@
     {
       "id": "engineering-discipline",
       "name": "mattpocock-engineering",
-      "type": "ultimate",
+      "type": "extra",
       "description": "Engineering category suite for Matt Pocock's skills.",
       "prerequisites": [
         "autonomous-debug",
@@ -3382,7 +3397,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-06-14",
+      "updatedAt": "2026-06-20",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3446,6 +3461,12 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Re-graded evidence from https://github.com/mattpocock/skills as B (trustNumber: 70.0)"
+        },
+        {
+          "timestamp": "2026-06-20T06:47:53Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Reclassified from ultimate to extra"
         }
       ]
     },
@@ -14454,6 +14475,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "swarm-topology-management",
+      "targetSkillId": "distributed-consensus-coordination",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "system-integration",
       "targetSkillId": "platform-modernization-sprint",
       "edgeType": "prerequisite"
@@ -14686,6 +14712,11 @@
     {
       "sourceSkillId": "web-search",
       "targetSkillId": "web-scrape",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "worker-agent-dispatch",
+      "targetSkillId": "distributed-consensus-coordination",
       "edgeType": "prerequisite"
     },
     {

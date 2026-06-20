@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: computational-biology-workflows
 status: awakened
-level: 3★
+level: 4★
 description: Analyzes genetic variant effects on gene expression (RNA-seq), chromatin
   accessibility (DNASE), histone marks (ChIP), and transcription factors using the
   AlphaGenome API. Use when the user asks about non-coding variant effects, pathogenicity,
@@ -68,6 +68,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T14:32:17Z'
   details: TM 100.82 -> 100.82, grade A -> A (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:24Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 3★ to 4★ per G7 final rankings calibration.
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

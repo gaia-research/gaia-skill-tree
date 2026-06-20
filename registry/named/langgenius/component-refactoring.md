@@ -5,7 +5,7 @@ contributor: langgenius
 origin: false
 genericSkillRef: refactor-code
 status: awakened
-level: 2★
+level: 1★
 description: Refactor high-complexity React components in Dify frontend.
 createdAt: '2026-05-31'
 updatedAt: '2026-06-04'
@@ -25,6 +25,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:40Z'
   details: TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:29Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 1★ per G7 final rankings calibration.
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:

@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: dispatching-parallel-agents
 status: named
 title: The Parallel Dispatch
-level: 4★
+level: 3★
 description: Delegates independent tasks to specialized agents with isolated context
   to work concurrently, dramatically reducing wall-clock time on multi-part problems.
 links:
@@ -74,6 +74,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:03Z'
   details: TM 36.0 -> 86.0, grade C -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:34Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Level updated from 4★ to 3★ per G7 final rankings calibration.
 trustMagnitude: 86.0
 overallTrustGrade: B
 apexGateStatus:

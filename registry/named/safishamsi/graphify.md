@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: knowledge-graph-build
 status: named
 title: The Structural Muse
-level: 1★
+level: 4★
 description: Maps codebases and documentation into a queryable knowledge graph using
   AST analysis and semantic extraction.
 links:
@@ -57,6 +57,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:45Z'
   details: TM 0.0 -> 116.57, grade ungraded -> A (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:38Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 1★ to 4★ per G7 final rankings calibration.
 trustMagnitude: 116.57
 overallTrustGrade: A
 apexGateStatus:
