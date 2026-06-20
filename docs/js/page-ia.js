@@ -324,6 +324,7 @@
             type: it.type,
             genericSkillRef: e.genericSkillRef,
             canonicalId: it.canonicalId,
+            trustMagnitude: e.trustMagnitude,
             onclick: '(function(){if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' +
               jsStr(e.id) + '\');})()',
           };
