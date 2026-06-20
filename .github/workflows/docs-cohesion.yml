@@ -205,20 +205,73 @@ jobs:
               });
             }
 
+      # ── Guard D — Nav mounts sync check ─────────────────────────────────
+      - name: Guard D — Nav mounts in sync
+        id: nav-mounts
+        run: |
+          set +e
+          OUTPUT=$(python scripts/check_nav_mounts.py 2>&1)
+          EXIT=$?
+          if [ $EXIT -ne 0 ]; then
+            echo "found=true" >> $GITHUB_OUTPUT
+            echo "hits<<EOF" >> $GITHUB_OUTPUT
+            echo "$OUTPUT" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Guard D — Comment on nav mounts drift
+        if: steps.nav-mounts.outputs.found == 'true' && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        env:
+          HITS_OUTPUT: ${{ steps.nav-mounts.outputs.hits }}
+        with:
+          script: |
+            const marker = '<!-- auto-fix-bot: nav-mounts -->';
+            const hits = process.env.HITS_OUTPUT;
+            const body = `${marker}\n## Nav/footer mounts out of sync\n\nA new \`docs/\` subdirectory uses \`site-nav.js\` or \`site-footer.js\` but is not listed in \`docs/js/mounts.js\`.\n\nAdd its name to \`window.GAIA_MOUNTS\` in that file, and ensure every HTML page in the directory loads \`mounts.js\` before \`site-nav.js\`.\n\n\`\`\`\n${hits}\n\`\`\``;
+
+            const comments = await github.rest.issues.listComments({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            const existing = comments.data.find(c => c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                comment_id: existing.id,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body,
+              });
+            }
+
       # ── Final Status ─────────────────────────────────────────────────────
       - name: Verify all cohesion guards passed
         run: |
           FAILED=false
           if [ "${{ steps.hardcoded-colors.outputs.found }}" = "true" ]; then
-            echo "❌ Guard A Failed: Hardcoded colors found."
+            echo "FAIL Guard A: Hardcoded colors found."
             FAILED=true
           fi
           if [ "${{ steps.banned-synonyms.outputs.found }}" = "true" ]; then
-            echo "❌ Guard B Failed: Banned synonyms found."
+            echo "FAIL Guard B: Banned synonyms found."
             FAILED=true
           fi
           if [ "${{ steps.unlabeled-sorts.outputs.found }}" = "true" ]; then
-            echo "❌ Guard C Failed: Unlabeled ascending sorts found."
+            echo "FAIL Guard C: Unlabeled ascending sorts found."
+            FAILED=true
+          fi
+          if [ "${{ steps.nav-mounts.outputs.found }}" = "true" ]; then
+            echo "FAIL Guard D: Nav mounts out of sync."
             FAILED=true
           fi
 
