@@ -2,6 +2,41 @@
 
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
+## State Snapshot (2026-06-22, session 16 — Epic #780 Architectural Modernization Kickoff)
+
+### TLDR
+
+- **Epic #780 is approved and execution begins.** Main integration branch is `dev/improve-codebase-architecture`.
+- **Created HTML Report & Handovers**: Interactive report is available at [EPIC780.html](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/reports/EPIC780.html). Handover playbooks for reverts, agent testing, and deprecation cleanups are seeded in `founder/handovers/`.
+- **Changesets WONTFIX**: Closed the Changesets portion of #783 as wontfix; the existing `versioning.py` logic keeping PyPI and npm versions in lockstep is simpler and sufficient. Moving forward with Taskfile adoption only.
+
+### Branch / PR Snapshot
+
+All work is branched off `dev/improve-codebase-architecture`. Squash merges are disabled. Frequent commits with `[skip-gen]` are enforced.
+
+| Branch | Issue | Focus | Status |
+|---|---|---|---|
+| `dev/780-cli-command-migration` | #NEW | Move dev commands under `gaia dev`, add deprecation shims, update CI yaml files | ⏳ Pending |
+| `dev/780-artifact-pipeline` | #781 | Untrack generated indices from Git, configure upload of built assets to GitHub Releases | ⏳ Pending |
+| `dev/780-skill-quality-gates` | #784 | Run skill schema validations and enforce body size limit (<= 800 lines) in CI gates | ⏳ Pending |
+| `dev/780-cli-dynamic-dispatch` | #782 | Refactor 4,078-line `main.py` into dynamic command autodiscovery using Command Protocol | ⏳ Pending |
+| `dev/780-polyglot-versioning` | #783 | Orchestrate monorepo tasks via Taskfile, add lockstep manifest verification in CI | ⏳ Pending |
+| `dev/780-mcp-abstraction` | #785 | Implement config merger utility, daemon process runner, and `gaia dev mcp` CLI subcommands | ⏳ Pending |
+
+### Routing — where things live now
+
+| Document / Tool | Path |
+|---|---|
+| Active Integration Branch | `dev/improve-codebase-architecture` |
+| Implementation Plan | [implementation_plan.md](file:///Users/marcotiongson/.gemini/antigravity-ide/brain/8634f4ce-4000-4565-b150-81fc921ae0ae/implementation_plan.md) |
+| Checklist Task List | [task.md](file:///Users/marcotiongson/.gemini/antigravity-ide/brain/8634f4ce-4000-4565-b150-81fc921ae0ae/task.md) |
+| Interactive HTML Report | [EPIC780.html](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/reports/EPIC780.html) |
+| Revert Playbook | [EPIC780_REVERT.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/handovers/EPIC780_REVERT.md) |
+| Agent Testing Guide | [EPIC780_AGENT_TESTING.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/handovers/EPIC780_AGENT_TESTING.md) |
+| Deprecation Shim Runbook | [EPIC780_DEPRECATION_CLEANUP.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/handovers/EPIC780_DEPRECATION_CLEANUP.md) |
+
+---
+
 ## State Snapshot (2026-06-20, session 15 epilogue — 5.0.0 shipped, /trust nav + MAG=0 fixed, Phase 1 fully closed)
 
 ### TLDR
