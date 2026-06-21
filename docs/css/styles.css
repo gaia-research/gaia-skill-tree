@@ -11089,18 +11089,18 @@ body[data-overall-grade="S"] .report-card {
   display: inline-block;
 }
 /* Legacy aliases */
-.ev-type-pill.type-repo          { background: rgba(56,189,248,.10); color: #38bdf8; border: 1px solid rgba(56,189,248,.2); }
-.ev-type-pill.type-github-stars  { background: rgba(245,158,11,.12); color: #f59e0b; border: 1px solid rgba(245,158,11,.25); }
+.ev-type-pill.type-repo          { background: rgba(56,189,248,.10); color: var(--tier-basic); border: 1px solid rgba(56,189,248,.2); }
+.ev-type-pill.type-github-stars  { background: rgba(245,158,11,.12); color: var(--tier-ultimate); border: 1px solid rgba(245,158,11,.25); }
 /* Canonical types */
-.ev-type-pill.type-fusion-recipe        { background: rgba(245,158,11,.15); color: #f59e0b; border: 1px solid rgba(245,158,11,.3); }
-.ev-type-pill.type-github-stars-own     { background: rgba(245,158,11,.12); color: #f59e0b; border: 1px solid rgba(245,158,11,.25); }
-.ev-type-pill.type-proxy-containment    { background: rgba(124,58,237,.12); color: #7c3aed; border: 1px solid rgba(124,58,237,.25); }
-.ev-type-pill.type-verifier-attestation { background: rgba(232,121,249,.12); color: #e879f9; border: 1px solid rgba(232,121,249,.25); }
-.ev-type-pill.type-benchmark-result     { background: rgba(192,132,252,.12); color: #c084fc; border: 1px solid rgba(192,132,252,.25); }
-.ev-type-pill.type-arxiv                { background: rgba(192,132,252,.12); color: #c084fc; border: 1px solid rgba(192,132,252,.25); }
-.ev-type-pill.type-peer-review          { background: rgba(56,189,248,.12);  color: #38bdf8; border: 1px solid rgba(56,189,248,.25); }
-.ev-type-pill.type-repo-own             { background: rgba(56,189,248,.10);  color: #38bdf8; border: 1px solid rgba(56,189,248,.2); }
-.ev-type-pill.type-self-attestation     { background: rgba(100,116,139,.12); color: #94a3b8; border: 1px solid rgba(100,116,139,.25); }
+.ev-type-pill.type-fusion-recipe        { background: rgba(245,158,11,.15); color: var(--tier-ultimate); border: 1px solid rgba(245,158,11,.3); }
+.ev-type-pill.type-github-stars-own     { background: rgba(245,158,11,.12); color: var(--tier-ultimate); border: 1px solid rgba(245,158,11,.25); }
+.ev-type-pill.type-proxy-containment    { background: rgba(124,58,237,.12); color: var(--tier-unique); border: 1px solid rgba(124,58,237,.25); }
+.ev-type-pill.type-verifier-attestation { background: rgba(232,121,249,.12); color: var(--rank-4); border: 1px solid rgba(232,121,249,.25); }
+.ev-type-pill.type-benchmark-result     { background: rgba(192,132,252,.12); color: var(--tier-extra); border: 1px solid rgba(192,132,252,.25); }
+.ev-type-pill.type-arxiv                { background: rgba(192,132,252,.12); color: var(--tier-extra); border: 1px solid rgba(192,132,252,.25); }
+.ev-type-pill.type-peer-review          { background: rgba(56,189,248,.12);  color: var(--tier-basic); border: 1px solid rgba(56,189,248,.25); }
+.ev-type-pill.type-repo-own             { background: rgba(56,189,248,.10);  color: var(--tier-basic); border: 1px solid rgba(56,189,248,.2); }
+.ev-type-pill.type-self-attestation     { background: rgba(100,116,139,.12); color: var(--rank-0); border: 1px solid rgba(100,116,139,.25); }
 .ev-type-pill.type-social-signal        { background: rgba(52,211,153,.12);  color: #34d399; border: 1px solid rgba(52,211,153,.25); }
 
 /* ── Per-skill modal evidence cards — mosaic layout ──
@@ -11216,7 +11216,7 @@ body[data-overall-grade="S"] .report-card {
   border: 1px solid rgba(52,211,153,0.2);
 }
 .se-ev-freshness--stale {
-  color: #f59e0b;
+  color: var(--tier-ultimate);
   background: rgba(245,158,11,0.08);
   border: 1px solid rgba(245,158,11,0.2);
 }

@@ -1270,6 +1270,11 @@ def meta_evidence_command(args):
             new_row_grade = derive_row_grade(artifact_score, row_type, per_row_thresholds, ceiling)
             if new_row_grade is not None:
                 entry["grade"] = new_row_grade
+            elif artifact_score == 0.0 and derived_grade is not None:
+                # No magnitude drivers (e.g. arxiv with no citations) — fall back
+                # to the trustNumber-derived aggregate grade so an explicit --trust
+                # value is still reflected in the entry.
+                entry["grade"] = derived_grade
             else:
                 entry.pop("grade", None)
         elif trust_number is not None:

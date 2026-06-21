@@ -483,24 +483,14 @@ def _rawMagnitudeForType(
         return 10.0
 
     if evidenceType == "social-signal":
-        # RFC §2.10: log10(views) × 8 × creator_mult × engagement_ratio
+        # RFC §2.10: raw base = log10(views) × 8.
+        # creator_mult and engagement_ratio are applied by the caller
+        # (computeArtifactScoreOrNone / TM inspect path) so they must NOT
+        # be baked in here — doing so would double-apply them.
         views = float(row.get("views", 0) or 0)
         if views < 1000:
             return 0.0
-        creatorMult = float(row.get("creatorMultiplier", 1.0))
-        if "engagementRatio" in row:
-            engagementRatio = float(row["engagementRatio"])
-        elif "likes" in row or "comments" in row:
-            rawViews = float(row.get("views", 0) or 0)
-            if rawViews > 0:
-                rawLikes = float(row.get("likes", 0) or 0)
-                rawComments = float(row.get("comments", 0) or 0)
-                engagementRatio = min(1.5, (rawLikes + rawComments * 5.0) / rawViews * 50.0)
-            else:
-                engagementRatio = 1.0
-        else:
-            engagementRatio = 1.0
-        return math.log10(views) * 8.0 * creatorMult * engagementRatio
+        return math.log10(views) * 8.0
 
     return 0.0
 

@@ -3641,7 +3641,7 @@ def get_parser():
         "--trust",
         type=float,
         metavar="NUMBER",
-        help="Trust number 0-100. Grade is auto-derived: S≥90, A≥80, B≥60, C≥40; <40=ungraded.",
+        help="Trust Magnitude value. Grade is auto-derived: S≥250, A≥100, B≥50, C≥20; <20=ungraded.",
     )
     dev_evidence.add_argument(
         "--class",
