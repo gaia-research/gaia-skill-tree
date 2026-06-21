@@ -415,7 +415,7 @@ nav.docs-nav .nav-logo > span {
    site-nav.
    ========================================================================== */
 body:has(> nav#site-nav) {
-  padding-top: 54px;
+  padding-top: 0;
 }
 body:has(> nav#site-nav) nav.docs-nav {
   display: none !important;
@@ -1111,13 +1111,14 @@ nav.docs-nav:hover .nav-sep {
   align-items: center;
   justify-content: flex-start;
   padding: 0.75rem clamp(1.25rem, 4vw, 2.5rem);
-  margin-top: 0;
+  margin-top: -54px;
   margin-bottom: 0;
   position: relative;
   z-index: 10;
   min-height: 2.75rem;
   max-width: 100%;
   width: 100%;
+  padding-top: calc(0.75rem + 54px);
 }
 
 .profile-back {
@@ -1526,7 +1527,9 @@ section[class*="frontis"],
 @media (max-width: 700px) {
   .profile-back-row {
     padding: 0.5rem clamp(0.75rem, 3vw, 1.5rem);
+    padding-top: calc(0.5rem + 54px);
     min-height: 2.5rem;
+    margin-top: -54px;
   }
 
   .profile-back {
@@ -1565,7 +1568,9 @@ section[class*="frontis"],
 @media (max-width: 500px) {
   .profile-back-row {
     padding: 0.4rem clamp(0.5rem, 2vw, 0.75rem);
+    padding-top: calc(0.4rem + 54px);
     min-height: 2.25rem;
+    margin-top: -54px;
   }
 
   .profile-back {
