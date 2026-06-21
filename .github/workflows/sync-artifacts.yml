@@ -84,8 +84,8 @@ jobs:
           # 2. Apply version bump and regenerate artifacts via CLI
           # We use --no-push because gaia release uses GITHUB_TOKEN by default,
           # which won't trigger the Release workflow on tag push.
-          gaia release "$BUMP" --sync --no-push
-          gaia docs build
+          gaia dev release "$BUMP" --sync --no-push
+          gaia dev docs
 
       - name: Commit and Push Changes
         run: |
