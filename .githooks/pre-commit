@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
 # Local pre-commit hooks are now handled by CI Auto-Sync.
 # See .github/workflows/sync-artifacts.yml
+
+# Verify skill quality gates before committing
+if [ -f scripts/validate_skills.py ] && command -v python3 &>/dev/null; then
+  python3 scripts/validate_skills.py || exit 1
+fi
+
 exit 0
