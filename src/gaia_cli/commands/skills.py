@@ -55,7 +55,7 @@ class SkillsCommand(Command):
         skills_uninstall.add_argument("skill_id", help="Skill ID to uninstall")
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import skills_command
+        from gaia_cli.main import skills_command
         if not getattr(args, "skills_command", None):
             try:
                 from gaia_cli.tui import GaiaApp

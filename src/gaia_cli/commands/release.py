@@ -19,7 +19,12 @@ class ReleaseCommand(Command):
         )
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import release_command
+        import sys
+        print(
+            "WARNING: 'gaia release' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev release' instead.",
+            file=sys.stderr,
+        )
+        from gaia_cli.main import release_command
         release_command(args)
         return 0
 

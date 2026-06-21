@@ -21,7 +21,7 @@ class ScanCommand(Command):
         )
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import scan_command
+        from gaia_cli.main import scan_command
         scan_command(args)
         return 0
 

@@ -14,7 +14,7 @@ class AppraiseCommand(Command):
         )
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import appraise_command
+        from gaia_cli.main import appraise_command
         appraise_command(args)
         return 0
 
@@ -39,7 +39,7 @@ class PromoteCommand(Command):
         )
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import promote_command
+        from gaia_cli.main import promote_command
         promote_command(args)
         return 0
 
@@ -60,7 +60,7 @@ class FuseCommand(Command):
         )
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import fuse_command
+        from gaia_cli.main import fuse_command
         try:
             fuse_command(args)
         except Exception:

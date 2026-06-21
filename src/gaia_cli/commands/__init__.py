@@ -14,7 +14,11 @@ def discover_commands() -> Dict[str, Command]:
             continue
         try:
             module = importlib.import_module(f"gaia_cli.commands.{module_name}")
-            if hasattr(module, "COMMAND"):
+            if hasattr(module, "COMMANDS"):
+                for cmd in getattr(module, "COMMANDS"):
+                    if isinstance(cmd, Command):
+                        commands[cmd.name] = cmd
+            elif hasattr(module, "COMMAND"):
                 cmd = getattr(module, "COMMAND")
                 if isinstance(cmd, Command):
                     commands[cmd.name] = cmd
