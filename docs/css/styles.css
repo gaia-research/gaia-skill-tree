@@ -1544,8 +1544,10 @@ section[class*="frontis"],
   .page-hero,
   .ab-frontis,
   .ev-hero,
-  .lb-hero {
+  .lb-hero,
+  .process-hero {
     padding-top: 1rem !important;
+    min-height: auto !important;
   }
 
   #hero.hero-graph-fullscreen {
@@ -1585,8 +1587,10 @@ section[class*="frontis"],
   .page-hero,
   .ab-frontis,
   .ev-hero,
-  .lb-hero {
+  .lb-hero,
+  .process-hero {
     padding-top: 0.75rem !important;
+    min-height: auto !important;
   }
 }
 
@@ -2640,13 +2644,13 @@ tr:hover td {
 }
 
 .process-hero {
-  min-height: 70vh;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   max-width: 1000px;
-  padding-top: 2rem;
-  padding-bottom: 3rem;
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
 }
 
 .process-kicker {
