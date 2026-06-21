@@ -1170,7 +1170,7 @@ main {
 .named-hero,
 .profile-hero,
 .page-hero {
-  padding: 1.5rem 0 clamp(2rem, 4vw, 3.5rem);
+  padding: 1.5rem 0 0.75rem;
   margin-bottom: 0;
   margin-top: 0;
 }
@@ -1183,7 +1183,7 @@ main {
 
 .directory-controls {
   margin-top: 0 !important;
-  margin-bottom: 1.5rem !important;
+  margin-bottom: 1rem !important;
 }
 
 /* ── HERO ── */
@@ -1561,12 +1561,13 @@ section[class*="frontis"],
   .lb-hero,
   .process-hero {
     padding-top: 1rem !important;
+    padding-bottom: 0.5rem !important;
     min-height: auto !important;
   }
 
   .directory-controls {
     margin-top: 0 !important;
-    margin-bottom: 1rem !important;
+    margin-bottom: 0.75rem !important;
   }
 
   #hero.hero-graph-fullscreen {
@@ -1611,12 +1612,13 @@ section[class*="frontis"],
   .lb-hero,
   .process-hero {
     padding-top: 0.75rem !important;
+    padding-bottom: 0.35rem !important;
     min-height: auto !important;
   }
 
   .directory-controls {
     margin-top: 0 !important;
-    margin-bottom: 0.75rem !important;
+    margin-bottom: 0.5rem !important;
   }
 }
 
