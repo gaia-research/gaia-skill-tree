@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>window.GAIA_VERSION = "4.9.5";</script>
+  <script>window.GAIA_VERSION = "5.0.7";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -12,8 +12,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="../css/styles.css?v=4.9.5">
-  <script src="../js/icons.js?v=4.9.5"></script>
+  <link rel="stylesheet" href="../css/styles.css?v=5.0.7">
+  <script src="../js/icons.js?v=5.0.7"></script>
   <style>
     /* ── Trust Methodology page — minimal additions on top of process-page tokens ── */
     .tm-formula-block {
@@ -307,8 +307,8 @@
 <body class="process-page">
 
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=5.0.4"></script>
-  <script src="../js/site-nav.js?v=4.9.5"></script>
+  <script src="../js/mounts.js?v=5.0.7"></script>
+  <script src="../js/site-nav.js?v=5.0.7"></script>
 
   <main style="padding: 0 2rem; max-width: 1060px; margin: 0 auto;">
 
@@ -339,7 +339,8 @@
     <div class="codex-toc" role="navigation" aria-label="Page contents">
       <p class="codex-toc__title">On this page</p>
       <ol class="codex-toc__list">
-        <li><a href="#trust-magnitude">Trust Magnitude formula</a></li>
+        <li><a href="#quick-math"><strong>Quick Math Reference</strong> — start here</a></li>
+        <li><a href="#trust-magnitude">Trust Magnitude formula (full)</a></li>
         <li><a href="#evidence-types">Evidence types table</a></li>
         <li><a href="#inheritance-contract">Evidence Inheritance — Generic and Named Layers</a></li>
         <li><a href="#grade-thresholds">Overall Trust Grade thresholds</a></li>
@@ -349,6 +350,118 @@
         <li><a href="#gameability">Gameability vectors closed</a></li>
       </ol>
     </div>
+
+    <!-- ─── QUICK MATH REFERENCE ─── -->
+    <section class="process-section" id="quick-math">
+      <h2>Quick Math Reference</h2>
+      <p class="section-sub">
+        One-page, no-prose math card. Every number on every Evidence card and plaque is
+        produced by these formulas and these formulas alone. If a row's math doesn't
+        match, the row is wrong — not the math.
+      </p>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin: 1.5rem 0 0.5rem;">1 · Per-row score (every Evidence row)</h3>
+      <div class="tm-formula-block">
+<span class="fm-key">artifact_score</span>(row) = <span class="fm-val">base</span>           <span class="fm-comment"># §2 type table — magnitude formula</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="fm-val">cap</span>            <span class="fm-comment"># min(base, type_cap)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="fm-val">weight</span>         <span class="fm-comment"># §2 type table — multiplier 0.5 .. 1.5</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="fm-val">freshness</span>      <span class="fm-comment"># max(0, 1 − decay_per_year × age_years), or 1 if no decay</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="fm-val">creator_mult</span>   <span class="fm-comment"># social-signal only; else 1</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="fm-val">engagement</span>     <span class="fm-comment"># social-signal only; else 1</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="fm-val">inherit_mult</span>   <span class="fm-comment"># 1 for own-layer rows; §2.14 discount for inherited rows</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;× <span class="fm-val">plateau</span>        <span class="fm-comment"># 1.0 for the highest-scoring row of this type, then 0.5/0.25/…</span>
+      </div>
+      <p style="font-size: 0.86rem; color: var(--muted); margin-top: 0.5rem;">
+        This is what the <strong style="color: var(--text);">MAG</strong> bar on every Evidence card displays
+        (pre-plateau approximation — the plateau factor is applied only when summing).
+      </p>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin: 1.75rem 0 0.5rem;">2 · Skill aggregate (Trust Magnitude)</h3>
+      <div class="tm-formula-block">
+<span class="fm-key">TM</span>(skill) = <span class="fm-val">Σ artifact_score(row)</span>  <span class="fm-comment"># over all rows in effective_pool, after §3.2 dedup</span><br>
+<br>
+<span class="fm-comment"># effective_pool = own rows ∪ inherited rows, deduped by source URL</span><br>
+<span class="fm-comment"># See §2.14 for inheritance, §3.2 for dedup</span>
+      </div>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin: 1.75rem 0 0.5rem;">3 · Per-row Grade (S / A / B / C)</h3>
+      <div class="tm-formula-block">
+<span class="fm-key">row.grade</span> = max <span class="fm-val">G</span> in {S,A,B,C} where <span class="fm-val">artifact_score(row)</span> ≥ <span class="fm-val">floor(type, G)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clamped to <span class="fm-val">type.ceiling</span>  <span class="fm-comment"># floors and ceilings in §3 table</span>
+      </div>
+      <p style="font-size: 0.86rem; color: var(--muted); margin-top: 0.5rem;">
+        Floors are calibrated per type so an S row corresponds to top-tier evidence in that
+        type's natural distribution. Ceilings prevent self-producible types (repo-own, self-attestation)
+        from ever reaching S alone.
+      </p>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin: 1.75rem 0 0.5rem;">4 · Overall Skill Grade</h3>
+      <div class="tm-formula-block">
+<span class="fm-key">skill.grade</span> = <span class="fm-val">S</span> if TM ≥ 250 AND <span class="fm-val">diversity_gate</span>(skill)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fm-val">A</span> if TM ≥ 100<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fm-val">B</span> if TM ≥ 50<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fm-val">C</span> if TM ≥ 20<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fm-val">ungraded</span>  otherwise<br>
+<br>
+<span class="fm-key">diversity_gate</span>(skill) = ALL of:<br>
+&nbsp;&nbsp;<span class="fm-comment">• ≥ 3 distinct evidence types</span><br>
+&nbsp;&nbsp;<span class="fm-comment">• ≥ 1 S-tier row OR ≥ 3 A-tier rows of distinct types</span><br>
+&nbsp;&nbsp;<span class="fm-comment">• ≥ 1 type from {benchmark-result, verifier-attestation, peer-review, proxy-containment}</span>
+      </div>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin: 1.75rem 0 0.5rem;">5 · The 10 evidence types — base formula at a glance</h3>
+      <div style="overflow-x: auto;">
+        <table class="tm-table" aria-label="Quick math: per-type base formula">
+          <thead><tr><th>Type</th><th>base formula</th><th>weight</th><th>cap</th><th>ceiling</th></tr></thead>
+          <tbody>
+            <tr><td><code>fusion-recipe</code></td><td>20·N (N≤10) or 200+20·√(N−10) (N&gt;10)<br><span style="opacity:.7;font-size:.7rem;">N = origins graded ≥ C</span></td><td>1.5</td><td>—</td><td>S</td></tr>
+            <tr><td><code>github-stars-own</code></td><td>min(200, stars/1000) ÷ min(skillCountInRepo, 4)</td><td>1.0</td><td>200</td><td>S</td></tr>
+            <tr><td><code>proxy-containment</code></td><td>(externalStars/1000) × 0.8  <span style="opacity:.7;font-size:.7rem;">(min 10000)</span></td><td>1.0</td><td>160</td><td>S</td></tr>
+            <tr><td><code>verifier-attestation</code></td><td>30 × verifiers</td><td>1.5</td><td>—</td><td>S</td></tr>
+            <tr><td><code>benchmark-result</code></td><td>percentile (0–100)</td><td>1.4</td><td>100</td><td>S</td></tr>
+            <tr><td><code>arxiv</code></td><td>citations / 5</td><td>1.0</td><td>100</td><td>S</td></tr>
+            <tr><td><code>peer-review</code></td><td>25 × reviewers</td><td>1.2</td><td>—</td><td>S</td></tr>
+            <tr><td><code>repo-own</code></td><td>(commits/200) + (contributors² × 2)</td><td>0.6</td><td>60</td><td>B</td></tr>
+            <tr><td><code>self-attestation</code></td><td>flat 10</td><td>0.5</td><td>10</td><td>C</td></tr>
+            <tr><td><code>social-signal</code></td><td>log₁₀(views) × 8 × creator_mult × engagement</td><td>1.0</td><td>80</td><td>A</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin: 1.75rem 0 0.5rem;">6 · Worked numbers from real 5★ skills</h3>
+      <p style="font-size: 0.86rem; color: var(--muted); margin-bottom: 0.5rem;">
+        These match <code>scripts/inspectTrustMagnitude.py</code> exactly. If a frontend
+        card disagrees, the frontend is wrong — file an issue, do not edit data.
+      </p>
+      <div style="overflow-x: auto;">
+        <table class="tm-table" aria-label="Worked examples for 5-star skills">
+          <thead><tr><th>Skill</th><th>Row</th><th>Inputs</th><th>base</th><th>× weight</th><th>= MAG</th></tr></thead>
+          <tbody>
+            <tr><td rowspan="4"><code>garrytan/gstack</code><br>TM 589.3 → S</td><td><code>repo-own</code></td><td>commits=323, contrib=9</td><td>(323/200)+(9²×2)=163.6 → cap 60</td><td>×0.6</td><td><strong>36.0</strong></td></tr>
+            <tr><td><code>github-stars-own</code></td><td>stars=110930, skills=46</td><td>min(200,110.93)÷min(46,4)=27.73</td><td>×1.0</td><td><strong>27.7</strong></td></tr>
+            <tr><td><code>social-signal</code></td><td>views=500000</td><td>log₁₀(500000)×8=45.59</td><td>×1.0</td><td><strong>45.6</strong></td></tr>
+            <tr><td><code>fusion-recipe</code></td><td>N=46 origins ≥C</td><td>200+20·√(46−10)=320.0</td><td>×1.5</td><td><strong>480.0</strong></td></tr>
+
+            <tr><td rowspan="5"><code>ruvnet/ruflo</code><br>TM 482.3 → S</td><td><code>repo-own</code></td><td>commits=6899, contrib=32</td><td>(6899/200)+(32²×2)=2082.5 → cap 60</td><td>×0.6</td><td><strong>36.0</strong></td></tr>
+            <tr><td><code>github-stars-own</code></td><td>stars=59957, skills=4</td><td>min(200,59.96)÷min(4,4)=14.99</td><td>×1.0</td><td><strong>14.99</strong></td></tr>
+            <tr><td><code>arxiv</code></td><td>citations=20</td><td>20/5=4.0</td><td>×1.0</td><td><strong>4.0</strong></td></tr>
+            <tr><td><code>social-signal</code></td><td>views=null</td><td>(no driver — 0)</td><td>—</td><td><strong>0</strong></td></tr>
+            <tr><td><code>fusion-recipe</code></td><td>N=27 graded (47 raw)</td><td>200+20·√(27.4−10)≈283.4</td><td>×1.5</td><td><strong>425.1</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--muted); margin-top: 0.75rem;">
+        <strong style="color: var(--text);">If you change a formula, you must update — in this exact order:</strong>
+        <code>docs/js/tm-config.js</code> (frontend SoT) →
+        <code>src/gaia_cli/trustMagnitude.py</code> (backend) →
+        this page →
+        <code>registry/schema/meta.json</code> (perRowGradeThresholds, gradeCeiling) →
+        <code>tests/test_row_grading.py</code> + <code>tests/test_calibrate_evidence_grades.py</code> →
+        <code>python scripts/build_docs.py</code>.
+        Then run <code>gaia dev calibrate-evidence-grades --yes</code> to refresh stored grades.
+      </p>
+    </section>
 
     <!-- ─── §1 TRUST MAGNITUDE FORMULA ─── -->
     <section class="process-section" id="trust-magnitude">
@@ -410,34 +523,34 @@
           <tbody>
             <tr>
               <td><code>github-stars-own</code></td>
-              <td>log₂(stars + 1) × 18</td>
+              <td>min(200, stars / 1000) ÷ min(skillCountInRepo, 4)</td>
               <td>1.0</td>
               <td>200</td>
               <td>—  (1 row max)</td>
-              <td>None</td>
+              <td>Refresh quarterly</td>
               <td>Public adoption of the contributor's own repo implementing the skill.</td>
             </tr>
             <tr>
               <td><code>proxy-containment</code></td>
-              <td>log₂(containingRepoStars + 1) × 18</td>
+              <td>(containingRepoStars / 1000) × 0.8</td>
               <td>1.0</td>
               <td>160</td>
               <td>—  (1 row max; requires verifiable dep link)</td>
-              <td>None</td>
+              <td>Quarterly</td>
               <td>The skill appears as a verifiable dependency in a widely-starred third-party repo — proxied adoption signal.</td>
             </tr>
             <tr>
               <td><code>verifier-attestation</code></td>
-              <td>30 × N (N = number of attesting verifiers)</td>
+              <td>30 × N (N = number of attesting 4★+ verifiers)</td>
               <td>1.5</td>
               <td>30 × N total</td>
               <td>1.0 / 0.85 / 0.7 — max 5 attestations</td>
-              <td>None</td>
+              <td>Null on derank</td>
               <td>A 4★+ Verifier has confirmed the skill demonstration is real and reproducible.</td>
             </tr>
             <tr>
               <td><code>benchmark-result</code></td>
-              <td>normalised score × 100</td>
+              <td>percentile (0–100)</td>
               <td>1.4</td>
               <td>100</td>
               <td>—  (1 row max)</td>
@@ -446,7 +559,7 @@
             </tr>
             <tr>
               <td><code>arxiv</code></td>
-              <td>min(citationCount, 400) / 4</td>
+              <td>citations / 5</td>
               <td>1.0</td>
               <td>100</td>
               <td>1.0 / 0.5 / 0.25 / 0.125 — max 4 papers</td>
@@ -474,7 +587,7 @@
             <tr>
               <td><code>self-attestation</code></td>
               <td>flat 10</td>
-              <td>0.4</td>
+              <td>0.5</td>
               <td>10</td>
               <td>—  (max 1 entry ever)</td>
               <td>None</td>
@@ -482,28 +595,28 @@
             </tr>
             <tr>
               <td><code>social-signal</code></td>
-              <td>per-row: log₂(engagements + 1) × 12, cap 60</td>
-              <td>0.6</td>
-              <td>60 per row · 80 total</td>
+              <td>log₁₀(views) × 8 × creator_mult × engagement_ratio</td>
+              <td>1.0</td>
+              <td>80</td>
               <td>1.0 / 0.5 / 0.25 — max 3 rows</td>
-              <td>None</td>
-              <td>Public social engagement (blog posts, talks, threads) citing the skill demonstration.</td>
+              <td>50%/yr</td>
+              <td>Public social engagement (blog posts, talks, threads) citing the skill demonstration. Views floor 1 000; creator and engagement multipliers applied.</td>
             </tr>
             <tr>
               <td><code>fusion-recipe</code></td>
-              <td>15 × origins + 5 × √origins <em>(when origins ≥ C)</em></td>
-              <td>1.4</td>
+              <td>20 × N <em>(N ≤ 10)</em> &nbsp;|&nbsp; 200 + 20 × √(N−10) <em>(N &gt; 10)</em></td>
+              <td>1.5</td>
               <td>—</td>
               <td>—  (1 per skill; role='origin' only)</td>
               <td>None</td>
-              <td>The number of role='origin' fusion components, weighted to reward broad composition depth. Only valid when the skill has <code>role='origin'</code>.</td>
+              <td>N = graded ≥C origin skills in the fusion tree. Sqrt-softened past 10 to prevent large fusions dominating the aggregate. Suite role='variant' components do not score.</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <p style="font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem;">
-        <em>C</em> in the fusion-recipe formula is the minimum origin count threshold configured in <code>meta.json</code> (default 3). Origins below <em>C</em> use the flat 15 × origins term only.
+        N counts only <code>role='origin'</code> components graded ≥C. A 20-origin skill scores 200 + 20×√10 ≈ 263 × 1.5; a 10-origin skill scores 200 × 1.5 = 300. The sqrt-softening prevents pathological 35-component fusions from running away with the leaderboard.
       </p>
     </section>
 
@@ -626,7 +739,7 @@
         The discount reflects that a capability claim (for example, an arxiv paper describing a generic
         algorithm) projects less cleanly onto a specific named implementation. A lower multiplier signals
         that the evidence type binds less tightly to individual Named Skills. <code>benchmark-result</code>
-        carries the lowest multiplier (0.15) because it already carries the highest artifact weight (1.4)
+        carries the lowest multiplier (0.15) because it already carries a high artifact weight (1.4)
         in the scoring formula — allowing full inheritance would disproportionately amplify benchmark rows
         that were published against the generic capability rather than the specific named implementation.
       </p>
@@ -723,6 +836,34 @@
           Grade A ≠ Class A.
         </p>
       </div>
+
+      <h3 style="margin-top: 1.75rem; font-size: 1rem; font-weight: 600; letter-spacing: 0.03em; color: var(--text);">Per-Evidence Row Grade Thresholds</h3>
+      <p class="section-sub" style="margin-bottom: 0.75rem;">Each evidence type has its own <code>artifact_score</code> floor for each grade. Grades above a type's ceiling are not achievable — the ceiling is a hard cap, not a rounding rule.</p>
+      <table class="tm-table" aria-label="Per-row grade thresholds by evidence type" style="font-size: 0.82rem;">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th><span class="grade-pill grade-s">S</span> floor</th>
+            <th><span class="grade-pill grade-a">A</span> floor</th>
+            <th><span class="grade-pill grade-b">B</span> floor</th>
+            <th><span class="grade-pill grade-c">C</span> floor</th>
+            <th>Ceiling</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>fusion-recipe</code></td><td>200</td><td>120</td><td>60</td><td>30</td><td><span class="grade-pill grade-s">S</span></td></tr>
+          <tr><td><code>github-stars-own</code></td><td>88</td><td>60</td><td>35</td><td>20</td><td><span class="grade-pill grade-s">S</span></td></tr>
+          <tr><td><code>proxy-containment</code></td><td>112</td><td>64</td><td>32</td><td>16</td><td><span class="grade-pill grade-s">S</span></td></tr>
+          <tr><td><code>verifier-attestation</code></td><td>90</td><td>54</td><td>27</td><td>14</td><td><span class="grade-pill grade-s">S</span></td></tr>
+          <tr><td><code>benchmark-result</code></td><td>90</td><td>70</td><td>40</td><td>20</td><td><span class="grade-pill grade-s">S</span></td></tr>
+          <tr><td><code>arxiv</code></td><td>95</td><td>70</td><td>40</td><td>15</td><td><span class="grade-pill grade-s">S</span></td></tr>
+          <tr><td><code>peer-review</code></td><td>88</td><td>60</td><td>35</td><td>14</td><td><span class="grade-pill grade-s">S</span></td></tr>
+          <tr><td><code>social-signal</code></td><td>—</td><td>60</td><td>28</td><td>12</td><td><span class="grade-pill grade-a">A</span></td></tr>
+          <tr><td><code>repo-own</code></td><td>—</td><td>—</td><td>22</td><td>9</td><td><span class="grade-pill grade-b">B</span></td></tr>
+          <tr><td><code>self-attestation</code></td><td>—</td><td>—</td><td>—</td><td>4</td><td><span class="grade-pill grade-c">C</span></td></tr>
+        </tbody>
+      </table>
+      <p style="font-size: 0.78rem; color: var(--muted); margin-top: 0.5rem;">Floors are against <code>artifact_score</code> (magnitude × weight × freshness × multipliers). A "—" means that grade is not achievable for this type regardless of score.</p>
     </section>
 
     <!-- ─── §4 SUITE VS FUSION ─── -->
@@ -987,11 +1128,11 @@
             </tr>
             <tr>
               <td><code>fusion-recipe</code></td>
-              <td>4 role='origin' components</td>
-              <td>15 × 4 = 60</td>
-              <td>1.4</td>
+              <td>4 role='origin' components (graded ≥C)</td>
+              <td>20 × 4 = 80</td>
+              <td>1.5</td>
               <td>1.0</td>
-              <td>84</td>
+              <td>120</td>
               <td><span class="grade-pill grade-a">A</span></td>
             </tr>
             <tr>
@@ -1007,10 +1148,10 @@
               <td><code>social-signal</code></td>
               <td>3 high-engagement posts</td>
               <td>~55 per row</td>
-              <td>0.6</td>
+              <td>1.0</td>
               <td>1.0 / 0.5 / 0.25</td>
-              <td>≈ 49.5</td>
-              <td><span class="grade-pill grade-b">B</span></td>
+              <td>≈ 96</td>
+              <td><span class="grade-pill grade-a">A</span></td>
             </tr>
             <tr>
               <td><code>verifier-attestation</code></td>
@@ -1185,7 +1326,7 @@
 
   <!-- ─── FOOTER ─── -->
   <div id="site-footer-mount"></div>
-  <script src="../js/site-footer.js?v=4.9.5"></script>
+  <script src="../js/site-footer.js?v=5.0.7"></script>
 
   <!-- ─── SCROLL TO TOP ─── -->
   <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
@@ -1193,9 +1334,9 @@
   </button>
 
   <!-- ─── SCRIPTS ─── -->
-  <script src="../js/atlas-helpers.js?v=4.9.5"></script>
-  <script src="../js/ui.js?v=4.9.5"></script>
-  <script src="../js/page-ia.js?v=4.9.5"></script>
+  <script src="../js/atlas-helpers.js?v=5.0.7"></script>
+  <script src="../js/ui.js?v=5.0.7"></script>
+  <script src="../js/page-ia.js?v=5.0.7"></script>
 
 </body>
 </html>

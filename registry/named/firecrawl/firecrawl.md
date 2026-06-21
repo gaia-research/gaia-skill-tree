@@ -18,7 +18,7 @@ tags:
 - extraction
 - crawler
 createdAt: '2026-05-17'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 timeline:
 - timestamp: '2026-06-02T23:33:01Z'
   action: demote

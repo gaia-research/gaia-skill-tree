@@ -10,7 +10,7 @@ description: Query Open Targets Platform for target-disease associations, drug t
   discovery, tractability/safety data, genetics/omics evidence, known drugs, for therapeutic
   target identification.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md
 evidence:
@@ -22,15 +22,15 @@ evidence:
     (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://academic.oup.com/nar/article/53/D1/D1467/7917960
   evaluator: unknown
   date: '2026-06-20'
   type: peer-review
   trustNumber: 85.0
-  grade: A
+  grade: S
   notes: Open Targets Platform 2025 — NAR; drug target identification and prioritization
     platform
   reviewers: 3

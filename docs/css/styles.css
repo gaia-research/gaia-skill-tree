@@ -408,6 +408,179 @@ nav.docs-nav .nav-logo > span {
   will-change: transform, filter;
 }
 
+/* ============================================================================
+   docs/en pages — the legacy in-page <nav class="docs-nav"> element is
+   now redundant: site-nav.js renders breadcrumbs inline next to the Gaia
+   logo. Hide the old element entirely; the body padding clears the fixed
+   site-nav.
+   ========================================================================== */
+body:has(> nav#site-nav) {
+  padding-top: 0;
+}
+body:has(> nav#site-nav) nav.docs-nav {
+  display: none !important;
+}
+
+/* ============================================================================
+   Site-nav left cluster — logo + (optional) breadcrumb sit together.
+   ========================================================================== */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  min-width: 0;            /* allow breadcrumb to truncate, not push the layout */
+}
+
+/* Breadcrumb: inline strip directly after .nav-logo. Only emitted on /en/*. */
+.nav-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  min-width: 0;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: .82rem;
+  letter-spacing: .02em;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.nav-breadcrumb-sep {
+  color: var(--muted);
+  opacity: .55;
+}
+
+.nav-breadcrumb-link {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .15s;
+}
+.nav-breadcrumb-link:hover,
+.nav-breadcrumb-link:focus-visible {
+  color: var(--text);
+  outline: none;
+}
+.nav-breadcrumb-link[aria-current="page"] {
+  color: var(--tier-basic);
+}
+
+.nav-breadcrumb-current {
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+@media (max-width: 700px) {
+  .nav-breadcrumb {
+    font-size: .72rem;
+    gap: .35rem;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .nav-breadcrumb-current {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  .nav-left {
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+    margin-right: .5rem;
+  }
+  .nav-menu-toggle {
+    flex: 0 0 auto;
+  }
+}
+
+/* ============================================================================
+   Mobile drawer — dedicated element, never gets confused with the
+   desktop .nav-primary. Hidden by default at every viewport; revealed
+   only when ≤700px AND .open is set.
+   ========================================================================== */
+.nav-mobile-drawer {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .nav-mobile-drawer {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    flex-direction: column;
+    background: #000;
+    z-index: 9998;
+    padding: 3.6rem 1.25rem 1.25rem;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .25s ease, visibility .25s ease;
+  }
+  .nav-mobile-drawer.open {
+    pointer-events: auto;
+    opacity: 1;
+    visibility: visible;
+  }
+  .nav-mobile-close {
+    position: absolute;
+    top: .55rem;
+    right: 1rem;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 0;
+    color: var(--text);
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 1;
+  }
+  .nav-mobile-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: .15rem;
+    flex: 1;
+    min-height: 0;
+  }
+  .nav-mobile-list li {
+    width: 100%;
+  }
+  .nav-mobile-list a,
+  .nav-mobile-list button {
+    display: block;
+    width: 100%;
+    padding: .45rem .25rem;
+    font-family: var(--font-display, 'EB Garamond', Georgia, serif);
+    font-size: 1.05rem;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    transition: text-shadow .2s ease;
+  }
+  .nav-mobile-list a:hover,
+  .nav-mobile-list button:hover,
+  .nav-mobile-list a:focus-visible,
+  .nav-mobile-list button:focus-visible {
+    text-shadow: 0 0 10px currentColor;
+    outline: none;
+  }
+  body.nav-drawer-open {
+    overflow: hidden;
+  }
+  body.nav-drawer-open .hero-audit-btn {
+    display: none !important;
+  }
+}
+
 nav.docs-nav .nav-logo:hover > span,
 nav.docs-nav .nav-logo:focus-visible > span {
   animation:
@@ -550,18 +723,56 @@ nav ul.nav-primary {
   pointer-events: none;
 }
 
-/* Override the white !important hover above — keep tier hue. */
-.nav-more-menu li a:hover,
-.nav-more-menu li button:hover,
+/* Override the white !important hover above — keep tier hue.
+   Constrain the slide effect to true mouse-pointer environments — on
+   touch/mobile a tap fires :hover for one frame and the items appear
+   to "slide left" awkwardly. The plate-marker, glow, and color tween
+   are still applied to focus-visible (keyboard) on every device. */
+@media (hover: hover) and (pointer: fine) {
+  .nav-more-menu li a:hover,
+  .nav-more-menu li button:hover,
+  .nav-more-menu li a:focus-visible,
+  .nav-more-menu li button:focus-visible {
+    color: inherit !important;
+    letter-spacing: .03em;
+    transform: translateX(4px);
+    text-shadow: 0 0 10px currentColor, 0 0 22px currentColor;
+    background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, .03) 100%);
+  }
+}
 .nav-more-menu li a:focus-visible,
 .nav-more-menu li button:focus-visible {
   color: inherit !important;
-  letter-spacing: .03em;
-  transform: translateX(4px);
-  text-shadow: 0 0 10px currentColor, 0 0 22px currentColor;
-  background: linear-gradient(90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, .03) 100%);
+  text-shadow: 0 0 10px currentColor;
+}
+
+/* Belt-and-braces: at narrow widths the hover-slide reads as a glitch
+   even if the device claims `hover: hover` (e.g. a docked phone or a
+   touch laptop with mouse). Force-pin transform/letter-spacing under
+   700px so nothing slides regardless of pointer capability. */
+@media (max-width: 700px) {
+  .nav-more-menu li a,
+  .nav-more-menu li button,
+  .nav-more-menu li a:hover,
+  .nav-more-menu li button:hover,
+  .nav-more-menu li a:focus,
+  .nav-more-menu li button:focus,
+  .nav-more-menu li a:focus-visible,
+  .nav-more-menu li button:focus-visible,
+  nav.nav-open ul.nav-primary > li > a,
+  nav.nav-open ul.nav-primary > li > button,
+  nav.nav-open ul.nav-primary > li > a:hover,
+  nav.nav-open ul.nav-primary > li > button:hover,
+  nav.nav-open ul.nav-primary > li > a:focus,
+  nav.nav-open ul.nav-primary > li > button:focus,
+  nav.nav-open ul.nav-primary > li > a:focus-visible,
+  nav.nav-open ul.nav-primary > li > button:focus-visible {
+    transform: none !important;
+    letter-spacing: .01em !important;
+    background: transparent !important;
+  }
 }
 
 .nav-more-menu li a:hover::before,
@@ -889,6 +1100,92 @@ nav.docs-nav:hover .nav-sep {
   background: rgba(255, 255, 255, .06);
 }
 
+/* ════════════════════════════════════════════════
+   PROFILE BACK BUTTON & PAGE HEADER ROW
+   Standardized layout for all secondary pages
+   (about, badges, named, en, codex, trust, u, etc.)
+   ════════════════════════════════════════════════ */
+
+.profile-back-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.75rem clamp(1.25rem, 4vw, 2.5rem);
+  margin-top: -54px;
+  margin-bottom: 0;
+  position: relative;
+  z-index: 10;
+  min-height: 2.75rem;
+  max-width: 100%;
+  width: 100%;
+  padding-top: calc(0.75rem + 54px);
+}
+
+.profile-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  color: var(--tier-basic, #38bdf8);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s, background 0.2s;
+  border: 1px solid transparent;
+  line-height: 1;
+}
+
+.profile-back:hover {
+  color: var(--text);
+  background: rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.15);
+}
+
+.profile-back:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(var(--tier-basic-rgb, 56, 189, 248), 0.4);
+}
+
+.profile-back .ico {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+/* ── Page wrapper for consistent max-width ── */
+.profile-page-wrap,
+.page-wrap,
+main {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Standardize named-hero and similar hero sections */
+.named-hero,
+.profile-hero,
+.page-hero {
+  padding: 1.5rem 0 0.75rem;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+/* Reduce gap between profile-hero and search controls */
+.profile-section {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.directory-controls {
+  margin-top: 0 !important;
+  margin-bottom: 1rem !important;
+}
+
 /* ── HERO ── */
 #hero {
   position: relative;
@@ -934,6 +1231,52 @@ nav.docs-nav:hover .nav-sep {
   mix-blend-mode: overlay;
   pointer-events: none;
   transition: opacity 0.5s ease;
+}
+
+/* Ensure consistent main section spacing and no extra gaps */
+main section {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body > section,
+body > div[class*="section"],
+body > div[class*="hero"] {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Standardize all hero section spacing and centering ── */
+section[class*="hero"],
+section[class*="frontis"],
+.ab-frontis,
+.ev-hero,
+.lb-hero {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Override excessive padding on hero sections to match back button spacing */
+.ab-frontis {
+  padding-top: 1.5rem !important;
+}
+
+.ev-hero {
+  padding-top: 1.5rem !important;
+}
+
+.lb-hero {
+  padding-top: 1.5rem !important;
+}
+
+/* Ensure about page and evidence page heroes are centered */
+.ab-frontis-body {
+  text-align: center;
+}
+
+.named-hero-title,
+.ev-hero-title {
+  text-align: center;
 }
 
 .hero-content {
@@ -1122,13 +1465,29 @@ nav.docs-nav:hover .nav-sep {
     display: none !important
   }
 
-  /* Lifted slightly to clear the field view toggle below it */
+  /* Mobile: tuck the report notification into the nav row beside the
+     hamburger, not floating over hero CTAs (it was covering the Trust
+     Ledger button). Compact icon+label, fixed to the top-right next to
+     the menu toggle (~38px wide + .9rem right + .25rem margin = ~3.5rem). */
   .hero-audit-btn {
-    top: 4.8rem;
-    right: 1rem;
-    padding: 0.8rem 1.2rem;
-    font-size: 0.85rem;
-    z-index: 101;
+    position: fixed;
+    top: .85rem;
+    right: 3.5rem;            /* clear the hamburger toggle */
+    bottom: auto;
+    left: auto;
+    padding: .35rem .55rem;
+    font-size: .68rem;
+    gap: .3rem;
+    z-index: 201;             /* above nav (z=200) */
+    box-shadow: 0 2px 8px rgba(0,0,0,.4);
+    background: rgba(0,0,0,.85);
+    backdrop-filter: blur(6px);
+  }
+  .hero-audit-btn span:first-of-type {  /* "Trust Model" label */
+    /* Keep the label visible on tablets, hide on the smallest screens */
+  }
+  .hero-audit-btn .hero-audit-btn-arrow {
+    display: none;            /* arrow is decorative — drop on mobile to save room */
   }
 }
 
@@ -1177,6 +1536,40 @@ nav.docs-nav:hover .nav-sep {
 }
 
 @media (max-width: 700px) {
+  .profile-back-row {
+    padding: 0.5rem clamp(0.75rem, 3vw, 1.5rem);
+    padding-top: calc(0.5rem + 54px);
+    min-height: 2.5rem;
+    margin-top: -54px;
+  }
+
+  .profile-back {
+    padding: 0.3rem 0.55rem;
+    font-size: 0.85rem;
+  }
+
+  .profile-back .ico {
+    width: 12px;
+    height: 12px;
+  }
+
+  .named-hero,
+  .profile-hero,
+  .page-hero,
+  .ab-frontis,
+  .ev-hero,
+  .lb-hero,
+  .process-hero {
+    padding-top: 1rem !important;
+    padding-bottom: 0.5rem !important;
+    min-height: auto !important;
+  }
+
+  .directory-controls {
+    margin-top: 0 !important;
+    margin-bottom: 0.75rem !important;
+  }
+
   #hero.hero-graph-fullscreen {
     height: 100svh !important;
     max-height: 100svh !important;
@@ -1186,6 +1579,46 @@ nav.docs-nav:hover .nav-sep {
   #hero.hero-graph-fullscreen::after {
     opacity: 0;
     transition: opacity 0.4s ease;
+  }
+}
+
+@media (max-width: 500px) {
+  .profile-back-row {
+    padding: 0.4rem clamp(0.5rem, 2vw, 0.75rem);
+    padding-top: calc(0.4rem + 54px);
+    min-height: 2.25rem;
+    margin-top: -54px;
+  }
+
+  .profile-back {
+    padding: 0.25rem 0.45rem;
+    font-size: 0.8rem;
+  }
+
+  .profile-back span {
+    display: none;
+  }
+
+  .profile-back .ico {
+    width: 14px;
+    height: 14px;
+  }
+
+  .named-hero,
+  .profile-hero,
+  .page-hero,
+  .ab-frontis,
+  .ev-hero,
+  .lb-hero,
+  .process-hero {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.35rem !important;
+    min-height: auto !important;
+  }
+
+  .directory-controls {
+    margin-top: 0 !important;
+    margin-bottom: 0.5rem !important;
   }
 }
 
@@ -2225,18 +2658,27 @@ tr:hover td {
 }
 
 /* ── PROCESS PAGE ── */
+/* Override inline styles on process-hero sections to ensure uniform spacing */
+.process-hero[style*="padding-top"] {
+  padding-top: 2rem !important;
+}
+
+.process-hero[style*="min-height: auto"] {
+  min-height: auto !important;
+}
+
 .process-page main {
-  padding-top: 4.5rem
+  padding-top: 0;
 }
 
 .process-hero {
-  min-height: 70vh;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   max-width: 1000px;
-  padding-top: 5rem;
-  padding-bottom: 3rem;
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
 }
 
 .process-kicker {
@@ -7230,6 +7672,74 @@ h4.se-install-sub-h { font-size: .85rem; }
   margin-top: .1rem;
 }
 
+/* ── Timeline grouped events ── */
+.se-tl-dot--group {
+  width: 16px;
+  height: 16px;
+  left: -26px;
+  top: 2px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.se-tl-group-count {
+  font-family: var(--font-mono);
+  font-size: .5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: inherit;
+  opacity: .85;
+  /* hide the count — the badge in the row carries it */
+  display: none;
+}
+.se-tl-group-badge {
+  font-family: var(--font-mono);
+  font-size: .58rem;
+  color: var(--muted);
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 3px;
+  padding: .1rem .3rem;
+  flex-shrink: 0;
+}
+.se-tl-group-details {
+  margin-top: .4rem;
+}
+.se-tl-group-toggle {
+  font-family: var(--font-mono);
+  font-size: .65rem;
+  color: var(--muted);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  opacity: .7;
+}
+.se-tl-group-toggle::-webkit-details-marker { display: none; }
+.se-tl-group-toggle::before { content: '▸ '; }
+details[open] .se-tl-group-toggle::before { content: '▾ '; }
+.se-tl-group-toggle:hover { opacity: 1; color: var(--text); }
+.se-tl-group-inner {
+  margin-top: .4rem;
+  border-left: 1px solid var(--border);
+  padding-left: .75rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.se-tl-group-item {
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+}
+.se-tl-group-date {
+  margin-left: 0;
+  flex-shrink: 0;
+}
+.se-tl-group-msg {
+  font-size: .82rem;
+}
+
 .se-empty {
   color: var(--muted);
   font-size: .9rem;
@@ -7912,114 +8422,23 @@ code {
 
   .nav-menu-toggle {
     display: flex;
-    flex-shrink: 0
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    margin-right: -.25rem;
+    gap: 3px;
+    border-radius: 6px;
+  }
+  .nav-menu-toggle span {
+    width: 16px;
+    height: 1.5px;
   }
 
   nav ul.nav-primary {
-    display: none
+    display: none;          /* mobile uses .nav-mobile-drawer instead */
   }
-
-  nav.nav-open ul.nav-primary {
-    display: flex;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: auto;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1.5rem;
-    background: #000;
-    z-index: 9999;
-    padding: 2.5rem 2rem;
-    transform: translateY(100%);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    border-top: 1px solid var(--border);
-    border-radius: 20px 20px 0 0;
-  }
-
-  /* Mobile: expand More dropdown to show all items */
-  .nav-more-dropdown {
-    width: 100%;
-  }
-
-  .nav-more-toggle {
-    display: none;
-  }
-
-  .nav-more-menu {
-    position: static;
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-    background: transparent;
-    border: none;
-    backdrop-filter: none;
-    padding: 0;
-    min-width: unset;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .nav-more-menu li a,
-  .nav-more-menu li button {
-    padding: 0;
-    font-size: 1.4rem;
-    width: auto;
-    text-align: center;
-  }
-
-  nav.nav-open.active ul {
-    transform: translateY(0);
-  }
-
-  nav.nav-open ul li {
-    width: 100%;
-    text-align: center;
-  }
-
-  /* Remove search icon from hamburger menu */
-  nav.nav-open ul li:has(.nav-search-btn) {
-    display: none;
-  }
-
-  nav.nav-open ul li a,
-  nav.nav-open ul li button {
-    font-family: var(--font-display);
-    font-size: 1.4rem;
-    font-weight: 500;
-    color: var(--muted);
-    display: block;
-    width: 100%;
-    padding: .8rem;
-    text-decoration: none;
-    background: transparent;
-    border: none;
-    letter-spacing: 0.01em;
-    transition: color .2s;
-  }
-
-  nav.nav-open ul li a:hover,
-  nav.nav-open ul li button:hover {
-    color: var(--text);
-  }
-
-  nav.nav-open .nav-menu-toggle {
-    position: fixed;
-    top: .9rem;
-    right: 1.1rem;
-    z-index: 10000;
-    color: var(--text);
-  }
-
-  nav.nav-open .nav-logo {
-    position: fixed;
-    top: .9rem;
-    left: 1.1rem;
-    z-index: 10000;
-  }
+  /* Legacy `nav.nav-open` reflow of .nav-primary is intentionally gone.
+     The drawer is a separate sibling element with its own visibility. */
 
   #hero {
     min-height: 100svh;
@@ -10332,7 +10751,12 @@ body[data-overall-grade="S"] .report-card {
 .otg-badge[data-grade="S"],
 .ev-grade[data-grade="S"],
 .ev-tab[data-grade="S"].active,
-.ev-legend-dot.grade-S {
+.ev-legend-dot.grade-S,
+.se-ev-mag-bar[data-trust-grade="S"],
+.plaque__trust-notch[data-trust-grade="S"],
+.lb-dist-seg[data-trust-grade="S"],
+.lb-dist-key__pip[data-trust-grade="S"],
+.lb-grade-pill[data-trust-grade="S"] {
   position: relative;
   overflow: hidden;
   border: 1px solid #3b82f6; /* Stronger blue border */
@@ -10376,7 +10800,12 @@ body[data-overall-grade="S"] .report-card {
 .otg-badge[data-grade="A"],
 .ev-grade[data-grade="A"],
 .ev-tab[data-grade="A"].active,
-.ev-legend-dot.grade-A {
+.ev-legend-dot.grade-A,
+.se-ev-mag-bar[data-trust-grade="A"],
+.plaque__trust-notch[data-trust-grade="A"],
+.lb-dist-seg[data-trust-grade="A"],
+.lb-dist-key__pip[data-trust-grade="A"],
+.lb-grade-pill[data-trust-grade="A"] {
   border: 1px solid #d99706;
   background:
     /* Specular reflections (anisotropic sheen) */
@@ -10407,7 +10836,12 @@ body[data-overall-grade="S"] .report-card {
 .otg-badge[data-grade="B"],
 .ev-grade[data-grade="B"],
 .ev-tab[data-grade="B"].active,
-.ev-legend-dot.grade-B {
+.ev-legend-dot.grade-B,
+.se-ev-mag-bar[data-trust-grade="B"],
+.plaque__trust-notch[data-trust-grade="B"],
+.lb-dist-seg[data-trust-grade="B"],
+.lb-dist-key__pip[data-trust-grade="B"],
+.lb-grade-pill[data-trust-grade="B"] {
   border: 1px solid #475569; /* Darker border */
   background:
     /* Specular reflections (matte sheen) */
@@ -10436,7 +10870,12 @@ body[data-overall-grade="S"] .report-card {
 .otg-badge[data-grade="C"],
 .ev-grade[data-grade="C"],
 .ev-tab[data-grade="C"].active,
-.ev-legend-dot.grade-C {
+.ev-legend-dot.grade-C,
+.se-ev-mag-bar[data-trust-grade="C"],
+.plaque__trust-notch[data-trust-grade="C"],
+.lb-dist-seg[data-trust-grade="C"],
+.lb-dist-key__pip[data-trust-grade="C"],
+.lb-grade-pill[data-trust-grade="C"] {
   border: 1px solid #7c2d12;
   background:
     /* Specular reflections (faint) */
@@ -10463,7 +10902,13 @@ body[data-overall-grade="S"] .report-card {
 .otg-badge[data-grade="—"],
 .ev-grade[data-grade="—"],
 .ev-tab[data-grade="—"].active,
-.ev-legend-dot.grade-ungraded {
+.ev-legend-dot.grade-ungraded,
+.se-ev-mag-bar[data-trust-grade="none"],
+.plaque__trust-notch[data-trust-grade="—"],
+.plaque__trust-notch[data-trust-grade="none"],
+.lb-dist-seg[data-trust-grade="none"],
+.lb-dist-key__pip[data-trust-grade="none"],
+.lb-grade-pill[data-trust-grade="none"] {
   background: transparent;
   box-shadow: inset 0 0 0 1px var(--border);
   color: var(--muted);
@@ -10629,4 +11074,432 @@ body[data-overall-grade="S"] .report-card {
   font-size: 0.85rem;
   color: var(--muted);
   line-height: 1.5;
+}
+
+/* ── Evidence type pills (shared: evidence library + skill-explorer modal) ── */
+.ev-type-pill {
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  white-space: nowrap;
+  display: inline-block;
+}
+/* Legacy aliases */
+.ev-type-pill.type-repo          { background: rgba(56,189,248,.10); color: var(--tier-basic); border: 1px solid rgba(56,189,248,.2); }
+.ev-type-pill.type-github-stars  { background: rgba(245,158,11,.12); color: var(--tier-ultimate); border: 1px solid rgba(245,158,11,.25); }
+/* Canonical types */
+.ev-type-pill.type-fusion-recipe        { background: rgba(245,158,11,.15); color: var(--tier-ultimate); border: 1px solid rgba(245,158,11,.3); }
+.ev-type-pill.type-github-stars-own     { background: rgba(245,158,11,.12); color: var(--tier-ultimate); border: 1px solid rgba(245,158,11,.25); }
+.ev-type-pill.type-proxy-containment    { background: rgba(124,58,237,.12); color: var(--tier-unique); border: 1px solid rgba(124,58,237,.25); }
+.ev-type-pill.type-verifier-attestation { background: rgba(232,121,249,.12); color: var(--rank-4); border: 1px solid rgba(232,121,249,.25); }
+.ev-type-pill.type-benchmark-result     { background: rgba(192,132,252,.12); color: var(--tier-extra); border: 1px solid rgba(192,132,252,.25); }
+.ev-type-pill.type-arxiv                { background: rgba(192,132,252,.12); color: var(--tier-extra); border: 1px solid rgba(192,132,252,.25); }
+.ev-type-pill.type-peer-review          { background: rgba(56,189,248,.12);  color: var(--tier-basic); border: 1px solid rgba(56,189,248,.25); }
+.ev-type-pill.type-repo-own             { background: rgba(56,189,248,.10);  color: var(--tier-basic); border: 1px solid rgba(56,189,248,.2); }
+.ev-type-pill.type-self-attestation     { background: rgba(100,116,139,.12); color: var(--rank-0); border: 1px solid rgba(100,116,139,.25); }
+.ev-type-pill.type-social-signal        { background: rgba(52,211,153,.12);  color: #34d399; border: 1px solid rgba(52,211,153,.25); }
+
+/* ── Per-skill modal evidence cards — mosaic layout ──
+   CSS columns fill top-to-bottom then wrap left-to-right, packing tiles
+   with zero gaps regardless of height differences. No JS needed. */
+.se-ev-grid {
+  columns: 3 130px;
+  column-gap: 5px;
+  margin-top: 0.5rem;
+}
+
+/* Card: display block so CSS columns can measure height correctly.
+   margin-bottom creates the inter-tile gap (column-gap handles horizontal).
+   break-inside: avoid keeps each card intact — never split across columns. */
+.se-ev-card {
+  display: flex;
+  flex-direction: column;
+  break-inside: avoid;
+  margin-bottom: 5px;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: rgba(255,255,255,0.02);
+  overflow: hidden;
+  width: 100%;   /* fills its column slot fully */
+}
+/* Wide cards span 2 columns when the grid is ≥ 3 columns */
+.se-ev-card--wide {
+  column-span: none;  /* let column layout handle width naturally */
+}
+/* Ghost tiles — narrow column fills fine, no special sizing needed */
+.se-ev-card--ghost {
+  opacity: 0.4;
+}
+.se-ev-card:not(.se-ev-card--ghost):hover {
+  border-color: rgba(167,139,250,.3);
+}
+
+/* Greyed-out placeholder for ungraded / missing evidence */
+.se-ev-card--ungraded {
+  opacity: 0.5;
+  filter: grayscale(0.4);
+}
+
+/* Ghost tile appearance — dashed border, muted */
+.se-ev-card--ghost {
+  border: 1px dashed rgba(255,255,255,0.12);
+  background: transparent;
+  opacity: 0.4;
+  pointer-events: none;
+}
+.se-ev-ghost-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.se-ev-ghost-hint {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.3;
+}
+
+.se-ev-card-body {
+  padding: 8px 10px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+.se-ev-card-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.se-ev-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.se-ev-eval {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+.se-ev-date {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  opacity: 0.6;
+  margin-left: auto;
+}
+/* Freshness indicator — only shown on decay-type evidence rows */
+.se-ev-freshness {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  padding: 1px 5px;
+  cursor: default;
+  flex-shrink: 0;
+}
+.se-ev-freshness--fresh {
+  color: #34d399;
+  background: rgba(52,211,153,0.08);
+  border: 1px solid rgba(52,211,153,0.2);
+}
+.se-ev-freshness--stale {
+  color: var(--tier-ultimate);
+  background: rgba(245,158,11,0.08);
+  border: 1px solid rgba(245,158,11,0.2);
+}
+.se-ev-freshness--unverified {
+  color: var(--muted);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  opacity: 0.7;
+}
+.se-ev-notes {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 2px;
+  border-left: 2px solid var(--border);
+  padding-left: 8px;
+}
+.se-ev-metrics {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+.se-ev-metric {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--muted);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  padding: 1px 5px;
+}
+.se-ev-origins {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.se-ev-origins-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+}
+.se-ev-origins-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.se-ev-suite-note {
+  font-size: 0.62rem;
+  color: var(--muted);
+  opacity: 0.55;
+  cursor: help;
+  font-style: italic;
+}
+.se-ev-origin-chip {
+  display: inline-block;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  padding: 1px 5px;
+  color: var(--basic, #38bdf8);
+  font-size: 0.68rem;
+}
+.se-ev-link {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--border);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+.se-ev-link:hover {
+  color: var(--rank-3);
+  border-bottom-color: var(--rank-3);
+}
+
+/* MAG bar — full-width metallic bar at card bottom, plaque-style */
+.se-ev-mag-bar {
+  width: 100%;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+}
+
+/* Grade fills — unified with .grade-segment metallic system above (line ~10398).
+   The selectors .se-ev-mag-bar[data-trust-grade="S/A/B/C/none"] are appended to
+   each metallic rule so MAG bars render exactly like plaque trust notches and
+   the docs/index.html Evidence Grade ladder. No separate fills — single source. */
+
+.se-ev-mag-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.se-ev-mag-num {
+  font-weight: 700;
+}
+
+.se-ev-link {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--border);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 280px;
+}
+.se-ev-link:hover {
+  color: var(--rank-3);
+  border-bottom-color: var(--rank-3);
+}
+
+/* (i) info button on MAG bars — shows formula tooltip on hover */
+.se-ev-mag-info {
+  background: transparent;
+  border: 1px solid currentColor;
+  color: currentColor;
+  border-radius: 50%;
+  width: 13px;
+  height: 13px;
+  font-size: 8px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  line-height: 1;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: help;
+  pointer-events: auto;
+  opacity: 0.7;
+  margin-left: 5px;
+  flex-shrink: 0;
+}
+.se-ev-mag-info:hover {
+  opacity: 1;
+}
+
+/* (i) button injected into the plaque trust notch in the skill modal */
+.se-notch-info {
+  background: transparent;
+  border: 1px solid currentColor;
+  color: currentColor;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  font-size: 8px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  line-height: 1;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: help;
+  pointer-events: auto;
+  opacity: 0.75;
+  margin-left: 8px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+.se-notch-info:hover {
+  opacity: 1;
+}
+
+/* (i) button inside type pills */
+.ev-type-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.ev-type-pill-info {
+  background: transparent;
+  border: 1px solid currentColor;
+  color: currentColor;
+  border-radius: 50%;
+  width: 11px;
+  height: 11px;
+  font-size: 7px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  line-height: 1;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: help;
+  pointer-events: auto;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+.ev-type-pill-info:hover { opacity: 1; }
+/* Ghost tiles: allow pointer events on the (i) but not the card itself */
+.se-ev-card--ghost .ev-type-pill-info {
+  pointer-events: auto;
+  cursor: help;
+}
+
+/* Layer hint — subtle "via generic" tag on evidence rows */
+.se-ev-layer-hint {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--muted);
+  opacity: 0.55;
+  letter-spacing: 0.04em;
+  cursor: default;
+  margin-left: auto;
+}
+
+/* Evidence section header — title + action row */
+.se-ev-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.se-ev-section-header h4 {
+  margin: 0;
+}
+.se-ev-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Trust Methodology / Library links — small, muted */
+.se-ev-tm-link {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.se-ev-tm-link:hover { color: var(--text); }
+
+/* Submit CTA button */
+.se-ev-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 5px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+  cursor: pointer;
+}
+.se-ev-submit-btn:hover {
+  background: rgba(255,255,255,0.11);
+  border-color: rgba(255,255,255,0.35);
+  color: var(--text);
+}
+
+/* Ghost tiles: pointer-events off for the card body, on for info buttons */
+.se-ev-card--ghost .se-ev-card-body {
+  pointer-events: none;
+}
+.se-ev-card--ghost .ev-type-pill-info {
+  pointer-events: auto;
 }

@@ -17,8 +17,7 @@
       "date": "2026-05-19",
       "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
       "type": "github-stars",
-      "trustNumber": 50.0,
-      "grade": "C"
+      "trustNumber": 50.0
     },
     {
       "class": "B",
@@ -27,14 +26,13 @@
       "date": "2026-05-19",
       "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
       "type": "github-stars",
-      "trustNumber": 50.0,
-      "grade": "C"
+      "trustNumber": 50.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-19",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

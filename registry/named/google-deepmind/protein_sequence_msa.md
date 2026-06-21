@@ -13,7 +13,7 @@ description: Performs multiple sequence alignment of proteins with EBI Clustal O
   BLAST), align non-protein sequences (DNA, RNA), perform structural alignment (use
   Foldseek, PyMOL), or if you only have a single sequence.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md
 evidence:
@@ -26,9 +26,9 @@ evidence:
     supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://academic.oup.com/nar/article/39/suppl_2/W13/2506516
   evaluator: unknown
   date: '2026-06-19'
@@ -38,6 +38,7 @@ evidence:
     alignment. Peer-reviewed MSA tool paper underpinning the protein_sequence_msa
     skill (uses EBI Clustal Omega endpoint).'
   reviewers: 2
+  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:35Z'
   action: evidence_graded

@@ -10,7 +10,7 @@ level: 2★
 description: Build throwaway prototypes to answer specific design or logic questions
   before committing to production code.
 createdAt: '2026-05-21'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 suiteRef: mattpocock/engineering
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype
@@ -23,15 +23,16 @@ evidence:
     (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 137
   contributors: 3
+  grade: C
 - source: https://github.com/mattpocock/skills/issues/145
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: peer-review
   class: A
   notes: GitHub issue proposing prototype skill variant.
+  grade: C
 timeline:
 - timestamp: '2026-06-14T12:32:43Z'
   action: evidence_graded

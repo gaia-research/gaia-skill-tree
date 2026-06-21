@@ -16,14 +16,13 @@
       "date": "2026-04-28",
       "notes": "BLIP-2 â€” bootstrapped language-image pre-training achieving SOTA on COCO Captions (CIDEr 145.8) and NoCaps benchmarks. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

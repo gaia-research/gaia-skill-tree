@@ -10,7 +10,7 @@ description: Use when needing clinical significance, pathogenicity classificatio
   (e.g., Pathogenic, Benign, VUS), clinical evidence rationales, or finding "hard
   positive" benchmark controls for human genomic variants.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md
 evidence:
@@ -22,9 +22,9 @@ evidence:
     — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://academic.oup.com/nar/article/44/D1/D862/2502717
   evaluator: unknown
   date: '2026-06-19'
@@ -33,6 +33,7 @@ evidence:
   notes: 'Landrum et al. 2015 NAR: ClinVar public archive of interpretations of clinically
     relevant variants. 2,571 citations (Semantic Scholar 2026-06-19).'
   reviewers: 2
+  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:29Z'
   action: evidence_graded

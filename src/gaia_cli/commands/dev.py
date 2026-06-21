@@ -1109,7 +1109,7 @@ def meta_evidence_command(args):
     evidence that every named implementation inherits. A ``contributor/skill``
     id targets that specific named implementation (e.g. its GitHub repo demo).
     """
-    from gaia_cli.grading import derive_grade, load_grade_thresholds, load_evidence_types
+    from gaia_cli.grading import derive_grade, load_grade_thresholds, load_evidence_types, load_per_row_grade_thresholds, derive_row_grade
 
     registry_path = args.registry
     skill_id = args.skill_id.lstrip("/")
@@ -1150,7 +1150,7 @@ def meta_evidence_command(args):
             )
             sys.exit(1)
 
-    # Derive grade from trust number
+    # Derive grade from trust number (legacy fallback used when no type+artifact info available)
     derived_grade: str | None = None
     if trust_number is not None:
         thresholds = load_grade_thresholds(registry_path)
@@ -1205,6 +1205,33 @@ def meta_evidence_command(args):
     if source_started_at is not None:
         evidence["sourceStartedAt"] = source_started_at
 
+    # Re-derive grade using per-type artifact_score thresholds (Issue #761).
+    # This replaces the skill-aggregate TM threshold used above so grade pills
+    # are meaningful per-row rather than all showing "—".
+    # Fallback: when no magnitude drivers are present (artifact_score == 0),
+    # use the --trust value via aggregate thresholds to preserve backward compat.
+    if evidence_type is not None:
+        from gaia_cli.trustMagnitude import computeArtifactScoreOrNone
+        from gaia_cli.grading import load_evidence_types_full
+        per_row_thresholds = load_per_row_grade_thresholds(registry_path)
+        artifact_score = computeArtifactScoreOrNone(evidence) or 0.0
+        ev_types_full = load_evidence_types_full(registry_path)
+        ceiling = next(
+            (t.get("gradeCeiling") for t in ev_types_full if t.get("id") == evidence_type),
+            None,
+        )
+        if artifact_score > 0.0:
+            row_grade = derive_row_grade(artifact_score, evidence_type, per_row_thresholds, ceiling)
+            if row_grade is not None:
+                evidence["grade"] = row_grade
+            elif "grade" in evidence:
+                del evidence["grade"]
+        elif derived_grade is not None:
+            # No magnitude drivers — fall back to trustNumber-derived grade
+            evidence["grade"] = derived_grade
+        else:
+            evidence.pop("grade", None)
+
     def _apply(ev_list: list) -> dict:
         """Append the new entry, or update the entry at ``index`` in place.
 
@@ -1227,7 +1254,31 @@ def meta_evidence_command(args):
             entry["type"] = evidence_type
         if trust_number is not None:
             entry["trustNumber"] = trust_number
-            # Re-derive grade from scratch; drop a stale grade if now ungraded.
+        # Re-derive grade using per-type artifact_score thresholds (Issue #761).
+        # Runs whenever type or any numeric payload changes — not just when --trust supplied.
+        row_type = entry.get("type")
+        if row_type is not None:
+            from gaia_cli.trustMagnitude import computeArtifactScoreOrNone
+            from gaia_cli.grading import load_evidence_types_full
+            per_row_thresholds = load_per_row_grade_thresholds(registry_path)
+            artifact_score = computeArtifactScoreOrNone(entry) or 0.0
+            ev_types_full = load_evidence_types_full(registry_path)
+            ceiling = next(
+                (t.get("gradeCeiling") for t in ev_types_full if t.get("id") == row_type),
+                None,
+            )
+            new_row_grade = derive_row_grade(artifact_score, row_type, per_row_thresholds, ceiling)
+            if new_row_grade is not None:
+                entry["grade"] = new_row_grade
+            elif artifact_score == 0.0 and derived_grade is not None:
+                # No magnitude drivers (e.g. arxiv with no citations) — fall back
+                # to the trustNumber-derived aggregate grade so an explicit --trust
+                # value is still reflected in the entry.
+                entry["grade"] = derived_grade
+            else:
+                entry.pop("grade", None)
+        elif trust_number is not None:
+            # No type info — fall back to skill-aggregate threshold
             if derived_grade is not None:
                 entry["grade"] = derived_grade
             else:
@@ -2151,3 +2202,166 @@ def meta_timeline_command(args):
     else:
         print("Skipping documentation rebuild as requested (--no-build).")
 
+
+def calibrate_evidence_grades_command(args):
+    """Backfill per-row grade fields using per-type artifact_score thresholds.
+
+    Iterates all generic node JSON files and named skill .md frontmatter,
+    computing each evidence row's artifact_score and writing the correct grade.
+    Auto-derived rows (_autoDerived: True) are skipped.
+    """
+    from gaia_cli.grading import load_per_row_grade_thresholds, derive_row_grade
+    from gaia_cli.trustMagnitude import computeRowArtifactScores, computeArtifactScoreOrNone
+
+    registry_path = args.registry
+    dry_run = getattr(args, "dry_run", False)
+    target_skill = getattr(args, "skill", None)
+    scope = getattr(args, "scope", "all")
+
+    per_row_thresholds = load_per_row_grade_thresholds(registry_path)
+    if not per_row_thresholds:
+        print("Error: perRowGradeThresholds not found in meta.json. Cannot proceed.", file=sys.stderr)
+        sys.exit(1)
+
+    if not dry_run:
+        _confirm_destructive(
+            f"Backfill evidence grades across all {scope} skills? This rewrites grade fields in-place.",
+            args,
+        )
+
+    meta_path = os.path.join(registry_path, "registry", "schema", "meta.json")
+    try:
+        with open(meta_path, "r", encoding="utf-8") as f:
+            meta_json = json.load(f)
+    except Exception as e:
+        print(f"Error: cannot read meta.json: {e}", file=sys.stderr)
+        sys.exit(1)
+    grade_ceiling_map = {}
+    for ev_type in meta_json.get("evidence", {}).get("types", []):
+        if isinstance(ev_type, dict) and "id" in ev_type and "gradeCeiling" in ev_type:
+            grade_ceiling_map[ev_type["id"]] = ev_type["gradeCeiling"]
+
+    nodes_dir = Path(registry_nodes_dir(registry_path))
+    generic_skill_map = {}
+    if nodes_dir.exists():
+        for node_file in nodes_dir.rglob("*.json"):
+            try:
+                with open(node_file, "r", encoding="utf-8") as f:
+                    skill = json.load(f)
+                sid = skill.get("id")
+                if sid:
+                    generic_skill_map[sid] = skill
+            except Exception:
+                pass
+
+    total_updated = 0
+    total_skipped = 0
+    total_errors = 0
+
+    def _process_evidence_list(ev_list, skill_dict, label):
+        nonlocal total_updated, total_skipped, total_errors
+        changed = False
+        rows_with_scores = computeRowArtifactScores(skill_dict, generic_skill_map)
+        score_map = {}
+        for row, score in rows_with_scores:
+            if row.get("_autoDerived"):
+                continue
+            key = (row.get("type"), row.get("source"))
+            score_map[key] = score
+
+        for row in ev_list:
+            if row.get("_autoDerived"):
+                total_skipped += 1
+                continue
+            ev_type_raw = row.get("type")
+            if not ev_type_raw:
+                total_skipped += 1
+                continue
+            # Normalize legacy aliases: "repo" → "repo-own", "github-stars" → "github-stars-own"
+            _ALIASES = {"repo": "repo-own", "github-stars": "github-stars-own"}
+            ev_type = _ALIASES.get(ev_type_raw, ev_type_raw)
+            source = row.get("source")
+            score = score_map.get((ev_type_raw, source))
+            if score is None:
+                score_raw = computeArtifactScoreOrNone(row, generic_skill_map)
+                score = 0.0 if score_raw is None else score_raw
+            # Fallback: if magnitude drivers absent but trustNumber was supplied,
+            # use trustNumber directly as the artifact_score proxy so existing
+            # rows aren't left permanently ungraded (backward compat, Issue #761).
+            # NOTE: trustNumber may be stale from before formula changes; prefer
+            # adding metric fields (stars/citations/commits) to retire it.
+            if score == 0.0 and row.get("trustNumber"):
+                score = float(row["trustNumber"])
+            ceiling = grade_ceiling_map.get(ev_type)
+            new_grade = derive_row_grade(score, ev_type, per_row_thresholds, ceiling)
+            old_grade = row.get("grade")
+            if new_grade != old_grade:
+                if not dry_run:
+                    if new_grade is None:
+                        row.pop("grade", None)
+                    else:
+                        row["grade"] = new_grade
+                old_str = old_grade or "—"
+                new_str = new_grade or "—"
+                print(f"  {label} [{ev_type}] {source}: {old_str} → {new_str}")
+                total_updated += 1
+                changed = True
+            else:
+                total_skipped += 1
+        return changed
+
+    if scope in ("all", "generic") and nodes_dir.exists():
+        for node_file in nodes_dir.rglob("*.json"):
+            try:
+                with open(node_file, "r", encoding="utf-8") as f:
+                    skill = json.load(f)
+                sid = skill.get("id")
+                if target_skill and sid != target_skill:
+                    continue
+                ev_list = skill.get("evidence") or []
+                if not ev_list:
+                    continue
+                changed = _process_evidence_list(ev_list, skill, sid or str(node_file.stem))
+                if changed and not dry_run:
+                    skill["updatedAt"] = datetime.date.today().isoformat()
+                    with open(node_file, "w", encoding="utf-8") as f:
+                        json.dump(skill, f, indent=2, ensure_ascii=False)
+                        f.write("\n")
+            except Exception as e:
+                print(f"  Error processing {node_file}: {e}", file=sys.stderr)
+                total_errors += 1
+
+    if scope in ("all", "named"):
+        named_dir = Path(named_skills_dir(registry_path))
+        if named_dir.exists():
+            for md_file in named_dir.rglob("*.md"):
+                try:
+                    meta_fm, body = _parse_md(md_file)
+                    skill_id_nm = meta_fm.get("genericSkillRef") or meta_fm.get("id")
+                    if target_skill:
+                        named_id = meta_fm.get("id") or ""
+                        if named_id != target_skill and skill_id_nm != target_skill:
+                            continue
+                    ev_list = meta_fm.get("evidence") or []
+                    if not ev_list:
+                        continue
+                    parent_skill = generic_skill_map.get(skill_id_nm, {}) if skill_id_nm else {}
+                    merged = dict(parent_skill)
+                    merged["evidence"] = ev_list
+                    changed = _process_evidence_list(ev_list, merged, str(md_file.stem))
+                    if changed and not dry_run:
+                        meta_fm["updatedAt"] = datetime.date.today().isoformat()
+                        _write_md(md_file, meta_fm, body)
+                except Exception as e:
+                    print(f"  Error processing {md_file}: {e}", file=sys.stderr)
+                    total_errors += 1
+
+    mode = "[DRY RUN] " if dry_run else ""
+    print(f"\n{mode}calibrate-evidence-grades complete: "
+          f"{total_updated} updated, {total_skipped} unchanged, {total_errors} errors")
+
+    if not dry_run and not getattr(args, "no_build", False):
+        print("Regenerating registry and documentation...")
+        _run_docs_build(registry_path)
+    elif getattr(args, "no_build", False):
+        print("Skipping documentation rebuild as requested (--no-build).")

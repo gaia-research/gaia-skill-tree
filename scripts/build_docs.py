@@ -285,13 +285,15 @@ def _apply_cache_busting(text: str, version: str) -> str:
         text = text.replace("<head>", f"<head>{version_script}", 1)
 
     # 3. Append version query parameters (?v={version}) to local CSS and JS imports.
+    # Matches: relative paths (../css/foo.css, css/foo.css) AND same-directory files
+    # (styles.css, leaderboard.css) — but never absolute URLs (http://, https://).
     text = re.sub(
-        r'href="((?:(?:\.\./)*)css/[a-zA-Z0-9_\-\./]+\.css)(?:\?v=[^"]*)?"',
+        r'href="((?!https?://)(?:(?:\.\./)*)(?:[a-zA-Z0-9_\-\.]+/)*[a-zA-Z0-9_\-\.]+\.css)(?:\?v=[^"]*)?"',
         fr'href="\1?v={version}"',
         text
     )
     text = re.sub(
-        r'src="((?:(?:\.\./)*)js/[a-zA-Z0-9_\-\./]+\.js)(?:\?v=[^"]*)?"',
+        r'src="((?!https?://)(?:(?:\.\./)*)(?:[a-zA-Z0-9_\-\.]+/)*[a-zA-Z0-9_\-\.]+\.js)(?:\?v=[^"]*)?"',
         fr'src="\1?v={version}"',
         text
     )
@@ -314,6 +316,11 @@ def build_html_cache_busting(check: bool) -> bool:
         "starless.html",
         "badges/index.html",
         "named/index.html",
+        "named/report.html",
+        "share/index.html",
+        "trust/index.html",
+        "trust/ledger/index.html",
+        "codex/trust-methodology.html",
         "u/index.html",
     ):
         path = ROOT / "docs" / filename

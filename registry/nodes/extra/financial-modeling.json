@@ -17,8 +17,7 @@
       "date": "2026-06-03",
       "notes": "Deep Reinforcement Learning Framework for Dynamic Portfolio Optimization: custom Sharpe-ratio reward function + Actor-Critic algorithms for dynamic asset allocation; bridges DCF-era finance with ML-driven robo-advisory (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -27,8 +26,7 @@
       "date": "2026-06-03",
       "notes": "Reinforcement Learning for Portfolio Optimization with a Financial Goal and Defined Time Horizons: G-Learning/GIRL algorithms improving Sharpe Ratio from 0.42 to 0.483 in volatile markets (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -37,14 +35,13 @@
       "date": "2026-06-03",
       "notes": "Official Anthropic cookbook skill covering DCF valuation engine (WACC, terminal value), Monte Carlo simulation, sensitivity analysis, LBO and M&A models; includes dcf_model.py (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

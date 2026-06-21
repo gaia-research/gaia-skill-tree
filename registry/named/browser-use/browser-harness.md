@@ -16,7 +16,7 @@ tags:
 - cdp
 - automation
 createdAt: '2026-05-14'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/browser-use/browser-harness
@@ -38,7 +38,6 @@ evidence:
   notes: 'BU Bench V1 (100 verified tasks from WebArena/Mind2Web): 78-97% task success
     rate using bu-ultra/max. 80% using Claude Fable 5 (Mid-2026).'
   trustNumber: 85.0
-  grade: A
 - source: https://www.youtube.com/watch?v=XQn6yGq6oN8
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -47,7 +46,7 @@ evidence:
   notes: 'Codex Developer YouTube: demo of browser-use CDP library for AI agent browser
     automation. Third-party developer showcase (view count est. 50K+).'
   trustNumber: 80.0
-  grade: A
+  grade: B
   views: 50000
 - source: https://github.com/browser-use/browser-harness
   evaluator: mbtiongson1
@@ -56,6 +55,7 @@ evidence:
   class: A
   notes: 'AI Agent Developer Community: commended as lightweight CDP bridge, self-healing
     via runtime agent_helpers.py, steeper learning curve than Playwright. Mid-2026.'
+  grade: C
 timeline:
 - timestamp: '2026-06-02T23:32:59Z'
   action: demote

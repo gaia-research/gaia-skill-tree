@@ -11,7 +11,7 @@ level: 1★
 description: Set up Husky pre-commit hooks with lint-staged, Prettier, type checking,
   and tests.
 createdAt: '2026-06-19'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 timeline:
 - timestamp: '2026-06-19T13:02:03Z'
   action: add
@@ -66,7 +66,6 @@ evidence:
   date: '2026-06-20'
   type: repo-own
   trustNumber: 65.0
-  grade: B
   notes: 'I13 classify: repo-own evidence backfill (skill file)'
   skillCountInRepo: 34
   sourceStartedAt: '2026-06-19'

@@ -237,9 +237,15 @@
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "5★",
+          "level": "6★",
           "achievedAt": "2026-05-22T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "5★",
+          "achievedAt": "2026-06-18T12:54:50Z",
+          "source": "demote",
+          "note": "G7 apex cutover — apex gate failed; backfilled from trunk timeline (CLI gap)"
         }
       ]
     },
@@ -775,7 +781,8 @@
       "action": "demote",
       "skillId": "mattpocock/skills",
       "details": "G7 apex cutover — registry level demoted 6★→5★; re-application open once all 6 apex predicates pass",
-      "newValue": "5★"
+      "newValue": "5★",
+      "previousValue": "6★"
     },
     {
       "timestamp": "2026-06-20T00:00:00Z",

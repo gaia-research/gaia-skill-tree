@@ -12,7 +12,7 @@ description: Visualize, analyze, and render protein and molecular structures usi
   or active site residues, color by B-factor/pLDDT, or analyze protein-ligand interactions.
   Do not use for docking, molecular dynamics, or sequence-only analysis.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md
 evidence:
@@ -24,15 +24,15 @@ evidence:
     — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://pymol.org/support.html
   evaluator: unknown
   date: '2026-06-20'
   type: peer-review
   trustNumber: 80.0
-  grade: A
+  grade: S
   notes: PyMOL — Schrodinger; widely-used molecular visualization system; canonical
     reference for 3D protein structure analysis
   reviewers: 3

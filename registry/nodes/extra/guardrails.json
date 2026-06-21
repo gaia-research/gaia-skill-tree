@@ -20,8 +20,7 @@
       "date": "2026-04-30",
       "notes": "Prompt Attack Detection with LLM-as-a-Judge (2026) -- guardrail deployment framework for detecting jailbreaks and prompt injections under production latency constraints. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -30,14 +29,13 @@
       "date": "2026-04-30",
       "notes": "NeMo Guardrails -- open-source toolkit for adding programmable safety rails to LLM-based conversational systems; actively maintained. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

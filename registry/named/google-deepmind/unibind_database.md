@@ -12,7 +12,7 @@ description: Queries the UniBind database for experimentally validated transcrip
   available datasets by species, cell line, or TF name. Don't use to query specific
   intervals, locations, genes, motif models or expression data.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md
 evidence:
@@ -24,15 +24,15 @@ evidence:
     — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://pmc.ncbi.nlm.nih.gov/articles/PMC8236138/
   evaluator: unknown
   date: '2026-06-20'
   type: peer-review
   trustNumber: 82.0
-  grade: A
+  grade: S
   notes: UniBind 2021 — PMC NAR database issue; 72M+ direct TF-DNA interactions from
     ChIP-seq across 9 species
   reviewers: 3

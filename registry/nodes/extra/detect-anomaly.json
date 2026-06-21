@@ -20,14 +20,13 @@
       "date": "2026-04-28",
       "notes": "Deep Learning for Anomaly Detection survey (Pang et al., ACM CSUR) â€” comprehensive benchmark of 30+ methods across fraud, intrusion, and medical anomaly detection. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

@@ -19,14 +19,13 @@ tags:
 - collective-intelligence
 - memory
 createdAt: '2026-05-19'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 evidence:
 - source: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hive-mind/SKILL.md
   evaluator: unknown
   date: '2026-06-20'
   type: github-stars-own
   trustNumber: 85.0
-  grade: A
   notes: ruflo platform SKILL.md — 60.3k GitHub stars, 34 plugins; hive-mind specific
     file avoids same-source dedup (verified 2026-06-20)
   stars: 60300
@@ -48,7 +47,7 @@ evidence:
   date: '2026-06-20'
   type: social-signal
   trustNumber: 82.0
-  grade: A
+  grade: B
   notes: Ultimate Guide to Ruflo v3 Enterprise AI Agent with Hive Mind — 424K YouTube
     views; covers ruflo hive-mind architecture and queen-agent coordination (verified
     2026-06-20)

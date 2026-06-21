@@ -20,14 +20,13 @@
       "date": "2026-04-30",
       "notes": "microsoft/PromptKit (42 stars) — composable prompt components for security audits, code review, and bug investigation with any LLM. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

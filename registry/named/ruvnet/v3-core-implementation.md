@@ -19,7 +19,7 @@ tags:
 - api-contracts
 - v3-sprint
 createdAt: '2026-05-19'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 suiteRef: ruvnet/ruflo-v3
 evidence:
 - class: B
@@ -30,9 +30,9 @@ evidence:
     migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6899
   contributors: 32
+  grade: B
 timeline:
 - timestamp: '2026-06-14T12:33:01Z'
   action: evidence_graded

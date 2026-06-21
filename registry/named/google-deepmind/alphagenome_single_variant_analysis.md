@@ -14,7 +14,7 @@ description: Analyzes genetic variant effects on gene expression (RNA-seq), chro
   Also use for resolving biological terms to tissue/cell-type ontologies (UBERON/CL)
   or analyzing variants in chr:pos:ref>alt format.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md
 evidence:
@@ -27,9 +27,9 @@ evidence:
     not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://www.nature.com/articles/s41586-025-10014-0
   evaluator: unknown
   date: '2026-06-19'
@@ -39,6 +39,7 @@ evidence:
     with AlphaGenome. 107 citations (Semantic Scholar 2026-06-19). Nature paper for
     the AlphaGenome variant analysis tool.'
   reviewers: 3
+  grade: S
 timeline:
 - timestamp: '2026-06-14T12:32:28Z'
   action: evidence_graded

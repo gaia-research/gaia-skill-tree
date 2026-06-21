@@ -12,7 +12,7 @@ description: Distills a completed user workflow or interaction into a reusable a
   what we just did", "package this workflow" or similar. Do not use for creating skills
   from scratch without an existing workflow (use a generic skill-creator for that).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md
 evidence:
@@ -24,15 +24,15 @@ evidence:
     (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://github.com/google-deepmind/science-skills
   evaluator: unknown
   date: '2026-06-20'
   type: peer-review
   trustNumber: 78.0
-  grade: B
+  grade: S
   notes: google-deepmind/science-skills workflow creator — meta-skill for composing
     science database skill workflows
   reviewers: 3

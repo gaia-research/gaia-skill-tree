@@ -14,14 +14,13 @@
       "date": "2026-04-28",
       "notes": "Latent Diffusion Models (Rombach et al.) â€” foundational paper for Stable Diffusion; achieves FID 5.11 on LSUN-Beds at 200Ã— less compute than pixel-space diffusion. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

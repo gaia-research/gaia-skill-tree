@@ -10,7 +10,7 @@ level: 2★
 description: An ultra-compressed communication mode designed to save tokens by dropping
   articles and filler words. Removed from mattpocock/skills suite in v1.0.1.
 createdAt: '2026-05-21'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman
 trustMagnitude: 30.0
@@ -53,6 +53,7 @@ evidence:
   type: peer-review
   class: A
   notes: GitHub issue about caveman skill feature request.
+  grade: C
 verification:
   firstEvidenceAt: '2026-06-19T12:32:51Z'
 suiteRef: mattpocock/productivity

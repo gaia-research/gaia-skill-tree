@@ -20,8 +20,7 @@
       "date": "2026-04-30",
       "notes": "Du et al. (2023) -- Improving Factuality and Reasoning through Multi-Agent Debate; +14% truthfulness on TruthfulQA and +6% on MMLU Reasoning over single-model greedy decoding baselines. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -30,14 +29,13 @@
       "date": "2026-04-30",
       "notes": "ChatEval (Chan et al., 2023) -- role-play multi-agent debate framework for open-ended text quality evaluation; outperforms single LLM judges on correlation with human ratings across MT-Bench and Vicuna benchmarks. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

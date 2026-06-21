@@ -13,7 +13,7 @@ description: The ultimate capstone suite encompassing all of Matt Pocock's engin
 links:
   github: https://github.com/mattpocock/skills
 createdAt: '2026-05-22'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 trustMagnitude: 480.29
 overallTrustGrade: S
 apexGateStatus:
@@ -90,6 +90,7 @@ evidence:
     report; mothership with 19 sub-skills, divisor=4)
   stars: 133210
   skillCountInRepo: 19
+  grade: C
 - source: https://arxiv.org/abs/2602.20867
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -105,6 +106,7 @@ evidence:
   notes: 'Matt Pocock official YouTube: "Learn anything with the /teach skill." Creator
     demonstrating his own skills suite.'
   views: 86670
+  grade: B
 - source: https://github.com/mattpocock/skills
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -112,6 +114,7 @@ evidence:
   class: A
   notes: 'G7 Trust Taxonomy Audit (June 2026): high adoption (132k stars), apex gate
     failure on tenure (<26 days vs 180 required), recommended role:variant filtering.'
+  grade: C
 verification:
   firstEvidenceAt: '2026-06-19T09:18:11Z'
 suiteComponents:

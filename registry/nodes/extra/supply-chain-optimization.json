@@ -17,8 +17,7 @@
       "date": "2026-06-03",
       "notes": "ML-Based Study on Synergistic Optimization of Supply Chain Management and Financial Supply Chains: LSTM demand forecasting + XGBoost credit assessment + Game Theory / RL for inventory-procurement; 30% inventory turnover uplift, >95% order fill rate (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -27,8 +26,7 @@
       "date": "2026-06-03",
       "notes": "Designing and Deploying AI Models for Sustainable Logistics Optimization: predictive demand analytics, route optimization via ML, AI-powered fuel efficiency strategies for eco-efficient supply chains (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -37,14 +35,13 @@
       "date": "2026-06-03",
       "notes": "Comprehensive skill covering EOQ, safety stock, reorder points, ABC-XYZ classification, multi-SKU budget-constrained allocation, and Python implementations for inventory optimization (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

@@ -20,8 +20,7 @@
       "date": "2026-04-28",
       "notes": "Reproducible demonstration: Claude Code agent researched 30 popular AI skills, sourced 22 peer-reviewed papers, generated gaia.json via script, passed all 6 validator checks, and submitted PR â€” full inputs/outputs archived in the PR diff. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     },
     {
       "class": "B",
@@ -30,8 +29,7 @@
       "date": "2026-04-28",
       "notes": "Batch 2 curation: 11 skills added (7 atomic, 3 composite, 1 legendary) with verified Class A/B evidence. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     },
     {
       "class": "B",
@@ -40,8 +38,7 @@
       "date": "2026-04-29",
       "notes": "Batch 3 curation: 5 skills added (2 atomic, 3 composite) â€” self-consistency, few-shot-learning, tree-of-thought, prompt-optimization, tool-creation. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     },
     {
       "class": "B",
@@ -50,8 +47,7 @@
       "date": "2026-04-30",
       "notes": "Batch 4 curation: 6 skills added (4 atomic, 2 composite) -- optical-character-recognition, object-detection, code-explain, reward-modeling, grounding, multi-agent-debate. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     },
     {
       "class": "B",
@@ -60,14 +56,13 @@
       "date": "2026-04-30",
       "notes": "Batch 5 curation: 5 skills added (2 atomic, 3 composite) -- statistical-analysis, scientific-visualization, literature-review, scientific-writing, ml-pipeline. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

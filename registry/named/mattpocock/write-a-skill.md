@@ -22,7 +22,7 @@ tags:
 - skill-scaffolding
 - progressive-disclosure
 createdAt: '2026-04-30'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 timeline:
 - timestamp: '2026-06-02T23:33:00Z'
   action: rank_up
@@ -72,12 +72,14 @@ evidence:
   type: peer-review
   class: A
   notes: GitHub issue about write-a-skill skill documentation contradiction.
+  grade: C
 - source: https://github.com/mattpocock/skills/discussions/246
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: peer-review
   class: A
   notes: GitHub discussion comparing write-a-skill skill with skill-creator.
+  grade: C
 verification:
   firstEvidenceAt: '2026-06-19T12:38:21Z'
 suiteRef: mattpocock/productivity

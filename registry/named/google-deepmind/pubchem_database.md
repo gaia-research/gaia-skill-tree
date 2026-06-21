@@ -10,7 +10,7 @@ description: Query PubChem, search by name/CID/SMILES, retrieve properties, simi
   searches, bioactivity, for cheminformatics. Use when a user asks about a specific
   chemical, drug, or molecule.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md
 evidence:
@@ -22,15 +22,15 @@ evidence:
     — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://academic.oup.com/nar/article/53/D1/D1516/7903365
   evaluator: unknown
   date: '2026-06-20'
   type: peer-review
   trustNumber: 85.0
-  grade: A
+  grade: S
   notes: PubChem 2025 — NAR; comprehensive public chemical database, biological activities
     data
   reviewers: 3

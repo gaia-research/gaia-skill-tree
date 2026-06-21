@@ -51,6 +51,7 @@ from gaia_cli.commands.dev import (
     meta_verify_command,
     meta_verify_tier_command,
     meta_calibrate_command,
+    calibrate_evidence_grades_command,
     meta_evidence_command,
     meta_rm_evidence_command,
     meta_build_command,
@@ -267,6 +268,7 @@ MUTATING_DEV_COMMANDS = frozenset(
         "split",
         "rename",
         "calibrate",
+        "calibrate-evidence-grades",
         "evidence",
         "rm-evidence",
         "link",
@@ -3426,6 +3428,29 @@ def get_parser():
         help="Skip rebuilding docs and graph assets after calibrating",
     )
 
+    dev_calibrate_ev = dev_sub.add_parser(
+        "calibrate-evidence-grades",
+        help="Backfill per-row evidence grade fields from per-type artifact_score thresholds (Issue #761)",
+    )
+    dev_calibrate_ev.add_argument(
+        "--dry-run", action="store_true", help="Show what would change without writing"
+    )
+    dev_calibrate_ev.add_argument(
+        "--skill", help="Only process this skill ID (generic ref or contributor/name)"
+    )
+    dev_calibrate_ev.add_argument(
+        "--scope",
+        choices=("all", "generic", "named"),
+        default="all",
+        help="Limit scope to generic nodes, named .md files, or both (default: all)",
+    )
+    dev_calibrate_ev.add_argument(
+        "--no-build", action="store_true", help="Skip rebuilding docs after backfill"
+    )
+    dev_calibrate_ev.add_argument(
+        "--yes", "-y", action="store_true", help="Skip confirmation prompt"
+    )
+
     dev_add = dev_sub.add_parser("add", help="Add a new skill to the registry")
     dev_add.add_argument("name", help="Human-readable name of the skill")
     dev_add.add_argument(
@@ -3616,7 +3641,7 @@ def get_parser():
         "--trust",
         type=float,
         metavar="NUMBER",
-        help="Trust number 0-100. Grade is auto-derived: S≥90, A≥80, B≥60, C≥40; <40=ungraded.",
+        help="Trust Magnitude value. Grade is auto-derived: S≥250, A≥100, B≥50, C≥20; <20=ungraded.",
     )
     dev_evidence.add_argument(
         "--class",
@@ -3970,6 +3995,8 @@ def main():
             meta_verify_tier_command(args)
         elif dev_cmd == "calibrate":
             meta_calibrate_command(args)
+        elif dev_cmd == "calibrate-evidence-grades":
+            calibrate_evidence_grades_command(args)
         elif dev_cmd == "add":
             meta_add_command(args)
         elif dev_cmd == "rm":

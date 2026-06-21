@@ -17,8 +17,7 @@
       "date": "2026-06-03",
       "notes": "Causal machine learning for predicting treatment outcomes — individualized treatment effects from RCT + observational data; published Nature Medicine 2024 (Feuerriegel et al.) (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -27,14 +26,13 @@
       "date": "2026-06-03",
       "notes": "SKILL.md: Causal Inference — propensity scoring, instrumental variables, causal graphs, treatment effects, policy evaluation (aj-geddes) (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

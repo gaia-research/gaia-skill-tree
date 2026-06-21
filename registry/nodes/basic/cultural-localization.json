@@ -13,8 +13,7 @@
       "date": "2026-06-03",
       "notes": "Steering LLMs for Culturally Localized Generation — sparse autoencoders identify cultural features (CuE) enabling white-box steering for cultural faithfulness (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -23,8 +22,7 @@
       "date": "2026-06-03",
       "notes": "'Be My Cheese?': Cultural Nuance Benchmarking for MT in Multilingual LLMs — 7 models, 15 languages, native-speaker evaluation of idioms, puns, holidays (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "C",
@@ -33,14 +31,13 @@
       "date": "2026-06-03",
       "notes": "cultural-localization skill on SkillsMP — per-country cultural copy profiles synthesizing three cultural frameworks for tone, trust-building, CTA style (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

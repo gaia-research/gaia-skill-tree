@@ -10,7 +10,7 @@ description: Search for scientific papers, preprints, and publications on arXiv.
   metadata, abstracts, and download full-text PDFs or HTML versions of papers. Use
   when the user asks to find research papers, literature, or specific arXiv IDs.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md
 evidence:
@@ -22,9 +22,9 @@ evidence:
     (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://arxiv.org/about
   evaluator: unknown
   date: '2026-06-19'
@@ -33,6 +33,7 @@ evidence:
   notes: 'arXiv e-print repository: Cornell University open-access preprint platform.
     Launched 1991, >2M papers. Primary infrastructure for the arXiv search skill.'
   reviewers: 2
+  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:33Z'
   action: evidence_graded

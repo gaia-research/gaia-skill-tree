@@ -11,7 +11,7 @@ description: Query the Ensembl database to resolve gene, transcript, and protein
   consequence and effect predictions (VEP). Use this skill as a primary ID translator,
   genomic sequence database and variant effect prediction tool.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md
 evidence:
@@ -23,15 +23,15 @@ evidence:
     — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://academic.oup.com/nar/article/54/D1/D1053/8343504
   evaluator: unknown
   date: '2026-06-20'
   type: peer-review
   trustNumber: 85.0
-  grade: A
+  grade: S
   notes: Ensembl 2025 — NAR database issue; genome annotation, gene models, genetic
     variation
   reviewers: 3

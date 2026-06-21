@@ -12,7 +12,7 @@ description: Declarative programming of language model pipelines, automatically 
 title: The Programmatic Prompt Engineer
 catalogRef: stanfordnlp-dspy
 createdAt: '2026-06-02'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 timeline:
 - timestamp: '2026-06-02T01:44:00Z'
   action: demote
@@ -65,6 +65,7 @@ evidence:
   class: A
   notes: DSPy paper — ~700 citations as of 2026-06-19 (arXiv:2310.03714, ICLR 2024)
   citations: 700
+  grade: S
 verification:
   firstEvidenceAt: '2026-06-19T09:21:47Z'
 trustMagnitudeInputHash: 379258625357acb056eaaf3a0ff982d04f9b5f903aed8b94ea0614b6277e2645

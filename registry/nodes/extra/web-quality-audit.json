@@ -19,14 +19,13 @@
       "date": "2026-05-31",
       "notes": "Addy Osmani's agent-skills repo (47k stars) contains performance-optimization, code-review-and-quality, security-and-hardening and other skills that compose a web quality audit workflow. The prior URL (addyosmani/web-quality-skills) was a non-existent repo — corrected to the verified canonical repo. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-24",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

@@ -11,7 +11,7 @@ description: Query the ENCODE Registry of cis-Regulatory Elements (cCREs) via th
   and files (ChIP-seq peaks, etc.). Use when you want to query regulatory annotations
   or raw experimental data across human cell types.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md
 evidence:
@@ -23,9 +23,9 @@ evidence:
     (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://www.nature.com/articles/s41586-025-09909-9
   evaluator: unknown
   date: '2026-06-20'

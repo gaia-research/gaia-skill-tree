@@ -18,8 +18,7 @@
       "date": "2026-04-28",
       "notes": "DS-1000 â€” benchmark of 1000 data science problems across NumPy/Pandas/Scikit-learn; GPT-4 achieves 43.3% pass@1, establishing reproducible DS evaluation. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -28,8 +27,7 @@
       "date": "2026-04-28",
       "notes": "AutoML Survey (He et al., ACM CSUR) â€” systematic review of autonomous ML pipeline search; demonstrates automated feature engineering, model selection, and HPO. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -38,14 +36,13 @@
       "date": "2026-04-28",
       "notes": "AutoGen (Microsoft) â€” multi-agent framework with reproducible data science notebooks; science agent achieves 44.3% on DS-1000 with full execution logs. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "title": "Primordial Oracle",
   "timeline": [

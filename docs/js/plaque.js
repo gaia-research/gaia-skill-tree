@@ -254,6 +254,7 @@
   var GRADE_NAMES = { S: 'Platinum', A: 'Gold', B: 'Silver', C: 'Bronze' };
 
   function _fieldTrustNotch(ns) {
+    var TM = window.TM_CONFIG;
     var tg = (ns && (ns.overallTrustGrade || ns.trustGrade)) || '';
     if (!tg || tg === 'ungraded' || !GRADE_NAMES[tg]) return '';
     var tm = (ns && (ns.trustMagnitude || ns.overallTrustMagnitude));
@@ -266,9 +267,42 @@
     var initialDisplay = tmVal % 1 === 0 ? String(Math.round(tmVal)) : tmVal.toFixed(1);
     var gradeName = GRADE_NAMES[tg];
     var ariaLabel = 'Trust grade: ' + gradeName + (tmVal > 0 ? ', magnitude ' + tmVal : '');
+
+    // Build (i) tooltip from TM_CONFIG when available; degrade gracefully otherwise.
+    var tooltipText;
+    if (TM) {
+      var lines = [];
+      lines.push(gradeName + ' (' + tg + ') · MAG ' + (tmVal > 0 ? initialDisplay : '—'));
+      lines.push('Aggregate Trust Magnitude — weighted sum across all evidence rows.');
+      lines.push('');
+      lines.push('Skill grade thresholds:');
+      for (var i = 0; i < TM.OVERALL_GRADES.length; i++) {
+        var g = TM.OVERALL_GRADES[i];
+        var row = '  ' + g.grade + ' (' + g.name + ') · TM ≥ ' + g.floor;
+        if (g.note) row += ' — ' + g.note;
+        lines.push(row);
+      }
+      lines.push('  Ungraded · TM < 20');
+      lines.push('');
+      lines.push('Diversity gate (S only): ≥3 distinct evidence types AND');
+      lines.push('  ≥1 non-self-producible type (' +
+        TM.SELF_PRODUCIBLE.join(', ') + ' cannot anchor alone).');
+      lines.push('');
+      lines.push('Evidence cards show per-row artifact scores (pre-weight).');
+      lines.push('Full methodology: ' + TM.RFC.grades);
+      tooltipText = lines.join('\n');
+    } else {
+      tooltipText = gradeName + ' (' + tg + ') · MAG ' +
+        (tmVal > 0 ? initialDisplay : '—') +
+        '\nWeighted aggregate across all evidence rows.' +
+        '\nEvidence cards show per-row artifact scores.' +
+        '\nhttps://gaia.tiongson.co/trust/#grade-thresholds';
+    }
+
     return '<div class="plaque__trust-notch" data-trust-grade="' + esc(tg) + '"' +
       ' data-tm="' + esc(String(tmVal)) + '"' +
-      ' aria-label="' + esc(ariaLabel) + '">' +
+      ' aria-label="' + esc(ariaLabel) + '"' +
+      ' title="' + esc(tooltipText) + '">' +
       '<span class="trust-notch-label">MAG <span class="trust-notch-num">' + esc(initialDisplay) + '</span></span>' +
       '</div>';
   }

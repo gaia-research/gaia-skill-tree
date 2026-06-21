@@ -16,7 +16,7 @@ tags:
 - concurrency
 - task-execution
 - queue
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md
@@ -28,13 +28,12 @@ evidence:
   commits: 34
   contributors: 1
   trustNumber: 65.0
-  grade: B
 - source: https://github.com/intelligentcode-ai/skills
   evaluator: unknown
   date: '2026-06-20'
   type: self-attestation
   trustNumber: 60.0
-  grade: B
+  grade: C
   notes: intelligentcode-ai/skills suite self-attested via README description; practical
     agent skill for parallel-execution domain
   sourceStartedAt: '2025-01-01'

@@ -24,14 +24,13 @@
       "date": "2026-05-22",
       "notes": "Consolidated engineering suite for Matt Pocock's skills. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-22",
-  "updatedAt": "2026-06-20",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

@@ -18,7 +18,7 @@ tags:
 - quality-gate
 - repo-maintenance
 createdAt: '2026-05-01'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/mbtiongson1/gaia-skill-tree

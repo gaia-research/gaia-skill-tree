@@ -9,7 +9,7 @@ level: 4★
 description: Checks whether the uv Python package manager is installed and installs
   it if missing. Ensures uv is on PATH. Use when another skill requires uv as a prerequisite.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md
 evidence:
@@ -21,15 +21,15 @@ evidence:
     migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://github.com/astral-sh/uv
   evaluator: unknown
   date: '2026-06-20'
   type: peer-review
   trustNumber: 78.0
-  grade: B
+  grade: S
   notes: uv — ultra-fast Python package manager by Astral (Ruff team); 51k+ GitHub
     stars; replaces pip+venv+poetry
   reviewers: 3

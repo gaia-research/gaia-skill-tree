@@ -22,8 +22,7 @@
       "date": "2026-05-10",
       "notes": "AgentSkillOS paper introduces ecosystem-scale organization, orchestration, and benchmarking with a 30-task suite spanning data computation, documents, video, design, and web interaction. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -32,8 +31,7 @@
       "date": "2026-05-10",
       "notes": "Anthropic skill-creator explicitly includes measuring skill performance, benchmarking with variance analysis, and optimizing skill descriptions for triggering accuracy. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     },
     {
       "class": "B",
@@ -42,8 +40,7 @@
       "date": "2026-05-10",
       "notes": "AgentSkillOS repository provides the reproducible retrieval/orchestration framework and benchmark implementation for 30 artifact-rich agent-skill tasks with Bradley-Terry scoring. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [
@@ -51,7 +48,7 @@
   ],
   "status": "provisional",
   "createdAt": "2026-05-10",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

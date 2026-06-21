@@ -18,14 +18,13 @@
       "date": "2026-04-28",
       "notes": "DIN-SQL â€” decomposed in-context learning for text-to-SQL; 82.8% execution accuracy on Spider dev, demonstrating end-to-end pipeline. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

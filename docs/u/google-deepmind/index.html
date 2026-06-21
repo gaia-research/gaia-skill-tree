@@ -23,7 +23,9 @@
   <script src="../../js/icons.js?v=5.0.7"></script>
   <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
   <script src="../../js/rank-badge.js?v=5.0.7"></script>
-  <!-- Stage 3 — plaque component family, loaded after rank-badge.js. -->
+  <!-- Stage 3 — TM config (single source of truth for formulas/RFC), before plaque. -->
+  <script src="../../js/tm-config.js?v=5.0.7"></script>
+  <!-- Stage 4 — plaque component family, loaded after tm-config.js. -->
   <script src="../../js/plaque.js?v=5.0.7"></script>
   <script src="../../js/ui.js?v=5.0.7" defer></script>
 </head>
@@ -313,6 +315,8 @@
         <button id="seOpenRepo" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg> Repo</button>
         <button id="seSkillDocs" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#external-link"/></svg> SKILL.md</button>
         <button id="seShare" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#share"/></svg> Share</button>
+        <button id="seTrustReport" class="se-btn-action" title="View full trust report" aria-label="View trust report"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#info"/></svg> Report</button>
+        <button id="seSubmitEvidence" class="se-btn-action" title="Submit evidence for this skill" aria-label="Submit evidence" style="display:none"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg> Evidence</button>
         <button id="seClose" class="se-btn-ghost se-close-x" aria-label="Close"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#close-x"/></svg></button>
       </div>
     </div>

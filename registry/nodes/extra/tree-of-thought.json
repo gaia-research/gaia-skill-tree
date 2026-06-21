@@ -19,8 +19,7 @@
       "date": "2026-04-29",
       "notes": "Yao et al. (2023) â€” Tree of Thoughts: Deliberate Problem Solving with LLMs; +74% on Game of 24 and +4% on Creative Writing vs chain-of-thought baseline. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -29,14 +28,13 @@
       "date": "2026-04-29",
       "notes": "Princeton-NLP ToT repo â€” reproducible breadth-first and depth-first tree search implementations with evaluation scripts for Game of 24 and Mini Crosswords. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-29",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

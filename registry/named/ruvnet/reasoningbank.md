@@ -18,7 +18,7 @@ tags:
 - memory-integration
 - self-improvement
 createdAt: '2026-05-19'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/reasoningbank-agentdb
@@ -32,9 +32,9 @@ evidence:
     migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6899
   contributors: 32
+  grade: B
 - source: https://github.com/ruvnet/ruflo/issues/2410
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -43,6 +43,7 @@ evidence:
   notes: Dream cycle research issue documenting ReasoningBank performance gaps vs
     OPD-Evolver (11.5% improvement) and proposing bi-temporal indexing improvements
     via ADR-161.
+  grade: C
 - source: https://github.com/ruvnet/ruflo/issues/928
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -50,6 +51,7 @@ evidence:
   class: A
   notes: Direct user feedback on reasoningbank-intelligence skill implementation and
     usage.
+  grade: C
 - source: https://github.com/ruvnet/ruflo/issues/914
   evaluator: mbtiongson1
   date: '2026-06-19'

@@ -10,7 +10,7 @@ description: Use when you want to retrieve quantitative RNA expression data and 
   eQTL information from the GTEx (Genotype-Tissue Expression) Project across 54 non-diseased
   tissue sites.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md
 evidence:
@@ -22,9 +22,9 @@ evidence:
     — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://www.science.org/doi/10.1126/science.aaz1776
   evaluator: unknown
   date: '2026-06-19'
@@ -33,6 +33,7 @@ evidence:
   notes: 'GTEx Consortium 2019 Science: GTEx atlas of genetic regulatory effects across
     human tissues. 4,618 citations (Semantic Scholar 2026-06-19).'
   reviewers: 3
+  grade: S
 timeline:
 - timestamp: '2026-06-14T12:32:31Z'
   action: evidence_graded

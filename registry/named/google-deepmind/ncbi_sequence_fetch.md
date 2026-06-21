@@ -12,7 +12,7 @@ description: Retrieve protein and nucleotide sequences from NCBI databases using
   search. Use when you need to fetch biological sequences by accession, gene name,
   locus tag, PubMed ID, or patent number.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md
 evidence:
@@ -24,15 +24,15 @@ evidence:
     (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://academic.oup.com/nar/article/42/D1/D7/1054454
   evaluator: unknown
   date: '2026-06-20'
   type: peer-review
   trustNumber: 82.0
-  grade: A
+  grade: S
   notes: NCBI 2014 — NAR; GenBank/BLAST/Entrez infrastructure for sequence retrieval;
     foundational bioinformatics resource
   reviewers: 3

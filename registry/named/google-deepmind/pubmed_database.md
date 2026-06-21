@@ -12,7 +12,7 @@ description: Search PubMed for scientific literature, including published clinic
   specific compounds or genes. Verify medical spelling, match raw citations, and cache
   result sets for bulk processing. Interfaces NCBI E-utilities and PMC BioC APIs.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md
 evidence:
@@ -24,9 +24,9 @@ evidence:
     — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://pubmed.ncbi.nlm.nih.gov/
   evaluator: unknown
   date: '2026-06-19'
@@ -36,6 +36,7 @@ evidence:
     Peer-reviewed infrastructure used by millions of researchers globally (reviewed
     and maintained by NLM since 1996).'
   reviewers: 2
+  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:37Z'
   action: evidence_graded

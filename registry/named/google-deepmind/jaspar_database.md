@@ -11,7 +11,7 @@ description: Query the JASPAR database for Transcription Factor (TF) binding pro
   (PWMs) for specific TFs, resolving gene symbols to JASPAR Matrix IDs, or getting
   TF metadata. Supports multiple output formats (MEME, TRANSFAC, PFM, JASPAR, YAML).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md
 evidence:
@@ -23,15 +23,15 @@ evidence:
     — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://academic.oup.com/nar/article/52/D1/D174/7420101
   evaluator: unknown
   date: '2026-06-20'
   type: peer-review
   trustNumber: 85.0
-  grade: A
+  grade: S
   notes: JASPAR 2024 — NAR; largest open-access TF binding profile database; 8-organism
     TFBS tracks
   reviewers: 3

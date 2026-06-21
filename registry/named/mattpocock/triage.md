@@ -22,7 +22,7 @@ tags:
 - agent-brief
 - github-issues
 createdAt: '2026-04-30'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -34,21 +34,23 @@ evidence:
     --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 137
   contributors: 3
+  grade: C
 - source: https://github.com/mattpocock/skills/issues/205
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: peer-review
   class: A
   notes: GitHub issue about triage skill requirements.
+  grade: C
 - source: https://github.com/mattpocock/skills/issues/289
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: peer-review
   class: A
   notes: GitHub issue about triage skill classification gap.
+  grade: C
 timeline:
 - timestamp: '2026-06-14T12:32:44Z'
   action: evidence_graded

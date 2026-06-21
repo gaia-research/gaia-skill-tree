@@ -20,7 +20,7 @@ tags:
 - python
 - autonomous-agent
 createdAt: '2026-04-30'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 trustMagnitude: 33.0
 overallTrustGrade: C
 apexGateStatus:
@@ -86,6 +86,7 @@ evidence:
   class: A
   notes: 'SkillsMP Community: TestCase scaffolding works well for isolated classes,
     struggles with highly coupled enterprise framework mocking. April 2026.'
+  grade: C
 verification:
   firstEvidenceAt: '2026-06-19T09:23:55Z'
 trustMagnitudeInputHash: 6b3fef7f19fab551c00e99cbf661282004523fb0e79418487fd1fde173a76079

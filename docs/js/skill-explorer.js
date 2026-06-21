@@ -27,6 +27,213 @@
       .replace(/\\/g,'\\\\').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
+  // Format a number as k (e.g. 60300 → "60.3k")
+  function _fmtK(n) {
+    var num = parseFloat(n);
+    if (isNaN(num)) return String(n);
+    if (num >= 1000) return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+    return String(num);
+  }
+
+  // Hint which metric fields a curator should add to make a row scoreable.
+  var _DRIVER_HINTS = {
+    'github-stars-own':     'stars (and skillCountInRepo)',
+    'proxy-containment':    'externalStars (≥10000)',
+    'verifier-attestation': 'verifiers',
+    'benchmark-result':     'percentile (0–100)',
+    'arxiv':                'citations',
+    'peer-review':          'reviewers',
+    'repo-own':             'commits + contributors',
+    'self-attestation':     '(self-attestation has flat 10 — no fields needed)',
+    'social-signal':        'views (≥1000)',
+    'fusion-recipe':        'origins (or gradedOriginCount)',
+  };
+  function _missingDriversHint(t) { return _DRIVER_HINTS[t] || 'metric fields'; }
+
+  // Derive the pre-weight artifact magnitude (for tooltip chain display only).
+  // Returns the capped base magnitude — used as input to _deriveWeightedScore.
+  // ALWAYS prefers the live formula over stored ev.trustNumber (which may be stale).
+  function _deriveTrustNum(ev) {
+    if (ev._noScore) return null;
+    var TM = window.TM_CONFIG;
+    if (!TM) return null;
+    var t = TM.canonicalType(ev.type || '');
+    var cfg = TM.TYPES[t];
+    if (!cfg) return null;
+    // Live formula first
+    var d = cfg.describe(ev);
+    if (d != null && d.value != null) return Math.round(TM.applyCap(t, d.value) * 10) / 10;
+    // No metric drivers: don't fall back to stored trustNumber (it's pre-weight legacy).
+    // Return null so the row honestly shows ungraded / no-score.
+    return null;
+  }
+
+  // Derive the fully-weighted artifact score: base × weight × freshness × creator × engagement.
+  // This is what the MAG bar displays — the actual contribution before plateau stacking.
+  // Mirrors computeArtifactScoreOrNone() in trustMagnitude.py exactly.
+  function _deriveWeightedScore(ev) {
+    if (ev._noScore) return null;
+    var TM = window.TM_CONFIG;
+    if (!TM) return null;
+
+    var t = TM.canonicalType(ev.type || '');
+    var cfg = TM.TYPES[t];
+    if (!cfg) return null;
+
+    // Get base (capped) magnitude — prefer live formula over stored trustNumber
+    var d = cfg.describe(ev);
+    var base = null;
+    if (d != null && d.value != null) {
+      base = TM.applyCap(t, d.value);
+    } else {
+      // No metric drivers: don't fabricate a score. The row is honestly missing data.
+      return null;
+    }
+
+    // × weight
+    var score = base * cfg.weight;
+
+    // × freshness
+    if (cfg.freshness && cfg.freshness.decayPerYear) {
+      var lv = ev.lastVerified || ev.date || null;
+      if (lv) {
+        var ageYrs = (Date.now() - new Date(lv).getTime()) / (1000 * 365.25 * 24 * 3600);
+        var ff = Math.max(0, 1 - cfg.freshness.decayPerYear * ageYrs);
+        score *= ff;
+      }
+    }
+
+    // × creator + engagement (social-signal)
+    if (t === 'social-signal') {
+      var cm = ev.creatorMultiplier != null ? Number(ev.creatorMultiplier) : 1.0;
+      var er = ev.engagementRatio   != null ? Number(ev.engagementRatio)   : 1.0;
+      score *= cm * er;
+    }
+
+    // × inheritMultiplier (generic-layer rows)
+    if (ev._layer === 'generic') {
+      var iContracts = {
+        'arxiv': 0.70, 'peer-review': 0.30, 'social-signal': 0.35,
+        'proxy-containment': 0.25, 'benchmark-result': 0.15
+      };
+      var im = iContracts[t];
+      if (im != null) score *= im;
+    }
+
+    return Math.round(score * 10) / 10;
+  }
+  // Build a tooltip showing the FULL multiplier chain, mirroring inspectTrustMagnitude.py:
+  //   base × weight × freshness [× mothership] [× creator] [× engagement] [× inheritMult] [× plateau] = final
+  // All values read from window.TM_CONFIG — no hardcoded numbers.
+  function _magTooltip(ev, tmRaw, skillTm) {
+    var TM = window.TM_CONFIG;
+    if (!TM) return 'Trust config unavailable. See https://gaia.tiongson.co/codex/trust-methodology.html';
+
+    var t = TM.canonicalType(ev.type || '');
+    var cfg = TM.TYPES[t];
+    var lines = [];
+
+    if (!cfg) {
+      lines.push('Unknown evidence type: ' + (ev.type || '(none)'));
+      lines.push('Full methodology: ' + TM.RFC_BASE);
+      return lines.join('\n');
+    }
+
+    // ── Header: type label + formula ─────────────────────────────
+    lines.push(cfg.label.toUpperCase() + ' · ' + cfg.formula);
+    lines.push('');
+
+    // ── Full multiplier chain (live formula only — no stale "stored" values) ──
+    var d = cfg.describe(ev);
+    if (d != null && d.value != null) {
+      var baseMag = d.value;
+      var capped  = TM.applyCap(t, baseMag);
+      var capNote = (cfg.cap != null && baseMag > cfg.cap) ? ' → capped at ' + cfg.cap : '';
+
+      // base
+      lines.push('base:          ' + d.expr + ' = ' + baseMag.toFixed(2) + capNote);
+
+      // × weight
+      lines.push('× weight:      ' + cfg.weight);
+
+      // × freshness
+      if (cfg.freshness && cfg.freshness.decayPerYear) {
+        var lv = ev.lastVerified || ev.date || null;
+        if (lv) {
+          var ageYrs2 = (Date.now() - new Date(lv).getTime()) / (1000 * 365.25 * 24 * 3600);
+          var ff = Math.max(0, 1 - cfg.freshness.decayPerYear * ageYrs2);
+          lines.push('× freshness:   ' + ff.toFixed(3) + '  (−' + Math.round(cfg.freshness.decayPerYear * 100) + '%/yr; age ' + ageYrs2.toFixed(1) + ' yrs)');
+        } else {
+          lines.push('× freshness:   1.00  (assumed — no lastVerified date)');
+        }
+      } else {
+        lines.push('× freshness:   1.00  (no decay)');
+      }
+
+      // NOTE: github-stars-own mothership divisor is already baked into base magnitude.
+      // No separate × mothership step — formula is min(200,stars/1000) ÷ min(skillCount,4).
+
+      // × creator + × engagement (social-signal only)
+      if (t === 'social-signal') {
+        var cm = ev.creatorMultiplier != null ? Number(ev.creatorMultiplier) : 1.0;
+        var er = ev.engagementRatio   != null ? Number(ev.engagementRatio)   : 1.0;
+        lines.push('× creator:     ' + cm.toFixed(2));
+        lines.push('× engagement:  ' + er.toFixed(2));
+      }
+
+      // × inheritMultiplier (generic-layer rows only)
+      if (ev._layer === 'generic') {
+        var iContracts = {
+          'arxiv': 0.70, 'peer-review': 0.30, 'social-signal': 0.35,
+          'proxy-containment': 0.25, 'benchmark-result': 0.15
+        };
+        var im = iContracts[t];
+        if (im != null) {
+          lines.push('× inheritMult: ' + im + '  (inherited from generic layer)');
+        }
+      }
+
+      // × plateau
+      if (cfg.plateau) {
+        if (cfg.plateau.maxRows === 1) {
+          lines.push('× plateau:     1.00  (max 1 row)');
+        } else {
+          lines.push('× plateau:     ' + cfg.plateau.factors.join(' / ') + '  (max ' + cfg.plateau.maxRows + ' rows; by descending score)');
+        }
+      }
+
+      // Final weighted score that the MAG bar displays
+      lines.push('');
+      var weighted = Math.round(capped * cfg.weight * 10) / 10;
+      lines.push('= MAG ' + weighted.toFixed(1) + '  (displayed on card; pre-plateau approximation)');
+
+    } else {
+      // No metric drivers — honest empty state. Prompt the curator to add fields.
+      lines.push('No metric drivers recorded for this row.');
+      lines.push('Add ' + _missingDriversHint(t) + ' to compute a live score.');
+    }
+
+    lines.push('');
+
+    // ── Per-row grade context (S/A/B/C floors are convenience labels, not RFC primitives) ──
+    if (cfg.gradeCeiling) lines.push('Type ceiling: ' + cfg.gradeCeiling + '  (highest row grade reachable for this type)');
+    var gf = cfg.gradeFloors || {};
+    var floorStrs = [];
+    ['S','A','B','C'].forEach(function(g){ if (gf[g] != null) floorStrs.push(g + '≥' + gf[g]); });
+    if (floorStrs.length) lines.push('Row grade floors: ' + floorStrs.join(' · '));
+    if (ev.grade) lines.push("This row's grade: " + ev.grade);
+
+    // ── Aggregate context ─────────────────────────────────────────
+    lines.push('');
+    var aggNote = skillTm != null
+      ? 'Skill TM = ' + (Number.isInteger(skillTm) ? skillTm : parseFloat(skillTm).toFixed(1)) + '  (weighted aggregate across all rows)'
+      : 'Skill TM = weighted aggregate across all evidence rows';
+    lines.push(aggNote);
+    lines.push('Full methodology: ' + TM.RFC[cfg.anchor || 'types']);
+
+    return lines.join('\n');
+  }
+
   function effectiveLabel(skill) {
     if (!skill) return '';
     var level = skill.level || '';
@@ -111,6 +318,9 @@
       tags: Array.isArray(ns.tags) ? ns.tags : [],
       links: links,
       genericSkillRef: ns.genericSkillRef,
+      // Trust magnitude fields — power the MAG notch at the bottom of the plaque
+      overallTrustGrade: ns.overallTrustGrade || ns.trustGrade || null,
+      trustMagnitude: ns.trustMagnitude || ns.overallTrustMagnitude || ns.trustNumber || null,
     };
 
     var heroHtml = (window.plaque && typeof window.plaque.renderDetail === 'function')
@@ -132,6 +342,88 @@
     }
     if (repoRootUrl) { openBtn.onclick = function(){ window.open(repoRootUrl,'_blank','noopener'); }; openBtn.style.display=''; }
     else { openBtn.style.display = 'none'; }
+
+    // Add (i) button to the trust notch so users can see the calculation context
+    var heroEl = document.getElementById('seHero');
+    if (heroEl) {
+      var notch = heroEl.querySelector('.plaque__trust-notch');
+      if (notch) {
+        var tm = detailNs.trustMagnitude;
+        var tg = detailNs.overallTrustGrade;
+        if (tm != null && tg) {
+          var TM_N = window.TM_CONFIG;
+          var tmName = tg === 'S' ? 'Platinum' : tg === 'A' ? 'Gold' : tg === 'B' ? 'Silver' : 'Bronze';
+          var tipLines = [
+            tmName + ' (' + tg + ') · TM ' + parseFloat(Number(tm).toFixed(1)),
+            'Trust Magnitude = sum of per-row artifact scores after all multipliers.',
+            'Each row\'s contribution = base × weight × freshness [× creator] [× inheritMult] × plateau.',
+          ];
+
+          // Per-row contributions: use _deriveWeightedScore so each number matches the MAG bar.
+          // These are pre-plateau individual scores; the actual sum may differ slightly because
+          // plateau factors are applied at aggregate time by the backend (not displayed row-by-row).
+          var allEv = (ns.evidence || []).concat((generic ? generic.evidence : null) || []);
+          if (allEv.length && TM_N) {
+            tipLines.push('');
+            tipLines.push('Per-row weighted scores (matches each card\'s MAG bar):');
+            var rowLines = [];
+            var rowSum = 0;
+            allEv.forEach(function(ev) {
+              if (!ev) return;
+              var t = TM_N.canonicalType(ev.type || '');
+              var cfg = TM_N.TYPES[t];
+              if (!cfg) return;
+              var weighted = _deriveWeightedScore(ev);
+              if (weighted == null) return;
+              rowSum += weighted;
+              var plateauNote = cfg.plateau && cfg.plateau.maxRows > 1 ? '*' : '';
+              rowLines.push('  ' + cfg.label + ': ' + weighted.toFixed(1) + plateauNote);
+            });
+            // Also synthesize fusion row if suiteComponents present
+            var suiteComps = ns.suiteComponents || [];
+            var hasFusionEv = allEv.some(function(e){ return (e.type||'') === 'fusion-recipe'; });
+            if (suiteComps.length && !hasFusionEv) {
+              var synFusion = { type: 'fusion-recipe', origins: suiteComps };
+              var fCfg = TM_N.TYPES['fusion-recipe'];
+              if (fCfg) {
+                var fWeighted = _deriveWeightedScore(synFusion);
+                if (fWeighted != null) {
+                  rowSum += fWeighted;
+                  rowLines.push('  fusion: ' + fWeighted.toFixed(1) + ' (raw origin count — backend uses graded ≥C)');
+                }
+              }
+            }
+            if (rowLines.length) {
+              tipLines = tipLines.concat(rowLines);
+              tipLines.push('');
+              // Show row-sum vs actual TM so the user can see any gap
+              var rowSumStr = rowSum.toFixed(1);
+              var actualTmStr = parseFloat(Number(tm).toFixed(1)).toString();
+              if (Math.abs(rowSum - tm) > 0.5) {
+                tipLines.push('Row sum (pre-plateau): ' + rowSumStr);
+                tipLines.push('Actual TM: ' + actualTmStr + '  (plateau stacking adjusts the sum)');
+                tipLines.push('* plateau: multi-row types discount 2nd+ rows');
+              } else {
+                tipLines.push('Row sum: ' + rowSumStr + '  ≈ TM ' + actualTmStr);
+              }
+            }
+          }
+
+          if (TM_N) {
+            tipLines.push('');
+            tipLines.push('Full methodology: ' + TM_N.RFC.grades);
+          }
+
+          var infoBtn = document.createElement('button');
+          infoBtn.className = 'se-notch-info';
+          infoBtn.type = 'button';
+          infoBtn.title = tipLines.join('\n');
+          infoBtn.setAttribute('aria-label', 'Trust Magnitude calculation details');
+          infoBtn.textContent = 'i';
+          notch.appendChild(infoBtn);
+        }
+      }
+    }
   }
 
   // ── RENDER DESCRIPTION TAB ───────────────────────────────────
@@ -609,62 +901,297 @@
     var readmeUrl = repoUrl && isGithubUrl(repoUrl) ? repoUrl.replace(/\.(git|\/?)$/,'') : '';
 
     var combinedEvidence = [];
-    var seenUrls = new Set();
-    
-    function addEvidences(list) {
+    var seenKeys = new Set();
+
+    function addEvidences(list, layer) {
       if (Array.isArray(list)) {
         list.forEach(function(ev) {
-          if (ev && ev.source) {
-            var url = ev.source.trim();
-            if (!seenUrls.has(url)) {
-              seenUrls.add(url);
-              combinedEvidence.push(ev);
-            }
+          if (!ev) return;
+          // Dedupe by (type + source) — same source URL can have different types
+          var key = (ev.type || '') + '|' + (ev.source || '');
+          if (!seenKeys.has(key)) {
+            seenKeys.add(key);
+            // Tag each row with its layer so the card can show "via generic" hint
+            combinedEvidence.push(layer ? Object.assign({}, ev, { _layer: layer }) : ev);
           }
         });
       }
     }
-    
-    addEvidences(ns.evidence);
-    addEvidences(generic ? generic.evidence : null);
+
+    addEvidences(ns.evidence, 'named');
+    addEvidences(generic ? generic.evidence : null, 'generic');
+
+    // Synthesize fusion-recipe tile from suiteComponents when no fusion-recipe
+    // row exists in the on-disk evidence (it's auto-derived at TM-compute time
+    // and never serialized, so we reconstruct it here for display only).
+    var hasFusionRow = combinedEvidence.some(function(ev) {
+      return (ev.type || '') === 'fusion-recipe';
+    });
+    var suiteComponents = ns.suiteComponents || [];
+    if (suiteComponents.length && !hasFusionRow) {
+      // suiteComponents ARE the fusion origins per RFC §2.2.
+      // The backend counts graded ≥C among them; on the frontend we use the
+      // raw count as an upper-bound approximation (tooltip says so).
+      combinedEvidence.unshift({
+        type: 'fusion-recipe',
+        origins: suiteComponents,
+        grade: ns.overallTrustGrade || null,
+        _isSuite: false,   // it IS a fusion, not a mere install suite
+        _synthetic: true,
+        _layer: 'named',
+      });
+    }
 
     var rootPath = getRootPath();
     var evidenceLibraryUrl = rootPath + 'evidence/';
 
     var evidenceContent = '';
     if (combinedEvidence.length) {
-      evidenceContent = '<div class="grade-bar" style="max-width: 100%;">' +
+      evidenceContent = '<div class="se-ev-grid">' +
         combinedEvidence.map(function(ev){
-          var gradeChar = (ev.grade || ev.class || '?').toUpperCase().charAt(0);
-          var gradeClass = 'grade-ungraded';
-          if (gradeChar === 'S') gradeClass = 'grade-plat';
-          else if (gradeChar === 'A') gradeClass = 'grade-gold';
-          else if (gradeChar === 'B') gradeClass = 'grade-silver';
-          else if (gradeChar === 'C') gradeClass = 'grade-bronze';
+          var gradeChar = (ev.grade || '').toUpperCase().charAt(0);
+          // Fallback: if no persisted per-row grade, derive from live weighted score + gradeFloors.
+          // Logic lives in TM_CONFIG.effectiveGrade — single source shared with evidence-library.js.
+          if (!gradeChar) {
+            var TM_G = window.TM_CONFIG;
+            if (TM_G && TM_G.effectiveGrade) {
+              var liveScore = _deriveWeightedScore(ev);
+              gradeChar = TM_G.effectiveGrade(ev, liveScore);
+            }
+          }
+          var isUngraded = !gradeChar;
+          var trustGrade = isUngraded ? '' : gradeChar;
 
-          var gradeName = gradeChar !== '?' ? gradeChar : '-';
+          // Type normalization
+          var rawType = (ev.type || 'repo-own');
+          if (rawType === 'repo') rawType = 'repo-own';
+          if (rawType === 'github-stars') rawType = 'github-stars-own';
+          var typeLabels = {
+            'fusion-recipe': 'fusion', 'github-stars-own': 'stars',
+            'proxy-containment': 'proxy', 'verifier-attestation': 'verifier',
+            'benchmark-result': 'benchmark', 'arxiv': 'arxiv',
+            'peer-review': 'peer-review', 'repo-own': 'repo',
+            'self-attestation': 'self', 'social-signal': 'social'
+          };
+          var typeLbl = typeLabels[rawType] || rawType;
 
-          return '<div class="grade-row" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border);">' +
-            '<div class="grade-segment ' + gradeClass + '" style="flex: 0 0 40px; border-radius: 0; box-shadow: none;">' +
-              '<span class="grade-label">' + esc(gradeName) + '</span>' +
-            '</div>' +
-            '<div style="flex: 1; display: flex; align-items: center; padding: 0 12px; gap: 12px; overflow: hidden;">' +
-              '<a class="se-ev-link" href="' + esc(ev.source||'#') + '" target="_blank" rel="noopener" style="flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text);">' + esc(ev.source||'—') + '</a>' +
-              '<span style="color: var(--muted); font-family: var(--font-mono); font-size: 0.8rem; flex-shrink: 0;">' + esc(ev.date||'') + '</span>' +
-            '</div>' +
+          // Short source URL
+          var shortSrc = (ev.source || '');
+          shortSrc = shortSrc.replace(/^https?:\/\/(www\.)?/, '');
+          if (shortSrc.length > 50) shortSrc = shortSrc.substring(0, 22) + '…' + shortSrc.substring(shortSrc.length - 22);
+
+          // Notes
+          var notesHtml = ev.notes
+            ? '<div class="se-ev-notes">' + esc(ev.notes) + '</div>'
+            : '';
+
+          // Metrics chips
+          var chips = [];
+          if (ev.stars)     chips.push('★ ' + _fmtK(ev.stars));
+          if (ev.views)     chips.push('👁 ' + _fmtK(ev.views));
+          if (ev.citations) chips.push('📄 ' + ev.citations + ' cit.');
+          if (ev.reviewers) chips.push(ev.reviewers + ' reviewers');
+          if (ev.commits)   chips.push(ev.commits + ' commits');
+          var metricsHtml = chips.length
+            ? '<div class="se-ev-metrics">' + chips.map(function(c){ return '<span class="se-ev-metric">' + esc(c) + '</span>'; }).join('') + '</div>'
+            : '';
+
+          // Fusion-recipe origins display
+          var originsHtml = '';
+          if (rawType === 'fusion-recipe' && Array.isArray(ev.origins) && ev.origins.length) {
+            var originLabel = 'Origins (' + ev.origins.length + ')';
+            originsHtml = '<div class="se-ev-origins">' +
+              '<span class="se-ev-origins-label">' + esc(originLabel) + '</span>' +
+              '<div class="se-ev-origins-chips">' +
+              ev.origins.slice(0, 12).map(function(o){
+                var slug = o.indexOf('/') !== -1 ? o.split('/').pop() : o;
+                return '<span class="se-ev-origin-chip" title="' + esc(o) + '">/' + esc(slug) + '</span>';
+              }).join('') +
+              (ev.origins.length > 12 ? '<span class="se-ev-origin-chip" style="opacity:0.5">+' + (ev.origins.length - 12) + ' more</span>' : '') +
+              '</div>' +
+            '</div>';
+          }
+
+          // Evaluator
+          var evalHtml = '';
+          if (ev.evaluator && ev.evaluator !== 'unknown' && ev.evaluator !== 'claude' && ev.evaluator !== 'system') {
+            evalHtml = '<span class="se-ev-eval">@' + esc(ev.evaluator) + '</span>';
+          }
+
+          // Freshness indicator — only for decay types (benchmark-result, social-signal, peer-review)
+          var decayRates = { 'benchmark-result': 0.5, 'social-signal': 0.5, 'peer-review': 0.125 };
+          var freshnessHtml = '';
+          var decayRate = decayRates[rawType];
+          if (decayRate != null) {
+            var lastVerified = ev.lastVerified || ev.date || null;
+            if (!lastVerified) {
+              freshnessHtml = '<span class="se-ev-freshness se-ev-freshness--unverified" title="No lastVerified date — freshness assumed 1.0 but unconfirmed">unverified</span>';
+            } else {
+              var ageMs = Date.now() - new Date(lastVerified).getTime();
+              var ageYrs = ageMs / (1000 * 365.25 * 24 * 3600);
+              var factor = Math.max(0, 1 - decayRate * ageYrs);
+              if (factor < 0.75) {
+                var pct = Math.round((1 - factor) * 100);
+                freshnessHtml = '<span class="se-ev-freshness se-ev-freshness--stale" title="Freshness factor ' + factor.toFixed(2) + ' (−' + pct + '% from age)">stale</span>';
+              } else {
+                freshnessHtml = '<span class="se-ev-freshness se-ev-freshness--fresh" title="Freshness factor ' + factor.toFixed(2) + '">fresh</span>';
+              }
+            }
+          }
+
+          // MAG bar — shows the fully-weighted artifact score (base × weight × freshness × …).
+          // (i) tooltip shows the full multiplier chain so users can verify each step.
+          var tmRaw      = _deriveTrustNum(ev);       // pre-weight base (used inside tooltip chain)
+          var tmWeighted = _deriveWeightedScore(ev);  // post-weight score — displayed on bar
+          var skillTm    = ns.trustMagnitude || ns.overallTrustMagnitude || null;
+          var barGrade   = trustGrade;
+          var tmDisplay  = tmWeighted != null
+            ? (Number.isInteger(tmWeighted) ? String(tmWeighted) : parseFloat(tmWeighted).toFixed(1))
+            : '—';
+          var magTooltipText = _magTooltip(ev, tmRaw, skillTm);
+          var magBarHtml = '<div class="se-ev-mag-bar"' +
+            (barGrade ? ' data-trust-grade="' + esc(barGrade) + '"' : ' data-trust-grade="none"') + '>' +
+            '<span class="se-ev-mag-label">MAG <span class="se-ev-mag-num">' + esc(tmDisplay) + '</span></span>' +
+            '<button class="se-ev-mag-info" type="button" title="' + esc(magTooltipText) + '" aria-label="Evidence score details">i</button>' +
           '</div>';
-        }).join('') + '</div>';
+
+          // Type pill with (i) tooltip from TM_CONFIG
+          var TM_CFG = window.TM_CONFIG;
+          var typeCfg = TM_CFG ? TM_CFG.TYPES[rawType] : null;
+          var typePillTip = typeCfg
+            ? (typeCfg.label.toUpperCase() + ' evidence\nFormula: ' + typeCfg.formula +
+               '\nweight ×' + typeCfg.weight +
+               (typeCfg.cap != null ? '  ·  per-row cap ' + typeCfg.cap : '') +
+               (typeCfg.gradeCeiling ? '  ·  ceiling grade ' + typeCfg.gradeCeiling : '') +
+               '\nSee: ' + (TM_CFG.RFC.types || TM_CFG.RFC_BASE))
+            : rawType;
+
+          // Layer hint: rows pulled from the generic skill registry show a subtle tag
+          var layerHint = (ev._layer === 'generic')
+            ? '<span class="se-ev-layer-hint" title="Inherited from the generic skill registry">via generic</span>'
+            : '';
+
+          // Ungraded: greyed-out missing treatment matching unnamed skill cards
+          // Richness drives collage width: wide if has notes/origins/many metrics, compact otherwise
+          var hasRichContent = !!(ev.notes || originsHtml || chips.length >= 2);
+          var cardClass = 'se-ev-card' + (isUngraded ? ' se-ev-card--ungraded' : '') + (hasRichContent ? ' se-ev-card--wide' : '');
+
+          return '<div class="' + cardClass + '">' +
+            '<div class="se-ev-card-body">' +
+              '<div class="se-ev-card-top">' +
+                '<span class="ev-type-pill type-' + rawType + '">' + esc(typeLbl) +
+                  '<button class="ev-type-pill-info" type="button" title="' + esc(typePillTip) + '" aria-label="' + esc(rawType) + ' evidence type info">i</button>' +
+                '</span>' +
+                '<a class="se-ev-link" href="' + esc(ev.source||'#') + '" target="_blank" rel="noopener" title="' + esc(ev.source||'') + '">' + esc(shortSrc) + '</a>' +
+                layerHint +
+              '</div>' +
+              '<div class="se-ev-card-meta">' +
+                evalHtml +
+                (ev.date ? '<span class="se-ev-date">' + esc(ev.date) + '</span>' : '') +
+                freshnessHtml +
+              '</div>' +
+              notesHtml +
+              metricsHtml +
+              originsHtml +
+            '</div>' +
+            magBarHtml +
+          '</div>';
+        }).join('') +
+        // Ghost placeholder tiles — show ALL missing evidence types, not just padding.
+        // Every type slot entices users to submit that type of evidence.
+        (function() {
+          // Normalize present types so 'repo' and 'repo-own' are treated the same
+          var presentTypes = {};
+          combinedEvidence.forEach(function(ev) {
+            var t = ev.type || '';
+            if (t === 'repo') t = 'repo-own';
+            if (t === 'github-stars') t = 'github-stars-own';
+            presentTypes[t] = true;
+          });
+
+          // All 10 canonical types, in display priority order
+          var allTypes = [
+            'github-stars-own', 'peer-review', 'arxiv', 'benchmark-result',
+            'verifier-attestation', 'social-signal', 'proxy-containment',
+            'repo-own', 'fusion-recipe', 'self-attestation',
+          ];
+          var typeLabels = {
+            'github-stars-own': 'stars', 'peer-review': 'peer-review',
+            'arxiv': 'arxiv', 'benchmark-result': 'benchmark',
+            'verifier-attestation': 'verifier', 'social-signal': 'social',
+            'proxy-containment': 'proxy', 'repo-own': 'repo',
+            'fusion-recipe': 'fusion', 'self-attestation': 'self',
+          };
+
+          var TM_G = window.TM_CONFIG;
+
+          var ghostHtml = '';
+          allTypes.forEach(function(sugType) {
+            if (presentTypes[sugType]) return;   // already has a real card
+            var sugLbl = typeLabels[sugType] || sugType;
+            // Short description for ghost pill tooltip
+            var ghostCfg = TM_G ? TM_G.TYPES[sugType] : null;
+            var pillTip = ghostCfg
+              ? (ghostCfg.label.toUpperCase() + ' · ' + ghostCfg.formula)
+              : sugType;
+            ghostHtml += '<div class="se-ev-card se-ev-card--ghost">' +
+              '<div class="se-ev-card-body">' +
+                '<div class="se-ev-card-top">' +
+                  '<span class="ev-type-pill type-' + sugType + '">' + esc(sugLbl) +
+                    '<button class="ev-type-pill-info" type="button" title="' + esc(pillTip) + '" aria-label="' + esc(sugType) + ' info" tabindex="-1">i</button>' +
+                  '</span>' +
+                '</div>' +
+                '<div class="se-ev-card-meta">' +
+                  '<span class="se-ev-ghost-hint">No evidence yet</span>' +
+                '</div>' +
+              '</div>' +
+              '<div class="se-ev-mag-bar" data-trust-grade="none">' +
+                '<span class="se-ev-mag-label">MAG <span class="se-ev-mag-num">—</span></span>' +
+              '</div>' +
+            '</div>';
+          });
+          return ghostHtml;
+        })() +
+      '</div>';
     } else {
       evidenceContent = '<p style="color: var(--muted); font-style: italic; font-size: 0.85rem; margin: 0.5rem 0 0;">No evidence sources registered for this skill.</p>';
     }
 
+    var trustMethodologyUrl = rootPath + 'codex/trust-methodology.html';
+
     var evidenceHtml = '<div class="se-docs-block">' +
-      '<h4 style="display: flex; justify-content: space-between; align-items: center;">' +
-        '<span>Evidence</span>' +
-        '<a href="' + evidenceLibraryUrl + '" style="font-size: 0.75rem; font-weight: normal; color: var(--basic); text-decoration: none; display: flex; align-items: center; gap: 4px;">' +
-          'Library ↗' +
-        '</a>' +
-      '</h4>' +
+      '<div class="se-ev-section-header">' +
+        '<h4>Evidence</h4>' +
+        '<div class="se-ev-header-actions">' +
+          '<a href="' + esc(trustMethodologyUrl) + '" target="_blank" rel="noopener" class="se-ev-tm-link" title="How Trust Magnitude is calculated">' +
+            'Trust Methodology ↗' +
+          '</a>' +
+          '<a href="' + esc(evidenceLibraryUrl) + '" class="se-ev-tm-link" title="Browse all evidence">' +
+            'Library ↗' +
+          '</a>' +
+          ((!redacted && ns.contributor && ns.contributor !== 'generic')
+            ? '<a id="seSubmitEvidenceInline" href="' +
+                'https://github.com/mbtiongson1/gaia-skill-tree/issues/new' +
+                '?labels=evidence' +
+                '&title=' + encodeURIComponent('Evidence for ' + (ns.id||'')) +
+                '&body=' + encodeURIComponent(
+                  '## Evidence Submission for `' + (ns.id||'') + '`\n\n' +
+                  '**Skill:** ' + (ns.title||ns.name||ns.id||'') + ' (`' + (ns.id||'') + '`)\n' +
+                  '**Contributor:** ' + (ns.contributor||'') + '\n\n' +
+                  '### Evidence Row(s)\n\n' +
+                  '| Type | Source URL | Notes |\n' +
+                  '|------|-----------|-------|\n' +
+                  '| (e.g. arxiv, github-stars-own) | https://... | |\n\n' +
+                  '### Notes\n' +
+                  'Add any context that helps a reviewer verify the source (date accessed, star count at time of submission, etc.).\n\n' +
+                  'A maintainer will audit the sources and open a registry PR after the evidence pipeline review. See the [Trust Methodology](https://gaia.tiongson.co/codex/trust-methodology.html) for evidence type definitions.'
+                ) + '" ' +
+                'target="_blank" rel="noopener" class="se-ev-submit-btn" title="Submit evidence for this skill">' +
+                '+ Boost this skill\'s rank' +
+              '</a>'
+            : '') +
+        '</div>' +
+      '</div>' +
       evidenceContent +
     '</div>';
 
@@ -1277,27 +1804,94 @@
 
   function renderTimelineEvents(el, evts) {
     if (!evts.length) { el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Changelog</div><div class="se-empty">No history available.</div>'; return; }
-    el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Changelog</div><div class="se-timeline">' +
-      evts.map(function(ev){
-        var action = ev.action || 'commit';
-        var icon = SE_ACTION_ICON[action] || '·';
-        var actionLabel = action.replace('_', ' ');
+
+    // Group consecutive events that share the same action type.
+    // A group of 1 renders as a normal single event.
+    // A group of N>1 renders as an expandable cluster.
+    var groups = [];
+    evts.forEach(function(ev) {
+      var action = ev.action || 'commit';
+      var last = groups.length ? groups[groups.length - 1] : null;
+      if (last && last.action === action) {
+        last.events.push(ev);
+      } else {
+        groups.push({ action: action, events: [ev] });
+      }
+    });
+
+    var html = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Changelog</div><div class="se-timeline">';
+
+    groups.forEach(function(group, gi) {
+      var action = group.action;
+      var icon = SE_ACTION_ICON[action] || '·';
+      var actionLabel = action.replace(/_/g, ' ');
+      var evs = group.events;
+
+      if (evs.length === 1) {
+        // Single event — normal row
+        var ev = evs[0];
         var contributorHtml = ev.contributor
           ? '<span class="se-tl-contributor">@' + esc(ev.contributor) + '</span> '
           : '';
-        return '<div class="se-tl-event">' +
+        html += '<div class="se-tl-event">' +
           '<div class="se-tl-dot" data-action="' + esc(action) + '"></div>' +
           '<div class="se-tl-body">' +
             '<div class="se-tl-row">' +
               '<span class="se-tl-action" data-action="' + esc(action) + '"><span class="se-tl-action-icon">' + icon + '</span>' + esc(actionLabel) + '</span>' +
-              '<span class="se-tl-date">' + esc(ev.date) + '</span>' +
+              '<span class="se-tl-date">' + esc(ev.date || '') + '</span>' +
             '</div>' +
-            '<div class="se-tl-msg">' + contributorHtml + esc(ev.msg) + '</div>' +
+            '<div class="se-tl-msg">' + contributorHtml + esc(ev.msg || '') + '</div>' +
             (ev.sha ? '<div class="se-tl-sha">' + esc(ev.sha) + '</div>' : '') +
           '</div>' +
         '</div>';
-      }).join('') +
-    '</div>';
+      } else {
+        // Grouped cluster — show first event + collapsed rest
+        var first = evs[0];
+        var last  = evs[evs.length - 1];
+        var dateRange = last.date && first.date && last.date !== first.date
+          ? esc(last.date) + ' – ' + esc(first.date)
+          : esc(first.date || '');
+        var groupId = 'se-tl-group-' + gi;
+
+        // Inner collapsed events (all but first)
+        var innerHtml = evs.slice(1).map(function(ev) {
+          var ch = ev.contributor
+            ? '<span class="se-tl-contributor">@' + esc(ev.contributor) + '</span> '
+            : '';
+          return '<div class="se-tl-group-item">' +
+            '<span class="se-tl-date se-tl-group-date">' + esc(ev.date || '') + '</span>' +
+            '<div class="se-tl-msg se-tl-group-msg">' + ch + esc(ev.msg || '') + '</div>' +
+            (ev.sha ? '<div class="se-tl-sha">' + esc(ev.sha) + '</div>' : '') +
+          '</div>';
+        }).join('');
+
+        var firstContributor = first.contributor
+          ? '<span class="se-tl-contributor">@' + esc(first.contributor) + '</span> '
+          : '';
+
+        html += '<div class="se-tl-event se-tl-event--group">' +
+          '<div class="se-tl-dot se-tl-dot--group" data-action="' + esc(action) + '">' +
+            '<span class="se-tl-group-count">' + evs.length + '</span>' +
+          '</div>' +
+          '<div class="se-tl-body">' +
+            '<div class="se-tl-row">' +
+              '<span class="se-tl-action" data-action="' + esc(action) + '"><span class="se-tl-action-icon">' + icon + '</span>' + esc(actionLabel) + '</span>' +
+              '<span class="se-tl-group-badge">' + evs.length + ' events</span>' +
+              '<span class="se-tl-date">' + dateRange + '</span>' +
+            '</div>' +
+            '<div class="se-tl-msg">' + firstContributor + esc(first.msg || '') + '</div>' +
+            (first.sha ? '<div class="se-tl-sha">' + esc(first.sha) + '</div>' : '') +
+            '<details class="se-tl-group-details" id="' + groupId + '">' +
+              '<summary class="se-tl-group-toggle">Show all ' + evs.length + ' ' + esc(actionLabel) + ' events</summary>' +
+              '<div class="se-tl-group-inner">' + innerHtml + '</div>' +
+            '</details>' +
+          '</div>' +
+        '</div>';
+      }
+    });
+
+    html += '</div>';
+    el.innerHTML = html;
   }
 
   // ── RENDER TRUST MAGNITUDE ────────────────────────────────────────────
@@ -1723,7 +2317,8 @@
       _safeRender('Install',         'se-install',   function(){ renderInstall(ns); });
       _safeRender('Docs',            'se-docs',      function(){ renderDocs(ns, generic); });
       _safeRender('Upgrade',         'se-upgrade',   function(){ renderFlowchart(ns, generic); });
-      _safeRender('Trust Magnitude', 'se-tm',        function(){ renderTrustMagnitude(ns); });
+      // Trust Magnitude section disabled — MAG is surfaced on the plaque hero notch instead
+      document.getElementById('se-tm').innerHTML = '';
       _safeRender('Timeline',        'se-changelog', function(){ renderTimeline(ns, generic); });
 
       // Accessibility: Move focus to the modal close button
@@ -1770,14 +2365,14 @@
         seShareBtn.style.display = (window.isRedacted && window.isRedacted(ns.level)) ? 'none' : '';
       }
 
-      // Topbar Trust Report button — links to the per-skill actionable report page.
+      // Topbar Trust Report button — disabled (reserved for future redesign)
       var seTrustReportBtn = document.getElementById('seTrustReport');
       if (seTrustReportBtn) {
-        seTrustReportBtn.style.display = '';
-        seTrustReportBtn.onclick = function() {
-          window.open('report.html?id=' + encodeURIComponent(ns.id), '_blank', 'noopener');
-        };
+        seTrustReportBtn.style.display = 'none';
       }
+
+      // Topbar Submit Evidence button removed — CTA now lives inline in the Evidence
+      // section of renderDocs() so it appears in the right context.
 
       // Push hash (skip if already correct)
       var newHash = '#explorer/' + ns.id;

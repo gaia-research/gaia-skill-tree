@@ -16,8 +16,7 @@
       "date": "2026-04-30",
       "notes": "PlanGuard (2026) — training-free indirect prompt injection defense; planning-based consistency verification reduces InjecAgent attack success rate from 72.8% to 0%. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -26,8 +25,7 @@
       "date": "2026-04-30",
       "notes": "tldrsec/prompt-injection-defenses (682 stars) — curated, reproducible catalog of defense techniques with implementation references; actively maintained. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     },
     {
       "class": "C",
@@ -36,14 +34,13 @@
       "date": "2026-04-30",
       "notes": "SkillsMP top hit: openclaw/prompt-injection-defense (4,419 stars) — 'Harden agent sessions against prompt injection from untrusted content'; references CaMeL benchmark. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

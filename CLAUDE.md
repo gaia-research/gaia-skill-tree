@@ -190,6 +190,10 @@ The pre-commit hook keeps these in lockstep:
 
 If they disagree before the bump, the hook fails loudly. Use `gaia release <type> --sync` to force align manifests to the highest version before bumping. Use `gaia release patch|minor|major` to bump all at once.
 
+### Adding a new versioned HTML page
+
+**Never manually patch `?v=` query strings.** Instead, add the page path to `build_html_cache_busting()` in `scripts/build_docs.py` — the function at line ~316 lists every HTML file that gets auto-versioned on `gaia docs build` / CI release. New `docs/<section>/index.html` pages go here; the `_apply_cache_busting` regex handles all relative `.css` and `.js` src/href attributes automatically.
+
 ## Wiki Management
 
 The project wiki lives in a separate repository: `https://github.com/mbtiongson1/gaia-skill-tree.wiki.git`.

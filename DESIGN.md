@@ -111,6 +111,24 @@ Their visual representations use horizontal metric bars with the following styli
 
 ---
 
+## Evidence Type Pills
+
+`.ev-type-pill` chips label each evidence entry by type. All `color:` values must use CSS tokens — never hardcode hex. Background and border `rgba()` values are intentionally retained as raw rgba (the token `-bg` and `-border` variants use different opacities and would not be drop-in replacements).
+
+| Evidence type | `color:` token | Semantic mapping |
+|---|---|---|
+| `repo`, `peer-review`, `repo-own` | `var(--tier-basic)` | Basic-tier blue (`#38bdf8`) |
+| `github-stars`, `fusion-recipe`, `github-stars-own` | `var(--tier-ultimate)` | Ultimate amber (`#f59e0b`) |
+| `proxy-containment` | `var(--tier-unique)` | Unique deep violet (`#7c3aed`) |
+| `verifier-attestation` | `var(--rank-4)` | Rank-4 fuchsia (`#e879f9`) |
+| `benchmark-result`, `arxiv` | `var(--tier-extra)` | Extra purple (`#c084fc`) |
+| `self-attestation` | `var(--rank-0)` | Slate / unawakened (`#94a3b8`) |
+| `social-signal` | `#34d399` | Emerald green — not in the banned-hex set; no current token alias |
+
+The `social-signal` green (`#34d399`) is not in `tokens.css` and is not on the Guard A banned-hex list. If a token is added later, update this table and the selector in `docs/css/styles.css`.
+
+---
+
 ## Level VI — Transcendent ★ Special Rendering
 
 VI nodes bypass `drawNode` entirely and use `drawNodeVI`, which runs every animation frame using the shared `state.t` clock:

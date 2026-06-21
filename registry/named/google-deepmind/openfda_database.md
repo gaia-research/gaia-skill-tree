@@ -12,7 +12,7 @@ description: Query, search, and download data from the openFDA API for drugs, de
   clearances, NDC lookups, and any FDA safety or regulatory data query across all
   28 API endpoints.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md
 evidence:
@@ -24,15 +24,15 @@ evidence:
     — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://open.fda.gov/apis/drug/event/
   evaluator: unknown
   date: '2026-06-20'
   type: peer-review
   trustNumber: 75.0
-  grade: B
+  grade: S
   notes: openFDA FAERS API — FDA public adverse event reporting system; US drug safety
     surveillance database
   reviewers: 3

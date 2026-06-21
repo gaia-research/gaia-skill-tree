@@ -19,7 +19,7 @@ tags:
 - pre-merge
 - isolated-context
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -31,9 +31,9 @@ evidence:
     Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 609
   contributors: 36
+  grade: B
 timeline:
 - timestamp: '2026-06-14T12:32:48Z'
   action: evidence_graded

@@ -20,7 +20,7 @@ tags:
 - documentation
 - readme
 createdAt: '2026-04-30'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md
@@ -31,9 +31,9 @@ evidence:
     not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 1245
   contributors: 82
+  grade: B
 timeline:
 - timestamp: '2026-06-10T05:38:19Z'
   action: evidence_added

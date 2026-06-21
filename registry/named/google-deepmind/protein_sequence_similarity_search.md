@@ -12,7 +12,7 @@ description: Searches for homologous protein sequences using MMseqs2 (fast, defa
   infer protein function based on sequence similarity, but not when the user wants
   to infer protein function based on structural similarity.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md
 evidence:
@@ -25,7 +25,6 @@ evidence:
     supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
 - class: B
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md
   evaluator: unknown
@@ -34,15 +33,15 @@ evidence:
     implementation. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://www.nature.com/articles/s41587-023-01773-0
   evaluator: unknown
   date: '2026-06-20'
   type: peer-review
   trustNumber: 88.0
-  grade: A
+  grade: S
   notes: Foldseek — Nature Biotechnology 2023; protein structure and sequence similarity
     search at scale; core method
   reviewers: 3

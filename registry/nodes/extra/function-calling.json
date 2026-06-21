@@ -18,8 +18,7 @@
       "date": "2026-04-29",
       "notes": "ToolLLM / ToolBench demonstrates LLM tool invocation over 16,000+ real-world APIs with documented evaluation tasks and failure analysis, supporting function calling as a schema-driven tool-use pattern. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -28,14 +27,13 @@
       "date": "2026-04-29",
       "notes": "Gorilla / APIBench evaluates model generation of API calls across large API collections, including accurate endpoint and argument selection. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-29",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

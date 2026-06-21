@@ -21,7 +21,7 @@ tags:
 - terminology
 - alignment
 createdAt: '2026-05-15'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md
@@ -32,15 +32,15 @@ evidence:
     not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 137
   contributors: 3
+  grade: C
 - source: https://github.com/mattpocock/skills
   evaluator: unknown
   date: '2026-06-20'
   type: github-stars-own
   trustNumber: 88.0
-  grade: A
+  grade: C
   notes: mattpocock/skills suite repo — 137k GitHub stars; ubiquitous-language was
     part of this suite (removed in v1.0.1 but authored by Matt Pocock)
   stars: 137000
@@ -51,7 +51,7 @@ evidence:
   date: '2026-06-20'
   type: social-signal
   trustNumber: 82.0
-  grade: A
+  grade: B
   notes: Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers
     mattpocock/skills suite that includes ubiquitous-language (verified 2026-06-20)
   views: 412000

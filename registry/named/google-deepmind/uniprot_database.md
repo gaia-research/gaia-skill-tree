@@ -11,7 +11,7 @@ description: Access protein metadata, function, taxonomy, and sequences across U
   functional annotations and publications. Don't use for sequence alignment, protein
   folding, or sequence similarity search (use specialized skills for those tasks).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md
 evidence:
@@ -23,9 +23,9 @@ evidence:
     — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://academic.oup.com/nar/article/51/D1/D523/6835362
   evaluator: unknown
   date: '2026-06-19'
@@ -34,6 +34,7 @@ evidence:
   notes: 'UniProt Consortium 2022 NAR: UniProt Universal Protein Knowledgebase in
     2023. 5,729 citations (Semantic Scholar 2026-06-19).'
   reviewers: 2
+  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:39Z'
   action: evidence_graded

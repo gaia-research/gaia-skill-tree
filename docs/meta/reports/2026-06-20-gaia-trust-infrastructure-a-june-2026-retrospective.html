@@ -425,7 +425,56 @@ Apex gate (&gt;=5/6)      | NO       | NO  (?)  | NO  (?)  | NO  (?)</code></pre
 <p><em>Synthesizer-authored appendix; not recovered. Intended fields: <code>trustMagnitude</code>, <code>overallTrustGrade</code>, <code>apexGateStatus.{apexPromotionPrSigned, apexPromotionPrSignedBy, apexPromotionPrSignedAt}</code>, <code>provisional</code>, <code>provisionalUntil</code>, <code>evidence[].grade</code>, <code>evidence[].sourceStartedAt</code>, <code>links.canonicalRepo</code>, <code>cosigners</code>. <code>meta.json</code> additions: <code>trustMagnitudeThresholds</code>, 10-type taxonomy, <code>apexGate</code> block.</em></p>
 <h2>X. Appendix B — Token-spend ledger</h2>
 <p><em>Synthesizer-authored appendix; not recovered. Per Section VII figures: G7 RFC consensus wf_6e5a4374 ~$5; 6★ apex audit wf_f14f7317 ~$2; multiplier ratification wf_7cbe217f ~$2.30; ev-pipeline I9 wf_ce280cfc ~$3.70; ev-pipeline I11 ~$3-4. Cumulative June 2026 spend ~$35-40 across 15 sessions per <code>founder/MEMORY.md</code>.</em></p>
-<h2>XI. References</h2>
+
+<h2 id="xii-phase-15-closeout">XII. Phase 1.5 closeout — per-evidence grades + Trust Ledger (added 2026-06-21)</h2>
+
+<p><em>This addendum supersedes the standalone "Per-Evidence Row Grading is Live" post (deleted 2026-06-21 as inaccurate). The figures below are what actually shipped after iteration; the original post over-claimed by reporting only the first migration sweep.</em></p>
+
+<h3>XII.1 Per-row grade calibration — what actually held</h3>
+
+<p>Per-row Evidence Grades (per-type S/A/B/C floors layered on top of the aggregate Trust Magnitude bands) were ratified end-to-end through the Phase 1.5 closeout, with the floors and ceilings now living in <code>docs/js/tm-config.js</code> as the frontend source of truth and mirrored in <code>registry/schema/meta.json</code> for the Python pipeline. <code>arxiv</code> and <code>peer-review</code> ceilings were lifted from <code>"A"</code> to <code>"S"</code>; <code>github-stars-own</code> S floor sits at 88 (per-skill, post mothership-divisor); <code>peer-review</code> S floor at 88 (3 reviewers + Nature/Science class).</p>
+
+<p>The migration's headline number — "33 upgrades" — was the first sweep. After (a) the same-source dedup fix, (b) the <code>type: "repo"</code> → <code>"repo-own"</code> alias normalization in <code>gaia dev calibrate-evidence-grades</code>, and (c) dropping the stale <code>trustNumber</code> short-circuit from the live formulas, the cumulative effect was <strong>176 named-skill rows + 103 generic rows</strong> newly graded across two sweeps. The pipeline is now idempotent against a fresh registry: <code>--dry-run</code> reports zero diffs.</p>
+
+<h3>XII.2 Honest math — why some rows still display grey</h3>
+
+<p>An evidence row that lacks the metric drivers required by its type formula now displays grey ("—") in the UI, not a stale stored grade. <code>ruvnet/ruflo</code> is the worked example documented at <a href="../../codex/trust-methodology.html#quick-math">Quick Math Reference</a>:</p>
+
+<ul>
+<li><code>github-stars-own</code> at 14.99 MAG (<code>59,957 / 1000 / 4 = 14.99</code>) — below the C floor of 20. Honest grey, math correct.</li>
+<li><code>arxiv</code> at 4.0 MAG (<code>20 citations / 5</code>) — below the C floor of 15. Honest grey.</li>
+<li><code>benchmark-result</code> with no <code>percentile</code> field stored → 0 MAG. Tooltip hint: "Add percentile (0–100)".</li>
+<li><code>social-signal</code> with no <code>views</code> field stored → 0 MAG. Tooltip hint: "Add views (≥1000)".</li>
+</ul>
+
+<p>The previous behavior — surfacing a stored <code>trustNumber: 70</code> as if it were the live grade — has been removed across <code>skill-explorer.js</code>, <code>evidence-library.js</code>, and the per-skill modal. The live formula always wins; the stored field is now a historical breadcrumb, never a display value.</p>
+
+<h3>XII.3 Trust Ledger — public, sortable, May/June</h3>
+
+<p>The public ranked view at <a href="../../trust/ledger/">/trust/ledger/</a> consolidates two earlier mounts (<code>/trust/leaderboard/</code> and <code>/codex/leaderboard/</code>) into a single canonical location. The page is now a single sortable table — no bands, no modals, no circles — with metallic platinum/gold/silver/bronze grade fills inheriting from the unified <code>[data-trust-grade=…]</code> CSS rules in <code>styles.css</code>. The same metallic system covers per-row pills, plaque trust notches, evidence-card MAG bars, and the distribution strip.</p>
+
+<p>The "leaderboard" name was retired per <code>CONTEXT.md</code> §Banned Synonyms (it conflicts with Hall of Heroes); "Trust Ledger" matches the ledger-faithful design lane.</p>
+
+<h3>XII.4 May / June stars and the G7 cutover</h3>
+
+<p>The Ledger now ships two stars columns side by side. <strong>May</strong> = stars on the eve of the G7 cutover (2026-06-18T12:54:50Z), under the pre-G7 meta. <strong>June</strong> = current stars under G7. An inline ▲/▼/· arrow next to Trust Magnitude shows the delta. The May value is computed live from each user tree's <code>levelHistory[]</code>: the latest entry with <code>achievedAt</code> before the cutover, or the <code>unlockedAt</code> level for pre-cutover registrations with no history.</p>
+
+<p>One CLI gap surfaced and was hand-patched: the cutover script that demoted both 6★ skills (<code>ruvnet/ruflo</code>, <code>mattpocock/skills</code>) wrote the 6★→5★ event only to the trunk <code>timeline[]</code>, not to the per-skill <code>levelHistory[]</code>. As a result those skills' history showed only a single 5★ entry, erasing the peak. The backfill restores both <code>levelHistory[]</code> entries — the 6★ promotion at register date and the 6★→5★ demote at cutover — and adds <code>previousValue: '6★'</code> to the trunk demote events. Audited the rest of the registry: no other 5★ skill is missing a flagged 6★→5★ peak. <code>ruvnet/hive-mind-coordination</code> (a 4★ Unique pre-G7) was already correct: its 4★→3★ G7 calibration was logged on both axes.</p>
+
+<h3>XII.5 Skill-Explorer (i) tooltip</h3>
+
+<p>The aggregate Trust Magnitude tooltip now shows a per-row breakdown: each row's live weighted score, the running sum, the displayed TM, and a one-line note explaining any gap (typically same-source dedup or the mothership divisor splitting one large repo's stars across N skills). Curators can audit a skill's number without leaving the page.</p>
+
+<h3>XII.6 Lessons</h3>
+
+<ol>
+<li><strong>Same-source dedup is louder than expected.</strong> A <code>repo-own</code> entry at <code>https://github.com/owner/repo</code> dedups any later <code>github-stars-own</code> at the same URL — only the higher-scoring entry counts. Use the specific <code>SKILL.md</code> blob URL for <code>github-stars-own</code> if you want both rows to score.</li>
+<li><strong>Type aliases are non-negotiable.</strong> Until <code>gaia dev calibrate-evidence-grades</code> normalized <code>type: "repo"</code> to <code>"repo-own"</code> before threshold lookup, 232 rows silently no-op'd through migration with the legacy <code>class:</code> field but no <code>grade:</code>. The fix surfaced 279 rows in one run.</li>
+<li><strong>Trust the live formula, not the stored value.</strong> Before this closeout, <code>ev.trustNumber</code> was both a stored field and an implicit fallback grade source. Curators saw "70" surface in a UI that was supposed to compute live. Removing the fallback in display paths (calibrate keeps it for backward-compat tests) ended the confusion.</li>
+<li><strong>Per-skill history must be backfilled when trunk timeline is the only writer.</strong> The G7 cutover taught us that any audit / cutover script touching ranks must mirror the change to <code>unlockedSkills[].levelHistory</code>. Open issue: <code>gaia dev timeline --user</code> doesn't currently mirror to per-skill history; <code>scripts/trace_timeline.py</code> reconciles registry → user-tree drift but doesn't catch trunk → per-skill drift inside the same tree.</li>
+</ol>
+
+<h2>XIII. References</h2>
 <p>[1] G7 Trust Taxonomy RFC, v2. <code>founder/handovers/G7<em>TRUST</em>TAXONOMY_RFC.md</code></p>
 <p>[2] G7 Implementation Handover. <code>founder/handovers/G7<em>IMPLEMENTATION</em>HANDOVER.md</code></p>
 <p>[3] G7 Handover Delta 2026-06-17. <code>founder/handovers/G7<em>HANDOVER</em>DELTA_2026-06-17.md</code></p>

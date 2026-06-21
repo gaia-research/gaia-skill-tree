@@ -12,7 +12,7 @@ description: Query the Reactome database (Analysis and Content Services). Use wh
   participants (inputs, outputs), pathway hierarchy (including top-level pathways),
   diagram export, cross-reference mapping, or searching the knowledgebase.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md
 evidence:
@@ -24,15 +24,15 @@ evidence:
     (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://academic.oup.com/nar/article/52/D1/D672/7369850
   evaluator: unknown
   date: '2026-06-20'
   type: peer-review
   trustNumber: 85.0
-  grade: A
+  grade: S
   notes: Reactome 2024 — NAR; manually curated pathway knowledgebase, Elixir/GCBR
     core data resource
   reviewers: 3

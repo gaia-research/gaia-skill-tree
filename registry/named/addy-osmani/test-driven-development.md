@@ -23,7 +23,7 @@ tags:
 - vertical-slicing
 - tracer-bullet
 createdAt: '2026-04-30'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 timeline:
 - timestamp: '2026-05-31T02:17:00Z'
   action: installation_updated

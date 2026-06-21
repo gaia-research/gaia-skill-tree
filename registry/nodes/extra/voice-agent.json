@@ -20,14 +20,13 @@
       "date": "2026-04-28",
       "notes": "Rasa Open Source â€” production voice agent framework with ASR/TTS integrations; reproducible pipeline with test suite and documented benchmarks. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

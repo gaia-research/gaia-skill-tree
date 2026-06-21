@@ -18,8 +18,7 @@
       "date": "2026-04-28",
       "notes": "AudioPaLM (Google) â€” unified audio language model supporting real-time spoken dialogue; SOTA on ASR and speech translation, demonstrating end-to-end voice assistant capability. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -28,8 +27,7 @@
       "date": "2026-04-28",
       "notes": "VoiceBox (Meta AI) â€” generative speech model with zero-shot TTS; enables real-time voice assistants with <100ms synthesis latency benchmarked on VCTK. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -38,14 +36,13 @@
       "date": "2026-04-28",
       "notes": "Whisper + LLM integration demos â€” open-source real-time voice assistant pipelines combining Whisper STT, LLM reasoning, and TTS with documented latency benchmarks. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "title": "Eternal Herald",
   "timeline": [

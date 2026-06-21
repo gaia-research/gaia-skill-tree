@@ -22,50 +22,12 @@ window.switchOsTab = function(btn) {
 
   /* ─────────────────────────────────────────
      MOBILE NAV SHEET
-     Slide-in panel from the right on ≤700px.
+     Drawer is now owned by site-nav.js (it renders a dedicated
+     .nav-mobile-drawer sibling element and wires open/close locally).
+     This function is kept as a no-op so legacy callers don't break.
      ───────────────────────────────────────── */
   function initNavSheet() {
-    var toggle = document.querySelector('.nav-menu-toggle');
-    if (!toggle) return;
-
-    var nav = toggle.closest('nav');
-    if (!nav) return;
-
-    function open() {
-      nav.classList.add('nav-open');
-      setTimeout(function(){ nav.classList.add('active'); }, 10);
-      toggle.setAttribute('aria-expanded', 'true');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function close() {
-      nav.classList.remove('active');
-      setTimeout(function(){ nav.classList.remove('nav-open'); }, 400);
-      toggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    }
-
-    toggle.addEventListener('click', function(e) {
-      e.stopPropagation();
-      nav.classList.contains('active') ? close() : open();
-    });
-
-    /* Close when clicking links */
-    nav.querySelectorAll('ul li a, ul li button').forEach(function(el) {
-      el.addEventListener('click', close);
-    });
-
-    /* Close on backdrop click (we'll add a backdrop in CSS or use nav itself) */
-    document.addEventListener('click', function(e) {
-      if (nav.classList.contains('nav-open') && !nav.contains(e.target)) {
-        close();
-      }
-    });
-
-    /* Esc key */
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && nav.classList.contains('nav-open')) close();
-    });
+    /* no-op — see docs/js/site-nav.js */
   }
 
   /* ─────────────────────────────────────────
