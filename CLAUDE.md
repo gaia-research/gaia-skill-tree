@@ -225,6 +225,20 @@ Project-local agent skills live in two directories and are actively used by cont
 
 When touching any of these, route registry mutations through `gaia dev add` / `gaia dev merge` / `gaia dev split` / `gaia dev evidence` (Programmatic-First Policy) rather than hand-edits.
 
+## Agent skills
+
+### Issue tracker
+
+GitHub Issues (PRs as request surface: no). See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Canonical labels (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Multi-context layout using `CONTEXT-MAP.md` at the root. See `docs/agents/domain.md`.
+
 ## gstack
 
 gstack is installed at `~/.claude/skills/gstack`. Use the `/browse` skill from gstack for **all web browsing**. Never use `mcp__claude-in-chrome__*` tools.
