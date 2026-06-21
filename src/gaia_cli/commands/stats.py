@@ -315,3 +315,19 @@ def render_stats(stats: dict) -> str:
 
 def stats_command(args) -> None:
     print(render_stats(collect_stats(args.registry)), end="")
+
+
+class StatsCommand:
+    name = "stats"
+    help = "Registry health summary"
+
+    def configure(self, parser) -> None:
+        pass
+
+    def execute(self, args) -> int | None:
+        stats_command(args)
+        return 0
+
+
+COMMAND = StatsCommand()
+
