@@ -124,7 +124,7 @@ def read_local_registry() -> str | None:
             data = json.loads(raw)
         registry_path = data.get("localRegistryPath") or os.path.abspath(".")
         p = Path(registry_path)
-        if p.is_dir() and (p / "registry" / "gaia.json").exists():
+        if p.is_dir() and ((p / "registry" / "nodes").is_dir() or (p / "registry" / "gaia.json").exists()):
             return str(p)
     except (OSError, json.JSONDecodeError):
         pass
@@ -150,7 +150,7 @@ def write_global_registry(path: str) -> None:
 def read_cwd_registry() -> str | None:
     """Return CWD when it looks like a Gaia registry checkout."""
     cwd = Path.cwd()
-    if (cwd / "registry" / "gaia.json").exists():
+    if (cwd / "registry" / "nodes").is_dir() or (cwd / "registry" / "gaia.json").exists():
         return str(cwd)
     return None
 

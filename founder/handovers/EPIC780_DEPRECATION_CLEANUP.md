@@ -19,7 +19,6 @@ Epic #780 migrated all dev-only CLI commands from top-level (`gaia release`, `ga
 | `gaia validate` | `gaia dev validate` | `src/gaia_cli/main.py` (or `commands/validate_cmd.py`) |
 | `gaia test <suite>` | `gaia dev test <suite>` | `src/gaia_cli/main.py` (or `commands/validate_cmd.py`) |
 | `gaia docs build` | `gaia dev docs` | `src/gaia_cli/main.py` |
-| `gaia trust explain` | `gaia dev trust-explain` | `src/gaia_cli/main.py` |
 | `gaia mcp` | `gaia dev mcp` | `src/gaia_cli/main.py` (or `commands/mcp_cmd.py`) |
 
 ## What each shim does
@@ -40,7 +39,7 @@ def release_command(args):
 5. Update `COMMAND_USAGE` help text — remove the old command lines
 6. Search for any remaining references:
    ```bash
-   grep -rn "gaia release\|gaia validate\|gaia test\|gaia docs build\|gaia trust explain\|gaia mcp" \
+   grep -rn "gaia release\|gaia validate\|gaia test\|gaia docs build\|gaia mcp" \
      .github/workflows/ CLAUDE.md CONTEXT.md META.md MISSION.md DEV.md CONTRIBUTING.md README.md
    ```
 7. Run full test suite to verify no breakage
