@@ -197,6 +197,20 @@ jobs:
             echo "Created GitHub Release ${TAG} on the ${GAIA_CHANNEL} channel."
           fi
 
+          echo "Packaging generated registry and graph artifacts..."
+          tar -czf gaia-artifacts.tar.gz \
+            registry/gaia.json \
+            registry/gaia.gexf \
+            registry/gaia.svg \
+            registry/layouts_3d.json \
+            registry/named-skills.json \
+            registry/real-skills.json \
+            registry/real-skills.md \
+            docs/graph/
+
+          echo "Uploading gaia-artifacts.tar.gz to release ${TAG}..."
+          gh release upload "${TAG}" gaia-artifacts.tar.gz --clobber
+
       - name: Publish to PyPI
         # Production channel only: PyPI publishes happen on MAJOR bumps. beta and
         # canary stay as GitHub pre-releases (install from a tag/source instead).
