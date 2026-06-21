@@ -23,7 +23,7 @@ tags:
 - orchestration
 - ultimate
 createdAt: '2026-05-18'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 suiteComponents:
 - garrytan/benchmark
 - garrytan/benchmark-models
@@ -96,6 +96,7 @@ evidence:
     report; mothership with 47 sub-skills, divisor=4)
   stars: 110930
   skillCountInRepo: 47
+  grade: C
 - source: https://www.youtube.com/watch?v=wkv2ifxPpF8
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -104,6 +105,7 @@ evidence:
   notes: Y Combinator YouTube feature — Garry Tan demonstrates Gstack as AI Engineering
     Team (official YC channel); topical authority signal (creator_mult 1.0)
   views: 500000
+  grade: B
 timeline:
 - timestamp: '2026-06-14T12:32:22Z'
   action: evidence_graded

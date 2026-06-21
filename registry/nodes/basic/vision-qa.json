@@ -14,8 +14,7 @@
       "date": "2026-04-30",
       "notes": "AutoVQA-G (ICASSP 2026) — self-improving agentic framework for automated VQA and grounding annotation; uses Chain-of-Thought verification + prompt optimization to generate high-quality VQA-G datasets. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "C",
@@ -24,14 +23,13 @@
       "date": "2026-04-30",
       "notes": "SkillsMP: 6+ named entries including visual-qa, vision-qa-workflow, claude-vision-qa, visual-qa-analysis from multiple contributors. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

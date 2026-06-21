@@ -22,7 +22,7 @@ tags:
 - socratic-method
 - fusion
 createdAt: '2026-04-30'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -34,9 +34,9 @@ evidence:
     gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 137
   contributors: 3
+  grade: C
 - source: https://github.com/mattpocock/skills/discussions
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -44,6 +44,7 @@ evidence:
   class: A
   notes: 'GitHub Discussions: 5+ threads naming grill-with-docs directly (#275 #293
     #300 #304). Origin implementation for grill pattern. Named-layer.'
+  grade: C
 - source: https://github.com/mattpocock/skills/issues/341
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -51,6 +52,7 @@ evidence:
   class: A
   notes: 'Issue #341: ''grill-with-docs: resolved answers not traceable through PRD/issues/implementation''
     — 6 comments. Most-engaged grill-with-docs issue. Named-layer.'
+  grade: C
 - source: https://github.com/mattpocock/skills/issues/299
   evaluator: mbtiongson1
   date: '2026-06-19'

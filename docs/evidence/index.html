@@ -2,7 +2,7 @@
 <html lang="en" data-icon-base="../assets/icons.svg">
 
 <head>
-  <script>window.GAIA_VERSION = "4.8.1";</script>
+  <script>window.GAIA_VERSION = "5.0.6";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -21,13 +21,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
-  <link rel="stylesheet" href="../css/styles.css?v=4.8.1">
-  <link rel="stylesheet" href="../css/plaque.css?v=4.8.1">
+  <link rel="stylesheet" href="../css/styles.css?v=5.0.6">
+  <link rel="stylesheet" href="../css/plaque.css?v=5.0.6">
   <!-- Scripts -->
-  <script src="../js/icons.js?v=4.8.1"></script>
-  <script src="../js/atlas-helpers.js?v=4.8.1"></script>
-  <script src="../js/rank-badge.js?v=4.8.1"></script>
-  <script src="../js/plaque.js?v=4.8.1"></script>
+  <script src="../js/icons.js?v=5.0.6"></script>
+  <script src="../js/atlas-helpers.js?v=5.0.6"></script>
+  <script src="../js/rank-badge.js?v=5.0.6"></script>
+  <script src="../js/tm-config.js?v=5.0.6"></script>
+  <script src="../js/plaque.js?v=5.0.6"></script>
 
   <style>
     /* ── Evidence Library Page Styles ── */
@@ -99,55 +100,67 @@
     .ev-chart-wrap {
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       gap: 2.5rem;
       margin: 2rem auto;
-      max-width: 540px;
+      max-width: 620px;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 1.5rem 2rem;
       flex-wrap: wrap;
     }
-    .ev-bar-chart {
-      width: 180px;
+
+    /* Labeled horizontal bar chart — one row per grade */
+    .ev-hbar-chart {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .ev-bar-total-count {
-      font-family: var(--font-mono);
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.1;
-      text-align: center;
-    }
-    .ev-bar-total-label {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      margin-bottom: 0.25rem;
-      text-align: center;
-    }
-    .ev-bar-track {
+      gap: 0.55rem;
       width: 100%;
-      height: 16px;
-      background: rgba(255, 255, 255, 0.03);
+    }
+    .ev-hbar-row {
+      display: grid;
+      grid-template-columns: 72px 1fr 64px;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .ev-hbar-row:hover .ev-hbar-fill {
+      filter: brightness(1.15);
+    }
+    .ev-hbar-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      text-align: right;
+    }
+    .ev-hbar-track {
+      height: 22px;
+      background: rgba(255,255,255,0.03);
       border: 1px solid var(--border);
-      border-radius: 4px;
-      display: flex;
+      border-radius: 0;
       overflow: hidden;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
     }
-    .ev-bar-segment {
+    .ev-hbar-fill {
       height: 100%;
-      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
+      min-width: 4px;
+      border-radius: 0;
+      transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
+    .ev-hbar-count {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .ev-hbar-pct {
+      font-weight: 400;
+      color: var(--muted);
+      font-size: 0.7rem;
+    }
+
     .ev-chart-legend {
       display: flex;
       flex-direction: column;
@@ -181,6 +194,17 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
+    }
+    /* Mobile: filters block too much vertical space — let them scroll with content */
+    @media (max-width: 720px) {
+      .ev-controls--sticky {
+        position: static;
+        top: auto;
+        z-index: auto;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: var(--surface);
+      }
     }
     /* Detect if body has light background (if variables allow) and adjust sticky controls */
     @media (prefers-color-scheme: light) {
@@ -361,8 +385,8 @@
 
     .ev-row {
       display: grid;
-      grid-template-columns: 45px 100px 1fr 130px 100px;
-      gap: 1.5rem;
+      grid-template-columns: 40px 110px 1fr 60px 120px 90px;
+      gap: 1rem;
       align-items: center;
       padding: 0.9rem 1.25rem;
       border-bottom: 1px solid var(--border);
@@ -372,25 +396,25 @@
       border-bottom: 0;
     }
 
-    /* Grade pill - 26px circle */
+    /* Grade pill */
     .ev-grade-col {
       display: flex;
       justify-content: center;
     }
     .ev-grade-pill {
-      width: 32px;
-      height: 20px;
-      border-radius: 4px;
+      width: 36px;
+      height: 18px;
+      border-radius: 2px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: var(--font-mono);
       font-weight: 700;
       font-size: 0.8rem;
-      color: #0f172a; /* high contrast on grade colors */
+      color: #0f172a;
     }
 
-    /* Type tag */
+    /* Type pill — all 10 canonical types */
     .ev-type-col {
       display: flex;
     }
@@ -398,27 +422,93 @@
       padding: 0.2rem 0.5rem;
       border-radius: 4px;
       font-family: var(--font-mono);
-      font-size: 0.7rem;
+      font-size: 0.67rem;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
       font-weight: 600;
       text-align: center;
       width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+    /* Legacy aliases (kept for safety) */
     .ev-type-pill.type-repo {
-      background: rgba(56, 189, 248, 0.12); /* --tier-basic-bg */
-      color: #38bdf8; /* --tier-basic */
-      border: 1px solid rgba(56, 189, 248, 0.25);
-    }
-    .ev-type-pill.type-arxiv {
-      background: rgba(192, 132, 252, 0.12); /* --tier-extra-bg */
-      color: #c084fc; /* --tier-extra */
-      border: 1px solid rgba(192, 132, 252, 0.25);
+      background: rgba(56,189,248,.10);
+      color: #38bdf8;
+      border: 1px solid rgba(56,189,248,.2);
     }
     .ev-type-pill.type-github-stars {
-      background: rgba(245, 158, 11, 0.12); /* --tier-ultimate-bg */
-      color: #f59e0b; /* --tier-ultimate */
-      border: 1px solid rgba(245, 158, 11, 0.25);
+      background: rgba(245,158,11,.12);
+      color: #f59e0b;
+      border: 1px solid rgba(245,158,11,.25);
+    }
+    /* Canonical types */
+    .ev-type-pill.type-fusion-recipe {
+      background: rgba(245,158,11,.15);
+      color: #f59e0b;
+      border: 1px solid rgba(245,158,11,.3);
+    }
+    .ev-type-pill.type-github-stars-own {
+      background: rgba(245,158,11,.12);
+      color: #f59e0b;
+      border: 1px solid rgba(245,158,11,.25);
+    }
+    .ev-type-pill.type-proxy-containment {
+      background: rgba(124,58,237,.12);
+      color: #7c3aed;
+      border: 1px solid rgba(124,58,237,.25);
+    }
+    .ev-type-pill.type-verifier-attestation {
+      background: rgba(232,121,249,.12);
+      color: #e879f9;
+      border: 1px solid rgba(232,121,249,.25);
+    }
+    .ev-type-pill.type-benchmark-result {
+      background: rgba(192,132,252,.12);
+      color: #c084fc;
+      border: 1px solid rgba(192,132,252,.25);
+    }
+    .ev-type-pill.type-arxiv {
+      background: rgba(192,132,252,.12);
+      color: #c084fc;
+      border: 1px solid rgba(192,132,252,.25);
+    }
+    .ev-type-pill.type-peer-review {
+      background: rgba(56,189,248,.12);
+      color: #38bdf8;
+      border: 1px solid rgba(56,189,248,.25);
+    }
+    .ev-type-pill.type-repo-own {
+      background: rgba(56,189,248,.10);
+      color: #38bdf8;
+      border: 1px solid rgba(56,189,248,.2);
+    }
+    .ev-type-pill.type-self-attestation {
+      background: rgba(100,116,139,.12);
+      color: #94a3b8;
+      border: 1px solid rgba(100,116,139,.25);
+    }
+    .ev-type-pill.type-social-signal {
+      background: rgba(52,211,153,.12);
+      color: #34d399;
+      border: 1px solid rgba(52,211,153,.25);
+    }
+
+    /* Trust score column */
+    .ev-trust-col {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .ev-trust-score {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .ev-trust-score--empty {
+      color: var(--muted);
+      opacity: 0.5;
     }
 
     /* Link and meta */
@@ -431,7 +521,7 @@
       color: var(--text);
       text-decoration: none;
       font-family: var(--font-mono);
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       transition: color 0.15s;
       border-bottom: 1px dotted var(--border);
     }
@@ -465,6 +555,24 @@
       text-align: right;
     }
 
+    /* Metrics chips row */
+    .ev-metrics-row {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      padding: 0.1rem 0 0.3rem;
+    }
+    .ev-metric-chip {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+    }
+
     /* Notes row below */
     .ev-notes-row {
       grid-column: 1 / -1;
@@ -475,41 +583,24 @@
       color: var(--muted);
       font-style: italic;
       border-left: 2px solid var(--border);
-      margin: -0.4rem 1.25rem 0.6rem;
+      margin: -0.2rem 0 0.3rem;
     }
 
     /* Responsive styles */
     @media (max-width: 768px) {
       .ev-row {
-        grid-template-columns: auto auto 1fr;
-        gap: 0.75rem;
+        grid-template-columns: auto auto 1fr auto;
+        gap: 0.6rem;
         align-items: start;
         padding: 0.8rem 1rem;
       }
-      .ev-grade-col {
-        grid-column: 1;
-        grid-row: 1;
-      }
-      .ev-type-col {
-        grid-column: 2;
-        grid-row: 1;
-      }
-      .ev-source-col {
-        grid-column: 3;
-        grid-row: 1;
-      }
-      .ev-eval-col {
-        grid-column: 1 / 3;
-        grid-row: 2;
-      }
-      .ev-date-col {
-        grid-column: 3;
-        grid-row: 2;
-        text-align: left;
-      }
-      .ev-notes-row {
-        margin: -0.2rem 1rem 0.4rem;
-      }
+      .ev-grade-col { grid-column: 1; grid-row: 1; }
+      .ev-type-col  { grid-column: 2; grid-row: 1; }
+      .ev-source-col{ grid-column: 3 / 5; grid-row: 1; }
+      .ev-trust-col { grid-column: 4; grid-row: 1; display: none; }
+      .ev-eval-col  { grid-column: 1 / 3; grid-row: 2; }
+      .ev-date-col  { grid-column: 3 / 5; grid-row: 2; text-align: left; }
+      .ev-notes-row { margin: 0; }
       .ev-chart-wrap {
         flex-direction: column;
         gap: 1.5rem;
@@ -532,8 +623,8 @@
 <body class="evidence-page">
   <!-- NAV -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=5.0.4"></script>
-  <script src="../js/site-nav.js?v=4.8.1"></script>
+  <script src="../js/mounts.js?v=5.0.6"></script>
+  <script src="../js/site-nav.js?v=5.0.6"></script>
 
   <!-- BACK -->
   <div class="profile-back-row">
@@ -569,9 +660,7 @@
         <span class="ev-filter-label">Evidence Type</span>
         <div class="ev-type-tabs" id="evTypeTabs" role="tablist">
           <button class="ev-tab active" data-type="all">All</button>
-          <button class="ev-tab" data-type="repo">repo</button>
-          <button class="ev-tab" data-type="arxiv">arxiv</button>
-          <button class="ev-tab" data-type="github-stars">stars</button>
+          <!-- Type tabs dynamically populated by evidence-library.js buildTypeFilterTabs() -->
         </div>
       </div>
       <div class="ev-filter-group">
@@ -601,11 +690,11 @@
 
   <!-- FOOTER -->
   <div id="site-footer-mount"></div>
-  <script src="../js/site-footer.js?v=4.8.1"></script>
+  <script src="../js/site-footer.js?v=5.0.6"></script>
 
   <!-- PAGE SCRIPT -->
-  <script src="../js/evidence-library.js?v=4.8.1"></script>
-  <script src="../js/ui.js?v=4.8.1"></script>
+  <script src="../js/evidence-library.js?v=5.0.6"></script>
+  <script src="../js/ui.js?v=5.0.6"></script>
 </body>
 
 </html>

@@ -20,7 +20,7 @@ tags:
 - markitdown
 - presentations
 createdAt: '2026-04-30'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md

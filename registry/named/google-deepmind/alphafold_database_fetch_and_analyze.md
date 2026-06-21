@@ -12,7 +12,7 @@ description: Retrieve and analyze AlphaFold predicted structures for a protein. 
   the user only has a protein name, gene name, or amino acid sequence — ask for a
   UniProt ID first.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md
 evidence:
@@ -25,9 +25,9 @@ evidence:
     not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://www.nature.com/articles/s41586-021-03819-2
   evaluator: unknown
   date: '2026-06-19'
@@ -37,6 +37,7 @@ evidence:
     citations (Semantic Scholar 2026-06-19). Nature paper directly describing the
     AlphaFold database tool.'
   reviewers: 3
+  grade: S
 timeline:
 - timestamp: '2026-06-14T12:32:28Z'
   action: evidence_graded

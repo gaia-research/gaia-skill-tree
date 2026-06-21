@@ -19,14 +19,13 @@
       "date": "2026-04-28",
       "notes": "Wei et al. (2022) â€” Chain-of-Thought Prompting; +18% on GSM8K and +14% on MATH with PaLM 540B vs standard prompting. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

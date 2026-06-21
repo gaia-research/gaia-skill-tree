@@ -16,8 +16,7 @@
       "date": "2026-04-30",
       "notes": "LLMLingua-2 (ACL 2024 Findings) — data-distillation for efficient task-agnostic prompt compression; 3x-6x speed-up, BERT-base token classifier; demonstrates measurable perplexity-based faithfulness. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -26,8 +25,7 @@
       "date": "2026-04-30",
       "notes": "Microsoft LLMLingua — reproducible open-source implementation of LLMLingua-1/2/LongLLMLingua; CI, README, Apache-2.0 license. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     },
     {
       "class": "C",
@@ -36,14 +34,13 @@
       "date": "2026-04-30",
       "notes": "SkillsMP top hit: sickn33/antigravity-awesome-skills (35k+ stars), multiple community variants including context-compression-v2. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

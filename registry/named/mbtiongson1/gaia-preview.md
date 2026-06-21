@@ -10,7 +10,7 @@ description: Generates a preview render of proposed registry changes — showing
   new or modified skill entries will appear on the profile page and in the skill graph
   before the PR is merged.
 createdAt: '2026-05-27'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 title: The Change Previewer
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md

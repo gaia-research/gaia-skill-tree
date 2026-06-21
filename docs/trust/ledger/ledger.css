@@ -1,0 +1,724 @@
+/*
+ * /trust/ledger/ledger.css
+ *
+ * Single sortable, filterable table. No circles, no modals, no bands.
+ * Metallic grade colors inherit from styles.css unified rules
+ * (.grade-segment.grade-* / [data-trust-grade=*]).
+ */
+
+/* ── Page container — full-bleed override of .process-page defaults ─── */
+.ledger-page main.ledger-main {
+  width: 100%;
+  max-width: min(1680px, 96vw);
+  margin: 0 auto;
+  padding: 4.5rem 2rem 0;     /* top clears the fixed nav (~3.4rem tall) + breathing room */
+}
+
+/* Global `section { max-width: 1000px; margin: 0 auto; padding: 5rem 1.5rem }`
+   in styles.css clamps every <section> to 1000px and centres it. The
+   distribution strip, controls, hero, and footer ledger are <section>s,
+   so they were squeezed inside a 1000px column while the table-wrap
+   <div> stretched to 1680px — visible misalignment. Reset for this
+   page only. */
+.ledger-page main > section {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Hero ───────────────────────────────────────────────────── */
+.lb-hero {
+  width: 100%;
+  max-width: none;          /* override .process-hero max-width: 1000px */
+  min-height: 28vh;
+  padding-top: 3rem;
+  padding-bottom: 1.5rem;
+  align-items: flex-start;  /* left-align everything in the hero block */
+  text-align: left;
+}
+
+.lb-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  margin-bottom: 0.75rem;
+}
+
+.lb-hero .process-lede {
+  max-width: 720px;
+  margin: 0;             /* not auto — left-align with the rest of the page */
+  text-align: left;
+}
+
+.lb-hero .process-lede a {
+  color: var(--tier-extra);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.lb-hero .lb-rank-note {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  background: rgba(255,255,255,0.02);
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+}
+
+.lb-hero .lb-rank-note strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ── Back row ───────────────────────────────────────────────── */
+.tm-back-row {
+  width: 100%;
+  margin: 0;
+  padding: 1.5rem 0 0;
+}
+
+.tm-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--muted);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  transition: color 0.15s;
+}
+
+.tm-back:hover {
+  color: var(--text);
+}
+
+/* ── Distribution strip (replaces stat cards) ───────────────── */
+.lb-distribution {
+  width: 100%;
+  margin: 1rem 0 1.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.lb-dist-bar {
+  display: flex;
+  width: 100%;
+  height: 28px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+}
+
+.lb-dist-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  transition: filter 0.15s;
+}
+
+.lb-dist-seg:hover {
+  filter: brightness(1.1);
+}
+
+.lb-dist-seg__count {
+  white-space: nowrap;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+}
+
+/* All metallic fills inherit from styles.css [data-trust-grade=...] rules */
+
+.lb-dist-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  align-items: center;
+}
+
+.lb-dist-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--muted);
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.lb-dist-key:hover {
+  border-color: var(--text);
+  color: var(--text);
+}
+
+.lb-dist-key__pip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0;
+}
+
+.lb-dist-key__name {
+  color: var(--text);
+  letter-spacing: 0.03em;
+}
+
+.lb-dist-key__count {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.lb-dist-key--total {
+  margin-left: auto;
+  padding: 0.4rem 0.85rem;
+  border-color: var(--text);
+  color: var(--text);
+  cursor: default;
+  pointer-events: none;
+}
+
+.lb-dist-key--total .lb-dist-key__count {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.lb-dist-key--meta {
+  display: flex;
+  gap: 0.4rem;
+  border: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+.lb-dist-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25em 0.55em;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.lb-dist-meta-pill strong {
+  color: var(--tier-extra);
+  font-weight: 600;
+}
+
+/* ── Controls (search + tabs) ───────────────────────────────── */
+.lb-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 2.75rem 0 1.25rem;   /* breathing room before filters */
+  padding: 0.85rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.lb-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1 1 280px;
+  min-width: 0;
+  padding: 0.5rem 0.85rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--muted);
+  transition: border-color 0.15s;
+}
+
+.lb-search:focus-within {
+  border-color: var(--tier-extra-border);
+  color: var(--tier-extra);
+}
+
+.lb-search input {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.lb-search input::placeholder {
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+.lb-filters {
+  display: inline-flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.lb-tab {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  padding: 0.5rem 0.95rem;
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+
+.lb-tab:last-child {
+  border-right: 0;
+}
+
+.lb-tab:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.lb-tab.is-active {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.lb-tab[data-grade="S"].is-active { color: #d1e8ff; box-shadow: inset 0 -2px 0 var(--evidence-platinum); }
+.lb-tab[data-grade="A"].is-active { color: #fef08a; box-shadow: inset 0 -2px 0 var(--evidence-gold); }
+.lb-tab[data-grade="B"].is-active { color: #cbd5e1; box-shadow: inset 0 -2px 0 var(--evidence-silver); }
+.lb-tab[data-grade="C"].is-active { color: #fed7aa; box-shadow: inset 0 -2px 0 var(--evidence-bronze); }
+
+/* ── Single sortable table ──────────────────────────────────── */
+.lb-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  margin-bottom: 2rem;
+}
+
+.lb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  min-width: 880px;
+  table-layout: auto;
+}
+
+.lb-table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0.7rem 0.85rem;
+  text-align: left;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s;
+  z-index: 1;
+}
+
+.lb-table thead th:hover {
+  color: var(--text);
+}
+
+.lb-table thead th[data-col="rank"] {
+  cursor: default;
+}
+
+.lb-table thead th[aria-sort="ascending"],
+.lb-table thead th[aria-sort="descending"] {
+  color: var(--text);
+}
+
+.lb-table thead th .lb-sort {
+  opacity: 0.5;
+  margin-left: 0.3em;
+  font-size: 0.7em;
+}
+
+.lb-table thead th[aria-sort] .lb-sort {
+  opacity: 1;
+  color: var(--tier-extra);
+}
+
+.lb-table tbody td {
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.lb-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.lb-table tbody tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Subtle grade tint per row — left border accent only */
+.lb-table tbody tr[data-trust-grade="S"] td:first-child { box-shadow: inset 3px 0 0 var(--evidence-platinum); }
+.lb-table tbody tr[data-trust-grade="A"] td:first-child { box-shadow: inset 3px 0 0 var(--evidence-gold); }
+.lb-table tbody tr[data-trust-grade="B"] td:first-child { box-shadow: inset 3px 0 0 var(--evidence-silver); }
+.lb-table tbody tr[data-trust-grade="C"] td:first-child { box-shadow: inset 3px 0 0 var(--evidence-bronze); }
+
+/* Column widths/alignment */
+.lb-table .col-rank {
+  color: var(--muted);
+  width: 3.5rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.lb-table .col-id {
+  color: var(--text);
+  white-space: normal;
+  min-width: 16rem;
+  width: auto;
+  word-break: break-all;
+}
+
+.lb-table .col-id a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.lb-table .col-id a:hover {
+  color: var(--tier-extra);
+  border-bottom-color: currentColor;
+}
+
+.lb-table .col-tm {
+  text-align: right;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  font-size: 0.84rem;
+  width: 9rem;
+  white-space: nowrap;
+}
+
+.lb-table .col-tm .lb-arrow {
+  display: inline-block;
+  width: 1em;
+  margin-right: 0.4em;
+  font-size: 0.78em;
+  vertical-align: 0.06em;
+}
+.lb-arrow--up   { color: var(--tier-extra); }
+.lb-arrow--down { color: #fb7185; }
+.lb-arrow--flat { color: var(--muted); opacity: 0.5; }
+
+.lb-table .col-tm .lb-tm-num {
+  font-variant-numeric: tabular-nums;
+}
+
+.lb-table .col-grade,
+.lb-table .col-stars,
+.lb-table .col-g7 {
+  text-align: center;
+}
+
+/* ── (i) Apex info icon beside June stars (5★+ only) ─────── */
+.lb-apex-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.45em;
+  width: 1.1em;
+  height: 1.1em;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-style: italic;
+  font-weight: 600;
+  cursor: help;
+  transition: color 0.15s, border-color 0.15s;
+  vertical-align: 1px;
+}
+
+.lb-apex-info:hover,
+.lb-apex-info:focus-visible {
+  color: var(--text);
+  border-color: var(--text);
+  outline: none;
+}
+
+.lb-apex-info--apex {
+  color: var(--tier-ultimate);
+  border-color: var(--tier-ultimate);
+}
+
+/* ── Per-row grade pill (no circles) ───────────────────────── */
+.lb-grade-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 22px;
+  border-radius: 3px;  /* rectangular, not circular */
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+/* All metallic fills inherit from styles.css */
+
+/* ── Stars cell ─────────────────────────────────────────────── */
+.lb-stars {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 500;
+}
+
+.lb-stars--0 { color: var(--rank-0); }
+.lb-stars--1 { color: var(--rank-1); }
+.lb-stars--2 { color: var(--rank-2); }
+.lb-stars--3 { color: var(--rank-3); }
+.lb-stars--4 { color: var(--rank-4); }
+.lb-stars--5 { color: var(--rank-5); }
+.lb-stars--6 {
+  /* 6★ Apex — rainbow cycle per DESIGN.md L249-262 (Ultimate Skill Cycle).
+     Reuses the global @keyframes tree-rainbow-glow defined in styles.css. */
+  animation: tree-rainbow-glow 4s linear infinite;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 6px currentColor;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lb-stars--6 { animation: none; color: var(--rank-6); }
+}
+
+/* ── Flags ──────────────────────────────────────────────────── */
+.lb-flag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 0.12em 0.5em;
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+}
+
+.lb-flag--floor { color: var(--tier-basic); background: var(--tier-basic-bg); border: 1px solid var(--tier-basic-border); }
+.lb-flag--up    { color: var(--tier-extra); background: var(--tier-extra-bg); border: 1px solid var(--tier-extra-border); }
+.lb-flag-empty  { color: var(--border); }
+
+/* ── Apex cell ──────────────────────────────────────────────
+   (Apex column was removed in favor of an inline (i) tooltip
+   beside June stars — see .lb-apex-info above.) */
+
+/* ── Empty state ────────────────────────────────────────────── */
+.lb-empty {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+/* ── Footer ledger ──────────────────────────────────────────── */
+.lb-ledger {
+  width: 100%;
+  margin: 2rem 0 2rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.lb-ledger__row {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: 1rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.lb-ledger__row:last-child {
+  border-bottom: 0;
+}
+
+.lb-ledger__row--meta {
+  margin-top: 0.4rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 0;
+}
+
+.lb-ledger__key {
+  color: var(--tier-extra);
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+.lb-ledger__val {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.lb-ledger__val a {
+  color: var(--tier-basic);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.lb-ledger__val a:hover {
+  color: var(--text);
+}
+
+.lb-ledger__val strong {
+  color: var(--text);
+}
+
+/* ── Back-to-top ────────────────────────────────────────────── */
+.lb-back-top {
+  text-align: center;
+  margin: 2rem 0 4rem;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .ledger-page main.ledger-main {
+    padding: 4rem 0.85rem 0;       /* edge-to-edge feel on small screens */
+  }
+  .lb-hero {
+    min-height: auto;
+    padding-top: 1.75rem;
+    padding-bottom: 0.5rem;
+  }
+  .lb-hero h1 {
+    margin-bottom: 0.5rem;
+  }
+  .lb-hero .lb-rank-note {
+    font-size: 0.66rem;
+    padding: 0.35rem 0.55rem;
+    line-height: 1.4;
+  }
+  .lb-distribution {
+    margin: 0.75rem 0 1rem;
+    padding: 0.75rem 0.85rem;
+  }
+  .lb-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    margin: 1.75rem 0 1rem;        /* still has breathing room above */
+    padding: 0.7rem 0.75rem;
+  }
+  .lb-search {
+    flex: 1 1 auto;
+    padding: 0.45rem 0.7rem;
+  }
+  .lb-search input {
+    font-size: 0.78rem;
+  }
+  /* Filter pills: shrink, allow wrap so all 6 fit on 320–360px screens */
+  .lb-filters {
+    align-self: stretch;
+    display: flex;
+    flex-wrap: wrap;
+    border: 0;
+    border-radius: 0;
+    overflow: visible;
+    gap: 0.3rem;
+  }
+  .lb-tab {
+    flex: 1 1 auto;
+    padding: 0.45rem 0.6rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+  .lb-tab:last-child {
+    border-right: 1px solid var(--border);
+  }
+  /* Table: smaller text + tighter cell padding so it fits without horizontal scroll */
+  .lb-table {
+    min-width: 0;
+    font-size: 0.72rem;
+  }
+  .lb-table thead th {
+    padding: 0.55rem 0.5rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+  }
+  .lb-table tbody td {
+    padding: 0.5rem 0.5rem;
+  }
+  .lb-table .col-rank {
+    width: 2rem;
+  }
+  .lb-table .col-id {
+    min-width: 8rem;
+  }
+  .lb-table .col-tm {
+    width: 5rem;
+    font-size: 0.78rem;
+  }
+  .lb-ledger {
+    margin: 1.5rem 0;
+    padding: 1rem 0.85rem;
+    font-size: 0.72rem;
+  }
+  .lb-ledger__row {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+  .lb-dist-keys {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .lb-dist-key--total {
+    margin-left: 0;
+  }
+}

@@ -16,7 +16,7 @@ tags:
 - rag
 - ast
 createdAt: '2026-05-14'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 timeline:
 - timestamp: '2026-06-02T23:48:24Z'
   action: demote
@@ -81,6 +81,7 @@ evidence:
   notes: 68,766 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
     standalone skill)
   stars: 68766
+  grade: A
 - source: https://arxiv.org/abs/2408.03910
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -88,6 +89,7 @@ evidence:
   class: A
   notes: GraphRAG / knowledge graph paper — ~89 citations as of 2026-06-19 (arXiv:2408.03910)
   citations: 89
+  grade: C
 - source: https://www.youtube.com/watch?v=q6t8xTjV5rM
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -102,6 +104,7 @@ evidence:
   class: A
   notes: 'Consolidated GitHub community reviews (Issues + r/LocalLLaMA): token efficiency
     praised, Leiden clustering limits on non-modular codebases documented. Mid-2026.'
+  grade: C
 verification:
   firstEvidenceAt: '2026-06-19T09:19:58Z'
 trustMagnitudeInputHash: ae90ab68d4801463666f7bd7e7c88a76e5d8f530513b89a05c4073ebbafdd701

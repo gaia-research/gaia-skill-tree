@@ -12,7 +12,7 @@ description: Query and search the EMBL-EBI Ontology Lookup Service (OLS) for bio
   (parents, children, ancestors), look up properties and individuals, get autocomplete
   suggestions, or access ontology metadata and statistics.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md
 evidence:
@@ -24,15 +24,15 @@ evidence:
     — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://pmc.ncbi.nlm.nih.gov/articles/PMC12094816/
   evaluator: unknown
   date: '2026-06-20'
   type: peer-review
   trustNumber: 85.0
-  grade: A
+  grade: S
   notes: OLS4 (Ontology Lookup Service) 2025 — PMC/NAR; open source search engine
     for biomedical ontologies
   reviewers: 3

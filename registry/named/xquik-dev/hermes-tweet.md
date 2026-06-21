@@ -18,7 +18,7 @@ tags:
 - hermes-agent
 - monitoring
 createdAt: '2026-05-15'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/Xquik-dev/hermes-tweet
@@ -32,7 +32,6 @@ evidence:
   commits: 439
   contributors: 2
   trustNumber: 70.0
-  grade: B
 - source: https://www.youtube.com/watch?v=8VJKkftUY3M
   evaluator: unknown
   date: '2026-06-20'

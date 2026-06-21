@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Generate Trust Magnitude leaderboard JSON for the public /trust/leaderboard/ page.
+"""Generate Trust Ledger JSON for the public /trust/ledger/ page.
 
-Writes ``docs/graph/leaderboard/data.json`` containing:
+Writes ``docs/graph/ledger/data.json`` containing:
 
     {
       "version":   "<gaia.json version>",
       "generatedAt": "<ISO 8601 UTC>",
-      "rows": [ { skillId, tm, grade, currentStars, g7Stars, flag, apexResults }, ... ],
+      "rows": [ { skillId, tm, grade, currentStars, mayStars, juneStars, g7Stars, flag, apexResults }, ... ],
       "summary": { total, S, A, B, C, ungraded, floor, up }
     }
 
@@ -42,8 +42,12 @@ from gaia_cli.trustMagnitude import (  # noqa: E402
     passesApexGate,
 )
 
-DEFAULT_OUT = REPO_ROOT / "docs" / "graph" / "leaderboard" / "data.json"
+DEFAULT_OUT = REPO_ROOT / "docs" / "graph" / "ledger" / "data.json"
 GAIA_JSON = REPO_ROOT / "registry" / "gaia.json"
+SKILL_TREES_DIR = REPO_ROOT / "skill-trees"
+
+# G7 cutover — anything before this date is "May meta" (pre-G7), at/after is "June meta".
+G7_CUTOVER = "2026-06-18T12:54:50Z"
 
 
 def readGaiaVersion() -> str:
@@ -54,10 +58,50 @@ def readGaiaVersion() -> str:
         return ""
 
 
+def buildMayStarsMap() -> dict[str, str]:
+    """Walk every skill-tree.json and return {skillId: mayStars}.
+
+    mayStars is the level that was current on the G7 cutover date — i.e. the
+    latest levelHistory entry with achievedAt < cutover, or the unlockedAt level
+    if no earlier history exists. Skills with no user-tree entry are absent from
+    the map; callers should fall back to current registry stars in that case.
+    """
+    out: dict[str, str] = {}
+    if not SKILL_TREES_DIR.exists():
+        return out
+    for tree in SKILL_TREES_DIR.glob("*/skill-tree.json"):
+        try:
+            data = json.loads(tree.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        for s in data.get("unlockedSkills", []) or []:
+            sid = s.get("skillId")
+            if not sid:
+                continue
+            history = s.get("levelHistory") or []
+            # Find the latest event before the G7 cutover
+            beforeCutover = [h for h in history
+                             if isinstance(h, dict)
+                             and h.get("achievedAt", "") < G7_CUTOVER]
+            if beforeCutover:
+                # Use the latest entry — the "level" field of a history entry
+                # is the level *attained* by that event, so it's still current
+                # at the cutover instant.
+                latest = max(beforeCutover, key=lambda h: h.get("achievedAt", ""))
+                out[sid] = latest.get("level") or s.get("level") or ""
+            elif s.get("unlockedAt", "") < G7_CUTOVER:
+                # Registered before cutover with no history — current level
+                # was set at register time and held through the cutover.
+                out[sid] = s.get("level") or ""
+            # else: registered after cutover → no May value
+    return out
+
+
 def buildRows() -> list[dict]:
     mergedMap, namedSkillMap = buildMaps()
     skills = loadAllNamedSkills()
     apexState = {"genericSkillMap": mergedMap, "namedSkillMap": namedSkillMap}
+    mayStarsMap = buildMayStarsMap()
 
     rows: list[dict] = []
     for fm in skills:
@@ -66,6 +110,10 @@ def buildRows() -> list[dict]:
         grade = computeOverallTrustGradeFromSkill(fm, mergedMap)
         currentStars = fm.get("level") or fm.get("rank") or "?"
         g7Stars, flag = effectiveRank(grade, currentStars)
+        # May meta = stars on the eve of G7 cutover (pre-ratification).
+        # June meta = current stars after G7 ratification (which is what
+        # `currentStars` already is).
+        mayStars = mayStarsMap.get(skillId, currentStars)
 
         apexResults = None
         if grade == "S":
@@ -75,8 +123,10 @@ def buildRows() -> list[dict]:
             "skillId":      skillId,
             "tm":           round(tm, 2),
             "grade":        grade,
-            "currentStars": currentStars,
-            "g7Stars":      g7Stars,
+            "currentStars": currentStars,   # kept for backward compat
+            "mayStars":     mayStars,
+            "juneStars":    currentStars,
+            "g7Stars":      g7Stars,        # kept for backward compat
             "flag":         flag,
             "apexResults":  apexResults,
         })
@@ -107,7 +157,7 @@ def buildSummary(rows: list[dict]) -> dict:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Generate /trust/leaderboard/ data.json")
+    parser = argparse.ArgumentParser(description="Generate /trust/ledger/ data.json")
     parser.add_argument("--out", metavar="PATH", default=str(DEFAULT_OUT),
                         help=f"Output path (default: {DEFAULT_OUT.relative_to(REPO_ROOT)})")
     args = parser.parse_args()

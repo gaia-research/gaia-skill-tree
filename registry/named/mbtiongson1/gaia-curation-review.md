@@ -10,7 +10,7 @@ description: Reviews pending skill submissions against registry standards — ch
   evidence class thresholds, naming conventions, and tier accuracy before approving
   or requesting revisions.
 createdAt: '2026-05-27'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 title: The Quality Gate
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md

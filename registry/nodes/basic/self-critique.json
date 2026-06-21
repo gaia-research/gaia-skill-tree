@@ -18,8 +18,7 @@
       "date": "2026-04-28",
       "notes": "Self-Refine (Madaan et al., 2023) â€” iterative self-feedback loop; +20% on code generation and +13% on math reasoning vs single-pass generation. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -28,14 +27,13 @@
       "date": "2026-04-28",
       "notes": "Self-Refine repo â€” reproducible demos across 7 tasks (code, math, dialogue, sentiment reversal) with evaluation scripts. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

@@ -13,7 +13,7 @@ description: Query the Genome Aggregation Database (gnomAD). Use when determinin
   individual patient genomes, tracking somatic mutations in cancer (use COSMIC), or
   requesting raw sequencing reads (use ENA).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md
 evidence:
@@ -25,9 +25,9 @@ evidence:
     — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://www.nature.com/articles/s41586-020-2308-7
   evaluator: unknown
   date: '2026-06-19'
@@ -36,6 +36,7 @@ evidence:
   notes: 'Karczewski et al. 2020 Nature: The mutational constraint spectrum quantified
     from 141,456 humans. 8,320 citations (Semantic Scholar 2026-06-19).'
   reviewers: 3
+  grade: S
 timeline:
 - timestamp: '2026-06-14T12:32:31Z'
   action: evidence_graded

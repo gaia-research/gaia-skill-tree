@@ -18,8 +18,7 @@
       "date": "2026-04-28",
       "notes": "SWE-bench â€” 2294 real GitHub issues; Claude 3.5 Sonnet (Cognition) resolves 49% on Verified, demonstrating full-cycle autonomous development. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -28,8 +27,7 @@
       "date": "2026-04-28",
       "notes": "SWE-agent â€” open-source agent with AgentComputer Interface; reproducible harness achieving 12.5% on SWE-bench full with logs and eval scripts. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     },
     {
       "class": "A",
@@ -38,14 +36,13 @@
       "date": "2026-04-28",
       "notes": "CodeAct â€” executable code action space for LLM agents; +20% task completion vs JSON/text-based actions across 17 programming benchmarks. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "title": "Sovereign Craftsman",
   "timeline": [

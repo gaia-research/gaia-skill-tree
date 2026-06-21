@@ -16,7 +16,7 @@ tags:
 - cost
 - tokens
 createdAt: '2026-05-14'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/getagentseal/codeburn
@@ -28,9 +28,9 @@ evidence:
     not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 721
   contributors: 45
+  grade: B
 timeline:
 - timestamp: '2026-06-14T12:32:27Z'
   action: evidence_graded

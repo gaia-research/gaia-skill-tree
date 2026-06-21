@@ -19,8 +19,7 @@
       "date": "2026-04-30",
       "notes": "Agent-SafetyBench (2024) -- benchmark with 349 interaction environments and 2,000 test cases covering safety risks in agent deployments; establishes reproducible trajectory-level metrics. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -29,8 +28,7 @@
       "date": "2026-04-30",
       "notes": "TruLens -- open-source evaluation and tracking for LLM experiments and AI agents; CI, active maintenance, 5k+ stars. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     },
     {
       "class": "B",
@@ -39,14 +37,13 @@
       "date": "2026-04-30",
       "notes": "Giskard OSS -- testing library for LLM agents with automated vulnerability scanning and RAG evaluation; Apache-2 license. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

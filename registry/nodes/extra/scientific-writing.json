@@ -18,14 +18,13 @@
       "date": "2026-04-30",
       "notes": "Chamoun et al. (ACL 2024 Findings) — SWIFT: automated focused feedback for scientific writing; multi-component LLM system (planner, investigator, reviewer, controller) rated more specific and helpful than human reviewers on 300 peer-reviewed manuscripts. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

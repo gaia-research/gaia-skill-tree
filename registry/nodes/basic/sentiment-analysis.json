@@ -17,8 +17,7 @@
       "date": "2026-04-28",
       "notes": "BERT paper — achieves SOTA on SST-2 sentiment benchmark (93.5% accuracy), foundational evidence for LLM-based sentiment analysis. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -27,8 +26,7 @@
       "date": "2026-05-17",
       "notes": "CardiffNLP Twitter-RoBERTa (Barbieri et al., 2022) - SOTA transformer baseline for social-media sentiment analysis; 3-class, multilingual variants available. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -37,8 +35,7 @@
       "date": "2026-05-17",
       "notes": "SemEval-2017 Task 4 - Standard Twitter sentiment benchmark; establishes macro-F1 as primary metric. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -47,8 +44,7 @@
       "date": "2026-05-17",
       "notes": "VADER (Hutto & Gilbert, 2014) - Canonical lexicon-based baseline; validated on social media corpora. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -57,8 +53,7 @@
       "date": "2026-05-17",
       "notes": "NLPTown BERT multilingual - 5-class (star-rating) model fine-tuned on product reviews; direct UGC applicability. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     },
     {
       "class": "B",
@@ -67,8 +62,7 @@
       "date": "2026-05-17",
       "notes": "declare-lab/conv-emotion - Sentiment/emotion recognition in conversations (MELD, IEMOCAP); relevant for threaded comment SA. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     },
     {
       "class": "C",
@@ -77,8 +71,7 @@
       "date": "2026-05-17",
       "notes": "SST-2 (GLUE benchmark) - Standard binary SA benchmark for cross-model comparison. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "C",
@@ -87,8 +80,7 @@
       "date": "2026-05-17",
       "notes": "Aspect-Based SA survey (Zhang et al., 2022) - Covers ABSA methods for structured review analysis. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "C",
@@ -97,14 +89,13 @@
       "date": "2026-05-17",
       "notes": "Curated reading list by DeCLaRe Lab; anchored by Poria et al. (2020) IEEE TAC survey on open challenges. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "1.0.0",
   "timeline": [
     {

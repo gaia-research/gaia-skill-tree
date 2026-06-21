@@ -1626,6 +1626,55 @@ button.plaque__slug:focus-visible {
   display: block;
 }
 
+/* Detail modal: trust notch is always expanded — full-width bar showing grade + MAG */
+.plaque--detail .plaque__trust-notch {
+  height: 36px !important;
+  grid-column: 1 / -1;    /* span both columns */
+  margin-bottom: calc(-1 * 28px);
+  margin-left: calc(-1 * 32px);
+  width: calc(100% + 2 * 32px);
+  transition: none;
+  /* Mobile/medium: allow the bar to grow vertically so the long
+     "PLATINUM (S) · MAG xxx" label wraps or fits without overflow. */
+  height: auto !important;
+  min-height: 36px;
+  padding: 6px 12px;
+}
+.plaque--detail .trust-notch-label {
+  opacity: 1 !important;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  transition: none;
+  white-space: normal;          /* allow wrap on narrow screens */
+  text-align: center;
+  line-height: 1.25;
+  max-width: 100%;
+  word-break: break-word;
+}
+
+@media (max-width: 720px) {
+  .plaque--detail .trust-notch-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+}
+@media (max-width: 480px) {
+  .plaque--detail .trust-notch-label {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+  /* Drop the "PLATINUM (S) · " prefix on very narrow screens — the
+     plaque already shows the grade pill elsewhere. */
+  .plaque--detail .plaque__trust-notch .trust-notch-label::before {
+    content: "" !important;
+  }
+}
+/* In detail, the JS prepends the grade name via data-trust-grade attr */
+.plaque--detail .plaque__trust-notch[data-trust-grade="S"] .trust-notch-label::before { content: "PLATINUM (S) · "; }
+.plaque--detail .plaque__trust-notch[data-trust-grade="A"] .trust-notch-label::before { content: "GOLD (A) · "; }
+.plaque--detail .plaque__trust-notch[data-trust-grade="B"] .trust-notch-label::before { content: "SILVER (B) · "; }
+.plaque--detail .plaque__trust-notch[data-trust-grade="C"] .trust-notch-label::before { content: "BRONZE (C) · "; }
+
 
 /* ── .plaque--settled — Profile trophy card ─────────────────────
    Tile field set + rank stars + evidence chip + gold underline.
@@ -3781,55 +3830,38 @@ button.plaque__slug:focus-visible {
   line-height: 1;
   pointer-events: none;
   user-select: none;
+  /* Don't burst out of narrow plaques on medium widths */
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .plaque:hover .trust-notch-label {
   opacity: 1;
 }
 
-/* ── Grade fills ─────────────────────────────────────────────── */
-/* S — Platinum: animated iridescent sweep */
-.plaque__trust-notch[data-trust-grade="S"] {
-  background: linear-gradient(
-    90deg,
-    var(--trust-notch-S-hi2, #d1e8ff) 0%,
-    color-mix(in srgb, var(--trust-notch-S-mid, #a5c7eb) 80%, var(--trust-notch-S-violet, #c8d8ff)) 30%,
-    var(--trust-notch-S-mid, #a5c7eb) 60%,
-    var(--trust-notch-S-hi2, #d1e8ff) 100%
-  );
-  background-size: 200% 100%;
-  animation: trust-notch-shimmer 2.8s linear infinite;
-  color: var(--trust-notch-text-S, #0f172a);
-}
+/* ── Grade fills ────────────────────────────────────────────────────────────
+   Plaque trust notches inherit the unified metallic grade fills from
+   docs/css/styles.css (search ".grade-segment.grade-plat,").
+   The selectors .plaque__trust-notch[data-trust-grade="S/A/B/C"] are appended
+   to those rules — single source for all grade colors across plaques, MAG bars,
+   evidence cards, and the docs/index.html Evidence Grade ladder.
 
+   Anything plaque-specific (animated shimmer for S, reduced-motion fallback)
+   stays here. The base color/gradient/shadow live in styles.css.
+─────────────────────────────────────────────────────────────────────────── */
+
+/* Animated S shimmer — overlays the metallic platinum fill (additive layer) */
 @keyframes trust-notch-shimmer {
-  0%   { background-position: 0%   0%; }
-  100% { background-position: 200% 0%; }
+  0%   { background-position: 0%   0%, 0 0, 0 0, 0 0, 0 0, 0 0; }
+  100% { background-position: 200% 0%, 0 0, 0 0, 0 0, 0 0, 0 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .plaque__trust-notch[data-trust-grade="S"] {
-    animation: none;
-    background: var(--trust-notch-S-mid, #a5c7eb);
+    animation: none !important;
   }
 }
 
-/* A — Gold */
-.plaque__trust-notch[data-trust-grade="A"] {
-  background: var(--grade-A, #d4af37);
-  color: #030712;
-}
-
-/* B — Silver (steel) */
-.plaque__trust-notch[data-trust-grade="B"] {
-  background: var(--trust-notch-B-hi, rgba(148,163,184,0.55));
-  color: var(--text, #e2e8f0);
-}
-
-/* C — Bronze */
-.plaque__trust-notch[data-trust-grade="C"] {
-  background: var(--grade-C, #b45309);
-  color: #fff8f0;
-}
 
 /* ── OG card: proportional bar at social-card scale ─────────── */
 .plaque--og .plaque__trust-notch {

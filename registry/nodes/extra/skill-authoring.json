@@ -22,8 +22,7 @@
       "date": "2026-05-10",
       "notes": "Agent Skills data-driven analysis characterizes SKILL.md packages as an emerging infrastructure layer and quantifies common design, reuse, and safety patterns. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -32,8 +31,7 @@
       "date": "2026-05-10",
       "notes": "Anthropic skill-creator provides a reproducible workflow for creating, editing, evaluating, benchmarking, and optimizing agent skills. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [
@@ -41,7 +39,7 @@
   ],
   "status": "provisional",
   "createdAt": "2026-05-10",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

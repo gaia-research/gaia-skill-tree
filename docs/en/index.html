@@ -329,13 +329,15 @@
     }
 
     @media (max-width: 640px) {
-      .docs-hero { margin-top: 3rem; }
+      .docs-hero { margin-top: 6rem; }
+      .docs-hero-eyebrow { margin-top: 0; margin-bottom: 0.5rem; }
       .docs-grid { grid-template-columns: 1fr; }
       .docs-footer { justify-content: center; text-align: center; }
     }
 
     /* Mobile Navigation Fixes */
     @media (max-width: 600px) {
+      .docs-hero { margin-top: 7rem; }
       .docs-nav {
         padding: 0 1rem;
         gap: 0.5rem;
@@ -371,6 +373,14 @@
   </style>
 </head>
 <body>
+
+  <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
+  <nav id="site-nav"></nav>
+  <script src="../js/mounts.js?v=5.0.7"></script>
+  <script src="../js/site-nav.js?v=5.0.7"></script>
+  <script src="../js/ui.js?v=5.0.7"></script>
+
+
 
   <!-- nav -->
   <nav class="docs-nav">

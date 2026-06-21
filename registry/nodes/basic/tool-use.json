@@ -21,8 +21,7 @@
       "date": "2026-04-28",
       "notes": "Toolformer (Schick et al., 2023) â€” self-supervised method teaching LLMs to call APIs; zero-shot tool use surpasses GPT-3 175B on several benchmarks. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -31,14 +30,13 @@
       "date": "2026-04-28",
       "notes": "ToolBench â€” open benchmark with 16,000+ real-world APIs; end-to-end tool-use training and evaluation harness. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

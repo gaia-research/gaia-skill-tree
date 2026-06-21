@@ -11,7 +11,7 @@ description: Use when you want to look up, map, and search for short genetic var
   in VCF format, and HGVS strings. For an rsID, returns variant type, gene associations,
   clinical significance, allele frequencies, and genomic coordinates (GRCh38).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md
 evidence:
@@ -23,9 +23,9 @@ evidence:
     — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://academic.oup.com/nar/article/29/1/308/1116395
   evaluator: unknown
   date: '2026-06-19'
@@ -34,6 +34,7 @@ evidence:
   notes: 'Sherry et al. 2001 NAR: dbSNP NCBI database of genetic variation. 7,285
     citations (Semantic Scholar 2026-06-19).'
   reviewers: 2
+  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:29Z'
   action: evidence_graded

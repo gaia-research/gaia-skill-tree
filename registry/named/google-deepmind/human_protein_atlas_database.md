@@ -9,7 +9,7 @@ level: 4★
 description: Use when you want to retrieve semi-quantitative protein expression and
   spatial localisation data from the Human Protein Atlas (HPA).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md
 evidence:
@@ -21,15 +21,15 @@ evidence:
     (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://www.nature.com/articles/s41587-025-02659-z
   evaluator: unknown
   date: '2026-06-20'
   type: peer-review
   trustNumber: 85.0
-  grade: A
+  grade: S
   notes: Human Protein Atlas 2025 — Nature Biotechnology; protein association atlas
     covering 116M protein pairs across cells/tissues
   reviewers: 3

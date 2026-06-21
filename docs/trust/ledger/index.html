@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>window.GAIA_VERSION = "5.0.7";</script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trust Ledger — Trust &amp; Evidence — Gaia</title>
+  <meta name="description" content="GAIA Trust Ledger — every named skill ranked by evidence-backed trust score.">
+  <link rel="icon" type="image/svg+xml" href="../../assets/marks/diamond-seal.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../../css/styles.css?v=5.0.7">
+  <link rel="stylesheet" href="ledger.css?v=5.0.7">
+  <script src="../../js/icons.js?v=5.0.7"></script>
+</head>
+<body class="process-page ledger-page">
+
+  <nav id="site-nav"></nav>
+  <script src="../../js/mounts.js?v=5.0.7"></script>
+  <script src="../../js/site-nav.js?v=5.0.7"></script>
+  <script src="../../js/ui.js?v=5.0.7"></script>
+
+  <main class="ledger-main">
+
+    <!-- ─── BACK ─── -->
+    <div class="tm-back-row">
+      <a class="tm-back" href="../../codex/trust-methodology.html">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Trust Methodology
+      </a>
+    </div>
+
+    <!-- ─── HERO ─── -->
+    <section class="process-hero lb-hero">
+      <p class="process-kicker">Trust &amp; Evidence</p>
+      <h1>Trust Ledger</h1>
+      <p class="process-lede">
+        Every named skill ranked by evidence-backed Trust Magnitude.
+        Sortable on every column, filterable by grade, searchable by skill ID.
+        <br>
+        <span class="lb-rank-note">Rank numbers are computed live from the current order — they are <strong>not stored</strong> on any skill. Reorder by sorting; the rank column reflects display position only.</span>
+      </p>
+    </section>
+
+    <!-- ─── DISTRIBUTION STRIP ─── -->
+    <section class="lb-distribution" id="lbDistribution" aria-label="Grade distribution">
+      <!-- populated by JS -->
+    </section>
+
+    <!-- ─── CONTROLS ─── -->
+    <section class="lb-controls" aria-label="Filter and search">
+      <div class="lb-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="search" id="lbSearch" placeholder="Search skill ID (e.g. mattpocock, gstack, web-scrape)…" autocomplete="off">
+      </div>
+      <div class="lb-filters" role="group" aria-label="Grade filters">
+        <button type="button" class="lb-tab is-active" data-band="all">All</button>
+        <button type="button" class="lb-tab" data-band="S" data-grade="S">S</button>
+        <button type="button" class="lb-tab" data-band="A" data-grade="A">A</button>
+        <button type="button" class="lb-tab" data-band="B" data-grade="B">B</button>
+        <button type="button" class="lb-tab" data-band="C" data-grade="C">C</button>
+        <button type="button" class="lb-tab" data-band="ungraded">Ungraded</button>
+      </div>
+    </section>
+
+    <!-- ─── SINGLE SORTABLE TABLE ─── -->
+    <div class="lb-table-wrap">
+      <table class="lb-table" id="lbTable">
+        <thead>
+          <tr>
+            <th class="col-rank" data-col="rank">#</th>
+            <th class="col-id" data-col="id">Skill ID</th>
+            <th class="col-tm" data-col="tm" data-default-dir="desc" title="Trust Magnitude — evidence-backed score">MAG</th>
+            <th class="col-grade" data-col="grade">Grade</th>
+            <th class="col-stars" data-col="may" title="Stars on the eve of the G7 cutover (2026-06-18) — pre-ratification meta">May</th>
+            <th class="col-g7" data-col="june" title="Current stars under G7 — post-ratification meta">June</th>
+          </tr>
+        </thead>
+        <tbody id="lbTableBody">
+          <tr><td colspan="6" class="lb-empty">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ─── FOOTER LEDGER ─── -->
+    <section class="lb-ledger" aria-label="Legend">
+      <div class="lb-ledger__row">
+        <span class="lb-ledger__key">MAG</span>
+        <span class="lb-ledger__val">Trust Magnitude — evidence-backed score. S ≥ 250 · A ≥ 100 · B ≥ 50 · C ≥ 20. The arrow next to MAG shows whether June stars rose, fell, or held vs. May. See <a href="../../codex/trust-methodology.html#quick-math">Quick Math Reference</a>.</span>
+      </div>
+      <div class="lb-ledger__row">
+        <span class="lb-ledger__key">May / June</span>
+        <span class="lb-ledger__val"><strong>May</strong> = stars on the eve of the G7 cutover (2026-06-18), under the pre-G7 meta. <strong>June</strong> = current stars under G7 (<a href="https://github.com/mbtiongson1/gaia-skill-tree/issues/715" target="_blank" rel="noopener">RFC §10.10</a>). Differences reflect grade-driven re-anchoring at ratification.</span>
+      </div>
+      <div class="lb-ledger__row">
+        <span class="lb-ledger__key">Rank #</span>
+        <span class="lb-ledger__val"><strong>Not stored.</strong> The rank column is the row's display position under the active sort and filters — re-sorting renumbers every row. Skills are identified by ID and MAG, not by rank.</span>
+      </div>
+      <div class="lb-ledger__row">
+        <span class="lb-ledger__key">Apex (i)</span>
+        <span class="lb-ledger__val">For 5★+ skills, an info icon appears beside the June stars showing predicates passed / active for 6★ apex eligibility (<a href="../../codex/trust-methodology.html#apex-gate">RFC §11.12</a>).</span>
+      </div>
+      <div class="lb-ledger__row lb-ledger__row--meta">
+        <span class="lb-ledger__key">Updated</span>
+        <span class="lb-ledger__val" id="lbGeneratedAt">—</span>
+      </div>
+    </section>
+
+    <div class="lb-back-top">
+      <a class="tm-back" href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 19l7-7-7-7"/></svg>
+        Back to top
+      </a>
+    </div>
+
+  </main>
+
+  <script src="ledger.js?v=5.0.7"></script>
+</body>
+</html>

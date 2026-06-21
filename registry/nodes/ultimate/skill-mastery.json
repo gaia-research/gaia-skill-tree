@@ -19,8 +19,7 @@
       "date": "2026-05-22",
       "notes": "The ultimate Matt Pocock skill suite capstone. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     },
     {
       "class": "A",
@@ -29,8 +28,7 @@
       "date": "2026-05-22",
       "notes": "Peer-reviewed ultimate capstone suite consolidation. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     },
     {
       "class": "A",
@@ -39,14 +37,13 @@
       "date": "2026-05-25",
       "notes": "Matt Pocock complete agent discipline library with 100k+ GitHub stars across the ecosystem. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-22",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

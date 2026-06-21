@@ -270,7 +270,7 @@
             "B",
             "C"
           ],
-          "description": "per-evidence grade (S/A/B/C). Distinct from the skill's overall trust grade (overallTrustGrade). Used by the diversity gate per RFC §4. Evidence whose trustNumber is below 40 is ungraded: this field is absent and the entry counts toward no gate. WARNING: grade A/B are NOT the deprecated class A/B — migration code must never read one as the other."
+          "description": "per-evidence grade (S/A/B/C) derived from the row's artifact_score against per-type floors in meta.json evidence.perRowGradeThresholds (Issue #761). Distinct from the skill's overall trust grade (overallTrustGrade). Used by the diversity gate per RFC §4. A row below its type's C floor is ungraded: this field is absent. WARNING: grade A/B are NOT the deprecated class A/B — migration code must never read one as the other."
         },
         "trustNumber": {
           "type": "number",

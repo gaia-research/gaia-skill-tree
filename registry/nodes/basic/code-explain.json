@@ -17,8 +17,7 @@
       "date": "2026-04-30",
       "notes": "CodeT5 (Wang et al., 2021) -- unified pre-trained model for code understanding and generation; 73.7 BLEU on CodeSearchNet code summarization (Python), SOTA across 4 programming languages on the NL4Code benchmark. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -27,14 +26,13 @@
       "date": "2026-04-30",
       "notes": "Salesforce CodeT5/CodeT5+ open-source repository -- reproducible fine-tuning and evaluation scripts for code summarization, generation, and translation across 8 programming languages. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

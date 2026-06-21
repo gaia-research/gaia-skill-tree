@@ -110,7 +110,7 @@ Skills rank up through **verifiable evidence** scored on two axes — **Evidence
 
 > **Detailed Policy:** See [META.md](META.md) for the full evidence methodology, ranking floors, and prestige requirements.
 
-> **Public leaderboard:** The Trust Magnitude leaderboard ranks every named skill by computed Trust Magnitude — see [`docs/trust/leaderboard/`](docs/trust/leaderboard/) (deployed at <https://gaia.tiongson.co/trust/leaderboard/> once the site rebuilds).
+> **Public Trust Ledger:** The Trust Ledger ranks every named skill by computed Trust Magnitude — see [`docs/trust/ledger/`](docs/trust/ledger/) (deployed at <https://gaia.tiongson.co/trust/ledger/> once the site rebuilds).
 
 ---
 

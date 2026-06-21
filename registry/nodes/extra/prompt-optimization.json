@@ -20,8 +20,7 @@
       "date": "2026-04-29",
       "notes": "Khattab et al. (2023) â€” DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines; automated prompt tuning matches or exceeds hand-crafted prompts on GSM8K, HotPotQA, and FEVER. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -30,14 +29,13 @@
       "date": "2026-04-29",
       "notes": "DSPy â€” Stanford NLP library for programmable LM pipelines; 18k+ GitHub stars, supports multiple optimizers (BootstrapFewShot, MIPRO, COPRO) across any LM. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-29",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

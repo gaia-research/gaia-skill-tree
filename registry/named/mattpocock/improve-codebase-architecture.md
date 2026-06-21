@@ -22,7 +22,7 @@ tags:
 - testability
 - deletion-test
 createdAt: '2026-04-30'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 suiteRef: mattpocock/engineering
 trustMagnitude: 45.0
 overallTrustGrade: C
@@ -69,12 +69,14 @@ evidence:
   type: peer-review
   class: A
   notes: GitHub issue about improve-codebase-architecture skill enhancement.
+  grade: C
 - source: https://github.com/mattpocock/skills/discussions/287
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: peer-review
   class: A
   notes: GitHub discussion about improve-codebase-architecture skill workflow.
+  grade: C
 verification:
   firstEvidenceAt: '2026-06-19T12:35:07Z'
 trustMagnitudeInputHash: a7d3b4e1553ee703b7b7e3258d6e5555323dd1a9451efcabecaa042733d4989b

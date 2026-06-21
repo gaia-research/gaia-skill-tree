@@ -20,7 +20,7 @@ tags:
 - section-structure
 - clarity
 createdAt: '2026-04-30'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 suiteRef: mattpocock/personal
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
@@ -84,15 +84,15 @@ evidence:
     (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 137
   contributors: 3
+  grade: C
 - source: https://github.com/mattpocock/skills
   evaluator: unknown
   date: '2026-06-20'
   type: github-stars-own
   trustNumber: 88.0
-  grade: A
+  grade: C
   notes: mattpocock/skills suite — 137k GitHub stars; edit-article is part of this
     repo
   stars: 137000
@@ -103,7 +103,7 @@ evidence:
   date: '2026-06-20'
   type: social-signal
   trustNumber: 82.0
-  grade: A
+  grade: B
   notes: Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers
     mattpocock/skills repo (verified 2026-06-20)
   views: 412000

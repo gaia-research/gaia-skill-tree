@@ -11,7 +11,7 @@ description: Query ClinicalTrials.gov via APIv2. Use when you want to search for
   check eligibility/inclusion criteria; count trials across conditions or time periods;
   identify a sponsor's trial portfolio; find recruiting trials for patient matching.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md
 evidence:
@@ -23,9 +23,9 @@ evidence:
     (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://clinicaltrials.gov/about-site/about-ctgov
   evaluator: unknown
   date: '2026-06-19'
@@ -35,6 +35,7 @@ evidence:
     for the ClinicalTrials database skill. Mandatory registration required by FDA/NIH
     since 2007.'
   reviewers: 2
+  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:29Z'
   action: evidence_graded

@@ -13,8 +13,7 @@
       "date": "2026-06-03",
       "notes": "Uncertainty Quantification in Probabilistic Machine Learning Models: Theory, Methods, and Insights — GP-LVM with Random Fourier Features, epistemic/aleatoric uncertainty (EUSIPCO 2025) (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -23,8 +22,7 @@
       "date": "2026-06-03",
       "notes": "posteriordb: Testing, Benchmarking and Developing Bayesian Inference Algorithms — 120 reference models across Stan, PyMC, Pyro, NumPyro (2024) (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -33,14 +31,13 @@
       "date": "2026-06-03",
       "notes": "SKILL.md: pymc — Bayesian modeling, hierarchical models, MCMC (NUTS), variational inference, LOO/WAIC, probabilistic programming (K-Dense Inc.) (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

@@ -802,6 +802,8 @@ def _build_skill_explorer_modal() -> str:
         <button id="seOpenRepo" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{icon_base}#github"/></svg> Repo</button>
         <button id="seSkillDocs" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{icon_base}#external-link"/></svg> SKILL.md</button>
         <button id="seShare" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{icon_base}#share"/></svg> Share</button>
+        <button id="seTrustReport" class="se-btn-action" title="View full trust report" aria-label="View trust report"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{icon_base}#info"/></svg> Report</button>
+        <button id="seSubmitEvidence" class="se-btn-action" title="Submit evidence for this skill" aria-label="Submit evidence" style="display:none"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{icon_base}#link"/></svg> Evidence</button>
         <button id="seClose" class="se-btn-ghost se-close-x" aria-label="Close"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{icon_base}#close-x"/></svg></button>
       </div>
     </div>
@@ -951,7 +953,9 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
   <script src="../../js/icons.js"></script>
   <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
   <script src="../../js/rank-badge.js"></script>
-  <!-- Stage 3 — plaque component family, loaded after rank-badge.js. -->
+  <!-- Stage 3 — TM config (single source of truth for formulas/RFC), before plaque. -->
+  <script src="../../js/tm-config.js"></script>
+  <!-- Stage 4 — plaque component family, loaded after tm-config.js. -->
   <script src="../../js/plaque.js"></script>
   <script src="../../js/ui.js" defer></script>
 </head>

@@ -261,7 +261,12 @@ def _freshnessFactor(row: dict, evidenceType: str) -> float:
 
 
 def _fusionRecipeMagnitude(origins: int) -> float:
-    """RFC §2.2: m = 20*origins for <=10; 200 + 20*sqrt(origins-10) past."""
+    """RFC §2.2: m = 20*origins for origins ≤ 10; 200 + 20*sqrt(origins-10) past 10.
+
+    Sqrt-softening past 10 prevents pathological large fusions from
+    dominating the aggregate. Only graded ≥C origins count (see _gradedOriginCount).
+    Weight 1.5.
+    """
     if origins <= 0:
         return 0.0
     if origins <= 10:
@@ -395,12 +400,9 @@ def computeArtifactScoreOrNone(
 
     freshness = _freshnessFactor(evidenceRow, evidenceType)
 
-    # Mothership discount applies to github-stars-own only (RFC §3.1)
-    mothership = 1.0
-    if evidenceType == "github-stars-own":
-        skillCount = evidenceRow.get("skillCountInRepo")
-        if isinstance(skillCount, (int, float)) and skillCount > 1:
-            mothership = 1.0 / min(int(skillCount), 4)
+    # NOTE: mothership discount for github-stars-own is already baked into
+    # _rawMagnitudeForType (divides by min(skillCountInRepo, 4)). Do NOT
+    # apply it again here — that would double-discount.
 
     # Creator multiplier and engagement ratio for social-signal (RFC §2.11)
     creatorMult = 1.0
@@ -421,7 +423,7 @@ def computeArtifactScoreOrNone(
             # If views zero/absent, fall through leaving engagementRatio=1.0.
         # If neither stored ratio nor raw fields are present, fall through to 1.0.
 
-    score = rawMagnitude * weight * freshness * mothership * creatorMult * engagementRatio
+    score = rawMagnitude * weight * freshness * creatorMult * engagementRatio
     return score
 
 
@@ -443,12 +445,17 @@ def _rawMagnitudeForType(
 
     if evidenceType == "github-stars-own":
         stars = float(row.get("stars", 0) or 0)
-        return stars / 1000.0
+        skillCount = int(row.get("skillCountInRepo", 1) or 1)
+        # RFC §2.3: min(200, stars/1000) / mothership_divisor
+        # mothership_divisor = min(skill_count_in_repo, 4)  — caps at 4 per RFC
+        divisor = min(skillCount, 4)
+        return min(200.0, stars / 1000.0) / max(1, divisor)
 
     if evidenceType == "proxy-containment":
         externalStars = float(row.get("externalStars", 0) or 0)
         if externalStars < 10000:
             return 0.0
+        # RFC §2.4: (external_stars/1000) × 0.8
         return (externalStars / 1000.0) * 0.8
 
     if evidenceType == "verifier-attestation":
@@ -460,6 +467,7 @@ def _rawMagnitudeForType(
 
     if evidenceType == "arxiv":
         citations = float(row.get("citations", 0) or 0)
+        # RFC §2.6: citations/5
         return citations / 5.0
 
     if evidenceType == "peer-review":
@@ -475,6 +483,10 @@ def _rawMagnitudeForType(
         return 10.0
 
     if evidenceType == "social-signal":
+        # RFC §2.10: raw base = log10(views) × 8.
+        # creator_mult and engagement_ratio are applied by the caller
+        # (computeArtifactScoreOrNone / TM inspect path) so they must NOT
+        # be baked in here — doing so would double-apply them.
         views = float(row.get("views", 0) or 0)
         if views < 1000:
             return 0.0
@@ -549,14 +561,29 @@ def _rowComparableMagnitude(row: dict) -> float:
 
 _PLATEAU_FACTORS = [1.0, 0.5, 0.25]
 
+# Per-type plateau configs: (factors_list, max_rows)
+_PLATEAU_CONFIG: dict = {
+    "proxy-containment":    ([1.0],                       1),
+    "verifier-attestation": ([1.0, 0.85, 0.70],           5),
+    "arxiv":                ([1.0, 0.5, 0.25, 0.125],     4),
+    "peer-review":          ([1.0, 0.5, 0.25],            3),
+    "social-signal":        ([1.0, 0.5, 0.25],            3),
+    "repo-own":             ([1.0, 0.5, 0.25],            3),
+    "github-stars-own":     ([1.0],                       1),
+    "self-attestation":     ([1.0],                       1),
+    "benchmark-result":     ([1.0],                       1),
+    "fusion-recipe":        ([1.0],                       1),
+}
+
 
 def _applyPlateauAndCreatorDedup(
     rowsWithScores: list[tuple[dict, Optional[float]]],
 ) -> list[tuple[dict, Optional[float]]]:
-    """Apply per-type plateau (1.0 / 0.5 / 0.25) for stackable types.
+    """Apply per-type plateau for stackable types (RFC §2.1).
 
-    Stackable types: proxy-containment (max 3), peer-review, social-signal
-    (with per-creator dedup as well).
+    Each type in _PLATEAU_CONFIG is capped at maxRows rows; rows beyond the
+    cap get score 0.0.  social-signal also deduplicates by creator within
+    its plateau pass.
 
     Rows with score=None (null-on-derank) are passed through unchanged.
     """
@@ -568,17 +595,13 @@ def _applyPlateauAndCreatorDedup(
     out: list[tuple[dict, Optional[float]]] = list(rowsWithScores)
 
     for t, indices in byType.items():
-        if t in ("proxy-containment", "peer-review"):
-            scored = [(i, rowsWithScores[i][1]) for i in indices]
-            scored.sort(key=lambda x: (x[1] is None, -(x[1] or 0.0)))
-            for rank, (i, score) in enumerate(scored):
-                if score is None:
-                    continue
-                if rank >= 3:
-                    out[i] = (rowsWithScores[i][0], 0.0)
-                else:
-                    out[i] = (rowsWithScores[i][0], score * _PLATEAU_FACTORS[rank])
-        elif t == "social-signal":
+        cfg = _PLATEAU_CONFIG.get(t)
+        if cfg is None:
+            continue
+        plateauFactors, maxRows = cfg
+
+        if t == "social-signal":
+            # Per-creator dedup within the plateau pass
             byCreator: dict[str, list[int]] = {}
             for i in indices:
                 creator = (
@@ -593,10 +616,22 @@ def _applyPlateauAndCreatorDedup(
                 for rank, (i, score) in enumerate(scored):
                     if score is None:
                         continue
-                    if rank >= 3:
+                    if rank >= maxRows:
                         out[i] = (rowsWithScores[i][0], 0.0)
                     else:
-                        out[i] = (rowsWithScores[i][0], score * _PLATEAU_FACTORS[rank])
+                        factor = plateauFactors[rank] if rank < len(plateauFactors) else plateauFactors[-1]
+                        out[i] = (rowsWithScores[i][0], score * factor)
+        else:
+            scored = [(i, rowsWithScores[i][1]) for i in indices]
+            scored.sort(key=lambda x: (x[1] is None, -(x[1] or 0.0)))
+            for rank, (i, score) in enumerate(scored):
+                if score is None:
+                    continue
+                if rank >= maxRows:
+                    out[i] = (rowsWithScores[i][0], 0.0)
+                else:
+                    factor = plateauFactors[rank] if rank < len(plateauFactors) else plateauFactors[-1]
+                    out[i] = (rowsWithScores[i][0], score * factor)
     return out
 
 
@@ -785,6 +820,44 @@ def computeOverallTrustGradeFromSkill(
     distinctTypes = _countDistinctEvidenceTypes(skill)
     hasNonSelf = _hasNonSelfProducible(skill)
     return computeOverallTrustGrade(tm, distinctTypes, hasNonSelf)
+
+
+def computeRowArtifactScores(
+    skill: dict,
+    genericSkillMap: Optional[dict] = None,
+) -> list:
+    """Return [(row_dict, artifact_score), ...] for every on-disk evidence row.
+
+    Applies the same effective-pool, anti-auto-mint, dedup, and plateau logic
+    as computeTrustMagnitude, but returns per-row scores for grade backfill.
+    Auto-derived rows (_autoDerived: True) are flagged so callers can skip them
+    during write-back. Null-on-derank verifier rows are included with score=0.0.
+    """
+    pool = _effectivePool(skill, genericSkillMap)
+    evidence = enforceAntiAutoMint({"evidence": pool})
+    deduped = _dedupeSameSource(evidence)
+
+    suiteComponents = skill.get("suiteComponents") or []
+    hasFusionRow = any(_typeOf(r) == "fusion-recipe" for r in deduped)
+    if suiteComponents and not hasFusionRow:
+        deduped = list(deduped) + [{
+            "type": "fusion-recipe",
+            "origins": list(suiteComponents),
+            "_autoDerived": True,
+            "layer": _ownLayerOf(skill),
+        }]
+
+    rowsWithScores: list = []
+    for row in deduped:
+        baseScore = computeArtifactScoreOrNone(row, genericSkillMap)
+        if baseScore is None:
+            rowsWithScores.append((row, 0.0))
+            continue
+        mult = _inheritMultiplierFor(row, skill)
+        rowsWithScores.append((row, baseScore * mult))
+
+    rowsWithScores = _applyPlateauAndCreatorDedup(rowsWithScores)
+    return rowsWithScores
 
 
 def _countDistinctEvidenceTypes(skill: dict) -> int:
@@ -1234,13 +1307,6 @@ def explainTrustMagnitude(
         if cap is not None:
             rawMag = min(rawMag, cap)
 
-        # Mothership discount (github-stars-own only)
-        mothership = 1.0
-        if rowType == "github-stars-own":
-            skillCount = row.get("skillCountInRepo")
-            if isinstance(skillCount, (int, float)) and skillCount > 1:
-                mothership = 1.0 / min(int(skillCount), 4)
-
         # Creator multiplier + engagement ratio (social-signal only)
         creatorMult = 1.0
         engagementRatio = 1.0
@@ -1257,14 +1323,14 @@ def explainTrustMagnitude(
 
         inheritMult = _inheritMultiplierFor(row, skill)
 
-        # Build factor chain line
+        # Mothership discount for github-stars-own is baked into rawMag already —
+        # do NOT show it as a separate factor (would imply double-discount).
+        # Instead note the divisor in the base description.
         factorParts = [
             f"base {rawMag:.2f}",
             f"x weight {weight}",
             f"x freshness {freshness:.2f}",
         ]
-        if mothership != 1.0:
-            factorParts.append(f"x mothership {mothership:.2f}")
         if rowType == "social-signal":
             factorParts.append(f"x creator {creatorMult}")
             factorParts.append(f"x engagement {engagementRatio:.2f}")

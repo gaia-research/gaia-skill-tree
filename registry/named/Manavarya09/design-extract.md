@@ -16,7 +16,7 @@ tags:
 - tailwind
 - scraping
 createdAt: '2026-05-14'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/Manavarya09/design-extract

@@ -19,7 +19,7 @@ tags:
 - hybrid-search
 - mmr
 createdAt: '2026-05-19'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 suiteRef: ruvnet/agentdb
 evidence:
 - class: B
@@ -30,9 +30,9 @@ evidence:
     migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6899
   contributors: 32
+  grade: B
 timeline:
 - timestamp: '2026-06-02T23:48:19Z'
   action: demote

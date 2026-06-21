@@ -20,7 +20,7 @@ tags:
 - design-to-code
 - production
 createdAt: '2026-05-18'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
@@ -83,7 +83,7 @@ evidence:
   date: '2026-06-20'
   type: github-stars-own
   trustNumber: 85.0
-  grade: A
+  grade: C
   notes: gstack suite repo — 110,930 GitHub stars; design-html is 1 of 42 named skills
     (verified 2026-06-20)
   stars: 110930

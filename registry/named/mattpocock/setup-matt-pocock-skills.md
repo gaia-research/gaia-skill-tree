@@ -10,7 +10,7 @@ level: 3★
 description: Scaffolds per-repo configuration for other engineering skills (like triage,
   tdd, diagnose).
 createdAt: '2026-05-21'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 suiteRef: mattpocock/engineering
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills
@@ -24,21 +24,23 @@ evidence:
     gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 137
   contributors: 3
+  grade: C
 - source: https://github.com/mattpocock/skills/issues/177
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: peer-review
   class: A
   notes: GitHub issue about setup-matt-pocock-skills skill feature request.
+  grade: C
 - source: https://github.com/mattpocock/skills/issues/220
   evaluator: mbtiongson1
   date: '2026-06-19'
   type: peer-review
   class: A
   notes: GitHub issue about setup-matt-pocock-skills skill feature request.
+  grade: C
 timeline:
 - timestamp: '2026-06-14T12:32:43Z'
   action: evidence_graded

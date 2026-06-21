@@ -19,7 +19,7 @@ tags:
 - kubernetes
 - terraform
 - rollback
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 evidence:
 - class: C
   source: https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md
@@ -29,7 +29,6 @@ evidence:
     provides production-ready implementation (trust updated from C=50 to B-equiv=65)
   type: repo
   trustNumber: 65.0
-  grade: B
   commits: 34
   contributors: 1
 - source: https://github.com/intelligentcode-ai/skills
@@ -37,7 +36,7 @@ evidence:
   date: '2026-06-20'
   type: self-attestation
   trustNumber: 60.0
-  grade: B
+  grade: C
   notes: intelligentcode-ai/skills suite self-attested via README description; practical
     agent skill for devops-engineer domain
   sourceStartedAt: '2025-01-01'

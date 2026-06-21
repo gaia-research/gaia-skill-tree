@@ -10,7 +10,7 @@ description: Performs a focused source-level correction for one target registry 
   — verifying links, checking evidence classes, and filing an inline-diff fix PR with
   full citations.
 createdAt: '2026-05-27'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 title: The Source Detective
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/SKILL.md
@@ -59,7 +59,7 @@ evidence:
   commits: 90
   contributors: 10
   trustNumber: 50.0
-  grade: C
+  grade: B
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:

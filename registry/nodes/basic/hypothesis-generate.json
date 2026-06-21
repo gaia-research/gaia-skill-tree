@@ -17,8 +17,7 @@
       "date": "2026-04-28",
       "notes": "ChemCrow (Bran et al., 2023) â€” LLM augmented with 18 chemistry tools autonomously proposes and validates synthesis routes; GPT-4 outperforms on Chem. benchmark. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -27,8 +26,7 @@
       "date": "2026-04-28",
       "notes": "Coscientist (Boiko et al., 2023) â€” autonomous LLM system designs and executes chemistry experiments; independently re-derived Suzuki coupling conditions. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -37,14 +35,13 @@
       "date": "2026-04-28",
       "notes": "The AI Scientist (Sakana AI) â€” end-to-end pipeline generating ideas, running experiments, and writing ML papers; 50+ auto-generated manuscripts reviewed. (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

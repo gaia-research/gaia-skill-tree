@@ -17,8 +17,7 @@
       "date": "2026-06-03",
       "notes": "LLM-Assisted Proactive Threat Intelligence for Automated Reasoning — integrates GPT-4o + RAG with CVE/CWE/EPSS/KEV feeds for automated threat synthesis (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -27,8 +26,7 @@
       "date": "2026-06-03",
       "notes": "AI-Driven Cyber Threat Intelligence Automation — GPT-4o fine-tuning for CTI report generation from threat feeds, security logs, dark web forums (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "C",
@@ -37,14 +35,13 @@
       "date": "2026-06-03",
       "notes": "threat-intelligence skill on SkillsMP — IoC/TTP management, threat hunting, MITRE ATT&CK mapping (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

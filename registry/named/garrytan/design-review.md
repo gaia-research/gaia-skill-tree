@@ -18,7 +18,7 @@ tags:
 - design
 - review
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 suiteRef: garrytan/garrytan
 timeline:
 - timestamp: '2026-06-02T23:45:09Z'

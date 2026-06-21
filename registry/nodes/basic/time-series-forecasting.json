@@ -13,8 +13,7 @@
       "date": "2026-06-03",
       "notes": "A Decomposition Modeling Framework for Seasonal Time-Series Forecasting: Multi-scale Seasonal Decomposition Model (MSSD) decomposes series into Ascending/Peak/Descending; Conv2d + TCN capture global+local features; 10% error reduction over baselines (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -23,8 +22,7 @@
       "date": "2026-06-03",
       "notes": "Revisiting the Seasonal Trend Decomposition for Enhanced Time Series Forecasting (ICASSP 2026): component-specific normalization strategy; ~10% MSE reduction across four SOTA baselines; validated on USGS hydrological data (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "C",
@@ -33,14 +31,13 @@
       "date": "2026-06-03",
       "notes": "darts: 9400+ star Python library for user-friendly forecasting with seasonal decomposition, ensemble methods, anomaly detection; covers ARIMA, Prophet, TFT, NBEATS and more (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

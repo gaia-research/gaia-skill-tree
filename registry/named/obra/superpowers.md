@@ -19,7 +19,7 @@ tags:
 - discipline
 - multi-skill
 createdAt: '2026-05-18'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 suiteComponents:
 - obra/brainstorming
 - obra/dispatching-parallel-agents
@@ -57,6 +57,7 @@ evidence:
     report; mothership with 11+ sub-skills, divisor=4)
   stars: 230818
   skillCountInRepo: 11
+  grade: B
 - source: https://www.youtube.com/watch?v=6YltXh12W-g
   evaluator: unknown
   date: '2026-06-19'
@@ -66,6 +67,7 @@ evidence:
     Plugin''. Jesse Vincent explains obra/superpowers agentic discipline. 4,402 views
     (firecrawl verified 2026-06-19).'
   views: 4402
+  grade: B
 timeline:
 - timestamp: '2026-06-14T12:32:48Z'
   action: evidence_graded

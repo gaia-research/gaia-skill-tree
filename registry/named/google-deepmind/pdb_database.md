@@ -11,7 +11,7 @@ description: Use when you want to search for or download experimentally-determin
   searching by sequence similarity, structure similarity, chemical and other attributes.
   Also use to get metadata about biomolecular structure experiments.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md
 evidence:
@@ -23,9 +23,9 @@ evidence:
     — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://academic.oup.com/nar/article/28/1/235/2384399
   evaluator: unknown
   date: '2026-06-19'
@@ -34,6 +34,7 @@ evidence:
   notes: 'Berman et al. 2000 NAR: The Protein Data Bank. 10,060 citations (Semantic
     Scholar 2026-06-19). Foundational PDB database paper.'
   reviewers: 2
+  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:35Z'
   action: evidence_graded

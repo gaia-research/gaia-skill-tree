@@ -12,7 +12,7 @@ description: Query the OpenAlex scholarly database for research papers, authors,
   publications, aggregating bibliometric data (citation counts, h-index, impact factor),
   exploring the research taxonomies, or performing DOI lookups.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md
 evidence:
@@ -24,15 +24,15 @@ evidence:
     (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://openalex.org/about
   evaluator: unknown
   date: '2026-06-20'
   type: peer-review
   trustNumber: 78.0
-  grade: B
+  grade: S
   notes: OpenAlex — fully open catalog 200M+ scholarly works; Priem & Heather 2022;
     replaces Microsoft Academic
   reviewers: 3

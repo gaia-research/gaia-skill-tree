@@ -19,7 +19,7 @@ tags:
 - instrumentation
 - reproduction
 createdAt: '2026-05-18'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -31,9 +31,9 @@ evidence:
     Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 609
   contributors: 36
+  grade: B
 - source: https://github.com/obra/superpowers/issues/1795
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -48,6 +48,7 @@ evidence:
   notes: 'Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering
     brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).'
   views: 4402
+  grade: B
 - source: https://www.youtube.com/watch?v=6YltXh12W-g
   evaluator: unknown
   date: '2026-06-19'

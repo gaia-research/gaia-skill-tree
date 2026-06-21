@@ -18,14 +18,13 @@
       "date": "2026-04-30",
       "notes": "RARR (Gao et al., 2022) -- retrieval and attribution for LLM outputs; +32 points on the AIS attribution benchmark by revising ungrounded claims using retrieved web evidence. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.2.0",
   "timeline": [
     {

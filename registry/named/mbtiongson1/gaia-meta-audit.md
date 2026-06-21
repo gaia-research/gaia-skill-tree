@@ -10,7 +10,7 @@ description: Produces a prioritized review queue of Gaia registry entries needin
   attention — flagging stale evidence, broken links, mis-classified tiers, and naming
   inconsistencies in one structured audit pass.
 createdAt: '2026-05-27'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 title: The Triage Director
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-meta-audit/SKILL.md

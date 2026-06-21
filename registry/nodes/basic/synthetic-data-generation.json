@@ -13,8 +13,7 @@
       "date": "2026-06-03",
       "notes": "Synthetic Dataset Generation for Privacy-Preserving Machine Learning — layer-wise BN statistics method (Soufleri et al., 2022/2023) (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -23,8 +22,7 @@
       "date": "2026-06-03",
       "notes": "KIPPS: Knowledge infusion in Privacy Preserving Synthetic Data Generation — infuses domain/regulatory knowledge from KGs into generative deep learning (2024) (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "B",
@@ -33,14 +31,13 @@
       "date": "2026-06-03",
       "notes": "SKILL.md: synthetic-data — LLM-based generation, tabular synthesis, SDV/Gretel, privacy-preserving data (omer-metin) (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

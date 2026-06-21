@@ -11,7 +11,7 @@ description: Fetch Evolutionary Conservation scores (phyloP, phastCons) and Tran
   genomic variants or regions are evolutionarily conserved, functionally important,
   or bounded by TF regulators across major projects (ENCODE, JASPAR, ReMap).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md
 evidence:
@@ -23,15 +23,15 @@ evidence:
     (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://genome.cshlp.org/content/17/12/1797
   evaluator: unknown
   date: '2026-06-20'
   type: peer-review
   trustNumber: 82.0
-  grade: A
+  grade: S
   notes: UCSC 28-vertebrate alignment 2007 — Genome Research; PhyloP conservation
     tracks used by UCSC TFBS browser
   reviewers: 3

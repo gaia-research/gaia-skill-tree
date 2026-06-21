@@ -17,8 +17,7 @@
       "date": "2026-06-03",
       "notes": "Bridging the Gap in XAI — reliable explainability metrics as governance tools; EU AI Act compliance framing; 'Governance by Metrics' framework (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "A",
@@ -27,8 +26,7 @@
       "date": "2026-06-03",
       "notes": "Model Interpretation and Explainability: Towards Creating Transparency in Prediction Models — SHAP/LIME vs intrinsic methods for auditing feature importance (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0,
-      "grade": "A"
+      "trustNumber": 85.0
     },
     {
       "class": "C",
@@ -37,14 +35,13 @@
       "date": "2026-06-03",
       "notes": "explainability skill on SkillsMP — model transparency and interpretability for data science workflows (backfilled — class-to-type migration)",
       "type": "repo",
-      "trustNumber": 70.0,
-      "grade": "B"
+      "trustNumber": 70.0
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-14",
+  "updatedAt": "2026-06-21",
   "version": "0.1.0",
   "timeline": [
     {

@@ -19,7 +19,7 @@ tags:
 - framework-upgrade
 - migration
 createdAt: '2026-04-30'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 evidence:
 - class: B
   source: https://github.com/laravel/boost/issues/698
@@ -30,9 +30,9 @@ evidence:
     (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 965
   contributors: 107
+  grade: B
 timeline:
 - timestamp: '2026-06-14T12:32:42Z'
   action: evidence_graded

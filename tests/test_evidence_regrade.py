@@ -26,7 +26,7 @@ def _build_registry(tmp_path, evidence):
         json.dumps(
             {
                 "evidence": {
-                    "gradeThresholds": {"S": 90, "A": 80, "B": 60, "C": 40},
+                    "gradeThresholds": {"S": 250, "A": 100, "B": 50, "C": 20},
                     "types": ["arxiv", "repo", "github-stars"],
                 }
             }
@@ -81,12 +81,12 @@ def test_append_mode_unchanged(tmp_path):
     """Without --index a new entry is appended (legacy behaviour)."""
     root = _build_registry(tmp_path, [{"source": "https://a", "class": "A"}])
     meta_evidence_command(
-        _args(root, source="https://b", evidence_type="repo", trust=85)
+        _args(root, source="https://b", evidence_type="repo", trust=110)
     )
     ev = _load_node(root)["evidence"]
     assert len(ev) == 2
     assert ev[1]["type"] == "repo" and ev[1]["grade"] == "A"
-    assert ev[1]["trustNumber"] == 85
+    assert ev[1]["trustNumber"] == 110
 
 
 def test_index_regrades_in_place_and_keeps_class(tmp_path):
@@ -96,7 +96,7 @@ def test_index_regrades_in_place_and_keeps_class(tmp_path):
         [{"source": "https://a", "class": "A", "evaluator": "orig", "date": "2025-01-01"}],
     )
     meta_evidence_command(
-        _args(root, index=0, evidence_type="arxiv", trust=88)
+        _args(root, index=0, evidence_type="arxiv", trust=110)
     )
     node = _load_node(root)
     ev = node["evidence"]
@@ -104,7 +104,7 @@ def test_index_regrades_in_place_and_keeps_class(tmp_path):
     entry = ev[0]
     assert entry["type"] == "arxiv"
     assert entry["grade"] == "A"
-    assert entry["trustNumber"] == 88
+    assert entry["trustNumber"] == 110
     assert entry["class"] == "A"  # deprecated field preserved
     assert entry["evaluator"] == "orig"  # untouched fields preserved
     assert entry["date"] == "2025-01-01"
@@ -117,9 +117,9 @@ def test_index_ungraded_drops_grade(tmp_path):
     root = _build_registry(
         tmp_path, [{"source": "https://a", "class": "C", "grade": "B"}]
     )
-    meta_evidence_command(_args(root, index=0, evidence_type="repo", trust=30))
+    meta_evidence_command(_args(root, index=0, evidence_type="repo", trust=10))
     entry = _load_node(root)["evidence"][0]
-    assert entry["trustNumber"] == 30
+    assert entry["trustNumber"] == 10
     assert "grade" not in entry  # stale grade cleared
     assert entry["class"] == "C"
 

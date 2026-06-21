@@ -22,7 +22,7 @@ tags:
 - multi-agent
 - platform
 createdAt: '2026-05-19'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 suiteComponents:
 - ruvnet/agentdb
 - ruvnet/agentdb-advanced

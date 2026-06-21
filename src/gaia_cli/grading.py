@@ -75,6 +75,42 @@ def load_evidence_types_full(registry_path=".") -> list[dict]:
     return [{"id": t} for t in raw]
 
 
+_GRADE_CEILING_ORDER = {"S": 0, "A": 1, "B": 2, "C": 3}
+
+
+def load_per_row_grade_thresholds(registry_path=".") -> dict:
+    """Return per-type artifact_score floors from meta.json. Issue #761."""
+    return _load_meta_evidence(registry_path).get("perRowGradeThresholds", {})
+
+
+def derive_row_grade(
+    artifact_score,
+    evidence_type: str,
+    per_row_thresholds: dict | None = None,
+    grade_ceiling: str | None = None,
+) -> str | None:
+    """Map per-row artifact_score + type to S/A/B/C or None (ungraded). Issue #761."""
+    if per_row_thresholds is None:
+        return None
+    type_thresholds = per_row_thresholds.get(evidence_type)
+    if not type_thresholds:
+        return None
+    result = None
+    for grade in _GRADE_ORDER:
+        floor = type_thresholds.get(grade)
+        if floor is None:
+            continue
+        if float(artifact_score) >= float(floor):
+            result = grade
+            break
+    if result is None:
+        return None
+    if grade_ceiling and grade_ceiling in _GRADE_CEILING_ORDER:
+        if _GRADE_CEILING_ORDER[result] < _GRADE_CEILING_ORDER[grade_ceiling]:
+            result = grade_ceiling
+    return result
+
+
 def derive_grade(trust_number: float | int, thresholds: dict | None = None) -> str | None:
     """Map a Trust Magnitude value to a grade letter (S/A/B/C) or None (ungraded).
 

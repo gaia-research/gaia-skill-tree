@@ -10,7 +10,7 @@ description: Query the ChEMBL database for bioactive molecules, drug targets, bi
   data, approved drugs, and chemical structures. Use when the user asks about compounds,
   targets, IC50/Ki values, drug mechanisms, or structure searches.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-19'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md
 evidence:
@@ -23,9 +23,9 @@ evidence:
     gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://academic.oup.com/nar/article/47/D1/D930/5162468
   evaluator: unknown
   date: '2026-06-19'
@@ -34,6 +34,7 @@ evidence:
   notes: 'Mendez et al. 2018 NAR: ChEMBL towards direct deposition of bioassay data.
     1,976 citations (Semantic Scholar 2026-06-19). Primary ChEMBL database paper.'
   reviewers: 2
+  grade: A
 timeline:
 - timestamp: '2026-06-14T12:32:28Z'
   action: evidence_graded

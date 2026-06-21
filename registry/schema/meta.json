@@ -230,7 +230,7 @@
         "magnitude": "min(100, citations / 5)",
         "weight": 1.0,
         "cap": 100,
-        "gradeCeiling": "A",
+        "gradeCeiling": "S",
         "freshness": "re-fetch quarterly; no time decay",
         "selfProducible": false,
         "allowedLayers": [
@@ -238,7 +238,7 @@
           "named"
         ],
         "inheritMultiplier": 0.7,
-        "notes": "A-cap: high citation counts cluster around surveys, not executable skills. 500-citation paper hits cap (m=100) but cannot reach S without complementary types."
+        "notes": "S-capable at 500+ citations (artifact_score=100). High citation counts cluster around foundational papers — these legitimately deserve S. S floor is 95 (artifact_score threshold)."
       },
       {
         "id": "peer-review",
@@ -246,7 +246,7 @@
         "magnitude": "25 * reviewers",
         "weight": 1.2,
         "cap": null,
-        "gradeCeiling": "A",
+        "gradeCeiling": "S",
         "freshness": "25%/2yr decay (linear)",
         "selfProducible": false,
         "allowedLayers": [
@@ -259,7 +259,7 @@
           0.5,
           0.25
         ],
-        "notes": "A-cap — peer-review without external adoption signals does not justify S. Plateau applies for stacked entries."
+        "notes": "S-capable at 3+ distinct reviewers (magnitude=75, weight=1.2, artifact_score≈90). Published NAR/Nature-level peer-reviewed papers with 4★+ reviewers legitimately deserve S. S floor is 88."
       },
       {
         "id": "repo-own",
@@ -328,6 +328,18 @@
       "A": 100,
       "B": 50,
       "C": 20
+    },
+    "perRowGradeThresholds": {
+      "fusion-recipe":        { "S": 200, "A": 120, "B": 60,  "C": 30  },
+      "github-stars-own":     { "S": 88,  "A": 60,  "B": 35,  "C": 20  },
+      "proxy-containment":    { "S": 112, "A": 64,  "B": 32,  "C": 16  },
+      "verifier-attestation": { "S": 90,  "A": 54,  "B": 27,  "C": 14  },
+      "benchmark-result":     { "S": 90,  "A": 70,  "B": 40,  "C": 20  },
+      "arxiv":                { "S": 95,  "A": 70,  "B": 40,  "C": 15  },
+      "peer-review":          { "S": 88,  "A": 60,  "B": 35,  "C": 14  },
+      "repo-own":             {                     "B": 22,  "C": 9   },
+      "self-attestation":     {                               "C": 4   },
+      "social-signal":        {           "A": 60,  "B": 28,  "C": 12  }
     },
     "ultimateGate": {
       "minEvidencedComponents": 3,

@@ -12,7 +12,7 @@ description: Query the QuickGO and Evidence & Conclusion Ontology (ECO) REST API
   explore the Gene Ontology hierarchy. Do not use for querying drug targets (use OpenTargets)
   or mechanistic signaling pathway diagrams (use KEGG).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md
 evidence:
@@ -24,15 +24,15 @@ evidence:
     — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6
   contributors: 3
+  grade: C
 - source: https://pmc.ncbi.nlm.nih.gov/articles/PMC12807639/
   evaluator: unknown
   date: '2026-06-20'
   type: peer-review
   trustNumber: 85.0
-  grade: A
+  grade: S
   notes: Gene Ontology 2025 — PMC; comprehensive GO knowledgebase; QuickGO is EBI's
     GO browser
   reviewers: 3

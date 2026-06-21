@@ -18,7 +18,7 @@ tags:
 - automation
 - meta
 createdAt: '2026-05-18'
-updatedAt: '2026-06-20'
+updatedAt: '2026-06-21'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -31,15 +31,15 @@ evidence:
     (CLI gap: --commits/--contributors not supported by gaia dev evidence)'
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 323
   contributors: 9
+  grade: B
 - source: https://github.com/garrytan/gstack
   evaluator: unknown
   date: '2026-06-20'
   type: github-stars-own
   trustNumber: 85.0
-  grade: A
+  grade: C
   notes: gstack suite repo — 110,930 GitHub stars; skillify is 1 of 42 named skills
     (verified 2026-06-20)
   stars: 110930

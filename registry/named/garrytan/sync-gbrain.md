@@ -17,7 +17,7 @@ tags:
 - sync
 - gbrain
 createdAt: '2026-05-18'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 suiteRef: garrytan/gstack
 evidence:
 - class: B
@@ -29,9 +29,9 @@ evidence:
     and reports ingestion counts and any errors. (backfilled — class-to-type migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 323
   contributors: 9
+  grade: B
 timeline:
 - timestamp: '2026-06-03T05:51:37Z'
   action: evidence_added

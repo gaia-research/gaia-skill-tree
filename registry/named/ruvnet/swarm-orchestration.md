@@ -20,7 +20,7 @@ tags:
 - load-balancing
 - fault-tolerance
 createdAt: '2026-05-19'
-updatedAt: '2026-06-14'
+updatedAt: '2026-06-21'
 suiteRef: ruvnet/ruflo-v3
 evidence:
 - class: B
@@ -31,9 +31,9 @@ evidence:
     migration)
   type: repo
   trustNumber: 70.0
-  grade: B
   commits: 6899
   contributors: 32
+  grade: B
 timeline:
 - timestamp: '2026-06-02T23:48:23Z'
   action: demote
