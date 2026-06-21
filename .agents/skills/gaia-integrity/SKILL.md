@@ -1,3 +1,8 @@
+---
+name: gaia-integrity
+description: Verify and maintain the consistency of the Gaia Skill Registry via canonical validation and structural checks.
+---
+
 # Gaia Registry Integrity Skill
 
 Use this skill to quickly verify and maintain the consistency of the Gaia Skill Registry. It combines canonical validation with structural checks.
