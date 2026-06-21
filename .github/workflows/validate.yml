@@ -78,3 +78,21 @@ jobs:
             !startsWith(github.head_ref, 'review/gaia-push/')
           )
         run: gaia dev validate --meta-sync
+
+  skill-quality:
+    name: Agent Skill Quality Gates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install PyYAML
+
+      - name: Run skill validation
+        run: python scripts/validate_skills.py
