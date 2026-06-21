@@ -133,7 +133,7 @@ Some learning topics lend themselves to reference:
 - Exercises and routines for fitness
 - Glossaries for any topic with its own nomenclature
 
-Glossaries, in particular, are an essential reference. Once one is created, it should be adhered to in every lesson.
+Glossaries, in particular, are an essential reference (see [GLOSSARY-FORMAT.md](./GLOSSARY-FORMAT.md) for the format). Once one is created, it should be adhered to in every lesson.
 
 ## `NOTES.md`
 

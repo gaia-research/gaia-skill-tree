@@ -1,3 +1,8 @@
+---
+name: gaia-preview
+description: Triggers a remote documentation regeneration and Cloudflare deployment for the current branch to preview visual/design changes.
+---
+
 # Skill: gaia-preview
 
 Triggers a remote documentation regeneration and Cloudflare deployment for the current branch. This is the preferred method for design previews when working in containerized environments where localhost is not available.

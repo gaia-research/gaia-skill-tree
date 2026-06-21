@@ -1,3 +1,8 @@
+---
+name: update-suite-instructions
+description: Sync suite skill installation instructions with upstream sources and ensure Gaia-compliant styling.
+---
+
 # update-suite-instructions
 
 Sync suite skill installation instructions with upstream sources and ensure Gaia-compliant styling.
