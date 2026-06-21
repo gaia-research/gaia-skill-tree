@@ -57,3 +57,17 @@ perf_registry2/
 .antigravitycli/
 .pytest_cache/
 scratch_context.json
+
+# Generated registry and documentation artifacts (kept untracked in Git)
+/registry/gaia.json
+/registry/gaia.gexf
+/registry/gaia.svg
+/registry/layouts_3d.json
+/registry/named-skills.json
+/registry/real-skills.json
+/registry/real-skills.md
+/docs/graph/gaia.json
+/docs/graph/gaia.gexf
+/docs/graph/gaia.svg
+/docs/graph/named/index.json
+/base_gaia.json
