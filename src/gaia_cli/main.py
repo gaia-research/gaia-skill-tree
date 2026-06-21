@@ -2,15 +2,28 @@ import sys
 import os
 import argparse
 import signal
+import types
+
+class MainModule(types.ModuleType):
+    def __setattr__(self, name, value):
+        super().__setattr__(name, value)
+        impl_mod = sys.modules.get("gaia_cli.impl")
+        if impl_mod and name != "__class__":
+            try:
+                impl_mod.__dict__[name] = value
+            except Exception:
+                pass
+
+if __name__ != "__main__":
+    sys.modules[__name__].__class__ = MainModule
+
 from gaia_cli.commands import discover_commands
 from gaia_cli.commands.base import Command
-from gaia_cli.impl import (
-    ColoredHelpFormatter,
-    COMMAND_USAGE,
-    PUBLIC_COMMANDS,
-    resolve_registry_path,
-    require_explicit_writable_registry,
-)
+import gaia_cli.impl as _impl
+for _name in dir(_impl):
+    if not _name.startswith("__") and _name not in ("get_parser", "main"):
+        globals()[_name] = getattr(_impl, _name)
+
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -108,6 +121,13 @@ def main():
     commands = discover_commands()
     if args.command in commands:
         cmd = commands[args.command]
-        sys.exit(cmd.execute(args) or 0)
+        res = cmd.execute(args)
+        if res:
+            sys.exit(res)
     else:
         parser.print_help()
+
+
+if __name__ == "__main__":
+    main()
+
