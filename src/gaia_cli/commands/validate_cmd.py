@@ -18,7 +18,12 @@ class ValidateCommand(Command):
         )
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import validate_command
+        import sys
+        print(
+            "WARNING: 'gaia validate' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev validate' instead.",
+            file=sys.stderr,
+        )
+        from gaia_cli.main import validate_command
         validate_command(args)
         return 0
 
@@ -30,7 +35,12 @@ class TestCommand(Command):
         parser.add_argument("suite", choices=("meta", "all"), help="Test suite to run")
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import test_command
+        import sys
+        print(
+            "WARNING: 'gaia test' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev test' instead.",
+            file=sys.stderr,
+        )
+        from gaia_cli.main import test_command
         test_command(args)
         return 0
 

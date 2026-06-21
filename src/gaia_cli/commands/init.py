@@ -28,7 +28,7 @@ class InitCommand(Command):
         )
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import init_command
+        from gaia_cli.main import init_command
         init_command(args)
         return 0
 

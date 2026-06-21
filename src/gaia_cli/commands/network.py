@@ -9,7 +9,7 @@ class FetchCommand(Command):
         pass
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import fetch_command
+        from gaia_cli.main import fetch_command
         fetch_command(args)
         return 0
 
@@ -21,7 +21,7 @@ class PullCommand(Command):
         pass
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import pull_command
+        from gaia_cli.main import pull_command
         pull_command(args)
         return 0
 
@@ -33,7 +33,7 @@ class UpdateCommand(Command):
         pass
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import update_command
+        from gaia_cli.main import update_command
         update_command(args)
         return 0
 

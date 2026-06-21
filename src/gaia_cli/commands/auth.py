@@ -9,7 +9,7 @@ class WhoamiCommand(Command):
         pass
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import whoami_command
+        from gaia_cli.main import whoami_command
         whoami_command(args)
         return 0
 
@@ -29,7 +29,7 @@ class LoginCommand(Command):
         )
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import login_command
+        from gaia_cli.main import login_command
         login_command(args)
         return 0
 
@@ -41,7 +41,7 @@ class LogoutCommand(Command):
         pass
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import logout_command
+        from gaia_cli.main import logout_command
         logout_command(args)
         return 0
 

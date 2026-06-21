@@ -19,7 +19,7 @@ class ShareCommand(Command):
         )
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import share_command
+        from gaia_cli.main import share_command
         share_command(args)
         return 0
 
@@ -57,7 +57,7 @@ class InstallCommand(Command):
         )
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import install_command
+        from gaia_cli.main import install_command
         install_command(args)
         return 0
 
@@ -69,7 +69,7 @@ class UninstallCommand(Command):
         parser.add_argument("skill_id", help="Skill ID to uninstall")
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import uninstall_command
+        from gaia_cli.main import uninstall_command
         uninstall_command(args)
         return 0
 

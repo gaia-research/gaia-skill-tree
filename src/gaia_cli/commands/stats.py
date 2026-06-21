@@ -6,6 +6,8 @@ import json
 from collections import Counter
 from pathlib import Path
 from typing import Iterable
+import argparse
+from gaia_cli.commands.base import Command
 
 from gaia_cli.formatting import (
     TIER_COLORS,
@@ -317,14 +319,19 @@ def stats_command(args) -> None:
     print(render_stats(collect_stats(args.registry)), end="")
 
 
-class StatsCommand:
+class StatsCommand(Command):
     name = "stats"
     help = "Registry health summary"
 
-    def configure(self, parser) -> None:
-        pass
+    def configure(self, parser: argparse.ArgumentParser) -> None:
+        parser.add_argument(
+            "--canon",
+            action="store_true",
+            help="Show canonical registry data instead of local-first view.",
+        )
 
-    def execute(self, args) -> int | None:
+    def execute(self, args: argparse.Namespace) -> int | None:
+        from gaia_cli.main import stats_command
         stats_command(args)
         return 0
 

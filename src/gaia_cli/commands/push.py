@@ -38,7 +38,7 @@ class PushCommand(Command):
         )
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import push_command
+        from gaia_cli.main import push_command
         push_command(args)
         return 0
 
@@ -68,7 +68,7 @@ class ProposeCommand(Command):
         )
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import propose_command
+        from gaia_cli.main import propose_command
         propose_command(args)
         return 0
 

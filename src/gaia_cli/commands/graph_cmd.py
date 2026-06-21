@@ -47,7 +47,7 @@ class GraphCommand(Command):
         )
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.impl import graph_command
+        from gaia_cli.main import graph_command
         graph_command(args)
         return 0
 
