@@ -124,7 +124,7 @@ def read_local_registry() -> str | None:
             data = json.loads(raw)
         registry_path = data.get("localRegistryPath") or os.path.abspath(".")
         p = Path(registry_path)
-        if p.is_dir() and (p / "registry" / "gaia.json").exists():
+        if p.is_dir() and (p / "registry" / "nodes").is_dir():
             return str(p)
     except (OSError, json.JSONDecodeError):
         pass
