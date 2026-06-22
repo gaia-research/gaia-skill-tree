@@ -561,29 +561,87 @@ class TestGraph:
 # 9. TestFetch — gaia fetch (monkeypatched network)
 # ---------------------------------------------------------------------------
 
+def _make_fake_release_tarball(project: Path) -> bytes:
+    """Create a minimal gaia-artifacts.tar.gz in memory with registry files."""
+    import io
+    import tarfile as _tarfile
+
+    buf = io.BytesIO()
+    with _tarfile.open(fileobj=buf, mode="w:gz") as tar:
+        # registry/gaia.json
+        gaia_data = json.dumps({"version": "test", "skills": []}).encode("utf-8")
+        info = _tarfile.TarInfo(name="registry/gaia.json")
+        info.size = len(gaia_data)
+        tar.addfile(info, io.BytesIO(gaia_data))
+        # registry/named-skills.json
+        named_data = json.dumps({"buckets": {}}).encode("utf-8")
+        info2 = _tarfile.TarInfo(name="registry/named-skills.json")
+        info2.size = len(named_data)
+        tar.addfile(info2, io.BytesIO(named_data))
+    return buf.getvalue()
+
+
+def _make_release_api_response(asset_url: str, checksum_url: str = "") -> bytes:
+    """Return JSON bytes for the GitHub releases/latest API."""
+    assets = [{"name": "gaia-artifacts.tar.gz", "browser_download_url": asset_url}]
+    if checksum_url:
+        assets.append({"name": "gaia-artifacts.tar.gz.sha256", "browser_download_url": checksum_url})
+    payload = {"tag_name": "v99.0.0", "assets": assets}
+    return json.dumps(payload).encode("utf-8")
+
+
+def _patch_fetch_urlopen(monkeypatch: "pytest.MonkeyPatch", tarball_bytes: bytes, *, with_checksum: bool = False):
+    """Monkeypatch urllib.request so fetch_command gets canned responses without network."""
+    import hashlib
+    import io
+    import urllib.request
+
+    asset_url = "https://example.com/gaia-artifacts.tar.gz"
+    checksum_url = "https://example.com/gaia-artifacts.tar.gz.sha256" if with_checksum else ""
+
+    release_bytes = _make_release_api_response(asset_url, checksum_url)
+    checksum_bytes = (hashlib.sha256(tarball_bytes).hexdigest() + "  gaia-artifacts.tar.gz\n").encode() if with_checksum else b""
+
+    url_map = {
+        asset_url: tarball_bytes,
+        checksum_url: checksum_bytes,
+    }
+
+    call_log = {"count": 0}
+
+    class _FakeResponse:
+        def __init__(self, data: bytes):
+            self._data = data
+
+        def read(self) -> bytes:
+            return self._data
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            pass
+
+    def fake_urlopen(req, *args, **kwargs):
+        url = req.full_url if hasattr(req, "full_url") else str(req)
+        if call_log["count"] == 0:
+            # First call: releases API
+            call_log["count"] += 1
+            return _FakeResponse(release_bytes)
+        data = url_map.get(url, b"")
+        call_log["count"] += 1
+        return _FakeResponse(data)
+
+    monkeypatch.setattr(urllib.request, "urlopen", fake_urlopen)
+
+
 class TestFetch:
     """fetch_command writes .gaia/registry/gaia.json and named-skills.json; no real network."""
 
     def test_fetch_writes_registry_files(self, project: Path, monkeypatch: pytest.MonkeyPatch, capsys):
         """fetch must write gaia.json and named-skills.json under .gaia/registry/."""
-        import urllib.request
-
-        # Intercept urlretrieve so no network call
-        canned_gaia = json.dumps({"version": "test", "skills": []}).encode("utf-8")
-        canned_named = json.dumps({"buckets": {}}).encode("utf-8")
-
-        call_idx = [0]
-
-        def fake_urlretrieve(url: str, dest) -> None:
-            dest = Path(dest)
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            if call_idx[0] == 0:
-                dest.write_bytes(canned_gaia)
-            else:
-                dest.write_bytes(canned_named)
-            call_idx[0] += 1
-
-        monkeypatch.setattr(urllib.request, "urlretrieve", fake_urlretrieve)
+        tarball = _make_fake_release_tarball(project)
+        _patch_fetch_urlopen(monkeypatch, tarball)
 
         run_cli(monkeypatch, ["fetch"])
 
@@ -594,26 +652,29 @@ class TestFetch:
 
     def test_fetch_gaia_json_parseable(self, project: Path, monkeypatch: pytest.MonkeyPatch):
         """The gaia.json file written by fetch must be valid JSON."""
-        import urllib.request
-        canned = json.dumps({"version": "fetched", "skills": [{"id": "web-search"}]})
+        import io
+        import tarfile as _tarfile
 
-        call_idx = [0]
+        # Build a tarball with a specific version field
+        buf = io.BytesIO()
+        with _tarfile.open(fileobj=buf, mode="w:gz") as tar:
+            gaia_data = json.dumps({"version": "fetched", "skills": [{"id": "web-search"}]}).encode("utf-8")
+            info = _tarfile.TarInfo(name="registry/gaia.json")
+            info.size = len(gaia_data)
+            tar.addfile(info, io.BytesIO(gaia_data))
+            named_data = json.dumps({"buckets": {}}).encode("utf-8")
+            info2 = _tarfile.TarInfo(name="registry/named-skills.json")
+            info2.size = len(named_data)
+            tar.addfile(info2, io.BytesIO(named_data))
+        tarball = buf.getvalue()
 
-        def fake_urlretrieve(url: str, dest) -> None:
-            dest = Path(dest)
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            if call_idx[0] == 0:
-                dest.write_text(canned, encoding="utf-8")
-            else:
-                dest.write_text(json.dumps({"buckets": {}}), encoding="utf-8")
-            call_idx[0] += 1
-
-        monkeypatch.setattr(urllib.request, "urlretrieve", fake_urlretrieve)
+        _patch_fetch_urlopen(monkeypatch, tarball)
 
         run_cli(monkeypatch, ["fetch"])
 
         data = json.loads((project / ".gaia" / "registry" / "gaia.json").read_text(encoding="utf-8"))
         assert data["version"] == "fetched"
+
 
 
 # ---------------------------------------------------------------------------
