@@ -19,6 +19,7 @@ from gaia_cli.registry import (
 from gaia_cli.treeManager import load_tree, save_tree
 
 
+@pytest.mark.smoke
 def test_registry_paths_use_new_layout(tmp_path):
     assert registry_graph_path(tmp_path) == str(tmp_path / "registry" / "gaia.json")
     assert named_skills_dir(tmp_path) == str(tmp_path / "registry" / "named")
@@ -27,6 +28,7 @@ def test_registry_paths_use_new_layout(tmp_path):
     assert user_tree_path(tmp_path, "alice") == str(tmp_path / "skill-trees" / "alice" / "skill-tree.json")
 
 
+@pytest.mark.smoke
 def test_tree_manager_reads_and_writes_skill_trees(tmp_path):
     save_tree("alice", {"userId": "alice", "unlockedSkills": []}, registry_path=str(tmp_path))
 

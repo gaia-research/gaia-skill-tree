@@ -170,11 +170,13 @@ class TestHelp:
     rather than raw help text.
     """
 
+    @pytest.mark.smoke
     def test_help_exits_zero(self, monkeypatch: pytest.MonkeyPatch, capsys):
         with pytest.raises(SystemExit) as exc:
             run_cli(monkeypatch, ["--help"])
         assert exc.value.code == 0
 
+    @pytest.mark.smoke
     def test_parser_registers_all_public_commands(self):
         """Every PUBLIC_COMMANDS entry must be a registered subparser choice."""
         import argparse

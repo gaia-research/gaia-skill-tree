@@ -93,9 +93,11 @@ gaia_cli = [
 
 [tool.pytest.ini_options]
 pythonpath = ["src", "."]
+testpaths = ["tests"]
 norecursedirs = ["tests/_archive"]
 timeout = 60
-timeout_method = "signal"
+timeout_method = "thread"
 markers = [
     "packaging: package build and wheel installation checks",
+    "smoke: fast pre-push subset; covers high-value contracts (schema sync, wheel build, init, registry resolution, docs cohesion)",
 ]

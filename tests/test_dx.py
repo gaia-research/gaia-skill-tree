@@ -73,6 +73,7 @@ def test_init_yes_mode_preserves_non_interactive_defaults(tmp_path, monkeypatch)
     assert config["scanPaths"] == ["scripts", "packages/cli-npm"]
 
 
+@pytest.mark.smoke
 def test_scan_repo_skips_generated_and_vendor_directories(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     (tmp_path / ".gaia").mkdir()
@@ -93,6 +94,7 @@ def test_scan_repo_skips_generated_and_vendor_directories(tmp_path, monkeypatch)
     assert "/autonomous-debug" not in tokens
 
 
+@pytest.mark.smoke
 def test_scan_repo_detailed_reports_file_and_candidate_counts(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     (tmp_path / ".gaia").mkdir()
@@ -121,6 +123,7 @@ def test_top_level_install_commands_are_restored(monkeypatch):
     assert exc.value.code == 0
 
 
+@pytest.mark.smoke
 def test_top_level_help_shows_all_public_commands_with_usage(monkeypatch, capsys):
     with pytest.raises(SystemExit) as exc:
         run_cli(monkeypatch, ["--help"])

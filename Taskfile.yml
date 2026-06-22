@@ -16,3 +16,16 @@ tasks:
     desc: Build registry and generated docs
     cmds:
       - gaia dev build
+
+  release:dryrun:
+    desc: "Run all CI-equivalent gates locally before pushing (fail-fast). Usage: task release:dryrun"
+    cmds:
+      - echo "--- Gate 1/4: registry schema + integrity ---"
+      - python scripts/validate.py
+      - echo "--- Gate 2/4: smoke tests ---"
+      - python -m pytest -m smoke -x
+      - echo "--- Gate 3/4: nav mounts cohesion ---"
+      - python scripts/check_nav_mounts.py
+      - echo "--- Gate 4/4: docs build drift check ---"
+      - python -m gaia_cli docs build --check
+      - echo "✅ All CI-equivalent gates passed locally. Safe to push."
