@@ -6,22 +6,24 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ### TLDR
 
-- **Epic #780 is approved and execution begins.** Main integration branch is `dev/improve-codebase-architecture`.
-- **Created HTML Report & Handovers**: Interactive report is available at [EPIC780.html](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/reports/EPIC780.html). Handover playbooks for reverts, agent testing, and deprecation cleanups are seeded in `founder/handovers/`.
-- **Changesets WONTFIX**: Closed the Changesets portion of #783 as wontfix; the existing `versioning.py` logic keeping PyPI and npm versions in lockstep is simpler and sufficient. Moving forward with Taskfile adoption only.
+- **Epic #780 execution is well underway.** Sub-Issues 1, 2, 2b, and 4 are fully merged and verified on the integration branch `dev/improve-codebase-architecture`. 
+- **Sub-Issue 2 Dynamic Dispatch Completed**: `main.py` is refactored from a 4,000+ line module into dynamic autodiscovery class-based commands, shrinking it to 130 lines. Overwriting of the global `__name__` during impl imports was fixed.
+- **All 1,191 tests pass**: Full pytest validation run is 100% green.
+- **GitHub Curation**: Posted progress comments on all Sub-Issue tracking issues (#781, #782, #783, #784, #785) via `gh` CLI.
+- **`gaia trust` preserved**: The command remains a first-class, top-level non-deprecated entry.
 
 ### Branch / PR Snapshot
 
-All work is branched off `dev/improve-codebase-architecture`. Squash merges are disabled. Frequent commits with `[skip-gen]` are enforced.
+All work is merged back into `dev/improve-codebase-architecture`. Squash merges are disabled. Frequent commits with `[skip-gen]` are enforced.
 
 | Branch | Issue | Focus | Status |
 |---|---|---|---|
-| `dev/780-cli-command-migration` | #NEW | Move dev commands under `gaia dev`, add deprecation shims, update CI yaml files | ⏳ Pending |
-| `dev/780-artifact-pipeline` | #781 | Untrack generated indices from Git, configure upload of built assets to GitHub Releases | ⏳ Pending |
-| `dev/780-skill-quality-gates` | #784 | Run skill schema validations and enforce body size limit (<= 800 lines) in CI gates | ⏳ Pending |
-| `dev/780-cli-dynamic-dispatch` | #782 | Refactor 4,078-line `main.py` into dynamic command autodiscovery using Command Protocol | ⏳ Pending |
-| `dev/780-polyglot-versioning` | #783 | Orchestrate monorepo tasks via Taskfile, add lockstep manifest verification in CI | ⏳ Pending |
-| `dev/780-mcp-abstraction` | #785 | Implement config merger utility, daemon process runner, and `gaia dev mcp` CLI subcommands | ⏳ Pending |
+| `dev/780-cli-command-migration` | #NEW | Move dev commands under `gaia dev`, add deprecation shims, update CI yaml files | ✅ Merged & Verified |
+| `dev/780-artifact-pipeline` | #781 | Untrack generated indices from Git, configure upload of built assets to GitHub Releases | ✅ Merged & Verified |
+| `dev/780-skill-quality-gates` | #784 | Run skill schema validations and enforce body size limit (<= 800 lines) in CI gates | ✅ Merged & Verified |
+| `dev/780-cli-dynamic-dispatch` | #782 | Refactor 4,078-line `main.py` into dynamic command autodiscovery using Command Protocol | ✅ Merged & Verified |
+| `dev/780-polyglot-versioning` | #783 | Orchestrate monorepo tasks via Taskfile, add lockstep manifest verification in CI | ⏳ Pending (Sub-Issue 3) |
+| `dev/780-mcp-abstraction` | #785 | Implement config merger utility, daemon process runner, and `gaia dev mcp` CLI subcommands | ⏳ Pending (Sub-Issue 5) |
 
 ### Routing — where things live now
 
