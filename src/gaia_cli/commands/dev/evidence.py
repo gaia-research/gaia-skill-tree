@@ -16,6 +16,37 @@ from gaia_cli.commands.dev.helpers import (
 )
 
 
+def _preflight_benchmark_percentile(args) -> None:
+    """Require --percentile when --type benchmark-result is used.
+
+    Without a percentile value the magnitude formula returns 0 and the
+    evidence entry is left ungraded. Per CLAUDE.md curation §5 ("benchmark-result
+    requires `percentile` field"), we reject the command before any write.
+
+    Raises SystemExit(1) if the invariant is violated.
+    """
+    if getattr(args, "evidence_type", None) != "benchmark-result":
+        return
+    percentile = getattr(args, "percentile", None)
+    if percentile is None:
+        print(
+            "Error: `--type benchmark-result` requires `--percentile <0-100>`.\n"
+            "Without a percentile value the Trust Magnitude formula yields 0 and the "
+            "evidence entry will be ungraded. Pass `--percentile <int>` (0–100 inclusive) "
+            "to record the benchmark result's performance percentile.\n"
+            "If the percentile is unknown, use `--type peer-review` with `--reviewers` "
+            "instead for a gradeable entry.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    if not (0 <= int(percentile) <= 100):
+        print(
+            f"Error: `--percentile` must be in range 0-100; got {percentile!r}.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+
 def meta_evidence_command(args):
     """Attach evidence to a generic ref (capability, inherited) or a named skill.
 
@@ -42,6 +73,9 @@ def meta_evidence_command(args):
                 file=sys.stderr,
             )
             sys.exit(1)
+
+    # Pre-flight: benchmark-result requires --percentile (magnitude formula uses it)
+    _preflight_benchmark_percentile(args)
 
     # Validate --source-started-at as ISO YYYY-MM-DD; reject bad input loudly.
     source_started_at = getattr(args, "source_started_at", None)
@@ -104,6 +138,8 @@ def meta_evidence_command(args):
         evidence["contributors"] = args.contributors
     if getattr(args, "skill_count_in_repo", None) is not None:
         evidence["skillCountInRepo"] = args.skill_count_in_repo
+    if getattr(args, "percentile", None) is not None:
+        evidence["percentile"] = args.percentile
     if source_started_at is not None:
         evidence["sourceStartedAt"] = source_started_at
 
@@ -206,6 +242,8 @@ def meta_evidence_command(args):
             entry["contributors"] = args.contributors
         if getattr(args, "skill_count_in_repo", None) is not None:
             entry["skillCountInRepo"] = args.skill_count_in_repo
+        if getattr(args, "percentile", None) is not None:
+            entry["percentile"] = args.percentile
         if source_started_at is not None:
             entry["sourceStartedAt"] = source_started_at
         return entry

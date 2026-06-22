@@ -446,6 +446,12 @@ class DevCommand(Command):
             help="Number of skills in the repo",
         )
         dev_evidence.add_argument(
+            "--percentile",
+            type=int,
+            metavar="N",
+            help="Benchmark result percentile (0-100). Required when --type benchmark-result.",
+        )
+        dev_evidence.add_argument(
             "--source-started-at",
             dest="source_started_at",
             metavar="YYYY-MM-DD",
