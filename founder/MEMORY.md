@@ -2,6 +2,37 @@
 
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
+## State Snapshot (2026-06-22, session 17 — Epic #780 Architectural Modernization Completion)
+
+### TLDR
+
+- **Epic #780 integration work is finished and ready for final review.** All code logic for Sub-Issues 2c, 3, and 5 has been merged into the `dev/improve-codebase-architecture` branch.
+- **Sub-Issue 2c (dev.py Decomposed)**: The monolithic `commands/dev.py` was fully refactored into domain-specific modules inside `src/gaia_cli/commands/dev/` and `dev/__init__.py`.
+- **Sub-Issue 3 (Polyglot Monorepo Versioning)**: Renamed to `verify_lockstep.py` and implemented `Taskfile.yml` for unified CLI tasks. Lockstep verification is now hooked into CI via `validate.yml`.
+- **Sub-Issue 5 (Abstract MCP Management)**: Shipped a basic config merger (`.mcp.json` support) and process daemon (`mcp/src/daemon.ts`). Integrated with `gaia dev mcp start/stop/status`.
+- **Testing**: A full suite test (`python3 -m pytest tests/`) ran and passed **1,191/1,191** tests (100% green).
+- **Draft PR**: Draft PR created targeting `main` from `dev/improve-codebase-architecture` containing all epic features.
+
+### Follow-Ups / Missing Test Coverage
+
+The previous work was executed successfully, but TDD principles were largely bypassed on the new modules. The following gaps need to be addressed before/after merging to `main`:
+1. **No Tests for `src/gaia_cli/versioning.py` and `scripts/verify_lockstep.py`**: A new test suite (`tests/test_versioning.py`) should be created.
+2. **No Tests for MCP abstractions**: `packages/mcp/src/daemon.ts` and `packages/mcp/src/config/merger.ts` lack typescript-level unit tests (`vitest`).
+3. **Implicit `dev` Command Testing**: While `test_cli_core.py` and `test_cli_command_migration.py` catch end-to-end routing, specific unit tests for domain helpers (`commands/dev/helpers.py`) and specific `dev` subcommands are missing (e.g., `test_dev_evidence.py`, `test_dev_timeline.py`).
+4. **Issue Comment Update**: Check if #783 (Taskfile/Changesets decision) received the explanatory GitHub comment regarding lockstep validation overriding changesets.
+
+### Routing — where things live now
+
+| Document / Tool | Path |
+|---|---|
+| Active Integration Branch | `dev/improve-codebase-architecture` |
+| Lockstep Verifier | `scripts/verify_lockstep.py` |
+| Polyglot Task orchestration | `Taskfile.yml` |
+| MCP Daemon & Config Merger | `packages/mcp/src/daemon.ts`, `packages/mcp/src/config/merger.ts` |
+| Dev Command Subpackage | `src/gaia_cli/commands/dev/` |
+
+---
+
 ## State Snapshot (2026-06-22, session 16 — Epic #780 Architectural Modernization Kickoff)
 
 ### TLDR
