@@ -600,7 +600,17 @@ def init_command(args):
         "Run `gaia fetch` to download the latest canonical registry, then `gaia scan` to link your local skills."
     )
 
-    fetch_command(args)
+    # `gaia fetch` is a best-effort follow-on. Init must always succeed in
+    # writing the config — network failures, missing releases, or sandboxed
+    # environments must not crash the init flow.
+    try:
+        fetch_command(args)
+    except SystemExit:
+        print(
+            "Warning: `gaia fetch` could not complete during init. "
+            "Run `gaia fetch` manually once network is available.",
+            file=sys.stderr,
+        )
 
     try:
         source = detect_source_repo({"gaiaUser": username})
@@ -2717,26 +2727,151 @@ def skills_command(args):
 
 
 def fetch_command(args):
-    """Downloads the latest canonical registry JSON files to .gaia/registry/."""
-    import urllib.request
+    """Downloads the latest canonical registry from the GitHub Releases asset tarball."""
+    import hashlib
+    import json as _json
+    import shutil
+    import tarfile
+    import tempfile
+    import time
     import urllib.error
+    import urllib.request
     from pathlib import Path
-    import sys
 
-    registry_dir = Path(".gaia") / "registry"
-    registry_dir.mkdir(parents=True, exist_ok=True)
+    releases_api_url = "https://api.github.com/repos/mbtiongson1/gaia-skill-tree/releases/latest"
+    asset_name = "gaia-artifacts.tar.gz"
+    checksum_name = "gaia-artifacts.tar.gz.sha256"
 
-    gaia_json_url = "https://raw.githubusercontent.com/mbtiongson1/gaia-skill-tree/main/registry/gaia.json"
-    named_skills_url = "https://raw.githubusercontent.com/mbtiongson1/gaia-skill-tree/main/registry/named-skills.json"
+    def _fetch_url(url, dest_path=None, *, retries=1, accept=None):
+        """Fetch url to dest_path (or return bytes).  Retries once on 5xx.
 
-    print("Fetching latest canonical registry from mbtiongson1/gaia-skill-tree...")
+        `accept` overrides the Accept header. Defaults to JSON for API endpoints;
+        callers downloading binary release assets should pass
+        `accept="application/octet-stream"`.
+        """
+        headers = {"Accept": accept or "application/vnd.github+json"}
+        req = urllib.request.Request(url, headers=headers)
+        for attempt in range(retries + 1):
+            try:
+                with urllib.request.urlopen(req) as resp:
+                    data = resp.read()
+                if dest_path is not None:
+                    Path(dest_path).write_bytes(data)
+                    return None
+                return data
+            except urllib.error.HTTPError as exc:
+                if exc.code >= 500 and attempt < retries:
+                    time.sleep(2)
+                    continue
+                raise
+        return None  # unreachable but satisfies the linter
+
+    print("Checking latest GitHub Release for mbtiongson1/gaia-skill-tree...")
     try:
-        urllib.request.urlretrieve(gaia_json_url, registry_dir / "gaia.json")
-        urllib.request.urlretrieve(named_skills_url, registry_dir / "named-skills.json")
-        print(f"✅ Successfully fetched registry to {registry_dir}/")
-    except urllib.error.URLError as e:
-        print(f"❌ Failed to fetch registry: {e}")
+        release_data = _fetch_url(releases_api_url)
+    except urllib.error.HTTPError as exc:
+        if exc.code == 404:
+            print(
+                "Error: No GitHub Release found (404). "
+                "Run `pip install --upgrade gaia-cli` to get the latest bundled snapshot.",
+                file=sys.stderr,
+            )
+        else:
+            print(f"Error fetching release metadata: HTTP {exc.code}", file=sys.stderr)
         sys.exit(1)
+    except urllib.error.URLError as exc:
+        print(f"Network error fetching release metadata: {exc.reason}", file=sys.stderr)
+        sys.exit(1)
+
+    release = _json.loads(release_data)
+    tag = release.get("tag_name", "(unknown)")
+    assets = release.get("assets", [])
+
+    asset_url = None
+    checksum_url = None
+    for asset in assets:
+        if asset["name"] == asset_name:
+            asset_url = asset["browser_download_url"]
+        if asset["name"] == checksum_name:
+            checksum_url = asset["browser_download_url"]
+
+    if asset_url is None:
+        print(
+            f"Error: Release {tag} does not contain '{asset_name}'. "
+            "Run `pip install --upgrade gaia-cli` to get the latest bundled snapshot.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    print(f"Downloading {asset_name} from release {tag}...")
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tarball_path = Path(tmpdir) / asset_name
+        try:
+            _fetch_url(asset_url, tarball_path, retries=1, accept="application/octet-stream")
+        except (urllib.error.URLError, urllib.error.HTTPError) as exc:
+            print(f"Error downloading {asset_name}: {exc}", file=sys.stderr)
+            sys.exit(1)
+
+        # Optional checksum verification
+        if checksum_url is not None:
+            try:
+                checksum_data = _fetch_url(checksum_url)
+                expected_hex = checksum_data.decode().split()[0].strip()
+                actual_hex = hashlib.sha256(tarball_path.read_bytes()).hexdigest()
+                if actual_hex != expected_hex:
+                    print(
+                        f"Error: SHA256 mismatch for {asset_name}.\n"
+                        f"  expected: {expected_hex}\n"
+                        f"  actual:   {actual_hex}",
+                        file=sys.stderr,
+                    )
+                    sys.exit(1)
+                print("Checksum verified.")
+            except Exception as exc:  # noqa: BLE001
+                print(f"Warning: Could not verify checksum ({exc}). Proceeding.", file=sys.stderr)
+        else:
+            print(
+                f"Warning: No '{checksum_name}' asset found in release {tag}. "
+                "Skipping checksum verification.",
+                file=sys.stderr,
+            )
+
+        # Unpack and install into .gaia/registry/
+        registry_dir = Path(".gaia") / "registry"
+        registry_dir.mkdir(parents=True, exist_ok=True)
+
+        with tarfile.open(tarball_path, "r:gz") as tar:
+            # Extract only the registry/* members we care about
+            members_to_extract = [
+                m for m in tar.getmembers()
+                if m.name.startswith("registry/gaia.json")
+                or m.name.startswith("registry/named-skills.json")
+                or m.name.startswith("registry/named/")
+            ]
+            tar.extractall(path=Path(tmpdir) / "unpacked", members=members_to_extract, filter="data")
+
+        unpacked_registry = Path(tmpdir) / "unpacked" / "registry"
+
+        # gaia.json
+        src_gaia = unpacked_registry / "gaia.json"
+        if src_gaia.exists():
+            shutil.copy2(src_gaia, registry_dir / "gaia.json")
+
+        # named-skills.json
+        src_named_index = unpacked_registry / "named-skills.json"
+        if src_named_index.exists():
+            shutil.copy2(src_named_index, registry_dir / "named-skills.json")
+
+        # named/ directory
+        src_named_dir = unpacked_registry / "named"
+        dest_named_dir = registry_dir / "named"
+        if src_named_dir.exists():
+            if dest_named_dir.exists():
+                shutil.rmtree(dest_named_dir)
+            shutil.copytree(src_named_dir, dest_named_dir)
+
+    print(f"Registry updated to {tag} at {registry_dir}/")
+    print("Run `gaia scan` to update your skill tree against the new registry.")
 
 
 def pull_command(args):

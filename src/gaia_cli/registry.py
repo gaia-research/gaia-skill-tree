@@ -2,11 +2,16 @@
 
 import json
 import os
+import sys
 from importlib import resources
 from pathlib import Path
 
 
 WRITE_COMMANDS = {"push", "propose", "name", "fuse", "embed", "sync", "promote", "release", "docs", "merge", "split", "add", "evidence"}
+
+# Module-level guard so the bundled-snapshot warning fires at most once per
+# CLI invocation regardless of how many times resolve_registry_path is called.
+_BUNDLED_WARNING_PRINTED = False
 
 
 def _gaia_home_dir() -> Path:
@@ -25,6 +30,31 @@ def _global_config_path() -> Path:
 def bundled_registry_path():
     """Return the bundled read-only registry data path."""
     return resources.files("gaia_cli").joinpath("data")
+
+
+def _warn_bundled_snapshot_once():
+    """Print a one-time staleness warning when falling back to the bundled snapshot."""
+    global _BUNDLED_WARNING_PRINTED  # noqa: PLW0603
+    if _BUNDLED_WARNING_PRINTED:
+        return
+    _BUNDLED_WARNING_PRINTED = True
+
+    snapshot_date = "(unknown)"
+    try:
+        bundled_gaia = Path(str(bundled_registry_path())) / "registry" / "gaia.json"
+        if bundled_gaia.exists():
+            with open(bundled_gaia, encoding="utf-8") as fh:
+                data = json.load(fh)
+            # Prefer generatedAt; fall back to version string
+            snapshot_date = data.get("generatedAt") or data.get("version", "(unknown)")
+    except (OSError, json.JSONDecodeError, KeyError):
+        pass
+
+    print(
+        f"Warning: Using bundled registry snapshot from {snapshot_date}. "
+        "Run `gaia pull` for the latest.",
+        file=sys.stderr,
+    )
 
 
 def registry_dir(registry_path) -> str:
@@ -161,7 +191,10 @@ def resolve_registry_path(explicit_registry=None, global_flag=False):
         return os.path.abspath(os.path.expanduser(explicit_registry))
     if global_flag:
         global_reg = read_global_registry()
-        return global_reg if global_reg else str(bundled_registry_path())
+        if global_reg:
+            return global_reg
+        _warn_bundled_snapshot_once()
+        return str(bundled_registry_path())
     local_reg = read_local_registry()
     if local_reg:
         return local_reg
@@ -171,6 +204,7 @@ def resolve_registry_path(explicit_registry=None, global_flag=False):
     global_reg = read_global_registry()
     if global_reg:
         return global_reg
+    _warn_bundled_snapshot_once()
     return str(bundled_registry_path())
 
 
