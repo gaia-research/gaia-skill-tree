@@ -40,6 +40,37 @@ jobs:
       - name: Clean local build artifacts
         run: rm -rf build dist *.egg-info src/*.egg-info
 
+      - name: Bundle fresh registry snapshot (minor/major only)
+        # Refresh the bundled data/ snapshot from the latest GitHub Release asset.
+        # Only runs on vX.Y.0 tags (minor or major bumps); patch releases skip this
+        # so the wheel inherits the snapshot from the most recent minor/major.
+        # publish-pypi.yml is the correct place (not sync-artifacts.yml) because:
+        #   • sync-artifacts.yml creates the release and tarball first;
+        #   • publish-pypi.yml builds the PyPI wheel from a clean checkout, so the
+        #     bundled data/ files must be injected HERE before python -m build runs.
+        run: |
+          VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+          # Only refresh on vX.Y.0 (minor or major: patch part is 0)
+          PATCH=$(echo "$VERSION" | cut -d. -f3)
+          if [ "$PATCH" != "0" ]; then
+            echo "Patch release v${VERSION} — skipping snapshot refresh (patch=${PATCH})."
+            exit 0
+          fi
+          TAG="v${VERSION}"
+          echo "Minor/major release ${TAG} — downloading gaia-artifacts.tar.gz..."
+          gh release download "${TAG}" --pattern "gaia-artifacts.tar.gz" --dir /tmp/gaia-snap
+          echo "Unpacking and refreshing bundled snapshot..."
+          tar -xzf /tmp/gaia-snap/gaia-artifacts.tar.gz -C /tmp/gaia-snap
+          rm -f  src/gaia_cli/data/registry/gaia.json
+          rm -f  src/gaia_cli/data/registry/named-skills.json
+          rm -rf src/gaia_cli/data/registry/named
+          cp /tmp/gaia-snap/registry/gaia.json          src/gaia_cli/data/registry/gaia.json
+          cp /tmp/gaia-snap/registry/named-skills.json  src/gaia_cli/data/registry/named-skills.json
+          cp -r /tmp/gaia-snap/registry/named           src/gaia_cli/data/registry/named
+          echo "Bundled snapshot refreshed from ${TAG}."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build sdist and wheel
         run: python -m build
 
