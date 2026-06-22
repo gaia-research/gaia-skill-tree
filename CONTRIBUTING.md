@@ -493,4 +493,46 @@ These **non-suite** skills are intentionally kept in the registry without a sour
 | `changkun/plan-decompose-gh-wallfacer` | Wallfacer repo exists but skill not published |
 | `pexp13/sentiment-analysis` | No public source repo confirmed |
 
+---
+
+## Consuming the registry without a clone
+
+There are three ways to access the canonical registry data without cloning the repository.
+
+### Bundled snapshot (installed wheel)
+
+Every PyPI release of `gaia-cli` bundles a registry snapshot inside the wheel at `src/gaia_cli/data/registry/`. The snapshot is refreshed on every `vX.Y.0` release (minor or major). Patch releases (`vX.Y.Z` where Z is not 0) inherit the snapshot from the most recent minor/major release.
+
+When the CLI uses the bundled snapshot, it prints a one-time warning to stderr:
+
+```
+Warning: Using bundled registry snapshot from <DATE>. Run `gaia pull` for the latest.
+```
+
+### Latest between releases (`gaia pull`)
+
+Run `gaia pull` to download the latest registry from the most recent GitHub Release and save it to `.gaia/registry/`. The CLI will use this local copy on subsequent invocations.
+
+`gaia pull` chains `gaia fetch` (download the release asset) with `gaia scan` (update your skill tree). To download without scanning, run `gaia fetch` alone.
+
+### Direct download
+
+The registry artifacts are attached to every GitHub Release as a tarball:
+
+```
+https://github.com/mbtiongson1/gaia-skill-tree/releases/latest/download/gaia-artifacts.tar.gz
+```
+
+The tarball contains `registry/gaia.json`, `registry/named-skills.json`, `registry/named/`, and graph artifacts. A SHA256 checksum is published alongside:
+
+```
+https://github.com/mbtiongson1/gaia-skill-tree/releases/latest/download/gaia-artifacts.tar.gz.sha256
+```
+
+Verify the download:
+
+```bash
+sha256sum -c gaia-artifacts.tar.gz.sha256
+```
+
 
