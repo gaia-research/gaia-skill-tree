@@ -2,6 +2,37 @@
 
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
+## State Snapshot (2026-06-23, session 19 — Badge regen loop diagnosed, #807 backstop landed)
+
+### TLDR
+
+- **Issues #806 and #807** were both filed against the badge regen loop: contributors with every named skill ≤1★ (Awakened / pre-named / demoted) kept reappearing in `docs/badges/_assets/` despite the in-tree filter in `scripts/generateBadges.py`. #806 = first delete pass; #807 = make the cleanup load-bearing.
+- **Root cause confirmed in #807's filter is NOT broken** — `prenamed_contributor_handles()` returned 0 against the current registry (every contributor has ≥2★). The leak source was upstream/historical: parallel auto-sync rebase race during the rapid #803/#804/#800 merges, with stale on-disk dirs from a prior bad release surviving the rmtree+copytree cycle.
+- **Option B shipped** in PR #808 (branch `worktree-fix-807-redaction-postcheck`): three private helpers in `scripts/build_docs.py` (`_apply_redaction_backstop`, `_committed_redaction_violations`, `_prenamed_handles`) that run AFTER `generateBadges.py` to (a) strip pre-named handle dirs from the tempdir before diff, and (b) surface pre-existing committed-tree violations as drift so `--check` fails CI rather than auto-sync silently re-committing them.
+- **Real-world catch**: running `build_badges(check=True)` against current `docs/badges/_assets/` flagged 8 stale dirs the in-tree filter missed: `0xdarkmatter`, `Taoidle`, `browserbase`, `changkun`, `glincker`, `gooseworks`, `intelligentcode-ai`, `yonatangross`. These are exactly the drift class #807 describes. Apply-mode strips them cleanly leaving real contributors intact.
+- **#806 is being merged separately** by Marco — the cron auto-sync handles it. #808 is the backstop that prevents the next recurrence.
+
+### Things eliminated (NOT the cause)
+
+- `generateBadges.py::collect_contributors()` filter at line 536 — verified clean (`is_redacted(top_rank): continue` works in isolation, 32 dirs, zero leaks against current registry state).
+- `generateBadges.py::prenamed_contributor_handles()` helper — returns correct set; eviction at line 886-889 (`scan_users.pop(handle, None)`) is intact.
+- 1★ skills being "stale" — they are LEGITIMATE registry citizens (verified all 8 affected handles have proper `registry/named/<handle>/*.md` files). Only their badge directories are wrongly present per redaction invariant. **Removing the directory does NOT remove the skill — they're orthogonal.**
+
+### Things confirmed (load-bearing)
+
+- The redaction cutover is **2★ ("named")**. 1★ ("Awakened" / pre-named / demoted) gets NO public reward artifact: no `docs/badges/_assets/<handle>/` dir, no OG card, no `docs/badges/registry.json` entry.
+- Single source of truth: `gaia_cli.redaction.is_redacted` — used by both `scripts/validate_redaction.py` Section D and (now) the backstop in `build_docs.py`.
+- `scripts/generateBadges.py` is **write-only** — it never deletes contributor dirs already on disk. The outer caller `scripts/build_docs.py::build_badges()` does the `shutil.rmtree(committed) + shutil.copytree(out_dir, committed)` swap, which is what actually removes stale dirs. If `build_docs.py` errors out mid-run (e.g. profiles regen fails), the badges step may not run and prior on-disk state survives — historical leak vector.
+- `tempfile.TemporaryDirectory()` + `_diff_tree()` approach is correct; the gap was only that drift detection wasn't checking the committed tree against the redaction invariant — only against the freshly-regenerated tempdir. Two trees can match each other while both being wrong.
+
+### Hook QoL update (settings.json)
+
+User added a `Edit|Write` PostToolUse hook for design QoL: `node -c` for JS/TS syntax and hex-color grep on design files. Initial implementation used `$CLAUDE_FILE_PATH` (Claude Code passes tool data via stdin JSON, not env vars per-field). Fixed to use `jq -r '.tool_input.file_path // empty'`. Hooks load at session start — required a reload to pick up the fix.
+
+### PR #808 spend
+
+2026-06-23 Opus 4.8 + Sonnet 4.5 (context-summarized mid-session): ~180k in, ~12k out. ~$8.
+
 ## State Snapshot (2026-06-22, session 17 — Epic #780 Architectural Modernization Completion)
 
 ### TLDR
