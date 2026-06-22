@@ -33,6 +33,10 @@ def _write_json_registry(tmp_path, entries: list[dict]) -> None:
 def test_init_accepts_flags_and_uses_current_registry_default(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
 
+    # Prevent the init command from hitting the network via fetch_command.
+    import gaia_cli.main as gaia_main
+    monkeypatch.setattr(gaia_main, "fetch_command", lambda args: None)
+
     run_cli(
         monkeypatch,
         [
@@ -58,6 +62,8 @@ def test_init_yes_mode_preserves_non_interactive_defaults(tmp_path, monkeypatch)
     # Prevent auto-detection from picking up the parent repo's username
     import gaia_cli.main as gaia_main
     monkeypatch.setattr(gaia_main, "_detect_github_username", lambda: None)
+    # Prevent the init command from hitting the network via fetch_command.
+    monkeypatch.setattr(gaia_main, "fetch_command", lambda args: None)
 
     run_cli(monkeypatch, ["init", "--yes"])
 
@@ -476,6 +482,9 @@ def test_gaia_uninstall_command_removes_skill(tmp_path, monkeypatch):
 
 def test_init_force_overwrite(tmp_path, monkeypatch, capsys):
     monkeypatch.chdir(tmp_path)
+    # Prevent the init command from hitting the network via fetch_command.
+    import gaia_cli.main as gaia_main
+    monkeypatch.setattr(gaia_main, "fetch_command", lambda args: None)
 
     # First init
     run_cli(monkeypatch, ["init", "--user", "firstuser", "--yes"])
