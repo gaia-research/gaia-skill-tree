@@ -2832,7 +2832,7 @@ def fetch_command(args):
                 or m.name.startswith("registry/named-skills.json")
                 or m.name.startswith("registry/named/")
             ]
-            tar.extractall(path=Path(tmpdir) / "unpacked", members=members_to_extract)
+            tar.extractall(path=Path(tmpdir) / "unpacked", members=members_to_extract, filter="data")
 
         unpacked_registry = Path(tmpdir) / "unpacked" / "registry"
 
