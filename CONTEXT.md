@@ -141,10 +141,10 @@ _Avoid_: profile, dashboard, scorecard.
 **Programmatic-First Policy**:
 The Gaia registry is programmatically managed. Manual edits to JSON files in `registry/nodes/` are deprecated for all meta-shifts. AI agents and human contributors must use the Gaia CLI to ensure timeline logging, timestamping, and schema integrity.
 
-- **Merge**: Use `gaia merge` to fuse canonical nodes.
-- **Split**: Use `gaia split` to divide capabilities.
-- **Add**: Use `gaia add` to create new canonical or named skills.
-- **Evidence**: Use `gaia evidence` to support rank-up claims.
+- **Merge**: Use `gaia dev merge` to fuse canonical nodes.
+- **Split**: Use `gaia dev split` to divide capabilities.
+- **Add**: Use `gaia dev add` to create new canonical or named skills.
+- **Evidence**: Use `gaia dev evidence` to support rank-up claims.
 - **Assemble**: The `registry/gaia.json` file is a generated artifact; never edit it.
 
 _Avoid_: manual JSON patching, direct `gaia.json` edits, untracked schema shifts.
