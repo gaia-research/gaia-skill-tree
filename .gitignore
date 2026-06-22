@@ -58,7 +58,8 @@ perf_registry2/
 .pytest_cache/
 scratch_context.json
 
-# Generated registry and documentation artifacts (kept untracked in Git)
+# Generated registry pipeline artifacts (kept untracked in Git — regenerable from
+# registry/nodes/ + registry/named/ sources via `gaia dev docs`).
 /registry/gaia.json
 /registry/gaia.gexf
 /registry/gaia.svg
@@ -66,11 +67,13 @@ scratch_context.json
 /registry/named-skills.json
 /registry/real-skills.json
 /registry/real-skills.md
-/docs/graph/gaia.json
-/docs/graph/gaia.gexf
-/docs/graph/gaia.svg
-/docs/graph/named/index.json
 /base_gaia.json
+
+# NOTE: docs/graph/ artifacts are website-served static assets, NOT pipeline
+# byproducts. GitHub Pages publishes from main:/docs — files removed from git
+# are removed from the live site. They MUST stay tracked. Re-tracked 2026-06-22
+# after the #de3e77f7e untrack revealed the site went dark for /graph/gaia.json,
+# /graph/named/index.json, /graph/gaia.gexf, /graph/gaia.svg.
 
 # Bundled registry snapshot (regenerated at CI release time for vX.Y.0 wheels)
 src/gaia_cli/data/registry/gaia.json

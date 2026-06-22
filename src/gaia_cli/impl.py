@@ -3012,11 +3012,22 @@ def release_command(args):
 
     # Commit the version bump, create an annotated tag, and push both so that
     # the GitHub Actions release workflow (triggered by 'push tags: v*') fires.
+    #
+    # NOTE: `registry/gaia.json` is gitignored (see #781 — registry artifacts
+    # are regenerated at release time, not tracked). It's listed here for
+    # back-compat with environments where it is still tracked (older clones,
+    # forks predating the untrack). The filter below drops anything not present
+    # in the working tree so `git add` doesn't die with "did not match any
+    # files" on the canonical path — that failure broke sync-artifacts.yml on
+    # every merge between 2026-06-22 09:39 and the fix below.
     version_files = [
         "pyproject.toml",
         "packages/cli-npm/package.json",
         "packages/mcp/package.json",
         "registry/gaia.json",
+    ]
+    existing_version_files = [
+        f for f in version_files if os.path.exists(os.path.join(root, f))
     ]
 
     def _run_git(*cmd, cwd=root):
@@ -3031,7 +3042,7 @@ def release_command(args):
         return result.stdout.strip()
 
     print("Creating release commit…")
-    _run_git("add", "--", *version_files)
+    _run_git("add", "--", *existing_version_files)
     _run_git(
         "commit",
         "-m",
