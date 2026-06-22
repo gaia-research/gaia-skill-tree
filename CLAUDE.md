@@ -188,11 +188,13 @@ The pre-commit hook keeps these in lockstep:
 - `packages/mcp/package.json`
 - `registry/gaia.json`
 
-If they disagree before the bump, the hook fails loudly. Use `gaia release <type> --sync` to force align manifests to the highest version before bumping. Use `gaia release patch|minor|major` to bump all at once.
+If they disagree before the bump, the hook fails loudly. Use `gaia dev release <type> --sync` to force align manifests to the highest version before bumping. Use `gaia dev release patch|minor|major` to bump all at once.
+
+> **Deprecation note:** `gaia release` is a shim that delegates to `gaia dev release` with a warning. Use `gaia dev release` directly; the shim will be removed in v7.0.0.
 
 ### Adding a new versioned HTML page
 
-**Never manually patch `?v=` query strings.** Instead, add the page path to `build_html_cache_busting()` in `scripts/build_docs.py` — the function at line ~316 lists every HTML file that gets auto-versioned on `gaia docs build` / CI release. New `docs/<section>/index.html` pages go here; the `_apply_cache_busting` regex handles all relative `.css` and `.js` src/href attributes automatically.
+**Never manually patch `?v=` query strings.** Instead, add the page path to `build_html_cache_busting()` in `scripts/build_docs.py` — the function at line ~316 lists every HTML file that gets auto-versioned on `gaia dev docs` / CI release. New `docs/<section>/index.html` pages go here; the `_apply_cache_busting` regex handles all relative `.css` and `.js` src/href attributes automatically.
 
 ### Bundled registry snapshot — refresh cadence
 
@@ -232,7 +234,7 @@ Project-local agent skills live in two directories and are actively used by cont
 - `.agents/skills/gaia-curate-dynamic/` — `/gaia-curate-dynamic`: curation as a **dynamic workflow** (runtime-composed plan, massively parallel sub-agent fan-out, proposer⇄refuter convergent validation, resumable ledger), per *Introducing dynamic workflows in Claude Code*. Use for wide sweeps and high-stakes verification.
 - `.agents/skills/gaia-meta-audit/` — `/gaia-meta-audit`: prioritized queue of skills/catalog items needing review.
 - `.agents/skills/gaia-audit/` — `/gaia-audit`: focused source-level correction for one target.
-- `.agents/skills/gaia-trace-timeline/` — `/gaia-trace-timeline`: audit & repair user-tree timelines so every skill's current rank is explained by its Hero's Journey (backfills missing demote/rank_up events). Backed by `scripts/trace_timeline.py`; enforced by `scripts/validate_timelines.py` (run via `gaia validate` + release CI).
+- `.agents/skills/gaia-trace-timeline/` — `/gaia-trace-timeline`: audit & repair user-tree timelines so every skill's current rank is explained by its Hero's Journey (backfills missing demote/rank_up events). Backed by `scripts/trace_timeline.py`; enforced by `scripts/validate_timelines.py` (run via `gaia dev validate` + release CI).
 - `.agents/skills/gaia-draft-curate/`, `gaia-docs-sync/`, `gaia-integrity/`, `gaia-triage/`, `gaia-wiki-sync/`, `graphify-triage/` — supporting curation, doc-sync, integrity, and triage workflows.
 - `.agents/skills/gaia-bot-curate/` — bot-driven curation pass.
 - `.claude/skills/gaia-fuse-full-suite/` — `/gaia-fuse-full-suite`: fuse one contributor's named skills into a single ultimate.

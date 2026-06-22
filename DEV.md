@@ -20,7 +20,7 @@ Once activated, your standard `pip`, `pytest`, and `gaia` commands will resolve 
 If you prefer not to activate the shell environment, call the binaries directly:
 ```bash
 .venv/bin/pip install -e ".[dev,embeddings]"
-.venv/bin/gaia validate
+.venv/bin/gaia dev validate
 .venv/bin/pytest
 ```
 
@@ -49,9 +49,9 @@ pip install -e ".[docs]"
 
 | Command | Purpose |
 |---|---|
-| `gaia validate` | Validate schema, identifiers, DAG cycles, and timelines |
-| `gaia docs build` | Regenerate documentation and assets locally |
-| `gaia docs build --check` | Verify if generated documentation is up to date (runs in CI) |
+| `gaia dev validate` | Validate schema, identifiers, DAG cycles, and timelines (`gaia validate` is a deprecated shim) |
+| `gaia dev docs` | Regenerate documentation and assets locally (`gaia docs build` is a deprecated shim) |
+| `gaia dev docs --check` | Verify if generated documentation is up to date (runs in CI) |
 | `gaia init --user <username>` | Initialize your local Gaia user profile |
 | `gaia scan` | Scan configured paths for skill evidence and generate promotion candidates |
 | `gaia promote <skillId>` | Promote a skill in your tree after a scan |
@@ -104,7 +104,7 @@ legitimately needs to assert exec behavior must explicitly monkeypatch those fun
 (e.g. with a recorder lambda) before calling the code under test.
 
 **c. Tests must never write outside `tmp_path`**
-Commands like `gaia docs build`, `gaia scan`, and `gaia graph` write render artifacts to
+Commands like `gaia dev docs`, `gaia scan`, and `gaia graph` write render artifacts to
 the registry root they resolve.  Run such commands with `cwd` pointing to a directory
 inside `tmp_path` (or a full clone of the needed dirs inside `tmp_path`) so writes stay
 isolated.  After adding or modifying any test that invokes a write command, verify
@@ -143,18 +143,18 @@ so the suite is green with no keyring installed.  Full design + coverage map:
 
 Refer to [CLAUDE.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/CLAUDE.md) and [GEMINI.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/GEMINI.md) for full context.
 
-### A. Stale Documentation Crash (`gaia docs build --check` fails)
+### A. Stale Documentation Crash (`gaia dev docs --check` fails)
 * **Symptom:** Modifying `registry/named/` or `registry/nodes/` triggers a CI failure on the docs check.
 * **Fix (Local):** Run the documentation build locally and commit the regenerated assets with a `[skip-gen]` commit tag:
   ```bash
-  gaia docs build
+  gaia dev docs
   git add docs/ registry/gaia.json
   git commit -m "chore(docs): regenerate artifacts [skip-gen]"
   ```
 * **Fix (CI):** Manually trigger the **Auto-Sync Registry Artifacts** GitHub Action on your branch.
 
 ### B. Missing `numpy`/`scipy` / `cairosvg` during Docs Build
-* **Symptom:** `ModuleNotFoundError: No module named 'numpy'` or `scipy.linalg` when running `gaia docs build`.
+* **Symptom:** `ModuleNotFoundError: No module named 'numpy'` or `scipy.linalg` when running `gaia dev docs`.
 * **Fix:** `scripts/build_layouts_3d.py` requires these libraries for 3D layout solving. Install them using the virtualenv:
   ```bash
   pip install -e ".[docs]"
@@ -183,7 +183,7 @@ Refer to [CLAUDE.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/CLAUD
 * **Symptom:** Pre-commit hook fails complaining about version mismatches.
 * **Fix:** The version strings in `pyproject.toml`, `packages/cli-npm/package.json`, `packages/mcp/package.json`, and `registry/gaia.json` must be identical. Align them automatically:
   ```bash
-  gaia release <patch|minor|major>
+  gaia dev release <patch|minor|major>
   ```
 
 ## 5. Safe Merging & Conflict Resolution

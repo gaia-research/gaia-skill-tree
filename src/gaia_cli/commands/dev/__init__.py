@@ -68,7 +68,7 @@ Registry development commands (requires Verifier authorization):
   gaia dev link <target> <prereqs> [--reset]
   gaia dev reclassify <skill_id> <new_type>
   gaia dev update-named <skill_id> [--status <status>] [--generic-ref <ref>]
-  gaia dev evidence <skillId> <source> [--class A|B|C] [--evaluator <user>]
+  gaia dev evidence <skillId> <source> [--trust <0-100>] [--type <type>] [--evaluator <user>]
   gaia dev rm-evidence <skill_id> (--index N | --source URL) [--yes]
   gaia dev timeline <skill_id> --action <action> --notes <notes> [--user <username>]
   gaia dev build
@@ -399,13 +399,6 @@ class DevCommand(Command):
             metavar="NUMBER",
             help="Trust Magnitude value. Grade is auto-derived: S≥250, A≥100, B≥50, C≥20; <20=ungraded.",
         )
-        dev_evidence.add_argument(
-            "--class",
-            dest="evidence_class",
-            choices=("A", "B", "C"),
-            default=None,
-            help="[DEPRECATED] Use --trust instead. Evidence class (A/B/C).",
-        )
         dev_evidence.add_argument("--evaluator", help="GitHub username of the evaluator")
         dev_evidence.add_argument("--date", help="Date of evaluation (ISO 8601)")
         dev_evidence.add_argument("--notes", help="Optional notes about the evaluation")
@@ -451,6 +444,12 @@ class DevCommand(Command):
             type=int,
             metavar="N",
             help="Number of skills in the repo",
+        )
+        dev_evidence.add_argument(
+            "--percentile",
+            type=int,
+            metavar="N",
+            help="Benchmark result percentile (0-100). Required when --type benchmark-result.",
         )
         dev_evidence.add_argument(
             "--source-started-at",

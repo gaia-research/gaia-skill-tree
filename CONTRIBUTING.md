@@ -44,7 +44,7 @@ Use this when proposing skills via `registry-for-review/skill-batches/*.json`.
 /gaia-curate-chain <topic-or-source>
 ```
 
-Runs curation as six gated links — scope → research → design → human review → mutate → ship — one sub-agent per link, with a programmatic check between each. Source URLs are verified resolvable, schema shapes and the prerequisite DAG are checked **before** any mutation touches the registry, and `gaia validate` must pass before the branch ships. Prefer this whenever evidence quality and schema correctness matter; it is the default for maintainer-run registry expansion. See `.agents/skills/gaia-curate-chain/SKILL.md`.
+Runs curation as six gated links — scope → research → design → human review → mutate → ship — one sub-agent per link, with a programmatic check between each. Source URLs are verified resolvable, schema shapes and the prerequisite DAG are checked **before** any mutation touches the registry, and `gaia dev validate` must pass before the branch ships. Prefer this whenever evidence quality and schema correctness matter; it is the default for maintainer-run registry expansion. See `.agents/skills/gaia-curate-chain/SKILL.md`.
 
 The flat **`/gaia-curate`** (single linear pass, `.agents/skills/gaia-curate/`) still works and is quicker, but is **less gated** — reserve it for small, trusted, low-stakes batches. Both skills route every change through the same `gaia dev` commands documented in (C), so the underlying mutations are identical — the chain just checks them at each step.
 
@@ -113,7 +113,7 @@ gaia dev build
 
 After any CLI meta shift, validate:
 ```bash
-gaia validate
+gaia dev validate
 ```
 Note: The validator now checks the `registry/nodes/` directory by default.
 Open a PR with the programmatic changes. The pre-commit hooks will automatically handle `gaia.json` assembly and documentation regeneration.
@@ -324,7 +324,7 @@ Use `gaia dev` commands — do not edit files manually or invoke build scripts d
 
 4. **Validate and open the PR:**
    ```bash
-   gaia validate
+   gaia dev validate
    ```
    Create a `cli/` or `dev/` branch. If your branch also touches `CONTRIBUTING.md` or other
    files outside the `cli/` scope, add the **`skip-scope-check`** label to the PR so CI scope
@@ -338,7 +338,7 @@ The registry is supported by several automated workflows:
 - **Gated curation (`/gaia-curate-chain`):** The recommended pipeline for reviewer-run registry expansion (see §1B). Six gated links with a programmatic check between each; the flat `/gaia-curate` remains available for low-stakes batches but is less gated.
 - **Auto-Sync:** On every push to a branch, a GitHub Action automatically runs the versioning and regeneration scripts. You no longer need to run these manually before pushing.
 - **Validation:** Every PR is automatically validated for schema correctness, DAG integrity, and evidence quality.
-- **Transparency Gate (`scripts/validate_timelines.py`):** Enforces the Transparency Mandate (§8) — every named skill a contributor owns must be charted at its *current* registry rank, with a timeline event explaining it. A silent demotion/promotion (a rank change with no `demote`/`rank_up` event on the user tree) fails the build. Runs in `gaia validate` and the release workflow; reconcile drift with `/gaia-trace-timeline` (or `scripts/trace_timeline.py --all --apply`). A sibling **Redaction Gate** (`scripts/validate_redaction.py`) likewise proves ≤1★ handles stay withheld (see META.md §1.3).
+- **Transparency Gate (`scripts/validate_timelines.py`):** Enforces the Transparency Mandate (§8) — every named skill a contributor owns must be charted at its *current* registry rank, with a timeline event explaining it. A silent demotion/promotion (a rank change with no `demote`/`rank_up` event on the user tree) fails the build. Runs in `gaia dev validate` and the release workflow; reconcile drift with `/gaia-trace-timeline` (or `scripts/trace_timeline.py --all --apply`). A sibling **Redaction Gate** (`scripts/validate_redaction.py`) likewise proves ≤1★ handles stay withheld (see META.md §1.3).
 - **Monthly Meta Sweep (`/gaia-meta-sweep`):** Once per month a maintainer runs the `/gaia-meta-sweep` skill (see `.claude/skills/gaia-meta-sweep/SKILL.md`) to audit the entire registry against [META.md](META.md). The sweep produces a journal-style report under `docs/meta/reports/<YYYY-MM-DD>-meta-audit.html` plus a machine-readable `<slug>.findings.json` and `<YYYY-MM>-timeline.json`. See §13 below for the cadence and operating procedure.
 - **Defensive Security Scanner (`gaia push` / `gaia dev verify`):** Flags named skills carrying obviously hostile patterns across five detector categories: shellExec, destructiveFs, outboundNet, promptInjection, and credentialHarvesting. High-severity findings block `gaia push` unless overridden with both `--allow-unsafe` and `--reason "<text>"` (both flags are required; `--allow-unsafe` alone is rejected). `gaia dev verify` runs the scanner in read-only mode and prints findings without blocking. See `src/gaia_cli/securityScanner.py`.
 - **4-tier Verification Workflow (`gaia skills info` / `gaia dev verify-tier`):** Each named skill resolves to up to four stacking quality dimensions — community-verified, benchmark-verified, security-reviewed, and enterprise-ready — which are independent, not a strict ladder. `gaia skills info <id>` surfaces the highest passing tier with a per-tier pass/fail breakdown. `gaia dev verify-tier <id>` recomputes and writes `verification.tier` and `verification.tierEvaluatedAt` to the skill record. See [META.md §4](META.md#4-governance--promotion) and `src/gaia_cli/verification.py`.
@@ -449,7 +449,7 @@ gaia dev calibrate contributor/skill-name "2★"
 python scripts/generateNamedIndex.py
 
 # 5. Validate
-gaia validate
+gaia dev validate
 ```
 
 ### Auto-rejection during intake (`gaia push`)
