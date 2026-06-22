@@ -6,7 +6,6 @@ from pathlib import Path
 from gaia_cli.registry import named_skills_dir, registry_nodes_dir
 from gaia_cli.timeline import append_skill_event
 from gaia_cli.commands.dev.helpers import (
-    _parse_md,
     _update_named_skill_ref,
     _get_contributor,
     _run_docs_build,

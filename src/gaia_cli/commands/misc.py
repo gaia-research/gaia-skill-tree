@@ -1,5 +1,4 @@
 import argparse
-import sys
 from gaia_cli.commands.base import Command
 
 class LookupCommand(Command):

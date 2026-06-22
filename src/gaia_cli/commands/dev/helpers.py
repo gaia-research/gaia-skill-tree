@@ -1,15 +1,11 @@
 import sys
 import os
 import json
-import datetime
 import subprocess
 from pathlib import Path
 
 from gaia_cli.registry import (
-    registry_graph_path,
     named_skills_index_path,
-    registry_nodes_dir,
-    named_skills_dir,
 )
 from gaia_cli.scanner import load_config
 

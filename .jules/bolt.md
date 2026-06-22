@@ -36,3 +36,7 @@
 ## 2026-06-16 - Optimize repetitive string parsing in fallback matchers
 **Learning:** During directory scanning, `match_skill_to_canonical` repeatedly stripped, split, and lowercased string properties for canonical and named skills *for every single custom skill matched*. String allocations in Python within nested loops cause a measurable CPU bottleneck when N scans are performed against M items.
 **Action:** Attach local memoization caches (e.g. `_norm_cache`) directly to the match functions so that properties invariant across inner loops (like the canonical base name and exact name normalization) are computed only once per registry item and instantly retrieved on subsequent evaluations.
+
+## 2026-06-22 - O(1) Fast-path lookup for registry JSON nodes
+**Learning:** In various CLI commands (`meta_link_command`, `meta_reclassify_command`, `meta_verify_command`, `meta_evidence_command`), the codebase was using `nodes_dir.glob("**/*.json")` to perform a full O(N) scan reading every single file just to find a single `skill_id`. Because node file names reliably match their `id` property (e.g., `skill_id.json`), doing an exhaustive file read to check `data.get("id")` creates a severe I/O bottleneck in a large registry.
+**Action:** When searching the registry for a specific node by ID, always use `nodes_dir.rglob(f"{skill_id}.json")` first to quickly find the file without reading non-matching files. Only fallback to a full O(N) exhaustive JSON parse loop if the fast-path lookup fails.

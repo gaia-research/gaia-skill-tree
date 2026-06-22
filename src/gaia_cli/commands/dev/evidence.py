@@ -1,7 +1,6 @@
 import sys
 import datetime
 import json
-import os
 from pathlib import Path
 
 from gaia_cli.registry import named_skills_dir, registry_nodes_dir
@@ -267,14 +266,27 @@ def meta_evidence_command(args):
     else:
         nodes_dir = Path(registry_nodes_dir(registry_path))
         node_file = None
-        for p in nodes_dir.glob("**/*.json"):
-            with open(p, "r", encoding="utf-8") as f:
-                try:
+        # ⚡ Bolt: Fast path lookup using expected filename
+        for p in nodes_dir.rglob(f"{skill_id}.json"):
+            try:
+                with open(p, "r", encoding="utf-8") as f:
                     data = json.load(f)
                     if data.get("id") == skill_id:
                         node_file = p
                         break
-                except json.JSONDecodeError:
+            except (OSError, json.JSONDecodeError):
+                continue
+
+        # Fallback to exhaustive search if not found
+        if not node_file:
+            for p in nodes_dir.glob("**/*.json"):
+                try:
+                    with open(p, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                        if data.get("id") == skill_id:
+                            node_file = p
+                            break
+                except (OSError, json.JSONDecodeError):
                     continue
 
         if not node_file:
@@ -394,15 +406,29 @@ def meta_rm_evidence_command(args):
     else:
         nodes_dir = Path(registry_nodes_dir(registry_path))
         node_file = None
-        for p in nodes_dir.glob("**/*.json"):
+        # ⚡ Bolt: Fast path lookup using expected filename
+        for p in nodes_dir.rglob(f"{skill_id}.json"):
             try:
                 with open(p, "r", encoding="utf-8") as f:
                     data = json.load(f)
-            except json.JSONDecodeError:
+                    if data.get("id") == skill_id:
+                        node_file = p
+                        break
+            except (OSError, json.JSONDecodeError):
                 continue
-            if data.get("id") == skill_id:
-                node_file = p
-                break
+
+        # Fallback to exhaustive search if not found
+        if not node_file:
+            for p in nodes_dir.glob("**/*.json"):
+                try:
+                    with open(p, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                        if data.get("id") == skill_id:
+                            node_file = p
+                            break
+                except (OSError, json.JSONDecodeError):
+                    continue
+
         if not node_file:
             print(f"Error: Skill '{skill_id}' not found.")
             sys.exit(1)

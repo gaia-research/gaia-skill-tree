@@ -1,4 +1,3 @@
-import sys
 from gaia_cli.commands.dev.helpers import _get_contributor, _run_docs_build
 
 

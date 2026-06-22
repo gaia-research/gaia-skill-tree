@@ -1,5 +1,4 @@
 import sys
-import os
 import json
 import datetime
 from pathlib import Path
@@ -57,15 +56,29 @@ def meta_verify_command(args):
     nodes_dir = Path(registry_nodes_dir(registry_path))
     node_file = None
     skill_data = None
-    for p in nodes_dir.glob("**/*.json"):
-        with open(p, "r", encoding="utf-8") as f:
-            try:
+    # ⚡ Bolt: Fast path lookup using expected filename
+    for p in nodes_dir.rglob(f"{skill_id}.json"):
+        try:
+            with open(p, "r", encoding="utf-8") as f:
                 data = json.load(f)
                 if data.get("id") == skill_id:
                     node_file = p
                     skill_data = data
                     break
-            except json.JSONDecodeError:
+        except (OSError, json.JSONDecodeError):
+            continue
+
+    # Fallback to exhaustive search if not found
+    if not node_file:
+        for p in nodes_dir.glob("**/*.json"):
+            try:
+                with open(p, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    if data.get("id") == skill_id:
+                        node_file = p
+                        skill_data = data
+                        break
+            except (OSError, json.JSONDecodeError):
                 continue
 
     if node_file:
