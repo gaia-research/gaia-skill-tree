@@ -45,23 +45,33 @@ jobs:
       - name: Install dependencies
         run: pip install -e ".[dev]"
 
+      - name: Build intermediate registry artifacts
+        run: |
+          python scripts/assemble_gaia.py
+          python scripts/generateNamedIndex.py
+          mkdir -p docs/graph/named
+          cp registry/named-skills.json docs/graph/named/index.json
+
+      - name: Verify Version Lockstep
+        run: python scripts/verify_lockstep.py
+
       - name: Run validation
-        run: gaia validate
+        run: gaia dev validate
 
       # - name: Run intake validation
-      #   run: gaia validate --intake
+      #   run: gaia dev validate --intake
 
       - name: Check generated docs
         run: |
           echo "Equivalent python command for local use: python scripts/build_docs.py --check"
-          gaia docs build --check
+          gaia dev docs --check
 
       - name: Run tests
         if: |
           github.event_name == 'push' ||
           github.event.pull_request.changed_files >= 10 ||
           contains(github.event.pull_request.labels.*.name, 'run-full-ci')
-        run: gaia test all
+        run: gaia dev test all
 
       - name: Check schema meta sync
         # Skip for branch types that cannot affect registry meta-sync:
@@ -77,4 +87,22 @@ jobs:
             !startsWith(github.head_ref, 'infra/') &&
             !startsWith(github.head_ref, 'review/gaia-push/')
           )
-        run: gaia validate --meta-sync
+        run: gaia dev validate --meta-sync
+
+  skill-quality:
+    name: Agent Skill Quality Gates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install PyYAML
+
+      - name: Run skill validation
+        run: python scripts/validate_skills.py

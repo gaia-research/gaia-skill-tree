@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Epic #780 — Architectural Modernization — Gaia</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* Design Tokens */
+      --bg: #020617;
+      --surface: #0f172a;
+      --surface-glass: rgba(15, 23, 42, 0.6);
+      --border: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      
+      /* Accent Gradients */
+      --grad-purple: linear-gradient(135deg, #a78bfa, #7c3aed);
+      --grad-blue: linear-gradient(135deg, #38bdf8, #0284c7);
+      --grad-amber: linear-gradient(135deg, #fbbf24, #d97706);
+      --grad-emerald: linear-gradient(135deg, #34d399, #059669);
+      --grad-rose: linear-gradient(135deg, #f43f5e, #be123c);
+      
+      /* Colors */
+      --color-purple: #7c3aed;
+      --color-blue: #38bdf8;
+      --color-amber: #fbbf24;
+      --color-emerald: #34d399;
+      --color-rose: #f43f5e;
+      
+      /* Fonts */
+      --font-body: 'Bricolage Grotesque', Inter, system-ui, sans-serif;
+      --font-display: 'EB Garamond', Georgia, serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+      
+      --shadow-premium: 0 10px 40px -10px rgba(0, 0, 0, 0.7);
+      --border-glow: 0 0 20px rgba(124, 58, 237, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(124, 58, 237, 0.05) 0px, transparent 40%),
+        radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.05) 0px, transparent 40%);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      padding: 3rem 1.5rem;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Header styling */
+    header {
+      text-align: center;
+      margin-bottom: 4rem;
+      position: relative;
+    }
+
+    .diamond-seal {
+      margin-bottom: 1.5rem;
+      display: inline-block;
+      filter: drop-shadow(0 0 12px rgba(124, 58, 237, 0.3));
+    }
+
+    header h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      font-family: var(--font-display);
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    .underline-accent {
+      background: linear-gradient(90deg, var(--color-purple), var(--color-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+    }
+
+    header p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 700px;
+      margin: 0.5rem auto 0 auto;
+      font-weight: 300;
+    }
+
+    /* Navigation / Tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      padding: 0.5rem 1.5rem;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border-radius: 6px;
+    }
+
+    .tab-btn:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .tab-btn.active {
+      color: var(--color-purple);
+      background: rgba(124, 58, 237, 0.08);
+      font-weight: 600;
+    }
+
+    /* Grid layout */
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .grid-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Card Panels */
+    .card {
+      background: var(--surface-glass);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-premium);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(124, 58, 237, 0.3);
+      box-shadow: var(--border-glow), var(--shadow-premium);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+
+    /* Stats Grid */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 1.75rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      color: var(--color-blue);
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Checklist Styles */
+    .todo-list {
+      list-style: none;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+    }
+
+    .todo-item:last-child {
+      border-bottom: none;
+    }
+
+    .todo-checkbox {
+      margin-top: 0.25rem;
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.01);
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .todo-checkbox.checked {
+      background: var(--color-emerald);
+      border-color: var(--color-emerald);
+      color: var(--bg);
+    }
+
+    .todo-content {
+      flex-grow: 1;
+    }
+
+    .todo-title {
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .todo-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+
+    .todo-tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      background: rgba(124, 58, 237, 0.1);
+      color: var(--color-purple);
+      border: 1px solid rgba(124, 58, 237, 0.2);
+      display: inline-block;
+      margin-top: 0.35rem;
+    }
+
+    /* Branch Diagram */
+    .branching-chart {
+      background: #020617;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      position: relative;
+      overflow-x: auto;
+    }
+
+    .git-line {
+      display: flex;
+      align-items: center;
+      margin: 1.25rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    .git-branch-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 1rem;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .git-branch-indicator::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 5px;
+      width: 2px;
+      height: 40px;
+      background: var(--border);
+      z-index: 1;
+    }
+
+    .git-line:last-child .git-branch-indicator::after {
+      display: none;
+    }
+
+    .branch-main { background: var(--color-rose); }
+    .branch-dev { background: var(--color-purple); }
+    .branch-feature { background: var(--color-blue); }
+
+    .git-commit-msg {
+      color: var(--text);
+      margin-left: 0.5rem;
+    }
+
+    .git-hash {
+      color: var(--muted);
+      margin-right: 0.5rem;
+      font-size: 0.75rem;
+    }
+
+    /* Terminal Simulator */
+    .simulator-wrapper {
+      background: #08080a;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 1.5rem 0;
+      font-family: var(--font-mono);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .simulator-header {
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .simulator-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .simulator-dots .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .simulator-dots .dot.red { background: #ef4444; }
+    .simulator-dots .dot.yellow { background: #fbbf24; }
+    .simulator-dots .dot.green { background: #22c55e; }
+
+    .simulator-title {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .simulator-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.4rem 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .simulator-btn:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--text);
+    }
+
+    .simulator-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .simulator-body {
+      padding: 1.25rem;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      height: 380px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      color: #c9d1d9;
+      scroll-behavior: smooth;
+      text-align: left;
+    }
+
+    .console-line {
+      word-break: break-all;
+    }
+    .console-line.system { color: #8b949e; }
+    .console-line.agent { color: #58a6ff; }
+    .console-line.cmd { color: #58a6ff; font-weight: bold; }
+    .console-line.pass { color: #34d399; }
+    .console-line.fail { color: #f85149; }
+    .console-line.warn { color: #fbbf24; }
+
+    /* Revert Box style */
+    .revert-box {
+      background: rgba(244, 63, 94, 0.03);
+      border: 1px solid rgba(244, 63, 94, 0.15);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .revert-title {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: var(--color-rose);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .revert-cmd {
+      background: #020617;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.5rem 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--color-blue);
+      margin-top: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Accordion styles */
+    .accordion {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+    }
+
+    .accordion-header {
+      background: rgba(255, 255, 255, 0.01);
+      padding: 0.75rem 1.25rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 500;
+      transition: background-color 0.2s ease;
+    }
+
+    .accordion-header:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .accordion-content {
+      padding: 1rem 1.25rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .accordion-content p {
+      margin-bottom: 0.75rem;
+    }
+
+    .accordion-content ul {
+      margin-left: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .accordion.active .accordion-content {
+      display: block;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <header>
+      <!-- Diamond Seal Mark -->
+      <svg class="diamond-seal" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M24 4L44 24L24 44L4 24Z" stroke="var(--color-purple)" stroke-width="1.5" stroke-linejoin="miter"/>
+        <text x="24" y="30" font-family="'EB Garamond', Georgia, serif" font-size="21" font-weight="600" fill="var(--text)" text-anchor="middle">G</text>
+      </svg>
+      
+      <h1>Epic #780 <span class="underline-accent">Architectural Report</span></h1>
+      <p>Modernization of CLI dispatch, artifact isolation, task orchestration, and verification quality gates inside the polyglot monorepo.</p>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('dashboard')">Overview Dashboard</button>
+      <button class="tab-btn" onclick="switchTab('playbooks')">Revert & Testing Playbooks</button>
+      <button class="tab-btn" onclick="switchTab('mapping')">Codebase Context Map</button>
+    </div>
+
+    <!-- TAB 1: DASHBOARD -->
+    <div id="tab-dashboard" class="tab-content">
+      <div class="grid-container">
+        
+        <!-- Left Column -->
+        <div class="left-panel">
+          
+          <!-- Epic Progress Overview -->
+          <div class="card">
+            <h2 class="card-title">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
+              Execution Checklist
+            </h2>
+            
+            <div class="stats-row">
+              <div class="stat-box">
+                <div class="stat-num" id="total-tasks">28</div>
+                <div class="stat-label">Total Subtasks</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" id="completed-tasks" style="color: var(--color-emerald);">0</div>
+                <div class="stat-label">Completed</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-num" id="progress-pct" style="color: var(--color-amber);">0%</div>
+                <div class="stat-label">Overall Progress</div>
+              </div>
+            </div>
+
+            <ul class="todo-list">
+              <!-- Initial Setup -->
+              <li class="todo-item" data-id="1">
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
+                <div class="todo-content">
+                  <div class="todo-title">Create reports folder & index</div>
+                  <div class="todo-desc">Initialize founder/reports and create dynamic HTML dashboards.</div>
+                  <span class="todo-tag">Setup</span>
+                </div>
+              </li>
+              <li class="todo-item" data-id="2">
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
+                <div class="todo-content">
+                  <div class="todo-title">Write revert & testing handovers</div>
+                  <div class="todo-desc">Ensure playbooks and agent handovers are seeded in founder/handovers/.</div>
+                  <span class="todo-tag">Setup</span>
+                </div>
+              </li>
+              
+              <!-- Sub-Issue 2b (COMPLETED) -->
+              <li class="todo-item" data-id="3">
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
+                <div class="todo-content">
+                  <div class="todo-title">Create branch <code>dev/780-cli-command-migration</code></div>
+                  <div class="todo-desc">Branch off integration branch dev/improve-codebase-architecture.</div>
+                  <span class="todo-tag">Sub-Issue 2b</span>
+                </div>
+              </li>
+              <li class="todo-item" data-id="4">
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
+                <div class="todo-content">
+                  <div class="todo-title">Migrate dev-only CLI commands under <code>gaia dev</code></div>
+                  <div class="todo-desc">Relocate release, validate, test, docs, mcp, hook and add deprecation warnings.</div>
+                  <span class="todo-tag">Sub-Issue 2b</span>
+                </div>
+              </li>
+              <li class="todo-item" data-id="5">
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
+                <div class="todo-content">
+                  <div class="todo-title">Update GitHub Action CI workflows</div>
+                  <div class="todo-desc">Replace commands in sync-artifacts.yml, validate.yml, python-package.yml.</div>
+                  <span class="todo-tag">Sub-Issue 2b</span>
+                </div>
+              </li>
+
+              <!-- Sub-Issue 1 (COMPLETED) -->
+              <li class="todo-item" data-id="6">
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
+                <div class="todo-content">
+                  <div class="todo-title">Add compiled artifacts to .gitignore</div>
+                  <div class="todo-desc">Stop tracking registry/gaia.json, docs/graph/gaia.json, base_gaia.json.</div>
+                  <span class="todo-tag">Sub-Issue 1</span>
+                </div>
+              </li>
+              <li class="todo-item" data-id="7">
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
+                <div class="todo-content">
+                  <div class="todo-title">Extract cached index and untrack from Git</div>
+                  <div class="todo-desc">Run git rm --cached and verify fresh local builds populate them.</div>
+                  <span class="todo-tag">Sub-Issue 1</span>
+                </div>
+              </li>
+              <li class="todo-item" data-id="8">
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
+                <div class="todo-content">
+                  <div class="todo-title">Build pipeline release tarball upload</div>
+                  <div class="todo-desc">Configure sync-artifacts.yml to push compilation results as release assets.</div>
+                  <span class="todo-tag">Sub-Issue 1</span>
+                </div>
+              </li>
+
+              <!-- Sub-Issue 4 (COMPLETED) -->
+              <li class="todo-item" data-id="9">
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
+                <div class="todo-content">
+                  <div class="todo-title">Implement <code>scripts/validate_skills.py</code></div>
+                  <div class="todo-desc">Linter verifying YAML schema, description limits, body length, and orphans.</div>
+                  <span class="todo-tag">Sub-Issue 4</span>
+                </div>
+              </li>
+              <li class="todo-item" data-id="10">
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
+                <div class="todo-content">
+                  <div class="todo-title">Integrate quality gate job into <code>validate.yml</code></div>
+                  <div class="todo-desc">Enforce >800 line limit and frontmatter validations in pull requests.</div>
+                  <span class="todo-tag">Sub-Issue 4</span>
+                </div>
+              </li>
+
+              <!-- Sub-Issue 2 (COMPLETED) -->
+              <li class="todo-item" data-id="11">
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
+                <div class="todo-content">
+                  <div class="todo-title">Extract command modules & protocol</div>
+                  <div class="todo-desc">Refactor main.py into Command classes under src/gaia_cli/commands/.</div>
+                  <span class="todo-tag">Sub-Issue 2</span>
+                </div>
+              </li>
+              <li class="todo-item" data-id="12">
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
+                <div class="todo-content">
+                  <div class="todo-title">Implement dynamic Command Autodiscovery</div>
+                  <div class="todo-desc">Automate command discovery; shrink main.py down to <= 300 lines.</div>
+                  <span class="todo-tag">Sub-Issue 2</span>
+                </div>
+              </li>
+
+              <!-- Sub-Issue 2c (NEW) -->
+              <li class="todo-item" data-id="17">
+                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-content">
+                  <div class="todo-title">Decompose <code>commands/dev.py</code> into domain sub-modules</div>
+                  <div class="todo-desc">Break 2,977-line dev.py into commands/dev/ package (evidence, verify, merge, etc.).</div>
+                  <span class="todo-tag">Sub-Issue 2c</span>
+                </div>
+              </li>
+              <li class="todo-item" data-id="18">
+                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-content">
+                  <div class="todo-title">Extract shared helpers to <code>commands/dev/helpers.py</code></div>
+                  <div class="todo-desc">DRY _parse_md, _write_md, _find_named_file, _confirm_destructive, etc.</div>
+                  <span class="todo-tag">Sub-Issue 2c</span>
+                </div>
+              </li>
+
+              <!-- Sub-Issue 3 -->
+              <li class="todo-item" data-id="13">
+                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-content">
+                  <div class="todo-title">Configure monorepo <code>Taskfile.yml</code></div>
+                  <div class="todo-desc">Set up Task for standard lint/test/validate cross-environment shortcuts.</div>
+                  <span class="todo-tag">Sub-Issue 3</span>
+                </div>
+              </li>
+              <li class="todo-item" data-id="14">
+                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-content">
+                  <div class="todo-title">Add lockstep manifest version verification gate</div>
+                  <div class="todo-desc">Prevent version drift between npm, python, and registry configurations.</div>
+                  <span class="todo-tag">Sub-Issue 3</span>
+                </div>
+              </li>
+
+              <!-- Sub-Issue 5 -->
+              <li class="todo-item" data-id="15">
+                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-content">
+                  <div class="todo-title">Add config merging & daemon to MCP package</div>
+                  <div class="todo-desc">Develop Merger utility and PID-based process manager daemon.</div>
+                  <span class="todo-tag">Sub-Issue 5</span>
+                </div>
+              </li>
+              <li class="todo-item" data-id="16">
+                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-content">
+                  <div class="todo-title">Expose <code>gaia dev mcp start/stop/status</code></div>
+                  <div class="todo-desc">Wire the daemon management commands to the dev CLI subparser.</div>
+                  <span class="todo-tag">Sub-Issue 5</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+          
+        </div>
+
+        <!-- Right Column -->
+        <div class="right-panel">
+          
+          <!-- Branching strategy card -->
+          <div class="card">
+            <h2 class="card-title">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+              Git Topology
+            </h2>
+            <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">
+              Work streams are split into isolation branches merging strictly into the integration branch. No squashing.
+            </p>
+            <div class="branching-chart">
+              <div class="git-line">
+                <span class="git-branch-indicator branch-main"></span>
+                <span class="git-hash">main</span>
+                <span class="git-commit-msg">v5.0.0 Stable</span>
+              </div>
+              <div class="git-line">
+                <span class="git-branch-indicator branch-dev"></span>
+                <span class="git-hash">dev/improve-codebase-architecture</span>
+                <span class="git-commit-msg">Epic #780 integration lane</span>
+              </div>
+              <div class="git-line" style="margin-left: 20px;">
+                <span class="git-branch-indicator branch-feature" style="background: var(--color-blue);"></span>
+                <span class="git-hash">dev/780-cli-command-migration</span>
+                <span class="git-commit-msg">Sub-Issue 2b (Dev command split)</span>
+              </div>
+              <div class="git-line" style="margin-left: 20px;">
+                <span class="git-branch-indicator branch-feature" style="background: var(--color-blue);"></span>
+                <span class="git-hash">dev/780-artifact-pipeline</span>
+                <span class="git-commit-msg">Sub-Issue 1 (Isolated assets)</span>
+              </div>
+              <div class="git-line" style="margin-left: 20px;">
+                <span class="git-branch-indicator branch-feature" style="background: var(--color-blue);"></span>
+                <span class="git-hash">dev/780-skill-quality-gates</span>
+                <span class="git-commit-msg">Sub-Issue 4 (YAML + limit validation)</span>
+              </div>
+              <div class="git-line" style="margin-left: 20px;">
+                <span class="git-branch-indicator branch-feature" style="background: var(--color-blue);"></span>
+                <span class="git-hash">dev/780-cli-dynamic-dispatch</span>
+                <span class="git-commit-msg">Sub-Issue 2 (Autodiscovery)</span>
+              </div>
+              <div class="git-line" style="margin-left: 20px;">
+                <span class="git-branch-indicator branch-feature" style="background: var(--color-amber);"></span>
+                <span class="git-hash">dev/780-dev-decompose</span>
+                <span class="git-commit-msg">Sub-Issue 2c (dev.py → domain modules)</span>
+              </div>
+              <div class="git-line" style="margin-left: 20px;">
+                <span class="git-branch-indicator branch-feature" style="background: var(--color-amber);"></span>
+                <span class="git-hash">dev/780-polyglot-versioning</span>
+                <span class="git-commit-msg">Sub-Issue 3 (Taskfile & Lockstep)</span>
+              </div>
+              <div class="git-line" style="margin-left: 20px;">
+                <span class="git-branch-indicator branch-feature" style="background: var(--color-amber);"></span>
+                <span class="git-hash">dev/780-mcp-abstraction</span>
+                <span class="git-commit-msg">Sub-Issue 5 (Daemon & merger)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Simulator Panel -->
+          <div class="card">
+            <h2 class="card-title">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              Execution Sandbox
+            </h2>
+            <div class="simulator-wrapper">
+              <div class="simulator-header">
+                <div class="simulator-dots">
+                  <span class="dot red"></span>
+                  <span class="dot yellow"></span>
+                  <span class="dot green"></span>
+                </div>
+                <div class="simulator-title">epic_780_verify_run.sh</div>
+                <button class="simulator-btn" id="run-sim-btn" onclick="startSimulation()">Simulate CI Run</button>
+              </div>
+              <div class="simulator-body" id="sim-console">
+                <div class="console-line system">> Press 'Simulate CI Run' to review dry-run validation logs.</div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+
+    <!-- TAB 2: PLAYBOOKS -->
+    <div id="tab-playbooks" class="tab-content" style="display: none;">
+      <div class="card">
+        <h2 class="card-title" style="color: var(--color-rose);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-rose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          Emergency Revert Playbooks
+        </h2>
+        <p style="color: var(--muted); margin-bottom: 1.5rem;">
+          In the event of a breaking regression or build failure, follow these recovery strategies. Full playbook at <code>founder/handovers/EPIC780_REVERT.md</code>.
+        </p>
+
+        <!-- Revert 1 -->
+        <div class="revert-box">
+          <div class="revert-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            Revert Single Feature branch
+          </div>
+          <p style="font-size: 0.85rem; color: var(--muted);">
+            Each feature branch merges with standard merge commits. To rollback a single sub-issue (e.g. Sub-Issue 4):
+          </p>
+          <div class="revert-cmd">
+            <span>git revert -m 1 &lt;merge-commit-sha&gt;</span>
+            <button class="simulator-btn" style="padding: 0.2rem 0.5rem; font-size: 0.7rem;" onclick="copyText(this, 'git revert -m 1 ')">Copy</button>
+          </div>
+        </div>
+
+        <!-- Revert 2 -->
+        <div class="revert-box">
+          <div class="revert-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Full Revert of Epic (Pre-Merge Safety Tag)
+          </div>
+          <p style="font-size: 0.85rem; color: var(--muted);">
+            Before merging <code>dev/improve-codebase-architecture</code> to main, a tag <code>pre-epic-780</code> is pushed. To reset main:
+          </p>
+          <div class="revert-cmd">
+            <span>git reset --hard pre-epic-780 && git push origin main --force</span>
+            <button class="simulator-btn" style="padding: 0.2rem 0.5rem; font-size: 0.7rem;" onclick="copyText(this, 'git reset --hard pre-epic-780 && git push origin main --force')">Copy</button>
+          </div>
+        </div>
+
+        <h3 style="margin: 1.5rem 0 1rem 0; font-family: var(--font-display); font-size: 1.4rem;">Testing & Verification Checklist</h3>
+        
+        <div class="accordion">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>CLI Migration Tests (Sub-Issue 2b)</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="accordion-content">
+            <p>Ensure migrated dev-only commands run exactly as expected. Verify warnings: </p>
+            <pre style="background: #020617; padding: 0.5rem; border-radius: 4px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-blue);">
+# Test shims (must output warnings to stderr)
+gaia validate
+gaia release patch --no-push
+gaia test all
+
+# Test raw dev namespace (clean runs)
+gaia dev validate
+gaia dev docs --check</pre>
+          </div>
+        </div>
+
+        <div class="accordion">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>Artifact Isolation Test (Sub-Issue 1)</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="accordion-content">
+            <p>Verify that generated files are no longer checked in, but compile correctly:</p>
+            <pre style="background: #020617; padding: 0.5rem; border-radius: 4px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-blue);">
+# Check tracking list (should return empty)
+git ls-files -- registry/gaia.json docs/graph/gaia.json
+
+# Test rebuild compilation
+gaia dev build</pre>
+          </div>
+        </div>
+
+        <div class="accordion">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>Skill Quality Gate (Sub-Issue 4)</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="accordion-content">
+            <p>Run skill validation script on the registry:</p>
+            <pre style="background: #020617; padding: 0.5rem; border-radius: 4px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-blue);">
+# Dry-run validation of local skills folder
+python scripts/validate_skills.py</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: CONTEXT MAP -->
+    <div id="tab-mapping" class="tab-content" style="display: none;">
+      <div class="card">
+        <h2 class="card-title">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          Mattpocock Shared Context Map
+        </h2>
+        <p style="color: var(--muted); margin-bottom: 1.5rem;">
+          Architectural deep modules and leverage points designed to replace shallow legacy structures.
+        </p>
+
+        <div class="stats-row">
+          <div class="stat-box">
+            <div class="stat-num" style="color: var(--color-rose);">4,078 l.</div>
+            <div class="stat-label">Old main.py Size</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" style="color: var(--color-emerald);">&lt; 300 l.</div>
+            <div class="stat-label">New main.py Size</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" style="color: var(--color-purple);">36</div>
+            <div class="stat-label">Dynamic Commands</div>
+          </div>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.01); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+          <h4 style="font-family: var(--font-mono); color: var(--color-blue); margin-bottom: 0.5rem;">1. CLI Dispatch Leverage Point</h4>
+          <p style="font-size: 0.9rem; margin-bottom: 1rem; color: var(--text);">
+            Instead of a massive dispatcher where interface and implementation are tightly coupled inside <code>main.py</code>, we introduce the <strong>Command Protocol</strong>:
+          </p>
+          <pre style="background: #020617; padding: 1rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.8rem; color: #a9b1d6; overflow-x: auto;">
+class Command(Protocol):
+    name: str
+    description: str
+    needs_auth: bool = False
+    
+    def configure(self, parser: ArgumentParser) -> None: ...
+    def execute(self, args: Namespace) -> int: ...</pre>
+          <p style="font-size: 0.85rem; color: var(--muted); margin-top: 0.75rem;">
+            This establishes a rigid, thin interface. Command implementations are auto-discovered dynamically from <code>src/gaia_cli/commands/</code>. Adding a CLI feature is now as simple as adding a file containing a <code>COMMAND</code> matching the protocol.
+          </p>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.01); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem;">
+          <h4 style="font-family: var(--font-mono); color: var(--color-blue); margin-bottom: 0.5rem;">2. Artifact Pipeline Seam</h4>
+          <p style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text);">
+            Merge conflicts on generated indices (like <code>registry/gaia.json</code>) are eliminated by introducing an artifact seam:
+          </p>
+          <ul style="margin-left: 1.25rem; font-size: 0.85rem; color: var(--muted); line-height: 1.7;">
+            <li>Developers use local <code>gaia dev build</code> to write artifacts (untracked).</li>
+            <li>GitHub Action workflow builds and packages these assets.</li>
+            <li>Assets are attached directly to GitHub Releases, bypass-committing directly to the branch.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>Gaia Codebase Modernization Platform • Epic #780. Dashboards generated automatically.</p>
+    </footer>
+
+  </div>
+
+  <script>
+    // Tab switching logic
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById('tab-' + tabId).style.display = 'block';
+      event.target.classList.add('active');
+    }
+
+    // Toggle Task Checklist
+    function toggleTask(checkbox) {
+      checkbox.classList.toggle('checked');
+      if (checkbox.classList.contains('checked')) {
+        checkbox.innerText = '✓';
+      } else {
+        checkbox.innerText = '';
+      }
+      updateStats();
+    }
+
+    // Update progress numbers
+    function updateStats() {
+      const total = document.querySelectorAll('.todo-item').length;
+      const checked = document.querySelectorAll('.todo-checkbox.checked').length;
+      
+      document.getElementById('total-tasks').innerText = total;
+      document.getElementById('completed-tasks').innerText = checked;
+      
+      const pct = Math.round((checked / total) * 100);
+      document.getElementById('progress-pct').innerText = pct + '%';
+      
+      if (pct === 100) {
+        document.getElementById('progress-pct').style.color = 'var(--color-emerald)';
+      } else if (pct > 50) {
+        document.getElementById('progress-pct').style.color = 'var(--color-blue)';
+      } else {
+        document.getElementById('progress-pct').style.color = 'var(--color-amber)';
+      }
+    }
+
+    // Initialize stats
+    updateStats();
+
+    // Accordions
+    function toggleAccordion(header) {
+      header.parentElement.classList.toggle('active');
+    }
+
+    // Copy to Clipboard Fallback
+    function copyText(btn, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const oldText = btn.innerText;
+        btn.innerText = 'Copied!';
+        setTimeout(() => btn.innerText = oldText, 1500);
+      });
+    }
+
+    // Simulation script
+    let simRunning = false;
+    function startSimulation() {
+      if (simRunning) return;
+      simRunning = true;
+      const consoleBox = document.getElementById('sim-console');
+      const btn = document.getElementById('run-sim-btn');
+      
+      btn.disabled = true;
+      btn.innerText = 'Simulating...';
+      consoleBox.innerHTML = '';
+
+      const logs = [
+        { d: 200, m: 'Initializing local test environment check...', t: 'system' },
+        { d: 500, m: '$ python -m pytest tests/', t: 'cmd' },
+        { d: 900, m: '============================= test session starts =============================', t: 'system' },
+        { d: 1100, m: 'collected 61 items', t: 'system' },
+        { d: 1400, m: 'tests/test_auth.py .........................                             [ 15%]', t: 'system' },
+        { d: 1700, m: 'tests/test_cli_discovery.py .................                             [ 40%]', t: 'system' },
+        { d: 2000, m: 'tests/test_grading.py .................................                  [ 80%]', t: 'system' },
+        { d: 2300, m: 'tests/test_versioning.py .............                                   [100%]', t: 'system' },
+        { d: 2500, m: '61 passed in 2.45s', t: 'pass' },
+        { d: 2800, m: '$ python scripts/validate_skills.py', t: 'cmd' },
+        { d: 3100, m: 'Running Frontmatter validation on 56 files under .agents/skills/...', t: 'system' },
+        { d: 3400, m: 'YAML schemas: 56/56 OK', t: 'pass' },
+        { d: 3600, m: 'Body size constraint (<= 800 lines): 56/56 OK', t: 'pass' },
+        { d: 3800, m: 'Orphan validation check: 0 orphan directories detected', t: 'pass' },
+        { d: 4000, m: 'Skill validation gate check successful.', t: 'pass' },
+        { d: 4200, m: '$ gaia dev build', t: 'cmd' },
+        { d: 4500, m: 'Compiling skills database...', t: 'system' },
+        { d: 4800, m: 'Rebuilding 3D topological layout graph...', t: 'system' },
+        { d: 5200, m: 'Successfully compiled gaia.json and docs layout targets.', t: 'pass' },
+        { d: 5500, m: 'CI Simulation Run succeeded.', t: 'pass' }
+      ];
+
+      let idx = 0;
+      function runLine() {
+        if (idx >= logs.length) {
+          btn.disabled = false;
+          btn.innerText = 'Simulate CI Run';
+          simRunning = false;
+          return;
+        }
+        setTimeout(() => {
+          const l = logs[idx];
+          const div = document.createElement('div');
+          div.className = `console-line ${l.t}`;
+          div.innerHTML = l.m;
+          consoleBox.appendChild(div);
+          consoleBox.scrollTop = consoleBox.scrollHeight;
+          idx++;
+          runLine();
+        }, logs[idx].d);
+      }
+      runLine();
+    }
+  </script>
+</body>
+</html>

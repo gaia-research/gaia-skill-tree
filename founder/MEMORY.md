@@ -2,6 +2,75 @@
 
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
+## State Snapshot (2026-06-22, session 17 — Epic #780 Architectural Modernization Completion)
+
+### TLDR
+
+- **Epic #780 integration work is finished and ready for final review.** All code logic for Sub-Issues 2c, 3, and 5 has been merged into the `dev/improve-codebase-architecture` branch.
+- **Sub-Issue 2c (dev.py Decomposed)**: The monolithic `commands/dev.py` was fully refactored into domain-specific modules inside `src/gaia_cli/commands/dev/` and `dev/__init__.py`.
+- **Sub-Issue 3 (Polyglot Monorepo Versioning)**: Renamed to `verify_lockstep.py` and implemented `Taskfile.yml` for unified CLI tasks. Lockstep verification is now hooked into CI via `validate.yml`.
+- **Sub-Issue 5 (Abstract MCP Management)**: Shipped a basic config merger (`.mcp.json` support) and process daemon (`mcp/src/daemon.ts`). Integrated with `gaia dev mcp start/stop/status`.
+- **Testing**: A full suite test (`python3 -m pytest tests/`) ran and passed **1,191/1,191** tests (100% green).
+- **Draft PR**: Draft PR created targeting `main` from `dev/improve-codebase-architecture` containing all epic features.
+
+### Follow-Ups / Missing Test Coverage
+
+The previous work was executed successfully, but TDD principles were largely bypassed on the new modules. The following gaps need to be addressed before/after merging to `main`:
+1. **No Tests for `src/gaia_cli/versioning.py` and `scripts/verify_lockstep.py`**: A new test suite (`tests/test_versioning.py`) should be created.
+2. **No Tests for MCP abstractions**: `packages/mcp/src/daemon.ts` and `packages/mcp/src/config/merger.ts` lack typescript-level unit tests (`vitest`).
+3. **Implicit `dev` Command Testing**: While `test_cli_core.py` and `test_cli_command_migration.py` catch end-to-end routing, specific unit tests for domain helpers (`commands/dev/helpers.py`) and specific `dev` subcommands are missing (e.g., `test_dev_evidence.py`, `test_dev_timeline.py`).
+4. **Issue Comment Update**: Check if #783 (Taskfile/Changesets decision) received the explanatory GitHub comment regarding lockstep validation overriding changesets.
+
+### Routing — where things live now
+
+| Document / Tool | Path |
+|---|---|
+| Active Integration Branch | `dev/improve-codebase-architecture` |
+| Lockstep Verifier | `scripts/verify_lockstep.py` |
+| Polyglot Task orchestration | `Taskfile.yml` |
+| MCP Daemon & Config Merger | `packages/mcp/src/daemon.ts`, `packages/mcp/src/config/merger.ts` |
+| Dev Command Subpackage | `src/gaia_cli/commands/dev/` |
+
+---
+
+## State Snapshot (2026-06-22, session 16 — Epic #780 Architectural Modernization Kickoff)
+
+### TLDR
+
+- **Epic #780 execution is well underway.** Sub-Issues 1, 2, 2b, and 4 are fully merged and verified on the integration branch `dev/improve-codebase-architecture`. 
+- **Sub-Issue 2 Dynamic Dispatch Completed**: `main.py` is refactored from a 4,000+ line module into dynamic autodiscovery class-based commands, shrinking it to 130 lines. Overwriting of the global `__name__` during impl imports was fixed.
+- **All 1,191 tests pass**: Full pytest validation run is 100% green.
+- **GitHub Curation**: Posted progress comments on all Sub-Issue tracking issues (#781, #782, #783, #784, #785) via `gh` CLI.
+- **`gaia trust` preserved**: The command remains a first-class, top-level non-deprecated entry.
+
+### Branch / PR Snapshot
+
+All work is merged back into `dev/improve-codebase-architecture`. Squash merges are disabled. Frequent commits with `[skip-gen]` are enforced.
+
+| Branch | Issue | Focus | Status |
+|---|---|---|---|
+| `dev/780-cli-command-migration` | #NEW | Move dev commands under `gaia dev`, add deprecation shims, update CI yaml files | ✅ Merged & Verified |
+| `dev/780-artifact-pipeline` | #781 | Untrack generated indices from Git, configure upload of built assets to GitHub Releases | ✅ Merged & Verified (issue closed) |
+| `dev/780-skill-quality-gates` | #784 | Run skill schema validations and enforce body size limit (<= 800 lines) in CI gates | ✅ Merged & Verified (issue closed) |
+| `dev/780-cli-dynamic-dispatch` | #782 | Refactor 4,078-line `main.py` into dynamic command autodiscovery using Command Protocol | ✅ Merged & Verified (issue closed) |
+| `dev/780-dev-decompose` | #786 | Decompose 2,977-line `commands/dev.py` into domain sub-modules (`commands/dev/` package) | ⏳ Pending (Sub-Issue 2c) |
+| `dev/780-polyglot-versioning` | #783 | Rename `ensure_versions_in_sync` → `verify_lockstep`, add CI gate, create Taskfile | ⏳ Pending (Sub-Issue 3) |
+| `dev/780-mcp-abstraction` | #785 | Implement config merger utility, daemon process runner, and `gaia dev mcp` CLI subcommands | ⏳ Pending (Sub-Issue 5, minimal scope) |
+
+### Routing — where things live now
+
+| Document / Tool | Path |
+|---|---|
+| Active Integration Branch | `dev/improve-codebase-architecture` |
+| Implementation Plan | [implementation_plan.md](file:///Users/marcotiongson/.gemini/antigravity-ide/brain/8634f4ce-4000-4565-b150-81fc921ae0ae/implementation_plan.md) |
+| Checklist Task List | [task.md](file:///Users/marcotiongson/.gemini/antigravity-ide/brain/8634f4ce-4000-4565-b150-81fc921ae0ae/task.md) |
+| Interactive HTML Report | [EPIC780.html](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/reports/EPIC780.html) |
+| Revert Playbook | [EPIC780_REVERT.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/handovers/EPIC780_REVERT.md) |
+| Agent Testing Guide | [EPIC780_AGENT_TESTING.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/handovers/EPIC780_AGENT_TESTING.md) |
+| Deprecation Shim Runbook | [EPIC780_DEPRECATION_CLEANUP.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/handovers/EPIC780_DEPRECATION_CLEANUP.md) |
+
+---
+
 ## State Snapshot (2026-06-20, session 15 epilogue — 5.0.0 shipped, /trust nav + MAG=0 fixed, Phase 1 fully closed)
 
 ### TLDR

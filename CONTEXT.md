@@ -299,6 +299,22 @@ _Avoid_: Dual CTA, A/B paths.
 | **Install** | Add a Named Skill to a local skills directory | `gaia install` / `gaia skills install` |
 | **Open** | Reveal an artifact (the Registry, the Tree, a Plaque) | (UI-only verb; no CLI equivalent) |
 
+## Codebase Architecture
+
+The codebase is structured as a polyglot monorepo containing multiple key contexts, separating core database operations (Registry and Python CLI) from client integrations (npm CLI wrapper and the stdio Model Context Protocol server).
+
+For a detailed folder-by-folder mapping of components, boundaries, and scopes, refer to the [CONTEXT-MAP.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/CONTEXT-MAP.md) at the root of the project.
+
+### Core CLI Design
+The Python core CLI (`gaia`) leverages a dynamic command discovery system. Instead of maintaining a monolithic dispatch file, individual subcommands (like `init`, `scan`, `install`, and `dev`) are isolated modules inheriting from a shared `Command` contract.
+
+Mutating registry operations are grouped within the developer subpackage `gaia_cli.commands.dev/` (`evidence`, `verify`, `merge`, `rename`, `calibrate`, `list`, `build`, `audit`, `timeline`, `named`).
+
+### MCP Server Management
+The Model Context Protocol (MCP) server enables AI agents (such as Claude Code and Cursor) to interact with the registry. It supports:
+- **Daemonization:** Running in the background detached via a lightweight Node.js daemon process manager (`daemon.ts`) controlled via `~/.gaia/mcp.pid`.
+- **Configuration Merger:** Gracefully merging system-wide configuration (`~/.mcp.json`) and local directory config (`./.mcp.json`) with local overrides.
+
 ---
 
 ## Release Channels
