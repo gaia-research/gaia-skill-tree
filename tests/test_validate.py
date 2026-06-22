@@ -4,6 +4,8 @@ import sys
 import unittest
 import json
 
+import pytest
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # Define paths
@@ -32,6 +34,7 @@ class TestValidate(unittest.TestCase):
         self.assertEqual(code, 0, f"Expected clean graph to pass, but it failed with output:\n{out}")
         self.assertIn("All validation checks passed.", out)
 
+    @pytest.mark.smoke
     def test_cycle(self):
         """Ensure a cycle is detected."""
         code, out = run_validate(os.path.join(FIXTURES_DIR, "cycle.json"))
