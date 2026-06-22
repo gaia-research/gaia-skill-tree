@@ -105,29 +105,12 @@ The `--timestamp` flag accepts ISO 8601 (e.g. `2026-03-01T00:00:00Z`). Without i
 | No `gaia remove-skill` / `gaia demote` command — skill removal from the user tree has no dedicated verb | Direct JSON edit to remove from `unlockedSkills`; then use `gaia dev timeline <skillId> --user <username> --action demote --notes "..."` to log it |
 | `gaia dev timeline` without `--user` writes to the **registry node**, not the user tree | Always pass `--user <username>` when targeting a skill tree |
 
-### Skill-Tree Changes — Strict CLI-Only
-
-Changes to `skill-trees/<username>/skill-tree.json` **must** go through the CLI so that `timeline` events are written automatically:
-
-| Operation | CLI command |
-|---|---|
-| Unlock / rank up a skill | `gaia promote <skillId>` (after `gaia scan` generates candidates) |
-| Fuse skills into an Extra/Unique | `gaia fuse <skillId>` |
-| Log a standalone event | `gaia dev timeline <skillId> --action <action> --notes "..."` |
-
-**⚠️ CLI gaps (as of v3.28.0) — do not hand-edit to work around; open an issue instead:**
-
-| Gap | Impact | Workaround until fixed |
-|---|---|---|
-| `gaia dev timeline` writes to **registry nodes**, not `skill-tree.json` | User-tree timeline cannot be appended via CLI | Direct JSON edit + add `(backfilled)` marker in `details`; log the gap |
-| No `--timestamp` / `--date` flag on any timeline command | Historical backfills use current timestamp | Include historical date in `details` field |
-| No CLI command to **remove** a skill from the user tree | Stale generic entries must be hand-deleted | Direct JSON edit only; flag in PR description |
-| No `gaia demote` command | Demotion events cannot be written via promote flow | Use `gaia dev timeline --action demote` once gap #1 is resolved |
-
-When a gap forces a direct edit, always:
-1. Add `"(backfilled)"` or `"(direct edit — CLI gap)"` in the `details` string.
-2. Document the gap in the PR description.
-3. Do **not** silently omit the timeline entry — an imperfect entry is better than none.
+> **Closed CLI gaps (as of v5.0.11, 2026-06-23):** the v3.28.0 gaps table that used to live here listed `--timestamp`, `--user`, and `--action demote` as missing. They all ship now:
+> - `gaia dev timeline --user <username>` writes to `skill-trees/<username>/skill-tree.json` (the gaps row that said it always wrote to registry nodes is no longer true)
+> - `--timestamp YYYY-MM-DDTHH:MM:SSZ` accepts ISO 8601 for historical backfills
+> - `--action demote` is in the action enum
+>
+> Skill removal still has no dedicated verb (`gaia remove-skill` / `gaia demote`); for that one case, direct JSON edit + `gaia dev timeline ... --action demote --user <user>` to log it. Everything else routes through the CLI.
 
 ## CLI Shape
 
@@ -286,6 +269,12 @@ Available gstack skills:
 **`renderRows()` currentState destructuring** (fixed in PR #675, issue #674): `renderRows()` (line ~1378) reads several fields from `currentState` via destructuring. Any new field used inside `renderRows()` **must** be added to that destructuring — or defined with `const <field> = currentState.<field> || <default>` — before use. Silent `ReferenceError`s from missing variables blank the entire badge output with no visible error. Pattern to follow: every other function (`updatePickerActions`, `buildSkillOptions`, `addSkillRow`, button handlers) defines `const namedSkills = currentState.namedSkills || []` at the top. Match this pattern whenever extending `renderRows()`.
 
 **Rule:** after any edit to `docs/badges/index.html`, manually verify `https://gaia.tiongson.co/badges/?u=mattpocock&s=grill-me` renders badge markdown before merging.
+
+**Redaction invariant — 1★ skills exist, 1★ badges do not** (lesson from PR #803/2026-06-22): a contributor whose every named skill is ≤1★ (Awakened / pre-named / demoted) is a legitimate registry citizen — their markdown files in `registry/named/<handle>/` are real, they appear in tree views, they accumulate evidence toward promotion. What they **do not** get is a public reward artifact: no `docs/badges/_assets/<handle>/` directory, no OG card, no entry in `docs/badges/registry.json`. The cutover is 2★ ("named"). `scripts/validate_redaction.py` proves this invariant across every static surface; `scripts/generateBadges.py` enforces it at generation time via `is_redacted()` from `src/gaia_cli/redaction.py` (single source of truth).
+
+When auditing a "stale dir" complaint, first ask: are the underlying skills actually stale, or are they legitimately 1★ entries whose **badge directory** is the only thing that shouldn't be on disk? Removing the directory does not remove the skill — they're orthogonal.
+
+**Generator semantics** (`scripts/generateBadges.py`): writes only — never deletes contributor directories already on disk. The outer caller `scripts/build_docs.py::build_badges()` does the `shutil.rmtree(committed) + shutil.copytree(out_dir, committed)` cycle, which is what actually removes stale dirs. If `build_docs.py` errors out mid-run (e.g. a profiles regen failure on the auto-sync runner), the badges step may not run, and the prior on-disk state survives. Treat `gaia dev docs` warnings as load-bearing.
 
 ## Known Graph Issues
 
