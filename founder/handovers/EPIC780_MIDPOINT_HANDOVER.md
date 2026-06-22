@@ -66,3 +66,17 @@ The next agent should check out `dev/improve-codebase-architecture` and execute 
 - Tag `pre-epic-780` on `main` before merging the integration branch.
 - Create rollback script `scripts/rollback-epic-780.sh` (documented in [EPIC780_REVERT.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/handovers/EPIC780_REVERT.md) but not yet created as an actual file).
 - Update `CONTEXT.md` with the new architecture documentation section.
+
+---
+
+## Reference Documents
+
+| Document | Path |
+|---|---|
+| Implementation Plan | [implementation_plan.md](file:///Users/marcotiongson/.gemini/antigravity-ide/brain/8634f4ce-4000-4565-b150-81fc921ae0ae/implementation_plan.md) |
+| Task Tracker | [task.md](file:///Users/marcotiongson/.gemini/antigravity-ide/brain/8634f4ce-4000-4565-b150-81fc921ae0ae/task.md) |
+| Interactive HTML Report | [EPIC780.html](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/reports/EPIC780.html) |
+| Revert Playbook | [EPIC780_REVERT.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/handovers/EPIC780_REVERT.md) |
+| Agent Testing Guide | [EPIC780_AGENT_TESTING.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/handovers/EPIC780_AGENT_TESTING.md) |
+| Deprecation Cleanup | [EPIC780_DEPRECATION_CLEANUP.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/handovers/EPIC780_DEPRECATION_CLEANUP.md) |
+| Midpoint Review | [EPIC780_midpoint_review.md](file:///Users/marcotiongson/.gemini/antigravity-ide/brain/f094bbd1-6234-4fc8-97ef-eb41072fba1e/EPIC780_midpoint_review.md) |
