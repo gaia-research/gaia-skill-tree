@@ -103,13 +103,12 @@ def test_meta_merge(tmp_path, monkeypatch):
 
 def test_meta_evidence(tmp_path, monkeypatch):
     write_fixture_registry(tmp_path)
-    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "dev", "evidence", "skill-a", "https://example.com/proof", "--class", "B", "--notes", "Verified demo"])
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "dev", "evidence", "skill-a", "https://example.com/proof", "--trust", "60", "--notes", "Verified demo"])
     main()
 
     with open(tmp_path / "registry" / "nodes" / "basic" / "skill-a.json", "r") as f:
         data = json.load(f)
         assert len(data["evidence"]) == 1
-        assert data["evidence"][0]["class"] == "B"
         assert data["evidence"][0]["source"] == "https://example.com/proof"
         assert any(ev["action"] == "evidence_added" for ev in data.get("timeline", []))
 

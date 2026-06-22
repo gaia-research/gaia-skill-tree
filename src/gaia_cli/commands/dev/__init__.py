@@ -68,7 +68,7 @@ Registry development commands (requires Verifier authorization):
   gaia dev link <target> <prereqs> [--reset]
   gaia dev reclassify <skill_id> <new_type>
   gaia dev update-named <skill_id> [--status <status>] [--generic-ref <ref>]
-  gaia dev evidence <skillId> <source> [--class A|B|C] [--evaluator <user>]
+  gaia dev evidence <skillId> <source> [--trust <0-100>] [--type <type>] [--evaluator <user>]
   gaia dev rm-evidence <skill_id> (--index N | --source URL) [--yes]
   gaia dev timeline <skill_id> --action <action> --notes <notes> [--user <username>]
   gaia dev build
@@ -398,13 +398,6 @@ class DevCommand(Command):
             type=float,
             metavar="NUMBER",
             help="Trust Magnitude value. Grade is auto-derived: S≥250, A≥100, B≥50, C≥20; <20=ungraded.",
-        )
-        dev_evidence.add_argument(
-            "--class",
-            dest="evidence_class",
-            choices=("A", "B", "C"),
-            default=None,
-            help="[DEPRECATED] Use --trust instead. Evidence class (A/B/C).",
         )
         dev_evidence.add_argument("--evaluator", help="GitHub username of the evaluator")
         dev_evidence.add_argument("--date", help="Date of evaluation (ISO 8601)")
