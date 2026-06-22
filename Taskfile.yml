@@ -1,0 +1,18 @@
+version: '3'
+
+tasks:
+  validate:
+    desc: Validate registry schema, integrity, and version lockstep
+    cmds:
+      - python3 scripts/verify_lockstep.py
+      - gaia dev validate
+
+  test:
+    desc: Run the python test suite
+    cmds:
+      - python3 -m pytest
+
+  build:
+    desc: Build registry and generated docs
+    cmds:
+      - gaia dev build
