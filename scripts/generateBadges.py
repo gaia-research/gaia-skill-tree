@@ -484,7 +484,13 @@ def _xml(s: str) -> str:
 
 # ─── Data assembly ───────────────────────────────────────────────────────────
 def collect_contributors() -> dict[str, dict]:
-    """Build {handle: {top_skill, top_rank, count, named_skills[]}} from named-skills.json."""
+    """Build {handle: {top_skill, top_rank, count, named_skills[]}} from named-skills.json.
+
+    Entirely pre-named/demoted contributors (top rank ≤1★ across all bucketed
+    and awaitingClassification entries) are filtered out per the redaction
+    invariant — see :func:`prenamed_contributor_handles` for the standalone set
+    used to gate the scan-only path in :func:`main`.
+    """
     if not NAMED_JSON.exists():
         return {}
     data = json.loads(NAMED_JSON.read_text(encoding="utf-8"))
@@ -517,13 +523,53 @@ def collect_contributors() -> dict[str, dict]:
             )
         skills_sorted = sorted(skills, key=sort_key)
         top = skills_sorted[0]
+        top_rank = level_num(top.get("level", ""))
+        # Redaction invariant (META.md §1, see CLAUDE.md "Known Badges Issues"
+        # and src/gaia_cli/redaction.py): an entirely pre-named/demoted
+        # contributor — every named entry is ≤1★, including awaitingClassification
+        # rows — must not appear in any downstream public artifact (badge dir,
+        # registry.json, OG card). Dropping them here is the single source of
+        # truth that breaks the auto-sync regen loop at its origin
+        # (PR #800 / #802 retro: 8 stale dirs kept reappearing on every
+        # ``gaia dev docs`` run because the redaction was only enforced in
+        # ``write_user_badges`` — scan_users still made them surface).
+        if is_redacted(top_rank):
+            continue
         result[handle] = {
             "top_skill": top,
-            "top_rank": level_num(top.get("level", "")),
+            "top_rank": top_rank,
             "count": len(skills),
             "named_skills": skills,
         }
     return result
+
+
+def prenamed_contributor_handles() -> set[str]:
+    """Return the set of handles whose every named-skills entry is ≤1★.
+
+    Drives the scan-only filter in :func:`main` so a contributor whose only
+    registry presence is pre-named/demoted does not get a /badges/_assets/
+    directory through the scan path. Mirrors the dedicated check in
+    ``scripts/validate_redaction.py`` (Section D) — keep them in lockstep.
+    """
+    if not NAMED_JSON.exists():
+        return set()
+    data = json.loads(NAMED_JSON.read_text(encoding="utf-8"))
+    top_rank: dict[str, int] = {}
+    for entries in data.get("buckets", {}).values():
+        for entry in entries:
+            handle = entry.get("contributor")
+            if not handle:
+                continue
+            top_rank[handle] = max(top_rank.get(handle, 0),
+                                   level_num(entry.get("level", "")))
+    for entry in data.get("awaitingClassification", []):
+        handle = entry.get("contributor")
+        if not handle:
+            continue
+        top_rank[handle] = max(top_rank.get(handle, 0),
+                               level_num(entry.get("level", "")))
+    return {h for h, r in top_rank.items() if is_redacted(r)}
 
 
 def collect_scan_users() -> dict[str, dict]:
@@ -833,6 +879,14 @@ def main(argv: list[str] | None = None) -> int:
 
     contributors = collect_contributors()
     scan_users = collect_scan_users()
+    # Scan-only path must also honor the redaction invariant: a handle whose
+    # registry presence is entirely ≤1★ does not become "scan-only" — it stays
+    # redacted. Without this, generateBadges would re-create the directories on
+    # every `gaia dev docs` run (regen-loop tracked in PR #800 / #802).
+    prenamed = prenamed_contributor_handles()
+    for handle in list(scan_users):
+        if handle in prenamed:
+            scan_users.pop(handle, None)
 
     # Union of all handles known to either source.
     handles = sorted(set(contributors) | set(scan_users))
