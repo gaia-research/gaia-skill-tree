@@ -45,6 +45,9 @@ jobs:
       - name: Install dependencies
         run: pip install -e ".[dev]"
 
+      - name: Verify Version Lockstep
+        run: python scripts/verify_lockstep.py
+
       - name: Run validation
         run: gaia dev validate
 
