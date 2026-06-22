@@ -247,10 +247,11 @@ class TestInstallFlow:
         install_skill("testuser/my-skill", str(tmp_path))
 
         link = tmp_path / ".agents" / "skills" / "my-skill"
-        assert link.is_symlink(), "Expected a symlink for the installed skill"
-        target = os.readlink(str(link))
-        assert target.startswith(cache_base), (
-            f"Symlink target {target!r} is not inside cache dir {cache_base!r}"
+        from gaia_cli.windowsLinks import isLinkOrJunction
+        assert isLinkOrJunction(str(link)), "Expected a symlink or junction for the installed skill"
+        target = os.path.realpath(str(link))
+        assert target.startswith(os.path.realpath(cache_base)), (
+            f"Link target {target!r} is not inside cache dir {cache_base!r}"
         )
 
     def test_install_deduplicates_manifest_entry(self, tmp_path, monkeypatch):
