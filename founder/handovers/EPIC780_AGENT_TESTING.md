@@ -56,12 +56,13 @@ Verify autodiscovery found all commands:
 
 ```python
 # Run in Python
-from gaia_cli.main import _discover_commands
-cmds = _discover_commands()
-expected = {"init", "scan", "fetch", "pull", "update", "install", "uninstall",
-            "share", "tree", "push", "propose", "version", "whoami", "login",
-            "logout", "reset", "graph", "stats", "appraise", "promote",
-            "fuse", "lookup", "path", "skills", "dev"}
+from gaia_cli.commands import discover_commands
+cmds = discover_commands()
+expected = {"_hook", "appraise", "dev", "docs", "fetch", "fuse", "graph",
+            "init", "install", "login", "logout", "lookup", "mcp", "path",
+            "promote", "propose", "pull", "push", "release", "reset", "scan",
+            "share", "skills", "stats", "test", "tree", "trust", "uninstall",
+            "update", "validate", "version", "whoami"}
 missing = expected - set(cmds.keys())
 extra = set(cmds.keys()) - expected
 print(f"Missing: {missing}")

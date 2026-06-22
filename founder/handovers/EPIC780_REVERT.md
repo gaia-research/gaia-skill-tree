@@ -84,6 +84,23 @@ gaia dev --help
 python -m pytest tests/test_cli_core.py tests/test_meta_ops.py
 ```
 
+### Sub-Issue 2c: Dev.py Decomposition (#786)
+
+```bash
+git log --merges --oneline dev/improve-codebase-architecture | grep "786\|dev-decompose\|2c"
+git revert -m 1 <sha>
+```
+
+**This revert re-merges all `commands/dev/*.py` sub-modules back into a single `commands/dev.py`.** After reverting, verify `gaia dev --help` still works and all dev subcommands execute correctly:
+
+```bash
+gaia dev --help
+gaia dev list --named | head -5
+gaia dev validate
+```
+
+No workflow changes to revert.
+
 ### Sub-Issue 3: Taskfile + Lockstep (#783)
 
 ```bash
