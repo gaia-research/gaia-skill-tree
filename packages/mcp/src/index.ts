@@ -9,6 +9,7 @@ import { scanContext } from "./tools/scanContext.js";
 import { propose } from "./tools/propose.js";
 import { getRegistryResource, getUserTreeResource } from "./resources/registry.js";
 import { withErrorHandling } from "./utils/errors.js";
+import { injectConfigEnv } from "./config/merger.js";
 
 const require = createRequire(import.meta.url);
 
@@ -112,6 +113,7 @@ export function createServer(): McpServer {
 }
 
 export async function startServer(): Promise<void> {
+  injectConfigEnv();
   const server = createServer();
   const transport = new StdioServerTransport();
   await server.connect(transport);
