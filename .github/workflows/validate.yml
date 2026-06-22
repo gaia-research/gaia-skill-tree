@@ -1,6 +1,12 @@
 name: Validate Gaia Graph
 
 on:
+  # SCOPE NOTE — keep this list tight. `validate.yml` runs `gaia dev validate`
+  # which checks repo-wide invariants (registry redaction state, lockstep,
+  # timeline transparency). It MUST trigger only on changes that can actually
+  # affect those invariants. A previous over-broad `.github/workflows/**` glob
+  # caused unrelated workflow edits to be blocked by pre-existing main-state
+  # drift in `docs/badges/_assets/` — see issue #801 and PR #800 retro.
   push:
     branches:
       - main
@@ -12,7 +18,9 @@ on:
       - 'scripts/**'
       - 'packages/cli-npm/**'
       - 'tests/**'
-      - '.github/workflows/**'
+      - '.github/workflows/validate.yml'
+      - 'docs/badges/_assets/**'
+      - 'docs/badges/registry.json'
   pull_request:
     paths:
       - 'registry/**'
@@ -22,7 +30,9 @@ on:
       - 'scripts/**'
       - 'packages/cli-npm/**'
       - 'tests/**'
-      - '.github/workflows/**'
+      - '.github/workflows/validate.yml'
+      - 'docs/badges/_assets/**'
+      - 'docs/badges/registry.json'
   workflow_dispatch: {}
 
 permissions:
