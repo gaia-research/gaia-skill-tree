@@ -269,9 +269,9 @@ Utilities:
   gaia logout                   Sign out of GitHub (clears the local token)
   gaia version
   gaia update
-  gaia mcp
-  gaia release <patch|minor|major>
-  gaia docs build [--check]
+  gaia dev mcp                  Manage the MCP daemon (canonical; `gaia mcp` is a deprecated shim)
+  gaia dev release <patch|minor|major>   Bump version + tag (canonical; `gaia release` is a deprecated shim)
+  gaia dev docs [--check]       Regenerate docs (canonical; `gaia docs build` is a deprecated shim)
 
 Maintainer commands:  gaia dev --help
 
