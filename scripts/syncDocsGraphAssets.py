@@ -91,6 +91,12 @@ def sync_docs_graph_assets(root: Path = ROOT) -> None:
             # Enrich the docs copy with per-skill cluster/positions from the
             # generated layout artifact. registry/gaia.json stays schema-clean.
             gaia_data = json.loads(src.read_text(encoding="utf-8"))
+            # Class S decorative invariant (#807 / Option B): the docs/graph
+            # copy is rendering-only; no consumer parses its version field, and
+            # having it here was the dominant source of cross-PR lockstep
+            # failures. Strip on sync so the file is unambiguously a runtime
+            # asset, not a release manifest.
+            gaia_data.pop("version", None)
             # Generic refs are rank-less — the web graph's rank legend reads the
             # top named-variant star (namedMaxLevel) instead of a generic level.
             named_max = _named_max_levels(root)

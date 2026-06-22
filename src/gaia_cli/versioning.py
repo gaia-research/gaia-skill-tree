@@ -35,12 +35,18 @@ def _read_pyproject_version(path: Path) -> str:
 
 def read_versions(root: str | Path) -> dict[str, str]:
     root = Path(root)
+    # Class S decorative files (docs/graph/gaia.json, docs/tree.md,
+    # docs/index.html stats comment) USED to carry a version field that
+    # `verify_lockstep` enforced. They were the dominant source of
+    # cross-PR lockstep failures because nothing reads them at runtime
+    # — they're pure decoration. As of v5.0.13 the version field is
+    # stripped from Class S; only the four real manifests participate
+    # in lockstep. See CLAUDE.md "Versioning" + Issue #807 for context.
     files = {
         "pyproject": root / "pyproject.toml",
         "cliNPM": root / "packages" / "cli-npm" / "package.json",
         "mcp": root / "packages" / "mcp" / "package.json",
         "registry": Path(registry_graph_path(root)),
-        "docsGraph": root / "docs" / "graph" / "gaia.json",
     }
     versions = {
         "pyproject": _read_pyproject_version(files["pyproject"]),
@@ -49,8 +55,6 @@ def read_versions(root: str | Path) -> dict[str, str]:
     }
     if files["registry"].exists():
         versions["registry"] = json.loads(files["registry"].read_text(encoding="utf-8"))["version"]
-    if files["docsGraph"].exists():
-        versions["docsGraph"] = json.loads(files["docsGraph"].read_text(encoding="utf-8"))["version"]
     return versions
 
 
@@ -96,5 +100,27 @@ def sync_versions(root: str | Path, version: str) -> str:
     _replace_package_version(root / "packages" / "cli-npm" / "package.json", version)
     _replace_package_version(root / "packages" / "mcp" / "package.json", version)
     _replace_registry_version(Path(registry_graph_path(root)), version)
-    _replace_registry_version(root / "docs" / "graph" / "gaia.json", version)
+    # docs/graph/gaia.json (Class S) no longer participates in lockstep;
+    # version is a decorative leftover slated for removal. Strip the key
+    # if present so the next dev docs run doesn't reintroduce drift.
+    _strip_version_key(root / "docs" / "graph" / "gaia.json")
     return version
+
+
+def _strip_version_key(path: Path) -> None:
+    """Drop the top-level "version" field from a JSON file if present.
+
+    Used to retire the decorative version stamp on Class S artifacts
+    (docs/graph/gaia.json) that used to trip the lockstep check. The
+    file is rewritten only when the key is actually present, so it's
+    safe to call on every sync.
+    """
+    if not path.exists():
+        return
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (ValueError, OSError):
+        return
+    if isinstance(data, dict) and "version" in data:
+        data.pop("version", None)
+        path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")

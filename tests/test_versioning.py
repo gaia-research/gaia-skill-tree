@@ -42,27 +42,28 @@ def setup_mock_project(tmp_path: Path, pyproject_v="1.0.0", npm_v="1.0.0", mcp_v
 
 def test_read_versions(tmp_path: Path, monkeypatch):
     setup_mock_project(tmp_path)
-    
+
     # Mock registry_graph_path because it depends on the root argument differently
     monkeypatch.setattr(versioning, "registry_graph_path", lambda root: str(Path(root) / "registry" / "gaia.json"))
-    
+
     versions = versioning.read_versions(tmp_path)
-    
+
     assert versions["pyproject"] == "1.0.0"
     assert versions["cliNPM"] == "1.0.0"
     assert versions["mcp"] == "1.0.0"
     assert versions["registry"] == "1.0.0"
-    assert versions["docsGraph"] == "1.0.0"
+    # docs/graph/gaia.json is Class S decorative — no longer in lockstep (#807).
+    assert "docsGraph" not in versions
 
 
 @pytest.mark.smoke
 def test_verify_lockstep(tmp_path: Path, monkeypatch):
     setup_mock_project(tmp_path)
     monkeypatch.setattr(versioning, "registry_graph_path", lambda root: str(Path(root) / "registry" / "gaia.json"))
-    
+
     # Should not raise
     assert versioning.verify_lockstep(tmp_path) == "1.0.0"
-    
+
     # Make them out of sync
     setup_mock_project(tmp_path, mcp_v="1.0.1")
     with pytest.raises(ValueError, match="Version files disagree before bump:"):
@@ -72,15 +73,18 @@ def test_verify_lockstep(tmp_path: Path, monkeypatch):
 def test_sync_versions(tmp_path: Path, monkeypatch):
     setup_mock_project(tmp_path, pyproject_v="1.0.0", npm_v="1.0.0", mcp_v="1.0.0", registry_v="1.0.0", docs_v="1.0.0")
     monkeypatch.setattr(versioning, "registry_graph_path", lambda root: str(Path(root) / "registry" / "gaia.json"))
-    
+
     versioning.sync_versions(tmp_path, "2.0.0")
-    
+
     versions = versioning.read_versions(tmp_path)
     assert versions["pyproject"] == "2.0.0"
     assert versions["cliNPM"] == "2.0.0"
     assert versions["mcp"] == "2.0.0"
     assert versions["registry"] == "2.0.0"
-    assert versions["docsGraph"] == "2.0.0"
+    # docs/graph/gaia.json is not part of lockstep, and sync_versions strips
+    # its version field (#807). Confirm the key was actually removed on disk.
+    docs_graph = json.loads((tmp_path / "docs" / "graph" / "gaia.json").read_text(encoding="utf-8"))
+    assert "version" not in docs_graph
 
 
 def test_bump_versions(tmp_path: Path, monkeypatch):
