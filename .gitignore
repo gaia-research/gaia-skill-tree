@@ -71,3 +71,8 @@ scratch_context.json
 /docs/graph/gaia.svg
 /docs/graph/named/index.json
 /base_gaia.json
+
+# Bundled registry snapshot (regenerated at CI release time for vX.Y.0 wheels)
+src/gaia_cli/data/registry/gaia.json
+src/gaia_cli/data/registry/named-skills.json
+src/gaia_cli/data/registry/named/
