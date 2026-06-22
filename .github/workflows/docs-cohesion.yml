@@ -254,6 +254,39 @@ jobs:
               });
             }
 
+      # ── Guard E — docs/graph regeneration check ─────────────────────────
+      - name: Guard E — docs/graph regeneration
+        id: docs-graph-regen
+        if: github.event_name == 'pull_request'
+        run: |
+          # Skip if PR carries the bypass label
+          LABELS="${{ join(github.event.pull_request.labels.*.name, ',') }}"
+          if echo "$LABELS" | grep -q 'skip-docs-regen-check'; then
+            echo "found=false" >> $GITHUB_OUTPUT
+            echo "Skipping Guard E: skip-docs-regen-check label present."
+            exit 0
+          fi
+
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+
+          CHANGED=$(git diff --name-only "$BASE_SHA..$HEAD_SHA")
+
+          REGISTRY_CHANGED=$(echo "$CHANGED" | grep -qE '^registry/(nodes|named)/' && echo "true" || echo "false")
+          GRAPH_CHANGED=$(echo "$CHANGED" | grep -qE '^docs/graph/' && echo "true" || echo "false")
+
+          if [ "$REGISTRY_CHANGED" = "true" ] && [ "$GRAPH_CHANGED" = "false" ]; then
+            echo "found=true" >> $GITHUB_OUTPUT
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Guard E — Fail on missing docs/graph update
+        if: steps.docs-graph-regen.outputs.found == 'true'
+        run: |
+          echo "::error::registry/ source changed but docs/graph/ did not. Run \`gaia dev docs\` and commit the regenerated docs/graph/* files. See founder/handovers/EPIC780_OPTION_A_DECISION.md for why this is enforced."
+          exit 1
+
       # ── Final Status ─────────────────────────────────────────────────────
       - name: Verify all cohesion guards passed
         run: |
@@ -278,4 +311,4 @@ jobs:
           if [ "$FAILED" = "true" ]; then
             exit 1
           fi
-          echo "✅ All cohesion guards passed."
+          echo "All cohesion guards passed."
