@@ -1,0 +1,8 @@
+# Generated site-served assets (Class S). Marked as generated so GitHub:
+#   - Collapses them in PR diff view (no 100k-line review noise)
+#   - Excludes them from language-statistics
+# They remain tracked in git (the site deploy substrate is main:/docs).
+# See founder/handovers/EPIC780_OPTION_A_DECISION.md for the Class P / S split.
+docs/graph/*.json -diff linguist-generated=true
+docs/graph/*.gexf -diff linguist-generated=true
+docs/graph/*.svg  -diff linguist-generated=true

@@ -310,6 +310,22 @@ The Python core CLI (`gaia`) leverages a dynamic command discovery system. Inste
 
 Mutating registry operations are grouped within the developer subpackage `gaia_cli.commands.dev/` (`evidence`, `verify`, `merge`, `rename`, `calibrate`, `list`, `build`, `audit`, `timeline`, `named`).
 
+### Generated Artifacts (Class P / Class S)
+
+The codebase produces two categorically different classes of generated files; the distinction governs storage policy.
+
+**Class P (pipeline-internal artifacts):**
+Regenerated from `registry/nodes/` + `registry/named/` by `gaia dev docs`. Consumed by Python tooling and the wheel-build pipeline; never served to a browser at runtime. Members: `registry/gaia.json`, `registry/named-skills.json`, `registry/gaia.gexf`, `registry/gaia.svg`, `registry/layouts_3d.json`, `registry/real-skills.{json,md}`, `base_gaia.json`, and the bundled snapshot under `src/gaia_cli/data/registry/`. Storage: **gitignored**. Bundled into PyPI wheels at vX.Y.0 minor releases via the "Bundle fresh registry snapshot" step in `publish-pypi.yml`.
+
+_Avoid_: tracking Class P in git (manufactures merge conflicts on every PR touching source); editing Class P by hand (always derived).
+
+**Class S (site-served artifacts):**
+Files inside `docs/` that browsers fetch at runtime or that GitHub Pages serves as downloads. Members include the four graph mirrors under `docs/graph/` (`gaia.json`, `named/index.json`, `gaia.gexf`, `gaia.svg`) alongside the regular content files (`docs/**/*.html`, `docs/css/*`, `docs/js/*`, `docs/og/*`). Storage: **tracked in git.** The deploy substrate is git → GitHub Pages → `gaia.tiongson.co` from `main:/docs`; whatever lives there at any moment IS the live website.
+
+_Avoid_: gitignoring Class S (deletes the live site at next Pages publish); editing the graph mirrors by hand (regenerated; hand-edits get overwritten on next `gaia dev docs`).
+
+**Rule of thumb:** if browsers fetch the file at runtime, it's Class S. If only `gaia` tooling reads it, it's Class P.
+
 ### MCP Server Management
 The Model Context Protocol (MCP) server enables AI agents (such as Claude Code and Cursor) to interact with the registry. It supports:
 - **Daemonization:** Running in the background detached via a lightweight Node.js daemon process manager (`daemon.ts`) controlled via `~/.gaia/mcp.pid`.
