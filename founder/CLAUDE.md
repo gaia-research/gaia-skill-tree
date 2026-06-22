@@ -123,3 +123,16 @@ When in doubt, prefer **2 small PRs** over 1 large dispatched PR. Each merged PR
 3. Open a follow-up issue for the CLI fix.
 
 A missing entry is auditable. A synthetic entry is not. **Do NOT include "fallback: direct frontmatter edit" language in any dispatch prompt for timeline operations.**
+
+### Release runbook — bundled registry snapshot
+
+`src/gaia_cli/data/registry/gaia.json` and `named-skills.json` are gitignored. The PyPI wheel is built by `.github/workflows/publish-pypi.yml`, which has a "Bundle fresh registry snapshot" step that runs before `python -m build`:
+
+- **Runs on `vX.Y.0` (minor/major):** downloads `gaia-artifacts.tar.gz` from the matching GitHub Release and copies the files into `src/gaia_cli/data/registry/`.
+- **Skips on `vX.Y.Z` (patch):** the wheel inherits the snapshot from the previous minor/major.
+
+When dispatching a release agent, remind it:
+- `registry/gaia.json` is gitignored — do NOT commit it manually; CI handles it.
+- `gaia pull` is the user-facing "get the latest registry" command; it downloads the same `gaia-artifacts.tar.gz` asset.
+- If the "Bundle fresh registry snapshot" step fails, the wheel will be built without the bundled data files. Verify by checking the wheel contents (`unzip -l dist/*.whl | grep data/registry`) before publishing.
+

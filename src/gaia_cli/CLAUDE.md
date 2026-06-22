@@ -154,6 +154,30 @@ symlinked `.claude/skills → .agents/skills` from producing duplicate results.
 | `pathEngine.py` | Unlock-path graph compute; produces `paths.json` |
 | `resolver.py` | Token → canonical ID matching |
 | `combinator.py` | Fusion recipe detection |
+| `registry.py` | Registry-path resolution (see § Registry-path resolution below) |
+
+---
+
+## Registry-path resolution
+
+`registry.py::resolve_registry_path()` resolves the registry in priority order:
+
+1. Explicit `--registry PATH` argument
+2. `--global` flag → `~/.gaia/config.json` → bundled snapshot (fallback)
+3. Local `.gaia/config.toml` or `.gaia/config.json` in CWD
+4. CWD itself if it looks like a gaia-skill-tree checkout
+5. Global registry from `~/.gaia/config.json`
+6. **Bundled snapshot** — `src/gaia_cli/data/registry/` inside the installed package
+
+**Bundled snapshot floor:** `src/gaia_cli/data/registry/gaia.json` and `named-skills.json` are gitignored and injected at wheel-build time. Fresh `pip install gaia-cli` includes the snapshot from the most recent `vX.Y.0` (minor or major) release. Patch releases do NOT refresh the snapshot.
+
+**Staleness warning:** When resolution falls through to the bundled snapshot, `_warn_bundled_snapshot_once()` prints to stderr (once per CLI invocation):
+
+```
+Warning: Using bundled registry snapshot from <DATE>. Run `gaia pull` for the latest.
+```
+
+**`gaia pull` / `gaia fetch`:** Downloads `gaia-artifacts.tar.gz` from the latest GitHub Release (`https://api.github.com/repos/mbtiongson1/gaia-skill-tree/releases/latest`), verifies the SHA256 checksum if present, and unpacks into `.gaia/registry/`. This path takes priority over the bundled snapshot in subsequent invocations (resolution step 3 via `.gaia/config.toml`, or step 4 if CWD is the checkout).
 
 ---
 
