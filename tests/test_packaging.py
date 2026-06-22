@@ -98,12 +98,14 @@ def cleanup_staged_paths(paths):
             p.unlink(missing_ok=True)
 
 
+@pytest.mark.smoke
 def test_gaia_cli_package_imports():
     import gaia_cli
 
     assert gaia_cli.__name__ == "gaia_cli"
 
 
+@pytest.mark.smoke
 def test_python_module_help_runs_with_gaia_prog_name():
     result = run_python(["-m", "gaia_cli", "--help"])
 
@@ -111,18 +113,21 @@ def test_python_module_help_runs_with_gaia_prog_name():
     assert "usage: gaia" in result.stdout
 
 
+@pytest.mark.smoke
 def test_console_script_points_to_canonical_package():
     data = tomllib.loads((REPO_ROOT / "pyproject.toml").read_text())
 
     assert data["project"]["scripts"]["gaia"] == "gaia_cli.main:main"
 
 
+@pytest.mark.smoke
 def test_gaia_cli_main_remains_importable():
     import gaia_cli.main as compat_main
 
     assert callable(compat_main.main)
 
 
+@pytest.mark.smoke
 def test_bundled_registry_is_used_for_read_only_skills_without_registry(tmp_path):
     result = run_python(
         ["-m", "gaia_cli", "skills", "list"],
@@ -156,6 +161,7 @@ def test_scan_can_use_explicit_writable_registry(tmp_path):
     assert "Scanning installed custom skills" in result.stdout
 
 
+@pytest.mark.smoke
 def test_write_commands_require_explicit_registry(tmp_path):
     (tmp_path / ".gaia").mkdir()
     (tmp_path / ".gaia" / "config.json").write_text(
@@ -397,6 +403,7 @@ def test_install_cache_honors_gaia_home(tmp_path, monkeypatch):
     assert (gaia_home / "skills" / "alice" / "repo").exists()
 
 
+@pytest.mark.smoke
 def test_parse_frontmatter_nested_links(tmp_path):
     """_parse_frontmatter must return a dict with a dict under 'links', not a string."""
     from gaia_cli.install import _parse_frontmatter

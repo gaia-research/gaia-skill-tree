@@ -93,6 +93,7 @@ gaia_cli = [
 
 [tool.pytest.ini_options]
 pythonpath = ["src", "."]
+testpaths = ["tests"]
 norecursedirs = ["tests/_archive"]
 timeout = 60
 timeout_method = "thread"

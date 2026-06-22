@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 from gaia_cli import versioning
 
+@pytest.mark.smoke
 def test_bump_version():
     assert versioning.bump_version("1.2.3", "patch") == "1.2.4"
     assert versioning.bump_version("1.2.3", "minor") == "1.3.0"
@@ -54,6 +55,7 @@ def test_read_versions(tmp_path: Path, monkeypatch):
     assert versions["docsGraph"] == "1.0.0"
 
 
+@pytest.mark.smoke
 def test_verify_lockstep(tmp_path: Path, monkeypatch):
     setup_mock_project(tmp_path)
     monkeypatch.setattr(versioning, "registry_graph_path", lambda root: str(Path(root) / "registry" / "gaia.json"))
