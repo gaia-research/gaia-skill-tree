@@ -37,19 +37,21 @@ def read_versions(root: str | Path) -> dict[str, str]:
     root = Path(root)
     files = {
         "pyproject": root / "pyproject.toml",
-        "cli_npm": root / "packages" / "cli-npm" / "package.json",
+        "cliNPM": root / "packages" / "cli-npm" / "package.json",
         "mcp": root / "packages" / "mcp" / "package.json",
         "registry": Path(registry_graph_path(root)),
+        "docsGraph": root / "docs" / "graph" / "gaia.json",
     }
     return {
         "pyproject": _read_pyproject_version(files["pyproject"]),
-        "cli_npm": json.loads(files["cli_npm"].read_text(encoding="utf-8"))["version"],
+        "cliNPM": json.loads(files["cliNPM"].read_text(encoding="utf-8"))["version"],
         "mcp": json.loads(files["mcp"].read_text(encoding="utf-8"))["version"],
         "registry": json.loads(files["registry"].read_text(encoding="utf-8"))["version"],
+        "docsGraph": json.loads(files["docsGraph"].read_text(encoding="utf-8"))["version"],
     }
 
 
-def ensure_versions_in_sync(root: str | Path) -> str:
+def verify_lockstep(root: str | Path) -> str:
     versions = read_versions(root)
     unique = set(versions.values())
     if len(unique) != 1:
@@ -78,7 +80,7 @@ def _replace_registry_version(path: Path, new_version: str) -> None:
 
 def bump_versions(root: str | Path, bump: str) -> str:
     root = Path(root)
-    current = ensure_versions_in_sync(root)
+    current = verify_lockstep(root)
     new_version = bump_version(current, bump)
     return sync_versions(root, new_version)
 
@@ -89,4 +91,5 @@ def sync_versions(root: str | Path, version: str) -> str:
     _replace_package_version(root / "packages" / "cli-npm" / "package.json", version)
     _replace_package_version(root / "packages" / "mcp" / "package.json", version)
     _replace_registry_version(Path(registry_graph_path(root)), version)
+    _replace_registry_version(root / "docs" / "graph" / "gaia.json", version)
     return version
