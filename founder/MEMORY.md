@@ -19,11 +19,12 @@ All work is merged back into `dev/improve-codebase-architecture`. Squash merges 
 | Branch | Issue | Focus | Status |
 |---|---|---|---|
 | `dev/780-cli-command-migration` | #NEW | Move dev commands under `gaia dev`, add deprecation shims, update CI yaml files | ✅ Merged & Verified |
-| `dev/780-artifact-pipeline` | #781 | Untrack generated indices from Git, configure upload of built assets to GitHub Releases | ✅ Merged & Verified |
-| `dev/780-skill-quality-gates` | #784 | Run skill schema validations and enforce body size limit (<= 800 lines) in CI gates | ✅ Merged & Verified |
-| `dev/780-cli-dynamic-dispatch` | #782 | Refactor 4,078-line `main.py` into dynamic command autodiscovery using Command Protocol | ✅ Merged & Verified |
-| `dev/780-polyglot-versioning` | #783 | Orchestrate monorepo tasks via Taskfile, add lockstep manifest verification in CI | ⏳ Pending (Sub-Issue 3) |
-| `dev/780-mcp-abstraction` | #785 | Implement config merger utility, daemon process runner, and `gaia dev mcp` CLI subcommands | ⏳ Pending (Sub-Issue 5) |
+| `dev/780-artifact-pipeline` | #781 | Untrack generated indices from Git, configure upload of built assets to GitHub Releases | ✅ Merged & Verified (issue closed) |
+| `dev/780-skill-quality-gates` | #784 | Run skill schema validations and enforce body size limit (<= 800 lines) in CI gates | ✅ Merged & Verified (issue closed) |
+| `dev/780-cli-dynamic-dispatch` | #782 | Refactor 4,078-line `main.py` into dynamic command autodiscovery using Command Protocol | ✅ Merged & Verified (issue closed) |
+| `dev/780-dev-decompose` | #786 | Decompose 2,977-line `commands/dev.py` into domain sub-modules (`commands/dev/` package) | ⏳ Pending (Sub-Issue 2c) |
+| `dev/780-polyglot-versioning` | #783 | Rename `ensure_versions_in_sync` → `verify_lockstep`, add CI gate, create Taskfile | ⏳ Pending (Sub-Issue 3) |
+| `dev/780-mcp-abstraction` | #785 | Implement config merger utility, daemon process runner, and `gaia dev mcp` CLI subcommands | ⏳ Pending (Sub-Issue 5, minimal scope) |
 
 ### Routing — where things live now
 

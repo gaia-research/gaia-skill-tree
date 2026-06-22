@@ -579,9 +579,9 @@
                 </div>
               </li>
               
-              <!-- Sub-Issue 2b -->
+              <!-- Sub-Issue 2b (COMPLETED) -->
               <li class="todo-item" data-id="3">
-                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
                 <div class="todo-content">
                   <div class="todo-title">Create branch <code>dev/780-cli-command-migration</code></div>
                   <div class="todo-desc">Branch off integration branch dev/improve-codebase-architecture.</div>
@@ -589,7 +589,7 @@
                 </div>
               </li>
               <li class="todo-item" data-id="4">
-                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
                 <div class="todo-content">
                   <div class="todo-title">Migrate dev-only CLI commands under <code>gaia dev</code></div>
                   <div class="todo-desc">Relocate release, validate, test, docs, mcp, hook and add deprecation warnings.</div>
@@ -597,7 +597,7 @@
                 </div>
               </li>
               <li class="todo-item" data-id="5">
-                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
                 <div class="todo-content">
                   <div class="todo-title">Update GitHub Action CI workflows</div>
                   <div class="todo-desc">Replace commands in sync-artifacts.yml, validate.yml, python-package.yml.</div>
@@ -605,9 +605,9 @@
                 </div>
               </li>
 
-              <!-- Sub-Issue 1 -->
+              <!-- Sub-Issue 1 (COMPLETED) -->
               <li class="todo-item" data-id="6">
-                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
                 <div class="todo-content">
                   <div class="todo-title">Add compiled artifacts to .gitignore</div>
                   <div class="todo-desc">Stop tracking registry/gaia.json, docs/graph/gaia.json, base_gaia.json.</div>
@@ -615,7 +615,7 @@
                 </div>
               </li>
               <li class="todo-item" data-id="7">
-                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
                 <div class="todo-content">
                   <div class="todo-title">Extract cached index and untrack from Git</div>
                   <div class="todo-desc">Run git rm --cached and verify fresh local builds populate them.</div>
@@ -623,7 +623,7 @@
                 </div>
               </li>
               <li class="todo-item" data-id="8">
-                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
                 <div class="todo-content">
                   <div class="todo-title">Build pipeline release tarball upload</div>
                   <div class="todo-desc">Configure sync-artifacts.yml to push compilation results as release assets.</div>
@@ -631,9 +631,9 @@
                 </div>
               </li>
 
-              <!-- Sub-Issue 4 -->
+              <!-- Sub-Issue 4 (COMPLETED) -->
               <li class="todo-item" data-id="9">
-                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
                 <div class="todo-content">
                   <div class="todo-title">Implement <code>scripts/validate_skills.py</code></div>
                   <div class="todo-desc">Linter verifying YAML schema, description limits, body length, and orphans.</div>
@@ -641,7 +641,7 @@
                 </div>
               </li>
               <li class="todo-item" data-id="10">
-                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
                 <div class="todo-content">
                   <div class="todo-title">Integrate quality gate job into <code>validate.yml</code></div>
                   <div class="todo-desc">Enforce >800 line limit and frontmatter validations in pull requests.</div>
@@ -649,9 +649,9 @@
                 </div>
               </li>
 
-              <!-- Sub-Issue 2 -->
+              <!-- Sub-Issue 2 (COMPLETED) -->
               <li class="todo-item" data-id="11">
-                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
                 <div class="todo-content">
                   <div class="todo-title">Extract command modules & protocol</div>
                   <div class="todo-desc">Refactor main.py into Command classes under src/gaia_cli/commands/.</div>
@@ -659,11 +659,29 @@
                 </div>
               </li>
               <li class="todo-item" data-id="12">
-                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-checkbox checked" onclick="toggleTask(this)">✓</div>
                 <div class="todo-content">
                   <div class="todo-title">Implement dynamic Command Autodiscovery</div>
                   <div class="todo-desc">Automate command discovery; shrink main.py down to <= 300 lines.</div>
                   <span class="todo-tag">Sub-Issue 2</span>
+                </div>
+              </li>
+
+              <!-- Sub-Issue 2c (NEW) -->
+              <li class="todo-item" data-id="17">
+                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-content">
+                  <div class="todo-title">Decompose <code>commands/dev.py</code> into domain sub-modules</div>
+                  <div class="todo-desc">Break 2,977-line dev.py into commands/dev/ package (evidence, verify, merge, etc.).</div>
+                  <span class="todo-tag">Sub-Issue 2c</span>
+                </div>
+              </li>
+              <li class="todo-item" data-id="18">
+                <div class="todo-checkbox" onclick="toggleTask(this)"></div>
+                <div class="todo-content">
+                  <div class="todo-title">Extract shared helpers to <code>commands/dev/helpers.py</code></div>
+                  <div class="todo-desc">DRY _parse_md, _write_md, _find_named_file, _confirm_destructive, etc.</div>
+                  <span class="todo-tag">Sub-Issue 2c</span>
                 </div>
               </li>
 
@@ -751,12 +769,17 @@
                 <span class="git-commit-msg">Sub-Issue 2 (Autodiscovery)</span>
               </div>
               <div class="git-line" style="margin-left: 20px;">
-                <span class="git-branch-indicator branch-feature" style="background: var(--color-blue);"></span>
+                <span class="git-branch-indicator branch-feature" style="background: var(--color-amber);"></span>
+                <span class="git-hash">dev/780-dev-decompose</span>
+                <span class="git-commit-msg">Sub-Issue 2c (dev.py → domain modules)</span>
+              </div>
+              <div class="git-line" style="margin-left: 20px;">
+                <span class="git-branch-indicator branch-feature" style="background: var(--color-amber);"></span>
                 <span class="git-hash">dev/780-polyglot-versioning</span>
                 <span class="git-commit-msg">Sub-Issue 3 (Taskfile & Lockstep)</span>
               </div>
               <div class="git-line" style="margin-left: 20px;">
-                <span class="git-branch-indicator branch-feature" style="background: var(--color-blue);"></span>
+                <span class="git-branch-indicator branch-feature" style="background: var(--color-amber);"></span>
                 <span class="git-hash">dev/780-mcp-abstraction</span>
                 <span class="git-commit-msg">Sub-Issue 5 (Daemon & merger)</span>
               </div>
