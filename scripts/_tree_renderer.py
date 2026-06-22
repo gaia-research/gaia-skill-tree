@@ -230,7 +230,10 @@ def render_tree(
     # ── Header block ──────────────────────────────────────────────────────
     if not is_user:
         lines.append(_SEP70)
-        lines.append(f"GAIA SKILL TREE  v{version}  ·  generated {date_str}")
+        # Version stripped from header per Issue #807 / Option B: this is a
+        # decorative artifact, not a runtime consumer, and lockstep enforcement
+        # on a banner line was the dominant source of cross-PR CI churn.
+        lines.append(f"GAIA SKILL TREE  ·  generated {date_str}")
         lines.append(_SEP70)
         lines.append(_LEGEND)
         lines.append("Shared prerequisites marked (↑ see above) on second occurrence.")

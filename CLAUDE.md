@@ -2,9 +2,26 @@
 
 Guidance for AI coding agents working in this repository.
 
+## Workflow Discipline
+
+- When user asks for a specific task (merge, monitor, audit), stay focused on that task. Do NOT deviate into debugging or exploration unless explicitly asked.
+- Read key files BEFORE running exploratory bash commands.
+- When asked to monitor/loop CI checks, monitor — do not switch to debugging failures unless instructed.
+
 ## Git Workflow
 
 Never push directly to main.
+
+### Branch & Worktree Conventions
+
+- Always confirm the target branch/worktree before editing. If user references a specific branch (e.g., `fix/links-3d-graph`), push there — do not create a new design branch.
+- When editing in a worktree, verify CWD matches the requested worktree before making edits.
+
+## Edit Safety
+
+- After Edit/Write operations on JS/HTML, verify no duplication or merged lines were introduced (read the file back, run syntax check if available).
+- Avoid hex color fallbacks; use design tokens only (CI guard rejects hex).
+- When bumping assets, also update cache-bust version strings across all referencing pages.
 
 ## Testing
 
@@ -190,6 +207,14 @@ The pre-commit hook keeps these in lockstep:
 If they disagree before the bump, the hook fails loudly. Use `gaia dev release <type> --sync` to force align manifests to the highest version before bumping. Use `gaia dev release patch|minor|major` to bump all at once.
 
 > **Deprecation note:** `gaia release` is a shim that delegates to `gaia dev release` with a warning. Use `gaia dev release` directly; the shim will be removed in v7.0.0.
+
+### Decorative assets must NOT carry version metadata
+
+**Hard rule (codified after Issue #807):** Class S decorative artifacts — `docs/graph/gaia.json`, `docs/tree.md`, `docs/index.html` stats block, badges/cards/og — **must not** carry a `version` field, banner, or comment that tracks the manifest version. The lockstep verifier (`scripts/verify_lockstep.py`) checks only the four manifests above; no rendering surface should have a version string that needs to agree with them.
+
+Before #807 the version stamp on these files was the dominant source of cross-PR CI churn: any PR opened against an old `main` would inherit a stale stamp and trip lockstep before auto-sync could fix it, costing agents 2–4 round-trips of bump-and-push debugging on work that had nothing to do with versioning. Stripping the stamp from decoration ends that class of failure entirely.
+
+If you add a new generated artifact under `docs/`, do not stamp a version on it. If you genuinely need a version string at runtime (e.g. for a cache-bust query param), read it dynamically from a fetched manifest at request time — do not bake it into the file.
 
 ### Adding a new versioned HTML page
 

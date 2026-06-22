@@ -247,7 +247,7 @@ def build_docs_index(check: bool) -> bool:
     unique_count = sum(1 for s in graph.get("skills", []) if s.get("type") == "unique")
     body = (
         f"skills={len(graph.get('skills', []))}; namedSkills={named_count}; "
-        f"uniqueSkills={unique_count}; version={graph.get('version', 'unknown')}"
+        f"uniqueSkills={unique_count}"
     )
     text = path.read_text(encoding="utf-8")
     text, changed = _replace_region(
@@ -581,7 +581,19 @@ def build_profile_pages(check: bool) -> bool:
 
 
 def build_badges(check: bool) -> bool:
-    """Run generateBadges.py to a tempdir and diff against docs/badges/."""
+    """Run generateBadges.py to a tempdir and diff against docs/badges/.
+
+    Includes a post-write redaction backstop (Option B from issue #807): after
+    the canonical regenerate-and-replace cycle, we walk the committed tree and
+    forcibly remove any badge directory belonging to an entirely-pre-named
+    contributor, plus strip the corresponding entry from registry.json. The
+    generator's filter (`prenamed_contributor_handles()` in
+    `scripts/generateBadges.py`) should make this a no-op — but if anything
+    upstream leaks (parallel auto-sync race, partial regen, third-party patch),
+    the backstop guarantees redaction holds on disk before we hand off to git.
+    The single source of truth is the same `gaia_cli.redaction.is_redacted`
+    predicate used by `scripts/validate_redaction.py` Section D.
+    """
     script = SCRIPTS / "generateBadges.py"
     if not script.exists():
         return False
@@ -594,6 +606,10 @@ def build_badges(check: bool) -> bool:
                 print(f"diff docs/badges/ (regen failed: rc={rc})")
                 print(output)
             raise RuntimeError(f"docs/badges/ regen failed: rc={rc}")
+        # Apply the redaction backstop to the tempdir BEFORE diffing/copying.
+        # In --check mode this keeps the "drift" output focused on real
+        # contributor changes rather than leaking redaction-noise into it.
+        _apply_redaction_backstop(out_dir, check=check)
         # Preserve hand-authored docs/badges/index.html across regeneration
         # by copying it into the candidate tree before diffing.
         sampler = committed / "index.html"
@@ -607,16 +623,111 @@ def build_badges(check: bool) -> bool:
                 shutil.copytree(out_dir, committed)
             return True
         drifts = _diff_tree(committed, out_dir)
-        if not drifts:
+        # Even when the tempdir matches, the committed tree on disk may carry
+        # stale pre-named contributor dirs from a prior bad release. Surface
+        # those as drift so --check fails the CI gate (rather than auto-sync
+        # quietly committing them again).
+        stale = _committed_redaction_violations(committed)
+        if not drifts and not stale:
             return False
         if check:
             for d in drifts:
                 print(f"diff docs/badges/{d}")
+            for d in stale:
+                print(f"diff docs/badges/{d}  (redaction backstop)")
         else:
             import shutil
             shutil.rmtree(committed)
             shutil.copytree(out_dir, committed)
         return True
+
+
+def _apply_redaction_backstop(badges_dir: Path, *, check: bool) -> None:
+    """Strip entirely-pre-named contributor artifacts from `badges_dir`.
+
+    Mirrors `scripts/validate_redaction.py` Section D. Called on the generator
+    tempdir output AND used to compute committed-tree drift; both surfaces
+    must agree on the invariant.
+    """
+    prenamed = _prenamed_handles()
+    if not prenamed:
+        return
+    assets = badges_dir / "_assets"
+    if assets.is_dir():
+        for handle in prenamed:
+            d = assets / handle
+            if d.exists():
+                if not check:
+                    import shutil
+                    shutil.rmtree(d)
+    registry = badges_dir / "registry.json"
+    if registry.exists():
+        try:
+            reg = json.loads(registry.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            return
+        contribs = reg.get("contributors") if isinstance(reg, dict) else None
+        if isinstance(contribs, dict):
+            removed = [h for h in prenamed if h in contribs]
+            if removed and not check:
+                for h in removed:
+                    contribs.pop(h, None)
+                registry.write_text(
+                    json.dumps(reg, indent=2, ensure_ascii=False) + "\n",
+                    encoding="utf-8",
+                )
+
+
+def _committed_redaction_violations(badges_dir: Path) -> list[str]:
+    """Return paths relative to `docs/badges/` that violate redaction on disk."""
+    prenamed = _prenamed_handles()
+    if not prenamed:
+        return []
+    out: list[str] = []
+    assets = badges_dir / "_assets"
+    if assets.is_dir():
+        for handle in sorted(prenamed):
+            d = assets / handle
+            if d.exists():
+                out.append(f"_assets/{handle}/")
+    registry = badges_dir / "registry.json"
+    if registry.exists():
+        try:
+            reg = json.loads(registry.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            return out
+        contribs = reg.get("contributors") if isinstance(reg, dict) else None
+        if isinstance(contribs, dict):
+            for handle in sorted(prenamed):
+                if handle in contribs:
+                    out.append(f"registry.json[{handle}]")
+    return out
+
+
+def _prenamed_handles() -> set[str]:
+    """Load `generateBadges.prenamed_contributor_handles()` lazily.
+
+    Import is dynamic because `scripts/` is not a package and we don't want
+    `build_docs.py` to grow a hard import dependency on a sibling script that
+    may be regenerated independently. Returns an empty set if the helper is
+    unavailable so the backstop degrades to a no-op rather than crashing the
+    docs build.
+    """
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "_gen_badges_loader", SCRIPTS / "generateBadges.py"
+        )
+        if spec is None or spec.loader is None:
+            return set()
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        helper = getattr(mod, "prenamed_contributor_handles", None)
+        if helper is None:
+            return set()
+        return set(helper())
+    except Exception:
+        return set()
 
 
 def build_og_cards(check: bool) -> bool:
