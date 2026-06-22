@@ -34,7 +34,7 @@ def test_check_ignores_volatile_release_timestamps():
     assert build_docs._normalize_dates(json_b) != build_docs._normalize_dates(json_c)
 
 
-def test_badge_registry_generated_at_mirrors_source(tmp_path):
+def test_badge_registry_generated_at_mirrors_source(tmp_path, monkeypatch):
     """The badge registry must stamp the source date, not wall-clock time.
 
     Using today's date made docs/badges/registry.json drift every calendar day,
@@ -44,15 +44,19 @@ def test_badge_registry_generated_at_mirrors_source(tmp_path):
     """
     from scripts import generateBadges
 
-    source_stamp = json.loads(
-        (REPO_ROOT / "registry" / "named-skills.json").read_text(encoding="utf-8")
-    ).get("generatedAt")
+    mock_named_json = tmp_path / "named-skills.json"
+    mock_named_json.write_text(json.dumps({
+        "generatedAt": "2026-06-20",
+        "buckets": {}
+    }), encoding="utf-8")
+
+    monkeypatch.setattr(generateBadges, "NAMED_JSON", mock_named_json)
 
     out_dir = tmp_path / "badges"
     assert generateBadges.main(["--out-dir", str(out_dir)]) == 0
 
     regenerated = json.loads((out_dir / "registry.json").read_text(encoding="utf-8"))
-    assert regenerated["generatedAt"] == source_stamp
+    assert regenerated["generatedAt"] == "2026-06-20"
 
 
 def test_build_docs_check_message_uses_copyable_python_command(monkeypatch, capsys):

@@ -74,17 +74,32 @@ class TestCandidateBuilder:
 
 
 class TestDedup:
-    def test_loads_existing_skills(self):
-        skills = load_existing_skills()
-        assert len(skills) > 0
+    def test_loads_existing_skills(self, tmp_path):
+        mock_gaia = tmp_path / "gaia.json"
+        mock_gaia.write_text(json.dumps({
+            "skills": [
+                {"id": "web-scrape", "name": "Web Scrape"},
+                {"id": "another-skill", "name": "Another"}
+            ]
+        }), encoding="utf-8")
+        
+        skills = load_existing_skills(str(mock_gaia))
+        assert len(skills) == 2
         assert "web-scrape" in skills
 
-    def test_removes_existing_skills(self):
+    def test_removes_existing_skills(self, tmp_path):
+        mock_gaia = tmp_path / "gaia.json"
+        mock_gaia.write_text(json.dumps({
+            "skills": [
+                {"id": "web-scrape", "name": "Web Scrape"}
+            ]
+        }), encoding="utf-8")
+        
         candidates = [
             {"id": "web-scrape", "name": "Web Scrape"},
             {"id": "brand-new-skill-xyz", "name": "New"},
         ]
-        result = deduplicate(candidates)
+        result = deduplicate(candidates, str(mock_gaia))
         assert len(result) == 1
         assert result[0]["id"] == "brand-new-skill-xyz"
 
