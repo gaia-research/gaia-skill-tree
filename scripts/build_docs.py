@@ -465,7 +465,10 @@ def _diff_tree(reference: Path, candidate: Path) -> list[str]:
             if not ref_path.exists() or not cand_path.exists():
                 drifts.append(str(sub))
                 continue
-            if not filecmp.cmp(ref_path, cand_path, shallow=False):
+            if sub.name == "registry.json":
+                if not _equal_ignoring_dates(ref_path, cand_path):
+                    drifts.append(str(sub))
+            elif not filecmp.cmp(ref_path, cand_path, shallow=False):
                 drifts.append(str(sub))
 
     if not reference.exists() or not candidate.exists():

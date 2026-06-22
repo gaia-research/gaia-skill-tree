@@ -49,6 +49,8 @@ jobs:
         run: |
           python scripts/assemble_gaia.py
           python scripts/generateNamedIndex.py
+          mkdir -p docs/graph/named
+          cp registry/named-skills.json docs/graph/named/index.json
 
       - name: Verify Version Lockstep
         run: python scripts/verify_lockstep.py

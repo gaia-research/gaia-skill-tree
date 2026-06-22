@@ -1,12 +1,6 @@
 name: Cloudflare Deploy
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'docs/**'
-      - 'worker/**'
-      - 'wrangler.toml'
   workflow_dispatch:
     inputs:
       branch:
