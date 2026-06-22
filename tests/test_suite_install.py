@@ -285,10 +285,11 @@ class TestSuiteInstallFlow:
         install_suite("testuser/my-suite", str(tmp_path))
 
         link = tmp_path / ".agents" / "skills" / "alpha"
-        assert link.is_symlink(), "Expected a symlink for installed skill"
-        link_target = os.readlink(str(link))
-        assert link_target.startswith(cache_base), (
-            f"Symlink target {link_target!r} is not inside cache dir {cache_base!r}"
+        from gaia_cli.windowsLinks import isLinkOrJunction
+        assert isLinkOrJunction(str(link)), "Expected a symlink or junction for installed skill"
+        link_target = os.path.realpath(str(link))
+        assert link_target.startswith(os.path.realpath(cache_base)), (
+            f"Link target {link_target!r} is not inside cache dir {cache_base!r}"
         )
 
     def test_install_suite_prevents_circular_recursion(self, tmp_path, monkeypatch):

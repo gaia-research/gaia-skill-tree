@@ -15,6 +15,7 @@ from datetime import datetime, timezone
 
 from gaia_cli.registry import named_skills_dir
 from gaia_cli.formatting import _fg, _reset, get_harness_color
+from gaia_cli.windowsLinks import makeLink, isLinkOrJunction
 
 
 def get_gaia_home():
@@ -187,18 +188,29 @@ def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str],
 
     source_skill_path = os.path.join(global_cache, subpath)
 
-    if os.path.exists(local_skill_path) or os.path.islink(local_skill_path):
-        if os.path.islink(local_skill_path):
-            os.remove(local_skill_path)
+    if os.path.exists(local_skill_path) or os.path.islink(local_skill_path) or isLinkOrJunction(local_skill_path):
+        if os.path.islink(local_skill_path) or isLinkOrJunction(local_skill_path):
+            try:
+                os.remove(local_skill_path)
+            except OSError:
+                # Junction removal on Windows may need rmdir-style handling
+                os.rmdir(local_skill_path)
         else:
             shutil.rmtree(local_skill_path)
 
     h_color = get_harness_color(local_skill_path)
     print(f"Installing {sid} to {_fg(*h_color)}{local_skill_path}{_reset()}...")
-    if sys.platform != "win32":
-        os.symlink(source_skill_path, local_skill_path)
-    else:
-        # On Windows, copy if symlinks aren't enabled for user
+    try:
+        mechanism = makeLink(source_skill_path, local_skill_path)
+        if mechanism != "symlink":
+            print(f"  (used {mechanism} fallback on this platform)")
+    except OSError as e:
+        # Last-resort: copy. Preserves Windows behavior from before this
+        # module existed, so a totally locked-down host still installs.
+        print(
+            f"  Link creation failed ({e}); falling back to copy.",
+            file=sys.stderr,
+        )
         if os.path.isdir(source_skill_path):
             shutil.copytree(source_skill_path, local_skill_path)
         else:
@@ -219,10 +231,13 @@ def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str],
         # If reinstalling with different location, clean up old path
         old_path = existing.get("localPath")
         old_location = existing.get("location", "local")
-        if old_path and old_location != location and (os.path.exists(old_path) or os.path.islink(old_path)):
+        if old_path and old_location != location and (os.path.exists(old_path) or os.path.islink(old_path) or isLinkOrJunction(old_path)):
             try:
-                if os.path.islink(old_path):
-                    os.remove(old_path)
+                if os.path.islink(old_path) or isLinkOrJunction(old_path):
+                    try:
+                        os.remove(old_path)
+                    except OSError:
+                        os.rmdir(old_path)
                 elif os.path.isdir(old_path):
                     shutil.rmtree(old_path)
                 else:
@@ -370,9 +385,12 @@ def uninstall_skill(skill_id):
 
     if "localPath" in entry:
         lp = entry["localPath"]
-        if os.path.exists(lp) or os.path.islink(lp):
-            if os.path.islink(lp):
-                os.remove(lp)
+        if os.path.exists(lp) or os.path.islink(lp) or isLinkOrJunction(lp):
+            if os.path.islink(lp) or isLinkOrJunction(lp):
+                try:
+                    os.remove(lp)
+                except OSError:
+                    os.rmdir(lp)
             elif os.path.isdir(lp):
                 shutil.rmtree(lp)
             else:
