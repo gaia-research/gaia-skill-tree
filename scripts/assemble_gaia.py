@@ -33,6 +33,16 @@ def getMaxLevelsForNamed(registryRoot):
             continue
     return maxLevels
 
+def _read_version(root_path) -> str:
+    import os
+    pyproject = os.path.join(root_path, "pyproject.toml")
+    if os.path.exists(pyproject):
+        with open(pyproject, "r", encoding="utf-8") as f:
+            for line in f:
+                if line.startswith("version = "):
+                    return line.split("=", 1)[1].strip().strip('"')
+    return "3.2.2"
+
 def assemble(registry_root="."):
     import sys
     from pathlib import Path
@@ -69,7 +79,7 @@ def assemble(registry_root="."):
 
     assembled_data = {
         "$schema": "./schema/skill.schema.json",
-        "version": old_data.get("version", "3.2.2"),
+        "version": old_data.get("version") or _read_version(registry_root),
         "generatedAt": get_utc_now_iso(),
         "meta": meta_mapped,
         "skills": [],

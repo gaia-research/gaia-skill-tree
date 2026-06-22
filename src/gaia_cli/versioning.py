@@ -42,13 +42,16 @@ def read_versions(root: str | Path) -> dict[str, str]:
         "registry": Path(registry_graph_path(root)),
         "docsGraph": root / "docs" / "graph" / "gaia.json",
     }
-    return {
+    versions = {
         "pyproject": _read_pyproject_version(files["pyproject"]),
         "cliNPM": json.loads(files["cliNPM"].read_text(encoding="utf-8"))["version"],
         "mcp": json.loads(files["mcp"].read_text(encoding="utf-8"))["version"],
-        "registry": json.loads(files["registry"].read_text(encoding="utf-8"))["version"],
-        "docsGraph": json.loads(files["docsGraph"].read_text(encoding="utf-8"))["version"],
     }
+    if files["registry"].exists():
+        versions["registry"] = json.loads(files["registry"].read_text(encoding="utf-8"))["version"]
+    if files["docsGraph"].exists():
+        versions["docsGraph"] = json.loads(files["docsGraph"].read_text(encoding="utf-8"))["version"]
+    return versions
 
 
 def verify_lockstep(root: str | Path) -> str:
@@ -73,6 +76,8 @@ def _replace_package_version(path: Path, new_version: str) -> None:
 
 
 def _replace_registry_version(path: Path, new_version: str) -> None:
+    if not path.exists():
+        return
     data = json.loads(path.read_text(encoding="utf-8"))
     data["version"] = new_version
     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")

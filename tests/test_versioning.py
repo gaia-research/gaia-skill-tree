@@ -90,3 +90,24 @@ def test_bump_versions(tmp_path: Path, monkeypatch):
     
     versions = versioning.read_versions(tmp_path)
     assert all(v == "1.1.0" for v in versions.values())
+
+
+def test_read_versions_missing_optional_files(tmp_path: Path, monkeypatch):
+    (tmp_path / "pyproject.toml").write_text('version = "1.0.0"', encoding="utf-8")
+    
+    (tmp_path / "packages" / "cli-npm").mkdir(parents=True, exist_ok=True)
+    (tmp_path / "packages" / "cli-npm" / "package.json").write_text(json.dumps({"version": "1.0.0"}), encoding="utf-8")
+    
+    (tmp_path / "packages" / "mcp").mkdir(parents=True, exist_ok=True)
+    (tmp_path / "packages" / "mcp" / "package.json").write_text(json.dumps({"version": "1.0.0"}), encoding="utf-8")
+    
+    monkeypatch.setattr(versioning, "registry_graph_path", lambda root: str(Path(root) / "registry" / "gaia.json"))
+    
+    versions = versioning.read_versions(tmp_path)
+    
+    assert versions["pyproject"] == "1.0.0"
+    assert versions["cliNPM"] == "1.0.0"
+    assert versions["mcp"] == "1.0.0"
+    assert "registry" not in versions
+    assert "docsGraph" not in versions
+

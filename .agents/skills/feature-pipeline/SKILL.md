@@ -1,21 +1,13 @@
 ---
 name: feature-pipeline
 description: >-
-  Five-phase multi-agent exploration-to-ship pipeline. Use this skill whenever
-  a user wants to explore a CLI, flag, or module and file issues; test a feature
-  end-to-end; run an "explore then fix" or "explore then ship" workflow; or says
-  anything like "explore X", "test and ship X", "run the pipeline on X", "what's
-  broken in X", "file bugs for X and open a PR", or "stress-test X". Also use
-  it when the user types /feature-pipeline, even without a target — prompt them
-  for the feature. Do not use for single-file edits, quick bug fixes, or tasks
-  that don't involve exploration + issue-filing + a full PR lifecycle.
-  ORCHESTRATOR (the currently active agent) coordinates LIGHTER and HEAVIER
-  sub-agents: LIGHTER stress-tests the feature and files GitHub issues; HEAVIER
-  plans the implementation (user approves before any code is written); LIGHTER
-  watches CI; LIGHTER checks skill drift and delivers a final summary. Mandatory
-  stop hooks (M1–M4) gate each phase transition. Supports Claude Code, Cursor,
-  Codex CLI, Windsurf, and others — local-disk and git-comment handover
-  fallbacks activate when sub-agent spawning is unavailable.
+  Five-phase multi-agent exploration-to-ship pipeline. Use this skill to explore a CLI,
+  flag, or module, test end-to-end, and run explore-then-ship workflows. Trigger for
+  'explore X', 'test/ship X', 'run pipeline on X', or '/feature-pipeline'. Do not use
+  for simple bug fixes or single-file edits. ORCHESTRATOR coordinates LIGHTER and HEAVIER
+  sub-agents: LIGHTER stress-tests and files issues; HEAVIER plans (user approves first)
+  and implements; LIGHTER watches CI and checks drift. Uses M1-M4 stop hooks. Supports
+  Claude Code, Cursor, Codex, Windsurf, with handover fallbacks.
 version: 2.0.0
 argument-hint: "<feature-or-cli-to-explore>"
 ---
