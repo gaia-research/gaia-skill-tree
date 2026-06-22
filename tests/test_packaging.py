@@ -59,6 +59,45 @@ def build_wheel(dist_dir):
     )
 
 
+def stage_bundled_registry():
+    """Copy the canonical registry/ snapshot into src/gaia_cli/data/registry/.
+
+    Mirrors the vX.Y.0 CI step from `.github/workflows/publish-pypi.yml`. The
+    bundled paths are gitignored (refreshed only at CI release time), so tests
+    that exercise the wheel-build contract must reproduce the staging step
+    explicitly. Returns the list of paths it created so the caller can clean
+    them up.
+    """
+    bundled_dir = REPO_ROOT / "src" / "gaia_cli" / "data" / "registry"
+    src_gaia = REPO_ROOT / "registry" / "gaia.json"
+    src_named_index = REPO_ROOT / "registry" / "named-skills.json"
+    src_named_dir = REPO_ROOT / "registry" / "named"
+
+    dest_gaia = bundled_dir / "gaia.json"
+    dest_named_index = bundled_dir / "named-skills.json"
+    dest_named_dir = bundled_dir / "named"
+
+    created = []
+    if src_gaia.exists() and not dest_gaia.exists():
+        shutil.copy2(src_gaia, dest_gaia)
+        created.append(dest_gaia)
+    if src_named_index.exists() and not dest_named_index.exists():
+        shutil.copy2(src_named_index, dest_named_index)
+        created.append(dest_named_index)
+    if src_named_dir.exists() and not dest_named_dir.exists():
+        shutil.copytree(src_named_dir, dest_named_dir)
+        created.append(dest_named_dir)
+    return created
+
+
+def cleanup_staged_paths(paths):
+    for p in paths:
+        if p.is_dir():
+            shutil.rmtree(p, ignore_errors=True)
+        elif p.is_file():
+            p.unlink(missing_ok=True)
+
+
 def test_gaia_cli_package_imports():
     import gaia_cli
 
@@ -390,14 +429,20 @@ def test_sigpipe_exits_cleanly():
 def test_built_wheel_contains_only_python_package_data(tmp_path):
     require_build_package()
 
-    dist_dir = tmp_path / "dist"
-    result = build_wheel(dist_dir)
-    assert result.returncode == 0, result.stderr
+    # Mirror the vX.Y.0 release CI step: stage the canonical registry snapshot
+    # into the gitignored bundled location before building, then clean up.
+    staged = stage_bundled_registry()
+    try:
+        dist_dir = tmp_path / "dist"
+        result = build_wheel(dist_dir)
+        assert result.returncode == 0, result.stderr
 
-    wheels = list(dist_dir.glob("*.whl"))
-    assert len(wheels) == 1
-    with zipfile.ZipFile(wheels[0]) as wheel:
-        names = set(wheel.namelist())
+        wheels = list(dist_dir.glob("*.whl"))
+        assert len(wheels) == 1
+        with zipfile.ZipFile(wheels[0]) as wheel:
+            names = set(wheel.namelist())
+    finally:
+        cleanup_staged_paths(staged)
 
     assert "gaia_cli/data/registry/gaia.json" in names
     assert "gaia_cli/data/registry/schema/skill.schema.json" in names
@@ -421,29 +466,33 @@ def test_built_wheel_contains_only_python_package_data(tmp_path):
 def test_wheel_install_smoke_tests_console_script(tmp_path):
     require_build_package()
 
-    dist_dir = tmp_path / "dist"
-    build_result = build_wheel(dist_dir)
-    assert build_result.returncode == 0, build_result.stderr
+    staged = stage_bundled_registry()
+    try:
+        dist_dir = tmp_path / "dist"
+        build_result = build_wheel(dist_dir)
+        assert build_result.returncode == 0, build_result.stderr
 
-    wheel = next(dist_dir.glob("*.whl"))
-    venv_dir = tmp_path / "venv"
-    venv.EnvBuilder(with_pip=True).create(venv_dir)
-    python = venv_dir / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
-    gaia = venv_dir / ("Scripts/gaia.exe" if os.name == "nt" else "bin/gaia")
-    install_result = subprocess.run(
-        [str(python), "-m", "pip", "install", "--no-user", "--no-deps", str(wheel)],
-        capture_output=True,
-        text=True,
-        encoding="utf-8",
-    )
-    assert install_result.returncode == 0, install_result.stderr
+        wheel = next(dist_dir.glob("*.whl"))
+        venv_dir = tmp_path / "venv"
+        venv.EnvBuilder(with_pip=True).create(venv_dir)
+        python = venv_dir / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+        gaia = venv_dir / ("Scripts/gaia.exe" if os.name == "nt" else "bin/gaia")
+        install_result = subprocess.run(
+            [str(python), "-m", "pip", "install", "--no-user", "--no-deps", str(wheel)],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+        )
+        assert install_result.returncode == 0, install_result.stderr
 
-    help_result = subprocess.run(
-        [str(gaia), "--help"],
-        capture_output=True,
-        text=True,
-        encoding="utf-8",
-        env={**os.environ, "GAIA_HOME": str(tmp_path / "home")},
-    )
-    assert help_result.returncode == 0, help_result.stderr
-    assert "usage: gaia" in help_result.stdout
+        help_result = subprocess.run(
+            [str(gaia), "--help"],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            env={**os.environ, "GAIA_HOME": str(tmp_path / "home")},
+        )
+        assert help_result.returncode == 0, help_result.stderr
+        assert "usage: gaia" in help_result.stdout
+    finally:
+        cleanup_staged_paths(staged)

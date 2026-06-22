@@ -600,7 +600,17 @@ def init_command(args):
         "Run `gaia fetch` to download the latest canonical registry, then `gaia scan` to link your local skills."
     )
 
-    fetch_command(args)
+    # `gaia fetch` is a best-effort follow-on. Init must always succeed in
+    # writing the config — network failures, missing releases, or sandboxed
+    # environments must not crash the init flow.
+    try:
+        fetch_command(args)
+    except SystemExit:
+        print(
+            "Warning: `gaia fetch` could not complete during init. "
+            "Run `gaia fetch` manually once network is available.",
+            file=sys.stderr,
+        )
 
     try:
         source = detect_source_repo({"gaiaUser": username})
@@ -2732,9 +2742,15 @@ def fetch_command(args):
     asset_name = "gaia-artifacts.tar.gz"
     checksum_name = "gaia-artifacts.tar.gz.sha256"
 
-    def _fetch_url(url, dest_path=None, *, retries=1):
-        """Fetch url to dest_path (or return bytes).  Retries once on 5xx."""
-        req = urllib.request.Request(url, headers={"Accept": "application/octet-stream"})
+    def _fetch_url(url, dest_path=None, *, retries=1, accept=None):
+        """Fetch url to dest_path (or return bytes).  Retries once on 5xx.
+
+        `accept` overrides the Accept header. Defaults to JSON for API endpoints;
+        callers downloading binary release assets should pass
+        `accept="application/octet-stream"`.
+        """
+        headers = {"Accept": accept or "application/vnd.github+json"}
+        req = urllib.request.Request(url, headers=headers)
         for attempt in range(retries + 1):
             try:
                 with urllib.request.urlopen(req) as resp:
@@ -2791,7 +2807,7 @@ def fetch_command(args):
     with tempfile.TemporaryDirectory() as tmpdir:
         tarball_path = Path(tmpdir) / asset_name
         try:
-            _fetch_url(asset_url, tarball_path, retries=1)
+            _fetch_url(asset_url, tarball_path, retries=1, accept="application/octet-stream")
         except (urllib.error.URLError, urllib.error.HTTPError) as exc:
             print(f"Error downloading {asset_name}: {exc}", file=sys.stderr)
             sys.exit(1)
