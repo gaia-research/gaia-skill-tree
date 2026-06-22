@@ -60,7 +60,6 @@ def _args(registry_root, **overrides):
         index=None,
         evidence_type=None,
         trust=None,
-        evidence_class=None,
         evaluator=None,
         date=None,
         notes=None,

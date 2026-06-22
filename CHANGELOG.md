@@ -2,6 +2,18 @@
 
 All notable changes to GAIA are documented in this file. Versions follow semver (MAJOR.MINOR.PATCH); the four manifests (`pyproject.toml`, `packages/cli-npm/package.json`, `packages/mcp/package.json`, `registry/gaia.json`) move in lockstep.
 
+## Unreleased — Epic #780 close-out (Waves 2–6)
+
+### Removed
+- **`gaia dev evidence --class`** flag is removed (#790). The flag was deprecated in v5.x in favor of `--trust <0-100>`. Callers using `--class A|B|C` must migrate to `--trust` before upgrading. Existing evidence entries that already carry a `class` field are preserved on read but new entries will not write it.
+
+### Added
+- **Pre-flight: `gaia dev calibrate` Star Bar check** (#789): calibrating a named skill to 3★+ now validates that `links.github` is present and uses a `blob/` URL. Missing or `tree/`-only links are rejected before any write.
+- **Pre-flight: `gaia dev evidence --type benchmark-result` percentile guard** (#789): `--type benchmark-result` now requires `--percentile <0-100>`. Without a percentile the magnitude formula yields 0; the guard surfaces this at CLI time instead of silently producing an ungraded entry.
+
+### Deprecation timeline note
+Top-level shim commands (`gaia release`, `gaia validate`, `gaia test`, `gaia docs build`, `gaia mcp`) still delegate to their `gaia dev` counterparts with a deprecation warning. **Removal planned for v7.0.0.** See `founder/handovers/EPIC780_DEPRECATION_CLEANUP.md` for the removal checklist.
+
 ## 5.0.0 — 2026-06-20
 
 **Breaking — Phase 1.5: G7 Trust Infrastructure**

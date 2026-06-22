@@ -495,7 +495,8 @@ class TestEvidenceCLI:
             main()
         assert exc_info.value.code == 1
 
-    def test_class_deprecated_warning(self, tmp_path, monkeypatch, capsys):
+    def test_class_flag_removed(self, tmp_path, monkeypatch, capsys):
+        """--class is no longer accepted; argparse should error."""
         self.write_fixture_skill(tmp_path)
         monkeypatch.setattr(sys, "argv", [
             "gaia", "--registry", str(tmp_path), "dev", "evidence",
@@ -503,13 +504,9 @@ class TestEvidenceCLI:
             "--class", "B", "--no-build",
         ])
         from gaia_cli.main import main
-        main()
-        captured = capsys.readouterr()
-        assert "deprecated" in captured.err.lower()
-        # Class is still written to the entry
-        node = json.loads((tmp_path / "registry" / "nodes" / "basic" / "test-skill.json").read_text())
-        ev = node["evidence"][-1]
-        assert ev["class"] == "B"
+        with pytest.raises(SystemExit) as exc_info:
+            main()
+        assert exc_info.value.code != 0
 
     def test_evidence_graded_timeline_event(self, tmp_path, monkeypatch):
         self.write_fixture_skill(tmp_path)

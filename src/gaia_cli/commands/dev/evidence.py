@@ -28,18 +28,9 @@ def meta_evidence_command(args):
     registry_path = args.registry
     skill_id = args.skill_id.lstrip("/")
 
-    # --class is deprecated; --trust + --type are the new interface.
-    evidence_class = getattr(args, "evidence_class", None)
+    # --trust + --type are the canonical interface.
     trust_number = getattr(args, "trust", None)
     evidence_type = getattr(args, "evidence_type", None)
-
-    if evidence_class is not None:
-        print(
-            "Warning: --class is deprecated and will be removed in the next major release. "
-            "Use --trust <0-100> to set a trust number (grade is auto-derived) "
-            "and --type <type> to specify the evidence type.",
-            file=sys.stderr,
-        )
 
     # Validate --type against meta.json evidence.types
     if evidence_type is not None:
@@ -96,9 +87,6 @@ def meta_evidence_command(args):
         evidence["trustNumber"] = trust_number
     if derived_grade is not None:
         evidence["grade"] = derived_grade
-    # Legacy field: only written when explicitly passed
-    if evidence_class is not None:
-        evidence["class"] = evidence_class
     if getattr(args, "notes", None):
         evidence["notes"] = args.notes
     # Numeric payload fields (type-specific magnitude drivers)
@@ -197,8 +185,6 @@ def meta_evidence_command(args):
                 entry["grade"] = derived_grade
             else:
                 entry.pop("grade", None)
-        if evidence_class is not None:
-            entry["class"] = evidence_class
         if getattr(args, "notes", None):
             entry["notes"] = args.notes
         if getattr(args, "evaluator", None):
