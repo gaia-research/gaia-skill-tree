@@ -326,6 +326,18 @@ _Avoid_: gitignoring Class S (deletes the live site at next Pages publish); edit
 
 **Rule of thumb:** if browsers fetch the file at runtime, it's Class S. If only `gaia` tooling reads it, it's Class P.
 
+### Badge Artifacts (Class S — recurring footgun history)
+
+`docs/badges/` is Class S: `docs/badges/_assets/<handle>/` SVG trees and `docs/badges/registry.json` are tracked in git and served by the site. `scripts/generateBadges.py` regenerates them; `scripts/build_docs.py::build_badges()` does the committed rmtree+copytree swap.
+
+**Redaction invariant:** 2★+ contributors get badge directories; 1★ (Awakened/pre-named/demoted) contributors do NOT — no `_assets/<handle>/` dir, no `registry.json` entry. Single source of truth: `src/gaia_cli/redaction.py::is_redacted()`. Enforced by `scripts/validate_redaction.py` and the post-write backstop in `build_docs.py`.
+
+**Sanity guard (PR #818, 2026-06-24):** `build_badges()` aborts with `RuntimeError` when the regenerated contributor count drops below 70% of the committed count (`generated < committed * 0.7`). This prevents the recurring auto-sync wipe where a stale Class P snapshot in CI produces ~0 contributors and `rmtree+copytree` replaces 31 real contributors with nothing. The guard fires in `--check` mode too (surfaces as drift rather than silently passing).
+
+**Recurrence history (do not repeat):** the wipe occurred three times (v5.1.2, merge of PR #815, v5.1.4) — each triggered by `sync-artifacts.yml` running `build_docs.py` on a push to main where CI's `registry/named-skills.json` (Class P, gitignored) was stale. The sanity guard is the permanent fix; do not remove the 0.7 threshold without a replacement guard.
+
+_Avoid_: removing or lowering the contributor-count sanity guard; running `build_badges()` against a freshly-checked-out repo without first running `generateNamedIndex.py` (which regenerates Class P).
+
 ### MCP Server Management
 The Model Context Protocol (MCP) server enables AI agents (such as Claude Code and Cursor) to interact with the registry. It supports:
 - **Daemonization:** Running in the background detached via a lightweight Node.js daemon process manager (`daemon.ts`) controlled via `~/.gaia/mcp.pid`.
