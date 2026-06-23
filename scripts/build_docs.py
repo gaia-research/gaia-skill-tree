@@ -628,6 +628,32 @@ def build_badges(check: bool) -> bool:
         # those as drift so --check fails the CI gate (rather than auto-sync
         # quietly committing them again).
         stale = _committed_redaction_violations(committed)
+        # Sanity guard: abort if regenerated output has far fewer contributors
+        # than currently committed — indicates stale Class P snapshot in CI.
+        # Third recurrence of this footgun (PRs around #808, v5.1.3, v5.1.4):
+        # when `registry/named-skills.json` (Class P, gitignored) is stale on
+        # the runner, `generateBadges.py` emits a near-empty tree. The
+        # rmtree+copytree swap below then wipes the live ~30-contributor tree
+        # down to a handful, blanking badges on the site. The 0.7 threshold
+        # (>30% drop triggers abort) is conservative enough to survive normal
+        # curation churn but catches the catastrophic wipe (0/31 = 0%).
+        committed_count = _count_badge_contributors(committed)
+        generated_count = _count_badge_contributors(out_dir)
+        wipe_detected = (
+            committed_count > 0 and generated_count < committed_count * 0.7
+        )
+        if wipe_detected:
+            msg = (
+                f"docs/badges/ regen aborted: generated {generated_count} "
+                f"contributor(s) but committed tree has {committed_count}. "
+                f"Likely stale registry snapshot — run `gaia pull` then retry."
+            )
+            if check:
+                # In --check mode we don't raise (so other guards still run),
+                # but we surface the drop loudly and flag drift.
+                print(f"diff docs/badges/ (sanity guard: {msg})")
+                return True
+            raise RuntimeError(msg)
         if not drifts and not stale:
             return False
         if check:
@@ -640,6 +666,20 @@ def build_badges(check: bool) -> bool:
             shutil.rmtree(committed)
             shutil.copytree(out_dir, committed)
         return True
+
+
+def _count_badge_contributors(badges_dir: Path) -> int:
+    """Count contributor subdirectories under `badges_dir/_assets`.
+
+    Each subdirectory of `_assets/` represents one contributor's badge bundle
+    (OG card, per-skill SVGs, etc.). Used as the sanity-guard signal in
+    `build_badges()` to detect a catastrophic regen wipe before it lands on
+    disk. Returns 0 if the directory is missing.
+    """
+    assets = badges_dir / "_assets"
+    if not assets.is_dir():
+        return 0
+    return sum(1 for p in assets.iterdir() if p.is_dir())
 
 
 def _apply_redaction_backstop(badges_dir: Path, *, check: bool) -> None:
