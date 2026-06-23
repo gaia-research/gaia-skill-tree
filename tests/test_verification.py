@@ -21,6 +21,7 @@ from gaia_cli.verification import (
     resolveTier,
     stampFirstEvidenceAt,
 )
+pytestmark = [pytest.mark.integration]
 
 
 UTC = datetime.timezone.utc

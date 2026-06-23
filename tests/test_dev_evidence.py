@@ -12,6 +12,8 @@ from types import SimpleNamespace
 import pytest
 
 from gaia_cli.commands.dev.evidence import meta_evidence_command, _preflight_benchmark_percentile
+pytestmark = [pytest.mark.integration]
+
 
 
 # ---------------------------------------------------------------------------

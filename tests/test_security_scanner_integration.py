@@ -22,6 +22,7 @@ from gaia_cli.securityScanner import (
     scanNamedSkillFiles,
     scanSkillContent,
 )
+pytestmark = [pytest.mark.integration, pytest.mark.slow]
 
 
 FIXTURE = Path(__file__).parent / "fixtures" / "poisoned-skill.md"

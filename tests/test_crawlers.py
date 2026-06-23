@@ -4,6 +4,9 @@ import sys
 import os
 import json
 import subprocess
+import pytest
+pytestmark = [pytest.mark.integration, pytest.mark.slow]
+
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts", "crawlers"))
 

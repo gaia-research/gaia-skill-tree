@@ -1,4 +1,7 @@
 from pathlib import Path
+import pytest
+pytestmark = [pytest.mark.integration, pytest.mark.slow]
+
 
 
 ROOT = Path(__file__).resolve().parents[1]

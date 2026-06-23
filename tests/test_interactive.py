@@ -24,6 +24,7 @@ from gaia_cli.interactive import (
     select_push_batch,
     select_skill,
 )
+pytestmark = [pytest.mark.integration]
 
 
 class TestHasInteractive:

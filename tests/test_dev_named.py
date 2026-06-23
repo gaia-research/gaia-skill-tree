@@ -7,6 +7,8 @@ from types import SimpleNamespace
 import pytest
 
 from gaia_cli.commands.dev.named import meta_update_named_command
+pytestmark = [pytest.mark.integration]
+
 
 
 # ---------------------------------------------------------------------------

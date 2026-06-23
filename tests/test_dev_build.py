@@ -11,6 +11,7 @@ from gaia_cli.commands.dev.build import (
     meta_add_command,
     meta_remove_command,
 )
+pytestmark = [pytest.mark.integration]
 
 
 # ---------------------------------------------------------------------------

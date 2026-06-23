@@ -4,6 +4,8 @@ import os
 from pathlib import Path
 from gaia_cli.main import main
 import pytest
+pytestmark = [pytest.mark.integration]
+
 
 @pytest.fixture(autouse=True)
 def no_docs_build(monkeypatch):

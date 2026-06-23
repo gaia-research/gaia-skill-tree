@@ -18,6 +18,8 @@ import pytest
 from gaia_cli import redaction as R
 from gaia_cli import formatting as F
 from gaia_cli.localContext import LocalContext
+pytestmark = [pytest.mark.integration]
+
 
 
 # ── Core predicate ────────────────────────────────────────────────────────────

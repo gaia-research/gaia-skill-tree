@@ -5,6 +5,8 @@ from pathlib import Path
 
 import pytest
 from gaia_cli.commands.dev import helpers
+pytestmark = [pytest.mark.integration]
+
 
 
 def test_parse_write_md(tmp_path: Path):

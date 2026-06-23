@@ -18,6 +18,8 @@ import pytest
 
 from gaia_cli.pathEngine import unlock_path, render_unlock_path, _path_tree_to_dict
 from gaia_cli.combinator import transitive_close, detect_combinations
+pytestmark = [pytest.mark.integration]
+
 
 # ---------------------------------------------------------------------------
 # Shared fixture graphs

@@ -5,6 +5,8 @@ from pathlib import Path
 import pytest
 
 from scripts import build_docs
+pytestmark = [pytest.mark.integration, pytest.mark.slow]
+
 
 REPO_ROOT = Path(__file__).parent.parent
 

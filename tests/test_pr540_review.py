@@ -2,6 +2,8 @@ import os
 import sys
 import pytest
 from unittest.mock import patch, MagicMock
+pytestmark = [pytest.mark.integration]
+
 
 def test_tui_flag_exists():
     from gaia_cli.main import get_parser

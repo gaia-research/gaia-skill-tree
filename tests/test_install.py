@@ -10,6 +10,9 @@ registry source (pure JSON, no YAML parsing needed).
 import json
 import os
 import sys
+import pytest
+pytestmark = [pytest.mark.integration, pytest.mark.slow]
+
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 

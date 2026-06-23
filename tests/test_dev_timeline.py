@@ -7,6 +7,8 @@ from types import SimpleNamespace
 import pytest
 
 from gaia_cli.commands.dev.timeline import meta_timeline_command
+pytestmark = [pytest.mark.integration]
+
 
 
 # ---------------------------------------------------------------------------

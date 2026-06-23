@@ -5,6 +5,8 @@ import sys
 from pathlib import Path
 import pytest
 from gaia_cli.commands import mcp_cmd
+pytestmark = [pytest.mark.integration]
+
 
 def test_execute_dev_mcp_missing_build(tmp_path: Path, monkeypatch, capsys):
     args = argparse.Namespace(mcp_command="start", registry=tmp_path)

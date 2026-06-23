@@ -8,6 +8,8 @@ from types import SimpleNamespace
 import pytest
 
 from gaia_cli.commands.dev.merge import meta_merge_command, meta_split_command
+pytestmark = [pytest.mark.integration]
+
 
 
 # ---------------------------------------------------------------------------

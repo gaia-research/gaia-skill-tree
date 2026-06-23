@@ -23,6 +23,7 @@ from gaia_cli.securityScanner import (
     hasHighSeverity,
     scanSkillContent,
 )
+pytestmark = [pytest.mark.integration]
 
 
 def _wrapPython(code: str) -> str:

@@ -3,6 +3,9 @@ import sys
 import tempfile
 import unittest
 from unittest.mock import patch
+import pytest
+pytestmark = [pytest.mark.integration]
+
 
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
