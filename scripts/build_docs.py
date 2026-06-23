@@ -424,6 +424,15 @@ def build_css_tokens(check: bool) -> bool:
 # normalize these timestamps away so the integrity gate flags genuine changes
 # only; write mode keeps the byte-exact comparison so Auto-Sync still freshens
 # the committed date on main.
+#
+# Same applies to the live version string baked into HTML `?v=` cache-bust
+# parameters and the `window.GAIA_VERSION` script tag — every release bumps the
+# version, every profile page picks up the new stamp on regen, every PR opened
+# after a release sees ~42 "drifted" docs/u/*/index.html files even though
+# nothing about the content changed. This was the dominant source of CI churn
+# since PR #780 — see CLAUDE.md "Decorative assets must NOT carry version
+# metadata" (Issue #807) — extended here to normalize the version stamp during
+# --check comparison.
 _VOLATILE_DATE_PATTERNS = (
     # JSON: "generatedAt": "2026-06-13" | "...T..Z" → value blanked
     (re.compile(r'("generatedAt"\s*:\s*)"[^"]*"'), r'\1"<normalized>"'),
@@ -433,6 +442,13 @@ _VOLATILE_DATE_PATTERNS = (
     (re.compile(r'([Gg]enerated(?: from gaia\.json on)?\s+)'
                 r'\d{4}-\d{2}-\d{2}(?:[T ][\d:.]+Z?)?'),
      r'\1<normalized>'),
+    # HTML cache-bust query strings: ?v=5.1.6 → ?v=<normalized>
+    (re.compile(r'\?v=\d+\.\d+\.\d+'), '?v=<normalized>'),
+    # window.GAIA_VERSION = "5.1.6"; → "<normalized>"
+    (re.compile(r'(window\.GAIA_VERSION\s*=\s*)"\d+\.\d+\.\d+"'),
+     r'\1"<normalized>"'),
+    # Human-readable footer "v5.1.6 ·" → v<normalized> ·
+    (re.compile(r'\bv\d+\.\d+\.\d+(?=\s+·)'), 'v<normalized>'),
 )
 
 
@@ -481,10 +497,15 @@ def _diff_tree(reference: Path, candidate: Path) -> list[str]:
             if not ref_path.exists() or not cand_path.exists():
                 drifts.append(str(sub))
                 continue
-            if sub.name == "registry.json":
-                if not _equal_ignoring_dates(ref_path, cand_path):
-                    drifts.append(str(sub))
-            elif not filecmp.cmp(ref_path, cand_path, shallow=False):
+            # Text files: compare via _equal_ignoring_dates so volatile
+            # timestamps AND version stamps (the dominant source of post-PR-#780
+            # CI churn — every release bumps `?v=` query strings and
+            # window.GAIA_VERSION in every regenerated page, making every PR
+            # opened after a release show drift on ~42 unrelated docs/u/*
+            # pages) are normalized to a sentinel before comparison.
+            # _equal_ignoring_dates falls back to byte comparison if either
+            # file is non-UTF-8, so binary assets still get byte-exact diff.
+            if not _equal_ignoring_dates(ref_path, cand_path):
                 drifts.append(str(sub))
 
     if not reference.exists() or not candidate.exists():
@@ -500,8 +521,10 @@ def _run_script(script: Path, args: list[str]) -> tuple[int, str]:
         cwd=ROOT,
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        errors="replace",
     )
-    return proc.returncode, proc.stdout + proc.stderr
+    return proc.returncode, (proc.stdout or "") + (proc.stderr or "")
 
 
 def build_named_index(check: bool) -> bool:
@@ -1016,7 +1039,27 @@ def main(argv: list[str] | None = None) -> int:
     named_index_changed = _run_step("named-index", build_named_index, args.check)
     docs_named_changed = _run_step("docs-named-index", build_docs_named_index, args.check)
     profiles_changed = _run_step("profiles", build_profile_pages, args.check)
-    badges_changed = _run_step("badges", build_badges, args.check)
+    # Badges step honors a `[skip-badge-check]` opt-in escape: if the most
+    # recent commit's SUBJECT (first line, not body) contains that marker,
+    # skip the badge regen/diff entirely. Mirrors `[skip-gen]` in
+    # .github/workflows/sync-artifacts.yml. The subject-only match prevents
+    # false-positives from commit-body prose that mentions the flag (this
+    # very docstring would otherwise match).
+    skip_badges = False
+    try:
+        _msg = subprocess.run(
+            ["git", "log", "-1", "--format=%s"],
+            cwd=ROOT, capture_output=True, text=True, check=False,
+            encoding="utf-8", errors="replace",
+        ).stdout or ""
+        skip_badges = "[skip-badge-check]" in _msg
+    except Exception:
+        skip_badges = False
+    if skip_badges:
+        print("[skip-badge-check] detected — skipping badges regen/diff.")
+        badges_changed = False
+    else:
+        badges_changed = _run_step("badges", build_badges, args.check)
     og_changed = _run_step("og-cards", build_og_cards, args.check)
     tree_changed = _run_step("tree-md", build_tree_md, args.check)
     ruflo_curation_changed = _run_step("ruflo-curation", build_ruflo_curation, args.check)
@@ -1042,6 +1085,20 @@ def main(argv: list[str] | None = None) -> int:
         for w in warnings:
             print(f"  • {w}", file=sys.stderr)
 
+    # Badge drift is warn-only by default — docs/badges/_assets/* and
+    # registry.json are a Cloudflare-served reward artifact regenerated by
+    # human-curated infra/badge-* PRs, NOT by the auto-sync runner (see
+    # founder/CLAUDE.md, 2026-06-23 outage retro). Letting badge drift fail
+    # `gaia dev docs --check` makes every unrelated PR trip a wire whenever
+    # named-skills.json on the runner happens to disagree with the committed
+    # badge tree. Badges still appear in the diff output for visibility.
+    if badges_changed and args.check:
+        print(
+            "::warning::docs/badges/ is stale (warn-only — landed via "
+            "infra/badge-* PRs, not auto-sync).",
+            file=sys.stderr,
+        )
+
     changed = (
         assembly_changed
         or readme_changed
@@ -1051,7 +1108,7 @@ def main(argv: list[str] | None = None) -> int:
         or named_index_changed
         or docs_named_changed
         or profiles_changed
-        or badges_changed
+        # badges_changed: intentionally omitted — see warn-only block above.
         or og_changed
         or tree_changed
         or ruflo_curation_changed
