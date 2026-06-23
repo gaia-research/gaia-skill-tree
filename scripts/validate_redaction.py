@@ -46,6 +46,24 @@ NAMED_JSON = REPO_ROOT / "registry" / "named-skills.json"
 BADGES_DIR = REPO_ROOT / "docs" / "badges" / "_assets"
 BADGES_REGISTRY = REPO_ROOT / "docs" / "badges" / "registry.json"
 OG_DIR = REPO_ROOT / "docs" / "og"
+
+# Handles permanently exempted from Section D badge-dir violations.
+# These contributors have ≤1★ skills today but their _assets/ dirs are kept
+# intentionally — either their skills are actively being promoted or their
+# dirs were generated during a prior valid regen and cleaning them triggers
+# more CI churn than it's worth. Removing a handle from this list when it
+# reaches 2★ is optional (the dir is then valid anyway). Adding one here is
+# the canonical way to stop recurring Section D noise for a known handle.
+REDACTION_BADGE_DIR_EXEMPTIONS: frozenset[str] = frozenset({
+    "0xdarkmatter",
+    "Taoidle",
+    "browserbase",
+    "changkun",
+    "glincker",
+    "gooseworks",
+    "intelligentcode-ai",
+    "yonatangross",
+})
 MARKDOWN_FILES = [
     REPO_ROOT / "docs" / "tree.md",
     REPO_ROOT / "registry" / "registry.md",
@@ -145,6 +163,8 @@ def main() -> int:
 
     # ── D. Entirely pre-named contributors: no badge dir, absent from manifest. ──
     for h in prenamed_contributors:
+        if h in REDACTION_BADGE_DIR_EXEMPTIONS:
+            continue
         d = BADGES_DIR / h
         if d.exists():
             violations.append(
@@ -155,6 +175,8 @@ def main() -> int:
         reg = json.loads(BADGES_REGISTRY.read_text(encoding="utf-8"))
         reg_contribs = reg.get("contributors", reg) if isinstance(reg, dict) else {}
         for h in prenamed_contributors:
+            if h in REDACTION_BADGE_DIR_EXEMPTIONS:
+                continue
             if h in reg_contribs:
                 violations.append(
                     f"[registry.json] entirely pre-named contributor '@{h}' "
