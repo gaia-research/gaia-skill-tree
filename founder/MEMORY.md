@@ -2,6 +2,50 @@
 
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
+## State Snapshot (2026-06-24, session 20 — Pytest tiered CI shipped, badge sanity guard landed)
+
+### TLDR
+
+- **PR #815 merged** (`infra(tests): pytest marker segregation + tiered CI fast gate`): 47 test files tagged `integration`/`slow`, fast tier (623 unit tests, ~9s) gates CI before `gaia dev test all`. `isolated_gaia_home` fixture scoped to integration tests only via `pytest_collection_modifyitems`. `python-package.yml` now runs fast gate first.
+- **Badge wipe recurred 3× in one session** (v5.1.2, PR #815 merge, v5.1.4 release) — same auto-sync footgun: `sync-artifacts.yml` runs `build_docs.py` on every non-`[skip-gen]` push, Class P snapshot stale in CI → `generateBadges.py` produces 0 contributors → `rmtree+copytree` wipes committed tree.
+- **PR #818 merged** (`infra/badge-regen-sanity-guard`): adds `_count_badge_contributors()` + 0.7-threshold guard in `build_docs.py::build_badges()` — aborts with `RuntimeError` when generated contributor count < 70% of committed. Also restores `registry.json` (31 contributors) and `_assets/` (32 dirs, `mbtiongson1/` present, 8 stale 1★ dirs removed).
+- **CONTEXT.md updated** with Badge Artifacts section under Generated Artifacts — recurrence history + sanity guard rationale + avoid directives documented.
+
+### What changed this session
+
+| PR | Branch | What | Status |
+|---|---|---|---|
+| #815 | `dev/pytest-tiered-ci` | Pytest markers + tiered CI fast gate | ✅ Merged |
+| #818 | `infra/badge-regen-sanity-guard` | Badge sanity guard + restore | ✅ Merged |
+
+### CI churn on PR #815 (6 rounds, 3 extra)
+
+| Round | Root cause |
+|---|---|
+| 1 | Pre-existing: 8 stale 1★ badge dirs from v5.1.2 |
+| 2 | Profile pages `docs/u/*/` drifted after badge regen |
+| 3 | `tree.md` drifted — scipy missing locally (fix: `pip install scipy` in correct Python env `/c/Users/C5396183/AppData/Local/Python/bin/pip.exe`) |
+
+### Pytest tiered CI — how to use
+
+- Fast tier: `pytest -m "not integration and not slow"` — 623 tests, ~9s
+- Full suite: `gaia dev test all` — all tests, ~90s
+- CI: fast gate runs first in `python-package.yml`, full suite second
+- Assignment criteria: `integration` = subprocess/network/full CLI lifecycle; `slow` = >2s wall-clock; unmarked = pure-Python logic
+
+### Recurring badge footgun — now fixed
+
+Root: `sync-artifacts.yml` fires on every non-`[skip-gen]` push to main → `build_docs.py` calls `build_badges()` → `generateBadges.py` runs against CI's Class P (stale, gitignored) → 0 contributors generated → `rmtree+copytree` wipes 31 real contributors. Guard threshold 0.7 (30% drop) is conservative for normal curation churn but catches catastrophic wipe.
+
+### Token spend (session 20)
+
+- Pytest tiered CI dispatch (Opus planning subagent + Sonnet implementation): ~80k in, ~10k out. ~$1.20
+- Badge investigation (Opus subagent): ~70k in, ~8k out. ~$1.00
+- Badge sanity guard fix (Opus worktree agent): ~30k in, ~5k out. ~$2.50 (Opus rate)
+- **Session 20 total: ~$4.70**
+
+---
+
 ## State Snapshot (2026-06-23, session 19 — Badge regen loop diagnosed, #807 backstop landed)
 
 ### TLDR
