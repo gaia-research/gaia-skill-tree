@@ -51,6 +51,14 @@ jobs:
       - name: Install dependencies
         run: pip install -e ".[dev]"
 
+      - name: Hydrate registry snapshot from latest release
+        # Pulls the last known-good registry/{gaia,named-skills}.json from the
+        # most recent GitHub Release. Without this, the runner starts with an
+        # empty Class-P state (named-skills.json is gitignored) and relies
+        # solely on `gaia dev docs` regen — a single regen failure there
+        # silently ships contributors:{} to prod (the v5.1.4 regression).
+        run: gaia pull || echo "::warning::gaia pull failed — proceeding with regenerated snapshot only"
+
       - name: Configure git identity
         # Must run BEFORE `gaia release`, which creates its own version-bump
         # commit. Without an identity here git aborts with "empty ident name".

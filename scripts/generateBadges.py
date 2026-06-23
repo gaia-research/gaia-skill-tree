@@ -903,6 +903,24 @@ def main(argv: list[str] | None = None) -> int:
     write_static_badges(out_dir)
     write_sample_badges(rank_colors, out_dir)
     registry = build_registry(contributors)
+    # Backstop: if named-skills is empty/stale the registry collapses to {} while
+    # _assets/ dirs still exist (seeded by scan_users). Fail loudly rather than
+    # write a starved registry.json. The sanity guard in build_docs.py is the
+    # primary gate; this catches direct invocations of this script too.
+    asset_dirs = (
+        sum(1 for p in (out_dir / "_assets").iterdir() if p.is_dir())
+        if (out_dir / "_assets").is_dir()
+        else 0
+    )
+    if len(registry) == 0 and asset_dirs > 0:
+        import sys as _sys
+        print(
+            f"ERROR: registry.json::contributors is empty but {asset_dirs} "
+            "_assets/ dirs exist. registry/named-skills.json is likely "
+            "empty/stale — refusing to write a starved registry.",
+            file=_sys.stderr,
+        )
+        return 1
     write_registry_json(registry, out_dir)
     print(f"Wrote badges for {written} contributors to {out_dir} "
           f"({len(registry)} with approved repos in registry.json)")

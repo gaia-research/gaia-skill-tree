@@ -639,18 +639,34 @@ def build_badges(check: bool) -> bool:
         # curation churn but catches the catastrophic wipe (0/31 = 0%).
         committed_count = _count_badge_contributors(committed)
         generated_count = _count_badge_contributors(out_dir)
-        wipe_detected = (
-            committed_count > 0 and generated_count < committed_count * 0.7
-        )
-        if wipe_detected:
+        committed_registry = _count_registry_contributors(committed)
+        generated_registry = _count_registry_contributors(out_dir)
+
+        def _wipe(committed_n: int, generated_n: int) -> bool:
+            return committed_n > 0 and generated_n < committed_n * 0.7
+
+        assets_wipe = _wipe(committed_count, generated_count)
+        # Registry contributor count uses a strictly narrower feed (named-skills
+        # only) than asset dirs (named-skills + skill-trees). A stale
+        # named-skills.json on the runner produces contributors:{} while _assets/
+        # looks healthy — the exact v5.1.4 failure mode. Gate on BOTH axes.
+        registry_wipe = _wipe(committed_registry, generated_registry)
+        if assets_wipe or registry_wipe:
+            axes = []
+            if assets_wipe:
+                axes.append(
+                    f"_assets/ {generated_count}/{committed_count} dirs"
+                )
+            if registry_wipe:
+                axes.append(
+                    f"registry.json {generated_registry}/{committed_registry} contributors"
+                )
             msg = (
-                f"docs/badges/ regen aborted: generated {generated_count} "
-                f"contributor(s) but committed tree has {committed_count}. "
-                f"Likely stale registry snapshot — run `gaia pull` then retry."
+                f"docs/badges/ regen aborted: catastrophic drop on "
+                f"{', '.join(axes)}. Likely stale registry/named-skills.json "
+                f"snapshot on the runner — run `gaia pull` then retry."
             )
             if check:
-                # In --check mode we don't raise (so other guards still run),
-                # but we surface the drop loudly and flag drift.
                 print(f"diff docs/badges/ (sanity guard: {msg})")
                 return True
             raise RuntimeError(msg)
@@ -680,6 +696,29 @@ def _count_badge_contributors(badges_dir: Path) -> int:
     if not assets.is_dir():
         return 0
     return sum(1 for p in assets.iterdir() if p.is_dir())
+
+
+def _count_registry_contributors(badges_dir: Path) -> int:
+    """Count `contributors` keys in `badges_dir/registry.json`.
+
+    Independent from `_count_badge_contributors` (which counts `_assets/`):
+    `registry.json::contributors` is built from a strictly narrower feed
+    (named-skills only) than the asset-dir feed (named-skills + skill-trees).
+    A stale `registry/named-skills.json` on the runner can produce
+    `contributors: {}` while leaving `_assets/` populated by the scan path —
+    that is the exact failure mode that took the site dark after v5.1.4.
+    Returns 0 if the file is missing or malformed.
+    """
+    import json as _json
+    registry = badges_dir / "registry.json"
+    if not registry.is_file():
+        return 0
+    try:
+        data = _json.loads(registry.read_text(encoding="utf-8"))
+    except (ValueError, OSError):
+        return 0
+    contribs = data.get("contributors") if isinstance(data, dict) else None
+    return len(contribs) if isinstance(contribs, dict) else 0
 
 
 def _apply_redaction_backstop(badges_dir: Path, *, check: bool) -> None:
