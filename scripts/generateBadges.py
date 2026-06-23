@@ -903,6 +903,35 @@ def main(argv: list[str] | None = None) -> int:
     write_static_badges(out_dir)
     write_sample_badges(rank_colors, out_dir)
     registry = build_registry(contributors)
+    # Backstop: if named-skills.json had real contributor buckets coming in but
+    # the registry collapsed to {} (filter/redaction wiped them all, or a stale
+    # snapshot got read), fail loudly rather than overwrite a healthy on-disk
+    # registry.json with an empty one. The sanity guard in build_docs.py is the
+    # primary gate; this catches direct invocations of this script too.
+    #
+    # The signal is "named-skills had inputs but contributors came out empty",
+    # NOT "_assets/ has any dirs at all" — scan-only users legitimately produce
+    # /_assets/<handle>/ dirs without entering registry.json (they have no
+    # approved repo). The earlier "asset_dirs > 0" heuristic false-fired in
+    # tests that monkey-patched NAMED_JSON to {} but couldn't patch the real
+    # skill-trees/ directory the scan path reads.
+    had_named_inputs = False
+    if NAMED_JSON.exists():
+        try:
+            _named_payload = json.loads(NAMED_JSON.read_text(encoding="utf-8"))
+            had_named_inputs = bool(_named_payload.get("buckets")) or bool(
+                _named_payload.get("awaitingClassification"))
+        except json.JSONDecodeError:
+            had_named_inputs = False
+    if had_named_inputs and len(registry) == 0:
+        import sys as _sys
+        print(
+            "ERROR: named-skills.json has bucket entries but registry.json::"
+            "contributors collapsed to empty. Filter/redaction likely wiped "
+            "every contributor — refusing to write a starved registry.",
+            file=_sys.stderr,
+        )
+        return 1
     write_registry_json(registry, out_dir)
     print(f"Wrote badges for {written} contributors to {out_dir} "
           f"({len(registry)} with approved repos in registry.json)")
