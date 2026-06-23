@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  ·  generated 2026-06-22
+GAIA SKILL TREE  ·  generated 2026-06-23
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -278,4 +278,4 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   ○ getagentseal/codeburn  [2★]
 ```
 
-*Generated from gaia.json on 2026-06-22. Do not edit directly.*
+*Generated from gaia.json on 2026-06-23. Do not edit directly.*
