@@ -4,6 +4,9 @@ import tempfile
 import unittest
 
 from scripts.generateRealSkills import generate_catalog_pages
+import pytest
+pytestmark = [pytest.mark.integration]
+
 
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

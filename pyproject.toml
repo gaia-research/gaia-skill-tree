@@ -97,7 +97,10 @@ testpaths = ["tests"]
 norecursedirs = ["tests/_archive"]
 timeout = 60
 timeout_method = "thread"
+addopts = "-ra --strict-markers"
 markers = [
     "packaging: package build and wheel installation checks",
     "smoke: fast pre-push subset; covers high-value contracts (schema sync, wheel build, init, registry resolution, docs cohesion)",
+    "integration: spawns subprocesses, hits network/filesystem heavily, or exercises full CLI lifecycle — skipped in fast tier",
+    "slow: any single test consistently >2s wall-clock — skipped in fast tier",
 ]

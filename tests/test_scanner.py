@@ -4,6 +4,8 @@ import os
 import pytest
 
 from gaia_cli.scanner import scan_skill_mds, match_skill_to_canonical, _skill_search_dirs
+pytestmark = [pytest.mark.integration]
+
 
 
 # ---------------------------------------------------------------------------

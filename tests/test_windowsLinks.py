@@ -16,6 +16,8 @@ import pytest
 
 from gaia_cli import windowsLinks
 from gaia_cli.windowsLinks import makeLink, isLinkOrJunction, readLinkTarget
+pytestmark = [pytest.mark.integration]
+
 
 
 class TestMakeLinkPrimaryPath:

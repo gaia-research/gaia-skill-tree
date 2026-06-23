@@ -1,6 +1,9 @@
 import os
 
 from scripts import verify_evidence
+import pytest
+pytestmark = [pytest.mark.integration, pytest.mark.slow]
+
 
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

@@ -8,6 +8,9 @@ from gaia_cli.promotion import (
     promote_from_candidates,
     write_promotion_candidates,
 )
+
+pytestmark = [pytest.mark.integration]
+
 from gaia_cli.push import write_skill_batch
 from gaia_cli.registry import (
     generated_output_dir,

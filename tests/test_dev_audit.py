@@ -8,6 +8,8 @@ from io import StringIO
 import pytest
 
 from gaia_cli.commands.dev.audit import meta_audit_command
+pytestmark = [pytest.mark.integration]
+
 
 
 # ---------------------------------------------------------------------------

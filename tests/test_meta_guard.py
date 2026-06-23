@@ -17,6 +17,8 @@ from pathlib import Path
 from typing import Optional
 
 import pytest
+pytestmark = [pytest.mark.integration, pytest.mark.slow]
+
 
 # ---------------------------------------------------------------------------
 # Helpers to import script modules without side effects

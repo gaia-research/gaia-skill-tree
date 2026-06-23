@@ -14,6 +14,8 @@ import sys
 from pathlib import Path
 
 import pytest
+pytestmark = [pytest.mark.integration]
+
 
 REPO = Path(__file__).resolve().parent.parent
 _spec = importlib.util.spec_from_file_location(

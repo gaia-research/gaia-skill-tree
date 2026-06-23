@@ -12,6 +12,8 @@ from types import SimpleNamespace
 import pytest
 
 from gaia_cli.commands.dev.calibrate import meta_calibrate_command
+pytestmark = [pytest.mark.integration]
+
 
 
 # ---------------------------------------------------------------------------

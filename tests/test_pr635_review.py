@@ -15,6 +15,8 @@ import pytest
 from gaia_cli.scanner import scan_skill_mds, _skill_search_dirs
 from gaia_cli.treeManager import show_tree
 from gaia_cli import graph as graph_mod
+pytestmark = [pytest.mark.integration]
+
 
 
 # ---------------------------------------------------------------------------
