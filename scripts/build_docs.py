@@ -20,6 +20,22 @@ if str(SRC) not in sys.path:
 
 from gaia_cli.main import PUBLIC_COMMANDS, get_parser  # noqa: E402
 
+# Handles permanently exempted from redaction badge-dir violations.
+# These contributors have ≤1★ skills but their _assets/ dirs are kept
+# intentionally. Add a handle here to stop recurring CI noise; the canonical
+# definition lives in scripts/validate_redaction.py::REDACTION_BADGE_DIR_EXEMPTIONS
+# — keep both sets in sync.
+_REDACTION_BADGE_DIR_EXEMPTIONS: frozenset[str] = frozenset({
+    "0xdarkmatter",
+    "Taoidle",
+    "browserbase",
+    "changkun",
+    "glincker",
+    "gooseworks",
+    "intelligentcode-ai",
+    "yonatangross",
+})
+
 # Stage 1 — bring in the schema-driven CSS-token generator so --check can
 # verify docs/css/tokens.css is in sync with registry/gaia.json.meta.
 SCRIPTS = Path(__file__).resolve().parent
@@ -408,6 +424,15 @@ def build_css_tokens(check: bool) -> bool:
 # normalize these timestamps away so the integrity gate flags genuine changes
 # only; write mode keeps the byte-exact comparison so Auto-Sync still freshens
 # the committed date on main.
+#
+# Same applies to the live version string baked into HTML `?v=` cache-bust
+# parameters and the `window.GAIA_VERSION` script tag — every release bumps the
+# version, every profile page picks up the new stamp on regen, every PR opened
+# after a release sees ~42 "drifted" docs/u/*/index.html files even though
+# nothing about the content changed. This was the dominant source of CI churn
+# since PR #780 — see CLAUDE.md "Decorative assets must NOT carry version
+# metadata" (Issue #807) — extended here to normalize the version stamp during
+# --check comparison.
 _VOLATILE_DATE_PATTERNS = (
     # JSON: "generatedAt": "2026-06-13" | "...T..Z" → value blanked
     (re.compile(r'("generatedAt"\s*:\s*)"[^"]*"'), r'\1"<normalized>"'),
@@ -417,6 +442,13 @@ _VOLATILE_DATE_PATTERNS = (
     (re.compile(r'([Gg]enerated(?: from gaia\.json on)?\s+)'
                 r'\d{4}-\d{2}-\d{2}(?:[T ][\d:.]+Z?)?'),
      r'\1<normalized>'),
+    # HTML cache-bust query strings: ?v=5.1.6 → ?v=<normalized>
+    (re.compile(r'\?v=\d+\.\d+\.\d+'), '?v=<normalized>'),
+    # window.GAIA_VERSION = "5.1.6"; → "<normalized>"
+    (re.compile(r'(window\.GAIA_VERSION\s*=\s*)"\d+\.\d+\.\d+"'),
+     r'\1"<normalized>"'),
+    # Human-readable footer "v5.1.6 ·" → v<normalized> ·
+    (re.compile(r'\bv\d+\.\d+\.\d+(?=\s+·)'), 'v<normalized>'),
 )
 
 
@@ -465,10 +497,15 @@ def _diff_tree(reference: Path, candidate: Path) -> list[str]:
             if not ref_path.exists() or not cand_path.exists():
                 drifts.append(str(sub))
                 continue
-            if sub.name == "registry.json":
-                if not _equal_ignoring_dates(ref_path, cand_path):
-                    drifts.append(str(sub))
-            elif not filecmp.cmp(ref_path, cand_path, shallow=False):
+            # Text files: compare via _equal_ignoring_dates so volatile
+            # timestamps AND version stamps (the dominant source of post-PR-#780
+            # CI churn — every release bumps `?v=` query strings and
+            # window.GAIA_VERSION in every regenerated page, making every PR
+            # opened after a release show drift on ~42 unrelated docs/u/*
+            # pages) are normalized to a sentinel before comparison.
+            # _equal_ignoring_dates falls back to byte comparison if either
+            # file is non-UTF-8, so binary assets still get byte-exact diff.
+            if not _equal_ignoring_dates(ref_path, cand_path):
                 drifts.append(str(sub))
 
     if not reference.exists() or not candidate.exists():
@@ -484,8 +521,10 @@ def _run_script(script: Path, args: list[str]) -> tuple[int, str]:
         cwd=ROOT,
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        errors="replace",
     )
-    return proc.returncode, proc.stdout + proc.stderr
+    return proc.returncode, (proc.stdout or "") + (proc.stderr or "")
 
 
 def build_named_index(check: bool) -> bool:
@@ -639,18 +678,34 @@ def build_badges(check: bool) -> bool:
         # curation churn but catches the catastrophic wipe (0/31 = 0%).
         committed_count = _count_badge_contributors(committed)
         generated_count = _count_badge_contributors(out_dir)
-        wipe_detected = (
-            committed_count > 0 and generated_count < committed_count * 0.7
-        )
-        if wipe_detected:
+        committed_registry = _count_registry_contributors(committed)
+        generated_registry = _count_registry_contributors(out_dir)
+
+        def _wipe(committed_n: int, generated_n: int) -> bool:
+            return committed_n > 0 and generated_n < committed_n * 0.7
+
+        assets_wipe = _wipe(committed_count, generated_count)
+        # Registry contributor count uses a strictly narrower feed (named-skills
+        # only) than asset dirs (named-skills + skill-trees). A stale
+        # named-skills.json on the runner produces contributors:{} while _assets/
+        # looks healthy — the exact v5.1.4 failure mode. Gate on BOTH axes.
+        registry_wipe = _wipe(committed_registry, generated_registry)
+        if assets_wipe or registry_wipe:
+            axes = []
+            if assets_wipe:
+                axes.append(
+                    f"_assets/ {generated_count}/{committed_count} dirs"
+                )
+            if registry_wipe:
+                axes.append(
+                    f"registry.json {generated_registry}/{committed_registry} contributors"
+                )
             msg = (
-                f"docs/badges/ regen aborted: generated {generated_count} "
-                f"contributor(s) but committed tree has {committed_count}. "
-                f"Likely stale registry snapshot — run `gaia pull` then retry."
+                f"docs/badges/ regen aborted: catastrophic drop on "
+                f"{', '.join(axes)}. Likely stale registry/named-skills.json "
+                f"snapshot on the runner — run `gaia pull` then retry."
             )
             if check:
-                # In --check mode we don't raise (so other guards still run),
-                # but we surface the drop loudly and flag drift.
                 print(f"diff docs/badges/ (sanity guard: {msg})")
                 return True
             raise RuntimeError(msg)
@@ -682,12 +737,36 @@ def _count_badge_contributors(badges_dir: Path) -> int:
     return sum(1 for p in assets.iterdir() if p.is_dir())
 
 
+def _count_registry_contributors(badges_dir: Path) -> int:
+    """Count `contributors` keys in `badges_dir/registry.json`.
+
+    Independent from `_count_badge_contributors` (which counts `_assets/`):
+    `registry.json::contributors` is built from a strictly narrower feed
+    (named-skills only) than the asset-dir feed (named-skills + skill-trees).
+    A stale `registry/named-skills.json` on the runner can produce
+    `contributors: {}` while leaving `_assets/` populated by the scan path —
+    that is the exact failure mode that took the site dark after v5.1.4.
+    Returns 0 if the file is missing or malformed.
+    """
+    import json as _json
+    registry = badges_dir / "registry.json"
+    if not registry.is_file():
+        return 0
+    try:
+        data = _json.loads(registry.read_text(encoding="utf-8"))
+    except (ValueError, OSError):
+        return 0
+    contribs = data.get("contributors") if isinstance(data, dict) else None
+    return len(contribs) if isinstance(contribs, dict) else 0
+
+
 def _apply_redaction_backstop(badges_dir: Path, *, check: bool) -> None:
     """Strip entirely-pre-named contributor artifacts from `badges_dir`.
 
     Mirrors `scripts/validate_redaction.py` Section D. Called on the generator
     tempdir output AND used to compute committed-tree drift; both surfaces
-    must agree on the invariant.
+    must agree on the invariant. Handles in `_REDACTION_BADGE_DIR_EXEMPTIONS`
+    are skipped — their dirs are kept intentionally.
     """
     prenamed = _prenamed_handles()
     if not prenamed:
@@ -695,6 +774,8 @@ def _apply_redaction_backstop(badges_dir: Path, *, check: bool) -> None:
     assets = badges_dir / "_assets"
     if assets.is_dir():
         for handle in prenamed:
+            if handle in _REDACTION_BADGE_DIR_EXEMPTIONS:
+                continue
             d = assets / handle
             if d.exists():
                 if not check:
@@ -719,7 +800,12 @@ def _apply_redaction_backstop(badges_dir: Path, *, check: bool) -> None:
 
 
 def _committed_redaction_violations(badges_dir: Path) -> list[str]:
-    """Return paths relative to `docs/badges/` that violate redaction on disk."""
+    """Return paths relative to `docs/badges/` that violate redaction on disk.
+
+    Handles in `_REDACTION_BADGE_DIR_EXEMPTIONS` are skipped — their dirs are
+    kept intentionally to avoid recurring CI churn while their skills are
+    pending promotion to 2★.
+    """
     prenamed = _prenamed_handles()
     if not prenamed:
         return []
@@ -727,6 +813,8 @@ def _committed_redaction_violations(badges_dir: Path) -> list[str]:
     assets = badges_dir / "_assets"
     if assets.is_dir():
         for handle in sorted(prenamed):
+            if handle in _REDACTION_BADGE_DIR_EXEMPTIONS:
+                continue
             d = assets / handle
             if d.exists():
                 out.append(f"_assets/{handle}/")
@@ -739,6 +827,8 @@ def _committed_redaction_violations(badges_dir: Path) -> list[str]:
         contribs = reg.get("contributors") if isinstance(reg, dict) else None
         if isinstance(contribs, dict):
             for handle in sorted(prenamed):
+                if handle in _REDACTION_BADGE_DIR_EXEMPTIONS:
+                    continue
                 if handle in contribs:
                     out.append(f"registry.json[{handle}]")
     return out
@@ -949,7 +1039,27 @@ def main(argv: list[str] | None = None) -> int:
     named_index_changed = _run_step("named-index", build_named_index, args.check)
     docs_named_changed = _run_step("docs-named-index", build_docs_named_index, args.check)
     profiles_changed = _run_step("profiles", build_profile_pages, args.check)
-    badges_changed = _run_step("badges", build_badges, args.check)
+    # Badges step honors a `[skip-badge-check]` opt-in escape: if the most
+    # recent commit's SUBJECT (first line, not body) contains that marker,
+    # skip the badge regen/diff entirely. Mirrors `[skip-gen]` in
+    # .github/workflows/sync-artifacts.yml. The subject-only match prevents
+    # false-positives from commit-body prose that mentions the flag (this
+    # very docstring would otherwise match).
+    skip_badges = False
+    try:
+        _msg = subprocess.run(
+            ["git", "log", "-1", "--format=%s"],
+            cwd=ROOT, capture_output=True, text=True, check=False,
+            encoding="utf-8", errors="replace",
+        ).stdout or ""
+        skip_badges = "[skip-badge-check]" in _msg
+    except Exception:
+        skip_badges = False
+    if skip_badges:
+        print("[skip-badge-check] detected — skipping badges regen/diff.")
+        badges_changed = False
+    else:
+        badges_changed = _run_step("badges", build_badges, args.check)
     og_changed = _run_step("og-cards", build_og_cards, args.check)
     tree_changed = _run_step("tree-md", build_tree_md, args.check)
     ruflo_curation_changed = _run_step("ruflo-curation", build_ruflo_curation, args.check)
@@ -975,6 +1085,20 @@ def main(argv: list[str] | None = None) -> int:
         for w in warnings:
             print(f"  • {w}", file=sys.stderr)
 
+    # Badge drift is warn-only by default — docs/badges/_assets/* and
+    # registry.json are a Cloudflare-served reward artifact regenerated by
+    # human-curated infra/badge-* PRs, NOT by the auto-sync runner (see
+    # founder/CLAUDE.md, 2026-06-23 outage retro). Letting badge drift fail
+    # `gaia dev docs --check` makes every unrelated PR trip a wire whenever
+    # named-skills.json on the runner happens to disagree with the committed
+    # badge tree. Badges still appear in the diff output for visibility.
+    if badges_changed and args.check:
+        print(
+            "::warning::docs/badges/ is stale (warn-only — landed via "
+            "infra/badge-* PRs, not auto-sync).",
+            file=sys.stderr,
+        )
+
     changed = (
         assembly_changed
         or readme_changed
@@ -984,7 +1108,7 @@ def main(argv: list[str] | None = None) -> int:
         or named_index_changed
         or docs_named_changed
         or profiles_changed
-        or badges_changed
+        # badges_changed: intentionally omitted — see warn-only block above.
         or og_changed
         or tree_changed
         or ruflo_curation_changed

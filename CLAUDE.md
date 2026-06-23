@@ -17,6 +17,18 @@ Never push directly to main.
 - Always confirm the target branch/worktree before editing. If user references a specific branch (e.g., `fix/links-3d-graph`), push there — do not create a new design branch.
 - When editing in a worktree, verify CWD matches the requested worktree before making edits.
 
+## Branch Scope — infra/ allowlist
+
+`infra/` branches may touch `docs/badges/` (registry.json, _assets/) in addition to the standard `.github/`, `scripts/`, `*.md`, `docs/*.html`. This is codified in `.github/workflows/branch-scope.yml` and applies permanently — badge restore/guard commits belong on `infra/` branches and must not require `skip-scope-check` every time.
+
+## Redaction Exemptions — ordained, do not re-litigate
+
+The following 8 contributor handles are **permanently exempt** from Section D badge-dir violations (`validate_redaction.py` + `build_docs.py`). Their `docs/badges/_assets/<handle>/` directories are kept intentionally. Do NOT remove them from the exemption list, do NOT delete their dirs, do NOT open issues about them. If any of them reach 2★ their dir becomes valid anyway and the exemption becomes a no-op.
+
+Exempted handles: `0xdarkmatter`, `Taoidle`, `browserbase`, `changkun`, `glincker`, `gooseworks`, `intelligentcode-ai`, `yonatangross`
+
+To add a new exemption: edit `REDACTION_BADGE_DIR_EXEMPTIONS` in **both** `scripts/validate_redaction.py` and `scripts/build_docs.py` (two frozensets, keep in sync).
+
 ## Edit Safety
 
 - After Edit/Write operations on JS/HTML, verify no duplication or merged lines were introduced (read the file back, run syntax check if available).
@@ -300,6 +312,10 @@ Available gstack skills:
 When auditing a "stale dir" complaint, first ask: are the underlying skills actually stale, or are they legitimately 1★ entries whose **badge directory** is the only thing that shouldn't be on disk? Removing the directory does not remove the skill — they're orthogonal.
 
 **Generator semantics** (`scripts/generateBadges.py`): writes only — never deletes contributor directories already on disk. The outer caller `scripts/build_docs.py::build_badges()` does the `shutil.rmtree(committed) + shutil.copytree(out_dir, committed)` cycle, which is what actually removes stale dirs. If `build_docs.py` errors out mid-run (e.g. a profiles regen failure on the auto-sync runner), the badges step may not run, and the prior on-disk state survives. Treat `gaia dev docs` warnings as load-bearing.
+
+**Auto-sync NEVER touches `docs/badges/`** (codified 2026-06-24 after the 17:34 UTC wipe outage): the `Auto-Sync Registry Artifacts` workflow runs `git checkout HEAD -- docs/badges/_assets/ docs/badges/registry.json` after `gaia dev docs`, so any badge regen the runner produced is discarded before commit. Badges may ONLY be refreshed via human-reviewed `infra/badge-*` PRs where the operator ran `gaia pull` against a known-good snapshot locally. Root cause of the ban: the runner's `gaia pull` step can hydrate from a stale GitHub Release (older than committed `named-skills.json`), and `gaia dev docs` then regenerates a near-empty badge tree against that stale snapshot — wiping live contributor SVGs that the CDN serves. See `founder/MEMORY.md` session 22 retro.
+
+**Badge drift in `gaia dev docs --check` is warn-only** (codified 2026-06-24): the `badges_changed` signal is printed as a `::warning::` but does NOT count toward the `--check` exit code in `scripts/build_docs.py::main`. Unrelated PRs no longer trip the wire when named-skills.json on the CI runner happens to disagree with the committed badge tree. The opt-in escape `[skip-badge-check]` in the HEAD commit message skips the badges step entirely (quieter CI log; no behavior change since badges are already warn-only).
 
 ## Known Graph Issues
 
