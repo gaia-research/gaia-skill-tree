@@ -1000,12 +1000,12 @@ def scan_command(args):
         _scan_state = {
             "skills": [
                 {
-                    "id": sk["mapped_to"],
+                    "id": sk["mapped_to"] if sk.get("match_type") in ("origin", "named", "exact_generic") else sk["id"].lstrip("/"),
                     "localId": sk["id"].lstrip("/"),
                     "level": sk["canon_level"],
                     "type": sk.get("skill_type", "basic"),
                     "description": sk.get("description", ""),
-                    "local": sk.get("match_type") is None and sk["mapped_score"] == 0.0,
+                    "local": sk.get("match_type") not in ("origin", "named", "exact_generic"),
                     "origin": sk.get("match_type") == "origin",
                     "namedRef": sk["mapped_to"] if sk.get("match_type") in ("origin", "named") else None,
                     "matchType": sk.get("match_type"),
@@ -1966,7 +1966,7 @@ def fuse_command(args):
                         {
                             "id": sid,
                             "type": ss.get("type") or sinfo.get("type", "basic"),
-                            "level": ss.get("level") or sinfo.get("level", "0★"),
+                            "level": ss.get("level") or sinfo.get("level") or ctx._effective_ranks.get(sid, "0★"),
                             "description": ss.get("description") or sinfo.get("description", ""),
                             "local": ss.get("local", sid in ctx.novel_ids),
                             "origin": ss.get("origin", ctx.is_origin(sid)),
@@ -1987,7 +1987,7 @@ def fuse_command(args):
                 for sid in selected:
                     ss = scan_map.get(sid) or {}
                     sinfo = skill_info_map.get(sid, {})
-                    lvl = ss.get("level") or sinfo.get("level", "0★")
+                    lvl = ss.get("level") or sinfo.get("level") or ctx._effective_ranks.get(sid, "0★")
                     max_stars = max(max_stars, level_num(lvl))
                 max_stars_str = f"{max_stars}★"
 

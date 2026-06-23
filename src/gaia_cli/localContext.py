@@ -125,9 +125,12 @@ class LocalContext:
                             origin_ids.add(cid)
 
                         if mid:
-                            owned_ids.add(mid)
-                            if username:
-                                named_map[mid] = f"{username}/{cid}"
+                            if mtype == "generic":
+                                owned_ids.add(cid)
+                            else:
+                                owned_ids.add(mid)
+                                if username and mtype != "exact_generic":
+                                    named_map[mid] = f"{username}/{cid.lstrip('/')}"
                         elif cid:
                             owned_ids.add(cid)
                             if username and cid not in named_map:
@@ -197,6 +200,9 @@ class LocalContext:
                         ranks = [level_num(s.get("level", "0★")) for s in skills]
                         if ranks:
                             effective_ranks[bucket] = f"{max(ranks)}★"
+                        for s in skills:
+                            if s.get("id"):
+                                effective_ranks[s["id"]] = s.get("level", "0★")
             except Exception:
                 pass
 
@@ -487,8 +493,9 @@ def _build_agent_dir_map(
             origin_skills=origin_skills, named_skills=named_skills
         )
         if match:
-            canonical_id = match[0]
-            result[canonical_id] = f"{username}/{dir_name}"
+            canonical_id, _, m_type = match
+            if m_type not in ("generic", "exact_generic"):
+                result[canonical_id] = f"{username}/{dir_name}"
     return result
 
 
