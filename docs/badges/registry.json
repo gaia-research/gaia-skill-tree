@@ -2,5 +2,2233 @@
   "generatedAt": "2026-06-23",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
-  "contributors": {}
+  "contributors": {
+    "garrytan": {
+      "repos": [
+        "garrytan/gstack"
+      ],
+      "skillsByRepo": {
+        "garrytan/gstack": [
+          "garrytan/benchmark",
+          "garrytan/benchmark-models",
+          "garrytan/browse",
+          "garrytan/canary",
+          "garrytan/careful",
+          "garrytan/codex",
+          "garrytan/context-restore",
+          "garrytan/context-save",
+          "garrytan/cso",
+          "garrytan/design-consultation",
+          "garrytan/design-html",
+          "garrytan/design-review",
+          "garrytan/design-shotgun",
+          "garrytan/devex-review",
+          "garrytan/document-generate",
+          "garrytan/document-release",
+          "garrytan/freeze",
+          "garrytan/garrytan",
+          "garrytan/gstack",
+          "garrytan/gstack-upgrade",
+          "garrytan/guard",
+          "garrytan/health",
+          "garrytan/investigate",
+          "garrytan/land-and-deploy",
+          "garrytan/landing-report",
+          "garrytan/learn",
+          "garrytan/make-pdf",
+          "garrytan/office-hours",
+          "garrytan/open-gstack-browser",
+          "garrytan/pair-agent",
+          "garrytan/plan-ceo-review",
+          "garrytan/plan-design-review",
+          "garrytan/plan-devex-review",
+          "garrytan/plan-eng-review",
+          "garrytan/plan-tune",
+          "garrytan/qa",
+          "garrytan/qa-only",
+          "garrytan/retro",
+          "garrytan/review",
+          "garrytan/scrape",
+          "garrytan/setup-browser-cookies",
+          "garrytan/setup-deploy",
+          "garrytan/setup-gbrain",
+          "garrytan/ship",
+          "garrytan/skillify",
+          "garrytan/sync-gbrain",
+          "garrytan/unfreeze"
+        ]
+      },
+      "topSkill": "garrytan/gstack",
+      "topRank": 5,
+      "topIsUnique": false,
+      "count": 47,
+      "namedSkills": [
+        {
+          "id": "garrytan/gstack",
+          "name": "Founder Mode",
+          "rank": 5,
+          "type": "ultimate",
+          "slash": "/gstack",
+          "file": "gstack.svg",
+          "fileSeal": "gstack-seal.svg"
+        },
+        {
+          "id": "garrytan/garrytan",
+          "name": "Autoplan",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/garrytan",
+          "file": "garrytan.svg",
+          "fileSeal": "garrytan-seal.svg"
+        },
+        {
+          "id": "garrytan/benchmark",
+          "name": "Benchmark",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/benchmark",
+          "file": "benchmark.svg",
+          "fileSeal": "benchmark-seal.svg"
+        },
+        {
+          "id": "garrytan/browse",
+          "name": "Browse",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/browse",
+          "file": "browse.svg",
+          "fileSeal": "browse-seal.svg"
+        },
+        {
+          "id": "garrytan/canary",
+          "name": "Canary",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/canary",
+          "file": "canary.svg",
+          "fileSeal": "canary-seal.svg"
+        },
+        {
+          "id": "garrytan/careful",
+          "name": "Careful",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/careful",
+          "file": "careful.svg",
+          "fileSeal": "careful-seal.svg"
+        },
+        {
+          "id": "garrytan/cso",
+          "name": "CSO",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/cso",
+          "file": "cso.svg",
+          "fileSeal": "cso-seal.svg"
+        },
+        {
+          "id": "garrytan/design-consultation",
+          "name": "Design Consultation",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/design-consultation",
+          "file": "design-consultation.svg",
+          "fileSeal": "design-consultation-seal.svg"
+        },
+        {
+          "id": "garrytan/design-html",
+          "name": "Design HTML",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/design-html",
+          "file": "design-html.svg",
+          "fileSeal": "design-html-seal.svg"
+        },
+        {
+          "id": "garrytan/design-shotgun",
+          "name": "Design Shotgun",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/design-shotgun",
+          "file": "design-shotgun.svg",
+          "fileSeal": "design-shotgun-seal.svg"
+        },
+        {
+          "id": "garrytan/document-generate",
+          "name": "Document Generate",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/document-generate",
+          "file": "document-generate.svg",
+          "fileSeal": "document-generate-seal.svg"
+        },
+        {
+          "id": "garrytan/investigate",
+          "name": "Investigate",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/investigate",
+          "file": "investigate.svg",
+          "fileSeal": "investigate-seal.svg"
+        },
+        {
+          "id": "garrytan/land-and-deploy",
+          "name": "Land and Deploy",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/land-and-deploy",
+          "file": "land-and-deploy.svg",
+          "fileSeal": "land-and-deploy-seal.svg"
+        },
+        {
+          "id": "garrytan/office-hours",
+          "name": "Office Hours",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/office-hours",
+          "file": "office-hours.svg",
+          "fileSeal": "office-hours-seal.svg"
+        },
+        {
+          "id": "garrytan/plan-ceo-review",
+          "name": "Plan CEO Review",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/plan-ceo-review",
+          "file": "plan-ceo-review.svg",
+          "fileSeal": "plan-ceo-review-seal.svg"
+        },
+        {
+          "id": "garrytan/plan-design-review",
+          "name": "Plan Design Review",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/plan-design-review",
+          "file": "plan-design-review.svg",
+          "fileSeal": "plan-design-review-seal.svg"
+        },
+        {
+          "id": "garrytan/plan-devex-review",
+          "name": "Plan DevEx Review",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/plan-devex-review",
+          "file": "plan-devex-review.svg",
+          "fileSeal": "plan-devex-review-seal.svg"
+        },
+        {
+          "id": "garrytan/plan-eng-review",
+          "name": "Plan Eng Review",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/plan-eng-review",
+          "file": "plan-eng-review.svg",
+          "fileSeal": "plan-eng-review-seal.svg"
+        },
+        {
+          "id": "garrytan/qa",
+          "name": "QA",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/qa",
+          "file": "qa.svg",
+          "fileSeal": "qa-seal.svg"
+        },
+        {
+          "id": "garrytan/retro",
+          "name": "Retro",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/retro",
+          "file": "retro.svg",
+          "fileSeal": "retro-seal.svg"
+        },
+        {
+          "id": "garrytan/review",
+          "name": "Review",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/review",
+          "file": "review.svg",
+          "fileSeal": "review-seal.svg"
+        },
+        {
+          "id": "garrytan/ship",
+          "name": "Ship",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/ship",
+          "file": "ship.svg",
+          "fileSeal": "ship-seal.svg"
+        },
+        {
+          "id": "garrytan/skillify",
+          "name": "Skillify",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/skillify",
+          "file": "skillify.svg",
+          "fileSeal": "skillify-seal.svg"
+        },
+        {
+          "id": "garrytan/benchmark-models",
+          "name": "Benchmark Models",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/benchmark-models",
+          "file": "benchmark-models.svg",
+          "fileSeal": "benchmark-models-seal.svg"
+        },
+        {
+          "id": "garrytan/codex",
+          "name": "Codex",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/codex",
+          "file": "codex.svg",
+          "fileSeal": "codex-seal.svg"
+        },
+        {
+          "id": "garrytan/context-restore",
+          "name": "Context Restore",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/context-restore",
+          "file": "context-restore.svg",
+          "fileSeal": "context-restore-seal.svg"
+        },
+        {
+          "id": "garrytan/context-save",
+          "name": "Context Save",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/context-save",
+          "file": "context-save.svg",
+          "fileSeal": "context-save-seal.svg"
+        },
+        {
+          "id": "garrytan/design-review",
+          "name": "Design Review",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/design-review",
+          "file": "design-review.svg",
+          "fileSeal": "design-review-seal.svg"
+        },
+        {
+          "id": "garrytan/devex-review",
+          "name": "DevEx Review",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/devex-review",
+          "file": "devex-review.svg",
+          "fileSeal": "devex-review-seal.svg"
+        },
+        {
+          "id": "garrytan/document-release",
+          "name": "Document Release",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/document-release",
+          "file": "document-release.svg",
+          "fileSeal": "document-release-seal.svg"
+        },
+        {
+          "id": "garrytan/freeze",
+          "name": "Freeze",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/freeze",
+          "file": "freeze.svg",
+          "fileSeal": "freeze-seal.svg"
+        },
+        {
+          "id": "garrytan/gstack-upgrade",
+          "name": "GStack Upgrade",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/gstack-upgrade",
+          "file": "gstack-upgrade.svg",
+          "fileSeal": "gstack-upgrade-seal.svg"
+        },
+        {
+          "id": "garrytan/guard",
+          "name": "Guard",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/guard",
+          "file": "guard.svg",
+          "fileSeal": "guard-seal.svg"
+        },
+        {
+          "id": "garrytan/health",
+          "name": "Health",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/health",
+          "file": "health.svg",
+          "fileSeal": "health-seal.svg"
+        },
+        {
+          "id": "garrytan/landing-report",
+          "name": "Landing Report",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/landing-report",
+          "file": "landing-report.svg",
+          "fileSeal": "landing-report-seal.svg"
+        },
+        {
+          "id": "garrytan/learn",
+          "name": "Learn",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/learn",
+          "file": "learn.svg",
+          "fileSeal": "learn-seal.svg"
+        },
+        {
+          "id": "garrytan/make-pdf",
+          "name": "Make PDF",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/make-pdf",
+          "file": "make-pdf.svg",
+          "fileSeal": "make-pdf-seal.svg"
+        },
+        {
+          "id": "garrytan/open-gstack-browser",
+          "name": "Open GStack Browser",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/open-gstack-browser",
+          "file": "open-gstack-browser.svg",
+          "fileSeal": "open-gstack-browser-seal.svg"
+        },
+        {
+          "id": "garrytan/pair-agent",
+          "name": "Pair Agent",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/pair-agent",
+          "file": "pair-agent.svg",
+          "fileSeal": "pair-agent-seal.svg"
+        },
+        {
+          "id": "garrytan/plan-tune",
+          "name": "Plan Tune",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/plan-tune",
+          "file": "plan-tune.svg",
+          "fileSeal": "plan-tune-seal.svg"
+        },
+        {
+          "id": "garrytan/qa-only",
+          "name": "QA Only",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/qa-only",
+          "file": "qa-only.svg",
+          "fileSeal": "qa-only-seal.svg"
+        },
+        {
+          "id": "garrytan/scrape",
+          "name": "Scrape",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/scrape",
+          "file": "scrape.svg",
+          "fileSeal": "scrape-seal.svg"
+        },
+        {
+          "id": "garrytan/setup-browser-cookies",
+          "name": "Setup Browser Cookies",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/setup-browser-cookies",
+          "file": "setup-browser-cookies.svg",
+          "fileSeal": "setup-browser-cookies-seal.svg"
+        },
+        {
+          "id": "garrytan/setup-deploy",
+          "name": "Setup Deploy",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/setup-deploy",
+          "file": "setup-deploy.svg",
+          "fileSeal": "setup-deploy-seal.svg"
+        },
+        {
+          "id": "garrytan/setup-gbrain",
+          "name": "Setup GBrain",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/setup-gbrain",
+          "file": "setup-gbrain.svg",
+          "fileSeal": "setup-gbrain-seal.svg"
+        },
+        {
+          "id": "garrytan/sync-gbrain",
+          "name": "Sync GBrain",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/sync-gbrain",
+          "file": "sync-gbrain.svg",
+          "fileSeal": "sync-gbrain-seal.svg"
+        },
+        {
+          "id": "garrytan/unfreeze",
+          "name": "Unfreeze",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/unfreeze",
+          "file": "unfreeze.svg",
+          "fileSeal": "unfreeze-seal.svg"
+        }
+      ]
+    },
+    "Manavarya09": {
+      "repos": [
+        "Manavarya09/design-extract"
+      ],
+      "skillsByRepo": {
+        "Manavarya09/design-extract": [
+          "Manavarya09/design-extract"
+        ]
+      },
+      "topSkill": "Manavarya09/design-extract",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "Manavarya09/design-extract",
+          "name": "Design Extract",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/design-extract",
+          "file": "design-extract.svg",
+          "fileSeal": "design-extract-seal.svg"
+        }
+      ]
+    },
+    "addy-osmani": {
+      "repos": [
+        "addyosmani/agent-skills"
+      ],
+      "skillsByRepo": {
+        "addyosmani/agent-skills": [
+          "addy-osmani/performance-optimization",
+          "addy-osmani/test-driven-development"
+        ]
+      },
+      "topSkill": "addy-osmani/performance-optimization",
+      "topRank": 3,
+      "topIsUnique": false,
+      "count": 2,
+      "namedSkills": [
+        {
+          "id": "addy-osmani/performance-optimization",
+          "name": "Performance Optimization",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/performance-optimization",
+          "file": "performance-optimization.svg",
+          "fileSeal": "performance-optimization-seal.svg"
+        },
+        {
+          "id": "addy-osmani/test-driven-development",
+          "name": "Test-Driven Development",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/test-driven-development",
+          "file": "test-driven-development.svg",
+          "fileSeal": "test-driven-development-seal.svg"
+        }
+      ]
+    },
+    "ruvnet": {
+      "repos": [
+        "ruvnet/ruflo"
+      ],
+      "skillsByRepo": {
+        "ruvnet/ruflo": [
+          "ruvnet/agentdb",
+          "ruvnet/agentdb-advanced",
+          "ruvnet/agentdb-memory-patterns",
+          "ruvnet/agentdb-optimization",
+          "ruvnet/agentdb-vector-search",
+          "ruvnet/agentic-jujutsu",
+          "ruvnet/dual-collect",
+          "ruvnet/dual-coordinate",
+          "ruvnet/dual-mode",
+          "ruvnet/dual-spawn",
+          "ruvnet/flow-nexus",
+          "ruvnet/flow-nexus-neural",
+          "ruvnet/flow-nexus-platform",
+          "ruvnet/github-multi-repo",
+          "ruvnet/github-suite",
+          "ruvnet/hive-mind-coordination",
+          "ruvnet/pair-programming",
+          "ruvnet/reasoningbank",
+          "ruvnet/reasoningbank-intelligence",
+          "ruvnet/ruflo",
+          "ruvnet/ruflo-v3",
+          "ruvnet/stream-chain",
+          "ruvnet/swarm-advanced",
+          "ruvnet/swarm-orchestration",
+          "ruvnet/v3-cli-modernization",
+          "ruvnet/v3-core-implementation",
+          "ruvnet/v3-ddd-architecture",
+          "ruvnet/v3-integration-deep",
+          "ruvnet/verification-quality",
+          "ruvnet/worker-integration"
+        ]
+      },
+      "topSkill": "ruvnet/ruflo",
+      "topRank": 5,
+      "topIsUnique": false,
+      "count": 48,
+      "namedSkills": [
+        {
+          "id": "ruvnet/ruflo",
+          "name": "Ruflo",
+          "rank": 5,
+          "type": "ultimate",
+          "slash": "/ruflo",
+          "file": "ruflo.svg",
+          "fileSeal": "ruflo-seal.svg"
+        },
+        {
+          "id": "ruvnet/agentdb",
+          "name": "AgentDB",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/agentdb",
+          "file": "agentdb.svg",
+          "fileSeal": "agentdb-seal.svg"
+        },
+        {
+          "id": "ruvnet/dual-mode",
+          "name": "Dual Mode",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/dual-mode",
+          "file": "dual-mode.svg",
+          "fileSeal": "dual-mode-seal.svg"
+        },
+        {
+          "id": "ruvnet/reasoningbank",
+          "name": "ReasoningBank",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/reasoningbank",
+          "file": "reasoningbank.svg",
+          "fileSeal": "reasoningbank-seal.svg"
+        },
+        {
+          "id": "ruvnet/ruflo-v3",
+          "name": "Ruflo V3",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/ruflo-v3",
+          "file": "ruflo-v3.svg",
+          "fileSeal": "ruflo-v3-seal.svg"
+        },
+        {
+          "id": "ruvnet/flow-nexus",
+          "name": "Flow Nexus",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/flow-nexus",
+          "file": "flow-nexus.svg",
+          "fileSeal": "flow-nexus-seal.svg"
+        },
+        {
+          "id": "ruvnet/github-suite",
+          "name": "GitHub Suite",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/github-suite",
+          "file": "github-suite.svg",
+          "fileSeal": "github-suite-seal.svg"
+        },
+        {
+          "id": "ruvnet/hive-mind-coordination",
+          "name": "Hive Mind Coordination",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/hive-mind-coordination",
+          "file": "hive-mind-coordination.svg",
+          "fileSeal": "hive-mind-coordination-seal.svg"
+        },
+        {
+          "id": "ruvnet/agentdb-advanced",
+          "name": "AgentDB Advanced",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/agentdb-advanced",
+          "file": "agentdb-advanced.svg",
+          "fileSeal": "agentdb-advanced-seal.svg"
+        },
+        {
+          "id": "ruvnet/agentdb-memory-patterns",
+          "name": "AgentDB Memory Patterns",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/agentdb-memory-patterns",
+          "file": "agentdb-memory-patterns.svg",
+          "fileSeal": "agentdb-memory-patterns-seal.svg"
+        },
+        {
+          "id": "ruvnet/agentdb-optimization",
+          "name": "AgentDB Optimization",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/agentdb-optimization",
+          "file": "agentdb-optimization.svg",
+          "fileSeal": "agentdb-optimization-seal.svg"
+        },
+        {
+          "id": "ruvnet/agentdb-vector-search",
+          "name": "AgentDB Vector Search",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/agentdb-vector-search",
+          "file": "agentdb-vector-search.svg",
+          "fileSeal": "agentdb-vector-search-seal.svg"
+        },
+        {
+          "id": "ruvnet/agentic-jujutsu",
+          "name": "Agentic Jujutsu",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/agentic-jujutsu",
+          "file": "agentic-jujutsu.svg",
+          "fileSeal": "agentic-jujutsu-seal.svg"
+        },
+        {
+          "id": "ruvnet/dual-collect",
+          "name": "Dual Collect",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/dual-collect",
+          "file": "dual-collect.svg",
+          "fileSeal": "dual-collect-seal.svg"
+        },
+        {
+          "id": "ruvnet/dual-coordinate",
+          "name": "Dual Coordinate",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/dual-coordinate",
+          "file": "dual-coordinate.svg",
+          "fileSeal": "dual-coordinate-seal.svg"
+        },
+        {
+          "id": "ruvnet/dual-spawn",
+          "name": "Dual Spawn",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/dual-spawn",
+          "file": "dual-spawn.svg",
+          "fileSeal": "dual-spawn-seal.svg"
+        },
+        {
+          "id": "ruvnet/flow-nexus-neural",
+          "name": "Flow Nexus Neural",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/flow-nexus-neural",
+          "file": "flow-nexus-neural.svg",
+          "fileSeal": "flow-nexus-neural-seal.svg"
+        },
+        {
+          "id": "ruvnet/flow-nexus-platform",
+          "name": "Flow Nexus Platform",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/flow-nexus-platform",
+          "file": "flow-nexus-platform.svg",
+          "fileSeal": "flow-nexus-platform-seal.svg"
+        },
+        {
+          "id": "ruvnet/github-multi-repo",
+          "name": "GitHub Multi-Repo",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/github-multi-repo",
+          "file": "github-multi-repo.svg",
+          "fileSeal": "github-multi-repo-seal.svg"
+        },
+        {
+          "id": "ruvnet/pair-programming",
+          "name": "Pair Programming",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/pair-programming",
+          "file": "pair-programming.svg",
+          "fileSeal": "pair-programming-seal.svg"
+        },
+        {
+          "id": "ruvnet/reasoningbank-intelligence",
+          "name": "ReasoningBank Intelligence",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/reasoningbank-intelligence",
+          "file": "reasoningbank-intelligence.svg",
+          "fileSeal": "reasoningbank-intelligence-seal.svg"
+        },
+        {
+          "id": "ruvnet/stream-chain",
+          "name": "Stream Chain",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/stream-chain",
+          "file": "stream-chain.svg",
+          "fileSeal": "stream-chain-seal.svg"
+        },
+        {
+          "id": "ruvnet/swarm-advanced",
+          "name": "Swarm Advanced",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/swarm-advanced",
+          "file": "swarm-advanced.svg",
+          "fileSeal": "swarm-advanced-seal.svg"
+        },
+        {
+          "id": "ruvnet/swarm-orchestration",
+          "name": "Swarm Orchestration",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/swarm-orchestration",
+          "file": "swarm-orchestration.svg",
+          "fileSeal": "swarm-orchestration-seal.svg"
+        },
+        {
+          "id": "ruvnet/v3-cli-modernization",
+          "name": "V3 CLI Modernization",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/v3-cli-modernization",
+          "file": "v3-cli-modernization.svg",
+          "fileSeal": "v3-cli-modernization-seal.svg"
+        },
+        {
+          "id": "ruvnet/v3-core-implementation",
+          "name": "V3 Core Implementation",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/v3-core-implementation",
+          "file": "v3-core-implementation.svg",
+          "fileSeal": "v3-core-implementation-seal.svg"
+        },
+        {
+          "id": "ruvnet/v3-ddd-architecture",
+          "name": "V3 DDD Architecture",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/v3-ddd-architecture",
+          "file": "v3-ddd-architecture.svg",
+          "fileSeal": "v3-ddd-architecture-seal.svg"
+        },
+        {
+          "id": "ruvnet/v3-integration-deep",
+          "name": "V3 Integration Deep",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/v3-integration-deep",
+          "file": "v3-integration-deep.svg",
+          "fileSeal": "v3-integration-deep-seal.svg"
+        },
+        {
+          "id": "ruvnet/verification-quality",
+          "name": "Verification Quality",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/verification-quality",
+          "file": "verification-quality.svg",
+          "fileSeal": "verification-quality-seal.svg"
+        },
+        {
+          "id": "ruvnet/worker-integration",
+          "name": "Worker Integration",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/worker-integration",
+          "file": "worker-integration.svg",
+          "fileSeal": "worker-integration-seal.svg"
+        }
+      ]
+    },
+    "mattpocock": {
+      "repos": [
+        "mattpocock/skills"
+      ],
+      "skillsByRepo": {
+        "mattpocock/skills": [
+          "mattpocock/caveman",
+          "mattpocock/diagnose",
+          "mattpocock/edit-article",
+          "mattpocock/grill-me",
+          "mattpocock/grill-with-docs",
+          "mattpocock/handoff",
+          "mattpocock/improve-codebase-architecture",
+          "mattpocock/obsidian-vault",
+          "mattpocock/prototype",
+          "mattpocock/setup-matt-pocock-skills",
+          "mattpocock/skills",
+          "mattpocock/teach",
+          "mattpocock/to-issues",
+          "mattpocock/to-prd",
+          "mattpocock/triage",
+          "mattpocock/ubiquitous-language",
+          "mattpocock/write-a-skill"
+        ]
+      },
+      "topSkill": "mattpocock/skills",
+      "topRank": 5,
+      "topIsUnique": false,
+      "count": 34,
+      "namedSkills": [
+        {
+          "id": "mattpocock/skills",
+          "name": "Matt Pocock Skills",
+          "rank": 5,
+          "type": "ultimate",
+          "slash": "/skills",
+          "file": "skills~.svg",
+          "fileSeal": "skills~-seal.svg"
+        },
+        {
+          "id": "mattpocock/engineering",
+          "name": "Engineering",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/engineering",
+          "file": "engineering.svg",
+          "fileSeal": "engineering-seal.svg"
+        },
+        {
+          "id": "mattpocock/productivity",
+          "name": "Productivity",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/productivity",
+          "file": "productivity.svg",
+          "fileSeal": "productivity-seal.svg"
+        },
+        {
+          "id": "mattpocock/diagnose",
+          "name": "Diagnose",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/diagnose",
+          "file": "diagnose.svg",
+          "fileSeal": "diagnose-seal.svg"
+        },
+        {
+          "id": "mattpocock/edit-article",
+          "name": "Edit Article",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/edit-article",
+          "file": "edit-article.svg",
+          "fileSeal": "edit-article-seal.svg"
+        },
+        {
+          "id": "mattpocock/grill-me",
+          "name": "Grill Me",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/grill-me",
+          "file": "grill-me.svg",
+          "fileSeal": "grill-me-seal.svg"
+        },
+        {
+          "id": "mattpocock/grill-with-docs",
+          "name": "Grill With Docs",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/grill-with-docs",
+          "file": "grill-with-docs.svg",
+          "fileSeal": "grill-with-docs-seal.svg"
+        },
+        {
+          "id": "mattpocock/handoff",
+          "name": "Handoff",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/handoff",
+          "file": "handoff.svg",
+          "fileSeal": "handoff-seal.svg"
+        },
+        {
+          "id": "mattpocock/obsidian-vault",
+          "name": "Obsidian Vault Manager",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/obsidian-vault",
+          "file": "obsidian-vault.svg",
+          "fileSeal": "obsidian-vault-seal.svg"
+        },
+        {
+          "id": "mattpocock/personal",
+          "name": "Personal",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/personal",
+          "file": "personal.svg",
+          "fileSeal": "personal-seal.svg"
+        },
+        {
+          "id": "mattpocock/setup-matt-pocock-skills",
+          "name": "Setup Matt Pocock Skills",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/setup-matt-pocock-skills",
+          "file": "setup-matt-pocock-skills.svg",
+          "fileSeal": "setup-matt-pocock-skills-seal.svg"
+        },
+        {
+          "id": "mattpocock/to-issues",
+          "name": "To Issues",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/to-issues",
+          "file": "to-issues.svg",
+          "fileSeal": "to-issues-seal.svg"
+        },
+        {
+          "id": "mattpocock/to-prd",
+          "name": "To PRD",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/to-prd",
+          "file": "to-prd.svg",
+          "fileSeal": "to-prd-seal.svg"
+        },
+        {
+          "id": "mattpocock/triage",
+          "name": "Triage",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/triage",
+          "file": "triage.svg",
+          "fileSeal": "triage-seal.svg"
+        },
+        {
+          "id": "mattpocock/ubiquitous-language",
+          "name": "Ubiquitous Language",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/ubiquitous-language",
+          "file": "ubiquitous-language.svg",
+          "fileSeal": "ubiquitous-language-seal.svg"
+        },
+        {
+          "id": "mattpocock/caveman",
+          "name": "Caveman Mode",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/caveman",
+          "file": "caveman.svg",
+          "fileSeal": "caveman-seal.svg"
+        },
+        {
+          "id": "mattpocock/improve-codebase-architecture",
+          "name": "Improve Codebase Architecture",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/improve-codebase-architecture",
+          "file": "improve-codebase-architecture.svg",
+          "fileSeal": "improve-codebase-architecture-seal.svg"
+        },
+        {
+          "id": "mattpocock/prototype",
+          "name": "Prototype",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/prototype",
+          "file": "prototype.svg",
+          "fileSeal": "prototype-seal.svg"
+        },
+        {
+          "id": "mattpocock/teach",
+          "name": "Teach",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/teach",
+          "file": "teach.svg",
+          "fileSeal": "teach-seal.svg"
+        },
+        {
+          "id": "mattpocock/write-a-skill",
+          "name": "Write a Skill",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/write-a-skill",
+          "file": "write-a-skill.svg",
+          "fileSeal": "write-a-skill-seal.svg"
+        }
+      ]
+    },
+    "anthropic": {
+      "repos": [
+        "anthropics/skills"
+      ],
+      "skillsByRepo": {
+        "anthropics/skills": [
+          "anthropic/pptx",
+          "anthropic/skill-creator"
+        ]
+      },
+      "topSkill": "anthropic/skill-creator",
+      "topRank": 3,
+      "topIsUnique": false,
+      "count": 2,
+      "namedSkills": [
+        {
+          "id": "anthropic/skill-creator",
+          "name": "Skill Creator",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/skill-creator",
+          "file": "skill-creator.svg",
+          "fileSeal": "skill-creator-seal.svg"
+        },
+        {
+          "id": "anthropic/pptx",
+          "name": "PPTX Editor",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/pptx",
+          "file": "pptx.svg",
+          "fileSeal": "pptx-seal.svg"
+        }
+      ]
+    },
+    "bradautomates": {
+      "repos": [
+        "bradautomates/claude-video"
+      ],
+      "skillsByRepo": {
+        "bradautomates/claude-video": [
+          "bradautomates/claude-video"
+        ]
+      },
+      "topSkill": "bradautomates/claude-video",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "bradautomates/claude-video",
+          "name": "Claude Video",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/claude-video",
+          "file": "claude-video.svg",
+          "fileSeal": "claude-video-seal.svg"
+        }
+      ]
+    },
+    "browser-use": {
+      "repos": [
+        "browser-use/browser-harness"
+      ],
+      "skillsByRepo": {
+        "browser-use/browser-harness": [
+          "browser-use/browser-harness"
+        ]
+      },
+      "topSkill": "browser-use/browser-harness",
+      "topRank": 3,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "browser-use/browser-harness",
+          "name": "Browser Harness",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/browser-harness",
+          "file": "browser-harness.svg",
+          "fileSeal": "browser-harness-seal.svg"
+        }
+      ]
+    },
+    "devin-ai": {
+      "repos": [
+        "cognition-labs/devin"
+      ],
+      "skillsByRepo": {
+        "cognition-labs/devin": [
+          "devin-ai/autonomous-swe"
+        ]
+      },
+      "topSkill": "devin-ai/autonomous-swe",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "devin-ai/autonomous-swe",
+          "name": "Autonomous SWE",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/autonomous-swe",
+          "file": "autonomous-swe.svg",
+          "fileSeal": "autonomous-swe-seal.svg"
+        }
+      ]
+    },
+    "firecrawl": {
+      "repos": [
+        "firecrawl/firecrawl"
+      ],
+      "skillsByRepo": {
+        "firecrawl/firecrawl": [
+          "firecrawl/firecrawl"
+        ]
+      },
+      "topSkill": "firecrawl/firecrawl",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "firecrawl/firecrawl",
+          "name": "Firecrawl",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/firecrawl",
+          "file": "firecrawl.svg",
+          "fileSeal": "firecrawl-seal.svg"
+        }
+      ]
+    },
+    "pbakaus": {
+      "repos": [
+        "pbakaus/impeccable"
+      ],
+      "skillsByRepo": {
+        "pbakaus/impeccable": [
+          "pbakaus/impeccable"
+        ]
+      },
+      "topSkill": "pbakaus/impeccable",
+      "topRank": 4,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "pbakaus/impeccable",
+          "name": "Impeccable",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/impeccable",
+          "file": "impeccable.svg",
+          "fileSeal": "impeccable-seal.svg"
+        }
+      ]
+    },
+    "martin-stepanoski": {
+      "repos": [
+        "mastepanoski/claude-skills"
+      ],
+      "skillsByRepo": {
+        "mastepanoski/claude-skills": [
+          "martin-stepanoski/nielsen-heuristics-audit"
+        ]
+      },
+      "topSkill": "martin-stepanoski/nielsen-heuristics-audit",
+      "topRank": 3,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "martin-stepanoski/nielsen-heuristics-audit",
+          "name": "Nielsen Heuristics Audit",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/nielsen-heuristics-audit",
+          "file": "nielsen-heuristics-audit.svg",
+          "fileSeal": "nielsen-heuristics-audit-seal.svg"
+        }
+      ]
+    },
+    "obra": {
+      "repos": [
+        "obra/superpowers"
+      ],
+      "skillsByRepo": {
+        "obra/superpowers": [
+          "obra/brainstorming",
+          "obra/dispatching-parallel-agents",
+          "obra/executing-plans",
+          "obra/finishing-a-development-branch",
+          "obra/receiving-code-review",
+          "obra/requesting-code-review",
+          "obra/subagent-driven-development",
+          "obra/superpowers",
+          "obra/systematic-debugging",
+          "obra/using-git-worktrees",
+          "obra/verification-before-completion",
+          "obra/writing-plans"
+        ]
+      },
+      "topSkill": "obra/superpowers",
+      "topRank": 5,
+      "topIsUnique": false,
+      "count": 12,
+      "namedSkills": [
+        {
+          "id": "obra/superpowers",
+          "name": "Superpowers",
+          "rank": 5,
+          "type": "ultimate",
+          "slash": "/superpowers",
+          "file": "superpowers.svg",
+          "fileSeal": "superpowers-seal.svg"
+        },
+        {
+          "id": "obra/subagent-driven-development",
+          "name": "Subagent-Driven Development",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/subagent-driven-development",
+          "file": "subagent-driven-development.svg",
+          "fileSeal": "subagent-driven-development-seal.svg"
+        },
+        {
+          "id": "obra/using-git-worktrees",
+          "name": "Using Git Worktrees",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/using-git-worktrees",
+          "file": "using-git-worktrees.svg",
+          "fileSeal": "using-git-worktrees-seal.svg"
+        },
+        {
+          "id": "obra/writing-plans",
+          "name": "Writing Plans",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/writing-plans",
+          "file": "writing-plans.svg",
+          "fileSeal": "writing-plans-seal.svg"
+        },
+        {
+          "id": "obra/brainstorming",
+          "name": "Brainstorming",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/brainstorming",
+          "file": "brainstorming.svg",
+          "fileSeal": "brainstorming-seal.svg"
+        },
+        {
+          "id": "obra/dispatching-parallel-agents",
+          "name": "Dispatching Parallel Agents",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/dispatching-parallel-agents",
+          "file": "dispatching-parallel-agents.svg",
+          "fileSeal": "dispatching-parallel-agents-seal.svg"
+        },
+        {
+          "id": "obra/executing-plans",
+          "name": "Executing Plans",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/executing-plans",
+          "file": "executing-plans.svg",
+          "fileSeal": "executing-plans-seal.svg"
+        },
+        {
+          "id": "obra/systematic-debugging",
+          "name": "Systematic Debugging",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/systematic-debugging",
+          "file": "systematic-debugging.svg",
+          "fileSeal": "systematic-debugging-seal.svg"
+        },
+        {
+          "id": "obra/verification-before-completion",
+          "name": "Verification Before Completion",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/verification-before-completion",
+          "file": "verification-before-completion.svg",
+          "fileSeal": "verification-before-completion-seal.svg"
+        },
+        {
+          "id": "obra/finishing-a-development-branch",
+          "name": "Finishing a Development Branch",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/finishing-a-development-branch",
+          "file": "finishing-a-development-branch.svg",
+          "fileSeal": "finishing-a-development-branch-seal.svg"
+        },
+        {
+          "id": "obra/receiving-code-review",
+          "name": "Receiving Code Review",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/receiving-code-review",
+          "file": "receiving-code-review.svg",
+          "fileSeal": "receiving-code-review-seal.svg"
+        },
+        {
+          "id": "obra/requesting-code-review",
+          "name": "Requesting Code Review",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/requesting-code-review",
+          "file": "requesting-code-review.svg",
+          "fileSeal": "requesting-code-review-seal.svg"
+        }
+      ]
+    },
+    "mbtiongson1": {
+      "repos": [
+        "mbtiongson1/gaia-skill-tree"
+      ],
+      "skillsByRepo": {
+        "mbtiongson1/gaia-skill-tree": [
+          "mbtiongson1/gaia-audit",
+          "mbtiongson1/gaia-curation-review",
+          "mbtiongson1/gaia-meta-audit",
+          "mbtiongson1/gaia-preview",
+          "mbtiongson1/graphify-triage"
+        ]
+      },
+      "topSkill": "mbtiongson1/gaia-audit",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 12,
+      "namedSkills": [
+        {
+          "id": "mbtiongson1/gaia-audit",
+          "name": "Gaia Audit",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/gaia-audit",
+          "file": "gaia-audit.svg",
+          "fileSeal": "gaia-audit-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/gaia-curation-review",
+          "name": "Gaia Curation Review",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/gaia-curation-review",
+          "file": "gaia-curation-review.svg",
+          "fileSeal": "gaia-curation-review-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/gaia-meta-audit",
+          "name": "Gaia Meta Audit",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/gaia-meta-audit",
+          "file": "gaia-meta-audit.svg",
+          "fileSeal": "gaia-meta-audit-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/gaia-preview",
+          "name": "Gaia Preview",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/gaia-preview",
+          "file": "gaia-preview.svg",
+          "fileSeal": "gaia-preview-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/graphify-triage",
+          "name": "Graphify Triage",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/graphify-triage",
+          "file": "graphify-triage.svg",
+          "fileSeal": "graphify-triage-seal.svg"
+        }
+      ]
+    },
+    "stanfordnlp": {
+      "repos": [],
+      "skillsByRepo": {},
+      "topSkill": "stanfordnlp/dspy",
+      "topRank": 4,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "stanfordnlp/dspy",
+          "name": "DSPy",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/dspy",
+          "file": "dspy.svg",
+          "fileSeal": "dspy-seal.svg"
+        }
+      ]
+    },
+    "spring-ai": {
+      "repos": [
+        "spring-ai-alibaba/examples"
+      ],
+      "skillsByRepo": {
+        "spring-ai-alibaba/examples": [
+          "spring-ai/readme-generate"
+        ]
+      },
+      "topSkill": "spring-ai/readme-generate",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "spring-ai/readme-generate",
+          "name": "REST API README Generator",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/readme-generate",
+          "file": "readme-generate.svg",
+          "fileSeal": "readme-generate-seal.svg"
+        }
+      ]
+    },
+    "getagentseal": {
+      "repos": [
+        "getagentseal/codeburn"
+      ],
+      "skillsByRepo": {
+        "getagentseal/codeburn": [
+          "getagentseal/codeburn"
+        ]
+      },
+      "topSkill": "getagentseal/codeburn",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "getagentseal/codeburn",
+          "name": "CodeBurn",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/codeburn",
+          "file": "codeburn.svg",
+          "fileSeal": "codeburn-seal.svg"
+        }
+      ]
+    },
+    "huggingface": {
+      "repos": [],
+      "skillsByRepo": {},
+      "topSkill": "huggingface/semantic-cache",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 7,
+      "namedSkills": [
+        {
+          "id": "huggingface/semantic-cache",
+          "name": "Semantic Cache",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/semantic-cache",
+          "file": "semantic-cache.svg",
+          "fileSeal": "semantic-cache-seal.svg"
+        }
+      ]
+    },
+    "karpathy": {
+      "repos": [
+        "balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill"
+      ],
+      "skillsByRepo": {
+        "balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill": [
+          "karpathy/autoresearch"
+        ]
+      },
+      "topSkill": "karpathy/autoresearch",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "karpathy/autoresearch",
+          "name": "AutoResearch",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/autoresearch",
+          "file": "autoresearch.svg",
+          "fileSeal": "autoresearch-seal.svg"
+        }
+      ]
+    },
+    "laravel": {
+      "repos": [
+        "laravel/boost"
+      ],
+      "skillsByRepo": {
+        "laravel/boost": [
+          "laravel/upgrade-laravel-v13"
+        ]
+      },
+      "topSkill": "laravel/upgrade-laravel-v13",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "laravel/upgrade-laravel-v13",
+          "name": "Upgrade Laravel v13",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/upgrade-laravel-v13",
+          "file": "upgrade-laravel-v13.svg",
+          "fileSeal": "upgrade-laravel-v13-seal.svg"
+        }
+      ]
+    },
+    "nexu-io": {
+      "repos": [
+        "nexu-io/open-design"
+      ],
+      "skillsByRepo": {
+        "nexu-io/open-design": [
+          "nexu-io/open-design"
+        ]
+      },
+      "topSkill": "nexu-io/open-design",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "nexu-io/open-design",
+          "name": "Open Design",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/open-design",
+          "file": "open-design.svg",
+          "fileSeal": "open-design-seal.svg"
+        }
+      ]
+    },
+    "nousresearch": {
+      "repos": [
+        "NousResearch/hermes-agent"
+      ],
+      "skillsByRepo": {
+        "NousResearch/hermes-agent": [
+          "nousresearch/feed-monitoring"
+        ]
+      },
+      "topSkill": "nousresearch/feed-monitoring",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "nousresearch/feed-monitoring",
+          "name": "Feed Monitoring",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/feed-monitoring",
+          "file": "feed-monitoring.svg",
+          "fileSeal": "feed-monitoring-seal.svg"
+        }
+      ]
+    },
+    "openai": {
+      "repos": [],
+      "skillsByRepo": {},
+      "topSkill": "openai/few-shot-learning",
+      "topRank": 4,
+      "topIsUnique": false,
+      "count": 2,
+      "namedSkills": [
+        {
+          "id": "openai/few-shot-learning",
+          "name": "Few-Shot Learning",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/few-shot-learning",
+          "file": "few-shot-learning.svg",
+          "fileSeal": "few-shot-learning-seal.svg"
+        },
+        {
+          "id": "openai/self-consistency",
+          "name": "Self-Consistency",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/self-consistency",
+          "file": "self-consistency.svg",
+          "fileSeal": "self-consistency-seal.svg"
+        }
+      ]
+    },
+    "safishamsi": {
+      "repos": [
+        "safishamsi/graphify"
+      ],
+      "skillsByRepo": {
+        "safishamsi/graphify": [
+          "safishamsi/graphify"
+        ]
+      },
+      "topSkill": "safishamsi/graphify",
+      "topRank": 4,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "safishamsi/graphify",
+          "name": "Graphify",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/graphify",
+          "file": "graphify.svg",
+          "fileSeal": "graphify-seal.svg"
+        }
+      ]
+    },
+    "santifer": {
+      "repos": [
+        "santifer/career-ops"
+      ],
+      "skillsByRepo": {
+        "santifer/career-ops": [
+          "santifer/career-ops"
+        ]
+      },
+      "topSkill": "santifer/career-ops",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "santifer/career-ops",
+          "name": "Career-Ops",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/career-ops",
+          "file": "career-ops.svg",
+          "fileSeal": "career-ops-seal.svg"
+        }
+      ]
+    },
+    "upsonic": {
+      "repos": [
+        "Upsonic/Upsonic"
+      ],
+      "skillsByRepo": {
+        "Upsonic/Upsonic": [
+          "upsonic/unittest-generator"
+        ]
+      },
+      "topSkill": "upsonic/unittest-generator",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "upsonic/unittest-generator",
+          "name": "Unittest Generator",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/unittest-generator",
+          "file": "unittest-generator.svg",
+          "fileSeal": "unittest-generator-seal.svg"
+        }
+      ]
+    },
+    "vercel": {
+      "repos": [
+        "vercel-labs/skills"
+      ],
+      "skillsByRepo": {
+        "vercel-labs/skills": [
+          "vercel/find-skills"
+        ]
+      },
+      "topSkill": "vercel/find-skills",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "vercel/find-skills",
+          "name": "Find Skills",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/find-skills",
+          "file": "find-skills.svg",
+          "fileSeal": "find-skills-seal.svg"
+        }
+      ]
+    },
+    "gaiabot": {
+      "repos": [
+        "mbtiongson1/gaia-skill-tree"
+      ],
+      "skillsByRepo": {
+        "mbtiongson1/gaia-skill-tree": [
+          "gaiabot/repo-docs-before-pr"
+        ]
+      },
+      "topSkill": "gaiabot/repo-docs-before-pr",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 2,
+      "namedSkills": [
+        {
+          "id": "gaiabot/repo-docs-before-pr",
+          "name": "Repo Docs Before PR",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/repo-docs-before-pr",
+          "file": "repo-docs-before-pr.svg",
+          "fileSeal": "repo-docs-before-pr-seal.svg"
+        }
+      ]
+    },
+    "google-deepmind": {
+      "repos": [
+        "google-deepmind/science-skills"
+      ],
+      "skillsByRepo": {
+        "google-deepmind/science-skills": [
+          "google-deepmind/alphafold_database_fetch_and_analyze",
+          "google-deepmind/alphagenome_single_variant_analysis",
+          "google-deepmind/chembl_database",
+          "google-deepmind/clinical_trials_database",
+          "google-deepmind/clinvar_database",
+          "google-deepmind/dbsnp_database",
+          "google-deepmind/embl_ebi_ols",
+          "google-deepmind/encode_ccres_database",
+          "google-deepmind/ensembl_database",
+          "google-deepmind/foldseek_structural_search",
+          "google-deepmind/gnomad_database",
+          "google-deepmind/gtex_database",
+          "google-deepmind/human_protein_atlas_database",
+          "google-deepmind/interpro_database",
+          "google-deepmind/jaspar_database",
+          "google-deepmind/literature_search_arxiv",
+          "google-deepmind/literature_search_biorxiv",
+          "google-deepmind/literature_search_europepmc",
+          "google-deepmind/literature_search_openalex",
+          "google-deepmind/ncbi_sequence_fetch",
+          "google-deepmind/openfda_database",
+          "google-deepmind/opentargets_database",
+          "google-deepmind/pdb_database",
+          "google-deepmind/protein_sequence_msa",
+          "google-deepmind/protein_sequence_similarity_search",
+          "google-deepmind/pubchem_database",
+          "google-deepmind/pubmed_database",
+          "google-deepmind/pymol",
+          "google-deepmind/quickgo_database",
+          "google-deepmind/reactome_database",
+          "google-deepmind/science_skills_common",
+          "google-deepmind/string_database",
+          "google-deepmind/ucsc_conservation_and_tfbs",
+          "google-deepmind/unibind_database",
+          "google-deepmind/uniprot_database",
+          "google-deepmind/uv",
+          "google-deepmind/workflow_skill_creator"
+        ]
+      },
+      "topSkill": "google-deepmind/alphafold_database_fetch_and_analyze",
+      "topRank": 4,
+      "topIsUnique": false,
+      "count": 37,
+      "namedSkills": [
+        {
+          "id": "google-deepmind/alphafold_database_fetch_and_analyze",
+          "name": "Alphafold-Database-Fetch-And-Analyze",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/alphafold_database_fetch_and_analyze",
+          "file": "alphafold_database_fetch_and_analyze.svg",
+          "fileSeal": "alphafold_database_fetch_and_analyze-seal.svg"
+        },
+        {
+          "id": "google-deepmind/alphagenome_single_variant_analysis",
+          "name": "Alphagenome-Single-Variant-Analysis",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/alphagenome_single_variant_analysis",
+          "file": "alphagenome_single_variant_analysis.svg",
+          "fileSeal": "alphagenome_single_variant_analysis-seal.svg"
+        },
+        {
+          "id": "google-deepmind/embl_ebi_ols",
+          "name": "Embl-Ebi-Ols",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/embl_ebi_ols",
+          "file": "embl_ebi_ols.svg",
+          "fileSeal": "embl_ebi_ols-seal.svg"
+        },
+        {
+          "id": "google-deepmind/encode_ccres_database",
+          "name": "Encode-Ccres-Database",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/encode_ccres_database",
+          "file": "encode_ccres_database.svg",
+          "fileSeal": "encode_ccres_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/ensembl_database",
+          "name": "Ensembl-Database",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/ensembl_database",
+          "file": "ensembl_database.svg",
+          "fileSeal": "ensembl_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/foldseek_structural_search",
+          "name": "Foldseek-Structural-Search",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/foldseek_structural_search",
+          "file": "foldseek_structural_search.svg",
+          "fileSeal": "foldseek_structural_search-seal.svg"
+        },
+        {
+          "id": "google-deepmind/gnomad_database",
+          "name": "Gnomad-Database",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/gnomad_database",
+          "file": "gnomad_database.svg",
+          "fileSeal": "gnomad_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/gtex_database",
+          "name": "Gtex-Database",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/gtex_database",
+          "file": "gtex_database.svg",
+          "fileSeal": "gtex_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/human_protein_atlas_database",
+          "name": "Human-Protein-Atlas-Database",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/human_protein_atlas_database",
+          "file": "human_protein_atlas_database.svg",
+          "fileSeal": "human_protein_atlas_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/interpro_database",
+          "name": "Interpro-Database",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/interpro_database",
+          "file": "interpro_database.svg",
+          "fileSeal": "interpro_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/jaspar_database",
+          "name": "Jaspar-Database",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/jaspar_database",
+          "file": "jaspar_database.svg",
+          "fileSeal": "jaspar_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/literature_search_europepmc",
+          "name": "Literature-Search-Europepmc",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/literature_search_europepmc",
+          "file": "literature_search_europepmc.svg",
+          "fileSeal": "literature_search_europepmc-seal.svg"
+        },
+        {
+          "id": "google-deepmind/literature_search_openalex",
+          "name": "Literature-Search-Openalex",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/literature_search_openalex",
+          "file": "literature_search_openalex.svg",
+          "fileSeal": "literature_search_openalex-seal.svg"
+        },
+        {
+          "id": "google-deepmind/ncbi_sequence_fetch",
+          "name": "Ncbi-Sequence-Fetch",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/ncbi_sequence_fetch",
+          "file": "ncbi_sequence_fetch.svg",
+          "fileSeal": "ncbi_sequence_fetch-seal.svg"
+        },
+        {
+          "id": "google-deepmind/openfda_database",
+          "name": "Openfda-Database",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/openfda_database",
+          "file": "openfda_database.svg",
+          "fileSeal": "openfda_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/opentargets_database",
+          "name": "Opentargets-Database",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/opentargets_database",
+          "file": "opentargets_database.svg",
+          "fileSeal": "opentargets_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/protein_sequence_similarity_search",
+          "name": "Protein-Sequence-Similarity-Search",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/protein_sequence_similarity_search",
+          "file": "protein_sequence_similarity_search.svg",
+          "fileSeal": "protein_sequence_similarity_search-seal.svg"
+        },
+        {
+          "id": "google-deepmind/pubchem_database",
+          "name": "Pubchem-Database",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/pubchem_database",
+          "file": "pubchem_database.svg",
+          "fileSeal": "pubchem_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/pymol",
+          "name": "Pymol",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/pymol",
+          "file": "pymol.svg",
+          "fileSeal": "pymol-seal.svg"
+        },
+        {
+          "id": "google-deepmind/quickgo_database",
+          "name": "Quickgo-Database",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/quickgo_database",
+          "file": "quickgo_database.svg",
+          "fileSeal": "quickgo_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/reactome_database",
+          "name": "Reactome-Database",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/reactome_database",
+          "file": "reactome_database.svg",
+          "fileSeal": "reactome_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/science_skills_common",
+          "name": "Science-Skills-Common",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/science_skills_common",
+          "file": "science_skills_common.svg",
+          "fileSeal": "science_skills_common-seal.svg"
+        },
+        {
+          "id": "google-deepmind/ucsc_conservation_and_tfbs",
+          "name": "Ucsc-Conservation-And-Tfbs",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/ucsc_conservation_and_tfbs",
+          "file": "ucsc_conservation_and_tfbs.svg",
+          "fileSeal": "ucsc_conservation_and_tfbs-seal.svg"
+        },
+        {
+          "id": "google-deepmind/unibind_database",
+          "name": "Unibind-Database",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/unibind_database",
+          "file": "unibind_database.svg",
+          "fileSeal": "unibind_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/uv",
+          "name": "Uv",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/uv",
+          "file": "uv.svg",
+          "fileSeal": "uv-seal.svg"
+        },
+        {
+          "id": "google-deepmind/workflow_skill_creator",
+          "name": "Workflow-Skill-Creator",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/workflow_skill_creator",
+          "file": "workflow_skill_creator.svg",
+          "fileSeal": "workflow_skill_creator-seal.svg"
+        },
+        {
+          "id": "google-deepmind/chembl_database",
+          "name": "Chembl-Database",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/chembl_database",
+          "file": "chembl_database.svg",
+          "fileSeal": "chembl_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/clinical_trials_database",
+          "name": "Clinical-Trials-Database",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/clinical_trials_database",
+          "file": "clinical_trials_database.svg",
+          "fileSeal": "clinical_trials_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/clinvar_database",
+          "name": "Clinvar-Database",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/clinvar_database",
+          "file": "clinvar_database.svg",
+          "fileSeal": "clinvar_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/dbsnp_database",
+          "name": "Dbsnp-Database",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/dbsnp_database",
+          "file": "dbsnp_database.svg",
+          "fileSeal": "dbsnp_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/literature_search_arxiv",
+          "name": "Literature-Search-Arxiv",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/literature_search_arxiv",
+          "file": "literature_search_arxiv.svg",
+          "fileSeal": "literature_search_arxiv-seal.svg"
+        },
+        {
+          "id": "google-deepmind/literature_search_biorxiv",
+          "name": "Literature-Search-Biorxiv",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/literature_search_biorxiv",
+          "file": "literature_search_biorxiv.svg",
+          "fileSeal": "literature_search_biorxiv-seal.svg"
+        },
+        {
+          "id": "google-deepmind/pdb_database",
+          "name": "Pdb-Database",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/pdb_database",
+          "file": "pdb_database.svg",
+          "fileSeal": "pdb_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/protein_sequence_msa",
+          "name": "Protein-Sequence-Msa",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/protein_sequence_msa",
+          "file": "protein_sequence_msa.svg",
+          "fileSeal": "protein_sequence_msa-seal.svg"
+        },
+        {
+          "id": "google-deepmind/pubmed_database",
+          "name": "Pubmed-Database",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/pubmed_database",
+          "file": "pubmed_database.svg",
+          "fileSeal": "pubmed_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/string_database",
+          "name": "String-Database",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/string_database",
+          "file": "string_database.svg",
+          "fileSeal": "string_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/uniprot_database",
+          "name": "Uniprot-Database",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/uniprot_database",
+          "file": "uniprot_database.svg",
+          "fileSeal": "uniprot_database-seal.svg"
+        }
+      ]
+    },
+    "pexp13": {
+      "repos": [],
+      "skillsByRepo": {},
+      "topSkill": "pexp13/sentiment-analysis",
+      "topRank": 4,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "pexp13/sentiment-analysis",
+          "name": "Sentiment Analysis",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/sentiment-analysis",
+          "file": "sentiment-analysis.svg",
+          "fileSeal": "sentiment-analysis-seal.svg"
+        }
+      ]
+    },
+    "xquik-dev": {
+      "repos": [
+        "Xquik-dev/hermes-tweet"
+      ],
+      "skillsByRepo": {
+        "Xquik-dev/hermes-tweet": [
+          "xquik-dev/hermes-tweet"
+        ]
+      },
+      "topSkill": "xquik-dev/hermes-tweet",
+      "topRank": 3,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "xquik-dev/hermes-tweet",
+          "name": "Hermes Tweet",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/hermes-tweet",
+          "file": "hermes-tweet.svg",
+          "fileSeal": "hermes-tweet-seal.svg"
+        }
+      ]
+    }
+  }
 }
