@@ -607,7 +607,7 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
             m_type = csk.get("match_type")
             mapped_to = csk.get("mapped_to")
             
-            node_id = mapped_to if mapped_to else cid
+            node_id = mapped_to if m_type in ("origin", "named", "exact_generic") and mapped_to else cid
             
             if node_id not in skill_map:
                 skill_map[node_id] = {
@@ -631,7 +631,7 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
             if m_type in ("generic", "exact_generic") and mapped_to:
                 local_by_ref[node_id] = {"id": cid}
                 
-            if m_type not in ("origin", "named", "generic", "exact_generic"):
+            if m_type not in ("origin", "named", "exact_generic"):
                 custom_nodes.add(node_id)
                 
         for fname in fusions.keys():
