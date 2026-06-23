@@ -17,6 +17,10 @@ Never push directly to main.
 - Always confirm the target branch/worktree before editing. If user references a specific branch (e.g., `fix/links-3d-graph`), push there — do not create a new design branch.
 - When editing in a worktree, verify CWD matches the requested worktree before making edits.
 
+## Branch Scope — infra/ allowlist
+
+`infra/` branches may touch `docs/badges/` (registry.json, _assets/) in addition to the standard `.github/`, `scripts/`, `*.md`, `docs/*.html`. This is codified in `.github/workflows/branch-scope.yml` and applies permanently — badge restore/guard commits belong on `infra/` branches and must not require `skip-scope-check` every time.
+
 ## Edit Safety
 
 - After Edit/Write operations on JS/HTML, verify no duplication or merged lines were introduced (read the file back, run syntax check if available).
