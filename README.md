@@ -20,7 +20,7 @@
 
 Main inspo for this repo. Basically stole the idea and applied it to agent skills.
 
-![Alt Text]([https://i.pinimg.com/originals/db/4c/0c/db4c0cdec2faed4fdc1339843d987a04.gif](https://i.pinimg.com/originals/db/4c/0c/db4c0cdec2faed4fdc1339843d987a04.gif))
+![Rimuru Tempest](docs/assets/rimuru.gif)
 
 
 # Get your badges! Some skills already curated.
