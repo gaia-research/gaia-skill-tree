@@ -69,11 +69,11 @@ Refer to [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) 
 | Review intake | `registry-for-review/skill-batches/` | `gaia push` writes draft batches here |
 | User trees | `skill-trees/<username>/skill-tree.json` | User-owned progression state |
 | Local output | `generated-output/` | Gitignored scan/render artifacts |
-| Python CLI | `src/gaia_cli/` | Main CLI implementation |
+| Python CLI | `src/gaia_cli/` | Entry point: `main.py` with dynamic command discovery from `commands/`. Mutating ops live in `commands/dev/` (evidence, verify, merge, calibrate). `versioning.py` keeps pyproject.toml, package.json files, and registry/gaia.json in lockstep. |
 | Slash-naming helpers | `src/gaia_cli/formatting.py` | Centralized slash-naming formatters, RANK_COLORS, tier colors |
 | Local-first context | `src/gaia_cli/localContext.py` | Merges user tree + scan results + named skill map into `LocalContext` |
-| npm wrapper | `packages/cli-npm/` | `@gaia-registry/cli` |
-| MCP server | `packages/mcp/` | `@gaia-registry/mcp-server` |
+| npm wrapper | `packages/cli-npm/` | `@gaia-registry/cli` — lightweight Node.js wrapper publishing the `gaia` command to npm, executing the local Python binary. |
+| MCP server | `packages/mcp/` | `@gaia-registry/mcp-server` — exposes the registry to AI agents via MCP. Key components: `src/config/merger.ts` (config merge), `src/daemon.ts` (start/stop/status), `src/index.ts` (tools: `gaia_lookup`, `gaia_suggest`, `gaia_scan_context`, `gaia_my_tree`). |
 
 ```bash
 # Meta Review (CLI-ONLY)
