@@ -118,15 +118,6 @@ version of each side before naming your call.
 
 ---
 
-## SAP Environment
-
-- All LLM calls in scripts route through `http://localhost:6655` (SAP Hyperspace proxy — GTLC-compliant)
-- `pip install` from PyPI is blocked — use the SAP internal mirror
-- Never put customer data, personal data, or SAP-confidential info in prompts
-- Available MCP tools: GitHub (github.tools.sap), Jira (jira-tools-sap), ServiceNow
-
----
-
 ## Repo Context (gaia-skill-tree)
 
 Key invariants to carry in this session:
