@@ -22,13 +22,13 @@ Registry evidence parsed directly from the local repository (with updated star c
 - **Tier 1★:** 21 skills total, 20 have verified sources (28 raw source entries)
 
 ### Registry Files Directory:
-- **[Unified Evidence Data Lake (Master)](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/data_lake/unified_evidence_lake.md)**
-- [Tier 6★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/raw/tier_6.md)
-- [Tier 5★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/raw/tier_5.md)
-- [Tier 4★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/raw/tier_4.md)
-- [Tier 3★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/raw/tier_3.md)
-- [Tier 2★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/raw/tier_2.md)
-- [Tier 1★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/raw/tier_1.md)
+- **[Unified Evidence Data Lake (Master)](file:///home/gaia-skill-tree/evidence/unified_evidence_lake.md)**
+- [Tier 6★ Source Dump](file:///home/gaia-skill-tree/evidence/collectors/tier_6.md)
+- [Tier 5★ Source Dump](file:///home/gaia-skill-tree/evidence/collectors/tier_5.md)
+- [Tier 4★ Source Dump](file:///home/gaia-skill-tree/evidence/collectors/tier_4.md)
+- [Tier 3★ Source Dump](file:///home/gaia-skill-tree/evidence/collectors/tier_3.md)
+- [Tier 2★ Source Dump](file:///home/gaia-skill-tree/evidence/collectors/tier_2.md)
+- [Tier 1★ Source Dump](file:///home/gaia-skill-tree/evidence/collectors/tier_1.md)
 
 ---
 
@@ -96,24 +96,24 @@ The adversarial verifier identified several gaps and mismatches that must be res
     - Generic homepages for Reddit (`https://reddit.com`) and Dev.to (`https://dev.to`) were used for `ruvnet/ruflo`. These must be upgraded to deep links referencing actual discussions.
 
 For a detailed link-by-link audit log, refer to the full verifier report:
-*   [Adversarial Verification Report](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/verification/verification_report_2026_06_18.md)
+*   [Adversarial Verification Report](file:///home/gaia-skill-tree/evidence/collectors/verification/verification_report_2026_06_18.md)
 
 ### 5. Collectors Directory Index
 
-All raw evidence collection reports are organized and stored locally within the repository under `founder/sources/collectors/`:
+All raw evidence collection reports are organized and stored locally within the repository under `evidence/collectors/`:
 
 *   **Raw Evidence Dumps:**
-    *   [Tiers 1–2 Raw Evidence](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/raw/tiers_1_2_evidence.md)
-    *   [Tiers 3–6 Raw Evidence](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/raw/tiers_3_6_evidence.md)
+    *   [Tiers 1–2 Raw Evidence](file:///home/gaia-skill-tree/evidence/collectors/tiers_1_2_evidence.md)
+    *   [Tiers 3–6 Raw Evidence](file:///home/gaia-skill-tree/evidence/collectors/tiers_3_6_evidence.md)
 *   **Social & Engagement Signals:**
-    *   [YouTube Showcase Videos](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/social/youtube_showcases.md)
-    *   [Developer Blogs & Newsletters](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/social/blogs_newsletters.md)
+    *   [YouTube Showcase Videos](file:///home/gaia-skill-tree/evidence/collectors/social/youtube_showcases.md)
+    *   [Developer Blogs & Newsletters](file:///home/gaia-skill-tree/evidence/collectors/social/blogs_newsletters.md)
 *   **Technical & Academic Evaluations:**
-    *   [Objective Benchmark Results](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/technical/benchmark_results.md)
-    *   [Structured Peer Reviews & Audits](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/technical/peer_reviews_audits.md)
-    *   [Academic Papers & arXiv Preprints](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/technical/academic_papers.md)
+    *   [Objective Benchmark Results](file:///home/gaia-skill-tree/evidence/collectors/technical/benchmark_results.md)
+    *   [Structured Peer Reviews & Audits](file:///home/gaia-skill-tree/evidence/collectors/technical/peer_reviews_audits.md)
+    *   [Academic Papers & arXiv Preprints](file:///home/gaia-skill-tree/evidence/collectors/technical/academic_papers.md)
 *   **Adversarial Audit Logs:**
-    *   [Verification Report](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/verification/verification_report_2026_06_18.md)
+    *   [Verification Report](file:///home/gaia-skill-tree/evidence/collectors/verification/verification_report_2026_06_18.md)
 
 ---
 

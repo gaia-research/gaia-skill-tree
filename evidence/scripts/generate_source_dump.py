@@ -48,8 +48,8 @@ def main():
     parser.add_argument("--named-skills-json", dest="namedSkillsJson", default="registry/named-skills.json", help="Path to named-skills.json")
     parser.add_argument("--gaia-json", dest="gaiaJson", default="registry/gaia.json", help="Path to gaia.json")
     parser.add_argument("--named-dir", dest="namedDir", default="registry/named", help="Directory containing named skill Markdown files")
-    parser.add_argument("--output-dir", dest="outputDir", default="founder/sources/collectors/raw", help="Output directory for tier dumps")
-    parser.add_argument("--report-path", dest="reportPath", default="founder/sources/source_report_2026_06_18.md", help="Path to the generated source report")
+    parser.add_argument("--output-dir", dest="outputDir", default="evidence", help="Output directory for tier dumps")
+    parser.add_argument("--report-path", dest="reportPath", default="evidence/source_report_2026_06_18.md", help="Path to the generated source report")
     
     args = parser.parse_args()
     
@@ -59,6 +59,12 @@ def main():
     outputDir = args.outputDir
     reportPath = args.reportPath
     
+    if not os.path.exists(gaiaJson):
+        for fallbackPath in ["docs/graph/gaia.json", ".gaia/registry/gaia.json"]:
+            if os.path.exists(fallbackPath):
+                gaiaJson = fallbackPath
+                break
+
     print(f"Loading registry files from {namedSkillsJson} and {gaiaJson}...")
     try:
         namedSkillsData = json.load(open(namedSkillsJson))
@@ -217,7 +223,8 @@ def main():
         f.write("All raw sources are partitioned by level for fast consumption:\n")
         for level in sorted(tierGroups.keys(), reverse=True):
             if tierGroups[level]:
-                f.write(f"- [Tier {level} Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/raw/tier_{level.replace('★', '')}.md)\n")
+                absPath = os.path.abspath(os.path.join(outputDir, f"tier_{level.replace('★', '')}.md"))
+                f.write(f"- [Tier {level} Source Dump](file://{absPath})\n")
 
 if __name__ == '__main__':
     main()

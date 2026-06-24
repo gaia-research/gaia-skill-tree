@@ -17,10 +17,10 @@ Raw source evidence for skills in the Gaia Registry is compiled from:
 
 ## Workflow
 
-1. Gather raw inputs from active contributors and collectors under `founder/sources/collectors/`.
+1. Gather raw inputs from active contributors and collectors under `evidence/collectors/`.
 2. Consolidate these sources into the master `unified_evidence_lake.md` index.
 3. Run the compiler script to align metadata structures:
 
 ```bash
-.venv/bin/python founder/sources/scripts/compile_data_lake.py
+.venv/bin/python evidence/scripts/compile_data_lake.py
 ```

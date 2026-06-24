@@ -5,7 +5,8 @@ import json
 import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-lakeDir = "/Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/data_lake"
+scriptDir = os.path.dirname(os.path.abspath(__file__))
+lakeDir = os.path.abspath(os.path.join(scriptDir, ".."))
 files = sorted([fname for fname in os.listdir(lakeDir) if fname.endswith(".md") and fname.startswith("tier_")])
 
 urlPattern = re.compile(r'\[.*?\]\((https?://.*?)\)')
@@ -95,7 +96,7 @@ with ThreadPoolExecutor(max_workers=2) as executor:
             print(f"[{completed}/{len(uniqueUrls)}] 💥 EXCEPTION: {url} -> {str(e)}")
 
 # Save report
-reportPath = "/Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/data_lake_validation_report.md"
+reportPath = os.path.join(lakeDir, "data_lake_validation_report.md")
 with open(reportPath, "w", encoding="utf-8") as f:
     f.write("# Data Lake Source Validation Report\n\n")
     f.write(f"Validated {len(uniqueUrls)} URLs using Firecrawl.\n\n")
