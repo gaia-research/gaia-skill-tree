@@ -5,10 +5,10 @@
   </picture>
 </div>
 
-# Gaia - This is not a skill marketplace
+# Gaia: Definitely not a skill marketplace
 
-> This is an open, evidence-backed skill graph. The game is to name a skill to your repository--the best skill takes "origin".
-> Success means becoming the public record AI agent developers cite when making capability claims — the pkg.go.dev for agent skills.
+> Open and evidence-backed skill graph. The game is to name a skill to your repository--the best skill takes "origin"!
+> Success means becoming the public record vibe coders cite when making capability claims.
 
 ### How does ranking work? Read [META.md](META.md) for a comprehensive list
 
@@ -23,7 +23,7 @@ Main inspo for this repo. Basically stole the idea and applied it to agent skill
 ![Alt Text]([https://i.pinimg.com/originals/db/4c/0c/db4c0cdec2faed4fdc1339843d987a04.gif](https://i.pinimg.com/originals/db/4c/0c/db4c0cdec2faed4fdc1339843d987a04.gif))
 
 
-# Name a skill, get a badge.
+# Get your badges! Some skills already curated.
 
 [![Gaia rank](https://gaia.tiongson.co/badges/_assets/mbtiongson1/rank.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)<br>
 [![Gaia skills](https://gaia.tiongson.co/badges/_assets/mbtiongson1/skills.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
@@ -38,13 +38,15 @@ Generate yours at **[gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/)
 
 # Who maintains this?
 
+Right now just me.
+
 Truth is, Gaia will exist even without anyone sending their skills.
 
 I built this because skills should be attributed to the people who proved them. Permanently, not just until the repo goes private.
 
 So that means, its the developers who make skills maintaining this. I have a thorough curation process, and the dev community is evidence on why this works. As long as developers making skills exists, this registry will exist. This is open-source, so feel free to contribute! 
 
-# The Skill Tree
+# The Gaia Skill Tree!
 
 <!-- gaia:registry-start -->
 ```text
@@ -85,9 +87,9 @@ So that means, its the developers who make skills maintaining this. I have a tho
 <!-- gaia:registry-end -->
 
 
-### How skills fuse
+### How Skills Fuse
 
-When two or more Basic skills combine, they can form an Extra. This is what `gaia scan` and `gaia fuse` render in your terminal:
+Do a `gaia scan` and `gaia fuse` render in your terminal:
 
 ```text
   mattpocock/grill-me  ────────────┐
@@ -102,7 +104,7 @@ Basics fuse into Extras; Extras can fuse into Ultimates. Evidence powers each as
 
 ---
 
-## Skill Tiers & Stars
+## Stars
 
 Gaia uses a tiered star system (**0★–6★**) to rank agent capabilities.
 
@@ -113,7 +115,26 @@ Gaia uses a tiered star system (**0★–6★**) to rank agent capabilities.
 | ◇ Extra | Composite workflow | 2★ → 4★ |
 | ◆ Ultimate | Platform capstone | 5★ → 6★ |
 
-Skills rank up through **verifiable evidence** scored on two axes — **Evidence Type** (provenance: one of 10 canonical types per the G7 Trust Taxonomy RFC, e.g. `arxiv`, `repo`, `repo-own`, `github-stars`, `github-stars-own`, `peer-review`, `social-signal`, `proxy-containment`, `benchmark-result`, `verifier-attestation`, `fusion-recipe`) and **Evidence Grade** (S / A / B / C, derived from the row's Trust Magnitude) — and can be demoted by **demerits**. The legacy single-axis Class A/B/C is deprecated and read only as a fallback during migration. The skill-level **Trust Magnitude** is now live in code (`src/gaia_cli/promotion.py` / `verification.py`).
+## Evidence
+
+1. **Evidence Type** (provenance: one of 10 canonical types per the G7 Trust Taxonomy RFC
+
+`arxiv`
+`repo` or `repo-own`
+`github-stars`
+`github-stars-own`
+`peer-review`
+`social-signal`
+`proxy-containment`
+`benchmark-result`
+`verifier-attestation`
+`fusion-recipe`
+
+2. **Evidence Grade**
+S | A | B | C | ungraded
+
+4. **Trust Magnitude**
+This is the evidence grade at the Skill level.
 
 > **Detailed Policy:** See [META.md](META.md) for the full evidence methodology, ranking floors, and prestige requirements.
 
@@ -123,7 +144,7 @@ Skills rank up through **verifiable evidence** scored on two axes — **Evidence
 
 ## Quickstart
 
-**1. Install the CLI**
+**1. CLI
 
 <!-- gaia:version-start -->
 Current Gaia CLI version: `5.4.3`.
@@ -138,8 +159,6 @@ npm wrapper alternative:
 npm install -g @gaia-registry/cli
 ```
 <!-- gaia:version-end -->
-
-Requires Python 3.8+. The script prefers `pipx` if available, otherwise falls back to `pip install --user` and prints a PATH hint if needed.
 
 <details>
 <summary>pipx / Windows alternatives</summary>
@@ -156,7 +175,7 @@ py -m pip install gaia-cli
 $env:PATH += ";" + (python -c "import sysconfig; print(sysconfig.get_path('scripts', 'nt_user'))")
 ```
 
-**Registry development** (editable install with all extras):
+**Full Install (for devs)** (editable install with all extras):
 ```bash
 git clone https://github.com/mbtiongson1/gaia-skill-tree.git
 cd gaia-skill-tree
@@ -172,7 +191,7 @@ packaging-specific tests are skipped locally with guidance to install developer 
 gaia update
 ```
 
-**2. Initialise & scan**
+**2. Init / Scan**
 
 ```bash
 gaia init
@@ -182,41 +201,42 @@ gaia init
 gaia scan
 ```
 
-Detects skills your agent demonstrates.
+Your repo will be scanned for existing skills. Everything will be in `.gaia` folder.
 
-**3. Push for review**
+**3. Push to this repo!**
 
 ```bash
 gaia push
 ```
 
-A GitHub issue opens automatically. Maintainers review and promote; your name attaches at 2★. (or 1★ if no repo is linked).
+A GitHub issue opens automatically. Don't worry, we thoroughly review every intake.
 
-**4. Optional: MCP Server**
+**4. MCP Server**
 
 ```bash
 claude mcp add gaia -- npx @gaia-registry/mcp-server
 ```
 
-Any MCP-compatible client. See [packages/mcp/](packages/mcp/) for config examples.
+If you wanna be fancy and do all sorts of agentic MCP goodness.
 
 ---
 
 ## Interactive TUI
 
-After step 1, launch with no arguments:
-
 ```bash
 gaia
 ```
+Will open all sorts of commands in a nice way.
 
-Navigate your skills:
+```bash
+gaia skills
+```
+
+Navigate skills:
 - **Fuzzy search** by name, description, or intent
 - **View tree** (`^T`) and **run scan** (`^G`) without leaving the TUI
 - **Install skills** with one keystroke
 - Keyboard-native: `↑↓` navigate · `Enter` install · `q` quit
-
-Requires `textual` (included with `pip install gaia-cli`).
 
 ---
 
@@ -287,7 +307,7 @@ Maintainer commands:  gaia dev --help
 
 ---
 
-## MCP Server
+## MCP Server Full Instructions
 
 `@gaia-registry/mcp-server` connects Gaia to MCP-compatible agents (Claude Code, Cursor, VS Code, etc.).
 
@@ -334,7 +354,7 @@ Full policy/reviewer guidance: <https://github.com/mbtiongson1/gaia-skill-tree/w
 
 ## Contributors
 
-Thank you to everyone who has expanded the Gaia registry.
+Thank you to everyone who has expanded the Gaia registry <3 You are the best!
 
 ### Core Team
 
