@@ -16,6 +16,13 @@
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Website](https://img.shields.io/badge/Website-gaia.tiongson.co-f59e0b)](https://gaia.tiongson.co/)
 
+# Be like Rimuru
+
+Main inspo for this repo. Basically stole the idea and applied it to agent skills.
+
+![Alt Text]([https://i.pinimg.com/originals/db/4c/0c/db4c0cdec2faed4fdc1339843d987a04.gif](https://i.pinimg.com/originals/db/4c/0c/db4c0cdec2faed4fdc1339843d987a04.gif))
+
+
 # Name a skill, get a badge.
 
 [![Gaia rank](https://gaia.tiongson.co/badges/_assets/mbtiongson1/rank.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)<br>
