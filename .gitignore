@@ -79,3 +79,9 @@ scratch_context.json
 src/gaia_cli/data/registry/gaia.json
 src/gaia_cli/data/registry/named-skills.json
 src/gaia_cli/data/registry/named/
+
+# Graphify cache — AST parse and semantic embedding caches regenerated on each run.
+# Tracked outputs (graph.json, graph.html, manifest.json, GRAPH_REPORT.md, cost.json)
+# stay in git; the cache dirs have no cross-commit value and bloat clone/diff.
+graphify-out/cache/
+raw/graphify-out/cache/
