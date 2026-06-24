@@ -51,6 +51,12 @@
           if (trigger) trigger.click();
         }, 800);
       }
+      if (paramOn(params, 'tree')) {
+        setTimeout(function () {
+          var treeBtn = document.getElementById('treeNavBtn');
+          if (treeBtn) treeBtn.click();
+        }, 800);
+      }
     } catch (_) { /* ignore */ }
   }
 
