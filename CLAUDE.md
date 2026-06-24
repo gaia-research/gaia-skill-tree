@@ -8,6 +8,10 @@ Guidance for AI coding agents working in this repository.
 - Read key files BEFORE running exploratory bash commands.
 - When asked to monitor/loop CI checks, monitor — do not switch to debugging failures unless instructed.
 
+## Graphify
+
+Graphify is an approved tool for codebase analysis and is used on an as-needed basis (deep architecture audits, dependency mapping, cross-cutting impact assessments). Running it costs real token spend — only invoke it when the task warrants a structural code graph. The valuable outputs (`graph.json`, `graph.html`, `manifest.json`, `GRAPH_REPORT.md`, `cost.json`) are tracked in git; the regenerable cache (`graphify-out/cache/`) is gitignored.
+
 ## Git Workflow
 
 Never push directly to main.
