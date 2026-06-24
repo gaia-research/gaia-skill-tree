@@ -22,13 +22,13 @@ Registry evidence parsed directly from the local repository (with updated star c
 - **Tier 1★:** 21 skills total, 20 have verified sources (28 raw source entries)
 
 ### Registry Files Directory:
-- **[Unified Evidence Data Lake (Master)](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/data_lake/unified_evidence_lake.md)**
-- [Tier 6★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/data_lake/tier_6.md)
-- [Tier 5★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/data_lake/tier_5.md)
-- [Tier 4★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/data_lake/tier_4.md)
-- [Tier 3★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/data_lake/tier_3.md)
-- [Tier 2★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/data_lake/tier_2.md)
-- [Tier 1★ Source Dump](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/data_lake/tier_1.md)
+- **[Unified Evidence Data Lake (Master)](file:///home/gaia-skill-tree/evidence/unified_evidence_lake.md)**
+- [Tier 6★ Source Dump](file:///home/gaia-skill-tree/evidence/tier_6.md)
+- [Tier 5★ Source Dump](file:///home/gaia-skill-tree/evidence/tier_5.md)
+- [Tier 4★ Source Dump](file:///home/gaia-skill-tree/evidence/tier_4.md)
+- [Tier 3★ Source Dump](file:///home/gaia-skill-tree/evidence/tier_3.md)
+- [Tier 2★ Source Dump](file:///home/gaia-skill-tree/evidence/tier_2.md)
+- [Tier 1★ Source Dump](file:///home/gaia-skill-tree/evidence/tier_1.md)
 
 ---
 
@@ -36,7 +36,7 @@ Registry evidence parsed directly from the local repository (with updated star c
 
 Following a comprehensive multi-agent adversarial audit of Tiers 1★ to 6★ in the Gaia data lake (`tier_1.md` through `tier_6.md`), the following discrepancies, link failures, formatting violations, and classification errors were identified. 
 
-Additionally, an automated URL validation sweep was performed across all 287 unique evidence sources in the data lake using the Firecrawl API to verify HTTP request resolution. Out of 287 URLs, 286 valid links returned successful HTTP 200 responses, with only 1 validation timeout error found (https://lobehub.com/plugins). Detailed logs can be found in the [Firecrawl URL Verification Sweep](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/verification/firecrawl_validation_report_2026_06_19.md) log.
+Additionally, an automated URL validation sweep was performed across all 287 unique evidence sources in the data lake using the Firecrawl API to verify HTTP request resolution. Out of 287 URLs, 286 valid links returned successful HTTP 200 responses, with only 1 validation timeout error found (https://lobehub.com/plugins). Detailed logs can be found in the [Firecrawl URL Verification Sweep](file:///home/gaia-skill-tree/evidence/collectors/verification/firecrawl_validation_report_2026_06_19.md) log.
 
 ### 3.1 Dead/Broken Links (404)
 A total of 8 active 404/broken link failures were confirmed:
@@ -111,21 +111,21 @@ A systematic round of manual verification and curation was conducted, focusing o
 
 ## 5. Collectors Directory Index
 
-All raw evidence collection reports are organized and stored locally within the repository under `founder/sources/collectors/`:
+All raw evidence collection reports are organized and stored locally within the repository under `evidence/collectors/`:
 
 *   **Raw Evidence Dumps:**
-    *   [Tiers 1–2 Raw Evidence](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/raw/tiers_1_2_evidence.md)
-    *   [Tiers 3–6 Raw Evidence](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/raw/tiers_3_6_evidence.md)
+    *   [Tiers 1–2 Raw Evidence](file:///home/gaia-skill-tree/evidence/collectors/tiers_1_2_evidence.md)
+    *   [Tiers 3–6 Raw Evidence](file:///home/gaia-skill-tree/evidence/collectors/tiers_3_6_evidence.md)
 *   **Social & Engagement Signals:**
-    *   [YouTube Showcase Videos](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/social/youtube_showcases.md)
-    *   [Developer Blogs & Newsletters](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/social/blogs_newsletters.md)
+    *   [YouTube Showcase Videos](file:///home/gaia-skill-tree/evidence/collectors/social/youtube_showcases.md)
+    *   [Developer Blogs & Newsletters](file:///home/gaia-skill-tree/evidence/collectors/social/blogs_newsletters.md)
 *   **Technical & Academic Evaluations:**
-    *   [Objective Benchmark Results](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/technical/benchmark_results.md)
-    *   [Structured Peer Reviews & Audits](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/technical/peer_reviews_audits.md)
-    *   [Academic Papers & arXiv Preprints](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/technical/academic_papers.md)
+    *   [Objective Benchmark Results](file:///home/gaia-skill-tree/evidence/collectors/technical/benchmark_results.md)
+    *   [Structured Peer Reviews & Audits](file:///home/gaia-skill-tree/evidence/collectors/technical/peer_reviews_audits.md)
+    *   [Academic Papers & arXiv Preprints](file:///home/gaia-skill-tree/evidence/collectors/technical/academic_papers.md)
 *   **Adversarial Audit Logs:**
-    *   [Verification Report](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/verification/verification_report_2026_06_19.md)
-    *   [Firecrawl URL Verification Sweep](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/verification/firecrawl_validation_report_2026_06_19.md)
+    *   [Verification Report](file:///home/gaia-skill-tree/evidence/collectors/verification/verification_report_2026_06_19.md)
+    *   [Firecrawl URL Verification Sweep](file:///home/gaia-skill-tree/evidence/collectors/verification/firecrawl_validation_report_2026_06_19.md)
 
 ---
 
@@ -134,9 +134,9 @@ All raw evidence collection reports are organized and stored locally within the 
 To maintain absolute data lake integrity, the entire trust methodology validation is orchestrated via the coordinating agent skill: **`evidence-verification-pipeline`** (also aliased as **`ev-pipeline`**).
 
 > [!NOTE]
-> **Data Lake Lifecycle Note:** This pipeline validates the raw evidence **data lake** (`founder/sources/data_lake/`) and NOT the canonical registry itself. This validation is performed at the **START** of the ingestion cycle before any evidence is merged or written to the registry.
+> **Data Lake Lifecycle Note:** This pipeline validates the raw evidence **data lake** (`evidence/`) and NOT the canonical registry itself. This validation is performed at the **START** of the ingestion cycle before any evidence is merged or written to the registry.
 
-The visual process flow and interactive simulation at [verification_process.html](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/verification_process.html) represent the consolidated execution of this pipeline, which is the sum of the following specialized sub-skills:
+The visual process flow and interactive simulation at [verification_process.html](file:///home/gaia-skill-tree/evidence/verification_process.html) represent the consolidated execution of this pipeline, which is the sum of the following specialized sub-skills:
 1. **`ev-collection`**: Scrapes and compiles raw source files into the unified index database.
 2. **`ev-star-verification`**: Queries the GitHub API to check/cache live repository stargazers and partition files by star tier.
 3. **`ev-adversarial-audit`**: Automatically deploys 4 parallel adversarial subagents across data tiers to flag formatting errors and subjective noise.

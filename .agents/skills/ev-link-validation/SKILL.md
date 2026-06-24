@@ -11,7 +11,7 @@ This skill handles Phase 4 of the evidence verification pipeline, dynamically sc
 
 All external links compiled into the evidence data lake (Tiers 1★ to 6★) must be continuously audited for uptime and validity:
 - Firecrawl CLI (`firecrawl scrape`) is used to fetch and inspect link availability in parallel.
-- Unique URLs are parsed from `founder/sources/data_lake/*.md` files.
+- Unique URLs are parsed from `evidence/*.md` files.
 - Run results are saved to a markdown report and logged within the chronological verification repository.
 
 ## Workflow
@@ -20,17 +20,17 @@ All external links compiled into the evidence data lake (Tiers 1★ to 6★) mus
 2. Run the validation script:
 
 ```bash
-.venv/bin/python founder/sources/scripts/validate_sources.py
+.venv/bin/python evidence/scripts/validate_sources.py
 ```
 
-*Note: For debugging/testing a subset of URLs, you can pass a limit parameter (e.g. `.venv/bin/python founder/sources/scripts/validate_sources.py 10`)*
+*Note: For debugging/testing a subset of URLs, you can pass a limit parameter (e.g. `.venv/bin/python evidence/scripts/validate_sources.py 10`)*
 
-3. Copy the output report `founder/sources/data_lake_validation_report.md` to a timestamped file under the verification folder:
+3. Copy the output report `evidence/data_lake_validation_report.md` to a timestamped file under the verification folder:
 
 ```bash
-cp founder/sources/data_lake_validation_report.md \
-   founder/sources/collectors/verification/firecrawl_validation_report_2026_06_19.md
+cp evidence/data_lake_validation_report.md \
+   evidence/collectors/verification/firecrawl_validation_report_2026_06_19.md
 ```
 
-4. Document the validation findings and pointer reference in the daily source report `founder/sources/source_report_2026_06_19.md`.
-5. Update the verification stats inside `founder/sources/verification_process.html` to reflect the latest audit counts.
+4. Document the validation findings and pointer reference in the daily source report `evidence/source_report_2026_06_19.md`.
+5. Update the verification stats inside `evidence/verification_process.html` to reflect the latest audit counts.

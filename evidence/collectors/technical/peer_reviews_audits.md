@@ -145,7 +145,7 @@ This report consolidates peer reviews, codebase audits, design critiques, and wa
 ## 12. `pbakaus/impeccable`
 
 * **Target Repository:** [pbakaus/impeccable](https://github.com/pbakaus/impeccable)
-* **Review URL:** [G7 Trust Source Report](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/tier_4.md)
+* **Review URL:** [G7 Trust Source Report](file:///home/gaia-skill-tree/evidence/tier_4.md)
 * **Author:** Paul Bakaus / G7 Trust Group
 * **Date:** June 18, 2026
 * **Summary of Findings:**
