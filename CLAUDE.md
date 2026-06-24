@@ -267,16 +267,16 @@ The **rarity** axis (`common` / `uncommon` / `rare` / `epic` / `legendary`) is *
 
 ## Agent Skills
 
-Project-local agent skills live in two directories and are actively used by contributors. Keep them in sync with `CONTEXT.md` nomenclature.
+All project skills live in `.claude/skills/`. There is no `.agents/` directory. Keep skills in sync with `CONTEXT.md` nomenclature.
 
-- `.agents/skills/gaia-curate/` — `/gaia-curate`: expand the registry with new skills and open a PR (single linear pass).
-- `.agents/skills/gaia-curate-chain/` — `/gaia-curate-chain`: the same curation work as a **prompt-chaining** workflow (six gated links, one sub-agent per link), per Anthropic's *Building Effective Agents*. Use when evidence quality and schema correctness matter more than latency.
-- `.agents/skills/gaia-curate-dynamic/` — `/gaia-curate-dynamic`: curation as a **dynamic workflow** (runtime-composed plan, massively parallel sub-agent fan-out, proposer⇄refuter convergent validation, resumable ledger), per *Introducing dynamic workflows in Claude Code*. Use for wide sweeps and high-stakes verification.
-- `.agents/skills/gaia-meta-audit/` — `/gaia-meta-audit`: prioritized queue of skills/catalog items needing review.
-- `.agents/skills/gaia-audit/` — `/gaia-audit`: focused source-level correction for one target.
-- `.agents/skills/gaia-trace-timeline/` — `/gaia-trace-timeline`: audit & repair user-tree timelines so every skill's current rank is explained by its Hero's Journey (backfills missing demote/rank_up events). Backed by `scripts/trace_timeline.py`; enforced by `scripts/validate_timelines.py` (run via `gaia dev validate` + release CI).
-- `.agents/skills/gaia-draft-curate/`, `gaia-docs-sync/`, `gaia-integrity/`, `gaia-triage/`, `gaia-wiki-sync/`, `graphify-triage/` — supporting curation, doc-sync, integrity, and triage workflows.
-- `.agents/skills/gaia-bot-curate/` — bot-driven curation pass.
+- `.claude/skills/gaia-curate/` — `/gaia-curate`: expand the registry with new skills and open a PR (single linear pass).
+- `.claude/skills/gaia-curate-chain/` — `/gaia-curate-chain`: the same curation work as a **prompt-chaining** workflow (six gated links, one sub-agent per link), per Anthropic's *Building Effective Agents*. Use when evidence quality and schema correctness matter more than latency.
+- `.claude/skills/gaia-curate-dynamic/` — `/gaia-curate-dynamic`: curation as a **dynamic workflow** (runtime-composed plan, massively parallel sub-agent fan-out, proposer⇄refuter convergent validation, resumable ledger), per *Introducing dynamic workflows in Claude Code*. Use for wide sweeps and high-stakes verification.
+- `.claude/skills/gaia-meta-audit/` — `/gaia-meta-audit`: prioritized queue of skills/catalog items needing review.
+- `.claude/skills/gaia-audit/` — `/gaia-audit`: focused source-level correction for one target.
+- `.claude/skills/gaia-trace-timeline/` — `/gaia-trace-timeline`: audit & repair user-tree timelines so every skill's current rank is explained by its Hero's Journey (backfills missing demote/rank_up events). Backed by `scripts/trace_timeline.py`; enforced by `scripts/validate_timelines.py` (run via `gaia dev validate` + release CI).
+- `.claude/skills/gaia-draft-curate/`, `gaia-docs-sync/`, `gaia-integrity/`, `gaia-triage/`, `gaia-wiki-sync/`, `graphify-triage/` — supporting curation, doc-sync, integrity, and triage workflows.
+- `.claude/skills/gaia-bot-curate/` — bot-driven curation pass.
 - `.claude/skills/gaia-fuse-full-suite/` — `/gaia-fuse-full-suite`: fuse one contributor's named skills into a single ultimate.
 
 When touching any of these, route registry mutations through `gaia dev add` / `gaia dev merge` / `gaia dev split` / `gaia dev evidence` (Programmatic-First Policy) rather than hand-edits.
@@ -447,7 +447,7 @@ The following files are managed by an autonomous agent (Hermes) and should **not
 - When starting fresh and indicating a PR, you are authorized to work on the PR branch right away. GO TO THE PR BRANCH, not the `claude/` branch.
 
 ### Skills Intake
-- When referring to skills that are not installed, check first if they are in the `.agents` directory.
+- All skills live in `.claude/skills/`. There is no `.agents/` directory.
 
 ### Token Spend Logging (Critical)
 - On EVERY GitHub Project, LOG how much input / output token spend you made on which model + date.
