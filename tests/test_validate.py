@@ -140,10 +140,9 @@ class TestValidate(unittest.TestCase):
 
     def test_agents_audit_skills_exist(self):
         """Ensure the repo-local audit slash skills are present."""
-        # PR #525: standardized SKILL.md (uppercase) across all .agents/skills/
-        # entries to fix Star Bar 404s on case-sensitive GitHub raw paths.
+        # PR #827: consolidated all skills to .claude/skills/ — .agents/ removed.
         for skill_name in ("gaia-audit", "gaia-meta-audit"):
-            path = os.path.join(REPO_ROOT, ".agents", "skills", skill_name, "SKILL.md")
+            path = os.path.join(REPO_ROOT, ".claude", "skills", skill_name, "SKILL.md")
             self.assertTrue(os.path.exists(path), f"Missing {path}")
             with open(path, encoding="utf-8") as f:
                 text = f.read()
