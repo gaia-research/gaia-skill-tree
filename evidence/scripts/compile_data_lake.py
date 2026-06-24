@@ -1,10 +1,10 @@
 import os
 import argparse
 
-def parseTierFiles(sourcesDir, skillsData):
-    # Parse tier_1.md to tier_6.md from raw archived folder
+def parseTierFiles(lakeDir, skillsData):
+    # Parse tier_1.md to tier_6.md from data lake folder
     for tierNum in range(1, 7):
-        filePath = os.path.join(sourcesDir, "collectors", "raw", f"tier_{tierNum}.md")
+        filePath = os.path.join(lakeDir, f"tier_{tierNum}.md")
         if not os.path.exists(filePath):
             continue
         
@@ -193,9 +193,9 @@ def writeUnifiedLake(outputPath, skillsData):
 
 def main():
     parser = argparse.ArgumentParser(description="Compile unified evidence data lake.")
-    parser.add_argument("--sources", dest="sourcesDir", default="founder/sources", help="Sources directory path")
-    parser.add_argument("--collectors", dest="collectorsDir", default="founder/sources/collectors", help="Collectors directory path")
-    parser.add_argument("--lake", dest="lakeDir", default="founder/sources/data_lake", help="Data lake directory path")
+    parser.add_argument("--sources", dest="sourcesDir", default="evidence", help="Sources directory path")
+    parser.add_argument("--collectors", dest="collectorsDir", default="evidence/collectors", help="Collectors directory path")
+    parser.add_argument("--lake", dest="lakeDir", default="evidence", help="Data lake directory path")
     
     args = parser.parse_args()
     
@@ -206,8 +206,8 @@ def main():
     os.makedirs(lakeDir, exist_ok=True)
     
     skillsData = {}
-    print(f"Parsing tier dumps from {sourcesDir}...")
-    parseTierFiles(sourcesDir, skillsData)
+    print(f"Parsing tier dumps from {lakeDir}...")
+    parseTierFiles(lakeDir, skillsData)
     print(f"Parsing collector files from {collectorsDir}...")
     parseCollectorFiles(collectorsDir, skillsData)
     

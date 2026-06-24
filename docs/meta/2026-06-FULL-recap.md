@@ -381,7 +381,7 @@ The G7 month was carried as much by the agent-skill registry and dispatch discip
 | `/gaia-curate` | Single-pass registry expansion. Loads `registry/skill-sources.md`, fans across GitHub + skill-marketplace evidence per `registry/skill-sources.md`, opens a curation PR. Lowest latency, weakest gates. |
 | `/gaia-curate-chain` | Six-link prompt-chain (research → design → review → mutate → ship), each link a fresh sub-agent with a programmatic gate between. Use when schema correctness must not slip. |
 | `/gaia-curate-dynamic` | Runtime-composed plan, tens-to-hundreds of parallel sub-agents, proposer⇄refuter convergent validation, resumable ledger. Used for whole-domain sweeps. |
-| `/ev-pipeline` | Four-phase data-lake driver: collection → live-star verification → adversarial audit → link validation. Operates on `founder/sources/data_lake/` BEFORE registry ingestion. |
+| `/ev-pipeline` | Four-phase data-lake driver: collection → live-star verification → adversarial audit → link validation. Operates on `evidence/` BEFORE registry ingestion. |
 | `/gaia-tm-inspect` | Live Trust Magnitude breakdown for any named skill (artifact chain, dead rows, next-grade gap) plus a 249-skill ranked leaderboard grouped by S/A/B/C bands. |
 | `/impeccable` | Production-grade UI craft. Reads PRODUCT.md / DESIGN.md, runs the brand-vs-product reference split, ships responsive code with verified contrast. |
 | `/gaia-fuse-full-suite` | Fuses every named skill from one contributor into a single ultimate, back-links components, writes the `fuse` timeline event, opens the PR. |

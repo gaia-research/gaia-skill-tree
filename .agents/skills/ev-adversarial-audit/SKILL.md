@@ -29,4 +29,4 @@ This skill handles Phase 3 of the evidence verification pipeline, deploying para
 ```
 
 3. Collect the reports and merge findings using a 5th synthesis subagent (type `self`).
-4. Append findings to the master report under `## 6. Adversarial Data Lake Audit Findings (YYYY-MM-DD)` in the active source report file (e.g., `founder/sources/source_report_2026_06_19.md`).
+4. Append findings to the master report under `## 6. Adversarial Data Lake Audit Findings (YYYY-MM-DD)` in the active source report file (e.g., `evidence/source_report_2026_06_19.md`).

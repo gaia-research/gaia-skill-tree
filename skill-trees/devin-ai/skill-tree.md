@@ -17,7 +17,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — devin-ai  ·  generated 2026-06-23
+GAIA SKILL TREE — devin-ai  ·  generated 2026-06-24
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.

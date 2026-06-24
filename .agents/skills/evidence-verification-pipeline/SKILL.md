@@ -8,7 +8,7 @@ description: Orchestrates all evidence collection, live star verification, adver
 This skill orchestrates the four primary verification phases to compile, audit, and validate the Gaia Registry evidence data lake. It can be invoked as `/evidence-verification-pipeline` or `/ev-pipeline`.
 
 > [!NOTE]
-> **Data Lake Lifecycle Stage:** This pipeline operates strictly on the raw evidence **data lake** (`founder/sources/data_lake/`) and NOT on the canonical registry itself. It is executed at the **START** of the ingestion process before any evidence gets integrated into the registry.
+> **Data Lake Lifecycle Stage:** This pipeline operates strictly on the raw evidence **data lake** (`evidence/`) and NOT on the canonical registry itself. It is executed at the **START** of the ingestion process before any evidence gets integrated into the registry.
 
 ```mermaid
 graph TD
@@ -23,13 +23,13 @@ graph TD
 ## The Four Phases
 
 ### Phase 1: Evidence Collection (`ev-collection`)
-Aggregates raw evidence from active collectors (`founder/sources/collectors/`) and compiles the master database:
+Aggregates raw evidence from active collectors (`evidence/collectors/`) and compiles the master database:
 ```bash
 /ev-collection
 ```
 
 ### Phase 2: Live Star Verification (`ev-star-verification`)
-Queries the GitHub API for stargazers, validates them against `registry/named/` Markdown files, and generates tiered partitioned raw files under `founder/sources/data_lake/`:
+Queries the GitHub API for stargazers, validates them against `registry/named/` Markdown files, and generates tiered partitioned raw files under `evidence/`:
 ```bash
 /ev-star-verification
 ```
@@ -50,6 +50,6 @@ Performs an active API link scrape verifying uptime and 200 OK statuses across a
 
 ## Post-Run Tasks
 
-1. **Verification Records:** Save the validation report inside `founder/sources/collectors/verification/firecrawl_validation_report_YYYY_MM_DD.md`.
-2. **Master Source Report:** Document the audit log, star updates, and compiled adversarial details in `founder/sources/source_report_YYYY_MM_DD.md`.
-3. **Visual Process Update:** Manually verify and update the statistics and pipeline statuses inside `founder/sources/verification_process.html`.
+1. **Verification Records:** Save the validation report inside `evidence/collectors/verification/firecrawl_validation_report_YYYY_MM_DD.md`.
+2. **Master Source Report:** Document the audit log, star updates, and compiled adversarial details in `evidence/source_report_YYYY_MM_DD.md`.
+3. **Visual Process Update:** Manually verify and update the statistics and pipeline statuses inside `evidence/verification_process.html`.

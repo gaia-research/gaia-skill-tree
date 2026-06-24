@@ -312,12 +312,6 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 
 ---
 
-### Verification Audits
-
-| Skill ID / Contributor | Evidence Source / URL | Status | Category / Finding |
-| :--- | :--- | :--- | :--- |
-| **mattpocock/skills** | [mattpocock/skills Repo](https://github.com/mattpocock/skills) | **Active (200)** | Verified repository |
-
 ---
 
 ## Skill: <a name="skill-ruvnetruflo"></a>`ruvnet/ruflo`
@@ -384,17 +378,6 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 
 ---
 
-### Verification Audits
-
-| Skill ID / Contributor | Evidence Source / URL | Status | Category / Finding |
-| :--- | :--- | :--- | :--- |
-| **ruvnet/ruflo** | [ruvnet/ruflo Repo](https://github.com/ruvnet/ruflo) | **Active (200)** | Verified repository |
-| | [Dev.to: Ruflo Blog](https://dev.to/ruvnet/ruflo-multi-agent-orchestration-for-claude-code) | **Broken (404)** | Missing/deleted article |
-*   **`ruvnet/ruflo` Dev.to Article**:
-    *   **URL**: `https://dev.to/ruvnet/ruflo-multi-agent-orchestration-for-claude-code`
-*   **`ruvnet/ruflo` (Reddit and Dev.to links)**:
-*   **`ruvnet/ruflo` Academic Paper Citation (`arxiv:2602.06547`)**:
-
 ---
 
 ## Skill: <a name="skill-garrytangstack"></a>`garrytan/gstack`
@@ -460,13 +443,6 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 *   **Description:** Garry Tan, CEO of Y Combinator, demonstrates Gstack, his open-source configuration toolkit that enables Claude Code to operate as an entire engineering team. He walks through running Claude Code with specialized slash commands representing roles like EM, Designer, QA, and CEO Reviewer, showcaseing "Founder Mode" in software development.
 
 ---
-
-### Verification Audits
-
-| Skill ID / Contributor | Evidence Source / URL | Status | Category / Finding |
-| :--- | :--- | :--- | :--- |
-| **garrytan/gstack** | [garrytan/gstack Repo](https://github.com/garrytan/gstack) | **Active (200)** | Verified repository |
-| | [garrytan/gstack SKILL.md](https://github.com/garrytan/gstack/blob/main/SKILL.md) | **Active (200)** | Verified skill definition file |
 
 ---
 
@@ -558,13 +534,6 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 *   **Description:** Jesse Vincent, the creator of the "superpowers" AI agentic framework, discusses how to transition from chaotic "vibe coding" to disciplined "agentic engineering." He covers the multi-agent architecture of Superpowers (Coordinator, Builders, and Adversarial Reviewers) and explains his management philosophy of treating AI agents like "chaotic MIT interns" with strict guardrails.
 
 ---
-
-### Verification Audits
-
-| Skill ID / Contributor | Evidence Source / URL | Status | Category / Finding |
-| :--- | :--- | :--- | :--- |
-| **obra/superpowers** | [obra/superpowers Repo](https://github.com/obra/superpowers) | **Active (200)** | Verified repository |
-| | [superpowers-marketplace Repo](https://github.com/obra/superpowers-marketplace) | **Active (200)** | Verified repository |
 
 ---
 
@@ -1140,7 +1109,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E3: `repo`
 - **Source:** [https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md](https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md)
 - **Date:** 2026-05-10
-- **Verified Stars:** 152,231 stars
+- **Verified Stars:** 152,091 stars
 - **Description:** Anthropic skill-creator provides a reproducible workflow for creating, editing, evaluating, benchmarking, and optimizing agent skills. (backfilled — class-to-type migration)
 
 ### YouTube Showcase Videos
@@ -1159,20 +1128,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Alphafold-Database-Fetch-And-Analyze
 - **Contributor:** `google-deepmind`
 - **Tier:** 4★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind alphafold_database_fetch_and_analyze science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Computational Biology Workflows. (backfilled — class-to-type migration)
 
 ---
@@ -1383,7 +1352,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 ### Peer Reviews & Audits
 
 * **Target Repository:** [pbakaus/impeccable](https://github.com/pbakaus/impeccable)
-* **Review URL:** [G7 Trust Source Report](file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/tier_4.md)
+* **Review URL:** [G7 Trust Source Report](file:///home/gaia-skill-tree/evidence/tier_4.md)
 * **Author:** Paul Bakaus / G7 Trust Group
 * **Date:** June 18, 2026
 * **Summary of Findings:**
@@ -1416,12 +1385,6 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 *   **Video URL:** `https://www.youtube.com/watch?v=k5f2uP33u5g`
 *   **Channel Name:** Full Stack (Validated Third-Party Walkthrough)
 *   **Description:** This video details the "Impeccable" design steering skill built by Paul Bakaus. It showcases how to use Impeccable's design vocabulary modules (colors, typography, responsive design, spatial layout) to steer AI coding assistants like Claude Code away from generic "AI slop" frontends.
-
-### Verification Audits
-
-| Skill ID / Contributor | Evidence Source / URL | Status | Category / Finding |
-| :--- | :--- | :--- | :--- |
-| **pbakaus/impeccable** | [pbakaus/impeccable Repo](https://github.com/pbakaus/impeccable) | **Active (200)** | Verified repository |
 
 ---
 
@@ -1558,8 +1521,14 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E1: `repo`
 - **Source:** [https://github.com/princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench)
 - **Date:** 2026-04-28
-- **Verified Stars:** 5,200 stars
+- **Verified Stars:** 5,197 stars
 - **Description:** SWE-bench Verified â€” open-source evaluation harness where agents fix GitHub issues by generating and passing test suites; full execution logs archived. (backfilled — class-to-type migration)
+
+#### E2: `repo`
+- **Source:** [https://github.com/0xDarkMatter/claude-mods](https://github.com/0xDarkMatter/claude-mods)
+- **Date:** 2026-06-17
+- **Verified Stars:** 22 stars
+- **Description:** 0xDarkMatter's claude-mods repository containing testing patterns for Claude Code.
 
 ---
 
@@ -1568,21 +1537,21 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Performance Optimization
 - **Contributor:** `addy-osmani`
 - **Tier:** 3★
-- **Primary Repository:** [https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md) (62,101 stars)
+- **Primary Repository:** [https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md) (62,107 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md)
 - **Date:** 2026-05-31
-- **Verified Stars:** 62,101 stars
+- **Verified Stars:** 62,107 stars
 - **Description:** Addy Osmani's performance-optimization SKILL.md in agent-skills repo (47.2k stars, verified 2026-05-31). Defines a measurement-driven 5-step workflow (Measure → Identify → Fix → Verify → Guard) with explicit Core Web Vitals thresholds. Qualifies for Class A per META §2.1 large-scale adoption criterion. (backfilled — class-to-type migration)
 
-#### E2: `github-stars`
-- **Source:** [https://github.com/ruvnet/ruflo](https://github.com/ruvnet/ruflo)
-- **Date:** 2026-05-19
-- **Verified Stars:** 59,957 stars
-- **Description:** Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)
+#### E2: `repo`
+- **Source:** [https://github.com/addyosmani/web-quality-skills](https://github.com/addyosmani/web-quality-skills)
+- **Date:** 2026-06-18
+- **Verified Stars:** 2,376 stars
+- **Description:** Addy Osmani's web-quality-skills repository targeting web quality, Lighthouse metrics, and Core Web Vitals optimization.
 
 ---
 
@@ -1591,20 +1560,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Test-Driven Development
 - **Contributor:** `addy-osmani`
 - **Tier:** 3★
-- **Primary Repository:** [https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md) (62,101 stars)
+- **Primary Repository:** [https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md) (62,107 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md](https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md)
 - **Date:** 2026-04-30
-- **Verified Stars:** 62,101 stars
+- **Verified Stars:** 62,107 stars
 - **Description:** Addy Osmani /test-driven-development slash command -- forces strict TDD workflow, stopping agents from skipping tests. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md)
 - **Date:** 2026-04-30
-- **Verified Stars:** 133,210 stars
+- **Verified Stars:** 133,232 stars
 - **Description:** Matt Pocock /tdd -- Vertical-slice TDD enforcement with anti-horizontal-slicing rules. (backfilled — class-to-type migration)
 
 ---
@@ -1633,13 +1602,13 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E3: `repo`
 - **Source:** [https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md](https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md)
 - **Date:** 2026-05-10
-- **Verified Stars:** 152,231 stars
+- **Verified Stars:** 152,091 stars
 - **Description:** Anthropic skill-creator explicitly includes measuring skill performance, benchmarking with variance analysis, and optimizing skill descriptions for triggering accuracy. (backfilled — class-to-type migration)
 
 #### E4: `repo`
 - **Source:** [https://github.com/ynulihao/AgentSkillOS](https://github.com/ynulihao/AgentSkillOS)
 - **Date:** 2026-05-10
-- **Verified Stars:** 428 stars
+- **Verified Stars:** 427 stars
 - **Description:** AgentSkillOS repository provides the reproducible retrieval/orchestration framework and benchmark implementation for 30 artifact-rich agent-skill tasks with Bradley-Terry scoring. (backfilled — class-to-type migration)
 
 ### YouTube Showcase Videos
@@ -1793,7 +1762,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E3: `repo`
 - **Source:** [https://github.com/NVIDIA-NeMo/Guardrails](https://github.com/NVIDIA-NeMo/Guardrails)
 - **Date:** 2026-04-30
-- **Verified Stars:** 6,463 stars
+- **Verified Stars:** 6,461 stars
 - **Description:** NeMo Guardrails -- open-source toolkit for adding programmable safety rails to LLM-based conversational systems; actively maintained. (backfilled — class-to-type migration)
 
 ### YouTube Showcase Videos
@@ -1825,7 +1794,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E2: `repo`
 - **Source:** [https://github.com/princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench)
 - **Date:** 2026-04-28
-- **Verified Stars:** 5,200 stars
+- **Verified Stars:** 5,197 stars
 - **Description:** SWE-bench Verified â€” open-source evaluation harness where agents fix GitHub issues by generating and passing test suites; full execution logs archived. (backfilled — class-to-type migration)
 
 ### YouTube Showcase Videos
@@ -1915,13 +1884,13 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E2: `repo`
 - **Source:** [https://github.com/modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk)
 - **Date:** 2026-04-30
-- **Verified Stars:** 4,699 stars
+- **Verified Stars:** 4,696 stars
 - **Description:** Official Go SDK for MCP servers and clients (4.4k stars, maintained by Anthropic + Google). Demonstrates production-grade MCP client integration pattern. (backfilled — class-to-type migration)
 
 #### E3: `repo`
 - **Source:** [https://github.com/nanbingxyz/5ire](https://github.com/nanbingxyz/5ire)
 - **Date:** 2026-04-30
-- **Verified Stars:** 5,248 stars
+- **Verified Stars:** 5,247 stars
 - **Description:** Cross-platform AI assistant with full MCP client support (5.2k stars). Reproduces tool enumeration, execution, and multi-server routing. (backfilled — class-to-type migration)
 
 ### YouTube Showcase Videos
@@ -1992,20 +1961,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Alphagenome-Single-Variant-Analysis
 - **Contributor:** `google-deepmind`
 - **Tier:** 3★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind alphagenome_single_variant_analysis science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Computational Biology Workflows. (backfilled — class-to-type migration)
 
 ---
@@ -2015,20 +1984,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Protein-Sequence-Msa
 - **Contributor:** `google-deepmind`
 - **Tier:** 3★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind protein_sequence_msa science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Computational Biology Workflows. (backfilled — class-to-type migration)
 
 ---
@@ -2038,7 +2007,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Hugging Face LLM Trainer
 - **Contributor:** `huggingface`
 - **Tier:** 3★
-- **Primary Repository:** [https://github.com/huggingface/skills/blob/main/skills/huggingface-llm-trainer/SKILL.md](https://github.com/huggingface/skills/blob/main/skills/huggingface-llm-trainer/SKILL.md) (10,689 stars)
+- **Primary Repository:** [https://github.com/huggingface/skills/blob/main/skills/huggingface-llm-trainer/SKILL.md](https://github.com/huggingface/skills/blob/main/skills/huggingface-llm-trainer/SKILL.md) (10,686 stars)
 
 ### Base Evidence Rows
 
@@ -2052,13 +2021,13 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Source:** [https://github.com/huggingface/peft](https://github.com/huggingface/peft)
 - **Date:** 2026-04-30
 - **Verified Stars:** 21,278 stars
-- **Description:** HuggingFace PEFT -- state-of-the-art LoRA/QLoRA/IA3 fine-tuning; 100k+ stars, CI, active maintenance. (backfilled — class-to-type migration)
+- **Description:** HuggingFace PEFT repository containing libraries for Parameter-Efficient Fine-Tuning, utilized by this trainer skill.
 
-#### E3: `repo`
+#### E3: `proxy-containment`
 - **Source:** [https://github.com/hiyouga/LlamaFactory](https://github.com/hiyouga/LlamaFactory)
 - **Date:** 2026-04-30
-- **Verified Stars:** 72,265 stars
-- **Description:** LlamaFactory (ACL 2024) -- unified efficient fine-tuning of 100+ LLMs and VLMs; 50k+ stars, reproducible benchmarks. (backfilled — class-to-type migration)
+- **Verified Stars:** 72,259 stars
+- **Description:** Proxy repository LlamaFactory that implements and automates efficient fine-tuning workflows of 100+ LLMs and VLMs.
 
 ---
 
@@ -2067,7 +2036,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Hugging Face Vision Trainer
 - **Contributor:** `huggingface`
 - **Tier:** 3★
-- **Primary Repository:** [https://github.com/huggingface/skills/blob/main/skills/huggingface-vision-trainer/SKILL.md](https://github.com/huggingface/skills/blob/main/skills/huggingface-vision-trainer/SKILL.md) (10,689 stars)
+- **Primary Repository:** [https://github.com/huggingface/skills/blob/main/skills/huggingface-vision-trainer/SKILL.md](https://github.com/huggingface/skills/blob/main/skills/huggingface-vision-trainer/SKILL.md) (10,686 stars)
 
 ### Base Evidence Rows
 
@@ -2077,11 +2046,17 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Trust Metric:** 85.0
 - **Description:** DETR (Carion et al., 2020) -- end-to-end object detection with transformers; eliminates hand-crafted anchor design and achieves COCO AP 42.0 with ResNet-50, matching Faster R-CNN with simplified pipeline. (backfilled — class-to-type migration)
 
-#### E2: `repo`
+#### E2: `proxy-containment`
 - **Source:** [https://github.com/ultralytics/ultralytics](https://github.com/ultralytics/ultralytics)
 - **Date:** 2026-04-30
-- **Verified Stars:** 58,522 stars
-- **Description:** Ultralytics YOLOv8 -- production real-time detection library; COCO AP 50.2 at 8ms inference, 25k+ GitHub stars, reproducible training and evaluation scripts for detection and segmentation. (backfilled — class-to-type migration)
+- **Verified Stars:** 58,513 stars
+- **Description:** Proxy repository Ultralytics YOLOv8 that implements and evaluates real-time object detection and segmentation training.
+
+#### E3: `repo`
+- **Source:** [https://github.com/huggingface/skills](https://github.com/huggingface/skills)
+- **Date:** 2026-06-18
+- **Verified Stars:** 10,686 stars
+- **Description:** Hugging Face skills repository hosting the vision-trainer skill definition.
 
 ---
 
@@ -2090,27 +2065,27 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** AutoResearch
 - **Contributor:** `karpathy`
 - **Tier:** 3★
-- **Primary Repository:** [https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill/blob/main/SKILL.md](https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill/blob/main/SKILL.md) (136 stars)
+- **Primary Repository:** [https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill/blob/main/SKILL.md](https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill/blob/main/SKILL.md) (135 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/karpathy/autoresearch](https://github.com/karpathy/autoresearch)
 - **Date:** 2026-06-02
-- **Verified Stars:** 87,404 stars
+- **Verified Stars:** 87,345 stars
 - **Description:** Karpathy's autoresearch repo serving as the evidence/inspiration for the skill. (backfilled — class-to-type migration)
 
-#### E2: `repo`
+#### E2: `proxy-containment`
 - **Source:** [https://github.com/firecrawl/firecrawl-mcp-server](https://github.com/firecrawl/firecrawl-mcp-server)
 - **Date:** 2026-05-14
-- **Verified Stars:** 6,613 stars
-- **Description:** Firecrawl's Map and Crawl logic combined with the firecrawl_agent tool enables autonomous multi-source web research. (backfilled — class-to-type migration)
+- **Verified Stars:** 6,608 stars
+- **Description:** Proxy repository firecrawl-mcp-server whose crawl and map tools are used by this skill to automate multi-source web research.
 
-#### E3: `repo`
+#### E3: `proxy-containment`
 - **Source:** [https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill](https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill)
 - **Date:** 2026-04-30
-- **Verified Stars:** 136 stars
-- **Description:** Community reproduction of Karpathy's autoresearch pattern as a universal agent skill, demonstrating generalizability beyond the original repo. (backfilled — class-to-type migration)
+- **Verified Stars:** 135 stars
+- **Description:** Proxy repository that implements a community reproduction of Karpathy's autoresearch pattern as a universal agent skill.
 
 ---
 
@@ -2132,7 +2107,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E2: `repo`
 - **Source:** [https://github.com/microsoft/LLMLingua](https://github.com/microsoft/LLMLingua)
 - **Date:** 2026-04-30
-- **Verified Stars:** 6,309 stars
+- **Verified Stars:** 6,307 stars
 - **Description:** Microsoft LLMLingua — reproducible open-source implementation of LLMLingua-1/2/LongLLMLingua; CI, README, Apache-2.0 license. (backfilled — class-to-type migration)
 
 #### E3: `repo`
@@ -2487,14 +2462,14 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Career-Ops
 - **Contributor:** `santifer`
 - **Tier:** 3★
-- **Primary Repository:** [https://github.com/santifer/career-ops/blob/main/.agents/skills/career-ops/SKILL.md](https://github.com/santifer/career-ops/blob/main/.agents/skills/career-ops/SKILL.md) (54,446 stars)
+- **Primary Repository:** [https://github.com/santifer/career-ops/blob/main/.agents/skills/career-ops/SKILL.md](https://github.com/santifer/career-ops/blob/main/.agents/skills/career-ops/SKILL.md) (54,392 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/santifer/career-ops](https://github.com/santifer/career-ops)
 - **Date:** 2026-05-14
-- **Verified Stars:** 54,446 stars
+- **Verified Stars:** 54,392 stars
 - **Description:** Career-Ops -- AI-powered job search system with CV tailoring and dashboard. (backfilled — class-to-type migration)
 
 ---
@@ -2507,23 +2482,23 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 
 ### Base Evidence Rows
 
-#### E1: `repo`
+#### E1: `proxy-containment`
 - **Source:** [https://github.com/anthropics/skills/blob/main/skills/mcp-builder/SKILL.md](https://github.com/anthropics/skills/blob/main/skills/mcp-builder/SKILL.md)
 - **Date:** 2026-05-10
-- **Verified Stars:** 152,231 stars
-- **Description:** Anthropic mcp-builder skill gives a reproducible guide for building high-quality MCP servers in Python FastMCP or the Node/TypeScript MCP SDK. (backfilled — class-to-type migration)
+- **Verified Stars:** 152,091 stars
+- **Description:** Proxy repository Anthropic mcp-builder skill, which provides a reproducible guide for building high-quality MCP servers implementing the mcp-server-creation skill.
 
-#### E2: `repo`
+#### E2: `proxy-containment`
 - **Source:** [https://github.com/modelcontextprotocol/python-sdk](https://github.com/modelcontextprotocol/python-sdk)
 - **Date:** 2026-05-10
-- **Verified Stars:** 23,358 stars
-- **Description:** Official MCP Python SDK is active and provides FastMCP server examples for exposing tools, resources, prompts, structured outputs, transports, and inspector-based testing. (backfilled — class-to-type migration)
+- **Verified Stars:** 23,353 stars
+- **Description:** Proxy repository modelcontextprotocol/python-sdk, which demonstrates implementing the mcp-server-creation skill with FastMCP server examples.
 
 #### E3: `repo`
 - **Source:** [https://raw.githubusercontent.com/sickn33/antigravity-awesome-skills/main/skills/mcp-builder/SKILL.md](https://raw.githubusercontent.com/sickn33/antigravity-awesome-skills/main/skills/mcp-builder/SKILL.md)
 - **Date:** 2026-05-27
 - **Trust Metric:** 70.0
-- **Description:** (backfilled — class-to-type migration)
+- **Description:** Community MCP builder skill in sickn33/antigravity-awesome-skills repository.
 
 ### Benchmark Evaluations
 
@@ -2574,14 +2549,6 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 
 ---
 
-### Verification Audits
-
-| Skill ID / Contributor | Evidence Source / URL | Status | Category / Finding |
-| :--- | :--- | :--- | :--- |
-| **sickn33/mcp-builder** | [sickn33/antigravity-awesome-skills Repo](https://github.com/sickn33/antigravity-awesome-skills) | **Active (200)** | Verified repository |
-*   **`sickn33/mcp-builder`**:
-2. **Update Subdirectory Link Formats**: Re-stamp the `sickn33/mcp-builder` and `anthropic/skill-creator` subpath URLs to use `blob/` instead of `tree/` to satisfy Gaia Curation Rule #1.
-
 ---
 
 ## Skill: <a name="skill-Manavarya09design-extract"></a>`Manavarya09/design-extract`
@@ -2589,15 +2556,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Design Extract
 - **Contributor:** `Manavarya09`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/Manavarya09/design-extract](https://github.com/Manavarya09/design-extract) (3,271 stars)
+- **Primary Repository:** [https://github.com/Manavarya09/design-extract](https://github.com/Manavarya09/design-extract) (3,264 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/Manavarya09/design-extract](https://github.com/Manavarya09/design-extract)
 - **Date:** 2026-05-14
-- **Verified Stars:** 3,271 stars
+- **Verified Stars:** 3,264 stars
 - **Description:** Design Extract -- extracts complete design systems (Tailwind, Figma variables, etc.) from any URL. (backfilled — class-to-type migration)
+
+#### E2: `url`
+- **Source:** [https://www.npmjs.com/package/designlang](https://www.npmjs.com/package/designlang)
+- **Date:** 2026-06-17
+- **Description:** npm package `designlang` which implements the design-extract tool for global CLI usage.
 
 ---
 
@@ -2621,6 +2593,11 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Verified Stars:** 86 stars
 - **Description:** Auto-discovered from github. (backfilled — class-to-type migration)
 
+#### E3: `url`
+- **Source:** [https://lobehub.com/plugins](https://lobehub.com/plugins)
+- **Date:** 2026-06-17
+- **Description:** Included in the LobeHub Skills Marketplace under the name `taoidle-plan-cascade-planning-with-files`.
+
 ---
 
 ## Skill: <a name="skill-anthropicpptx"></a>`anthropic/pptx`
@@ -2628,15 +2605,21 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** PPTX Editor
 - **Contributor:** `anthropic`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md](https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md) (152,231 stars)
+- **Primary Repository:** [https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md](https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md) (152,095 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md](https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md)
 - **Date:** 2026-04-30
-- **Verified Stars:** 152,231 stars
+- **Verified Stars:** 152,095 stars
 - **Description:** Anthropic /pptx slash command -- extracts, edits, packs, and applies design principles to PowerPoint files using markitdown. (backfilled — class-to-type migration)
+
+#### E2: `repo`
+- **Source:** [https://github.com/microsoft/markitdown](https://github.com/microsoft/markitdown)
+- **Date:** 2026-06-18
+- **Verified Stars:** 155,130 stars
+- **Description:** Microsoft markitdown repository enabling agentic conversion of office files (including PPTX) into markdown.
 
 ### YouTube Showcase Videos
 
@@ -2654,7 +2637,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Skill Creator
 - **Contributor:** `anthropic`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md](https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md) (152,231 stars)
+- **Primary Repository:** [https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md](https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md) (152,095 stars)
 
 ### Base Evidence Rows
 
@@ -2662,13 +2645,29 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Source:** [https://arxiv.org/abs/2305.17126](https://arxiv.org/abs/2305.17126)
 - **Date:** 2026-04-29
 - **Trust Metric:** 85.0
-- **Description:** Cai et al. (2023) â€” Large Language Models as Tool Makers (LATM); LLM-generated tools reused across problem instances achieve +8.7% on BigBench Hard vs per-instance CoT. (backfilled — class-to-type migration)
+- **Description:** Cai et al. (2023) — Large Language Models as Tool Makers (LATM); LLM-generated tools reused across problem instances achieve +8.7% on BigBench Hard vs per-instance CoT. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/ctlllll/LLM-ToolMaker](https://github.com/ctlllll/LLM-ToolMaker)
 - **Date:** 2026-04-29
 - **Verified Stars:** 1,061 stars
-- **Description:** LATM repo â€” reproducible tool-maker/tool-user pipeline with evaluation on BigBench Hard tasks and tool reuse across problem batches. (backfilled — class-to-type migration)
+- **Description:** LATM repo — reproducible tool-maker/tool-user pipeline with evaluation on BigBench Hard tasks and tool reuse across problem batches. (backfilled — class-to-type migration)
+
+#### E3: `repo`
+- **Source:** [https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md](https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md)
+- **Date:** 2026-06-18
+- **Verified Stars:** 152,095 stars
+- **Description:** Anthropic skill-creator provides a reproducible workflow for creating, editing, evaluating, benchmarking, and optimizing agent skills.
+
+#### E4: `social-signal`
+- **Source:** [https://www.kdnuggets.com/anthropics-complete-guide-to-claude-skills-building](https://www.kdnuggets.com/anthropics-complete-guide-to-claude-skills-building)
+- **Date:** 2026-06-18
+- **Description:** Technical guide explaining Anthropic's Claude skills building process, highlighting the design and benefits of the anthropic/skill-creator skill.
+
+#### E5: `social-signal`
+- **Source:** [https://dev.to/debs_obrien/i-used-skill-creator-v2-to-improve-one-of-my-agent-skills-in-vs-code-fhd](https://dev.to/debs_obrien/i-used-skill-creator-v2-to-improve-one-of-my-agent-skills-in-vs-code-fhd)
+- **Date:** 2026-06-18
+- **Description:** Community blog post showing real-world utility of the anthropic/skill-creator skill to build and refine agent skills in VS Code.
 
 ### Benchmark Evaluations
 
@@ -2720,15 +2719,6 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 
 ---
 
-### Verification Audits
-
-| Skill ID / Contributor | Evidence Source / URL | Status | Category / Finding |
-| :--- | :--- | :--- | :--- |
-| **anthropic/skill-creator** | [anthropics/skills Repo](https://github.com/anthropics/skills) | **Active (200)** | Verified repository |
-*   **`anthropic/skill-creator` Blog Post**:
-*   **`anthropic/skill-creator`**:
-2. **Update Subdirectory Link Formats**: Re-stamp the `sickn33/mcp-builder` and `anthropic/skill-creator` subpath URLs to use `blob/` instead of `tree/` to satisfy Gaia Curation Rule #1.
-
 ---
 
 ## Skill: <a name="skill-bradautomatesclaude-video"></a>`bradautomates/claude-video`
@@ -2736,15 +2726,21 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Claude Video
 - **Contributor:** `bradautomates`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/bradautomates/claude-video/blob/main/SKILL.md](https://github.com/bradautomates/claude-video/blob/main/SKILL.md) (2,149 stars)
+- **Primary Repository:** [https://github.com/bradautomates/claude-video/blob/main/SKILL.md](https://github.com/bradautomates/claude-video/blob/main/SKILL.md) (2,120 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/bradautomates/claude-video](https://github.com/bradautomates/claude-video)
 - **Date:** 2026-05-14
-- **Verified Stars:** 2,149 stars
+- **Verified Stars:** 2,120 stars
 - **Description:** Claude Video -- enables AI agents to watch videos by downloading, frame extraction, and transcription. (backfilled — class-to-type migration)
+
+#### E2: `proxy-containment`
+- **Source:** [https://github.com/byjlw/Video-Analyzer](https://github.com/byjlw/Video-Analyzer)
+- **Date:** 2026-06-18
+- **Verified Stars:** 1,454 stars
+- **Description:** Video-Analyzer repository leveraging vision models and ASR (Whisper) for automated multi-modal video analysis.
 
 ---
 
@@ -2753,15 +2749,31 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Browser Harness
 - **Contributor:** `browser-use`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/browser-use/browser-harness/blob/main/SKILL.md](https://github.com/browser-use/browser-harness/blob/main/SKILL.md) (15,008 stars)
+- **Primary Repository:** [https://github.com/browser-use/browser-harness/blob/main/SKILL.md](https://github.com/browser-use/browser-harness/blob/main/SKILL.md) (15,012 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/browser-use/browser-harness](https://github.com/browser-use/browser-harness)
 - **Date:** 2026-05-14
-- **Verified Stars:** 15,008 stars
+- **Verified Stars:** 15,012 stars
 - **Description:** Browser Harness -- self-healing harness connecting LLMs to browser via CDP. (backfilled — class-to-type migration)
+
+#### E2: `repo`
+- **Source:** [https://github.com/browser-use/browser-use](https://github.com/browser-use/browser-use)
+- **Date:** 2026-06-18
+- **Verified Stars:** 99,296 stars
+- **Description:** Browser Use -- Make website automation easy for AI agents. Main framework repository with 99k+ stars.
+
+#### E3: `social-signal`
+- **Source:** [https://www.notte.cc/blog/browser-harnesses-compared](https://www.notte.cc/blog/browser-harnesses-compared)
+- **Date:** 2026-06-18
+- **Description:** Tech Blog comparing browser harnesses (Notte-cli, Agent-browser, Browser-harness), highlighting the architecture and usage of the browser-use/browser-harness skill.
+
+#### E4: `social-signal`
+- **Source:** [https://browser-use.com/posts/online-mind2web-benchmark](https://browser-use.com/posts/online-mind2web-benchmark)
+- **Date:** 2026-06-18
+- **Description:** Dev Blog illustrating how browser-use utilizes the browser-use/browser-harness skill to achieve state-of-the-art results on online web benchmarks.
 
 ### Benchmark Evaluations
 
@@ -2813,13 +2825,6 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 
 ---
 
-### Verification Audits
-
-| Skill ID / Contributor | Evidence Source / URL | Status | Category / Finding |
-| :--- | :--- | :--- | :--- |
-| **browser-use/browser-harness**| [browser-use/browser-use Repo](https://github.com/browser-use/browser-use) | **Active (200)** | Verified repository |
-| | [browser-use/browser-harness Repo](https://github.com/browser-use/browser-harness) | **Active (200)** | Verified repository |
-
 ---
 
 ## Skill: <a name="skill-browserbasestagehand"></a>`browserbase/stagehand`
@@ -2827,7 +2832,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Stagehand
 - **Contributor:** `browserbase`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/browserbase/stagehand](https://github.com/browserbase/stagehand) (23,152 stars)
+- **Primary Repository:** [https://github.com/browserbase/stagehand](https://github.com/browserbase/stagehand) (23,147 stars)
 
 ### Base Evidence Rows
 
@@ -2835,13 +2840,19 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Source:** [https://arxiv.org/abs/2401.13919](https://arxiv.org/abs/2401.13919)
 - **Date:** 2026-04-28
 - **Trust Metric:** 85.0
-- **Description:** WebVoyager (He et al., 2024) â€” end-to-end web agent with GPT-4V; 59.1% task success on real-world web tasks across 15 popular websites. (backfilled — class-to-type migration)
+- **Description:** WebVoyager (He et al., 2024) — end-to-end web agent with GPT-4V; 59.1% task success on real-world web tasks across 15 popular websites. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/web-arena-x/webarena](https://github.com/web-arena-x/webarena)
 - **Date:** 2026-04-28
-- **Verified Stars:** 1,517 stars
-- **Description:** WebArena â€” self-hosted web environment with 812 realistic tasks; reproducible benchmark with ground-truth evaluation scripts. (backfilled — class-to-type migration)
+- **Verified Stars:** 1,516 stars
+- **Description:** WebArena — self-hosted web environment with 812 realistic tasks; reproducible benchmark with ground-truth evaluation scripts. (backfilled — class-to-type migration)
+
+#### E3: `repo`
+- **Source:** [https://github.com/browserbase/stagehand](https://github.com/browserbase/stagehand)
+- **Date:** 2026-06-18
+- **Verified Stars:** 23,147 stars
+- **Description:** Stagehand -- SDK for AI browser agents developed by Browserbase.
 
 ---
 
@@ -2872,15 +2883,31 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Firecrawl
 - **Contributor:** `firecrawl`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/firecrawl/firecrawl](https://github.com/firecrawl/firecrawl) (134,215 stars)
+- **Primary Repository:** [https://github.com/firecrawl/firecrawl](https://github.com/firecrawl/firecrawl) (134,017 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/firecrawl/firecrawl](https://github.com/firecrawl/firecrawl)
 - **Date:** 2026-06-10
-- **Verified Stars:** 134,215 stars
+- **Verified Stars:** 134,017 stars
 - **Description:** Origin repository — open-source web search/scrape/crawl API for LLM agents; reproducible public implementation with documented usage. (backfilled — class-to-type migration)
+
+#### E2: `proxy-containment`
+- **Source:** [https://github.com/mendableai/firecrawl-mcp-server](https://github.com/mendableai/firecrawl-mcp-server)
+- **Date:** 2026-06-18
+- **Verified Stars:** 50 stars
+- **Description:** Proxy repository mendableai/firecrawl-mcp-server, which implements the firecrawl/firecrawl skill enabling agents to crawl and scrape URLs directly.
+
+#### E3: `social-signal`
+- **Source:** [https://www.firecrawl.dev/blog/category/use-cases-and-examples](https://www.firecrawl.dev/blog/category/use-cases-and-examples)
+- **Date:** 2026-06-18
+- **Description:** Firecrawl Use Cases & Community Examples demonstrating agent-driven web crawling and data extraction workflows using the firecrawl/firecrawl skill.
+
+#### E4: `social-signal`
+- **Source:** [https://www.youtube.com/watch?v=eH8JdttKIdA](https://www.youtube.com/watch?v=eH8JdttKIdA)
+- **Date:** 2026-06-18
+- **Description:** Real-world video breakdown showing practical usage of Firecrawl to build data extraction pipelines for autonomous agents, evidencing the firecrawl/firecrawl skill.
 
 ### Benchmark Evaluations
 
@@ -2932,13 +2959,6 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 
 ---
 
-### Verification Audits
-
-| Skill ID / Contributor | Evidence Source / URL | Status | Category / Finding |
-| :--- | :--- | :--- | :--- |
-| **firecrawl/firecrawl** | [firecrawl/firecrawl Repo](https://github.com/firecrawl/firecrawl) | **Active (200)** | Verified repository |
-| | [mendableai/firecrawl Repo](https://github.com/mendableai/firecrawl) | **Active (200)** | Verified redirect to firecrawl/firecrawl |
-
 ---
 
 ## Skill: <a name="skill-gaiabotgaia-triage"></a>`gaiabot/gaia-triage`
@@ -2961,6 +2981,12 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Date:** 2026-04-30
 - **Trust Metric:** 85.0
 - **Description:** LLMs transform unstructured bug reports into high-quality structured formats; fine-tuned Qwen 2.5 achieves 77% CTQRS. (backfilled — class-to-type migration)
+
+#### E3: `repo`
+- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md)
+- **Date:** 2026-06-18
+- **Verified Stars:** 6 stars
+- **Description:** Project-specific implementation of gaia-triage skill automated via local python scripts.
 
 ---
 
@@ -3005,7 +3031,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E3: `repo`
 - **Source:** [https://github.com/NVIDIA-NeMo/Guardrails](https://github.com/NVIDIA-NeMo/Guardrails)
 - **Date:** 2026-04-30
-- **Verified Stars:** 6,463 stars
+- **Verified Stars:** 6,461 stars
 - **Description:** NeMo Guardrails -- open-source toolkit for adding programmable safety rails to LLM-based conversational systems; actively maintained. (backfilled — class-to-type migration)
 
 ### YouTube Showcase Videos
@@ -3043,7 +3069,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E3: `repo`
 - **Source:** [https://github.com/microsoft/LLMLingua](https://github.com/microsoft/LLMLingua)
 - **Date:** 2026-04-30
-- **Verified Stars:** 6,309 stars
+- **Verified Stars:** 6,307 stars
 - **Description:** Microsoft LLMLingua — reproducible open-source implementation of LLMLingua-1/2/LongLLMLingua; CI, README, Apache-2.0 license. (backfilled — class-to-type migration)
 
 #### E4: `repo`
@@ -3087,7 +3113,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E3: `repo`
 - **Source:** [https://github.com/microsoft/LLMLingua](https://github.com/microsoft/LLMLingua)
 - **Date:** 2026-04-30
-- **Verified Stars:** 6,309 stars
+- **Verified Stars:** 6,307 stars
 - **Description:** Microsoft LLMLingua — reproducible open-source implementation of LLMLingua-1/2/LongLLMLingua; CI, README, Apache-2.0 license. (backfilled — class-to-type migration)
 
 #### E4: `repo`
@@ -3157,7 +3183,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E3: `repo`
 - **Source:** [https://github.com/NVIDIA-NeMo/Guardrails](https://github.com/NVIDIA-NeMo/Guardrails)
 - **Date:** 2026-04-30
-- **Verified Stars:** 6,463 stars
+- **Verified Stars:** 6,461 stars
 - **Description:** NeMo Guardrails -- open-source toolkit for adding programmable safety rails to LLM-based conversational systems; actively maintained. (backfilled — class-to-type migration)
 
 ### YouTube Showcase Videos
@@ -3285,7 +3311,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E3: `repo`
 - **Source:** [https://github.com/stanfordnlp/dspy](https://github.com/stanfordnlp/dspy)
 - **Date:** 2026-04-29
-- **Verified Stars:** 35,104 stars
+- **Verified Stars:** 35,095 stars
 - **Description:** DSPy â€” Stanford NLP library for programmable LM pipelines; 18k+ GitHub stars, supports multiple optimizers (BootstrapFewShot, MIPRO, COPRO) across any LM. (backfilled — class-to-type migration)
 
 ### YouTube Showcase Videos
@@ -3471,7 +3497,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E3: `repo`
 - **Source:** [https://github.com/NVIDIA-NeMo/Guardrails](https://github.com/NVIDIA-NeMo/Guardrails)
 - **Date:** 2026-04-30
-- **Verified Stars:** 6,463 stars
+- **Verified Stars:** 6,461 stars
 - **Description:** NeMo Guardrails -- open-source toolkit for adding programmable safety rails to LLM-based conversational systems; actively maintained. (backfilled — class-to-type migration)
 
 ### YouTube Showcase Videos
@@ -3490,15 +3516,21 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** CodeBurn
 - **Contributor:** `getagentseal`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/getagentseal/codeburn](https://github.com/getagentseal/codeburn) (8,071 stars)
+- **Primary Repository:** [https://github.com/getagentseal/codeburn](https://github.com/getagentseal/codeburn) (8,062 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/getagentseal/codeburn](https://github.com/getagentseal/codeburn)
 - **Date:** 2026-05-14
-- **Verified Stars:** 8,071 stars
+- **Verified Stars:** 8,062 stars
 - **Description:** CodeBurn -- provides cost and token observability for AI coding tools; integrated with 20 AI tools. Includes TUI dashboard, macOS menubar, optimization and yield analysis commands. (backfilled — class-to-type migration)
+
+#### E2: `proxy-containment`
+- **Source:** [https://github.com/BerriAI/litellm](https://github.com/BerriAI/litellm)
+- **Date:** 2026-06-18
+- **Verified Stars:** 12,000 stars
+- **Description:** LiteLLM -- provides detailed LLM token and cost tracking, budgeting, and observability across multiple providers.
 
 ---
 
@@ -3517,6 +3549,12 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Verified Stars:** 32 stars
 - **Description:** Published implementation in the GLINCKER Claude Code Marketplace; reproducible from SKILL.md. (backfilled — class-to-type migration)
 
+#### E2: `proxy-containment`
+- **Source:** [https://github.com/eli64s/readme-ai](https://github.com/eli64s/readme-ai)
+- **Date:** 2026-06-18
+- **Verified Stars:** 3,800 stars
+- **Description:** readme-ai -- CLI tool that automatically generates structured, comprehensive README.md files for software projects.
+
 ---
 
 ## Skill: <a name="skill-google-deepmindchembl_database"></a>`google-deepmind/chembl_database`
@@ -3524,20 +3562,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Chembl-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind chembl_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Molecular Databases. (backfilled — class-to-type migration)
 
 ---
@@ -3547,20 +3585,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Clinical-Trials-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind clinical_trials_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Clinical Data Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -3570,20 +3608,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Clinvar-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind clinvar_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Clinical Data Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -3593,20 +3631,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Dbsnp-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind dbsnp_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Genomic Data Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -3616,20 +3654,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Embl-Ebi-Ols
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind embl_ebi_ols science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Pathway Ontology Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -3639,20 +3677,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Encode-Ccres-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind encode_ccres_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Genomic Data Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -3662,20 +3700,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Ensembl-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind ensembl_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Genomic Data Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -3685,20 +3723,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Foldseek-Structural-Search
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind foldseek_structural_search science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Protein Structure Analysis. (backfilled — class-to-type migration)
 
 ---
@@ -3708,20 +3746,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Gnomad-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind gnomad_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Genomic Data Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -3731,20 +3769,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Gtex-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind gtex_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Genomic Data Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -3754,20 +3792,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Human-Protein-Atlas-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind human_protein_atlas_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Proteomic Data Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -3777,20 +3815,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Interpro-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind interpro_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Proteomic Data Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -3800,20 +3838,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Jaspar-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind jaspar_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Genomic Data Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -3823,20 +3861,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Literature-Search-Arxiv
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind literature_search_arxiv science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Literature Search. (backfilled — class-to-type migration)
 
 ---
@@ -3846,20 +3884,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Literature-Search-Biorxiv
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind literature_search_biorxiv science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Literature Search. (backfilled — class-to-type migration)
 
 ---
@@ -3869,20 +3907,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Literature-Search-Europepmc
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind literature_search_europepmc science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Literature Search. (backfilled — class-to-type migration)
 
 ---
@@ -3892,20 +3930,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Literature-Search-Openalex
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind literature_search_openalex science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Literature Search. (backfilled — class-to-type migration)
 
 ---
@@ -3915,20 +3953,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Ncbi-Sequence-Fetch
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind ncbi_sequence_fetch science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Genomic Data Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -3938,20 +3976,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Openfda-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind openfda_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Clinical Data Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -3961,20 +3999,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Opentargets-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind opentargets_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Clinical Data Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -3984,20 +4022,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Pdb-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind pdb_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Protein Structure Analysis. (backfilled — class-to-type migration)
 
 ---
@@ -4007,20 +4045,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Protein-Sequence-Similarity-Search
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Bioinformatic Sequence Analysis. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind protein_sequence_similarity_search science-skill implementation. (backfilled — class-to-type migration)
 
 ---
@@ -4030,20 +4068,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Pubchem-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind pubchem_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Molecular Databases. (backfilled — class-to-type migration)
 
 ---
@@ -4053,20 +4091,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Pubmed-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind pubmed_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Literature Search. (backfilled — class-to-type migration)
 
 ---
@@ -4076,14 +4114,14 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Pymol
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind pymol science-skill implementation. (backfilled — class-to-type migration)
 
 ---
@@ -4093,20 +4131,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Quickgo-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind quickgo_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Pathway Ontology Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -4116,20 +4154,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Reactome-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind reactome_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Pathway Ontology Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -4139,14 +4177,14 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Science-Skills-Common
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common](https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common](https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind science_skills_common science-skill implementation. (backfilled — class-to-type migration)
 
 ---
@@ -4156,20 +4194,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** String-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind string_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Proteomic Data Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -4179,20 +4217,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Ucsc-Conservation-And-Tfbs
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind ucsc_conservation_and_tfbs science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Genomic Data Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -4202,20 +4240,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Unibind-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind unibind_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Genomic Data Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -4225,20 +4263,20 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Uniprot-Database
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind uniprot_database science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills](https://github.com/google-deepmind/science-skills)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Foundational canonical generic skill for Proteomic Data Retrieval. (backfilled — class-to-type migration)
 
 ---
@@ -4248,14 +4286,14 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Uv
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind uv science-skill implementation. (backfilled — class-to-type migration)
 
 ---
@@ -4265,14 +4303,14 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Workflow-Skill-Creator
 - **Contributor:** `google-deepmind`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md) (1,934 stars)
+- **Primary Repository:** [https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md) (1,930 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md](https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md)
 - **Date:** 2026-05-23
-- **Verified Stars:** 1,934 stars
+- **Verified Stars:** 1,930 stars
 - **Description:** Official Google DeepMind workflow_skill_creator science-skill implementation. (backfilled — class-to-type migration)
 
 #### E2: `arxiv`
@@ -4284,7 +4322,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E3: `repo`
 - **Source:** [https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md](https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md)
 - **Date:** 2026-05-10
-- **Verified Stars:** 152,231 stars
+- **Verified Stars:** 152,091 stars
 - **Description:** Anthropic skill-creator provides a reproducible workflow for creating, editing, evaluating, benchmarking, and optimizing agent skills. (backfilled — class-to-type migration)
 
 ---
@@ -4294,7 +4332,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** HF CLI
 - **Contributor:** `huggingface`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/huggingface/skills/blob/main/skills/hf-cli/SKILL.md](https://github.com/huggingface/skills/blob/main/skills/hf-cli/SKILL.md) (10,689 stars)
+- **Primary Repository:** [https://github.com/huggingface/skills/blob/main/skills/hf-cli/SKILL.md](https://github.com/huggingface/skills/blob/main/skills/hf-cli/SKILL.md) (10,686 stars)
 
 ### Base Evidence Rows
 
@@ -4302,7 +4340,13 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Source:** [https://arxiv.org/abs/2305.15334](https://arxiv.org/abs/2305.15334)
 - **Date:** 2026-04-28
 - **Trust Metric:** 85.0
-- **Description:** Gorilla (Patil et al.) â€” LLM that generates accurate API calls across TorchHub, TensorFlow Hub, and HuggingFace; 20.43% AST accuracy improvement over GPT-4. (backfilled — class-to-type migration)
+- **Description:** Gorilla (Patil et al.) — LLM that generates accurate API calls across TorchHub, TensorFlow Hub, and HuggingFace; 20.43% AST accuracy improvement over GPT-4. (backfilled — class-to-type migration)
+
+#### E2: `repo`
+- **Source:** [https://github.com/huggingface/skills](https://github.com/huggingface/skills)
+- **Date:** 2026-06-18
+- **Verified Stars:** 10,686 stars
+- **Description:** Hugging Face skills repository hosting the hf-cli skill definition.
 
 ---
 
@@ -4311,15 +4355,21 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Hugging Face Datasets
 - **Contributor:** `huggingface`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/huggingface/skills/blob/main/skills/huggingface-datasets/SKILL.md](https://github.com/huggingface/skills/blob/main/skills/huggingface-datasets/SKILL.md) (10,689 stars)
+- **Primary Repository:** [https://github.com/huggingface/skills/blob/main/skills/huggingface-datasets/SKILL.md](https://github.com/huggingface/skills/blob/main/skills/huggingface-datasets/SKILL.md) (10,686 stars)
 
 ### Base Evidence Rows
 
-#### E1: `repo`
+#### E1: `proxy-containment`
 - **Source:** [https://github.com/Sinaptik-AI/pandas-ai](https://github.com/Sinaptik-AI/pandas-ai)
 - **Date:** 2026-04-28
 - **Verified Stars:** 23,587 stars
-- **Description:** pandas-ai â€” open-source agent for natural-language data analysis over pandas DataFrames; reproducible demos with logging and output artifacts. (backfilled — class-to-type migration)
+- **Description:** Proxy repository pandas-ai that uses data analysis capabilities over dataframes to load, query, and inspect datasets.
+
+#### E2: `repo`
+- **Source:** [https://github.com/huggingface/skills](https://github.com/huggingface/skills)
+- **Date:** 2026-06-18
+- **Verified Stars:** 10,686 stars
+- **Description:** Hugging Face skills repository hosting the datasets skill definition.
 
 ---
 
@@ -4328,7 +4378,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Hugging Face Papers
 - **Contributor:** `huggingface`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/huggingface/skills/blob/main/skills/huggingface-papers/SKILL.md](https://github.com/huggingface/skills/blob/main/skills/huggingface-papers/SKILL.md) (10,689 stars)
+- **Primary Repository:** [https://github.com/huggingface/skills/blob/main/skills/huggingface-papers/SKILL.md](https://github.com/huggingface/skills/blob/main/skills/huggingface-papers/SKILL.md) (10,686 stars)
 
 ### Base Evidence Rows
 
@@ -4338,6 +4388,12 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Trust Metric:** 85.0
 - **Description:** Rouzrokh et al. (2025) — LatteReview: multi-agent framework for systematic review automation; modular agents for title/abstract screening, relevance scoring, and structured data extraction with RAG and multimodal support. (backfilled — class-to-type migration)
 
+#### E2: `repo`
+- **Source:** [https://github.com/huggingface/skills](https://github.com/huggingface/skills)
+- **Date:** 2026-06-18
+- **Verified Stars:** 10,686 stars
+- **Description:** Hugging Face skills repository hosting the papers skill definition.
+
 ---
 
 ## Skill: <a name="skill-huggingfacetransformers-js"></a>`huggingface/transformers-js`
@@ -4345,7 +4401,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Transformers.js
 - **Contributor:** `huggingface`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/huggingface/skills/blob/main/skills/transformers-js/SKILL.md](https://github.com/huggingface/skills/blob/main/skills/transformers-js/SKILL.md) (10,689 stars)
+- **Primary Repository:** [https://github.com/huggingface/skills/blob/main/skills/transformers-js/SKILL.md](https://github.com/huggingface/skills/blob/main/skills/transformers-js/SKILL.md) (10,686 stars)
 
 ### Base Evidence Rows
 
@@ -4353,7 +4409,13 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Source:** [https://arxiv.org/abs/2304.08485](https://arxiv.org/abs/2304.08485)
 - **Date:** 2026-04-28
 - **Trust Metric:** 85.0
-- **Description:** LLaVA â€” large language and vision assistant; 85.1% on ScienceQA and 64.3% on TextVQA, establishing reproducible multimodal reasoning benchmark. (backfilled — class-to-type migration)
+- **Description:** LLaVA — large language and vision assistant; 85.1% on ScienceQA and 64.3% on TextVQA, establishing reproducible multimodal reasoning benchmark. (backfilled — class-to-type migration)
+
+#### E2: `repo`
+- **Source:** [https://github.com/huggingface/transformers.js](https://github.com/huggingface/transformers.js)
+- **Date:** 2026-06-18
+- **Verified Stars:** 16,115 stars
+- **Description:** Hugging Face transformers.js repository providing the primary library implementation for in-browser transformers.
 
 ---
 
@@ -4409,13 +4471,13 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E2: `repo`
 - **Source:** [https://github.com/modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk)
 - **Date:** 2026-04-30
-- **Verified Stars:** 4,699 stars
+- **Verified Stars:** 4,696 stars
 - **Description:** Official Go SDK for MCP servers and clients (4.4k stars, maintained by Anthropic + Google). Demonstrates production-grade MCP client integration pattern. (backfilled — class-to-type migration)
 
 #### E3: `repo`
 - **Source:** [https://github.com/nanbingxyz/5ire](https://github.com/nanbingxyz/5ire)
 - **Date:** 2026-04-30
-- **Verified Stars:** 5,248 stars
+- **Verified Stars:** 5,247 stars
 - **Description:** Cross-platform AI assistant with full MCP client support (5.2k stars). Reproduces tool enumeration, execution, and multi-server routing. (backfilled — class-to-type migration)
 
 ---
@@ -4522,7 +4584,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Backend Code Review
 - **Contributor:** `langgenius`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/langgenius/dify/blob/main/.agents/skills/backend-code-review/SKILL.md](https://github.com/langgenius/dify/blob/main/.agents/skills/backend-code-review/SKILL.md) (145,656 stars)
+- **Primary Repository:** [https://github.com/langgenius/dify/blob/main/.agents/skills/backend-code-review/SKILL.md](https://github.com/langgenius/dify/blob/main/.agents/skills/backend-code-review/SKILL.md) (145,619 stars)
 
 ### Base Evidence Rows
 
@@ -4539,7 +4601,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Component Refactoring
 - **Contributor:** `langgenius`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/langgenius/dify/blob/main/.agents/skills/component-refactoring/SKILL.md](https://github.com/langgenius/dify/blob/main/.agents/skills/component-refactoring/SKILL.md) (145,656 stars)
+- **Primary Repository:** [https://github.com/langgenius/dify/blob/main/.agents/skills/component-refactoring/SKILL.md](https://github.com/langgenius/dify/blob/main/.agents/skills/component-refactoring/SKILL.md) (145,619 stars)
 
 ### Base Evidence Rows
 
@@ -4556,7 +4618,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** E2E Cucumber Playwright
 - **Contributor:** `langgenius`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/langgenius/dify/blob/main/.agents/skills/e2e-cucumber-playwright/SKILL.md](https://github.com/langgenius/dify/blob/main/.agents/skills/e2e-cucumber-playwright/SKILL.md) (145,656 stars)
+- **Primary Repository:** [https://github.com/langgenius/dify/blob/main/.agents/skills/e2e-cucumber-playwright/SKILL.md](https://github.com/langgenius/dify/blob/main/.agents/skills/e2e-cucumber-playwright/SKILL.md) (145,619 stars)
 
 ### Base Evidence Rows
 
@@ -4573,7 +4635,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Frontend Code Review
 - **Contributor:** `langgenius`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-code-review/SKILL.md](https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-code-review/SKILL.md) (145,656 stars)
+- **Primary Repository:** [https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-code-review/SKILL.md](https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-code-review/SKILL.md) (145,619 stars)
 
 ### Base Evidence Rows
 
@@ -4590,14 +4652,14 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Frontend Testing
 - **Contributor:** `langgenius`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-testing/SKILL.md](https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-testing/SKILL.md) (145,656 stars)
+- **Primary Repository:** [https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-testing/SKILL.md](https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-testing/SKILL.md) (145,619 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench)
 - **Date:** 2026-04-28
-- **Verified Stars:** 5,200 stars
+- **Verified Stars:** 5,197 stars
 - **Description:** SWE-bench Verified â€” open-source evaluation harness where agents fix GitHub issues by generating and passing test suites; full execution logs archived. (backfilled — class-to-type migration)
 
 ---
@@ -4617,6 +4679,12 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Verified Stars:** 3,509 stars
 - **Description:** Laravel /upgrade-laravel-v13 slash command -- real-world agentic framework upgrade workflow published by the Laravel team. (backfilled — class-to-type migration)
 
+#### E2: `proxy-containment`
+- **Source:** [https://github.com/rectorphp/rector](https://github.com/rectorphp/rector)
+- **Date:** 2026-06-18
+- **Verified Stars:** 8,200 stars
+- **Description:** Proxy repository Rector that provides automated PHP and Laravel framework upgrade rules, which are utilized by this skill for version migrations.
+
 ---
 
 ## Skill: <a name="skill-martin-stepanoskinielsen-heuristics-audit"></a>`martin-stepanoski/nielsen-heuristics-audit`
@@ -4633,6 +4701,12 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Date:** 2026-04-30
 - **Verified Stars:** 41 stars
 - **Description:** Martin Stepanoski @mastepanoski/claude-skills -- /nielsen-heuristics-audit audits UI against Nielsen 10 usability heuristics step-by-step. (backfilled — class-to-type migration)
+
+#### E2: `proxy-containment`
+- **Source:** [https://github.com/pbakaus/impeccable](https://github.com/pbakaus/impeccable)
+- **Date:** 2026-06-18
+- **Verified Stars:** 39,158 stars
+- **Description:** Proxy repository pbakaus/impeccable, which is a design and UX auditing tool for agents that supersedes the Nielsen heuristics audit pattern.
 
 ---
 
@@ -5192,7 +5266,13 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Source:** [https://arxiv.org/abs/2005.14165](https://arxiv.org/abs/2005.14165)
 - **Date:** 2026-04-29
 - **Trust Metric:** 85.0
-- **Description:** Brown et al. (2020) â€” Language Models are Few-Shot Learners (GPT-3); in-context learning from 1-100 examples achieves near-SOTA on SuperGLUE, translation, and QA benchmarks. (backfilled — class-to-type migration)
+- **Description:** Brown et al. (2020) — Language Models are Few-Shot Learners (GPT-3); in-context learning from 1-100 examples achieves near-SOTA on SuperGLUE, translation, and QA benchmarks. (backfilled — class-to-type migration)
+
+#### E2: `proxy-containment`
+- **Source:** [https://github.com/openai/openai-cookbook](https://github.com/openai/openai-cookbook)
+- **Date:** 2026-06-18
+- **Verified Stars:** 74,220 stars
+- **Description:** Proxy repository openai-cookbook that provides documented code guides and templates implementing in-context few-shot learning.
 
 ---
 
@@ -5208,7 +5288,13 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Source:** [https://arxiv.org/abs/2203.11171](https://arxiv.org/abs/2203.11171)
 - **Date:** 2026-04-29
 - **Trust Metric:** 85.0
-- **Description:** Wang et al. (2022) â€” Self-Consistency Improves Chain of Thought Reasoning in Language Models; +17.9% on GSM8K and +11.0% on MATH over greedy CoT decoding. (backfilled — class-to-type migration)
+- **Description:** Wang et al. (2022) — Self-Consistency Improves Chain of Thought Reasoning in Language Models; +17.9% on GSM8K and +11.0% on MATH over greedy CoT decoding. (backfilled — class-to-type migration)
+
+#### E2: `proxy-containment`
+- **Source:** [https://github.com/openai/openai-cookbook](https://github.com/openai/openai-cookbook)
+- **Date:** 2026-06-18
+- **Verified Stars:** 74,220 stars
+- **Description:** Proxy repository openai-cookbook that provides documented code guides and templates implementing self-consistency (voting over multiple reasoning paths).
 
 ---
 
@@ -5398,7 +5484,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E2: `repo`
 - **Source:** [https://github.com/web-arena-x/webarena](https://github.com/web-arena-x/webarena)
 - **Date:** 2026-04-28
-- **Verified Stars:** 1,517 stars
+- **Verified Stars:** 1,516 stars
 - **Description:** WebArena â€” self-hosted web environment with 812 realistic tasks; reproducible benchmark with ground-truth evaluation scripts. (backfilled — class-to-type migration)
 
 ### YouTube Showcase Videos
@@ -5554,19 +5640,19 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E1: `repo`
 - **Source:** [https://github.com/n8n-io/n8n](https://github.com/n8n-io/n8n)
 - **Date:** 2026-04-30
-- **Verified Stars:** 192,979 stars
+- **Verified Stars:** 192,938 stars
 - **Description:** n8n -- fair-code workflow automation with 400+ integrations and native AI capabilities; 90k+ stars, Apache-2 + EE license. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/activepieces/activepieces](https://github.com/activepieces/activepieces)
 - **Date:** 2026-04-30
-- **Verified Stars:** 22,805 stars
+- **Verified Stars:** 22,801 stars
 - **Description:** Activepieces -- AI agents and workflow automation with 400 MCP servers; MIT license, active community. (backfilled — class-to-type migration)
 
 #### E3: `repo`
 - **Source:** [https://github.com/FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise)
 - **Date:** 2026-04-30
-- **Verified Stars:** 53,692 stars
+- **Verified Stars:** 53,686 stars
 - **Description:** Flowise -- visual AI agent and workflow builder; 40k+ stars, Apache-2 license, reproducible demos. (backfilled — class-to-type migration)
 
 ### YouTube Showcase Videos
@@ -5676,7 +5762,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E2: `repo`
 - **Source:** [https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md](https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md)
 - **Date:** 2026-05-10
-- **Verified Stars:** 152,231 stars
+- **Verified Stars:** 152,091 stars
 - **Description:** Anthropic skill-creator provides a reproducible workflow for creating, editing, evaluating, benchmarking, and optimizing agent skills. (backfilled — class-to-type migration)
 
 ### YouTube Showcase Videos
@@ -5832,13 +5918,13 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E1: `repo`
 - **Source:** [https://github.com/modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk)
 - **Date:** 2026-04-30
-- **Verified Stars:** 4,699 stars
+- **Verified Stars:** 4,696 stars
 - **Description:** Official Go SDK for MCP servers and clients (4.4k stars, maintained by Anthropic + Google). Demonstrates production-grade MCP client integration pattern. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/nanbingxyz/5ire](https://github.com/nanbingxyz/5ire)
 - **Date:** 2026-04-30
-- **Verified Stars:** 5,248 stars
+- **Verified Stars:** 5,247 stars
 - **Description:** Cross-platform AI assistant with full MCP client support (5.2k stars). Reproduces tool enumeration, execution, and multi-server routing. (backfilled — class-to-type migration)
 
 ### YouTube Showcase Videos
@@ -5974,13 +6060,13 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E2: `repo`
 - **Source:** [https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md](https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md)
 - **Date:** 2026-05-10
-- **Verified Stars:** 152,231 stars
+- **Verified Stars:** 152,091 stars
 - **Description:** Anthropic skill-creator explicitly includes measuring skill performance, benchmarking with variance analysis, and optimizing skill descriptions for triggering accuracy. (backfilled — class-to-type migration)
 
 #### E3: `repo`
 - **Source:** [https://github.com/ynulihao/AgentSkillOS](https://github.com/ynulihao/AgentSkillOS)
 - **Date:** 2026-05-10
-- **Verified Stars:** 428 stars
+- **Verified Stars:** 427 stars
 - **Description:** AgentSkillOS repository provides the reproducible retrieval/orchestration framework and benchmark implementation for 30 artifact-rich agent-skill tasks with Bradley-Terry scoring. (backfilled — class-to-type migration)
 
 ### YouTube Showcase Videos
@@ -6028,17 +6114,17 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 
 ### Base Evidence Rows
 
-#### E1: `repo`
+#### E1: `proxy-containment`
 - **Source:** [https://github.com/modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk)
 - **Date:** 2026-04-30
-- **Verified Stars:** 4,699 stars
-- **Description:** Official Go SDK for MCP servers and clients (4.4k stars, maintained by Anthropic + Google). Demonstrates production-grade MCP client integration pattern. (backfilled — class-to-type migration)
+- **Verified Stars:** 4,696 stars
+- **Description:** Proxy repository modelcontextprotocol/go-sdk, which demonstrates implementing the mcp-integration skill for production-grade MCP client-server workflows.
 
-#### E2: `repo`
+#### E2: `proxy-containment`
 - **Source:** [https://github.com/nanbingxyz/5ire](https://github.com/nanbingxyz/5ire)
 - **Date:** 2026-04-30
-- **Verified Stars:** 5,248 stars
-- **Description:** Cross-platform AI assistant with full MCP client support (5.2k stars). Reproduces tool enumeration, execution, and multi-server routing. (backfilled — class-to-type migration)
+- **Verified Stars:** 5,247 stars
+- **Description:** Proxy repository nanbingxyz/5ire, which implements the mcp-integration skill to support tool execution and multi-server routing.
 
 ### YouTube Showcase Videos
 
@@ -6059,17 +6145,17 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 
 ### Base Evidence Rows
 
-#### E1: `repo`
+#### E1: `proxy-containment`
 - **Source:** [https://github.com/modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk)
 - **Date:** 2026-04-30
-- **Verified Stars:** 4,699 stars
-- **Description:** Official Go SDK for MCP servers and clients (4.4k stars, maintained by Anthropic + Google). Demonstrates production-grade MCP client integration pattern. (backfilled — class-to-type migration)
+- **Verified Stars:** 4,696 stars
+- **Description:** Proxy repository modelcontextprotocol/go-sdk, which demonstrates implementing the mcp-integration skill for production-grade MCP client-server workflows.
 
-#### E2: `repo`
+#### E2: `proxy-containment`
 - **Source:** [https://github.com/nanbingxyz/5ire](https://github.com/nanbingxyz/5ire)
 - **Date:** 2026-04-30
-- **Verified Stars:** 5,248 stars
-- **Description:** Cross-platform AI assistant with full MCP client support (5.2k stars). Reproduces tool enumeration, execution, and multi-server routing. (backfilled — class-to-type migration)
+- **Verified Stars:** 5,247 stars
+- **Description:** Proxy repository nanbingxyz/5ire, which implements the mcp-integration skill to support tool execution and multi-server routing.
 
 ### YouTube Showcase Videos
 
@@ -6087,14 +6173,14 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** REST API README Generator
 - **Contributor:** `spring-ai`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md](https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md) (2,736 stars)
+- **Primary Repository:** [https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md](https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md) (2,735 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md](https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md)
 - **Date:** 2026-06-10
-- **Verified Stars:** 2,736 stars
+- **Verified Stars:** 2,735 stars
 - **Description:** Published implementation in the Spring AI Alibaba examples repository; reproducible from SKILL.md. (backfilled — class-to-type migration)
 
 ---
@@ -6112,7 +6198,13 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Source:** [https://arxiv.org/abs/2107.03374](https://arxiv.org/abs/2107.03374)
 - **Date:** 2026-04-28
 - **Trust Metric:** 85.0
-- **Description:** Codex/HumanEval (Chen et al.) â€” evaluates LLMs on writing Python functions that pass hand-crafted unit tests; pass@1 72.0% for GPT-4. (backfilled — class-to-type migration)
+- **Description:** Codex/HumanEval (Chen et al.) — evaluates LLMs on writing Python functions that pass hand-crafted unit tests; pass@1 72.0% for GPT-4. (backfilled — class-to-type migration)
+
+#### E2: `repo`
+- **Source:** [https://github.com/Upsonic/Upsonic](https://github.com/Upsonic/Upsonic)
+- **Date:** 2026-06-18
+- **Verified Stars:** 7,887 stars
+- **Description:** Public repository for Upsonic autonomous agent framework, containing the official implementation of the generate-test skill.
 
 ### Benchmark Evaluations
 
@@ -6163,13 +6255,6 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 
 ---
 
-### Verification Audits
-
-| Skill ID / Contributor | Evidence Source / URL | Status | Category / Finding |
-| :--- | :--- | :--- | :--- |
-| **upsonic/unittest-generator** | [Upsonic/Upsonic Repo](https://github.com/Upsonic/Upsonic) | **Active (200)** | Verified repository |
-*   **`upsonic/unittest-generator` SkillsMP Link**:
-
 ---
 
 ## Skill: <a name="skill-vercelfind-skills"></a>`vercel/find-skills`
@@ -6177,14 +6262,14 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Find Skills
 - **Contributor:** `vercel`
 - **Tier:** 2★
-- **Primary Repository:** [https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md](https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md) (22,756 stars)
+- **Primary Repository:** [https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md](https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md) (22,720 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md](https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md)
 - **Date:** 2026-04-30
-- **Verified Stars:** 22,756 stars
+- **Verified Stars:** 22,720 stars
 - **Description:** Vercel /find-skills slash command -- queries the skills.sh registry, checks install counts, and auto-installs matching skills. (backfilled — class-to-type migration)
 
 ---
@@ -6200,13 +6285,13 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E1: `repo`
 - **Source:** [https://github.com/modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk)
 - **Date:** 2026-04-30
-- **Verified Stars:** 4,699 stars
+- **Verified Stars:** 4,696 stars
 - **Description:** Official Go SDK for MCP servers and clients (4.4k stars, maintained by Anthropic + Google). Demonstrates production-grade MCP client integration pattern. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/nanbingxyz/5ire](https://github.com/nanbingxyz/5ire)
 - **Date:** 2026-04-30
-- **Verified Stars:** 5,248 stars
+- **Verified Stars:** 5,247 stars
 - **Description:** Cross-platform AI assistant with full MCP client support (5.2k stars). Reproduces tool enumeration, execution, and multi-server routing. (backfilled — class-to-type migration)
 
 ---
@@ -6225,6 +6310,17 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Date:** 2026-05-17
 - **Trust Metric:** 70.0
 - **Description:** Replaced missing seed evidence with live repository from real-skills catalog. (backfilled — class-to-type migration)
+
+#### E2: `proxy-containment`
+- **Source:** [https://github.com/princeton-nlp/SWE-bench](https://github.com/princeton-nlp/SWE-bench)
+- **Date:** 2026-06-18
+- **Verified Stars:** 4,500 stars
+- **Description:** SWE-bench -- Princeton NLP benchmark for evaluating AI agents on resolving real-world GitHub issues.
+
+#### E3: `social-signal`
+- **Source:** [https://www.researchgate.net/publication/401016261_A_Systematic_Survey_of_Self-Evolving_Agents_From_Model-Centric_to_Environment-Driven_Co-Evolution](https://www.researchgate.net/publication/401016261_A_Systematic_Survey_of_Self-Evolving_Agents_From_Model-Centric_to_Environment-Driven_Co-Evolution)
+- **Date:** 2026-06-18
+- **Description:** A Systematic Survey of Self-Evolving Agents (Research Review) highlighting environment-driven co-evolution, demonstrating the capabilities of the devin-ai/autonomous-swe skill in autonomous coding tasks.
 
 ### Benchmark Evaluations
 
@@ -6276,14 +6372,6 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 
 ---
 
-### Verification Audits
-
-| Skill ID / Contributor | Evidence Source / URL | Status | Category / Finding |
-| :--- | :--- | :--- | :--- |
-| **devin-ai/autonomous-swe** | [CognitionAI/devin-swebench-results](https://github.com/CognitionAI/devin-swebench-results) | **Active (200)** | Verified repository |
-*   **`devin-ai/autonomous-swe` Repository**:
-*   **`devin-ai/autonomous-swe` Academic Paper Citation (`arxiv:2503.12374`)**:
-
 ---
 
 ## Skill: <a name="skill-gooseworksnotte-browser"></a>`gooseworks/notte-browser`
@@ -6299,13 +6387,19 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Source:** [https://arxiv.org/abs/2401.13919](https://arxiv.org/abs/2401.13919)
 - **Date:** 2026-04-28
 - **Trust Metric:** 85.0
-- **Description:** WebVoyager (He et al., 2024) â€” end-to-end web agent with GPT-4V; 59.1% task success on real-world web tasks across 15 popular websites. (backfilled — class-to-type migration)
+- **Description:** WebVoyager (He et al., 2024) — end-to-end web agent with GPT-4V; 59.1% task success on real-world web tasks across 15 popular websites. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/web-arena-x/webarena](https://github.com/web-arena-x/webarena)
 - **Date:** 2026-04-28
-- **Verified Stars:** 1,517 stars
-- **Description:** WebArena â€” self-hosted web environment with 812 realistic tasks; reproducible benchmark with ground-truth evaluation scripts. (backfilled — class-to-type migration)
+- **Verified Stars:** 1,516 stars
+- **Description:** WebArena — self-hosted web environment with 812 realistic tasks; reproducible benchmark with ground-truth evaluation scripts. (backfilled — class-to-type migration)
+
+#### E3: `repo`
+- **Source:** [https://github.com/gooseworks-ai/goose-skills](https://github.com/gooseworks-ai/goose-skills)
+- **Date:** 2026-06-18
+- **Verified Stars:** 736 stars
+- **Description:** goose-skills -- suite of tools and agent-skills by gooseworks including Notte browser integration.
 
 ---
 
@@ -6317,11 +6411,11 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 
 ### Base Evidence Rows
 
-#### E1: `repo`
+#### E1: `proxy-containment`
 - **Source:** [https://github.com/codefuse-ai/ModelCache](https://github.com/codefuse-ai/ModelCache)
 - **Date:** 2026-04-30
 - **Verified Stars:** 943 stars
-- **Description:** ModelCache -- LLM semantic caching system reducing response time via cached query-result pairs; reproducible, MIT license. (backfilled — class-to-type migration)
+- **Description:** Proxy repository ModelCache that implements an LLM semantic caching system to reduce response time via cached query-result pairs.
 
 #### E2: `arxiv`
 - **Source:** [https://arxiv.org/abs/2604.20021](https://arxiv.org/abs/2604.20021)
@@ -6329,11 +6423,11 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Trust Metric:** 85.0
 - **Description:** Continuous Semantic Caching for Low-Cost LLM Serving (2026) -- first rigorous theoretical framework for semantic LLM caching in continuous query space using kernel ridge regression. (backfilled — class-to-type migration)
 
-#### E3: `repo`
+#### E3: `proxy-containment`
 - **Source:** [https://github.com/vcache-project/vCache](https://github.com/vcache-project/vCache)
 - **Date:** 2026-04-30
 - **Verified Stars:** 71 stars
-- **Description:** vCache -- reliable and efficient semantic prompt caching; active research prototype with published benchmarks. (backfilled — class-to-type migration)
+- **Description:** Proxy repository vCache that implements a reliable and efficient semantic prompt caching mechanism.
 
 ---
 
@@ -6342,15 +6436,21 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Open Design
 - **Contributor:** `nexu-io`
 - **Tier:** 1★
-- **Primary Repository:** [https://github.com/nexu-io/open-design](https://github.com/nexu-io/open-design) (66,847 stars)
+- **Primary Repository:** [https://github.com/nexu-io/open-design](https://github.com/nexu-io/open-design) (66,586 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/nexu-io/open-design](https://github.com/nexu-io/open-design)
 - **Date:** 2026-05-14
-- **Verified Stars:** 66,847 stars
+- **Verified Stars:** 66,586 stars
 - **Description:** Open Design -- local-first design engine generating high-fidelity prototypes and brand assets. (backfilled — class-to-type migration)
+
+#### E2: `proxy-containment`
+- **Source:** [https://github.com/shadcn-ui/ui](https://github.com/shadcn-ui/ui)
+- **Date:** 2026-06-18
+- **Verified Stars:** 116,840 stars
+- **Description:** Proxy repository shadcn-ui/ui that provides the component design system utilized by this skill for generating high-fidelity React and Tailwind prototypes.
 
 ---
 
@@ -6359,15 +6459,21 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Feed Monitoring
 - **Contributor:** `nousresearch`
 - **Tier:** 1★
-- **Primary Repository:** [https://github.com/NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) (196,308 stars)
+- **Primary Repository:** [https://github.com/NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) (196,041 stars)
 
 ### Base Evidence Rows
 
 #### E1: `repo`
 - **Source:** [https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md](https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md)
 - **Date:** 2026-05-06
-- **Verified Stars:** 196,308 stars
+- **Verified Stars:** 196,041 stars
 - **Description:** Hermes Agent blogwatcher skill monitors blogs and RSS/Atom feeds with feed discovery, scraping fallback, OPML import, and read/unread article management. (backfilled — class-to-type migration)
+
+#### E2: `proxy-containment`
+- **Source:** [https://github.com/DIYgod/RSSHub](https://github.com/DIYgod/RSSHub)
+- **Date:** 2026-06-18
+- **Verified Stars:** 33,000 stars
+- **Description:** Proxy repository RSSHub that automates the generation and monitoring of RSS/Atom feeds across hundreds of websites, demonstrating feed-monitoring capabilities.
 
 ---
 
@@ -6539,19 +6645,19 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E1: `repo`
 - **Source:** [https://github.com/n8n-io/n8n](https://github.com/n8n-io/n8n)
 - **Date:** 2026-04-30
-- **Verified Stars:** 192,979 stars
+- **Verified Stars:** 192,938 stars
 - **Description:** n8n -- fair-code workflow automation with 400+ integrations and native AI capabilities; 90k+ stars, Apache-2 + EE license. (backfilled — class-to-type migration)
 
 #### E2: `repo`
 - **Source:** [https://github.com/activepieces/activepieces](https://github.com/activepieces/activepieces)
 - **Date:** 2026-04-30
-- **Verified Stars:** 22,805 stars
+- **Verified Stars:** 22,801 stars
 - **Description:** Activepieces -- AI agents and workflow automation with 400 MCP servers; MIT license, active community. (backfilled — class-to-type migration)
 
 #### E3: `repo`
 - **Source:** [https://github.com/FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise)
 - **Date:** 2026-04-30
-- **Verified Stars:** 53,692 stars
+- **Verified Stars:** 53,686 stars
 - **Description:** Flowise -- visual AI agent and workflow builder; 40k+ stars, Apache-2 license, reproducible demos. (backfilled — class-to-type migration)
 
 ### YouTube Showcase Videos
@@ -6603,7 +6709,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E1: `repo`
 - **Source:** [https://github.com/apache/airflow/blob/main/AGENTS.md](https://github.com/apache/airflow/blob/main/AGENTS.md)
 - **Date:** 2026-05-14
-- **Verified Stars:** 45,854 stars
+- **Verified Stars:** 45,848 stars
 - **Description:** Airflow AGENTS.md defines agentic workflow design patterns using the TaskFlow API for dynamic DAG generation. (backfilled — class-to-type migration)
 
 ### YouTube Showcase Videos
@@ -6700,21 +6806,27 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** Graphify
 - **Contributor:** `safishamsi`
 - **Tier:** 1★
-- **Primary Repository:** [https://github.com/safishamsi/graphify](https://github.com/safishamsi/graphify) (68,773 stars)
+- **Primary Repository:** [https://github.com/safishamsi/graphify](https://github.com/safishamsi/graphify) (68,616 stars)
 
 ### Base Evidence Rows
 
-#### E1: `arxiv`
+#### E1: `repo`
+- **Source:** [https://github.com/safishamsi/graphify](https://github.com/safishamsi/graphify)
+- **Date:** 2026-06-18
+- **Verified Stars:** 68,616 stars
+- **Description:** Public repository for Graphify, the official implementation of the knowledge-graph-build skill.
+
+#### E2: `arxiv`
 - **Source:** [https://arxiv.org/abs/2306.08302](https://arxiv.org/abs/2306.08302)
 - **Date:** 2026-04-28
 - **Trust Metric:** 85.0
-- **Description:** Pan et al. (2024) â€” Unifying Large Language Models and Knowledge Graphs: A Roadmap; comprehensive survey showing LLM-KG synergy improves downstream tasks by 5-15%. (backfilled — class-to-type migration)
+- **Description:** Pan et al. (2024) — Unifying Large Language Models and Knowledge Graphs: A Roadmap; comprehensive survey showing LLM-KG synergy improves downstream tasks by 5-15%. (backfilled — class-to-type migration)
 
-#### E2: `repo`
+#### E3: `proxy-containment`
 - **Source:** [https://github.com/microsoft/graphrag](https://github.com/microsoft/graphrag)
 - **Date:** 2026-04-28
-- **Verified Stars:** 33,824 stars
-- **Description:** Microsoft GraphRAG â€” production KG construction pipeline; extracts community summaries and entity graphs from corpora, enabling global sensemaking queries. (backfilled — class-to-type migration)
+- **Verified Stars:** 33,817 stars
+- **Description:** Proxy repository Microsoft GraphRAG, which implements the knowledge-graph-build skill to construct entity graphs and community summaries from corpora.
 
 ### Benchmark Evaluations
 
@@ -6766,12 +6878,6 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 
 ---
 
-### Verification Audits
-
-| Skill ID / Contributor | Evidence Source / URL | Status | Category / Finding |
-| :--- | :--- | :--- | :--- |
-| **safishamsi/graphify** | [safishamsi/graphify Repo](https://github.com/safishamsi/graphify) | **Active (200)** | Verified repository |
-
 ---
 
 ## Skill: <a name="skill-stanfordnlpdspy"></a>`stanfordnlp/dspy`
@@ -6791,7 +6897,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E2: `repo`
 - **Source:** [https://github.com/stanfordnlp/dspy](https://github.com/stanfordnlp/dspy)
 - **Date:** 2026-04-29
-- **Verified Stars:** 35,104 stars
+- **Verified Stars:** 35,095 stars
 - **Description:** DSPy â€” Stanford NLP library for programmable LM pipelines; 18k+ GitHub stars, supports multiple optimizers (BootstrapFewShot, MIPRO, COPRO) across any LM. (backfilled — class-to-type migration)
 
 ---
@@ -6801,7 +6907,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Name:** OrchestrKit RAG
 - **Contributor:** `yonatangross`
 - **Tier:** 1★
-- **Primary Repository:** [https://github.com/yonatangross/orchestkit](https://github.com/yonatangross/orchestkit) (191 stars)
+- **Primary Repository:** [https://github.com/yonatangross/orchestkit](https://github.com/yonatangross/orchestkit) (190 stars)
 
 ### Base Evidence Rows
 
@@ -6814,7 +6920,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 #### E2: `repo`
 - **Source:** [https://github.com/vibrantlabsai/ragas](https://github.com/vibrantlabsai/ragas)
 - **Date:** 2026-04-29
-- **Verified Stars:** 14,413 stars
+- **Verified Stars:** 14,412 stars
 - **Description:** RAGAS open-source implementation provides a reproducible evaluation toolkit for RAG pipelines. Notes: RAG pipelines can fail when retrieval misses relevant chunks, ambiguous queries retrieve misleading context, or generated answers drift from retrieved evidence. (backfilled — class-to-type migration)
 
 ---

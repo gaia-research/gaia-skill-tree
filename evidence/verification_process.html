@@ -577,7 +577,7 @@
               <ul class="step-details">
                 <li><strong>Registry Loading & Parsing:</strong> Reads evidence data directly from canonical index structures (<code>gaia.json</code>, <code>named-skills.json</code>, and <code>registry/named/</code>).</li>
                 <li><strong>GitHub Live Star Retrieval:</strong> Invokes the GitHub CLI (<code>gh repo view</code>) to check and cache live stargazer counts for all primary repositories and proxy-containment targets.</li>
-                <li><strong>Partitioning & Formatting:</strong> Separates evidence records into their corresponding star tiers (1★ to 6★) and generates raw markdown files inside <code>founder/sources/data_lake/</code>.</li>
+                <li><strong>Partitioning & Formatting:</strong> Separates evidence records into their corresponding star tiers (1★ to 6★) and generates raw markdown files inside <code>evidence/</code>.</li>
               </ul>
               <div class="code-panel">
                 <span class="code-line"><span class="code-comment"># Invoked via the local ev-star-verification agent skill workflow</span></span>
@@ -640,7 +640,7 @@
     </div>
 
     <footer>
-      <p>Gaia Registry System • Trust Methodology. Logs persisted in <a href="file:///Users/marcotiongson/Documents/gaia-skill-tree/founder/sources/collectors/verification/">founder/sources/collectors/verification/</a></p>
+      <p>Gaia Registry System • Trust Methodology. Logs persisted in <a href="file:///home/gaia-skill-tree/evidence/collectors/verification/">evidence/collectors/verification/</a></p>
     </footer>
 
   </div>
@@ -697,7 +697,7 @@
             { delay: 2500, action: () => addLog("[System] Step 2/4: Running ev-star-verification phase...", "system") },
             { delay: 2800, action: () => addLog("[CLI] Executing skill: <code>/ev-star-verification</code>", "cmd") },
             { delay: 3200, action: () => addLog("[Agent] Fetching live stargazers for primary and proxy repositories via GitHub API...", "agent") },
-            { delay: 3700, action: () => addLog("[Gate] PASS! Stargazer counts updated in cache. Segregated dumps generated in <code>founder/sources/data_lake/tier_[1-6].md</code>.", "gate-pass") },
+            { delay: 3700, action: () => addLog("[Gate] PASS! Stargazer counts updated in cache. Segregated dumps generated in <code>evidence/tier_[1-6].md</code>.", "gate-pass") },
             
             // Phase 3
             { delay: 4200, action: () => addLog("[System] Step 3/4: Executing ev-adversarial-audit scan...", "system") },
