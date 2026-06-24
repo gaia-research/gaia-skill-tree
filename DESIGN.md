@@ -20,21 +20,9 @@ Public curated outputs, such as `registry/gaia.svg`, `registry/gaia.gexf`, `regi
 
 ## Color Palette
 
-CSS custom properties defined in `docs/index.html`:
+Canonical token values are emitted by `scripts/generateCssTokens.py` to `docs/css/tokens.css` from `registry/gaia.json.meta.typeColors`. See that file for the authoritative CSS custom property definitions. The tier/rank names and semantic roles are documented in the sections below.
 
-| Token | Hex | Use |
-|---|---|---|
-| `--bg` | `#030712` | Page background |
-| `--surface` | `#0f172a` | Card / panel background |
-| `--border` | `#1e293b` | Dividers, card borders |
-| `--text` | `#e2e8f0` | Primary text |
-| `--muted` | `#64748b` | Secondary / subdued text |
-| `--basic`     | `#38bdf8` | Basic tier accent (sky blue) — alias of `--tier-basic` |
-| `--extra`     | `#c084fc` | Extra Skill tier accent (purple) — alias of `--tier-extra` |
-| `--unique`    | `#7c3aed` | Unique Skill tier accent (deep violet) — alias of `--tier-unique` |
-| `--ultimate`  | `#f59e0b` | Ultimate Skill tier accent (amber) — alias of `--tier-ultimate` |
-
-> **Source of truth.** As of Stage 1 of the Frontend Cohesion Overhaul, all four tier hexes live in `registry/gaia.json.meta.typeColors` and are emitted to `docs/css/tokens.css` by `scripts/generateCssTokens.py`. The legacy short tokens above are kept as aliases so older selectors keep working; the canonical token names are `--tier-basic`, `--tier-extra`, `--tier-unique`, `--tier-ultimate` (plus `-rgb`, `-bg`, `-border`, `-symbol` variants). Never hardcode the hex in CSS or JS.
+> **Never hardcode hex in CSS or JS.** The legacy short tokens (`--basic`, `--extra`, `--unique`, `--ultimate`) are kept as aliases so older selectors keep working; the canonical names are `--tier-basic`, `--tier-extra`, `--tier-unique`, `--tier-ultimate` (plus `-rgb`, `-bg`, `-border`, `-symbol` variants).
 
 ---
 
@@ -61,21 +49,11 @@ Card glow per tier (radial gradient, 35% opacity):
 
 ## Rank System
 
-Skills level up from 0 → VI. Each rank has a distinct RPG-inspired color.
+Skills level up from 0★ → 6★. Each rank has a distinct RPG-inspired color. Canonical hex values and background tints are defined in `src/gaia_cli/formatting.py::RANK_COLORS` (Python source of truth) and in `docs/css/tokens.css` (`--rank-0` … `--rank-6`). For rank labels and significance, see `META.md §1.1`.
 
-| Level | Class | Rank | Color | Hex | Background tint |
-|---|---|---|---|---|---|
-| `0` | F | Unawakened | Slate | `#94a3b8` | `rgba(100,116,139,.12)` |
-| `I` | D | Awakened | Sky blue | `#38bdf8` | `rgba(56,189,248,.12)` |
-| `II` | C | Named | Teal | `#63cab7` | `rgba(99,202,183,.12)` |
-| `III` | B | Evolved | Violet | `#a78bfa` | `rgba(167,139,250,.12)` |
-| `IV` | A | Hardened | Fuchsia | `#e879f9` | `rgba(232,121,249,.12)` |
-| `V` | S | Transcendent | Amber | `#fbbf24` | `rgba(251,191,36,.12)` |
-| `VI ★` | SS | Transcendent ★ | Amber (bright) | `#fbbf24` | `rgba(251,191,36,.20)` |
+Rank sequence: **Basic (0★) → Awakened (1★) → Named (2★) → Evolved (3★) → Hardened (4★) → Transcendent (5★) → Apex (6★)**. The color sequence intentionally mirrors an RPG rarity ramp: neutral → cold → teal → violet → pink → gold, with the Apex level doubling its background opacity.
 
-The rank color sequence intentionally mirrors an RPG rarity ramp: neutral → cold → teal → violet → pink → gold, with the apex doubling its background opacity.
-
-> **Note on the Class column.** The letter values (D / C / B / A / S / SS) are retained here as historical/internal reference only — they predate the current evidence-class vocabulary in `CONTEXT.md`. The visitor-facing tier label is the **rank name + star count** (e.g. "Hardened · 4★"). Generated surfaces no longer emit the letter suffixes (`· SS`, `· V`, `· IV`, etc.) — see `plaque-reveal.js`, `generateProfilePages.py`, `generateOgCards.py`.
+> **Class column deprecated.** The legacy letter suffixes (D / C / B / A / S / SS) are retained in old code paths only. Generated surfaces no longer emit them — see `plaque-reveal.js`, `generateProfilePages.py`, `generateOgCards.py`. Evidence `class` is fully deprecated per the ratified G7 Trust Taxonomy RFC (`META.md §2.1`); new evidence carries `type` + `grade` instead. The visitor-facing label is **rank name + star count** (e.g. "Hardened · 4★").
 
 ---
 
@@ -129,9 +107,9 @@ The `social-signal` green (`#34d399`) is not in `tokens.css` and is not on the G
 
 ---
 
-## Level VI — Transcendent ★ Special Rendering
+## Level 6★ — Apex Special Rendering
 
-VI nodes bypass `drawNode` entirely and use `drawNodeVI`, which runs every animation frame using the shared `state.t` clock:
+6★ (Apex) nodes bypass `drawNode` entirely and use `drawNodeVI`, which runs every animation frame using the shared `state.t` clock:
 
 | Layer | Description |
 |---|---|
@@ -220,17 +198,17 @@ is retained ONLY as the background fill for the floating hero CTA pills (`◆ Op
 
 ## Skill Explorer
 
-The skill explorer overlay (`#skillExplorer`) introduces per-level glow tokens, a shimmer animation for Level VI nodes, and a pulse animation for Level V nodes. These augment the rank colors defined above.
+The skill explorer overlay (`#skillExplorer`) introduces per-level glow tokens, a shimmer animation for 6★ (Apex) nodes, and a pulse animation for 5★ (Transcendent) nodes. These augment the rank colors defined above.
 
 ### Glow Tokens
 
 | Token | Value | Level | Rank |
 |---|---|---|---|
-| `--glow-II`  | `0 0 8px #63cab7, 0 0 22px rgba(99,202,183,.35)`   | II  | Named |
-| `--glow-III` | `0 0 10px #a78bfa, 0 0 26px rgba(167,139,250,.4)` | III | Evolved |
-| `--glow-IV`  | `0 0 14px #e879f9, 0 0 32px rgba(232,121,249,.45)`| IV  | Hardened |
-| `--glow-V`   | `0 0 18px #fbbf24, 0 0 40px rgba(251,191,36,.5)`  | V   | Transcendent |
-| `--glow-VI`  | `0 0 20px #fbbf24, 0 0 50px rgba(251,191,36,.6), 0 0 80px rgba(56,189,248,.3)` | VI | Transcendent ★ |
+| `--glow-II`  | `0 0 8px #63cab7, 0 0 22px rgba(99,202,183,.35)`   | 2★  | Named |
+| `--glow-III` | `0 0 10px #a78bfa, 0 0 26px rgba(167,139,250,.4)` | 3★  | Evolved |
+| `--glow-IV`  | `0 0 14px #e879f9, 0 0 32px rgba(232,121,249,.45)`| 4★  | Hardened |
+| `--glow-V`   | `0 0 18px #fbbf24, 0 0 40px rgba(251,191,36,.5)`  | 5★  | Transcendent |
+| `--glow-VI`  | `0 0 20px #fbbf24, 0 0 50px rgba(251,191,36,.6), 0 0 80px rgba(56,189,248,.3)` | 6★ | Apex |
 
 Glow tokens use the same base colors as the rank system above. Tokens are applied as `box-shadow` values on `.flow-node[data-level="X"]` and `.se-hero-card[data-level="X"]`.
 
@@ -238,8 +216,8 @@ Glow tokens use the same base colors as the rank system above. Tokens are applie
 
 | Animation | Element | Behavior |
 |---|---|---|
-| `se-pulse` / `flow-pulse-V` | Level V nodes | Gold `box-shadow` oscillates between `--glow-V` and a brighter `0 0 28px #fbbf24, 0 0 60px rgba(251,191,36,.65)` on a 2.4s loop |
-| `se-shimmer` / `flow-shimmer-VI` | Level VI nodes | `border-color` cycles through cyan → purple → amber → fuchsia on a 3s loop, combined with the pulse |
+| `se-pulse` / `flow-pulse-V` | 5★ (Transcendent) nodes | Gold `box-shadow` oscillates between `--glow-V` and a brighter `0 0 28px #fbbf24, 0 0 60px rgba(251,191,36,.65)` on a 2.4s loop |
+| `se-shimmer` / `flow-shimmer-VI` | 6★ (Apex) nodes | `border-color` cycles through cyan → purple → amber → fuchsia on a 3s loop, combined with the pulse |
 
 ### Explorer UI Tokens
 
@@ -249,7 +227,7 @@ Additional tokens used only in the explorer overlay (not added to `:root` — de
 |---|---|---|
 | Skill Explorer background | `rgba(3,7,18,.88)` | Topbar background (matches `--bg` + blur) |
 | Install recommended border | `rgba(56,189,248,.35)` | Gaia install block highlight |
-| Evidence class color | `#f59e0b` (`--ultimate`) | Evidence class labels (A/B/C) |
+| Evidence class color | `#f59e0b` (`--ultimate`) | Evidence grade labels (S/A/B/C) — see `META.md §2.1` |
 | Flowchart edge stroke | `rgba(56,189,248,.22)` | SVG bezier curves connecting flowchart rows |
 
 ---
@@ -350,10 +328,10 @@ Honor Red and Apex Gold are the **two carry-everything brand roles**. Tier token
 
 Gaia's public surface (`gaia.tiongson.co`) is the **Hunter's Atlas**: a Sacred-Atlas × Solo-Leveling guild registry where contributing devs feel their repo is a main character earning evidence-based rank, and where claiming an Ultimate carries the prestige of going on the permanent record. The voice register is **Half-Merged** — primary labels stay truthful (commands, schema, evidence, named contributors) while section titles and ornamental copy carry ceremonial verbs (Initiate's Rite, Ascension Cycle, Hall of Heroes, The Codex).
 
-On top of the locked tier and rank colour tokens, two brand-voice tokens do the carry-everything work: **Honor Red (`--honor-red`)** is reserved for contributor handles; **Apex Gold (`--apex-gold`)** is reserved for 6★/Ultimate/Diamond-Seal moments and Apex-only affordances. Tier and rank colour tokens, Level VI shimmer, the graph canvas geometry, the Skill Explorer glow tokens, and the Ultimate/Extra cycling animations are all hard-locked and survive unchanged into this lane.
+On top of the locked tier and rank colour tokens, two brand-voice tokens do the carry-everything work: **Honor Red (`--honor-red`)** is reserved for contributor handles; **Apex Gold (`--apex-gold`)** is reserved for 6★/Ultimate/Diamond-Seal moments and Apex-only affordances. Tier and rank colour tokens, 6★ Apex shimmer, the graph canvas geometry, the Skill Explorer glow tokens, and the Ultimate/Extra cycling animations are all hard-locked and survive unchanged into this lane.
 
 The 3D canvas (`canvas3d`) is **preserved** as a secondary view — repurposed as an ambient parallax background behind the 2D graph hero, and reachable as the primary view via a `⇄ Field view` toggle. The 2D skill graph is the primary hero. The Diamond Seal mark (`◇G` lock-up) is the brand mark; the apex `◆` glyph remains free for its tier role. Per `CONTEXT.md:137-139`, "HUD" is internal-only nomenclature (used in code class names like `.hud-trigger` and file names like `hud-toggle.js`); user-facing copy uses **Field view** for the toggle and **Registry** for any view of the public skill graph.
 
 ## Anti-references & accessibility (see PRODUCT.md)
 
-Visual guardrails — generic AI-startup dark mode, SaaS hero-metric dashboards, gamification-as-product, decorative glassmorphism, gradient text, and hype-heavy marketing copy — are enumerated in [`PRODUCT.md`](PRODUCT.md#anti-references). The accessibility baseline (WCAG AA; never symbol-alone or color-alone tier signal; `prefers-reduced-motion` for Level VI shimmer, the Naming Reveal cinematic, and the Ascension Cycle diagram; screen-reader-friendly CLI renders) lives in [`PRODUCT.md`](PRODUCT.md#accessibility--inclusion). Don't restate them here — link only, so the spec doesn't drift.
+Visual guardrails — generic AI-startup dark mode, SaaS hero-metric dashboards, gamification-as-product, decorative glassmorphism, gradient text, and hype-heavy marketing copy — are enumerated in [`PRODUCT.md`](PRODUCT.md#anti-references). The accessibility baseline (WCAG AA; never symbol-alone or color-alone tier signal; `prefers-reduced-motion` for 6★ Apex shimmer, the Naming Reveal cinematic, and the Ascension Cycle diagram; screen-reader-friendly CLI renders) lives in [`PRODUCT.md`](PRODUCT.md#accessibility--inclusion). Don't restate them here — link only, so the spec doesn't drift.
