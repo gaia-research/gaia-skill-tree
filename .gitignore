@@ -89,3 +89,8 @@ src/gaia_cli/data/registry/named/
 # stay in git; the cache dirs have no cross-commit value and bloat clone/diff.
 graphify-out/cache/
 raw/graphify-out/cache/
+
+# Firecrawl research scratchpad — non-canonical scraped references used for curation.
+# Content migrated to evidence/research/ for long-term tracking; ephemeral new crawls
+# should not be committed to the main repo.
+.firecrawl/
