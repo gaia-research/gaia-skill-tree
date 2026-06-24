@@ -4,7 +4,7 @@ The setup command for a project. One codebase crawl feeds everything it writes:
 
 - **PRODUCT.md** (strategic): root project file for register, target users, product purpose, brand personality, anti-references, strategic design principles. Answers "who/what/why".
 - **DESIGN.md** (visual): root project file for visual theme, color palette, typography, components, layout. Follows the [Google Stitch DESIGN.md format](https://stitch.withgoogle.com/docs/design-md/format/). Answers "how it looks".
-- **`.impeccable/live/config.json`** (live mode): pre-configured so `/impeccable live` boots straight into variant mode with no first-time detour.
+- **`.impeccable/live/config.json`** (live mode): pre-configured so `$impeccable live` boots straight into variant mode with no first-time detour.
 
 It closes by pointing the user at the best command to run next. Every other impeccable command reads PRODUCT.md and DESIGN.md before doing any work.
 
@@ -14,14 +14,14 @@ Check what already exists. PRODUCT.md and DESIGN.md live at the project root, or
 
 Decision tree:
 - **Neither file exists (empty project or no context yet)**: do Steps 2-4 (write PRODUCT.md), then decide on DESIGN.md based on whether there's code to analyze.
-- **PRODUCT.md exists, DESIGN.md missing**: skip to Step 5 and offer to run `/impeccable document` for DESIGN.md.
+- **PRODUCT.md exists, DESIGN.md missing**: skip to Step 5 and offer to run `$impeccable document` for DESIGN.md.
 - **PRODUCT.md exists but has no `## Register` section (legacy)**: add it. Infer a hypothesis from the codebase (see Step 2), confirm with the user, write the field.
-- **Both exist**: STOP and call the AskUserQuestion tool to clarify. Ask which file to refresh. Skip the one the user doesn't want changed.
+- **Both exist**: STOP and use Codex's structured user-input/question tool when available; if unavailable, ask directly in chat to clarify what you cannot infer. Ask which file to refresh. Skip the one the user doesn't want changed.
 - **Just DESIGN.md exists (unusual)**: do Steps 2-4 to produce PRODUCT.md.
 
 Never silently overwrite an existing file. Always confirm first.
 
-If init was invoked as a setup blocker by another command, such as `/impeccable craft landing page`, pause that command here. Complete init, then resume the original command. Your own writes are the freshest source; no reload needed. For craft, resume into shape next; init creates project context, but it is not a substitute for the task-specific shape interview and confirmed design brief.
+If init was invoked as a setup blocker by another command, such as `$impeccable craft landing page`, pause that command here. Complete init, then resume the original command. Your own writes are the freshest source; no reload needed. For craft, resume into shape next; init creates project context, but it is not a substitute for the task-specific shape interview and confirmed design brief.
 
 ## Step 2: Explore the codebase
 
@@ -45,7 +45,7 @@ Note what you've learned and what remains unclear. Also note any rough edges wor
 
 ## Step 3: Ask strategic questions (for PRODUCT.md)
 
-STOP and call the AskUserQuestion tool to clarify. Ask only about what you couldn't infer from the codebase.
+STOP and use Codex's structured user-input/question tool when available; if unavailable, ask directly in chat to clarify what you cannot infer. Ask only about what you couldn't infer from the codebase.
 
 ### Interview mode, not confirmation mode
 
@@ -68,7 +68,7 @@ Every design task is either **brand** (marketing, landing, campaign, long-form c
 
 If Step 2 produced a clear hypothesis, lead with it: *"From the codebase, this looks like a [brand / product] surface. Does that match your intent, or should we treat it differently?"*
 
-If the signal is genuinely split (e.g. a product with a big marketing landing), STOP and call the AskUserQuestion tool to clarify. Ask which register describes the **primary** surface. The register can be overridden per task later, but PRODUCT.md carries one default.
+If the signal is genuinely split (e.g. a product with a big marketing landing), STOP and use Codex's structured user-input/question tool when available; if unavailable, ask directly in chat to clarify what you cannot infer. Ask which register describes the **primary** surface. The register can be overridden per task later, but PRODUCT.md carries one default.
 
 ### Users & Purpose
 - Who uses this? What's their context when using it?
@@ -126,18 +126,18 @@ Write to `PROJECT_ROOT/PRODUCT.md`. If `.impeccable.md` existed, the loader alre
 
 ## Step 5: Decide on DESIGN.md
 
-Offer `/impeccable document` either way. Two paths:
+Offer `$impeccable document` either way. Two paths:
 
 - **Code exists** (CSS tokens, components, a running site): "I can generate a DESIGN.md that captures your visual system (colors, typography, components) so variants stay on-brand. Want to do that now?"
 - **Pre-implementation** (empty project): "I can seed a starter DESIGN.md from five quick questions about color strategy, type direction, motion energy, and references. You can re-run once there's code, to capture the real tokens. Want to do that now?"
 
-If the user agrees, delegate to `/impeccable document` (it auto-detects scan vs seed). Load its reference and follow that flow.
+If the user agrees, delegate to `$impeccable document` (it auto-detects scan vs seed). Load its reference and follow that flow.
 
-If the user prefers to skip, mention they can run `/impeccable document` any time later.
+If the user prefers to skip, mention they can run `$impeccable document` any time later.
 
 ## Step 6: Configure live mode (when code exists)
 
-If the project has code with HTML entries and a dev server (the same "code exists" condition that puts `/impeccable document` in scan mode), pre-configure live mode now. You already identified the framework and the served HTML entry in Step 2, so this is nearly free, and it spares the user the first-time setup detour when they later run `/impeccable live`.
+If the project has code with HTML entries and a dev server (the same "code exists" condition that puts `$impeccable document` in scan mode), pre-configure live mode now. You already identified the framework and the served HTML entry in Step 2, so this is nearly free, and it spares the user the first-time setup detour when they later run `$impeccable live`.
 
 **Skip this step for empty / pre-implementation projects** (nothing to inject into yet). Tell the user live mode will configure itself the first time they run it once there's code.
 
@@ -146,7 +146,7 @@ If the project has code with HTML entries and a dev server (the same "code exist
 Otherwise:
 
 1. Write `.impeccable/live/config.json`. Choose `files` (the HTML entries the browser actually loads), `insertBefore`, and `commentSyntax` from the framework table in [live.md](live.md)'s **First-time setup** section, using the framework you found in Step 2. That table is canonical; do not restate it here. For multi-page static sites, prefer a glob (`["public/**/*.html"]`) over a literal list.
-2. Run `node .claude/skills/impeccable/scripts/detect-csp.mjs`. If it reports a patchable shape (`append-arrays` / `append-string`), use the **consent prompt template** from live.md before editing any source file. On decline, skip the patch. For `middleware` / `meta-tag` shapes, surface the detected files and ask the user to add `http://localhost:8400` to `script-src` and `connect-src` manually. For `null`, there's nothing to do.
+2. Run `node .agents/skills/impeccable/scripts/detect-csp.mjs`. If it reports a patchable shape (`append-arrays` / `append-string`), use the **consent prompt template** from live.md before editing any source file. On decline, skip the patch. For `middleware` / `meta-tag` shapes, surface the detected files and ask the user to add `http://localhost:8400` to `script-src` and `connect-src` manually. For `null`, there's nothing to do.
 3. Set `cspChecked: true` in the config once CSP is handled (patched, declined, manual, or not needed). The schema and per-shape patch details live in live.md's First-time setup; follow it rather than duplicating.
 
 Writing the config file is harmless and needs no consent; only the CSP **source-file patch** requires a yes.
@@ -161,12 +161,12 @@ Summarize tersely:
 
 Then recommend the **best commands to run next**, drawn from what your Step 2 crawl already surfaced. Do not run a fresh analysis here; surface observations you already have. Tailor to register and to what you saw, offer the 2-4 most relevant (not a menu dump), and give the exact command to type. Group by intent:
 
-- **Build something new**: `/impeccable craft <feature>` (shape, then build end-to-end) or `/impeccable shape <feature>` (plan first). Lead with this for empty or early-stage projects.
-- **Improve what's there**: name the specific surface. `/impeccable critique <page>` for a scored UX review; `/impeccable audit <area>` for a11y / perf / responsive checks; `/impeccable polish <component>` for a pre-ship pass. When the crawl flagged a specific weakness, point the matching command at it: thin hierarchy or spacing → `layout`, flat or gray palette → `colorize`, missing error / empty states → `harden` or `onboard`, dull or unclear copy → `clarify`.
-- **Iterate visually**: `/impeccable live` (configured in Step 6) to pick elements in the browser and generate variants in place.
+- **Build something new**: `$impeccable craft <feature>` (shape, then build end-to-end) or `$impeccable shape <feature>` (plan first). Lead with this for empty or early-stage projects.
+- **Improve what's there**: name the specific surface. `$impeccable critique <page>` for a scored UX review; `$impeccable audit <area>` for a11y / perf / responsive checks; `$impeccable polish <component>` for a pre-ship pass. When the crawl flagged a specific weakness, point the matching command at it: thin hierarchy or spacing → `layout`, flat or gray palette → `colorize`, missing error / empty states → `harden` or `onboard`, dull or unclear copy → `clarify`.
+- **Iterate visually**: `$impeccable live` (configured in Step 6) to pick elements in the browser and generate variants in place.
 
-The full command menu is one bare `/impeccable` away; keep this list short and pointed.
+The full command menu is one bare `$impeccable` away; keep this list short and pointed.
 
-If init was invoked as a blocker by another impeccable command (e.g. the user ran `/impeccable polish` with no PRODUCT.md), resume that original task now. Your own writes are the freshest source; no reload needed.
+If init was invoked as a blocker by another impeccable command (e.g. the user ran `$impeccable polish` with no PRODUCT.md), resume that original task now. Your own writes are the freshest source; no reload needed.
 
-Optionally STOP and call the AskUserQuestion tool to clarify. Ask whether they'd like a brief summary of PRODUCT.md appended to CLAUDE.md for easier agent reference. If yes, append a short **Design Context** pointer section there.
+Optionally STOP and use Codex's structured user-input/question tool when available; if unavailable, ask directly in chat to clarify what you cannot infer. Ask whether they'd like a brief summary of PRODUCT.md appended to AGENTS.md for easier agent reference. If yes, append a short **Design Context** pointer section there.

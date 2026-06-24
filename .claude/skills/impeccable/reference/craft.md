@@ -42,7 +42,7 @@ Default: Astro for brand briefs, the project's existing framework for product br
 
 ## Step 1: Shape the Design
 
-Run /impeccable shape, passing along whatever feature description the user provided. Shape is **required** for craft; it is what produces a confirmed direction.
+Run $impeccable shape, passing along whatever feature description the user provided. Shape is **required** for craft; it is what produces a confirmed direction.
 
 Present the shape output and stop. Wait for the user to confirm, override, or course-correct before writing code.
 
