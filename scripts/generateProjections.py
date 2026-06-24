@@ -307,18 +307,25 @@ def main():
                         named_entry_level[e["id"]] = e.get("level")
         named_level_map = build_named_level_map(nidx)
 
-    os.makedirs("registry/skills/basic", exist_ok=True)
-    os.makedirs("registry/skills/extra", exist_ok=True)
-    os.makedirs("registry/skills/unique", exist_ok=True)
-    os.makedirs("registry/skills/ultimate", exist_ok=True)
-
     skill_map = {s["id"]: s for s in skills}
     date_str = timestamp.split("T")[0] if "T" in timestamp else timestamp
 
     # Named-skill buckets for per-page "Named implementations" tables.
     named_buckets = nidx.get("buckets", {}) if os.path.isfile(named_index_path) else {}
 
+    # registry/skills/<type>/<id>.md generation is disabled by default — these
+    # 250 human-readable views are not consumed by the website, CLI, or CI.
+    # Set GAIA_GENERATE_SKILL_PAGES=1 to re-enable (e.g. for local browsing via GitHub).
+    _generate_skill_pages = os.environ.get("GAIA_GENERATE_SKILL_PAGES") == "1"
+    if _generate_skill_pages:
+        os.makedirs("registry/skills/basic", exist_ok=True)
+        os.makedirs("registry/skills/extra", exist_ok=True)
+        os.makedirs("registry/skills/unique", exist_ok=True)
+        os.makedirs("registry/skills/ultimate", exist_ok=True)
+
     for skill in skills:
+        if not _generate_skill_pages:
+            continue
         skill_type = skill.get("type", "basic")
         skill_id = skill.get("id")
         skill_name = skill.get("name")

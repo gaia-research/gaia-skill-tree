@@ -58,6 +58,10 @@ perf_registry2/
 .pytest_cache/
 scratch_context.json
 
+# Generated skill-page views — human-readable MD mirrors of registry/nodes/*.json.
+# Not consumed by the website, CLI, or CI. Re-enable with GAIA_GENERATE_SKILL_PAGES=1.
+registry/skills/
+
 # Generated registry pipeline artifacts (kept untracked in Git — regenerable from
 # registry/nodes/ + registry/named/ sources via `gaia dev docs`).
 /registry/gaia.json
