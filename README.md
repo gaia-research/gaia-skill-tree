@@ -115,9 +115,6 @@ Gaia uses a tiered star system (**0★–6★**) to rank agent capabilities.
 | ◇ Extra | Composite workflow | 2★ → 4★ |
 | ◆ Ultimate | Platform capstone | 5★ → 6★ |
 
-- **Claimed vs. Effective Levels**: A skill's canonical level is based on evidence, but its effective level can be reduced by **demerits** (e.g., broken evidence links).
-- **Ultimate Requirements**: Ultimate skills represent platform capstones (5★–6★) and require prestigious **Class A** or Class S evidence.
-
 ## Evidence
 
 1. **Evidence Type** (provenance: one of 10 canonical types per the G7 Trust Taxonomy RFC
