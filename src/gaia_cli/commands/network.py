@@ -6,7 +6,11 @@ class FetchCommand(Command):
     help = "Download the latest canonical registry files to .gaia/registry"
 
     def configure(self, parser: argparse.ArgumentParser) -> None:
-        pass
+        parser.add_argument(
+            "--allow-downgrade",
+            action="store_true",
+            help="Allow overwriting local registry with an older remote version",
+        )
 
     def execute(self, args: argparse.Namespace) -> int | None:
         from gaia_cli.main import fetch_command
@@ -18,7 +22,11 @@ class PullCommand(Command):
     help = "Fetch registry data and run a full scan"
 
     def configure(self, parser: argparse.ArgumentParser) -> None:
-        pass
+        parser.add_argument(
+            "--allow-downgrade",
+            action="store_true",
+            help="Allow overwriting local registry with an older remote version",
+        )
 
     def execute(self, args: argparse.Namespace) -> int | None:
         from gaia_cli.main import pull_command
