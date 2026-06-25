@@ -357,7 +357,7 @@ def build_wiki_sync(check: bool) -> bool:
     """Run sync_wiki.py against ../gaia-wiki if that directory exists.
 
     In --check mode the script is called with --check and any reported drift
-    contributes to the overall drift signal (but does NOT cause `gaia docs build
+    contributes to the overall drift signal (but does NOT cause `gaia dev docs
     --check` to fail — wiki drift is advisory only, since CI handles the push
     separately via WIKI_PAT).
 
@@ -1120,9 +1120,9 @@ def main(argv: list[str] | None = None) -> int:
         if changed or warnings:
             if warnings:
                 print("\nError: Documentation build encountered errors in --check mode.", file=sys.stderr)
-            print("Generated documentation is stale. Run `gaia docs build --check` locally.")
-            print("If it reports drift, run `gaia docs build` and commit the updated files.")
-            print("Validation checks can be run with `gaia validate`.")
+            print("Generated documentation is stale. Run `gaia dev docs --check` locally.")
+            print("If it reports drift, run `gaia dev docs` and commit the updated files.")
+            print("Validation checks can be run with `gaia dev validate`.")
             return 1
         print("Documentation is up to date.")
         return 0
