@@ -512,3 +512,18 @@ class TestShowTreePathSubset:
                   path_subset={"ghost-skill", "phantom"})
         out = capsys.readouterr().out
         assert "├" not in out and "└" not in out
+
+
+def test_utf8_encoding_roundtrip(tmp_path):
+    unicode_tree = {
+        "userId": "unicode_user_★",
+        "updatedAt": "2026-01-01",
+        "unlockedSkills": [],
+        "pendingCombinations": [],
+        "stats": {"totalUnlocked": 0, "deepestLineage": 0},
+    }
+    save_tree("unicode_star", unicode_tree, registry_path=str(tmp_path))
+    result = load_tree("unicode_star", registry_path=str(tmp_path))
+    assert result is not None
+    assert result["userId"] == "unicode_user_★"
+

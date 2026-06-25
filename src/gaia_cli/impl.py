@@ -1939,7 +1939,7 @@ def fuse_command(args):
                 graph_data = {}
                 graph_p = registry_graph_path(registry_path)
                 if os.path.exists(graph_p):
-                    with open(graph_p, "r") as f:
+                    with open(graph_p, "r", encoding="utf-8") as f:
                         graph_data = json.load(f)
                 skill_info_map = {s["id"]: s for s in graph_data.get("skills", [])}
 
@@ -2351,7 +2351,7 @@ def push_command(args):
 
 
 def name_command(args):
-    with open(args.batch_file, "r") as f:
+    with open(args.batch_file, "r", encoding="utf-8") as f:
         batch = json.load(f)
 
     proposed_skills = batch.get("proposedSkills", [])
