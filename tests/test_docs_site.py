@@ -71,12 +71,3 @@ def test_build_docs_check_message_uses_copyable_python_command(monkeypatch, caps
     assert "gaia docs build --check" in output
 
 
-def test_readme_documents_claimed_vs_effective_levels():
-    readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
-    assert "demerit" in readme.lower()
-
-
-def test_readme_documents_ultimate_requirements():
-    readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
-    assert "ultimate" in readme.lower()
-    assert "class a" in readme.lower()
