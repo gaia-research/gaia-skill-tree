@@ -203,6 +203,22 @@ class TestHelp:
         assert "fetch" in subparser_choices, "fetch must be a registered subparser"
         assert "reset" in subparser_choices, "reset must be a registered subparser"
 
+    def test_parser_allow_downgrade_flags(self):
+        """fetch and pull subparsers must accept --allow-downgrade flag."""
+        import argparse
+        parser, _ = get_parser()
+        for action in parser._actions:
+            if isinstance(action, argparse._SubParsersAction):
+                fetch_sub = action.choices["fetch"]
+                pull_sub = action.choices["pull"]
+
+                # Check for --allow-downgrade in both
+                fetch_opts = [opt for sub in fetch_sub._actions for opt in sub.option_strings]
+                pull_opts = [opt for sub in pull_sub._actions for opt in sub.option_strings]
+
+                assert "--allow-downgrade" in fetch_opts, "--allow-downgrade must be in fetch options"
+                assert "--allow-downgrade" in pull_opts, "--allow-downgrade must be in pull options"
+
     def test_help_output_contains_common_commands(self, monkeypatch: pytest.MonkeyPatch, capsys):
         """--help output must mention at least the common visible commands."""
         with pytest.raises(SystemExit):
@@ -585,6 +601,26 @@ def _make_fake_release_tarball(project: Path) -> bytes:
     return buf.getvalue()
 
 
+def _make_tarball_with_version(project: Path, version: str) -> bytes:
+    import io
+    import tarfile as _tarfile
+
+    buf = io.BytesIO()
+    with _tarfile.open(fileobj=buf, mode="w:gz") as tar:
+        # registry/gaia.json
+        gaia_data = json.dumps({"version": version, "skills": []}).encode("utf-8")
+        info = _tarfile.TarInfo(name="registry/gaia.json")
+        info.size = len(gaia_data)
+        tar.addfile(info, io.BytesIO(gaia_data))
+        # registry/named-skills.json
+        named_data = json.dumps({"buckets": {}}).encode("utf-8")
+        info2 = _tarfile.TarInfo(name="registry/named-skills.json")
+        info2.size = len(named_data)
+        tar.addfile(info2, io.BytesIO(named_data))
+    return buf.getvalue()
+
+
+
 def _make_release_api_response(asset_url: str, checksum_url: str = "") -> bytes:
     """Return JSON bytes for the GitHub releases/latest API."""
     assets = [{"name": "gaia-artifacts.tar.gz", "browser_download_url": asset_url}]
@@ -678,6 +714,166 @@ class TestFetch:
 
         data = json.loads((project / ".gaia" / "registry" / "gaia.json").read_text(encoding="utf-8"))
         assert data["version"] == "fetched"
+
+    def test_fetch_downgrade_blocked(self, project: Path, monkeypatch: pytest.MonkeyPatch, capsys):
+        """Attempting to fetch an older registry version must block and exit with 1."""
+        # 1. Seed local registry with v2.0.0
+        local_dir = project / ".gaia" / "registry"
+        local_dir.mkdir(parents=True, exist_ok=True)
+        local_gaia = {
+            "version": "2.0.0",
+            "skills": []
+        }
+        (local_dir / "gaia.json").write_text(json.dumps(local_gaia), encoding="utf-8")
+
+        # 2. Build remote tarball with v1.0.0
+        tarball = _make_tarball_with_version(project, "1.0.0")
+        _patch_fetch_urlopen(monkeypatch, tarball)
+
+        # 3. Run fetch without --allow-downgrade -> should sys.exit(1)
+        with pytest.raises(SystemExit) as excinfo:
+            run_cli(monkeypatch, ["fetch"])
+        assert excinfo.value.code == 1
+
+        # Check stderr message
+        err = capsys.readouterr().err
+        assert "Error: Remote release v1.0.0 is older than local registry v2.0.0" in err
+
+        # Local version must remain 2.0.0
+        data = json.loads((local_dir / "gaia.json").read_text(encoding="utf-8"))
+        assert data["version"] == "2.0.0"
+
+    def test_fetch_downgrade_allowed(self, project: Path, monkeypatch: pytest.MonkeyPatch, capsys):
+        """With --allow-downgrade, fetching an older registry version warns and proceeds."""
+        # 1. Seed local registry with v2.0.0
+        local_dir = project / ".gaia" / "registry"
+        local_dir.mkdir(parents=True, exist_ok=True)
+        local_gaia = {
+            "version": "2.0.0",
+            "skills": []
+        }
+        (local_dir / "gaia.json").write_text(json.dumps(local_gaia), encoding="utf-8")
+
+        # 2. Build remote tarball with v1.0.0
+        tarball = _make_tarball_with_version(project, "1.0.0")
+        _patch_fetch_urlopen(monkeypatch, tarball)
+
+        # 3. Run fetch with --allow-downgrade -> should succeed
+        run_cli(monkeypatch, ["fetch", "--allow-downgrade"])
+
+        # Check stderr warning message
+        err = capsys.readouterr().err
+        assert "Warning: Downgrading registry from v2.0.0 to v1.0.0 (--allow-downgrade)" in err
+
+        # Local version must be updated to 1.0.0
+        data = json.loads((local_dir / "gaia.json").read_text(encoding="utf-8"))
+        assert data["version"] == "1.0.0"
+
+    def test_fetch_upgrade(self, project: Path, monkeypatch: pytest.MonkeyPatch):
+        """Fetching a newer registry version succeeds without requiring flags."""
+        # 1. Seed local registry with v1.0.0
+        local_dir = project / ".gaia" / "registry"
+        local_dir.mkdir(parents=True, exist_ok=True)
+        local_gaia = {
+            "version": "1.0.0",
+            "skills": []
+        }
+        (local_dir / "gaia.json").write_text(json.dumps(local_gaia), encoding="utf-8")
+
+        # 2. Build remote tarball with v2.0.0
+        tarball = _make_tarball_with_version(project, "2.0.0")
+        _patch_fetch_urlopen(monkeypatch, tarball)
+
+        # 3. Run fetch -> should succeed
+        run_cli(monkeypatch, ["fetch"])
+
+        # Local version must be updated to 2.0.0
+        data = json.loads((local_dir / "gaia.json").read_text(encoding="utf-8"))
+        assert data["version"] == "2.0.0"
+
+    def test_fetch_equal_version(self, project: Path, monkeypatch: pytest.MonkeyPatch):
+        """Fetching the same registry version succeeds without requiring flags."""
+        # 1. Seed local registry with v1.0.0
+        local_dir = project / ".gaia" / "registry"
+        local_dir.mkdir(parents=True, exist_ok=True)
+        local_gaia = {
+            "version": "1.0.0",
+            "skills": []
+        }
+        (local_dir / "gaia.json").write_text(json.dumps(local_gaia), encoding="utf-8")
+
+        # 2. Build remote tarball with v1.0.0
+        tarball = _make_tarball_with_version(project, "1.0.0")
+        _patch_fetch_urlopen(monkeypatch, tarball)
+
+        # 3. Run fetch -> should succeed
+        run_cli(monkeypatch, ["fetch"])
+
+        # Local version must remain 1.0.0
+        data = json.loads((local_dir / "gaia.json").read_text(encoding="utf-8"))
+        assert data["version"] == "1.0.0"
+
+    def test_fetch_malformed_local_registry(self, project: Path, monkeypatch: pytest.MonkeyPatch, capsys):
+        """If local registry gaia.json is malformed, fetch prints a warning and proceeds."""
+        # 1. Seed local registry with invalid JSON
+        local_dir = project / ".gaia" / "registry"
+        local_dir.mkdir(parents=True, exist_ok=True)
+        (local_dir / "gaia.json").write_text("invalid json!!!", encoding="utf-8")
+
+        # 2. Build remote tarball with v2.0.0
+        tarball = _make_tarball_with_version(project, "2.0.0")
+        _patch_fetch_urlopen(monkeypatch, tarball)
+
+        # 3. Run fetch -> should succeed
+        run_cli(monkeypatch, ["fetch"])
+
+        # Check warning output
+        err = capsys.readouterr().err
+        assert "Warning: Could not compare registry versions. Proceeding." in err
+
+        # Local version must be updated to 2.0.0
+        data = json.loads((local_dir / "gaia.json").read_text(encoding="utf-8"))
+        assert data["version"] == "2.0.0"
+
+    def test_fetch_malformed_remote_registry(self, project: Path, monkeypatch: pytest.MonkeyPatch, capsys):
+        """If remote registry gaia.json is malformed, fetch prints a warning and proceeds."""
+        # 1. Seed local registry with v1.0.0
+        local_dir = project / ".gaia" / "registry"
+        local_dir.mkdir(parents=True, exist_ok=True)
+        local_gaia = {
+            "version": "1.0.0",
+            "skills": []
+        }
+        (local_dir / "gaia.json").write_text(json.dumps(local_gaia), encoding="utf-8")
+
+        # 2. Build remote tarball with invalid JSON
+        import io
+        import tarfile as _tarfile
+        buf = io.BytesIO()
+        with _tarfile.open(fileobj=buf, mode="w:gz") as tar:
+            gaia_data = b"invalid json remote!!!"
+            info = _tarfile.TarInfo(name="registry/gaia.json")
+            info.size = len(gaia_data)
+            tar.addfile(info, io.BytesIO(gaia_data))
+            
+            named_data = json.dumps({"buckets": {}}).encode("utf-8")
+            info2 = _tarfile.TarInfo(name="registry/named-skills.json")
+            info2.size = len(named_data)
+            tar.addfile(info2, io.BytesIO(named_data))
+        tarball = buf.getvalue()
+
+        _patch_fetch_urlopen(monkeypatch, tarball)
+
+        # 3. Run fetch -> should succeed
+        run_cli(monkeypatch, ["fetch"])
+
+        # Check warning output
+        err = capsys.readouterr().err
+        assert "Warning: Could not compare registry versions. Proceeding." in err
+
+        # Local version must be overwritten with the remote invalid content
+        assert (local_dir / "gaia.json").read_text(encoding="utf-8") == "invalid json remote!!!"
+
 
 
 

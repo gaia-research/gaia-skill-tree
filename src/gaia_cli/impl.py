@@ -2726,6 +2726,13 @@ def skills_command(args):
         print(f"{display}{' ' * max(0, pad)}  {level_col:<5}  {type_col}{suffix}")
 
 
+def _parse_semver(v: str):
+    """Return (major, minor, patch) tuple or None."""
+    import re
+    m = re.match(r"^(\d+)\.(\d+)\.(\d+)", v)
+    return tuple(int(x) for x in m.groups()) if m else None
+
+
 def fetch_command(args):
     """Downloads the latest canonical registry from the GitHub Releases asset tarball."""
     import hashlib
@@ -2851,6 +2858,38 @@ def fetch_command(args):
             tar.extractall(path=Path(tmpdir) / "unpacked", members=members_to_extract, filter="data")
 
         unpacked_registry = Path(tmpdir) / "unpacked" / "registry"
+
+        # ── Version-downgrade guard ──────────────────────────────────────
+        # Compare the unpacked remote version against the existing local version.
+        # Block if remote is strictly older, unless --allow-downgrade is set.
+        local_gaia_json = registry_dir / "gaia.json"
+        remote_gaia_json = unpacked_registry / "gaia.json"
+
+        if local_gaia_json.exists() and remote_gaia_json.exists():
+            try:
+                local_ver_str = _json.loads(local_gaia_json.read_text(encoding="utf-8")).get("version", "")
+                remote_ver_str = _json.loads(remote_gaia_json.read_text(encoding="utf-8")).get("version", "")
+                local_ver = _parse_semver(local_ver_str)
+                remote_ver = _parse_semver(remote_ver_str)
+
+                if local_ver and remote_ver and remote_ver < local_ver:
+                    if not getattr(args, "allow_downgrade", False):
+                        print(
+                            f"Error: Remote release v{remote_ver_str} is older than "
+                            f"local registry v{local_ver_str}.\n"
+                            f"Run with --allow-downgrade to overwrite anyway.",
+                            file=sys.stderr,
+                        )
+                        sys.exit(1)
+                    else:
+                        print(
+                            f"Warning: Downgrading registry from v{local_ver_str} "
+                            f"to v{remote_ver_str} (--allow-downgrade).",
+                            file=sys.stderr,
+                        )
+            except (OSError, _json.JSONDecodeError, KeyError):
+                # Malformed version data — warn but don't block
+                print("Warning: Could not compare registry versions. Proceeding.", file=sys.stderr)
 
         # gaia.json
         src_gaia = unpacked_registry / "gaia.json"
@@ -3168,10 +3207,20 @@ def get_parser():
         action="store_true",
         help="Scan globally installed skills in addition to the local repository",
     )
-    subparsers.add_parser(
+    fetch_parser = subparsers.add_parser(
         "fetch", help="Download the latest canonical registry files to .gaia/registry"
     )
-    subparsers.add_parser("pull", help="Fetch registry data and run a full scan")
+    fetch_parser.add_argument(
+        "--allow-downgrade",
+        action="store_true",
+        help="Allow overwriting local registry with an older remote version",
+    )
+    pull_parser = subparsers.add_parser("pull", help="Fetch registry data and run a full scan")
+    pull_parser.add_argument(
+        "--allow-downgrade",
+        action="store_true",
+        help="Allow overwriting local registry with an older remote version",
+    )
     subparsers.add_parser("update", help="Update Gaia CLI and registry")
 
     install_parser = subparsers.add_parser("install", help="Install a named skill")
