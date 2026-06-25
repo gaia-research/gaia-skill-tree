@@ -37,7 +37,7 @@ def find_awakened_skill(batch_path, skill_id):
     ValueError
         If no proposed skill with ``skill_id`` is found in the batch.
     """
-    with open(batch_path, "r") as f:
+    with open(batch_path, "r", encoding="utf-8") as f:
         batch = json.load(f)
 
     for skill in batch.get("proposedSkills", []):
@@ -138,7 +138,7 @@ def update_batch_lifecycle(batch_path, skill_id, new_status):
     ValueError
         If no proposed skill with ``skill_id`` is found in the batch.
     """
-    with open(batch_path, "r") as f:
+    with open(batch_path, "r", encoding="utf-8") as f:
         batch = json.load(f)
 
     found = False
@@ -153,6 +153,6 @@ def update_batch_lifecycle(batch_path, skill_id, new_status):
             f"No proposed skill with id '{skill_id}' found in {batch_path}"
         )
 
-    with open(batch_path, "w") as f:
+    with open(batch_path, "w", encoding="utf-8") as f:
         json.dump(batch, f, indent=2)
         f.write("\n")

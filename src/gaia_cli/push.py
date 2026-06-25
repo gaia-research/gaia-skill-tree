@@ -246,7 +246,7 @@ def write_skill_batch(batch, registry_root):
     intake_dir = skill_batches_dir(registry_root)
     os.makedirs(intake_dir, exist_ok=True)
     batch_path = os.path.join(intake_dir, f"{batch['batchId']}.json")
-    with open(batch_path, "w") as f:
+    with open(batch_path, "w", encoding="utf-8") as f:
         json.dump(batch, f, indent=2)
         f.write("\n")
     return batch_path
