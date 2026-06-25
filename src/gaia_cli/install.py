@@ -63,7 +63,7 @@ def load_manifest():
     path = get_manifest_path()
     if os.path.exists(path):
         try:
-            with open(path, "r") as f:
+            with open(path, "r", encoding="utf-8") as f:
                 return json.load(f)
         except Exception:
             pass
@@ -73,7 +73,7 @@ def load_manifest():
 def save_manifest(manifest):
     path = get_manifest_path()
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w") as f:
+    with open(path, "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=2)
 
 
