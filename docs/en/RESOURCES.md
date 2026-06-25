@@ -3,7 +3,7 @@
 ## Knowledge
 
 - [Developer Guide (DEV.md)](file:///Users/marcotiongson/documents/gaia-skill-tree/DEV.md)
-  Guides local environment setup, virtual environment activation, and local verification commands (`gaia validate`, `pytest`).
+  Guides local environment setup, virtual environment activation, and local verification commands (`gaia dev validate`, `pytest`).
 - [Contributor Guide (CONTRIBUTING.md)](file:///Users/marcotiongson/documents/gaia-skill-tree/CONTRIBUTING.md)
   Defines the workflows (`gaia push` and direct CLI shifts), validation rules, and PR formatting policies.
 - [Registry Metadata Reference (META.md)](file:///Users/marcotiongson/documents/gaia-skill-tree/META.md)

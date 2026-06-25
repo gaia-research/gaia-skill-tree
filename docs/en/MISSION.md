@@ -7,7 +7,7 @@ Help a first-time developer successfully create, format, validate, and submit a 
 - Local environment initialized and configured using the Gaia virtual environment (`.venv`).
 - Familiarity with the structure of a skill node (JSON metadata) and named skills vs. generic skills.
 - Knowledge of key validation rules (e.g., repository links format, installation docs, prerequisites).
-- Successful running of local validation (`gaia validate` and/or `validate_intake.py`).
+- Successful running of local validation (`gaia dev validate` and/or `validate_intake.py`).
 - Opening a pull request proposing the new skill.
 
 ## Constraints
