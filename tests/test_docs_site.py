@@ -68,6 +68,6 @@ def test_build_docs_check_message_uses_copyable_python_command(monkeypatch, caps
     assert build_docs.main(["--check"]) == 1
 
     output = capsys.readouterr().out
-    assert "gaia docs build --check" in output
+    assert "gaia dev docs --check" in output
 
 

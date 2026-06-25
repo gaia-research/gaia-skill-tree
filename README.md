@@ -296,9 +296,9 @@ Utilities:
   gaia logout                   Sign out of GitHub (clears the local token)
   gaia version
   gaia update
-  gaia mcp
-  gaia release <patch|minor|major>
-  gaia docs build [--check]
+  gaia dev mcp
+  gaia dev release <patch|minor|major>
+  gaia dev docs [--check]
 
 Maintainer commands:  gaia dev --help
 

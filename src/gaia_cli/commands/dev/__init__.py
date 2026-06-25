@@ -78,8 +78,8 @@ Read-only (no Verifier required):
   gaia dev list
   gaia dev audit <skill_id>
   gaia dev diff [ref]
-  gaia validate [--intake] [--meta-sync]
-  gaia test <suite>
+  gaia dev validate [--intake] [--meta-sync]
+  gaia dev test <suite>
 """
 
 class DevCommand(Command):
