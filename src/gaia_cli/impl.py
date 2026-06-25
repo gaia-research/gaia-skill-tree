@@ -179,9 +179,9 @@ Utilities:
   {_fg(*COLOR_GREY)}gaia logout{_reset()}                   Sign out of GitHub (clears the local token)
   {_fg(*C1)}gaia version{_reset()}
   {_fg(*C3)}gaia update{_reset()}
-  {_fg(*HARNESS_COLORS["claude"])}gaia mcp{_reset()}
-  {_fg(*COLOR_GREY)}gaia release{_reset()} <patch|minor|major>
-  {_fg(*COLOR_GREY)}gaia docs build{_reset()} [--check]
+  {_fg(*HARNESS_COLORS["claude"])}gaia dev mcp{_reset()}
+  {_fg(*COLOR_GREY)}gaia dev release{_reset()} <patch|minor|major>
+  {_fg(*COLOR_GREY)}gaia dev docs{_reset()} [--check]
 
 Maintainer commands:  {_fg(*COLOR_GREY)}gaia dev --help{_reset()}
 """
@@ -220,8 +220,8 @@ Read-only (no Verifier required):
   gaia dev list
   gaia dev audit <skill_id>
   gaia dev diff [ref]
-  gaia validate [--intake] [--meta-sync]
-  gaia test <suite>
+  gaia dev validate [--intake] [--meta-sync]
+  gaia dev test <suite>
 """
 
 PUBLIC_COMMANDS = (
