@@ -145,3 +145,27 @@ def test_prenamed_contributor_handles_max_rank_wins(gb):
         ],
     })
     assert mod.prenamed_contributor_handles() == set()
+
+
+# ── text_width() ─────────────────────────────────────────────────────────────
+
+def test_text_width_uses_measured_widths():
+    """Verify that text_width uses the updated CHAR_WIDTH dictionary and handles
+    uppercase/lowercase defaults correctly, ensuring wide characters like 'm'
+    and 'w' are estimated with realistic/larger widths."""
+    mod = _load()
+    # 'm' should be 12px (previously fell back to DEFAULT_LOWER=6)
+    assert mod.text_width("m") == 12
+    # 'w' should be 11px (previously fell back to DEFAULT_LOWER=6)
+    assert mod.text_width("w") == 11
+    # 'M' should be 11px (previously fell back to DEFAULT_UPPER=8)
+    assert mod.text_width("M") == 11
+    # 'W' should be 13px (previously fell back to DEFAULT_UPPER=8)
+    assert mod.text_width("W") == 13
+
+    # Check fallback defaults for unknown/non-ASCII characters
+    # Cyrillic character should fall back to DEFAULT_LOWER=8 (previously 6)
+    assert mod.text_width("я") == 8
+    # Cyrillic uppercase should fall back to DEFAULT_UPPER=10 (previously 8)
+    assert mod.text_width("Я") == 10
+
