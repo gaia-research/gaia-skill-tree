@@ -2,6 +2,56 @@
 
 ---
 
+## 2026-06-25 — Routine 011
+
+**Branch:** `docs/routines/011`
+**Task chosen:** Version bump to v5.1.3, dev command namespace migration in docs, and GitHub issue curation.
+
+### Trigger
+
+Recent release version bump to v5.1.3 and modernization under Epic #780.
+
+### What I did
+
+1. **Updated version references**: Bumped version strings from `v5.0.3` / `v5.0.7` to `v5.1.3` across all 12 English documentation HTML files.
+2. **Migrated CLI namespaces**: Updated stale command references in the English docs (`docs/en/`) from deprecated forms (like `gaia validate` and `gaia docs build`) to modern `gaia dev` forms (like `gaia dev validate` and `gaia dev docs`).
+3. **Closed Issue #141**: Verified that JSON configurations had already been removed from `README.md` and root `index.html` to keep only the one-liner install command.
+4. **Updated MEMORY.md**: Added this diary entry for Routine 011.
+
+### Design decisions
+
+- Standardized mount script versions (`?v=5.1.3`) along with structural document versions to guarantee consistent asset loading across pages.
+
+### Issues informed
+
+- Resolves #141
+
+### Files created / modified
+
+- `docs/en/MEMORY.md` (modified)
+- `docs/en/cli-reference.html` (modified)
+- `docs/en/contributing.html` (modified)
+- `docs/en/evidence-classes.html` (modified)
+- `docs/en/faq.html` (modified)
+- `docs/en/fusion.html` (modified)
+- `docs/en/getting-started.html` (modified)
+- `docs/en/index.html` (modified)
+- `docs/en/mcp-server.html` (modified)
+- `docs/en/named-skills.html` (modified)
+- `docs/en/share-bundles.html` (modified)
+- `docs/en/skill-hierarchy.html` (modified)
+- `docs/en/timeline-audit.html` (modified)
+- `docs/en/MISSION.md` (modified)
+- `docs/en/NOTES.md` (modified)
+- `docs/en/RESOURCES.md` (modified)
+
+### Planned next (Routine 012)
+
+- Research: Search for any remaining undocumented `gaia dev` commands or deprecated CLI options.
+- Maintain: Audit the documentation structure for mobile layouts and verify asset load times.
+
+---
+
 ## 2026-06-20 — Routine 010
 
 **Branch:** `documentation`
@@ -9,12 +59,12 @@
 
 ### Trigger
 
-User request / maintainer request to update version numbers to align with the release of v5.0.3.
+User request / maintainer request to update version numbers to align with the release of v5.1.3.
 
 ### What I did
 
 1. **Updated 12 HTML files in `docs/en/`**:
-   - Replaced old version references (e.g., `v4.7.12`, `v4.7.7`, `v4.7.6`, `v4.7.1`, `v4.7.0`, `v4.6.0`) with `v5.0.3` / `5.0.3`.
+   - Replaced old version references (e.g., `v4.7.12`, `v4.7.7`, `v4.7.6`, `v4.7.1`, `v4.7.0`, `v4.6.0`) with `v5.1.3` / `5.1.3`.
    - Updated files: `cli-reference.html`, `contributing.html`, `evidence-classes.html`, `faq.html`, `fusion.html`, `getting-started.html`, `index.html`, `mcp-server.html`, `named-skills.html`, `share-bundles.html`, `skill-hierarchy.html`, and `timeline-audit.html`.
 2. **Updated `docs/en/MEMORY.md`**:
    - Logged this entry as Routine 010.
@@ -100,7 +150,7 @@ this is a common contributor pain point.
      stage only skill-tree → commit), "never commit generated artifact churn" danger callout
    - Common drift causes: three cause cards (Star-Bar reset, reclassification, evidence rot)
      with git grep hints per cause
-   - CI enforcement: Transparency Gate in release CI, `gaia validate` three-check suite,
+   - CI enforcement: Transparency Gate in release CI, `gaia dev validate` three-check suite,
      bot actor allowlist in meta-guard.yml, `GAIA_OPERATOR_OVERRIDE=1` automation tip
 
 2. **Updated `docs/en/index.html`**:
@@ -165,7 +215,7 @@ this is a common contributor pain point.
 
 PR #671 confirmed merged (routines 005–006). Created `docs/routines/006` from `origin/main`.
 Planned task from Routine 006 session: audit cli-reference.html against current CLI shape —
-`gaia share`, `gaia install <bundle>`, and `gaia validate` were all missing from the page,
+`gaia share`, `gaia install <bundle>`, and `gaia dev validate` were all missing from the page,
 and the version string was stale (v4.6.0, current is v4.7.7).
 
 ### What I did
@@ -174,7 +224,7 @@ and the version string was stale (v4.6.0, current is v4.7.7).
    - Bumped nav version chip and footer: v4.6.0 → v4.7.7.
    - Added new **Sharing** sidebar group with `share` and `install` links.
    - Added `validate` link to the System sidebar group.
-   - Added `gaia validate` command card (System section): three-check validation suite —
+   - Added `gaia dev validate` command card (System section): three-check validation suite —
      canonical graph validator, redaction gate, Transparency Gate. Flags: `--intake`, `--meta-sync`.
      Includes a "Used in release CI" callout.
    - Added new **Sharing** section (between System and Registry dev) with:
@@ -188,7 +238,7 @@ and the version string was stale (v4.6.0, current is v4.7.7).
 
 2. **Updated `docs/en/index.html`**:
    - What's New banner: v4.7.6 → v4.7.7, content updated to document the three new CLI reference
-     additions (`gaia share`, `gaia install <bundle>`, `gaia validate`). Link updated to
+     additions (`gaia share`, `gaia install <bundle>`, `gaia dev validate`). Link updated to
      `cli-reference.html#sharing`.
    - Nav version chip and footer: v4.7.6 → v4.7.7.
 
@@ -201,7 +251,7 @@ and the version string was stale (v4.6.0, current is v4.7.7).
   by name, but the user-visible rule is spelled out (`.json` file path or `https://` URL =
   bundle mode; everything else = named skill mode). Avoids surprising users who try
   `gaia install karpathy/web-search` and expect the bundle flow.
-- `gaia validate` is categorized under System (read-safe, open-gated) even though it touches
+- `gaia dev validate` is categorized under System (read-safe, open-gated) even though it touches
   registry files on read — it mutates nothing and exits non-zero if checks fail, which is
   exactly the CI contract.
 - Sharing section placed between System and Registry dev to signal that sharing is a
