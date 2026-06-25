@@ -598,7 +598,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">Named Skills</span>
     <span class="nav-spacer"></span>
-    <span class="nav-version">v5.0.3</span>
+    <span class="nav-version">v5.1.3</span>
   </nav>
 
   <!-- Layout -->
@@ -878,7 +878,7 @@ gaia dev verify skill-id 0   <span class="c"># index of the evidence entry</span
           <li style="display:flex;gap:0.6rem;align-items:flex-start;"><span style="color:#34d399;flex-shrink:0;">✓</span> A <code>SKILL.md</code> file in a public GitHub repository (minimum Class C evidence)</li>
           <li style="display:flex;gap:0.6rem;align-items:flex-start;"><span style="color:#34d399;flex-shrink:0;">✓</span> A <code>links.github</code> URL using the <code>blob/branch/subpath</code> format — never <code>tree/</code></li>
           <li style="display:flex;gap:0.6rem;align-items:flex-start;"><span style="color:#34d399;flex-shrink:0;">✓</span> A <code>review/meta/</code> branch (schema changes require <code>schema/</code>)</li>
-          <li style="display:flex;gap:0.6rem;align-items:flex-start;"><span style="color:#34d399;flex-shrink:0;">✓</span> <code>gaia validate</code> passing with no errors</li>
+          <li style="display:flex;gap:0.6rem;align-items:flex-start;"><span style="color:#34d399;flex-shrink:0;">✓</span> <code>gaia dev validate</code> passing with no errors</li>
         </ul>
 
         <h3>Step-by-step</h3>
@@ -910,7 +910,7 @@ python3 scripts/generateNamedIndex.py
 
 <span class="c"># 6. Final build + validate</span>
 gaia dev build
-gaia validate
+gaia dev validate
 
 <span class="c"># 7. Commit and push</span>
 git add registry/named/karpathy/ registry/named-skills.json
@@ -1007,7 +1007,7 @@ links:
       </section>
 
       <footer class="page-footer">
-        <span>Gaia v5.0.3 — <a href="https://github.com/mbtiongson1/gaia-skill-tree">mbtiongson1/gaia-skill-tree</a></span>
+        <span>Gaia v5.1.3 — <a href="https://github.com/mbtiongson1/gaia-skill-tree">mbtiongson1/gaia-skill-tree</a></span>
         <a href="index.html">← Back to Docs</a>
       </footer>
     </main>

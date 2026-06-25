@@ -467,7 +467,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">Contributing</span>
     <span class="nav-spacer"></span>
-    <span class="nav-version">v5.0.3</span>
+    <span class="nav-version">v5.1.3</span>
   </nav>
 
   <!-- Layout -->
@@ -528,7 +528,7 @@
           <div class="path-card">
             <div class="path-label">Path C</div>
             <div class="path-name">Direct CLI meta shifts</div>
-            <div class="path-desc">One-off corrections — single merge, split, reclassify, or evidence add. Requires Verifier authorization. Run <code>gaia validate</code> after every change.</div>
+            <div class="path-desc">One-off corrections — single merge, split, reclassify, or evidence add. Requires Verifier authorization. Run <code>gaia dev validate</code> after every change.</div>
             <div class="path-cmd">gaia dev merge / split / add</div>
           </div>
         </div>
@@ -566,7 +566,7 @@ python3 scripts/validate_intake.py</pre>
       <section class="section" id="path-b">
         <h2 class="section-title">Path B — <code>/gaia-curate-chain</code></h2>
         <div class="section-body">
-          <p>The recommended path for maintainer-run registry expansion. Runs as six gated links with one sub-agent per link. A programmatic check runs between each link — schema shapes and the prerequisite DAG are verified before any mutation touches the registry, and <code>gaia validate</code> must pass before the branch ships.</p>
+          <p>The recommended path for maintainer-run registry expansion. Runs as six gated links with one sub-agent per link. A programmatic check runs between each link — schema shapes and the prerequisite DAG are verified before any mutation touches the registry, and <code>gaia dev validate</code> must pass before the branch ships.</p>
         </div>
 
         <div class="code-fence">
@@ -581,7 +581,7 @@ python3 scripts/validate_intake.py</pre>
           <li><strong>Design</strong> — shape the skill graph: IDs, prerequisites, tier assignment, evidence class.</li>
           <li><strong>Human review</strong> — gated pause for maintainer sign-off before mutations begin.</li>
           <li><strong>Mutate</strong> — run <code>gaia dev add</code> / <code>evidence</code> / <code>link</code> commands to write to the registry.</li>
-          <li><strong>Ship</strong> — run <code>gaia validate</code>, open the PR, verify CI.</li>
+          <li><strong>Ship</strong> — run <code>gaia dev validate</code>, open the PR, verify CI.</li>
         </ol>
 
         <div class="callout info">
@@ -624,7 +624,7 @@ gaia dev calibrate skill-id "3★"
 gaia dev link target-id prereq-id-1,prereq-id-2
 
 <span class="c"># Validate after any change</span>
-gaia validate</pre>
+gaia dev validate</pre>
         </div>
 
         <div class="callout tip">
@@ -740,7 +740,7 @@ gaia validate</pre>
         <ul class="checklist">
           <li>Correct branch prefix for scope (see Branch naming above)</li>
           <li>Only source-of-truth files edited — no hand-edits to generated artifacts</li>
-          <li><code>gaia validate</code> passes with no errors</li>
+          <li><code>gaia dev validate</code> passes with no errors</li>
           <li>Evidence meets the level / type requirements for the proposed star rating</li>
           <li>PR title format: <code>[type] skill-name — short description</code></li>
           <li>Timeline events written for any rank change (demotion / promotion)</li>
@@ -778,8 +778,8 @@ gaia validate</pre>
 
         <div class="code-fence">
           <div class="code-fence-label">bash</div>
-          <pre>gaia validate            <span class="c"># full validation pass</span>
-gaia validate --intake   <span class="c"># validate intake batch too</span></pre>
+          <pre>gaia dev validate            <span class="c"># full validation pass</span>
+gaia dev validate --intake   <span class="c"># validate intake batch too</span></pre>
         </div>
 
         <h3>Transparency Gate</h3>
@@ -825,7 +825,7 @@ gaia validate --intake   <span class="c"># validate intake batch too</span></pre
       </section>
 
       <footer class="page-footer">
-        <span>Gaia v5.0.3 — <a href="https://github.com/mbtiongson1/gaia-skill-tree">mbtiongson1/gaia-skill-tree</a></span>
+        <span>Gaia v5.1.3 — <a href="https://github.com/mbtiongson1/gaia-skill-tree">mbtiongson1/gaia-skill-tree</a></span>
         <a href="index.html">← Back to Docs</a>
       </footer>
     </main>

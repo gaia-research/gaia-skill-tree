@@ -431,7 +431,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">Timeline Audit</span>
     <div class="nav-spacer"></div>
-    <span class="nav-version">v5.0.3</span>
+    <span class="nav-version">v5.1.3</span>
   </nav>
 
   <div class="page-layout">
@@ -791,7 +791,7 @@ git log --oneline --all | grep -iE "demot|star-bar|calibrat|reclassif"</pre>
         <h2>Known CLI gaps</h2>
         <div class="section-body">
           <p>
-            Several gaps exist in <code>gaia dev timeline</code> as of v5.0.3.
+            Several gaps exist in <code>gaia dev timeline</code> as of v5.1.3.
             Do not silently work around them with hand-edits; flag any gap-forced edit in
             the PR description and include a <code>"(direct edit — CLI gap)"</code> marker in
             the event's <code>details</code> string.
@@ -853,7 +853,7 @@ git log --oneline --all | grep -iE "demot|star-bar|calibrat|reclassif"</pre>
         <div class="code-block">
           <div class="code-block-header"><span class="code-block-label">shell</span></div>
           <pre><span class="c"># 1. Regenerate profiles and rank charts</span>
-<span class="cmd">GAIA_OPERATOR_OVERRIDE=1 gaia docs build</span>
+<span class="cmd">GAIA_OPERATOR_OVERRIDE=1 gaia dev docs</span>
 
 <span class="c"># 2. Re-run the Transparency Gate — must print ✓</span>
 <span class="cmd">python scripts/validate_timelines.py</span>
@@ -869,7 +869,7 @@ git log --oneline --all | grep -iE "demot|star-bar|calibrat|reclassif"</pre>
         <div class="callout callout-danger">
           <span class="callout-label">🚫 Never commit generated artifact churn</span>
           <p>
-            <code>gaia docs build</code> regenerates <code>registry/gaia.json</code>,
+            <code>gaia dev docs</code> regenerates <code>registry/gaia.json</code>,
             <code>docs/graph/gaia.json</code>, <code>registry/gaia.gexf</code>, and
             <code>docs/css/tokens.css</code> with fresh timestamps. These are build artifacts —
             always <code>git checkout</code> them before staging. Only commit the
@@ -930,7 +930,7 @@ git log --oneline --all | grep -iE "demot|star-bar|calibrat|reclassif"</pre>
         <div class="section-body">
           <p>
             The Transparency Gate runs as part of the release validation suite triggered by
-            <code>gaia validate</code> and in release CI. PRs that mutate
+            <code>gaia dev validate</code> and in release CI. PRs that mutate
             <code>skill-trees/</code> files are checked against the gate automatically via
             <code>.github/workflows/validate.yml</code>.
           </p>
@@ -938,7 +938,7 @@ git log --oneline --all | grep -iE "demot|star-bar|calibrat|reclassif"</pre>
 
         <div class="code-block">
           <div class="code-block-header"><span class="code-block-label">running all three validation checks locally</span></div>
-          <pre><span class="cmd">gaia validate</span>
+          <pre><span class="cmd">gaia dev validate</span>
 <span class="c"># → canonical graph validator</span>
 <span class="c"># → redaction gate</span>
 <span class="c"># → Transparency Gate (validate_timelines.py)</span>
@@ -1018,7 +1018,7 @@ git log --oneline --all | grep -iE "demot|star-bar|calibrat|reclassif"</pre>
     <div class="footer-bottom">
       <span>MIT License</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
-      <span>v5.0.3</span>
+      <span>v5.1.3</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
       <span>© 2026 Gaia</span>
     </div>
