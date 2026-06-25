@@ -150,7 +150,7 @@ This is the evidence grade at the Skill level.
 **1. CLI
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `5.4.6`.
+Current Gaia CLI version: `5.4.7`.
 
 ```bash
 curl -fsSL https://gaia.tiongson.co/install.sh | sh
