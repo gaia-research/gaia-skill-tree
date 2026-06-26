@@ -6,3 +6,6 @@
 docs/graph/*.json -diff linguist-generated=true
 docs/graph/*.gexf -diff linguist-generated=true
 docs/graph/*.svg  -diff linguist-generated=true
+
+# API projection — generated JSON, collapse in PR diffs
+docs/api/v1/**/*.json linguist-generated=true

@@ -1,0 +1,120 @@
+{
+  "id": "martin-stepanoski/nielsen-heuristics-audit",
+  "name": "Nielsen Heuristics Audit",
+  "contributor": "martin-stepanoski",
+  "level": "3★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 94.9,
+  "overallTrustGrade": "B",
+  "_links": {
+    "self": "/api/v1/skills/martin-stepanoski/nielsen-heuristics-audit.json",
+    "contributor": "/api/v1/contributors/martin-stepanoski.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Ten Laws of Sight",
+  "genericSkillRef": "ux-audit",
+  "origin": false,
+  "description": "Audits a UI interface against Jakob Nielsen's 10 usability heuristics step-by-step, scoring each heuristic, surfacing violations, and producing a prioritized remediation report.",
+  "tags": [
+    "ux",
+    "usability",
+    "nielsen",
+    "heuristics",
+    "accessibility"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": true,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "Martin Stepanoski @mastepanoski/claude-skills -- /nielsen-heuristics-audit\" audits UI against Nielsen 10 usability heuristics step-by-step. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "commits": 32,
+      "contributors": 2
+    },
+    {
+      "source": "https://www.nngroup.com/articles/ten-usability-heuristics/",
+      "evaluator": "unknown",
+      "date": "2026-06-20",
+      "type": "peer-review",
+      "trustNumber": 80.0,
+      "grade": "S",
+      "notes": "NNGroup — Nielsen's 10 Usability Heuristics; foundational UX evaluation framework (original 1994 publication by Jakob Nielsen); this skill implements the canonical heuristic audit methodology",
+      "reviewers": 3,
+      "sourceStartedAt": "1995-01-01"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-02T01:42:59Z",
+      "action": "demote",
+      "contributor": "unknown",
+      "details": "Origin status removed. Transferred to pbakaus/impeccable."
+    },
+    {
+      "timestamp": "2026-06-14T12:32:42Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:18Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T11:52:12Z",
+      "details": "TM 0.0 -> 4.9, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:38Z",
+      "details": "TM 0.0 -> 4.9, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:40Z",
+      "details": "TM 0.0 -> 4.9, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-19T17:09:30Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://www.nngroup.com/articles/ten-usability-heuristics/ (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-06-19T17:09:31Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://www.nngroup.com/articles/ten-usability-heuristics/ as A (trustNumber: 80.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T17:13:03Z",
+      "details": "TM 4.9 -> 94.9, grade ungraded -> B (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:30Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+    }
+  ],
+  "links": {
+    "github": "https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md"
+  }
+}

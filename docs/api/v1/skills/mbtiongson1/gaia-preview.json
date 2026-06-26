@@ -1,0 +1,91 @@
+{
+  "id": "mbtiongson1/gaia-preview",
+  "name": "Gaia Preview",
+  "contributor": "mbtiongson1",
+  "level": "2★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 36.0,
+  "overallTrustGrade": "C",
+  "_links": {
+    "self": "/api/v1/skills/mbtiongson1/gaia-preview.json",
+    "contributor": "/api/v1/contributors/mbtiongson1.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Change Previewer",
+  "genericSkillRef": "deployment-automation",
+  "origin": false,
+  "description": "Generates a preview render of proposed registry changes — showing how new or modified skill entries will appear on the profile page and in the skill graph before the PR is merged.",
+  "tags": [
+    "registry-curation",
+    "preview",
+    "staging"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-10",
+      "notes": "Project-local agent skill driving branch preview deploys via sync-artifacts.yml; implementation public at SKILL.md. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
+      "type": "repo",
+      "commits": 90,
+      "contributors": 10,
+      "trustNumber": 70.0,
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-26T16:37:01Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill mbtiongson1/gaia-preview"
+    },
+    {
+      "timestamp": "2026-06-10T05:38:17Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md"
+    },
+    {
+      "timestamp": "2026-06-14T12:32:45Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:19Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T10:36:26Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:38Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:42Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md"
+  }
+}

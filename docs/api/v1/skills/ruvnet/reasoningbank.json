@@ -1,0 +1,167 @@
+{
+  "id": "ruvnet/reasoningbank",
+  "name": "ReasoningBank",
+  "contributor": "ruvnet",
+  "level": "4★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 118.5,
+  "overallTrustGrade": "A",
+  "_links": {
+    "self": "/api/v1/skills/ruvnet/reasoningbank.json",
+    "contributor": "/api/v1/contributors/ruvnet.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Pattern Sage",
+  "genericSkillRef": "reasoning-pattern-bank",
+  "origin": true,
+  "description": "Fuses adaptive pattern learning with persistent vector memory to build a self-improving agent knowledge base across sessions.",
+  "tags": [
+    "reasoningbank",
+    "pattern-learning",
+    "memory-integration",
+    "self-improvement"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/ruvnet/ruflo",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-19",
+      "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "commits": 6899,
+      "contributors": 32,
+      "grade": "B"
+    },
+    {
+      "source": "https://github.com/ruvnet/ruflo/issues/2410",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "Dream cycle research issue documenting ReasoningBank performance gaps vs OPD-Evolver (11.5% improvement) and proposing bi-temporal indexing improvements via ADR-161.",
+      "grade": "C"
+    },
+    {
+      "source": "https://github.com/ruvnet/ruflo/issues/928",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "Direct user feedback on reasoningbank-intelligence skill implementation and usage.",
+      "grade": "C"
+    },
+    {
+      "source": "https://github.com/ruvnet/ruflo/issues/914",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "Production issue with ReasoningBank backend initialization and database migrations."
+    },
+    {
+      "source": "https://github.com/ruvnet/ruflo/issues/812",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "Bug showing MCP memory tools bypass ReasoningBank semantic search capabilities despite initialization."
+    },
+    {
+      "source": "https://github.com/ruvnet/ruflo/issues/801",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "User praise for ReasoningBank semantic search performance in v2.7.0-alpha.10 release."
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-14T12:32:58Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:20Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T11:52:12Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-19T12:49:58Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/ruvnet/ruflo/issues/2410 (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-06-19T12:50:15Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/ruvnet/ruflo/issues/928 (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-06-19T12:50:32Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/ruvnet/ruflo/issues/914 (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-06-19T12:50:49Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/ruvnet/ruflo/issues/812 (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-06-19T12:51:07Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/ruvnet/ruflo/issues/801 (type: peer-review)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T12:53:51Z",
+      "details": "TM 36.0 -> 88.5, grade C -> B (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:39Z",
+      "details": "TM 0.0 -> 88.5, grade ungraded -> B (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:44Z",
+      "details": "TM 0.0 -> 118.5, grade ungraded -> A (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:36Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Level updated from 3★ to 4★ per G7 final rankings calibration."
+    }
+  ],
+  "links": {
+    "github": "https://github.com/ruvnet/ruflo"
+  },
+  "suiteComponents": [
+    "ruvnet/reasoningbank-agentdb",
+    "ruvnet/reasoningbank-intelligence"
+  ]
+}

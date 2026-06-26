@@ -1,0 +1,87 @@
+{
+  "id": "ruvnet/pair-programming",
+  "name": "Pair Programming",
+  "contributor": "ruvnet",
+  "level": "2★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 36.0,
+  "overallTrustGrade": "C",
+  "_links": {
+    "self": "/api/v1/skills/ruvnet/pair-programming.json",
+    "contributor": "/api/v1/contributors/ruvnet.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Coding Companion",
+  "genericSkillRef": "subagent-driven-development",
+  "origin": false,
+  "description": "Structures collaborative coding sessions between a primary implementation agent and a review subagent with continuous feedback loops.",
+  "tags": [
+    "pair-programming",
+    "subagent",
+    "code-review",
+    "collaborative",
+    "feedback-loops"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/ruvnet/ruflo",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-10",
+      "notes": "Part of the Ruflo orchestration platform (public repo); two-agent implement/review pattern documented in the suite. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "commits": 6899,
+      "contributors": 32,
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-10T05:38:18Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/ruvnet/ruflo"
+    },
+    {
+      "timestamp": "2026-06-14T12:32:57Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:20Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T11:07:58Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:39Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:44Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/ruvnet/ruflo"
+  }
+}

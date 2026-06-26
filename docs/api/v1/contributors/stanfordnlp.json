@@ -1,0 +1,31 @@
+{
+  "handle": "stanfordnlp",
+  "namedSkills": [
+    {
+      "id": "stanfordnlp/dspy",
+      "name": "DSPy",
+      "level": "4★",
+      "trustMagnitude": 100.0,
+      "overallTrustGrade": "A",
+      "contributor": "stanfordnlp",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/stanfordnlp/dspy.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "stanfordnlp/dspy",
+    "level": "4★",
+    "trustMagnitude": 100.0
+  },
+  "prestigeScore": 100.0,
+  "gradeDistribution": {
+    "A": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/stanfordnlp.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

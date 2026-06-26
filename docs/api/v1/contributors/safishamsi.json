@@ -1,0 +1,31 @@
+{
+  "handle": "safishamsi",
+  "namedSkills": [
+    {
+      "id": "safishamsi/graphify",
+      "name": "Graphify",
+      "level": "4★",
+      "trustMagnitude": 116.57,
+      "overallTrustGrade": "A",
+      "contributor": "safishamsi",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/safishamsi/graphify.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "safishamsi/graphify",
+    "level": "4★",
+    "trustMagnitude": 116.57
+  },
+  "prestigeScore": 116.57,
+  "gradeDistribution": {
+    "A": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/safishamsi.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

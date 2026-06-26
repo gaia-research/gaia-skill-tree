@@ -1,0 +1,146 @@
+{
+  "id": "mattpocock/grill-with-docs",
+  "name": "Grill With Docs",
+  "contributor": "mattpocock",
+  "level": "3★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 63.71,
+  "overallTrustGrade": "B",
+  "_links": {
+    "self": "/api/v1/skills/mattpocock/grill-with-docs.json",
+    "contributor": "/api/v1/contributors/mattpocock.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Domain Sovereign",
+  "genericSkillRef": "grill-with-docs",
+  "origin": true,
+  "description": "The ultimate evolution of the grill pattern. Fuses relentless Socratic questioning with deep domain awareness, ensuring every decision is cross-referenced against a persistent ubiquitous language and documented via real-time ADR generation.",
+  "tags": [
+    "design-review",
+    "domain-model",
+    "ubiquitous-language",
+    "adr",
+    "context-md",
+    "socratic-method",
+    "fusion"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-15",
+      "notes": "Production implementation of the Grill With Docs pattern. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "commits": 137,
+      "contributors": 3,
+      "grade": "C"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills/discussions",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "GitHub Discussions: 5+ threads naming grill-with-docs directly (#275 #293 #300 #304). Origin implementation for grill pattern. Named-layer.",
+      "grade": "C"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills/issues/341",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "Issue #341: 'grill-with-docs: resolved answers not traceable through PRD/issues/implementation' — 6 comments. Most-engaged grill-with-docs issue. Named-layer.",
+      "grade": "C"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills/issues/299",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "Issue #299: 'grill-with-docs poisoning docs/adr with unimplemented decisions' — 3 comments. Active real-world usage feedback. Named-layer."
+    },
+    {
+      "source": "https://www.youtube.com/@mattpocockuk",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "social-signal",
+      "class": "A",
+      "notes": "Matt Pocock official YouTube channel (Total TypeScript) — creator of grill-with-docs, origin implementation. topicalAuthority creator_mult."
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-14T12:32:43Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:18Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T11:52:12Z",
+      "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-19T12:01:52Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/mattpocock/skills/discussions (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-06-19T12:02:06Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/mattpocock/skills/issues/341 (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-06-19T12:02:20Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/mattpocock/skills/issues/299 (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-06-19T12:02:51Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://www.youtube.com/@mattpocockuk (type: social-signal)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T12:03:11Z",
+      "details": "TM 11.21 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:38Z",
+      "details": "TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:41Z",
+      "details": "TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md"
+  }
+}

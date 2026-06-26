@@ -1,0 +1,31 @@
+{
+  "handle": "devin-ai",
+  "namedSkills": [
+    {
+      "id": "devin-ai/autonomous-swe",
+      "name": "Autonomous SWE",
+      "level": "2★",
+      "trustMagnitude": 30.0,
+      "overallTrustGrade": "C",
+      "contributor": "devin-ai",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/devin-ai/autonomous-swe.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "devin-ai/autonomous-swe",
+    "level": "2★",
+    "trustMagnitude": 30.0
+  },
+  "prestigeScore": 30.0,
+  "gradeDistribution": {
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/devin-ai.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

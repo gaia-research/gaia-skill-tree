@@ -1,0 +1,359 @@
+{
+  "contributors": [
+    {
+      "handle": "garrytan",
+      "namedSkills": 47,
+      "topSkill": {
+        "id": "garrytan/gstack",
+        "level": "5★",
+        "trustMagnitude": 589.32
+      },
+      "prestigeScore": 2996.5,
+      "_links": {
+        "self": "/api/v1/contributors/garrytan.json"
+      }
+    },
+    {
+      "handle": "ruvnet",
+      "namedSkills": 30,
+      "topSkill": {
+        "id": "ruvnet/ruflo",
+        "level": "5★",
+        "trustMagnitude": 482.27
+      },
+      "prestigeScore": 2163.86,
+      "_links": {
+        "self": "/api/v1/contributors/ruvnet.json"
+      }
+    },
+    {
+      "handle": "mattpocock",
+      "namedSkills": 20,
+      "topSkill": {
+        "id": "mattpocock/skills",
+        "level": "5★",
+        "trustMagnitude": 480.29
+      },
+      "prestigeScore": 1910.66,
+      "_links": {
+        "self": "/api/v1/contributors/mattpocock.json"
+      }
+    },
+    {
+      "handle": "obra",
+      "namedSkills": 12,
+      "topSkill": {
+        "id": "obra/superpowers",
+        "level": "5★",
+        "trustMagnitude": 445.15
+      },
+      "prestigeScore": 1335.2,
+      "_links": {
+        "self": "/api/v1/contributors/obra.json"
+      }
+    },
+    {
+      "handle": "openai",
+      "namedSkills": 2,
+      "topSkill": {
+        "id": "openai/few-shot-learning",
+        "level": "4★",
+        "trustMagnitude": 100.0
+      },
+      "prestigeScore": 200.0,
+      "_links": {
+        "self": "/api/v1/contributors/openai.json"
+      }
+    },
+    {
+      "handle": "mbtiongson1",
+      "namedSkills": 5,
+      "topSkill": {
+        "id": "mbtiongson1/gaia-audit",
+        "level": "2★",
+        "trustMagnitude": 36.0
+      },
+      "prestigeScore": 180.0,
+      "_links": {
+        "self": "/api/v1/contributors/mbtiongson1.json"
+      }
+    },
+    {
+      "handle": "anthropic",
+      "namedSkills": 2,
+      "topSkill": {
+        "id": "anthropic/skill-creator",
+        "level": "3★",
+        "trustMagnitude": 90.0
+      },
+      "prestigeScore": 126.0,
+      "_links": {
+        "self": "/api/v1/contributors/anthropic.json"
+      }
+    },
+    {
+      "handle": "pbakaus",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "pbakaus/impeccable",
+        "level": "4★",
+        "trustMagnitude": 122.8
+      },
+      "prestigeScore": 122.8,
+      "_links": {
+        "self": "/api/v1/contributors/pbakaus.json"
+      }
+    },
+    {
+      "handle": "addy-osmani",
+      "namedSkills": 2,
+      "topSkill": {
+        "id": "addy-osmani/performance-optimization",
+        "level": "3★",
+        "trustMagnitude": 83.2
+      },
+      "prestigeScore": 119.2,
+      "_links": {
+        "self": "/api/v1/contributors/addy-osmani.json"
+      }
+    },
+    {
+      "handle": "safishamsi",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "safishamsi/graphify",
+        "level": "4★",
+        "trustMagnitude": 116.57
+      },
+      "prestigeScore": 116.57,
+      "_links": {
+        "self": "/api/v1/contributors/safishamsi.json"
+      }
+    },
+    {
+      "handle": "stanfordnlp",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "stanfordnlp/dspy",
+        "level": "4★",
+        "trustMagnitude": 100.0
+      },
+      "prestigeScore": 100.0,
+      "_links": {
+        "self": "/api/v1/contributors/stanfordnlp.json"
+      }
+    },
+    {
+      "handle": "martin-stepanoski",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "martin-stepanoski/nielsen-heuristics-audit",
+        "level": "3★",
+        "trustMagnitude": 94.9
+      },
+      "prestigeScore": 94.9,
+      "_links": {
+        "self": "/api/v1/contributors/martin-stepanoski.json"
+      }
+    },
+    {
+      "handle": "browser-use",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "browser-use/browser-harness",
+        "level": "3★",
+        "trustMagnitude": 73.59
+      },
+      "prestigeScore": 73.59,
+      "_links": {
+        "self": "/api/v1/contributors/browser-use.json"
+      }
+    },
+    {
+      "handle": "bradautomates",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "bradautomates/claude-video",
+        "level": "2★",
+        "trustMagnitude": 37.47
+      },
+      "prestigeScore": 37.47,
+      "_links": {
+        "self": "/api/v1/contributors/bradautomates.json"
+      }
+    },
+    {
+      "handle": "Manavarya09",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "Manavarya09/design-extract",
+        "level": "2★",
+        "trustMagnitude": 36.0
+      },
+      "prestigeScore": 36.0,
+      "_links": {
+        "self": "/api/v1/contributors/Manavarya09.json"
+      }
+    },
+    {
+      "handle": "firecrawl",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "firecrawl/firecrawl",
+        "level": "2★",
+        "trustMagnitude": 36.0
+      },
+      "prestigeScore": 36.0,
+      "_links": {
+        "self": "/api/v1/contributors/firecrawl.json"
+      }
+    },
+    {
+      "handle": "getagentseal",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "getagentseal/codeburn",
+        "level": "2★",
+        "trustMagnitude": 36.0
+      },
+      "prestigeScore": 36.0,
+      "_links": {
+        "self": "/api/v1/contributors/getagentseal.json"
+      }
+    },
+    {
+      "handle": "huggingface",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "huggingface/semantic-cache",
+        "level": "2★",
+        "trustMagnitude": 36.0
+      },
+      "prestigeScore": 36.0,
+      "_links": {
+        "self": "/api/v1/contributors/huggingface.json"
+      }
+    },
+    {
+      "handle": "karpathy",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "karpathy/autoresearch",
+        "level": "2★",
+        "trustMagnitude": 36.0
+      },
+      "prestigeScore": 36.0,
+      "_links": {
+        "self": "/api/v1/contributors/karpathy.json"
+      }
+    },
+    {
+      "handle": "laravel",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "laravel/upgrade-laravel-v13",
+        "level": "2★",
+        "trustMagnitude": 36.0
+      },
+      "prestigeScore": 36.0,
+      "_links": {
+        "self": "/api/v1/contributors/laravel.json"
+      }
+    },
+    {
+      "handle": "nexu-io",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "nexu-io/open-design",
+        "level": "2★",
+        "trustMagnitude": 36.0
+      },
+      "prestigeScore": 36.0,
+      "_links": {
+        "self": "/api/v1/contributors/nexu-io.json"
+      }
+    },
+    {
+      "handle": "nousresearch",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "nousresearch/feed-monitoring",
+        "level": "2★",
+        "trustMagnitude": 36.0
+      },
+      "prestigeScore": 36.0,
+      "_links": {
+        "self": "/api/v1/contributors/nousresearch.json"
+      }
+    },
+    {
+      "handle": "santifer",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "santifer/career-ops",
+        "level": "2★",
+        "trustMagnitude": 36.0
+      },
+      "prestigeScore": 36.0,
+      "_links": {
+        "self": "/api/v1/contributors/santifer.json"
+      }
+    },
+    {
+      "handle": "spring-ai",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "spring-ai/readme-generate",
+        "level": "2★",
+        "trustMagnitude": 36.0
+      },
+      "prestigeScore": 36.0,
+      "_links": {
+        "self": "/api/v1/contributors/spring-ai.json"
+      }
+    },
+    {
+      "handle": "vercel",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "vercel/find-skills",
+        "level": "2★",
+        "trustMagnitude": 36.0
+      },
+      "prestigeScore": 36.0,
+      "_links": {
+        "self": "/api/v1/contributors/vercel.json"
+      }
+    },
+    {
+      "handle": "upsonic",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "upsonic/unittest-generator",
+        "level": "2★",
+        "trustMagnitude": 33.0
+      },
+      "prestigeScore": 33.0,
+      "_links": {
+        "self": "/api/v1/contributors/upsonic.json"
+      }
+    },
+    {
+      "handle": "devin-ai",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "devin-ai/autonomous-swe",
+        "level": "2★",
+        "trustMagnitude": 30.0
+      },
+      "prestigeScore": 30.0,
+      "_links": {
+        "self": "/api/v1/contributors/devin-ai.json"
+      }
+    }
+  ],
+  "totalContributors": 27,
+  "_links": {
+    "self": "/api/v1/contributors/index.json"
+  }
+}

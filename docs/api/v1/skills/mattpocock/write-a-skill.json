@@ -1,0 +1,105 @@
+{
+  "id": "mattpocock/write-a-skill",
+  "name": "Write a Skill",
+  "contributor": "mattpocock",
+  "level": "2★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 45.0,
+  "overallTrustGrade": "C",
+  "_links": {
+    "self": "/api/v1/skills/mattpocock/write-a-skill.json",
+    "contributor": "/api/v1/contributors/mattpocock.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Skill Scaffolder",
+  "genericSkillRef": "tool-creation",
+  "origin": true,
+  "description": "Guides creation of new agent skills through a structured requirements interview, then produces a SKILL.md with a trigger-aware description, progressive-disclosure layout, and optional bundled scripts or reference files — ready for installation in any Claude Code, Cursor, or Codex CLI skills directory. Removed from mattpocock/skills suite in v1.0.1.",
+  "tags": [
+    "skill-authoring",
+    "meta-agent",
+    "claude-code",
+    "skill-scaffolding",
+    "progressive-disclosure"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/mattpocock/skills/issues/271",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "GitHub issue about write-a-skill skill documentation contradiction.",
+      "grade": "C"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills/discussions/246",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "GitHub discussion comparing write-a-skill skill with skill-creator.",
+      "grade": "C"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-02T23:33:00Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Origin status set to true."
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:18Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-19T12:38:21Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/mattpocock/skills/issues/271 (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-06-19T12:38:37Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/mattpocock/skills/discussions/246 (type: peer-review)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T12:53:50Z",
+      "details": "TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:38Z",
+      "details": "TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:42Z",
+      "details": "TM 0.0 -> 45.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:33Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
+    }
+  ],
+  "links": {
+    "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md"
+  }
+}

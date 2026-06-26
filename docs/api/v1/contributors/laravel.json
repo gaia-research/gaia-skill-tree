@@ -1,0 +1,31 @@
+{
+  "handle": "laravel",
+  "namedSkills": [
+    {
+      "id": "laravel/upgrade-laravel-v13",
+      "name": "Upgrade Laravel v13",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "laravel",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/laravel/upgrade-laravel-v13.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "laravel/upgrade-laravel-v13",
+    "level": "2★",
+    "trustMagnitude": 36.0
+  },
+  "prestigeScore": 36.0,
+  "gradeDistribution": {
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/laravel.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "id": "mattpocock/to-issues",
+  "name": "To Issues",
+  "contributor": "mattpocock",
+  "level": "3★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 90.38,
+  "overallTrustGrade": "B",
+  "_links": {
+    "self": "/api/v1/skills/mattpocock/to-issues.json",
+    "contributor": "/api/v1/contributors/mattpocock.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Vertical Slicer",
+  "genericSkillRef": "vertical-slice-planning",
+  "origin": false,
+  "description": "Breaks a plan, spec, or PRD into independently-grabbable GitHub issues as tracer-bullet vertical slices that each cut through all integration layers end-to-end. Classifies each slice HITL or AFK, maps dependency chains, quizzes the user on granularity, and publishes structured issues with acceptance criteria in dependency order.",
+  "tags": [
+    "vertical-slicing",
+    "issue-decomposition",
+    "tracer-bullet",
+    "hitl",
+    "afk",
+    "acceptance-criteria"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "Production skill implementing tracer-bullet vertical slicing with HITL/AFK\" classification and issue-tracker publication. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "commits": 137,
+      "contributors": 3,
+      "grade": "C"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills",
+      "evaluator": "unknown",
+      "date": "2026-06-20",
+      "type": "github-stars-own",
+      "trustNumber": 88.0,
+      "grade": "C",
+      "notes": "mattpocock/skills suite — 137k GitHub stars; to-issues is part of this repo",
+      "stars": 137000,
+      "skillCountInRepo": 21,
+      "sourceStartedAt": "2025-01-01"
+    },
+    {
+      "source": "https://www.youtube.com/watch?v=EJyuu6zlQCg",
+      "evaluator": "unknown",
+      "date": "2026-06-20",
+      "type": "social-signal",
+      "trustNumber": 82.0,
+      "grade": "B",
+      "notes": "Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers mattpocock/skills repo (verified 2026-06-20)",
+      "views": 412000,
+      "sourceStartedAt": "2025-01-01"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-02T23:33:00Z",
+      "action": "demote",
+      "contributor": "unknown",
+      "details": "Origin status removed. Transferred to garrytan/garrytan."
+    },
+    {
+      "timestamp": "2026-06-14T12:32:44Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:18Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T11:52:12Z",
+      "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:38Z",
+      "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:41Z",
+      "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-19T17:07:36Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-06-19T17:07:37Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://github.com/mattpocock/skills as A (trustNumber: 88.0)"
+    },
+    {
+      "timestamp": "2026-06-19T17:07:38Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg (type: social-signal)"
+    },
+    {
+      "timestamp": "2026-06-19T17:07:38Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg as A (trustNumber: 82.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T17:13:03Z",
+      "details": "TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md"
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "id": "openai/self-consistency",
+  "name": "Self-Consistency",
+  "contributor": "openai",
+  "level": "4★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 100.0,
+  "overallTrustGrade": "A",
+  "_links": {
+    "self": "/api/v1/skills/openai/self-consistency.json",
+    "contributor": "/api/v1/contributors/openai.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Majority Consensus",
+  "genericSkillRef": "self-consistency",
+  "origin": false,
+  "description": "Samples multiple reasoning paths and selects the most consistent answer by majority vote.",
+  "tags": [
+    "self-consistency",
+    "reasoning",
+    "ensemble",
+    "cot",
+    "unique"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://arxiv.org/abs/2203.11171",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "arxiv",
+      "class": "A",
+      "notes": "Self-Consistency CoT paper (Wang et al. 2022) — ~2000+ citations",
+      "citations": 2000,
+      "grade": "S"
+    }
+  ],
+  "timeline": [
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:19Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-19T09:25:06Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/2203.11171 (type: arxiv)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T09:29:08Z",
+      "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T09:34:47Z",
+      "details": "TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:38Z",
+      "details": "TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:43Z",
+      "details": "TM 0.0 -> 100.0, grade ungraded -> A (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:35Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+    }
+  ],
+  "links": {
+    "installable": false,
+    "arxiv": "https://arxiv.org/abs/2203.11171"
+  }
+}

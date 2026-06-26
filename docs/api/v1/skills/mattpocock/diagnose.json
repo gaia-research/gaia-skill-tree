@@ -1,0 +1,145 @@
+{
+  "id": "mattpocock/diagnose",
+  "name": "Diagnose",
+  "contributor": "mattpocock",
+  "level": "3★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 90.38,
+  "overallTrustGrade": "B",
+  "_links": {
+    "self": "/api/v1/skills/mattpocock/diagnose.json",
+    "contributor": "/api/v1/contributors/mattpocock.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Disciplined Diagnosis Loop",
+  "genericSkillRef": "autonomous-debug",
+  "origin": false,
+  "description": "Drives a rigorous five-phase debugging discipline — build a feedback loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance regressions. Removed from mattpocock/skills suite in v1.0.1.",
+  "tags": [
+    "debugging",
+    "diagnosis",
+    "feedback-loop",
+    "regression",
+    "root-cause-analysis"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-10",
+      "notes": "Published implementation in Matt Pocock's skills repository; five-phase debugging\" discipline documented and reproducible. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "commits": 137,
+      "contributors": 3,
+      "grade": "C"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills",
+      "evaluator": "unknown",
+      "date": "2026-06-20",
+      "type": "github-stars-own",
+      "trustNumber": 88.0,
+      "grade": "C",
+      "notes": "mattpocock/skills suite — 137k GitHub stars; diagnose is part of this repo",
+      "stars": 137000,
+      "skillCountInRepo": 21,
+      "sourceStartedAt": "2025-01-01"
+    },
+    {
+      "source": "https://www.youtube.com/watch?v=EJyuu6zlQCg",
+      "evaluator": "unknown",
+      "date": "2026-06-20",
+      "type": "social-signal",
+      "trustNumber": 82.0,
+      "grade": "B",
+      "notes": "Matt Pocock — 5 Claude Code skills I use every single day; 412K views; covers mattpocock/skills repo (verified 2026-06-20)",
+      "views": 412000,
+      "sourceStartedAt": "2025-01-01"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-10T05:38:16Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md"
+    },
+    {
+      "timestamp": "2026-06-14T12:32:42Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:18Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T11:52:12Z",
+      "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:38Z",
+      "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:41Z",
+      "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-19T17:07:27Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/mattpocock/skills (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-06-19T17:07:27Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://github.com/mattpocock/skills as A (trustNumber: 88.0)"
+    },
+    {
+      "timestamp": "2026-06-19T17:07:28Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg (type: social-signal)"
+    },
+    {
+      "timestamp": "2026-06-19T17:07:29Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://www.youtube.com/watch?v=EJyuu6zlQCg as A (trustNumber: 82.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T17:13:03Z",
+      "details": "TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:30Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+    }
+  ],
+  "links": {
+    "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md"
+  }
+}

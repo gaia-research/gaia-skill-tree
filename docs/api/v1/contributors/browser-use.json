@@ -1,0 +1,31 @@
+{
+  "handle": "browser-use",
+  "namedSkills": [
+    {
+      "id": "browser-use/browser-harness",
+      "name": "Browser Harness",
+      "level": "3★",
+      "trustMagnitude": 73.59,
+      "overallTrustGrade": "B",
+      "contributor": "browser-use",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/browser-use/browser-harness.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "browser-use/browser-harness",
+    "level": "3★",
+    "trustMagnitude": 73.59
+  },
+  "prestigeScore": 73.59,
+  "gradeDistribution": {
+    "B": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/browser-use.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

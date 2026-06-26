@@ -1,0 +1,93 @@
+{
+  "id": "ruvnet/flow-nexus",
+  "name": "Flow Nexus",
+  "contributor": "ruvnet",
+  "level": "3★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 96.0,
+  "overallTrustGrade": "B",
+  "_links": {
+    "self": "/api/v1/skills/ruvnet/flow-nexus.json",
+    "contributor": "/api/v1/contributors/ruvnet.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Grand Conductor's Trilogy",
+  "genericSkillRef": "multi-node-orchestration",
+  "origin": true,
+  "description": "Complete Flow Nexus platform: multi-topology swarm deployment, cloud platform management with Queen Seraphina AI assistant, and distributed neural training.",
+  "tags": [
+    "flow-nexus",
+    "orchestration",
+    "swarm",
+    "cloud-platform",
+    "neural-training",
+    "queen-seraphina"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/ruvnet/ruflo",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-19",
+      "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "commits": 6899,
+      "contributors": 32,
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-14T12:32:55Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:20Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T11:52:12Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:38Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:44Z",
+      "details": "TM 0.0 -> 96.0, grade ungraded -> B (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:36Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+    }
+  ],
+  "links": {
+    "github": "https://github.com/ruvnet/ruflo"
+  },
+  "suiteComponents": [
+    "ruvnet/flow-nexus-neural",
+    "ruvnet/flow-nexus-platform",
+    "ruvnet/flow-nexus-swarm"
+  ]
+}

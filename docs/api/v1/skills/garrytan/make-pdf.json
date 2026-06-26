@@ -1,0 +1,103 @@
+{
+  "id": "garrytan/make-pdf",
+  "name": "Make PDF",
+  "contributor": "garrytan",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 36.0,
+  "overallTrustGrade": "C",
+  "_links": {
+    "self": "/api/v1/skills/garrytan/make-pdf.json",
+    "contributor": "/api/v1/contributors/garrytan.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "Gstack Make PDF — Formatted Output Generator",
+  "genericSkillRef": "format-output",
+  "origin": false,
+  "description": "Converts markdown or structured data into a polished PDF document with consistent heading styles, table formatting, and page layout ready for distribution.",
+  "tags": [
+    "format-output",
+    "pdf",
+    "documentation"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-03",
+      "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Converts\" markdown or structured data into a polished PDF document with consistent heading styles, table formatting, and page layout ready for… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "commits": 323,
+      "contributors": 9,
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-02T23:45:10Z",
+      "action": "demote",
+      "contributor": "unknown",
+      "details": "Calibrated level from 3★ to 2★"
+    },
+    {
+      "timestamp": "2026-06-03T05:51:34Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md"
+    },
+    {
+      "timestamp": "2026-06-03T05:51:38Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-06-14T12:32:23Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:15Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T11:52:12Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:37Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:37Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:22Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
+    }
+  ],
+  "links": {
+    "github": "https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md"
+  }
+}

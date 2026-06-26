@@ -1,0 +1,31 @@
+{
+  "handle": "Manavarya09",
+  "namedSkills": [
+    {
+      "id": "Manavarya09/design-extract",
+      "name": "Design Extract",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "Manavarya09",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/Manavarya09/design-extract.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "Manavarya09/design-extract",
+    "level": "2★",
+    "trustMagnitude": 36.0
+  },
+  "prestigeScore": 36.0,
+  "gradeDistribution": {
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/Manavarya09.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "id": "garrytan/plan-tune",
+  "name": "Plan Tune",
+  "contributor": "garrytan",
+  "level": "2★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 36.0,
+  "overallTrustGrade": "C",
+  "_links": {
+    "self": "/api/v1/skills/garrytan/plan-tune.json",
+    "contributor": "/api/v1/contributors/garrytan.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "Gstack Plan Tune — Prompt Refinement Pass",
+  "genericSkillRef": "prompt-optimization",
+  "origin": false,
+  "description": "Takes a draft plan or system prompt, identifies vague or ambiguous instructions, and rewrites them to reduce hallucination and improve task completion rate.",
+  "tags": [
+    "prompt-optimization",
+    "planning",
+    "quality"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/garrytan/gstack/blob/main/plan-tune/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-03",
+      "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Takes\" a draft plan or system prompt, identifies vague or ambiguous instructions, and rewrites them to reduce hallucination and improve task… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "commits": 323,
+      "contributors": 9,
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-03T05:51:35Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/plan-tune/SKILL.md"
+    },
+    {
+      "timestamp": "2026-06-14T12:32:24Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/plan-tune/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:15Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T11:52:12Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:37Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:38Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/garrytan/gstack/blob/main/plan-tune/SKILL.md"
+  }
+}

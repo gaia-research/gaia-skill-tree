@@ -1,0 +1,80 @@
+{
+  "id": "vercel/find-skills",
+  "name": "Find Skills",
+  "contributor": "vercel",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 36.0,
+  "overallTrustGrade": "C",
+  "_links": {
+    "self": "/api/v1/skills/vercel/find-skills.json",
+    "contributor": "/api/v1/contributors/vercel.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Registry Scout",
+  "genericSkillRef": "skill-discovery",
+  "origin": true,
+  "description": "Searches the skills.sh registry by keyword or category, queries install counts to surface popular skills, and auto-installs the selected skill into the current project's skills directory.",
+  "tags": [
+    "skill-registry",
+    "discovery",
+    "skills-sh",
+    "auto-install"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "Vercel /find-skills slash command -- queries the skills.sh registry, checks\" install counts, and auto-installs matching skills. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "commits": 330,
+      "contributors": 102,
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-14T12:33:03Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:21Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T11:52:12Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:39Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:45Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md"
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "id": "obra/requesting-code-review",
+  "name": "Requesting Code Review",
+  "contributor": "obra",
+  "level": "2★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 36.0,
+  "overallTrustGrade": "C",
+  "_links": {
+    "self": "/api/v1/skills/obra/requesting-code-review.json",
+    "contributor": "/api/v1/contributors/obra.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Preemptive Review",
+  "genericSkillRef": "requesting-code-review",
+  "origin": true,
+  "description": "Dispatches a code reviewer subagent with isolated context to catch issues before they cascade — producing a structured review report that guides targeted fixes.",
+  "tags": [
+    "code-review",
+    "subagent",
+    "quality-gate",
+    "pre-merge",
+    "isolated-context"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-18",
+      "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "commits": 609,
+      "contributors": 36,
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-14T12:32:48Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:19Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T11:07:58Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:38Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:42Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:34Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
+    }
+  ],
+  "links": {
+    "github": "https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md"
+  }
+}

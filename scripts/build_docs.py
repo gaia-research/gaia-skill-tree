@@ -338,6 +338,7 @@ def build_html_cache_busting(check: bool) -> bool:
         "trust/ledger/index.html",
         "codex/trust-methodology.html",
         "u/index.html",
+        "api/index.html",  # pre-registered for Issue #850 (docs page not yet created)
     ):
         path = ROOT / "docs" / filename
         if not path.exists():
@@ -570,6 +571,41 @@ def build_docs_named_index(check: bool) -> bool:
     dst.parent.mkdir(parents=True, exist_ok=True)
     dst.write_bytes(src.read_bytes())
     return True
+
+
+def build_api_projection(check: bool) -> bool:
+    """Run buildApiProjection.py to a tempdir and diff against docs/api/v1/."""
+    script = SCRIPTS / "buildApiProjection.py"
+    if not script.exists():
+        return False
+    committed = ROOT / "docs" / "api" / "v1"
+    with tempfile.TemporaryDirectory() as tmp:
+        out_dir = Path(tmp) / "v1"
+        rc, output = _run_script(script, ["--out-dir", str(out_dir)])
+        if rc != 0:
+            if check:
+                print(f"diff docs/api/v1/ (regen failed: rc={rc})")
+                print(output)
+            raise RuntimeError(f"docs/api/v1/ regen failed: rc={rc}")
+        if not committed.exists():
+            if check:
+                print("diff docs/api/v1/ (missing)")
+            else:
+                committed.parent.mkdir(parents=True, exist_ok=True)
+                import shutil
+                shutil.copytree(out_dir, committed)
+            return True
+        drifts = _diff_tree(committed, out_dir)
+        if not drifts:
+            return False
+        if check:
+            for d in drifts:
+                print(f"diff docs/api/v1/{d}")
+        else:
+            import shutil
+            shutil.rmtree(committed)
+            shutil.copytree(out_dir, committed)
+        return True
 
 
 def build_profile_pages(check: bool) -> bool:
@@ -1038,6 +1074,7 @@ def main(argv: list[str] | None = None) -> int:
     # named-index drift specifically is the one most likely to land out of sync.
     named_index_changed = _run_step("named-index", build_named_index, args.check)
     docs_named_changed = _run_step("docs-named-index", build_docs_named_index, args.check)
+    api_changed = _run_step("api-projection", build_api_projection, args.check)
     profiles_changed = _run_step("profiles", build_profile_pages, args.check)
     # Badges step honors a `[skip-badge-check]` opt-in escape: if the most
     # recent commit's SUBJECT (first line, not body) contains that marker,
@@ -1107,6 +1144,7 @@ def main(argv: list[str] | None = None) -> int:
         or css_tokens_changed
         or named_index_changed
         or docs_named_changed
+        or api_changed
         or profiles_changed
         # badges_changed: intentionally omitted — see warn-only block above.
         or og_changed

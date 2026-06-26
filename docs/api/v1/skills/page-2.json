@@ -1,0 +1,612 @@
+{
+  "skills": [
+    {
+      "id": "garrytan/plan-ceo-review",
+      "name": "Plan CEO Review",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/plan-ceo-review.json"
+      }
+    },
+    {
+      "id": "garrytan/plan-design-review",
+      "name": "Plan Design Review",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/plan-design-review.json"
+      }
+    },
+    {
+      "id": "garrytan/plan-devex-review",
+      "name": "Plan DevEx Review",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/plan-devex-review.json"
+      }
+    },
+    {
+      "id": "garrytan/qa",
+      "name": "QA",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/qa.json"
+      }
+    },
+    {
+      "id": "garrytan/review",
+      "name": "Review",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/review.json"
+      }
+    },
+    {
+      "id": "garrytan/ship",
+      "name": "Ship",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/ship.json"
+      }
+    },
+    {
+      "id": "garrytan/skillify",
+      "name": "Skillify",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/skillify.json"
+      }
+    },
+    {
+      "id": "mattpocock/grill-me",
+      "name": "Grill Me",
+      "level": "3★",
+      "trustMagnitude": 63.71,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/grill-me.json"
+      }
+    },
+    {
+      "id": "mattpocock/grill-with-docs",
+      "name": "Grill With Docs",
+      "level": "3★",
+      "trustMagnitude": 63.71,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/grill-with-docs.json"
+      }
+    },
+    {
+      "id": "mattpocock/handoff",
+      "name": "Handoff",
+      "level": "3★",
+      "trustMagnitude": 63.71,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/handoff.json"
+      }
+    },
+    {
+      "id": "mattpocock/to-prd",
+      "name": "To PRD",
+      "level": "3★",
+      "trustMagnitude": 63.71,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/to-prd.json"
+      }
+    },
+    {
+      "id": "mattpocock/personal",
+      "name": "Personal",
+      "level": "3★",
+      "trustMagnitude": 60.0,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/personal.json"
+      }
+    },
+    {
+      "id": "mattpocock/setup-matt-pocock-skills",
+      "name": "Setup Matt Pocock Skills",
+      "level": "3★",
+      "trustMagnitude": 56.21,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/setup-matt-pocock-skills.json"
+      }
+    },
+    {
+      "id": "mattpocock/triage",
+      "name": "Triage",
+      "level": "3★",
+      "trustMagnitude": 56.21,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/triage.json"
+      }
+    },
+    {
+      "id": "mattpocock/improve-codebase-architecture",
+      "name": "Improve Codebase Architecture",
+      "level": "2★",
+      "trustMagnitude": 45.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/improve-codebase-architecture.json"
+      }
+    },
+    {
+      "id": "mattpocock/write-a-skill",
+      "name": "Write a Skill",
+      "level": "2★",
+      "trustMagnitude": 45.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/write-a-skill.json"
+      }
+    },
+    {
+      "id": "mattpocock/prototype",
+      "name": "Prototype",
+      "level": "2★",
+      "trustMagnitude": 41.21,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/prototype.json"
+      }
+    },
+    {
+      "id": "bradautomates/claude-video",
+      "name": "Claude Video",
+      "level": "2★",
+      "trustMagnitude": 37.47,
+      "overallTrustGrade": "C",
+      "contributor": "bradautomates",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/bradautomates/claude-video.json"
+      }
+    },
+    {
+      "id": "Manavarya09/design-extract",
+      "name": "Design Extract",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "Manavarya09",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/Manavarya09/design-extract.json"
+      }
+    },
+    {
+      "id": "addy-osmani/test-driven-development",
+      "name": "Test-Driven Development",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/test-driven-development.json"
+      }
+    },
+    {
+      "id": "anthropic/pptx",
+      "name": "PPTX Editor",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "anthropic",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/anthropic/pptx.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl",
+      "name": "Firecrawl",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "firecrawl",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl.json"
+      }
+    },
+    {
+      "id": "garrytan/benchmark-models",
+      "name": "Benchmark Models",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/benchmark-models.json"
+      }
+    },
+    {
+      "id": "garrytan/codex",
+      "name": "Codex",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/codex.json"
+      }
+    },
+    {
+      "id": "garrytan/context-restore",
+      "name": "Context Restore",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/context-restore.json"
+      }
+    },
+    {
+      "id": "garrytan/context-save",
+      "name": "Context Save",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/context-save.json"
+      }
+    },
+    {
+      "id": "garrytan/design-review",
+      "name": "Design Review",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/design-review.json"
+      }
+    },
+    {
+      "id": "garrytan/devex-review",
+      "name": "DevEx Review",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/devex-review.json"
+      }
+    },
+    {
+      "id": "garrytan/document-release",
+      "name": "Document Release",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/document-release.json"
+      }
+    },
+    {
+      "id": "garrytan/freeze",
+      "name": "Freeze",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/freeze.json"
+      }
+    },
+    {
+      "id": "garrytan/gstack-upgrade",
+      "name": "GStack Upgrade",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/gstack-upgrade.json"
+      }
+    },
+    {
+      "id": "garrytan/guard",
+      "name": "Guard",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/guard.json"
+      }
+    },
+    {
+      "id": "garrytan/health",
+      "name": "Health",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/health.json"
+      }
+    },
+    {
+      "id": "garrytan/landing-report",
+      "name": "Landing Report",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/landing-report.json"
+      }
+    },
+    {
+      "id": "garrytan/learn",
+      "name": "Learn",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/learn.json"
+      }
+    },
+    {
+      "id": "garrytan/make-pdf",
+      "name": "Make PDF",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/make-pdf.json"
+      }
+    },
+    {
+      "id": "garrytan/open-gstack-browser",
+      "name": "Open GStack Browser",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/open-gstack-browser.json"
+      }
+    },
+    {
+      "id": "garrytan/pair-agent",
+      "name": "Pair Agent",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/pair-agent.json"
+      }
+    },
+    {
+      "id": "garrytan/plan-tune",
+      "name": "Plan Tune",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/plan-tune.json"
+      }
+    },
+    {
+      "id": "garrytan/qa-only",
+      "name": "QA Only",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/qa-only.json"
+      }
+    },
+    {
+      "id": "garrytan/scrape",
+      "name": "Scrape",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/scrape.json"
+      }
+    },
+    {
+      "id": "garrytan/setup-browser-cookies",
+      "name": "Setup Browser Cookies",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/setup-browser-cookies.json"
+      }
+    },
+    {
+      "id": "garrytan/setup-deploy",
+      "name": "Setup Deploy",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/setup-deploy.json"
+      }
+    },
+    {
+      "id": "garrytan/setup-gbrain",
+      "name": "Setup GBrain",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/setup-gbrain.json"
+      }
+    },
+    {
+      "id": "garrytan/sync-gbrain",
+      "name": "Sync GBrain",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/sync-gbrain.json"
+      }
+    },
+    {
+      "id": "garrytan/unfreeze",
+      "name": "Unfreeze",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/unfreeze.json"
+      }
+    },
+    {
+      "id": "getagentseal/codeburn",
+      "name": "CodeBurn",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "getagentseal",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/getagentseal/codeburn.json"
+      }
+    },
+    {
+      "id": "huggingface/semantic-cache",
+      "name": "Semantic Cache",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "huggingface",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/huggingface/semantic-cache.json"
+      }
+    },
+    {
+      "id": "karpathy/autoresearch",
+      "name": "AutoResearch",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "karpathy",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/karpathy/autoresearch.json"
+      }
+    },
+    {
+      "id": "laravel/upgrade-laravel-v13",
+      "name": "Upgrade Laravel v13",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "laravel",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/laravel/upgrade-laravel-v13.json"
+      }
+    }
+  ],
+  "page": 2,
+  "totalPages": 3,
+  "totalSkills": 139,
+  "_links": {
+    "self": "/api/v1/skills/page-2.json",
+    "prev": "/api/v1/skills/index.json",
+    "next": "/api/v1/skills/page-3.json"
+  }
+}

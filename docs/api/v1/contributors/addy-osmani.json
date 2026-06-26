@@ -1,0 +1,44 @@
+{
+  "handle": "addy-osmani",
+  "namedSkills": [
+    {
+      "id": "addy-osmani/performance-optimization",
+      "name": "Performance Optimization",
+      "level": "3★",
+      "trustMagnitude": 83.2,
+      "overallTrustGrade": "B",
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
+      }
+    },
+    {
+      "id": "addy-osmani/test-driven-development",
+      "name": "Test-Driven Development",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/test-driven-development.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 2,
+  "topSkill": {
+    "id": "addy-osmani/performance-optimization",
+    "level": "3★",
+    "trustMagnitude": 83.2
+  },
+  "prestigeScore": 119.2,
+  "gradeDistribution": {
+    "B": 1,
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/addy-osmani.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

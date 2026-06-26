@@ -1,0 +1,31 @@
+{
+  "handle": "nexu-io",
+  "namedSkills": [
+    {
+      "id": "nexu-io/open-design",
+      "name": "Open Design",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "nexu-io",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/nexu-io/open-design.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "nexu-io/open-design",
+    "level": "2★",
+    "trustMagnitude": 36.0
+  },
+  "prestigeScore": 36.0,
+  "gradeDistribution": {
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/nexu-io.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

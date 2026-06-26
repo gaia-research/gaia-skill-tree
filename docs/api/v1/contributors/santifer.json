@@ -1,0 +1,31 @@
+{
+  "handle": "santifer",
+  "namedSkills": [
+    {
+      "id": "santifer/career-ops",
+      "name": "Career-Ops",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "santifer",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/santifer/career-ops.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "santifer/career-ops",
+    "level": "2★",
+    "trustMagnitude": 36.0
+  },
+  "prestigeScore": 36.0,
+  "gradeDistribution": {
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/santifer.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

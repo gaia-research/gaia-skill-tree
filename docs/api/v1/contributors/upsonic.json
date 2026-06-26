@@ -1,0 +1,31 @@
+{
+  "handle": "upsonic",
+  "namedSkills": [
+    {
+      "id": "upsonic/unittest-generator",
+      "name": "Unittest Generator",
+      "level": "2★",
+      "trustMagnitude": 33.0,
+      "overallTrustGrade": "C",
+      "contributor": "upsonic",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/upsonic/unittest-generator.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "upsonic/unittest-generator",
+    "level": "2★",
+    "trustMagnitude": 33.0
+  },
+  "prestigeScore": 33.0,
+  "gradeDistribution": {
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/upsonic.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

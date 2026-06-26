@@ -1,0 +1,382 @@
+{
+  "handle": "ruvnet",
+  "namedSkills": [
+    {
+      "id": "ruvnet/ruflo",
+      "name": "Ruflo",
+      "level": "5★",
+      "trustMagnitude": 482.27,
+      "overallTrustGrade": "S",
+      "contributor": "ruvnet",
+      "type": "ultimate",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/ruflo.json"
+      }
+    },
+    {
+      "id": "ruvnet/agentdb",
+      "name": "AgentDB",
+      "level": "4★",
+      "trustMagnitude": 201.0,
+      "overallTrustGrade": "A",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb.json"
+      }
+    },
+    {
+      "id": "ruvnet/ruflo-v3",
+      "name": "Ruflo V3",
+      "level": "4★",
+      "trustMagnitude": 186.0,
+      "overallTrustGrade": "A",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
+      }
+    },
+    {
+      "id": "ruvnet/dual-mode",
+      "name": "Dual Mode",
+      "level": "4★",
+      "trustMagnitude": 126.0,
+      "overallTrustGrade": "A",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-mode.json"
+      }
+    },
+    {
+      "id": "ruvnet/reasoningbank",
+      "name": "ReasoningBank",
+      "level": "4★",
+      "trustMagnitude": 118.5,
+      "overallTrustGrade": "A",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/reasoningbank.json"
+      }
+    },
+    {
+      "id": "ruvnet/hive-mind-coordination",
+      "name": "Hive Mind Coordination",
+      "level": "3★",
+      "trustMagnitude": 96.09,
+      "overallTrustGrade": "B",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/hive-mind-coordination.json"
+      }
+    },
+    {
+      "id": "ruvnet/flow-nexus",
+      "name": "Flow Nexus",
+      "level": "3★",
+      "trustMagnitude": 96.0,
+      "overallTrustGrade": "B",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/flow-nexus.json"
+      }
+    },
+    {
+      "id": "ruvnet/github-suite",
+      "name": "GitHub Suite",
+      "level": "3★",
+      "trustMagnitude": 66.0,
+      "overallTrustGrade": "B",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/github-suite.json"
+      }
+    },
+    {
+      "id": "ruvnet/agentdb-advanced",
+      "name": "AgentDB Advanced",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb-advanced.json"
+      }
+    },
+    {
+      "id": "ruvnet/agentdb-memory-patterns",
+      "name": "AgentDB Memory Patterns",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb-memory-patterns.json"
+      }
+    },
+    {
+      "id": "ruvnet/agentdb-optimization",
+      "name": "AgentDB Optimization",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb-optimization.json"
+      }
+    },
+    {
+      "id": "ruvnet/agentdb-vector-search",
+      "name": "AgentDB Vector Search",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb-vector-search.json"
+      }
+    },
+    {
+      "id": "ruvnet/agentic-jujutsu",
+      "name": "Agentic Jujutsu",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentic-jujutsu.json"
+      }
+    },
+    {
+      "id": "ruvnet/dual-collect",
+      "name": "Dual Collect",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-collect.json"
+      }
+    },
+    {
+      "id": "ruvnet/dual-coordinate",
+      "name": "Dual Coordinate",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-coordinate.json"
+      }
+    },
+    {
+      "id": "ruvnet/dual-spawn",
+      "name": "Dual Spawn",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-spawn.json"
+      }
+    },
+    {
+      "id": "ruvnet/flow-nexus-neural",
+      "name": "Flow Nexus Neural",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/flow-nexus-neural.json"
+      }
+    },
+    {
+      "id": "ruvnet/flow-nexus-platform",
+      "name": "Flow Nexus Platform",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/flow-nexus-platform.json"
+      }
+    },
+    {
+      "id": "ruvnet/github-multi-repo",
+      "name": "GitHub Multi-Repo",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/github-multi-repo.json"
+      }
+    },
+    {
+      "id": "ruvnet/pair-programming",
+      "name": "Pair Programming",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/pair-programming.json"
+      }
+    },
+    {
+      "id": "ruvnet/reasoningbank-intelligence",
+      "name": "ReasoningBank Intelligence",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/reasoningbank-intelligence.json"
+      }
+    },
+    {
+      "id": "ruvnet/stream-chain",
+      "name": "Stream Chain",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/stream-chain.json"
+      }
+    },
+    {
+      "id": "ruvnet/swarm-advanced",
+      "name": "Swarm Advanced",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/swarm-advanced.json"
+      }
+    },
+    {
+      "id": "ruvnet/swarm-orchestration",
+      "name": "Swarm Orchestration",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/swarm-orchestration.json"
+      }
+    },
+    {
+      "id": "ruvnet/v3-cli-modernization",
+      "name": "V3 CLI Modernization",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/v3-cli-modernization.json"
+      }
+    },
+    {
+      "id": "ruvnet/v3-core-implementation",
+      "name": "V3 Core Implementation",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/v3-core-implementation.json"
+      }
+    },
+    {
+      "id": "ruvnet/v3-ddd-architecture",
+      "name": "V3 DDD Architecture",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/v3-ddd-architecture.json"
+      }
+    },
+    {
+      "id": "ruvnet/v3-integration-deep",
+      "name": "V3 Integration Deep",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/v3-integration-deep.json"
+      }
+    },
+    {
+      "id": "ruvnet/verification-quality",
+      "name": "Verification Quality",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/verification-quality.json"
+      }
+    },
+    {
+      "id": "ruvnet/worker-integration",
+      "name": "Worker Integration",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/worker-integration.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 30,
+  "topSkill": {
+    "id": "ruvnet/ruflo",
+    "level": "5★",
+    "trustMagnitude": 482.27
+  },
+  "prestigeScore": 2163.86,
+  "gradeDistribution": {
+    "S": 1,
+    "A": 4,
+    "B": 3,
+    "C": 22
+  },
+  "_links": {
+    "self": "/api/v1/contributors/ruvnet.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

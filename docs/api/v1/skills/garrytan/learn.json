@@ -1,0 +1,91 @@
+{
+  "id": "garrytan/learn",
+  "name": "Learn",
+  "contributor": "garrytan",
+  "level": "2★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 36.0,
+  "overallTrustGrade": "C",
+  "_links": {
+    "self": "/api/v1/skills/garrytan/learn.json",
+    "contributor": "/api/v1/contributors/garrytan.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "Gstack Learn — Persistent Memory Management",
+  "genericSkillRef": "memory-manage",
+  "origin": false,
+  "description": "Reads the active memory store, consolidates new observations from the current session, deduplicates stale entries, and writes back an updated, ranked knowledge base for future sessions.",
+  "tags": [
+    "memory-manage",
+    "context",
+    "knowledge"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/garrytan/gstack/blob/main/learn/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-03",
+      "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Reads the active memory store, consolidates new observations from the current session, deduplicates stale entries, and writes back an updated,… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
+      "type": "repo",
+      "commits": 323,
+      "contributors": 9,
+      "trustNumber": 70.0,
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-03T05:51:34Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/learn/SKILL.md"
+    },
+    {
+      "timestamp": "2026-06-14T12:32:23Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/learn/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:15Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T10:36:26Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:37Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:37Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:22Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
+    }
+  ],
+  "links": {
+    "github": "https://github.com/garrytan/gstack/blob/main/learn/SKILL.md"
+  }
+}

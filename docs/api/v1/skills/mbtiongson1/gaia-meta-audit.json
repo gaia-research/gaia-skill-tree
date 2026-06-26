@@ -1,0 +1,100 @@
+{
+  "id": "mbtiongson1/gaia-meta-audit",
+  "name": "Gaia Meta Audit",
+  "contributor": "mbtiongson1",
+  "level": "2★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 36.0,
+  "overallTrustGrade": "C",
+  "_links": {
+    "self": "/api/v1/skills/mbtiongson1/gaia-meta-audit.json",
+    "contributor": "/api/v1/contributors/mbtiongson1.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Triage Director",
+  "genericSkillRef": "registry-health-scan",
+  "origin": true,
+  "description": "Produces a prioritized review queue of Gaia registry entries needing attention — flagging stale evidence, broken links, mis-classified tiers, and naming inconsistencies in one structured audit pass.",
+  "tags": [
+    "registry-curation",
+    "prioritization",
+    "triage",
+    "quality-control"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/mbtiongson1/gaia-skill-tree",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-03",
+      "notes": "Derived from registry hygiene work that audits source-backed named skills, generated projections, and demotion candidates across canonical and real-skill review surfaces. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
+      "type": "repo",
+      "commits": 90,
+      "contributors": 10,
+      "trustNumber": 70.0,
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-26T16:36:56Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill mbtiongson1/gaia-meta-audit"
+    },
+    {
+      "timestamp": "2026-05-30T00:00:00Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Demoted 4★ → 3★ to match canonical registry-health-scan generic level (named must not exceed generic per META §1).",
+      "previousValue": "4★",
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-01T15:13:08Z",
+      "action": "demote",
+      "contributor": "unknown",
+      "details": "Calibrated level from 3★ to 2★"
+    },
+    {
+      "timestamp": "2026-06-14T12:32:45Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:19Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T10:36:26Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:38Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:42Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-meta-audit/SKILL.md"
+  }
+}

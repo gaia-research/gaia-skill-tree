@@ -1,0 +1,95 @@
+{
+  "id": "addy-osmani/test-driven-development",
+  "name": "Test-Driven Development",
+  "contributor": "addy-osmani",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 36.0,
+  "overallTrustGrade": "C",
+  "_links": {
+    "self": "/api/v1/skills/addy-osmani/test-driven-development.json",
+    "contributor": "/api/v1/contributors/addy-osmani.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Red-Green Oath",
+  "genericSkillRef": "test-driven-development",
+  "origin": true,
+  "description": "Forces the AI agent to follow a strict red-green-refactor TDD workflow — explicitly blocking horizontal slicing (all tests first, then all code). Tests verify behaviour through public interfaces only, blocking code generation that skips the test step, and enforcing coverage thresholds before completing a task.",
+  "tags": [
+    "tdd",
+    "testing",
+    "red-green-refactor",
+    "workflow-enforcement",
+    "software-quality",
+    "vertical-slicing",
+    "tracer-bullet"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "Addy Osmani /test-driven-development slash command -- forces strict TDD workflow, stopping agents from skipping tests. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
+      "type": "repo",
+      "commits": 260,
+      "contributors": 36,
+      "trustNumber": 70.0,
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-31T02:17:00Z",
+      "action": "installation_updated",
+      "contributor": "unknown",
+      "details": "Replaced ## Installation section from /tmp/tdd_install.md"
+    },
+    {
+      "timestamp": "2026-06-14T12:32:16Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:14Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T10:36:25Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:37Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:36Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:20Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
+    }
+  ],
+  "links": {
+    "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md"
+  }
+}

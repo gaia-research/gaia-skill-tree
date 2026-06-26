@@ -1,0 +1,263 @@
+{
+  "handle": "mattpocock",
+  "namedSkills": [
+    {
+      "id": "mattpocock/skills",
+      "name": "Matt Pocock Skills",
+      "level": "5★",
+      "trustMagnitude": 480.29,
+      "overallTrustGrade": "S",
+      "contributor": "mattpocock",
+      "type": "ultimate",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/skills.json"
+      }
+    },
+    {
+      "id": "mattpocock/engineering",
+      "name": "Engineering",
+      "level": "4★",
+      "trustMagnitude": 270.0,
+      "overallTrustGrade": "A",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/engineering.json"
+      }
+    },
+    {
+      "id": "mattpocock/productivity",
+      "name": "Productivity",
+      "level": "4★",
+      "trustMagnitude": 120.0,
+      "overallTrustGrade": "A",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/productivity.json"
+      }
+    },
+    {
+      "id": "mattpocock/diagnose",
+      "name": "Diagnose",
+      "level": "3★",
+      "trustMagnitude": 90.38,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/diagnose.json"
+      }
+    },
+    {
+      "id": "mattpocock/edit-article",
+      "name": "Edit Article",
+      "level": "3★",
+      "trustMagnitude": 90.38,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/edit-article.json"
+      }
+    },
+    {
+      "id": "mattpocock/obsidian-vault",
+      "name": "Obsidian Vault Manager",
+      "level": "3★",
+      "trustMagnitude": 90.38,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
+      }
+    },
+    {
+      "id": "mattpocock/to-issues",
+      "name": "To Issues",
+      "level": "3★",
+      "trustMagnitude": 90.38,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/to-issues.json"
+      }
+    },
+    {
+      "id": "mattpocock/ubiquitous-language",
+      "name": "Ubiquitous Language",
+      "level": "3★",
+      "trustMagnitude": 90.38,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
+      }
+    },
+    {
+      "id": "mattpocock/grill-me",
+      "name": "Grill Me",
+      "level": "3★",
+      "trustMagnitude": 63.71,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/grill-me.json"
+      }
+    },
+    {
+      "id": "mattpocock/grill-with-docs",
+      "name": "Grill With Docs",
+      "level": "3★",
+      "trustMagnitude": 63.71,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/grill-with-docs.json"
+      }
+    },
+    {
+      "id": "mattpocock/handoff",
+      "name": "Handoff",
+      "level": "3★",
+      "trustMagnitude": 63.71,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/handoff.json"
+      }
+    },
+    {
+      "id": "mattpocock/to-prd",
+      "name": "To PRD",
+      "level": "3★",
+      "trustMagnitude": 63.71,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/to-prd.json"
+      }
+    },
+    {
+      "id": "mattpocock/personal",
+      "name": "Personal",
+      "level": "3★",
+      "trustMagnitude": 60.0,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/personal.json"
+      }
+    },
+    {
+      "id": "mattpocock/setup-matt-pocock-skills",
+      "name": "Setup Matt Pocock Skills",
+      "level": "3★",
+      "trustMagnitude": 56.21,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/setup-matt-pocock-skills.json"
+      }
+    },
+    {
+      "id": "mattpocock/triage",
+      "name": "Triage",
+      "level": "3★",
+      "trustMagnitude": 56.21,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/triage.json"
+      }
+    },
+    {
+      "id": "mattpocock/improve-codebase-architecture",
+      "name": "Improve Codebase Architecture",
+      "level": "2★",
+      "trustMagnitude": 45.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/improve-codebase-architecture.json"
+      }
+    },
+    {
+      "id": "mattpocock/write-a-skill",
+      "name": "Write a Skill",
+      "level": "2★",
+      "trustMagnitude": 45.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/write-a-skill.json"
+      }
+    },
+    {
+      "id": "mattpocock/prototype",
+      "name": "Prototype",
+      "level": "2★",
+      "trustMagnitude": 41.21,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/prototype.json"
+      }
+    },
+    {
+      "id": "mattpocock/caveman",
+      "name": "Caveman Mode",
+      "level": "2★",
+      "trustMagnitude": 30.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/caveman.json"
+      }
+    },
+    {
+      "id": "mattpocock/teach",
+      "name": "Teach",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": "ungraded",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/teach.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 20,
+  "topSkill": {
+    "id": "mattpocock/skills",
+    "level": "5★",
+    "trustMagnitude": 480.29
+  },
+  "prestigeScore": 1910.66,
+  "gradeDistribution": {
+    "S": 1,
+    "A": 2,
+    "B": 12,
+    "C": 4,
+    "ungraded": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/mattpocock.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

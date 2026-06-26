@@ -1,0 +1,31 @@
+{
+  "handle": "nousresearch",
+  "namedSkills": [
+    {
+      "id": "nousresearch/feed-monitoring",
+      "name": "Feed Monitoring",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "nousresearch",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/nousresearch/feed-monitoring.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "nousresearch/feed-monitoring",
+    "level": "2★",
+    "trustMagnitude": 36.0
+  },
+  "prestigeScore": 36.0,
+  "gradeDistribution": {
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/nousresearch.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

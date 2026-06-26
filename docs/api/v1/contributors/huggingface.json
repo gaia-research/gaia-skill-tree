@@ -1,0 +1,31 @@
+{
+  "handle": "huggingface",
+  "namedSkills": [
+    {
+      "id": "huggingface/semantic-cache",
+      "name": "Semantic Cache",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "huggingface",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/huggingface/semantic-cache.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "huggingface/semantic-cache",
+    "level": "2★",
+    "trustMagnitude": 36.0
+  },
+  "prestigeScore": 36.0,
+  "gradeDistribution": {
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/huggingface.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

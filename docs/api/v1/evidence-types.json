@@ -1,0 +1,192 @@
+{
+  "types": [
+    {
+      "id": "fusion-recipe",
+      "description": "Skill emerges from composition of graded prior work. Auto-derived for every fused/Ultimate skill from suiteComponents (RFC §10.8). Only graded≥C origins count toward origin tally.",
+      "magnitude": "20 * origins for origins <= 10; 200 + 20 * sqrt(origins - 10) for origins > 10",
+      "weight": 1.5,
+      "cap": "softened (no hard cap; sqrt curve limits growth past 10 origins)",
+      "gradeCeiling": "S",
+      "freshness": "1.0 (intrinsic — no decay)",
+      "selfProducible": true,
+      "allowedLayers": [
+        "named"
+      ],
+      "notes": "Mandatory for any fused or Ultimate skill. A skill with suiteComponents and no fusion-recipe row fails validation (RFC §10.2). Only graded≥C origins count (RFC §3.5)."
+    },
+    {
+      "id": "github-stars-own",
+      "description": "Stars on the skill's own repository. Mothership-discounted when the repo contains multiple skills.",
+      "magnitude": "min(200, stars / 1000) / mothership_divisor where mothership_divisor = min(skill_count_in_repo, 4)",
+      "weight": 1.0,
+      "cap": 200,
+      "gradeCeiling": "S",
+      "freshness": "re-fetch quarterly; no time decay (gaia refresh-stars re-stamps lastVerified)",
+      "selfProducible": false,
+      "allowedLayers": [
+        "named"
+      ],
+      "notes": "Same-source dedup collapses multiple entries pointing at same canonical URL to one. Fork-network canonicalization merges forks of same upstream unless evidence entry sets links.canonicalRepo. S-capable at 100k+ stars."
+    },
+    {
+      "id": "proxy-containment",
+      "description": "The skill's artifact is bundled inside a separately-starred external project.",
+      "magnitude": "min(160, (external_stars / 1000) * 0.8)",
+      "weight": 1.0,
+      "cap": 160,
+      "gradeCeiling": "S",
+      "freshness": "re-fetch quarterly; no time decay",
+      "selfProducible": false,
+      "allowedLayers": [
+        "generic",
+        "named"
+      ],
+      "inheritMultiplier": 0.25,
+      "maxEntriesPerSkill": 3,
+      "plateau": [
+        1.0,
+        0.5,
+        0.25
+      ],
+      "externalStarFloor": 10000,
+      "notes": "Until proxy-containment validator ships, claims count at full magnitude with explicit unverified=true flag. S-capable at 125k+ external stars (RFC §2.4)."
+    },
+    {
+      "id": "verifier-attestation",
+      "description": "A 4★+ Verifier signs an attestation that the skill is real and graded fairly.",
+      "magnitude": "30 * verifiers",
+      "weight": 1.5,
+      "cap": null,
+      "gradeCeiling": "S",
+      "freshness": "null on derank — evaluates to null (not zero) when attesting Verifier drops below 4★ (RFC §5.6)",
+      "selfProducible": false,
+      "allowedLayers": [
+        "named"
+      ],
+      "notes": "No cap on verifier count for magnitude. Diversity gate for S counts max 3 verifiers as one distinct type slot. Null-on-derank: the row is removed from TM sum; flag preserved for audit. S-capable at 3+ verifiers."
+    },
+    {
+      "id": "benchmark-result",
+      "description": "A reproducible benchmark on a public dataset, scored as percentile rank within the field.",
+      "magnitude": "percentile (0–100)",
+      "weight": 1.4,
+      "cap": 100,
+      "gradeCeiling": "S",
+      "freshness": "50%/year decay (half-life ≈ 1 year)",
+      "selfProducible": false,
+      "allowedLayers": [
+        "generic",
+        "named"
+      ],
+      "inheritMultiplier": 0.15,
+      "notes": "S-capable at 95th+ percentile. Weight 1.4 because percentiles are externally verifiable. Only at 1.4 (not 1.5) because benchmark choice can be cherry-picked."
+    },
+    {
+      "id": "arxiv",
+      "description": "Academic citation count for a published paper associated with the skill.",
+      "magnitude": "min(100, citations / 5)",
+      "weight": 1.0,
+      "cap": 100,
+      "gradeCeiling": "S",
+      "freshness": "re-fetch quarterly; no time decay",
+      "selfProducible": false,
+      "allowedLayers": [
+        "generic",
+        "named"
+      ],
+      "inheritMultiplier": 0.7,
+      "notes": "S-capable at 500+ citations (artifact_score=100). High citation counts cluster around foundational papers — these legitimately deserve S. S floor is 95 (artifact_score threshold)."
+    },
+    {
+      "id": "peer-review",
+      "description": "Structured walkthrough with written critique by 4★+ reviewers (distinct from verifier-attestation).",
+      "magnitude": "25 * reviewers",
+      "weight": 1.2,
+      "cap": null,
+      "gradeCeiling": "S",
+      "freshness": "25%/2yr decay (linear)",
+      "selfProducible": false,
+      "allowedLayers": [
+        "generic",
+        "named"
+      ],
+      "inheritMultiplier": 0.3,
+      "plateau": [
+        1.0,
+        0.5,
+        0.25
+      ],
+      "notes": "S-capable at 3+ distinct reviewers (magnitude=75, weight=1.2, artifact_score≈90). Published NAR/Nature-level peer-reviewed papers with 4★+ reviewers legitimately deserve S. S floor is 88."
+    },
+    {
+      "id": "repo-own",
+      "description": "Artifact volume evidence from the contributor's own repository (commits + contributors).",
+      "magnitude": "min(60, commits/200 + contributors^2 * 2)",
+      "weight": 0.6,
+      "cap": 60,
+      "gradeCeiling": "B",
+      "freshness": "re-fetch quarterly; no time decay",
+      "selfProducible": true,
+      "allowedLayers": [
+        "named"
+      ],
+      "notes": "B-cap and weight 0.6 ensure repo-own alone cannot carry a skill past B. Diversity gate classes repo-own as self-producible: A or S requires non-self-producible evidence on top."
+    },
+    {
+      "id": "self-attestation",
+      "description": "Contributor declaration that the skill exists and is real. Flat 10 magnitude, max 1 entry per skill.",
+      "magnitude": "10 (flat)",
+      "weight": 0.5,
+      "cap": 10,
+      "gradeCeiling": "C",
+      "freshness": "static — never decays",
+      "selfProducible": true,
+      "allowedLayers": [
+        "named"
+      ],
+      "maxEntriesPerSkill": 1,
+      "notes": "C-cap. A skill with only self-attestation scores 5 artifact score (10 × 0.5) and lands ungraded. Placeholder for newly-added skills with no external trail yet."
+    },
+    {
+      "id": "social-signal",
+      "description": "Creator/audience evidence — video views, engagement, topical authority from external creators.",
+      "magnitude": "log10(views) * 8 * creator_mult * engagement_ratio where engagement_ratio = min(1.5, (likes + comments*5) / views * 50)",
+      "weight": 1.0,
+      "cap": 80,
+      "gradeCeiling": "A",
+      "freshness": "50%/year decay (half-life ≈ 1 year)",
+      "selfProducible": false,
+      "allowedLayers": [
+        "generic",
+        "named"
+      ],
+      "inheritMultiplier": 0.35,
+      "maxEntriesPerSkill": 3,
+      "plateau": [
+        1.0,
+        0.5,
+        0.25
+      ],
+      "creatorMultipliers": {
+        "sameAsAuthor": 0,
+        "anonymous": 0.3,
+        "established": 0.6,
+        "topicalAuthority": 1.0,
+        "recognizedVoice": 1.2,
+        "reserved": 1.4
+      },
+      "viewFloor": 1000,
+      "publishCooldownDays": 30,
+      "notes": "Hard A-cap (RFC §10.7): social-signal contribution to TM never exceeds 80. Same-creator dedup: 2nd entry at 0.5×, 3rd at 0.25× regardless of slot. recognizedVoice (1.2×) requires 2 cross-org 4★+ verifier cosigns via gaia dev evidence --cosign-with."
+    }
+  ],
+  "gradeThresholds": {
+    "S": 250,
+    "A": 100,
+    "B": 50,
+    "C": 20
+  },
+  "_links": {
+    "self": "/api/v1/evidence-types.json"
+  }
+}

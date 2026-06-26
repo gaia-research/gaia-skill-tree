@@ -1,0 +1,81 @@
+{
+  "id": "ruvnet/dual-coordinate",
+  "name": "Dual Coordinate",
+  "contributor": "ruvnet",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 36.0,
+  "overallTrustGrade": "C",
+  "_links": {
+    "self": "/api/v1/skills/ruvnet/dual-coordinate.json",
+    "contributor": "/api/v1/contributors/ruvnet.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Hybrid Orchestrator",
+  "genericSkillRef": "hybrid-workflow-coordination",
+  "origin": true,
+  "description": "Coordinates hybrid Claude+Codex workflows by routing tasks between interactive reasoning phases and parallel background execution.",
+  "tags": [
+    "dual-mode",
+    "hybrid-workflow",
+    "orchestration",
+    "task-routing",
+    "parallel-execution"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/ruvnet/ruflo",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-19",
+      "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "commits": 6899,
+      "contributors": 32,
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-14T12:32:53Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:20Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T11:07:58Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:38Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:43Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/ruvnet/ruflo"
+  }
+}

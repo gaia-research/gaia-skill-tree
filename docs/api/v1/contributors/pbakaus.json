@@ -1,0 +1,31 @@
+{
+  "handle": "pbakaus",
+  "namedSkills": [
+    {
+      "id": "pbakaus/impeccable",
+      "name": "Impeccable",
+      "level": "4★",
+      "trustMagnitude": 122.8,
+      "overallTrustGrade": "A",
+      "contributor": "pbakaus",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/pbakaus/impeccable.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "pbakaus/impeccable",
+    "level": "4★",
+    "trustMagnitude": 122.8
+  },
+  "prestigeScore": 122.8,
+  "gradeDistribution": {
+    "A": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/pbakaus.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}
