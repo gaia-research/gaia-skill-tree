@@ -1,0 +1,1511 @@
+{
+  "distribution": {
+    "total": 249,
+    "S": 4,
+    "A": 42,
+    "B": 56,
+    "C": 77,
+    "ungraded": 70,
+    "floor": 0,
+    "up": 0
+  },
+  "rows": [
+    {
+      "id": "garrytan/gstack",
+      "trustMagnitude": 589.32,
+      "grade": "S",
+      "level": "5★"
+    },
+    {
+      "id": "ruvnet/ruflo",
+      "trustMagnitude": 482.27,
+      "grade": "S",
+      "level": "5★"
+    },
+    {
+      "id": "mattpocock/skills",
+      "trustMagnitude": 480.29,
+      "grade": "S",
+      "level": "5★"
+    },
+    {
+      "id": "obra/superpowers",
+      "trustMagnitude": 445.15,
+      "grade": "S",
+      "level": "5★"
+    },
+    {
+      "id": "mattpocock/engineering",
+      "trustMagnitude": 270.0,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "ruvnet/agentdb",
+      "trustMagnitude": 201.0,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "ruvnet/ruflo-v3",
+      "trustMagnitude": 186.0,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "pexp13/sentiment-analysis",
+      "trustMagnitude": 183.9,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "garrytan/garrytan",
+      "trustMagnitude": 156.0,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "ruvnet/dual-mode",
+      "trustMagnitude": 126.0,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "pbakaus/impeccable",
+      "trustMagnitude": 122.8,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "mattpocock/productivity",
+      "trustMagnitude": 120.0,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "ruvnet/reasoningbank",
+      "trustMagnitude": 118.5,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "obra/subagent-driven-development",
+      "trustMagnitude": 117.65,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "obra/using-git-worktrees",
+      "trustMagnitude": 117.65,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "safishamsi/graphify",
+      "trustMagnitude": 116.57,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "obra/writing-plans",
+      "trustMagnitude": 110.15,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/alphafold_database_fetch_and_analyze",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/alphagenome_single_variant_analysis",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/embl_ebi_ols",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/encode_ccres_database",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/ensembl_database",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/foldseek_structural_search",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/gnomad_database",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/gtex_database",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/human_protein_atlas_database",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/interpro_database",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/jaspar_database",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/literature_search_europepmc",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/literature_search_openalex",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/ncbi_sequence_fetch",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/openfda_database",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/opentargets_database",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/protein_sequence_similarity_search",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/pubchem_database",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/pymol",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/quickgo_database",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/reactome_database",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/science_skills_common",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/ucsc_conservation_and_tfbs",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/unibind_database",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/uv",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "google-deepmind/workflow_skill_creator",
+      "trustMagnitude": 100.82,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "openai/few-shot-learning",
+      "trustMagnitude": 100.0,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "openai/self-consistency",
+      "trustMagnitude": 100.0,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "stanfordnlp/dspy",
+      "trustMagnitude": 100.0,
+      "grade": "A",
+      "level": "4★"
+    },
+    {
+      "id": "ruvnet/hive-mind-coordination",
+      "trustMagnitude": 96.09,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "ruvnet/flow-nexus",
+      "trustMagnitude": 96.0,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "obra/brainstorming",
+      "trustMagnitude": 95.15,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "obra/executing-plans",
+      "trustMagnitude": 95.15,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "obra/verification-before-completion",
+      "trustMagnitude": 95.15,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "martin-stepanoski/nielsen-heuristics-audit",
+      "trustMagnitude": 94.9,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "mattpocock/diagnose",
+      "trustMagnitude": 90.38,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "mattpocock/edit-article",
+      "trustMagnitude": 90.38,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "mattpocock/obsidian-vault",
+      "trustMagnitude": 90.38,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "mattpocock/to-issues",
+      "trustMagnitude": 90.38,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "mattpocock/ubiquitous-language",
+      "trustMagnitude": 90.38,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "anthropic/skill-creator",
+      "trustMagnitude": 90.0,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/browse",
+      "trustMagnitude": 88.5,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "obra/dispatching-parallel-agents",
+      "trustMagnitude": 86.0,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "addy-osmani/performance-optimization",
+      "trustMagnitude": 83.2,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/retro",
+      "trustMagnitude": 81.0,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "browser-use/browser-harness",
+      "trustMagnitude": 73.59,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "google-deepmind/chembl_database",
+      "trustMagnitude": 70.82,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "google-deepmind/clinical_trials_database",
+      "trustMagnitude": 70.82,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "google-deepmind/clinvar_database",
+      "trustMagnitude": 70.82,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "google-deepmind/dbsnp_database",
+      "trustMagnitude": 70.82,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "google-deepmind/literature_search_arxiv",
+      "trustMagnitude": 70.82,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "google-deepmind/literature_search_biorxiv",
+      "trustMagnitude": 70.82,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "google-deepmind/pdb_database",
+      "trustMagnitude": 70.82,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "google-deepmind/protein_sequence_msa",
+      "trustMagnitude": 70.82,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "google-deepmind/pubmed_database",
+      "trustMagnitude": 70.82,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "google-deepmind/string_database",
+      "trustMagnitude": 70.82,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "google-deepmind/uniprot_database",
+      "trustMagnitude": 70.82,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/careful",
+      "trustMagnitude": 66.0,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/office-hours",
+      "trustMagnitude": 66.0,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/plan-eng-review",
+      "trustMagnitude": 66.0,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "ruvnet/github-suite",
+      "trustMagnitude": 66.0,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "obra/systematic-debugging",
+      "trustMagnitude": 65.15,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/benchmark",
+      "trustMagnitude": 63.73,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/canary",
+      "trustMagnitude": 63.73,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/cso",
+      "trustMagnitude": 63.73,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/design-consultation",
+      "trustMagnitude": 63.73,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/design-html",
+      "trustMagnitude": 63.73,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/design-shotgun",
+      "trustMagnitude": 63.73,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/document-generate",
+      "trustMagnitude": 63.73,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/investigate",
+      "trustMagnitude": 63.73,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/land-and-deploy",
+      "trustMagnitude": 63.73,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/plan-ceo-review",
+      "trustMagnitude": 63.73,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/plan-design-review",
+      "trustMagnitude": 63.73,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/plan-devex-review",
+      "trustMagnitude": 63.73,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/qa",
+      "trustMagnitude": 63.73,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/review",
+      "trustMagnitude": 63.73,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/ship",
+      "trustMagnitude": 63.73,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "garrytan/skillify",
+      "trustMagnitude": 63.73,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "mattpocock/grill-me",
+      "trustMagnitude": 63.71,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "mattpocock/grill-with-docs",
+      "trustMagnitude": 63.71,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "mattpocock/handoff",
+      "trustMagnitude": 63.71,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "mattpocock/to-prd",
+      "trustMagnitude": 63.71,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "mattpocock/personal",
+      "trustMagnitude": 60.0,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "mattpocock/setup-matt-pocock-skills",
+      "trustMagnitude": 56.21,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "mattpocock/triage",
+      "trustMagnitude": 56.21,
+      "grade": "B",
+      "level": "3★"
+    },
+    {
+      "id": "mattpocock/improve-codebase-architecture",
+      "trustMagnitude": 45.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "mattpocock/write-a-skill",
+      "trustMagnitude": 45.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "mattpocock/teach",
+      "trustMagnitude": 44.48,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "xquik-dev/hermes-tweet",
+      "trustMagnitude": 42.47,
+      "grade": "C",
+      "level": "3★"
+    },
+    {
+      "id": "mattpocock/prototype",
+      "trustMagnitude": 41.21,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "bradautomates/claude-video",
+      "trustMagnitude": 37.47,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "addy-osmani/test-driven-development",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "anthropic/pptx",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "firecrawl/firecrawl",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "gaiabot/repo-docs-before-pr",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/benchmark-models",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/codex",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/context-restore",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/context-save",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/design-review",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/devex-review",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/document-release",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/freeze",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/gstack-upgrade",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/guard",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/health",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/landing-report",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/learn",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/make-pdf",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/open-gstack-browser",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/pair-agent",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/plan-tune",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/qa-only",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/scrape",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/setup-browser-cookies",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/setup-deploy",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/setup-gbrain",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/sync-gbrain",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "garrytan/unfreeze",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "getagentseal/codeburn",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "huggingface/semantic-cache",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "karpathy/autoresearch",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "laravel/upgrade-laravel-v13",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "Manavarya09/design-extract",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "mbtiongson1/gaia-audit",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "mbtiongson1/gaia-curation-review",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "mbtiongson1/gaia-meta-audit",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "mbtiongson1/gaia-preview",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "mbtiongson1/graphify-triage",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "nexu-io/open-design",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "nousresearch/feed-monitoring",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "obra/finishing-a-development-branch",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "obra/receiving-code-review",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "obra/requesting-code-review",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/agentdb-advanced",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/agentdb-memory-patterns",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/agentdb-optimization",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/agentdb-vector-search",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/agentic-jujutsu",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/dual-collect",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/dual-coordinate",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/dual-spawn",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/flow-nexus-neural",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/flow-nexus-platform",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/github-multi-repo",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/pair-programming",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/reasoningbank-intelligence",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/stream-chain",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/swarm-advanced",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/swarm-orchestration",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/v3-cli-modernization",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/v3-core-implementation",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/v3-ddd-architecture",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/v3-integration-deep",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/verification-quality",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "ruvnet/worker-integration",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "santifer/career-ops",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "spring-ai/readme-generate",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "vercel/find-skills",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "upsonic/unittest-generator",
+      "trustMagnitude": 33.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "devin-ai/autonomous-swe",
+      "trustMagnitude": 30.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "mattpocock/caveman",
+      "trustMagnitude": 30.0,
+      "grade": "C",
+      "level": "2★"
+    },
+    {
+      "id": "intelligentcode-ai/database-engineer",
+      "trustMagnitude": 6.3,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "intelligentcode-ai/devops-engineer",
+      "trustMagnitude": 6.3,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "intelligentcode-ai/mcp-client",
+      "trustMagnitude": 6.3,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "intelligentcode-ai/parallel-execution",
+      "trustMagnitude": 6.3,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "intelligentcode-ai/release",
+      "trustMagnitude": 6.3,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "intelligentcode-ai/requirements-engineer",
+      "trustMagnitude": 6.3,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "intelligentcode-ai/security-engineer",
+      "trustMagnitude": 6.3,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "intelligentcode-ai/user-tester",
+      "trustMagnitude": 6.3,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "glincker/readme-generator",
+      "trustMagnitude": 6.22,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mattpocock/ask-matt",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mattpocock/codebase-design",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mattpocock/diagnosing-bugs",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mattpocock/domain-modeling",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mattpocock/git-guardrails-claude-code",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mattpocock/grilling",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mattpocock/implement",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mattpocock/migrate-to-shoehorn",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mattpocock/resolving-merge-conflicts",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mattpocock/scaffold-exercises",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mattpocock/setup-pre-commit",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mattpocock/tdd",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mattpocock/writing-great-skills",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "0xdarkmatter/pytest-patterns",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "browserbase/stagehand",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "changkun/plan-decompose-gh-wallfacer",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "gaiabot/gaia-triage",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "gooseworks/notte-browser",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "huggingface/hf-cli",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "huggingface/huggingface-datasets",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "huggingface/huggingface-llm-trainer",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "huggingface/huggingface-papers",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "huggingface/huggingface-vision-trainer",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "huggingface/transformers-js",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "langgenius/backend-code-review",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "langgenius/component-refactoring",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "langgenius/e2e-cucumber-playwright",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "langgenius/frontend-code-review",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "langgenius/frontend-testing",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mattpocock/zoom-out",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mbtiongson1/gaia-bot-curate",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mbtiongson1/gaia-curate",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mbtiongson1/gaia-docs-sync",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mbtiongson1/gaia-draft-curate",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mbtiongson1/gaia-integrity",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mbtiongson1/gaia-triage",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "mbtiongson1/gaia-wiki-sync",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/agentdb-learning",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/browser",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/flow-nexus-swarm",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/github-code-review",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/github-project-management",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/github-release-management",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/github-workflow-automation",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/hooks-automation",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/performance-analysis",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/reasoningbank-agentdb",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/skill-builder",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/sparc-methodology",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/v3-mcp-optimization",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/v3-memory-unification",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/v3-performance-optimization",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/v3-security-overhaul",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/v3-swarm-coordination",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "ruvnet/worker-benchmarks",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "sickn33/ai-dev-jobs-mcp",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "sickn33/mcp-builder",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "sickn33/n8n-mcp-tools-expert",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "Taoidle/plan-decompose-gh-plan-cascade",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "yonatangross/orchestkit-rag",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    },
+    {
+      "id": "yundu-ai/mcp-tool-developer",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★"
+    }
+  ],
+  "_links": {
+    "self": "/api/v1/leaderboard.json"
+  }
+}

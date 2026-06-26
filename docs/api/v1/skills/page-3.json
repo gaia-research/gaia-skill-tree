@@ -1,0 +1,479 @@
+{
+  "skills": [
+    {
+      "id": "mbtiongson1/gaia-audit",
+      "name": "Gaia Audit",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "mbtiongson1",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mbtiongson1/gaia-audit.json"
+      }
+    },
+    {
+      "id": "mbtiongson1/gaia-curation-review",
+      "name": "Gaia Curation Review",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "mbtiongson1",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mbtiongson1/gaia-curation-review.json"
+      }
+    },
+    {
+      "id": "mbtiongson1/gaia-meta-audit",
+      "name": "Gaia Meta Audit",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "mbtiongson1",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mbtiongson1/gaia-meta-audit.json"
+      }
+    },
+    {
+      "id": "mbtiongson1/gaia-preview",
+      "name": "Gaia Preview",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "mbtiongson1",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mbtiongson1/gaia-preview.json"
+      }
+    },
+    {
+      "id": "mbtiongson1/graphify-triage",
+      "name": "Graphify Triage",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "mbtiongson1",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mbtiongson1/graphify-triage.json"
+      }
+    },
+    {
+      "id": "nexu-io/open-design",
+      "name": "Open Design",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "nexu-io",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/nexu-io/open-design.json"
+      }
+    },
+    {
+      "id": "nousresearch/feed-monitoring",
+      "name": "Feed Monitoring",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "nousresearch",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/nousresearch/feed-monitoring.json"
+      }
+    },
+    {
+      "id": "obra/finishing-a-development-branch",
+      "name": "Finishing a Development Branch",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/finishing-a-development-branch.json"
+      }
+    },
+    {
+      "id": "obra/receiving-code-review",
+      "name": "Receiving Code Review",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/receiving-code-review.json"
+      }
+    },
+    {
+      "id": "obra/requesting-code-review",
+      "name": "Requesting Code Review",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/requesting-code-review.json"
+      }
+    },
+    {
+      "id": "ruvnet/agentdb-advanced",
+      "name": "AgentDB Advanced",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb-advanced.json"
+      }
+    },
+    {
+      "id": "ruvnet/agentdb-memory-patterns",
+      "name": "AgentDB Memory Patterns",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb-memory-patterns.json"
+      }
+    },
+    {
+      "id": "ruvnet/agentdb-optimization",
+      "name": "AgentDB Optimization",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb-optimization.json"
+      }
+    },
+    {
+      "id": "ruvnet/agentdb-vector-search",
+      "name": "AgentDB Vector Search",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb-vector-search.json"
+      }
+    },
+    {
+      "id": "ruvnet/agentic-jujutsu",
+      "name": "Agentic Jujutsu",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentic-jujutsu.json"
+      }
+    },
+    {
+      "id": "ruvnet/dual-collect",
+      "name": "Dual Collect",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-collect.json"
+      }
+    },
+    {
+      "id": "ruvnet/dual-coordinate",
+      "name": "Dual Coordinate",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-coordinate.json"
+      }
+    },
+    {
+      "id": "ruvnet/dual-spawn",
+      "name": "Dual Spawn",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-spawn.json"
+      }
+    },
+    {
+      "id": "ruvnet/flow-nexus-neural",
+      "name": "Flow Nexus Neural",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/flow-nexus-neural.json"
+      }
+    },
+    {
+      "id": "ruvnet/flow-nexus-platform",
+      "name": "Flow Nexus Platform",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/flow-nexus-platform.json"
+      }
+    },
+    {
+      "id": "ruvnet/github-multi-repo",
+      "name": "GitHub Multi-Repo",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/github-multi-repo.json"
+      }
+    },
+    {
+      "id": "ruvnet/pair-programming",
+      "name": "Pair Programming",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/pair-programming.json"
+      }
+    },
+    {
+      "id": "ruvnet/reasoningbank-intelligence",
+      "name": "ReasoningBank Intelligence",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/reasoningbank-intelligence.json"
+      }
+    },
+    {
+      "id": "ruvnet/stream-chain",
+      "name": "Stream Chain",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/stream-chain.json"
+      }
+    },
+    {
+      "id": "ruvnet/swarm-advanced",
+      "name": "Swarm Advanced",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/swarm-advanced.json"
+      }
+    },
+    {
+      "id": "ruvnet/swarm-orchestration",
+      "name": "Swarm Orchestration",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/swarm-orchestration.json"
+      }
+    },
+    {
+      "id": "ruvnet/v3-cli-modernization",
+      "name": "V3 CLI Modernization",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/v3-cli-modernization.json"
+      }
+    },
+    {
+      "id": "ruvnet/v3-core-implementation",
+      "name": "V3 Core Implementation",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/v3-core-implementation.json"
+      }
+    },
+    {
+      "id": "ruvnet/v3-ddd-architecture",
+      "name": "V3 DDD Architecture",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/v3-ddd-architecture.json"
+      }
+    },
+    {
+      "id": "ruvnet/v3-integration-deep",
+      "name": "V3 Integration Deep",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/v3-integration-deep.json"
+      }
+    },
+    {
+      "id": "ruvnet/verification-quality",
+      "name": "Verification Quality",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/verification-quality.json"
+      }
+    },
+    {
+      "id": "ruvnet/worker-integration",
+      "name": "Worker Integration",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/worker-integration.json"
+      }
+    },
+    {
+      "id": "santifer/career-ops",
+      "name": "Career-Ops",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "santifer",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/santifer/career-ops.json"
+      }
+    },
+    {
+      "id": "spring-ai/readme-generate",
+      "name": "REST API README Generator",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "spring-ai",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/spring-ai/readme-generate.json"
+      }
+    },
+    {
+      "id": "vercel/find-skills",
+      "name": "Find Skills",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "vercel",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/vercel/find-skills.json"
+      }
+    },
+    {
+      "id": "upsonic/unittest-generator",
+      "name": "Unittest Generator",
+      "level": "2★",
+      "trustMagnitude": 33.0,
+      "overallTrustGrade": "C",
+      "contributor": "upsonic",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/upsonic/unittest-generator.json"
+      }
+    },
+    {
+      "id": "devin-ai/autonomous-swe",
+      "name": "Autonomous SWE",
+      "level": "2★",
+      "trustMagnitude": 30.0,
+      "overallTrustGrade": "C",
+      "contributor": "devin-ai",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/devin-ai/autonomous-swe.json"
+      }
+    },
+    {
+      "id": "mattpocock/caveman",
+      "name": "Caveman Mode",
+      "level": "2★",
+      "trustMagnitude": 30.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/caveman.json"
+      }
+    },
+    {
+      "id": "mattpocock/teach",
+      "name": "Teach",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": "ungraded",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/teach.json"
+      }
+    }
+  ],
+  "page": 3,
+  "totalPages": 3,
+  "totalSkills": 139,
+  "_links": {
+    "self": "/api/v1/skills/page-3.json",
+    "prev": "/api/v1/skills/page-2.json"
+  }
+}

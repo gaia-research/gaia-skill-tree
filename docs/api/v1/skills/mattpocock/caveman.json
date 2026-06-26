@@ -1,0 +1,77 @@
+{
+  "id": "mattpocock/caveman",
+  "name": "Caveman Mode",
+  "contributor": "mattpocock",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 30.0,
+  "overallTrustGrade": "C",
+  "_links": {
+    "self": "/api/v1/skills/mattpocock/caveman.json",
+    "contributor": "/api/v1/contributors/mattpocock.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Caveman Console",
+  "genericSkillRef": "context-compression",
+  "origin": false,
+  "description": "An ultra-compressed communication mode designed to save tokens by dropping articles and filler words. Removed from mattpocock/skills suite in v1.0.1.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/mattpocock/skills/issues/189",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "GitHub issue about caveman skill feature request.",
+      "grade": "C"
+    }
+  ],
+  "timeline": [
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:18Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-19T12:32:52Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/mattpocock/skills/issues/189 (type: peer-review)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T12:53:50Z",
+      "details": "TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:38Z",
+      "details": "TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:41Z",
+      "details": "TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:30Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
+    }
+  ],
+  "links": {
+    "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman"
+  }
+}

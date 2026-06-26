@@ -1,0 +1,64 @@
+{
+  "id": "mattpocock/engineering",
+  "name": "Engineering",
+  "contributor": "mattpocock",
+  "level": "4★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 270.0,
+  "overallTrustGrade": "A",
+  "_links": {
+    "self": "/api/v1/skills/mattpocock/engineering.json",
+    "contributor": "/api/v1/contributors/mattpocock.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Matt Pocock Engineering Discipline",
+  "genericSkillRef": "engineering-discipline",
+  "origin": true,
+  "description": "Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "timeline": [
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:18Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:38Z",
+      "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:41Z",
+      "details": "TM 0.0 -> 270.0, grade ungraded -> A (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:31Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Level updated from 5★ to 4★ per G7 final rankings calibration."
+    }
+  ],
+  "suiteComponents": [
+    "mattpocock/diagnose",
+    "mattpocock/grill-with-docs",
+    "mattpocock/improve-codebase-architecture",
+    "mattpocock/prototype",
+    "mattpocock/setup-matt-pocock-skills",
+    "mattpocock/to-issues",
+    "mattpocock/to-prd",
+    "mattpocock/triage",
+    "mattpocock/ubiquitous-language",
+    "mattpocock/zoom-out"
+  ]
+}

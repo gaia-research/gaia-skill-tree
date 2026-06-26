@@ -1,0 +1,150 @@
+{
+  "id": "mattpocock/to-prd",
+  "name": "To PRD",
+  "contributor": "mattpocock",
+  "level": "3★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 63.71,
+  "overallTrustGrade": "B",
+  "_links": {
+    "self": "/api/v1/skills/mattpocock/to-prd.json",
+    "contributor": "/api/v1/contributors/mattpocock.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The PRD Synthesiser",
+  "genericSkillRef": "prd-generation",
+  "origin": true,
+  "description": "Synthesises the current conversation context and codebase knowledge into a fully-structured PRD — problem statement, extensive numbered user stories, implementation decisions (modules, interfaces, schema), testing decisions, and out-of-scope items — then publishes it to the project issue tracker.",
+  "tags": [
+    "prd",
+    "requirements",
+    "user-stories",
+    "product-management",
+    "issue-tracker"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "Production skill that synthesises live conversation context into a fully-structured PRD and publishes it to the issue tracker. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "commits": 137,
+      "contributors": 3,
+      "grade": "C"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills/issues/156",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "GitHub issue about to-prd skill behavior.",
+      "grade": "C"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills/issues/212",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "GitHub issue about to-prd skill workflow question.",
+      "grade": "C"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills/issues/240",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "GitHub issue about to-prd skill interaction with grill-me."
+    },
+    {
+      "source": "https://github.com/mattpocock/skills/discussions/217",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "GitHub discussion about to-prd skill workflow."
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-14T12:32:44Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:18Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T11:07:58Z",
+      "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-19T12:36:40Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/mattpocock/skills/issues/156 (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-06-19T12:36:55Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/mattpocock/skills/issues/212 (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-06-19T12:37:11Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/mattpocock/skills/issues/240 (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-06-19T12:37:26Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/mattpocock/skills/discussions/217 (type: peer-review)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T12:53:50Z",
+      "details": "TM 11.21 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:38Z",
+      "details": "TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:41Z",
+      "details": "TM 0.0 -> 63.71, grade ungraded -> B (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:32Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+    }
+  ],
+  "links": {
+    "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md"
+  }
+}

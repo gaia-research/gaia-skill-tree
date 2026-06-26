@@ -1,0 +1,166 @@
+{
+  "handle": "obra",
+  "namedSkills": [
+    {
+      "id": "obra/superpowers",
+      "name": "Superpowers",
+      "level": "5★",
+      "trustMagnitude": 445.15,
+      "overallTrustGrade": "S",
+      "contributor": "obra",
+      "type": "ultimate",
+      "_links": {
+        "self": "/api/v1/skills/obra/superpowers.json"
+      }
+    },
+    {
+      "id": "obra/subagent-driven-development",
+      "name": "Subagent-Driven Development",
+      "level": "4★",
+      "trustMagnitude": 117.65,
+      "overallTrustGrade": "A",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/subagent-driven-development.json"
+      }
+    },
+    {
+      "id": "obra/using-git-worktrees",
+      "name": "Using Git Worktrees",
+      "level": "4★",
+      "trustMagnitude": 117.65,
+      "overallTrustGrade": "A",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/using-git-worktrees.json"
+      }
+    },
+    {
+      "id": "obra/writing-plans",
+      "name": "Writing Plans",
+      "level": "4★",
+      "trustMagnitude": 110.15,
+      "overallTrustGrade": "A",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/writing-plans.json"
+      }
+    },
+    {
+      "id": "obra/brainstorming",
+      "name": "Brainstorming",
+      "level": "3★",
+      "trustMagnitude": 95.15,
+      "overallTrustGrade": "B",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/brainstorming.json"
+      }
+    },
+    {
+      "id": "obra/executing-plans",
+      "name": "Executing Plans",
+      "level": "3★",
+      "trustMagnitude": 95.15,
+      "overallTrustGrade": "B",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/executing-plans.json"
+      }
+    },
+    {
+      "id": "obra/verification-before-completion",
+      "name": "Verification Before Completion",
+      "level": "3★",
+      "trustMagnitude": 95.15,
+      "overallTrustGrade": "B",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/verification-before-completion.json"
+      }
+    },
+    {
+      "id": "obra/dispatching-parallel-agents",
+      "name": "Dispatching Parallel Agents",
+      "level": "3★",
+      "trustMagnitude": 86.0,
+      "overallTrustGrade": "B",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/dispatching-parallel-agents.json"
+      }
+    },
+    {
+      "id": "obra/systematic-debugging",
+      "name": "Systematic Debugging",
+      "level": "3★",
+      "trustMagnitude": 65.15,
+      "overallTrustGrade": "B",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/systematic-debugging.json"
+      }
+    },
+    {
+      "id": "obra/finishing-a-development-branch",
+      "name": "Finishing a Development Branch",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/finishing-a-development-branch.json"
+      }
+    },
+    {
+      "id": "obra/receiving-code-review",
+      "name": "Receiving Code Review",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/receiving-code-review.json"
+      }
+    },
+    {
+      "id": "obra/requesting-code-review",
+      "name": "Requesting Code Review",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/requesting-code-review.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 12,
+  "topSkill": {
+    "id": "obra/superpowers",
+    "level": "5★",
+    "trustMagnitude": 445.15
+  },
+  "prestigeScore": 1335.2,
+  "gradeDistribution": {
+    "S": 1,
+    "A": 3,
+    "B": 5,
+    "C": 3
+  },
+  "_links": {
+    "self": "/api/v1/contributors/obra.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

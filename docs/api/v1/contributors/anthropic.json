@@ -1,0 +1,44 @@
+{
+  "handle": "anthropic",
+  "namedSkills": [
+    {
+      "id": "anthropic/skill-creator",
+      "name": "Skill Creator",
+      "level": "3★",
+      "trustMagnitude": 90.0,
+      "overallTrustGrade": "B",
+      "contributor": "anthropic",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/anthropic/skill-creator.json"
+      }
+    },
+    {
+      "id": "anthropic/pptx",
+      "name": "PPTX Editor",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "anthropic",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/anthropic/pptx.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 2,
+  "topSkill": {
+    "id": "anthropic/skill-creator",
+    "level": "3★",
+    "trustMagnitude": 90.0
+  },
+  "prestigeScore": 126.0,
+  "gradeDistribution": {
+    "B": 1,
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/anthropic.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

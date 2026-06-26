@@ -1,0 +1,116 @@
+{
+  "id": "mattpocock/triage",
+  "name": "Triage",
+  "contributor": "mattpocock",
+  "level": "3★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 56.21,
+  "overallTrustGrade": "B",
+  "_links": {
+    "self": "/api/v1/skills/mattpocock/triage.json",
+    "contributor": "/api/v1/contributors/mattpocock.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The State-Machine Triager",
+  "genericSkillRef": "issue-triage",
+  "origin": true,
+  "description": "Moves GitHub issues through a two-category (bug/enhancement) × five-state (needs-triage/needs-info/ready-for-agent/ready-for-human/wontfix) state machine. Reproduces bugs from issue steps, runs a domain-aware grilling session when needed, writes structured agent briefs, and appends AI-generated triage notes with the required disclaimer.",
+  "tags": [
+    "issue-triage",
+    "state-machine",
+    "bug-reproduction",
+    "agent-brief",
+    "github-issues"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "Production triage skill with state-machine workflow, HITL/AFK routing, and\" structured agent-brief output. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "commits": 137,
+      "contributors": 3,
+      "grade": "C"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills/issues/205",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "GitHub issue about triage skill requirements.",
+      "grade": "C"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills/issues/289",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "GitHub issue about triage skill classification gap.",
+      "grade": "C"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-14T12:32:44Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:18Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T11:52:12Z",
+      "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-19T12:37:49Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/mattpocock/skills/issues/205 (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-06-19T12:38:05Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/mattpocock/skills/issues/289 (type: peer-review)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T12:53:50Z",
+      "details": "TM 11.21 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:38Z",
+      "details": "TM 0.0 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:42Z",
+      "details": "TM 0.0 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md"
+  }
+}
