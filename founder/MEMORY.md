@@ -2,6 +2,82 @@
 
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
+## State Snapshot (2026-06-26, session 24 — B1 Public Trust API shipped: PR #857 merged, kill criterion met)
+
+### TLDR
+- Sprint B B1 (#849) is **DONE** — `docs/api/v1/` live on main, 139 skills, 28 contributors
+- Kill criterion met: `curl .../api/v1/skills/garrytan/gstack.json` returns `trustMagnitude` + `overallTrustGrade`
+- CORS solved for free — Cloudflare already adds `Access-Control-Allow-Origin: *` site-wide (verified live)
+- Hosting architecture clarified and documented (was a persistent agent confusion point)
+- 0% CI churn across both PRs this session
+- Total session cost: ~$8.65 (planning $5.65 + coding/review $3.00)
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `docs/api/v1/` | ✅ Created — 174 Class S JSON files committed to main |
+| `scripts/buildApiProjection.py` | ✅ New — 446 lines, hooked into `gaia dev docs` |
+| `tests/test_api_projection.py` | ✅ New — 20/20 hermetic tests passing |
+| `scripts/build_docs.py` | ✅ `build_api_projection()` wired in, `api/index.html` pre-registered |
+| `founder/API_PRODUCT_STORY.md` | ✅ New — canonical "why the API exists" doc (product story, use cases) |
+| `founder/handovers/B1_IMPL_SPEC.md` | ✅ New — full implementation spec (Opus planning pass) |
+| `DEV.md` | ✅ New §0 Hosting Architecture — prevents future agent Cloudflare confusion |
+| `.github/workflows/cf-pr-preview.yml` | ✅ Renamed from `cloudflare-deploy.yml` — clearer purpose |
+| Issue #849 | ✅ Closed (auto-closed by PR #857 merge) |
+| EPIC #855 | ✅ B1 logged as done in issue comment |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `main` | `eb37c7bb` | ✅ Clean — B1 merged |
+| `dev/api-v1-projection` | — | ✅ Deleted (merged) |
+| `infra/clarify-cf-hosting` | — | ✅ Deleted (PR #856 merged) |
+
+### Issues + PRs touched
+| # | Title | Action |
+|---|---|---|
+| PR #857 | feat(api): B1 Public Trust API — static JSON projection | ✅ Merged `eb37c7bb` |
+| PR #856 | infra: clarify Cloudflare hosting — rename preview workflow + DEV.md §0 | ✅ Merged `48ae0703` |
+| #849 | feat(api): build-time static JSON projection | ✅ Closed |
+| #855 | EPIC: Sprint B | ⏳ Open — B1 logged done, B2/B3 pending |
+| #850 | OpenAPI 3.1 spec + /api/ docs page | ⏳ Open — next after B1 |
+| #851 | @gaia-registry/api-client SDK | ⏳ Open — blocked on #850 |
+
+### Routing — where things live now
+| Artifact | Path |
+|---|---|
+| API product story (why it exists) | `founder/API_PRODUCT_STORY.md` |
+| B1 implementation spec | `founder/handovers/B1_IMPL_SPEC.md` |
+| API projection script | `scripts/buildApiProjection.py` |
+| API tests | `tests/test_api_projection.py` |
+| Live API | `docs/api/v1/` (Class S, tracked) |
+| Hosting architecture docs | `DEV.md §0` |
+
+### Lessons / hazards preserved
+- **Cloudflare hosting:** Production is GitHub Pages + Cloudflare CDN. `cf-pr-preview.yml` (`wrangler deploy`) is for PR previews ONLY — not production. `_headers` files do NOT work (GitHub Pages). CORS is already `*` site-wide — verified via `curl -sI https://gaia.tiongson.co/ | grep access-control`. Do not re-litigate this.
+- **Token cost curve:** Scout-heavy workflows are cheaper than raw estimates suggest. 90% of tokens were cache reads (7.7M/8.6M). Cache reads cost ~10× less than fresh input. Estimate ~30% discount on scout-first sessions.
+- **Agent abort recovery:** When a coding agent is aborted mid-task, check `git status` + `git log --oneline` before re-dispatching. The agent may have written files without committing. Brief the continuation agent on exact state.
+- **Draft PR first:** Always push branch + open draft PR as step 1 of any coding task. Visibility beats completeness.
+- **pi harness subagent tools:** Test that subagent tools work before a long session. If they fail, stop immediately (Marcus's standing directive).
+
+### Open questions for next orchestrator
+- **#850 (OpenAPI spec + `/api/` docs page):** Ready to dispatch. Small task (S size). Depends on #849 ✅.
+- **B1 v2 backlog:** Two warnings from code review to track as follow-up issues: (1) explicit `awaitingClassification` exclusion guard, (2) evidence projection (strip internal `trustNumber` field for third parties).
+- **Sprint B kill criterion #2:** `/trending/7d` — requires B2 Trending Engine (#651, #697, #698, #852, #853, #760). Not started.
+- **Sprint B kill criterion #3:** Tweet-pitch URL — requires B3 Hall of Heroes wiring (#854). Not started.
+
+### Token cost (this session)
+| Component | Tokens | Cost |
+|---|---|---|
+| Haiku scout | ~25k in / 8k out | ~$0.10 |
+| Opus planner ×2 | ~215k in / 16k out | ~$7.00 |
+| Worker (coding) | est. ~80k | ~$2.50 |
+| Reviewer (Sonnet) | est. ~30k | ~$0.50 |
+| **Actual (pi measurement)** | out: 100,568 \| cache R: 7,747,510 | **5.18€ (~$5.65 USD) planning** |
+| **Estimated total** | — | **~$8.65 USD** |
+
+---
+
 ## State Snapshot (2026-06-26, session 23 — Sprint B scaffolding: EPIC #855 filed, 12 issues under Sprint B milestone)
 
 ### TLDR
@@ -1048,6 +1124,8 @@ After execution: milestone #4 contents = exactly {#185, #642, #649, #658, #699, 
 - `handovers/done/` — archive of 19+ historical handovers (8 obsolete PR-1..PR-8 specs, old plan, RFCs, completed sprint specs, methodology report).
 
 ## Session Log
+
+- **2026-06-26 (Sprint B kickoff — EPIC #855, B1 API planning pass)** — Marcus opened Sprint B with EPIC #855 (Public API + Trending Engine + Hall of Heroes, target July 2026, ~$25 budget). Started B1 (Public Trust API, Issue #849) planning. **Orchestration pattern used:** Haiku scout fan-out (thorough recon across 17 files/commands) → Opus planner (two passes, max thinking) → orchestrator inline for architecture clarification. **Key product insight captured** ("gold" moment): the API converts Gaia from a website you visit into infrastructure you call. The killer use case: Claude Code queries `/api/v1/skills/garrytan/gstack.json` inline while a developer asks "find me the best web search skill" — evidence-backed skill discovery inside an agentic IDE session without leaving the terminal. Documented in **`founder/API_PRODUCT_STORY.md`** (new, canonical). **Implementation spec** written to **`founder/handovers/B1_IMPL_SPEC.md`** (~31KB): 400-line `buildApiProjection.py` design, full directory tree for `docs/api/v1/`, field mapping tables, redaction rule (1★ excluded per badge invariant), pagination algorithm, `build_docs.py` hook, test plan (17 test cases), branch strategy (`dev/api-v1-projection`). **Major architecture clarification:** All previous agents (including two Opus planning passes) assumed the site was Cloudflare Pages or a Cloudflare Worker. **Truth confirmed via curl response headers:** production is **GitHub Pages + Cloudflare CDN** (`Server: cloudflare`, `X-Github-Request-Id` in headers). The `cloudflare-deploy.yml` workflow is a **manual PR preview tool** (Worker with Static Assets to workers.dev), NOT a production deploy. CORS is already solved — `Access-Control-Allow-Origin: *` is applied site-wide by Cloudflare, verified live. No `_headers` file, no Worker changes needed for the API. **Housekeeping shipped:** `infra/clarify-cf-hosting` branch + Draft PR #856 — renames `cloudflare-deploy.yml` → `cf-pr-preview.yml` with accurate names + adds `DEV.md §0 Hosting Architecture` to prevent future agent confusion. Issue #849 body updated with correct CORS/hosting context. EPIC #855 issue comment added with session log. **Artifacts created this session:** `founder/API_PRODUCT_STORY.md`, `founder/handovers/B1_IMPL_SPEC.md`, Draft PR #856, issue #849 updated. **Status:** B1 spec is coding-agent-ready. CORS is a non-issue. Next action: Marcus says "go" → dispatch coding agent for #849 on `dev/api-v1-projection`. **Token spend:** 5.18€ (~$5.65 USD). Breakdown: output 100,568 tokens (dominated by Opus planner), cache reads 7,747,510 tokens (90.3% of all tokens — Haiku scout context reuse), cache writes 719,010, fresh input 9,527. Cache reads are why actual cost (~$5.65) was $1.45 below my estimate ($7.10) — the pi harness's prompt caching for the Haiku scout is very efficient. **CI churn on PR #856: 0%** (single commit, no CI fixes needed — workflow rename + markdown only).
 
 - **2026-06-18 (session 9 day-4 — Lanes B+C complete, I8 designed, dev/* consolidation)** — All 6 Phase 1.5 PRs confirmed CI-green and open. I8 issue #740 filed and spec written to `founder/handovers/phase-1.5/issues/I8.md` via `/impeccable` design planning pass: Trust Grade notch (bottom-right rectangular metallic corner stamp, grades S/A/B/C = Platinum/Gold/Silver/Bronze) on all 6 `.plaque` variants. Platinum gets animated diagonal shimmer sweep (3.5s, `prefers-reduced-motion`-safe); ungraded shows nothing. Sampler page: `docs/samples/trust-grade-notch.html`. Source: `generated-output/i8-issue-body.md`. Dispatch held — Marco said "tomorrow." Created `dev/phase-1.5-inspection` consolidation branch (merging all 6 PR branches in dependency order: I4 → CLI-fix → I3 → I5 → I7 → I6) and pushed to origin for visual inspection before individual PR merges. MEMORY.md + I8 handover file written. CLI gap #739 (Windows cp1252 encoding bug in `timeline.py`) remains open. **Token spend (session 9 day-4):** ~$0.62. Cumulative G7: ~$18.92.
 
