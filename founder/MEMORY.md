@@ -2,6 +2,61 @@
 
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
+## State Snapshot (2026-06-26, session 23 — Sprint B scaffolding: EPIC #855 filed, 12 issues under Sprint B milestone)
+
+### TLDR
+
+- **Sprint B board is now fully scaffolded.** EPIC #855 is the single tracker to return to at the start of every session until Sprint B closes.
+- **12 open issues** under milestone "Sprint B — API + Trending + Hall of Heroes" (milestone #10).
+- **#757** (71 ungraded skills) accepted as tech-debt — removed from Immediate Next 30 Days milestone, labeled `tech-debt`. Not Sprint B scope.
+- **#761** confirmed already closed (per-evidence Grade follow-up — was Sprint A, done).
+- **Sprint A stragglers** still open: #759 (CLI pre-flight), #746 (apex gate A-graded origins). Not blocking Sprint B but tracked inside EPIC #855 for visibility.
+- **`sprint-b` label created** (`#0052CC`).
+
+### Sprint B EPIC — #855
+
+**URL:** https://github.com/mbtiongson1/gaia-skill-tree/issues/855  
+**Start every session here.** Read the EPIC, check the kill criteria, orient, then dispatch.
+
+### Sprint B issue registry
+
+| # | Workstream | Title | Size |
+|---|---|---|---|
+| #849 | B1 | feat(api): build-time static JSON projection — /api/v1/ endpoint scaffold | L |
+| #850 | B1 | feat(api): OpenAPI 3.1 spec + /api/ docs page | S |
+| #851 | B1 | feat(sdk): @gaia-registry/api-client — Python + TypeScript SDK | M |
+| #651 | B2 | Implement Trending Engine (re-milestoned) | L |
+| #697 | B2 | Implement Rising Skills View (re-milestoned) | M |
+| #698 | B2 | Implement Rising Repositories View (re-milestoned) | M |
+| #852 | B2 | feat(trending): RSS feed + 'Trending This Week' auto-post | M |
+| #853 | B2 | feat(trending): 'Recently Ascended' + 'Most Contested' sections | S |
+| #760 | B2 | infra: stargazer pull + monthly TM recompute (re-milestoned) | M |
+| #854 | B3 | feat(heroes): wire Hall of Heroes to homepage + nav + /heroes/ route | S |
+| #762 | cross | automate source curation workflow (already in Sprint B, confirmed) | M |
+| #855 | EPIC | Sprint B EPIC tracking issue | — |
+
+### Kill criteria (Sprint B done when all three pass)
+
+1. `curl https://gaia.tiongson.co/api/v1/skills/garrytan/gstack` returns valid JSON with `trustMagnitude` and `overallTrustGrade`
+2. `/trending/7d` shows real movement (not zeros) on Monday morning
+3. A tweet-length pitch — *'Gaia tracks which AI agent skills are trending'* — has a clickable URL
+
+### Board hygiene done this session
+
+- `sprint-b` label created (`#0052CC`)
+- #757 milestone cleared + `tech-debt` label added (accepted debt)
+- #697, #698, #651, #760, #762 re-milestoned to Sprint B + `sprint-b` label added
+- #761 confirmed closed (Sprint A)
+- Existing Sprint A open items (#759, #746) left as-is — still valid, not Sprint B blockers
+
+### Token spend (session 23)
+
+- Orchestrator inline (no sub-agents — pi environment has no Anthropic key for sub-agents): ~40k in / ~8k out / **~$0.60**
+- **Session 23 total: ~$0.60**
+- **Cumulative post-5.0.0: ~$37.55**
+
+---
+
 ## State Snapshot (2026-06-24, session 22 — Badge restore + auto-sync banned from `docs/badges/` + warn-only CI)
 
 ### TLDR
