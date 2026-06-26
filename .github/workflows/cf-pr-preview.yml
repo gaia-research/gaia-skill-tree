@@ -1,4 +1,4 @@
-name: Cloudflare Deploy
+name: CF PR Preview (Worker)
 
 on:
   workflow_dispatch:
@@ -7,6 +7,20 @@ on:
         description: 'Branch to deploy'
         required: true
         default: 'main'
+
+# ── What this workflow does ────────────────────────────────────────────────────
+# Deploys a Cloudflare Worker with Static Assets (wrangler deploy) to a
+# workers.dev preview URL for manual PR inspection.
+#
+# This is NOT the production deploy. Production is:
+#   GitHub Pages (serving docs/ from main branch) → Cloudflare CDN (DNS proxy)
+#
+# The Worker (worker/index.js) handles badge ?repo= validation for previews.
+# For production, badges are validated by the same Worker logic but deployed
+# separately. Static assets including docs/api/v1/ are served by GitHub Pages.
+#
+# Trigger: workflow_dispatch only (manual). Supply the branch name to preview.
+# ──────────────────────────────────────────────────────────────────────────────
 
 permissions:
   contents: read
@@ -20,7 +34,7 @@ permissions:
 
 jobs:
   deploy:
-    name: Deploy to Cloudflare Pages
+    name: Deploy PR Preview to Cloudflare Worker
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
