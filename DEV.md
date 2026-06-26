@@ -4,6 +4,41 @@ This document provides a quick reference for setting up the local development en
 
 ---
 
+## 0. Hosting Architecture (Read This First — Agents Often Get This Wrong)
+
+Understanding how the site is hosted prevents wrong assumptions about CORS, headers, and deploys.
+
+### Production: GitHub Pages + Cloudflare CDN
+
+```
+Browser → Cloudflare (DNS proxy + CDN) → GitHub Pages → docs/ on main branch
+```
+
+- **GitHub Pages** is the origin host. When `main` gets a new commit, GitHub automatically serves the updated `docs/` folder at `gaia.tiongson.co`. This is configured via `docs/CNAME`.
+- **Cloudflare** sits in front as a CDN/DNS proxy (`Server: cloudflare` in response headers). It caches and accelerates pages but does NOT host them.
+- **`_headers` files do NOT work here.** That is a Cloudflare Pages-only feature. This site is GitHub Pages — a `_headers` file in `docs/` would be served as a plain text download.
+- **CORS** (`Access-Control-Allow-Origin: *`) is already applied site-wide by Cloudflare — verified by checking response headers. All `docs/api/v1/` JSON files inherit this automatically.
+- **To deploy to production:** merge to `main`. GitHub Pages does the rest. There is no manual deploy step.
+
+### PR Previews: Cloudflare Worker with Static Assets
+
+- The `.github/workflows/cf-pr-preview.yml` workflow (`workflow_dispatch` only) deploys the branch as a Cloudflare Worker with Static Assets to a `gaia-skill-tree.<account>.workers.dev` preview URL.
+- The Worker (`worker/index.js`) handles badge `?repo=` validation. This is the *only* thing the Worker does.
+- `wrangler.toml` configures this preview Worker — it is **not** used by the production site.
+- Despite the `run_worker_first = true` setting in `wrangler.toml`, this only affects the Worker preview environment. Production has no Worker in the request path.
+
+### What this means for new features
+
+| Feature | Where it lives | Deploy path |
+|---|---|---|
+| New HTML/JS/CSS page | `docs/<section>/` | Merge to `main` → auto-served |
+| New static JSON (e.g. API) | `docs/api/v1/` | Merge to `main` → auto-served |
+| CORS headers | Already on all responses (Cloudflare) | No action needed |
+| `_headers` file | ❌ Not supported (GitHub Pages) | Use Cloudflare Dashboard Transform Rules instead |
+| Badge validation logic | `worker/index.js` | `cf-pr-preview.yml` dispatch |
+
+---
+
 ## 1. Local Environment Setup
 
 Since this repository contains a pre-configured Python virtual environment (`.venv`), you should run commands within it to avoid "externally managed environment" errors or missing executable errors (e.g., `command not found: pip` or `command not found: gaia`).
