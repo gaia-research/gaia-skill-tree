@@ -73,6 +73,12 @@ def _run_projection(tmp_path: Path, skills: list[dict]) -> Path:
     ns_path = _write_named_skills(tmp_path, skills)
     out_dir = tmp_path / "api" / "v1"
 
+    # Write a minimal pyproject.toml so _read_version() doesn't blow up
+    (tmp_path / "pyproject.toml").write_text(
+        '[project]\nname = "gaia-cli"\nversion = "0.0.0-test"\n',
+        encoding="utf-8",
+    )
+
     # Monkey-patch ROOT so the script reads our fixture, not the real repo
     original_root = bap.ROOT
     bap.ROOT = tmp_path
