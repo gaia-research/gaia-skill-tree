@@ -1,0 +1,31 @@
+{
+  "handle": "getagentseal",
+  "namedSkills": [
+    {
+      "id": "getagentseal/codeburn",
+      "name": "CodeBurn",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "getagentseal",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/getagentseal/codeburn.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "getagentseal/codeburn",
+    "level": "2★",
+    "trustMagnitude": 36.0
+  },
+  "prestigeScore": 36.0,
+  "gradeDistribution": {
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/getagentseal.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

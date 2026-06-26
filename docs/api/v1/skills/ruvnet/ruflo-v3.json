@@ -1,0 +1,95 @@
+{
+  "id": "ruvnet/ruflo-v3",
+  "name": "Ruflo V3",
+  "contributor": "ruvnet",
+  "level": "4★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 186.0,
+  "overallTrustGrade": "A",
+  "_links": {
+    "self": "/api/v1/skills/ruvnet/ruflo-v3.json",
+    "contributor": "/api/v1/contributors/ruvnet.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The V3 Architect",
+  "genericSkillRef": "platform-modernization-sprint",
+  "origin": true,
+  "description": "Complete Ruflo v3 modernization sprint: CLI modernization, core implementation, DDD architecture, MCP optimization, memory unification, performance tuning, security overhaul, and swarm coordination.",
+  "tags": [
+    "v3-sprint",
+    "modernization",
+    "ddd",
+    "mcp",
+    "security",
+    "memory-unification"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/ruvnet/ruflo",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-19",
+      "notes": "Ruflo orchestration platform — 34k+ GitHub stars. (backfilled — class-to-type\" migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "commits": 6899,
+      "contributors": 32,
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-14T12:32:58Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/ruvnet/ruflo as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:20Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T11:52:12Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:39Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:44Z",
+      "details": "TM 0.0 -> 186.0, grade ungraded -> A (direct edit -- CLI gap)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/ruvnet/ruflo"
+  },
+  "suiteComponents": [
+    "ruvnet/swarm-advanced",
+    "ruvnet/swarm-orchestration",
+    "ruvnet/v3-cli-modernization",
+    "ruvnet/v3-core-implementation",
+    "ruvnet/v3-ddd-architecture",
+    "ruvnet/v3-integration-deep",
+    "ruvnet/v3-mcp-optimization",
+    "ruvnet/v3-memory-unification",
+    "ruvnet/v3-performance-optimization",
+    "ruvnet/v3-security-overhaul",
+    "ruvnet/v3-swarm-coordination"
+  ]
+}

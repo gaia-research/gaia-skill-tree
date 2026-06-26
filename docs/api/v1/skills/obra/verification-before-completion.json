@@ -1,0 +1,158 @@
+{
+  "id": "obra/verification-before-completion",
+  "name": "Verification Before Completion",
+  "contributor": "obra",
+  "level": "3★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 95.15,
+  "overallTrustGrade": "B",
+  "_links": {
+    "self": "/api/v1/skills/obra/verification-before-completion.json",
+    "contributor": "/api/v1/contributors/obra.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Completion Gate",
+  "genericSkillRef": "verification-before-completion",
+  "origin": true,
+  "description": "Requires running verification commands and confirming their output before claiming any work is complete, fixed, or passing — no claim without evidence.",
+  "tags": [
+    "verification",
+    "completion",
+    "testing",
+    "quality-gate",
+    "discipline"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-18",
+      "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "commits": 609,
+      "contributors": 36,
+      "grade": "B"
+    },
+    {
+      "source": "https://github.com/obra/superpowers/issues/1783",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "social-signal",
+      "class": "A",
+      "notes": "Design-Fidelity Gate framed as UI-specific instance of verification-before-completion."
+    },
+    {
+      "source": "https://github.com/obra/superpowers/issues/1755",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-19",
+      "type": "peer-review",
+      "class": "A",
+      "notes": "Updates verification-before-completion to require outcome checks, not just command success.",
+      "grade": "C"
+    },
+    {
+      "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+      "evaluator": "unknown",
+      "date": "2026-06-19",
+      "type": "social-signal",
+      "class": "A",
+      "notes": "Larridin podcast: Jesse Vincent explains obra/superpowers methodology covering brainstorming, plans, subagents, debugging, and git worktrees. 4,402 views (2026-06-19).",
+      "views": 4402,
+      "grade": "B"
+    },
+    {
+      "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
+      "evaluator": "unknown",
+      "date": "2026-06-19"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-14T12:32:49Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:19Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T11:07:58Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-19T12:47:33Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/obra/superpowers/issues/1783 (type: social-signal)"
+    },
+    {
+      "timestamp": "2026-06-19T12:47:50Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/obra/superpowers/issues/1755 (type: peer-review)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T12:53:51Z",
+      "details": "TM 36.0 -> 66.0, grade C -> B (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:38Z",
+      "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:43Z",
+      "details": "TM 0.0 -> 66.0, grade ungraded -> B (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-19T14:26:01Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g (type: social-signal)"
+    },
+    {
+      "timestamp": "2026-06-19T14:27:36Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://www.youtube.com/watch?v=6YltXh12W-g"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T14:31:47Z",
+      "details": "TM 66.0 -> 95.15, grade B -> B (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T14:32:19Z",
+      "details": "TM 95.15 -> 95.15, grade B -> B (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:35Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+    }
+  ],
+  "links": {
+    "github": "https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md"
+  }
+}

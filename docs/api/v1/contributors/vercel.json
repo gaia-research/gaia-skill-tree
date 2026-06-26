@@ -1,0 +1,31 @@
+{
+  "handle": "vercel",
+  "namedSkills": [
+    {
+      "id": "vercel/find-skills",
+      "name": "Find Skills",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "vercel",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/vercel/find-skills.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "vercel/find-skills",
+    "level": "2★",
+    "trustMagnitude": 36.0
+  },
+  "prestigeScore": 36.0,
+  "gradeDistribution": {
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/vercel.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

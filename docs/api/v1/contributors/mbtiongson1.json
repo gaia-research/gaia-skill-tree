@@ -1,0 +1,79 @@
+{
+  "handle": "mbtiongson1",
+  "namedSkills": [
+    {
+      "id": "mbtiongson1/gaia-audit",
+      "name": "Gaia Audit",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "mbtiongson1",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mbtiongson1/gaia-audit.json"
+      }
+    },
+    {
+      "id": "mbtiongson1/gaia-curation-review",
+      "name": "Gaia Curation Review",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "mbtiongson1",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mbtiongson1/gaia-curation-review.json"
+      }
+    },
+    {
+      "id": "mbtiongson1/gaia-meta-audit",
+      "name": "Gaia Meta Audit",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "mbtiongson1",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mbtiongson1/gaia-meta-audit.json"
+      }
+    },
+    {
+      "id": "mbtiongson1/gaia-preview",
+      "name": "Gaia Preview",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "mbtiongson1",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mbtiongson1/gaia-preview.json"
+      }
+    },
+    {
+      "id": "mbtiongson1/graphify-triage",
+      "name": "Graphify Triage",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "mbtiongson1",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mbtiongson1/graphify-triage.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 5,
+  "topSkill": {
+    "id": "mbtiongson1/gaia-audit",
+    "level": "2★",
+    "trustMagnitude": 36.0
+  },
+  "prestigeScore": 180.0,
+  "gradeDistribution": {
+    "C": 5
+  },
+  "_links": {
+    "self": "/api/v1/contributors/mbtiongson1.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

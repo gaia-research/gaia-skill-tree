@@ -1,0 +1,31 @@
+{
+  "handle": "martin-stepanoski",
+  "namedSkills": [
+    {
+      "id": "martin-stepanoski/nielsen-heuristics-audit",
+      "name": "Nielsen Heuristics Audit",
+      "level": "3★",
+      "trustMagnitude": 94.9,
+      "overallTrustGrade": "B",
+      "contributor": "martin-stepanoski",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/martin-stepanoski/nielsen-heuristics-audit.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "martin-stepanoski/nielsen-heuristics-audit",
+    "level": "3★",
+    "trustMagnitude": 94.9
+  },
+  "prestigeScore": 94.9,
+  "gradeDistribution": {
+    "B": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/martin-stepanoski.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

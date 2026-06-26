@@ -1,0 +1,52 @@
+{
+  "id": "mattpocock/productivity",
+  "name": "Productivity",
+  "contributor": "mattpocock",
+  "level": "4★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 120.0,
+  "overallTrustGrade": "A",
+  "_links": {
+    "self": "/api/v1/skills/mattpocock/productivity.json",
+    "contributor": "/api/v1/contributors/mattpocock.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Matt Pocock Productivity Suite",
+  "genericSkillRef": "productivity",
+  "origin": true,
+  "description": "Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "timeline": [
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:18Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:38Z",
+      "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:41Z",
+      "details": "TM 0.0 -> 120.0, grade ungraded -> A (direct edit -- CLI gap)"
+    }
+  ],
+  "suiteComponents": [
+    "mattpocock/caveman",
+    "mattpocock/grill-me",
+    "mattpocock/handoff",
+    "mattpocock/write-a-skill"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "handle": "bradautomates",
+  "namedSkills": [
+    {
+      "id": "bradautomates/claude-video",
+      "name": "Claude Video",
+      "level": "2★",
+      "trustMagnitude": 37.47,
+      "overallTrustGrade": "C",
+      "contributor": "bradautomates",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/bradautomates/claude-video.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "bradautomates/claude-video",
+    "level": "2★",
+    "trustMagnitude": 37.47
+  },
+  "prestigeScore": 37.47,
+  "gradeDistribution": {
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/bradautomates.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

@@ -1,0 +1,611 @@
+{
+  "skills": [
+    {
+      "id": "garrytan/gstack",
+      "name": "Founder Mode",
+      "level": "5★",
+      "trustMagnitude": 589.32,
+      "overallTrustGrade": "S",
+      "contributor": "garrytan",
+      "type": "ultimate",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/gstack.json"
+      }
+    },
+    {
+      "id": "ruvnet/ruflo",
+      "name": "Ruflo",
+      "level": "5★",
+      "trustMagnitude": 482.27,
+      "overallTrustGrade": "S",
+      "contributor": "ruvnet",
+      "type": "ultimate",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/ruflo.json"
+      }
+    },
+    {
+      "id": "mattpocock/skills",
+      "name": "Matt Pocock Skills",
+      "level": "5★",
+      "trustMagnitude": 480.29,
+      "overallTrustGrade": "S",
+      "contributor": "mattpocock",
+      "type": "ultimate",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/skills.json"
+      }
+    },
+    {
+      "id": "obra/superpowers",
+      "name": "Superpowers",
+      "level": "5★",
+      "trustMagnitude": 445.15,
+      "overallTrustGrade": "S",
+      "contributor": "obra",
+      "type": "ultimate",
+      "_links": {
+        "self": "/api/v1/skills/obra/superpowers.json"
+      }
+    },
+    {
+      "id": "mattpocock/engineering",
+      "name": "Engineering",
+      "level": "4★",
+      "trustMagnitude": 270.0,
+      "overallTrustGrade": "A",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/engineering.json"
+      }
+    },
+    {
+      "id": "ruvnet/agentdb",
+      "name": "AgentDB",
+      "level": "4★",
+      "trustMagnitude": 201.0,
+      "overallTrustGrade": "A",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb.json"
+      }
+    },
+    {
+      "id": "ruvnet/ruflo-v3",
+      "name": "Ruflo V3",
+      "level": "4★",
+      "trustMagnitude": 186.0,
+      "overallTrustGrade": "A",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
+      }
+    },
+    {
+      "id": "garrytan/garrytan",
+      "name": "Autoplan",
+      "level": "4★",
+      "trustMagnitude": 156.0,
+      "overallTrustGrade": "A",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/garrytan.json"
+      }
+    },
+    {
+      "id": "ruvnet/dual-mode",
+      "name": "Dual Mode",
+      "level": "4★",
+      "trustMagnitude": 126.0,
+      "overallTrustGrade": "A",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-mode.json"
+      }
+    },
+    {
+      "id": "pbakaus/impeccable",
+      "name": "Impeccable",
+      "level": "4★",
+      "trustMagnitude": 122.8,
+      "overallTrustGrade": "A",
+      "contributor": "pbakaus",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/pbakaus/impeccable.json"
+      }
+    },
+    {
+      "id": "mattpocock/productivity",
+      "name": "Productivity",
+      "level": "4★",
+      "trustMagnitude": 120.0,
+      "overallTrustGrade": "A",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/productivity.json"
+      }
+    },
+    {
+      "id": "ruvnet/reasoningbank",
+      "name": "ReasoningBank",
+      "level": "4★",
+      "trustMagnitude": 118.5,
+      "overallTrustGrade": "A",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/reasoningbank.json"
+      }
+    },
+    {
+      "id": "obra/subagent-driven-development",
+      "name": "Subagent-Driven Development",
+      "level": "4★",
+      "trustMagnitude": 117.65,
+      "overallTrustGrade": "A",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/subagent-driven-development.json"
+      }
+    },
+    {
+      "id": "obra/using-git-worktrees",
+      "name": "Using Git Worktrees",
+      "level": "4★",
+      "trustMagnitude": 117.65,
+      "overallTrustGrade": "A",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/using-git-worktrees.json"
+      }
+    },
+    {
+      "id": "safishamsi/graphify",
+      "name": "Graphify",
+      "level": "4★",
+      "trustMagnitude": 116.57,
+      "overallTrustGrade": "A",
+      "contributor": "safishamsi",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/safishamsi/graphify.json"
+      }
+    },
+    {
+      "id": "obra/writing-plans",
+      "name": "Writing Plans",
+      "level": "4★",
+      "trustMagnitude": 110.15,
+      "overallTrustGrade": "A",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/writing-plans.json"
+      }
+    },
+    {
+      "id": "openai/few-shot-learning",
+      "name": "Few-Shot Learning",
+      "level": "4★",
+      "trustMagnitude": 100.0,
+      "overallTrustGrade": "A",
+      "contributor": "openai",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/openai/few-shot-learning.json"
+      }
+    },
+    {
+      "id": "openai/self-consistency",
+      "name": "Self-Consistency",
+      "level": "4★",
+      "trustMagnitude": 100.0,
+      "overallTrustGrade": "A",
+      "contributor": "openai",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/openai/self-consistency.json"
+      }
+    },
+    {
+      "id": "stanfordnlp/dspy",
+      "name": "DSPy",
+      "level": "4★",
+      "trustMagnitude": 100.0,
+      "overallTrustGrade": "A",
+      "contributor": "stanfordnlp",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/stanfordnlp/dspy.json"
+      }
+    },
+    {
+      "id": "ruvnet/hive-mind-coordination",
+      "name": "Hive Mind Coordination",
+      "level": "3★",
+      "trustMagnitude": 96.09,
+      "overallTrustGrade": "B",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/hive-mind-coordination.json"
+      }
+    },
+    {
+      "id": "ruvnet/flow-nexus",
+      "name": "Flow Nexus",
+      "level": "3★",
+      "trustMagnitude": 96.0,
+      "overallTrustGrade": "B",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/flow-nexus.json"
+      }
+    },
+    {
+      "id": "obra/brainstorming",
+      "name": "Brainstorming",
+      "level": "3★",
+      "trustMagnitude": 95.15,
+      "overallTrustGrade": "B",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/brainstorming.json"
+      }
+    },
+    {
+      "id": "obra/executing-plans",
+      "name": "Executing Plans",
+      "level": "3★",
+      "trustMagnitude": 95.15,
+      "overallTrustGrade": "B",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/executing-plans.json"
+      }
+    },
+    {
+      "id": "obra/verification-before-completion",
+      "name": "Verification Before Completion",
+      "level": "3★",
+      "trustMagnitude": 95.15,
+      "overallTrustGrade": "B",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/verification-before-completion.json"
+      }
+    },
+    {
+      "id": "martin-stepanoski/nielsen-heuristics-audit",
+      "name": "Nielsen Heuristics Audit",
+      "level": "3★",
+      "trustMagnitude": 94.9,
+      "overallTrustGrade": "B",
+      "contributor": "martin-stepanoski",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/martin-stepanoski/nielsen-heuristics-audit.json"
+      }
+    },
+    {
+      "id": "mattpocock/diagnose",
+      "name": "Diagnose",
+      "level": "3★",
+      "trustMagnitude": 90.38,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/diagnose.json"
+      }
+    },
+    {
+      "id": "mattpocock/edit-article",
+      "name": "Edit Article",
+      "level": "3★",
+      "trustMagnitude": 90.38,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/edit-article.json"
+      }
+    },
+    {
+      "id": "mattpocock/obsidian-vault",
+      "name": "Obsidian Vault Manager",
+      "level": "3★",
+      "trustMagnitude": 90.38,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
+      }
+    },
+    {
+      "id": "mattpocock/to-issues",
+      "name": "To Issues",
+      "level": "3★",
+      "trustMagnitude": 90.38,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/to-issues.json"
+      }
+    },
+    {
+      "id": "mattpocock/ubiquitous-language",
+      "name": "Ubiquitous Language",
+      "level": "3★",
+      "trustMagnitude": 90.38,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
+      }
+    },
+    {
+      "id": "anthropic/skill-creator",
+      "name": "Skill Creator",
+      "level": "3★",
+      "trustMagnitude": 90.0,
+      "overallTrustGrade": "B",
+      "contributor": "anthropic",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/anthropic/skill-creator.json"
+      }
+    },
+    {
+      "id": "garrytan/browse",
+      "name": "Browse",
+      "level": "3★",
+      "trustMagnitude": 88.5,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/browse.json"
+      }
+    },
+    {
+      "id": "obra/dispatching-parallel-agents",
+      "name": "Dispatching Parallel Agents",
+      "level": "3★",
+      "trustMagnitude": 86.0,
+      "overallTrustGrade": "B",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/dispatching-parallel-agents.json"
+      }
+    },
+    {
+      "id": "addy-osmani/performance-optimization",
+      "name": "Performance Optimization",
+      "level": "3★",
+      "trustMagnitude": 83.2,
+      "overallTrustGrade": "B",
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
+      }
+    },
+    {
+      "id": "garrytan/retro",
+      "name": "Retro",
+      "level": "3★",
+      "trustMagnitude": 81.0,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/retro.json"
+      }
+    },
+    {
+      "id": "browser-use/browser-harness",
+      "name": "Browser Harness",
+      "level": "3★",
+      "trustMagnitude": 73.59,
+      "overallTrustGrade": "B",
+      "contributor": "browser-use",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/browser-use/browser-harness.json"
+      }
+    },
+    {
+      "id": "garrytan/careful",
+      "name": "Careful",
+      "level": "3★",
+      "trustMagnitude": 66.0,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/careful.json"
+      }
+    },
+    {
+      "id": "garrytan/office-hours",
+      "name": "Office Hours",
+      "level": "3★",
+      "trustMagnitude": 66.0,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/office-hours.json"
+      }
+    },
+    {
+      "id": "garrytan/plan-eng-review",
+      "name": "Plan Eng Review",
+      "level": "3★",
+      "trustMagnitude": 66.0,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/plan-eng-review.json"
+      }
+    },
+    {
+      "id": "ruvnet/github-suite",
+      "name": "GitHub Suite",
+      "level": "3★",
+      "trustMagnitude": 66.0,
+      "overallTrustGrade": "B",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/github-suite.json"
+      }
+    },
+    {
+      "id": "obra/systematic-debugging",
+      "name": "Systematic Debugging",
+      "level": "3★",
+      "trustMagnitude": 65.15,
+      "overallTrustGrade": "B",
+      "contributor": "obra",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/obra/systematic-debugging.json"
+      }
+    },
+    {
+      "id": "garrytan/benchmark",
+      "name": "Benchmark",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/benchmark.json"
+      }
+    },
+    {
+      "id": "garrytan/canary",
+      "name": "Canary",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/canary.json"
+      }
+    },
+    {
+      "id": "garrytan/cso",
+      "name": "CSO",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/cso.json"
+      }
+    },
+    {
+      "id": "garrytan/design-consultation",
+      "name": "Design Consultation",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/design-consultation.json"
+      }
+    },
+    {
+      "id": "garrytan/design-html",
+      "name": "Design HTML",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/design-html.json"
+      }
+    },
+    {
+      "id": "garrytan/design-shotgun",
+      "name": "Design Shotgun",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/design-shotgun.json"
+      }
+    },
+    {
+      "id": "garrytan/document-generate",
+      "name": "Document Generate",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/document-generate.json"
+      }
+    },
+    {
+      "id": "garrytan/investigate",
+      "name": "Investigate",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/investigate.json"
+      }
+    },
+    {
+      "id": "garrytan/land-and-deploy",
+      "name": "Land and Deploy",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/land-and-deploy.json"
+      }
+    }
+  ],
+  "page": 1,
+  "totalPages": 3,
+  "totalSkills": 139,
+  "_links": {
+    "self": "/api/v1/skills/index.json",
+    "next": "/api/v1/skills/page-2.json"
+  }
+}

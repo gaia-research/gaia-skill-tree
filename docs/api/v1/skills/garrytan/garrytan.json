@@ -1,0 +1,105 @@
+{
+  "id": "garrytan/garrytan",
+  "name": "Autoplan",
+  "contributor": "garrytan",
+  "level": "4★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 156.0,
+  "overallTrustGrade": "A",
+  "_links": {
+    "self": "/api/v1/skills/garrytan/garrytan.json",
+    "contributor": "/api/v1/contributors/garrytan.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "Founder Mode Autoplan",
+  "genericSkillRef": "vertical-slice-planning",
+  "origin": true,
+  "description": "The definitive autonomous \"Founder mode\" review and decision suite. An auto-review pipeline that reads the full CEO, design, engineering, and DX review skills from disk and runs them sequentially with auto-decisions using 6 decision principles.",
+  "tags": [
+    "founder-mode",
+    "autoplan",
+    "decision-suite",
+    "ceo-review",
+    "orchestration"
+  ],
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-06-03",
+      "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). The definitive autonomous \"Founder mode\" review and decision suite. An auto-review pipeline that reads the full CEO, design, engineering, and DX… (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
+      "type": "repo",
+      "commits": 323,
+      "contributors": 9,
+      "trustNumber": 70.0,
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-06-02T23:33:01Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Origin status set to true."
+    },
+    {
+      "timestamp": "2026-06-03T05:51:33Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md"
+    },
+    {
+      "timestamp": "2026-06-03T05:51:37Z",
+      "action": "demote",
+      "contributor": "unknown",
+      "details": "Calibrated level from 5★ to 4★"
+    },
+    {
+      "timestamp": "2026-06-14T12:32:21Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-18T11:27:15Z",
+      "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T10:36:26Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:19:37Z",
+      "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-06-19T13:26:37Z",
+      "details": "TM 0.0 -> 156.0, grade ungraded -> A (direct edit -- CLI gap)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md"
+  },
+  "suiteComponents": [
+    "garrytan/browse",
+    "garrytan/cso",
+    "garrytan/design-review",
+    "garrytan/office-hours"
+  ]
+}
