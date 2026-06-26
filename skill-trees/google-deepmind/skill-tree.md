@@ -53,7 +53,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — google-deepmind  ·  generated 2026-06-25
+GAIA SKILL TREE — google-deepmind  ·  generated 2026-06-26
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
