@@ -1,44 +1,97 @@
-(function () {
+(function() {
   'use strict';
 
+  // ── CONFIGURATION ──
   var BASE = '../../api/v1/';
   var VER = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
-  var SUITE_IDS = ['garrytan/gstack', 'ruvnet/ruflo', 'mattpocock/skills', 'obra/superpowers'];
-  var FALLBACK_COUNTS = { 'garrytan/gstack': 43, 'ruvnet/ruflo': 20, 'mattpocock/skills': 34, 'obra/superpowers': 12 };
+  var BAR_W = 28;
+  var BAR_GAP = 4;
+  var CHART_H = 320;
+  var SUITE_CHART_H = 380;
+  var PAD = { top: 24, right: 24, bottom: 90, left: 54 };
+  var INITIAL_BARS = 40;
   var TM_CEILING = 600;
-  var UNREG_INITIAL_GROUPS = 3;
-  var state = { sort: 'tm', grade: 'all', trendingAvailable: false };
+  var SVG_NS = 'http://www.w3.org/2000/svg';
 
-  // ── FETCH ──
+  var GRADE_ORDER = { S: 0, A: 1, B: 2, C: 3, ungraded: 9 };
+  var RANK_NAMES = {
+    '1★': 'Awakened', '2★': 'Named', '3★': 'Evolved',
+    '4★': 'Hardened', '5★': 'Transcendent', '6★': 'Apex'
+  };
+
+  // ── CSS TOKEN READER ──
+  var cs = getComputedStyle(document.documentElement);
+  function tok(name) { return cs.getPropertyValue(name).trim(); }
+
+  var TOKENS = {
+    platinum: tok('--evidence-platinum-rgb'),
+    gold: tok('--evidence-gold-rgb'),
+    silver: tok('--evidence-silver-rgb'),
+    bronze: tok('--evidence-bronze-rgb'),
+    rank1: tok('--rank-1-rgb') || '56, 189, 248',
+    rank2: tok('--rank-2-rgb') || '99, 202, 183',
+    rank3: tok('--rank-3-rgb') || '167, 139, 250',
+    rank4: tok('--rank-4-rgb') || '232, 121, 249',
+    rank5: tok('--rank-5-rgb') || '251, 191, 36',
+    rank6: tok('--rank-6-rgb') || '251, 191, 36',
+    honorRed: tok('--honor-red-rgb') || '239, 68, 68',
+    basic: tok('--tier-basic-rgb') || '56, 189, 248',
+    muted: tok('--muted') || 'rgb(100, 116, 139)',
+    text: tok('--text') || 'rgb(226, 232, 240)',
+    border: tok('--border') || 'rgb(30, 41, 59)'
+  };
+
+  // Fallback for --rank-N-rgb (not all tokens.css emit them)
+  function rankRgb(level) {
+    var n = parseInt(level) || 0;
+    var map = {
+      0: '148, 163, 184', 1: '56, 189, 248', 2: '99, 202, 183',
+      3: '167, 139, 250', 4: '232, 121, 249', 5: '251, 191, 36', 6: '251, 191, 36'
+    };
+    return map[n] || map[0];
+  }
+
+  function gradeColor(grade) {
+    switch (grade) {
+      case 'S': return TOKENS.platinum;
+      case 'A': return TOKENS.gold;
+      case 'B': return TOKENS.silver;
+      case 'C': return TOKENS.bronze;
+      default: return '148, 163, 184';
+    }
+  }
+
+  // ── STATE ──
+  var state = {
+    sort: 'tm',
+    grade: 'all',
+    namedSkills: [],
+    showCount: INITIAL_BARS
+  };
+
+  // ── DATA FETCH (parallel) ──
   Promise.all([
-    fetch(BASE + 'leaderboard.json' + VER).then(function(r){ return r.json(); }),
-    fetch(BASE + 'skills/index.json' + VER).then(function(r){ return r.json(); }),
-    fetch(BASE + 'skills/page-2.json' + VER).then(function(r){ return r.json(); }),
-    fetch(BASE + 'skills/page-3.json' + VER).then(function(r){ return r.json(); }),
-    fetch(BASE + 'trending/7d.json' + VER).then(function(r){ return r.json(); }).catch(function(){ return null; })
+    fetch(BASE + 'leaderboard.json' + VER).then(function(r) { return r.json(); }),
+    fetch(BASE + 'skills/index.json' + VER).then(function(r) { return r.json(); }),
+    fetch(BASE + 'skills/page-2.json' + VER).then(function(r) { return r.json(); }),
+    fetch(BASE + 'skills/page-3.json' + VER).then(function(r) { return r.json(); })
   ]).then(function(results) {
-    init(results[0], results[1], results[2], results[3], results[4]);
+    boot(results[0], results[1], results[2], results[3]);
   }).catch(function(err) {
-    document.querySelector('.lb-main').innerHTML = '<p style="padding:3rem;color:var(--muted)">Failed to load leaderboard data.</p>';
+    var page = document.querySelector('.lb-page');
+    if (page) page.innerHTML = '<p style="padding:4rem 2rem;color:var(--muted);font-family:var(--font-body)">Failed to load leaderboard data.</p>';
     console.error('[leaderboard]', err);
   });
 
-  function init(leaderboard, p1, p2, p3, trending) {
-    // Build skill map from all pages
+  function boot(leaderboard, p1, p2, p3) {
+    // Build skill map
     var skillMap = {};
     [p1, p2, p3].forEach(function(page) {
       if (!page || !page.skills) return;
       page.skills.forEach(function(s) { skillMap[s.id] = s; });
     });
 
-    // Trending map
-    var trendMap = {};
-    if (trending && trending.skills) {
-      state.trendingAvailable = true;
-      trending.skills.forEach(function(s) { trendMap[s.id] = s.tmDelta; });
-    }
-
-    // Enrich leaderboard rows with skill info
+    // Enrich leaderboard rows
     var allRows = leaderboard.rows.map(function(row) {
       var skill = skillMap[row.id] || {};
       return {
@@ -47,136 +100,288 @@
         contributor: row.id.split('/')[0],
         type: skill.type || 'basic',
         level: row.level || skill.level || '',
-        trustMagnitude: row.trustMagnitude,
-        grade: row.grade || skill.overallTrustGrade || 'ungraded',
-        tmDelta: trendMap[row.id] !== undefined ? trendMap[row.id] : null
+        trustMagnitude: row.trustMagnitude || 0,
+        grade: row.grade || skill.overallTrustGrade || 'ungraded'
       };
     });
 
-    // Partition into lanes
+    // Partition
     var suites = allRows.filter(function(r) { return r.type === 'ultimate'; });
     var named = allRows.filter(function(r) { return r.type !== 'ultimate' && r.grade && r.grade !== 'ungraded'; });
     var ungraded = allRows.filter(function(r) { return !r.grade || r.grade === 'ungraded'; });
+    state.namedSkills = named;
 
     // Render
-    renderHeader(leaderboard.distribution);
-    renderSuites(suites);
-    renderNamed(named);
-    renderUngraded(ungraded);
-    wireControls(named);
+    renderDistribution(leaderboard.distribution);
+    renderSuiteChart(suites);
+    renderNamedChart(named);
+    renderRegistry(ungraded);
+    wireFilters(named);
+    wireShowMore();
+    wireTooltip();
 
-    // Defer suite detail fetch
-    fetchSuiteDetails(suites);
-
-    // Animate bars after brief delay
-    setTimeout(animateBars, 50);
+    // Fetch suite component details for stacked bars
+    fetchSuiteComponents(suites);
   }
 
-  // ── HEADER ──
-  function renderHeader(dist) {
-    var total = dist.total || 0;
-    var count = document.getElementById('lbCount');
-    if (count) count.textContent = total;
-
-    var pillsEl = document.getElementById('lbPills');
-    if (!pillsEl) return;
-    var grades = [
-      { g: 'S', label: 'S', count: dist.S || 0 },
-      { g: 'A', label: 'A', count: dist.A || 0 },
-      { g: 'B', label: 'B', count: dist.B || 0 },
-      { g: 'C', label: 'C', count: dist.C || 0 },
-      { g: 'ungraded', label: '—', count: dist.ungraded || 0 }
-    ];
-    pillsEl.innerHTML = grades.map(function(item) {
-      return '<span class="lb-pill"><span class="lb-pill__grade lb-pill__grade--' + item.g + '">' + item.label + '</span><span class="lb-pill__count">' + item.count + '</span></span>';
-    }).join('');
-  }
-
-  // ── SUITES ──
-  function renderSuites(suites) {
-    var el = document.getElementById('lbSuiteCards');
+  // ── DISTRIBUTION HEADER ──
+  function renderDistribution(dist) {
+    var el = document.getElementById('lbDist');
     if (!el) return;
-    el.innerHTML = suites.map(function(s, i) {
-      var pct = (s.trustMagnitude / TM_CEILING * 100).toFixed(2);
-      return '<article class="lb-suite" data-id="' + s.id + '">' +
-        '<div class="lb-suite__header">' +
-          '<span class="lb-suite__rank">#' + (i + 1) + '</span>' +
-          '<div class="lb-suite__meta">' +
-            '<div class="lb-suite__name">' + escHtml(s.name) + '</div>' +
-            '<span class="lb-suite__contributor">' + escHtml(s.id) + '</span>' +
-            '<span class="lb-suite__badge" id="badge-' + safeId(s.id) + '">S · ' + escHtml(s.level) + ' · ' + (FALLBACK_COUNTS[s.id] || '?') + ' skills</span>' +
-          '</div>' +
-          '<span class="lb-suite__tm">' + s.trustMagnitude.toFixed(2) + '</span>' +
-        '</div>' +
-        '<div class="lb-suite__bar-track"><div class="lb-suite__bar" data-pct="' + pct + '" style="width:0"></div></div>' +
-        '<p class="lb-suite__desc" id="desc-' + safeId(s.id) + '">Loading…</p>' +
-      '</article>';
+    var items = [
+      { label: 'Total', grade: 'total', count: dist.total || 0 },
+      { label: 'S', grade: 'S', count: dist.S || 0 },
+      { label: 'A', grade: 'A', count: dist.A || 0 },
+      { label: 'B', grade: 'B', count: dist.B || 0 },
+      { label: 'C', grade: 'C', count: dist.C || 0 },
+      { label: 'Ungraded', grade: 'ungraded', count: dist.ungraded || 0 }
+    ];
+    el.innerHTML = items.map(function(item) {
+      return '<span class="lb-dist-item">' +
+        '<span class="lb-dist-grade lb-dist-grade--' + item.grade + '">' + item.label + '</span>' +
+        '<span class="lb-dist-num">' + item.count + '</span>' +
+      '</span>';
     }).join('');
   }
 
-  function fetchSuiteDetails(suites) {
-    suites.forEach(function(s) {
-      var parts = s.id.split('/');
+  // ── SUITE STACKED BAR CHART ──
+  function renderSuiteChart(suites) {
+    var container = document.getElementById('lbSuiteChart');
+    var countEl = document.getElementById('lbSuiteCount');
+    if (!container) return;
+    if (countEl) countEl.textContent = suites.length + ' suites';
+
+    var maxTM = TM_CEILING;
+    var totalW = suites.length * (BAR_W * 2 + BAR_GAP) + PAD.left + PAD.right + 80;
+    var chartH = SUITE_CHART_H;
+    var innerH = chartH - PAD.top - PAD.bottom;
+
+    var svg = createSvg(Math.max(totalW, 320), chartH);
+
+    // Platinum gradient for S-grade suites
+    var defs = svgEl('defs');
+    var grad = svgEl('linearGradient', { id: 'lb-grad-platinum', x1: '0', y1: '1', x2: '0', y2: '0' });
+    appendStop(grad, '0%', 'rgba(' + TOKENS.platinum + ', 0.4)');
+    appendStop(grad, '50%', 'rgba(' + TOKENS.platinum + ', 0.7)');
+    appendStop(grad, '100%', 'rgba(' + TOKENS.platinum + ', 0.95)');
+    defs.appendChild(grad);
+    svg.appendChild(defs);
+
+    // Y-axis gridlines
+    drawYAxis(svg, innerH, maxTM, totalW);
+
+    // Bars
+    var barGroup = svgEl('g', { transform: 'translate(' + PAD.left + ',' + PAD.top + ')' });
+    var barSpacing = BAR_W * 2 + BAR_GAP + 40;
+
+    suites.forEach(function(suite, i) {
+      var x = i * barSpacing + 20;
+      var h = (suite.trustMagnitude / maxTM) * innerH;
+      var y = innerH - h;
+
+      var bar = svgEl('rect', {
+        x: x,
+        y: y,
+        width: BAR_W * 2,
+        height: h,
+        rx: 4,
+        fill: 'url(#lb-grad-platinum)',
+        'class': 'lb-bar',
+        'data-id': suite.id,
+        'data-type': 'suite'
+      });
+      barGroup.appendChild(bar);
+
+      // TM value above bar
+      var tmText = svgEl('text', {
+        x: x + BAR_W,
+        y: y - 8,
+        'text-anchor': 'middle',
+        'class': 'lb-axis-value',
+        'font-size': '11',
+        fill: 'rgba(' + TOKENS.platinum + ', 0.9)'
+      });
+      tmText.textContent = suite.trustMagnitude.toFixed(0);
+      barGroup.appendChild(tmText);
+
+      // Label below
+      var label = svgEl('text', {
+        x: x + BAR_W,
+        y: innerH + 18,
+        'text-anchor': 'middle',
+        'class': 'lb-axis-label',
+        'font-size': '11'
+      });
+      label.textContent = truncate(suite.name || suite.id.split('/')[1], 14);
+      barGroup.appendChild(label);
+
+      // Contributor under label
+      var contrib = svgEl('text', {
+        x: x + BAR_W,
+        y: innerH + 34,
+        'text-anchor': 'middle',
+        'font-size': '10',
+        fill: 'rgba(' + TOKENS.honorRed + ', 0.7)'
+      });
+      contrib.textContent = suite.contributor;
+      barGroup.appendChild(contrib);
+    });
+
+    svg.appendChild(barGroup);
+    container.innerHTML = '';
+    container.appendChild(svg);
+  }
+
+  function fetchSuiteComponents(suites) {
+    suites.forEach(function(suite) {
+      var parts = suite.id.split('/');
       fetch(BASE + 'skills/' + parts[0] + '/' + parts[1] + '.json' + VER)
         .then(function(r) { return r.json(); })
         .then(function(detail) {
-          var descEl = document.getElementById('desc-' + safeId(s.id));
-          if (descEl) descEl.textContent = detail.description || detail.title || '—';
-          var badgeEl = document.getElementById('badge-' + safeId(s.id));
-          if (badgeEl) {
-            var compCount = detail.suiteComponents ? detail.suiteComponents.length : (FALLBACK_COUNTS[s.id] || '?');
-            badgeEl.textContent = 'S · ' + (s.level || '') + ' · ' + compCount + ' skills';
+          if (detail.suiteComponents && detail.suiteComponents.length > 0) {
+            renderStackedOverlay(suite, detail.suiteComponents.length);
           }
-        })
-        .catch(function() {
-          var descEl = document.getElementById('desc-' + safeId(s.id));
-          if (descEl) descEl.textContent = '—';
-        });
+        }).catch(function() { /* silent */ });
     });
   }
 
-  // ── NAMED SKILLS ──
-  function renderNamed(named) {
-    var el = document.getElementById('lbNamedList');
-    if (!el) return;
-    var maxTm = named.reduce(function(m, r) { return Math.max(m, r.trustMagnitude || 0); }, 1);
-    var html = named.map(function(s, i) {
-      var pct = ((s.trustMagnitude || 0) / maxTm * 100).toFixed(2);
-      var trendHtml = renderTrend(s.tmDelta);
-      var parts = s.id.split('/');
-      var displayId = '<span class="lb-row__contributor">' + escHtml(parts[0]) + '</span>/' + escHtml(parts[1] || '');
-      return '<div class="lb-row" data-grade="' + s.grade + '" data-tm="' + (s.trustMagnitude || 0) + '" data-delta="' + (s.tmDelta || 0) + '">' +
-        '<span class="lb-row__rank">' + (i + 1) + '</span>' +
-        '<a class="lb-row__id" href="../../named/#explorer/' + escHtml(s.id) + '" title="' + escHtml(s.name) + '">' + displayId + '</a>' +
-        '<div class="lb-row__bar-cell">' +
-          '<div class="lb-row__bar-track"><div class="lb-row__bar-fill lb-row__bar-fill--' + s.grade + '" data-pct="' + pct + '" style="width:0"></div></div>' +
-          '<span class="lb-row__tm-val">' + (s.trustMagnitude || 0).toFixed(1) + '</span>' +
-        '</div>' +
-        '<span class="lb-row__grade lb-row__grade--' + s.grade + '">' + s.grade + '</span>' +
-        '<span class="lb-row__stars">' + escHtml(s.level || '') + '</span>' +
-        trendHtml +
-      '</div>';
-    }).join('');
-    el.innerHTML = html;
+  function renderStackedOverlay(suite, componentCount) {
+    // Overlay stacked segments on the existing bar
+    var bar = document.querySelector('.lb-bar[data-id="' + suite.id + '"]');
+    if (!bar) return;
+
+    var svg = bar.closest('svg');
+    if (!svg) return;
+
+    var x = parseFloat(bar.getAttribute('x'));
+    var y = parseFloat(bar.getAttribute('y'));
+    var h = parseFloat(bar.getAttribute('height'));
+    var w = parseFloat(bar.getAttribute('width'));
+
+    // Estimate rank distribution for visual segmentation
+    // Use a rough distribution curve: more 2-3★ components than 4-5★
+    var segments = estimateRankDistribution(componentCount);
+    var totalParts = segments.reduce(function(a, b) { return a + b.count; }, 0);
+    var currentY = y + h; // start from bottom
+
+    segments.forEach(function(seg) {
+      if (seg.count <= 0) return;
+      var segH = (seg.count / totalParts) * h;
+      currentY -= segH;
+
+      var rect = svgEl('rect', {
+        x: x + 1,
+        y: currentY,
+        width: w - 2,
+        height: segH - 1,
+        rx: 2,
+        fill: 'rgba(' + rankRgb(seg.rank) + ', 0.6)',
+        'class': 'lb-bar',
+        'data-id': suite.id,
+        'data-type': 'suite',
+        style: 'pointer-events: none;'
+      });
+      bar.parentNode.insertBefore(rect, bar.nextSibling);
+    });
+
+    // Make the original bar transparent so stack shows through
+    bar.setAttribute('fill', 'rgba(' + TOKENS.platinum + ', 0.08)');
+    bar.setAttribute('stroke', 'rgba(' + TOKENS.platinum + ', 0.3)');
+    bar.setAttribute('stroke-width', '1');
   }
 
-  function renderTrend(delta) {
-    if (delta === null || delta === undefined) {
-      return '<span class="lb-row__trend lb-row__trend--none">—</span>';
-    }
-    if (delta > 0) {
-      return '<span class="lb-row__trend lb-row__trend--up">+' + delta.toFixed(1) + '</span>';
-    }
-    if (delta < 0) {
-      return '<span class="lb-row__trend lb-row__trend--down">' + delta.toFixed(1) + '</span>';
-    }
-    return '<span class="lb-row__trend lb-row__trend--none">—</span>';
+  function estimateRankDistribution(count) {
+    // Estimate: 5★ = 10%, 4★ = 20%, 3★ = 30%, 2★ = 40%
+    var r5 = Math.max(1, Math.round(count * 0.1));
+    var r4 = Math.max(1, Math.round(count * 0.2));
+    var r3 = Math.max(2, Math.round(count * 0.3));
+    var r2 = Math.max(1, count - r5 - r4 - r3);
+    return [
+      { rank: 2, count: r2 },
+      { rank: 3, count: r3 },
+      { rank: 4, count: r4 },
+      { rank: 5, count: r5 }
+    ];
   }
 
-  // ── UNGRADED ──
-  function renderUngraded(ungraded) {
-    var el = document.getElementById('lbUnregList');
-    if (!el) return;
+  // ── NAMED SKILLS BAR CHART ──
+  function renderNamedChart(skills) {
+    var container = document.getElementById('lbNamedChart');
+    var countEl = document.getElementById('lbNamedCount');
+    if (!container) return;
+
+    var visible = applyFilter(skills);
+    var toShow = visible.slice(0, state.showCount);
+    var totalVisible = visible.length;
+
+    if (countEl) {
+      countEl.textContent = '(showing ' + toShow.length + ' of ' + totalVisible + ')';
+    }
+
+    updateShowMoreBtn(toShow.length, totalVisible);
+
+    if (toShow.length === 0) {
+      container.innerHTML = '<p style="padding:2rem;color:var(--muted);font-family:var(--font-body);font-size:0.85rem">No skills match current filter.</p>';
+      return;
+    }
+
+    var maxTM = Math.max.apply(null, toShow.map(function(s) { return s.trustMagnitude; }));
+    maxTM = Math.max(maxTM, 50); // floor
+
+    var totalW = toShow.length * (BAR_W + BAR_GAP) + PAD.left + PAD.right;
+    var innerH = CHART_H - PAD.top - PAD.bottom;
+
+    var svg = createSvg(Math.max(totalW, 320), CHART_H + PAD.bottom);
+
+    // Y-axis gridlines
+    drawYAxis(svg, innerH, maxTM, totalW);
+
+    // Bar group
+    var barGroup = svgEl('g', { transform: 'translate(' + PAD.left + ',' + PAD.top + ')' });
+
+    toShow.forEach(function(skill, i) {
+      var x = i * (BAR_W + BAR_GAP);
+      var h = Math.max(2, (skill.trustMagnitude / maxTM) * innerH);
+      var y = innerH - h;
+      var color = gradeColor(skill.grade);
+
+      var bar = svgEl('rect', {
+        x: x,
+        y: y,
+        width: BAR_W,
+        height: h,
+        rx: 3,
+        fill: 'rgba(' + color + ', 0.75)',
+        'class': 'lb-bar',
+        'data-id': skill.id,
+        'data-type': 'named'
+      });
+      barGroup.appendChild(bar);
+
+      // X-axis label (rotated 45°)
+      var label = svgEl('text', {
+        x: 0,
+        y: 0,
+        transform: 'translate(' + (x + BAR_W / 2) + ',' + (innerH + 12) + ') rotate(45)',
+        'text-anchor': 'start',
+        'class': 'lb-axis-label',
+        'font-size': '10'
+      });
+      label.textContent = truncate(skill.id.split('/')[1] || skill.name, 16);
+      barGroup.appendChild(label);
+    });
+
+    svg.appendChild(barGroup);
+    container.innerHTML = '';
+    container.appendChild(svg);
+  }
+
+  // ── REGISTRY COMPACT LIST ──
+  function renderRegistry(ungraded) {
+    var container = document.getElementById('lbRegistryGrid');
+    var countEl = document.getElementById('lbRegCount');
+    var expandBtn = document.getElementById('lbRegExpand');
+    if (!container) return;
 
     // Group by contributor
     var groups = {};
@@ -187,124 +392,246 @@
     });
 
     var handles = Object.keys(groups).sort();
-    var allHtml = handles.map(function(handle, idx) {
-      var hidden = idx >= UNREG_INITIAL_GROUPS ? ' data-overflow="true" style="display:none"' : '';
-      var items = groups[handle].map(function(s) {
-        return '<li class="lb-unreg-item">' + escHtml(s.name || s.id.split('/')[1]) + '</li>';
-      }).join('');
-      return '<div class="lb-unreg-group"' + hidden + '>' +
-        '<span class="lb-unreg-handle">' + escHtml(handle) + '</span>' +
-        '<ul class="lb-unreg-list">' + items + '</ul>' +
+    if (countEl) countEl.textContent = handles.length + ' contributors · ' + ungraded.length + ' skills';
+
+    var INITIAL = 12;
+    var html = handles.map(function(handle, i) {
+      var hidden = i >= INITIAL ? ' style="display:none" data-overflow="1"' : '';
+      return '<div class="lb-reg-card"' + hidden + '>' +
+        '<span class="lb-reg-handle">' + esc(handle) + '</span>' +
+        '<span class="lb-reg-count">' + groups[handle].length + '</span>' +
       '</div>';
     }).join('');
-    el.innerHTML = allHtml;
 
-    // Toggle button
-    var toggle = document.getElementById('lbUnregToggle');
-    var overflowCount = handles.length - UNREG_INITIAL_GROUPS;
-    if (toggle) {
-      if (overflowCount <= 0) {
-        toggle.style.display = 'none';
+    container.innerHTML = html;
+
+    if (expandBtn) {
+      if (handles.length <= INITIAL) {
+        expandBtn.style.display = 'none';
       } else {
-        toggle.textContent = 'Show all ' + handles.length + ' contributors →';
-        toggle.addEventListener('click', function() {
-          el.querySelectorAll('[data-overflow="true"]').forEach(function(g) { g.style.display = ''; });
-          toggle.style.display = 'none';
+        expandBtn.textContent = 'Show all ' + handles.length + ' contributors';
+        expandBtn.addEventListener('click', function() {
+          container.querySelectorAll('[data-overflow]').forEach(function(el) {
+            el.style.display = '';
+          });
+          expandBtn.style.display = 'none';
         });
       }
     }
   }
 
-  // ── CONTROLS ──
-  function wireControls(named) {
-    // Disable trending sort if no data
-    if (!state.trendingAvailable) {
-      var trendBtn = document.getElementById('lbSortTrending');
-      if (trendBtn) {
-        trendBtn.disabled = true;
-        trendBtn.title = 'Trending data not yet available';
-      }
-    }
-
-    // Sort buttons
-    document.querySelectorAll('.lb-sort-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        if (btn.disabled) return;
-        state.sort = btn.dataset.sort;
-        document.querySelectorAll('.lb-sort-btn').forEach(function(b) { b.classList.remove('is-active'); });
-        btn.classList.add('is-active');
-        applySortFilter(named);
-      });
-    });
-
-    // Filter buttons
-    document.querySelectorAll('.lb-filter-btn').forEach(function(btn) {
+  // ── FILTER / SORT CONTROLS ──
+  function wireFilters() {
+    // Grade filter
+    document.querySelectorAll('[data-grade]').forEach(function(btn) {
       btn.addEventListener('click', function() {
         state.grade = btn.dataset.grade;
-        document.querySelectorAll('.lb-filter-btn').forEach(function(b) { b.classList.remove('is-active'); });
+        state.showCount = INITIAL_BARS;
+        btn.parentNode.querySelectorAll('.lb-pill-btn').forEach(function(b) {
+          b.classList.remove('is-active');
+        });
         btn.classList.add('is-active');
-        applySortFilter(named);
+        renderNamedChart(state.namedSkills);
+      });
+    });
+
+    // Sort
+    document.querySelectorAll('[data-sort]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        state.sort = btn.dataset.sort;
+        state.showCount = INITIAL_BARS;
+        btn.parentNode.querySelectorAll('.lb-pill-btn').forEach(function(b) {
+          b.classList.remove('is-active');
+        });
+        btn.classList.add('is-active');
+        renderNamedChart(state.namedSkills);
       });
     });
   }
 
-  function applySortFilter(named) {
-    // Filter: show/hide rows
-    var listEl = document.getElementById('lbNamedList');
-    if (!listEl) return;
-    var rows = listEl.querySelectorAll('.lb-row');
-    rows.forEach(function(row) {
-      var grade = row.dataset.grade;
-      var show = (state.grade === 'all' || grade === state.grade);
-      row.hidden = !show;
+  function wireShowMore() {
+    var btn = document.getElementById('lbShowMoreBtn');
+    if (!btn) return;
+    btn.addEventListener('click', function() {
+      state.showCount += INITIAL_BARS;
+      renderNamedChart(state.namedSkills);
     });
+  }
 
-    // Show/hide suites lane on grade filter
-    var suitesLane = document.getElementById('lbSuites');
-    if (suitesLane) {
-      suitesLane.style.display = (state.grade === 'all' || state.grade === 'S') ? '' : 'none';
+  function applyFilter(skills) {
+    var filtered = skills;
+    if (state.grade !== 'all') {
+      filtered = skills.filter(function(s) { return s.grade === state.grade; });
     }
 
-    // Sort visible rows
-    var visibleRows = Array.from(rows).filter(function(r) { return !r.hidden; });
-    visibleRows.sort(function(a, b) {
-      if (state.sort === 'tm') {
-        return parseFloat(b.dataset.tm) - parseFloat(a.dataset.tm);
-      }
-      if (state.sort === 'trending') {
-        return parseFloat(b.dataset.delta || 0) - parseFloat(a.dataset.delta || 0);
-      }
+    // Sort
+    filtered = filtered.slice().sort(function(a, b) {
       if (state.sort === 'grade') {
-        var order = { S: 0, A: 1, B: 2, C: 3 };
-        var diff = (order[a.dataset.grade] || 9) - (order[b.dataset.grade] || 9);
+        var diff = (GRADE_ORDER[a.grade] || 9) - (GRADE_ORDER[b.grade] || 9);
         if (diff !== 0) return diff;
-        return parseFloat(b.dataset.tm) - parseFloat(a.dataset.tm);
       }
-      return 0;
+      return b.trustMagnitude - a.trustMagnitude;
     });
 
-    // Re-insert sorted rows and update rank numbers
-    visibleRows.forEach(function(row, i) {
-      listEl.appendChild(row);
-      var rankEl = row.querySelector('.lb-row__rank');
-      if (rankEl) rankEl.textContent = (i + 1);
+    return filtered;
+  }
+
+  function updateShowMoreBtn(shown, total) {
+    var wrap = document.getElementById('lbShowMore');
+    var btn = document.getElementById('lbShowMoreBtn');
+    if (!wrap || !btn) return;
+    if (shown >= total) {
+      wrap.style.display = 'none';
+    } else {
+      wrap.style.display = '';
+      btn.textContent = 'Show more (' + (total - shown) + ' remaining)';
+    }
+  }
+
+  // ── TOOLTIP ──
+  function wireTooltip() {
+    var tooltip = document.getElementById('lbTooltip');
+    if (!tooltip) return;
+
+    // Track mouse for tooltip positioning
+    document.addEventListener('mousemove', function(e) {
+      if (tooltip.hidden) return;
+      var x = e.clientX + 14;
+      var y = e.clientY - 8;
+      // Keep tooltip in viewport
+      var tw = 260;
+      if (x + tw > window.innerWidth) x = e.clientX - tw - 14;
+      if (y + 200 > window.innerHeight) y = e.clientY - 200;
+      tooltip.style.left = x + 'px';
+      tooltip.style.top = y + 'px';
+    });
+
+    // Delegate events on SVG bars
+    document.addEventListener('mouseenter', function(e) {
+      var bar = e.target.closest && e.target.closest('.lb-bar');
+      if (!bar || bar.style.pointerEvents === 'none') return;
+      var id = bar.dataset.id;
+      var type = bar.dataset.type;
+      if (!id) return;
+
+      var skill = findSkill(id);
+      if (!skill) return;
+
+      tooltip.innerHTML = buildTooltipHtml(skill, type);
+      tooltip.hidden = false;
+      tooltip.style.borderColor = 'rgba(' + gradeColor(skill.grade) + ', 0.5)';
+    }, true);
+
+    document.addEventListener('mouseleave', function(e) {
+      var bar = e.target.closest && e.target.closest('.lb-bar');
+      if (!bar) return;
+      tooltip.hidden = true;
+    }, true);
+
+    // Click bar → navigate to explorer
+    document.addEventListener('click', function(e) {
+      var bar = e.target.closest && e.target.closest('.lb-bar');
+      if (!bar || bar.style.pointerEvents === 'none') return;
+      var id = bar.dataset.id;
+      if (id) {
+        window.location.href = '../../named/#explorer/' + id;
+      }
     });
   }
 
-  // ── BAR ANIMATION ──
-  function animateBars() {
-    document.querySelectorAll('[data-pct]').forEach(function(el) {
-      el.style.width = el.dataset.pct + '%';
-    });
+  function findSkill(id) {
+    // Check suites first (from leaderboard data)
+    var all = state.namedSkills;
+    for (var i = 0; i < all.length; i++) {
+      if (all[i].id === id) return all[i];
+    }
+    // Check if it's a suite (S-grade at top)
+    var leaderboard = document.querySelectorAll('.lb-bar[data-type="suite"]');
+    for (var j = 0; j < leaderboard.length; j++) {
+      if (leaderboard[j].dataset.id === id) {
+        return { id: id, name: id.split('/')[1], contributor: id.split('/')[0], grade: 'S', level: '5★', trustMagnitude: 0, type: 'ultimate' };
+      }
+    }
+    return null;
   }
 
-  // ── UTILS ──
-  function escHtml(str) {
+  function buildTooltipHtml(skill, type) {
+    var gradeLabel = skill.grade === 'S' ? 'Platinum' : skill.grade === 'A' ? 'Gold' : skill.grade === 'B' ? 'Silver' : skill.grade === 'C' ? 'Bronze' : 'Ungraded';
+    var levelName = RANK_NAMES[skill.level] || '';
+
+    return '<div class="lb-tt-name">' + esc(skill.name || skill.id.split('/')[1]) + '</div>' +
+      '<div class="lb-tt-id">' + esc(skill.id) + '</div>' +
+      '<div class="lb-tt-divider"></div>' +
+      '<div class="lb-tt-row"><span class="lb-tt-label">Trust Magnitude</span><span class="lb-tt-value">' + (skill.trustMagnitude || 0).toFixed(2) + '</span></div>' +
+      '<div class="lb-tt-row"><span class="lb-tt-label">Grade</span><span class="lb-tt-value">' + gradeLabel + ' (' + skill.grade + ')</span></div>' +
+      '<div class="lb-tt-row"><span class="lb-tt-label">Level</span><span class="lb-tt-value">' + esc(skill.level) + (levelName ? ' ' + levelName : '') + '</span></div>' +
+      (type === 'suite' ? '<div class="lb-tt-row"><span class="lb-tt-label">Type</span><span class="lb-tt-value">Ultimate Suite</span></div>' : '') +
+      '<div class="lb-tt-divider"></div>' +
+      '<span class="lb-tt-link">→ View in Explorer</span>';
+  }
+
+  // ── SVG HELPERS ──
+  function createSvg(w, h) {
+    var svg = document.createElementNS(SVG_NS, 'svg');
+    svg.setAttribute('width', w);
+    svg.setAttribute('height', h);
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', 'Trust Magnitude chart');
+    svg.style.minWidth = w + 'px';
+    return svg;
+  }
+
+  function svgEl(tag, attrs) {
+    var el = document.createElementNS(SVG_NS, tag);
+    if (attrs) {
+      Object.keys(attrs).forEach(function(k) {
+        el.setAttribute(k, attrs[k]);
+      });
+    }
+    return el;
+  }
+
+  function appendStop(grad, offset, color) {
+    var stop = svgEl('stop', { offset: offset, 'stop-color': color });
+    grad.appendChild(stop);
+  }
+
+  function drawYAxis(svg, innerH, maxTM, totalW) {
+    var g = svgEl('g', { transform: 'translate(' + PAD.left + ',' + PAD.top + ')' });
+    var steps = [0, 0.25, 0.5, 0.75, 1];
+    steps.forEach(function(pct) {
+      var y = innerH - (innerH * pct);
+      var val = Math.round(maxTM * pct);
+
+      // Gridline
+      var line = svgEl('line', {
+        x1: -8, y1: y, x2: totalW - PAD.left - PAD.right, y2: y,
+        'class': 'lb-gridline'
+      });
+      g.appendChild(line);
+
+      // Label
+      var text = svgEl('text', {
+        x: -12, y: y + 4,
+        'text-anchor': 'end',
+        'class': 'lb-axis-value'
+      });
+      text.textContent = val;
+      g.appendChild(text);
+    });
+    svg.appendChild(g);
+  }
+
+  // ── UTILITIES ──
+  function truncate(str, max) {
     if (!str) return '';
-    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    return str.length > max ? str.slice(0, max) + '…' : str;
   }
-  function safeId(str) {
-    return str.replace(/[^a-z0-9]/gi, '-');
+
+  function esc(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
 })();
