@@ -44,8 +44,8 @@ def test_init_no_remote_falls_back_to_workspace(monkeypatch, tmp_path):
     monkeypatch.setattr(gaia_main, "fetch_command", lambda args: None)
     monkeypatch.setattr(gaia_main, "_detect_github_username", lambda: None)
     
-    # Make detect_source_repo raise NonPublicRepoError
-    monkeypatch.setattr(push_mod, "detect_source_repo",
+    import gaia_cli.impl as impl_mod
+    monkeypatch.setattr(impl_mod, "detect_source_repo",
                         lambda config: (_ for _ in ()).throw(push_mod.NonPublicRepoError("testuser")))
                         
     run_cli(monkeypatch, ["init", "--user", "testuser", "--yes"])
