@@ -175,7 +175,10 @@
 /* ── Chart containers ── */
 .lb-chart-wrap {
   position: relative;
-  padding: 0.5rem 0;
+  padding: 1rem 0;
+  background: rgba(var(--evidence-silver-rgb), 0.015);
+  border: 1px solid var(--border);
+  border-radius: 10px;
 }
 .lb-chart-wrap--scrollable {
   overflow-x: auto;
@@ -200,10 +203,21 @@
 /* ── SVG bar styling (applied via JS classes) ── */
 .lb-bar {
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: opacity 0.15s, filter 0.2s;
 }
 .lb-bar:hover {
   opacity: 0.85;
+  filter: brightness(1.2);
+}
+
+/* Bar entrance animation */
+@keyframes lb-bar-rise {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+.lb-bar-animated {
+  transform-origin: bottom;
+  animation: lb-bar-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .lb-axis-label {

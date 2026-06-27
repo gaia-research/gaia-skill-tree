@@ -66,6 +66,8 @@
     sort: 'tm',
     grade: 'all',
     namedSkills: [],
+    suiteSkills: [],
+    allSkills: [],
     showCount: INITIAL_BARS
   };
 
@@ -110,6 +112,8 @@
     var named = allRows.filter(function(r) { return r.type !== 'ultimate' && r.grade && r.grade !== 'ungraded'; });
     var ungraded = allRows.filter(function(r) { return !r.grade || r.grade === 'ungraded'; });
     state.namedSkills = named;
+    state.suiteSkills = suites;
+    state.allSkills = allRows;
 
     // Render
     renderDistribution(leaderboard.distribution);
@@ -186,9 +190,10 @@
         height: h,
         rx: 4,
         fill: 'url(#lb-grad-platinum)',
-        'class': 'lb-bar',
+        'class': 'lb-bar lb-bar-animated',
         'data-id': suite.id,
-        'data-type': 'suite'
+        'data-type': 'suite',
+        style: 'animation-delay:' + (i * 120) + 'ms'
       });
       barGroup.appendChild(bar);
 
@@ -352,9 +357,10 @@
         height: h,
         rx: 3,
         fill: 'rgba(' + color + ', 0.75)',
-        'class': 'lb-bar',
+        'class': 'lb-bar lb-bar-animated',
         'data-id': skill.id,
-        'data-type': 'named'
+        'data-type': 'named',
+        style: 'animation-delay:' + (i * 30) + 'ms'
       });
       barGroup.appendChild(bar);
 
@@ -537,20 +543,43 @@
         window.location.href = '../../named/#explorer/' + id;
       }
     });
+
+    // Touch: show tooltip on first tap, navigate on second
+    var lastTappedId = null;
+    document.addEventListener('touchstart', function(e) {
+      var bar = e.target.closest && e.target.closest('.lb-bar');
+      if (!bar || bar.style.pointerEvents === 'none') {
+        tooltip.hidden = true;
+        lastTappedId = null;
+        return;
+      }
+      var id = bar.dataset.id;
+      if (!id) return;
+      e.preventDefault();
+
+      if (lastTappedId === id) {
+        // Second tap: navigate
+        window.location.href = '../../named/#explorer/' + id;
+        return;
+      }
+
+      lastTappedId = id;
+      var skill = findSkill(id);
+      if (!skill) return;
+      tooltip.innerHTML = buildTooltipHtml(skill, bar.dataset.type);
+      tooltip.hidden = false;
+      tooltip.style.borderColor = 'rgba(' + gradeColor(skill.grade) + ', 0.5)';
+      var touch = e.touches[0];
+      tooltip.style.left = Math.min(touch.clientX + 14, window.innerWidth - 280) + 'px';
+      tooltip.style.top = (touch.clientY - 120) + 'px';
+    }, { passive: false });
   }
 
   function findSkill(id) {
-    // Check suites first (from leaderboard data)
-    var all = state.namedSkills;
+    // Search all skills (includes suites and named)
+    var all = state.allSkills;
     for (var i = 0; i < all.length; i++) {
       if (all[i].id === id) return all[i];
-    }
-    // Check if it's a suite (S-grade at top)
-    var leaderboard = document.querySelectorAll('.lb-bar[data-type="suite"]');
-    for (var j = 0; j < leaderboard.length; j++) {
-      if (leaderboard[j].dataset.id === id) {
-        return { id: id, name: id.split('/')[1], contributor: id.split('/')[0], grade: 'S', level: '5★', trustMagnitude: 0, type: 'ultimate' };
-      }
     }
     return null;
   }
