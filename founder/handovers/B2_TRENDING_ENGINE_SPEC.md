@@ -478,25 +478,55 @@ RSS 2.0. Top 20 trending skills (7d window). Each item links to `/named/#explore
 
 ---
 
+## Branching Model
+
+`dev/sprint-b2-trending` is the long-lived integration branch (PR #863 → `main`, merges at sprint end). All feature work opens a PR into it — never directly to `main`. B3 (#854 Hall of Heroes) is **out of scope** for this branch.
+
+```
+main
+└── dev/sprint-b2-trending          ← PR #863, merges at sprint end
+    ├── feat/b2/trending-script     ← Worker A (this spec)
+    ├── feat/b2/trending-frontend   ← Worker B
+    ├── feat/b2/trending-infra      ← Worker C
+    ├── feat/b2/trending-wiring     ← Worker D
+    └── feat/b2/b1-sdk              ← #851 SDK
+```
+
+**PR naming convention:**
+
+| Branch | PR title | Resolves |
+|--------|----------|----------|
+| `feat/b2/trending-script` | `feat(b2): buildTrendingProjection.py — snapshot delta engine` | #651 |
+| `feat/b2/trending-frontend` | `feat(b2): /trending/ page — HTML + CSS + JS` | #697, #853 |
+| `feat/b2/trending-infra` | `feat(b2): stargazer heartbeat + RSS feed` | #760, #852 |
+| `feat/b2/trending-wiring` | `feat(b2): wire trending into gaia dev docs + mounts + tests` | #698 |
+| `feat/b2/b1-sdk` | `feat(b1): @gaia-registry/api-client SDK — Python + TypeScript` | #851 |
+| `dev/sprint-b2-trending` | `feat(sprint-b): Sprint B integration — B1 close + B2 Trending Engine` | #855 |
+
 ## pi-zerg-swarm Parallelization Plan
 
 ### Assessment: YES — 4 parallel work streams
 
 B2 decomposes cleanly into independent subtasks:
 
-| Agent | Task | Dependencies | Est. tokens |
-|-------|------|--------------|-------------|
-| Worker A | `scripts/buildTrendingProjection.py` (full script) | None — reads patterns from buildApiProjection.py | ~40k |
-| Worker B | `docs/trending/` (HTML + CSS + JS) | Needs API shape (embed in prompt) | ~25k |
-| Worker C | `.github/workflows/stargazer-heartbeat.yml` + `scripts/stargazerHeartbeat.py` | None | ~20k |
-| Worker D | Integration wiring (`build_docs.py`, `mounts.js`, `.gitattributes`, tests) | Worker A output paths (provide in prompt) | ~20k |
+| Agent | Branch | Task | Dependencies | Est. tokens |
+|-------|--------|------|--------------|-------------|
+| Worker A | `feat/b2/trending-script` | `scripts/buildTrendingProjection.py` (full script) | None | ~40k |
+| Worker B | `feat/b2/trending-frontend` | `docs/trending/` (HTML + CSS + JS) | Needs API shape (embed in prompt) | ~25k |
+| Worker C | `feat/b2/trending-infra` | `.github/workflows/stargazer-heartbeat.yml` + `scripts/stargazerHeartbeat.py` | None | ~20k |
+| Worker D | `feat/b2/trending-wiring` | Integration wiring (`build_docs.py`, `mounts.js`, `.gitattributes`, tests) | Worker A output paths | ~20k |
+
+### Commit discipline
+
+Every sub-agent prompt must include: *"Commit after every logical unit (one function complete, one file written, one test passing). Minimum 3 commits for any M-size task. Push to your feature branch before reporting back."*
 
 ### Sync points
 
-- **T+0:** Workers A, B, C dispatch simultaneously.
-- **T+1:** Worker D dispatches after Worker A confirms output file paths.
-- **T+2:** Orchestrator runs `gaia dev docs --check` to validate cohesion.
-- **Final:** Single merge PR with all four workers' commits rebased in sequence.
+- **T+0:** Workers A, B, C each branch off `dev/sprint-b2-trending` and dispatch simultaneously.
+- **T+1:** Worker D branches off `dev/sprint-b2-trending` after Worker A confirms output file paths.
+- **T+2:** Each worker opens a PR → `dev/sprint-b2-trending` (not main).
+- **T+3:** Orchestrator runs `gaia dev docs --check` after all feat/* are merged to integration branch.
+- **Sprint close:** PR #863 (`dev/sprint-b2-trending` → `main`) reviewed and merged by Marcus.
 
 ### pi-zerg-swarm usage
 
@@ -506,17 +536,29 @@ Use `zerg_control` to launch Workers A, B, C as parallel agents with `tasks` arr
 
 ## Dispatch Sequence (for the orchestrator)
 
-### Wave 1 (parallel — all at T+0 via zerg_control tasks[])
+### Wave 1 (parallel — T+0 via zerg_control tasks[])
 
-**Worker A prompt outline:** Create `scripts/buildTrendingProjection.py`. Model after `scripts/buildApiProjection.py`. Reads `registry/named-skills.json`, computes trending scores using [embed formula from this spec], writes to `docs/api/v1/trending/`. Snapshot archive, 7d/30d windows, ascended, contested, feed.xml, cold-start handling. Use `is_redacted()` filter. CLI: `--out-dir <path>`.
+**Worker A** — Branch: `feat/b2/trending-script` off `dev/sprint-b2-trending`  
+PR title: `feat(b2): buildTrendingProjection.py — snapshot delta engine` → `dev/sprint-b2-trending`  
+Resolves: #651  
+Prompt outline: Create `scripts/buildTrendingProjection.py`. Model after `scripts/buildApiProjection.py`. Reads `registry/named-skills.json`, computes trending scores using [embed formula from this spec], writes to `docs/api/v1/trending/`. Snapshot archive, 7d/30d windows, ascended, contested, feed.xml, cold-start handling. Use `is_redacted()` filter. CLI: `--out-dir <path>`. Commit after every logical unit (min 3 commits). Push and open PR → `dev/sprint-b2-trending`.
 
-**Worker B prompt outline:** Create `docs/trending/index.html`, `trending.css`, `trending.js`. Fetch from `../api/v1/trending/{7d,30d,ascended,contested}.json`. Use design tokens only. Follow `docs/trust/leaderboard/index.html` for page patterns. Include RSS alternate link. Sections: hero, window toggle, trending list, ascended, contested.
+**Worker B** — Branch: `feat/b2/trending-frontend` off `dev/sprint-b2-trending`  
+PR title: `feat(b2): /trending/ page — HTML + CSS + JS` → `dev/sprint-b2-trending`  
+Resolves: #697, #853  
+Prompt outline: Create `docs/trending/index.html`, `trending.css`, `trending.js`. Fetch from `../api/v1/trending/{7d,30d,ascended,contested}.json`. Use design tokens only. Follow `docs/trust/leaderboard/index.html` for page patterns. Include RSS alternate link. Sections: hero, window toggle, trending list, ascended, contested. Commit after every logical unit. Push and open PR → `dev/sprint-b2-trending`.
 
-**Worker C prompt outline:** Create `.github/workflows/stargazer-heartbeat.yml` (monthly cron, `GAIA_OPERATOR_OVERRIDE=1`) and `scripts/stargazerHeartbeat.py`. Query GitHub API for star counts of all skills with `links.github`. Update `evidence[type=github-stars-own].stars` in frontmatter if delta >5% or >100. Idempotent.
+**Worker C** — Branch: `feat/b2/trending-infra` off `dev/sprint-b2-trending`  
+PR title: `feat(b2): stargazer heartbeat + RSS feed` → `dev/sprint-b2-trending`  
+Resolves: #760, #852  
+Prompt outline: Create `.github/workflows/stargazer-heartbeat.yml` (monthly cron, `GAIA_OPERATOR_OVERRIDE=1`) and `scripts/stargazerHeartbeat.py`. Query GitHub API for star counts of all skills with `links.github`. Update `evidence[type=github-stars-own].stars` in frontmatter if delta >5% or >100. Idempotent. Commit after every logical unit. Push and open PR → `dev/sprint-b2-trending`.
 
 ### Wave 2 (after Worker A returns)
 
-**Worker D prompt outline:** Wire `buildTrendingProjection.py` into `scripts/build_docs.py` as `build_trending_projection` step (same tempdir-diff pattern as `build_api_projection`). Add `'trending'` to `docs/js/mounts.js`. Add `"trending/index.html"` to `build_html_cache_busting()`. Add trending snapshot paths to `.gitattributes` as `linguist-generated=true`. Write `tests/test_trending.py`.
+**Worker D** — Branch: `feat/b2/trending-wiring` off `dev/sprint-b2-trending`  
+PR title: `feat(b2): wire trending into gaia dev docs + mounts + tests` → `dev/sprint-b2-trending`  
+Resolves: #698  
+Prompt outline: Wire `buildTrendingProjection.py` into `scripts/build_docs.py` as `build_trending_projection` step (same tempdir-diff pattern as `build_api_projection`). Add `'trending'` to `docs/js/mounts.js`. Add `"trending/index.html"` to `build_html_cache_busting()`. Add trending snapshot paths to `.gitattributes` as `linguist-generated=true`. Write `tests/test_trending.py`. Commit after every logical unit. Push and open PR → `dev/sprint-b2-trending`.
 
 ---
 
@@ -524,13 +566,15 @@ Use `zerg_control` to launch Workers A, B, C as parallel agents with `tasks` arr
 
 | Dispatch | Model | Est. Input | Est. Output | Est. Cost |
 |----------|-------|------------|-------------|-----------|
-| Orchestrator planning (this doc) | Opus | ~80k | ~15k | ~$8 |
-| Worker A — Python script | Sonnet | ~40k | ~12k | ~$3 |
-| Worker B — Frontend | Sonnet | ~30k | ~10k | ~$2 |
-| Worker C — Stargazer infra | Sonnet | ~25k | ~8k | ~$2 |
-| Worker D — Wiring + tests | Sonnet | ~35k | ~10k | ~$3 |
-| Integration review | Opus | ~30k | ~5k | ~$3 |
-| **Total B2** | | **~240k** | **~60k** | **~$21** |
+| Orchestrator planning (this doc) | Opus | ~80k | ~15k | ~$2 (cache-dominant) |
+| Worker A — Python script | Sonnet | ~40k | ~12k | ~$0.80 (cache-dominant) |
+| Worker B — Frontend | Sonnet | ~30k | ~10k | ~$0.60 |
+| Worker C — Stargazer infra | Sonnet | ~25k | ~8k | ~$0.50 |
+| Worker D — Wiring + tests | Sonnet | ~35k | ~10k | ~$0.70 |
+| Integration review | Opus | ~30k | ~5k | ~$1.00 |
+| **Total B2** | | **~240k** | **~60k** | **~$5–8** |
+
+Recalibrated from proxy data: cache-read-dominant sessions run ~4× cheaper than fresh-input estimates. 3.7M cache reads at $0.30/MTok vs $3/MTok fresh input.
 
 Within the Sprint B budget of ~250k tokens / ~$25.
 
