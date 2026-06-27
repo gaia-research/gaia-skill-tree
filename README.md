@@ -385,6 +385,7 @@ Community contributors (1–2 skills each): [@karpathy](https://github.com/karpa
 |---|---|
 | [@balukosuri](https://github.com/balukosuri) | Evidence: community reproduction of Karpathy's autoresearch as a universal skill |
 | [@kriptoburak](https://github.com/kriptoburak) | Evidence evaluator: x-twitter-automation evidence review |
+| [@fahimkarim01](https://github.com/fahimkarim01) | Curation: corrected pexp13/sentiment-analysis metadata links |
 
 ### Bots
 
