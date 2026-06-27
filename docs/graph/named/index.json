@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26",
+  "generatedAt": "2026-06-27",
   "buckets": {
     "automated-testing": [
       {
@@ -25105,6 +25105,9 @@
       "status": "awakened",
       "level": "4★",
       "description": "Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers the full pipeline from raw noisy input through preprocessing, inference, and output normalisation. Stack is intentionally tool-agnostic — three implementation tracks are documented below.\n",
+      "links": {
+        "github": "https://github.com/pexp13/basic-nlp-text-processor-python/blob/main/SKILL.md"
+      },
       "evidence": [
         {
           "source": "https://aclanthology.org/S17-2088/",
@@ -25147,7 +25150,7 @@
         }
       ],
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-06-27",
       "timeline": [
         {
           "action": "migrate_trust_magnitude",
@@ -25203,6 +25206,12 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-06-26T18:30:56Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Updated GitHub link to https://github.com/pexp13/basic-nlp-text-processor-python/blob/main/SKILL.md"
         }
       ],
       "trustMagnitude": 192.8,

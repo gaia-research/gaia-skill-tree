@@ -13,7 +13,7 @@ description: 'Classifies the affective polarity (positive / negative / neutral, 
 
   '
 createdAt: '2026-05-17'
-updatedAt: '2026-06-21'
+updatedAt: '2026-06-27'
 trustMagnitude: 192.8
 overallTrustGrade: A
 apexGateStatus:
@@ -62,6 +62,10 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 2★ to 4★ per G7 final rankings calibration.
+- timestamp: '2026-06-26T18:30:56Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/pexp13/basic-nlp-text-processor-python/blob/main/SKILL.md
 evidence:
 - source: https://aclanthology.org/S17-2088/
   evaluator: mbtiongson1
@@ -101,6 +105,8 @@ evidence:
 verification:
   firstEvidenceAt: '2026-06-19T09:26:06Z'
 trustMagnitudeInputHash: 0fe967fac44ef008cb3a675f5da2775693274cff366b4bfaf33bd2bf9112e728
+links:
+  github: https://github.com/pexp13/basic-nlp-text-processor-python/blob/main/SKILL.md
 ---
 
 ## Implementation
