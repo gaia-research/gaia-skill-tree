@@ -84,7 +84,7 @@ class TestGaiaPush(unittest.TestCase):
             _make_custom_state(tmp)
 
             env = os.environ.copy()
-            env.pop("GITHUB_REPOSITORY", None)
+            env["GITHUB_REPOSITORY"] = "tester/test-repo"
             env["PYTHONPATH"] = REPO_ROOT
             env["PYTHONIOENCODING"] = "utf-8"
             result = subprocess.run(
@@ -112,7 +112,7 @@ class TestGaiaPush(unittest.TestCase):
             proposed_ids = [s["id"] for s in batch["proposedSkills"]]
             self.assertIn("semantic-search", proposed_ids)
             self.assertEqual(batch["userId"], "tester")
-            self.assertEqual(batch["sourceRepo"], "tester/local-repo")
+            self.assertEqual(batch["sourceRepo"], "tester/test-repo")
 
     def test_push_no_pr_writes_batch_file(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -135,6 +135,7 @@ class TestGaiaPush(unittest.TestCase):
             _make_custom_state(tmp)
 
             env = os.environ.copy()
+            env["GITHUB_REPOSITORY"] = "tester/test-repo"
             env["PYTHONPATH"] = REPO_ROOT
             env["PYTHONIOENCODING"] = "utf-8"
             result = subprocess.run(

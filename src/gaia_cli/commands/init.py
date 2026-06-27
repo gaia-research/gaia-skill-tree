@@ -26,6 +26,9 @@ class InitCommand(Command):
             action="store_true",
             help="Enable automatic prompts for detected skill combinations",
         )
+        parser.add_argument(
+            "--workspace", action="store_true", help="Force workspace mode (local scan/tree only, disables remote push)"
+        )
 
     def execute(self, args: argparse.Namespace) -> int | None:
         from gaia_cli.main import init_command
