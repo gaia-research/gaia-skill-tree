@@ -19,8 +19,8 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 | # | File | Title | Status | Routine |
 |---|------|--------|--------|---------|
 | 1 | `index.html` | Docs Home | ✅ Done | 001 |
-| 2 | `getting-started.html` | Getting Started | ✅ Done | 001 |
-| 3 | `cli-reference.html` | CLI Reference | ✅ Done (updated 007) | 002 |
+| 2 | `getting-started.html` | Getting Started | ✅ Done (updated 012) | 001 |
+| 3 | `cli-reference.html` | CLI Reference | ✅ Done (updated 012) | 002 |
 | 4 | `skill-hierarchy.html` | Skill Hierarchy | ✅ Done | 002 |
 | 5 | `contributing.html` | Contributing | ✅ Done | 003 |
 | 6 | `named-skills.html` | Named Skills & Origin | ✅ Done | 003 |
