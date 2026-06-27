@@ -231,7 +231,10 @@ def test_local_registry_auto_resolves_for_write_command(tmp_path):
     result = run_python(
         ["-m", "gaia_cli", "push", "--dry-run"],
         cwd=project,
-        env={"GAIA_HOME": str(tmp_path / "home")},
+        env={
+            "GAIA_HOME": str(tmp_path / "home"),
+            "GITHUB_REPOSITORY": "tester/test-repo",
+        },
     )
 
     assert result.returncode == 0, result.stderr
