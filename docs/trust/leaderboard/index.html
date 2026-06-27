@@ -2,9 +2,6 @@
 <html lang="en">
 <head>
   <script>window.GAIA_VERSION = "5.6.0";</script>
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trust Leaderboard — Gaia</title>
@@ -15,66 +12,76 @@
   <link rel="stylesheet" href="../../css/styles.css?v=5.6.0">
   <link rel="stylesheet" href="leaderboard.css?v=5.6.0">
 </head>
-<body class="leaderboard-page">
+<body class="lb-dark-page">
   <nav id="site-nav"></nav>
   <script src="../../js/mounts.js?v=5.6.0"></script>
   <script src="../../js/site-nav.js?v=5.6.0"></script>
 
-  <main class="lb-main">
-    <!-- HEADER -->
-    <header class="lb-header" id="lbHeader">
-      <a class="lb-back" href="../../codex/trust-methodology.html">← Trust Methodology</a>
-      <h1>Trust Leaderboard</h1>
-      <p class="lb-subtitle"><span class="lb-count" id="lbCount">—</span> skills · ranked by Trust Magnitude · updated on each registry change</p>
-      <div class="lb-pills" id="lbPills"></div>
+  <main class="lb-page">
+    <!-- HERO HEADER -->
+    <header class="lb-hero">
+      <a class="lb-breadcrumb" href="../../codex/trust-methodology.html">← Trust Methodology</a>
+      <h1 class="lb-title">Trust Leaderboard</h1>
+      <p class="lb-subtitle">Evidence-backed skill rankings across the registry</p>
+      <div class="lb-dist" id="lbDist" aria-label="Grade distribution"></div>
     </header>
 
-    <!-- CONTROLS -->
-    <div class="lb-controls" id="lbControls">
-      <div class="lb-sort-group" role="group" aria-label="Sort by">
-        <span class="lb-control-label">Sort</span>
-        <button class="lb-sort-btn is-active" data-sort="tm">TM</button>
-        <button class="lb-sort-btn" data-sort="trending" id="lbSortTrending">Trending 7d</button>
-        <button class="lb-sort-btn" data-sort="grade">Grade</button>
+    <!-- SUITES — STACKED VERTICAL BAR CHART -->
+    <section class="lb-section" id="lbSuites">
+      <div class="lb-section-head">
+        <h2 class="lb-section-title">◆ Ultimate Suites</h2>
+        <span class="lb-section-count" id="lbSuiteCount"></span>
       </div>
-      <div class="lb-filter-group" role="group" aria-label="Filter by grade">
-        <span class="lb-control-label">Grade</span>
-        <button class="lb-filter-btn is-active" data-grade="all">All</button>
-        <button class="lb-filter-btn" data-grade="S">S</button>
-        <button class="lb-filter-btn" data-grade="A">A</button>
-        <button class="lb-filter-btn" data-grade="B">B</button>
-        <button class="lb-filter-btn" data-grade="C">C</button>
-      </div>
-    </div>
-
-    <!-- SUITES LANE -->
-    <section class="lb-lane lb-lane--suites" id="lbSuites">
-      <h2 class="lb-section-title">◆ Ultimate Suites</h2>
-      <div id="lbSuiteCards"></div>
+      <div class="lb-chart-wrap" id="lbSuiteChart"></div>
     </section>
 
-    <!-- NAMED SKILLS LANE -->
-    <section class="lb-lane lb-lane--named" id="lbNamed">
-      <h2 class="lb-section-title">◇ Named Skills</h2>
-      <div class="lb-named-list" id="lbNamedList"></div>
+    <!-- NAMED SKILLS — VERTICAL BAR CHART WITH FILTERS -->
+    <section class="lb-section" id="lbNamed">
+      <div class="lb-section-head">
+        <h2 class="lb-section-title">◇ Named Skills</h2>
+        <span class="lb-section-count" id="lbNamedCount"></span>
+      </div>
+      <div class="lb-filters" id="lbFilters">
+        <div class="lb-filter-row" role="group" aria-label="Filter by grade">
+          <button class="lb-pill-btn is-active" data-grade="all">All</button>
+          <button class="lb-pill-btn" data-grade="S">S</button>
+          <button class="lb-pill-btn" data-grade="A">A</button>
+          <button class="lb-pill-btn" data-grade="B">B</button>
+          <button class="lb-pill-btn" data-grade="C">C</button>
+        </div>
+        <div class="lb-filter-row" role="group" aria-label="Sort order">
+          <button class="lb-pill-btn is-active" data-sort="tm">Trust Magnitude</button>
+          <button class="lb-pill-btn" data-sort="grade">By Grade</button>
+        </div>
+      </div>
+      <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbNamedChart"></div>
+      <div class="lb-show-more" id="lbShowMore">
+        <button class="lb-show-more-btn" id="lbShowMoreBtn" type="button">Show more</button>
+      </div>
     </section>
 
-    <!-- IN REGISTRY LANE -->
-    <section class="lb-lane lb-lane--unreg" id="lbUnreg">
-      <h2 class="lb-section-title lb-section-title--muted">In Registry</h2>
-      <p class="lb-section-subtitle">Unverified — awaiting evidence. Push evidence to promote.</p>
-      <div id="lbUnregList"></div>
-      <button class="lb-unreg-toggle" id="lbUnregToggle" type="button">Show all →</button>
+    <!-- IN REGISTRY — COMPACT LIST -->
+    <section class="lb-section lb-section--registry" id="lbRegistry">
+      <div class="lb-section-head">
+        <h2 class="lb-section-title lb-section-title--muted">In Registry</h2>
+        <span class="lb-section-count" id="lbRegCount"></span>
+      </div>
+      <p class="lb-section-note">Unverified — awaiting evidence. Push evidence to promote.</p>
+      <div class="lb-registry-grid" id="lbRegistryGrid"></div>
+      <button class="lb-registry-expand" id="lbRegExpand" type="button">Show all contributors</button>
     </section>
 
     <!-- CTA -->
     <section class="lb-cta">
-      <h3 class="lb-cta__title">Is your AI skill missing?</h3>
-      <p class="lb-cta__body">Push it to the registry. Evidence gets you on the board.</p>
-      <pre class="lb-cta__code"><code><span class="cmd">gaia</span> push</code></pre>
-      <a class="lb-cta__link" href="https://github.com/mbtiongson1/gaia-skill-tree/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing Guide →</a>
+      <h3 class="lb-cta-title">Is your AI skill missing?</h3>
+      <p class="lb-cta-body">Push it to the registry. Evidence gets you on the board.</p>
+      <pre class="lb-cta-code"><code><span class="cmd">gaia</span> push</code></pre>
+      <a class="lb-cta-link" href="https://github.com/mbtiongson1/gaia-skill-tree/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing Guide →</a>
     </section>
   </main>
+
+  <!-- TOOLTIP (position: fixed, escapes overflow) -->
+  <div class="lb-tooltip" id="lbTooltip" hidden aria-hidden="true"></div>
 
   <footer id="site-footer"></footer>
   <script src="../../js/site-footer.js?v=5.6.0"></script>
