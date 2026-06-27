@@ -288,7 +288,7 @@ def write_gexf(
     return out_path
 
 
-def render_svg(render_graph: dict[str, Any]) -> str:
+def render_svg(render_graph: dict[str, Any], is_workspace_mode: bool = False) -> str:
     width = int(render_graph.get("width", 1280))
     height = int(render_graph.get("height", 880))
     nodes = render_graph.get("nodes", [])
@@ -370,6 +370,13 @@ def render_svg(render_graph: dict[str, Any]) -> str:
             f'<text x="{legend_x + 24}" y="{y}">{color["label"]}: {count}</text>'
         )
     lines.append("</g>")
+    if is_workspace_mode:
+        # Semi-transparent diagonal watermark text overlay
+        lines.append(
+            f'<text x="{width / 2:.1f}" y="{height / 2:.1f}" fill="#334155" opacity="0.15" '
+            f'font-size="64" font-weight="900" font-family="sans-serif" text-anchor="middle" '
+            f'transform="rotate(-30 {width / 2:.1f} {height / 2:.1f})">WORKSPACE ONLY</text>'
+        )
     lines.append("</svg>")
     return "\n".join(lines) + "\n"
 
@@ -384,6 +391,7 @@ def render_html(
     *,
     user_ctx: dict[str, Any] | None = None,
     icons_svg: str | None = None,
+    is_workspace_mode: bool = False,
 ) -> str:
     named_skills = named_skills or {"buckets": {}}
     user_ctx_data: dict[str, Any] = user_ctx if user_ctx is not None else {}
@@ -394,6 +402,43 @@ def render_html(
 
     if "meta" not in graph:
         graph["meta"] = {"levelColors": {}, "levelLabels": {}}
+
+    watermark_style = ""
+    watermark_html = ""
+    if is_workspace_mode:
+        watermark_style = """
+    .workspace-watermark {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 9999;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #f8fafc;
+      pointer-events: none;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .workspace-watermark::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #f59e0b;
+      border-radius: 50%;
+    }
+"""
+        watermark_html = '<div class="workspace-watermark">Workspace Mode</div>'
 
     return f'''<!DOCTYPE html>
 <html lang="en" data-graph-mode="local" data-graph-handle="{_username}">
@@ -419,6 +464,7 @@ def render_html(
     canvas {{ display: block; width: 100%; height: 100%; outline: none; }}
     [data-graph-trigger] {{ display: none; }}
     .graph-search-wrap, .graph-legend, .graph-fullscreen-overlay {{ display: flex !important; }}
+    {watermark_style}
   </style>
 </head>
 <body class="home-page">
@@ -428,6 +474,7 @@ def render_html(
     <div class="hero-content" style="display:none"></div>
     <button type="button" data-graph-trigger id="graphTrigger" style="display:none"></button>
   </section>
+  {watermark_html}
 
   <script type="application/json" id="gaia-graph-data">{_html_json(graph)}</script>
   <script type="application/json" id="gaia-named-skills">{_html_json(named_skills)}</script>
@@ -481,6 +528,7 @@ def write_graph_artifact(
     user_ctx: dict[str, Any] | None = None,
     custom: bool = False,
     known_only: bool = True,
+    is_workspace: bool = False,
 ) -> tuple[Path, dict[str, Any]]:
     root = _registry_root(registry_path)
     graph = load_graph(root)
@@ -604,11 +652,11 @@ def write_graph_artifact(
             except OSError:
                 pass
         out_path.write_text(
-            render_html(graph, load_named_skills(root), user_ctx=user_ctx, icons_svg=icons_svg),
+            render_html(graph, load_named_skills(root), user_ctx=user_ctx, icons_svg=icons_svg, is_workspace_mode=is_workspace),
             encoding="utf-8",
         )
     elif fmt == "svg":
-        out_path.write_text(render_svg(render_graph), encoding="utf-8")
+        out_path.write_text(render_svg(render_graph, is_workspace_mode=is_workspace), encoding="utf-8")
     elif fmt == "json":
         out_path.write_text(json.dumps(render_graph, indent=2) + "\n", encoding="utf-8")
     else:
@@ -639,6 +687,7 @@ def graph_command(args: Any) -> None:
 
     # Build local user context if a username is configured
     user_ctx: dict[str, Any] | None = None
+    is_workspace = False
     try:
         from gaia_cli import scanner
         from gaia_cli.localContext import LocalContext
@@ -647,9 +696,14 @@ def graph_command(args: Any) -> None:
         config = scanner.load_config()
         username = (config or {}).get("gaiaUser") or (config or {}).get("username") or ""
         
+        if config and config.get("workspaceMode"):
+            is_workspace = True
+
         repo_title = ""
         try:
             repo_title = detect_source_repo(config) if config else ""
+        except NonPublicRepoError:
+            is_workspace = True
         except Exception:
             pass
 
@@ -668,7 +722,15 @@ def graph_command(args: Any) -> None:
         canon = getattr(args, "canon", False)
         custom = getattr(args, "custom", False) or (not canon)
         known_only = not getattr(args, "show_all", False)
-        out_path, filtered_graph = write_graph_artifact(registry_path, output=output, fmt=fmt, user_ctx=user_ctx, custom=custom, known_only=known_only)
+        out_path, filtered_graph = write_graph_artifact(
+            registry_path,
+            output=output,
+            fmt=fmt,
+            user_ctx=user_ctx,
+            custom=custom,
+            known_only=known_only,
+            is_workspace=is_workspace,
+        )
     except FileNotFoundError as exc:
         print(str(exc), file=sys.stderr)
         return
