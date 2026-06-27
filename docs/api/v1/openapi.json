@@ -1,0 +1,489 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Gaia Registry API",
+    "version": "1.0.0",
+    "description": "Static read-only JSON API for the Gaia skill registry. All endpoints are served as pre-generated JSON files via GitHub Pages. No authentication required.",
+    "contact": {
+      "name": "Gaia Registry",
+      "url": "https://gaia.tiongson.co"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/LICENSE"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://gaia.tiongson.co",
+      "description": "Production (GitHub Pages)"
+    }
+  ],
+  "paths": {
+    "/api/v1/health.json": {
+      "get": {
+        "operationId": "getHealth",
+        "summary": "Health check",
+        "description": "Returns API liveness, registry version, generation timestamp, and named skills count.",
+        "tags": ["Meta"],
+        "responses": {
+          "200": {
+            "description": "API is healthy",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Health" },
+                "example": {
+                  "ok": true,
+                  "version": "5.6.0",
+                  "registryGeneratedAt": "2026-06-26",
+                  "namedSkillsCount": 139
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/skills/index.json": {
+      "get": {
+        "operationId": "listSkills",
+        "summary": "List all skills (page 1)",
+        "description": "Returns the first page of all named skills sorted by Trust Magnitude descending. Follow `_links.next` for subsequent pages.",
+        "tags": ["Skills"],
+        "responses": {
+          "200": {
+            "description": "Paginated skill list",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SkillListPage" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/skills/page-{n}.json": {
+      "get": {
+        "operationId": "listSkillsPage",
+        "summary": "List skills — page N",
+        "description": "Returns page N of the skill list (pages 2+). Page 1 is at `/api/v1/skills/index.json`.",
+        "tags": ["Skills"],
+        "parameters": [
+          {
+            "name": "n",
+            "in": "path",
+            "required": true,
+            "description": "Page number (integer ≥ 2)",
+            "schema": { "type": "integer", "minimum": 2 },
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated skill list",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SkillListPage" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/skills/{contributor}/{skill}.json": {
+      "get": {
+        "operationId": "getSkill",
+        "summary": "Get skill detail",
+        "description": "Returns full detail for a single named skill including evidence, tags, apex gate status, and hypermedia links.",
+        "tags": ["Skills"],
+        "parameters": [
+          {
+            "name": "contributor",
+            "in": "path",
+            "required": true,
+            "description": "GitHub handle of the contributor",
+            "schema": { "type": "string" },
+            "example": "garrytan"
+          },
+          {
+            "name": "skill",
+            "in": "path",
+            "required": true,
+            "description": "Skill slug (matches the named skill's directory name)",
+            "schema": { "type": "string" },
+            "example": "gstack"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Skill detail",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SkillDetail" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/contributors/index.json": {
+      "get": {
+        "operationId": "listContributors",
+        "summary": "List all contributors",
+        "description": "Returns all contributors with named skills, sorted by prestige score descending.",
+        "tags": ["Contributors"],
+        "responses": {
+          "200": {
+            "description": "Contributor list",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ContributorList" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/contributors/{handle}.json": {
+      "get": {
+        "operationId": "getContributor",
+        "summary": "Get contributor detail",
+        "description": "Returns a contributor's full profile including all their named skills with trust metrics.",
+        "tags": ["Contributors"],
+        "parameters": [
+          {
+            "name": "handle",
+            "in": "path",
+            "required": true,
+            "description": "GitHub handle of the contributor",
+            "schema": { "type": "string" },
+            "example": "garrytan"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contributor detail with skill list",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ContributorDetail" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/leaderboard.json": {
+      "get": {
+        "operationId": "getLeaderboard",
+        "summary": "Trust leaderboard",
+        "description": "Returns the grade distribution summary and all skills ranked by Trust Magnitude.",
+        "tags": ["Meta"],
+        "responses": {
+          "200": {
+            "description": "Leaderboard with distribution and ranked rows",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Leaderboard" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/evidence-types.json": {
+      "get": {
+        "operationId": "getEvidenceTypes",
+        "summary": "Evidence type catalogue",
+        "description": "Returns all recognised evidence types with magnitude formulas, weights, grade ceilings, and freshness policies.",
+        "tags": ["Meta"],
+        "responses": {
+          "200": {
+            "description": "Evidence type catalogue",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/EvidenceTypeCatalogue" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/search-index.json": {
+      "get": {
+        "operationId": "getSearchIndex",
+        "summary": "Search index",
+        "description": "Returns a flat array of all skills with pre-tokenised search terms for client-side full-text search.",
+        "tags": ["Meta"],
+        "responses": {
+          "200": {
+            "description": "Search index array",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/SearchIndexEntry" }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Health": {
+        "type": "object",
+        "required": ["ok", "version", "registryGeneratedAt", "namedSkillsCount"],
+        "properties": {
+          "ok": { "type": "boolean", "description": "Always true when the API is reachable" },
+          "version": { "type": "string", "description": "Registry version string (semver)", "example": "5.6.0" },
+          "registryGeneratedAt": { "type": "string", "format": "date", "description": "ISO date the registry snapshot was generated", "example": "2026-06-26" },
+          "namedSkillsCount": { "type": "integer", "description": "Total number of named skills in the registry", "example": 139 }
+        }
+      },
+      "SkillSummary": {
+        "type": "object",
+        "required": ["id", "name", "level", "trustMagnitude", "overallTrustGrade", "contributor", "type", "_links"],
+        "properties": {
+          "id": { "type": "string", "description": "Unique skill identifier in `{contributor}/{slug}` format", "example": "garrytan/gstack" },
+          "name": { "type": "string", "description": "Display name of the skill", "example": "Founder Mode" },
+          "level": { "type": "string", "description": "Star level label (e.g. '5★')", "example": "5★" },
+          "trustMagnitude": { "type": "number", "format": "float", "description": "Computed Trust Magnitude score", "example": 589.32 },
+          "overallTrustGrade": { "type": "string", "enum": ["S", "A", "B", "C", "D", "F"], "description": "Letter grade derived from Trust Magnitude", "example": "S" },
+          "contributor": { "type": "string", "description": "GitHub handle of the skill contributor", "example": "garrytan" },
+          "type": { "type": "string", "enum": ["basic", "extra", "unique", "ultimate"], "description": "Skill tier", "example": "ultimate" },
+          "_links": {
+            "type": "object",
+            "properties": {
+              "self": { "type": "string", "description": "Relative URL to this skill's detail endpoint", "example": "/api/v1/skills/garrytan/gstack.json" }
+            }
+          }
+        }
+      },
+      "SkillListPage": {
+        "type": "object",
+        "required": ["skills", "page", "totalPages", "totalSkills", "_links"],
+        "properties": {
+          "skills": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/SkillSummary" },
+            "description": "Skills on this page"
+          },
+          "page": { "type": "integer", "description": "Current page number (1-indexed)", "example": 1 },
+          "totalPages": { "type": "integer", "description": "Total number of pages", "example": 3 },
+          "totalSkills": { "type": "integer", "description": "Total skill count across all pages", "example": 139 },
+          "_links": {
+            "type": "object",
+            "properties": {
+              "self": { "type": "string", "example": "/api/v1/skills/index.json" },
+              "next": { "type": "string", "description": "URL of the next page (absent on last page)", "example": "/api/v1/skills/page-2.json" },
+              "prev": { "type": "string", "description": "URL of the previous page (absent on first page)", "example": "/api/v1/skills/index.json" }
+            }
+          }
+        }
+      },
+      "EvidenceEntry": {
+        "type": "object",
+        "required": ["type", "class", "source", "grade"],
+        "properties": {
+          "type": { "type": "string", "description": "Evidence type identifier (see /api/v1/evidence-types.json)", "example": "repo" },
+          "class": { "type": "string", "enum": ["A", "B", "C"], "description": "Evidence class", "example": "A" },
+          "source": { "type": "string", "format": "uri", "description": "Source URL for this evidence", "example": "https://github.com/garrytan/gstack" },
+          "evaluator": { "type": "string", "description": "GitHub handle of the evaluator who logged this evidence", "example": "mbtiongson1" },
+          "date": { "type": "string", "format": "date", "description": "ISO date the evidence was recorded", "example": "2026-05-18" },
+          "notes": { "type": "string", "description": "Human-readable notes about this evidence entry" },
+          "grade": { "type": "string", "enum": ["S", "A", "B", "C", "D", "F"], "description": "Trust grade computed from this evidence entry", "example": "B" },
+          "trustNumber": { "type": "number", "description": "Raw trust score contribution from this entry", "example": 70.0 }
+        }
+      },
+      "ApexGateStatus": {
+        "type": "object",
+        "description": "Apex Promotion gate check results (only present on ultimate-tier skills)",
+        "properties": {
+          "aGradedOriginsGte5": { "type": "boolean" },
+          "sourceTenureDaysGte180AorS": { "type": "boolean" },
+          "directNestedSuiteGte1": { "type": "boolean" },
+          "depth2OnlyReachableGte1": { "type": "boolean" },
+          "overallGradeS": { "type": "boolean" },
+          "apexPromotionPrSigned": { "type": "boolean" },
+          "crossOrgVerifier": { "type": ["boolean", "null"] },
+          "systemWideCap": { "type": ["boolean", "null"] }
+        }
+      },
+      "SkillLinks": {
+        "type": "object",
+        "properties": {
+          "self": { "type": "string", "example": "/api/v1/skills/garrytan/gstack.json" },
+          "contributor": { "type": "string", "example": "/api/v1/contributors/garrytan.json" },
+          "list": { "type": "string", "example": "/api/v1/skills/index.json" }
+        }
+      },
+      "SkillDetail": {
+        "allOf": [
+          { "$ref": "#/components/schemas/SkillSummary" }
+        ],
+        "type": "object",
+        "properties": {
+          "status": { "type": "string", "enum": ["named", "generic", "pending"], "description": "Named skill promotion status", "example": "named" },
+          "title": { "type": "string", "description": "Full display title (may include subtitle)", "example": "Gstack — Garry Tan's Full-Stack Agent Suite" },
+          "genericSkillRef": { "type": "string", "description": "ID of the canonical generic skill this named skill implements", "example": "founder-mode-orchestration" },
+          "description": { "type": "string", "description": "Long-form skill description" },
+          "tags": { "type": "array", "items": { "type": "string" }, "description": "Searchable tag keywords" },
+          "origin": { "type": ["boolean", "null"], "description": "True when the skill was produced by the contributor themselves" },
+          "evidence": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/EvidenceEntry" },
+            "description": "Full evidence chain backing this skill's trust grade"
+          },
+          "apexGateStatus": { "$ref": "#/components/schemas/ApexGateStatus" },
+          "_links": { "$ref": "#/components/schemas/SkillLinks" }
+        }
+      },
+      "ContributorSummary": {
+        "type": "object",
+        "required": ["handle", "namedSkills", "prestigeScore", "_links"],
+        "properties": {
+          "handle": { "type": "string", "description": "GitHub handle", "example": "garrytan" },
+          "namedSkills": { "type": "integer", "description": "Number of named skills this contributor holds", "example": 47 },
+          "topSkill": {
+            "type": "object",
+            "description": "Highest-TM skill summary",
+            "properties": {
+              "id": { "type": "string", "example": "garrytan/gstack" },
+              "level": { "type": "string", "example": "5★" },
+              "trustMagnitude": { "type": "number", "example": 589.32 }
+            }
+          },
+          "prestigeScore": { "type": "number", "description": "Aggregate prestige score (sum of TM across all named skills)", "example": 2996.5 },
+          "_links": {
+            "type": "object",
+            "properties": {
+              "self": { "type": "string", "example": "/api/v1/contributors/garrytan.json" }
+            }
+          }
+        }
+      },
+      "ContributorList": {
+        "type": "object",
+        "required": ["contributors"],
+        "properties": {
+          "contributors": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ContributorSummary" }
+          }
+        }
+      },
+      "ContributorDetail": {
+        "type": "object",
+        "required": ["handle", "namedSkills"],
+        "properties": {
+          "handle": { "type": "string", "example": "garrytan" },
+          "namedSkills": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/SkillSummary" },
+            "description": "All named skills belonging to this contributor, sorted by Trust Magnitude"
+          }
+        }
+      },
+      "LeaderboardRow": {
+        "type": "object",
+        "required": ["id", "trustMagnitude", "grade", "level"],
+        "properties": {
+          "id": { "type": "string", "description": "Skill ID in `{contributor}/{slug}` format", "example": "garrytan/gstack" },
+          "trustMagnitude": { "type": "number", "example": 589.32 },
+          "grade": { "type": "string", "enum": ["S", "A", "B", "C", "D", "F", "ungraded"], "example": "S" },
+          "level": { "type": "string", "example": "5★" }
+        }
+      },
+      "GradeDistribution": {
+        "type": "object",
+        "description": "Registry-wide grade distribution counts",
+        "properties": {
+          "total": { "type": "integer", "example": 249 },
+          "S": { "type": "integer", "example": 4 },
+          "A": { "type": "integer", "example": 42 },
+          "B": { "type": "integer", "example": 56 },
+          "C": { "type": "integer", "example": 77 },
+          "ungraded": { "type": "integer", "example": 70 },
+          "floor": { "type": "integer", "example": 0 },
+          "up": { "type": "integer", "example": 0 }
+        }
+      },
+      "Leaderboard": {
+        "type": "object",
+        "required": ["distribution", "rows"],
+        "properties": {
+          "distribution": { "$ref": "#/components/schemas/GradeDistribution" },
+          "rows": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/LeaderboardRow" },
+            "description": "All skills sorted by Trust Magnitude descending"
+          }
+        }
+      },
+      "EvidenceType": {
+        "type": "object",
+        "required": ["id", "description", "weight"],
+        "properties": {
+          "id": { "type": "string", "description": "Evidence type identifier used in skill evidence entries", "example": "github-stars-own" },
+          "description": { "type": "string", "description": "Human-readable description of what this evidence type captures" },
+          "magnitude": { "type": "string", "description": "Formula used to compute the raw magnitude score" },
+          "weight": { "type": "number", "description": "Multiplier applied to the magnitude score", "example": 1.0 },
+          "cap": { "type": ["number", "string", "null"], "description": "Hard or soft cap on score contribution", "example": 200 },
+          "gradeCeiling": { "type": "string", "enum": ["S", "A", "B", "C"], "description": "Maximum grade this evidence type can contribute toward", "example": "S" },
+          "freshness": { "type": "string", "description": "Decay/refresh policy for this evidence type" },
+          "selfProducible": { "type": "boolean", "description": "Whether a contributor can self-produce this evidence type" },
+          "allowedLayers": {
+            "type": "array",
+            "items": { "type": "string", "enum": ["named", "generic"] },
+            "description": "Which skill layers this evidence type applies to"
+          },
+          "notes": { "type": "string", "description": "Additional implementation notes" }
+        }
+      },
+      "EvidenceTypeCatalogue": {
+        "type": "object",
+        "required": ["types"],
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/EvidenceType" },
+            "description": "All recognised evidence types in the Gaia Trust Model"
+          }
+        }
+      },
+      "SearchIndexEntry": {
+        "type": "object",
+        "required": ["id", "name", "contributor", "tokens"],
+        "properties": {
+          "id": { "type": "string", "example": "garrytan/gstack" },
+          "name": { "type": "string", "example": "Founder Mode" },
+          "contributor": { "type": "string", "example": "garrytan" },
+          "level": { "type": "string", "example": "5★" },
+          "grade": { "type": "string", "example": "S" },
+          "trustMagnitude": { "type": "number", "example": 589.32 },
+          "tokens": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Pre-tokenised search terms for client-side full-text search"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Skills",
+      "description": "Individual skill detail and listing endpoints"
+    },
+    {
+      "name": "Contributors",
+      "description": "Contributor profiles and their skill portfolios"
+    },
+    {
+      "name": "Meta",
+      "description": "Registry health, leaderboard, evidence catalogue, and search index"
+    }
+  ]
+}
