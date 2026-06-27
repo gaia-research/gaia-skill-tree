@@ -216,8 +216,18 @@
   to { transform: scaleY(1); }
 }
 .lb-bar-animated {
-  transform-origin: bottom;
-  animation: lb-bar-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: lb-bar-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lb-bar-animated {
+    animation: none;
+  }
+  .lb-tooltip {
+    transition: none;
+  }
 }
 
 .lb-axis-label {
