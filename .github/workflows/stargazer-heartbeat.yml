@@ -1,0 +1,53 @@
+name: Stargazer Heartbeat
+
+on:
+  schedule:
+    - cron: '0 6 1 * *'   # 06:00 UTC on the 1st of every month
+  workflow_dispatch: {}    # allow manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  heartbeat:
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'main' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Run stargazer pull
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GAIA_OPERATOR_OVERRIDE: "1"
+        run: python scripts/stargazerHeartbeat.py --apply
+
+      - name: Check for registry changes
+        id: changes
+        run: |
+          if git diff --quiet registry/named/; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit star updates
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git add registry/named/
+          git commit -m "chore(heartbeat): monthly stargazer refresh $(date +%Y-%m) [skip-gen]"
+          git push
