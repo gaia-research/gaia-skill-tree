@@ -2,6 +2,101 @@
 
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
+## State Snapshot (2026-06-28, session 25 — Sprint B Wave 1 shipped + Trust Leaderboard SVG redesign in progress)
+
+### TLDR
+- Sprint B branching model established: `dev/sprint-b2-trending` is the long-lived integration branch (PR #863 → main at sprint end). All work PRs into it.
+- B1 fully closed: #850 (OpenAPI spec + `/api/` docs page) shipped in PR #863.
+- Wave 1 (3 parallel workers) merged: trending engine script (#866), frontend scaffold (#865), stargazer heartbeat (#864).
+- Trust Leaderboard completely redesigned: SVG vertical bar charts, dark atmosphere, interactive tooltips, stacked suite bars. PR #867 open, paused for visual iteration.
+- New `opus-worker` pi agent created (`~/.pi/agent/agents/opus-worker.md`) — Opus model, full capabilities.
+- Token calibration: 99.9% cache hit rate confirmed. True cost ~4× cheaper than naive estimates.
+- Founder housekeeping: DESIGN.md + PRODUCT.md moved to `founder/`; 12 merged handovers archived to `founder/handovers/done/`.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `docs/api/v1/openapi.json` | ✅ OpenAPI 3.1 spec — 9 endpoints, 12 schemas |
+| `docs/api/index.html` | ✅ `/api/` human-readable docs page |
+| `scripts/buildTrendingProjection.py` | ✅ Snapshot-based trending engine, 9/9 tests |
+| `scripts/stargazerHeartbeat.py` | ✅ Monthly star pull, 30 evidence rows refreshed live |
+| `.github/workflows/stargazer-heartbeat.yml` | ✅ Monthly cron workflow |
+| `docs/trending/` | ✅ Scaffold (will be superseded by leaderboard integration) |
+| `docs/trust/leaderboard/index.html` + CSS + JS | ✅ SVG vertical bar chart redesign — Opus worker, paused for iteration |
+| `founder/handovers/B2_TRENDING_ENGINE_SPEC.md` | ✅ Full Opus planning spec |
+| `founder/handovers/LEADERBOARD_DESIGN_SPEC.md` | ✅ Design spec written |
+| `founder/handovers/B1_IMPL_SPEC.md` | ✅ Tracked (was untracked) |
+| `founder/DESIGN.md`, `founder/PRODUCT.md` | ✅ Moved from root |
+| 12 handovers → `founder/handovers/done/` | ✅ Archived |
+| EPIC #855 | ⏳ B1 logged done, Wave 1 logged done, leaderboard in progress |
+| Issue #868 | ✅ Filed — leaderboard redesign sub-issue |
+| `~/.pi/agent/agents/opus-worker.md` | ✅ New Opus worker agent created |
+
+### Branches at end of session
+| Branch | Head | Status |
+|---|---|---|
+| `main` | `eb37c7bb` | Unchanged this session |
+| `dev/sprint-b2-trending` | `6acd399f` | 3 Wave 1 merges + B1 material. PR #863 draft. |
+| `dev/leaderboard-redesign` | `d0335a23` | Opus redesign complete, paused for Marcus visual review. PR #867 draft. |
+| `feat/b2/trending-script` | merged | ✅ Merged into dev/sprint-b2-trending |
+| `feat/b2/trending-frontend` | merged | ✅ Merged |
+| `feat/b2/trending-infra` | merged | ✅ Merged |
+
+### Issues + PRs touched
+| # | Title | Action |
+|---|---|---|
+| PR #863 | Sprint B integration | ⏳ Draft, base=main |
+| PR #867 | Trust Leaderboard redesign | ⏳ Draft, base=dev/sprint-b2-trending, paused |
+| PR #866 | trending-script | ✅ Merged into dev/sprint-b2-trending |
+| PR #865 | trending-frontend | ✅ Merged |
+| PR #864 | trending-infra | ✅ Merged |
+| #855 | Sprint B EPIC | ⏳ Comment posted, B1+Wave1 logged done |
+| #868 | Trust Leaderboard redesign | ✅ Filed (new sub-issue) |
+| #850 | OpenAPI spec + /api/ docs | ✅ Resolved by PR #863 |
+
+### Routing — where things live now
+| Artifact | Path |
+|---|---|
+| Sprint B integration branch | `dev/sprint-b2-trending` (PR #863 → main) |
+| Leaderboard redesign branch | `dev/leaderboard-redesign` (PR #867 → dev/sprint-b2-trending) |
+| B2 trending spec | `founder/handovers/B2_TRENDING_ENGINE_SPEC.md` |
+| Leaderboard design spec | `founder/handovers/LEADERBOARD_DESIGN_SPEC.md` |
+| B1 impl spec | `founder/handovers/B1_IMPL_SPEC.md` |
+| Trending engine script | `scripts/buildTrendingProjection.py` |
+| Stargazer script | `scripts/stargazerHeartbeat.py` |
+| Live leaderboard (branch) | `docs/trust/leaderboard/` (3 files: HTML/CSS/JS) |
+| Opus worker agent | `~/.pi/agent/agents/opus-worker.md` |
+
+### Lessons / hazards preserved
+- **99.9% cache hit rate is real and reliable.** Token cost estimates should assume ~4× discount on Sonnet sessions with large cached context (CLAUDE.md + repo files). Budget planning: multiply naive estimate by 0.25.
+- **Opus worker via pi:** `opus-worker` agent created at `~/.pi/agent/agents/opus-worker.md` using `model: anthropic--claude-4.6-opus`. Use for high-craft creative/design tasks where Sonnet output quality is insufficient.
+- **`--rank-N-rgb` token gap:** `tokens.css` emits `--rank-N` (hex) and `--rank-N-bg` (rgba) but NOT `--rank-N-rgb` (raw RGB triple). `leaderboard.js` hardcodes fallbacks. File issue against `generateCssTokens.py` to emit `-rgb` variants for rank tokens.
+- **Wave 1 mounts.js conflict:** Both feat/b2/trending-frontend and feat/b2/trending-infra touched mounts.js (both added 'trending'). Merged cleanly — same change, same line. Worker D (wiring) must be aware.
+- **Leaderboard page is depth-2** (`docs/trust/leaderboard/`) so asset paths use `../../js/` — `trust` mount covers this, no mounts.js change needed.
+- **Standalone /trending/ page is being superseded.** The trending data pipeline (#866) is correct and kept. The presentation moves to the leaderboard page (trending delta column). The `/trending/index.html` scaffold is in the branch but won't be the primary surface.
+
+### Open questions for next orchestrator
+- **Leaderboard iteration:** Marcus has nitpicks. Open `http://localhost:8091/trust/leaderboard/` (run `python3 -m http.server 8091` from `docs/`), review visually, then dispatch Opus worker with surgical iteration instructions.
+- **Worker D (trending-wiring):** `feat/b2/trending-wiring` not yet dispatched. Needs Worker A output paths (confirmed: `docs/api/v1/trending/{snapshot,7d,30d,ascended,contested}.json`). Wire into `build_docs.py`, add mounts, add tests for #698.
+- **`feat/b2/b1-sdk`** (#851 `@gaia-registry/api-client`): Python + TypeScript SDK. Blocked on leaderboard design settling (low priority until then).
+- **`--rank-N-rgb` token gap:** file issue + fix `generateCssTokens.py`.
+- **Registry star mutations from Worker C:** 30 `registry/named/*.md` files updated with fresh star counts. These are inside the merged `feat/b2/trending-infra` branch. Flag in PR review.
+
+### Token cost (session 25)
+| Metric | Value |
+|---|---|
+| Output tokens | 145,802 |
+| Fresh input | 376 (negligible) |
+| Cache writes | 1,265,007 |
+| Cache reads | 15,592,117 |
+| Cache hit rate | **99.9%** |
+| Total requests | 291 |
+| Cost | 17.91 CU / **9.67€** |
+| Breakdown | Output ~$0.44 + cache reads ~$4.68 + cache writes ~$4.74 |
+| **Session 24+25 cumulative** | **~12.37€** |
+
+---
+
 ## State Snapshot (2026-06-26, session 24 — B1 Public Trust API shipped: PR #857 merged, kill criterion met)
 
 ### TLDR
