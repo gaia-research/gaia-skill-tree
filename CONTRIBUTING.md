@@ -4,7 +4,7 @@
 
 # Contributing to Gaia
 
-> Read [`PRODUCT.md`](PRODUCT.md) for audience and product purpose, and [`CONTEXT.md`](CONTEXT.md) for canonical terminology and the banned-synonyms lint.
+> Read [`PRODUCT.md`](founder/PRODUCT.md) for audience and product purpose, and [`CONTEXT.md`](CONTEXT.md) for canonical terminology and the banned-synonyms lint.
 
 Thanks for helping improve the Gaia skill graph.
 
