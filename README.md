@@ -142,6 +142,32 @@ This is the evidence grade at the Skill level.
 
 ---
 
+## API
+
+The Gaia registry is available as a static read-only JSON API — no authentication, no rate limits.
+
+- **Base URL:** `https://gaia.tiongson.co/api/v1/`
+- **Docs:** [gaia.tiongson.co/api/](https://gaia.tiongson.co/api/)
+- **OpenAPI 3.1 spec:** [/api/v1/openapi.json](https://gaia.tiongson.co/api/v1/openapi.json)
+
+Quick examples:
+
+```bash
+# Health check
+curl https://gaia.tiongson.co/api/v1/health.json
+
+# All skills (page 1, sorted by Trust Magnitude)
+curl https://gaia.tiongson.co/api/v1/skills/index.json
+
+# Single skill detail
+curl https://gaia.tiongson.co/api/v1/skills/garrytan/gstack.json
+
+# Trust leaderboard
+curl https://gaia.tiongson.co/api/v1/leaderboard.json
+```
+
+---
+
 ## Quickstart
 
 **1. CLI

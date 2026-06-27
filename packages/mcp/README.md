@@ -279,6 +279,18 @@ Once Gaia is connected, try these in your agent:
 
 ---
 
+## REST API
+
+In addition to the MCP interface, the registry is also available as a static read-only JSON API suitable for HTTP clients, scripts, and dashboards.
+
+- **Docs:** [gaia.tiongson.co/api/](https://gaia.tiongson.co/api/)
+- **Base URL:** `https://gaia.tiongson.co/api/v1/`
+- **OpenAPI 3.1 spec:** [/api/v1/openapi.json](https://gaia.tiongson.co/api/v1/openapi.json)
+
+No authentication required. All endpoints are pre-generated static files served from GitHub Pages.
+
+---
+
 ## Configuration
 
 The server reads identity from (in priority order):
