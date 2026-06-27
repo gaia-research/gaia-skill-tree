@@ -363,8 +363,27 @@ def whoami_command(args):
     via = status["via"]
     reason = status["reason"]
 
+    config = load_config()
+    is_workspace = False
+    if config:
+        if config.get("workspaceMode"):
+            is_workspace = True
+        else:
+            try:
+                detect_source_repo(config)
+            except NonPublicRepoError:
+                is_workspace = True
+    else:
+        try:
+            detect_source_repo({})
+        except NonPublicRepoError:
+            is_workspace = True
+
+    mode_str = "Workspace Mode" if is_workspace else "Repository Mode"
+
     print(f"User:      {_fg(*COLOR_LOCAL_USER)}{user}{_reset()}")
     print(f"Registry:  {registry_path}")
+    print(f"Mode:      {mode_str}")
     print(f"Operator:  {'yes' if authorized else 'no'}  (via: {via})")
     print(f"Reason:    {reason}")
     print()
@@ -573,6 +592,13 @@ def init_command(args):
         detected = _detect_skill_files()
         scan_paths = detected if detected else ["scripts", "packages/cli-npm"]
 
+    is_workspace = getattr(args, "workspace", False)
+    if not is_workspace:
+        try:
+            detect_source_repo({"gaiaUser": username})
+        except NonPublicRepoError:
+            is_workspace = True
+
     local_registry_path = os.path.abspath(".")
     with open(config_path, "w", encoding="utf-8") as f:
         f.write(f'username = "{username}"\n')
@@ -584,6 +610,7 @@ def init_command(args):
         f.write(
             "scanPaths = [" + ", ".join(json.dumps(path) for path in scan_paths) + "]\n"
         )
+        f.write(f"workspaceMode = {'true' if is_workspace else 'false'}\n")
 
     # Color-coded display
     colored_user = f"{_fg(*COLOR_LOCAL_USER)}{username}{_reset()}"
@@ -596,6 +623,8 @@ def init_command(args):
     print(f"Initialized Gaia configuration at {config_path}")
     print(f"  user:       {colored_user}")
     print(f"  scanPaths:  {path_str}")
+    if is_workspace:
+        print("Workspace mode — scan/tree/graph available; gaia push requires a git repository with a public remote.")
     print(
         "Run `gaia fetch` to download the latest canonical registry, then `gaia scan` to link your local skills."
     )
@@ -612,40 +641,34 @@ def init_command(args):
             file=sys.stderr,
         )
 
-    try:
-        source = detect_source_repo({"gaiaUser": username})
-        if sys.stdin.isatty() and not getattr(args, "yes", False):
-            try:
-                if _use_color():
-                    prompt = (
-                        f"\n{_bold()}{_fg(*TIER_COLORS['extra'])}⚡ {_fg(255, 255, 255)}Detected repo: {_fg(*RANK_COLORS['2★'])}{source}{_reset()}\n"
-                        f"{_bold()}{_fg(*TIER_COLORS['ultimate'])}? {_fg(255, 255, 255)}Initialize Gaia on this repository? "
-                        f"{_fg(*RANK_COLORS['0★'])}[{_fg(*COLOR_LOCAL_USER)}Y{_fg(*RANK_COLORS['0★'])}/n]: {_reset()}"
-                    )
-                else:
-                    prompt = f"Detected repo: {source}\nInitialize Gaia on this repository? [Y/n]: "
-                ans = input(prompt).strip().lower()
-            except (KeyboardInterrupt, EOFError):
-                print()
-                import shutil
+    if not is_workspace:
+        try:
+            source = detect_source_repo({"gaiaUser": username})
+            if sys.stdin.isatty() and not getattr(args, "yes", False):
+                try:
+                    if _use_color():
+                        prompt = (
+                            f"\n{_bold()}{_fg(*TIER_COLORS['extra'])}⚡ {_fg(255, 255, 255)}Detected repo: {_fg(*RANK_COLORS['2★'])}{source}{_reset()}\n"
+                            f"{_bold()}{_fg(*TIER_COLORS['ultimate'])}? {_fg(255, 255, 255)}Initialize Gaia on this repository? "
+                            f"{_fg(*RANK_COLORS['0★'])}[{_fg(*COLOR_LOCAL_USER)}Y{_fg(*RANK_COLORS['0★'])}/n]: {_reset()}"
+                        )
+                    else:
+                        prompt = f"Detected repo: {source}\nInitialize Gaia on this repository? [Y/n]: "
+                    ans = input(prompt).strip().lower()
+                except (KeyboardInterrupt, EOFError):
+                    print()
+                    import shutil
 
-                shutil.rmtree(config_dir, ignore_errors=True)
-                sys.exit(1)
-            if ans == "n":
-                import shutil
+                    shutil.rmtree(config_dir, ignore_errors=True)
+                    sys.exit(1)
+                if ans == "n":
+                    import shutil
 
-                shutil.rmtree(config_dir, ignore_errors=True)
-                print("Aborted.")
-                return
-    except NonPublicRepoError:
-        print(
-            "\nNo GitHub remote detected in this directory.\n"
-            "  → To unlock the full workflow:\n"
-            "     • Add a remote:  git remote add origin https://github.com/<you>/<repo>\n"
-            "     • Or clone the gaia-skill-tree registry and run gaia init there\n"
-            "Your skills are still scannable and pushable — once linked to a public repo,\n"
-            "approved skills will start at 2★ instead of 1★.\n"
-        )
+                    shutil.rmtree(config_dir, ignore_errors=True)
+                    print("Aborted.")
+                    return
+        except NonPublicRepoError:
+            pass
 
     # If we're inside a registry clone, register its path globally so that
     # commands like `gaia push` work from any project without --registry.
@@ -2164,21 +2187,16 @@ def push_command(args):
         print("Gaia not initialized. Run `gaia init` first.", file=sys.stderr)
         sys.exit(1)
 
+    if config.get("workspaceMode"):
+        print("Error: `gaia push` is not supported in Workspace Mode (requires a public Git remote).", file=sys.stderr)
+        sys.exit(1)
+
     try:
         batch = build_skill_batch([], config, args.registry)
         source_repo = batch["sourceRepo"]
-    except NonPublicRepoError as exc:
-        print(
-            "\nYour skills are ready for review!\n"
-            "Skills pushed from outside a public GitHub repo start at 1★ in the registry.\n"
-            "Once you link a public repo, approved skills will start at 2★ instead.\n"
-            "  → Add a remote:  git remote add origin https://github.com/<you>/<repo>\n",
-            file=sys.stderr,
-        )
-        username_fallback = str(exc)
-        batch = build_skill_batch(
-            [], config, args.registry, source_repo=f"{username_fallback}/local-repo"
-        )
+    except NonPublicRepoError:
+        print("Error: `gaia push` is not supported in Workspace Mode (requires a public Git remote).", file=sys.stderr)
+        sys.exit(1)
 
     # Guard 1: check if empty initially
     if (
@@ -3190,6 +3208,9 @@ def get_parser():
         "--auto-prompt-combinations",
         action="store_true",
         help="Enable automatic prompts for detected skill combinations",
+    )
+    init_parser.add_argument(
+        "--workspace", action="store_true", help="Force workspace mode (local scan/tree only, disables remote push)"
     )
     scan_parser = subparsers.add_parser(
         "scan", help="Scan configured paths and installed skills for skill evidence"
