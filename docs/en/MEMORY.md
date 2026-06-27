@@ -2,6 +2,56 @@
 
 ---
 
+## 2026-06-27 — Routine 012
+
+**Branch:** `docs/routines/012`
+**Task chosen:** Version bump to v5.6.2 and formalize Workspace Mode documentation.
+
+### Trigger
+
+Recent release version bump to v5.6.2 and formalization of Workspace Mode under PR #861.
+
+### What I did
+
+1. **Documented Workspace Mode**: Updated `docs/en/getting-started.html` to document Workspace Mode. Replaced the stale "Non-repo environments" section to explain Workspace Mode fallback behavior, explicit `--workspace` initialisation, local scan/tree/graph availability, and remote push restriction.
+2. **Updated CLI command specifications**: Updated `docs/en/cli-reference.html` to document the new `--workspace` flag for `gaia init`, updated warning boxes for `gaia init` and `gaia push`, and updated the `gaia whoami` example output showing `Mode: Repository Mode (or Workspace Mode)`.
+3. **Synchronized version numbers**: Updated all 12 English documentation HTML files under `docs/en/` from `v5.1.3` to `v5.6.2` and script query parameters from `?v=5.0.7` to `?v=5.6.2`.
+4. **Updated "What's New" Banner**: Highlighted Workspace Mode in the `index.html` What's New banner.
+5. **Logged in MEMORY.md & DOCS.md**: Recorded Routine 012 logs.
+
+### Design decisions
+
+- Renamed `#non-repo` section in Getting Started guide to `#workspace-mode` and updated all navigation anchors/links to point to it correctly.
+- Maintained consistent macOS-style console mockup syntax and Flexbox layouts in `cli-reference.html` when adding the workspace configuration options.
+
+### Issues informed
+
+- Resolves #624
+
+### Files created / modified
+
+- `docs/en/MEMORY.md` (modified)
+- `docs/en/DOCS.md` (modified)
+- `docs/en/getting-started.html` (modified)
+- `docs/en/cli-reference.html` (modified)
+- `docs/en/index.html` (modified)
+- `docs/en/share-bundles.html` (modified)
+- `docs/en/evidence-classes.html` (modified)
+- `docs/en/skill-hierarchy.html` (modified)
+- `docs/en/named-skills.html` (modified)
+- `docs/en/mcp-server.html` (modified)
+- `docs/en/fusion.html` (modified)
+- `docs/en/contributing.html` (modified)
+- `docs/en/timeline-audit.html` (modified)
+- `docs/en/faq.html` (modified)
+
+### Planned next (Routine 013)
+
+- Research: Audit custom theme layouts on mobile screens to ensure the Sidebar active state is hidden gracefully.
+- Maintain: Audit the MCP Advisor interfaces and document any telemetry options.
+
+---
+
 ## 2026-06-25 — Routine 011
 
 **Branch:** `docs/routines/011`
