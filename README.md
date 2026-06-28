@@ -32,7 +32,7 @@ Generate yours at **[gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/)
 
 **Brand & product:** [PRODUCT.md](PRODUCT.md) · [CONTEXT.md](CONTEXT.md) · [DESIGN.md](DESIGN.md)
 
-**Keywords:** AI Agent Skills • Skill Registry • LLM Ops • Agent Framework
+**Keywords:** AI Agent Skill Registry • Evidence-Backed Skill Graph • Capability Graph • Model Context Protocol • AI Agents • Attribution
 
 ---
 
@@ -320,6 +320,13 @@ Set `GAIA_USER=your-github-username` and optionally `GITHUB_TOKEN` for PR tools.
 
 ---
 
+## Agent Discovery
+
+To help AI agents and automated clients discover and crawl the registry programmatically:
+- **Registry graph:** [`/graph/gaia.json`](https://gaia.tiongson.co/graph/gaia.json)
+- **Named skills:** [`/named/`](https://gaia.tiongson.co/named/)
+- **Trust ledger:** [`/trust/ledger/`](https://gaia.tiongson.co/trust/ledger/)
+
 ---
 
 ## Repository Structure
@@ -364,6 +371,8 @@ Thank you to everyone who has expanded the Gaia registry <3 You are the best!
 | [@rico-tiongson](https://github.com/rico-tiongson) | Collaborator: early feature contributions and ongoing pair programming |
 | [@MariTiongson](https://github.com/MariTiongson) | Collaborator: English localization (`docs/en/`) translation and layout updates |
 | [@Juno](https://github.com/Juno) | Key contributor: graph browser expansion, function-calling skill, RAG pipeline evidence, and CLI DX improvements |
+| [@milim-gaia](https://github.com/milim-gaia) | Core marketing agent: SEO optimization, copywriting, and agentic discovery alignment |
+| [@nova-gaia](https://github.com/nova-gaia) | Core marketing agent: automated outreach campaigns, compliance, and ecosystem growth loops |
 
 ### Named Skills
 
@@ -414,7 +423,7 @@ Gaia does not store personal information.
 
 Full details: [PRIVACY.md](PRIVACY.md) · [gaia.tiongson.co/privacy.html](https://gaia.tiongson.co/privacy.html)
 
-**Topics:** gaia-skill-tree, ai-agents, skill-registry, llm-ops, agent-framework
+**Topics:** gaia-skill-tree, ai-agent, skill-registry, capability-graph, evidence-backed, agent-skills, attribution, model-context-protocol, open-source-ai, llm-ops, agent-framework
 
 ---
 

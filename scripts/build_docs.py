@@ -279,6 +279,53 @@ def build_docs_index(check: bool) -> bool:
     return changed
 
 
+def build_okf_bundle(check: bool) -> bool:
+    import tempfile
+    import subprocess
+    import sys
+    import filecmp
+    
+    script_path = Path(__file__).resolve().parent / "build_okf_bundle.py"
+    if not script_path.exists():
+        return False
+        
+    okf_dir = ROOT / "docs" / "okf"
+    
+    if not check:
+        res = subprocess.run([sys.executable, str(script_path)], capture_output=True, text=True)
+        return res.returncode == 0
+        
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tmp_okf_dir = Path(tmpdir)
+        res = subprocess.run([sys.executable, str(script_path), str(tmp_okf_dir)], capture_output=True, text=True)
+        if res.returncode != 0:
+            return False
+            
+        def are_dirs_same(dir1: Path, dir2: Path) -> bool:
+            if not dir1.exists() or not dir2.exists():
+                if check:
+                    print(f"diff okf_dir (missing path: {dir1} or {dir2})")
+                return False
+            comparison = filecmp.dircmp(dir1, dir2)
+            if comparison.left_only or comparison.right_only or comparison.diff_files or comparison.funny_files:
+                if check:
+                    if comparison.left_only:
+                        print(f"diff okf_dir left_only: {comparison.left_only} in {dir1}")
+                    if comparison.right_only:
+                        print(f"diff okf_dir right_only: {comparison.right_only} in {dir2}")
+                    if comparison.diff_files:
+                        print(f"diff okf_dir diff_files: {comparison.diff_files} in {dir1} vs {dir2}")
+                    if comparison.funny_files:
+                        print(f"diff okf_dir funny_files: {comparison.funny_files}")
+                return False
+            for common_dir in comparison.common_dirs:
+                if not are_dirs_same(dir1 / common_dir, dir2 / common_dir):
+                    return False
+            return True
+            
+        return not are_dirs_same(okf_dir, tmp_okf_dir)
+
+
 def _apply_cache_busting(text: str, version: str) -> str:
     # 1. Inject or update Cache-Control meta tags inside <head>
     cache_meta = (
@@ -1110,6 +1157,7 @@ def main(argv: list[str] | None = None) -> int:
     # README depends on tree.md (build_tree_md)
     readme_changed = _run_step("readme", build_readme, args.check)
     docs_index_changed = _run_step("docs-index", build_docs_index, args.check)
+    okf_bundle_changed = _run_step("okf-bundle", build_okf_bundle, args.check)
     html_cache_busted = _run_step("html-cache-busting", build_html_cache_busting, args.check)
     css_tokens_changed = _run_step("css-tokens", build_css_tokens, args.check)
 
@@ -1153,6 +1201,7 @@ def main(argv: list[str] | None = None) -> int:
         or gexf_changed
         or svg_changed
         or sync_assets_changed
+        or okf_bundle_changed
     )
     if args.check:
         if changed or warnings:
