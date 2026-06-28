@@ -1,0 +1,125 @@
+# Extra Skills
+
+* [Advanced Swarm Coordination](/advanced-swarm-coordination.md) - Domain-specific swarm patterns for research, development, testing, and analysis workflows with neural learning and cross-session state persistence.
+* [Adversarial Robustness Testing](/adversarial-robustness-testing.md) - Systematically red-teams models with adversarial and multi-turn jailbreak prompts, input perturbations, and semantic-preserving transformations to measure resilience at scale.
+* [Agent Evaluation](/agent-eval.md) - Holistically evaluates an AI agent's performance on multi-step tasks by running standardised benchmarks, scoring full interaction trajectories, and producing reproducible capability reports.
+* [Agent Memory Learning](/agent-memory-learning.md) - Builds self-improving agent memory by analyzing task success patterns and adapting retrieval strategies with AgentDB-backed persistence.
+* [Agent Memory Platform](/agent-memory-platform.md) - Complete AgentDB vector memory ecosystem: QUIC-synchronized distributed vector storage, adaptive pattern learning, memory pattern design, database optimization, and semantic vector search.
+* [Agentic Workflow Design](/agentic-workflow-design.md) - Autonomously designs, authors, and iterates on complex multi-step workflows by translating high-level goals into executable DAGs or playbooks, managing task dependencies and distributed execution environments.
+* [Architecture Diagram](/architecture-diagram.md) - Generates technical architecture, infrastructure, or cloud diagrams as structured visual artifacts from natural-language system descriptions.
+* [Automated Testing](/automated-testing.md) - Generates test suites, executes them in a sandbox, interprets failures, and iterates until the target pass rate is reached.
+* [Autonomous Data Scientist](/autonomous-data-scientist.md) - Conducts end-to-end data science workflows autonomously: hypothesis generation, data analysis, statistical modeling, and insight reporting.
+* [Autonomous Debug](/autonomous-debug.md) - Independently identifies, diagnoses, and fixes software bugs through code generation and execution.
+* [Autonomous Scientific Discovery](/scientific-discovery.md) - Autonomously generates novel scientific hypotheses, designs and executes experiments, analyses results, and produces a written report â€” completing a full research cycle without human intervention.
+* [Autonomous Web Research](/autonomous-web-research.md) - Independently surveys, maps, and extracts structured information from the web by autonomously deciding which domains to crawl and synthesizing data into comprehensive research reports.
+* [Brainstorming](/brainstorming.md) - Explores user intent, requirements, and design before implementation.
+* [Browser Automation](/browser-automation.md) - Navigates web pages, fills forms, clicks elements, and extracts information by combining web search with screenshot-based GUI control to complete multi-step web tasks.
+* [Career Operations](/career-operations.md) - Orchestrates an end-to-end job application pipeline, including automated search, fit evaluation, and tailored CV/cover letter generation.
+* [Causal Inference](/causal-inference.md) - Estimates treatment effects and identifies causal relationships from observational and experimental data using propensity scoring, instrumental variables, and causal graphs.
+* [Cloud Platform Management](/cloud-platform-management.md) - Full lifecycle management of cloud AI platforms including user auth, sandbox environments, app store deployment, payments, and challenge systems. Home of the Queen Seraphina AI assistant.
+* [Code Review Pipeline](/code-review-pipeline.md) - Performs automated code review by generating, diffing, and evaluating code changes for correctness, style, security, and maintainability.
+* [Collaborative Diagramming](/collaborative-diagramming.md) - Generates and manages digital diagrams, flowcharts, and architecture maps in web-native or collaborative formats, optimized for hand-drawn aesthetics or structured vector output.
+* [Computational Biology Workflows](/computational-biology-workflows.md) - Integrates structural, genomic, proteomic, and molecular database querying with bioinformatics analysis (such as sequence alignment, structure prediction, and molecular rendering) to solve multi-step, complex computational biology tasks.
+* [Content Moderation](/content-moderation.md) - Detects policy-violating content by combining intent classification, sentiment scoring, and entity extraction across text, images, and mixed media.
+* [Conversational Agent](/conversational-agent.md) - Manages coherent multi-turn dialogue by routing intent, maintaining memory across turns, and generating contextually appropriate responses.
+* [Data Analysis](/data-analysis.md) - Conducts end-to-end quantitative analysis: queries data via SQL, computes statistics, generates visualizations, and summarizes findings.
+* [Deployment Automation](/deployment-automation.md) - Automate CI/CD pipeline execution and deployment to target environments — build, test, artifact publishing, environment promotion, and rollback strategies.
+* [Design Generation](/design-generation.md) - Generates high-fidelity visual assets, prototypes, and UI components from design intent or discovery forms, adhering to brand and UX standards.
+* [Design Review](/design-review.md) - Stress-tests a plan or design through relentless targeted questioning, walking the decision tree branch-by-branch, resolving concept dependencies, surfacing contradictions against the existing codebase, and crystallising ubiquitous language — optionally persisting resolved decisions to CONTEXT.md and ADRs.
+* [Design System Extraction](/design-system-extraction.md) - Automates the discovery and extraction of design tokens, component architectures, and CSS configurations from live web applications or URLs.
+* [Detect Anomaly](/detect-anomaly.md) - Identifies statistical outliers, novel patterns, or deviations from expected behavior in structured or unstructured data.
+* [Dispatching Parallel Agents](/dispatching-parallel-agents.md) - Delegates independent tasks to specialized agents with isolated context to work concurrently.
+* [Distributed Neural Training](/distributed-neural-training.md) - Trains neural networks (feedforward, LSTM, GAN, autoencoder, transformer) across distributed E2B sandbox clusters with federated learning and model marketplace publishing.
+* [Distributed Vector Memory](/distributed-vector-memory.md) - Sub-millisecond cross-node vector synchronization using QUIC protocol with hybrid metadata-filtered search and MMR diversity retrieval.
+* [Document Analyst](/document-analyst.md) - Parses, extracts entities from, summarizes, and formats structured documents.
+* [Dual Mode](/dual-mode.md) - Orchestrates hybrid Claude+Codex workflows: spawns headless parallel workers, coordinates task routing between interactive and background phases, and collects distributed results.
+* [Edge Optimization](/edge-optimization.md) - Compresses and tunes models for low-latency on-device inference via quantization, pruning, knowledge distillation, and federated learning under resource constraints.
+* [End-to-End Testing](/e2e-testing.md) - Execute full end-to-end user journey tests using browser automation frameworks (Playwright/Puppeteer), validating complete workflows from UI to backend across real environments.
+* [Executing Plans](/executing-plans.md) - Loads a written implementation plan, reviews it critically, executes all tasks sequentially, and reports when complete.
+* [Explainability Audit](/explainability-audit.md) - Audits model transparency by computing feature-importance attributions (SHAP, LIME) and intrinsic-interpretability metrics, surfacing them as governance evidence.
+* [Financial Modeling](/financial-modeling.md) - Builds financial projections, DCF and LBO valuation models, Monte Carlo simulations, and portfolio optimization by querying data, computing statistics, and running sensitivity analysis.
+* [Finishing a Development Branch](/finishing-a-development-branch.md) - Guides completion of development work by presenting structured options for merge, PR, or cleanup, verifying tests first.
+* [Flow Nexus Orchestration](/multi-node-orchestration.md) - Complete Flow Nexus platform: multi-topology swarm deployment, cloud platform management, and distributed neural training unified into one orchestration layer.
+* [Full-Stack Developer](/full-stack-developer.md) - Autonomously implements, reviews, tests, and refactors complete software features across the full development lifecycle from specification to merged PR.
+* [Function Calling](/function-calling.md) - Selects an external callable, emits schema-valid arguments, invokes the function or API, and integrates the returned result into the agent loop.
+* [Gaia Audit](/registry-entry-audit.md) - Reviews one Gaia skill, named skill, or real-skill catalog item against current evidence, source URLs, taxonomy mapping, promotion status, and demotion criteria, then proposes the smallest source-of-truth correction. Implements a sophisticated 7-phase audit discipline including evidence re-verification, demotion checks, and automatic asset regeneration.
+* [Gaia Meta Audit](/registry-health-scan.md) - Scans Gaia registry and real-skill catalog entries for review candidates whose evidence may be outdated, superseded, overpromoted, unmapped, stale, or insufficient for their current level or named-skill claim.
+* [Generative Media](/generative-media.md) - Generates and manipulates images, video, and audio through complex node-based or scripted generative workflows, managing model dependencies and parameter injection.
+* [Ghostwrite](/ghostwrite.md) - Produces audience-tailored, research-backed long-form written content.
+* [GitHub Platform Mastery](/git-integration.md) - Full GitHub platform automation: code review pipelines, multi-repo coordination, project management, release management, and workflow automation.
+* [Graph-Driven Issue Triage](/graph-driven-issue-triage.md) - Combines codebase or knowledge-graph construction with automated issue triage: ingest a graph artifact, surface architectural debt or missing-prerequisite signals from the graph topology, and convert each finding into a tracked issue with reproducible evidence.
+* [Grill Me](/grill-me.md) - Conducts a relentless, one-question-at-a-time Socratic interview to stress-test designs and force the resolution of hidden assumptions before code is written.
+* [Grill With Docs](/grill-with-docs.md) - The apex of agentic design alignment. Fuses relentless Socratic questioning with deep domain awareness, ensuring every decision is cross-referenced against a persistent ubiquitous language and documented via real-time ADR generation.
+* [Grounding](/grounding.md) - Verifies generated claims against retrieved evidence, identifies unsupported or contradicted assertions, and anchors outputs in traceable, cited sources.
+* [Guardrails](/guardrails.md) - Wraps LLM outputs with programmatic safety rules, content filters, and topical constraints that detect policy violations and enforce compliant, on-policy responses before they reach the user.
+* [Hive Mind Coordination](/distributed-consensus-coordination.md) - Queen-led collective intelligence with Byzantine, majority, and weighted consensus mechanisms, eight worker specializations, and persistent collective SQLite memory with LRU caching.
+* [Humanize Prose](/humanize-prose.md) - Audits and rewrites prose to remove generic AI-writing patterns, preserve author intent, and adapt tone toward a more natural human voice.
+* [Knowledge Graph Construction](/knowledge-graph-build.md) - Extracts entities and relations from unstructured text, resolves co-references, and assembles them into a queryable graph structure with typed edges.
+* [Knowledge Harvest](/knowledge-harvest.md) - Extracts, structures, and embeds knowledge from web sources into a searchable corpus.
+* [Knowledge Management](/knowledge-management.md) - Organizes, relates, and retrieves information across structured pages, databases, and shared knowledge bases, maintaining semantic links between information nodes.
+* [Literature Review](/literature-review.md) - Conducts systematic multi-database academic literature searches following PRISMA/SWARM protocols, screens and synthesises findings, verifies all citations, and generates a structured review report.
+* [MCP Debugger Control](/mcp-debugger-control.md) - Exposes low-level debugger capabilities (breakpoints, stepping, stack inspection, variable evaluation) to AI agents via the Model Context Protocol, enabling real-time runtime diagnosis and autonomous bug fixing.
+* [MCP Server Creation](/mcp-server-creation.md) - Designs and implements Model Context Protocol servers that expose external APIs, files, or services as well-typed tools with clear schemas, authentication, and testable agent workflows.
+* [ML Artifact Management](/ml-artifact-management.md) - Manages machine learning models, datasets, and experiment logs through centralized hub or tracking repositories, handling versioning and metadata extraction.
+* [ML Pipeline](/ml-pipeline.md) - Designs and implements production ML pipelines with experiment tracking (MLflow, W&B), feature stores (Feast), orchestration (Kubeflow, Airflow), and automated retraining workflows including model evaluation gates and A/B deployment.
+* [Mathematical Animation](/mathematical-animation.md) - Produces programmatic mathematical and algorithmic animations with high pedagogical and visual quality, utilizing LaTeX for notation and geometric coordinate systems for spatial layout.
+* [Memory Manage](/memory-manage.md) - Maintains, indexes, and retrieves conversational and long-term memory across sessions, managing context window constraints.
+* [Multi-Agent Debate](/multi-agent-debate.md) - Runs multiple LLM agents that propose, critique, and iteratively refine answers across structured debate rounds, converging on more accurate and well-reasoned responses than any single agent achieves.
+* [Multi-Agent Orchestration](/multi-agent-orchestration-v.md) - Coordinates multiple specialized agents across complex workflows with dynamic task allocation and conflict resolution.
+* [Multimodal Reasoning](/multimodal-reasoning.md) - Integrates information from images and text to answer questions requiring visual grounding and logical inference across modalities.
+* [Ontology Alignment](/ontology-alignment.md) - Maps entities, classes, and relationships across heterogeneous schemas and knowledge graphs to harmonize multi-source data, using class-hierarchy and instance-level alignment.
+* [PRD Generation](/prd-generation.md) - Synthesizes conversational context and codebase knowledge into a structured Product Requirements Document.
+* [Plan and Execute](/plan-and-execute.md) - Decomposes complex objectives into sub-tasks, selects tools, and orchestrates execution.
+* [Platform Modernization Sprint](/platform-modernization-sprint.md) - Systematic v3 platform overhaul: CLI modernization, core implementation, DDD architecture, deep integration, MCP optimization, memory unification, performance tuning, security overhaul, and swarm coordination.
+* [Prediction Market Analysis](/prediction-market-analysis.md) - Queries prediction-market data, compares market probabilities and price history, and summarizes probabilistic signals for forecasting or decision-support workflows.
+* [Project Management](/project-management.md) - Manages issues, tasks, projects, and team workflows through structured project management platforms, handling state transitions and priority levels.
+* [Prompt Optimization](/prompt-optimization.md) - Automatically improves prompt instructions through iterative compilation, treating prompts as programs that can be optimized against a metric using LLM-driven feedback loops.
+* [RAG Pipeline](/rag-pipeline.md) - End-to-end retrieval-augmented generation combining document chunking, embedding, retrieval, and relevance scoring.
+* [ReAct Reasoning](/re-act-reasoning.md) - Interleaves free-form reasoning traces with discrete tool actions in a single loop, enabling agents to plan, act, observe, and update beliefs step-by-step.
+* [Real-Time Voice Assistant](/real-time-voice-assistant.md) - Provides low-latency spoken interactions combining real-time speech I/O, persistent memory, and goal-directed task execution across multi-session conversations.
+* [Reasoning Pattern Bank](/reasoning-pattern-bank.md) - Fuses adaptive pattern learning with persistent vector memory to build a self-improving agent knowledge base across sessions.
+* [Receiving Code Review](/receiving-code-review.md) - Processes code review feedback with technical rigor and verification before implementation, questioning unclear feedback.
+* [Recursive Self-Improvement](/recursive-self-improvement.md) - Agent iteratively refines its own prompts, tools, or strategies based on performance feedback loops.
+* [Registry Curation](/registry-curation.md) - Systematically discovers, evaluates, and ingests new skill definitions into a structured skill registry: researching capabilities, sourcing reproducible evidence, scripting graph updates, validating schema and DAG integrity, and publishing via pull request.
+* [Regulatory Compliance Mapping](/regulatory-compliance-mapping.md) - Cross-references regulatory requirements (GDPR, SOC2, HIPAA) against implementation controls using knowledge-graph-augmented retrieval to detect compliance gaps and drift.
+* [Release Automation](/release-automation.md) - Automate the full software release cycle: determine semantic version bump, update CHANGELOG, commit, create a git tag, and publish a GitHub release with release notes.
+* [Requesting Code Review](/requesting-code-review.md) - Dispatches a code reviewer subagent to catch issues before they cascade, providing isolated context for evaluation.
+* [Research](/research.md) - Conducts multi-source information gathering, synthesis, and citation for a given topic.
+* [Scientific Writing](/scientific-writing.md) - Composes research manuscripts in IMRAD structure with reporting-guideline compliance (CONSORT, STROBE, PRISMA), citation management, publication-quality figures, and LaTeX/PDF formatting.
+* [Security Audit](/security-audit.md) - Systematically identify security vulnerabilities, assess attack surface, and produce actionable remediation guidance across code, dependencies, and infrastructure.
+* [Skill Authoring](/skill-authoring.md) - Designs, writes, packages, and iteratively improves reusable agent skill directories with metadata, progressive instructions, supporting assets, and measurable trigger criteria.
+* [Skill Performance Benchmarking](/skill-performance-benchmarking.md) - Builds and runs task suites that measure whether agents select, invoke, and complete installed skills correctly across artifact-rich workflows and repeated trials.
+* [Skill Security Analysis](/skill-security-analysis.md) - Assesses third-party agent skills for malicious behavior, unsafe permissions, prompt-injection exposure, repository-context mismatch, and supply-chain risk before installation or invocation.
+* [Stealth Browser Interaction](/stealth-browser-interaction.md) - Operates web browsers through an advanced stealth layer that handles bot-detection, fingerprinting, session rotation, and human-like interaction patterns to maintain resilient access to protected domains.
+* [Subagent-Driven Development](/subagent-driven-development.md) - Executes plans by dispatching a fresh subagent per task with a two-stage review (spec compliance then code quality).
+* [Supply Chain Optimization](/supply-chain-optimization.md) - Orchestrates inventory, logistics, and procurement decisions using demand forecasting, EOQ and safety-stock computation, route optimization, and anomaly-aware fulfilment monitoring.
+* [Systematic Debugging](/systematic-debugging.md) - Finds the root cause before attempting fixes when encountering bugs, test failures, or unexpected behavior.
+* [Text-to-SQL Pipeline](/text-to-sql-pipeline.md) - Converts natural-language queries into validated, executable SQL against a target schema and returns formatted result sets.
+* [Threat Intelligence Synthesis](/threat-intelligence-synthesis.md) - Synthesizes security feeds, CVE/CWE data, and incident signals into actionable intelligence with IoC/TTP management and MITRE ATT&CK mapping.
+* [Tool Chaining](/tool-chaining.md) - Sequences multiple tool invocations into a dependency graph where the output of each tool feeds as structured input to the next, handling state propagation, intermediate result validation, and error recovery across multi-step execution pipelines.
+* [Tool Creation](/tool-creation.md) - Dynamically generates reusable tool functions (code) at runtime to solve novel sub-tasks, then invokes those tools to complete the overall objective without human-written APIs.
+* [Translation Pipeline](/translation-pipeline.md) - Translates content end-to-end while preserving sentiment and adapting tone and register for the target audience.
+* [Tree of Thought](/tree-of-thought.md) - Frames problem solving as a search over a tree of partial solutions, using LLM-generated evaluations to prune unpromising branches and backtrack, dramatically improving success on complex reasoning tasks.
+* [Ubiquitous Language](/ubiquitous-language.md) - Establishes and maintains a consistent, domain-driven vocabulary between the agent and human, formalising terminology in a shared glossary (typically CONTEXT.md) to reduce ambiguity and token waste.
+* [Using Git Worktrees](/using-git-worktrees.md) - Ensures work happens in an isolated workspace via native tools or git worktree fallback before starting feature work.
+* [Verification Before Completion](/verification-before-completion.md) - Requires running verification commands and confirming output before claiming work is complete, fixed, or passing.
+* [Vertical Slice Planning](/vertical-slice-planning.md) - Decomposes a product plan into independently-demoable vertical slices that each cut through all integration layers end-to-end. Classifies each slice as HITL (human-in-the-loop) or AFK (autonomous), identifies dependency ordering, and publishes structured issues with acceptance criteria.
+* [Video Intelligence](/video-intelligence.md) - Processes video streams by extracting frames, transcribing audio, and applying multimodal reasoning to understand temporal and visual context.
+* [Voice Agent](/voice-agent.md) - Handles spoken interactions end-to-end: transcribes audio input, produces language responses, and synthesizes speech output.
+* [Web Scrape](/web-scrape.md) - Retrieves and structures data from web pages into usable entities.
+* [Wiki Search](/wiki-search.md) - Builds, maintains, and queries an interlinked markdown or wiki-style knowledge base so an agent can retrieve durable local context across research sessions.
+* [Workflow Automation](/workflow-automation.md) - Designs, configures, and runs trigger-based multi-step automation pipelines that connect external services, schedule jobs, and orchestrate tool sequences without continuous human supervision.
+* [Workspace Automation](/workspace-automation.md) - Orchestrates productivity tasks across email, calendar, drive, and documents through unified office suite integrations, automating scheduling and file management.
+* [Writing Plans](/writing-plans.md) - Writes comprehensive implementation plans breaking down multi-step tasks into bite-sized sub-tasks.
+* [X/Twitter Automation](/x-twitter-automation.md) - Coordinates platform-specific X/Twitter search, tweet and reply retrieval, user lookup, follower export, monitoring, and approval-gated write workflows for social-media agent tasks.
+* [agent-environment-setup](/agent-environment-setup.md) - Scaffolding per-repo configuration for other engineering skills.
+* [agent-handoff](/agent-handoff.md) - Compacting the current conversation into a summary for a fresh agent.
+* [mattpocock-engineering](/engineering-discipline.md) - Engineering category suite for Matt Pocock's skills.
+* [mattpocock-personal](/personal.md) - Personal category suite for Matt Pocock's skills.
+* [mattpocock-productivity](/productivity.md) - Productivity category suite for Matt Pocock's skills.
+* [personal-knowledge-management](/personal-knowledge-management.md) - Managing notes and organization in a specific vault.
+* [prototype](/prototype.md) - Building throwaway prototypes to answer specific design or logic questions.
+* [search-engine-optimization](/search-engine-optimization.md) - Search Engine Optimization
+* [web-accessibility](/web-accessibility.md) - Accessibility
+* [web-best-practices](/web-best-practices.md) - Web Best Practices
+* [web-quality-audit](/web-quality-audit.md) - Orchestrates a multi-axis web quality audit covering performance (Core Web Vitals), accessibility (WCAG), SEO, and best practices, producing actionable remediation plans from Lighthouse and real-user data.

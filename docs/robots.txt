@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+Allow: /en/
+Allow: /named/
+Allow: /u/
+Allow: /trust/
+Allow: /badges/
+Allow: /codex.html
+Allow: /graph/
+
+Disallow: /samples/
+Disallow: /archive/
+Disallow: /audits/
+
+# AI crawlers
+User-agent: GPTBot
+Allow: /
+User-agent: Claude-Web
+Allow: /
+User-agent: Amazonbot
+Allow: /
+
+Sitemap: https://gaia.tiongson.co/sitemap.xml

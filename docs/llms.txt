@@ -1,0 +1,12 @@
+# Gaia Skill Tree
+> An evidence-backed public registry of AI agent capabilities.
+
+## Registry
+- Graph: https://gaia.tiongson.co/graph/gaia.json
+- Named entries: https://gaia.tiongson.co/named/
+- Badges: https://gaia.tiongson.co/badges/
+- Trust Ledger: https://gaia.tiongson.co/trust/ledger/
+
+## Documentation
+- English docs: https://gaia.tiongson.co/en/
+- Codex: https://gaia.tiongson.co/codex.html
