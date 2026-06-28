@@ -9,7 +9,7 @@ Usage:
 
 Environment:
   GITHUB_TOKEN  — personal access token or Actions token with pull-requests read scope.
-  GITHUB_REPOSITORY — owner/repo (e.g. "mbtiongson1/gaia-skill-tree").
+  GITHUB_REPOSITORY — owner/repo (e.g. "gaia-research/gaia-skill-tree").
                       Falls back to reading from git remote.
 
 Exit code:
@@ -74,7 +74,7 @@ def detectRepository() -> str:
             return path
     except Exception:
         pass
-    return "mbtiongson1/gaia-skill-tree"
+    return "gaia-research/gaia-skill-tree"
 
 
 def fetchPRReviews(prNumber: int, repo: str, token: str) -> list[dict]:

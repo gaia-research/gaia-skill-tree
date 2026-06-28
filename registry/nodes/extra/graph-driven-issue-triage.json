@@ -31,7 +31,7 @@
       "timestamp": "2026-05-29T18:20:48Z",
       "action": "evidence_added",
       "contributor": "mbtiongson1",
-      "details": "Added B evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md"
+      "details": "Added B evidence from https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md"
     }
   ]
 }

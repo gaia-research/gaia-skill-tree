@@ -54,7 +54,7 @@ def test_init_accepts_flags_and_uses_current_registry_default(tmp_path, monkeypa
 
     config = parse_config(tmp_path / ".gaia" / "config.toml")
     assert config["username"] == "juno"
-    assert config["gaiaRegistryRef"] == "https://github.com/mbtiongson1/gaia-skill-tree"
+    assert config["gaiaRegistryRef"] == "https://github.com/gaia-research/gaia-skill-tree"
     assert config["scanPaths"] == ["AGENTS.md", "scripts"]
     assert config["autoPromptCombinations"] is False
 
@@ -71,7 +71,7 @@ def test_init_yes_mode_preserves_non_interactive_defaults(tmp_path, monkeypatch)
 
     config = parse_config(tmp_path / ".gaia" / "config.toml")
     assert config["username"] == "gaiabot"
-    assert config["gaiaRegistryRef"] == "https://github.com/mbtiongson1/gaia-skill-tree"
+    assert config["gaiaRegistryRef"] == "https://github.com/gaia-research/gaia-skill-tree"
     assert config["scanPaths"] == ["scripts", "packages/cli-npm"]
 
 

@@ -38,7 +38,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 README = ROOT / "README.md"
-WIKI_REMOTE = "https://github.com/mbtiongson1/gaia-skill-tree.wiki.git"
+WIKI_REMOTE = "https://github.com/gaia-research/gaia-skill-tree.wiki.git"
 
 # ─── helpers ──────────────────────────────────────────────────────────────────
 

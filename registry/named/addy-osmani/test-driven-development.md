@@ -89,7 +89,7 @@ First published by @addyosmani (Addy Osmani) and expanded with constraints popul
 
 ## Installation
 
-Install via [gaia](https://github.com/mbtiongson1/gaia-skill-tree):
+Install via [gaia](https://github.com/gaia-research/gaia-skill-tree):
 
 ```bash
 gaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md

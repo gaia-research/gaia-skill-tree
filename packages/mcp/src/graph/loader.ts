@@ -5,7 +5,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
 const REGISTRY_URL =
-  "https://raw.githubusercontent.com/mbtiongson1/gaia-skill-tree/main/registry/gaia.json";
+  "https://raw.githubusercontent.com/gaia-research/gaia-skill-tree/main/docs/graph/gaia.json";
 
 const USERNAME_RE = /^[a-zA-Z0-9][a-zA-Z0-9-]{0,37}[a-zA-Z0-9]$|^[a-zA-Z0-9]$/;
 

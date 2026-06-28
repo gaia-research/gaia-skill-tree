@@ -23,7 +23,7 @@
     },
     {
       "class": "A",
-      "source": "https://github.com/mbtiongson1/gaia-skill-tree/pull/352",
+      "source": "https://github.com/gaia-research/gaia-skill-tree/pull/352",
       "evaluator": "mbtiongson1",
       "date": "2026-05-22",
       "notes": "Peer-reviewed ultimate capstone suite consolidation. (backfilled — class-to-type migration)",
@@ -70,7 +70,7 @@
       "timestamp": "2026-05-21T17:18:32Z",
       "action": "evidence_added",
       "contributor": "mbtiongson1",
-      "details": "Added A evidence from https://github.com/mbtiongson1/gaia-skill-tree/pull/352"
+      "details": "Added A evidence from https://github.com/gaia-research/gaia-skill-tree/pull/352"
     },
     {
       "timestamp": "2026-05-21T17:19:20Z",
@@ -84,7 +84,7 @@
       "timestamp": "2026-05-21T17:19:20Z",
       "action": "evidence_added",
       "contributor": "mbtiongson1",
-      "details": "Added evidence: https://github.com/mbtiongson1/gaia-skill-tree/pull/352, https://github.com/mattpocock/skills",
+      "details": "Added evidence: https://github.com/gaia-research/gaia-skill-tree/pull/352, https://github.com/mattpocock/skills",
       "previousValue": null,
       "newValue": "6★"
     },
@@ -116,7 +116,7 @@
       "timestamp": "2026-06-14T07:09:08Z",
       "action": "evidence_graded",
       "contributor": "unknown",
-      "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree/pull/352 as B (trustNumber: 70.0)"
+      "details": "Re-graded evidence from https://github.com/gaia-research/gaia-skill-tree/pull/352 as B (trustNumber: 70.0)"
     },
     {
       "timestamp": "2026-06-14T07:09:08Z",

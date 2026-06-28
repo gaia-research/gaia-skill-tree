@@ -82,7 +82,7 @@ def _write_config_toml(project_root: Path, username: str = "testuser") -> None:
     config_path.write_text(
         f'username = "{username}"\n'
         f'gaiaUser = "{username}"\n'
-        f'gaiaRegistryRef = "https://github.com/mbtiongson1/gaia-skill-tree"\n'
+        f'gaiaRegistryRef = "https://github.com/gaia-research/gaia-skill-tree"\n'
         f'localRegistryPath = "{project_root}"\n'
         f'autoPromptCombinations = false\n'
         f'scanPaths = ["src"]\n',

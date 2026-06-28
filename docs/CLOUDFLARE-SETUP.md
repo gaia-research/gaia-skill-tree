@@ -113,7 +113,7 @@ optional.
 
 ```bash
 H=https://gaia-skill-tree.marco-tngsn.workers.dev
-curl -s "$H/badges/mbtiongson1/handle.svg?repo=mbtiongson1/gaia-skill-tree" | grep -o '<svg' >/dev/null && echo "valid path OK"
+curl -s "$H/badges/mbtiongson1/handle.svg?repo=gaia-research/gaia-skill-tree" | grep -o '<svg' >/dev/null && echo "valid path OK"
 curl -s "$H/badges/mbtiongson1/handle.svg?repo=evil/repo" | grep -o 'validating'   # must print 'validating'
 ```
 

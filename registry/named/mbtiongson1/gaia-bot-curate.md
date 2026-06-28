@@ -13,7 +13,7 @@ createdAt: '2026-05-27'
 updatedAt: '2026-06-01'
 title: The Automated Curator
 links:
-  github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-bot-curate/SKILL.md
+  github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-bot-curate/SKILL.md
 tags:
 - registry-curation
 - automation

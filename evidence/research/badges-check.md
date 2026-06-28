@@ -185,8 +185,8 @@ Docs
 Contribute
 
 - [Push a skill](https://gaia.tiongson.co/badges/index.html#paths)
-- [GitHub](https://github.com/mbtiongson1/gaia-skill-tree)
-- [Open Issues](https://github.com/mbtiongson1/gaia-skill-tree/issues)
+- [GitHub](https://github.com/gaia-research/gaia-skill-tree)
+- [Open Issues](https://github.com/gaia-research/gaia-skill-tree/issues)
 
 About
 
@@ -196,7 +196,7 @@ About
 - Copy Page
 
 
-—Gaia Registry· [GitHub](https://github.com/mbtiongson1/gaia-skill-tree)· [Privacy](https://gaia.tiongson.co/badges/privacy.html)
+—Gaia Registry· [GitHub](https://github.com/gaia-research/gaia-skill-tree)· [Privacy](https://gaia.tiongson.co/badges/privacy.html)
 
 Gaia Skill Tree
 
