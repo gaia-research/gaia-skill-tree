@@ -463,6 +463,11 @@ The following conditions auto-reject a named skill submission or trigger a manda
 | `origin: <URL>` (URL in boolean field) | **Rejected** — move URL to `links.github:`, set `origin: false` |
 | `links.repo`, `links.docs`, `links.arxiv` (wrong key) | **Rejected** — only `links.github` is read by the installer |
 | Suite component listed in `suiteComponents` with no `links.github` | **Flagged** — install will partially fail; must resolve before promotion |
+| Model weight references containing pickle formats (`.pkl`, `.pickle`) | **Rejected** — only safe weight formats (`safetensors`, `GGUF`, `ONNX`) are allowed |
+
+### Security Guidelines
+
+All model weight references must comply with our [Security Guidelines](docs/trust/security-guidelines.md). Pickle-based formats are strictly banned due to arbitrary code execution vulnerabilities during deserialization.
 
 ### `links.github` URL format
 

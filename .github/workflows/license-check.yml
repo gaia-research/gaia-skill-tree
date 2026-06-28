@@ -1,0 +1,27 @@
+name: License Compatibility Check
+on:
+  pull_request:
+    paths:
+      - 'registry/gaia.json'
+      - 'docs/graph/gaia.json'
+      - 'scripts/validate-licenses.ts'
+      - 'scripts/license-matrix.json'
+  workflow_dispatch: {}
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npx tsx scripts/validate-licenses.ts
+      
+      - name: Safe weight format check (Task 2.3)
+        run: |
+          if grep -qiE '\.(pkl|pickle)' registry/gaia.json docs/graph/gaia.json 2>/dev/null; then
+            echo "::error::Pickle format detected in gaia.json"
+            exit 1
+          fi
+          echo "All model weight references are in safe formats."
