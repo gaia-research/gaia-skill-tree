@@ -10,7 +10,7 @@ description: Builds and validates repository documentation as a pre-PR guardrail
   reminding contributors to run the local docs drift check, then surfaces actionable
   regeneration commands so pull requests do not fail CI on documentation freshness.
 links:
-  github: https://github.com/mbtiongson1/gaia-skill-tree
+  github: https://github.com/gaia-research/gaia-skill-tree
 tags:
 - documentation
 - ci
@@ -21,7 +21,7 @@ createdAt: '2026-05-01'
 updatedAt: '2026-06-21'
 evidence:
 - class: B
-  source: https://github.com/mbtiongson1/gaia-skill-tree
+  source: https://github.com/gaia-research/gaia-skill-tree
   evaluator: mbtiongson1
   date: '2026-06-10'
   notes: 'Exercised in this repository''s own CI: the docs drift check (gaia docs
@@ -37,11 +37,11 @@ timeline:
 - timestamp: '2026-06-10T05:38:16Z'
   action: evidence_added
   contributor: unknown
-  details: Added B evidence from https://github.com/mbtiongson1/gaia-skill-tree
+  details: Added B evidence from https://github.com/gaia-research/gaia-skill-tree
 - timestamp: '2026-06-14T12:32:18Z'
   action: evidence_graded
   contributor: unknown
-  details: 'Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree
+  details: 'Re-graded evidence from https://github.com/gaia-research/gaia-skill-tree
     as B (trustNumber: 70.0)'
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:14Z'

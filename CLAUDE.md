@@ -252,7 +252,7 @@ Warning: Using bundled registry snapshot from <DATE>. Run `gaia pull` for the la
 
 ## Wiki Management
 
-The project wiki lives in a separate repository: `https://github.com/mbtiongson1/gaia-skill-tree.wiki.git`.
+The project wiki lives in a separate repository: `https://github.com/gaia-research/gaia-skill-tree.wiki.git`.
 
 If wiki updates are required:
 1. Clone the wiki repository adjacent to the workspace (e.g., `../gaia-wiki`).

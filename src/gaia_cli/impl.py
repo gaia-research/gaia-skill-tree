@@ -127,7 +127,7 @@ from gaia_cli.interactive import (
     FuseCancelled,
 )
 
-DEFAULT_REGISTRY_REF = "https://github.com/mbtiongson1/gaia-skill-tree"
+DEFAULT_REGISTRY_REF = "https://github.com/gaia-research/gaia-skill-tree"
 
 # Brand color roles (using tokens from formatting)
 COLOR_APEX_GOLD = RANK_COLORS["6★"]
@@ -2763,7 +2763,7 @@ def fetch_command(args):
     import urllib.request
     from pathlib import Path
 
-    releases_api_url = "https://api.github.com/repos/mbtiongson1/gaia-skill-tree/releases/latest"
+    releases_api_url = "https://api.github.com/repos/gaia-research/gaia-skill-tree/releases/latest"
     asset_name = "gaia-artifacts.tar.gz"
     checksum_name = "gaia-artifacts.tar.gz.sha256"
 
@@ -2791,7 +2791,7 @@ def fetch_command(args):
                 raise
         return None  # unreachable but satisfies the linter
 
-    print("Checking latest GitHub Release for mbtiongson1/gaia-skill-tree...")
+    print("Checking latest GitHub Release for gaia-research/gaia-skill-tree...")
     try:
         release_data = _fetch_url(releases_api_url)
     except urllib.error.HTTPError as exc:

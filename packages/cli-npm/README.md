@@ -95,7 +95,7 @@ The CLI is configured via `.gaia/config.toml` in your repository root:
 
 ```toml
 username = "mbtiongson1"
-gaiaRegistryRef = "https://github.com/mbtiongson1/gaia-skill-tree"
+gaiaRegistryRef = "https://github.com/gaia-research/gaia-skill-tree"
 scanPaths = ["src/", "docs/", "tools/"]
 autoPromptCombinations = false
 ```

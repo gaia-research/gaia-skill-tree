@@ -41,6 +41,10 @@ function walkUpForConfig(startDir: string): Partial<GaiaConfig> | null {
       } catch {}
     }
 
+    if (existsSync(join(current, ".git"))) {
+      break;
+    }
+
     const parent = dirname(current);
     if (parent === current) {
       // Reached the filesystem root without finding a config

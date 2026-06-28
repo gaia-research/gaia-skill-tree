@@ -50,7 +50,7 @@ Confirm in production that two different repos on the **same** badge path return
 
 ```bash
 H=https://gaia-skill-tree.marco-tngsn.workers.dev
-curl -s "$H/badges/mbtiongson1/handle.svg?repo=mbtiongson1/gaia-skill-tree" | md5sum  # real
+curl -s "$H/badges/mbtiongson1/handle.svg?repo=gaia-research/gaia-skill-tree" | md5sum  # real
 curl -s "$H/badges/mbtiongson1/handle.svg?repo=evil/repo"                  | md5sum  # not-found
 # the two md5s MUST differ
 ```

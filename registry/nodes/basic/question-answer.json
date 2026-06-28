@@ -24,7 +24,7 @@
     },
     {
       "class": "B",
-      "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md",
+      "source": "https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
       "notes": "Garry Tan /office-hours -- Q&A skill grounded in specific document sets and founder context. (backfilled — class-to-type migration)",
@@ -58,7 +58,7 @@
       "timestamp": "2026-05-19T22:44:52Z",
       "action": "evidence_added",
       "contributor": "mbtiongson1",
-      "details": "Added evidence: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md",
+      "details": "Added evidence: https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md",
       "previousValue": null,
       "newValue": "4★"
     },
@@ -72,7 +72,7 @@
       "timestamp": "2026-06-14T07:08:53Z",
       "action": "evidence_graded",
       "contributor": "unknown",
-      "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md as B (trustNumber: 70.0)"
+      "details": "Re-graded evidence from https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md as B (trustNumber: 70.0)"
     }
   ]
 }

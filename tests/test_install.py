@@ -69,9 +69,9 @@ class TestInstallInfra:
         assert subpath == "health"
 
         # Bare repo URL
-        url = "https://github.com/mbtiongson1/gaia-skill-tree"
+        url = "https://github.com/gaia-research/gaia-skill-tree"
         repo, branch, subpath = _parse_github_url(url)
-        assert repo == "https://github.com/mbtiongson1/gaia-skill-tree.git"
+        assert repo == "https://github.com/gaia-research/gaia-skill-tree.git"
         assert branch is None
         assert subpath == ""
 
@@ -85,9 +85,9 @@ class TestInstallInfra:
 
     def test_parse_github_url_trailing_slash_stripped(self):
         """Trailing slash on a bare repo URL is stripped before parsing."""
-        url = "https://github.com/mbtiongson1/gaia-skill-tree/"
+        url = "https://github.com/gaia-research/gaia-skill-tree/"
         repo, branch, subpath = _parse_github_url(url)
-        assert repo == "https://github.com/mbtiongson1/gaia-skill-tree.git"
+        assert repo == "https://github.com/gaia-research/gaia-skill-tree.git"
         assert branch is None
         assert subpath == ""
 

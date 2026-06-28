@@ -17,7 +17,7 @@ argument-hint: "[--since <sha|date>] [--resume] [--check]"
 
 # gaia-wiki-sync
 
-Keeps the Gaia GitHub wiki at `https://github.com/mbtiongson1/gaia-skill-tree.wiki.git`
+Keeps the Gaia GitHub wiki at `https://github.com/gaia-research/gaia-skill-tree.wiki.git`
 in sync with the registry and source code. It analyses what changed, fans out
 parallel agents to read each source domain and draft each stale page, then runs
 a bounded refuter pass to catch terminology drift before anything is committed.
@@ -168,7 +168,7 @@ the ledger itself stays small and diffable.
 
 ## Guardrails
 
-- **Wiki repo at `../gaia-wiki`** — clone if missing (`git clone https://github.com/mbtiongson1/gaia-skill-tree.wiki.git ../gaia-wiki`), never delete it between runs.
+- **Wiki repo at `../gaia-wiki`** — clone if missing (`git clone https://github.com/gaia-research/gaia-skill-tree.wiki.git ../gaia-wiki`), never delete it between runs.
 - **`<!-- gaia:cli-start/end -->`** in CLI-Reference.md is CI-owned — preserve byte-for-byte. The applier verifies markers exist before writing.
 - **`rarity` axis is deprecated** (see `CONTEXT.md`) — the refuter must flag any draft that reintroduces it.
 - **Banned-synonym list in `CONTEXT.md`** — feed to the refuter as part of `deprecations[]` so banned terms don't sneak back in through paraphrase.

@@ -196,7 +196,7 @@ This file lists the raw evidence sources for named skills rated at 4★.
 - **Description:** SQuAD 2.0 — reading comprehension benchmark with 150K questions; modern LLMs exceed human F1 (90.9), providing rigorous reproducible evaluation. (backfilled — class-to-type migration)
 
 #### E3: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md)
 - **Date:** 2026-04-30
 - **Verified Stars:** 6 stars
 - **Description:** Garry Tan /office-hours -- Q&A skill grounded in specific document sets and founder context. (backfilled — class-to-type migration)
