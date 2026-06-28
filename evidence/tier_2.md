@@ -238,7 +238,7 @@ This file lists the raw evidence sources for named skills rated at 2★.
 ## Skill: `gaiabot/gaia-triage`
 - **Name:** Gaia Triage (Internal)
 - **Contributor:** `gaiabot`
-- **Primary GitHub Repository:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md) (6 stars)
+- **Primary GitHub Repository:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md) (6 stars)
 
 ### Evidence Rows:
 
@@ -255,7 +255,7 @@ This file lists the raw evidence sources for named skills rated at 2★.
 - **Description:** LLMs transform unstructured bug reports into high-quality structured formats; fine-tuned Qwen 2.5 achieves 77% CTQRS. (backfilled — class-to-type migration)
 
 #### E3: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md)
 - **Date:** 2026-06-18
 - **Verified Stars:** 6 stars
 - **Description:** Project-specific implementation of gaia-triage skill automated via local python scripts.
@@ -265,12 +265,12 @@ This file lists the raw evidence sources for named skills rated at 2★.
 ## Skill: `gaiabot/repo-docs-before-pr`
 - **Name:** Repo Docs Before PR
 - **Contributor:** `gaiabot`
-- **Primary GitHub Repository:** [https://github.com/mbtiongson1/gaia-skill-tree](https://github.com/mbtiongson1/gaia-skill-tree) (6 stars)
+- **Primary GitHub Repository:** [https://github.com/gaia-research/gaia-skill-tree](https://github.com/gaia-research/gaia-skill-tree) (6 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree](https://github.com/mbtiongson1/gaia-skill-tree)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree](https://github.com/gaia-research/gaia-skill-tree)
 - **Date:** 2026-06-10
 - **Verified Stars:** 6 stars
 - **Description:** Exercised in this repository's own CI: the docs drift check (gaia docs build --check) gates every PR, demonstrating the skill in production. (backfilled — class-to-type migration)
@@ -1780,12 +1780,12 @@ This file lists the raw evidence sources for named skills rated at 2★.
 ## Skill: `mbtiongson1/gaia-audit`
 - **Name:** Gaia Audit
 - **Contributor:** `mbtiongson1`
-- **Primary GitHub Repository:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/SKILL.md) (6 stars)
+- **Primary GitHub Repository:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/SKILL.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/SKILL.md) (6 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md)
 - **Date:** 2026-05-20
 - **Verified Stars:** 6 stars
 - **Description:** Self-referential implementation doc inside the gaia repo (seed evidence). Downgraded A->C per META §2.4 — seed / self-referential links are insufficient for Class A — by the 2026-06-02 meta sweep. Credible demo of the codified 7-phase audit workflow. (backfilled — class-to-type migration)
@@ -1795,18 +1795,18 @@ This file lists the raw evidence sources for named skills rated at 2★.
 ## Skill: `mbtiongson1/gaia-bot-curate`
 - **Name:** Gaia Bot Curate
 - **Contributor:** `mbtiongson1`
-- **Primary GitHub Repository:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-bot-curate/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-bot-curate/SKILL.md) (6 stars)
+- **Primary GitHub Repository:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-bot-curate/SKILL.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-bot-curate/SKILL.md) (6 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree/pull/2](https://github.com/mbtiongson1/gaia-skill-tree/pull/2)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree/pull/2](https://github.com/gaia-research/gaia-skill-tree/pull/2)
 - **Date:** 2026-04-28
 - **Verified Stars:** 6 stars
 - **Description:** Reproducible demonstration: Claude Code agent researched 30 popular AI skills, sourced 22 peer-reviewed papers, generated gaia.json via script, passed all 6 validator checks, and submitted PR â€” full inputs/outputs archived in the PR diff. (backfilled — class-to-type migration)
 
 #### E2: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree](https://github.com/mbtiongson1/gaia-skill-tree)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree](https://github.com/gaia-research/gaia-skill-tree)
 - **Date:** 2026-04-28
 - **Verified Stars:** 6 stars
 - **Description:** Batch 2 curation: 11 skills added (7 atomic, 3 composite, 1 legendary) with verified Class A/B evidence. (backfilled — class-to-type migration)
@@ -1816,18 +1816,18 @@ This file lists the raw evidence sources for named skills rated at 2★.
 ## Skill: `mbtiongson1/gaia-curate`
 - **Name:** Gaia Curate
 - **Contributor:** `mbtiongson1`
-- **Primary GitHub Repository:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curate/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curate/SKILL.md) (6 stars)
+- **Primary GitHub Repository:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curate/SKILL.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curate/SKILL.md) (6 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree/pull/2](https://github.com/mbtiongson1/gaia-skill-tree/pull/2)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree/pull/2](https://github.com/gaia-research/gaia-skill-tree/pull/2)
 - **Date:** 2026-04-28
 - **Verified Stars:** 6 stars
 - **Description:** Reproducible demonstration: Claude Code agent researched 30 popular AI skills, sourced 22 peer-reviewed papers, generated gaia.json via script, passed all 6 validator checks, and submitted PR â€” full inputs/outputs archived in the PR diff. (backfilled — class-to-type migration)
 
 #### E2: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree](https://github.com/mbtiongson1/gaia-skill-tree)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree](https://github.com/gaia-research/gaia-skill-tree)
 - **Date:** 2026-04-28
 - **Verified Stars:** 6 stars
 - **Description:** Batch 2 curation: 11 skills added (7 atomic, 3 composite, 1 legendary) with verified Class A/B evidence. (backfilled — class-to-type migration)
@@ -1837,12 +1837,12 @@ This file lists the raw evidence sources for named skills rated at 2★.
 ## Skill: `mbtiongson1/gaia-curation-review`
 - **Name:** Gaia Curation Review
 - **Contributor:** `mbtiongson1`
-- **Primary GitHub Repository:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md) (6 stars)
+- **Primary GitHub Repository:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md) (6 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md)
 - **Date:** 2026-06-10
 - **Verified Stars:** 6 stars
 - **Description:** Project-local agent skill used for curation PR review in this repository; implementation public at SKILL.md. (backfilled — class-to-type migration)
@@ -1852,18 +1852,18 @@ This file lists the raw evidence sources for named skills rated at 2★.
 ## Skill: `mbtiongson1/gaia-docs-sync`
 - **Name:** Gaia Docs Sync
 - **Contributor:** `mbtiongson1`
-- **Primary GitHub Repository:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-docs-sync/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-docs-sync/SKILL.md) (6 stars)
+- **Primary GitHub Repository:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-docs-sync/SKILL.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-docs-sync/SKILL.md) (6 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree/pull/2](https://github.com/mbtiongson1/gaia-skill-tree/pull/2)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree/pull/2](https://github.com/gaia-research/gaia-skill-tree/pull/2)
 - **Date:** 2026-04-28
 - **Verified Stars:** 6 stars
 - **Description:** Reproducible demonstration: Claude Code agent researched 30 popular AI skills, sourced 22 peer-reviewed papers, generated gaia.json via script, passed all 6 validator checks, and submitted PR â€” full inputs/outputs archived in the PR diff. (backfilled — class-to-type migration)
 
 #### E2: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree](https://github.com/mbtiongson1/gaia-skill-tree)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree](https://github.com/gaia-research/gaia-skill-tree)
 - **Date:** 2026-04-28
 - **Verified Stars:** 6 stars
 - **Description:** Batch 2 curation: 11 skills added (7 atomic, 3 composite, 1 legendary) with verified Class A/B evidence. (backfilled — class-to-type migration)
@@ -1873,18 +1873,18 @@ This file lists the raw evidence sources for named skills rated at 2★.
 ## Skill: `mbtiongson1/gaia-draft-curate`
 - **Name:** Gaia Draft Curate
 - **Contributor:** `mbtiongson1`
-- **Primary GitHub Repository:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-draft-curate/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-draft-curate/SKILL.md) (6 stars)
+- **Primary GitHub Repository:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-draft-curate/SKILL.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-draft-curate/SKILL.md) (6 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree/pull/2](https://github.com/mbtiongson1/gaia-skill-tree/pull/2)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree/pull/2](https://github.com/gaia-research/gaia-skill-tree/pull/2)
 - **Date:** 2026-04-28
 - **Verified Stars:** 6 stars
 - **Description:** Reproducible demonstration: Claude Code agent researched 30 popular AI skills, sourced 22 peer-reviewed papers, generated gaia.json via script, passed all 6 validator checks, and submitted PR â€” full inputs/outputs archived in the PR diff. (backfilled — class-to-type migration)
 
 #### E2: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree](https://github.com/mbtiongson1/gaia-skill-tree)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree](https://github.com/gaia-research/gaia-skill-tree)
 - **Date:** 2026-04-28
 - **Verified Stars:** 6 stars
 - **Description:** Batch 2 curation: 11 skills added (7 atomic, 3 composite, 1 legendary) with verified Class A/B evidence. (backfilled — class-to-type migration)
@@ -1894,18 +1894,18 @@ This file lists the raw evidence sources for named skills rated at 2★.
 ## Skill: `mbtiongson1/gaia-integrity`
 - **Name:** Gaia Integrity
 - **Contributor:** `mbtiongson1`
-- **Primary GitHub Repository:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-integrity/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-integrity/SKILL.md) (6 stars)
+- **Primary GitHub Repository:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-integrity/SKILL.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-integrity/SKILL.md) (6 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree/pull/2](https://github.com/mbtiongson1/gaia-skill-tree/pull/2)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree/pull/2](https://github.com/gaia-research/gaia-skill-tree/pull/2)
 - **Date:** 2026-04-28
 - **Verified Stars:** 6 stars
 - **Description:** Reproducible demonstration: Claude Code agent researched 30 popular AI skills, sourced 22 peer-reviewed papers, generated gaia.json via script, passed all 6 validator checks, and submitted PR â€” full inputs/outputs archived in the PR diff. (backfilled — class-to-type migration)
 
 #### E2: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree](https://github.com/mbtiongson1/gaia-skill-tree)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree](https://github.com/gaia-research/gaia-skill-tree)
 - **Date:** 2026-04-28
 - **Verified Stars:** 6 stars
 - **Description:** Batch 2 curation: 11 skills added (7 atomic, 3 composite, 1 legendary) with verified Class A/B evidence. (backfilled — class-to-type migration)
@@ -1915,12 +1915,12 @@ This file lists the raw evidence sources for named skills rated at 2★.
 ## Skill: `mbtiongson1/gaia-meta-audit`
 - **Name:** Gaia Meta Audit
 - **Contributor:** `mbtiongson1`
-- **Primary GitHub Repository:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-meta-audit/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-meta-audit/SKILL.md) (6 stars)
+- **Primary GitHub Repository:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-meta-audit/SKILL.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-meta-audit/SKILL.md) (6 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree](https://github.com/mbtiongson1/gaia-skill-tree)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree](https://github.com/gaia-research/gaia-skill-tree)
 - **Date:** 2026-05-03
 - **Verified Stars:** 6 stars
 - **Description:** Derived from registry hygiene work that audits source-backed named skills, generated projections, and demotion candidates across canonical and real-skill review surfaces. (backfilled — class-to-type migration)
@@ -1930,12 +1930,12 @@ This file lists the raw evidence sources for named skills rated at 2★.
 ## Skill: `mbtiongson1/gaia-preview`
 - **Name:** Gaia Preview
 - **Contributor:** `mbtiongson1`
-- **Primary GitHub Repository:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md) (6 stars)
+- **Primary GitHub Repository:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md) (6 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md)
 - **Date:** 2026-06-10
 - **Verified Stars:** 6 stars
 - **Description:** Project-local agent skill driving branch preview deploys via sync-artifacts.yml; implementation public at SKILL.md. (backfilled — class-to-type migration)
@@ -1945,7 +1945,7 @@ This file lists the raw evidence sources for named skills rated at 2★.
 ## Skill: `mbtiongson1/gaia-triage`
 - **Name:** Gaia Triage
 - **Contributor:** `mbtiongson1`
-- **Primary GitHub Repository:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md) (6 stars)
+- **Primary GitHub Repository:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md) (6 stars)
 
 ### Evidence Rows:
 
@@ -1966,18 +1966,18 @@ This file lists the raw evidence sources for named skills rated at 2★.
 ## Skill: `mbtiongson1/gaia-wiki-sync`
 - **Name:** Gaia Wiki Sync
 - **Contributor:** `mbtiongson1`
-- **Primary GitHub Repository:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-wiki-sync/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-wiki-sync/SKILL.md) (6 stars)
+- **Primary GitHub Repository:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-wiki-sync/SKILL.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-wiki-sync/SKILL.md) (6 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree/pull/2](https://github.com/mbtiongson1/gaia-skill-tree/pull/2)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree/pull/2](https://github.com/gaia-research/gaia-skill-tree/pull/2)
 - **Date:** 2026-04-28
 - **Verified Stars:** 6 stars
 - **Description:** Reproducible demonstration: Claude Code agent researched 30 popular AI skills, sourced 22 peer-reviewed papers, generated gaia.json via script, passed all 6 validator checks, and submitted PR â€” full inputs/outputs archived in the PR diff. (backfilled — class-to-type migration)
 
 #### E2: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree](https://github.com/mbtiongson1/gaia-skill-tree)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree](https://github.com/gaia-research/gaia-skill-tree)
 - **Date:** 2026-04-28
 - **Verified Stars:** 6 stars
 - **Description:** Batch 2 curation: 11 skills added (7 atomic, 3 composite, 1 legendary) with verified Class A/B evidence. (backfilled — class-to-type migration)
@@ -1987,12 +1987,12 @@ This file lists the raw evidence sources for named skills rated at 2★.
 ## Skill: `mbtiongson1/graphify-triage`
 - **Name:** Graphify Triage
 - **Contributor:** `mbtiongson1`
-- **Primary GitHub Repository:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md) (6 stars)
+- **Primary GitHub Repository:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md) (6 stars)
 
 ### Evidence Rows:
 
 #### E1: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md)
 - **Date:** 2026-05-30
 - **Verified Stars:** 6 stars
 - **Description:** Reproducible playbook: graphify-triage script ingests safishamsi/graphify GRAPH_REPORT.md output, parses architectural-debt findings, and converts each into a tracked GitHub issue via gh issue create. First implementation of the fusion generic (graphify + triage). (backfilled — class-to-type migration)

@@ -39,7 +39,7 @@
       "timestamp": "2026-05-19T22:44:52Z",
       "action": "evidence_added",
       "contributor": "mbtiongson1",
-      "details": "Added evidence: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
+      "details": "Added evidence: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
       "previousValue": null,
       "newValue": "4★"
     },

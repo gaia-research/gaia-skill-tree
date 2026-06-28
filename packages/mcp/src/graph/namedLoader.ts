@@ -2,6 +2,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { NamedSkill, NamedIndex } from "./types.js";
+import { resolveRegistryPath } from "../config/identity.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -10,7 +11,19 @@ const NAMED_INDEX_PATH = join(__dirname, "../../../registry/named-skills.json");
 let cachedIndex: NamedIndex | null = null;
 
 export function loadNamedIndex(indexPath?: string): NamedIndex {
-  const path = indexPath || NAMED_INDEX_PATH;
+  let path = indexPath;
+  if (!path) {
+    const localPath = resolveRegistryPath();
+    if (localPath) {
+      const p = join(localPath, "registry", "named-skills.json");
+      if (existsSync(p)) {
+        path = p;
+      }
+    }
+  }
+  if (!path) {
+    path = NAMED_INDEX_PATH;
+  }
   if (!existsSync(path)) {
     return { generatedAt: "", buckets: {} };
   }

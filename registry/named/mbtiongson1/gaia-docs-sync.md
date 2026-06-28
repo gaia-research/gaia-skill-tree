@@ -13,7 +13,7 @@ createdAt: '2026-05-27'
 updatedAt: '2026-05-30'
 title: The Docs Steward
 links:
-  github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-docs-sync/SKILL.md
+  github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-docs-sync/SKILL.md
 tags:
 - documentation
 - docs

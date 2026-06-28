@@ -14,7 +14,7 @@ set -euo pipefail
 # Optional:
 #   REPO=owner/name scripts/triage_outdated_issues.sh --apply
 
-REPO="${REPO:-mbtiongson1/gaia-skill-tree}"
+REPO="${REPO:-gaia-research/gaia-skill-tree}"
 APPLY=0
 CLOSE_RESOLVED=0
 

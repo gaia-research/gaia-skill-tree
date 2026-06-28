@@ -103,7 +103,7 @@ trustMagnitudeInputHash: 32dbe25f29d47c797933a404beeec42d5f9e81254e88df6a574205f
 ---
 
 ## Installation
-Install via [gaia](https://github.com/mbtiongson1/gaia-skill-tree):
+Install via [gaia](https://github.com/gaia-research/gaia-skill-tree):
 
 ```bash
 gaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md

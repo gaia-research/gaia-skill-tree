@@ -13,7 +13,7 @@ createdAt: '2026-05-27'
 updatedAt: '2026-06-21'
 title: The Triage Director
 links:
-  github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-meta-audit/SKILL.md
+  github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-meta-audit/SKILL.md
 tags:
 - registry-curation
 - prioritization
@@ -38,7 +38,7 @@ timeline:
 - timestamp: '2026-06-14T12:32:45Z'
   action: evidence_graded
   contributor: unknown
-  details: 'Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree
+  details: 'Re-graded evidence from https://github.com/gaia-research/gaia-skill-tree
     as B (trustNumber: 70.0)'
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:19Z'
@@ -54,7 +54,7 @@ timeline:
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
 - class: B
-  source: https://github.com/mbtiongson1/gaia-skill-tree
+  source: https://github.com/gaia-research/gaia-skill-tree
   evaluator: mbtiongson1
   date: '2026-05-03'
   notes: 'Derived from registry hygiene work that audits source-backed named skills,

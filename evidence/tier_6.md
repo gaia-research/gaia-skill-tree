@@ -16,7 +16,7 @@ This file lists the raw evidence sources for named skills rated at 6★.
 - **Description:** The ultimate Matt Pocock skill suite capstone. (backfilled — class-to-type migration)
 
 #### E2: `repo`
-- **Source:** [https://github.com/mbtiongson1/gaia-skill-tree/pull/352](https://github.com/mbtiongson1/gaia-skill-tree/pull/352)
+- **Source:** [https://github.com/gaia-research/gaia-skill-tree/pull/352](https://github.com/gaia-research/gaia-skill-tree/pull/352)
 - **Date:** 2026-05-22
 - **Verified Stars:** 6 stars
 - **Description:** Peer-reviewed ultimate capstone suite consolidation. (backfilled — class-to-type migration)

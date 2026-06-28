@@ -24,7 +24,7 @@ The following table details the verification status of the audited links from to
 | **langgenius/component-refactoring** | [component-refactoring SKILL.md](https://github.com/langgenius/dify/blob/main/.agents/skills/component-refactoring/SKILL.md) | **Broken (404)** | Missing/unmerged file path |
 | **mattpocock/diagnose** | [diagnose SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/diagnose/SKILL.md) | **Broken (404)** | Directory renamed to `diagnosing-bugs` |
 | **mattpocock/zoom-out** | [zoom-out SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/zoom-out/SKILL.md) | **Broken (404)** | Folder missing/deleted in upstream repository |
-| **mbtiongson1/gaia-audit** | [gaia-audit skill.md](https://github.com/mbtiongson1/gaia-skill-tree/blob/main/skills/gaia-audit/skill.md) | **Broken (404)** | Case-sensitivity mismatch (uses lowercase `skill.md`) |
+| **mbtiongson1/gaia-audit** | [gaia-audit skill.md](https://github.com/gaia-research/gaia-skill-tree/blob/main/skills/gaia-audit/skill.md) | **Broken (404)** | Case-sensitivity mismatch (uses lowercase `skill.md`) |
 | **mattpocock/write-a-skill** | [write-a-skill SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/write-a-skill/SKILL.md) | **Broken (404)** | Folder renamed to `writing-great-skills` |
 | **mattpocock/ubiquitous-language** | [ubiquitous-language SKILL.md](https://github.com/mattpocock/skills/blob/main/skills/ubiquitous-language/SKILL.md) | **Broken (404)** | Moved to `skills/deprecated/ubiquitous-language/SKILL.md` |
 | **ruvnet/ruflo** (Suite Components) | [ruvnet/ruflo Root URL](https://github.com/ruvnet/ruflo) | **Format Error** | 27 component skills point to bare repo root (Rule #4 violation) |

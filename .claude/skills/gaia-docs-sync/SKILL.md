@@ -128,7 +128,7 @@ stay consistent.
 
 ```bash
 # First time:
-git clone https://github.com/mbtiongson1/gaia-skill-tree.wiki.git ../gaia-wiki
+git clone https://github.com/gaia-research/gaia-skill-tree.wiki.git ../gaia-wiki
 
 # Already cloned:
 cd ../gaia-wiki && git pull origin master

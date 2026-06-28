@@ -61,4 +61,4 @@ This notice lives in `PRIVACY.md` at the root of the repository. Any changes wil
 
 ---
 
-*Questions? Open an issue at [github.com/mbtiongson1/gaia-skill-tree](https://github.com/mbtiongson1/gaia-skill-tree/issues).*
+*Questions? Open an issue at [github.com/gaia-research/gaia-skill-tree](https://github.com/gaia-research/gaia-skill-tree/issues).*

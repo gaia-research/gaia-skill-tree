@@ -10,7 +10,7 @@ description: Automates repository triage for the Gaia Skill Tree, including fixi
   documentation drift, managing build dependencies (build, setuptools, wheel), and
   synchronizing generated graph projections and GEXF exports.
 links:
-  github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md
+  github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md
 tags:
 - maintenance
 - triage

@@ -76,7 +76,7 @@ async function claimFusion(
 
   const branch = `gaia/${user}/fuse-${skillId}`;
   const prUrl = await createPullRequest(token, {
-    owner: "mbtiongson1",
+    owner: "gaia-research",
     repo: "gaia-skill-tree",
     title: `[skill-tree] ${user}: fuse ${skill.name}`,
     body: `## Skill Fusion\n\n**User:** ${user}\n**Skill:** ${skill.name} (${skill.id})\n**Type:** ${skill.type}\n**Prerequisites met:** ${skill.prerequisites.join(", ")}\n\nClaimed via MCP server.`,
@@ -140,7 +140,7 @@ async function proposeNovel(
 
   const branch = `gaia/${user}/propose-${id}`;
   const prUrl = await createPullRequest(token, {
-    owner: "mbtiongson1",
+    owner: "gaia-research",
     repo: "gaia-skill-tree",
     title: `[new-skill] Propose: ${input.name}`,
     body: `## New Skill Proposal\n\n**Proposed by:** ${user}\n**Name:** ${input.name}\n**Type:** ${input.type ?? "basic"}\n**Description:** ${input.description}\n**Prerequisites:** ${(input.prerequisites ?? []).join(", ") || "none"}\n\nNovelty score: ${Math.round(novelty.confidence * 100)}%\nClosest existing: ${novelty.closestMatch?.name ?? "none"} (${Math.round((novelty.closestMatch?.similarity ?? 0) * 100)}%)\n\n---\n\n\`\`\`json\n${JSON.stringify(newSkill, null, 2)}\n\`\`\``,

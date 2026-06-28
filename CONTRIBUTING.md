@@ -210,7 +210,7 @@ Examples:
 No. Intake batches are review artifacts until accepted skills are promoted into `registry/gaia.json`.
 
 **Q: Where should long-form guidance go?**  
-In the [Wiki](https://github.com/mbtiongson1/gaia-skill-tree/wiki) (review standards, curation heuristics, edge cases, troubleshooting).
+In the [Wiki](https://github.com/gaia-research/gaia-skill-tree/wiki) (review standards, curation heuristics, edge cases, troubleshooting).
 
 ---
 
@@ -219,7 +219,7 @@ In the [Wiki](https://github.com/mbtiongson1/gaia-skill-tree/wiki) (review stand
 - [README](../README.md)
 - [Docs site](docs/index.html)
 - [Governance](GOVERNANCE.md)
-- [Wiki](https://github.com/mbtiongson1/gaia-skill-tree/wiki) · [Wiki git repo](https://github.com/mbtiongson1/gaia-skill-tree.wiki.git)
+- [Wiki](https://github.com/gaia-research/gaia-skill-tree/wiki) · [Wiki git repo](https://github.com/gaia-research/gaia-skill-tree.wiki.git)
 
 
 ---
@@ -520,13 +520,13 @@ Run `gaia pull` to download the latest registry from the most recent GitHub Rele
 The registry artifacts are attached to every GitHub Release as a tarball:
 
 ```
-https://github.com/mbtiongson1/gaia-skill-tree/releases/latest/download/gaia-artifacts.tar.gz
+https://github.com/gaia-research/gaia-skill-tree/releases/latest/download/gaia-artifacts.tar.gz
 ```
 
 The tarball contains `registry/gaia.json`, `registry/named-skills.json`, `registry/named/`, and graph artifacts. A SHA256 checksum is published alongside:
 
 ```
-https://github.com/mbtiongson1/gaia-skill-tree/releases/latest/download/gaia-artifacts.tar.gz.sha256
+https://github.com/gaia-research/gaia-skill-tree/releases/latest/download/gaia-artifacts.tar.gz.sha256
 ```
 
 Verify the download:
