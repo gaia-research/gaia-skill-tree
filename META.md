@@ -261,7 +261,7 @@ To maintain high prestige and avoid "Vendor Bloat," Gaia employs a proactive pru
 | Unique Skill Promotion | ✅ Implemented | `CONTRIBUTING.md` |
 | Ultimate Fusion Criteria (5-Prereq) | ✅ Implemented | `GOVERNANCE.md` |
 | Timeline Schema | ✅ Implemented | `registry/schema/namedSkill.schema.json` |
-| Web of Trust / Verification | ✅ Implemented | [Issue #457](https://github.com/mbtiongson1/gaia-skill-tree/issues/457) |
+| Web of Trust / Verification | ✅ Implemented | [Issue #457](https://github.com/gaia-research/gaia-skill-tree/issues/457) |
 | Liveness Heartbeat Script | ✅ Implemented | `scripts/verify_evidence.py` |
 | Hero's Journey UI Tab | ✅ Implemented | `docs/js/skill-explorer.js` |
 | Evidence `grade` field (S/A/B/C) reading | ✅ Implemented | PR #704 (G2) |

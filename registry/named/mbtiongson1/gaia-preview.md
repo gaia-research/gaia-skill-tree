@@ -13,7 +13,7 @@ createdAt: '2026-05-27'
 updatedAt: '2026-06-21'
 title: The Change Previewer
 links:
-  github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md
+  github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md
 tags:
 - registry-curation
 - preview
@@ -26,11 +26,11 @@ timeline:
 - timestamp: '2026-06-10T05:38:17Z'
   action: evidence_added
   contributor: unknown
-  details: Added B evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md
+  details: Added B evidence from https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md
 - timestamp: '2026-06-14T12:32:45Z'
   action: evidence_graded
   contributor: unknown
-  details: 'Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md
+  details: 'Re-graded evidence from https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md
     as B (trustNumber: 70.0)'
 - action: migrate_trust_magnitude
   timestamp: '2026-06-18T11:27:19Z'
@@ -46,7 +46,7 @@ timeline:
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
 evidence:
 - class: B
-  source: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md
+  source: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md
   evaluator: mbtiongson1
   date: '2026-06-10'
   notes: 'Project-local agent skill driving branch preview deploys via sync-artifacts.yml;

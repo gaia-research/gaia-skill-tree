@@ -3,11 +3,16 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import { createServer } from "../src/index.js";
 import mcpPackage from "../package.json";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 
 describe("MCP protocol layer", () => {
   let client: Client;
+  let savedRegistryPath: string | undefined;
 
   beforeAll(async () => {
+    savedRegistryPath = process.env.GAIA_REGISTRY_PATH;
+    process.env.GAIA_REGISTRY_PATH = join(dirname(fileURLToPath(import.meta.url)), "../../..");
     const server = createServer();
     const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
     await server.connect(serverTransport);
@@ -17,6 +22,11 @@ describe("MCP protocol layer", () => {
 
   afterAll(async () => {
     await client.close();
+    if (savedRegistryPath !== undefined) {
+      process.env.GAIA_REGISTRY_PATH = savedRegistryPath;
+    } else {
+      delete process.env.GAIA_REGISTRY_PATH;
+    }
   });
 
   // ── Server identity ──────────────────────────────────────────────────────

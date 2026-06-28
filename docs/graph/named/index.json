@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-27",
+  "generatedAt": "2026-06-28",
   "buckets": {
     "automated-testing": [
       {
@@ -496,7 +496,7 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "installBody": "Install via [gaia](https://github.com/mbtiongson1/gaia-skill-tree):\n\n```bash\ngaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md\n```\n\nOr copy the raw skill file directly into your agent context:\n\n```\nhttps://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md\n```\n\n**Usage**: Invoke `/performance-optimization` (Claude Code) to trigger the measurement-driven 5-step performance audit workflow.",
+        "installBody": "Install via [gaia](https://github.com/gaia-research/gaia-skill-tree):\n\n```bash\ngaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md\n```\n\nOr copy the raw skill file directly into your agent context:\n\n```\nhttps://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md\n```\n\n**Usage**: Invoke `/performance-optimization` (Claude Code) to trigger the measurement-driven 5-step performance audit workflow.",
         "role": "origin"
       },
       {
@@ -728,7 +728,7 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "installBody": "Install via [gaia](https://github.com/mbtiongson1/gaia-skill-tree):\n\n```bash\ngaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md\n```\n\nOr copy the raw skill file directly into your agent context:\n\n```\nhttps://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md\n```\n\n**Usage**: Invoke `/test-driven-development` (Claude Code) to enforce the red-green-refactor TDD cycle. The skill blocks horizontal slicing and enforces coverage thresholds before marking any task complete.",
+        "installBody": "Install via [gaia](https://github.com/gaia-research/gaia-skill-tree):\n\n```bash\ngaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md\n```\n\nOr copy the raw skill file directly into your agent context:\n\n```\nhttps://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md\n```\n\n**Usage**: Invoke `/test-driven-development` (Claude Code) to enforce the red-green-refactor TDD cycle. The skill blocks horizontal slicing and enforces coverage thresholds before marking any task complete.",
         "role": "origin"
       },
       {
@@ -6936,12 +6936,12 @@
           "staging"
         ],
         "links": {
-          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md"
+          "github": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md"
         },
         "evidence": [
           {
             "class": "B",
-            "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md",
+            "source": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-10",
             "notes": "Project-local agent skill driving branch preview deploys via sync-artifacts.yml; implementation public at SKILL.md. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
@@ -6965,13 +6965,13 @@
             "timestamp": "2026-06-10T05:38:17Z",
             "action": "evidence_added",
             "contributor": "unknown",
-            "details": "Added B evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md"
+            "details": "Added B evidence from https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md"
           },
           {
             "timestamp": "2026-06-14T12:32:45Z",
             "action": "evidence_graded",
             "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md as B (trustNumber: 70.0)"
+            "details": "Re-graded evidence from https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md as B (trustNumber: 70.0)"
           },
           {
             "action": "migrate_trust_magnitude",
@@ -13970,7 +13970,7 @@
           "prioritization"
         ],
         "links": {
-          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md"
+          "github": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md"
         },
         "createdAt": "2026-05-27",
         "updatedAt": "2026-05-30",
@@ -14336,12 +14336,12 @@
           "correction"
         ],
         "links": {
-          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/SKILL.md"
+          "github": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/SKILL.md"
         },
         "evidence": [
           {
             "class": "C",
-            "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
+            "source": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
             "evaluator": "mbtiongson1",
             "date": "2026-05-20",
             "notes": "Self-referential implementation doc inside the gaia repo (seed evidence). Downgraded A->C per META §2.4 — seed / self-referential links are insufficient for Class A — by the 2026-06-02 meta sweep. Credible demo of the codified 7-phase audit workflow. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
@@ -14371,7 +14371,7 @@
             "timestamp": "2026-06-14T12:32:44Z",
             "action": "evidence_graded",
             "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md as C (trustNumber: 50.0)"
+            "details": "Re-graded evidence from https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md as C (trustNumber: 50.0)"
           },
           {
             "action": "migrate_trust_magnitude",
@@ -14426,12 +14426,12 @@
           "quality-gate"
         ],
         "links": {
-          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md"
+          "github": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md"
         },
         "evidence": [
           {
             "class": "B",
-            "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md",
+            "source": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-06-10",
             "notes": "Project-local agent skill used for curation PR review in this repository; implementation public at SKILL.md. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
@@ -14461,13 +14461,13 @@
             "timestamp": "2026-06-10T05:38:17Z",
             "action": "evidence_added",
             "contributor": "unknown",
-            "details": "Added B evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md"
+            "details": "Added B evidence from https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md"
           },
           {
             "timestamp": "2026-06-14T12:32:45Z",
             "action": "evidence_graded",
             "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md as B (trustNumber: 70.0)"
+            "details": "Re-graded evidence from https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md as B (trustNumber: 70.0)"
           },
           {
             "action": "migrate_trust_magnitude",
@@ -14524,7 +14524,7 @@
           "batch-processing"
         ],
         "links": {
-          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-bot-curate/SKILL.md"
+          "github": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-bot-curate/SKILL.md"
         },
         "createdAt": "2026-05-27",
         "updatedAt": "2026-06-01",
@@ -14597,7 +14597,7 @@
           "research"
         ],
         "links": {
-          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curate/SKILL.md"
+          "github": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-curate/SKILL.md"
         },
         "createdAt": "2026-05-27",
         "updatedAt": "2026-06-01",
@@ -14668,7 +14668,7 @@
           "sync"
         ],
         "links": {
-          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-docs-sync/SKILL.md"
+          "github": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-docs-sync/SKILL.md"
         },
         "createdAt": "2026-05-27",
         "updatedAt": "2026-05-30",
@@ -14733,7 +14733,7 @@
           "workflow"
         ],
         "links": {
-          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-draft-curate/SKILL.md"
+          "github": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-draft-curate/SKILL.md"
         },
         "createdAt": "2026-05-27",
         "updatedAt": "2026-06-01",
@@ -14805,7 +14805,7 @@
           "schema"
         ],
         "links": {
-          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-integrity/SKILL.md"
+          "github": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-integrity/SKILL.md"
         },
         "createdAt": "2026-05-27",
         "updatedAt": "2026-06-01",
@@ -14876,7 +14876,7 @@
           "sync"
         ],
         "links": {
-          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-wiki-sync/SKILL.md"
+          "github": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-wiki-sync/SKILL.md"
         },
         "createdAt": "2026-05-27",
         "updatedAt": "2026-05-30",
@@ -14944,12 +14944,12 @@
           "quality-control"
         ],
         "links": {
-          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-meta-audit/SKILL.md"
+          "github": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-meta-audit/SKILL.md"
         },
         "evidence": [
           {
             "class": "B",
-            "source": "https://github.com/mbtiongson1/gaia-skill-tree",
+            "source": "https://github.com/gaia-research/gaia-skill-tree",
             "evaluator": "mbtiongson1",
             "date": "2026-05-03",
             "notes": "Derived from registry hygiene work that audits source-backed named skills, generated projections, and demotion candidates across canonical and real-skill review surfaces. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
@@ -14987,7 +14987,7 @@
             "timestamp": "2026-06-14T12:32:45Z",
             "action": "evidence_graded",
             "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree as B (trustNumber: 70.0)"
+            "details": "Re-graded evidence from https://github.com/gaia-research/gaia-skill-tree as B (trustNumber: 70.0)"
           },
           {
             "action": "migrate_trust_magnitude",
@@ -15045,12 +15045,12 @@
           "skill-graph"
         ],
         "links": {
-          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md"
+          "github": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md"
         },
         "evidence": [
           {
             "class": "B",
-            "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md",
+            "source": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md",
             "evaluator": "mbtiongson1",
             "date": "2026-05-30",
             "notes": "Reproducible playbook: graphify-triage script ingests safishamsi/graphify GRAPH_REPORT.md output, parses architectural-debt findings, and converts each into a tracked GitHub issue via gh issue create. First implementation of the fusion generic (graphify + triage). (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
@@ -15080,7 +15080,7 @@
             "timestamp": "2026-06-14T12:32:45Z",
             "action": "evidence_graded",
             "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md as B (trustNumber: 70.0)"
+            "details": "Re-graded evidence from https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md as B (trustNumber: 70.0)"
           },
           {
             "action": "migrate_trust_magnitude",
@@ -20815,7 +20815,7 @@
         "packaging"
       ],
       "links": {
-        "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md"
+        "github": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md"
       },
       "createdAt": "2026-05-10",
       "updatedAt": "2026-05-10",
@@ -20874,12 +20874,12 @@
         "repo-maintenance"
       ],
       "links": {
-        "github": "https://github.com/mbtiongson1/gaia-skill-tree"
+        "github": "https://github.com/gaia-research/gaia-skill-tree"
       },
       "evidence": [
         {
           "class": "B",
-          "source": "https://github.com/mbtiongson1/gaia-skill-tree",
+          "source": "https://github.com/gaia-research/gaia-skill-tree",
           "evaluator": "mbtiongson1",
           "date": "2026-06-10",
           "notes": "Exercised in this repository's own CI: the docs drift check (gaia docs build --check) gates every PR, demonstrating the skill in production. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
@@ -20897,13 +20897,13 @@
           "timestamp": "2026-06-10T05:38:16Z",
           "action": "evidence_added",
           "contributor": "unknown",
-          "details": "Added B evidence from https://github.com/mbtiongson1/gaia-skill-tree"
+          "details": "Added B evidence from https://github.com/gaia-research/gaia-skill-tree"
         },
         {
           "timestamp": "2026-06-14T12:32:18Z",
           "action": "evidence_graded",
           "contributor": "unknown",
-          "details": "Re-graded evidence from https://github.com/mbtiongson1/gaia-skill-tree as B (trustNumber: 70.0)"
+          "details": "Re-graded evidence from https://github.com/gaia-research/gaia-skill-tree as B (trustNumber: 70.0)"
         },
         {
           "action": "migrate_trust_magnitude",

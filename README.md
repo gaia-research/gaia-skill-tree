@@ -12,7 +12,7 @@
 
 ### How does ranking work? Read [META.md](META.md) for a comprehensive list
 
-[![Validate](https://github.com/mbtiongson1/gaia-skill-tree/actions/workflows/validate.yml/badge.svg)](https://github.com/mbtiongson1/gaia-skill-tree/actions/workflows/validate.yml)
+[![Validate](https://github.com/gaia-research/gaia-skill-tree/actions/workflows/validate.yml/badge.svg)](https://github.com/gaia-research/gaia-skill-tree/actions/workflows/validate.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Website](https://img.shields.io/badge/Website-gaia.tiongson.co-f59e0b)](https://gaia.tiongson.co/)
 
@@ -25,8 +25,8 @@ Main inspo for this repo. Basically stole the idea and applied it to agent skill
 
 # Get your badges! Some skills already curated.
 
-[![Gaia rank](https://gaia.tiongson.co/badges/_assets/mbtiongson1/rank.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)<br>
-[![Gaia skills](https://gaia.tiongson.co/badges/_assets/mbtiongson1/skills.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
+[![Gaia rank](https://gaia.tiongson.co/badges/_assets/mbtiongson1/rank.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)<br>
+[![Gaia skills](https://gaia.tiongson.co/badges/_assets/mbtiongson1/skills.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
 
 Generate yours at **[gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/)**.
 
@@ -177,7 +177,7 @@ $env:PATH += ";" + (python -c "import sysconfig; print(sysconfig.get_path('scrip
 
 **Full Install (for devs)** (editable install with all extras):
 ```bash
-git clone https://github.com/mbtiongson1/gaia-skill-tree.git
+git clone https://github.com/gaia-research/gaia-skill-tree.git
 cd gaia-skill-tree
 pip install -e ".[embeddings,dev,docs]"
 ```
@@ -350,7 +350,7 @@ Common ways to help:
 - Turn accepted reviews into concrete PRs (new skill, fusion, or reclassification).
 
 Contribution steps: [CONTRIBUTING.md](CONTRIBUTING.md).
-Full policy/reviewer guidance: <https://github.com/mbtiongson1/gaia-skill-tree/wiki> (repo: <https://github.com/mbtiongson1/gaia-skill-tree.wiki.git>).
+Full policy/reviewer guidance: <https://github.com/gaia-research/gaia-skill-tree/wiki> (repo: <https://github.com/gaia-research/gaia-skill-tree.wiki.git>).
 
 ## Contributors
 

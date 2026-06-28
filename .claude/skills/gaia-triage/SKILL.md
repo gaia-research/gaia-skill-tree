@@ -29,7 +29,7 @@ an explicit call: close (resolved), update (needs narrowing), or keep (valid, st
 ### Step 1 — Pull the open issue list
 
 ```bash
-gh issue list --repo mbtiongson1/gaia-skill-tree --state open --limit 100
+gh issue list --repo gaia-research/gaia-skill-tree --state open --limit 100
 ```
 
 Group by theme (CLI bug, registry data, docs drift, enhancement). This shapes the
@@ -55,14 +55,14 @@ Before commenting or closing, verify the claim. Check the evidence paths in
 or a reproduction, or when you want to flag it for a human maintainer):
 
 ```bash
-gh issue comment <issue-number> --repo mbtiongson1/gaia-skill-tree \
+gh issue comment <issue-number> --repo gaia-research/gaia-skill-tree \
   --body "Triage update: <findings and recommendation>"
 ```
 
 **Close a resolved issue** (only when codebase evidence confirms it is implemented):
 
 ```bash
-gh issue close <issue-number> --repo mbtiongson1/gaia-skill-tree \
+gh issue close <issue-number> --repo gaia-research/gaia-skill-tree \
   --reason completed \
   --comment "Closing as implemented. Evidence: <specific file + line or command output>"
 ```
