@@ -13,8 +13,8 @@
 ### How does ranking work? Read [META.md](META.md) for a comprehensive list
 
 [![Validate](https://github.com/gaia-research/gaia-skill-tree/actions/workflows/validate.yml/badge.svg)](https://github.com/gaia-research/gaia-skill-tree/actions/workflows/validate.yml)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Website](https://img.shields.io/badge/Website-gaia.tiongson.co-f59e0b)](https://gaia.tiongson.co/)
+[![License: Apache 2.0](https://static.scarf.sh/redirect?url=https://img.shields.io/badge/License-Apache%202.0-blue.svg&pixel_id=b8e05c84-1886-4b68-b80c-7b00cdb68f94)](LICENSE)
+[![Website](https://static.scarf.sh/redirect?url=https://gaia.tiongson.co/&pixel_id=b8e05c84-1886-4b68-b80c-7b00cdb68f94)](https://gaia.tiongson.co/)
 
 # Be like Rimuru
 
@@ -25,8 +25,8 @@ Main inspo for this repo. Basically stole the idea and applied it to agent skill
 
 # Get your badges! Some skills already curated.
 
-[![Gaia rank](https://gaia.tiongson.co/badges/_assets/mbtiongson1/rank.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)<br>
-[![Gaia skills](https://gaia.tiongson.co/badges/_assets/mbtiongson1/skills.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
+[![Gaia rank](https://static.scarf.sh/redirect?url=https://gaia.tiongson.co/badges/_assets/mbtiongson1/rank.svg?repo=gaia-research%2Fgaia-skill-tree&pixel_id=b8e05c84-1886-4b68-b80c-7b00cdb68f94)](https://gaia.tiongson.co/u/mbtiongson1/)<br>
+[![Gaia skills](https://static.scarf.sh/redirect?url=https://gaia.tiongson.co/badges/_assets/mbtiongson1/skills.svg?repo=gaia-research%2Fgaia-skill-tree&pixel_id=b8e05c84-1886-4b68-b80c-7b00cdb68f94)](https://gaia.tiongson.co/u/mbtiongson1/)
 
 Generate yours at **[gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/)**.
 
