@@ -100,10 +100,10 @@ def _versions() -> str:
 curl -fsSL https://gaia.tiongson.co/install.sh | sh
 ```
 
-npm wrapper alternative:
+Python installation alternative:
 
 ```bash
-npm install -g @gaia-registry/cli
+pip install gaia-cli
 ```"""
 
 
