@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+
+<head>
+  <script>window.GAIA_VERSION = "5.8.1";</script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Reference — Gaia</title>
+  <meta name="description" content="Static JSON API for the Gaia skill registry. Browse 139 named AI agent skills by contributor, trust grade, and evidence — no authentication required.">
+  <meta name="keywords" content="gaia api, skill registry api, ai agent skills, openapi, json api, trust magnitude">
+  <!-- OG meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="API Reference — Gaia">
+  <meta property="og:description" content="Static JSON API for the Gaia skill registry. 139 named skills, no auth required.">
+  <meta property="og:url" content="https://gaia.tiongson.co/api/">
+  <!-- Web fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="../css/styles.css?v=5.8.1">
+  <!-- Scripts -->
+  <script src="../js/icons.js?v=5.8.1"></script>
+  <script src="../js/mounts.js?v=5.8.1"></script>
+  <script src="../js/site-nav.js?v=5.8.1"></script>
+  <script src="../js/site-footer.js?v=5.8.1"></script>
+
+  <style>
+    /* ── API Docs Page Styles — tokens only, no hex ── */
+
+    /* Hero */
+    .api-hero {
+      text-align: center;
+      padding: 7.5rem 1.5rem 2.5rem;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+    .api-hero-kicker {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--rank-3);
+      margin: 0 0 .6rem;
+    }
+    .api-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 600;
+      margin: 0 0 .85rem;
+      color: var(--text);
+    }
+    .api-hero-lede {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1rem;
+      margin: 0 0 2rem;
+    }
+
+    /* Stat pills */
+    .api-stats {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .api-stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .65rem 1.25rem;
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      color: var(--muted);
+    }
+    .api-stat strong {
+      color: var(--rank-3);
+      font-weight: 600;
+    }
+
+    /* Base URL badge */
+    .api-base-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .55rem 1rem;
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      color: var(--text);
+      margin-bottom: 3rem;
+    }
+    .api-base-badge .method-get {
+      color: var(--rank-2);
+      font-weight: 600;
+      font-size: .72rem;
+      letter-spacing: .05em;
+    }
+
+    /* Section layout */
+    .api-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.5rem 3rem;
+    }
+    .api-section-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 0 0 1.25rem;
+      padding-bottom: .5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Quickstart */
+    .api-curl-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+      overflow-x: auto;
+    }
+    .api-curl-label {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .5rem;
+    }
+    .api-curl-block pre {
+      margin: 0;
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .api-curl-block pre .curl-cmd { color: var(--rank-2); }
+    .api-curl-block pre .curl-url { color: var(--rank-3); }
+
+    /* Endpoint table */
+    .api-table-wrap {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+    .api-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .875rem;
+      font-family: var(--font-body);
+    }
+    .api-table thead th {
+      background: var(--surface);
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      text-align: left;
+      padding: .75rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .api-table tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background .15s;
+    }
+    .api-table tbody tr:last-child { border-bottom: none; }
+    .api-table tbody tr:hover { background: var(--surface); }
+    .api-table td {
+      padding: .85rem 1rem;
+      vertical-align: top;
+      color: var(--text);
+    }
+    .api-table td.ep-method {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      font-weight: 600;
+      color: var(--rank-2);
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+    .api-table td.ep-path {
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      white-space: nowrap;
+    }
+    .api-table td.ep-path a {
+      color: var(--rank-3);
+      text-decoration: none;
+    }
+    .api-table td.ep-path a:hover { text-decoration: underline; }
+    .api-table td.ep-path .ep-path-param { color: var(--rank-4); }
+    .api-table td.ep-desc { color: var(--muted); font-size: .875rem; line-height: 1.5; }
+    .api-table td.ep-tag {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      white-space: nowrap;
+    }
+    .api-tag-pill {
+      display: inline-block;
+      border-radius: 4px;
+      padding: .15rem .5rem;
+      font-size: .68rem;
+      font-family: var(--font-mono);
+      letter-spacing: .04em;
+    }
+    .api-tag-skills   { background: var(--rank-3-bg); color: var(--rank-3); border: 1px solid var(--rank-3-border); }
+    .api-tag-contrib  { background: var(--rank-2-bg); color: var(--rank-2); border: 1px solid var(--rank-2-border); }
+    .api-tag-meta     { background: var(--rank-1-bg); color: var(--rank-1); border: 1px solid var(--rank-1-border); }
+
+    /* Info callout */
+    .api-callout {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--rank-3);
+      border-radius: 0 8px 8px 0;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      font-size: .9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .api-callout strong { color: var(--text); }
+
+    /* OpenAPI link card */
+    .api-spec-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .api-spec-card-left { flex: 1 1 300px; }
+    .api-spec-card-title {
+      font-weight: 600;
+      color: var(--text);
+      margin: 0 0 .25rem;
+      font-size: .95rem;
+    }
+    .api-spec-card-sub {
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--muted);
+    }
+    .api-spec-card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: var(--rank-3-bg);
+      border: 1px solid var(--rank-3-border);
+      color: var(--rank-3);
+      text-decoration: none;
+      border-radius: 7px;
+      padding: .55rem 1.1rem;
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      font-weight: 600;
+      transition: background .15s, border-color .15s;
+      white-space: nowrap;
+    }
+    .api-spec-card-link:hover {
+      background: var(--rank-3-border);
+      border-color: var(--rank-3);
+    }
+
+    /* Response schema pill */
+    .ep-schema {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: .1rem .4rem;
+      margin-top: .3rem;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Site nav injected by site-nav.js -->
+
+  <main>
+    <!-- ── Hero ── -->
+    <section class="api-hero">
+      <p class="api-hero-kicker">Static JSON API · v1</p>
+      <h1 class="api-hero-title">Gaia Registry API</h1>
+      <p class="api-hero-lede">
+        A read-only JSON API for the Gaia skill registry. All endpoints are pre-generated
+        static files served directly from GitHub Pages — no authentication, no rate limits,
+        no server required.
+      </p>
+
+      <div class="api-stats">
+        <div class="api-stat"><strong>139</strong> named skills</div>
+        <div class="api-stat"><strong>9</strong> endpoints</div>
+        <div class="api-stat"><strong>0</strong> auth required</div>
+        <div class="api-stat"><strong>OpenAPI 3.1</strong> spec available</div>
+      </div>
+
+      <div class="api-base-badge">
+        <span class="method-get">BASE</span>
+        <span>https://gaia.tiongson.co/api/v1/</span>
+      </div>
+    </section>
+
+    <!-- ── Quickstart ── -->
+    <section class="api-section">
+      <h2 class="api-section-title">Quickstart</h2>
+
+      <div class="api-callout">
+        <strong>Static-file API</strong> — every endpoint is a plain JSON file. Just fetch the URL.
+        CORS is open (GitHub Pages serves <code>Access-Control-Allow-Origin: *</code>),
+        so you can call these endpoints directly from the browser or any HTTP client.
+      </div>
+
+      <div class="api-curl-block">
+        <div class="api-curl-label">Health check</div>
+        <pre><span class="curl-cmd">curl</span> <span class="curl-url">https://gaia.tiongson.co/api/v1/health.json</span></pre>
+      </div>
+
+      <div class="api-curl-block">
+        <div class="api-curl-label">List skills (page 1, sorted by Trust Magnitude)</div>
+        <pre><span class="curl-cmd">curl</span> <span class="curl-url">https://gaia.tiongson.co/api/v1/skills/index.json</span></pre>
+      </div>
+
+      <div class="api-curl-block">
+        <div class="api-curl-label">Get a single skill</div>
+        <pre><span class="curl-cmd">curl</span> <span class="curl-url">https://gaia.tiongson.co/api/v1/skills/garrytan/gstack.json</span></pre>
+      </div>
+
+      <div class="api-curl-block">
+        <div class="api-curl-label">Trust leaderboard</div>
+        <pre><span class="curl-cmd">curl</span> <span class="curl-url">https://gaia.tiongson.co/api/v1/leaderboard.json</span></pre>
+      </div>
+
+      <div class="api-curl-block">
+        <div class="api-curl-label">Contributors list</div>
+        <pre><span class="curl-cmd">curl</span> <span class="curl-url">https://gaia.tiongson.co/api/v1/contributors/index.json</span></pre>
+      </div>
+
+      <div class="api-curl-block">
+        <div class="api-curl-label">Client-side search index (pre-tokenised)</div>
+        <pre><span class="curl-cmd">curl</span> <span class="curl-url">https://gaia.tiongson.co/api/v1/search-index.json</span></pre>
+      </div>
+    </section>
+
+    <!-- ── Endpoint Reference ── -->
+    <section class="api-section">
+      <h2 class="api-section-title">Endpoint Reference</h2>
+
+      <div class="api-table-wrap">
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Path</th>
+              <th>Description</th>
+              <th>Tag</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Meta -->
+            <tr>
+              <td class="ep-method">GET</td>
+              <td class="ep-path">
+                <a href="v1/health.json" target="_blank" rel="noopener">/api/v1/health.json</a>
+                <br><span class="ep-schema">Health</span>
+              </td>
+              <td class="ep-desc">API liveness check. Returns registry version, generation date, and named skills count.</td>
+              <td class="ep-tag"><span class="api-tag-pill api-tag-meta">Meta</span></td>
+            </tr>
+            <tr>
+              <td class="ep-method">GET</td>
+              <td class="ep-path">
+                <a href="v1/leaderboard.json" target="_blank" rel="noopener">/api/v1/leaderboard.json</a>
+                <br><span class="ep-schema">Leaderboard</span>
+              </td>
+              <td class="ep-desc">Registry-wide grade distribution (S/A/B/C totals) plus all skills ranked by Trust Magnitude.</td>
+              <td class="ep-tag"><span class="api-tag-pill api-tag-meta">Meta</span></td>
+            </tr>
+            <tr>
+              <td class="ep-method">GET</td>
+              <td class="ep-path">
+                <a href="v1/evidence-types.json" target="_blank" rel="noopener">/api/v1/evidence-types.json</a>
+                <br><span class="ep-schema">EvidenceTypeCatalogue</span>
+              </td>
+              <td class="ep-desc">All recognised evidence types with magnitude formulas, weights, grade ceilings, and freshness policies.</td>
+              <td class="ep-tag"><span class="api-tag-pill api-tag-meta">Meta</span></td>
+            </tr>
+            <tr>
+              <td class="ep-method">GET</td>
+              <td class="ep-path">
+                <a href="v1/search-index.json" target="_blank" rel="noopener">/api/v1/search-index.json</a>
+                <br><span class="ep-schema">SearchIndexEntry[]</span>
+              </td>
+              <td class="ep-desc">Pre-tokenised search index for all skills. Designed for fast client-side full-text search.</td>
+              <td class="ep-tag"><span class="api-tag-pill api-tag-meta">Meta</span></td>
+            </tr>
+
+            <!-- Skills -->
+            <tr>
+              <td class="ep-method">GET</td>
+              <td class="ep-path">
+                <a href="v1/skills/index.json" target="_blank" rel="noopener">/api/v1/skills/index.json</a>
+                <br><span class="ep-schema">SkillListPage</span>
+              </td>
+              <td class="ep-desc">
+                First page of all named skills sorted by Trust Magnitude descending (50 per page).
+                Follow <code>_links.next</code> for subsequent pages.
+              </td>
+              <td class="ep-tag"><span class="api-tag-pill api-tag-skills">Skills</span></td>
+            </tr>
+            <tr>
+              <td class="ep-method">GET</td>
+              <td class="ep-path">
+                /api/v1/skills/page-<span class="ep-path-param">{n}</span>.json
+                <br><span class="ep-schema">SkillListPage</span>
+              </td>
+              <td class="ep-desc">
+                Page N of the skill list (N ≥ 2). Same shape as the index page.
+                Example: <a href="v1/skills/page-2.json" target="_blank" rel="noopener">/api/v1/skills/page-2.json</a>
+              </td>
+              <td class="ep-tag"><span class="api-tag-pill api-tag-skills">Skills</span></td>
+            </tr>
+            <tr>
+              <td class="ep-method">GET</td>
+              <td class="ep-path">
+                /api/v1/skills/<span class="ep-path-param">{contributor}</span>/<span class="ep-path-param">{skill}</span>.json
+                <br><span class="ep-schema">SkillDetail</span>
+              </td>
+              <td class="ep-desc">
+                Full detail for a single named skill: evidence chain, tags, apex gate status, hypermedia links.
+                Example: <a href="v1/skills/garrytan/gstack.json" target="_blank" rel="noopener">/api/v1/skills/garrytan/gstack.json</a>
+              </td>
+              <td class="ep-tag"><span class="api-tag-pill api-tag-skills">Skills</span></td>
+            </tr>
+
+            <!-- Contributors -->
+            <tr>
+              <td class="ep-method">GET</td>
+              <td class="ep-path">
+                <a href="v1/contributors/index.json" target="_blank" rel="noopener">/api/v1/contributors/index.json</a>
+                <br><span class="ep-schema">ContributorList</span>
+              </td>
+              <td class="ep-desc">All contributors with named skills, sorted by prestige score (sum of Trust Magnitude) descending.</td>
+              <td class="ep-tag"><span class="api-tag-pill api-tag-contrib">Contributors</span></td>
+            </tr>
+            <tr>
+              <td class="ep-method">GET</td>
+              <td class="ep-path">
+                /api/v1/contributors/<span class="ep-path-param">{handle}</span>.json
+                <br><span class="ep-schema">ContributorDetail</span>
+              </td>
+              <td class="ep-desc">
+                Full contributor profile with all their named skills and trust metrics.
+                Example: <a href="v1/contributors/garrytan.json" target="_blank" rel="noopener">/api/v1/contributors/garrytan.json</a>
+              </td>
+              <td class="ep-tag"><span class="api-tag-pill api-tag-contrib">Contributors</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── OpenAPI Spec ── -->
+    <section class="api-section">
+      <h2 class="api-section-title">OpenAPI 3.1 Spec</h2>
+
+      <p style="color: var(--muted); margin-bottom: 1.25rem; line-height: 1.6; font-size: .9rem;">
+        The full machine-readable spec is available as a static JSON file. Import it into
+        Postman, Insomnia, or any OpenAPI-compatible tool to explore and test all endpoints.
+      </p>
+
+      <div class="api-spec-card">
+        <div class="api-spec-card-left">
+          <p class="api-spec-card-title">openapi.json</p>
+          <p class="api-spec-card-sub">OpenAPI 3.1.0 · 9 endpoints · 12 component schemas</p>
+        </div>
+        <a href="v1/openapi.json" target="_blank" rel="noopener" class="api-spec-card-link">
+          View spec →
+        </a>
+      </div>
+    </section>
+
+    <!-- ── Notes ── -->
+    <section class="api-section">
+      <h2 class="api-section-title">Notes &amp; Caveats</h2>
+
+      <div class="api-callout">
+        <strong>Static-only API</strong> — endpoints are pre-generated JSON files, not a live server.
+        There is no query/filter support. For client-side filtering, fetch
+        <code>/api/v1/skills/index.json</code> (all pages) or <code>/api/v1/search-index.json</code>
+        and filter in memory.
+      </div>
+
+      <div class="api-callout">
+        <strong>Refresh cadence</strong> — the API is regenerated on every registry release
+        (minor/major versions). The <code>registryGeneratedAt</code> field in
+        <code>/api/v1/health.json</code> tells you when the current snapshot was built.
+      </div>
+
+      <div class="api-callout">
+        <strong>Star glyphs</strong> — the <code>level</code> field contains Unicode star characters
+        (e.g., <code>5★</code>). Depending on your font stack, the glyph may render differently.
+        The integer rank (0–6) is derivable from the string length.
+      </div>
+    </section>
+  </main>
+
+  <!-- Site footer injected by site-footer.js -->
+</body>
+</html>

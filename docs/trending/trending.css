@@ -1,0 +1,472 @@
+/*
+ * trending.css — Styles for /trending/ page.
+ * Design tokens only — zero hex values. All colours via tokens.css.
+ */
+
+/* ── Page layout ─────────────────────────────────────────────── */
+.trending-main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+
+/* ── Hero tweaks ─────────────────────────────────────────────── */
+.trending-hero {
+  margin-bottom: 0.5rem;
+}
+
+/* ── Bootstrap banner ────────────────────────────────────────── */
+.trending-bootstrap-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 0.5rem;
+  background: var(--rank-1-bg);
+  border: 1px solid var(--rank-1-border);
+  color: var(--rank-1);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.trending-bootstrap-banner[hidden] {
+  display: none;
+}
+
+.trending-bootstrap-banner .ico {
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+/* ── Window tabs ─────────────────────────────────────────────── */
+.trending-tabs {
+  display: flex;
+  gap: 0.375rem;
+  margin-bottom: 1.5rem;
+}
+
+.trending-tab {
+  padding: 0.4rem 1rem;
+  border-radius: 0.375rem;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--rank-0);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.trending-tab:hover {
+  background: var(--rank-2-bg);
+  border-color: var(--rank-2-border);
+  color: var(--rank-2);
+}
+
+.trending-tab.active {
+  background: var(--rank-2-bg);
+  border-color: var(--rank-2-border);
+  color: var(--rank-2);
+}
+
+/* ── Loading spinners ────────────────────────────────────────── */
+.trending-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2rem 0;
+  color: var(--rank-0);
+  font-size: 0.875rem;
+}
+
+.trending-spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--rank-0-border);
+  border-top-color: var(--rank-2);
+  border-radius: 50%;
+  animation: trend-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes trend-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── "Data not available" / error card ───────────────────────── */
+.trending-unavailable {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.375rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--rank-0-border);
+  background: var(--rank-0-bg);
+  color: var(--rank-0);
+  font-size: 0.875rem;
+}
+
+.trending-unavailable strong {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+/* ── Trending skill card grid ────────────────────────────────── */
+.trending-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin-bottom: 0.5rem;
+}
+
+.trending-card {
+  display: grid;
+  grid-template-columns: 2.75rem 1fr auto;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  padding: 0.875rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--rank-0-border);
+  background: transparent;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.trending-card:hover {
+  border-color: var(--rank-2-border);
+  background: var(--rank-2-bg);
+}
+
+/* Rank badge (position number) */
+.trending-rank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--rank-0-bg);
+  border: 1px solid var(--rank-0-border);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--rank-0);
+  font-family: 'JetBrains Mono', monospace;
+  flex-shrink: 0;
+}
+
+.trending-rank.top3 {
+  background: var(--rank-3-bg);
+  border-color: var(--rank-3-border);
+  color: var(--rank-3);
+}
+
+/* Card body */
+.trending-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.trending-card-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trending-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+  color: var(--rank-0);
+}
+
+.trending-card-contributor {
+  opacity: 0.75;
+}
+
+.trending-level-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.45rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--rank-3-bg);
+  border: 1px solid var(--rank-3-border);
+  color: var(--rank-3);
+}
+
+/* Right side: TM + delta + grade */
+.trending-card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+.trending-tm {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--rank-2);
+}
+
+.trending-delta {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.trending-delta.positive {
+  color: var(--rank-2);
+}
+
+.trending-delta.negative {
+  color: var(--rank-4);
+}
+
+.trending-delta.neutral {
+  color: var(--rank-0);
+}
+
+.trending-delta-arrow {
+  font-size: 0.875rem;
+  line-height: 1;
+}
+
+.trending-grade-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.45rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.trending-grade-badge[data-grade="S"] {
+  background: rgba(var(--evidence-platinum-rgb), 0.15);
+  border: 1px solid rgba(var(--evidence-platinum-rgb), 0.4);
+  color: var(--evidence-platinum);
+}
+
+.trending-grade-badge[data-grade="A"] {
+  background: rgba(var(--evidence-gold-rgb), 0.15);
+  border: 1px solid rgba(var(--evidence-gold-rgb), 0.4);
+  color: var(--evidence-gold);
+}
+
+.trending-grade-badge[data-grade="B"] {
+  background: rgba(var(--evidence-silver-rgb), 0.15);
+  border: 1px solid rgba(var(--evidence-silver-rgb), 0.4);
+  color: var(--evidence-silver);
+}
+
+.trending-grade-badge[data-grade="C"],
+.trending-grade-badge[data-grade="D"],
+.trending-grade-badge[data-grade="F"] {
+  background: rgba(var(--evidence-bronze-rgb), 0.15);
+  border: 1px solid rgba(var(--evidence-bronze-rgb), 0.4);
+  color: var(--evidence-bronze);
+}
+
+/* New skill tag */
+.trending-new-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--rank-1-bg);
+  border: 1px solid var(--rank-1-border);
+  color: var(--rank-1);
+}
+
+/* ── Section wrappers ────────────────────────────────────────── */
+.trending-section {
+  margin-top: 3rem;
+}
+
+.trending-section-header {
+  margin-bottom: 1.25rem;
+}
+
+.trending-section-header h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+}
+
+.trending-sublede {
+  font-size: 0.875rem;
+  color: var(--rank-0);
+  margin: 0;
+}
+
+/* ── Ascended list ───────────────────────────────────────────── */
+.ascended-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ascended-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--rank-0-border);
+  background: transparent;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.ascended-card:hover {
+  border-color: var(--rank-3-border);
+  background: var(--rank-3-bg);
+}
+
+.ascended-card-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.ascended-card-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ascended-card-contributor {
+  font-size: 0.8125rem;
+  color: var(--rank-0);
+  opacity: 0.75;
+}
+
+.ascended-card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+.ascended-date {
+  font-size: 0.75rem;
+  color: var(--rank-0);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── Contested list ──────────────────────────────────────────── */
+.contested-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contested-bucket {
+  padding: 0.875rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--rank-0-border);
+  background: transparent;
+}
+
+.contested-bucket-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.contested-bucket-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.contested-count-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.25rem;
+  background: var(--rank-4-bg);
+  border: 1px solid var(--rank-4-border);
+  color: var(--rank-4);
+  font-family: 'JetBrains Mono', monospace;
+  flex-shrink: 0;
+}
+
+.contested-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.contested-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--rank-0-border);
+  background: var(--rank-0-bg);
+  font-size: 0.8125rem;
+}
+
+.contested-chip-id {
+  font-family: 'JetBrains Mono', monospace;
+  opacity: 0.85;
+}
+
+.contested-chip-tm {
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--rank-2);
+}
+
+/* ── Result summary line ─────────────────────────────────────── */
+.trending-count-line {
+  font-size: 0.8125rem;
+  color: var(--rank-0);
+  margin-bottom: 0.75rem;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 540px) {
+  .trending-card {
+    grid-template-columns: 2.25rem 1fr auto;
+    gap: 0.5rem 0.75rem;
+    padding: 0.75rem 0.75rem;
+  }
+
+  .trending-card-right {
+    gap: 0.2rem;
+  }
+
+  .trending-tm {
+    font-size: 0.875rem;
+  }
+}

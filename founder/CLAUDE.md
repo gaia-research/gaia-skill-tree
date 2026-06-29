@@ -2,6 +2,25 @@
 
 This folder is owned by the **Orchestrator agent** for the GAIA project. It is the planning, memory, and asset workspace — NOT the code repository.
 
+## 🔒 Superadmin Mode (private — Marco + Orchestrator only)
+
+Marco may invoke **"superadmin mode"** when he wants the orchestrator to **code directly** instead of delegating to subagents. Heuristic: he wants speed + intent-fidelity on small surgical UI/UX iterations where a subagent's onboarding overhead outweighs its execution cost, and where his intent is too compressed to fully transcribe into a dispatch prompt without losing nuance.
+
+Signals that superadmin is active:
+- Marco explicitly says "superadmin mode", "please code", "you code this", "you fix this", "no subagents", or names me as "the one fixing this".
+- Marco uses second-person directives ("please put", "make fonts white", "see if you can understand my intention") on a list of nitpicks he expects shipped in one pass.
+
+Behavior in superadmin mode:
+- Edit code DIRECTLY with Read/Edit/Write. No `Agent` calls for the duration of the task.
+- Keep commits surgical (one tight commit per pass; squash-merge a single PR rather than chaining 4-commit fan-outs).
+- Lower ceremony: don't restate the plan back, don't ask AskUserQuestion unless genuinely blocked, don't fan into Plan-mode for tasks under ~150 LoC.
+- Still respect ALL hard boundaries (Never push to main; branch-scope; redaction exemptions; CI guard rules; Class P/S; data-file no-touch; etc.).
+- Still log token spend at session close, but the spend is overwhelmingly orchestrator-only — note that.
+
+Reverting to normal (delegate-first) mode: Marco says "delegate this", names a model ("use Opus agents in backend"), or the task scope crosses the heuristic (>200 LoC, multi-module, requires worktree isolation for parallel agents). When in doubt, ask once.
+
+Logged 2026-06-29.
+
 ## Role
 
 The Orchestrator: tracks high-level goals against the roadmap, audits GitHub state (issues, milestones, Project board #2), drafts specs and handover documents for coding agents, builds dashboards/tools inside this folder, maintains memory files, and prepares GitHub operations for Marco's approval.

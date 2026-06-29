@@ -11503,3 +11503,57 @@ body[data-overall-grade="S"] .report-card {
 .se-ev-card--ghost .ev-type-pill-info {
   pointer-events: auto;
 }
+
+/* ════════════════════════════════════════════════════════════════════
+   Trust Leaderboard preview — embedded under the home hero
+   Seamless inline mount of the Named-skills panel (no card wrap, no
+   redundant heading — the chart panel itself IS the section header).
+   ════════════════════════════════════════════════════════════════════ */
+.trust-preview {
+  padding: 1.5rem 1.25rem 2.5rem;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.trust-preview .lb-embed-host { margin: 0; }
+.trust-preview .lb-embed-host #lbNamed { margin: 0; }
+.trust-preview-cta {
+  margin-top: 0.9rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+.trust-preview-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.25rem;
+  border: 1px solid var(--text);
+  border-radius: 100px;
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  background: transparent;
+  transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+}
+.trust-preview-cta-link:hover {
+  background: var(--text);
+  color: var(--bg);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px rgba(var(--apex-gold-rgb), 0.18);
+}
+.trust-preview-cta-link--ghost {
+  border-color: var(--border);
+  color: var(--muted);
+}
+.trust-preview-cta-link--ghost:hover {
+  border-color: var(--text);
+  background: transparent;
+  color: var(--text);
+  box-shadow: none;
+}
+@media (max-width: 640px) {
+  .trust-preview { padding: 1rem 0.75rem 2rem; }
+}

@@ -2,1507 +2,2543 @@
   "distribution": {
     "total": 249,
     "S": 4,
-    "A": 42,
-    "B": 56,
+    "A": 43,
+    "B": 55,
     "C": 77,
     "ungraded": 70,
     "floor": 0,
-    "up": 0
+    "up": 1
   },
   "rows": [
     {
       "id": "garrytan/gstack",
-      "trustMagnitude": 589.32,
+      "trustMagnitude": 590.87,
       "grade": "S",
-      "level": "5★"
-    },
-    {
-      "id": "ruvnet/ruflo",
-      "trustMagnitude": 482.27,
-      "grade": "S",
-      "level": "5★"
+      "level": "5★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28,
+        "social-signal": 45.59,
+        "fusion-recipe": 480.0
+      },
+      "origin": true
     },
     {
       "id": "mattpocock/skills",
-      "trustMagnitude": 480.29,
+      "trustMagnitude": 484.04,
       "grade": "S",
-      "level": "5★"
+      "level": "5★",
+      "typeBreakdown": {
+        "github-stars-own": 37.05,
+        "arxiv": 10.4,
+        "social-signal": 39.5,
+        "peer-review": 30.0,
+        "fusion-recipe": 367.08
+      },
+      "origin": true
+    },
+    {
+      "id": "ruvnet/ruflo",
+      "trustMagnitude": 482.71,
+      "grade": "S",
+      "level": "5★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 15.43,
+        "arxiv": 4.0,
+        "fusion-recipe": 427.28
+      },
+      "origin": true
     },
     {
       "id": "obra/superpowers",
       "trustMagnitude": 445.15,
       "grade": "S",
-      "level": "5★"
+      "level": "5★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 50.0,
+        "social-signal": 29.15,
+        "fusion-recipe": 330.0
+      },
+      "origin": true
     },
     {
       "id": "mattpocock/engineering",
       "trustMagnitude": 270.0,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "fusion-recipe": 270.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/agentdb",
       "trustMagnitude": 201.0,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 45.0,
+        "fusion-recipe": 120.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/ruflo-v3",
       "trustMagnitude": 186.0,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "fusion-recipe": 150.0
+      },
+      "origin": true
     },
     {
       "id": "pexp13/sentiment-analysis",
       "trustMagnitude": 183.9,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "peer-review": 135.0,
+        "arxiv": 48.9
+      },
+      "origin": true
     },
     {
       "id": "garrytan/garrytan",
       "trustMagnitude": 156.0,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "fusion-recipe": 120.0
+      },
+      "origin": true
+    },
+    {
+      "id": "pbakaus/impeccable",
+      "trustMagnitude": 126.61,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 41.8,
+        "arxiv": 3.8,
+        "peer-review": 45.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/dual-mode",
       "trustMagnitude": 126.0,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "fusion-recipe": 90.0
+      },
+      "origin": true
     },
     {
-      "id": "pbakaus/impeccable",
-      "trustMagnitude": 122.8,
+      "id": "safishamsi/graphify",
+      "trustMagnitude": 120.7,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "github-stars-own": 72.9,
+        "arxiv": 17.8,
+        "peer-review": 30.0
+      },
+      "origin": true
     },
     {
       "id": "mattpocock/productivity",
       "trustMagnitude": 120.0,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "fusion-recipe": 120.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/reasoningbank",
       "trustMagnitude": 118.5,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 52.5,
+        "fusion-recipe": 30.0
+      },
+      "origin": true
     },
     {
       "id": "obra/subagent-driven-development",
       "trustMagnitude": 117.65,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 52.5,
+        "social-signal": 29.15
+      },
+      "origin": true
     },
     {
       "id": "obra/using-git-worktrees",
       "trustMagnitude": 117.65,
       "grade": "A",
-      "level": "4★"
-    },
-    {
-      "id": "safishamsi/graphify",
-      "trustMagnitude": 116.57,
-      "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 52.5,
+        "social-signal": 29.15
+      },
+      "origin": true
     },
     {
       "id": "obra/writing-plans",
       "trustMagnitude": 110.15,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 45.0,
+        "social-signal": 29.15
+      },
+      "origin": true
+    },
+    {
+      "id": "addy-osmani/performance-optimization",
+      "trustMagnitude": 103.24,
+      "grade": "A",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 67.24
+      },
+      "origin": true
     },
     {
       "id": "google-deepmind/alphafold_database_fetch_and_analyze",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/alphagenome_single_variant_analysis",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/embl_ebi_ols",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/encode_ccres_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/ensembl_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/foldseek_structural_search",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/gnomad_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/gtex_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/human_protein_atlas_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/interpro_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/jaspar_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/literature_search_europepmc",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/literature_search_openalex",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/ncbi_sequence_fetch",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/openfda_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/opentargets_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/protein_sequence_similarity_search",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/pubchem_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/pymol",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/quickgo_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/reactome_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/science_skills_common",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/ucsc_conservation_and_tfbs",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/unibind_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/uv",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/workflow_skill_creator",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "openai/few-shot-learning",
       "trustMagnitude": 100.0,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "arxiv": 100.0
+      },
+      "origin": true
     },
     {
       "id": "openai/self-consistency",
       "trustMagnitude": 100.0,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "arxiv": 100.0
+      },
+      "origin": false
     },
     {
       "id": "stanfordnlp/dspy",
       "trustMagnitude": 100.0,
       "grade": "A",
-      "level": "4★"
+      "level": "4★",
+      "typeBreakdown": {
+        "arxiv": 100.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/hive-mind-coordination",
-      "trustMagnitude": 96.09,
+      "trustMagnitude": 96.45,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 15.43,
+        "repo-own": 36.0,
+        "social-signal": 45.02
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/flow-nexus",
       "trustMagnitude": 96.0,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "fusion-recipe": 60.0
+      },
+      "origin": true
     },
     {
       "id": "obra/brainstorming",
       "trustMagnitude": 95.15,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 30.0,
+        "social-signal": 29.15
+      },
+      "origin": true
     },
     {
       "id": "obra/executing-plans",
       "trustMagnitude": 95.15,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 30.0,
+        "social-signal": 29.15
+      },
+      "origin": true
     },
     {
       "id": "obra/verification-before-completion",
       "trustMagnitude": 95.15,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "social-signal": 29.15,
+        "peer-review": 30.0
+      },
+      "origin": true
     },
     {
       "id": "martin-stepanoski/nielsen-heuristics-audit",
       "trustMagnitude": 94.9,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 4.9,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/diagnose",
-      "trustMagnitude": 90.38,
+      "trustMagnitude": 93.18,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "github-stars-own": 37.05,
+        "social-signal": 44.92
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/edit-article",
-      "trustMagnitude": 90.38,
+      "trustMagnitude": 93.18,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "github-stars-own": 37.05,
+        "social-signal": 44.92
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/obsidian-vault",
-      "trustMagnitude": 90.38,
+      "trustMagnitude": 93.18,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "github-stars-own": 37.05,
+        "social-signal": 44.92
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/to-issues",
-      "trustMagnitude": 90.38,
+      "trustMagnitude": 93.18,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "github-stars-own": 37.05,
+        "social-signal": 44.92
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/ubiquitous-language",
-      "trustMagnitude": 90.38,
+      "trustMagnitude": 93.18,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "github-stars-own": 37.05,
+        "social-signal": 44.92
+      },
+      "origin": false
     },
     {
       "id": "anthropic/skill-creator",
       "trustMagnitude": 90.0,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "arxiv": 60.0,
+        "peer-review": 30.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/browse",
       "trustMagnitude": 88.5,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 52.5
+      },
+      "origin": true
     },
     {
       "id": "obra/dispatching-parallel-agents",
       "trustMagnitude": 86.0,
       "grade": "B",
-      "level": "3★"
-    },
-    {
-      "id": "addy-osmani/performance-optimization",
-      "trustMagnitude": 83.2,
-      "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 50.0
+      },
+      "origin": true
     },
     {
       "id": "garrytan/retro",
       "trustMagnitude": 81.0,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 45.0
+      },
+      "origin": true
     },
     {
       "id": "browser-use/browser-harness",
       "trustMagnitude": 73.59,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "social-signal": 37.59
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/chembl_database",
       "trustMagnitude": 70.82,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/clinical_trials_database",
       "trustMagnitude": 70.82,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/clinvar_database",
       "trustMagnitude": 70.82,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/dbsnp_database",
       "trustMagnitude": 70.82,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/literature_search_arxiv",
       "trustMagnitude": 70.82,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/literature_search_biorxiv",
       "trustMagnitude": 70.82,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/pdb_database",
       "trustMagnitude": 70.82,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/protein_sequence_msa",
       "trustMagnitude": 70.82,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/pubmed_database",
       "trustMagnitude": 70.82,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/string_database",
       "trustMagnitude": 70.82,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "id": "google-deepmind/uniprot_database",
       "trustMagnitude": 70.82,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/careful",
       "trustMagnitude": 66.0,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 30.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/office-hours",
       "trustMagnitude": 66.0,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 30.0
+      },
+      "origin": true
     },
     {
       "id": "garrytan/plan-eng-review",
       "trustMagnitude": 66.0,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 30.0
+      },
+      "origin": false
     },
     {
       "id": "ruvnet/github-suite",
       "trustMagnitude": 66.0,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "fusion-recipe": 30.0
+      },
+      "origin": true
+    },
+    {
+      "id": "garrytan/benchmark",
+      "trustMagnitude": 65.28,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "id": "garrytan/canary",
+      "trustMagnitude": 65.28,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "id": "garrytan/cso",
+      "trustMagnitude": 65.28,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": true
+    },
+    {
+      "id": "garrytan/design-consultation",
+      "trustMagnitude": 65.28,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": true
+    },
+    {
+      "id": "garrytan/design-html",
+      "trustMagnitude": 65.28,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": true
+    },
+    {
+      "id": "garrytan/design-shotgun",
+      "trustMagnitude": 65.28,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "id": "garrytan/document-generate",
+      "trustMagnitude": 65.28,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": true
+    },
+    {
+      "id": "garrytan/investigate",
+      "trustMagnitude": 65.28,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": true
+    },
+    {
+      "id": "garrytan/land-and-deploy",
+      "trustMagnitude": 65.28,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "id": "garrytan/plan-ceo-review",
+      "trustMagnitude": 65.28,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "id": "garrytan/plan-design-review",
+      "trustMagnitude": 65.28,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "id": "garrytan/plan-devex-review",
+      "trustMagnitude": 65.28,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "id": "garrytan/qa",
+      "trustMagnitude": 65.28,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "id": "garrytan/review",
+      "trustMagnitude": 65.28,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "id": "garrytan/ship",
+      "trustMagnitude": 65.28,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": true
+    },
+    {
+      "id": "garrytan/skillify",
+      "trustMagnitude": 65.28,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
     },
     {
       "id": "obra/systematic-debugging",
       "trustMagnitude": 65.15,
       "grade": "B",
-      "level": "3★"
-    },
-    {
-      "id": "garrytan/benchmark",
-      "trustMagnitude": 63.73,
-      "grade": "B",
-      "level": "3★"
-    },
-    {
-      "id": "garrytan/canary",
-      "trustMagnitude": 63.73,
-      "grade": "B",
-      "level": "3★"
-    },
-    {
-      "id": "garrytan/cso",
-      "trustMagnitude": 63.73,
-      "grade": "B",
-      "level": "3★"
-    },
-    {
-      "id": "garrytan/design-consultation",
-      "trustMagnitude": 63.73,
-      "grade": "B",
-      "level": "3★"
-    },
-    {
-      "id": "garrytan/design-html",
-      "trustMagnitude": 63.73,
-      "grade": "B",
-      "level": "3★"
-    },
-    {
-      "id": "garrytan/design-shotgun",
-      "trustMagnitude": 63.73,
-      "grade": "B",
-      "level": "3★"
-    },
-    {
-      "id": "garrytan/document-generate",
-      "trustMagnitude": 63.73,
-      "grade": "B",
-      "level": "3★"
-    },
-    {
-      "id": "garrytan/investigate",
-      "trustMagnitude": 63.73,
-      "grade": "B",
-      "level": "3★"
-    },
-    {
-      "id": "garrytan/land-and-deploy",
-      "trustMagnitude": 63.73,
-      "grade": "B",
-      "level": "3★"
-    },
-    {
-      "id": "garrytan/plan-ceo-review",
-      "trustMagnitude": 63.73,
-      "grade": "B",
-      "level": "3★"
-    },
-    {
-      "id": "garrytan/plan-design-review",
-      "trustMagnitude": 63.73,
-      "grade": "B",
-      "level": "3★"
-    },
-    {
-      "id": "garrytan/plan-devex-review",
-      "trustMagnitude": 63.73,
-      "grade": "B",
-      "level": "3★"
-    },
-    {
-      "id": "garrytan/qa",
-      "trustMagnitude": 63.73,
-      "grade": "B",
-      "level": "3★"
-    },
-    {
-      "id": "garrytan/review",
-      "trustMagnitude": 63.73,
-      "grade": "B",
-      "level": "3★"
-    },
-    {
-      "id": "garrytan/ship",
-      "trustMagnitude": 63.73,
-      "grade": "B",
-      "level": "3★"
-    },
-    {
-      "id": "garrytan/skillify",
-      "trustMagnitude": 63.73,
-      "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "social-signal": 29.15
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/grill-me",
       "trustMagnitude": 63.71,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "peer-review": 52.5
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/grill-with-docs",
       "trustMagnitude": 63.71,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "peer-review": 52.5
+      },
+      "origin": true
     },
     {
       "id": "mattpocock/handoff",
       "trustMagnitude": 63.71,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "peer-review": 52.5
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/to-prd",
       "trustMagnitude": 63.71,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "peer-review": 52.5
+      },
+      "origin": true
     },
     {
       "id": "mattpocock/personal",
       "trustMagnitude": 60.0,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "fusion-recipe": 60.0
+      },
+      "origin": true
     },
     {
       "id": "mattpocock/setup-matt-pocock-skills",
       "trustMagnitude": 56.21,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "peer-review": 45.0
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/triage",
       "trustMagnitude": 56.21,
       "grade": "B",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "peer-review": 45.0
+      },
+      "origin": true
     },
     {
       "id": "mattpocock/improve-codebase-architecture",
       "trustMagnitude": 45.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "peer-review": 45.0
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/write-a-skill",
       "trustMagnitude": 45.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "peer-review": 45.0
+      },
+      "origin": true
     },
     {
       "id": "mattpocock/teach",
       "trustMagnitude": 44.48,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "social-signal": 39.48
+      },
+      "origin": false
     },
     {
       "id": "xquik-dev/hermes-tweet",
       "trustMagnitude": 42.47,
       "grade": "C",
-      "level": "3★"
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 6.12,
+        "social-signal": 36.35
+      },
+      "origin": true
     },
     {
       "id": "mattpocock/prototype",
       "trustMagnitude": 41.21,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "peer-review": 30.0
+      },
+      "origin": false
     },
     {
       "id": "bradautomates/claude-video",
       "trustMagnitude": 37.47,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 1.22,
+        "social-signal": 36.25
+      },
+      "origin": true
     },
     {
       "id": "addy-osmani/test-driven-development",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "anthropic/pptx",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "firecrawl/firecrawl",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "gaiabot/repo-docs-before-pr",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/benchmark-models",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/codex",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/context-restore",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/context-save",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/design-review",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/devex-review",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/document-release",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/freeze",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/gstack-upgrade",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/guard",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/health",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/landing-report",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/learn",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/make-pdf",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/open-gstack-browser",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/pair-agent",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/plan-tune",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/qa-only",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/scrape",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "garrytan/setup-browser-cookies",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/setup-deploy",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/setup-gbrain",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/sync-gbrain",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "garrytan/unfreeze",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "getagentseal/codeburn",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "huggingface/semantic-cache",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "karpathy/autoresearch",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "laravel/upgrade-laravel-v13",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "Manavarya09/design-extract",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "mbtiongson1/gaia-audit",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "mbtiongson1/gaia-curation-review",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "mbtiongson1/gaia-meta-audit",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "mbtiongson1/gaia-preview",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "mbtiongson1/graphify-triage",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "nexu-io/open-design",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "nousresearch/feed-monitoring",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "obra/finishing-a-development-branch",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "obra/receiving-code-review",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "obra/requesting-code-review",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/agentdb-advanced",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/agentdb-memory-patterns",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/agentdb-optimization",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/agentdb-vector-search",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/agentic-jujutsu",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/dual-collect",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/dual-coordinate",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/dual-spawn",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/flow-nexus-neural",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/flow-nexus-platform",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/github-multi-repo",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/pair-programming",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "ruvnet/reasoningbank-intelligence",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/stream-chain",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/swarm-advanced",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/swarm-orchestration",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/v3-cli-modernization",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/v3-core-implementation",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/v3-ddd-architecture",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "ruvnet/v3-integration-deep",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "ruvnet/verification-quality",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "ruvnet/worker-integration",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "santifer/career-ops",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "spring-ai/readme-generate",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "vercel/find-skills",
       "trustMagnitude": 36.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "id": "upsonic/unittest-generator",
       "trustMagnitude": 33.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "arxiv": 3.0,
+        "peer-review": 30.0
+      },
+      "origin": true
     },
     {
       "id": "devin-ai/autonomous-swe",
       "trustMagnitude": 30.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "peer-review": 30.0
+      },
+      "origin": true
     },
     {
       "id": "mattpocock/caveman",
       "trustMagnitude": 30.0,
       "grade": "C",
-      "level": "2★"
+      "level": "2★",
+      "typeBreakdown": {
+        "peer-review": 30.0
+      },
+      "origin": false
     },
     {
       "id": "intelligentcode-ai/database-engineer",
       "trustMagnitude": 6.3,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "repo-own": 1.3,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "intelligentcode-ai/devops-engineer",
       "trustMagnitude": 6.3,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "repo-own": 1.3,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "intelligentcode-ai/mcp-client",
       "trustMagnitude": 6.3,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "repo-own": 1.3,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "intelligentcode-ai/parallel-execution",
       "trustMagnitude": 6.3,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "repo-own": 1.3,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "intelligentcode-ai/release",
       "trustMagnitude": 6.3,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "repo-own": 1.3,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "intelligentcode-ai/requirements-engineer",
       "trustMagnitude": 6.3,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "repo-own": 1.3,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "intelligentcode-ai/security-engineer",
       "trustMagnitude": 6.3,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "repo-own": 1.3,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "intelligentcode-ai/user-tester",
       "trustMagnitude": 6.3,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "repo-own": 1.3,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "glincker/readme-generator",
       "trustMagnitude": 6.22,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "repo-own": 1.22,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/ask-matt",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/codebase-design",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/diagnosing-bugs",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/domain-modeling",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/git-guardrails-claude-code",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/grilling",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/implement",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/migrate-to-shoehorn",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/resolving-merge-conflicts",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/scaffold-exercises",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/setup-pre-commit",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/tdd",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "mattpocock/writing-great-skills",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "id": "0xdarkmatter/pytest-patterns",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": true
     },
     {
       "id": "browserbase/stagehand",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "changkun/plan-decompose-gh-wallfacer",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "gaiabot/gaia-triage",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "gooseworks/notte-browser",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": true
     },
     {
       "id": "huggingface/hf-cli",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "huggingface/huggingface-datasets",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "huggingface/huggingface-llm-trainer",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "huggingface/huggingface-papers",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "huggingface/huggingface-vision-trainer",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "huggingface/transformers-js",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "langgenius/backend-code-review",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "langgenius/component-refactoring",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "langgenius/e2e-cucumber-playwright",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "langgenius/frontend-code-review",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "langgenius/frontend-testing",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "mattpocock/zoom-out",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": true
     },
     {
       "id": "mbtiongson1/gaia-bot-curate",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "mbtiongson1/gaia-curate",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": true
     },
     {
       "id": "mbtiongson1/gaia-docs-sync",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "mbtiongson1/gaia-draft-curate",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "mbtiongson1/gaia-integrity",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "mbtiongson1/gaia-triage",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "mbtiongson1/gaia-wiki-sync",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "ruvnet/agentdb-learning",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": true
     },
     {
       "id": "ruvnet/browser",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "ruvnet/flow-nexus-swarm",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": true
     },
     {
       "id": "ruvnet/github-code-review",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "ruvnet/github-project-management",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "ruvnet/github-release-management",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "ruvnet/github-workflow-automation",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "ruvnet/hooks-automation",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "ruvnet/performance-analysis",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "ruvnet/reasoningbank-agentdb",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "ruvnet/skill-builder",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "ruvnet/sparc-methodology",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "ruvnet/v3-mcp-optimization",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "ruvnet/v3-memory-unification",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "ruvnet/v3-performance-optimization",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "ruvnet/v3-security-overhaul",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "ruvnet/v3-swarm-coordination",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "ruvnet/worker-benchmarks",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "sickn33/ai-dev-jobs-mcp",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "sickn33/mcp-builder",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "sickn33/n8n-mcp-tools-expert",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "Taoidle/plan-decompose-gh-plan-cascade",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "id": "yonatangross/orchestkit-rag",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": true
     },
     {
       "id": "yundu-ai/mcp-tool-developer",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
-      "level": "1★"
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
     }
   ],
   "_links": {
