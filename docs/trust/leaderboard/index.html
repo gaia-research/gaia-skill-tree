@@ -17,9 +17,18 @@
   <script src="../../js/mounts.js?v=5.6.0"></script>
   <script src="../../js/site-nav.js?v=5.6.0"></script>
 
+  <div class="lb-shell">
+    <nav class="lb-toc" aria-label="Page sections">
+      <a href="#lbHero" data-toc="lbHero"><span class="lb-toc-dot"></span><span class="lb-toc-label">Trust Leaderboard</span></a>
+      <a href="#lbSuites" data-toc="lbSuites"><span class="lb-toc-dot"></span><span class="lb-toc-label">Suites</span></a>
+      <a href="#lbNamed" data-toc="lbNamed"><span class="lb-toc-dot"></span><span class="lb-toc-label">Named Skills</span></a>
+      <a href="#lbLedgerInline" data-toc="lbLedgerInline"><span class="lb-toc-dot"></span><span class="lb-toc-label">Trust Ledger</span></a>
+      <a href="#lbGeneric" data-toc="lbGeneric"><span class="lb-toc-dot"></span><span class="lb-toc-label">Starless</span></a>
+      <a href="#lbRegistry" data-toc="lbRegistry"><span class="lb-toc-dot"></span><span class="lb-toc-label">In Registry</span></a>
+    </nav>
   <main class="lb-page">
     <!-- HERO HEADER -->
-    <header class="lb-hero">
+    <header class="lb-hero" id="lbHero">
       <a class="lb-breadcrumb" href="../../codex/trust-methodology.html">← Trust Methodology</a>
       <h1 class="lb-title">Trust Leaderboard</h1>
       <p class="lb-subtitle">Evidence-backed skill rankings across the registry</p>
@@ -61,9 +70,13 @@
           <span class="lb-model-counter">
             <strong id="lbShownCount">—</strong> of <span id="lbTotalCount">—</span> skills
           </span>
-          <input class="lb-skill-search" id="lbSkillSearch" type="search" placeholder="Search skills…" autocomplete="off">
+          <span class="lb-input-icon-wrap">
+            <svg class="lb-btn-icon" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg>
+            <input class="lb-skill-search" id="lbSkillSearch" type="search" placeholder="Search skills…" autocomplete="off">
+          </span>
           <div class="lb-multiselect" id="lbContribMulti">
             <button class="lb-ms-trigger" id="lbMsTrigger" type="button">
+              <svg class="lb-btn-icon" aria-hidden="true"><use href="../../assets/icons.svg#user"/></svg>
               <span class="lb-ms-label" id="lbMsLabel">Add contributor…</span>
               <span class="lb-ms-arrow">▾</span>
             </button>
@@ -77,13 +90,14 @@
             </div>
           </div>
           <div class="lb-sort-wrap">
+            <svg class="lb-btn-icon" aria-hidden="true"><use href="../../assets/icons.svg#sort-arrows"/></svg>
             <select class="lb-sort-select" id="lbSortSelect">
               <option value="tm">Sort: By TM</option>
               <option value="grade">Sort: By Grade</option>
               <option value="contributor">Sort: By Contributor</option>
             </select>
           </div>
-          <button class="lb-group-toggle" id="lbGroupToggle" title="Toggle grouping of identical-grade skills">⊞ Grouped</button>
+          <button class="lb-group-toggle" id="lbGroupToggle" title="Toggle grouping of identical-grade skills"><svg class="lb-btn-icon" aria-hidden="true"><use href="../../assets/icons.svg#view-tile"/></svg> Grouped</button>
         </div>
       </div>
       <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbNamedChart"></div>
@@ -153,6 +167,7 @@
       <a class="lb-cta-link" href="https://github.com/mbtiongson1/gaia-skill-tree/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing Guide →</a>
     </section>
   </main>
+  </div>
 
   <!-- TOOLTIP (position: fixed, escapes overflow) -->
   <div class="lb-tooltip" id="lbTooltip" hidden aria-hidden="true"></div>

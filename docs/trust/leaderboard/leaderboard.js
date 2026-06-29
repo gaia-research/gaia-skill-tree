@@ -385,6 +385,50 @@
 
     // Detect suites (skills with suiteComponents) via detail fetches
     detectSuites(allRows, skillMap);
+
+    // Sticky TOC active-state observer
+    wireTocObserver();
+  }
+
+  // ── STICKY TOC ──
+  function wireTocObserver() {
+    var links = document.querySelectorAll('.lb-toc a');
+    if (!links.length) return;
+    var linkMap = {};
+    links.forEach(function(a) {
+      linkMap[a.getAttribute('data-toc')] = a;
+    });
+
+    // Smooth scroll on click
+    links.forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        var id = a.getAttribute('data-toc');
+        var target = document.getElementById(id);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // Active state via IntersectionObserver
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        var id = entry.target.id;
+        var link = linkMap[id];
+        if (!link) return;
+        if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
+          links.forEach(function(a) { a.classList.remove('is-active'); });
+          link.classList.add('is-active');
+        }
+      });
+    }, {
+      rootMargin: '-30% 0px -60% 0px',
+      threshold: [0, 0.1, 0.25, 0.5]
+    });
+
+    ['lbHero', 'lbSuites', 'lbNamed', 'lbLedgerInline', 'lbGeneric', 'lbRegistry'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
   }
 
   // ── DISTRIBUTION HEADER ──

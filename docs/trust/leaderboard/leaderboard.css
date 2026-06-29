@@ -11,10 +11,85 @@
 }
 
 /* ── Page container ── */
-.lb-page {
-  max-width: 1320px;
+.lb-shell {
+  max-width: 1540px; /* 1320 page + 220 rail */
   margin: 0 auto;
   padding: 2.5rem 2rem 5rem;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 2rem;
+  position: relative;
+}
+
+.lb-page {
+  /* lb-page is now column-2 of the grid */
+  min-width: 0; /* allow grid child to shrink */
+}
+
+/* ── Sticky left-rail Table of Contents (desktop only) ── */
+.lb-toc {
+  position: sticky;
+  top: 80px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  font-family: var(--font-body);
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+.lb-toc a {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 0.78rem;
+  padding: 0.15rem 0;
+  transition: color 0.15s;
+  position: relative;
+}
+
+.lb-toc a:hover {
+  color: var(--text);
+}
+
+.lb-toc-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(var(--evidence-silver-rgb), 0.3);
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.lb-toc a.is-active {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.lb-toc a.is-active .lb-toc-dot {
+  background: var(--text);
+  transform: scale(1.3);
+}
+
+.lb-toc-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Connector line behind the dots */
+.lb-toc::before {
+  content: '';
+  position: absolute;
+  left: 3px; /* aligns with dot centerline */
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 1px;
+  background: rgba(var(--evidence-silver-rgb), 0.12);
+  z-index: -1;
 }
 
 /* ── Hero header ── */
@@ -539,8 +614,18 @@
 }
 
 /* ── Responsive ── */
+@media (max-width: 1023px) {
+  .lb-shell {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .lb-toc {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
-  .lb-page {
+  .lb-shell {
     padding: 1.5rem 1rem 3rem;
   }
   .lb-hero {
@@ -565,7 +650,7 @@
 }
 
 @media (max-width: 480px) {
-  .lb-page {
+  .lb-shell {
     padding: 1rem 0.75rem 2.5rem;
   }
   .lb-registry-grid {
@@ -932,3 +1017,25 @@
   color: var(--tier-basic);
   text-decoration: underline;
 }
+
+/* ── Filter button icon prefixes ── */
+.lb-btn-icon {
+  width: 12px;
+  height: 12px;
+  vertical-align: middle;
+  flex-shrink: 0;
+  opacity: 0.75;
+}
+
+.lb-sort-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.lb-input-icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
