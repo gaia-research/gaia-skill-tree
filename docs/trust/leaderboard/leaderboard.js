@@ -190,43 +190,12 @@
     state.ungradedSkills = ungraded;
     state.allSkills = allRows;
 
-    // Build genericRef map: genericSlug -> [named skill rows]
-    var genericRefMap = {};
-    Object.keys(skillMap).forEach(function(id) {
-      var ref = skillMap[id].genericSkillRef;
-      if (!ref) return;
-      var row = allRows.find(function(r) { return r.id === id; });
-      if (!row) return;
-      if (!genericRefMap[ref]) genericRefMap[ref] = [];
-      genericRefMap[ref].push(row);
-    });
-    state.genericRefMap = genericRefMap;
-
-    // Starless nodes: one entry per generic ref that has at least one named child
-    var starlessNodes = Object.keys(genericRefMap).map(function(ref) {
-      var children = genericRefMap[ref].slice().sort(function(a, b) {
-        return b.trustMagnitude - a.trustMagnitude;
-      });
-      var topChild = children[0];
-      return {
-        id: ref,
-        name: ref.replace(/-/g, ' '),
-        contributor: topChild.contributor,
-        trustMagnitude: topChild.trustMagnitude,
-        grade: topChild.grade,
-        level: topChild.level,
-        type: 'generic',
-        _children: children
-      };
-    }).sort(function(a, b) { return b.trustMagnitude - a.trustMagnitude; });
-    state.starlessNodes = starlessNodes;
-
     // Render
     renderDistribution(leaderboard.distribution);
     renderUltimateChart(ultimates);
     renderNamedChart(named);
     renderRegistry(ungraded);
-    renderGenericChart(starlessNodes);
+    buildStarlessChart(allRows);
     wireFilters(named);
     wireShowMore();
     wireTooltip();
@@ -802,6 +771,21 @@
     if (shownEl) shownEl.textContent = collapsedShown.length;
     if (totalEl) totalEl.textContent = totalVisible;
 
+    // Populate contributor dropdown (AA "Add model from specific provider" analogue)
+    var contribSelect = document.getElementById('lbContribSelect');
+    if (contribSelect) {
+      var currentVal = state.searchContrib || '';
+      var allContribs = {};
+      state.namedSkills.forEach(function(s) { allContribs[s.contributor] = true; });
+      var contribList = Object.keys(allContribs).sort();
+      contribSelect.innerHTML = '<option value="">Add contributor\u2026</option>' +
+        contribList.map(function(c) {
+          return '<option value="' + esc(c) + '"' + (c === currentVal ? ' selected' : '') + '>' + esc(c) + '</option>';
+        }).join('');
+    }
+    var clearBtn = document.getElementById('lbContribClear');
+    if (clearBtn) clearBtn.hidden = !state.searchContrib;
+
     updateShowMoreBtn(collapsedShown.length, collapsed.length);
 
     if (toShow.length === 0) {
@@ -1138,35 +1122,99 @@
     }
   }
 
-  // ── FILTER / SORT CONTROLS ──
-  function wireFilters() {
-    // Grade tabs
-    document.querySelectorAll('[data-grade]').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        state.grade = btn.dataset.grade;
-        state.showCount = INITIAL_BARS;
-        btn.closest('.lb-tab-row').querySelectorAll('.lb-tab').forEach(function(b) {
-          b.classList.remove('is-active');
-        });
-        btn.classList.add('is-active');
-        renderNamedChart(state.namedSkills);
-        wireActionButtons();
-      });
+  // ── STARLESS CHART — DEFERRED FETCH OF DETAIL FILES ──
+  function buildStarlessChart(allRows) {
+    // Fetch detail files for all graded named skills to get genericSkillRef
+    var candidates = allRows.filter(function(r) {
+      return r.grade && r.grade !== 'ungraded' && r.type !== 'ultimate';
     });
 
-    // Sort tabs
-    document.querySelectorAll('[data-sort]').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        state.sort = btn.dataset.sort;
-        state.showCount = INITIAL_BARS;
-        btn.closest('.lb-tab-row').querySelectorAll('.lb-tab').forEach(function(b) {
-          b.classList.remove('is-active');
+    var fetched = 0;
+    var genericRefMap = {};
+
+    // Show loading state
+    var container = document.getElementById('lbGenericChart');
+    if (container) {
+      container.innerHTML = '<p style="padding:2rem;color:var(--muted);font-size:0.82rem;font-family:var(--font-body)">Loading starless index…</p>';
+    }
+
+    if (candidates.length === 0) {
+      finishStarless(genericRefMap);
+      return;
+    }
+
+    candidates.forEach(function(row) {
+      var parts = row.id.split('/');
+      fetch(BASE + 'skills/' + parts[0] + '/' + parts[1] + '.json' + VER)
+        .then(function(r) { return r.json(); })
+        .then(function(detail) {
+          var ref = detail.genericSkillRef;
+          if (ref) {
+            if (!genericRefMap[ref]) genericRefMap[ref] = [];
+            genericRefMap[ref].push(row);
+          }
+          fetched++;
+          if (fetched === candidates.length) { finishStarless(genericRefMap); }
+        })
+        .catch(function() {
+          fetched++;
+          if (fetched === candidates.length) { finishStarless(genericRefMap); }
         });
-        btn.classList.add('is-active');
+    });
+  }
+
+  function finishStarless(genericRefMap) {
+    var starlessNodes = Object.keys(genericRefMap).map(function(ref) {
+      var children = genericRefMap[ref].slice().sort(function(a, b) {
+        return b.trustMagnitude - a.trustMagnitude;
+      });
+      var topChild = children[0];
+      return {
+        id: ref,
+        name: ref.replace(/-/g, ' '),
+        contributor: topChild.contributor,
+        trustMagnitude: topChild.trustMagnitude,
+        grade: topChild.grade,
+        level: topChild.level,
+        type: 'generic',
+        _children: children
+      };
+    }).sort(function(a, b) { return b.trustMagnitude - a.trustMagnitude; });
+
+    state.genericRefMap = genericRefMap;
+    state.starlessNodes = starlessNodes;
+    renderGenericChart(starlessNodes);
+
+    var countEl = document.getElementById('lbGenericCount');
+    if (countEl) countEl.textContent = starlessNodes.length + ' generic skills \u00B7 ' +
+      starlessNodes.reduce(function(s, n) { return s + n._children.length; }, 0) + ' named implementations';
+  }
+
+  // ── FILTER / SORT CONTROLS ──
+  function wireFilters() {
+    // Section tabs (grade filter)
+    document.addEventListener('click', function(e) {
+      var btn = e.target.closest('.lb-stab[data-view]');
+      if (!btn) return;
+      state.grade = btn.dataset.view === 'all' ? 'all' : btn.dataset.view;
+      state.showCount = INITIAL_BARS;
+      btn.closest('.lb-section-tabs').querySelectorAll('.lb-stab').forEach(function(b) {
+        b.classList.toggle('is-active', b === btn);
+      });
+      renderNamedChart(state.namedSkills);
+      wireActionButtons();
+    });
+
+    // Sort select
+    var sortSel = document.getElementById('lbSortSelect');
+    if (sortSel) {
+      sortSel.addEventListener('change', function() {
+        state.sort = sortSel.value;
+        state.showCount = INITIAL_BARS;
         renderNamedChart(state.namedSkills);
         wireActionButtons();
       });
-    });
+    }
   }
 
   function wireShowMore() {
@@ -1182,10 +1230,10 @@
   function applyFilter(skills) {
     var filtered = skills;
 
-    // Contributor search filter
+    // Contributor filter (exact match from dropdown)
     if (state.searchContrib) {
       filtered = filtered.filter(function(s) {
-        return s.contributor.toLowerCase().indexOf(state.searchContrib) !== -1;
+        return s.contributor === state.searchContrib;
       });
     }
 
@@ -1221,30 +1269,29 @@
     }
   }
 
-  // ── CONTRIBUTOR SEARCH ──
+  // ── CONTRIBUTOR SEARCH (AA "Add model from specific provider" analogue) ──
   function wireContribSearch() {
-    var input = document.getElementById('lbAddInput');
-    var clearBtn = document.getElementById('lbAddClear');
-    if (!input) return;
-
-    input.addEventListener('input', function() {
-      state.searchContrib = input.value.toLowerCase().trim();
+    // Contributor dropdown
+    document.addEventListener('change', function(e) {
+      if (e.target.id !== 'lbContribSelect') return;
+      state.searchContrib = e.target.value;
       state.showCount = INITIAL_BARS;
+      var clearBtn = document.getElementById('lbContribClear');
       if (clearBtn) clearBtn.hidden = !state.searchContrib;
       renderNamedChart(state.namedSkills);
       wireActionButtons();
     });
 
-    if (clearBtn) {
-      clearBtn.addEventListener('click', function() {
-        input.value = '';
-        state.searchContrib = '';
-        clearBtn.hidden = true;
-        state.showCount = INITIAL_BARS;
-        renderNamedChart(state.namedSkills);
-        wireActionButtons();
-      });
-    }
+    document.addEventListener('click', function(e) {
+      if (e.target.id !== 'lbContribClear') return;
+      state.searchContrib = '';
+      state.showCount = INITIAL_BARS;
+      var sel = document.getElementById('lbContribSelect');
+      if (sel) sel.value = '';
+      e.target.hidden = true;
+      renderNamedChart(state.namedSkills);
+      wireActionButtons();
+    });
   }
 
   // ── ACTION BUTTONS WIRING ──

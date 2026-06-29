@@ -139,63 +139,28 @@
   font-style: italic;
 }
 
-/* ── Selector bar (AA-style) ── */
-.lb-selector-bar {
+/* ── AA-style per-section controls ── */
+.lb-section-controls {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 1.25rem;
-  padding: 0.6rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: rgba(var(--evidence-silver-rgb), 0.02);
-}
-
-.lb-selector-count {
-  display: flex;
-  align-items: baseline;
-  gap: 0.3rem;
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  white-space: nowrap;
-}
-
-.lb-selector-shown {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.lb-selector-sep,
-.lb-selector-label {
-  color: var(--muted);
-  font-size: 0.78rem;
-}
-
-.lb-selector-total {
-  color: var(--muted);
-  font-size: 0.82rem;
-}
-
-.lb-selector-controls {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
   gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
 }
 
-/* ── Tabs ── */
-.lb-tab-row {
-  display: inline-flex;
+.lb-section-tabs {
+  display: flex;
+  gap: 0;
   border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
 
-.lb-tab {
-  padding: 0.3rem 0.7rem;
+.lb-stab {
+  padding: 0.35rem 0.85rem;
   border: none;
   border-right: 1px solid var(--border);
   background: transparent;
@@ -207,65 +172,75 @@
   transition: background 0.12s, color 0.12s;
   white-space: nowrap;
 }
-
-.lb-tab:last-child {
-  border-right: none;
-}
-
-.lb-tab:hover {
-  background: rgba(var(--evidence-platinum-rgb), 0.06);
-  color: var(--text);
-}
-
-.lb-tab.is-active {
-  background: rgba(var(--evidence-platinum-rgb), 0.12);
+.lb-stab:last-child { border-right: none; }
+.lb-stab:hover { background: rgba(var(--evidence-platinum-rgb), 0.06); color: var(--text); }
+.lb-stab.is-active {
+  background: rgba(var(--evidence-platinum-rgb), 0.14);
   color: var(--text);
   font-weight: 600;
 }
 
-/* ── Add / filter input ── */
-.lb-add-wrap {
-  position: relative;
+.lb-section-meta {
   display: flex;
   align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
-.lb-add-input {
-  padding: 0.3rem 1.5rem 0.3rem 0.7rem;
+.lb-model-counter {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.lb-model-counter strong {
+  color: var(--text);
+  font-size: 0.88rem;
+}
+
+.lb-add-contributor {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.lb-contrib-select,
+.lb-sort-select {
+  padding: 0.3rem 0.6rem;
   border: 1px solid var(--border);
   border-radius: 6px;
   background: transparent;
-  color: var(--text);
-  font-family: var(--font-mono);
+  color: var(--muted);
+  font-family: var(--font-body);
   font-size: 0.76rem;
-  width: 180px;
-  outline: none;
-  transition: border-color 0.15s, width 0.2s;
-}
-
-.lb-add-input:focus {
-  border-color: rgba(var(--evidence-platinum-rgb), 0.4);
-  width: 220px;
-}
-
-.lb-add-input::placeholder {
-  color: var(--muted);
-  opacity: 0.55;
-}
-
-.lb-add-clear {
-  position: absolute;
-  right: 0.4rem;
   cursor: pointer;
-  color: var(--muted);
-  font-size: 0.7rem;
-  line-height: 1;
-  transition: color 0.1s;
+  outline: none;
+  transition: border-color 0.15s;
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 1.5rem;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: calc(100% - 0.6rem) center, calc(100% - 0.35rem) center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
 }
+.lb-contrib-select:focus,
+.lb-sort-select:focus { border-color: rgba(var(--evidence-platinum-rgb), 0.4); color: var(--text); }
+.lb-contrib-select option,
+.lb-sort-select option { background: oklch(0.12 0.02 250); color: var(--text); }
 
-.lb-add-clear:hover {
-  color: var(--text);
+.lb-contrib-clear {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.4rem;
+  transition: color 0.1s, border-color 0.1s;
 }
+.lb-contrib-clear:hover { color: var(--text); border-color: var(--text); }
 
 /* ── Chart containers ── */
 .lb-chart-wrap {
@@ -566,9 +541,12 @@
   .lb-title {
     font-size: clamp(1.8rem, 8vw, 2.8rem);
   }
-  .lb-selector-bar {
+  .lb-section-controls {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .lb-section-tabs {
+    flex-wrap: wrap;
   }
   .lb-registry-grid {
     grid-template-columns: 1fr 1fr;
