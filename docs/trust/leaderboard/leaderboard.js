@@ -627,16 +627,29 @@
       return;
     }
 
-    var SB = 36;
-    var SG = 16;
-    var SPAD = { top: 24, right: 24, bottom: 130, left: 54 };
+    var SPAD = { top: 24, right: 24, bottom: 0, left: 54 }; // bottom computed below
     var SCHART_H = 400;
-    var innerH = SCHART_H - SPAD.top - SPAD.bottom;
     var maxTM = TM_CEILING;
 
     var visible = state.suitesExpanded ? suites : suites.slice(0, 8);
-    var totalW = visible.length * (SB + SG) + SPAD.left + SPAD.right;
-    var svg = createSvg(Math.max(totalW, 320), SCHART_H);
+
+    // Fix 1: dynamic bar metrics for suites — beefy bars but cap so they don't bloat at low N.
+    var metrics = computeBarMetrics(visible.length, chartContainerW(), SPAD.left, SPAD.right, 20, 40, 0.5);
+    var SB = metrics.barW;
+    var SG = metrics.gap;
+    var barSpacing = SB + SG;
+
+    // Fix 2: adaptive label style
+    var ls = labelStyleFor(barSpacing);
+
+    // Fix 3: bottom padding accommodates avatar (radius 16) + name label + contrib + type pill (3 lines)
+    var labelLines = 3;
+    SPAD.bottom = computeBottomPad(ls.rotation, labelLines, ls.fontPx) + 44;
+
+    var innerH = SCHART_H - SPAD.top - SPAD.bottom;
+    if (innerH < 80) innerH = 80;
+    var totalW = Math.max(metrics.totalW, 320);
+    var svg = createSvg(totalW, SCHART_H);
 
     var defs = svgEl('defs');
     svg.appendChild(defs);
@@ -652,7 +665,7 @@
     var barGroup = svgEl('g', { transform: 'translate(' + SPAD.left + ',' + SPAD.top + ')' });
 
     visible.forEach(function(suite, i) {
-      var x = i * (SB + SG);
+      var x = i * barSpacing;
       var h = Math.max(4, (suite.trustMagnitude / maxTM) * innerH);
       var y = innerH - h;
       var gradId = 'lb-grad-suite-' + i;
@@ -674,7 +687,7 @@
       // Component count badge inside bar (near bottom)
       if (suite._componentCount > 0) {
         var badgeH = 18;
-        var badgeW = SB - 4;
+        var badgeW = Math.max(8, SB - 4);
         var badgeY = (h >= 24) ? y + h - badgeH - 3 : y - badgeH - 3;
         var badgeBg = svgEl('rect', {
           x: x + 2, y: badgeY, width: badgeW, height: badgeH, rx: 3,
@@ -692,61 +705,57 @@
         barGroup.appendChild(badgeText);
       }
 
-      // TM value above bar
+      // TM value above bar (size scales with bar density)
       var tmText = svgEl('text', {
         x: x + SB / 2, y: y - 8,
         'text-anchor': 'middle',
-        'class': 'lb-axis-value', 'font-size': '11',
+        'class': 'lb-axis-value', 'font-size': String(Math.max(9, ls.fontPx + 1)),
         fill: 'rgba(' + gradeColor(suite.grade || 'A') + ', 0.9)'
       });
       tmText.textContent = suite.trustMagnitude.toFixed(0);
       barGroup.appendChild(tmText);
 
-      // Avatar circle (32px)
+      // Avatar — radius scales with bar width (clamped 10-16)
+      var avatarR = Math.min(16, Math.max(10, SB / 2.4));
+      var avatarCx = x + SB / 2;
+      var avatarCy = innerH + avatarR + 4;
       var clipId = 'av-clip-suite-' + i;
       var clipPath = svgEl('clipPath', { id: clipId });
-      var clipCircle = svgEl('circle', { cx: x + SB / 2, cy: innerH + 22, r: '16' });
+      var clipCircle = svgEl('circle', { cx: avatarCx, cy: avatarCy, r: String(avatarR) });
       clipPath.appendChild(clipCircle);
       defs.appendChild(clipPath);
 
       var hue = handleHue(suite.contributor);
       var bgCircle = svgEl('circle', {
-        cx: x + SB / 2, cy: innerH + 22, r: '16',
+        cx: avatarCx, cy: avatarCy, r: String(avatarR),
         fill: 'oklch(0.55 0.18 ' + hue + ')'
       });
       barGroup.appendChild(bgCircle);
 
       var avatarImg = svgEl('image', {
         href: 'https://github.com/' + suite.contributor + '.png?size=48',
-        x: x + SB / 2 - 16, y: innerH + 6,
-        width: '32', height: '32',
+        x: avatarCx - avatarR, y: avatarCy - avatarR,
+        width: String(avatarR * 2), height: String(avatarR * 2),
         'clip-path': 'url(#' + clipId + ')',
         preserveAspectRatio: 'xMidYMid slice'
       });
       barGroup.appendChild(avatarImg);
 
-      // Skill name label below avatar (rotated when bars are dense)
-      var barSpacing = SB + SG;
-      var labelAttrs = barSpacing < 80
-        ? { x: 0, y: 0,
-            transform: 'translate(' + (x + SB / 2) + ',' + (innerH + 52) + ') rotate(-30)',
-            'text-anchor': 'end',
-            'class': 'lb-axis-label', 'font-size': '10' }
-        : { x: x + SB / 2, y: innerH + 52,
-            'text-anchor': 'middle',
-            'class': 'lb-axis-label', 'font-size': '10' };
-      var label = svgEl('text', labelAttrs);
-      truncLabel(label, suite.name || suite.id.split('/')[1], 12);
+      // Skill name label (adaptive rotation/font/truncation)
+      var labelY = innerH + avatarR * 2 + 14;
+      var label = makeLabel(x + SB / 2, labelY, ls.rotation, ls.fontPx);
+      truncLabel(label, suite.name || suite.id.split('/')[1], ls.maxChars);
       barGroup.appendChild(label);
 
-      // Contributor handle
-      var contribY = barSpacing < 80 ? innerH + 66 : innerH + 66;
+      // Contributor handle (placed below name label, with extra space if rotated)
+      var rotatedExtra = Math.abs(Math.sin(ls.rotation * Math.PI / 180)) * ls.fontPx * 14;
+      var contribY = labelY + rotatedExtra + ls.fontPx + 4;
       var contrib = svgEl('text', {
         x: x + SB / 2, y: contribY,
-        'text-anchor': 'middle', 'font-size': '10',
+        'text-anchor': 'middle', 'font-size': String(ls.fontPx),
         fill: 'rgba(' + TOKENS.honorRed + ', 0.7)'
       });
-      truncLabel(contrib, suite.contributor, 14);
+      truncLabel(contrib, suite.contributor, Math.max(8, ls.maxChars - 2));
       barGroup.appendChild(contrib);
 
       // Type pill (ultimate vs extra) — use TIER colors per DESIGN.md
@@ -755,8 +764,8 @@
         ? 'rgba(245, 158, 11, 0.9)'
         : 'rgba(192, 132, 252, 0.85)';
       var typePill = svgEl('text', {
-        x: x + SB / 2, y: innerH + 80,
-        'text-anchor': 'middle', 'font-size': '9',
+        x: x + SB / 2, y: contribY + ls.fontPx + 4,
+        'text-anchor': 'middle', 'font-size': String(Math.max(8, ls.fontPx - 1)),
         fill: typePillFill
       });
       typePill.textContent = suite.type;
