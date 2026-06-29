@@ -4,7 +4,7 @@
   // ── CONFIGURATION ──
   var BASE = '../../api/v1/';
   var VER = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
-  var BAR_W = 28;
+  var BAR_W = 28; // legacy — kept for any downstream readers; charts now use computeBarMetrics()
   var BAR_GAP = 4;
   var CHART_H = 320;
   var SUITE_CHART_H = 380;
