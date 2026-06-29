@@ -100,10 +100,10 @@ def _versions() -> str:
 curl -fsSL https://gaia.tiongson.co/install.sh | sh
 ```
 
-npm wrapper alternative:
+Python installation alternative:
 
 ```bash
-npm install -g @gaia-registry/cli
+pip install gaia-cli
 ```"""
 
 
@@ -483,8 +483,8 @@ def build_css_tokens(check: bool) -> bool:
 # metadata" (Issue #807) — extended here to normalize the version stamp during
 # --check comparison.
 _VOLATILE_DATE_PATTERNS = (
-    # JSON: "generatedAt": "2026-06-13" | "...T..Z" → value blanked
-    (re.compile(r'("generatedAt"\s*:\s*)"[^"]*"'), r'\1"<normalized>"'),
+    # JSON: "generatedAt" or "registryGeneratedAt": "2026-06-13" | "...T..Z" → value blanked
+    (re.compile(r'("(?:\w+)?(?:g|G)eneratedAt"\s*:\s*)"[^"]*"'), r'\1"<normalized>"'),
     # docs/tree.md provenance lines, both forms:
     #   "GAIA SKILL TREE … · generated 2026-06-13"   (banner header)
     #   "Generated from gaia.json on 2026-06-13. …"  (footer)
@@ -746,7 +746,7 @@ def build_badges(check: bool) -> bool:
         # Apply the redaction backstop to the tempdir BEFORE diffing/copying.
         # In --check mode this keeps the "drift" output focused on real
         # contributor changes rather than leaking redaction-noise into it.
-        _apply_redaction_backstop(out_dir, check=check)
+        _apply_redaction_backstop(out_dir, check=False)
         # Preserve hand-authored docs/badges/index.html across regeneration
         # by copying it into the candidate tree before diffing.
         sampler = committed / "index.html"
