@@ -202,6 +202,35 @@
     parent.appendChild(cap);
   }
 
+  // ── WATERMARK HELPER ──
+  // Renders the seal-diamond-wordmark glyph faintly in the top-right of a chart SVG.
+  function appendWatermark(svg, totalW) {
+    var u = document.createElementNS(SVG_NS, 'use');
+    u.setAttribute('href', '../../assets/icons.svg#seal-diamond-wordmark');
+    u.setAttribute('x', String(totalW - 95));
+    u.setAttribute('y', '6');
+    u.setAttribute('width', '75');
+    u.setAttribute('opacity', '0.18');
+    u.setAttribute('pointer-events', 'none');
+    svg.appendChild(u);
+  }
+
+  // ── ORIGIN BADGE HELPER ──
+  // Renders a small laurel-wreath glyph under a contributor avatar to mark origin skills.
+  // Uses currentColor + color: var(--honor-red) so we avoid hardcoding hex (CI guard).
+  function appendOriginBadge(parent, cx, cy) {
+    var u = document.createElementNS(SVG_NS, 'use');
+    u.setAttribute('href', '../../assets/icons.svg#origin-badge');
+    u.setAttribute('x', String(cx - 6));
+    u.setAttribute('y', String(cy - 6));
+    u.setAttribute('width', '12');
+    u.setAttribute('height', '12');
+    u.setAttribute('fill', 'currentColor');
+    u.setAttribute('color', 'var(--honor-red)');
+    u.setAttribute('pointer-events', 'none');
+    parent.appendChild(u);
+  }
+
   // ── ACTION BUTTONS BUILDER ──
   function buildActionButtons(section) {
     return '<div class="lb-actions">' +
@@ -268,7 +297,9 @@
         type: skill.type || 'basic',
         level: row.level || skill.level || '',
         trustMagnitude: row.trustMagnitude || 0,
-        grade: row.grade || skill.overallTrustGrade || 'ungraded'
+        grade: row.grade || skill.overallTrustGrade || 'ungraded',
+        origin: row.origin === true,
+        typeBreakdown: row.typeBreakdown || null
       };
     });
 
@@ -463,6 +494,8 @@
     var defs = svgEl('defs');
     svg.appendChild(defs);
 
+    appendWatermark(svg, totalW);
+
     // Build per-bar gradients
     ultimates.forEach(function(ult, i) {
       buildBarGradientDef(svg, ult.contributor, ult.grade || 'S', ult.level, ult.type, 'ultimate-' + i);
@@ -501,11 +534,12 @@
       if (h >= 30) {
         var tmText = svgEl('text', {
           x: x + UB / 2,
-          y: y - 8,
+          y: y + h / 2 + 4,
           'text-anchor': 'middle',
           'class': 'lb-axis-value',
           'font-size': String(Math.max(10, ls.fontPx + 1)),
-          fill: 'rgba(' + gradeColor(ult.grade) + ', 0.9)'
+          fill: 'rgba(255, 255, 255, 0.95)',
+          'font-weight': '600'
         });
         tmText.textContent = ult.trustMagnitude.toFixed(0);
         barGroup.appendChild(tmText);
@@ -668,6 +702,8 @@
     var defs = svgEl('defs');
     svg.appendChild(defs);
 
+    appendWatermark(svg, totalW);
+
     // Build per-bar gradients
     visible.forEach(function(suite, i) {
       buildBarGradientDef(svg, suite.contributor, suite.grade || 'A', suite.level, suite.type, 'suite-' + i);
@@ -719,15 +755,18 @@
         barGroup.appendChild(badgeText);
       }
 
-      // TM value above bar (size scales with bar density)
-      var tmText = svgEl('text', {
-        x: x + SB / 2, y: y - 8,
-        'text-anchor': 'middle',
-        'class': 'lb-axis-value', 'font-size': String(Math.max(9, ls.fontPx + 1)),
-        fill: 'rgba(' + gradeColor(suite.grade || 'A') + ', 0.9)'
-      });
-      tmText.textContent = suite.trustMagnitude.toFixed(0);
-      barGroup.appendChild(tmText);
+      // TM value centered inside the bar (size scales with bar density)
+      if (h >= 30) {
+        var tmText = svgEl('text', {
+          x: x + SB / 2, y: y + h / 2 + 4,
+          'text-anchor': 'middle',
+          'class': 'lb-axis-value', 'font-size': String(Math.max(9, ls.fontPx + 1)),
+          fill: 'rgba(255, 255, 255, 0.95)',
+          'font-weight': '600'
+        });
+        tmText.textContent = suite.trustMagnitude.toFixed(0);
+        barGroup.appendChild(tmText);
+      }
 
       // Avatar — radius scales with bar width (clamped 10-16)
       var avatarR = Math.min(16, Math.max(10, SB / 2.4));
@@ -754,6 +793,11 @@
         preserveAspectRatio: 'xMidYMid slice'
       });
       barGroup.appendChild(avatarImg);
+
+      // Origin laurel-wreath badge (pre-baked by C1)
+      if (suite.origin === true) {
+        appendOriginBadge(barGroup, avatarCx, avatarCy + avatarR + 10);
+      }
 
       // Skill name label (adaptive rotation/font/truncation)
       var labelY = innerH + avatarR * 2 + 14;
@@ -1037,6 +1081,8 @@
     var defs = svgEl('defs');
     svg.appendChild(defs);
 
+    appendWatermark(svg, totalW);
+
     // Build per-bar gradients
     toShow.forEach(function(skill, i) {
       buildBarGradientDef(svg, skill.contributor, skill.grade, skill.level, skill.type, 'named-' + i);
@@ -1133,14 +1179,15 @@
         barGroup.appendChild(rankPill);
       }
 
-      // TM score above bar
+      // TM score centered inside bar
       var tmText = svgEl('text', {
         x: x + NB / 2,
-        y: y - 6,
+        y: y + h / 2 + 4,
         'text-anchor': 'middle',
         'class': 'lb-axis-value',
         'font-size': String(Math.max(8, ls.fontPx - 1)),
-        fill: 'rgba(' + gradeColor(skill.grade) + ', 0.85)'
+        fill: 'rgba(255, 255, 255, 0.95)',
+        'font-weight': '600'
       });
       tmText.textContent = skill.trustMagnitude.toFixed(0);
       barGroup.appendChild(tmText);
@@ -1173,6 +1220,11 @@
         preserveAspectRatio: 'xMidYMid slice'
       });
       barGroup.appendChild(avatarImg);
+
+      // Origin laurel-wreath badge (pre-baked by C1)
+      if (skill.origin === true) {
+        appendOriginBadge(barGroup, avatarCx, avatarCy + avatarR + 10);
+      }
 
       // Skill name label (adaptive rotation/font/truncation)
       var labelY = innerH + avatarR * 2 + 14;
@@ -1260,6 +1312,8 @@
 
     var defs = svgEl('defs');
     svg.appendChild(defs);
+
+    appendWatermark(svg, totalW);
 
     // Build gradients per node (muted, handle-hue based)
     displayNodes.forEach(function(node, i) {
@@ -1364,6 +1418,13 @@
       // Stacked contributor labels — below rotated name label.
       var rotatedLabelH = Math.abs(Math.sin(ls.rotation * Math.PI / 180)) * ls.fontPx * 14;
       var childStartY = nameY + rotatedLabelH + 4;
+
+      // Origin laurel-wreath badge for parent generic node (pre-baked by C1)
+      if (node.origin === true) {
+        appendOriginBadge(barGroup, x + GB / 2, childStartY - 8);
+        childStartY += 8;
+      }
+
       var shownChildren = children.slice(0, 3);
       shownChildren.forEach(function(child, ci) {
         var lbl = svgEl('text', {
@@ -1528,6 +1589,7 @@
         grade: topChild.grade,
         level: topChild.level,
         type: 'generic',
+        origin: topChild.origin === true,
         _children: children
       };
     }).sort(function(a, b) { return b.trustMagnitude - a.trustMagnitude; });

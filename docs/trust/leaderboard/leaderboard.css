@@ -842,3 +842,11 @@
   color: var(--muted);
   opacity: 0.7;
 }
+
+/* ── Chart caption (origin laurel wreath explainer) ── */
+.lb-chart-caption {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+  font-style: italic;
+}
