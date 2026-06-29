@@ -75,37 +75,40 @@
 
   // ── BAR GRADIENT BUILDER ──
   function buildBarGradientDef(svg, contributor, grade, level, type, id) {
-    // PRIMARY color = deterministic hue from contributor handle
     var hue = handleHue(contributor);
-
-    // Chroma (saturation) modulated by rank: 1★=0.10, 6★=0.22
     var rankN = parseInt(level) || 2;
-    var chroma = 0.10 + (rankN - 1) * 0.02; // 0.12 for 2★ … 0.20 for 6★
-    chroma = Math.min(0.22, Math.max(0.10, chroma));
 
-    // Luminosity range: bottom of bar slightly darker, top brighter
-    var lBot = 0.38;
-    var lTop = 0.62;
+    // Grade defines the chroma and secondary hue shift
+    var gradeChroma = { S: 0.22, A: 0.18, B: 0.13, C: 0.09 };
+    var gradeHueShift = { S: -15, A: 0, B: 20, C: 35 };
+    var chroma = gradeChroma[grade] || 0.10;
+    var hueShift = gradeHueShift[grade] || 0;
 
-    // Grade accent: shifts luminosity of the TOP stop slightly
-    // S=+0.12 (brightest), A=+0.06, B=0, C=-0.04
-    var gradeNudge = { S: 0.12, A: 0.06, B: 0, C: -0.04 };
-    lTop += (gradeNudge[grade] || 0);
-    lTop = Math.min(0.82, Math.max(0.45, lTop));
+    // Rank modulates luminosity range
+    var lBot = 0.30 + (rankN - 1) * 0.02;
+    var lTop = 0.55 + (rankN - 1) * 0.025;
+    lBot = Math.min(0.55, Math.max(0.22, lBot));
+    lTop = Math.min(0.82, Math.max(0.42, lTop));
 
-    // Type accent: research/professional add warm hue offset; ultimate adds shimmer (handled via CSS class)
-    var hueShift = (type === 'research' || type === 'professional') ? 12 : 0;
+    // Type: research/professional adds warm tint
+    var typeHueShift = (type === 'research' || type === 'professional') ? 10 : 0;
 
-    var stopBot = 'oklch(' + lBot.toFixed(2) + ' ' + chroma.toFixed(2) + ' ' + (hue + hueShift) + ')';
-    var stopTop = 'oklch(' + lTop.toFixed(2) + ' ' + chroma.toFixed(2) + ' ' + (hue + hueShift) + ')';
+    var finalHue = hue + hueShift + typeHueShift;
+    var stopBot = 'oklch(' + lBot.toFixed(2) + ' ' + chroma.toFixed(2) + ' ' + finalHue + ')';
+    var stopTop = 'oklch(' + lTop.toFixed(2) + ' ' + chroma.toFixed(2) + ' ' + finalHue + ')';
 
-    // Get or create <defs>
+    // Mid-stop for richer gradient feel
+    var lMid = ((lBot + lTop) / 2);
+    var chromaMid = chroma * 1.15;
+    var stopMid = 'oklch(' + lMid.toFixed(2) + ' ' + Math.min(0.28, chromaMid).toFixed(2) + ' ' + finalHue + ')';
+
     var defs = svg.querySelector('defs');
     if (!defs) { defs = svgEl('defs'); svg.insertBefore(defs, svg.firstChild); }
 
     var gradId = 'lb-grad-' + id;
     var grad = svgEl('linearGradient', { id: gradId, x1: '0', y1: '1', x2: '0', y2: '0' });
     appendStop(grad, '0%', stopBot);
+    appendStop(grad, '50%', stopMid);
     appendStop(grad, '100%', stopTop);
     defs.appendChild(grad);
     return gradId;
@@ -124,7 +127,8 @@
   var state = {
     sort: 'tm',
     grade: 'all',
-    searchContrib: '',
+    grouped: true,
+    searchContribs: [],
     namedSkills: [],
     ultimateSkills: [],
     extraSkills: [],
@@ -135,7 +139,9 @@
     genericRefMap: {},
     showCount: INITIAL_BARS,
     collapsedNamed: [],
-    suiteSkills: []
+    suiteSkills: [],
+    ledgerExpanded: false,
+    ledgerRows: []
   };
 
   // ── DATA FETCH (parallel) ──
@@ -192,7 +198,8 @@
 
     // Render
     renderDistribution(leaderboard.distribution);
-    renderUltimateChart(ultimates);
+    renderNamedDistBar(leaderboard.distribution);
+    // renderUltimateChart(ultimates); // disabled — Suites section supersedes
     renderNamedChart(named);
     renderRegistry(ungraded);
     buildStarlessChart(allRows);
@@ -201,6 +208,7 @@
     wireTooltip();
     wireActionButtons();
     wireContribSearch();
+    renderLedger();
 
     // Fetch ultimate component details for stacked bars
     fetchUltimateComponents(ultimates);
@@ -227,6 +235,106 @@
         '<span class="lb-dist-num">' + item.count + '</span>' +
       '</span>';
     }).join('');
+  }
+
+  // ── NAMED DISTRIBUTION BAR (replaces tab row) ──
+  function renderNamedDistBar(dist) {
+    var el = document.getElementById('lbNamedDist');
+    if (!el) return;
+    var total = Math.max(1, (dist.S || 0) + (dist.A || 0) + (dist.B || 0) + (dist.C || 0));
+    var segments = [
+      { grade: 'S', count: dist.S || 0 },
+      { grade: 'A', count: dist.A || 0 },
+      { grade: 'B', count: dist.B || 0 },
+      { grade: 'C', count: dist.C || 0 }
+    ];
+
+    var bar = '<div class="lb-dist-bar" role="img" aria-label="Grade distribution">' +
+      segments.map(function(seg) {
+        if (!seg.count) return '';
+        var pct = (seg.count / total * 100).toFixed(2);
+        return '<div class="lb-dist-seg" data-trust-grade="' + seg.grade + '"' +
+          ' style="width:' + pct + '%" title="' + seg.grade + ': ' + seg.count + ' skills">' +
+          '<span class="lb-dist-seg__count">' + seg.count + '</span>' +
+          '</div>';
+      }).join('') + '</div>';
+
+    var keys = '<div class="lb-dist-keys">' +
+      [{ grade: 'all', label: 'All', count: (dist.S || 0) + (dist.A || 0) + (dist.B || 0) + (dist.C || 0) }]
+      .concat(segments)
+      .map(function(seg) {
+        var active = (seg.grade === 'all' && state.grade === 'all') ? ' is-active' : (state.grade === seg.grade ? ' is-active' : '');
+        var tg = seg.grade === 'all' ? '' : ' data-trust-grade="' + seg.grade + '"';
+        return '<button type="button" class="lb-dist-key lb-named-filter' + active + '" data-view="' + seg.grade + '">' +
+          '<span class="lb-dist-key__pip"' + tg + '>' + (seg.grade === 'all' ? 'All' : seg.grade) + '</span>' +
+          '<span class="lb-dist-key__count">' + seg.count + '</span>' +
+          '</button>';
+      }).join('') +
+    '</div>';
+
+    el.innerHTML = bar + keys;
+
+    // Wire clicks — these buttons replace the old lb-stab tab row
+    el.querySelectorAll('.lb-named-filter').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        state.grade = btn.dataset.view === 'all' ? 'all' : btn.dataset.view;
+        state.showCount = INITIAL_BARS;
+        el.querySelectorAll('.lb-named-filter').forEach(function(b) {
+          b.classList.toggle('is-active', b === btn);
+        });
+        renderNamedChart(state.namedSkills);
+        wireActionButtons();
+      });
+    });
+  }
+
+  // ── INLINE TRUST LEDGER ──
+  var LEDGER_TRUNCATE = 20;
+
+  function renderLedger() {
+    fetch('../../graph/ledger/data.json')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        state.ledgerRows = Array.isArray(data.rows) ? data.rows : [];
+        renderLedgerTable();
+        wireLedgerToggle();
+        var countEl = document.getElementById('lbLedgerCount');
+        if (countEl) countEl.textContent = state.ledgerRows.length + ' skills';
+      })
+      .catch(function() {
+        var body = document.getElementById('lbLedgerBody');
+        if (body) body.innerHTML = '<tr><td colspan="5" style="color:var(--muted);padding:1rem">Could not load ledger data.</td></tr>';
+      });
+  }
+
+  function renderLedgerTable() {
+    var body = document.getElementById('lbLedgerBody');
+    if (!body || !state.ledgerRows.length) return;
+    var rows = state.ledgerExpanded ? state.ledgerRows : state.ledgerRows.slice(0, LEDGER_TRUNCATE);
+    body.innerHTML = rows.map(function(r, i) {
+      var grade = r.grade || 'ungraded';
+      var gradeKey = grade === 'ungraded' ? 'none' : grade;
+      var stars = r.juneStars || r.currentStars || '?';
+      return '<tr data-trust-grade="' + esc(gradeKey) + '">' +
+        '<td class="col-rank">' + (i + 1) + '</td>' +
+        '<td class="col-id"><a href="../../named/#explorer/' + esc(r.skillId) + '">' + esc(r.skillId) + '</a></td>' +
+        '<td class="col-tm"><span class="lb-tm-num">' + (typeof r.tm === 'number' ? r.tm.toFixed(1) : r.tm) + '</span></td>' +
+        '<td class="col-grade"><span class="lb-grade-pill" data-trust-grade="' + esc(gradeKey) + '">' + (grade === 'ungraded' ? '\u2014' : grade) + '</span></td>' +
+        '<td class="col-stars">' + esc(stars) + '</td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  function wireLedgerToggle() {
+    var btn = document.getElementById('lbLedgerToggle');
+    var wrap = document.getElementById('lbLedgerWrap');
+    if (!btn) return;
+    btn.addEventListener('click', function() {
+      state.ledgerExpanded = !state.ledgerExpanded;
+      btn.textContent = state.ledgerExpanded ? 'Collapse \u25b4' : 'Expand \u25be';
+      if (wrap) wrap.classList.toggle('is-expanded', state.ledgerExpanded);
+      renderLedgerTable();
+    });
   }
 
   // ── ULTIMATE STACKED BAR CHART ──
@@ -287,15 +395,6 @@
         style: 'pointer-events:none'
       });
       barGroup.appendChild(gradeAccent);
-
-      // Rank accent: colored left-edge stripe
-      var ultRankN = parseInt(ult.level) || 2;
-      var rankAccent = svgEl('rect', {
-        x: x, y: y, width: 3, height: h, rx: 2,
-        fill: 'rgba(' + rankRgb(ultRankN) + ', 0.7)',
-        style: 'pointer-events:none'
-      });
-      barGroup.appendChild(rankAccent);
 
       // TM value above bar
       var tmText = svgEl('text', {
@@ -485,15 +584,6 @@
         style: 'pointer-events:none'
       });
       barGroup.appendChild(gradeAccent);
-
-      // Rank accent stripe (3px left)
-      var rankN = parseInt(suite.level) || 2;
-      var rankAccent = svgEl('rect', {
-        x: x, y: y, width: 3, height: h, rx: 2,
-        fill: 'rgba(' + rankRgb(rankN) + ', 0.7)',
-        style: 'pointer-events:none'
-      });
-      barGroup.appendChild(rankAccent);
 
       // Component count badge inside bar (near bottom)
       if (suite._componentCount > 0) {
@@ -747,7 +837,7 @@
     var NPAD = { top: 24, right: 24, bottom: 120, left: 54 };
 
     var visible = applyFilter(skills);
-    var collapsed = collapseGroups(visible);
+    var collapsed = state.grouped ? collapseGroups(visible) : visible;
     var collapsedShown = collapsed.slice(0, state.showCount);
     var toShow = collapsedShown;
     var totalVisible = visible.length;
@@ -759,7 +849,7 @@
       var countText = '(showing ' + collapsedShown.length + ' bars' +
         (groupedCount > 0 ? ', ' + groupedCount + ' grouped' : '') +
         ' of ' + totalVisible + ' skills)';
-      if (state.searchContrib) {
+      if (state.searchContribs && state.searchContribs.length > 0) {
         countText += ' (filtered from ' + totalAll + ')';
       }
       countEl.textContent = countText;
@@ -770,21 +860,6 @@
     var totalEl = document.getElementById('lbTotalCount');
     if (shownEl) shownEl.textContent = collapsedShown.length;
     if (totalEl) totalEl.textContent = totalVisible;
-
-    // Populate contributor dropdown (AA "Add model from specific provider" analogue)
-    var contribSelect = document.getElementById('lbContribSelect');
-    if (contribSelect) {
-      var currentVal = state.searchContrib || '';
-      var allContribs = {};
-      state.namedSkills.forEach(function(s) { allContribs[s.contributor] = true; });
-      var contribList = Object.keys(allContribs).sort();
-      contribSelect.innerHTML = '<option value="">Add contributor\u2026</option>' +
-        contribList.map(function(c) {
-          return '<option value="' + esc(c) + '"' + (c === currentVal ? ' selected' : '') + '>' + esc(c) + '</option>';
-        }).join('');
-    }
-    var clearBtn = document.getElementById('lbContribClear');
-    if (clearBtn) clearBtn.hidden = !state.searchContrib;
 
     updateShowMoreBtn(collapsedShown.length, collapsed.length);
 
@@ -844,15 +919,6 @@
       });
       barGroup.appendChild(gradeAccent);
 
-      // Rank accent: colored left-edge stripe
-      var rankN = parseInt(skill.level) || 2;
-      var rankAccent = svgEl('rect', {
-        x: x, y: y, width: 3, height: h, rx: 2,
-        fill: 'rgba(' + rankRgb(rankN) + ', 0.7)',
-        style: 'pointer-events:none'
-      });
-      barGroup.appendChild(rankAccent);
-
       // Group badge (only when multiple skills collapsed into this bar)
       if (skill._groupSize > 1) {
         var badgeH = 18;
@@ -876,6 +942,7 @@
       }
 
       // Rank pill ABOVE bar (moved out of crowded bottom area)
+      var rankN = parseInt(skill.level) || 2;
       if (rankN > 0) {
         var rankPill = svgEl('text', {
           x: x + NB / 2,
@@ -952,8 +1019,8 @@
     if (!container) return;
 
     var GB = 20; var GG = 10;
-    var GPAD = { top: 24, right: 24, bottom: 120, left: 54 };
-    var GCHART_H = 280;
+    var GPAD = { top: 24, right: 24, bottom: 150, left: 54 };
+    var GCHART_H = 320;
 
     if (countEl) countEl.textContent = nodes.length + ' generic skills \u00B7 ' +
       nodes.reduce(function(s, n) { return s + (n._children ? n._children.length : 0); }, 0) + ' named implementations';
@@ -1006,20 +1073,24 @@
       });
       barGroup.appendChild(bar);
 
-      // Child segments stacked inside the bar
+      // Child segments stacked inside the bar — origin highlighted red
       var children = node._children || [];
-      if (children.length > 1) {
+      if (children.length >= 1) {
         var usedH = 0;
-        children.forEach(function(child) {
-          var segH = Math.max(1, (child.trustMagnitude / node.trustMagnitude) * h * 0.85);
-          if (usedH + segH > h) segH = h - usedH;
+        children.forEach(function(child, ci) {
+          var segH = Math.max(1, (child.trustMagnitude / node.trustMagnitude) * h * 0.9);
+          if (usedH + segH > h) segH = Math.max(1, h - usedH);
           var segY = y + h - usedH - segH;
-          var childHue = handleHue(child.contributor);
+          var segFill;
+          if (child.origin) {
+            segFill = 'rgba(' + TOKENS.honorRed + ', 0.8)';
+          } else {
+            var childHue = handleHue(child.contributor);
+            segFill = 'oklch(0.55 0.15 ' + childHue + ')';
+          }
           var seg = svgEl('rect', {
-            x: x + 2, y: segY, width: GB - 4, height: segH, rx: 1,
-            fill: 'oklch(0.60 0.14 ' + childHue + ')',
-            opacity: '0.55',
-            style: 'pointer-events:none'
+            x: x + 2, y: segY, width: GB - 4, height: Math.max(1, segH - 1), rx: 1,
+            fill: segFill, opacity: '0.7', style: 'pointer-events:none'
           });
           barGroup.appendChild(seg);
           usedH += segH;
@@ -1042,34 +1113,38 @@
         barGroup.appendChild(badgeTxt);
       }
 
-      // Avatar fallback circle
-      var hue = handleHue(node.contributor);
-      var avCx = x + GB/2; var avCy = innerH + 16;
-      barGroup.appendChild(svgEl('circle', {
-        cx: avCx, cy: avCy, r: '8',
-        fill: 'oklch(0.45 0.12 ' + hue + ')'
-      }));
-      var avClipId = 'av-clip-gen-' + i;
-      var realClip = defs.querySelector('#' + avClipId);
-      if (realClip) {
-        var cc = realClip.querySelector('circle');
-        if (cc) { cc.setAttribute('cx', avCx); cc.setAttribute('cy', avCy); }
+      // Stacked contributor labels below bar (up to 3 + "more")
+      var shownChildren = children.slice(0, 3);
+      shownChildren.forEach(function(child, ci) {
+        var lbl = svgEl('text', {
+          x: x + GB/2,
+          y: innerH + 48 + (ci * 11),
+          'text-anchor': 'middle',
+          'font-size': '8',
+          fill: child.origin ? 'rgba(' + TOKENS.honorRed + ', 0.9)' : 'rgba(148,163,184,0.7)',
+          'font-family': 'var(--font-mono)'
+        });
+        lbl.textContent = truncate(child.contributor, 10) + (child.origin ? ' \u25ce' : '');
+        barGroup.appendChild(lbl);
+      });
+      if (children.length > 3) {
+        var moreLbl = svgEl('text', {
+          x: x + GB/2, y: innerH + 48 + (3 * 11),
+          'text-anchor': 'middle', 'font-size': '7',
+          fill: 'rgba(148,163,184,0.5)'
+        });
+        moreLbl.textContent = '+' + (children.length - 3) + ' more';
+        barGroup.appendChild(moreLbl);
       }
-      barGroup.appendChild(svgEl('image', {
-        href: 'https://github.com/' + node.contributor + '.png?size=32',
-        x: avCx - 8, y: avCy - 8, width: '16', height: '16',
-        'clip-path': 'url(#' + avClipId + ')',
-        preserveAspectRatio: 'xMidYMid slice'
-      }));
 
-      // Label (rotated)
-      var lbl = svgEl('text', {
+      // Label (rotated) — generic node name
+      var lbl2 = svgEl('text', {
         x: 0, y: 0,
         transform: 'translate(' + (x + GB/2) + ',' + (innerH + 32) + ') rotate(45)',
         'text-anchor': 'start', 'class': 'lb-axis-label', 'font-size': '9'
       });
-      lbl.textContent = truncate(node.name, 16);
-      barGroup.appendChild(lbl);
+      lbl2.textContent = truncate(node.name, 16);
+      barGroup.appendChild(lbl2);
     });
 
     svg.appendChild(barGroup);
@@ -1151,7 +1226,16 @@
           var ref = detail.genericSkillRef;
           if (ref) {
             if (!genericRefMap[ref]) genericRefMap[ref] = [];
-            genericRefMap[ref].push(row);
+            genericRefMap[ref].push({
+              id: row.id,
+              name: row.name,
+              contributor: row.contributor,
+              trustMagnitude: row.trustMagnitude,
+              grade: row.grade,
+              level: row.level,
+              type: row.type,
+              origin: detail.origin === true
+            });
           }
           fetched++;
           if (fetched === candidates.length) { finishStarless(genericRefMap); }
@@ -1166,6 +1250,8 @@
   function finishStarless(genericRefMap) {
     var starlessNodes = Object.keys(genericRefMap).map(function(ref) {
       var children = genericRefMap[ref].slice().sort(function(a, b) {
+        if (a.origin && !b.origin) return -1;
+        if (!a.origin && b.origin) return 1;
         return b.trustMagnitude - a.trustMagnitude;
       });
       var topChild = children[0];
@@ -1192,7 +1278,7 @@
 
   // ── FILTER / SORT CONTROLS ──
   function wireFilters() {
-    // Section tabs (grade filter)
+    // Section tabs (grade filter) — now wired via renderNamedDistBar buttons
     document.addEventListener('click', function(e) {
       var btn = e.target.closest('.lb-stab[data-view]');
       if (!btn) return;
@@ -1215,6 +1301,19 @@
         wireActionButtons();
       });
     }
+
+    // Group toggle button
+    var groupToggle = document.getElementById('lbGroupToggle');
+    if (groupToggle) {
+      groupToggle.addEventListener('click', function() {
+        state.grouped = !state.grouped;
+        groupToggle.textContent = state.grouped ? '\u229e Grouped' : '\u229f Expanded';
+        groupToggle.classList.toggle('is-active', state.grouped);
+        state.showCount = INITIAL_BARS;
+        renderNamedChart(state.namedSkills);
+        wireActionButtons();
+      });
+    }
   }
 
   function wireShowMore() {
@@ -1230,10 +1329,10 @@
   function applyFilter(skills) {
     var filtered = skills;
 
-    // Contributor filter (exact match from dropdown)
-    if (state.searchContrib) {
+    // Contributor filter (multi-select from dropdown)
+    if (state.searchContribs && state.searchContribs.length > 0) {
       filtered = filtered.filter(function(s) {
-        return s.contributor === state.searchContrib;
+        return state.searchContribs.indexOf(s.contributor) !== -1;
       });
     }
 
@@ -1269,29 +1368,94 @@
     }
   }
 
-  // ── CONTRIBUTOR SEARCH (AA "Add model from specific provider" analogue) ──
+  // ── CONTRIBUTOR MULTI-SELECT ──
   function wireContribSearch() {
-    // Contributor dropdown
-    document.addEventListener('change', function(e) {
-      if (e.target.id !== 'lbContribSelect') return;
-      state.searchContrib = e.target.value;
-      state.showCount = INITIAL_BARS;
-      var clearBtn = document.getElementById('lbContribClear');
-      if (clearBtn) clearBtn.hidden = !state.searchContrib;
-      renderNamedChart(state.namedSkills);
-      wireActionButtons();
+    var trigger = document.getElementById('lbMsTrigger');
+    var dropdown = document.getElementById('lbMsDropdown');
+    var searchInput = document.getElementById('lbMsSearch');
+    var listEl = document.getElementById('lbMsList');
+    var clearAll = document.getElementById('lbMsClearAll');
+    var label = document.getElementById('lbMsLabel');
+    var countEl = document.getElementById('lbMsCount');
+    if (!trigger || !dropdown) return;
+
+    function getContribs() {
+      var all = {};
+      state.namedSkills.forEach(function(s) { all[s.contributor] = true; });
+      return Object.keys(all).sort();
+    }
+
+    function renderList(filter) {
+      var contribs = getContribs();
+      var q = (filter || '').toLowerCase();
+      var shown = q ? contribs.filter(function(c) { return c.toLowerCase().indexOf(q) !== -1; }) : contribs;
+      listEl.innerHTML = shown.map(function(c) {
+        var checked = state.searchContribs.indexOf(c) !== -1;
+        return '<label class="lb-ms-item' + (checked ? ' is-checked' : '') + '">' +
+          '<input type="checkbox" value="' + esc(c) + '"' + (checked ? ' checked' : '') + '>' +
+          '<span class="lb-ms-avatar" style="background:oklch(0.55 0.18 ' + handleHue(c) + ')"></span>' +
+          '<span class="lb-ms-name">' + esc(c) + '</span>' +
+        '</label>';
+      }).join('');
+    }
+
+    function updateLabel() {
+      var sel = state.searchContribs;
+      label.textContent = sel.length === 0 ? 'Add contributor\u2026' :
+        sel.length === 1 ? sel[0] :
+        sel.length + ' contributors';
+      if (countEl) countEl.textContent = sel.length > 0 ? sel.length + ' selected' : '';
+    }
+
+    trigger.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var hidden = dropdown.hidden;
+      dropdown.hidden = !hidden;
+      if (!hidden) return;
+      renderList('');
+      if (searchInput) { searchInput.value = ''; searchInput.focus(); }
     });
 
     document.addEventListener('click', function(e) {
-      if (e.target.id !== 'lbContribClear') return;
-      state.searchContrib = '';
-      state.showCount = INITIAL_BARS;
-      var sel = document.getElementById('lbContribSelect');
-      if (sel) sel.value = '';
-      e.target.hidden = true;
-      renderNamedChart(state.namedSkills);
-      wireActionButtons();
+      if (!dropdown.hidden && !dropdown.contains(e.target) && e.target !== trigger) {
+        dropdown.hidden = true;
+      }
     });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        renderList(searchInput.value);
+      });
+    }
+
+    if (listEl) {
+      listEl.addEventListener('change', function(e) {
+        var cb = e.target;
+        if (cb.type !== 'checkbox') return;
+        var val = cb.value;
+        if (cb.checked) {
+          if (state.searchContribs.indexOf(val) === -1) state.searchContribs.push(val);
+        } else {
+          state.searchContribs = state.searchContribs.filter(function(c) { return c !== val; });
+        }
+        cb.closest('.lb-ms-item').classList.toggle('is-checked', cb.checked);
+        updateLabel();
+        state.showCount = INITIAL_BARS;
+        renderNamedChart(state.namedSkills);
+        wireActionButtons();
+      });
+    }
+
+    if (clearAll) {
+      clearAll.addEventListener('click', function() {
+        state.searchContribs = [];
+        updateLabel();
+        renderList(searchInput ? searchInput.value : '');
+        state.showCount = INITIAL_BARS;
+        renderNamedChart(state.namedSkills);
+        wireActionButtons();
+      });
+    }
   }
 
   // ── ACTION BUTTONS WIRING ──
