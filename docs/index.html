@@ -248,6 +248,92 @@
     </div>
   </section>
 
+  <!-- ─── TRUST LEADERBOARD PREVIEW ─── -->
+  <section id="trust-preview" class="trust-preview reveal" data-section="trust-preview">
+    <!-- Inline embed: mounts the leaderboard's Named-skills panel directly
+         into the home page. Same DOM, no iframe. Renderers no-op for any
+         IDs that aren't present (Suites/Starless/Registry/Ledger/TOC). -->
+    <div class="lb-embed-host">
+      <section class="lb-section" id="lbNamed">
+        <div class="lb-chart-panel">
+          <div class="lb-panel-header">
+            <div class="lb-typetabs" id="lbTypeTabs" role="tablist" aria-label="Filter by evidence type"></div>
+            <div class="lb-panel-filters" id="lbNamedControls">
+              <div class="lb-named-dist" id="lbNamedDist"></div>
+              <div class="lb-section-meta">
+                <span class="lb-model-counter">
+                  <strong id="lbShownCount">—</strong> of <span id="lbTotalCount">—</span> skills
+                </span>
+                <span class="lb-input-icon-wrap">
+                  <svg class="lb-btn-icon" aria-hidden="true"><use href="assets/icons.svg#search"/></svg>
+                  <input class="lb-skill-search" id="lbSkillSearch" type="search" placeholder="Search skills…" autocomplete="off">
+                </span>
+                <div class="lb-multiselect" id="lbContribMulti">
+                  <button class="lb-ms-trigger" id="lbMsTrigger" type="button">
+                    <svg class="lb-btn-icon" aria-hidden="true"><use href="assets/icons.svg#user"/></svg>
+                    <span class="lb-ms-label" id="lbMsLabel">Add contributor…</span>
+                    <span class="lb-ms-arrow">▾</span>
+                  </button>
+                  <div class="lb-ms-dropdown" id="lbMsDropdown" hidden>
+                    <input class="lb-ms-search" id="lbMsSearch" type="search" placeholder="Search…" autocomplete="off">
+                    <div class="lb-ms-list" id="lbMsList"></div>
+                    <div class="lb-ms-footer">
+                      <button class="lb-ms-clear-all" id="lbMsClearAll" type="button">Clear all</button>
+                      <span class="lb-ms-selected-count" id="lbMsCount"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="lb-sort-wrap">
+                  <svg class="lb-btn-icon" aria-hidden="true"><use href="assets/icons.svg#sort-arrows"/></svg>
+                  <select class="lb-sort-select" id="lbSortSelect">
+                    <option value="tm">Sort: By TM</option>
+                    <option value="grade">Sort: By Grade</option>
+                    <option value="contributor">Sort: By Contributor</option>
+                  </select>
+                </div>
+                <button class="lb-group-toggle" id="lbGroupToggle" title="Toggle grouping of identical-grade skills"><svg class="lb-btn-icon" aria-hidden="true"><use href="assets/icons.svg#view-tile"/></svg> Grouped</button>
+              </div>
+            </div>
+          </div>
+          <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbNamedChart"></div>
+          <div class="lb-origin-tip" aria-label="About origin skills">
+            <svg class="lb-origin-tip-icon" aria-hidden="true"><use href="assets/icons.svg#origin-badge"/></svg>
+            <span><strong>Origin skills</strong> — the canonical implementation by the contributor who first published the technique. Marked with the laurel-wreath inside the bar.</span>
+          </div>
+          <section class="lb-tm-accordion" id="lbTmAccordion" aria-label="Trust Magnitude methodology">
+            <button class="lb-tm-toggle" id="lbTmToggle" type="button" aria-expanded="false">
+              <svg class="lb-tm-info" aria-hidden="true"><use href="assets/icons.svg#info"/></svg>
+              <span class="lb-tm-label">Trust Magnitude methodology</span>
+              <svg class="lb-tm-plus" aria-hidden="true" viewBox="0 0 16 16"><line x1="8" y1="2" x2="8" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+            <div class="lb-tm-body" id="lbTmBody" hidden></div>
+          </section>
+        </div>
+      </section>
+    </div>
+    <div class="trust-preview-cta">
+      <a class="trust-preview-cta-link" href="named/">
+        <span>Browse Named Skills</span>
+        <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16">
+          <path d="M5 10 L15 10 M11 6 L15 10 L11 14" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a class="trust-preview-cta-link trust-preview-cta-link--ghost" href="trust/leaderboard/">
+        <span>Trust Leaderboard</span>
+        <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16">
+          <path d="M5 10 L15 10 M11 6 L15 10 L11 14" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+  <link rel="stylesheet" href="trust/leaderboard/leaderboard.css?v=5.6.0">
+  <!-- Tooltip — required for SVG bar hover (delegated handlers in leaderboard.js
+       short-circuit when this element is absent). position:fixed so it escapes
+       any overflow:hidden ancestor. -->
+  <div class="lb-tooltip" id="lbTooltip" hidden aria-hidden="true"></div>
+  <script>window.GAIA_LB_EMBED_HOST = true;</script>
+  <script src="trust/leaderboard/leaderboard.js?v=5.6.0"></script>
+
   <!-- ─── TREE DIALOG ─── -->
   <a id="tree" tabindex="-1" aria-hidden="true"></a>
   <dialog id="treeDialog" class="tree-dialog" aria-labelledby="treeDialogTitle">

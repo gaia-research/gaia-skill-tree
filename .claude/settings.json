@@ -1,21 +1,30 @@
 {
-  "enabledMcpjsonServers": ["gaia"],
-  "enabledPlugins": {
-    "frontend-design@claude-plugins-official": false
-  },
+  "enabledMcpjsonServers": [
+    "gaia"
+  ],
   "hooks": {
     "PostToolUse": [
       {
         "matcher": "Write|Edit",
-        "hooks": [{"type": "command", "command": "gaia _hook --event file_edit 2>/dev/null || true"}]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "gaia _hook --event file_edit 2>/dev/null || true"
+          }
+        ]
       },
       {
         "matcher": "Edit|Write",
-        "hooks": [{
-          "type": "command",
-          "command": "FILE=$(jq -r '.tool_input.file_path // empty'); [ -n \"$FILE\" ] && [ -f \"$FILE\" ] && { case \"$FILE\" in *.js|*.mjs|*.cjs|*.ts|*.tsx|*.jsx) node -c \"$FILE\" 2>&1 || true ;; esac; case \"$FILE\" in *.css|*.html|*.svg|*.js|*.mjs|*.cjs|*.ts|*.tsx|*.jsx) grep -nE '#[0-9a-fA-F]{3,6}([^0-9a-fA-F]|$)' \"$FILE\" && echo 'WARNING: hex color found' ;; esac; } || true"
-        }]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(jq -r '.tool_input.file_path // empty'); [ -n \"$FILE\" ] && [ -f \"$FILE\" ] && { case \"$FILE\" in *.js|*.mjs|*.cjs|*.ts|*.tsx|*.jsx) node -c \"$FILE\" 2>&1 || true ;; esac; case \"$FILE\" in *.css|*.html|*.svg|*.js|*.mjs|*.cjs|*.ts|*.tsx|*.jsx) grep -nE '#[0-9a-fA-F]{3,6}([^0-9a-fA-F]|$)' \"$FILE\" && echo 'WARNING: hex color found' ;; esac; } || true"
+          }
+        ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true
   }
 }

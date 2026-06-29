@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+
+<head>
+  <script>window.GAIA_VERSION = "5.6.0";</script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trending Skills — Gaia</title>
+  <meta name="description" content="Skills gaining trust this week — ranked by evidence velocity, not hype. Discover what's rising in the Gaia registry.">
+  <meta name="keywords" content="trending skills, AI skills, evidence velocity, skill registry, gaia trending">
+  <!-- OG meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Trending Skills — Gaia">
+  <meta property="og:description" content="Skills gaining trust this week — ranked by evidence velocity, not hype.">
+  <meta property="og:url" content="https://gaia.tiongson.co/trending/">
+  <!-- RSS feed -->
+  <link rel="alternate" type="application/rss+xml" title="Gaia Trending" href="feed.xml">
+  <!-- Web fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="../css/styles.css?v=5.6.0">
+  <link rel="stylesheet" href="trending.css?v=5.6.0">
+  <!-- Icon sprite helper -->
+  <script src="../js/icons.js?v=5.6.0"></script>
+</head>
+
+<body class="trending-page">
+
+  <!-- ─── NAV ─── -->
+  <nav id="site-nav"></nav>
+  <script src="../js/mounts.js?v=5.6.0"></script>
+  <script src="../js/site-nav.js?v=5.6.0"></script>
+
+  <!-- ─── MAIN ─── -->
+  <main class="trending-main">
+
+    <!-- Back row -->
+    <div class="profile-back-row">
+      <a class="profile-back" href="../" aria-label="Back to Home" title="Back to Home">
+        <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#arrow-back"/></svg>
+        <span>Back</span>
+      </a>
+    </div>
+
+    <!-- Hero -->
+    <section class="process-hero trending-hero">
+      <p class="process-kicker">Discovery</p>
+      <h1>Trending Skills</h1>
+      <p class="process-lede">Skills gaining trust this week — ranked by evidence velocity, not hype.</p>
+    </section>
+
+    <!-- Bootstrap banner (shown by JS when firstRun=true) -->
+    <div id="trending-bootstrap-banner" class="trending-bootstrap-banner" hidden>
+      <svg class="ico" width="16" height="16" aria-hidden="true"><use href="../assets/icons.svg#info"/></svg>
+      <span>Trending data is bootstrapping — check back after the next registry update.</span>
+    </div>
+
+    <!-- Window toggle tabs -->
+    <div class="trending-tabs" role="tablist" aria-label="Time window">
+      <button class="trending-tab active" data-window="7d" role="tab" aria-selected="true">7 Days</button>
+      <button class="trending-tab" data-window="30d" role="tab" aria-selected="false">30 Days</button>
+    </div>
+
+    <!-- Main trending list -->
+    <section id="trending-list" class="trending-list-section" aria-label="Trending skills">
+      <div class="trending-loading" id="trending-loading">
+        <span class="trending-spinner" aria-hidden="true"></span>
+        <span>Loading trending skills…</span>
+      </div>
+    </section>
+
+    <!-- Recently Ascended -->
+    <section class="trending-section" id="section-ascended">
+      <div class="trending-section-header">
+        <h2>Recently Ascended</h2>
+        <p class="trending-sublede">Skills that ranked up in the last 30 days.</p>
+      </div>
+      <div id="ascended-list" class="ascended-list">
+        <div class="trending-loading" id="ascended-loading">
+          <span class="trending-spinner" aria-hidden="true"></span>
+          <span>Loading…</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Most Contested -->
+    <section class="trending-section" id="section-contested">
+      <div class="trending-section-header">
+        <h2>Most Contested</h2>
+        <p class="trending-sublede">Generic skill buckets with multiple named implementations competing.</p>
+      </div>
+      <div id="contested-list" class="contested-list">
+        <div class="trending-loading" id="contested-loading">
+          <span class="trending-spinner" aria-hidden="true"></span>
+          <span>Loading…</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─── FOOTER ─── -->
+  <div id="site-footer-mount"></div>
+  <script src="../js/site-footer.js?v=5.6.0"></script>
+
+  <!-- ─── PAGE SCRIPT ─── -->
+  <script src="trending.js?v=5.6.0"></script>
+
+</body>
+</html>

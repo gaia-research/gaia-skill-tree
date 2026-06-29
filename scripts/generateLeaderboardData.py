@@ -39,6 +39,7 @@ from scripts.inspectTrustMagnitude import (  # noqa: E402
 from gaia_cli.trustMagnitude import (  # noqa: E402
     computeOverallTrustGradeFromSkill,
     computeTrustMagnitude,
+    computeTrustMagnitudeByType,
     passesApexGate,
 )
 
@@ -107,6 +108,8 @@ def buildRows() -> list[dict]:
     for fm in skills:
         skillId = fm.get("id") or "unknown"
         tm = computeTrustMagnitude(fm, mergedMap)
+        typeBreakdown = computeTrustMagnitudeByType(fm, mergedMap)
+        origin = (fm.get("origin") is True or fm.get("origin") == "true")
         grade = computeOverallTrustGradeFromSkill(fm, mergedMap)
         currentStars = fm.get("level") or fm.get("rank") or "?"
         g7Stars, flag = effectiveRank(grade, currentStars)
@@ -129,6 +132,8 @@ def buildRows() -> list[dict]:
             "g7Stars":      g7Stars,        # kept for backward compat
             "flag":         flag,
             "apexResults":  apexResults,
+            "typeBreakdown": typeBreakdown,
+            "origin":       origin,
         })
 
     rows.sort(key=lambda r: -r["tm"])

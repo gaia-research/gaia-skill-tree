@@ -383,6 +383,7 @@ def build_html_cache_busting(check: bool) -> bool:
         "share/index.html",
         "trust/index.html",
         "trust/ledger/index.html",
+        "trust/leaderboard/index.html",
         "codex/trust-methodology.html",
         "u/index.html",
         "api/index.html",  # pre-registered for Issue #850 (docs page not yet created)

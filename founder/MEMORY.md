@@ -2,6 +2,318 @@
 
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
+## State Snapshot (2026-06-29, session 28 — Leaderboard AA-style finalization + superadmin mode + home embed)
+
+### TLDR
+- Closed out the Trust Leaderboard redesign in 8 commits across one long session. PR #867 still open against main as the consolidation lane.
+- New private mode: **superadmin** — Marco invokes it when he wants the orchestrator to code DIRECTLY instead of delegating. Documented in `founder/CLAUDE.md`. Heuristics + behavior locked.
+- Final visual surface includes: AA-style filter row INSIDE chart panels, slash-id bar labels, type tabs in serif + underlined-italic active, methodology accordion with ⓘ + animated +/× rotation, donut distribution with 4 grade textures, bar-styled grade filter chips, gold+white seal watermark fixed top-right of each panel, "UPDATED YYYY-MM-DD" tag in apex-gold, in-bar white TM numbers + always-visible stars (bottom of bar), dynamic chart height per evidence-type filter, zero-skip on type filter, scroll-driven sticky-left-rail TOC with section icons.
+- Home page now inline-embeds the Named-skills panel directly under the hero (no iframe — that approach failed twice on internal-nav recursion + ResizeObserver missing accordion-collapse). Same DOM, same script, same CSS. Twin CTAs below the panel: primary → `/named/`, ghost → `/trust/leaderboard/`.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `docs/trust/leaderboard/leaderboard.js` | ROOT_PREFIX resolver (mounts at any depth); type tabs + zero-skip on type filter; dynamic chart height; stars-at-bottom; in-bar white TM (--inbar modifier); donut distribution; bar-style grade chips; show-all → bottom-right chevron buttons; methodology accordion with +→× CSS rotate; origin badge top-left interior of bar; updated badge in apex-gold; scroll-driven TOC observer |
+| `docs/trust/leaderboard/leaderboard.css` | Chart-panel wraps header + filters + chart; `.lb-typetabs` serif text-link style; `.lb-tm-accordion` repositioned in-panel; `.lb-origin-tip` line; `.lb-axis-value--inbar` + `.lb-axis-label--name` white modifiers; `.lb-bar-filter` mini-bar chips; donut + 4 grade pattern fills; `.lb-show-all-btn` bottom-right; gold+white seal+wordmark `.lb-panel-watermark` (HTML overlay, not inside scrolling SVG); SVG height eases with transition; SVG centered when narrower than panel; embed-host scoping |
+| `docs/trust/leaderboard/index.html` | TOC links carry section icons; methodology accordion structure (ⓘ left, label, + right); origin tip line; chart panels wrap Suites + Named + Starless |
+| `docs/index.html` | New `#trust-preview` section under hero — inline-mounts the Named panel; `#lbTooltip` element so bar hover works; twin CTAs (Named Skills primary, Trust Leaderboard ghost) |
+| `docs/css/styles.css` | `.trust-preview` seamless mount (no card wrap, no redundant heading); `.trust-preview-cta-link` + `--ghost` variant |
+| `founder/CLAUDE.md` | **Superadmin mode** block — private mode where orchestrator codes directly. Triggers, behavior, revert conditions |
+
+### Commits this session (linear, 8 total on `dev/leaderboard-redesign`)
+| SHA | Message |
+|---|---|
+| `fb50bf96` | fix: restore `.lb-shell` grid layout — global `nav:not(.footer-cols)` was hijacking `.lb-toc` (#885) |
+| `9050ef9b` | fix: filters inside chart panel, slash-id labels, TOC icons + scroll observer (#886) |
+| `81b18d88` | fix: 10 superadmin nitpicks — white text, always-show stars, dynamic height, in-panel methodology (#887) |
+| `23862b59` | fix: final 7 nitpicks — donut+textures, bar-style filter, gold/white watermark, embed on home (direct push) |
+| `297da55b` | fix: home embed switched to iframe + ?embed=1 mode (direct push) |
+| `37917305` | fix: home embed switched to inline DOM (drop iframe) — iframe had nav-recursion + accordion-collapse propagation issues (direct push) |
+| `1db6934a` | fix: seamless inline embed, hover working, twin CTAs (Named / Leaderboard) (direct push) |
+| `aee71e46` | fix: center SVG in chart-wrap when narrower than panel (direct push) |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/leaderboard-redesign` | `aee71e46` | PR #867 still open against `main`. CF preview redeployed 8 times this session, all successful. Live at `https://gaia-skill-tree.marco-tngsn.workers.dev/` (home + `/trust/leaderboard/`). |
+| `main` | unchanged | Untouched per protocol — leaderboard work consolidates via PR #867 |
+
+### Issues + PRs touched
+- PR #885 — Grid-layout fix (the global `nav:not(.footer-cols)` outweighing `.lb-toc`). Merged.
+- PR #886 — Filters inside chart panel + slash-id labels + TOC scroll observer. Merged.
+- PR #887 — 10 superadmin nitpicks. Merged.
+- 5 subsequent direct pushes (no PR) to `dev/leaderboard-redesign` per Marco's "no PR, direct on dev/* is fine" approval during superadmin mode.
+- PR #867 remains the consolidation PR for the redesign lane. Not merged yet.
+
+### Routing — where things live now
+| Surface | File | Purpose |
+|---|---|---|
+| Leaderboard JS | `docs/trust/leaderboard/leaderboard.js` | All chart renderers + tooltip + TOC observer + methodology accordion. Self-pathing via `ROOT_PREFIX`. |
+| Leaderboard CSS | `docs/trust/leaderboard/leaderboard.css` | All `.lb-*` styles including donut + bar-chip filter + chart-panel + embed-host scoping |
+| Home embed | `docs/index.html` `#trust-preview` | Inline mount of the Named-skills panel + twin CTAs |
+| Cross-page CSS | `docs/css/styles.css` (`.trust-preview` block at end) | Section spacing + CTA button styles |
+| Backend data | `scripts/generateLeaderboardData.py` + `src/gaia_cli/trustMagnitude.py` | `computeTrustMagnitudeByType` + pre-baked `typeBreakdown` + `origin` on each row in `data.json` |
+| Superadmin mode rules | `founder/CLAUDE.md` (after intro, before Role) | Private orchestrator-only direct-code mode |
+
+### Lessons / hazards preserved
+- **Iframe was the wrong tool for the home embed.** Two fatal flaws: (1) internal navigation traps inside the iframe creating a leaderboard-inside-leaderboard recursion; (2) ResizeObserver inside the iframe didn't fire on the accordion-collapse height change because max-height transitions on a child don't propagate as observable resize events on the parent document at the right cadence. Inline DOM mount is the right model — same script, same CSS, mount-only-what's-present (every renderer guards `if (!container) return`).
+- **The script self-pathing pattern (`ROOT_PREFIX` resolver) is portable.** Compute the directory depth from `window.location.pathname`, then rewrite every `assets/icons.svg`, `api/v1/`, `graph/ledger/`, `named/`, `codex/` reference through that prefix. Lets one script mount at multiple depths without page-specific configuration. Future embeds should adopt the same pattern.
+- **`wireTooltip()` early-returns when `#lbTooltip` is absent**, which silently kills hover and click delegation on bars. Document this dependency in any future embed surface.
+- **`nav:not(.footer-cols)` global rule** in `docs/css/styles.css` L300 forces position:fixed on every `<nav>` element. Page-scoped `.lb-toc` had to be promoted to `nav.lb-toc` (specificity tie + cascade order win) AND explicitly null `left/right/z-index/background/border-bottom/padding`. If anyone else adds a `<nav>` inside page content, they'll hit the same trap.
+- **SVG presentation attributes lose to CSS class fill.** `<text class="lb-axis-value" fill="white">` rendered grey because `.lb-axis-value { fill: var(--muted) }` won. Add a higher-specificity modifier (`.lb-axis-value--inbar`) or use `style="fill: ..."` inline.
+- **`fill="var(--apex-gold)"` as a presentation attribute is browser-dependent.** `style="fill: var(--apex-gold)"` is unconditionally robust. Use `style=` for any CSS-var-driven SVG fill.
+- **No new hex literals.** Token-only rule held throughout the session; the one accidental `#ffffff` was caught and replaced with `rgb(255,255,255)` mid-edit.
+- **CSS brace balance**: gated after every edit. Caught nothing this session but the pattern continues to pay rent.
+
+### Superadmin mode (newly defined this session)
+Marco invokes it when: he says "superadmin mode" / "please code" / "you fix this" / "no subagents" / second-person directives on a nitpick list. Behavior: direct Read/Edit/Write, no `Agent` calls, surgical one-commit PRs (or direct pushes on dev/* when Marco approves), lower ceremony. Reverts to delegate-first when scope crosses ~200 LoC, Marco names a model, or says "delegate". Documented in `founder/CLAUDE.md`. This single session shipped 8 commits with zero subagent dispatches — the mode works.
+
+### Open questions for next orchestrator
+- **PR #867 disposition.** When does the redesign lane merge to `main`? Marco said "we will still continue on CF from the plan, but we will do that in later sessions" — so the design branch may stay open for another iteration pass before merge. Confirm before squashing.
+- **Class P/S regen on merge.** When `dev/leaderboard-redesign` eventually merges, `docs/graph/ledger/data.json` is Class S (tracked) and was last regenerated by C1 (PR #881). If new contributors or evidence land between now and merge, the data may be stale. Run `python scripts/generateLeaderboardData.py` + `python scripts/buildApiProjection.py` against `main` HEAD before merging.
+- **Cache-bust version.** `?v=5.6.0` is hardcoded in 4+ places (`docs/index.html`, `docs/trust/leaderboard/index.html`, the embed `<link>`/`<script>` tags). If `gaia dev release` bumps the version, ensure the embed string updates too. Consider centralizing in `build_html_cache_busting()`.
+- **Donut "ungraded" legend item** appears as `--ungraded` with a dashed swatch — but the donut arc itself uses a dashed stroke pattern. Visually fine, but the dasharray timing may differ from the other arcs at very low counts. Verify on a fresh data set after next merge.
+
+### Token cost (this session — delta from session 27 cumulative)
+| Metric | Cumulative (Marco's reading) | Session 27 (prior snapshot) | **This session (delta)** |
+|---|---|---|---|
+| Output tokens | 429,555 | 176,893 | **252,662** |
+| Input tokens | 78,088 | 541 | **77,547** |
+| Cache write | 3,292,903 | 1,733,402 | **1,559,501** |
+| Cache read | 94,657,131 | 17,366,925 | **77,290,206** |
+| Total requests | 889 | 303 | **586** |
+| Cost | 102.69 CU / 55.45€ | 24.25 CU / 13.09€ | **78.44 CU / 42.36€** |
+
+Marco forgot to reset the proxy between sessions 27 and 28 — the readings above are cumulative since session 27 start. Deltas shown represent the actual session-28 spend.
+
+Observations:
+- Cache read/write ratio is ~50× (77M read / 1.5M write). Heavy reuse of CLAUDE.md + repo-context across the 8 commits + 586 requests. Expected for a long single-session iteration loop.
+- Avg cost per request: 0.13 CU / 0.072€. Slightly above the session 25 baseline (~0.06€/req) — explained by Opus-equivalent reasoning on the surgical edits + the 8 subagent dispatches earlier in the session (C1-C4 + layout-fix Opus + 2 morning audit Explores + plan agent).
+- 252k output tokens is roughly 2× session 27's 177k output. Reflects the volume of direct-code edits (no delegation = orchestrator writes every byte).
+- Within budget envelope — superadmin mode trades subagent parallelism for context-fidelity, not token efficiency. Worth it when intent matters more than throughput.
+
+## State Snapshot (2026-06-29, session 27 — Leaderboard iteration pass, 9 tasks swarmed)
+
+### TLDR
+- Visual QA + iteration pass on PR #867 leaderboard redesign based on Marcus's screenshot feedback
+- 9 tasks dispatched across 8 parallel workers (5 haiku + 3 sonnet), all succeeded first try
+- Self-audit caught 4 bugs the workers introduced; fixed in follow-up commit
+- Space Grotesk font adopted as `--font-data` (replaces all mono on this page)
+- Unified bar color encoding: TYPE gradient + GRADE metallic cap across all charts
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `docs/trust/leaderboard/leaderboard.js` | Unified bar gradients, grade caps, skill search, suite truncation, label overlap fixes, action button positioning |
+| `docs/trust/leaderboard/leaderboard.css` | Space Grotesk `--font-data`, sticky action pills, refined grade filter chips, type pill colors fixed |
+| `docs/trust/leaderboard/index.html` | Space Grotesk font load, skill search input, ledger merged into Named section |
+| `~/.pi/agent/agents/haiku-worker.md` | Created (claude-4.5-haiku agent) |
+
+### Commits this session
+| SHA | Message |
+|---|---|
+| `b82a68a6` | feat(leaderboard): full iteration pass — Space Grotesk, unified bar encoding, ledger merge, search, UX fixes |
+| `cef80b7a` | fix(leaderboard): action buttons outside scroll container, type pill fills corrected |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/leaderboard-redesign` | `cef80b7a` | OPEN PR #867, 11 commits ahead of main |
+
+### Issues + PRs touched
+- PR #867 `dev/leaderboard-redesign` — all work this session
+
+### Key decisions made
+- **Font:** Space Grotesk as `--font-data` (geometric sans, tabular-nums, -0.01em letter-spacing for subtle condensed feel). Replaces ALL mono on the leaderboard page. Not Bricolage — user explicitly wanted a NEW font.
+- **Bar encoding:** Main gradient = TYPE color (basic blue, extra purple, unique violet, ultimate amber) blended with handle hue. Accent = GRADE via 5px metallic cap (S platinum, A gold, B silver, C bronze).
+- **Ledger:** Merged INTO Named Skills section as inline collapsible table. No separate section. No "Open full ledger" link. Expand button below table.
+- **Suites:** Truncated to top 8 with "Show all" toggle to prevent label overlap.
+
+### Self-audit findings (caught & fixed)
+1. Action buttons were INSIDE `overflow-x: auto` container → sticky broken. Fixed: `beforebegin` insertion.
+2. Type pill fills in JS used `TOKENS.platinum/gold` (evidence colors, not tier colors). Fixed: inline correct tier RGB.
+3. CSS defined `.lb-action-bar` but JS used `.lb-actions`. Fixed: applied sticky to `.lb-actions`.
+4. Ultimate chart type badge also used wrong `TOKENS.platinum`. Fixed.
+
+### Lessons / hazards preserved
+- Workers won't catch cross-file consistency issues (CSS class vs JS class name). Always self-audit after swarm dispatch.
+- `position: sticky` inside `overflow-x: auto` is a no-op. Action buttons must be siblings of scroll containers, not children.
+- Inline SVG fills bypass CSS classes entirely — fixing CSS classes alone doesn't fix the visual if JS sets fill attributes directly.
+- haiku model name is `anthropic--claude-4.5-haiku` (not `claude-4-haiku`).
+
+### Token cost (this session)
+- 2026-06-29 (Marcus-reported):
+  - Output tokens: 75,034 | Input tokens: 3,290
+  - Cache write: 591,636 | Cache read: 12,926,100
+  - Total requests: 251
+  - Cost: 11.60 CU | **6.27€**
+- Note: efficient session — 9 tasks completed via swarmed workers, self-audit caught 4 integration bugs. Cache read ratio 12.9M demonstrates heavy context reuse across parallel workers.
+
+---
+
+## State Snapshot (2026-06-29, session 26 — Trust Leaderboard full AA-style redesign, 9 commits shipped)
+
+### TLDR
+- Replaced flat SVG bar chart with AA Intelligence Index–style vertical bars across all leaderboard sections
+- Major taxonomy correction: "suite" (CLAUDE.md) = installation concept (`suiteComponents` field), NOT the `ultimate` type
+- Added dedicated Suites section (14 skills with `suiteComponents`, spans ultimate + extra types)
+- Ultimates section hidden (superseded by Suites)
+- Starless/Generic chart rebuilt: fetches individual detail files to resolve `genericSkillRef`, shows ALL named implementations per generic node, origin skill highlighted in honor-red
+- Inline Trust Ledger table embedded below Named Skills (truncated, expand/collapse)
+- AA-accurate per-section controls: distribution bar grade filter + multi-select contributor dropdown + sort select
+- Group toggle (⊞/⊟) to collapse/expand identically-graded same-contributor skills
+- Unified handle+grade gradient (3-stop, grade drives chroma + hue shift, no separate accent stripe)
+- `founder/AA_LEADERBOARD_REFERENCE.md` written as permanent design peg
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `docs/trust/leaderboard/leaderboard.js` | ✅ Complete redesign — 9 commits, ~1600 lines |
+| `docs/trust/leaderboard/leaderboard.css` | ✅ Full restyle — selector bar, multi-select, ledger table, dist bar |
+| `docs/trust/leaderboard/index.html` | ✅ New section structure: Suites, Ultimates (hidden), Named, Ledger, Generic(Starless), Registry |
+| `founder/AA_LEADERBOARD_REFERENCE.md` | ✅ New permanent peg doc — AA Intelligence Index design reverse-engineered |
+| PR #867 | ⏳ Open — `dev/leaderboard-redesign`, 9 unpushed→pushed commits |
+| PR #863 | ⏳ Open — `dev/sprint-b2-trending`, untouched this session |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/leaderboard-redesign` | `710473da` | OPEN PR #867, 9 commits ahead of main |
+| `dev/sprint-b2-trending` | `dee78d26` (approx) | OPEN PR #863, untouched |
+
+### Issues + PRs touched
+- PR #867 `dev/leaderboard-redesign` — all work this session
+
+### Routing — where things live now
+- Leaderboard: `docs/trust/leaderboard/` (3 files)
+- Design peg: `founder/AA_LEADERBOARD_REFERENCE.md`
+- Ledger data source: `docs/graph/ledger/data.json` (fetched at runtime)
+- Suite detection: fetches `/api/v1/skills/<contrib>/<slug>.json` for skills with TM≥60
+- Starless detection: fetches individual detail files for all graded non-ultimate skills (~175 fetches, browser-throttled)
+
+### Key taxonomy corrections (do NOT re-litigate)
+- **Suite** = skill with `suiteComponents` field. Installation concept. Orthogonal to type.
+- **type=ultimate** = Ultimate tier (◆). Apex taxonomy. NOT the same as "suite".
+- **type=extra** = Extra tier (◇). Fused skills. Can also be suites (e.g. mattpocock/engineering).
+- **Starless/Generic** = registry taxonomy nodes. Named skills reference them via `genericSkillRef`. `origin: true` = first/canonical implementation, highlighted in honor-red.
+- Section labels per CONTEXT.md: **Basics** (○), **Extras** (◇), **Ultimates** (◆)
+
+### Lessons / hazards preserved
+- `genericSkillRef` is NOT in index pages — only in individual detail files. Must fetch `/api/v1/skills/<c>/<s>.json` to get it.
+- AA filter pattern: tabs live INSIDE each section, not as a global bar above all sections.
+- Workers were not committing/pushing — added explicit git push to all worker briefs going forward.
+- Terminology drift is costly: "suite" in casual conversation ≠ `type=ultimate` in data. Always defer to CONTEXT.md + CLAUDE.md.
+- `suiteComponents` field not in index pages either — must fetch detail files (same pattern as `genericSkillRef`).
+
+### Open questions for next orchestrator
+- PR #867 needs visual QA pass before merge — overlap issues partially fixed but not fully verified via firecrawl (localhost not accessible to firecrawl)
+- PR #863 (`dev/sprint-b2-trending`) untouched — Sprint B Wave 2 still open
+- Consider adding sticky section nav (AA pattern §7 from reference doc) as a follow-up
+- Consider whether Ultimates section should be permanently removed or kept hidden
+
+### Token cost (this session)
+- 2026-06-29 actual (Marcus-reported):
+  - Output tokens: 176,893 | Input tokens: 541 (direct)
+  - Cache write: 1,733,402 | Cache read: 17,366,925
+  - Total requests: 303
+  - Cost: 24.25 CU | **13.09€**
+- Note: heavy cache read ratio (17M read vs 1.7M write) — context was well-reused across subagent calls. Cost-efficient session for the volume of work shipped.
+
+## State Snapshot (2026-06-28, session 25 — Sprint B Wave 1 shipped + Trust Leaderboard SVG redesign in progress)
+
+### TLDR
+- Sprint B branching model established: `dev/sprint-b2-trending` is the long-lived integration branch (PR #863 → main at sprint end). All work PRs into it.
+- B1 fully closed: #850 (OpenAPI spec + `/api/` docs page) shipped in PR #863.
+- Wave 1 (3 parallel workers) merged: trending engine script (#866), frontend scaffold (#865), stargazer heartbeat (#864).
+- Trust Leaderboard completely redesigned: SVG vertical bar charts, dark atmosphere, interactive tooltips, stacked suite bars. PR #867 open, paused for visual iteration.
+- New `opus-worker` pi agent created (`~/.pi/agent/agents/opus-worker.md`) — Opus model, full capabilities.
+- Token calibration: 99.9% cache hit rate confirmed. True cost ~4× cheaper than naive estimates.
+- Founder housekeeping: DESIGN.md + PRODUCT.md moved to `founder/`; 12 merged handovers archived to `founder/handovers/done/`.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `docs/api/v1/openapi.json` | ✅ OpenAPI 3.1 spec — 9 endpoints, 12 schemas |
+| `docs/api/index.html` | ✅ `/api/` human-readable docs page |
+| `scripts/buildTrendingProjection.py` | ✅ Snapshot-based trending engine, 9/9 tests |
+| `scripts/stargazerHeartbeat.py` | ✅ Monthly star pull, 30 evidence rows refreshed live |
+| `.github/workflows/stargazer-heartbeat.yml` | ✅ Monthly cron workflow |
+| `docs/trending/` | ✅ Scaffold (will be superseded by leaderboard integration) |
+| `docs/trust/leaderboard/index.html` + CSS + JS | ✅ SVG vertical bar chart redesign — Opus worker, paused for iteration |
+| `founder/handovers/B2_TRENDING_ENGINE_SPEC.md` | ✅ Full Opus planning spec |
+| `founder/handovers/LEADERBOARD_DESIGN_SPEC.md` | ✅ Design spec written |
+| `founder/handovers/B1_IMPL_SPEC.md` | ✅ Tracked (was untracked) |
+| `founder/DESIGN.md`, `founder/PRODUCT.md` | ✅ Moved from root |
+| 12 handovers → `founder/handovers/done/` | ✅ Archived |
+| EPIC #855 | ⏳ B1 logged done, Wave 1 logged done, leaderboard in progress |
+| Issue #868 | ✅ Filed — leaderboard redesign sub-issue |
+| `~/.pi/agent/agents/opus-worker.md` | ✅ New Opus worker agent created |
+
+### Branches at end of session
+| Branch | Head | Status |
+|---|---|---|
+| `main` | `eb37c7bb` | Unchanged this session |
+| `dev/sprint-b2-trending` | `6acd399f` | 3 Wave 1 merges + B1 material. PR #863 draft. |
+| `dev/leaderboard-redesign` | `d0335a23` | Opus redesign complete, paused for Marcus visual review. PR #867 draft. |
+| `feat/b2/trending-script` | merged | ✅ Merged into dev/sprint-b2-trending |
+| `feat/b2/trending-frontend` | merged | ✅ Merged |
+| `feat/b2/trending-infra` | merged | ✅ Merged |
+
+### Issues + PRs touched
+| # | Title | Action |
+|---|---|---|
+| PR #863 | Sprint B integration | ⏳ Draft, base=main |
+| PR #867 | Trust Leaderboard redesign | ⏳ Draft, base=dev/sprint-b2-trending, paused |
+| PR #866 | trending-script | ✅ Merged into dev/sprint-b2-trending |
+| PR #865 | trending-frontend | ✅ Merged |
+| PR #864 | trending-infra | ✅ Merged |
+| #855 | Sprint B EPIC | ⏳ Comment posted, B1+Wave1 logged done |
+| #868 | Trust Leaderboard redesign | ✅ Filed (new sub-issue) |
+| #850 | OpenAPI spec + /api/ docs | ✅ Resolved by PR #863 |
+
+### Routing — where things live now
+| Artifact | Path |
+|---|---|
+| Sprint B integration branch | `dev/sprint-b2-trending` (PR #863 → main) |
+| Leaderboard redesign branch | `dev/leaderboard-redesign` (PR #867 → dev/sprint-b2-trending) |
+| B2 trending spec | `founder/handovers/B2_TRENDING_ENGINE_SPEC.md` |
+| Leaderboard design spec | `founder/handovers/LEADERBOARD_DESIGN_SPEC.md` |
+| B1 impl spec | `founder/handovers/B1_IMPL_SPEC.md` |
+| Trending engine script | `scripts/buildTrendingProjection.py` |
+| Stargazer script | `scripts/stargazerHeartbeat.py` |
+| Live leaderboard (branch) | `docs/trust/leaderboard/` (3 files: HTML/CSS/JS) |
+| Opus worker agent | `~/.pi/agent/agents/opus-worker.md` |
+
+### Lessons / hazards preserved
+- **99.9% cache hit rate is real and reliable.** Token cost estimates should assume ~4× discount on Sonnet sessions with large cached context (CLAUDE.md + repo files). Budget planning: multiply naive estimate by 0.25.
+- **Opus worker via pi:** `opus-worker` agent created at `~/.pi/agent/agents/opus-worker.md` using `model: anthropic--claude-4.6-opus`. Use for high-craft creative/design tasks where Sonnet output quality is insufficient.
+- **`--rank-N-rgb` token gap:** `tokens.css` emits `--rank-N` (hex) and `--rank-N-bg` (rgba) but NOT `--rank-N-rgb` (raw RGB triple). `leaderboard.js` hardcodes fallbacks. File issue against `generateCssTokens.py` to emit `-rgb` variants for rank tokens.
+- **Wave 1 mounts.js conflict:** Both feat/b2/trending-frontend and feat/b2/trending-infra touched mounts.js (both added 'trending'). Merged cleanly — same change, same line. Worker D (wiring) must be aware.
+- **Leaderboard page is depth-2** (`docs/trust/leaderboard/`) so asset paths use `../../js/` — `trust` mount covers this, no mounts.js change needed.
+- **Standalone /trending/ page is being superseded.** The trending data pipeline (#866) is correct and kept. The presentation moves to the leaderboard page (trending delta column). The `/trending/index.html` scaffold is in the branch but won't be the primary surface.
+
+### Open questions for next orchestrator
+- **Leaderboard iteration:** Marcus has nitpicks. Open `http://localhost:8091/trust/leaderboard/` (run `python3 -m http.server 8091` from `docs/`), review visually, then dispatch Opus worker with surgical iteration instructions.
+- **Worker D (trending-wiring):** `feat/b2/trending-wiring` not yet dispatched. Needs Worker A output paths (confirmed: `docs/api/v1/trending/{snapshot,7d,30d,ascended,contested}.json`). Wire into `build_docs.py`, add mounts, add tests for #698.
+- **`feat/b2/b1-sdk`** (#851 `@gaia-registry/api-client`): Python + TypeScript SDK. Blocked on leaderboard design settling (low priority until then).
+- **`--rank-N-rgb` token gap:** file issue + fix `generateCssTokens.py`.
+- **Registry star mutations from Worker C:** 30 `registry/named/*.md` files updated with fresh star counts. These are inside the merged `feat/b2/trending-infra` branch. Flag in PR review.
+
+### Token cost (session 25)
+| Metric | Value |
+|---|---|
+| Output tokens | 145,802 |
+| Fresh input | 376 (negligible) |
+| Cache writes | 1,265,007 |
+| Cache reads | 15,592,117 |
+| Cache hit rate | **99.9%** |
+| Total requests | 291 |
+| Cost | 17.91 CU / **9.67€** |
+| Breakdown | Output ~$0.44 + cache reads ~$4.68 + cache writes ~$4.74 |
+| **Session 24+25 cumulative** | **~12.37€** |
+
+---
+
 ## State Snapshot (2026-06-26, session 24 — B1 Public Trust API shipped: PR #857 merged, kill criterion met)
 
 ### TLDR
@@ -1124,6 +1436,8 @@ After execution: milestone #4 contents = exactly {#185, #642, #649, #658, #699, 
 - `handovers/done/` — archive of 19+ historical handovers (8 obsolete PR-1..PR-8 specs, old plan, RFCs, completed sprint specs, methodology report).
 
 ## Session Log
+
+- **2026-06-29 (session 27 — Leaderboard iteration pass, 9 tasks swarmed)** — Marcus reviewed screenshots of the leaderboard (Suites, Named Skills, Trust Ledger sections) and filed 12 nitpicks. Orchestrator planned 9 discrete tasks across 3 waves. **Wave 1** (5 haiku workers, parallel): B1 type pill colors, B2 action button restyle, B3 grade filter chips, B5 typography (Space Grotesk), A3 suite truncation. **Wave 2** (3 sonnet workers, parallel): B4 label overlap fix, C1 unified bar color encoding, A2 skill search. **Wave 3** (1 sonnet): A1 ledger merge into Named section. All 9 workers succeeded first try. **Self-audit** caught 4 integration bugs the workers missed: (1) action buttons inside `overflow-x:auto` = sticky broken; (2) type pill fills in JS using `TOKENS.platinum` not tier colors; (3) CSS `.lb-action-bar` vs JS `.lb-actions` class mismatch; (4) Ultimate chart badge same token bug. Fixed in follow-up commit `cef80b7a`. **Design decisions:** Space Grotesk replaces mono on this page (user rejected Bricolage, wanted fresh); bar gradient = TYPE + handle hue blend, accent = GRADE metallic cap; ledger merged into Named (no separate section); suites truncated to 8. Created `~/.pi/agent/agents/haiku-worker.md` (model was `claude-4.5-haiku`, not `claude-4-haiku`). **Token spend:** 6.27€, 251 requests, 75k out / 3.3k in, 12.9M cache read.
 
 - **2026-06-26 (Sprint B kickoff — EPIC #855, B1 API planning pass)** — Marcus opened Sprint B with EPIC #855 (Public API + Trending Engine + Hall of Heroes, target July 2026, ~$25 budget). Started B1 (Public Trust API, Issue #849) planning. **Orchestration pattern used:** Haiku scout fan-out (thorough recon across 17 files/commands) → Opus planner (two passes, max thinking) → orchestrator inline for architecture clarification. **Key product insight captured** ("gold" moment): the API converts Gaia from a website you visit into infrastructure you call. The killer use case: Claude Code queries `/api/v1/skills/garrytan/gstack.json` inline while a developer asks "find me the best web search skill" — evidence-backed skill discovery inside an agentic IDE session without leaving the terminal. Documented in **`founder/API_PRODUCT_STORY.md`** (new, canonical). **Implementation spec** written to **`founder/handovers/B1_IMPL_SPEC.md`** (~31KB): 400-line `buildApiProjection.py` design, full directory tree for `docs/api/v1/`, field mapping tables, redaction rule (1★ excluded per badge invariant), pagination algorithm, `build_docs.py` hook, test plan (17 test cases), branch strategy (`dev/api-v1-projection`). **Major architecture clarification:** All previous agents (including two Opus planning passes) assumed the site was Cloudflare Pages or a Cloudflare Worker. **Truth confirmed via curl response headers:** production is **GitHub Pages + Cloudflare CDN** (`Server: cloudflare`, `X-Github-Request-Id` in headers). The `cloudflare-deploy.yml` workflow is a **manual PR preview tool** (Worker with Static Assets to workers.dev), NOT a production deploy. CORS is already solved — `Access-Control-Allow-Origin: *` is applied site-wide by Cloudflare, verified live. No `_headers` file, no Worker changes needed for the API. **Housekeeping shipped:** `infra/clarify-cf-hosting` branch + Draft PR #856 — renames `cloudflare-deploy.yml` → `cf-pr-preview.yml` with accurate names + adds `DEV.md §0 Hosting Architecture` to prevent future agent confusion. Issue #849 body updated with correct CORS/hosting context. EPIC #855 issue comment added with session log. **Artifacts created this session:** `founder/API_PRODUCT_STORY.md`, `founder/handovers/B1_IMPL_SPEC.md`, Draft PR #856, issue #849 updated. **Status:** B1 spec is coding-agent-ready. CORS is a non-issue. Next action: Marcus says "go" → dispatch coding agent for #849 on `dev/api-v1-projection`. **Token spend:** 5.18€ (~$5.65 USD). Breakdown: output 100,568 tokens (dominated by Opus planner), cache reads 7,747,510 tokens (90.3% of all tokens — Haiku scout context reuse), cache writes 719,010, fresh input 9,527. Cache reads are why actual cost (~$5.65) was $1.45 below my estimate ($7.10) — the pi harness's prompt caching for the Haiku scout is very efficient. **CI churn on PR #856: 0%** (single commit, no CI fixes needed — workflow rename + markdown only).
 
