@@ -93,39 +93,6 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
   text-overflow: ellipsis;
 }
 
-/* ════════════════════════════════════════════════════════════════════
-   Embed mode — body.lb-embed (applied when ?embed=1 query is present).
-   Strips page chrome and shows only the Named-skills panel up to and
-   including the Trust Magnitude methodology accordion. Parent page sizes
-   the iframe via postMessage so there's no internal scrollbar.
-   ════════════════════════════════════════════════════════════════════ */
-body.lb-embed {
-  background: transparent;
-  min-height: 0;
-}
-body.lb-embed #site-nav,
-body.lb-embed #site-footer,
-body.lb-embed nav.lb-toc,
-body.lb-embed .lb-hero,
-body.lb-embed #lbSuites,
-body.lb-embed #lbUltimates,
-body.lb-embed #lbGeneric,
-body.lb-embed #lbRegistry,
-body.lb-embed .lb-cta,
-body.lb-embed .lb-ledger-inline,
-body.lb-embed .lb-section-head { display: none !important; }
-body.lb-embed .lb-shell {
-  display: block;
-  padding: 0;
-  margin: 0;
-  max-width: 100%;
-}
-body.lb-embed .lb-page {
-  padding: 0;
-  margin: 0;
-  max-width: 100%;
-}
-body.lb-embed #lbNamed { margin: 0; }
 .lb-hero {
   margin-bottom: 3.5rem;
   padding-bottom: 2rem;
@@ -442,6 +409,15 @@ body.lb-embed #lbNamed { margin: 0; }
   opacity: 0.85;
 }
 .lb-show-all-btn:hover .lb-show-all-icon { opacity: 1; }
+
+/* ── Embed host (home page inline embed) ── */
+.lb-embed-host {
+  margin: 0;
+}
+.lb-embed-host #lbNamed {
+  margin: 0;
+}
+.lb-embed-host .lb-section { margin-bottom: 0; }
 
 /* ── Chart panel — wraps header (tabs/filters/note) + chart in one bordered box ── */
 .lb-chart-panel {

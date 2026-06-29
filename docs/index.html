@@ -255,17 +255,69 @@
         <h2 class="trust-preview-title"><span aria-hidden="true">◇</span> Named Skills</h2>
         <p class="trust-preview-sub">Top contributors ranked by Trust Magnitude — the evidence-backed signal that surfaces the canonical implementation.</p>
       </header>
-      <!-- Iframe embed: serves the live leaderboard in ?embed=1 mode, which
-           hides the page chrome (TOC, hero, ledger, registry, CTA) and keeps
-           only Suites + Named-skill chart + methodology accordion. The iframe
-           auto-resizes via postMessage so there's no internal scrollbar. -->
-      <iframe
-        id="trustPreviewIframe"
-        class="trust-preview-iframe"
-        src="trust/leaderboard/?embed=1"
-        title="Trust Leaderboard preview"
-        loading="lazy"
-        scrolling="no"></iframe>
+      <!-- Inline embed: same DOM as the parent page (no iframe). Mounts the
+           leaderboard's Named-skills panel directly. leaderboard.js will
+           detect these IDs and render into them; any IDs it expects but
+           we don't provide (suites, generic, registry, ledger, toc) hit
+           early-returns inside the script. -->
+      <div class="lb-embed-host">
+        <section class="lb-section" id="lbNamed">
+          <div class="lb-chart-panel">
+            <div class="lb-panel-header">
+              <div class="lb-typetabs" id="lbTypeTabs" role="tablist" aria-label="Filter by evidence type"></div>
+              <div class="lb-panel-filters" id="lbNamedControls">
+                <div class="lb-named-dist" id="lbNamedDist"></div>
+                <div class="lb-section-meta">
+                  <span class="lb-model-counter">
+                    <strong id="lbShownCount">—</strong> of <span id="lbTotalCount">—</span> skills
+                  </span>
+                  <span class="lb-input-icon-wrap">
+                    <svg class="lb-btn-icon" aria-hidden="true"><use href="assets/icons.svg#search"/></svg>
+                    <input class="lb-skill-search" id="lbSkillSearch" type="search" placeholder="Search skills…" autocomplete="off">
+                  </span>
+                  <div class="lb-multiselect" id="lbContribMulti">
+                    <button class="lb-ms-trigger" id="lbMsTrigger" type="button">
+                      <svg class="lb-btn-icon" aria-hidden="true"><use href="assets/icons.svg#user"/></svg>
+                      <span class="lb-ms-label" id="lbMsLabel">Add contributor…</span>
+                      <span class="lb-ms-arrow">▾</span>
+                    </button>
+                    <div class="lb-ms-dropdown" id="lbMsDropdown" hidden>
+                      <input class="lb-ms-search" id="lbMsSearch" type="search" placeholder="Search…" autocomplete="off">
+                      <div class="lb-ms-list" id="lbMsList"></div>
+                      <div class="lb-ms-footer">
+                        <button class="lb-ms-clear-all" id="lbMsClearAll" type="button">Clear all</button>
+                        <span class="lb-ms-selected-count" id="lbMsCount"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="lb-sort-wrap">
+                    <svg class="lb-btn-icon" aria-hidden="true"><use href="assets/icons.svg#sort-arrows"/></svg>
+                    <select class="lb-sort-select" id="lbSortSelect">
+                      <option value="tm">Sort: By TM</option>
+                      <option value="grade">Sort: By Grade</option>
+                      <option value="contributor">Sort: By Contributor</option>
+                    </select>
+                  </div>
+                  <button class="lb-group-toggle" id="lbGroupToggle" title="Toggle grouping of identical-grade skills"><svg class="lb-btn-icon" aria-hidden="true"><use href="assets/icons.svg#view-tile"/></svg> Grouped</button>
+                </div>
+              </div>
+            </div>
+            <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbNamedChart"></div>
+            <div class="lb-origin-tip" aria-label="About origin skills">
+              <svg class="lb-origin-tip-icon" aria-hidden="true"><use href="assets/icons.svg#origin-badge"/></svg>
+              <span><strong>Origin skills</strong> — the canonical implementation by the contributor who first published the technique. Marked with the laurel-wreath inside the bar.</span>
+            </div>
+            <section class="lb-tm-accordion" id="lbTmAccordion" aria-label="Trust Magnitude methodology">
+              <button class="lb-tm-toggle" id="lbTmToggle" type="button" aria-expanded="false">
+                <svg class="lb-tm-info" aria-hidden="true"><use href="assets/icons.svg#info"/></svg>
+                <span class="lb-tm-label">Trust Magnitude methodology</span>
+                <svg class="lb-tm-plus" aria-hidden="true" viewBox="0 0 16 16"><line x1="8" y1="2" x2="8" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </button>
+              <div class="lb-tm-body" id="lbTmBody" hidden></div>
+            </section>
+          </div>
+        </section>
+      </div>
       <div class="trust-preview-cta">
         <a class="trust-preview-cta-link" href="trust/leaderboard/">
           <span>Explore the full Trust Leaderboard</span>
@@ -276,22 +328,11 @@
       </div>
     </div>
   </section>
-  <script>
-  // Auto-resize the trust-preview iframe so its content shows in full with no
-  // internal scrollbar. The embedded leaderboard posts {type, h} on every
-  // resize (ResizeObserver inside the iframe).
-  (function() {
-    var frame = document.getElementById('trustPreviewIframe');
-    if (!frame) return;
-    window.addEventListener('message', function(e) {
-      if (!e.data || e.data.type !== 'gaia-embed-height') return;
-      // Defensive: only accept from our same-origin iframe content
-      if (e.source !== frame.contentWindow) return;
-      var h = Math.max(400, Math.min(3000, parseInt(e.data.h, 10) || 0));
-      if (h) frame.style.height = h + 'px';
-    });
-  })();
-  </script>
+  <link rel="stylesheet" href="trust/leaderboard/leaderboard.css?v=5.6.0">
+  <!-- Mount-only marker — leaderboard.js reads this to skip data-fetch retries
+       on pages that intentionally lack Suites/Starless/Registry mounts. -->
+  <script>window.GAIA_LB_EMBED_HOST = true;</script>
+  <script src="trust/leaderboard/leaderboard.js?v=5.6.0"></script>
 
   <!-- ─── TREE DIALOG ─── -->
   <a id="tree" tabindex="-1" aria-hidden="true"></a>
