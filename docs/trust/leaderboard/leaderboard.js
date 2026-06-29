@@ -258,15 +258,27 @@
   }
 
   // ── ORIGIN BADGE HELPER ──
-  // Renders a small laurel-wreath glyph under a contributor avatar to mark origin skills.
+  // Renders a small laurel-wreath glyph in the top-left interior of a bar to mark origin skills.
+  // Anchored to (barX, barY, barW); badge sits inside the bar, never overlapping labels below.
   // Uses currentColor + color: var(--honor-red) so we avoid hardcoding hex (CI guard).
-  function appendOriginBadge(parent, cx, cy) {
+  function appendOriginBadge(parent, barX, barY, barW) {
+    var size = Math.max(10, Math.min(14, barW * 0.45));
+    var margin = 3;
+    // Soft dark scrim behind the glyph so it stays legible against light bars
+    var scrim = svgEl('circle', {
+      cx: barX + margin + size / 2,
+      cy: barY + margin + size / 2,
+      r: String(size / 2 + 1.5),
+      fill: 'rgba(0,0,0,0.45)',
+      'pointer-events': 'none'
+    });
+    parent.appendChild(scrim);
     var u = document.createElementNS(SVG_NS, 'use');
     u.setAttribute('href', '../../assets/icons.svg#origin-badge');
-    u.setAttribute('x', String(cx - 6));
-    u.setAttribute('y', String(cy - 6));
-    u.setAttribute('width', '12');
-    u.setAttribute('height', '12');
+    u.setAttribute('x', String(barX + margin));
+    u.setAttribute('y', String(barY + margin));
+    u.setAttribute('width', String(size));
+    u.setAttribute('height', String(size));
     u.setAttribute('fill', 'currentColor');
     u.setAttribute('color', 'var(--honor-red)');
     u.setAttribute('pointer-events', 'none');
@@ -391,12 +403,19 @@
   }
 
   // ── STICKY TOC ──
+  // Scroll-driven active state: the active section is the last one whose top
+  // is above the viewport's 30% line. Robust across very tall sections (Named)
+  // and very short ones (CTA/Registry) where IntersectionObserver thresholds
+  // would otherwise miss the transition.
   function wireTocObserver() {
     var links = document.querySelectorAll('.lb-toc a');
     if (!links.length) return;
     var linkMap = {};
+    var ids = [];
     links.forEach(function(a) {
-      linkMap[a.getAttribute('data-toc')] = a;
+      var id = a.getAttribute('data-toc');
+      linkMap[id] = a;
+      ids.push(id);
     });
 
     // Smooth scroll on click
@@ -409,26 +428,40 @@
       });
     });
 
-    // Active state via IntersectionObserver
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        var id = entry.target.id;
-        var link = linkMap[id];
-        if (!link) return;
-        if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
-          links.forEach(function(a) { a.classList.remove('is-active'); });
-          link.classList.add('is-active');
-        }
-      });
-    }, {
-      rootMargin: '-30% 0px -60% 0px',
-      threshold: [0, 0.1, 0.25, 0.5]
-    });
+    function setActive(id) {
+      links.forEach(function(a) { a.classList.remove('is-active'); });
+      if (linkMap[id]) linkMap[id].classList.add('is-active');
+    }
 
-    ['lbHero', 'lbSuites', 'lbNamed', 'lbLedgerInline', 'lbGeneric', 'lbRegistry'].forEach(function(id) {
-      var el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
+    function recompute() {
+      var anchorY = window.innerHeight * 0.30; // activation line ~30% from top
+      var current = ids[0];
+      for (var i = 0; i < ids.length; i++) {
+        var el = document.getElementById(ids[i]);
+        if (!el) continue;
+        var rect = el.getBoundingClientRect();
+        if (rect.top - anchorY <= 0) {
+          current = ids[i];
+        } else {
+          break;
+        }
+      }
+      setActive(current);
+    }
+
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function() {
+        recompute();
+        ticking = false;
+      });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    recompute();
   }
 
   // ── DISTRIBUTION HEADER ──
@@ -884,15 +917,15 @@
       });
       barGroup.appendChild(avatarImg);
 
-      // Origin laurel-wreath badge (pre-baked by C1)
+      // Origin laurel-wreath badge (pre-baked by C1) — top-left interior of bar
       if (suite.origin === true) {
-        appendOriginBadge(barGroup, avatarCx, avatarCy + avatarR + 10);
+        appendOriginBadge(barGroup, x, y, SB);
       }
 
-      // Skill name label (adaptive rotation/font/truncation)
+      // Skill name label (slash-named form: contributor/skill, adaptive rotation/font/truncation)
       var labelY = innerH + avatarR * 2 + 14;
       var label = makeLabel(x + SB / 2, labelY, ls.rotation, ls.fontPx);
-      truncLabel(label, suite.name || suite.id.split('/')[1], ls.maxChars);
+      truncLabel(label, suite.id || suite.name, Math.max(ls.maxChars, 14));
       barGroup.appendChild(label);
 
       // Contributor handle (placed below name label, with extra space if rotated)
@@ -1314,15 +1347,15 @@
       });
       barGroup.appendChild(avatarImg);
 
-      // Origin laurel-wreath badge (pre-baked by C1)
+      // Origin laurel-wreath badge (pre-baked by C1) — top-left interior of bar
       if (skill.origin === true) {
-        appendOriginBadge(barGroup, avatarCx, avatarCy + avatarR + 10);
+        appendOriginBadge(barGroup, x, y, NB);
       }
 
-      // Skill name label (adaptive rotation/font/truncation)
+      // Skill name label (slash-named form: contributor/skill, adaptive rotation/font/truncation)
       var labelY = innerH + avatarR * 2 + 14;
       var label = makeLabel(x + NB / 2, labelY, ls.rotation, ls.fontPx);
-      truncLabel(label, skill.id.split('/')[1] || skill.name, ls.maxChars);
+      truncLabel(label, skill.id, Math.max(ls.maxChars, 14));
       barGroup.appendChild(label);
     });
 
@@ -1362,8 +1395,8 @@
     var countEl = document.getElementById('lbGenericCount');
     if (!container) return;
 
-    var GPAD = { top: 24, right: 24, bottom: 0, left: 54 }; // bottom computed below
-    var GCHART_H = 320;
+    var GPAD = { top: 28, right: 24, bottom: 0, left: 54 }; // bottom computed below
+    var GCHART_H = 440;
 
     if (countEl) countEl.textContent = nodes.length + ' generic skills \u00B7 ' +
       nodes.reduce(function(s, n) { return s + (n._children ? n._children.length : 0); }, 0) + ' named implementations';
@@ -1373,9 +1406,9 @@
       return;
     }
 
-    // Fix 7: pagination — when N > 50, show first 20 with toggle.
-    var PAGINATION_THRESHOLD_GEN = 50;
-    var PAGINATION_INITIAL_GEN = 20;
+    // Fix 7: pagination — initial slice is smaller so each bar has room to breathe.
+    var PAGINATION_THRESHOLD_GEN = 30;
+    var PAGINATION_INITIAL_GEN = 12;
     var needsPaginationGen = nodes.length > PAGINATION_THRESHOLD_GEN;
     var allNodes = nodes;
     var displayNodes = (needsPaginationGen && !state.genericExpanded) ? nodes.slice(0, PAGINATION_INITIAL_GEN) : nodes;
@@ -1383,20 +1416,20 @@
     var maxTM = Math.max.apply(null, displayNodes.map(function(n) { return n.trustMagnitude || 0; }));
     maxTM = Math.max(maxTM, 10);
 
-    // Fix 1: dynamic bar metrics
-    var metrics = computeBarMetrics(displayNodes.length, chartContainerW(), GPAD.left, GPAD.right, 8, 22, 0.4);
+    // Fix 1: dynamic bar metrics — larger min bar width for readability
+    var metrics = computeBarMetrics(displayNodes.length, chartContainerW(), GPAD.left, GPAD.right, 22, 56, 0.5);
     var GB = metrics.barW;
     var GG = metrics.gap;
     var barSpacing = GB + GG;
 
-    // Fix 2: adaptive label style
+    // Fix 2: adaptive label style — bumped minimum font sizes for readability
     var ls = labelStyleFor(barSpacing);
-    var childFontPx = Math.max(7, ls.fontPx - 2);
-    var childMaxChars = Math.max(6, ls.maxChars - 4);
+    var childFontPx = Math.max(9, ls.fontPx - 1);
+    var childMaxChars = Math.max(8, ls.maxChars - 2);
     var childLines = 4;
 
     // Fix 3: bottom padding = rotated name label + child label stack
-    GPAD.bottom = computeBottomPad(ls.rotation, 1, ls.fontPx) + childLines * (childFontPx + 3) + 16;
+    GPAD.bottom = computeBottomPad(ls.rotation, 1, ls.fontPx) + childLines * (childFontPx + 3) + 20;
 
     var totalW = Math.max(metrics.totalW, 320);
     var innerH = GCHART_H - GPAD.top - GPAD.bottom;
@@ -1512,10 +1545,9 @@
       var rotatedLabelH = Math.abs(Math.sin(ls.rotation * Math.PI / 180)) * ls.fontPx * 14;
       var childStartY = nameY + rotatedLabelH + 4;
 
-      // Origin laurel-wreath badge for parent generic node (pre-baked by C1)
+      // Origin laurel-wreath badge for parent generic node (pre-baked by C1) — top-left interior of bar
       if (node.origin === true) {
-        appendOriginBadge(barGroup, x + GB / 2, childStartY - 8);
-        childStartY += 8;
+        appendOriginBadge(barGroup, x, y, GB);
       }
 
       var shownChildren = children.slice(0, 3);
