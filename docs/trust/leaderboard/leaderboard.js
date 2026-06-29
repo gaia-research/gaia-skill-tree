@@ -8,7 +8,7 @@
   var BAR_GAP = 4;
   var CHART_H = 320;
   var SUITE_CHART_H = 380;
-  var PAD = { top: 24, right: 24, bottom: 90, left: 54 };
+  var PAD = { top: 24, right: 24, bottom: 110, left: 54 };
   var INITIAL_BARS = 40;
   var TM_CEILING = 600;
   var SVG_NS = 'http://www.w3.org/2000/svg';
@@ -41,6 +41,18 @@
     border: tok('--border') || 'rgb(30, 41, 59)'
   };
 
+  // ── AVATAR HELPERS ──
+  // Deterministic hue per contributor handle (for fallback circles)
+  function handleHue(handle) {
+    var h = 0;
+    for (var i = 0; i < handle.length; i++) h = (h * 31 + handle.charCodeAt(i)) & 0xffffffff;
+    return Math.abs(h) % 360;
+  }
+
+  function avatarFallbackStyle(handle) {
+    return 'background:oklch(0.55 0.18 ' + handleHue(handle) + ');';
+  }
+
   // Fallback for --rank-N-rgb (not all tokens.css emit them)
   function rankRgb(level) {
     var n = parseInt(level) || 0;
@@ -61,10 +73,62 @@
     }
   }
 
+  // ── BAR GRADIENT BUILDER ──
+  function buildBarGradientDef(svg, grade, level, id) {
+    // oklch gradients — NO hex colors
+    var stops = {
+      S: ['oklch(0.78 0.10 210)', 'oklch(0.92 0.07 195)'],
+      A: ['oklch(0.72 0.16 80)',  'oklch(0.88 0.13 65)'],
+      B: ['oklch(0.60 0.08 230)', 'oklch(0.76 0.05 215)'],
+      C: ['oklch(0.55 0.10 50)',  'oklch(0.70 0.08 40)']
+    };
+    var pair = stops[grade] || ['oklch(0.40 0.03 250)', 'oklch(0.55 0.04 240)'];
+
+    // Rank luminosity nudge: level 1★=darkest, 6★=brightest
+    var rankN = parseInt(level) || 2;
+    var nudge = (rankN - 2) * 0.03;
+
+    // Adjust luminosity in stop values by nudge
+    var adjustedPair = pair.map(function(stop) {
+      // Parse oklch(L C H) and nudge L
+      var match = stop.match(/oklch\(([\d.]+)\s+([\d.]+)\s+([\d.]+)\)/);
+      if (match) {
+        var l = Math.min(0.98, Math.max(0.2, parseFloat(match[1]) + nudge));
+        return 'oklch(' + l.toFixed(2) + ' ' + match[2] + ' ' + match[3] + ')';
+      }
+      return stop;
+    });
+
+    // Get or create <defs> in the SVG
+    var defs = svg.querySelector('defs');
+    if (!defs) {
+      defs = svgEl('defs');
+      svg.insertBefore(defs, svg.firstChild);
+    }
+
+    var gradId = 'lb-grad-' + id;
+    var grad = svgEl('linearGradient', { id: gradId, x1: '0', y1: '1', x2: '0', y2: '0' });
+    appendStop(grad, '0%', adjustedPair[0]);
+    appendStop(grad, '100%', adjustedPair[1]);
+    defs.appendChild(grad);
+
+    return gradId;
+  }
+
+  // ── ACTION BUTTONS BUILDER ──
+  function buildActionButtons(section) {
+    return '<div class="lb-actions">' +
+      '<button class="lb-action-btn" data-action="copy-link" data-section="' + section + '" title="Copy link to section">\u{1F517}</button>' +
+      '<button class="lb-action-btn" data-action="copy-image" data-section="' + section + '" title="Copy chart as image">\u{1F5BC}</button>' +
+      '<button class="lb-action-btn" data-action="download-csv" data-section="' + section + '" title="Download data as CSV">\u2B07</button>' +
+    '</div>';
+  }
+
   // ── STATE ──
   var state = {
     sort: 'tm',
     grade: 'all',
+    searchContrib: '',
     namedSkills: [],
     suiteSkills: [],
     allSkills: [],
@@ -123,6 +187,8 @@
     wireFilters(named);
     wireShowMore();
     wireTooltip();
+    wireActionButtons();
+    wireContribSearch();
 
     // Fetch suite component details for stacked bars
     fetchSuiteComponents(suites);
@@ -153,35 +219,36 @@
     var container = document.getElementById('lbSuiteChart');
     var countEl = document.getElementById('lbSuiteCount');
     if (!container) return;
-    if (countEl) countEl.textContent = suites.length + ' suites';
+    if (countEl) countEl.textContent = suites.length + ' of ' + suites.length + ' suites';
 
     var maxTM = TM_CEILING;
-    var totalW = suites.length * (BAR_W * 2 + BAR_GAP) + PAD.left + PAD.right + 80;
+    var barSpacing = BAR_W * 2 + BAR_GAP + 40;
+    var totalW = suites.length * barSpacing + PAD.left + PAD.right + 80;
     var chartH = SUITE_CHART_H;
     var innerH = chartH - PAD.top - PAD.bottom;
 
     var svg = createSvg(Math.max(totalW, 320), chartH);
 
-    // Platinum gradient for S-grade suites
+    // Create defs block first
     var defs = svgEl('defs');
-    var grad = svgEl('linearGradient', { id: 'lb-grad-platinum', x1: '0', y1: '1', x2: '0', y2: '0' });
-    appendStop(grad, '0%', 'rgba(' + TOKENS.platinum + ', 0.4)');
-    appendStop(grad, '50%', 'rgba(' + TOKENS.platinum + ', 0.7)');
-    appendStop(grad, '100%', 'rgba(' + TOKENS.platinum + ', 0.95)');
-    defs.appendChild(grad);
     svg.appendChild(defs);
+
+    // Build per-bar gradients
+    suites.forEach(function(suite, i) {
+      buildBarGradientDef(svg, suite.grade || 'S', suite.level, 'suite-' + i);
+    });
 
     // Y-axis gridlines
     drawYAxis(svg, innerH, maxTM, totalW);
 
     // Bars
     var barGroup = svgEl('g', { transform: 'translate(' + PAD.left + ',' + PAD.top + ')' });
-    var barSpacing = BAR_W * 2 + BAR_GAP + 40;
 
     suites.forEach(function(suite, i) {
       var x = i * barSpacing + 20;
       var h = (suite.trustMagnitude / maxTM) * innerH;
       var y = innerH - h;
+      var gradId = 'lb-grad-suite-' + i;
 
       var bar = svgEl('rect', {
         x: x,
@@ -189,7 +256,7 @@
         width: BAR_W * 2,
         height: h,
         rx: 4,
-        fill: 'url(#lb-grad-platinum)',
+        fill: 'url(#' + gradId + ')',
         'class': 'lb-bar lb-bar-animated',
         'data-id': suite.id,
         'data-type': 'suite',
@@ -204,15 +271,40 @@
         'text-anchor': 'middle',
         'class': 'lb-axis-value',
         'font-size': '11',
-        fill: 'rgba(' + TOKENS.platinum + ', 0.9)'
+        fill: 'rgba(' + gradeColor(suite.grade) + ', 0.9)'
       });
       tmText.textContent = suite.trustMagnitude.toFixed(0);
       barGroup.appendChild(tmText);
 
-      // Label below
+      // Avatar clip path
+      var clipId = 'av-clip-suite-' + i;
+      var clipPath = svgEl('clipPath', { id: clipId });
+      var clipCircle = svgEl('circle', { cx: x + BAR_W, cy: innerH + 52, r: '12' });
+      clipPath.appendChild(clipCircle);
+      defs.appendChild(clipPath);
+
+      // Fallback colored circle (shows when img fails to load)
+      var hue = handleHue(suite.contributor);
+      var bgCircle = svgEl('circle', {
+        cx: x + BAR_W, cy: innerH + 52, r: '12',
+        fill: 'oklch(0.55 0.18 ' + hue + ')'
+      });
+      barGroup.appendChild(bgCircle);
+
+      // GitHub avatar image (overlays the fallback circle)
+      var avatarImg = svgEl('image', {
+        href: 'https://github.com/' + suite.contributor + '.png?size=40',
+        x: x + BAR_W - 12, y: innerH + 40,
+        width: '24', height: '24',
+        'clip-path': 'url(#' + clipId + ')',
+        preserveAspectRatio: 'xMidYMid slice'
+      });
+      barGroup.appendChild(avatarImg);
+
+      // Label below avatar
       var label = svgEl('text', {
         x: x + BAR_W,
-        y: innerH + 18,
+        y: innerH + 74,
         'text-anchor': 'middle',
         'class': 'lb-axis-label',
         'font-size': '11'
@@ -223,18 +315,43 @@
       // Contributor under label
       var contrib = svgEl('text', {
         x: x + BAR_W,
-        y: innerH + 34,
+        y: innerH + 88,
         'text-anchor': 'middle',
         'font-size': '10',
         fill: 'rgba(' + TOKENS.honorRed + ', 0.7)'
       });
       contrib.textContent = suite.contributor;
       barGroup.appendChild(contrib);
+
+      // Type badge pill below contributor
+      var typeBadge = svgEl('text', {
+        x: x + BAR_W,
+        y: innerH + 102,
+        'text-anchor': 'middle',
+        'font-size': '9',
+        fill: 'rgba(' + TOKENS.platinum + ', 0.6)'
+      });
+      typeBadge.textContent = 'ultimate';
+      barGroup.appendChild(typeBadge);
     });
 
     svg.appendChild(barGroup);
     container.innerHTML = '';
+    // Inject action buttons before the chart
+    container.insertAdjacentHTML('afterbegin', buildActionButtons('suites'));
     container.appendChild(svg);
+
+    // Suite stacked legend
+    var legendHtml = '<div class="lb-legend">' +
+      [2, 3, 4, 5].map(function(n) {
+        var rgb = rankRgb(n);
+        return '<span class="lb-legend-item">' +
+          '<span class="lb-legend-swatch" style="background:rgba(' + rgb + ',0.7)"></span>' +
+          n + '\u2605 ' + (RANK_NAMES[n + '\u2605'] || '') +
+        '</span>';
+      }).join('') +
+    '</div>';
+    container.insertAdjacentHTML('beforeend', legendHtml);
   }
 
   function fetchSuiteComponents(suites) {
@@ -264,7 +381,6 @@
     var w = parseFloat(bar.getAttribute('width'));
 
     // Estimate rank distribution for visual segmentation
-    // Use a rough distribution curve: more 2-3★ components than 4-5★
     var segments = estimateRankDistribution(componentCount);
     var totalParts = segments.reduce(function(a, b) { return a + b.count; }, 0);
     var currentY = y + h; // start from bottom
@@ -290,8 +406,8 @@
     });
 
     // Make the original bar transparent so stack shows through
-    bar.setAttribute('fill', 'rgba(' + TOKENS.platinum + ', 0.08)');
-    bar.setAttribute('stroke', 'rgba(' + TOKENS.platinum + ', 0.3)');
+    bar.setAttribute('fill', 'rgba(' + gradeColor(suite.grade || 'S') + ', 0.08)');
+    bar.setAttribute('stroke', 'rgba(' + gradeColor(suite.grade || 'S') + ', 0.3)');
     bar.setAttribute('stroke-width', '1');
   }
 
@@ -318,9 +434,14 @@
     var visible = applyFilter(skills);
     var toShow = visible.slice(0, state.showCount);
     var totalVisible = visible.length;
+    var totalAll = skills.length;
 
     if (countEl) {
-      countEl.textContent = '(showing ' + toShow.length + ' of ' + totalVisible + ')';
+      var countText = toShow.length + ' of ' + totalVisible;
+      if (state.searchContrib) {
+        countText += ' (filtered from ' + totalAll + ')';
+      }
+      countEl.textContent = countText;
     }
 
     updateShowMoreBtn(toShow.length, totalVisible);
@@ -338,6 +459,15 @@
 
     var svg = createSvg(Math.max(totalW, 320), CHART_H + PAD.bottom);
 
+    // Create defs block first
+    var defs = svgEl('defs');
+    svg.appendChild(defs);
+
+    // Build per-bar gradients
+    toShow.forEach(function(skill, i) {
+      buildBarGradientDef(svg, skill.grade, skill.level, 'named-' + i);
+    });
+
     // Y-axis gridlines
     drawYAxis(svg, innerH, maxTM, totalW);
 
@@ -348,7 +478,7 @@
       var x = i * (BAR_W + BAR_GAP);
       var h = Math.max(2, (skill.trustMagnitude / maxTM) * innerH);
       var y = innerH - h;
-      var color = gradeColor(skill.grade);
+      var gradId = 'lb-grad-named-' + i;
 
       var bar = svgEl('rect', {
         x: x,
@@ -356,7 +486,7 @@
         width: BAR_W,
         height: h,
         rx: 3,
-        fill: 'rgba(' + color + ', 0.75)',
+        fill: 'url(#' + gradId + ')',
         'class': 'lb-bar lb-bar-animated',
         'data-id': skill.id,
         'data-type': 'named',
@@ -364,21 +494,77 @@
       });
       barGroup.appendChild(bar);
 
-      // X-axis label (rotated 45°)
+      // TM score above bar
+      var tmText = svgEl('text', {
+        x: x + BAR_W / 2,
+        y: y - 6,
+        'text-anchor': 'middle',
+        'class': 'lb-axis-value',
+        'font-size': '9',
+        fill: 'rgba(' + gradeColor(skill.grade) + ', 0.85)'
+      });
+      tmText.textContent = skill.trustMagnitude.toFixed(0);
+      barGroup.appendChild(tmText);
+
+      // Avatar clip path
+      var clipId = 'av-clip-named-' + i;
+      var clipPath = svgEl('clipPath', { id: clipId });
+      var clipCircle = svgEl('circle', { cx: x + BAR_W / 2, cy: innerH + 38, r: '10' });
+      clipPath.appendChild(clipCircle);
+      defs.appendChild(clipPath);
+
+      // Fallback colored circle
+      var hue = handleHue(skill.contributor);
+      var bgCircle = svgEl('circle', {
+        cx: x + BAR_W / 2, cy: innerH + 38, r: '10',
+        fill: 'oklch(0.55 0.18 ' + hue + ')'
+      });
+      barGroup.appendChild(bgCircle);
+
+      // GitHub avatar image
+      var avatarImg = svgEl('image', {
+        href: 'https://github.com/' + skill.contributor + '.png?size=40',
+        x: x + BAR_W / 2 - 10, y: innerH + 28,
+        width: '20', height: '20',
+        'clip-path': 'url(#' + clipId + ')',
+        preserveAspectRatio: 'xMidYMid slice'
+      });
+      barGroup.appendChild(avatarImg);
+
+      // Skill name label (rotated 45°)
       var label = svgEl('text', {
         x: 0,
         y: 0,
-        transform: 'translate(' + (x + BAR_W / 2) + ',' + (innerH + 12) + ') rotate(45)',
+        transform: 'translate(' + (x + BAR_W / 2) + ',' + (innerH + 56) + ') rotate(45)',
         'text-anchor': 'start',
         'class': 'lb-axis-label',
         'font-size': '10'
       });
       label.textContent = truncate(skill.id.split('/')[1] || skill.name, 16);
       barGroup.appendChild(label);
+
+      // Rank pill below label area
+      var rankN = parseInt(skill.level) || 0;
+      if (rankN > 0) {
+        var rankPill = svgEl('text', {
+          x: x + BAR_W / 2,
+          y: innerH + 100,
+          'text-anchor': 'middle',
+          'font-size': '9',
+          fill: 'rgba(' + rankRgb(rankN) + ', 0.9)'
+        });
+        rankPill.textContent = rankN + '\u2605';
+        barGroup.appendChild(rankPill);
+      }
     });
 
     svg.appendChild(barGroup);
     container.innerHTML = '';
+    // Inject action buttons
+    container.insertAdjacentHTML('afterbegin', buildActionButtons('named'));
+    // Inject contributor search
+    var searchVal = state.searchContrib || '';
+    container.insertAdjacentHTML('beforeend', '<input type="search" placeholder="Filter by contributor\u2026" class="lb-contrib-search" value="' + esc(searchVal) + '">');
     container.appendChild(svg);
   }
 
@@ -398,7 +584,7 @@
     });
 
     var handles = Object.keys(groups).sort();
-    if (countEl) countEl.textContent = handles.length + ' contributors · ' + ungraded.length + ' skills';
+    if (countEl) countEl.textContent = handles.length + ' contributors \u00B7 ' + ungraded.length + ' skills';
 
     var INITIAL = 12;
     var html = handles.map(function(handle, i) {
@@ -438,6 +624,7 @@
         });
         btn.classList.add('is-active');
         renderNamedChart(state.namedSkills);
+        wireActionButtons();
       });
     });
 
@@ -451,6 +638,7 @@
         });
         btn.classList.add('is-active');
         renderNamedChart(state.namedSkills);
+        wireActionButtons();
       });
     });
   }
@@ -461,13 +649,23 @@
     btn.addEventListener('click', function() {
       state.showCount += INITIAL_BARS;
       renderNamedChart(state.namedSkills);
+      wireActionButtons();
     });
   }
 
   function applyFilter(skills) {
     var filtered = skills;
+
+    // Contributor search filter
+    if (state.searchContrib) {
+      filtered = filtered.filter(function(s) {
+        return s.contributor.toLowerCase().indexOf(state.searchContrib) !== -1;
+      });
+    }
+
+    // Grade filter
     if (state.grade !== 'all') {
-      filtered = skills.filter(function(s) { return s.grade === state.grade; });
+      filtered = filtered.filter(function(s) { return s.grade === state.grade; });
     }
 
     // Sort
@@ -492,6 +690,58 @@
       wrap.style.display = '';
       btn.textContent = 'Show more (' + (total - shown) + ' remaining)';
     }
+  }
+
+  // ── CONTRIBUTOR SEARCH ──
+  function wireContribSearch() {
+    document.addEventListener('input', function(e) {
+      if (!e.target.classList.contains('lb-contrib-search')) return;
+      state.searchContrib = e.target.value.toLowerCase().trim();
+      state.showCount = INITIAL_BARS;
+      renderNamedChart(state.namedSkills);
+      wireActionButtons();
+    });
+  }
+
+  // ── ACTION BUTTONS WIRING ──
+  function wireActionButtons() {
+    document.querySelectorAll('.lb-action-btn').forEach(function(btn) {
+      // Avoid double-binding: mark once
+      if (btn.dataset.wired) return;
+      btn.dataset.wired = '1';
+      btn.addEventListener('click', function() {
+        var action = btn.dataset.action;
+        var section = btn.dataset.section;
+        if (action === 'copy-link') {
+          var anchor = section === 'suites' ? '#lbSuites' : '#lbNamed';
+          navigator.clipboard.writeText(window.location.href.split('#')[0] + anchor)
+            .catch(function() {});
+          btn.textContent = 'Copied!';
+          setTimeout(function() { btn.textContent = '\u{1F517}'; }, 1500);
+        } else if (action === 'copy-image') {
+          var chartWrap = document.getElementById(section === 'suites' ? 'lbSuiteChart' : 'lbNamedChart');
+          var svg = chartWrap && chartWrap.querySelector('svg');
+          if (!svg) return;
+          var serializer = new XMLSerializer();
+          var svgStr = serializer.serializeToString(svg);
+          var dataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgStr);
+          window.open(dataUrl, '_blank');
+          btn.textContent = '\u2713';
+          setTimeout(function() { btn.textContent = '\u{1F5BC}'; }, 1500);
+        } else if (action === 'download-csv') {
+          var rows = section === 'suites' ? state.suiteSkills : applyFilter(state.namedSkills);
+          var csv = 'id,name,contributor,type,level,trustMagnitude,grade\n' +
+            rows.map(function(r) {
+              return [r.id, r.name, r.contributor, r.type, r.level, r.trustMagnitude, r.grade].join(',');
+            }).join('\n');
+          var blob = new Blob([csv], { type: 'text/csv' });
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url; a.download = 'gaia-' + section + '.csv'; a.click();
+          URL.revokeObjectURL(url);
+        }
+      });
+    });
   }
 
   // ── TOOLTIP ──
@@ -576,7 +826,6 @@
   }
 
   function findSkill(id) {
-    // Search all skills (includes suites and named)
     var all = state.allSkills;
     for (var i = 0; i < all.length; i++) {
       if (all[i].id === id) return all[i];
@@ -596,7 +845,7 @@
       '<div class="lb-tt-row"><span class="lb-tt-label">Level</span><span class="lb-tt-value">' + esc(skill.level) + (levelName ? ' ' + levelName : '') + '</span></div>' +
       (type === 'suite' ? '<div class="lb-tt-row"><span class="lb-tt-label">Type</span><span class="lb-tt-value">Ultimate Suite</span></div>' : '') +
       '<div class="lb-tt-divider"></div>' +
-      '<span class="lb-tt-link">→ View in Explorer</span>';
+      '<span class="lb-tt-link">\u2192 View in Explorer</span>';
   }
 
   // ── SVG HELPERS ──
@@ -655,7 +904,7 @@
   // ── UTILITIES ──
   function truncate(str, max) {
     if (!str) return '';
-    return str.length > max ? str.slice(0, max) + '…' : str;
+    return str.length > max ? str.slice(0, max) + '\u2026' : str;
   }
 
   function esc(str) {
