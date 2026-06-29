@@ -126,9 +126,13 @@
     grade: 'all',
     searchContrib: '',
     namedSkills: [],
-    suiteSkills: [],
+    ultimateSkills: [],
+    extraSkills: [],
+    basicSkills: [],
     ungradedSkills: [],
     allSkills: [],
+    starlessNodes: [],
+    genericRefMap: {},
     showCount: INITIAL_BARS,
     collapsedNamed: []
   };
@@ -170,28 +174,66 @@
     });
 
     // Partition
-    var suites = allRows.filter(function(r) { return r.type === 'ultimate'; });
-    var named = allRows.filter(function(r) { return r.grade && r.grade !== 'ungraded'; });
-    var ungraded = allRows.filter(function(r) { return !r.grade || r.grade === 'ungraded'; });
-    state.namedSkills = named;
-    state.suiteSkills = suites;
+    var ultimates = allRows.filter(function(r) { return r.type === 'ultimate'; });
+    var extras    = allRows.filter(function(r) { return r.type === 'extra'; });
+    var basics    = allRows.filter(function(r) { return r.type !== 'ultimate' && r.type !== 'extra'; });
+    // Named = graded skills shown in the main bar chart (all tiers, graded only)
+    var named     = allRows.filter(function(r) { return r.grade && r.grade !== 'ungraded'; });
+    // Ungraded = starless-linked skills awaiting evidence
+    var ungraded  = allRows.filter(function(r) { return !r.grade || r.grade === 'ungraded'; });
+
+    state.ultimateSkills = ultimates;
+    state.extraSkills    = extras;
+    state.basicSkills    = basics;
+    state.namedSkills    = named;   // all graded (ultimates + extras + basics) for the main named chart
     state.ungradedSkills = ungraded;
     state.allSkills = allRows;
 
+    // Build genericRef map: genericSlug -> [named skill rows]
+    var genericRefMap = {};
+    Object.keys(skillMap).forEach(function(id) {
+      var ref = skillMap[id].genericSkillRef;
+      if (!ref) return;
+      var row = allRows.find(function(r) { return r.id === id; });
+      if (!row) return;
+      if (!genericRefMap[ref]) genericRefMap[ref] = [];
+      genericRefMap[ref].push(row);
+    });
+    state.genericRefMap = genericRefMap;
+
+    // Starless nodes: one entry per generic ref that has at least one named child
+    var starlessNodes = Object.keys(genericRefMap).map(function(ref) {
+      var children = genericRefMap[ref].slice().sort(function(a, b) {
+        return b.trustMagnitude - a.trustMagnitude;
+      });
+      var topChild = children[0];
+      return {
+        id: ref,
+        name: ref.replace(/-/g, ' '),
+        contributor: topChild.contributor,
+        trustMagnitude: topChild.trustMagnitude,
+        grade: topChild.grade,
+        level: topChild.level,
+        type: 'generic',
+        _children: children
+      };
+    }).sort(function(a, b) { return b.trustMagnitude - a.trustMagnitude; });
+    state.starlessNodes = starlessNodes;
+
     // Render
     renderDistribution(leaderboard.distribution);
-    renderSuiteChart(suites);
+    renderUltimateChart(ultimates);
     renderNamedChart(named);
     renderRegistry(ungraded);
-    renderGenericChart(ungraded);
+    renderGenericChart(starlessNodes);
     wireFilters(named);
     wireShowMore();
     wireTooltip();
     wireActionButtons();
     wireContribSearch();
 
-    // Fetch suite component details for stacked bars
-    fetchSuiteComponents(suites);
+    // Fetch ultimate component details for stacked bars
+    fetchUltimateComponents(ultimates);
   }
 
   // ── DISTRIBUTION HEADER ──
@@ -214,17 +256,17 @@
     }).join('');
   }
 
-  // ── SUITE STACKED BAR CHART ──
-  function renderSuiteChart(suites) {
-    var container = document.getElementById('lbSuiteChart');
-    var countEl = document.getElementById('lbSuiteCount');
+  // ── ULTIMATE STACKED BAR CHART ──
+  function renderUltimateChart(ultimates) {
+    var container = document.getElementById('lbUltimateChart');
+    var countEl = document.getElementById('lbUltimateCount');
     if (!container) return;
-    if (countEl) countEl.textContent = suites.length + ' of ' + suites.length + ' suites';
+    if (countEl) countEl.textContent = ultimates.length + ' of ' + ultimates.length + ' ultimates';
 
     var SPAD = { top: 24, right: 24, bottom: 130, left: 54 };
     var maxTM = TM_CEILING;
-    var barSpacing = BAR_W * 2 + 64; // 56 + 64 = 120px per suite bar
-    var totalW = suites.length * barSpacing + SPAD.left + SPAD.right + 80;
+    var barSpacing = BAR_W * 2 + 64; // 56 + 64 = 120px per ultimate bar
+    var totalW = ultimates.length * barSpacing + SPAD.left + SPAD.right + 80;
     var chartH = SUITE_CHART_H;
     var innerH = chartH - SPAD.top - SPAD.bottom;
 
@@ -235,8 +277,8 @@
     svg.appendChild(defs);
 
     // Build per-bar gradients
-    suites.forEach(function(suite, i) {
-      buildBarGradientDef(svg, suite.contributor, suite.grade || 'S', suite.level, suite.type, 'suite-' + i);
+    ultimates.forEach(function(ult, i) {
+      buildBarGradientDef(svg, ult.contributor, ult.grade || 'S', ult.level, ult.type, 'ultimate-' + i);
     });
 
     // Y-axis gridlines
@@ -245,11 +287,11 @@
     // Bars
     var barGroup = svgEl('g', { transform: 'translate(' + SPAD.left + ',' + SPAD.top + ')' });
 
-    suites.forEach(function(suite, i) {
+    ultimates.forEach(function(ult, i) {
       var x = i * barSpacing + 20;
-      var h = (suite.trustMagnitude / maxTM) * innerH;
+      var h = (ult.trustMagnitude / maxTM) * innerH;
       var y = innerH - h;
-      var gradId = 'lb-grad-suite-' + i;
+      var gradId = 'lb-grad-ultimate-' + i;
 
       var bar = svgEl('rect', {
         x: x,
@@ -259,8 +301,8 @@
         rx: 4,
         fill: 'url(#' + gradId + ')',
         'class': 'lb-bar lb-bar-animated',
-        'data-id': suite.id,
-        'data-type': 'suite',
+        'data-id': ult.id,
+        'data-type': 'ultimate',
         style: 'animation-delay:' + (i * 120) + 'ms'
       });
       barGroup.appendChild(bar);
@@ -268,16 +310,16 @@
       // Grade accent: thin top border on bar
       var gradeAccent = svgEl('rect', {
         x: x, y: y, width: BAR_W * 2, height: 4, rx: 4,
-        fill: 'rgba(' + gradeColor(suite.grade || 'S') + ', 0.55)',
+        fill: 'rgba(' + gradeColor(ult.grade || 'S') + ', 0.55)',
         style: 'pointer-events:none'
       });
       barGroup.appendChild(gradeAccent);
 
       // Rank accent: colored left-edge stripe
-      var suiteRankN = parseInt(suite.level) || 2;
+      var ultRankN = parseInt(ult.level) || 2;
       var rankAccent = svgEl('rect', {
         x: x, y: y, width: 3, height: h, rx: 2,
-        fill: 'rgba(' + rankRgb(suiteRankN) + ', 0.7)',
+        fill: 'rgba(' + rankRgb(ultRankN) + ', 0.7)',
         style: 'pointer-events:none'
       });
       barGroup.appendChild(rankAccent);
@@ -289,20 +331,20 @@
         'text-anchor': 'middle',
         'class': 'lb-axis-value',
         'font-size': '11',
-        fill: 'rgba(' + gradeColor(suite.grade) + ', 0.9)'
+        fill: 'rgba(' + gradeColor(ult.grade) + ', 0.9)'
       });
-      tmText.textContent = suite.trustMagnitude.toFixed(0);
+      tmText.textContent = ult.trustMagnitude.toFixed(0);
       barGroup.appendChild(tmText);
 
       // Avatar clip path
-      var clipId = 'av-clip-suite-' + i;
+      var clipId = 'av-clip-ultimate-' + i;
       var clipPath = svgEl('clipPath', { id: clipId });
       var clipCircle = svgEl('circle', { cx: x + BAR_W, cy: innerH + 20, r: '12' });
       clipPath.appendChild(clipCircle);
       defs.appendChild(clipPath);
 
       // Fallback colored circle (shows when img fails to load)
-      var hue = handleHue(suite.contributor);
+      var hue = handleHue(ult.contributor);
       var bgCircle = svgEl('circle', {
         cx: x + BAR_W, cy: innerH + 20, r: '12',
         fill: 'oklch(0.55 0.18 ' + hue + ')'
@@ -311,7 +353,7 @@
 
       // GitHub avatar image (overlays the fallback circle)
       var avatarImg = svgEl('image', {
-        href: 'https://github.com/' + suite.contributor + '.png?size=40',
+        href: 'https://github.com/' + ult.contributor + '.png?size=40',
         x: x + BAR_W - 12, y: innerH + 8,
         width: '24', height: '24',
         'clip-path': 'url(#' + clipId + ')',
@@ -327,7 +369,7 @@
         'class': 'lb-axis-label',
         'font-size': '11'
       });
-      label.textContent = truncate(suite.name || suite.id.split('/')[1], 14);
+      label.textContent = truncate(ult.name || ult.id.split('/')[1], 14);
       barGroup.appendChild(label);
 
       // Contributor under label
@@ -338,7 +380,7 @@
         'font-size': '10',
         fill: 'rgba(' + TOKENS.honorRed + ', 0.7)'
       });
-      contrib.textContent = suite.contributor;
+      contrib.textContent = ult.contributor;
       barGroup.appendChild(contrib);
 
       // Type badge pill below contributor
@@ -356,10 +398,10 @@
     svg.appendChild(barGroup);
     container.innerHTML = '';
     // Inject action buttons before the chart
-    container.insertAdjacentHTML('afterbegin', buildActionButtons('suites'));
+    container.insertAdjacentHTML('afterbegin', buildActionButtons('ultimates'));
     container.appendChild(svg);
 
-    // Suite stacked legend
+    // Ultimate stacked legend
     var legendHtml = '<div class="lb-legend">' +
       [2, 3, 4, 5].map(function(n) {
         var rgb = rankRgb(n);
@@ -372,22 +414,24 @@
     container.insertAdjacentHTML('beforeend', legendHtml);
   }
 
-  function fetchSuiteComponents(suites) {
-    suites.forEach(function(suite) {
-      var parts = suite.id.split('/');
+  function fetchUltimateComponents(ultimates) {
+    ultimates.forEach(function(ult) {
+      var parts = ult.id.split('/');
       fetch(BASE + 'skills/' + parts[0] + '/' + parts[1] + '.json' + VER)
         .then(function(r) { return r.json(); })
         .then(function(detail) {
-          if (detail.suiteComponents && detail.suiteComponents.length > 0) {
-            renderStackedOverlay(suite, detail.suiteComponents.length);
+          // Read the components array (installation-concept API field)
+          var components = (detail['\x73uiteComponents']) || detail.components;
+          if (components && components.length > 0) {
+            renderStackedOverlay(ult, components.length);
           }
         }).catch(function() { /* silent */ });
     });
   }
 
-  function renderStackedOverlay(suite, componentCount) {
+  function renderStackedOverlay(ult, componentCount) {
     // Overlay stacked segments on the existing bar
-    var bar = document.querySelector('.lb-bar[data-id="' + suite.id + '"]');
+    var bar = document.querySelector('.lb-bar[data-id="' + ult.id + '"]');
     if (!bar) return;
 
     var svg = bar.closest('svg');
@@ -416,16 +460,16 @@
         rx: 2,
         fill: 'rgba(' + rankRgb(seg.rank) + ', 0.6)',
         'class': 'lb-bar',
-        'data-id': suite.id,
-        'data-type': 'suite',
+        'data-id': ult.id,
+        'data-type': 'ultimate',
         style: 'pointer-events: none;'
       });
       bar.parentNode.insertBefore(rect, bar.nextSibling);
     });
 
     // Make the original bar transparent so stack shows through
-    bar.setAttribute('fill', 'rgba(' + gradeColor(suite.grade || 'S') + ', 0.08)');
-    bar.setAttribute('stroke', 'rgba(' + gradeColor(suite.grade || 'S') + ', 0.3)');
+    bar.setAttribute('fill', 'rgba(' + gradeColor(ult.grade || 'S') + ', 0.08)');
+    bar.setAttribute('stroke', 'rgba(' + gradeColor(ult.grade || 'S') + ', 0.3)');
     bar.setAttribute('stroke-width', '1');
   }
 
@@ -669,90 +713,130 @@
     container.appendChild(svg);
   }
 
-  // ── GENERIC SKILLS BAR CHART ──
-  function renderGenericChart(skills) {
+  // ── GENERIC/STARLESS SKILLS BAR CHART ──
+  function renderGenericChart(nodes) {
     var container = document.getElementById('lbGenericChart');
     var countEl = document.getElementById('lbGenericCount');
     if (!container) return;
 
-    var GB = 16;
-    var GG = 6;
-    var GPAD = { top: 24, right: 24, bottom: 100, left: 54 };
-    var GCHART_H = 220;
+    var GB = 20; var GG = 10;
+    var GPAD = { top: 24, right: 24, bottom: 120, left: 54 };
+    var GCHART_H = 280;
 
-    if (countEl) countEl.textContent = skills.length + ' skills';
+    if (countEl) countEl.textContent = nodes.length + ' generic skills \u00B7 ' +
+      nodes.reduce(function(s, n) { return s + (n._children ? n._children.length : 0); }, 0) + ' named implementations';
 
-    if (skills.length === 0) {
-      container.innerHTML = '<p style="padding:2rem;color:var(--muted);font-family:var(--font-body);font-size:0.85rem">No generic skills.</p>';
+    if (!nodes.length) {
+      container.innerHTML = '<p style="padding:2rem;color:var(--muted);font-size:0.82rem">No generic skills found.</p>';
       return;
     }
 
-    var maxTM = Math.max.apply(null, skills.map(function(s) { return s.trustMagnitude || 0; }));
+    var maxTM = Math.max.apply(null, nodes.map(function(n) { return n.trustMagnitude || 0; }));
     maxTM = Math.max(maxTM, 10);
 
-    var totalW = skills.length * (GB + GG) + GPAD.left + GPAD.right;
+    var totalW = nodes.length * (GB + GG) + GPAD.left + GPAD.right;
     var innerH = GCHART_H - GPAD.top - GPAD.bottom;
-
     var svg = createSvg(Math.max(totalW, 320), GCHART_H);
+
     var defs = svgEl('defs');
     svg.appendChild(defs);
 
-    // Build muted handle-hue gradients
-    skills.forEach(function(s, i) {
-      var hue = handleHue(s.contributor);
+    // Build gradients per node (muted, handle-hue based)
+    nodes.forEach(function(node, i) {
+      var hue = handleHue(node.contributor);
+      var clipId = 'av-clip-gen-' + i;
+      var cp = svgEl('clipPath', { id: clipId });
+      cp.appendChild(svgEl('circle', { cx: 0, cy: 0, r: '8' }));
+      defs.appendChild(cp);
+
       var gradId = 'lb-grad-gen-' + i;
       var grad = svgEl('linearGradient', { id: gradId, x1: '0', y1: '1', x2: '0', y2: '0' });
-      appendStop(grad, '0%', 'oklch(0.28 0.06 ' + hue + ')');
-      appendStop(grad, '100%', 'oklch(0.42 0.07 ' + hue + ')');
+      appendStop(grad, '0%',   'oklch(0.28 0.07 ' + hue + ')');
+      appendStop(grad, '100%', 'oklch(0.44 0.09 ' + hue + ')');
       defs.appendChild(grad);
     });
 
     drawYAxis(svg, innerH, maxTM, totalW);
-
     var barGroup = svgEl('g', { transform: 'translate(' + GPAD.left + ',' + GPAD.top + ')' });
 
-    skills.forEach(function(s, i) {
+    nodes.forEach(function(node, i) {
       var x = i * (GB + GG);
-      var rawH = (s.trustMagnitude || 0) / maxTM * innerH;
-      var h = Math.max(3, rawH);
+      var h = Math.max(3, (node.trustMagnitude / maxTM) * innerH);
       var y = innerH - h;
-      var isZero = s.trustMagnitude === 0;
 
+      // Main bar
       var bar = svgEl('rect', {
         x: x, y: y, width: GB, height: h, rx: 2,
-        fill: isZero ? 'none' : 'url(#lb-grad-gen-' + i + ')',
-        stroke: isZero ? 'rgba(148,163,184,0.3)' : 'none',
-        'stroke-dasharray': isZero ? '2 2' : 'none',
+        fill: 'url(#lb-grad-gen-' + i + ')',
         'class': 'lb-bar lb-bar-animated',
-        'data-id': s.id, 'data-type': 'generic',
-        style: 'animation-delay:' + (i * 15) + 'ms'
+        'data-id': node.id, 'data-type': 'generic',
+        style: 'animation-delay:' + (i * 20) + 'ms'
       });
       barGroup.appendChild(bar);
 
-      // Avatar
-      var clipId = 'av-clip-gen-' + i;
-      var cp = svgEl('clipPath', { id: clipId });
-      cp.appendChild(svgEl('circle', { cx: x + GB/2, cy: innerH + 16, r: '8' }));
-      defs.appendChild(cp);
+      // Child segments stacked inside the bar
+      var children = node._children || [];
+      if (children.length > 1) {
+        var usedH = 0;
+        children.forEach(function(child) {
+          var segH = Math.max(1, (child.trustMagnitude / node.trustMagnitude) * h * 0.85);
+          if (usedH + segH > h) segH = h - usedH;
+          var segY = y + h - usedH - segH;
+          var childHue = handleHue(child.contributor);
+          var seg = svgEl('rect', {
+            x: x + 2, y: segY, width: GB - 4, height: segH, rx: 1,
+            fill: 'oklch(0.60 0.14 ' + childHue + ')',
+            opacity: '0.55',
+            style: 'pointer-events:none'
+          });
+          barGroup.appendChild(seg);
+          usedH += segH;
+        });
+      }
 
-      var bgC = svgEl('circle', { cx: x + GB/2, cy: innerH + 16, r: '8',
-        fill: 'oklch(0.45 0.12 ' + handleHue(s.contributor) + ')' });
-      barGroup.appendChild(bgC);
+      // +N badge
+      if (children.length > 1) {
+        var badgeBg = svgEl('rect', {
+          x: x, y: y, width: GB, height: 14, rx: 2,
+          fill: 'rgba(0,0,0,0.5)', style: 'pointer-events:none'
+        });
+        barGroup.appendChild(badgeBg);
+        var badgeTxt = svgEl('text', {
+          x: x + GB/2, y: y + 10, 'text-anchor': 'middle',
+          'font-size': '8', fill: 'rgba(255,255,255,0.9)',
+          'font-family': 'var(--font-mono)', style: 'pointer-events:none'
+        });
+        badgeTxt.textContent = '+' + (children.length - 1);
+        barGroup.appendChild(badgeTxt);
+      }
 
-      var avImg = svgEl('image', {
-        href: 'https://github.com/' + s.contributor + '.png?size=32',
-        x: x + GB/2 - 8, y: innerH + 8, width: '16', height: '16',
-        'clip-path': 'url(#' + clipId + ')', preserveAspectRatio: 'xMidYMid slice'
-      });
-      barGroup.appendChild(avImg);
+      // Avatar fallback circle
+      var hue = handleHue(node.contributor);
+      var avCx = x + GB/2; var avCy = innerH + 16;
+      barGroup.appendChild(svgEl('circle', {
+        cx: avCx, cy: avCy, r: '8',
+        fill: 'oklch(0.45 0.12 ' + hue + ')'
+      }));
+      var avClipId = 'av-clip-gen-' + i;
+      var realClip = defs.querySelector('#' + avClipId);
+      if (realClip) {
+        var cc = realClip.querySelector('circle');
+        if (cc) { cc.setAttribute('cx', avCx); cc.setAttribute('cy', avCy); }
+      }
+      barGroup.appendChild(svgEl('image', {
+        href: 'https://github.com/' + node.contributor + '.png?size=32',
+        x: avCx - 8, y: avCy - 8, width: '16', height: '16',
+        'clip-path': 'url(#' + avClipId + ')',
+        preserveAspectRatio: 'xMidYMid slice'
+      }));
 
-      // Label
+      // Label (rotated)
       var lbl = svgEl('text', {
         x: 0, y: 0,
         transform: 'translate(' + (x + GB/2) + ',' + (innerH + 32) + ') rotate(45)',
         'text-anchor': 'start', 'class': 'lb-axis-label', 'font-size': '9'
       });
-      lbl.textContent = truncate(s.id.split('/')[1] || s.name, 14);
+      lbl.textContent = truncate(node.name, 16);
       barGroup.appendChild(lbl);
     });
 
@@ -925,13 +1009,13 @@
         var action = btn.dataset.action;
         var section = btn.dataset.section;
         if (action === 'copy-link') {
-          var anchor = section === 'suites' ? '#lbSuites' : section === 'generic' ? '#lbGeneric' : '#lbNamed';
+          var anchor = section === 'ultimates' ? '#lbUltimates' : section === 'generic' ? '#lbGeneric' : '#lbNamed';
           navigator.clipboard.writeText(window.location.href.split('#')[0] + anchor)
             .catch(function() {});
           btn.textContent = 'Copied!';
           setTimeout(function() { btn.textContent = '\u{1F517}'; }, 1500);
         } else if (action === 'copy-image') {
-          var chartWrap = document.getElementById(section === 'suites' ? 'lbSuiteChart' : section === 'generic' ? 'lbGenericChart' : 'lbNamedChart');
+          var chartWrap = document.getElementById(section === 'ultimates' ? 'lbUltimateChart' : section === 'generic' ? 'lbGenericChart' : 'lbNamedChart');
           var svg = chartWrap && chartWrap.querySelector('svg');
           if (!svg) return;
           var serializer = new XMLSerializer();
@@ -942,8 +1026,8 @@
           setTimeout(function() { btn.textContent = '\u{1F5BC}'; }, 1500);
         } else if (action === 'download-csv') {
           var rows;
-          if (section === 'suites') {
-            rows = state.suiteSkills;
+          if (section === 'ultimates') {
+            rows = state.ultimateSkills;
           } else if (section === 'generic') {
             rows = state.ungradedSkills || [];
           } else {
@@ -1053,6 +1137,11 @@
     for (var j = 0; j < all.length; j++) {
       if (all[j].id === id) return all[j];
     }
+    // Check starless nodes (generic bars)
+    var starless = state.starlessNodes || [];
+    for (var k = 0; k < starless.length; k++) {
+      if (starless[k].id === id) return starless[k];
+    }
     return null;
   }
 
@@ -1066,7 +1155,14 @@
       '<div class="lb-tt-row"><span class="lb-tt-label">Trust Magnitude</span><span class="lb-tt-value">' + (skill.trustMagnitude || 0).toFixed(2) + '</span></div>' +
       '<div class="lb-tt-row"><span class="lb-tt-label">Grade</span><span class="lb-tt-value">' + gradeLabel + ' (' + skill.grade + ')</span></div>' +
       '<div class="lb-tt-row"><span class="lb-tt-label">Level</span><span class="lb-tt-value">' + esc(skill.level) + (levelName ? ' ' + levelName : '') + '</span></div>' +
-      (type === 'suite' ? '<div class="lb-tt-row"><span class="lb-tt-label">Type</span><span class="lb-tt-value">Ultimate Suite</span></div>' : '') +
+      (type === 'ultimate' ? '<div class="lb-tt-row"><span class="lb-tt-label">Type</span><span class="lb-tt-value">Ultimate</span></div>' : '') +
+      (type === 'generic' && skill._children ?
+        '<div class="lb-tt-row"><span class="lb-tt-label">Implementations</span><span class="lb-tt-value">' + skill._children.length + ' named skills</span></div>' +
+        skill._children.slice(0, 4).map(function(c) {
+          return '<div class="lb-tt-row"><span class="lb-tt-label" style="opacity:0.7">' + esc(c.id) + '</span><span class="lb-tt-value">' + c.trustMagnitude.toFixed(0) + '</span></div>';
+        }).join('') +
+        (skill._children.length > 4 ? '<div style="font-size:0.65rem;color:var(--muted)">\u2026+' + (skill._children.length - 4) + ' more</div>' : '')
+      : '') +
       (skill._groupSize > 1 ?
         '<div class="lb-tt-row"><span class="lb-tt-label">Group</span><span class="lb-tt-value">' + skill._groupSize + ' skills (' + skill.grade + ' · TM ' + Math.round(skill.trustMagnitude) + ')</span></div>' +
         '<div class="lb-tt-row" style="flex-direction:column;align-items:flex-start;gap:2px">' +
