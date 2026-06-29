@@ -164,7 +164,12 @@ brew install pipx
 pipx install gaia-cli
 ```
 
-**Windows** (PowerShell — curl installer doesn't apply):
+**Windows** (PowerShell one-liner installer):
+```powershell
+iex (irm https://gaia.tiongson.co/install.ps1)
+```
+
+Manual Python/pip fallback (Windows):
 ```powershell
 py -m pip install gaia-cli
 $env:PATH += ";" + (python -c "import sysconfig; print(sysconfig.get_path('scripts', 'nt_user'))")
