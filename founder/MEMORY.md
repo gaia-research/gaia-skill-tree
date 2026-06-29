@@ -2,6 +2,65 @@
 
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
+## State Snapshot (2026-06-29, session 27 — Leaderboard iteration pass, 9 tasks swarmed)
+
+### TLDR
+- Visual QA + iteration pass on PR #867 leaderboard redesign based on Marcus's screenshot feedback
+- 9 tasks dispatched across 8 parallel workers (5 haiku + 3 sonnet), all succeeded first try
+- Self-audit caught 4 bugs the workers introduced; fixed in follow-up commit
+- Space Grotesk font adopted as `--font-data` (replaces all mono on this page)
+- Unified bar color encoding: TYPE gradient + GRADE metallic cap across all charts
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `docs/trust/leaderboard/leaderboard.js` | Unified bar gradients, grade caps, skill search, suite truncation, label overlap fixes, action button positioning |
+| `docs/trust/leaderboard/leaderboard.css` | Space Grotesk `--font-data`, sticky action pills, refined grade filter chips, type pill colors fixed |
+| `docs/trust/leaderboard/index.html` | Space Grotesk font load, skill search input, ledger merged into Named section |
+| `~/.pi/agent/agents/haiku-worker.md` | Created (claude-4.5-haiku agent) |
+
+### Commits this session
+| SHA | Message |
+|---|---|
+| `b82a68a6` | feat(leaderboard): full iteration pass — Space Grotesk, unified bar encoding, ledger merge, search, UX fixes |
+| `cef80b7a` | fix(leaderboard): action buttons outside scroll container, type pill fills corrected |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/leaderboard-redesign` | `cef80b7a` | OPEN PR #867, 11 commits ahead of main |
+
+### Issues + PRs touched
+- PR #867 `dev/leaderboard-redesign` — all work this session
+
+### Key decisions made
+- **Font:** Space Grotesk as `--font-data` (geometric sans, tabular-nums, -0.01em letter-spacing for subtle condensed feel). Replaces ALL mono on the leaderboard page. Not Bricolage — user explicitly wanted a NEW font.
+- **Bar encoding:** Main gradient = TYPE color (basic blue, extra purple, unique violet, ultimate amber) blended with handle hue. Accent = GRADE via 5px metallic cap (S platinum, A gold, B silver, C bronze).
+- **Ledger:** Merged INTO Named Skills section as inline collapsible table. No separate section. No "Open full ledger" link. Expand button below table.
+- **Suites:** Truncated to top 8 with "Show all" toggle to prevent label overlap.
+
+### Self-audit findings (caught & fixed)
+1. Action buttons were INSIDE `overflow-x: auto` container → sticky broken. Fixed: `beforebegin` insertion.
+2. Type pill fills in JS used `TOKENS.platinum/gold` (evidence colors, not tier colors). Fixed: inline correct tier RGB.
+3. CSS defined `.lb-action-bar` but JS used `.lb-actions`. Fixed: applied sticky to `.lb-actions`.
+4. Ultimate chart type badge also used wrong `TOKENS.platinum`. Fixed.
+
+### Lessons / hazards preserved
+- Workers won't catch cross-file consistency issues (CSS class vs JS class name). Always self-audit after swarm dispatch.
+- `position: sticky` inside `overflow-x: auto` is a no-op. Action buttons must be siblings of scroll containers, not children.
+- Inline SVG fills bypass CSS classes entirely — fixing CSS classes alone doesn't fix the visual if JS sets fill attributes directly.
+- haiku model name is `anthropic--claude-4.5-haiku` (not `claude-4-haiku`).
+
+### Token cost (this session)
+- 2026-06-29 (Marcus-reported):
+  - Output tokens: 75,034 | Input tokens: 3,290
+  - Cache write: 591,636 | Cache read: 12,926,100
+  - Total requests: 251
+  - Cost: 11.60 CU | **6.27€**
+- Note: efficient session — 9 tasks completed via swarmed workers, self-audit caught 4 integration bugs. Cache read ratio 12.9M demonstrates heavy context reuse across parallel workers.
+
+---
+
 ## State Snapshot (2026-06-29, session 26 — Trust Leaderboard full AA-style redesign, 9 commits shipped)
 
 ### TLDR
@@ -1287,6 +1346,8 @@ After execution: milestone #4 contents = exactly {#185, #642, #649, #658, #699, 
 - `handovers/done/` — archive of 19+ historical handovers (8 obsolete PR-1..PR-8 specs, old plan, RFCs, completed sprint specs, methodology report).
 
 ## Session Log
+
+- **2026-06-29 (session 27 — Leaderboard iteration pass, 9 tasks swarmed)** — Marcus reviewed screenshots of the leaderboard (Suites, Named Skills, Trust Ledger sections) and filed 12 nitpicks. Orchestrator planned 9 discrete tasks across 3 waves. **Wave 1** (5 haiku workers, parallel): B1 type pill colors, B2 action button restyle, B3 grade filter chips, B5 typography (Space Grotesk), A3 suite truncation. **Wave 2** (3 sonnet workers, parallel): B4 label overlap fix, C1 unified bar color encoding, A2 skill search. **Wave 3** (1 sonnet): A1 ledger merge into Named section. All 9 workers succeeded first try. **Self-audit** caught 4 integration bugs the workers missed: (1) action buttons inside `overflow-x:auto` = sticky broken; (2) type pill fills in JS using `TOKENS.platinum` not tier colors; (3) CSS `.lb-action-bar` vs JS `.lb-actions` class mismatch; (4) Ultimate chart badge same token bug. Fixed in follow-up commit `cef80b7a`. **Design decisions:** Space Grotesk replaces mono on this page (user rejected Bricolage, wanted fresh); bar gradient = TYPE + handle hue blend, accent = GRADE metallic cap; ledger merged into Named (no separate section); suites truncated to 8. Created `~/.pi/agent/agents/haiku-worker.md` (model was `claude-4.5-haiku`, not `claude-4-haiku`). **Token spend:** 6.27€, 251 requests, 75k out / 3.3k in, 12.9M cache read.
 
 - **2026-06-26 (Sprint B kickoff — EPIC #855, B1 API planning pass)** — Marcus opened Sprint B with EPIC #855 (Public API + Trending Engine + Hall of Heroes, target July 2026, ~$25 budget). Started B1 (Public Trust API, Issue #849) planning. **Orchestration pattern used:** Haiku scout fan-out (thorough recon across 17 files/commands) → Opus planner (two passes, max thinking) → orchestrator inline for architecture clarification. **Key product insight captured** ("gold" moment): the API converts Gaia from a website you visit into infrastructure you call. The killer use case: Claude Code queries `/api/v1/skills/garrytan/gstack.json` inline while a developer asks "find me the best web search skill" — evidence-backed skill discovery inside an agentic IDE session without leaving the terminal. Documented in **`founder/API_PRODUCT_STORY.md`** (new, canonical). **Implementation spec** written to **`founder/handovers/B1_IMPL_SPEC.md`** (~31KB): 400-line `buildApiProjection.py` design, full directory tree for `docs/api/v1/`, field mapping tables, redaction rule (1★ excluded per badge invariant), pagination algorithm, `build_docs.py` hook, test plan (17 test cases), branch strategy (`dev/api-v1-projection`). **Major architecture clarification:** All previous agents (including two Opus planning passes) assumed the site was Cloudflare Pages or a Cloudflare Worker. **Truth confirmed via curl response headers:** production is **GitHub Pages + Cloudflare CDN** (`Server: cloudflare`, `X-Github-Request-Id` in headers). The `cloudflare-deploy.yml` workflow is a **manual PR preview tool** (Worker with Static Assets to workers.dev), NOT a production deploy. CORS is already solved — `Access-Control-Allow-Origin: *` is applied site-wide by Cloudflare, verified live. No `_headers` file, no Worker changes needed for the API. **Housekeeping shipped:** `infra/clarify-cf-hosting` branch + Draft PR #856 — renames `cloudflare-deploy.yml` → `cf-pr-preview.yml` with accurate names + adds `DEV.md §0 Hosting Architecture` to prevent future agent confusion. Issue #849 body updated with correct CORS/hosting context. EPIC #855 issue comment added with session log. **Artifacts created this session:** `founder/API_PRODUCT_STORY.md`, `founder/handovers/B1_IMPL_SPEC.md`, Draft PR #856, issue #849 updated. **Status:** B1 spec is coding-agent-ready. CORS is a non-issue. Next action: Marcus says "go" → dispatch coding agent for #849 on `dev/api-v1-projection`. **Token spend:** 5.18€ (~$5.65 USD). Breakdown: output 100,568 tokens (dominated by Opus planner), cache reads 7,747,510 tokens (90.3% of all tokens — Haiku scout context reuse), cache writes 719,010, fresh input 9,527. Cache reads are why actual cost (~$5.65) was $1.45 below my estimate ($7.10) — the pi harness's prompt caching for the Haiku scout is very efficient. **CI churn on PR #856: 0%** (single commit, no CI fixes needed — workflow rename + markdown only).
 
