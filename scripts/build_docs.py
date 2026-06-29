@@ -483,8 +483,8 @@ def build_css_tokens(check: bool) -> bool:
 # metadata" (Issue #807) — extended here to normalize the version stamp during
 # --check comparison.
 _VOLATILE_DATE_PATTERNS = (
-    # JSON: "generatedAt": "2026-06-13" | "...T..Z" → value blanked
-    (re.compile(r'("generatedAt"\s*:\s*)"[^"]*"'), r'\1"<normalized>"'),
+    # JSON: "generatedAt" or "registryGeneratedAt": "2026-06-13" | "...T..Z" → value blanked
+    (re.compile(r'("(?:\w+)?(?:g|G)eneratedAt"\s*:\s*)"[^"]*"'), r'\1"<normalized>"'),
     # docs/tree.md provenance lines, both forms:
     #   "GAIA SKILL TREE … · generated 2026-06-13"   (banner header)
     #   "Generated from gaia.json on 2026-06-13. …"  (footer)
@@ -876,9 +876,8 @@ def _apply_redaction_backstop(badges_dir: Path, *, check: bool) -> None:
                 continue
             d = assets / handle
             if d.exists():
-                if not check:
-                    import shutil
-                    shutil.rmtree(d)
+                import shutil
+                shutil.rmtree(d)
     registry = badges_dir / "registry.json"
     if registry.exists():
         try:
@@ -888,7 +887,7 @@ def _apply_redaction_backstop(badges_dir: Path, *, check: bool) -> None:
         contribs = reg.get("contributors") if isinstance(reg, dict) else None
         if isinstance(contribs, dict):
             removed = [h for h in prenamed if h in contribs]
-            if removed and not check:
+            if removed:
                 for h in removed:
                     contribs.pop(h, None)
                 registry.write_text(
