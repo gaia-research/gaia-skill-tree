@@ -11549,6 +11549,16 @@ body[data-overall-grade="S"] .report-card {
   max-width: 56ch;
 }
 .trust-preview-chart { min-height: 180px; }
+.trust-preview-iframe {
+  display: block;
+  width: 100%;
+  height: 720px; /* initial; auto-resized by postMessage from inside the iframe */
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  overflow: hidden;
+  transition: height 0.4s ease;
+}
 .trust-preview-loading,
 .trust-preview-empty {
   text-align: center;

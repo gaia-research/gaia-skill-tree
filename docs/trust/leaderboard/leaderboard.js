@@ -1,6 +1,37 @@
 (function() {
   'use strict';
 
+  // ── EMBED MODE ──
+  // When this page loads inside an iframe with ?embed=1, hide the page chrome
+  // (site nav, hero, TOC, Suites, ledger, Starless, Registry, CTA, footer)
+  // and keep only the Named-skills section + methodology accordion. Then post
+  // our height to the parent so the iframe auto-sizes with no scrollbar.
+  var IS_EMBED = /[?&]embed=1\b/.test(window.location.search);
+  if (IS_EMBED) {
+    document.documentElement.classList.add('lb-embed');
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.classList.add('lb-embed');
+      // Post height to parent on load + every resize tick
+      function postHeight() {
+        var h = document.documentElement.scrollHeight;
+        try {
+          window.parent.postMessage({ type: 'gaia-embed-height', h: h }, '*');
+        } catch (e) { /* parent gone */ }
+      }
+      postHeight();
+      if (window.ResizeObserver) {
+        var ro = new ResizeObserver(postHeight);
+        ro.observe(document.documentElement);
+        ro.observe(document.body);
+      } else {
+        window.addEventListener('resize', postHeight);
+      }
+      // Re-post after first chart paint (data.json is async)
+      setTimeout(postHeight, 800);
+      setTimeout(postHeight, 2200);
+    });
+  }
+
   // ── CONFIGURATION ──
   var BASE = '../../api/v1/';
   var VER = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
