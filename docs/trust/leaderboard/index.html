@@ -108,17 +108,22 @@
           </div>
         </div>
         <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbNamedChart"></div>
+        <div class="lb-origin-tip" aria-label="About origin skills">
+          <svg class="lb-origin-tip-icon" aria-hidden="true"><use href="../../assets/icons.svg#origin-badge"/></svg>
+          <span><strong>Origin skills</strong> — the canonical implementation by the contributor who first published the technique. Marked with the laurel-wreath inside the bar.</span>
+        </div>
+        <section class="lb-tm-accordion" id="lbTmAccordion" aria-label="Trust Magnitude methodology">
+          <button class="lb-tm-toggle" id="lbTmToggle" type="button" aria-expanded="false">
+            <svg class="lb-tm-info" aria-hidden="true"><use href="../../assets/icons.svg#info"/></svg>
+            <span class="lb-tm-label">Trust Magnitude methodology</span>
+            <svg class="lb-tm-plus" aria-hidden="true" viewBox="0 0 16 16"><line x1="8" y1="2" x2="8" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+          <div class="lb-tm-body" id="lbTmBody" hidden></div>
+        </section>
       </div>
       <div class="lb-show-more" id="lbShowMore">
         <button class="lb-show-more-btn" id="lbShowMoreBtn" type="button">Show more</button>
       </div>
-      <section class="lb-tm-accordion" id="lbTmAccordion" aria-label="Trust Magnitude methodology">
-        <button class="lb-tm-toggle" id="lbTmToggle" type="button" aria-expanded="false">
-          <span class="lb-tm-glyph" aria-hidden="true">+</span>
-          <span class="lb-tm-label">Trust Magnitude methodology</span>
-        </button>
-        <div class="lb-tm-body" id="lbTmBody" hidden></div>
-      </section>
       <!-- Inline ledger table -->
       <div class="lb-ledger-inline" id="lbLedgerInline">
         <div class="lb-ledger-head">

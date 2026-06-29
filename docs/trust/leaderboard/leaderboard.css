@@ -397,6 +397,7 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
 
 .lb-chart-wrap svg {
   display: block;
+  transition: height 0.35s ease;
 }
 
 /* ── SVG bar styling (applied via JS classes) ── */
@@ -435,6 +436,13 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
   fill: var(--muted);
 }
 
+/* Skill-name (slash-id) labels — the rotated x-axis bar labels — are white. */
+.lb-axis-label--name {
+  fill: rgba(255, 255, 255, 0.92);
+  font-family: var(--font-data);
+  font-weight: 500;
+}
+
 .lb-axis-value {
   font-family: var(--font-data);
   font-size: 10px;
@@ -442,6 +450,14 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
   opacity: 0.6;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
+}
+
+/* In-bar TM number — always pure white, full opacity. Higher specificity beats
+   the base .lb-axis-value muted color so the inline number stays readable. */
+.lb-axis-value.lb-axis-value--inbar {
+  fill: rgb(255, 255, 255);
+  opacity: 1;
+  font-weight: 600;
 }
 
 .lb-gridline {
@@ -978,72 +994,128 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
   opacity: 0.7;
 }
 
-/* ── Evidence-type filter tabs (above Named chart) ── */
+/* ── Evidence-type filter tabs (above Named chart) ──
+   Serif text-link style — no pill chrome. Active link underlined. */
 .lb-typetabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 0;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  overflow: hidden;
+  gap: 0.5rem 1.1rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   align-self: stretch;
-  background: rgba(var(--evidence-silver-rgb), 0.02);
+  padding: 0.15rem 0;
 }
 .lb-typetabs .lb-stab {
-  font-size: 0.72rem;
-  padding: 0.3rem 0.65rem;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  padding: 0.15rem 0;
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  border-bottom: 1px solid transparent;
+  white-space: nowrap;
+}
+.lb-typetabs .lb-stab:hover {
+  color: var(--text);
+  background: transparent;
+  border-bottom-color: rgba(var(--evidence-silver-rgb), 0.4);
+}
+.lb-typetabs .lb-stab.is-active {
+  color: var(--text);
+  background: transparent;
+  font-weight: 500;
+  font-style: italic;
+  border-bottom-color: var(--text);
 }
 
-/* ── Trust Magnitude methodology accordion (below Named chart) ── */
+/* ── Trust Magnitude methodology accordion (in-panel) ── */
 .lb-tm-accordion {
-  margin-top: 1.5rem;
+  margin: 0;
+  border: 0;
+  padding: 0.85rem 1.1rem 0.95rem;
   border-top: 1px solid var(--border);
-  padding-top: 1rem;
+  background: rgba(var(--evidence-silver-rgb), 0.025);
 }
 .lb-tm-toggle {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   background: transparent;
-  border: none;
+  border: 0;
   color: var(--text);
-  font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
-  padding: 0.4rem 0;
+  padding: 0;
   width: 100%;
   text-align: left;
+  letter-spacing: 0;
 }
-.lb-tm-toggle:hover {
-  color: var(--tier-basic);
+.lb-tm-toggle .lb-tm-info {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  opacity: 0.75;
+  color: var(--muted);
 }
-.lb-tm-glyph {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  font-family: var(--font-data);
-  font-size: 0.85rem;
-  font-weight: 400;
-  line-height: 1;
+.lb-tm-toggle .lb-tm-label {
+  flex: 1 1 auto;
+}
+.lb-tm-toggle .lb-tm-plus {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  transform-origin: center;
+  transition: transform 0.3s ease;
+  color: var(--muted);
+}
+.lb-tm-toggle:hover { color: var(--tier-basic); }
+.lb-tm-toggle:hover .lb-tm-info,
+.lb-tm-toggle:hover .lb-tm-plus { color: var(--text); opacity: 1; }
+.lb-tm-accordion.is-open .lb-tm-plus {
+  transform: rotate(45deg); /* + → × via a 45° rotation */
 }
 .lb-tm-body {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease, padding 0.3s ease;
+  transition: max-height 0.35s ease, padding 0.35s ease, opacity 0.25s ease;
   padding: 0;
   font-family: var(--font-body);
   font-size: 0.85rem;
   color: var(--muted);
   line-height: 1.55;
+  opacity: 0;
 }
 .lb-tm-accordion.is-open .lb-tm-body {
   max-height: 800px;
-  padding: 1rem 0;
+  padding: 0.85rem 0 0.15rem;
+  opacity: 1;
+}
+
+/* Origin tip — single line above the methodology toggle, with the laurel-wreath icon */
+.lb-origin-tip {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 1.1rem 0.7rem;
+  border-top: 1px solid var(--border);
+  background: rgba(var(--evidence-silver-rgb), 0.02);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-style: italic;
+}
+.lb-origin-tip-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--honor-red);
 }
 .lb-tm-types {
   list-style: none;
