@@ -1,39 +1,38 @@
 (function() {
   'use strict';
 
-  // ── EMBED MODE ──
-  // When this page loads inside an iframe with ?embed=1, hide the page chrome
-  // (site nav, hero, TOC, Suites, ledger, Starless, Registry, CTA, footer)
-  // and keep only the Named-skills section + methodology accordion. Then post
-  // our height to the parent so the iframe auto-sizes with no scrollbar.
-  var IS_EMBED = /[?&]embed=1\b/.test(window.location.search);
-  if (IS_EMBED) {
-    document.documentElement.classList.add('lb-embed');
-    document.addEventListener('DOMContentLoaded', function() {
-      document.body.classList.add('lb-embed');
-      // Post height to parent on load + every resize tick
-      function postHeight() {
-        var h = document.documentElement.scrollHeight;
-        try {
-          window.parent.postMessage({ type: 'gaia-embed-height', h: h }, '*');
-        } catch (e) { /* parent gone */ }
-      }
-      postHeight();
-      if (window.ResizeObserver) {
-        var ro = new ResizeObserver(postHeight);
-        ro.observe(document.documentElement);
-        ro.observe(document.body);
-      } else {
-        window.addEventListener('resize', postHeight);
-      }
-      // Re-post after first chart paint (data.json is async)
-      setTimeout(postHeight, 800);
-      setTimeout(postHeight, 2200);
-    });
+  // ── HOST-PAGE PATH RESOLUTION ──
+  // Script can be sourced from any page depth (e.g. /index.html embeds it
+  // inline, /trust/leaderboard/ is its native home). Compute the repo-root
+  // prefix from the current document URL so fetches and icon refs resolve
+  // correctly regardless of where we're mounted.
+  var ROOT_PREFIX = (function() {
+    var p = window.location.pathname.replace(/[^/]*$/, ''); // strip filename
+    // /trust/leaderboard/ → ../../ ; /codex/foo/ → ../ ; / → ''
+    var depth = p.split('/').filter(Boolean).length;
+    return depth === 0 ? '' : new Array(depth + 1).join('../');
+  })();
+
+  // Rewrite every existing `<use href="../../assets/icons.svg#…">` in the
+  // DOM to use the host-relative prefix. The home-page embed uses bare
+  // `assets/icons.svg#…`; the standalone page uses `../../assets/…`.
+  function normalizeIconRefs(root) {
+    var uses = (root || document).querySelectorAll('use[href*="assets/icons.svg"]');
+    for (var i = 0; i < uses.length; i++) {
+      var u = uses[i];
+      var h = u.getAttribute('href') || '';
+      var frag = h.indexOf('#') !== -1 ? h.substring(h.indexOf('#')) : '';
+      u.setAttribute('href', ROOT_PREFIX + 'assets/icons.svg' + frag);
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { normalizeIconRefs(document); });
+  } else {
+    normalizeIconRefs(document);
   }
 
   // ── CONFIGURATION ──
-  var BASE = '../../api/v1/';
+  var BASE = ROOT_PREFIX + 'api/v1/';
   var VER = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
   var BAR_W = 28; // legacy — kept for any downstream readers; charts now use computeBarMetrics()
   var BAR_GAP = 4;
@@ -295,7 +294,7 @@
     wm.setAttribute('aria-hidden', 'true');
     wm.innerHTML =
       '<svg class="lb-panel-watermark-seal" viewBox="0 0 64 64" aria-hidden="true">' +
-      '<use href="../../assets/icons.svg#seal-diamond"/></svg>' +
+      '<use href="' + ROOT_PREFIX + 'assets/icons.svg#seal-diamond"/></svg>' +
       '<span class="lb-panel-watermark-text">Gaia</span>';
     panel.appendChild(wm);
   }
@@ -334,7 +333,7 @@
     });
     parent.appendChild(scrim);
     var u = document.createElementNS(SVG_NS, 'use');
-    u.setAttribute('href', '../../assets/icons.svg#origin-badge');
+    u.setAttribute('href', ROOT_PREFIX + 'assets/icons.svg#origin-badge');
     u.setAttribute('x', String(barX + margin));
     u.setAttribute('y', String(barY + margin));
     u.setAttribute('width', String(size));
