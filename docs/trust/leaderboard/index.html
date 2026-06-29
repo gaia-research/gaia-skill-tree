@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <script>window.GAIA_VERSION = "5.8.1";</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trust Leaderboard — Gaia</title>
+  <meta name="description" content="249 skills ranked by Trust Magnitude — the evidence-backed AI skill index.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../../css/styles.css?v=5.8.1">
+  <link rel="stylesheet" href="leaderboard.css?v=5.8.1">
+</head>
+<body class="lb-dark-page">
+  <nav id="site-nav"></nav>
+  <script src="../../js/mounts.js?v=5.8.1"></script>
+  <script src="../../js/site-nav.js?v=5.8.1"></script>
+
+  <div class="lb-shell">
+    <nav class="lb-toc" aria-label="Page sections">
+      <a href="#lbHero" data-toc="lbHero"><svg class="lb-toc-icon" aria-hidden="true"><use href="../../assets/icons.svg#sparkle"/></svg><span class="lb-toc-label">Trust Leaderboard</span></a>
+      <a href="#lbSuites" data-toc="lbSuites"><svg class="lb-toc-icon" aria-hidden="true"><use href="../../assets/icons.svg#view-tile"/></svg><span class="lb-toc-label">Suites</span></a>
+      <a href="#lbNamed" data-toc="lbNamed"><svg class="lb-toc-icon" aria-hidden="true"><use href="../../assets/icons.svg#tier-glyph-unique"/></svg><span class="lb-toc-label">Named Skills</span></a>
+      <a href="#lbLedgerInline" data-toc="lbLedgerInline"><svg class="lb-toc-icon" aria-hidden="true"><use href="../../assets/icons.svg#view-list"/></svg><span class="lb-toc-label">Trust Ledger</span></a>
+      <a href="#lbGeneric" data-toc="lbGeneric"><svg class="lb-toc-icon" aria-hidden="true"><use href="../../assets/icons.svg#view-tree"/></svg><span class="lb-toc-label">Starless</span></a>
+      <a href="#lbRegistry" data-toc="lbRegistry"><svg class="lb-toc-icon" aria-hidden="true"><use href="../../assets/icons.svg#user"/></svg><span class="lb-toc-label">In Registry</span></a>
+    </nav>
+  <main class="lb-page">
+    <!-- HERO HEADER -->
+    <header class="lb-hero" id="lbHero">
+      <a class="lb-breadcrumb" href="../../codex/trust-methodology.html">← Trust Methodology</a>
+      <h1 class="lb-title">Trust Leaderboard</h1>
+      <p class="lb-subtitle">Evidence-backed skill rankings across the registry</p>
+      <div class="lb-dist" id="lbDist" aria-label="Grade distribution"></div>
+    </header>
+
+    <!-- SUITES — skills with suiteComponents -->
+    <section class="lb-section" id="lbSuites">
+      <div class="lb-section-head">
+        <h2 class="lb-section-title">⬡ Suites</h2>
+        <span class="lb-section-count" id="lbSuiteCount"></span>
+      </div>
+      <div class="lb-chart-panel">
+        <div class="lb-panel-header">
+          <p class="lb-panel-note">Skills with component bundles — install one, get many.</p>
+        </div>
+        <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbSuiteChart"></div>
+      </div>
+    </section>
+
+    <!-- ULTIMATES — STACKED VERTICAL BAR CHART -->
+    <section class="lb-section" id="lbUltimates" style="display:none">
+      <div class="lb-section-head">
+        <h2 class="lb-section-title">◆ Ultimates</h2>
+        <span class="lb-section-count" id="lbUltimateCount"></span>
+      </div>
+      <div class="lb-chart-wrap" id="lbUltimateChart"></div>
+    </section>
+
+    <!-- NAMED SKILLS — VERTICAL BAR CHART WITH FILTERS -->
+    <section class="lb-section" id="lbNamed">
+      <div class="lb-section-head">
+        <h2 class="lb-section-title">◇ Named Skills</h2>
+        <span class="lb-section-count" id="lbNamedCount"></span>
+      </div>
+      <!-- Chart panel: tabs + filters live INSIDE the panel -->
+      <div class="lb-chart-panel">
+        <div class="lb-panel-header">
+          <div class="lb-typetabs" id="lbTypeTabs" role="tablist" aria-label="Filter by evidence type"></div>
+          <div class="lb-panel-filters" id="lbNamedControls">
+            <div class="lb-named-dist" id="lbNamedDist">
+              <!-- populated by JS from distribution data -->
+            </div>
+            <div class="lb-section-meta">
+              <span class="lb-model-counter">
+                <strong id="lbShownCount">—</strong> of <span id="lbTotalCount">—</span> skills
+              </span>
+              <span class="lb-input-icon-wrap">
+                <svg class="lb-btn-icon" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg>
+                <input class="lb-skill-search" id="lbSkillSearch" type="search" placeholder="Search skills…" autocomplete="off">
+              </span>
+              <div class="lb-multiselect" id="lbContribMulti">
+                <button class="lb-ms-trigger" id="lbMsTrigger" type="button">
+                  <svg class="lb-btn-icon" aria-hidden="true"><use href="../../assets/icons.svg#user"/></svg>
+                  <span class="lb-ms-label" id="lbMsLabel">Add contributor…</span>
+                  <span class="lb-ms-arrow">▾</span>
+                </button>
+                <div class="lb-ms-dropdown" id="lbMsDropdown" hidden>
+                  <input class="lb-ms-search" id="lbMsSearch" type="search" placeholder="Search…" autocomplete="off">
+                  <div class="lb-ms-list" id="lbMsList"></div>
+                  <div class="lb-ms-footer">
+                    <button class="lb-ms-clear-all" id="lbMsClearAll" type="button">Clear all</button>
+                    <span class="lb-ms-selected-count" id="lbMsCount"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="lb-sort-wrap">
+                <svg class="lb-btn-icon" aria-hidden="true"><use href="../../assets/icons.svg#sort-arrows"/></svg>
+                <select class="lb-sort-select" id="lbSortSelect">
+                  <option value="tm">Sort: By TM</option>
+                  <option value="grade">Sort: By Grade</option>
+                  <option value="contributor">Sort: By Contributor</option>
+                </select>
+              </div>
+              <button class="lb-group-toggle" id="lbGroupToggle" title="Toggle grouping of identical-grade skills"><svg class="lb-btn-icon" aria-hidden="true"><use href="../../assets/icons.svg#view-tile"/></svg> Grouped</button>
+            </div>
+          </div>
+        </div>
+        <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbNamedChart"></div>
+        <div class="lb-origin-tip" aria-label="About origin skills">
+          <svg class="lb-origin-tip-icon" aria-hidden="true"><use href="../../assets/icons.svg#origin-badge"/></svg>
+          <span><strong>Origin skills</strong> — the canonical implementation by the contributor who first published the technique. Marked with the laurel-wreath inside the bar.</span>
+        </div>
+        <section class="lb-tm-accordion" id="lbTmAccordion" aria-label="Trust Magnitude methodology">
+          <button class="lb-tm-toggle" id="lbTmToggle" type="button" aria-expanded="false">
+            <svg class="lb-tm-info" aria-hidden="true"><use href="../../assets/icons.svg#info"/></svg>
+            <span class="lb-tm-label">Trust Magnitude methodology</span>
+            <svg class="lb-tm-plus" aria-hidden="true" viewBox="0 0 16 16"><line x1="8" y1="2" x2="8" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+          <div class="lb-tm-body" id="lbTmBody" hidden></div>
+        </section>
+      </div>
+      <div class="lb-show-more" id="lbShowMore">
+        <button class="lb-show-more-btn" id="lbShowMoreBtn" type="button">Show more</button>
+      </div>
+      <!-- Inline ledger table -->
+      <div class="lb-ledger-inline" id="lbLedgerInline">
+        <div class="lb-ledger-head">
+          <h3 class="lb-ledger-title">Trust Ledger</h3>
+          <span class="lb-section-count" id="lbLedgerCount"></span>
+        </div>
+        <div class="lb-ledger-wrap" id="lbLedgerWrap">
+          <table class="lb-ledger-table" id="lbLedgerTable">
+            <thead>
+              <tr>
+                <th class="col-rank">#</th>
+                <th class="col-id">Skill ID</th>
+                <th class="col-tm" title="Trust Magnitude">TM</th>
+                <th class="col-grade">Grade</th>
+                <th class="col-stars">Stars</th>
+              </tr>
+            </thead>
+            <tbody id="lbLedgerBody">
+              <tr><td colspan="5" style="padding:1rem;color:var(--muted)">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="lb-ledger-toggle" id="lbLedgerToggle" type="button">Show full table ▾</button>
+      </div>
+    </section>
+
+    <!-- GENERIC SKILLS — BAR CHART -->
+    <section class="lb-section" id="lbGeneric">
+      <div class="lb-section-head">
+        <h2 class="lb-section-title lb-section-title--muted">◎ Starless</h2>
+        <span class="lb-section-count" id="lbGenericCount"></span>
+      </div>
+      <div class="lb-chart-panel">
+        <div class="lb-panel-header">
+          <p class="lb-panel-note">Generic skill nodes · each bar = one capability, segments = named implementations</p>
+        </div>
+        <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbGenericChart"></div>
+      </div>
+    </section>
+
+    <!-- IN REGISTRY — COMPACT LIST -->
+    <section class="lb-section lb-section--registry" id="lbRegistry">
+      <div class="lb-section-head">
+        <h2 class="lb-section-title lb-section-title--muted">In Registry</h2>
+        <span class="lb-section-count" id="lbRegCount"></span>
+      </div>
+      <p class="lb-section-note">Unverified — awaiting evidence. Push evidence to promote.</p>
+      <div class="lb-registry-grid" id="lbRegistryGrid"></div>
+      <button class="lb-registry-expand" id="lbRegExpand" type="button">Show all contributors</button>
+    </section>
+
+    <!-- CTA -->
+    <section class="lb-cta">
+      <h3 class="lb-cta-title">Is your AI skill missing?</h3>
+      <p class="lb-cta-body">Push it to the registry. Evidence gets you on the board.</p>
+      <pre class="lb-cta-code"><code><span class="cmd">gaia</span> push</code></pre>
+      <a class="lb-cta-link" href="https://github.com/mbtiongson1/gaia-skill-tree/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing Guide →</a>
+    </section>
+  </main>
+  </div>
+
+  <!-- TOOLTIP (position: fixed, escapes overflow) -->
+  <div class="lb-tooltip" id="lbTooltip" hidden aria-hidden="true"></div>
+
+  <footer id="site-footer"></footer>
+  <script src="../../js/site-footer.js?v=5.8.1"></script>
+  <script src="leaderboard.js?v=5.8.1"></script>
+</body>
+</html>

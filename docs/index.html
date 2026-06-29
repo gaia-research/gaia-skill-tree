@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <script>window.GAIA_VERSION = "5.7.0";</script>
+  <script>window.GAIA_VERSION = "5.8.1";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -31,17 +31,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="assets/marks/diamond-seal.svg">
-  <link rel="stylesheet" href="css/styles.css?v=5.7.0">
-  <link rel="stylesheet" href="css/plaque.css?v=5.7.0">
+  <link rel="stylesheet" href="css/styles.css?v=5.8.1">
+  <link rel="stylesheet" href="css/plaque.css?v=5.8.1">
   <!-- Universal AlphaRail (page-wide section + explorer index). -->
-  <link rel="stylesheet" href="css/alpha-rail.css?v=5.7.0">
+  <link rel="stylesheet" href="css/alpha-rail.css?v=5.8.1">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
-  <script src="js/icons.js?v=5.7.0"></script>
+  <script src="js/icons.js?v=5.8.1"></script>
   <!-- Stage 2 — shared rank-badge primitive, loaded after icons. -->
-  <script src="js/rank-badge.js?v=5.7.0"></script>
+  <script src="js/rank-badge.js?v=5.8.1"></script>
   <!-- Stage 3 — plaque component family, loaded after rank-badge. -->
-  <script src="js/tm-config.js?v=5.7.0"></script>
-  <script src="js/plaque.js?v=5.7.0"></script>
+  <script src="js/tm-config.js?v=5.8.1"></script>
+  <script src="js/plaque.js?v=5.8.1"></script>
   <style>
   /* Review Section & Side-by-Side Simulator styling */
   .review-showcase-section {
@@ -182,8 +182,8 @@
 
   <!-- ─── NAV ─── -->
   <nav id="site-nav"></nav>
-  <script src="js/mounts.js?v=5.7.0"></script>
-  <script src="js/site-nav.js?v=5.7.0"></script>
+  <script src="js/mounts.js?v=5.8.1"></script>
+  <script src="js/site-nav.js?v=5.8.1"></script>
 
   <!-- ─── HERO ─── -->
   <section id="hero">
@@ -247,6 +247,92 @@
       <svg class="ico" aria-hidden="true"><use href="assets/icons.svg#chevron-down"/></svg>
     </div>
   </section>
+
+  <!-- ─── TRUST LEADERBOARD PREVIEW ─── -->
+  <section id="trust-preview" class="trust-preview reveal" data-section="trust-preview">
+    <!-- Inline embed: mounts the leaderboard's Named-skills panel directly
+         into the home page. Same DOM, no iframe. Renderers no-op for any
+         IDs that aren't present (Suites/Starless/Registry/Ledger/TOC). -->
+    <div class="lb-embed-host">
+      <section class="lb-section" id="lbNamed">
+        <div class="lb-chart-panel">
+          <div class="lb-panel-header">
+            <div class="lb-typetabs" id="lbTypeTabs" role="tablist" aria-label="Filter by evidence type"></div>
+            <div class="lb-panel-filters" id="lbNamedControls">
+              <div class="lb-named-dist" id="lbNamedDist"></div>
+              <div class="lb-section-meta">
+                <span class="lb-model-counter">
+                  <strong id="lbShownCount">—</strong> of <span id="lbTotalCount">—</span> skills
+                </span>
+                <span class="lb-input-icon-wrap">
+                  <svg class="lb-btn-icon" aria-hidden="true"><use href="assets/icons.svg#search"/></svg>
+                  <input class="lb-skill-search" id="lbSkillSearch" type="search" placeholder="Search skills…" autocomplete="off">
+                </span>
+                <div class="lb-multiselect" id="lbContribMulti">
+                  <button class="lb-ms-trigger" id="lbMsTrigger" type="button">
+                    <svg class="lb-btn-icon" aria-hidden="true"><use href="assets/icons.svg#user"/></svg>
+                    <span class="lb-ms-label" id="lbMsLabel">Add contributor…</span>
+                    <span class="lb-ms-arrow">▾</span>
+                  </button>
+                  <div class="lb-ms-dropdown" id="lbMsDropdown" hidden>
+                    <input class="lb-ms-search" id="lbMsSearch" type="search" placeholder="Search…" autocomplete="off">
+                    <div class="lb-ms-list" id="lbMsList"></div>
+                    <div class="lb-ms-footer">
+                      <button class="lb-ms-clear-all" id="lbMsClearAll" type="button">Clear all</button>
+                      <span class="lb-ms-selected-count" id="lbMsCount"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="lb-sort-wrap">
+                  <svg class="lb-btn-icon" aria-hidden="true"><use href="assets/icons.svg#sort-arrows"/></svg>
+                  <select class="lb-sort-select" id="lbSortSelect">
+                    <option value="tm">Sort: By TM</option>
+                    <option value="grade">Sort: By Grade</option>
+                    <option value="contributor">Sort: By Contributor</option>
+                  </select>
+                </div>
+                <button class="lb-group-toggle" id="lbGroupToggle" title="Toggle grouping of identical-grade skills"><svg class="lb-btn-icon" aria-hidden="true"><use href="assets/icons.svg#view-tile"/></svg> Grouped</button>
+              </div>
+            </div>
+          </div>
+          <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbNamedChart"></div>
+          <div class="lb-origin-tip" aria-label="About origin skills">
+            <svg class="lb-origin-tip-icon" aria-hidden="true"><use href="assets/icons.svg#origin-badge"/></svg>
+            <span><strong>Origin skills</strong> — the canonical implementation by the contributor who first published the technique. Marked with the laurel-wreath inside the bar.</span>
+          </div>
+          <section class="lb-tm-accordion" id="lbTmAccordion" aria-label="Trust Magnitude methodology">
+            <button class="lb-tm-toggle" id="lbTmToggle" type="button" aria-expanded="false">
+              <svg class="lb-tm-info" aria-hidden="true"><use href="assets/icons.svg#info"/></svg>
+              <span class="lb-tm-label">Trust Magnitude methodology</span>
+              <svg class="lb-tm-plus" aria-hidden="true" viewBox="0 0 16 16"><line x1="8" y1="2" x2="8" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+            <div class="lb-tm-body" id="lbTmBody" hidden></div>
+          </section>
+        </div>
+      </section>
+    </div>
+    <div class="trust-preview-cta">
+      <a class="trust-preview-cta-link" href="named/">
+        <span>Browse Named Skills</span>
+        <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16">
+          <path d="M5 10 L15 10 M11 6 L15 10 L11 14" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a class="trust-preview-cta-link trust-preview-cta-link--ghost" href="trust/leaderboard/">
+        <span>Trust Leaderboard</span>
+        <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16">
+          <path d="M5 10 L15 10 M11 6 L15 10 L11 14" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+  <link rel="stylesheet" href="trust/leaderboard/leaderboard.css?v=5.8.1">
+  <!-- Tooltip — required for SVG bar hover (delegated handlers in leaderboard.js
+       short-circuit when this element is absent). position:fixed so it escapes
+       any overflow:hidden ancestor. -->
+  <div class="lb-tooltip" id="lbTooltip" hidden aria-hidden="true"></div>
+  <script>window.GAIA_LB_EMBED_HOST = true;</script>
+  <script src="trust/leaderboard/leaderboard.js?v=5.8.1"></script>
 
   <!-- ─── TREE DIALOG ─── -->
   <a id="tree" tabindex="-1" aria-hidden="true"></a>
@@ -642,7 +728,7 @@
 
   <!-- ─── FOOTER ─── -->
   <div id="site-footer-mount"></div>
-  <script src="js/site-footer.js?v=5.7.0"></script>
+  <script src="js/site-footer.js?v=5.8.1"></script>
 
   <!-- ─── SKILL EXPLORER OVERLAY ─── -->
   <div id="skillExplorer" class="skill-explorer" role="dialog" aria-modal="true" aria-label="Skill Explorer" tabindex="-1">
@@ -736,16 +822,16 @@
 
   <!-- ─── SCRIPTS ─── -->
   <!-- icons.js already loaded in <head> so gaiaIcon() is available before any of these. -->
-  <script src="js/atlas-helpers.js?v=5.7.0"></script>
-  <script src="js/skill-graph.js?v=5.7.0"></script>
-  <script src="js/hud-toggle.js?v=5.7.0"></script>
-  <script src="js/scroll-reveal.js?v=5.7.0"></script>
+  <script src="js/atlas-helpers.js?v=5.8.1"></script>
+  <script src="js/skill-graph.js?v=5.8.1"></script>
+  <script src="js/hud-toggle.js?v=5.8.1"></script>
+  <script src="js/scroll-reveal.js?v=5.8.1"></script>
   <!-- Universal AlphaRail component + page-wide integration (section markers
        above the explorer; dynamic type/letter/tier markers inside it). -->
-  <script src="js/alpha-rail.js?v=5.7.0"></script>
-  <script src="js/ui.js?v=5.7.0"></script>
-  <script src="js/page-ia.js?v=5.7.0"></script>
-  <script src="js/plaque-reveal.js?v=5.7.0" defer></script>
+  <script src="js/alpha-rail.js?v=5.8.1"></script>
+  <script src="js/ui.js?v=5.8.1"></script>
+  <script src="js/page-ia.js?v=5.8.1"></script>
+  <script src="js/plaque-reveal.js?v=5.8.1" defer></script>
 
   <!-- ── Share modal (single instance) — opened from plaque__share-btn ── -->
   <div class="share-modal" hidden role="dialog" aria-modal="true" aria-labelledby="share-modal-title" id="shareModal">
@@ -881,8 +967,8 @@
 
   <div id="hohFsToast" class="hoh-fs-toast" role="status" aria-live="polite">Permalink copied!</div>
 
-  <script src="js/profile-share.js?v=5.7.0"></script>
-  <script src="js/hoh-modal.js?v=5.7.0"></script>
+  <script src="js/profile-share.js?v=5.8.1"></script>
+  <script src="js/hoh-modal.js?v=5.8.1"></script>
 
   <!-- ─── REVIEW SHOWCASE SIMULATOR ─── -->
   <script>

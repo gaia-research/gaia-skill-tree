@@ -25,7 +25,7 @@ Gaia is the open-source registry where AI agent capabilities aren't just claimed
 
 Generate yours at **[gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/)**.
 
-**Brand & product:** [PRODUCT.md](PRODUCT.md) · [CONTEXT.md](CONTEXT.md) · [DESIGN.md](DESIGN.md)
+**Brand & product:** [PRODUCT.md](founder/PRODUCT.md) · [CONTEXT.md](CONTEXT.md) · [DESIGN.md](founder/DESIGN.md)
 
 **Keywords:** AI Agent Skill Registry • Evidence-Backed Skill Graph • Capability Graph • Model Context Protocol • AI Agents • Attribution
 
@@ -137,12 +137,38 @@ This is the evidence grade at the Skill level.
 
 ---
 
+## API
+
+The Gaia registry is available as a static read-only JSON API — no authentication, no rate limits.
+
+- **Base URL:** `https://gaia.tiongson.co/api/v1/`
+- **Docs:** [gaia.tiongson.co/api/](https://gaia.tiongson.co/api/)
+- **OpenAPI 3.1 spec:** [/api/v1/openapi.json](https://gaia.tiongson.co/api/v1/openapi.json)
+
+Quick examples:
+
+```bash
+# Health check
+curl https://gaia.tiongson.co/api/v1/health.json
+
+# All skills (page 1, sorted by Trust Magnitude)
+curl https://gaia.tiongson.co/api/v1/skills/index.json
+
+# Single skill detail
+curl https://gaia.tiongson.co/api/v1/skills/garrytan/gstack.json
+
+# Trust leaderboard
+curl https://gaia.tiongson.co/api/v1/leaderboard.json
+```
+
+---
+
 ## Quickstart
 
 **1. CLI
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `5.7.0`.
+Current Gaia CLI version: `5.8.1`.
 
 ```bash
 curl -fsSL https://gaia.tiongson.co/install.sh | sh

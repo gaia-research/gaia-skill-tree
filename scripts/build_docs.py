@@ -383,6 +383,7 @@ def build_html_cache_busting(check: bool) -> bool:
         "share/index.html",
         "trust/index.html",
         "trust/ledger/index.html",
+        "trust/leaderboard/index.html",
         "codex/trust-methodology.html",
         "u/index.html",
         "api/index.html",  # pre-registered for Issue #850 (docs page not yet created)
@@ -620,6 +621,11 @@ def build_docs_named_index(check: bool) -> bool:
     return True
 
 
+# Files that live in docs/api/v1/ but are hand-authored (not emitted by
+# buildApiProjection.py).  They must be preserved across every regen cycle.
+_API_HAND_AUTHORED = ["openapi.json"]
+
+
 def build_api_projection(check: bool) -> bool:
     """Run buildApiProjection.py to a tempdir and diff against docs/api/v1/."""
     script = SCRIPTS / "buildApiProjection.py"
@@ -634,6 +640,15 @@ def build_api_projection(check: bool) -> bool:
                 print(f"diff docs/api/v1/ (regen failed: rc={rc})")
                 print(output)
             raise RuntimeError(f"docs/api/v1/ regen failed: rc={rc}")
+        # Preserve hand-authored files that the generator does not emit.
+        # Copy them from the committed tree into out_dir so the diff and
+        # copytree round-trip keeps them intact.
+        if committed.exists():
+            import shutil as _shutil
+            for fname in _API_HAND_AUTHORED:
+                src = committed / fname
+                if src.exists():
+                    _shutil.copy2(src, out_dir / fname)
         if not committed.exists():
             if check:
                 print("diff docs/api/v1/ (missing)")

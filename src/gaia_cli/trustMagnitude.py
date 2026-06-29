@@ -737,6 +737,79 @@ def computeTrustMagnitude(
     return nonSocialTotal + socialTotal
 
 
+def computeTrustMagnitudeByType(
+    skill: dict,
+    genericSkillMap: Optional[dict] = None,
+    namedSkillMap: Optional[dict] = None,
+) -> dict:
+    """Return {evidenceTypeId: contribution} so sum(values) ~= computeTrustMagnitude.
+
+    Mirrors computeTrustMagnitude's pipeline (effective pool, anti-auto-mint,
+    same-source dedup, fusion-recipe auto-derive, plateau, social-signal A-cap)
+    but partitions the total by evidence type. After computing raw per-type
+    totals, scales all entries proportionally so dict-sum equals the aggregate
+    TM within 0.02. Each value is rounded to 2 decimals. Missing types simply
+    don't appear (frontend treats absent as 0).
+    """
+    del namedSkillMap  # reserved for future cross-skill rules
+
+    # 1-2-3: pool resolution, anti-auto-mint, dedup (same as computeTrustMagnitude).
+    pool = _effectivePool(skill, genericSkillMap)
+    evidence = enforceAntiAutoMint({"evidence": pool})
+    deduped = _dedupeSameSource(evidence)
+
+    # 4: auto-mint fusion-recipe if needed.
+    suiteComponents = skill.get("suiteComponents") or []
+    hasFusionRow = any(_typeOf(r) == "fusion-recipe" for r in deduped)
+    if suiteComponents and not hasFusionRow:
+        deduped = list(deduped) + [{
+            "type": "fusion-recipe",
+            "origins": list(suiteComponents),
+            "_autoDerived": True,
+            "layer": _ownLayerOf(skill),
+        }]
+
+    # 5: per-row scoring with inherit multiplier.
+    rowsWithScores: list[tuple[dict, Optional[float]]] = []
+    for row in deduped:
+        baseScore = computeArtifactScoreOrNone(row, genericSkillMap)
+        if baseScore is None:
+            rowsWithScores.append((row, None))
+            continue
+        mult = _inheritMultiplierFor(row, skill)
+        rowsWithScores.append((row, baseScore * mult))
+
+    # 6: plateau / per-creator dedup.
+    rowsWithScores = _applyPlateauAndCreatorDedup(rowsWithScores)
+
+    # 7: partition by type, applying social-signal A-cap proportionally.
+    perType: dict[str, float] = {}
+    socialTotal = 0.0
+    for row, score in rowsWithScores:
+        if score is None:
+            continue
+        t = _typeOf(row) or "unknown"
+        if t == "social-signal":
+            socialTotal += score
+        perType[t] = perType.get(t, 0.0) + score
+
+    # Social-signal A-cap: scale only the social-signal bucket to the cap.
+    if "social-signal" in perType and socialTotal > 80.0:
+        perType["social-signal"] = 80.0
+
+    aggregate = computeTrustMagnitude(skill, genericSkillMap)
+    rawSum = sum(perType.values())
+
+    # Scale proportionally so dict-sum matches aggregate within 0.02.
+    if rawSum > 0 and abs(rawSum - aggregate) > 0.02:
+        factor = aggregate / rawSum
+        perType = {t: v * factor for t, v in perType.items()}
+
+    # Round to 2 decimals; drop zero buckets.
+    out = {t: round(v, 2) for t, v in perType.items() if round(v, 2) != 0.0}
+    return out
+
+
 def _effectivePool(skill: dict, genericSkillMap: Optional[dict]) -> list[dict]:
     """Resolve the merged own + inherited evidence pool for a skill.
 
