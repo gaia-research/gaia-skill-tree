@@ -26,10 +26,22 @@
   min-width: 0; /* allow grid child to shrink */
 }
 
-/* ── Sticky left-rail Table of Contents (desktop only) ── */
-.lb-toc {
+/* ── Sticky left-rail Table of Contents (desktop only) ──
+   Selector must be nav.lb-toc (not .lb-toc) to outweigh the global
+   `nav:not(.footer-cols)` rule in docs/css/styles.css L300, which otherwise
+   forces position:fixed across the top of the viewport and removes the TOC
+   from the grid — collapsing the layout to look single-column.
+   Specificity ties at (0,1,1); leaderboard.css loads after styles.css so it wins.
+   We also explicitly null the inherited fixed/background/border/padding/z-index. */
+nav.lb-toc {
   position: sticky;
   top: 80px;
+  left: auto;
+  right: auto;
+  z-index: auto;
+  background: transparent;
+  border-bottom: 0;
+  padding: 0;
   align-self: start;
   display: flex;
   flex-direction: column;
@@ -619,7 +631,7 @@
     grid-template-columns: 1fr;
     gap: 0;
   }
-  .lb-toc {
+  nav.lb-toc {
     display: none;
   }
 }
