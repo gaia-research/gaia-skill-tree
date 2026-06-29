@@ -498,3 +498,74 @@
     font-size: 0.74rem;
   }
 }
+
+/* ── Action buttons ── */
+.lb-actions {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: flex-end;
+  padding: 0.5rem 0.75rem 0;
+}
+.lb-action-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+  transition: border-color 0.15s, color 0.15s;
+  line-height: 1;
+}
+.lb-action-btn:hover {
+  border-color: var(--text);
+  color: var(--text);
+}
+
+/* ── Contributor search ── */
+.lb-contrib-search {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 0 0.75rem 0.75rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.lb-contrib-search:focus {
+  border-color: rgba(var(--evidence-platinum-rgb), 0.5);
+}
+.lb-contrib-search::placeholder {
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+/* ── Suite stacked legend ── */
+.lb-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  padding: 0.75rem 1rem 0.5rem;
+  border-top: 1px solid var(--border);
+  margin-top: 0.5rem;
+}
+.lb-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+.lb-legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
