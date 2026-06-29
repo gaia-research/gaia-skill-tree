@@ -128,7 +128,8 @@
     namedSkills: [],
     suiteSkills: [],
     allSkills: [],
-    showCount: INITIAL_BARS
+    showCount: INITIAL_BARS,
+    collapsedNamed: []
   };
 
   // ── DATA FETCH (parallel) ──
@@ -439,6 +440,38 @@
     ];
   }
 
+  // ── GROUP COLLAPSE HELPER ──
+  function collapseGroups(skills) {
+    // Key: contributor + '|' + grade + '|' + Math.round(tm)
+    var map = {};
+    var order = [];
+    skills.forEach(function(s) {
+      var key = s.contributor + '|' + s.grade + '|' + Math.round(s.trustMagnitude);
+      if (!map[key]) {
+        map[key] = { primary: s, members: [], key: key };
+        order.push(key);
+      }
+      map[key].members.push(s);
+    });
+
+    return order.map(function(key) {
+      var g = map[key];
+      if (g.members.length === 1) return g.primary; // no grouping needed
+      // Return a synthetic "group" skill object
+      return {
+        id: g.primary.id,
+        name: g.primary.name,
+        contributor: g.primary.contributor,
+        type: g.primary.type,
+        level: g.primary.level,
+        trustMagnitude: g.primary.trustMagnitude,
+        grade: g.primary.grade,
+        _groupSize: g.members.length,
+        _groupMembers: g.members.map(function(m) { return m.id; })
+      };
+    });
+  }
+
   // ── NAMED SKILLS BAR CHART ──
   function renderNamedChart(skills) {
     var container = document.getElementById('lbNamedChart');
@@ -450,19 +483,25 @@
     var NPAD = { top: 24, right: 24, bottom: 120, left: 54 };
 
     var visible = applyFilter(skills);
-    var toShow = visible.slice(0, state.showCount);
+    var collapsed = collapseGroups(visible);
+    var collapsedShown = collapsed.slice(0, state.showCount);
+    var toShow = collapsedShown;
     var totalVisible = visible.length;
     var totalAll = skills.length;
+    var groupedCount = visible.length - collapsed.length; // how many were collapsed away
+    state.collapsedNamed = collapsed;
 
     if (countEl) {
-      var countText = toShow.length + ' of ' + totalVisible;
+      var countText = '(showing ' + collapsedShown.length + ' bars' +
+        (groupedCount > 0 ? ', ' + groupedCount + ' grouped' : '') +
+        ' of ' + totalVisible + ' skills)';
       if (state.searchContrib) {
         countText += ' (filtered from ' + totalAll + ')';
       }
       countEl.textContent = countText;
     }
 
-    updateShowMoreBtn(toShow.length, totalVisible);
+    updateShowMoreBtn(collapsedShown.length, collapsed.length);
 
     if (toShow.length === 0) {
       container.innerHTML = '<p style="padding:2rem;color:var(--muted);font-family:var(--font-body);font-size:0.85rem">No skills match current filter.</p>';
@@ -528,6 +567,28 @@
         style: 'pointer-events:none'
       });
       barGroup.appendChild(rankAccent);
+
+      // Group badge (only when multiple skills collapsed into this bar)
+      if (skill._groupSize > 1) {
+        var badgeH = 18;
+        var badgeW = NB - 2;
+        var badgeY = h >= 20 ? y + h - badgeH - 2 : y - badgeH - 2;
+        var badgeBg = svgEl('rect', {
+          x: x + 1, y: badgeY, width: badgeW, height: badgeH, rx: 3,
+          fill: 'rgba(0,0,0,0.45)', style: 'pointer-events:none'
+        });
+        barGroup.appendChild(badgeBg);
+
+        var badgeText = svgEl('text', {
+          x: x + NB / 2, y: badgeY + 12,
+          'text-anchor': 'middle', 'font-size': '9',
+          fill: 'rgba(255,255,255,0.9)',
+          'font-family': 'var(--font-mono)',
+          style: 'pointer-events:none'
+        });
+        badgeText.textContent = '+' + (skill._groupSize - 1);
+        barGroup.appendChild(badgeText);
+      }
 
       // Rank pill ABOVE bar (moved out of crowded bottom area)
       if (rankN > 0) {
@@ -860,9 +921,13 @@
   }
 
   function findSkill(id) {
+    // Check collapsed named first (has _groupSize/_groupMembers)
+    for (var i = 0; i < (state.collapsedNamed || []).length; i++) {
+      if (state.collapsedNamed[i].id === id) return state.collapsedNamed[i];
+    }
     var all = state.allSkills;
-    for (var i = 0; i < all.length; i++) {
-      if (all[i].id === id) return all[i];
+    for (var j = 0; j < all.length; j++) {
+      if (all[j].id === id) return all[j];
     }
     return null;
   }
@@ -878,6 +943,15 @@
       '<div class="lb-tt-row"><span class="lb-tt-label">Grade</span><span class="lb-tt-value">' + gradeLabel + ' (' + skill.grade + ')</span></div>' +
       '<div class="lb-tt-row"><span class="lb-tt-label">Level</span><span class="lb-tt-value">' + esc(skill.level) + (levelName ? ' ' + levelName : '') + '</span></div>' +
       (type === 'suite' ? '<div class="lb-tt-row"><span class="lb-tt-label">Type</span><span class="lb-tt-value">Ultimate Suite</span></div>' : '') +
+      (skill._groupSize > 1 ?
+        '<div class="lb-tt-row"><span class="lb-tt-label">Group</span><span class="lb-tt-value">' + skill._groupSize + ' skills (' + skill.grade + ' · TM ' + Math.round(skill.trustMagnitude) + ')</span></div>' +
+        '<div class="lb-tt-row" style="flex-direction:column;align-items:flex-start;gap:2px">' +
+          (skill._groupMembers || []).slice(0, 5).map(function(mid) {
+            return '<span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--muted);opacity:0.8">' + esc(mid) + '</span>';
+          }).join('') +
+          (skill._groupMembers && skill._groupMembers.length > 5 ? '<span style="font-size:0.65rem;color:var(--muted)">…and ' + (skill._groupMembers.length - 5) + ' more</span>' : '') +
+        '</div>'
+      : '') +
       '<div class="lb-tt-divider"></div>' +
       '<span class="lb-tt-link">\u2192 View in Explorer</span>';
   }
