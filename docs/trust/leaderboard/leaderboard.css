@@ -636,6 +636,7 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
 
 .lb-chart-wrap svg {
   display: block;
+  margin: 0 auto; /* center the chart when it's narrower than the panel */
   transition: height 0.35s ease;
 }
 
