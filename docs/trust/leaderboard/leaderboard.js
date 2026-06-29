@@ -97,6 +97,65 @@
 
   function rgbStr(arr) { return arr[0] + ',' + arr[1] + ',' + arr[2]; }
 
+  // ── DYNAMIC LAYOUT HELPERS ──
+  // Compute bar width + gap that adapts to bar count, viewport, and density.
+  // gapRatio: gap = barW * gapRatio (e.g. 0.5 → gap is half the bar width).
+  function computeBarMetrics(N, containerW, padL, padR, minBarW, maxBarW, gapRatio) {
+    if (!N || N <= 0) return { barW: minBarW, gap: minBarW * gapRatio, totalW: padL + padR };
+    var available = Math.max(40, containerW - padL - padR);
+    var unit = available / N; // pitch per bar (bar + gap)
+    var barW = Math.max(minBarW, Math.min(maxBarW, unit / (1 + gapRatio)));
+    var gap = barW * gapRatio;
+    var totalW = Math.ceil(N * (barW + gap) + padL + padR);
+    return { barW: barW, gap: gap, totalW: totalW };
+  }
+
+  // Adaptive label rotation/size/truncation based on per-bar spacing.
+  function labelStyleFor(barSpacing) {
+    if (barSpacing >= 80) return { rotation: 0,   fontPx: 11, maxChars: 16 };
+    if (barSpacing >= 40) return { rotation: -30, fontPx: 10, maxChars: 12 };
+    if (barSpacing >= 20) return { rotation: -45, fontPx: 9,  maxChars: 9  };
+    return { rotation: -60, fontPx: 8, maxChars: 6 };
+  }
+
+  // Compute the bottom padding needed under a chart given label rotation, font size, and stacked lines.
+  function computeBottomPad(rotationDeg, labelLines, fontPx) {
+    var rotated = Math.abs(Math.sin(rotationDeg * Math.PI / 180)) * fontPx * 14;
+    return Math.ceil(rotated + labelLines * fontPx * 1.4 + 24);
+  }
+
+  // Resolve target container width — viewport-aware, capped at design max.
+  function chartContainerW() {
+    var vw = (typeof window !== 'undefined' && window.innerWidth) || 1024;
+    return Math.min(vw - 40, 1280);
+  }
+
+  // Emit a label <text> with optional rotation. Caller still calls truncLabel.
+  function makeLabel(x, y, rotation, fontPx, extraAttrs) {
+    var attrs;
+    if (rotation === 0) {
+      attrs = {
+        x: x, y: y,
+        'text-anchor': 'middle',
+        'class': 'lb-axis-label',
+        'font-size': String(fontPx)
+      };
+    } else {
+      var anchor = rotation < 0 ? 'end' : 'start';
+      attrs = {
+        x: 0, y: 0,
+        transform: 'translate(' + x + ',' + y + ') rotate(' + rotation + ')',
+        'text-anchor': anchor,
+        'class': 'lb-axis-label',
+        'font-size': String(fontPx)
+      };
+    }
+    if (extraAttrs) {
+      Object.keys(extraAttrs).forEach(function(k) { attrs[k] = extraAttrs[k]; });
+    }
+    return svgEl('text', attrs);
+  }
+
   // Blend handle hue into mid-stop for personality (very subtle)
   function blendHandleMid(top, hue) {
     // Convert hue to a soft RGB hint and average with the type top color at 20%
@@ -172,6 +231,8 @@
     ledgerExpanded: false,
     ledgerRows: [],
     suitesExpanded: false,
+    namedExpanded: false,
+    genericExpanded: false,
     skillSearchQuery: ''
   };
 
@@ -882,13 +943,19 @@
     var countEl = document.getElementById('lbNamedCount');
     if (!container) return;
 
-    var NB = 24; // named bar width
-    var NG = 12;  // named bar gap
-    var NPAD = { top: 24, right: 24, bottom: 120, left: 54 };
+    var NPAD = { top: 24, right: 24, bottom: 0, left: 54 }; // bottom computed below
 
     var visible = applyFilter(skills);
     var collapsed = state.grouped ? collapseGroups(visible) : visible;
-    var collapsedShown = collapsed.slice(0, state.showCount);
+
+    // Pagination: when dataset > 50, show 20 by default; "Show all" reveals rest.
+    var PAGINATION_THRESHOLD = 50;
+    var PAGINATION_INITIAL = 20;
+    var needsPagination = collapsed.length > PAGINATION_THRESHOLD;
+    var paginatedLimit = (needsPagination && !state.namedExpanded) ? PAGINATION_INITIAL : collapsed.length;
+    var visibleCount = Math.min(state.showCount, paginatedLimit);
+
+    var collapsedShown = collapsed.slice(0, visibleCount);
     var toShow = collapsedShown;
     var totalVisible = visible.length;
     var totalAll = skills.length;
@@ -914,20 +981,34 @@
     if (shownEl) shownEl.textContent = collapsedShown.length;
     if (totalEl) totalEl.textContent = totalVisible;
 
-    updateShowMoreBtn(collapsedShown.length, collapsed.length);
+    updateShowMoreBtn(collapsedShown.length, Math.min(collapsed.length, paginatedLimit));
 
     if (toShow.length === 0) {
       container.innerHTML = '<p style="padding:2rem;color:var(--muted);font-family:var(--font-body);font-size:0.85rem">No skills match current filter.</p>';
+      renderNamedPaginationBtn(container, collapsed.length, needsPagination);
       return;
     }
+
+    // Fix 1: dynamic bar metrics
+    var metrics = computeBarMetrics(toShow.length, chartContainerW(), NPAD.left, NPAD.right, 10, 24, 0.5);
+    var NB = metrics.barW;
+    var NG = metrics.gap;
+    var barSpacing = NB + NG;
+
+    // Fix 2: adaptive label style
+    var ls = labelStyleFor(barSpacing);
+
+    // Fix 3: dynamic bottom padding (skill name + avatar row above it)
+    NPAD.bottom = computeBottomPad(ls.rotation, 1, ls.fontPx) + 36;
 
     var maxTM = Math.max.apply(null, toShow.map(function(s) { return s.trustMagnitude; }));
     maxTM = Math.max(maxTM, 50); // floor
 
-    var totalW = toShow.length * (NB + NG) + NPAD.left + NPAD.right;
+    var totalW = Math.max(metrics.totalW, 320);
     var innerH = CHART_H - NPAD.top - NPAD.bottom;
+    if (innerH < 80) innerH = 80;
 
-    var svg = createSvg(Math.max(totalW, 320), CHART_H + NPAD.bottom);
+    var svg = createSvg(totalW, CHART_H);
 
     // Create defs block first
     var defs = svgEl('defs');
@@ -941,11 +1022,36 @@
     // Y-axis gridlines
     drawYAxis(svg, innerH, maxTM, totalW);
 
+    // Fix 4: S/A/B/C background bands when grouped by grade
+    if (state.grouped && state.sort === 'grade') {
+      var bandsGroup = svgEl('g', { transform: 'translate(' + NPAD.left + ',' + NPAD.top + ')' });
+      var prevGrade = null;
+      var bandStartIdx = 0;
+      var bi;
+      for (bi = 0; bi <= toShow.length; bi++) {
+        var bg = (bi < toShow.length) ? toShow[bi].grade : null;
+        if (bg !== prevGrade && prevGrade != null) {
+          var bandColor = gradeColor(prevGrade);
+          var bx = bandStartIdx * barSpacing - NG / 2;
+          var bw = (bi - bandStartIdx) * barSpacing;
+          var bandRect = svgEl('rect', {
+            x: bx, y: 0, width: bw, height: innerH,
+            fill: 'rgba(' + bandColor + ', 0.04)',
+            style: 'pointer-events:none'
+          });
+          bandsGroup.appendChild(bandRect);
+          bandStartIdx = bi;
+        }
+        prevGrade = bg;
+      }
+      svg.appendChild(bandsGroup);
+    }
+
     // Bar group
     var barGroup = svgEl('g', { transform: 'translate(' + NPAD.left + ',' + NPAD.top + ')' });
 
     toShow.forEach(function(skill, i) {
-      var x = i * (NB + NG);
+      var x = i * barSpacing;
       var h = Math.max(2, (skill.trustMagnitude / maxTM) * innerH);
       var y = innerH - h;
       var gradId = 'lb-grad-named-' + i;
@@ -970,7 +1076,7 @@
       // Group badge (only when multiple skills collapsed into this bar)
       if (skill._groupSize > 1) {
         var badgeH = 18;
-        var badgeW = NB - 2;
+        var badgeW = Math.max(8, NB - 2);
         var badgeY = h >= 20 ? y + h - badgeH - 2 : y - badgeH - 2;
         var badgeBg = svgEl('rect', {
           x: x + 1, y: badgeY, width: badgeW, height: badgeH, rx: 3,
@@ -989,14 +1095,15 @@
         barGroup.appendChild(badgeText);
       }
 
-      // Rank pill ABOVE bar (moved out of crowded bottom area)
+      // Fix 6: only render rank pill + TM label when bar is tall enough
+      if (h >= 30) {
       var rankN = parseInt(skill.level) || 2;
       if (rankN > 0) {
         var rankPill = svgEl('text', {
           x: x + NB / 2,
           y: y - 20,
           'text-anchor': 'middle',
-          'font-size': '9',
+          'font-size': String(Math.max(8, ls.fontPx - 1)),
           fill: 'rgba(' + rankRgb(rankN) + ', 0.85)'
         });
         rankPill.textContent = rankN + '\u2605';
@@ -1009,23 +1116,27 @@
         y: y - 6,
         'text-anchor': 'middle',
         'class': 'lb-axis-value',
-        'font-size': '9',
+        'font-size': String(Math.max(8, ls.fontPx - 1)),
         fill: 'rgba(' + gradeColor(skill.grade) + ', 0.85)'
       });
       tmText.textContent = skill.trustMagnitude.toFixed(0);
       barGroup.appendChild(tmText);
+      }
 
-      // Avatar clip path
+      // Avatar — radius scales with bar width
+      var avatarR = Math.min(10, Math.max(5, NB / 2.4));
+      var avatarCx = x + NB / 2;
+      var avatarCy = innerH + avatarR + 4;
+
       var clipId = 'av-clip-named-' + i;
       var clipPath = svgEl('clipPath', { id: clipId });
-      var clipCircle = svgEl('circle', { cx: x + NB / 2, cy: innerH + 18, r: '10' });
-      clipPath.appendChild(clipCircle);
+      clipPath.appendChild(svgEl('circle', { cx: avatarCx, cy: avatarCy, r: String(avatarR) }));
       defs.appendChild(clipPath);
 
       // Fallback colored circle
       var hue = handleHue(skill.contributor);
       var bgCircle = svgEl('circle', {
-        cx: x + NB / 2, cy: innerH + 18, r: '10',
+        cx: avatarCx, cy: avatarCy, r: String(avatarR),
         fill: 'oklch(0.55 0.18 ' + hue + ')'
       });
       barGroup.appendChild(bgCircle);
@@ -1033,23 +1144,17 @@
       // GitHub avatar image
       var avatarImg = svgEl('image', {
         href: 'https://github.com/' + skill.contributor + '.png?size=40',
-        x: x + NB / 2 - 10, y: innerH + 6,
-        width: '20', height: '20',
+        x: avatarCx - avatarR, y: avatarCy - avatarR,
+        width: String(avatarR * 2), height: String(avatarR * 2),
         'clip-path': 'url(#' + clipId + ')',
         preserveAspectRatio: 'xMidYMid slice'
       });
       barGroup.appendChild(avatarImg);
 
-      // Skill name label (rotated 45°)
-      var label = svgEl('text', {
-        x: 0,
-        y: 0,
-        transform: 'translate(' + (x + NB / 2) + ',' + (innerH + 12) + ') rotate(45)',
-        'text-anchor': 'start',
-        'class': 'lb-axis-label',
-        'font-size': '10'
-      });
-      truncLabel(label, skill.id.split('/')[1] || skill.name, 14);
+      // Skill name label (adaptive rotation/font/truncation)
+      var labelY = innerH + avatarR * 2 + 14;
+      var label = makeLabel(x + NB / 2, labelY, ls.rotation, ls.fontPx);
+      truncLabel(label, skill.id.split('/')[1] || skill.name, ls.maxChars);
       barGroup.appendChild(label);
     });
 
@@ -1060,6 +1165,27 @@
     var ea2 = container.parentNode.querySelector(':scope > .lb-actions');
     if (ea2) ea2.remove();
     container.insertAdjacentHTML('beforebegin', buildActionButtons('named'));
+
+    renderNamedPaginationBtn(container, collapsed.length, needsPagination);
+  }
+
+  function renderNamedPaginationBtn(container, total, needsPagination) {
+    var existing = document.getElementById('lbNamedPaginateBtn');
+    if (existing) existing.remove();
+    if (!needsPagination) return;
+    var btn = document.createElement('button');
+    btn.id = 'lbNamedPaginateBtn';
+    btn.className = 'lb-show-more-btn';
+    btn.textContent = state.namedExpanded
+      ? 'Show fewer ▴'
+      : 'Show all (' + total + ') ▾';
+    btn.addEventListener('click', function() {
+      state.namedExpanded = !state.namedExpanded;
+      if (state.namedExpanded) state.showCount = total;
+      renderNamedChart(state.namedSkills);
+      wireActionButtons();
+    });
+    container.parentNode.insertBefore(btn, container.nextSibling);
   }
 
   // ── GENERIC/STARLESS SKILLS BAR CHART ──
