@@ -63,7 +63,12 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 - Consider whether Ultimates section should be permanently removed or kept hidden
 
 ### Token cost (this session)
-- ~2026-06-29, multiple Opus + worker agents: estimated ~400k in, ~150k out total across all subagent calls. ~$35–45
+- 2026-06-29 actual (Marcus-reported):
+  - Output tokens: 176,893 | Input tokens: 541 (direct)
+  - Cache write: 1,733,402 | Cache read: 17,366,925
+  - Total requests: 303
+  - Cost: 24.25 CU | **13.09€**
+- Note: heavy cache read ratio (17M read vs 1.7M write) — context was well-reused across subagent calls. Cost-efficient session for the volume of work shipped.
 
 ## State Snapshot (2026-06-28, session 25 — Sprint B Wave 1 shipped + Trust Leaderboard SVG redesign in progress)
 
