@@ -37,7 +37,7 @@
     </section>
 
     <!-- ULTIMATES — STACKED VERTICAL BAR CHART -->
-    <section class="lb-section" id="lbUltimates">
+    <section class="lb-section" id="lbUltimates" style="display:none">
       <div class="lb-section-head">
         <h2 class="lb-section-title">◆ Ultimates</h2>
         <span class="lb-section-count" id="lbUltimateCount"></span>
@@ -51,24 +51,28 @@
         <h2 class="lb-section-title">◇ Named Skills</h2>
         <span class="lb-section-count" id="lbNamedCount"></span>
       </div>
-      <!-- AA-style per-section tab row -->
+      <!-- AA-style per-section controls -->
       <div class="lb-section-controls" id="lbNamedControls">
-        <div class="lb-section-tabs" id="lbNamedTabs">
-          <button class="lb-stab is-active" data-view="all">All</button>
-          <button class="lb-stab" data-view="S">S — Platinum</button>
-          <button class="lb-stab" data-view="A">A — Gold</button>
-          <button class="lb-stab" data-view="B">B — Silver</button>
-          <button class="lb-stab" data-view="C">C — Bronze</button>
+        <div class="lb-named-dist" id="lbNamedDist">
+          <!-- populated by JS from distribution data -->
         </div>
         <div class="lb-section-meta">
           <span class="lb-model-counter">
             <strong id="lbShownCount">—</strong> of <span id="lbTotalCount">—</span> skills
           </span>
-          <div class="lb-add-contributor">
-            <select class="lb-contrib-select" id="lbContribSelect">
-              <option value="">Add contributor…</option>
-            </select>
-            <button class="lb-contrib-clear" id="lbContribClear" hidden title="Clear contributor filter">✕</button>
+          <div class="lb-multiselect" id="lbContribMulti">
+            <button class="lb-ms-trigger" id="lbMsTrigger" type="button">
+              <span class="lb-ms-label" id="lbMsLabel">Add contributor…</span>
+              <span class="lb-ms-arrow">▾</span>
+            </button>
+            <div class="lb-ms-dropdown" id="lbMsDropdown" hidden>
+              <input class="lb-ms-search" id="lbMsSearch" type="search" placeholder="Search…" autocomplete="off">
+              <div class="lb-ms-list" id="lbMsList"></div>
+              <div class="lb-ms-footer">
+                <button class="lb-ms-clear-all" id="lbMsClearAll" type="button">Clear all</button>
+                <span class="lb-ms-selected-count" id="lbMsCount"></span>
+              </div>
+            </div>
           </div>
           <div class="lb-sort-wrap">
             <select class="lb-sort-select" id="lbSortSelect">
@@ -77,11 +81,38 @@
               <option value="contributor">Sort: By Contributor</option>
             </select>
           </div>
+          <button class="lb-group-toggle" id="lbGroupToggle" title="Toggle grouping of identical-grade skills">⊞ Grouped</button>
         </div>
       </div>
       <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbNamedChart"></div>
       <div class="lb-show-more" id="lbShowMore">
         <button class="lb-show-more-btn" id="lbShowMoreBtn" type="button">Show more</button>
+      </div>
+    </section>
+
+    <!-- TRUST LEDGER — truncated inline table -->
+    <section class="lb-section lb-section--ledger" id="lbLedger">
+      <div class="lb-section-head">
+        <h2 class="lb-section-title">Trust Ledger</h2>
+        <span class="lb-section-count" id="lbLedgerCount"></span>
+        <button class="lb-ledger-toggle" id="lbLedgerToggle" type="button">Expand ▾</button>
+      </div>
+      <p class="lb-section-note">Full ranked table — sortable, filterable. <a href="../ledger/" class="lb-ledger-link">Open full ledger →</a></p>
+      <div class="lb-ledger-wrap" id="lbLedgerWrap">
+        <table class="lb-ledger-table" id="lbLedgerTable">
+          <thead>
+            <tr>
+              <th class="col-rank">#</th>
+              <th class="col-id">Skill ID</th>
+              <th class="col-tm" title="Trust Magnitude">TM</th>
+              <th class="col-grade">Grade</th>
+              <th class="col-stars">Stars</th>
+            </tr>
+          </thead>
+          <tbody id="lbLedgerBody">
+            <tr><td colspan="5" style="padding:1rem;color:var(--muted)">Loading…</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
