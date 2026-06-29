@@ -437,14 +437,27 @@
     if (!container) return;
     if (countEl) countEl.textContent = ultimates.length + ' of ' + ultimates.length + ' ultimates';
 
-    var SPAD = { top: 24, right: 24, bottom: 130, left: 54 };
+    var SPAD = { top: 24, right: 24, bottom: 0, left: 54 }; // bottom computed below
     var maxTM = TM_CEILING;
-    var barSpacing = BAR_W * 2 + 64; // 56 + 64 = 120px per ultimate bar
-    var totalW = ultimates.length * barSpacing + SPAD.left + SPAD.right + 80;
+
+    // Fix 1: dynamic bar metrics for ultimates — wide bars, generous gap.
+    var metrics = computeBarMetrics(ultimates.length, chartContainerW(), SPAD.left, SPAD.right, 24, 56, 0.6);
+    var UB = metrics.barW;
+    var UG = metrics.gap;
+    var barSpacing = UB + UG;
+
+    // Fix 2: adaptive label style
+    var ls = labelStyleFor(barSpacing);
+
+    // Fix 3: bottom padding for avatar + 3 label lines, accounting for rotation
+    SPAD.bottom = computeBottomPad(ls.rotation, 3, ls.fontPx) + 44;
+
     var chartH = SUITE_CHART_H;
     var innerH = chartH - SPAD.top - SPAD.bottom;
+    if (innerH < 80) innerH = 80;
+    var totalW = Math.max(metrics.totalW, 320);
 
-    var svg = createSvg(Math.max(totalW, 320), chartH);
+    var svg = createSvg(totalW, chartH);
 
     // Create defs block first
     var defs = svgEl('defs');
@@ -462,7 +475,7 @@
     var barGroup = svgEl('g', { transform: 'translate(' + SPAD.left + ',' + SPAD.top + ')' });
 
     ultimates.forEach(function(ult, i) {
-      var x = i * barSpacing + 20;
+      var x = i * barSpacing;
       var h = (ult.trustMagnitude / maxTM) * innerH;
       var y = innerH - h;
       var gradId = 'lb-grad-ultimate-' + i;
@@ -470,7 +483,7 @@
       var bar = svgEl('rect', {
         x: x,
         y: y,
-        width: BAR_W * 2,
+        width: UB,
         height: h,
         rx: 4,
         fill: 'url(#' + gradId + ')',
@@ -482,73 +495,74 @@
       barGroup.appendChild(bar);
 
       // Grade accent cap (metallic stripe at top of bar)
-      appendGradeCap(barGroup, ult.grade || 'S', x, y, BAR_W * 2);
+      appendGradeCap(barGroup, ult.grade || 'S', x, y, UB);
 
-      // TM value above bar
-      var tmText = svgEl('text', {
-        x: x + BAR_W,
-        y: y - 8,
-        'text-anchor': 'middle',
-        'class': 'lb-axis-value',
-        'font-size': '11',
-        fill: 'rgba(' + gradeColor(ult.grade) + ', 0.9)'
-      });
-      tmText.textContent = ult.trustMagnitude.toFixed(0);
-      barGroup.appendChild(tmText);
+      // Fix 6: only render TM label when bar is tall enough
+      if (h >= 30) {
+        var tmText = svgEl('text', {
+          x: x + UB / 2,
+          y: y - 8,
+          'text-anchor': 'middle',
+          'class': 'lb-axis-value',
+          'font-size': String(Math.max(10, ls.fontPx + 1)),
+          fill: 'rgba(' + gradeColor(ult.grade) + ', 0.9)'
+        });
+        tmText.textContent = ult.trustMagnitude.toFixed(0);
+        barGroup.appendChild(tmText);
+      }
 
-      // Avatar clip path
+      // Avatar — radius scales with bar width
+      var avatarR = Math.min(14, Math.max(8, UB / 4));
+      var avatarCx = x + UB / 2;
+      var avatarCy = innerH + avatarR + 4;
       var clipId = 'av-clip-ultimate-' + i;
       var clipPath = svgEl('clipPath', { id: clipId });
-      var clipCircle = svgEl('circle', { cx: x + BAR_W, cy: innerH + 20, r: '12' });
-      clipPath.appendChild(clipCircle);
+      clipPath.appendChild(svgEl('circle', { cx: avatarCx, cy: avatarCy, r: String(avatarR) }));
       defs.appendChild(clipPath);
 
-      // Fallback colored circle (shows when img fails to load)
+      // Fallback colored circle
       var hue = handleHue(ult.contributor);
       var bgCircle = svgEl('circle', {
-        cx: x + BAR_W, cy: innerH + 20, r: '12',
+        cx: avatarCx, cy: avatarCy, r: String(avatarR),
         fill: 'oklch(0.55 0.18 ' + hue + ')'
       });
       barGroup.appendChild(bgCircle);
 
-      // GitHub avatar image (overlays the fallback circle)
+      // GitHub avatar image
       var avatarImg = svgEl('image', {
         href: 'https://github.com/' + ult.contributor + '.png?size=40',
-        x: x + BAR_W - 12, y: innerH + 8,
-        width: '24', height: '24',
+        x: avatarCx - avatarR, y: avatarCy - avatarR,
+        width: String(avatarR * 2), height: String(avatarR * 2),
         'clip-path': 'url(#' + clipId + ')',
         preserveAspectRatio: 'xMidYMid slice'
       });
       barGroup.appendChild(avatarImg);
 
-      // Label below avatar
-      var label = svgEl('text', {
-        x: x + BAR_W,
-        y: innerH + 48,
-        'text-anchor': 'middle',
-        'class': 'lb-axis-label',
-        'font-size': '10'
-      });
-      truncLabel(label, ult.name || ult.id.split('/')[1], 14);
+      // Skill name label (adaptive)
+      var labelY = innerH + avatarR * 2 + 14;
+      var label = makeLabel(x + UB / 2, labelY, ls.rotation, ls.fontPx);
+      truncLabel(label, ult.name || ult.id.split('/')[1], ls.maxChars);
       barGroup.appendChild(label);
 
-      // Contributor under label
+      // Contributor handle below name label
+      var rotatedExtra = Math.abs(Math.sin(ls.rotation * Math.PI / 180)) * ls.fontPx * 14;
+      var contribY = labelY + rotatedExtra + ls.fontPx + 4;
       var contrib = svgEl('text', {
-        x: x + BAR_W,
-        y: innerH + 62,
+        x: x + UB / 2,
+        y: contribY,
         'text-anchor': 'middle',
-        'font-size': '10',
+        'font-size': String(ls.fontPx),
         fill: 'rgba(' + TOKENS.honorRed + ', 0.7)'
       });
-      truncLabel(contrib, ult.contributor, 16);
+      truncLabel(contrib, ult.contributor, Math.max(8, ls.maxChars - 2));
       barGroup.appendChild(contrib);
 
       // Type badge pill below contributor
       var typeBadge = svgEl('text', {
-        x: x + BAR_W,
-        y: innerH + 76,
+        x: x + UB / 2,
+        y: contribY + ls.fontPx + 4,
         'text-anchor': 'middle',
-        'font-size': '9',
+        'font-size': String(Math.max(8, ls.fontPx - 1)),
         fill: 'rgba(245, 158, 11, 0.7)'
       });
       typeBadge.textContent = 'ultimate';
