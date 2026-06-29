@@ -2,6 +2,69 @@
 
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
+## State Snapshot (2026-06-29, session 26 — Trust Leaderboard full AA-style redesign, 9 commits shipped)
+
+### TLDR
+- Replaced flat SVG bar chart with AA Intelligence Index–style vertical bars across all leaderboard sections
+- Major taxonomy correction: "suite" (CLAUDE.md) = installation concept (`suiteComponents` field), NOT the `ultimate` type
+- Added dedicated Suites section (14 skills with `suiteComponents`, spans ultimate + extra types)
+- Ultimates section hidden (superseded by Suites)
+- Starless/Generic chart rebuilt: fetches individual detail files to resolve `genericSkillRef`, shows ALL named implementations per generic node, origin skill highlighted in honor-red
+- Inline Trust Ledger table embedded below Named Skills (truncated, expand/collapse)
+- AA-accurate per-section controls: distribution bar grade filter + multi-select contributor dropdown + sort select
+- Group toggle (⊞/⊟) to collapse/expand identically-graded same-contributor skills
+- Unified handle+grade gradient (3-stop, grade drives chroma + hue shift, no separate accent stripe)
+- `founder/AA_LEADERBOARD_REFERENCE.md` written as permanent design peg
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `docs/trust/leaderboard/leaderboard.js` | ✅ Complete redesign — 9 commits, ~1600 lines |
+| `docs/trust/leaderboard/leaderboard.css` | ✅ Full restyle — selector bar, multi-select, ledger table, dist bar |
+| `docs/trust/leaderboard/index.html` | ✅ New section structure: Suites, Ultimates (hidden), Named, Ledger, Generic(Starless), Registry |
+| `founder/AA_LEADERBOARD_REFERENCE.md` | ✅ New permanent peg doc — AA Intelligence Index design reverse-engineered |
+| PR #867 | ⏳ Open — `dev/leaderboard-redesign`, 9 unpushed→pushed commits |
+| PR #863 | ⏳ Open — `dev/sprint-b2-trending`, untouched this session |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/leaderboard-redesign` | `710473da` | OPEN PR #867, 9 commits ahead of main |
+| `dev/sprint-b2-trending` | `dee78d26` (approx) | OPEN PR #863, untouched |
+
+### Issues + PRs touched
+- PR #867 `dev/leaderboard-redesign` — all work this session
+
+### Routing — where things live now
+- Leaderboard: `docs/trust/leaderboard/` (3 files)
+- Design peg: `founder/AA_LEADERBOARD_REFERENCE.md`
+- Ledger data source: `docs/graph/ledger/data.json` (fetched at runtime)
+- Suite detection: fetches `/api/v1/skills/<contrib>/<slug>.json` for skills with TM≥60
+- Starless detection: fetches individual detail files for all graded non-ultimate skills (~175 fetches, browser-throttled)
+
+### Key taxonomy corrections (do NOT re-litigate)
+- **Suite** = skill with `suiteComponents` field. Installation concept. Orthogonal to type.
+- **type=ultimate** = Ultimate tier (◆). Apex taxonomy. NOT the same as "suite".
+- **type=extra** = Extra tier (◇). Fused skills. Can also be suites (e.g. mattpocock/engineering).
+- **Starless/Generic** = registry taxonomy nodes. Named skills reference them via `genericSkillRef`. `origin: true` = first/canonical implementation, highlighted in honor-red.
+- Section labels per CONTEXT.md: **Basics** (○), **Extras** (◇), **Ultimates** (◆)
+
+### Lessons / hazards preserved
+- `genericSkillRef` is NOT in index pages — only in individual detail files. Must fetch `/api/v1/skills/<c>/<s>.json` to get it.
+- AA filter pattern: tabs live INSIDE each section, not as a global bar above all sections.
+- Workers were not committing/pushing — added explicit git push to all worker briefs going forward.
+- Terminology drift is costly: "suite" in casual conversation ≠ `type=ultimate` in data. Always defer to CONTEXT.md + CLAUDE.md.
+- `suiteComponents` field not in index pages either — must fetch detail files (same pattern as `genericSkillRef`).
+
+### Open questions for next orchestrator
+- PR #867 needs visual QA pass before merge — overlap issues partially fixed but not fully verified via firecrawl (localhost not accessible to firecrawl)
+- PR #863 (`dev/sprint-b2-trending`) untouched — Sprint B Wave 2 still open
+- Consider adding sticky section nav (AA pattern §7 from reference doc) as a follow-up
+- Consider whether Ultimates section should be permanently removed or kept hidden
+
+### Token cost (this session)
+- ~2026-06-29, multiple Opus + worker agents: estimated ~400k in, ~150k out total across all subagent calls. ~$35–45
+
 ## State Snapshot (2026-06-28, session 25 — Sprint B Wave 1 shipped + Trust Leaderboard SVG redesign in progress)
 
 ### TLDR
