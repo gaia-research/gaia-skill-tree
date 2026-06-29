@@ -73,45 +73,74 @@
     }
   }
 
+  // ── TYPE COLOR PALETTE ──
+  // Each skill TYPE has a canonical top and bottom RGB stop for the bar gradient.
+  // The handle hue provides a very subtle personality blend at the mid-stop.
+  var TYPE_COLORS = {
+    basic:    { top: [56,  189, 248], bot: [30,  100, 160] },
+    extra:    { top: [192, 132, 252], bot: [100,  60, 160] },
+    unique:   { top: [124,  58, 237], bot: [60,   25, 140] },
+    ultimate: { top: [245, 158,  11], bot: [160,  90,   5] }
+  };
+
+  // Grade accent cap colors (solid RGBA strings)
+  var GRADE_CAP_COLOR = {
+    S: 'rgba(200,220,255,0.9)',
+    A: 'rgba(251,191,36,0.85)',
+    B: 'rgba(148,163,184,0.7)',
+    C: 'rgba(180,120,60,0.7)'
+  };
+
+  function typeColors(type) {
+    return TYPE_COLORS[type] || TYPE_COLORS.basic;
+  }
+
+  function rgbStr(arr) { return arr[0] + ',' + arr[1] + ',' + arr[2]; }
+
+  // Blend handle hue into mid-stop for personality (very subtle)
+  function blendHandleMid(top, hue) {
+    // Convert hue to a soft RGB hint and average with the type top color at 20%
+    var hr = Math.round(Math.sin((hue / 180) * Math.PI) * 30);
+    var hg = Math.round(Math.cos((hue / 180) * Math.PI) * 20);
+    var r = Math.min(255, Math.max(0, top[0] + hr));
+    var g = Math.min(255, Math.max(0, top[1] + hg));
+    var b = Math.min(255, Math.max(0, top[2]));
+    return [r, g, b];
+  }
+
   // ── BAR GRADIENT BUILDER ──
+  // Unified: main fill = TYPE color (bottom→top), mid-stop blends contributor handle hue.
   function buildBarGradientDef(svg, contributor, grade, level, type, id) {
     var hue = handleHue(contributor);
-    var rankN = parseInt(level) || 2;
-
-    // Grade defines the chroma and secondary hue shift
-    var gradeChroma = { S: 0.22, A: 0.18, B: 0.13, C: 0.09 };
-    var gradeHueShift = { S: -15, A: 0, B: 20, C: 35 };
-    var chroma = gradeChroma[grade] || 0.10;
-    var hueShift = gradeHueShift[grade] || 0;
-
-    // Rank modulates luminosity range
-    var lBot = 0.30 + (rankN - 1) * 0.02;
-    var lTop = 0.55 + (rankN - 1) * 0.025;
-    lBot = Math.min(0.55, Math.max(0.22, lBot));
-    lTop = Math.min(0.82, Math.max(0.42, lTop));
-
-    // Type: research/professional adds warm tint
-    var typeHueShift = (type === 'research' || type === 'professional') ? 10 : 0;
-
-    var finalHue = hue + hueShift + typeHueShift;
-    var stopBot = 'oklch(' + lBot.toFixed(2) + ' ' + chroma.toFixed(2) + ' ' + finalHue + ')';
-    var stopTop = 'oklch(' + lTop.toFixed(2) + ' ' + chroma.toFixed(2) + ' ' + finalHue + ')';
-
-    // Mid-stop for richer gradient feel
-    var lMid = ((lBot + lTop) / 2);
-    var chromaMid = chroma * 1.15;
-    var stopMid = 'oklch(' + lMid.toFixed(2) + ' ' + Math.min(0.28, chromaMid).toFixed(2) + ' ' + finalHue + ')';
+    var tc = typeColors(type);
+    var stopBot = 'rgb(' + rgbStr(tc.bot) + ')';
+    var mid = blendHandleMid(tc.top, hue);
+    var stopMid = 'rgba(' + rgbStr(mid) + ',0.92)';
+    var stopTop = 'rgb(' + rgbStr(tc.top) + ')';
 
     var defs = svg.querySelector('defs');
     if (!defs) { defs = svgEl('defs'); svg.insertBefore(defs, svg.firstChild); }
 
     var gradId = 'lb-grad-' + id;
     var grad = svgEl('linearGradient', { id: gradId, x1: '0', y1: '1', x2: '0', y2: '0' });
-    appendStop(grad, '0%', stopBot);
-    appendStop(grad, '50%', stopMid);
+    appendStop(grad, '0%',   stopBot);
+    appendStop(grad, '55%',  stopMid);
     appendStop(grad, '100%', stopTop);
     defs.appendChild(grad);
     return gradId;
+  }
+
+  // ── GRADE CAP HELPER ──
+  // Appends a thin grade-accent rect on top of a bar.
+  function appendGradeCap(parent, grade, x, y, w) {
+    var capColor = GRADE_CAP_COLOR[grade];
+    if (!capColor) return;
+    var cap = svgEl('rect', {
+      x: x, y: y, width: w, height: 5, rx: 2,
+      fill: capColor,
+      style: 'pointer-events:none'
+    });
+    parent.appendChild(cap);
   }
 
   // ── ACTION BUTTONS BUILDER ──
@@ -141,7 +170,9 @@
     collapsedNamed: [],
     suiteSkills: [],
     ledgerExpanded: false,
-    ledgerRows: []
+    ledgerRows: [],
+    suitesExpanded: false,
+    skillSearchQuery: ''
   };
 
   // ── DATA FETCH (parallel) ──
@@ -208,6 +239,7 @@
     wireTooltip();
     wireActionButtons();
     wireContribSearch();
+    wireSkillSearch();
     renderLedger();
 
     // Fetch ultimate component details for stacked bars
@@ -265,8 +297,8 @@
       .map(function(seg) {
         var active = (seg.grade === 'all' && state.grade === 'all') ? ' is-active' : (state.grade === seg.grade ? ' is-active' : '');
         var tg = seg.grade === 'all' ? '' : ' data-trust-grade="' + seg.grade + '"';
-        return '<button type="button" class="lb-dist-key lb-named-filter' + active + '" data-view="' + seg.grade + '">' +
-          '<span class="lb-dist-key__pip"' + tg + '>' + (seg.grade === 'all' ? 'All' : seg.grade) + '</span>' +
+        return '<button type="button" class="lb-dist-key lb-named-filter' + active + '" data-view="' + seg.grade + '"' + tg + '>' +
+          '<span class="lb-dist-key__pip">' + (seg.grade === 'all' ? 'All' : seg.grade) + '</span>' +
           '<span class="lb-dist-key__count">' + seg.count + '</span>' +
           '</button>';
       }).join('') +
@@ -331,7 +363,7 @@
     if (!btn) return;
     btn.addEventListener('click', function() {
       state.ledgerExpanded = !state.ledgerExpanded;
-      btn.textContent = state.ledgerExpanded ? 'Collapse \u25b4' : 'Expand \u25be';
+      btn.textContent = state.ledgerExpanded ? 'Collapse \u25b4' : 'Show full table \u25be';
       if (wrap) wrap.classList.toggle('is-expanded', state.ledgerExpanded);
       renderLedgerTable();
     });
@@ -388,13 +420,8 @@
       });
       barGroup.appendChild(bar);
 
-      // Grade accent: thin top border on bar
-      var gradeAccent = svgEl('rect', {
-        x: x, y: y, width: BAR_W * 2, height: 4, rx: 4,
-        fill: 'rgba(' + gradeColor(ult.grade || 'S') + ', 0.55)',
-        style: 'pointer-events:none'
-      });
-      barGroup.appendChild(gradeAccent);
+      // Grade accent cap (metallic stripe at top of bar)
+      appendGradeCap(barGroup, ult.grade || 'S', x, y, BAR_W * 2);
 
       // TM value above bar
       var tmText = svgEl('text', {
@@ -439,9 +466,9 @@
         y: innerH + 48,
         'text-anchor': 'middle',
         'class': 'lb-axis-label',
-        'font-size': '11'
+        'font-size': '10'
       });
-      label.textContent = truncate(ult.name || ult.id.split('/')[1], 14);
+      truncLabel(label, ult.name || ult.id.split('/')[1], 14);
       barGroup.appendChild(label);
 
       // Contributor under label
@@ -452,7 +479,7 @@
         'font-size': '10',
         fill: 'rgba(' + TOKENS.honorRed + ', 0.7)'
       });
-      contrib.textContent = ult.contributor;
+      truncLabel(contrib, ult.contributor, 16);
       barGroup.appendChild(contrib);
 
       // Type badge pill below contributor
@@ -544,14 +571,15 @@
     var innerH = SCHART_H - SPAD.top - SPAD.bottom;
     var maxTM = TM_CEILING;
 
-    var totalW = suites.length * (SB + SG) + SPAD.left + SPAD.right;
+    var visible = state.suitesExpanded ? suites : suites.slice(0, 8);
+    var totalW = visible.length * (SB + SG) + SPAD.left + SPAD.right;
     var svg = createSvg(Math.max(totalW, 320), SCHART_H);
 
     var defs = svgEl('defs');
     svg.appendChild(defs);
 
     // Build per-bar gradients
-    suites.forEach(function(suite, i) {
+    visible.forEach(function(suite, i) {
       buildBarGradientDef(svg, suite.contributor, suite.grade || 'A', suite.level, suite.type, 'suite-' + i);
     });
 
@@ -560,7 +588,7 @@
 
     var barGroup = svgEl('g', { transform: 'translate(' + SPAD.left + ',' + SPAD.top + ')' });
 
-    suites.forEach(function(suite, i) {
+    visible.forEach(function(suite, i) {
       var x = i * (SB + SG);
       var h = Math.max(4, (suite.trustMagnitude / maxTM) * innerH);
       var y = innerH - h;
@@ -577,13 +605,8 @@
       });
       barGroup.appendChild(bar);
 
-      // Grade accent stripe (4px top)
-      var gradeAccent = svgEl('rect', {
-        x: x, y: y, width: SB, height: 4, rx: 4,
-        fill: 'rgba(' + gradeColor(suite.grade || 'A') + ', 0.55)',
-        style: 'pointer-events:none'
-      });
-      barGroup.appendChild(gradeAccent);
+      // Grade accent cap (metallic stripe at top of bar)
+      appendGradeCap(barGroup, suite.grade || 'A', x, y, SB);
 
       // Component count badge inside bar (near bottom)
       if (suite._componentCount > 0) {
@@ -599,7 +622,7 @@
           x: x + SB / 2, y: badgeY + 12,
           'text-anchor': 'middle', 'font-size': '9',
           fill: 'rgba(255,255,255,0.9)',
-          'font-family': 'var(--font-mono)',
+          'font-family': 'var(--font-data)',
           style: 'pointer-events:none'
         });
         badgeText.textContent = suite._componentCount + ' skills';
@@ -639,22 +662,28 @@
       });
       barGroup.appendChild(avatarImg);
 
-      // Skill name label below avatar
-      var label = svgEl('text', {
-        x: x + SB / 2, y: innerH + 52,
-        'text-anchor': 'middle',
-        'class': 'lb-axis-label', 'font-size': '11'
-      });
-      label.textContent = truncate(suite.name || suite.id.split('/')[1], 16);
+      // Skill name label below avatar (rotated when bars are dense)
+      var barSpacing = SB + SG;
+      var labelAttrs = barSpacing < 80
+        ? { x: 0, y: 0,
+            transform: 'translate(' + (x + SB / 2) + ',' + (innerH + 52) + ') rotate(-30)',
+            'text-anchor': 'end',
+            'class': 'lb-axis-label', 'font-size': '10' }
+        : { x: x + SB / 2, y: innerH + 52,
+            'text-anchor': 'middle',
+            'class': 'lb-axis-label', 'font-size': '10' };
+      var label = svgEl('text', labelAttrs);
+      truncLabel(label, suite.name || suite.id.split('/')[1], 12);
       barGroup.appendChild(label);
 
       // Contributor handle
+      var contribY = barSpacing < 80 ? innerH + 66 : innerH + 66;
       var contrib = svgEl('text', {
-        x: x + SB / 2, y: innerH + 66,
+        x: x + SB / 2, y: contribY,
         'text-anchor': 'middle', 'font-size': '10',
         fill: 'rgba(' + TOKENS.honorRed + ', 0.7)'
       });
-      contrib.textContent = suite.contributor;
+      truncLabel(contrib, suite.contributor, 14);
       barGroup.appendChild(contrib);
 
       // Type pill (ultimate vs extra)
@@ -677,8 +706,27 @@
     container.insertAdjacentHTML('afterbegin', buildActionButtons('suites'));
     container.appendChild(svg);
 
+    // Add toggle button if there are more than 8 suites
+    if (suites.length > 8) {
+      var existing = document.getElementById('lbSuiteToggle');
+      if (existing) existing.remove();
+      var btn = document.createElement('button');
+      btn.id = 'lbSuiteToggle';
+      btn.className = 'lb-show-more-btn';
+      btn.textContent = state.suitesExpanded ? 'Show less \u25b4' : 'Show all ' + suites.length + ' suites \u25be';
+      btn.addEventListener('click', function() {
+        state.suitesExpanded = !state.suitesExpanded;
+        renderSuiteChart(suites);
+      });
+      container.parentNode.insertBefore(btn, container.nextSibling);
+    }
+
+    // Update count to show '8 of 14 suites' when truncated
+    var countEl = document.getElementById('lbSuiteCount');
+    if (countEl) countEl.textContent = visible.length + (suites.length > visible.length ? ' of ' + suites.length : '') + ' suites';
+
     // Stacked overlay for suite components
-    renderSuiteStackedOverlay(suites);
+    renderSuiteStackedOverlay(visible);
   }
 
   function renderSuiteStackedOverlay(suites) {
@@ -714,10 +762,9 @@
         bar.parentNode.insertBefore(rect, bar.nextSibling);
       });
 
-      // Make original bar transparent so stack shows through
-      bar.setAttribute('fill', 'rgba(' + gradeColor(suite.grade || 'A') + ', 0.08)');
-      bar.setAttribute('stroke', 'rgba(' + gradeColor(suite.grade || 'A') + ', 0.3)');
-      bar.setAttribute('stroke-width', '1');
+      // Keep the type-gradient bar visible with a slight transparency so the rank
+      // segments inside are readable through it, then re-apply the grade cap on top.
+      bar.setAttribute('opacity', '0.55');
     });
   }
 
@@ -774,10 +821,9 @@
       bar.parentNode.insertBefore(rect, bar.nextSibling);
     });
 
-    // Make the original bar transparent so stack shows through
-    bar.setAttribute('fill', 'rgba(' + gradeColor(ult.grade || 'S') + ', 0.08)');
-    bar.setAttribute('stroke', 'rgba(' + gradeColor(ult.grade || 'S') + ', 0.3)');
-    bar.setAttribute('stroke-width', '1');
+    // Keep the type-gradient bar visible with slight transparency so rank
+    // segments inside are readable through it.
+    bar.setAttribute('opacity', '0.55');
   }
 
   function estimateRankDistribution(count) {
@@ -852,6 +898,9 @@
       if (state.searchContribs && state.searchContribs.length > 0) {
         countText += ' (filtered from ' + totalAll + ')';
       }
+      if (state.skillSearchQuery) {
+        countText += ' (search: \u201c' + state.skillSearchQuery + '\u201d)';
+      }
       countEl.textContent = countText;
     }
 
@@ -911,13 +960,8 @@
       });
       barGroup.appendChild(bar);
 
-      // Grade accent: thin top border on bar
-      var gradeAccent = svgEl('rect', {
-        x: x, y: y, width: NB, height: 4, rx: 4,
-        fill: 'rgba(' + gradeColor(skill.grade) + ', 0.55)',
-        style: 'pointer-events:none'
-      });
-      barGroup.appendChild(gradeAccent);
+      // Grade accent cap (metallic stripe at top of bar)
+      appendGradeCap(barGroup, skill.grade, x, y, NB);
 
       // Group badge (only when multiple skills collapsed into this bar)
       if (skill._groupSize > 1) {
@@ -934,7 +978,7 @@
           x: x + NB / 2, y: badgeY + 12,
           'text-anchor': 'middle', 'font-size': '9',
           fill: 'rgba(255,255,255,0.9)',
-          'font-family': 'var(--font-mono)',
+          'font-family': 'var(--font-data)',
           style: 'pointer-events:none'
         });
         badgeText.textContent = '+' + (skill._groupSize - 1);
@@ -1001,7 +1045,7 @@
         'class': 'lb-axis-label',
         'font-size': '10'
       });
-      label.textContent = truncate(skill.id.split('/')[1] || skill.name, 16);
+      truncLabel(label, skill.id.split('/')[1] || skill.name, 14);
       barGroup.appendChild(label);
     });
 
@@ -1049,9 +1093,14 @@
       defs.appendChild(cp);
 
       var gradId = 'lb-grad-gen-' + i;
+      // Generic bars use the top child's type color if available, else basic
+      var genType = (node._children && node._children[0] && node._children[0].type) || node.type || 'basic';
+      var gtc = typeColors(genType);
+      var genMid = blendHandleMid(gtc.top, hue);
       var grad = svgEl('linearGradient', { id: gradId, x1: '0', y1: '1', x2: '0', y2: '0' });
-      appendStop(grad, '0%',   'oklch(0.28 0.07 ' + hue + ')');
-      appendStop(grad, '100%', 'oklch(0.44 0.09 ' + hue + ')');
+      appendStop(grad, '0%',   'rgb(' + rgbStr(gtc.bot) + ')');
+      appendStop(grad, '55%',  'rgba(' + rgbStr(genMid) + ',0.92)');
+      appendStop(grad, '100%', 'rgb(' + rgbStr(gtc.top) + ')');
       defs.appendChild(grad);
     });
 
@@ -1073,7 +1122,7 @@
       });
       barGroup.appendChild(bar);
 
-      // Child segments stacked inside the bar — origin highlighted red
+      // Child segments stacked inside the bar — each uses its own type color
       var children = node._children || [];
       if (children.length >= 1) {
         var usedH = 0;
@@ -1085,16 +1134,22 @@
           if (child.origin) {
             segFill = 'rgba(' + TOKENS.honorRed + ', 0.8)';
           } else {
-            var childHue = handleHue(child.contributor);
-            segFill = 'oklch(0.55 0.15 ' + childHue + ')';
+            var childTc = typeColors(child.type || 'basic');
+            segFill = 'rgba(' + rgbStr(childTc.top) + ',0.72)';
           }
           var seg = svgEl('rect', {
             x: x + 2, y: segY, width: GB - 4, height: Math.max(1, segH - 1), rx: 1,
-            fill: segFill, opacity: '0.7', style: 'pointer-events:none'
+            fill: segFill, opacity: '0.85', style: 'pointer-events:none'
           });
           barGroup.appendChild(seg);
           usedH += segH;
         });
+      }
+
+      // Grade accent cap on generic bars (uses primary child grade)
+      var primaryGrade = (node._children && node._children[0] && node._children[0].grade) || node.grade;
+      if (primaryGrade && primaryGrade !== 'ungraded') {
+        appendGradeCap(barGroup, primaryGrade, x, y, GB);
       }
 
       // +N badge
@@ -1107,7 +1162,7 @@
         var badgeTxt = svgEl('text', {
           x: x + GB/2, y: y + 10, 'text-anchor': 'middle',
           'font-size': '8', fill: 'rgba(255,255,255,0.9)',
-          'font-family': 'var(--font-mono)', style: 'pointer-events:none'
+          'font-family': 'var(--font-data)', style: 'pointer-events:none'
         });
         badgeTxt.textContent = '+' + (children.length - 1);
         barGroup.appendChild(badgeTxt);
@@ -1122,7 +1177,7 @@
           'text-anchor': 'middle',
           'font-size': '8',
           fill: child.origin ? 'rgba(' + TOKENS.honorRed + ', 0.9)' : 'rgba(148,163,184,0.7)',
-          'font-family': 'var(--font-mono)'
+          'font-family': 'var(--font-data)'
         });
         lbl.textContent = truncate(child.contributor, 10) + (child.origin ? ' \u25ce' : '');
         barGroup.appendChild(lbl);
@@ -1143,7 +1198,7 @@
         transform: 'translate(' + (x + GB/2) + ',' + (innerH + 32) + ') rotate(45)',
         'text-anchor': 'start', 'class': 'lb-axis-label', 'font-size': '9'
       });
-      lbl2.textContent = truncate(node.name, 16);
+      truncLabel(lbl2, node.name, 16);
       barGroup.appendChild(lbl2);
     });
 
@@ -1341,6 +1396,15 @@
       filtered = filtered.filter(function(s) { return s.grade === state.grade; });
     }
 
+    // Skill search filter
+    if (state.skillSearchQuery) {
+      filtered = filtered.filter(function(s) {
+        var id = (s.contributor + '/' + s.slug).toLowerCase();
+        var name = (s.name || s.slug || '').toLowerCase();
+        return id.indexOf(state.skillSearchQuery) !== -1 || name.indexOf(state.skillSearchQuery) !== -1;
+      });
+    }
+
     // Sort
     filtered = filtered.slice().sort(function(a, b) {
       if (state.sort === 'grade') {
@@ -1454,6 +1518,17 @@
         state.showCount = INITIAL_BARS;
         renderNamedChart(state.namedSkills);
         wireActionButtons();
+      });
+    }
+  }
+
+  // ── SKILL SEARCH WIRING ──
+  function wireSkillSearch() {
+    var skillSearchEl = document.getElementById('lbSkillSearch');
+    if (skillSearchEl) {
+      skillSearchEl.addEventListener('input', function() {
+        state.skillSearchQuery = this.value.toLowerCase().trim();
+        renderNamedChart(state.namedSkills);
       });
     }
   }
@@ -1637,7 +1712,7 @@
         '<div class="lb-tt-row"><span class="lb-tt-label">Group</span><span class="lb-tt-value">' + skill._groupSize + ' skills (' + skill.grade + ' · TM ' + Math.round(skill.trustMagnitude) + ')</span></div>' +
         '<div class="lb-tt-row" style="flex-direction:column;align-items:flex-start;gap:2px">' +
           (skill._groupMembers || []).slice(0, 5).map(function(mid) {
-            return '<span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--muted);opacity:0.8">' + esc(mid) + '</span>';
+            return '<span style="font-family:var(--font-data);font-size:0.65rem;color:var(--muted);opacity:0.8">' + esc(mid) + '</span>';
           }).join('') +
           (skill._groupMembers && skill._groupMembers.length > 5 ? '<span style="font-size:0.65rem;color:var(--muted)">…and ' + (skill._groupMembers.length - 5) + ' more</span>' : '') +
         '</div>'
@@ -1703,6 +1778,18 @@
   function truncate(str, max) {
     if (!str) return '';
     return str.length > max ? str.slice(0, max) + '\u2026' : str;
+  }
+
+  // SVG label truncation with hover <title> tooltip
+  function truncLabel(textEl, fullText, maxLen) {
+    if (!fullText) { textEl.textContent = ''; return; }
+    var display = fullText.length > maxLen ? fullText.substring(0, maxLen - 1) + '\u2026' : fullText;
+    textEl.textContent = display;
+    if (display !== fullText) {
+      var titleEl = document.createElementNS(SVG_NS, 'title');
+      titleEl.textContent = fullText;
+      textEl.insertBefore(titleEl, textEl.firstChild);
+    }
   }
 
   function esc(str) {
