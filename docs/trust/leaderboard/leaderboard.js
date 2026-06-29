@@ -179,7 +179,7 @@
       attrs = {
         x: x, y: y,
         'text-anchor': 'middle',
-        'class': 'lb-axis-label',
+        'class': 'lb-axis-label lb-axis-label--name',
         'font-size': String(fontPx)
       };
     } else {
@@ -188,7 +188,7 @@
         x: 0, y: 0,
         transform: 'translate(' + x + ',' + y + ') rotate(' + rotation + ')',
         'text-anchor': anchor,
-        'class': 'lb-axis-label',
+        'class': 'lb-axis-label lb-axis-label--name',
         'font-size': String(fontPx)
       };
     }
@@ -244,17 +244,36 @@
     parent.appendChild(cap);
   }
 
-  // ── WATERMARK HELPER ──
-  // Renders the seal-diamond-wordmark glyph faintly in the top-right of a chart SVG.
+  // ── WATERMARK + UPDATED BADGE HELPERS ──
+  // Watermark — seal+wordmark, top-right; visible but unobtrusive.
   function appendWatermark(svg, totalW) {
     var u = document.createElementNS(SVG_NS, 'use');
     u.setAttribute('href', '../../assets/icons.svg#seal-diamond-wordmark');
-    u.setAttribute('x', String(totalW - 95));
-    u.setAttribute('y', '6');
-    u.setAttribute('width', '75');
-    u.setAttribute('opacity', '0.18');
+    var W = 110;
+    u.setAttribute('x', String(totalW - W - 14));
+    u.setAttribute('y', '8');
+    u.setAttribute('width', String(W));
+    u.setAttribute('height', '40');
+    u.setAttribute('opacity', '0.42');
     u.setAttribute('pointer-events', 'none');
     svg.appendChild(u);
+  }
+
+  // "Updated YYYY-MM-DD" tag in apex-gold, top-left interior of each chart SVG.
+  function appendUpdatedBadge(svg, dateStr) {
+    if (!dateStr) return;
+    var g = svgEl('g', { 'pointer-events': 'none', transform: 'translate(14, 22)' });
+    var t = svgEl('text', {
+      x: 0, y: 0,
+      'font-family': 'var(--font-data)',
+      'font-size': '10',
+      'letter-spacing': '0.06em',
+      style: 'fill: var(--apex-gold); opacity: 0.95; pointer-events: none',
+      'font-weight': '600'
+    });
+    t.textContent = 'UPDATED ' + dateStr;
+    g.appendChild(t);
+    svg.appendChild(g);
   }
 
   // ── ORIGIN BADGE HELPER ──
@@ -318,7 +337,8 @@
     genericExpanded: false,
     skillSearchQuery: '',
     evidenceType: 'all',
-    tmMethodologyOpen: false
+    tmMethodologyOpen: false,
+    updatedDate: ''
   };
 
   // ── DATA FETCH (parallel) ──
@@ -342,6 +362,11 @@
       if (!page || !page.skills) return;
       page.skills.forEach(function(s) { skillMap[s.id] = s; });
     });
+
+    // Stamp the "Updated" date (apex-gold tag in every chart).
+    if (leaderboard.generatedAt) {
+      state.updatedDate = leaderboard.generatedAt.slice(0, 10); // YYYY-MM-DD
+    }
 
     // Enrich leaderboard rows
     var allRows = leaderboard.rows.map(function(row) {
@@ -618,6 +643,7 @@
     svg.appendChild(defs);
 
     appendWatermark(svg, totalW);
+    appendUpdatedBadge(svg, state.updatedDate);
 
     // Build per-bar gradients
     ultimates.forEach(function(ult, i) {
@@ -659,7 +685,7 @@
           x: x + UB / 2,
           y: y + h / 2 + 4,
           'text-anchor': 'middle',
-          'class': 'lb-axis-value',
+          'class': 'lb-axis-value lb-axis-value--inbar',
           'font-size': String(Math.max(10, ls.fontPx + 1)),
           fill: 'rgba(255, 255, 255, 0.95)',
           'font-weight': '600'
@@ -826,6 +852,7 @@
     svg.appendChild(defs);
 
     appendWatermark(svg, totalW);
+    appendUpdatedBadge(svg, state.updatedDate);
 
     // Build per-bar gradients
     visible.forEach(function(suite, i) {
@@ -883,7 +910,7 @@
         var tmText = svgEl('text', {
           x: x + SB / 2, y: y + h / 2 + 4,
           'text-anchor': 'middle',
-          'class': 'lb-axis-value', 'font-size': String(Math.max(9, ls.fontPx + 1)),
+          'class': 'lb-axis-value lb-axis-value--inbar', 'font-size': String(Math.max(9, ls.fontPx + 1)),
           fill: 'rgba(255, 255, 255, 0.95)',
           'font-weight': '600'
         });
@@ -1196,17 +1223,34 @@
     var maxTM = Math.max.apply(null, toShow.map(function(s) { return tmForType(s, state.evidenceType); }));
     maxTM = Math.max(maxTM, 50); // floor
 
+    // Dynamic chart height — under a type filter, scale height so the tallest
+    // bar always fills ~75% of the chart, keeping bar density consistent across
+    // tabs. CSS transition on .lb-chart-wrap eases the height change visually.
+    var dynH = CHART_H;
+    if (state.evidenceType && state.evidenceType !== 'all') {
+      // Compare this type's max against the all-time TM ceiling (use full named
+      // max as the reference). If filtered max is much smaller, shrink chart.
+      var refMax = state._refMaxAll || (function() {
+        var m = Math.max.apply(null, state.namedSkills.map(function(s) { return s.trustMagnitude || 0; }));
+        state._refMaxAll = Math.max(m, 50);
+        return state._refMaxAll;
+      })();
+      var ratio = Math.max(0.25, Math.min(1, maxTM / refMax));
+      dynH = Math.round(220 + (CHART_H - 220) * Math.sqrt(ratio));
+    }
+
     var totalW = Math.max(metrics.totalW, 320);
-    var innerH = CHART_H - NPAD.top - NPAD.bottom;
+    var innerH = dynH - NPAD.top - NPAD.bottom;
     if (innerH < 80) innerH = 80;
 
-    var svg = createSvg(totalW, CHART_H);
+    var svg = createSvg(totalW, dynH);
 
     // Create defs block first
     var defs = svgEl('defs');
     svg.appendChild(defs);
 
     appendWatermark(svg, totalW);
+    appendUpdatedBadge(svg, state.updatedDate);
 
     // Build per-bar gradients
     toShow.forEach(function(skill, i) {
@@ -1290,33 +1334,33 @@
         barGroup.appendChild(badgeText);
       }
 
-      // Fix 6: only render rank pill + TM label when bar is tall enough
-      if (h >= 30) {
+      // Rank stars \u2014 always render above bar, regardless of bar height.
       var rankN = parseInt(skill.level) || 2;
       if (rankN > 0) {
+        var starY = Math.max(NPAD.top - 4, y - 6);
         var rankPill = svgEl('text', {
           x: x + NB / 2,
-          y: y - 20,
+          y: starY,
           'text-anchor': 'middle',
-          'font-size': String(Math.max(8, ls.fontPx - 1)),
-          fill: 'rgba(' + rankRgb(rankN) + ', 0.85)'
+          'font-size': String(Math.max(9, ls.fontPx)),
+          'font-weight': '600',
+          fill: 'rgba(' + rankRgb(rankN) + ', 0.95)'
         });
         rankPill.textContent = rankN + '\u2605';
         barGroup.appendChild(rankPill);
       }
 
-      // TM score centered inside bar
-      var tmText = svgEl('text', {
-        x: x + NB / 2,
-        y: y + h / 2 + 4,
-        'text-anchor': 'middle',
-        'class': 'lb-axis-value',
-        'font-size': String(Math.max(8, ls.fontPx - 1)),
-        fill: 'rgba(255, 255, 255, 0.95)',
-        'font-weight': '600'
-      });
-      tmText.textContent = Math.round(tmVal);
-      barGroup.appendChild(tmText);
+      // TM score centered inside bar (visible only when bar is tall enough to host the number)
+      if (h >= 22) {
+        var tmText = svgEl('text', {
+          x: x + NB / 2,
+          y: y + h / 2 + 4,
+          'text-anchor': 'middle',
+          'class': 'lb-axis-value lb-axis-value--inbar',
+          'font-size': String(Math.max(8, ls.fontPx - 1))
+        });
+        tmText.textContent = Math.round(tmVal);
+        barGroup.appendChild(tmText);
       }
 
       // Avatar — radius scales with bar width
@@ -1440,6 +1484,7 @@
     svg.appendChild(defs);
 
     appendWatermark(svg, totalW);
+    appendUpdatedBadge(svg, state.updatedDate);
 
     // Build gradients per node (muted, handle-hue based)
     displayNodes.forEach(function(node, i) {
@@ -1818,8 +1863,7 @@
       section.classList.toggle('is-open', state.tmMethodologyOpen);
       toggle.setAttribute('aria-expanded', String(state.tmMethodologyOpen));
       body.hidden = !state.tmMethodologyOpen;
-      var glyph = toggle.querySelector('.lb-tm-glyph');
-      if (glyph) glyph.textContent = state.tmMethodologyOpen ? '×' : '+';
+      // The +→× swap is handled by CSS rotating .lb-tm-plus 45deg when .is-open.
     });
   }
 
@@ -1844,6 +1888,15 @@
         var id = (s.contributor + '/' + s.slug).toLowerCase();
         var name = (s.name || s.slug || '').toLowerCase();
         return id.indexOf(state.skillSearchQuery) !== -1 || name.indexOf(state.skillSearchQuery) !== -1;
+      });
+    }
+
+    // Evidence-type filter — when a specific type is active, drop skills whose
+    // contribution from that type is zero (otherwise the chart would render
+    // a wall of 0-height bars with no useful info).
+    if (state.evidenceType && state.evidenceType !== 'all') {
+      filtered = filtered.filter(function(s) {
+        return tmForType(s, state.evidenceType) > 0;
       });
     }
 
