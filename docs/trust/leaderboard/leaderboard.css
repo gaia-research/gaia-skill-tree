@@ -582,19 +582,13 @@
 
 /* ── Action buttons ── */
 .lb-actions {
-  display: flex;
-  gap: 0.4rem;
-  justify-content: flex-end;
-  padding: 0.5rem 0.75rem 0;
-}
-.lb-action-bar {
   position: sticky;
   top: 60px;
   z-index: 10;
   display: flex;
   gap: 0.35rem;
   justify-content: flex-end;
-  padding: 0.4rem 0;
+  padding: 0.4rem 0.75rem 0;
   pointer-events: none;
 }
 .lb-action-btn {

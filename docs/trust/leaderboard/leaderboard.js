@@ -488,7 +488,7 @@
         y: innerH + 76,
         'text-anchor': 'middle',
         'font-size': '9',
-        fill: 'rgba(' + TOKENS.platinum + ', 0.6)'
+        fill: 'rgba(245, 158, 11, 0.7)'
       });
       typeBadge.textContent = 'ultimate';
       barGroup.appendChild(typeBadge);
@@ -496,9 +496,11 @@
 
     svg.appendChild(barGroup);
     container.innerHTML = '';
-    // Inject action buttons before the chart
-    container.insertAdjacentHTML('afterbegin', buildActionButtons('ultimates'));
     container.appendChild(svg);
+    // Action buttons above chart (outside scroll container)
+    var existingActions = container.parentNode.querySelector(':scope > .lb-actions');
+    if (existingActions) existingActions.remove();
+    container.insertAdjacentHTML('beforebegin', buildActionButtons('ultimates'));
 
     // Ultimate stacked legend
     var legendHtml = '<div class="lb-legend">' +
@@ -686,11 +688,11 @@
       truncLabel(contrib, suite.contributor, 14);
       barGroup.appendChild(contrib);
 
-      // Type pill (ultimate vs extra)
+      // Type pill (ultimate vs extra) — use TIER colors per DESIGN.md
       var isUltimate = suite.type === 'ultimate';
       var typePillFill = isUltimate
-        ? 'rgba(' + TOKENS.platinum + ', 0.8)'
-        : 'rgba(' + TOKENS.gold + ', 0.7)';
+        ? 'rgba(245, 158, 11, 0.9)'
+        : 'rgba(192, 132, 252, 0.85)';
       var typePill = svgEl('text', {
         x: x + SB / 2, y: innerH + 80,
         'text-anchor': 'middle', 'font-size': '9',
@@ -702,9 +704,11 @@
 
     svg.appendChild(barGroup);
     container.innerHTML = '';
-    // Inject action buttons before svg
-    container.insertAdjacentHTML('afterbegin', buildActionButtons('suites'));
     container.appendChild(svg);
+    // Inject action buttons above chart (outside scroll container)
+    var existingActions = container.parentNode.querySelector('.lb-actions');
+    if (existingActions) existingActions.remove();
+    container.insertAdjacentHTML('beforebegin', buildActionButtons('suites'));
 
     // Add toggle button if there are more than 8 suites
     if (suites.length > 8) {
@@ -1051,9 +1055,11 @@
 
     svg.appendChild(barGroup);
     container.innerHTML = '';
-    // Inject action buttons
-    container.insertAdjacentHTML('afterbegin', buildActionButtons('named'));
     container.appendChild(svg);
+    // Action buttons above chart (outside scroll container)
+    var ea2 = container.parentNode.querySelector(':scope > .lb-actions');
+    if (ea2) ea2.remove();
+    container.insertAdjacentHTML('beforebegin', buildActionButtons('named'));
   }
 
   // ── GENERIC/STARLESS SKILLS BAR CHART ──
@@ -1204,8 +1210,11 @@
 
     svg.appendChild(barGroup);
     container.innerHTML = '';
-    container.insertAdjacentHTML('afterbegin', buildActionButtons('generic'));
     container.appendChild(svg);
+    // Action buttons above chart (outside scroll container)
+    var ea3 = container.parentNode.querySelector(':scope > .lb-actions');
+    if (ea3) ea3.remove();
+    container.insertAdjacentHTML('beforebegin', buildActionButtons('generic'));
   }
 
   // ── REGISTRY COMPACT LIST ──
