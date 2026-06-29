@@ -15,7 +15,7 @@ Gaia is the open-source registry where AI agent capabilities aren't just claimed
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Website](https://img.shields.io/badge/Website-gaia.tiongson.co-f59e0b)](https://gaia.tiongson.co/)
 
-👉 **Claim your skill origin:** Run `npm i -g @gaia-registry/cli` and verify your first skill in under 2 minutes.
+👉 **Claim your skill origin:** Run `curl -fsSL https://gaia.tiongson.co/install.sh | sh` and verify your first skill in under 2 minutes.
 
 
 # Get your badges! Some skills already curated.
@@ -148,10 +148,10 @@ Current Gaia CLI version: `5.7.0`.
 curl -fsSL https://gaia.tiongson.co/install.sh | sh
 ```
 
-npm wrapper alternative:
+Python installation alternative:
 
 ```bash
-npm install -g @gaia-registry/cli
+pip install gaia-cli
 ```
 <!-- gaia:version-end -->
 
