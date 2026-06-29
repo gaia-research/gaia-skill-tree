@@ -80,7 +80,7 @@
       '<li><strong>fusion-recipe</strong> — appears as a fusion component in a higher Ultimate skill.</li>',
       '<li><strong>self-attestation</strong> — contributor\'s own claim. Lowest weight.</li>',
     '</ul>',
-    '<p>The aggregate Trust Magnitude is the proportionally-capped sum across all types. See <a href="../../codex/trust-methodology.html">Trust Methodology</a> for the full grading rubric and threshold table.</p>'
+    '<p>The aggregate Trust Magnitude is the proportionally-capped sum across all types. See <a href="' + ROOT_PREFIX + 'codex/trust-methodology.html">Trust Methodology</a> for the full grading rubric and threshold table.</p>'
   ].join('');
 
   // Read-only access to a skill's per-type TM (falls back to aggregate when 'all')
@@ -659,7 +659,7 @@
   var LEDGER_TRUNCATE = 20;
 
   function renderLedger() {
-    fetch('../../graph/ledger/data.json')
+    fetch(ROOT_PREFIX + 'graph/ledger/data.json')
       .then(function(r) { return r.json(); })
       .then(function(data) {
         state.ledgerRows = Array.isArray(data.rows) ? data.rows : [];
@@ -684,7 +684,7 @@
       var stars = r.juneStars || r.currentStars || '?';
       return '<tr data-trust-grade="' + esc(gradeKey) + '">' +
         '<td class="col-rank">' + (i + 1) + '</td>' +
-        '<td class="col-id"><a href="../../named/#explorer/' + esc(r.skillId) + '">' + esc(r.skillId) + '</a></td>' +
+        '<td class="col-id"><a href="' + ROOT_PREFIX + 'named/#explorer/' + esc(r.skillId) + '">' + esc(r.skillId) + '</a></td>' +
         '<td class="col-tm"><span class="lb-tm-num">' + (typeof r.tm === 'number' ? r.tm.toFixed(1) : r.tm) + '</span></td>' +
         '<td class="col-grade"><span class="lb-grade-pill" data-trust-grade="' + esc(gradeKey) + '">' + (grade === 'ungraded' ? '\u2014' : grade) + '</span></td>' +
         '<td class="col-stars">' + esc(stars) + '</td>' +
@@ -2242,7 +2242,7 @@
       if (!bar || bar.style.pointerEvents === 'none') return;
       var id = bar.dataset.id;
       if (id) {
-        window.location.href = '../../named/#explorer/' + id;
+        window.location.href = ROOT_PREFIX + 'named/#explorer/' + id;
       }
     });
 
