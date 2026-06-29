@@ -19,12 +19,12 @@
 
   <div class="lb-shell">
     <nav class="lb-toc" aria-label="Page sections">
-      <a href="#lbHero" data-toc="lbHero"><span class="lb-toc-dot"></span><span class="lb-toc-label">Trust Leaderboard</span></a>
-      <a href="#lbSuites" data-toc="lbSuites"><span class="lb-toc-dot"></span><span class="lb-toc-label">Suites</span></a>
-      <a href="#lbNamed" data-toc="lbNamed"><span class="lb-toc-dot"></span><span class="lb-toc-label">Named Skills</span></a>
-      <a href="#lbLedgerInline" data-toc="lbLedgerInline"><span class="lb-toc-dot"></span><span class="lb-toc-label">Trust Ledger</span></a>
-      <a href="#lbGeneric" data-toc="lbGeneric"><span class="lb-toc-dot"></span><span class="lb-toc-label">Starless</span></a>
-      <a href="#lbRegistry" data-toc="lbRegistry"><span class="lb-toc-dot"></span><span class="lb-toc-label">In Registry</span></a>
+      <a href="#lbHero" data-toc="lbHero"><svg class="lb-toc-icon" aria-hidden="true"><use href="../../assets/icons.svg#sparkle"/></svg><span class="lb-toc-label">Trust Leaderboard</span></a>
+      <a href="#lbSuites" data-toc="lbSuites"><svg class="lb-toc-icon" aria-hidden="true"><use href="../../assets/icons.svg#view-tile"/></svg><span class="lb-toc-label">Suites</span></a>
+      <a href="#lbNamed" data-toc="lbNamed"><svg class="lb-toc-icon" aria-hidden="true"><use href="../../assets/icons.svg#tier-glyph-unique"/></svg><span class="lb-toc-label">Named Skills</span></a>
+      <a href="#lbLedgerInline" data-toc="lbLedgerInline"><svg class="lb-toc-icon" aria-hidden="true"><use href="../../assets/icons.svg#view-list"/></svg><span class="lb-toc-label">Trust Ledger</span></a>
+      <a href="#lbGeneric" data-toc="lbGeneric"><svg class="lb-toc-icon" aria-hidden="true"><use href="../../assets/icons.svg#view-tree"/></svg><span class="lb-toc-label">Starless</span></a>
+      <a href="#lbRegistry" data-toc="lbRegistry"><svg class="lb-toc-icon" aria-hidden="true"><use href="../../assets/icons.svg#user"/></svg><span class="lb-toc-label">In Registry</span></a>
     </nav>
   <main class="lb-page">
     <!-- HERO HEADER -->
@@ -41,8 +41,12 @@
         <h2 class="lb-section-title">⬡ Suites</h2>
         <span class="lb-section-count" id="lbSuiteCount"></span>
       </div>
-      <p class="lb-section-note">Skills with component bundles — install one, get many.</p>
-      <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbSuiteChart"></div>
+      <div class="lb-chart-panel">
+        <div class="lb-panel-header">
+          <p class="lb-panel-note">Skills with component bundles — install one, get many.</p>
+        </div>
+        <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbSuiteChart"></div>
+      </div>
     </section>
 
     <!-- ULTIMATES — STACKED VERTICAL BAR CHART -->
@@ -60,47 +64,51 @@
         <h2 class="lb-section-title">◇ Named Skills</h2>
         <span class="lb-section-count" id="lbNamedCount"></span>
       </div>
-      <!-- AA-style per-section controls -->
-      <div class="lb-section-controls" id="lbNamedControls">
-        <div class="lb-typetabs" id="lbTypeTabs" role="tablist" aria-label="Filter by evidence type"></div>
-        <div class="lb-named-dist" id="lbNamedDist">
-          <!-- populated by JS from distribution data -->
-        </div>
-        <div class="lb-section-meta">
-          <span class="lb-model-counter">
-            <strong id="lbShownCount">—</strong> of <span id="lbTotalCount">—</span> skills
-          </span>
-          <span class="lb-input-icon-wrap">
-            <svg class="lb-btn-icon" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg>
-            <input class="lb-skill-search" id="lbSkillSearch" type="search" placeholder="Search skills…" autocomplete="off">
-          </span>
-          <div class="lb-multiselect" id="lbContribMulti">
-            <button class="lb-ms-trigger" id="lbMsTrigger" type="button">
-              <svg class="lb-btn-icon" aria-hidden="true"><use href="../../assets/icons.svg#user"/></svg>
-              <span class="lb-ms-label" id="lbMsLabel">Add contributor…</span>
-              <span class="lb-ms-arrow">▾</span>
-            </button>
-            <div class="lb-ms-dropdown" id="lbMsDropdown" hidden>
-              <input class="lb-ms-search" id="lbMsSearch" type="search" placeholder="Search…" autocomplete="off">
-              <div class="lb-ms-list" id="lbMsList"></div>
-              <div class="lb-ms-footer">
-                <button class="lb-ms-clear-all" id="lbMsClearAll" type="button">Clear all</button>
-                <span class="lb-ms-selected-count" id="lbMsCount"></span>
+      <!-- Chart panel: tabs + filters live INSIDE the panel -->
+      <div class="lb-chart-panel">
+        <div class="lb-panel-header">
+          <div class="lb-typetabs" id="lbTypeTabs" role="tablist" aria-label="Filter by evidence type"></div>
+          <div class="lb-panel-filters" id="lbNamedControls">
+            <div class="lb-named-dist" id="lbNamedDist">
+              <!-- populated by JS from distribution data -->
+            </div>
+            <div class="lb-section-meta">
+              <span class="lb-model-counter">
+                <strong id="lbShownCount">—</strong> of <span id="lbTotalCount">—</span> skills
+              </span>
+              <span class="lb-input-icon-wrap">
+                <svg class="lb-btn-icon" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg>
+                <input class="lb-skill-search" id="lbSkillSearch" type="search" placeholder="Search skills…" autocomplete="off">
+              </span>
+              <div class="lb-multiselect" id="lbContribMulti">
+                <button class="lb-ms-trigger" id="lbMsTrigger" type="button">
+                  <svg class="lb-btn-icon" aria-hidden="true"><use href="../../assets/icons.svg#user"/></svg>
+                  <span class="lb-ms-label" id="lbMsLabel">Add contributor…</span>
+                  <span class="lb-ms-arrow">▾</span>
+                </button>
+                <div class="lb-ms-dropdown" id="lbMsDropdown" hidden>
+                  <input class="lb-ms-search" id="lbMsSearch" type="search" placeholder="Search…" autocomplete="off">
+                  <div class="lb-ms-list" id="lbMsList"></div>
+                  <div class="lb-ms-footer">
+                    <button class="lb-ms-clear-all" id="lbMsClearAll" type="button">Clear all</button>
+                    <span class="lb-ms-selected-count" id="lbMsCount"></span>
+                  </div>
+                </div>
               </div>
+              <div class="lb-sort-wrap">
+                <svg class="lb-btn-icon" aria-hidden="true"><use href="../../assets/icons.svg#sort-arrows"/></svg>
+                <select class="lb-sort-select" id="lbSortSelect">
+                  <option value="tm">Sort: By TM</option>
+                  <option value="grade">Sort: By Grade</option>
+                  <option value="contributor">Sort: By Contributor</option>
+                </select>
+              </div>
+              <button class="lb-group-toggle" id="lbGroupToggle" title="Toggle grouping of identical-grade skills"><svg class="lb-btn-icon" aria-hidden="true"><use href="../../assets/icons.svg#view-tile"/></svg> Grouped</button>
             </div>
           </div>
-          <div class="lb-sort-wrap">
-            <svg class="lb-btn-icon" aria-hidden="true"><use href="../../assets/icons.svg#sort-arrows"/></svg>
-            <select class="lb-sort-select" id="lbSortSelect">
-              <option value="tm">Sort: By TM</option>
-              <option value="grade">Sort: By Grade</option>
-              <option value="contributor">Sort: By Contributor</option>
-            </select>
-          </div>
-          <button class="lb-group-toggle" id="lbGroupToggle" title="Toggle grouping of identical-grade skills"><svg class="lb-btn-icon" aria-hidden="true"><use href="../../assets/icons.svg#view-tile"/></svg> Grouped</button>
         </div>
+        <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbNamedChart"></div>
       </div>
-      <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbNamedChart"></div>
       <div class="lb-show-more" id="lbShowMore">
         <button class="lb-show-more-btn" id="lbShowMoreBtn" type="button">Show more</button>
       </div>
@@ -111,7 +119,6 @@
         </button>
         <div class="lb-tm-body" id="lbTmBody" hidden></div>
       </section>
-      <p class="lb-chart-caption">Origin skills carry a laurel wreath under the contributor handle.</p>
       <!-- Inline ledger table -->
       <div class="lb-ledger-inline" id="lbLedgerInline">
         <div class="lb-ledger-head">
@@ -144,8 +151,12 @@
         <h2 class="lb-section-title lb-section-title--muted">◎ Starless</h2>
         <span class="lb-section-count" id="lbGenericCount"></span>
       </div>
-      <p class="lb-section-note">Generic skill nodes · each bar = one capability, segments = named implementations</p>
-      <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbGenericChart"></div>
+      <div class="lb-chart-panel">
+        <div class="lb-panel-header">
+          <p class="lb-panel-note">Generic skill nodes · each bar = one capability, segments = named implementations</p>
+        </div>
+        <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbGenericChart"></div>
+      </div>
     </section>
 
     <!-- IN REGISTRY — COMPACT LIST -->
