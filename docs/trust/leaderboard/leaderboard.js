@@ -74,44 +74,40 @@
   }
 
   // ── BAR GRADIENT BUILDER ──
-  function buildBarGradientDef(svg, grade, level, id) {
-    // oklch gradients — NO hex colors
-    var stops = {
-      S: ['oklch(0.78 0.10 210)', 'oklch(0.92 0.07 195)'],
-      A: ['oklch(0.72 0.16 80)',  'oklch(0.88 0.13 65)'],
-      B: ['oklch(0.60 0.08 230)', 'oklch(0.76 0.05 215)'],
-      C: ['oklch(0.55 0.10 50)',  'oklch(0.70 0.08 40)']
-    };
-    var pair = stops[grade] || ['oklch(0.40 0.03 250)', 'oklch(0.55 0.04 240)'];
+  function buildBarGradientDef(svg, contributor, grade, level, type, id) {
+    // PRIMARY color = deterministic hue from contributor handle
+    var hue = handleHue(contributor);
 
-    // Rank luminosity nudge: level 1★=darkest, 6★=brightest
+    // Chroma (saturation) modulated by rank: 1★=0.10, 6★=0.22
     var rankN = parseInt(level) || 2;
-    var nudge = (rankN - 2) * 0.03;
+    var chroma = 0.10 + (rankN - 1) * 0.02; // 0.12 for 2★ … 0.20 for 6★
+    chroma = Math.min(0.22, Math.max(0.10, chroma));
 
-    // Adjust luminosity in stop values by nudge
-    var adjustedPair = pair.map(function(stop) {
-      // Parse oklch(L C H) and nudge L
-      var match = stop.match(/oklch\(([\d.]+)\s+([\d.]+)\s+([\d.]+)\)/);
-      if (match) {
-        var l = Math.min(0.98, Math.max(0.2, parseFloat(match[1]) + nudge));
-        return 'oklch(' + l.toFixed(2) + ' ' + match[2] + ' ' + match[3] + ')';
-      }
-      return stop;
-    });
+    // Luminosity range: bottom of bar slightly darker, top brighter
+    var lBot = 0.38;
+    var lTop = 0.62;
 
-    // Get or create <defs> in the SVG
+    // Grade accent: shifts luminosity of the TOP stop slightly
+    // S=+0.12 (brightest), A=+0.06, B=0, C=-0.04
+    var gradeNudge = { S: 0.12, A: 0.06, B: 0, C: -0.04 };
+    lTop += (gradeNudge[grade] || 0);
+    lTop = Math.min(0.82, Math.max(0.45, lTop));
+
+    // Type accent: research/professional add warm hue offset; ultimate adds shimmer (handled via CSS class)
+    var hueShift = (type === 'research' || type === 'professional') ? 12 : 0;
+
+    var stopBot = 'oklch(' + lBot.toFixed(2) + ' ' + chroma.toFixed(2) + ' ' + (hue + hueShift) + ')';
+    var stopTop = 'oklch(' + lTop.toFixed(2) + ' ' + chroma.toFixed(2) + ' ' + (hue + hueShift) + ')';
+
+    // Get or create <defs>
     var defs = svg.querySelector('defs');
-    if (!defs) {
-      defs = svgEl('defs');
-      svg.insertBefore(defs, svg.firstChild);
-    }
+    if (!defs) { defs = svgEl('defs'); svg.insertBefore(defs, svg.firstChild); }
 
     var gradId = 'lb-grad-' + id;
     var grad = svgEl('linearGradient', { id: gradId, x1: '0', y1: '1', x2: '0', y2: '0' });
-    appendStop(grad, '0%', adjustedPair[0]);
-    appendStop(grad, '100%', adjustedPair[1]);
+    appendStop(grad, '0%', stopBot);
+    appendStop(grad, '100%', stopTop);
     defs.appendChild(grad);
-
     return gradId;
   }
 
@@ -221,11 +217,12 @@
     if (!container) return;
     if (countEl) countEl.textContent = suites.length + ' of ' + suites.length + ' suites';
 
+    var SPAD = { top: 24, right: 24, bottom: 130, left: 54 };
     var maxTM = TM_CEILING;
-    var barSpacing = BAR_W * 2 + BAR_GAP + 40;
-    var totalW = suites.length * barSpacing + PAD.left + PAD.right + 80;
+    var barSpacing = BAR_W * 2 + 48; // 56 + 48 = 104px per suite bar
+    var totalW = suites.length * barSpacing + SPAD.left + SPAD.right + 80;
     var chartH = SUITE_CHART_H;
-    var innerH = chartH - PAD.top - PAD.bottom;
+    var innerH = chartH - SPAD.top - SPAD.bottom;
 
     var svg = createSvg(Math.max(totalW, 320), chartH);
 
@@ -235,14 +232,14 @@
 
     // Build per-bar gradients
     suites.forEach(function(suite, i) {
-      buildBarGradientDef(svg, suite.grade || 'S', suite.level, 'suite-' + i);
+      buildBarGradientDef(svg, suite.contributor, suite.grade || 'S', suite.level, suite.type, 'suite-' + i);
     });
 
     // Y-axis gridlines
     drawYAxis(svg, innerH, maxTM, totalW);
 
     // Bars
-    var barGroup = svgEl('g', { transform: 'translate(' + PAD.left + ',' + PAD.top + ')' });
+    var barGroup = svgEl('g', { transform: 'translate(' + SPAD.left + ',' + SPAD.top + ')' });
 
     suites.forEach(function(suite, i) {
       var x = i * barSpacing + 20;
@@ -264,6 +261,23 @@
       });
       barGroup.appendChild(bar);
 
+      // Grade accent: thin top border on bar
+      var gradeAccent = svgEl('rect', {
+        x: x, y: y, width: BAR_W * 2, height: 4, rx: 4,
+        fill: 'rgba(' + gradeColor(suite.grade || 'S') + ', 0.55)',
+        style: 'pointer-events:none'
+      });
+      barGroup.appendChild(gradeAccent);
+
+      // Rank accent: colored left-edge stripe
+      var suiteRankN = parseInt(suite.level) || 2;
+      var rankAccent = svgEl('rect', {
+        x: x, y: y, width: 3, height: h, rx: 2,
+        fill: 'rgba(' + rankRgb(suiteRankN) + ', 0.7)',
+        style: 'pointer-events:none'
+      });
+      barGroup.appendChild(rankAccent);
+
       // TM value above bar
       var tmText = svgEl('text', {
         x: x + BAR_W,
@@ -279,14 +293,14 @@
       // Avatar clip path
       var clipId = 'av-clip-suite-' + i;
       var clipPath = svgEl('clipPath', { id: clipId });
-      var clipCircle = svgEl('circle', { cx: x + BAR_W, cy: innerH + 52, r: '12' });
+      var clipCircle = svgEl('circle', { cx: x + BAR_W, cy: innerH + 20, r: '12' });
       clipPath.appendChild(clipCircle);
       defs.appendChild(clipPath);
 
       // Fallback colored circle (shows when img fails to load)
       var hue = handleHue(suite.contributor);
       var bgCircle = svgEl('circle', {
-        cx: x + BAR_W, cy: innerH + 52, r: '12',
+        cx: x + BAR_W, cy: innerH + 20, r: '12',
         fill: 'oklch(0.55 0.18 ' + hue + ')'
       });
       barGroup.appendChild(bgCircle);
@@ -294,7 +308,7 @@
       // GitHub avatar image (overlays the fallback circle)
       var avatarImg = svgEl('image', {
         href: 'https://github.com/' + suite.contributor + '.png?size=40',
-        x: x + BAR_W - 12, y: innerH + 40,
+        x: x + BAR_W - 12, y: innerH + 8,
         width: '24', height: '24',
         'clip-path': 'url(#' + clipId + ')',
         preserveAspectRatio: 'xMidYMid slice'
@@ -304,7 +318,7 @@
       // Label below avatar
       var label = svgEl('text', {
         x: x + BAR_W,
-        y: innerH + 74,
+        y: innerH + 48,
         'text-anchor': 'middle',
         'class': 'lb-axis-label',
         'font-size': '11'
@@ -315,7 +329,7 @@
       // Contributor under label
       var contrib = svgEl('text', {
         x: x + BAR_W,
-        y: innerH + 88,
+        y: innerH + 62,
         'text-anchor': 'middle',
         'font-size': '10',
         fill: 'rgba(' + TOKENS.honorRed + ', 0.7)'
@@ -326,7 +340,7 @@
       // Type badge pill below contributor
       var typeBadge = svgEl('text', {
         x: x + BAR_W,
-        y: innerH + 102,
+        y: innerH + 76,
         'text-anchor': 'middle',
         'font-size': '9',
         fill: 'rgba(' + TOKENS.platinum + ', 0.6)'
@@ -431,6 +445,10 @@
     var countEl = document.getElementById('lbNamedCount');
     if (!container) return;
 
+    var NB = 22; // named bar width (slightly narrower to give more gap)
+    var NG = 8;  // named bar gap (wider gap)
+    var NPAD = { top: 24, right: 24, bottom: 120, left: 54 };
+
     var visible = applyFilter(skills);
     var toShow = visible.slice(0, state.showCount);
     var totalVisible = visible.length;
@@ -454,10 +472,10 @@
     var maxTM = Math.max.apply(null, toShow.map(function(s) { return s.trustMagnitude; }));
     maxTM = Math.max(maxTM, 50); // floor
 
-    var totalW = toShow.length * (BAR_W + BAR_GAP) + PAD.left + PAD.right;
-    var innerH = CHART_H - PAD.top - PAD.bottom;
+    var totalW = toShow.length * (NB + NG) + NPAD.left + NPAD.right;
+    var innerH = CHART_H - NPAD.top - NPAD.bottom;
 
-    var svg = createSvg(Math.max(totalW, 320), CHART_H + PAD.bottom);
+    var svg = createSvg(Math.max(totalW, 320), CHART_H + NPAD.bottom);
 
     // Create defs block first
     var defs = svgEl('defs');
@@ -465,17 +483,17 @@
 
     // Build per-bar gradients
     toShow.forEach(function(skill, i) {
-      buildBarGradientDef(svg, skill.grade, skill.level, 'named-' + i);
+      buildBarGradientDef(svg, skill.contributor, skill.grade, skill.level, skill.type, 'named-' + i);
     });
 
     // Y-axis gridlines
     drawYAxis(svg, innerH, maxTM, totalW);
 
     // Bar group
-    var barGroup = svgEl('g', { transform: 'translate(' + PAD.left + ',' + PAD.top + ')' });
+    var barGroup = svgEl('g', { transform: 'translate(' + NPAD.left + ',' + NPAD.top + ')' });
 
     toShow.forEach(function(skill, i) {
-      var x = i * (BAR_W + BAR_GAP);
+      var x = i * (NB + NG);
       var h = Math.max(2, (skill.trustMagnitude / maxTM) * innerH);
       var y = innerH - h;
       var gradId = 'lb-grad-named-' + i;
@@ -483,7 +501,7 @@
       var bar = svgEl('rect', {
         x: x,
         y: y,
-        width: BAR_W,
+        width: NB,
         height: h,
         rx: 3,
         fill: 'url(#' + gradId + ')',
@@ -494,9 +512,39 @@
       });
       barGroup.appendChild(bar);
 
+      // Grade accent: thin top border on bar
+      var gradeAccent = svgEl('rect', {
+        x: x, y: y, width: NB, height: 4, rx: 4,
+        fill: 'rgba(' + gradeColor(skill.grade) + ', 0.55)',
+        style: 'pointer-events:none'
+      });
+      barGroup.appendChild(gradeAccent);
+
+      // Rank accent: colored left-edge stripe
+      var rankN = parseInt(skill.level) || 2;
+      var rankAccent = svgEl('rect', {
+        x: x, y: y, width: 3, height: h, rx: 2,
+        fill: 'rgba(' + rankRgb(rankN) + ', 0.7)',
+        style: 'pointer-events:none'
+      });
+      barGroup.appendChild(rankAccent);
+
+      // Rank pill ABOVE bar (moved out of crowded bottom area)
+      if (rankN > 0) {
+        var rankPill = svgEl('text', {
+          x: x + NB / 2,
+          y: y - 20,
+          'text-anchor': 'middle',
+          'font-size': '9',
+          fill: 'rgba(' + rankRgb(rankN) + ', 0.85)'
+        });
+        rankPill.textContent = rankN + '\u2605';
+        barGroup.appendChild(rankPill);
+      }
+
       // TM score above bar
       var tmText = svgEl('text', {
-        x: x + BAR_W / 2,
+        x: x + NB / 2,
         y: y - 6,
         'text-anchor': 'middle',
         'class': 'lb-axis-value',
@@ -509,14 +557,14 @@
       // Avatar clip path
       var clipId = 'av-clip-named-' + i;
       var clipPath = svgEl('clipPath', { id: clipId });
-      var clipCircle = svgEl('circle', { cx: x + BAR_W / 2, cy: innerH + 38, r: '10' });
+      var clipCircle = svgEl('circle', { cx: x + NB / 2, cy: innerH + 18, r: '10' });
       clipPath.appendChild(clipCircle);
       defs.appendChild(clipPath);
 
       // Fallback colored circle
       var hue = handleHue(skill.contributor);
       var bgCircle = svgEl('circle', {
-        cx: x + BAR_W / 2, cy: innerH + 38, r: '10',
+        cx: x + NB / 2, cy: innerH + 18, r: '10',
         fill: 'oklch(0.55 0.18 ' + hue + ')'
       });
       barGroup.appendChild(bgCircle);
@@ -524,7 +572,7 @@
       // GitHub avatar image
       var avatarImg = svgEl('image', {
         href: 'https://github.com/' + skill.contributor + '.png?size=40',
-        x: x + BAR_W / 2 - 10, y: innerH + 28,
+        x: x + NB / 2 - 10, y: innerH + 6,
         width: '20', height: '20',
         'clip-path': 'url(#' + clipId + ')',
         preserveAspectRatio: 'xMidYMid slice'
@@ -535,27 +583,13 @@
       var label = svgEl('text', {
         x: 0,
         y: 0,
-        transform: 'translate(' + (x + BAR_W / 2) + ',' + (innerH + 56) + ') rotate(45)',
+        transform: 'translate(' + (x + NB / 2) + ',' + (innerH + 12) + ') rotate(45)',
         'text-anchor': 'start',
         'class': 'lb-axis-label',
         'font-size': '10'
       });
       label.textContent = truncate(skill.id.split('/')[1] || skill.name, 16);
       barGroup.appendChild(label);
-
-      // Rank pill below label area
-      var rankN = parseInt(skill.level) || 0;
-      if (rankN > 0) {
-        var rankPill = svgEl('text', {
-          x: x + BAR_W / 2,
-          y: innerH + 100,
-          'text-anchor': 'middle',
-          'font-size': '9',
-          fill: 'rgba(' + rankRgb(rankN) + ', 0.9)'
-        });
-        rankPill.textContent = rankN + '\u2605';
-        barGroup.appendChild(rankPill);
-      }
     });
 
     svg.appendChild(barGroup);
