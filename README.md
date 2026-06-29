@@ -5,22 +5,17 @@
   </picture>
 </div>
 
-# Gaia: Definitely not a skill marketplace
+# Gaia: The Evidence-Backed AI Agent Skill Graph 🌲
 
-> Open and evidence-backed skill graph. The game is to name a skill to your repository--the best skill takes "origin"!
-> Success means becoming the public record vibe coders cite when making capability claims.
+**Stop guessing if your agent works. Prove it.**
 
-### How does ranking work? Read [META.md](META.md) for a comprehensive list
+Gaia is the open-source registry where AI agent capabilities aren't just claimed—they're verified through a public ledger of code-execution runs, license checks, and security audits.
 
 [![Validate](https://github.com/gaia-research/gaia-skill-tree/actions/workflows/validate.yml/badge.svg)](https://github.com/gaia-research/gaia-skill-tree/actions/workflows/validate.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Website](https://img.shields.io/badge/Website-gaia.tiongson.co-f59e0b)](https://gaia.tiongson.co/)
 
-# Be like Rimuru
-
-Main inspo for this repo. Basically stole the idea and applied it to agent skills.
-
-![Rimuru Tempest](docs/assets/rimuru.gif)
+👉 **Claim your skill origin:** Run `npm i -g @gaia-registry/cli` and verify your first skill in under 2 minutes.
 
 
 # Get your badges! Some skills already curated.
@@ -424,6 +419,14 @@ Gaia does not store personal information.
 Full details: [PRIVACY.md](PRIVACY.md) · [gaia.tiongson.co/privacy.html](https://gaia.tiongson.co/privacy.html)
 
 **Topics:** gaia-skill-tree, ai-agent, skill-registry, capability-graph, evidence-backed, agent-skills, attribution, model-context-protocol, open-source-ai, llm-ops, agent-framework
+
+---
+
+## Inspiration
+
+**Be like Rimuru.** The main inspiration for this repository. Basically stole the idea of the "Great Sage" and applied it to agent skills.
+
+![Rimuru Tempest](docs/assets/rimuru.gif)
 
 ---
 
