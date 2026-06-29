@@ -746,7 +746,7 @@ def build_badges(check: bool) -> bool:
         # Apply the redaction backstop to the tempdir BEFORE diffing/copying.
         # In --check mode this keeps the "drift" output focused on real
         # contributor changes rather than leaking redaction-noise into it.
-        _apply_redaction_backstop(out_dir, check=check)
+        _apply_redaction_backstop(out_dir, check=False)
         # Preserve hand-authored docs/badges/index.html across regeneration
         # by copying it into the candidate tree before diffing.
         sampler = committed / "index.html"
@@ -876,8 +876,9 @@ def _apply_redaction_backstop(badges_dir: Path, *, check: bool) -> None:
                 continue
             d = assets / handle
             if d.exists():
-                import shutil
-                shutil.rmtree(d)
+                if not check:
+                    import shutil
+                    shutil.rmtree(d)
     registry = badges_dir / "registry.json"
     if registry.exists():
         try:
@@ -887,7 +888,7 @@ def _apply_redaction_backstop(badges_dir: Path, *, check: bool) -> None:
         contribs = reg.get("contributors") if isinstance(reg, dict) else None
         if isinstance(contribs, dict):
             removed = [h for h in prenamed if h in contribs]
-            if removed:
+            if removed and not check:
                 for h in removed:
                     contribs.pop(h, None)
                 registry.write_text(
