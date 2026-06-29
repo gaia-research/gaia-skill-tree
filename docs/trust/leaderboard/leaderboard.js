@@ -1194,8 +1194,7 @@
     var countEl = document.getElementById('lbGenericCount');
     if (!container) return;
 
-    var GB = 20; var GG = 10;
-    var GPAD = { top: 24, right: 24, bottom: 150, left: 54 };
+    var GPAD = { top: 24, right: 24, bottom: 0, left: 54 }; // bottom computed below
     var GCHART_H = 320;
 
     if (countEl) countEl.textContent = nodes.length + ' generic skills \u00B7 ' +
@@ -1206,18 +1205,41 @@
       return;
     }
 
-    var maxTM = Math.max.apply(null, nodes.map(function(n) { return n.trustMagnitude || 0; }));
+    // Fix 7: pagination — when N > 50, show first 20 with toggle.
+    var PAGINATION_THRESHOLD_GEN = 50;
+    var PAGINATION_INITIAL_GEN = 20;
+    var needsPaginationGen = nodes.length > PAGINATION_THRESHOLD_GEN;
+    var allNodes = nodes;
+    var displayNodes = (needsPaginationGen && !state.genericExpanded) ? nodes.slice(0, PAGINATION_INITIAL_GEN) : nodes;
+
+    var maxTM = Math.max.apply(null, displayNodes.map(function(n) { return n.trustMagnitude || 0; }));
     maxTM = Math.max(maxTM, 10);
 
-    var totalW = nodes.length * (GB + GG) + GPAD.left + GPAD.right;
+    // Fix 1: dynamic bar metrics
+    var metrics = computeBarMetrics(displayNodes.length, chartContainerW(), GPAD.left, GPAD.right, 8, 22, 0.4);
+    var GB = metrics.barW;
+    var GG = metrics.gap;
+    var barSpacing = GB + GG;
+
+    // Fix 2: adaptive label style
+    var ls = labelStyleFor(barSpacing);
+    var childFontPx = Math.max(7, ls.fontPx - 2);
+    var childMaxChars = Math.max(6, ls.maxChars - 4);
+    var childLines = 4;
+
+    // Fix 3: bottom padding = rotated name label + child label stack
+    GPAD.bottom = computeBottomPad(ls.rotation, 1, ls.fontPx) + childLines * (childFontPx + 3) + 16;
+
+    var totalW = Math.max(metrics.totalW, 320);
     var innerH = GCHART_H - GPAD.top - GPAD.bottom;
-    var svg = createSvg(Math.max(totalW, 320), GCHART_H);
+    if (innerH < 60) innerH = 60;
+    var svg = createSvg(totalW, GCHART_H);
 
     var defs = svgEl('defs');
     svg.appendChild(defs);
 
     // Build gradients per node (muted, handle-hue based)
-    nodes.forEach(function(node, i) {
+    displayNodes.forEach(function(node, i) {
       var hue = handleHue(node.contributor);
       var clipId = 'av-clip-gen-' + i;
       var cp = svgEl('clipPath', { id: clipId });
@@ -1239,8 +1261,8 @@
     drawYAxis(svg, innerH, maxTM, totalW);
     var barGroup = svgEl('g', { transform: 'translate(' + GPAD.left + ',' + GPAD.top + ')' });
 
-    nodes.forEach(function(node, i) {
-      var x = i * (GB + GG);
+    displayNodes.forEach(function(node, i) {
+      var x = i * barSpacing;
       var h = Math.max(3, (node.trustMagnitude / maxTM) * innerH);
       var y = innerH - h;
 
@@ -1263,16 +1285,24 @@
           if (usedH + segH > h) segH = Math.max(1, h - usedH);
           var segY = y + h - usedH - segH;
           var segFill;
+          var segStroke = null;
           if (child.origin) {
-            segFill = 'rgba(' + TOKENS.honorRed + ', 0.8)';
+            // Fix 5: origin gets 0.95 opacity + 1px white side strokes — canonical impl undeniable.
+            segFill = 'rgba(' + TOKENS.honorRed + ', 0.95)';
+            segStroke = 'rgba(255,255,255,0.85)';
           } else {
             var childTc = typeColors(child.type || 'basic');
             segFill = 'rgba(' + rgbStr(childTc.top) + ',0.72)';
           }
-          var seg = svgEl('rect', {
-            x: x + 2, y: segY, width: GB - 4, height: Math.max(1, segH - 1), rx: 1,
-            fill: segFill, opacity: '0.85', style: 'pointer-events:none'
-          });
+          var segAttrs = {
+            x: x + 2, y: segY, width: Math.max(1, GB - 4), height: Math.max(1, segH - 1), rx: 1,
+            fill: segFill, opacity: '0.95', style: 'pointer-events:none'
+          };
+          if (segStroke) {
+            segAttrs.stroke = segStroke;
+            segAttrs['stroke-width'] = '1';
+          }
+          var seg = svgEl('rect', segAttrs);
           barGroup.appendChild(seg);
           usedH += segH;
         });
@@ -1300,38 +1330,40 @@
         barGroup.appendChild(badgeTxt);
       }
 
-      // Stacked contributor labels below bar (up to 3 + "more")
+      // (labels moved below: name first, then children)
+
+      // Generic node name label (adaptive)
+      var nameY = innerH + 14;
+      var lbl2 = makeLabel(x + GB/2, nameY, ls.rotation, ls.fontPx);
+      truncLabel(lbl2, node.name, ls.maxChars);
+      barGroup.appendChild(lbl2);
+
+      // Stacked contributor labels — below rotated name label.
+      var rotatedLabelH = Math.abs(Math.sin(ls.rotation * Math.PI / 180)) * ls.fontPx * 14;
+      var childStartY = nameY + rotatedLabelH + 4;
       var shownChildren = children.slice(0, 3);
       shownChildren.forEach(function(child, ci) {
         var lbl = svgEl('text', {
           x: x + GB/2,
-          y: innerH + 48 + (ci * 11),
+          y: childStartY + (ci * (childFontPx + 3)),
           'text-anchor': 'middle',
-          'font-size': '8',
-          fill: child.origin ? 'rgba(' + TOKENS.honorRed + ', 0.9)' : 'rgba(148,163,184,0.7)',
+          'font-size': String(childFontPx),
+          fill: child.origin ? 'rgba(' + TOKENS.honorRed + ', 0.95)' : 'rgba(148,163,184,0.7)',
           'font-family': 'var(--font-data)'
         });
-        lbl.textContent = truncate(child.contributor, 10) + (child.origin ? ' \u25ce' : '');
+        lbl.textContent = truncate(child.contributor, childMaxChars) + (child.origin ? ' ◎' : '');
         barGroup.appendChild(lbl);
       });
       if (children.length > 3) {
         var moreLbl = svgEl('text', {
-          x: x + GB/2, y: innerH + 48 + (3 * 11),
-          'text-anchor': 'middle', 'font-size': '7',
+          x: x + GB/2,
+          y: childStartY + (3 * (childFontPx + 3)),
+          'text-anchor': 'middle', 'font-size': String(Math.max(6, childFontPx - 1)),
           fill: 'rgba(148,163,184,0.5)'
         });
         moreLbl.textContent = '+' + (children.length - 3) + ' more';
         barGroup.appendChild(moreLbl);
       }
-
-      // Label (rotated) — generic node name
-      var lbl2 = svgEl('text', {
-        x: 0, y: 0,
-        transform: 'translate(' + (x + GB/2) + ',' + (innerH + 32) + ') rotate(45)',
-        'text-anchor': 'start', 'class': 'lb-axis-label', 'font-size': '9'
-      });
-      truncLabel(lbl2, node.name, 16);
-      barGroup.appendChild(lbl2);
     });
 
     svg.appendChild(barGroup);
@@ -1341,6 +1373,26 @@
     var ea3 = container.parentNode.querySelector(':scope > .lb-actions');
     if (ea3) ea3.remove();
     container.insertAdjacentHTML('beforebegin', buildActionButtons('generic'));
+
+    renderGenericPaginationBtn(container, allNodes.length, needsPaginationGen);
+  }
+
+  function renderGenericPaginationBtn(container, total, needsPagination) {
+    var existing = document.getElementById('lbGenericPaginateBtn');
+    if (existing) existing.remove();
+    if (!needsPagination) return;
+    var btn = document.createElement('button');
+    btn.id = 'lbGenericPaginateBtn';
+    btn.className = 'lb-show-more-btn';
+    btn.textContent = state.genericExpanded
+      ? 'Show fewer ▴'
+      : 'Show all (' + total + ') ▾';
+    btn.addEventListener('click', function() {
+      state.genericExpanded = !state.genericExpanded;
+      renderGenericChart(state.starlessNodes);
+      wireActionButtons();
+    });
+    container.parentNode.insertBefore(btn, container.nextSibling);
   }
 
   // ── REGISTRY COMPACT LIST ──
