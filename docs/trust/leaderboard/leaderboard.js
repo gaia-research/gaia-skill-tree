@@ -127,6 +127,7 @@
     searchContrib: '',
     namedSkills: [],
     suiteSkills: [],
+    ungradedSkills: [],
     allSkills: [],
     showCount: INITIAL_BARS,
     collapsedNamed: []
@@ -170,10 +171,11 @@
 
     // Partition
     var suites = allRows.filter(function(r) { return r.type === 'ultimate'; });
-    var named = allRows.filter(function(r) { return r.type !== 'ultimate' && r.grade && r.grade !== 'ungraded'; });
+    var named = allRows.filter(function(r) { return r.grade && r.grade !== 'ungraded'; });
     var ungraded = allRows.filter(function(r) { return !r.grade || r.grade === 'ungraded'; });
     state.namedSkills = named;
     state.suiteSkills = suites;
+    state.ungradedSkills = ungraded;
     state.allSkills = allRows;
 
     // Render
@@ -181,6 +183,7 @@
     renderSuiteChart(suites);
     renderNamedChart(named);
     renderRegistry(ungraded);
+    renderGenericChart(ungraded);
     wireFilters(named);
     wireShowMore();
     wireTooltip();
@@ -220,7 +223,7 @@
 
     var SPAD = { top: 24, right: 24, bottom: 130, left: 54 };
     var maxTM = TM_CEILING;
-    var barSpacing = BAR_W * 2 + 48; // 56 + 48 = 104px per suite bar
+    var barSpacing = BAR_W * 2 + 64; // 56 + 64 = 120px per suite bar
     var totalW = suites.length * barSpacing + SPAD.left + SPAD.right + 80;
     var chartH = SUITE_CHART_H;
     var innerH = chartH - SPAD.top - SPAD.bottom;
@@ -478,8 +481,8 @@
     var countEl = document.getElementById('lbNamedCount');
     if (!container) return;
 
-    var NB = 22; // named bar width (slightly narrower to give more gap)
-    var NG = 8;  // named bar gap (wider gap)
+    var NB = 24; // named bar width
+    var NG = 12;  // named bar gap
     var NPAD = { top: 24, right: 24, bottom: 120, left: 54 };
 
     var visible = applyFilter(skills);
@@ -500,6 +503,12 @@
       }
       countEl.textContent = countText;
     }
+
+    // Update AA-style X of Y counter
+    var shownEl = document.getElementById('lbShownCount');
+    var totalEl = document.getElementById('lbTotalCount');
+    if (shownEl) shownEl.textContent = collapsedShown.length;
+    if (totalEl) totalEl.textContent = totalVisible;
 
     updateShowMoreBtn(collapsedShown.length, collapsed.length);
 
@@ -657,9 +666,99 @@
     container.innerHTML = '';
     // Inject action buttons
     container.insertAdjacentHTML('afterbegin', buildActionButtons('named'));
-    // Inject contributor search
-    var searchVal = state.searchContrib || '';
-    container.insertAdjacentHTML('beforeend', '<input type="search" placeholder="Filter by contributor\u2026" class="lb-contrib-search" value="' + esc(searchVal) + '">');
+    container.appendChild(svg);
+  }
+
+  // ── GENERIC SKILLS BAR CHART ──
+  function renderGenericChart(skills) {
+    var container = document.getElementById('lbGenericChart');
+    var countEl = document.getElementById('lbGenericCount');
+    if (!container) return;
+
+    var GB = 16;
+    var GG = 6;
+    var GPAD = { top: 24, right: 24, bottom: 100, left: 54 };
+    var GCHART_H = 220;
+
+    if (countEl) countEl.textContent = skills.length + ' skills';
+
+    if (skills.length === 0) {
+      container.innerHTML = '<p style="padding:2rem;color:var(--muted);font-family:var(--font-body);font-size:0.85rem">No generic skills.</p>';
+      return;
+    }
+
+    var maxTM = Math.max.apply(null, skills.map(function(s) { return s.trustMagnitude || 0; }));
+    maxTM = Math.max(maxTM, 10);
+
+    var totalW = skills.length * (GB + GG) + GPAD.left + GPAD.right;
+    var innerH = GCHART_H - GPAD.top - GPAD.bottom;
+
+    var svg = createSvg(Math.max(totalW, 320), GCHART_H);
+    var defs = svgEl('defs');
+    svg.appendChild(defs);
+
+    // Build muted handle-hue gradients
+    skills.forEach(function(s, i) {
+      var hue = handleHue(s.contributor);
+      var gradId = 'lb-grad-gen-' + i;
+      var grad = svgEl('linearGradient', { id: gradId, x1: '0', y1: '1', x2: '0', y2: '0' });
+      appendStop(grad, '0%', 'oklch(0.28 0.06 ' + hue + ')');
+      appendStop(grad, '100%', 'oklch(0.42 0.07 ' + hue + ')');
+      defs.appendChild(grad);
+    });
+
+    drawYAxis(svg, innerH, maxTM, totalW);
+
+    var barGroup = svgEl('g', { transform: 'translate(' + GPAD.left + ',' + GPAD.top + ')' });
+
+    skills.forEach(function(s, i) {
+      var x = i * (GB + GG);
+      var rawH = (s.trustMagnitude || 0) / maxTM * innerH;
+      var h = Math.max(3, rawH);
+      var y = innerH - h;
+      var isZero = s.trustMagnitude === 0;
+
+      var bar = svgEl('rect', {
+        x: x, y: y, width: GB, height: h, rx: 2,
+        fill: isZero ? 'none' : 'url(#lb-grad-gen-' + i + ')',
+        stroke: isZero ? 'rgba(148,163,184,0.3)' : 'none',
+        'stroke-dasharray': isZero ? '2 2' : 'none',
+        'class': 'lb-bar lb-bar-animated',
+        'data-id': s.id, 'data-type': 'generic',
+        style: 'animation-delay:' + (i * 15) + 'ms'
+      });
+      barGroup.appendChild(bar);
+
+      // Avatar
+      var clipId = 'av-clip-gen-' + i;
+      var cp = svgEl('clipPath', { id: clipId });
+      cp.appendChild(svgEl('circle', { cx: x + GB/2, cy: innerH + 16, r: '8' }));
+      defs.appendChild(cp);
+
+      var bgC = svgEl('circle', { cx: x + GB/2, cy: innerH + 16, r: '8',
+        fill: 'oklch(0.45 0.12 ' + handleHue(s.contributor) + ')' });
+      barGroup.appendChild(bgC);
+
+      var avImg = svgEl('image', {
+        href: 'https://github.com/' + s.contributor + '.png?size=32',
+        x: x + GB/2 - 8, y: innerH + 8, width: '16', height: '16',
+        'clip-path': 'url(#' + clipId + ')', preserveAspectRatio: 'xMidYMid slice'
+      });
+      barGroup.appendChild(avImg);
+
+      // Label
+      var lbl = svgEl('text', {
+        x: 0, y: 0,
+        transform: 'translate(' + (x + GB/2) + ',' + (innerH + 32) + ') rotate(45)',
+        'text-anchor': 'start', 'class': 'lb-axis-label', 'font-size': '9'
+      });
+      lbl.textContent = truncate(s.id.split('/')[1] || s.name, 14);
+      barGroup.appendChild(lbl);
+    });
+
+    svg.appendChild(barGroup);
+    container.innerHTML = '';
+    container.insertAdjacentHTML('afterbegin', buildActionButtons('generic'));
     container.appendChild(svg);
   }
 
@@ -709,12 +808,12 @@
 
   // ── FILTER / SORT CONTROLS ──
   function wireFilters() {
-    // Grade filter
+    // Grade tabs
     document.querySelectorAll('[data-grade]').forEach(function(btn) {
       btn.addEventListener('click', function() {
         state.grade = btn.dataset.grade;
         state.showCount = INITIAL_BARS;
-        btn.parentNode.querySelectorAll('.lb-pill-btn').forEach(function(b) {
+        btn.closest('.lb-tab-row').querySelectorAll('.lb-tab').forEach(function(b) {
           b.classList.remove('is-active');
         });
         btn.classList.add('is-active');
@@ -723,12 +822,12 @@
       });
     });
 
-    // Sort
+    // Sort tabs
     document.querySelectorAll('[data-sort]').forEach(function(btn) {
       btn.addEventListener('click', function() {
         state.sort = btn.dataset.sort;
         state.showCount = INITIAL_BARS;
-        btn.parentNode.querySelectorAll('.lb-pill-btn').forEach(function(b) {
+        btn.closest('.lb-tab-row').querySelectorAll('.lb-tab').forEach(function(b) {
           b.classList.remove('is-active');
         });
         btn.classList.add('is-active');
@@ -768,6 +867,9 @@
       if (state.sort === 'grade') {
         var diff = (GRADE_ORDER[a.grade] || 9) - (GRADE_ORDER[b.grade] || 9);
         if (diff !== 0) return diff;
+      } else if (state.sort === 'contributor') {
+        var cDiff = a.contributor.localeCompare(b.contributor);
+        if (cDiff !== 0) return cDiff;
       }
       return b.trustMagnitude - a.trustMagnitude;
     });
@@ -789,13 +891,28 @@
 
   // ── CONTRIBUTOR SEARCH ──
   function wireContribSearch() {
-    document.addEventListener('input', function(e) {
-      if (!e.target.classList.contains('lb-contrib-search')) return;
-      state.searchContrib = e.target.value.toLowerCase().trim();
+    var input = document.getElementById('lbAddInput');
+    var clearBtn = document.getElementById('lbAddClear');
+    if (!input) return;
+
+    input.addEventListener('input', function() {
+      state.searchContrib = input.value.toLowerCase().trim();
       state.showCount = INITIAL_BARS;
+      if (clearBtn) clearBtn.hidden = !state.searchContrib;
       renderNamedChart(state.namedSkills);
       wireActionButtons();
     });
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function() {
+        input.value = '';
+        state.searchContrib = '';
+        clearBtn.hidden = true;
+        state.showCount = INITIAL_BARS;
+        renderNamedChart(state.namedSkills);
+        wireActionButtons();
+      });
+    }
   }
 
   // ── ACTION BUTTONS WIRING ──
@@ -808,13 +925,13 @@
         var action = btn.dataset.action;
         var section = btn.dataset.section;
         if (action === 'copy-link') {
-          var anchor = section === 'suites' ? '#lbSuites' : '#lbNamed';
+          var anchor = section === 'suites' ? '#lbSuites' : section === 'generic' ? '#lbGeneric' : '#lbNamed';
           navigator.clipboard.writeText(window.location.href.split('#')[0] + anchor)
             .catch(function() {});
           btn.textContent = 'Copied!';
           setTimeout(function() { btn.textContent = '\u{1F517}'; }, 1500);
         } else if (action === 'copy-image') {
-          var chartWrap = document.getElementById(section === 'suites' ? 'lbSuiteChart' : 'lbNamedChart');
+          var chartWrap = document.getElementById(section === 'suites' ? 'lbSuiteChart' : section === 'generic' ? 'lbGenericChart' : 'lbNamedChart');
           var svg = chartWrap && chartWrap.querySelector('svg');
           if (!svg) return;
           var serializer = new XMLSerializer();
@@ -824,7 +941,14 @@
           btn.textContent = '\u2713';
           setTimeout(function() { btn.textContent = '\u{1F5BC}'; }, 1500);
         } else if (action === 'download-csv') {
-          var rows = section === 'suites' ? state.suiteSkills : applyFilter(state.namedSkills);
+          var rows;
+          if (section === 'suites') {
+            rows = state.suiteSkills;
+          } else if (section === 'generic') {
+            rows = state.ungradedSkills || [];
+          } else {
+            rows = applyFilter(state.namedSkills);
+          }
           var csv = 'id,name,contributor,type,level,trustMagnitude,grade\n' +
             rows.map(function(r) {
               return [r.id, r.name, r.contributor, r.type, r.level, r.trustMagnitude, r.grade].join(',');

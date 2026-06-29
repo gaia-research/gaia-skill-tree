@@ -41,23 +41,46 @@
         <h2 class="lb-section-title">◇ Named Skills</h2>
         <span class="lb-section-count" id="lbNamedCount"></span>
       </div>
-      <div class="lb-filters" id="lbFilters">
-        <div class="lb-filter-row" role="group" aria-label="Filter by grade">
-          <button class="lb-pill-btn is-active" data-grade="all">All</button>
-          <button class="lb-pill-btn" data-grade="S">S</button>
-          <button class="lb-pill-btn" data-grade="A">A</button>
-          <button class="lb-pill-btn" data-grade="B">B</button>
-          <button class="lb-pill-btn" data-grade="C">C</button>
+      <div class="lb-selector-bar" id="lbSelectorBar">
+        <div class="lb-selector-count">
+          <span class="lb-selector-shown" id="lbShownCount">—</span>
+          <span class="lb-selector-sep">of</span>
+          <span class="lb-selector-total" id="lbTotalCount">—</span>
+          <span class="lb-selector-label">skills</span>
         </div>
-        <div class="lb-filter-row" role="group" aria-label="Sort order">
-          <button class="lb-pill-btn is-active" data-sort="tm">Trust Magnitude</button>
-          <button class="lb-pill-btn" data-sort="grade">By Grade</button>
+        <div class="lb-selector-controls">
+          <div class="lb-tab-row" id="lbGradeTabs" role="tablist" aria-label="Filter by grade">
+            <button class="lb-tab is-active" data-grade="all" role="tab">All</button>
+            <button class="lb-tab" data-grade="S" role="tab">S</button>
+            <button class="lb-tab" data-grade="A" role="tab">A</button>
+            <button class="lb-tab" data-grade="B" role="tab">B</button>
+            <button class="lb-tab" data-grade="C" role="tab">C</button>
+          </div>
+          <div class="lb-tab-row" id="lbSortTabs" role="tablist" aria-label="Sort order">
+            <button class="lb-tab is-active" data-sort="tm" role="tab">By TM</button>
+            <button class="lb-tab" data-sort="grade" role="tab">By Grade</button>
+            <button class="lb-tab" data-sort="contributor" role="tab">By Contributor</button>
+          </div>
+          <div class="lb-add-wrap">
+            <input class="lb-add-input" id="lbAddInput" type="search" placeholder="Filter by contributor…" autocomplete="off" spellcheck="false">
+            <span class="lb-add-clear" id="lbAddClear" title="Clear filter" hidden>✕</span>
+          </div>
         </div>
       </div>
       <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbNamedChart"></div>
       <div class="lb-show-more" id="lbShowMore">
         <button class="lb-show-more-btn" id="lbShowMoreBtn" type="button">Show more</button>
       </div>
+    </section>
+
+    <!-- GENERIC SKILLS — BAR CHART -->
+    <section class="lb-section" id="lbGeneric">
+      <div class="lb-section-head">
+        <h2 class="lb-section-title lb-section-title--generic">⬡ Generic Skills</h2>
+        <span class="lb-section-count" id="lbGenericCount"></span>
+      </div>
+      <p class="lb-section-note">Unverified — awaiting evidence. Ranked by initial TM signal.</p>
+      <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbGenericChart"></div>
     </section>
 
     <!-- IN REGISTRY — COMPACT LIST -->
