@@ -642,3 +642,11 @@
   border-radius: 2px;
   flex-shrink: 0;
 }
+
+/* ── Suite type pill fill values (SVG text) ── */
+.lb-type-pill--ultimate {
+  fill: rgba(var(--evidence-platinum-rgb), 0.8);
+}
+.lb-type-pill--extra {
+  fill: rgba(var(--evidence-gold-rgb), 0.7);
+}

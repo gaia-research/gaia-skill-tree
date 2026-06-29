@@ -134,7 +134,8 @@
     starlessNodes: [],
     genericRefMap: {},
     showCount: INITIAL_BARS,
-    collapsedNamed: []
+    collapsedNamed: [],
+    suiteSkills: []
   };
 
   // ── DATA FETCH (parallel) ──
@@ -234,6 +235,9 @@
 
     // Fetch ultimate component details for stacked bars
     fetchUltimateComponents(ultimates);
+
+    // Detect suites (skills with suiteComponents) via detail fetches
+    detectSuites(allRows, skillMap);
   }
 
   // ── DISTRIBUTION HEADER ──
@@ -412,6 +416,250 @@
       }).join('') +
     '</div>';
     container.insertAdjacentHTML('beforeend', legendHtml);
+  }
+
+  // ── SUITE DETECTION ──
+  function detectSuites(allRows, skillMap) {
+    // Fetch detail files for high-TM skills to find suiteComponents
+    var candidates = allRows.filter(function(r) { return r.trustMagnitude >= 60; });
+    var fetched = 0;
+    var suiteRows = [];
+
+    if (candidates.length === 0) return;
+
+    candidates.forEach(function(row) {
+      var parts = row.id.split('/');
+      fetch(BASE + 'skills/' + parts[0] + '/' + parts[1] + '.json' + VER)
+        .then(function(r) { return r.json(); })
+        .then(function(detail) {
+          fetched++;
+          if (detail.suiteComponents && detail.suiteComponents.length > 0) {
+            // Enrich the row with component count
+            row._suiteComponents = detail.suiteComponents;
+            row._componentCount = detail.suiteComponents.length;
+            suiteRows.push(row);
+          }
+          if (fetched === candidates.length) {
+            // All fetches done — sort and render
+            suiteRows.sort(function(a, b) { return b.trustMagnitude - a.trustMagnitude; });
+            state.suiteSkills = suiteRows;
+            renderSuiteChart(suiteRows);
+            var countEl = document.getElementById('lbSuiteCount');
+            if (countEl) countEl.textContent = suiteRows.length + ' suites';
+          }
+        }).catch(function() {
+          fetched++;
+          if (fetched === candidates.length && suiteRows.length > 0) {
+            suiteRows.sort(function(a, b) { return b.trustMagnitude - a.trustMagnitude; });
+            state.suiteSkills = suiteRows;
+            renderSuiteChart(suiteRows);
+            var countEl2 = document.getElementById('lbSuiteCount');
+            if (countEl2) countEl2.textContent = suiteRows.length + ' suites';
+          }
+        });
+    });
+  }
+
+  // ── SUITE BAR CHART ──
+  function renderSuiteChart(suites) {
+    var container = document.getElementById('lbSuiteChart');
+    if (!container) return;
+    if (!suites || suites.length === 0) {
+      container.innerHTML = '<p style="padding:2rem;color:var(--muted);font-family:var(--font-body);font-size:0.85rem">No suites detected.</p>';
+      return;
+    }
+
+    var SB = 36;
+    var SG = 16;
+    var SPAD = { top: 24, right: 24, bottom: 130, left: 54 };
+    var SCHART_H = 400;
+    var innerH = SCHART_H - SPAD.top - SPAD.bottom;
+    var maxTM = TM_CEILING;
+
+    var totalW = suites.length * (SB + SG) + SPAD.left + SPAD.right;
+    var svg = createSvg(Math.max(totalW, 320), SCHART_H);
+
+    var defs = svgEl('defs');
+    svg.appendChild(defs);
+
+    // Build per-bar gradients
+    suites.forEach(function(suite, i) {
+      buildBarGradientDef(svg, suite.contributor, suite.grade || 'A', suite.level, suite.type, 'suite-' + i);
+    });
+
+    // Y-axis
+    drawYAxis(svg, innerH, maxTM, totalW);
+
+    var barGroup = svgEl('g', { transform: 'translate(' + SPAD.left + ',' + SPAD.top + ')' });
+
+    suites.forEach(function(suite, i) {
+      var x = i * (SB + SG);
+      var h = Math.max(4, (suite.trustMagnitude / maxTM) * innerH);
+      var y = innerH - h;
+      var gradId = 'lb-grad-suite-' + i;
+
+      // Main bar
+      var bar = svgEl('rect', {
+        x: x, y: y, width: SB, height: h, rx: 4,
+        fill: 'url(#' + gradId + ')',
+        'class': 'lb-bar lb-bar-animated',
+        'data-id': suite.id,
+        'data-type': 'suite',
+        style: 'animation-delay:' + (i * 80) + 'ms'
+      });
+      barGroup.appendChild(bar);
+
+      // Grade accent stripe (4px top)
+      var gradeAccent = svgEl('rect', {
+        x: x, y: y, width: SB, height: 4, rx: 4,
+        fill: 'rgba(' + gradeColor(suite.grade || 'A') + ', 0.55)',
+        style: 'pointer-events:none'
+      });
+      barGroup.appendChild(gradeAccent);
+
+      // Rank accent stripe (3px left)
+      var rankN = parseInt(suite.level) || 2;
+      var rankAccent = svgEl('rect', {
+        x: x, y: y, width: 3, height: h, rx: 2,
+        fill: 'rgba(' + rankRgb(rankN) + ', 0.7)',
+        style: 'pointer-events:none'
+      });
+      barGroup.appendChild(rankAccent);
+
+      // Component count badge inside bar (near bottom)
+      if (suite._componentCount > 0) {
+        var badgeH = 18;
+        var badgeW = SB - 4;
+        var badgeY = (h >= 24) ? y + h - badgeH - 3 : y - badgeH - 3;
+        var badgeBg = svgEl('rect', {
+          x: x + 2, y: badgeY, width: badgeW, height: badgeH, rx: 3,
+          fill: 'rgba(0,0,0,0.5)', style: 'pointer-events:none'
+        });
+        barGroup.appendChild(badgeBg);
+        var badgeText = svgEl('text', {
+          x: x + SB / 2, y: badgeY + 12,
+          'text-anchor': 'middle', 'font-size': '9',
+          fill: 'rgba(255,255,255,0.9)',
+          'font-family': 'var(--font-mono)',
+          style: 'pointer-events:none'
+        });
+        badgeText.textContent = suite._componentCount + ' skills';
+        barGroup.appendChild(badgeText);
+      }
+
+      // TM value above bar
+      var tmText = svgEl('text', {
+        x: x + SB / 2, y: y - 8,
+        'text-anchor': 'middle',
+        'class': 'lb-axis-value', 'font-size': '11',
+        fill: 'rgba(' + gradeColor(suite.grade || 'A') + ', 0.9)'
+      });
+      tmText.textContent = suite.trustMagnitude.toFixed(0);
+      barGroup.appendChild(tmText);
+
+      // Avatar circle (32px)
+      var clipId = 'av-clip-suite-' + i;
+      var clipPath = svgEl('clipPath', { id: clipId });
+      var clipCircle = svgEl('circle', { cx: x + SB / 2, cy: innerH + 22, r: '16' });
+      clipPath.appendChild(clipCircle);
+      defs.appendChild(clipPath);
+
+      var hue = handleHue(suite.contributor);
+      var bgCircle = svgEl('circle', {
+        cx: x + SB / 2, cy: innerH + 22, r: '16',
+        fill: 'oklch(0.55 0.18 ' + hue + ')'
+      });
+      barGroup.appendChild(bgCircle);
+
+      var avatarImg = svgEl('image', {
+        href: 'https://github.com/' + suite.contributor + '.png?size=48',
+        x: x + SB / 2 - 16, y: innerH + 6,
+        width: '32', height: '32',
+        'clip-path': 'url(#' + clipId + ')',
+        preserveAspectRatio: 'xMidYMid slice'
+      });
+      barGroup.appendChild(avatarImg);
+
+      // Skill name label below avatar
+      var label = svgEl('text', {
+        x: x + SB / 2, y: innerH + 52,
+        'text-anchor': 'middle',
+        'class': 'lb-axis-label', 'font-size': '11'
+      });
+      label.textContent = truncate(suite.name || suite.id.split('/')[1], 16);
+      barGroup.appendChild(label);
+
+      // Contributor handle
+      var contrib = svgEl('text', {
+        x: x + SB / 2, y: innerH + 66,
+        'text-anchor': 'middle', 'font-size': '10',
+        fill: 'rgba(' + TOKENS.honorRed + ', 0.7)'
+      });
+      contrib.textContent = suite.contributor;
+      barGroup.appendChild(contrib);
+
+      // Type pill (ultimate vs extra)
+      var isUltimate = suite.type === 'ultimate';
+      var typePillFill = isUltimate
+        ? 'rgba(' + TOKENS.platinum + ', 0.8)'
+        : 'rgba(' + TOKENS.gold + ', 0.7)';
+      var typePill = svgEl('text', {
+        x: x + SB / 2, y: innerH + 80,
+        'text-anchor': 'middle', 'font-size': '9',
+        fill: typePillFill
+      });
+      typePill.textContent = suite.type;
+      barGroup.appendChild(typePill);
+    });
+
+    svg.appendChild(barGroup);
+    container.innerHTML = '';
+    // Inject action buttons before svg
+    container.insertAdjacentHTML('afterbegin', buildActionButtons('suites'));
+    container.appendChild(svg);
+
+    // Stacked overlay for suite components
+    renderSuiteStackedOverlay(suites);
+  }
+
+  function renderSuiteStackedOverlay(suites) {
+    suites.forEach(function(suite) {
+      if (!suite._suiteComponents || suite._suiteComponents.length === 0) return;
+      var bar = document.querySelector('.lb-bar[data-id="' + suite.id + '"][data-type="suite"]');
+      if (!bar) return;
+      var svg = bar.closest('svg');
+      if (!svg) return;
+
+      var x = parseFloat(bar.getAttribute('x'));
+      var y = parseFloat(bar.getAttribute('y'));
+      var h = parseFloat(bar.getAttribute('height'));
+      var w = parseFloat(bar.getAttribute('width'));
+
+      var segments = estimateRankDistribution(suite._componentCount);
+      var totalParts = segments.reduce(function(a, b) { return a + b.count; }, 0);
+      var currentY = y + h;
+
+      segments.forEach(function(seg) {
+        if (seg.count <= 0) return;
+        var segH = (seg.count / totalParts) * h;
+        currentY -= segH;
+        var rect = svgEl('rect', {
+          x: x + 1, y: currentY,
+          width: w - 2, height: segH - 1, rx: 2,
+          fill: 'rgba(' + rankRgb(seg.rank) + ', 0.6)',
+          'class': 'lb-bar',
+          'data-id': suite.id,
+          'data-type': 'suite',
+          style: 'pointer-events:none'
+        });
+        bar.parentNode.insertBefore(rect, bar.nextSibling);
+      });
+
+      // Make original bar transparent so stack shows through
+      bar.setAttribute('fill', 'rgba(' + gradeColor(suite.grade || 'A') + ', 0.08)');
+      bar.setAttribute('stroke', 'rgba(' + gradeColor(suite.grade || 'A') + ', 0.3)');
+      bar.setAttribute('stroke-width', '1');
+    });
   }
 
   function fetchUltimateComponents(ultimates) {
@@ -1009,13 +1257,17 @@
         var action = btn.dataset.action;
         var section = btn.dataset.section;
         if (action === 'copy-link') {
-          var anchor = section === 'ultimates' ? '#lbUltimates' : section === 'generic' ? '#lbGeneric' : '#lbNamed';
+          var anchor = section === 'ultimates' ? '#lbUltimates' : section === 'suites' ? '#lbSuites' : section === 'generic' ? '#lbGeneric' : '#lbNamed';
           navigator.clipboard.writeText(window.location.href.split('#')[0] + anchor)
             .catch(function() {});
           btn.textContent = 'Copied!';
           setTimeout(function() { btn.textContent = '\u{1F517}'; }, 1500);
         } else if (action === 'copy-image') {
-          var chartWrap = document.getElementById(section === 'ultimates' ? 'lbUltimateChart' : section === 'generic' ? 'lbGenericChart' : 'lbNamedChart');
+          var chartWrap = document.getElementById(
+            section === 'ultimates' ? 'lbUltimateChart' :
+            section === 'suites' ? 'lbSuiteChart' :
+            section === 'generic' ? 'lbGenericChart' : 'lbNamedChart'
+          );
           var svg = chartWrap && chartWrap.querySelector('svg');
           if (!svg) return;
           var serializer = new XMLSerializer();
@@ -1028,6 +1280,8 @@
           var rows;
           if (section === 'ultimates') {
             rows = state.ultimateSkills;
+          } else if (section === 'suites') {
+            rows = state.suiteSkills || [];
           } else if (section === 'generic') {
             rows = state.ungradedSkills || [];
           } else {
@@ -1129,6 +1383,11 @@
   }
 
   function findSkill(id) {
+    // Check suite skills first
+    var suites = state.suiteSkills || [];
+    for (var s = 0; s < suites.length; s++) {
+      if (suites[s].id === id) return suites[s];
+    }
     // Check collapsed named first (has _groupSize/_groupMembers)
     for (var i = 0; i < (state.collapsedNamed || []).length; i++) {
       if (state.collapsedNamed[i].id === id) return state.collapsedNamed[i];
