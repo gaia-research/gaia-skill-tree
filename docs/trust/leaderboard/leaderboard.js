@@ -19,6 +19,48 @@
     '4★': 'Hardened', '5★': 'Transcendent', '6★': 'Apex'
   };
 
+  // ── EVIDENCE TYPES (per-type TM filter tabs above Named chart) ──
+  var EVIDENCE_TYPES = [
+    { id: 'all',                  label: 'All' },
+    { id: 'peer-review',          label: 'Peer review' },
+    { id: 'repo-own',             label: 'Repo' },
+    { id: 'github-stars-own',     label: 'Stars' },
+    { id: 'social-signal',        label: 'Social' },
+    { id: 'benchmark-result',     label: 'Benchmark' },
+    { id: 'arxiv',                label: 'arXiv' },
+    { id: 'verifier-attestation', label: 'Verifier' },
+    { id: 'proxy-containment',    label: 'Proxy' },
+    { id: 'fusion-recipe',        label: 'Fusion' },
+    { id: 'self-attestation',     label: 'Self' }
+  ];
+
+  // Methodology body content (kept in sync with registry/schema/meta.json::evidence.types[].description)
+  // TODO: keep this list in sync with registry/schema/meta.json::evidence.types[].description
+  var TM_METHODOLOGY_BODY = [
+    '<p>Trust Magnitude is the evidence-backed score behind every Named Skill — the aggregate of independent demonstrations across <strong>10 Evidence Types</strong>:</p>',
+    '<ul class="lb-tm-types">',
+      '<li><strong>peer-review</strong> — published in a peer-reviewed venue. Highest weight.</li>',
+      '<li><strong>arxiv</strong> — preprint citation. Verified but unrefereed.</li>',
+      '<li><strong>repo-own</strong> — the skill ships in its origin contributor\'s public repo.</li>',
+      '<li><strong>github-stars-own</strong> — community signal on the origin repo.</li>',
+      '<li><strong>benchmark-result</strong> — verified benchmark percentile score.</li>',
+      '<li><strong>verifier-attestation</strong> — a 4★+ Verifier confirmed the demonstration.</li>',
+      '<li><strong>proxy-containment</strong> — referenced inside a higher-rank Verifier\'s skill.</li>',
+      '<li><strong>social-signal</strong> — independent third-party views/citations. Capped at 80.</li>',
+      '<li><strong>fusion-recipe</strong> — appears as a fusion component in a higher Ultimate skill.</li>',
+      '<li><strong>self-attestation</strong> — contributor\'s own claim. Lowest weight.</li>',
+    '</ul>',
+    '<p>The aggregate Trust Magnitude is the proportionally-capped sum across all types. See <a href="../../codex/trust-methodology.html">Trust Methodology</a> for the full grading rubric and threshold table.</p>'
+  ].join('');
+
+  // Read-only access to a skill's per-type TM (falls back to aggregate when 'all')
+  function tmForType(skill, type) {
+    if (type === 'all' || !type) return skill.trustMagnitude || 0;
+    var bd = skill.typeBreakdown;
+    if (!bd) return 0;
+    return bd[type] || 0;
+  }
+
   // ── CSS TOKEN READER ──
   var cs = getComputedStyle(document.documentElement);
   function tok(name) { return cs.getPropertyValue(name).trim(); }
@@ -262,7 +304,9 @@
     suitesExpanded: false,
     namedExpanded: false,
     genericExpanded: false,
-    skillSearchQuery: ''
+    skillSearchQuery: '',
+    evidenceType: 'all',
+    tmMethodologyOpen: false
   };
 
   // ── DATA FETCH (parallel) ──
@@ -322,8 +366,10 @@
     // Render
     renderDistribution(leaderboard.distribution);
     renderNamedDistBar(leaderboard.distribution);
+    renderTypeTabs();
     // renderUltimateChart(ultimates); // disabled — Suites section supersedes
     renderNamedChart(named);
+    renderTrustMethodologyAccordion();
     renderRegistry(ungraded);
     buildStarlessChart(allRows);
     wireFilters(named);
@@ -998,6 +1044,8 @@
         level: g.primary.level,
         trustMagnitude: g.primary.trustMagnitude,
         grade: g.primary.grade,
+        origin: g.primary.origin,
+        typeBreakdown: g.primary.typeBreakdown,
         _groupSize: g.members.length,
         _groupMembers: g.members.map(function(m) { return m.id; })
       };
@@ -1068,7 +1116,7 @@
     // Fix 3: dynamic bottom padding (skill name + avatar row above it)
     NPAD.bottom = computeBottomPad(ls.rotation, 1, ls.fontPx) + 36;
 
-    var maxTM = Math.max.apply(null, toShow.map(function(s) { return s.trustMagnitude; }));
+    var maxTM = Math.max.apply(null, toShow.map(function(s) { return tmForType(s, state.evidenceType); }));
     maxTM = Math.max(maxTM, 50); // floor
 
     var totalW = Math.max(metrics.totalW, 320);
@@ -1121,7 +1169,8 @@
 
     toShow.forEach(function(skill, i) {
       var x = i * barSpacing;
-      var h = Math.max(2, (skill.trustMagnitude / maxTM) * innerH);
+      var tmVal = tmForType(skill, state.evidenceType);
+      var h = Math.max(2, (tmVal / maxTM) * innerH);
       var y = innerH - h;
       var gradId = 'lb-grad-named-' + i;
 
@@ -1189,7 +1238,7 @@
         fill: 'rgba(255, 255, 255, 0.95)',
         'font-weight': '600'
       });
-      tmText.textContent = skill.trustMagnitude.toFixed(0);
+      tmText.textContent = Math.round(tmVal);
       barGroup.appendChild(tmText);
       }
 
@@ -1653,6 +1702,51 @@
     });
   }
 
+  // ── EVIDENCE-TYPE TABS (above Named chart) ──
+  function renderTypeTabs() {
+    var host = document.getElementById('lbTypeTabs');
+    if (!host) return;
+    // Skip rendering if no enriched data yet
+    if (!state.namedSkills || state.namedSkills.length === 0) {
+      host.innerHTML = '';
+      return;
+    }
+    host.innerHTML = EVIDENCE_TYPES.map(function(t) {
+      return '<button class="lb-stab' + (state.evidenceType === t.id ? ' is-active' : '') +
+             '" role="tab" data-type="' + t.id + '" type="button" aria-selected="' +
+             (state.evidenceType === t.id ? 'true' : 'false') + '">' + t.label + '</button>';
+    }).join('');
+    host.querySelectorAll('.lb-stab').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        state.evidenceType = btn.getAttribute('data-type');
+        renderTypeTabs();
+        renderNamedChart(state.namedSkills);
+        wireActionButtons();
+      });
+    });
+  }
+
+  // ── TRUST MAGNITUDE METHODOLOGY ACCORDION (below Named chart) ──
+  function renderTrustMethodologyAccordion() {
+    var body = document.getElementById('lbTmBody');
+    var toggle = document.getElementById('lbTmToggle');
+    var section = document.getElementById('lbTmAccordion');
+    if (!body || !toggle || !section) return;
+    if (!TM_METHODOLOGY_BODY) {
+      section.hidden = true;
+      return;
+    }
+    body.innerHTML = TM_METHODOLOGY_BODY;
+    toggle.addEventListener('click', function() {
+      state.tmMethodologyOpen = !state.tmMethodologyOpen;
+      section.classList.toggle('is-open', state.tmMethodologyOpen);
+      toggle.setAttribute('aria-expanded', String(state.tmMethodologyOpen));
+      body.hidden = !state.tmMethodologyOpen;
+      var glyph = toggle.querySelector('.lb-tm-glyph');
+      if (glyph) glyph.textContent = state.tmMethodologyOpen ? '×' : '+';
+    });
+  }
+
   function applyFilter(skills) {
     var filtered = skills;
 
@@ -1686,7 +1780,7 @@
         var cDiff = a.contributor.localeCompare(b.contributor);
         if (cDiff !== 0) return cDiff;
       }
-      return b.trustMagnitude - a.trustMagnitude;
+      return tmForType(b, state.evidenceType) - tmForType(a, state.evidenceType);
     });
 
     return filtered;
