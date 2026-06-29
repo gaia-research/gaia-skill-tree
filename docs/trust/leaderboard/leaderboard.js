@@ -245,18 +245,28 @@
   }
 
   // ── WATERMARK + UPDATED BADGE HELPERS ──
-  // Watermark — seal+wordmark, top-right; visible but unobtrusive.
+  // Watermark renders as an HTML overlay on the chart panel (NOT inside the
+  // scrolling SVG). This keeps it anchored to the panel's top-right corner
+  // and lets us use the same gold+white gradient as the nav logo.
   function appendWatermark(svg, totalW) {
-    var u = document.createElementNS(SVG_NS, 'use');
-    u.setAttribute('href', '../../assets/icons.svg#seal-diamond-wordmark');
-    var W = 110;
-    u.setAttribute('x', String(totalW - W - 14));
-    u.setAttribute('y', '8');
-    u.setAttribute('width', String(W));
-    u.setAttribute('height', '40');
-    u.setAttribute('opacity', '0.42');
-    u.setAttribute('pointer-events', 'none');
-    svg.appendChild(u);
+    // No-op for SVG — the watermark lives on the panel as an HTML element.
+    // Kept as a function so existing call sites stay valid.
+  }
+
+  // Insert a top-right HTML watermark into a chart panel (idempotent — replaces
+  // any existing watermark in the same panel).
+  function ensurePanelWatermark(panel) {
+    if (!panel) return;
+    var existing = panel.querySelector(':scope > .lb-panel-watermark');
+    if (existing) existing.remove();
+    var wm = document.createElement('div');
+    wm.className = 'lb-panel-watermark';
+    wm.setAttribute('aria-hidden', 'true');
+    wm.innerHTML =
+      '<svg class="lb-panel-watermark-seal" viewBox="0 0 64 64" aria-hidden="true">' +
+      '<use href="../../assets/icons.svg#seal-diamond"/></svg>' +
+      '<span class="lb-panel-watermark-text">Gaia</span>';
+    panel.appendChild(wm);
   }
 
   // "Updated YYYY-MM-DD" tag in apex-gold, top-left interior of each chart SVG.
@@ -493,23 +503,83 @@
   function renderDistribution(dist) {
     var el = document.getElementById('lbDist');
     if (!el) return;
-    var items = [
-      { label: 'Total', grade: 'total', count: dist.total || 0 },
-      { label: 'S', grade: 'S', count: dist.S || 0 },
-      { label: 'A', grade: 'A', count: dist.A || 0 },
-      { label: 'B', grade: 'B', count: dist.B || 0 },
-      { label: 'C', grade: 'C', count: dist.C || 0 },
-      { label: 'Ungraded', grade: 'ungraded', count: dist.ungraded || 0 }
+    var segs = [
+      { grade: 'S', count: dist.S || 0 },
+      { grade: 'A', count: dist.A || 0 },
+      { grade: 'B', count: dist.B || 0 },
+      { grade: 'C', count: dist.C || 0 },
+      { grade: 'ungraded', count: dist.ungraded || 0 }
     ];
-    el.innerHTML = items.map(function(item) {
-      return '<span class="lb-dist-item">' +
-        '<span class="lb-dist-grade lb-dist-grade--' + item.grade + '">' + item.label + '</span>' +
-        '<span class="lb-dist-num">' + item.count + '</span>' +
-      '</span>';
+    var total = segs.reduce(function(s, x) { return s + x.count; }, 0) || 1;
+    // SVG donut — circumference = 2πr, dasharray slices encode each segment.
+    var R = 38, CX = 50, CY = 50, STROKE = 14;
+    var C = 2 * Math.PI * R;
+    var offset = 0;
+    var arcs = segs.map(function(seg) {
+      if (!seg.count) return '';
+      var len = (seg.count / total) * C;
+      var dasharray = len + ' ' + (C - len);
+      // Stagger animation: rotate via dashoffset so the slice "draws in".
+      var dashoffset = -offset;
+      var node = '<circle cx="' + CX + '" cy="' + CY + '" r="' + R + '"' +
+        ' fill="none" stroke-width="' + STROKE + '" stroke-linecap="butt"' +
+        ' data-trust-grade="' + seg.grade + '"' +
+        ' class="lb-donut-arc lb-donut-arc--' + seg.grade + '"' +
+        ' stroke-dasharray="' + dasharray + '"' +
+        ' stroke-dashoffset="' + dashoffset + '"' +
+        ' transform="rotate(-90 ' + CX + ' ' + CY + ')">' +
+        '<title>' + seg.grade.toUpperCase() + ': ' + seg.count + ' skills (' +
+        ((seg.count / total) * 100).toFixed(1) + '%)</title></circle>';
+      offset += len;
+      return node;
     }).join('');
+
+    var legendItems = segs.map(function(seg) {
+      if (!seg.count) return '';
+      var pct = ((seg.count / total) * 100).toFixed(0);
+      return '<li class="lb-donut-legend-item" data-trust-grade="' + seg.grade + '">' +
+        '<span class="lb-donut-swatch" aria-hidden="true"></span>' +
+        '<span class="lb-donut-legend-grade">' + (seg.grade === 'ungraded' ? 'Ungraded' : seg.grade) + '</span>' +
+        '<span class="lb-donut-legend-count">' + seg.count + '</span>' +
+        '<span class="lb-donut-legend-pct">' + pct + '%</span>' +
+        '</li>';
+    }).join('');
+
+    el.innerHTML =
+      '<div class="lb-donut-wrap">' +
+        '<svg class="lb-donut" viewBox="0 0 100 100" aria-label="Grade distribution donut" role="img">' +
+          '<defs>' +
+            '<pattern id="lbDonutTextureS" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">' +
+              '<rect width="6" height="6" fill="var(--evidence-platinum)"/>' +
+              '<line x1="0" y1="0" x2="0" y2="6" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>' +
+            '</pattern>' +
+            '<pattern id="lbDonutTextureA" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(0)">' +
+              '<rect width="5" height="5" fill="var(--evidence-gold)"/>' +
+              '<circle cx="2.5" cy="2.5" r="0.6" fill="rgba(0,0,0,0.25)"/>' +
+            '</pattern>' +
+            '<pattern id="lbDonutTextureB" patternUnits="userSpaceOnUse" width="4" height="4" patternTransform="rotate(90)">' +
+              '<rect width="4" height="4" fill="var(--evidence-silver)"/>' +
+              '<line x1="0" y1="2" x2="4" y2="2" stroke="rgba(255,255,255,0.22)" stroke-width="0.6"/>' +
+            '</pattern>' +
+            '<pattern id="lbDonutTextureC" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(-45)">' +
+              '<rect width="6" height="6" fill="var(--evidence-bronze)"/>' +
+              '<line x1="0" y1="3" x2="6" y2="3" stroke="rgba(0,0,0,0.2)" stroke-width="0.6"/>' +
+            '</pattern>' +
+          '</defs>' +
+          // Track ring
+          '<circle cx="' + CX + '" cy="' + CY + '" r="' + R + '" fill="none"' +
+            ' stroke="rgba(var(--evidence-silver-rgb), 0.08)" stroke-width="' + STROKE + '"/>' +
+          arcs +
+          '<text x="50" y="48" text-anchor="middle" class="lb-donut-total">' + total + '</text>' +
+          '<text x="50" y="60" text-anchor="middle" class="lb-donut-total-label">skills</text>' +
+        '</svg>' +
+        '<ul class="lb-donut-legend">' + legendItems + '</ul>' +
+      '</div>';
   }
 
   // ── NAMED DISTRIBUTION BAR (replaces tab row) ──
+  // Renders BAR-STYLED filter chips — each chip carries a mini vertical bar
+  // sized to its share of total, in its grade color. Matches the chart aesthetic.
   function renderNamedDistBar(dist) {
     var el = document.getElementById('lbNamedDist');
     if (!el) return;
@@ -520,31 +590,26 @@
       { grade: 'B', count: dist.B || 0 },
       { grade: 'C', count: dist.C || 0 }
     ];
+    var maxCount = Math.max.apply(null, segments.map(function(s) { return s.count; })) || 1;
 
-    var bar = '<div class="lb-dist-bar" role="img" aria-label="Grade distribution">' +
-      segments.map(function(seg) {
-        if (!seg.count) return '';
-        var pct = (seg.count / total * 100).toFixed(2);
-        return '<div class="lb-dist-seg" data-trust-grade="' + seg.grade + '"' +
-          ' style="width:' + pct + '%" title="' + seg.grade + ': ' + seg.count + ' skills">' +
-          '<span class="lb-dist-seg__count">' + seg.count + '</span>' +
-          '</div>';
-      }).join('') + '</div>';
-
-    var keys = '<div class="lb-dist-keys">' +
-      [{ grade: 'all', label: 'All', count: (dist.S || 0) + (dist.A || 0) + (dist.B || 0) + (dist.C || 0) }]
-      .concat(segments)
+    var keys = '<div class="lb-bar-filter">' +
+      [{ grade: 'all', label: 'All', count: total }]
+      .concat(segments.map(function(s) { return { grade: s.grade, label: s.grade, count: s.count }; }))
       .map(function(seg) {
-        var active = (seg.grade === 'all' && state.grade === 'all') ? ' is-active' : (state.grade === seg.grade ? ' is-active' : '');
-        var tg = seg.grade === 'all' ? '' : ' data-trust-grade="' + seg.grade + '"';
-        return '<button type="button" class="lb-dist-key lb-named-filter' + active + '" data-view="' + seg.grade + '"' + tg + '>' +
-          '<span class="lb-dist-key__pip">' + (seg.grade === 'all' ? 'All' : seg.grade) + '</span>' +
-          '<span class="lb-dist-key__count">' + seg.count + '</span>' +
+        var active = (seg.grade === state.grade) ? ' is-active' : '';
+        var tg = ' data-trust-grade="' + seg.grade + '"';
+        var pct = seg.grade === 'all' ? 100 : Math.round((seg.count / maxCount) * 100);
+        return '<button type="button" class="lb-bar-chip lb-named-filter' + active + '" data-view="' + seg.grade + '"' + tg + '>' +
+          '<span class="lb-bar-chip__bar" style="height:' + pct + '%"></span>' +
+          '<span class="lb-bar-chip__meta">' +
+            '<span class="lb-bar-chip__count">' + seg.count + '</span>' +
+            '<span class="lb-bar-chip__label">' + seg.label + '</span>' +
+          '</span>' +
           '</button>';
       }).join('') +
     '</div>';
 
-    el.innerHTML = bar + keys;
+    el.innerHTML = keys;
 
     // Wire clicks — these buttons replace the old lb-stab tab row
     el.querySelectorAll('.lb-named-filter').forEach(function(btn) {
@@ -755,6 +820,7 @@
     svg.appendChild(barGroup);
     container.innerHTML = '';
     container.appendChild(svg);
+    ensurePanelWatermark(container.closest('.lb-chart-panel'));
     // Action buttons above chart (outside scroll container)
     var existingActions = container.parentNode.querySelector(':scope > .lb-actions');
     if (existingActions) existingActions.remove();
@@ -983,6 +1049,7 @@
     svg.appendChild(barGroup);
     container.innerHTML = '';
     container.appendChild(svg);
+    ensurePanelWatermark(container.closest('.lb-chart-panel'));
     // Inject action buttons above chart (outside scroll container)
     var existingActions = container.parentNode.querySelector('.lb-actions');
     if (existingActions) existingActions.remove();
@@ -994,8 +1061,11 @@
       if (existing) existing.remove();
       var btn = document.createElement('button');
       btn.id = 'lbSuiteToggle';
-      btn.className = 'lb-show-more-btn';
-      btn.textContent = state.suitesExpanded ? 'Show less \u25b4' : 'Show all ' + suites.length + ' suites \u25be';
+      btn.className = 'lb-show-all-btn';
+      btn.type = 'button';
+      btn.innerHTML = state.suitesExpanded
+        ? '<span>Show fewer</span><svg class="lb-show-all-icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M3 10 L8 5 L13 10" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        : '<span>Show all <em>(' + suites.length + ')</em></span><svg class="lb-show-all-icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M3 6 L8 11 L13 6" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
       btn.addEventListener('click', function() {
         state.suitesExpanded = !state.suitesExpanded;
         renderSuiteChart(suites);
@@ -1334,17 +1404,25 @@
         barGroup.appendChild(badgeText);
       }
 
-      // Rank stars \u2014 always render above bar, regardless of bar height.
+      // Rank stars \u2014 always render at the BOTTOM INTERIOR of the bar so they
+      // never get truncated by the chart top edge. Stars sit just above the
+      // group-count badge (which lives at y+h-badgeH).
       var rankN = parseInt(skill.level) || 2;
       if (rankN > 0) {
-        var starY = Math.max(NPAD.top - 4, y - 6);
+        // Star Y: bottom-interior of bar. If the +N group badge is rendered
+        // (h>=20 case), tuck stars above it; otherwise sit at h-margin.
+        var starOffset = (skill._groupSize > 1 && h >= 20) ? 22 : 6;
+        var starY = y + h - starOffset;
+        // If bar is genuinely tiny, fall back to sitting just above the bar top.
+        if (h < 18) starY = Math.max(NPAD.top - 4, y - 6);
         var rankPill = svgEl('text', {
           x: x + NB / 2,
           y: starY,
           'text-anchor': 'middle',
           'font-size': String(Math.max(9, ls.fontPx)),
           'font-weight': '600',
-          fill: 'rgba(' + rankRgb(rankN) + ', 0.95)'
+          fill: 'rgba(' + rankRgb(rankN) + ', 0.95)',
+          style: 'paint-order: stroke; stroke: rgba(0,0,0,0.55); stroke-width: 2px; stroke-linejoin: round'
         });
         rankPill.textContent = rankN + '\u2605';
         barGroup.appendChild(rankPill);
@@ -1406,6 +1484,7 @@
     svg.appendChild(barGroup);
     container.innerHTML = '';
     container.appendChild(svg);
+    ensurePanelWatermark(container.closest('.lb-chart-panel'));
     // Action buttons above chart (outside scroll container)
     var ea2 = container.parentNode.querySelector(':scope > .lb-actions');
     if (ea2) ea2.remove();
@@ -1420,10 +1499,11 @@
     if (!needsPagination) return;
     var btn = document.createElement('button');
     btn.id = 'lbNamedPaginateBtn';
-    btn.className = 'lb-show-more-btn';
-    btn.textContent = state.namedExpanded
-      ? 'Show fewer ▴'
-      : 'Show all (' + total + ') ▾';
+    btn.className = 'lb-show-all-btn';
+    btn.type = 'button';
+    btn.innerHTML = state.namedExpanded
+      ? '<span>Show fewer</span><svg class="lb-show-all-icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M3 10 L8 5 L13 10" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      : '<span>Show all <em>(' + total + ')</em></span><svg class="lb-show-all-icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M3 6 L8 11 L13 6" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     btn.addEventListener('click', function() {
       state.namedExpanded = !state.namedExpanded;
       if (state.namedExpanded) state.showCount = total;
@@ -1473,7 +1553,7 @@
     var childLines = 4;
 
     // Fix 3: bottom padding = rotated name label + child label stack
-    GPAD.bottom = computeBottomPad(ls.rotation, 1, ls.fontPx) + childLines * (childFontPx + 3) + 20;
+    GPAD.bottom = computeBottomPad(ls.rotation, 1, ls.fontPx) + childLines * (childFontPx + 3) + 28;
 
     var totalW = Math.max(metrics.totalW, 320);
     var innerH = GCHART_H - GPAD.top - GPAD.bottom;
@@ -1587,8 +1667,10 @@
       barGroup.appendChild(lbl2);
 
       // Stacked contributor labels — below rotated name label.
-      var rotatedLabelH = Math.abs(Math.sin(ls.rotation * Math.PI / 180)) * ls.fontPx * 14;
-      var childStartY = nameY + rotatedLabelH + 4;
+      // Account for the FULL projection of a rotated multi-char label, then
+      // pad an extra line-height so children never overlap the name tail.
+      var rotatedLabelH = Math.abs(Math.sin(ls.rotation * Math.PI / 180)) * ls.fontPx * 18;
+      var childStartY = nameY + rotatedLabelH + ls.fontPx + 8;
 
       // Origin laurel-wreath badge for parent generic node (pre-baked by C1) — top-left interior of bar
       if (node.origin === true) {
@@ -1623,6 +1705,7 @@
     svg.appendChild(barGroup);
     container.innerHTML = '';
     container.appendChild(svg);
+    ensurePanelWatermark(container.closest('.lb-chart-panel'));
     // Action buttons above chart (outside scroll container)
     var ea3 = container.parentNode.querySelector(':scope > .lb-actions');
     if (ea3) ea3.remove();
@@ -1637,10 +1720,11 @@
     if (!needsPagination) return;
     var btn = document.createElement('button');
     btn.id = 'lbGenericPaginateBtn';
-    btn.className = 'lb-show-more-btn';
-    btn.textContent = state.genericExpanded
-      ? 'Show fewer ▴'
-      : 'Show all (' + total + ') ▾';
+    btn.className = 'lb-show-all-btn';
+    btn.type = 'button';
+    btn.innerHTML = state.genericExpanded
+      ? '<span>Show fewer</span><svg class="lb-show-all-icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M3 10 L8 5 L13 10" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      : '<span>Show all <em>(' + total + ')</em></span><svg class="lb-show-all-icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M3 6 L8 11 L13 6" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     btn.addEventListener('click', function() {
       state.genericExpanded = !state.genericExpanded;
       renderGenericChart(state.starlessNodes);

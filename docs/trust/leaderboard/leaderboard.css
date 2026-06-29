@@ -131,6 +131,162 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
   margin: 0 0 1.5rem;
 }
 
+/* ── Distribution donut (replaces hero dist pills) ── */
+.lb-donut-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+}
+.lb-donut {
+  width: 160px;
+  height: 160px;
+  flex-shrink: 0;
+}
+.lb-donut-arc {
+  transition: stroke-width 0.18s ease, opacity 0.18s ease;
+}
+.lb-donut-arc:hover {
+  stroke-width: 17;
+  opacity: 0.95;
+  cursor: pointer;
+}
+/* Textured fills per grade — each ring slice uses a tile pattern that survives
+   monochrome rendering / screenshots. */
+.lb-donut-arc--S { stroke: url(#lbDonutTextureS); }
+.lb-donut-arc--A { stroke: url(#lbDonutTextureA); }
+.lb-donut-arc--B { stroke: url(#lbDonutTextureB); }
+.lb-donut-arc--C { stroke: url(#lbDonutTextureC); }
+.lb-donut-arc--ungraded {
+  stroke: rgba(var(--evidence-silver-rgb), 0.18);
+  stroke-dasharray: 2 2;
+}
+.lb-donut-total {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  fill: var(--text);
+}
+.lb-donut-total-label {
+  font-family: var(--font-data);
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  fill: var(--muted);
+  text-transform: uppercase;
+}
+
+.lb-donut-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  align-items: center;
+  gap: 0.35rem 1rem;
+  font-family: var(--font-data);
+  font-size: 0.82rem;
+}
+.lb-donut-legend-item {
+  display: contents;
+}
+.lb-donut-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+.lb-donut-legend-item[data-trust-grade="S"] .lb-donut-swatch { background: var(--evidence-platinum); }
+.lb-donut-legend-item[data-trust-grade="A"] .lb-donut-swatch { background: var(--evidence-gold); }
+.lb-donut-legend-item[data-trust-grade="B"] .lb-donut-swatch { background: var(--evidence-silver); }
+.lb-donut-legend-item[data-trust-grade="C"] .lb-donut-swatch { background: var(--evidence-bronze); }
+.lb-donut-legend-item[data-trust-grade="ungraded"] .lb-donut-swatch {
+  background: transparent;
+  border: 1px dashed rgba(var(--evidence-silver-rgb), 0.35);
+}
+.lb-donut-legend-grade {
+  color: var(--text);
+  font-weight: 600;
+}
+.lb-donut-legend-count {
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.lb-donut-legend-pct {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Bar-style grade filter (replaces dist-keys pills) ── */
+.lb-bar-filter {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.45rem;
+  margin-bottom: 0;
+}
+.lb-bar-chip {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.55rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.4rem 0.55rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  min-height: 52px;
+  position: relative;
+}
+.lb-bar-chip:hover { border-color: rgba(var(--evidence-platinum-rgb), 0.4); }
+.lb-bar-chip__bar {
+  display: block;
+  width: 8px;
+  background: rgba(var(--evidence-silver-rgb), 0.4);
+  border-radius: 2px 2px 0 0;
+  min-height: 12%;
+  align-self: flex-end;
+  transition: background 0.2s, height 0.3s ease;
+}
+.lb-bar-chip[data-trust-grade="S"] .lb-bar-chip__bar { background: var(--evidence-platinum); }
+.lb-bar-chip[data-trust-grade="A"] .lb-bar-chip__bar { background: var(--evidence-gold); }
+.lb-bar-chip[data-trust-grade="B"] .lb-bar-chip__bar { background: var(--evidence-silver); }
+.lb-bar-chip[data-trust-grade="C"] .lb-bar-chip__bar { background: var(--evidence-bronze); }
+.lb-bar-chip[data-trust-grade="all"] .lb-bar-chip__bar {
+  background: linear-gradient(180deg,
+    var(--evidence-platinum) 0% 25%,
+    var(--evidence-gold) 25% 50%,
+    var(--evidence-silver) 50% 75%,
+    var(--evidence-bronze) 75% 100%);
+}
+.lb-bar-chip__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  align-items: flex-start;
+  font-family: var(--font-data);
+  line-height: 1.05;
+}
+.lb-bar-chip__count {
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+.lb-bar-chip__label {
+  color: var(--muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.lb-bar-chip.is-active {
+  background: rgba(var(--evidence-platinum-rgb), 0.06);
+  border-color: var(--text);
+}
+.lb-bar-chip.is-active[data-trust-grade="S"] { border-color: var(--evidence-platinum); }
+.lb-bar-chip.is-active[data-trust-grade="A"] { border-color: var(--evidence-gold); }
+.lb-bar-chip.is-active[data-trust-grade="B"] { border-color: var(--evidence-silver); }
+.lb-bar-chip.is-active[data-trust-grade="C"] { border-color: var(--evidence-bronze); }
+
 /* ── Distribution stat row ── */
 .lb-dist {
   display: flex;
@@ -217,12 +373,87 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
   font-style: italic;
 }
 
+/* ── Bar-style "Show all" — bottom-right of chart panel ── */
+.lb-show-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0.5rem 0.9rem 0.9rem auto;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-data);
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  float: right;
+  clear: both;
+}
+.lb-show-all-btn:hover {
+  color: var(--text);
+  border-color: rgba(var(--evidence-platinum-rgb), 0.4);
+  background: rgba(var(--evidence-platinum-rgb), 0.06);
+}
+.lb-show-all-btn em {
+  color: var(--text);
+  font-style: normal;
+  font-weight: 600;
+  opacity: 0.95;
+}
+.lb-show-all-icon {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+.lb-show-all-btn:hover .lb-show-all-icon { opacity: 1; }
+
 /* ── Chart panel — wraps header (tabs/filters/note) + chart in one bordered box ── */
 .lb-chart-panel {
+  position: relative; /* anchor for .lb-panel-watermark */
   background: rgba(var(--evidence-silver-rgb), 0.015);
   border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
+}
+
+/* Watermark — top-right of the panel; gold seal + white→gold gradient wordmark.
+   Stays fixed inside the panel regardless of horizontal SVG scroll. */
+.lb-panel-watermark {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.78;
+}
+.lb-panel-watermark-seal {
+  width: 18px;
+  height: 18px;
+  color: var(--apex-gold);
+  filter:
+    drop-shadow(0 0 4px rgba(var(--apex-gold-rgb), 0.35))
+    drop-shadow(0 0 10px rgba(var(--apex-gold-rgb), 0.12));
+}
+.lb-panel-watermark-text {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  background: linear-gradient(90deg,
+    var(--text) 0%,
+    var(--text) 55%,
+    var(--apex-gold) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 .lb-chart-panel .lb-chart-wrap {
   background: transparent;

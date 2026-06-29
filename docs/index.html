@@ -248,6 +248,74 @@
     </div>
   </section>
 
+  <!-- ─── TRUST LEADERBOARD PREVIEW ─── -->
+  <section id="trust-preview" class="trust-preview reveal" data-section="trust-preview">
+    <div class="trust-preview-wrap">
+      <header class="trust-preview-head">
+        <h2 class="trust-preview-title"><span aria-hidden="true">◇</span> Named Skills</h2>
+        <p class="trust-preview-sub">Top contributors ranked by Trust Magnitude — the evidence-backed signal that surfaces the canonical implementation.</p>
+      </header>
+      <div class="trust-preview-chart" id="trustPreviewChart" aria-label="Top named skills by Trust Magnitude">
+        <div class="trust-preview-loading">Loading top skills…</div>
+      </div>
+      <div class="trust-preview-cta">
+        <a class="trust-preview-cta-link" href="trust/leaderboard/">
+          <span>Explore the full Trust Leaderboard</span>
+          <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16">
+            <path d="M5 10 L15 10 M11 6 L15 10 L11 14" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+  <script>
+  // Self-contained mini-chart — fetches the same data.json the full leaderboard uses
+  // and renders the top 8 named skills as horizontal bars. Falls back silently if
+  // the data file is unavailable (e.g. preview env, gitignored Class P registry).
+  (function() {
+    var container = document.getElementById('trustPreviewChart');
+    if (!container) return;
+    var BASE = 'graph/ledger/';
+    var VER = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
+    fetch(BASE + 'data.json' + VER)
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(data) {
+        if (!data || !data.rows || !data.rows.length) {
+          container.innerHTML = '<p class="trust-preview-empty">Top skills appear here when the leaderboard data file is published.</p>';
+          return;
+        }
+        var top = data.rows
+          .filter(function(r) { return r.grade && r.grade !== 'ungraded' && r.trustMagnitude > 0; })
+          .slice(0, 8);
+        if (!top.length) {
+          container.innerHTML = '<p class="trust-preview-empty">No graded skills yet.</p>';
+          return;
+        }
+        var max = Math.max.apply(null, top.map(function(r) { return r.trustMagnitude; }));
+        var rows = top.map(function(r, i) {
+          var pct = Math.max(4, Math.round((r.trustMagnitude / max) * 100));
+          var grade = r.grade || 'B';
+          var handle = (r.skillId || '').split('/')[0];
+          var avatar = handle
+            ? '<img class="trust-preview-avatar" src="https://github.com/' + handle + '.png?size=40" alt="" loading="lazy">'
+            : '<span class="trust-preview-avatar trust-preview-avatar--placeholder"></span>';
+          return '<div class="trust-preview-row" data-trust-grade="' + grade + '">' +
+            '<span class="trust-preview-rank">' + (i + 1) + '</span>' +
+            avatar +
+            '<span class="trust-preview-id">' + (r.skillId || '') + '</span>' +
+            '<span class="trust-preview-bar-track"><span class="trust-preview-bar" style="width:' + pct + '%"></span></span>' +
+            '<span class="trust-preview-tm">' + Math.round(r.trustMagnitude) + '</span>' +
+            '<span class="trust-preview-grade trust-preview-grade--' + grade + '">' + grade + '</span>' +
+            '</div>';
+        }).join('');
+        container.innerHTML = '<div class="trust-preview-rows">' + rows + '</div>';
+      })
+      .catch(function() {
+        container.innerHTML = '<p class="trust-preview-empty">Top skills appear here when the leaderboard data is published.</p>';
+      });
+  })();
+  </script>
+
   <!-- ─── TREE DIALOG ─── -->
   <a id="tree" tabindex="-1" aria-hidden="true"></a>
   <dialog id="treeDialog" class="tree-dialog" aria-labelledby="treeDialogTitle">
