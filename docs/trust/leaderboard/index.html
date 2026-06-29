@@ -53,6 +53,7 @@
       </div>
       <!-- AA-style per-section controls -->
       <div class="lb-section-controls" id="lbNamedControls">
+        <div class="lb-typetabs" id="lbTypeTabs" role="tablist" aria-label="Filter by evidence type"></div>
         <div class="lb-named-dist" id="lbNamedDist">
           <!-- populated by JS from distribution data -->
         </div>
@@ -89,6 +90,13 @@
       <div class="lb-show-more" id="lbShowMore">
         <button class="lb-show-more-btn" id="lbShowMoreBtn" type="button">Show more</button>
       </div>
+      <section class="lb-tm-accordion" id="lbTmAccordion" aria-label="Trust Magnitude methodology">
+        <button class="lb-tm-toggle" id="lbTmToggle" type="button" aria-expanded="false">
+          <span class="lb-tm-glyph" aria-hidden="true">+</span>
+          <span class="lb-tm-label">Trust Magnitude methodology</span>
+        </button>
+        <div class="lb-tm-body" id="lbTmBody" hidden></div>
+      </section>
       <p class="lb-chart-caption">Origin skills carry a laurel wreath under the contributor handle.</p>
       <!-- Inline ledger table -->
       <div class="lb-ledger-inline" id="lbLedgerInline">
