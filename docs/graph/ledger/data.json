@@ -1,20 +1,20 @@
 {
-  "version": "5.0.6",
-  "generatedAt": "2026-06-20T22:52:37Z",
+  "version": "",
+  "generatedAt": "2026-06-29T16:59:05Z",
   "summary": {
     "total": 249,
     "S": 4,
-    "A": 42,
-    "B": 56,
+    "A": 43,
+    "B": 55,
     "C": 77,
     "ungraded": 70,
     "floor": 0,
-    "up": 0
+    "up": 1
   },
   "rows": [
     {
       "skillId": "garrytan/gstack",
-      "tm": 589.32,
+      "tm": 590.87,
       "grade": "S",
       "currentStars": "5★",
       "mayStars": "5★",
@@ -30,31 +30,18 @@
         "apexPromotionPrSigned": true,
         "crossOrgVerifier": null,
         "systemWideCap": null
-      }
-    },
-    {
-      "skillId": "ruvnet/ruflo",
-      "tm": 482.27,
-      "grade": "S",
-      "currentStars": "5★",
-      "mayStars": "6★",
-      "juneStars": "5★",
-      "g7Stars": "5★",
-      "flag": "",
-      "apexResults": {
-        "aGradedOriginsGte5": false,
-        "sourceTenureDaysGte180AorS": false,
-        "directNestedSuiteGte1": true,
-        "depth2OnlyReachableGte1": true,
-        "overallGradeS": true,
-        "apexPromotionPrSigned": true,
-        "crossOrgVerifier": null,
-        "systemWideCap": null
-      }
+      },
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28,
+        "social-signal": 45.59,
+        "fusion-recipe": 480.0
+      },
+      "origin": true
     },
     {
       "skillId": "mattpocock/skills",
-      "tm": 480.29,
+      "tm": 484.04,
       "grade": "S",
       "currentStars": "5★",
       "mayStars": "6★",
@@ -70,7 +57,42 @@
         "apexPromotionPrSigned": true,
         "crossOrgVerifier": null,
         "systemWideCap": null
-      }
+      },
+      "typeBreakdown": {
+        "github-stars-own": 37.05,
+        "arxiv": 10.4,
+        "social-signal": 39.5,
+        "peer-review": 30.0,
+        "fusion-recipe": 367.08
+      },
+      "origin": true
+    },
+    {
+      "skillId": "ruvnet/ruflo",
+      "tm": 482.71,
+      "grade": "S",
+      "currentStars": "5★",
+      "mayStars": "6★",
+      "juneStars": "5★",
+      "g7Stars": "5★",
+      "flag": "",
+      "apexResults": {
+        "aGradedOriginsGte5": false,
+        "sourceTenureDaysGte180AorS": false,
+        "directNestedSuiteGte1": true,
+        "depth2OnlyReachableGte1": true,
+        "overallGradeS": true,
+        "apexPromotionPrSigned": true,
+        "crossOrgVerifier": null,
+        "systemWideCap": null
+      },
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 15.43,
+        "arxiv": 4.0,
+        "fusion-recipe": 427.28
+      },
+      "origin": true
     },
     {
       "skillId": "obra/superpowers",
@@ -90,7 +112,14 @@
         "apexPromotionPrSigned": true,
         "crossOrgVerifier": null,
         "systemWideCap": null
-      }
+      },
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 50.0,
+        "social-signal": 29.15,
+        "fusion-recipe": 330.0
+      },
+      "origin": true
     },
     {
       "skillId": "mattpocock/engineering",
@@ -101,7 +130,11 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "fusion-recipe": 270.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/agentdb",
@@ -112,7 +145,13 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 45.0,
+        "fusion-recipe": 120.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/ruflo-v3",
@@ -123,7 +162,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "fusion-recipe": 150.0
+      },
+      "origin": true
     },
     {
       "skillId": "pexp13/sentiment-analysis",
@@ -134,7 +178,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "peer-review": 135.0,
+        "arxiv": 48.9
+      },
+      "origin": true
     },
     {
       "skillId": "garrytan/garrytan",
@@ -145,7 +194,30 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "fusion-recipe": 120.0
+      },
+      "origin": true
+    },
+    {
+      "skillId": "pbakaus/impeccable",
+      "tm": 126.61,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 41.8,
+        "arxiv": 3.8,
+        "peer-review": 45.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/dual-mode",
@@ -156,18 +228,29 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "fusion-recipe": 90.0
+      },
+      "origin": true
     },
     {
-      "skillId": "pbakaus/impeccable",
-      "tm": 122.8,
+      "skillId": "safishamsi/graphify",
+      "tm": 120.7,
       "grade": "A",
       "currentStars": "4★",
-      "mayStars": "4★",
+      "mayStars": "1★",
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 72.9,
+        "arxiv": 17.8,
+        "peer-review": 30.0
+      },
+      "origin": true
     },
     {
       "skillId": "mattpocock/productivity",
@@ -178,7 +261,11 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "fusion-recipe": 120.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/reasoningbank",
@@ -189,7 +276,13 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 52.5,
+        "fusion-recipe": 30.0
+      },
+      "origin": true
     },
     {
       "skillId": "obra/subagent-driven-development",
@@ -200,7 +293,13 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 52.5,
+        "social-signal": 29.15
+      },
+      "origin": true
     },
     {
       "skillId": "obra/using-git-worktrees",
@@ -211,18 +310,13 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "safishamsi/graphify",
-      "tm": 116.57,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "1★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 52.5,
+        "social-signal": 29.15
+      },
+      "origin": true
     },
     {
       "skillId": "obra/writing-plans",
@@ -233,7 +327,29 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 45.0,
+        "social-signal": 29.15
+      },
+      "origin": true
+    },
+    {
+      "skillId": "addy-osmani/performance-optimization",
+      "tm": 103.24,
+      "grade": "A",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 67.24
+      },
+      "origin": true
     },
     {
       "skillId": "google-deepmind/alphafold_database_fetch_and_analyze",
@@ -244,7 +360,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/alphagenome_single_variant_analysis",
@@ -255,7 +376,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/embl_ebi_ols",
@@ -266,7 +392,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/encode_ccres_database",
@@ -277,7 +408,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/ensembl_database",
@@ -288,7 +424,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/foldseek_structural_search",
@@ -299,7 +440,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/gnomad_database",
@@ -310,7 +456,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/gtex_database",
@@ -321,7 +472,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/human_protein_atlas_database",
@@ -332,7 +488,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/interpro_database",
@@ -343,7 +504,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/jaspar_database",
@@ -354,7 +520,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/literature_search_europepmc",
@@ -365,7 +536,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/literature_search_openalex",
@@ -376,7 +552,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/ncbi_sequence_fetch",
@@ -387,7 +568,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/openfda_database",
@@ -398,7 +584,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/opentargets_database",
@@ -409,7 +600,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/protein_sequence_similarity_search",
@@ -420,7 +616,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/pubchem_database",
@@ -431,7 +632,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/pymol",
@@ -442,7 +648,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/quickgo_database",
@@ -453,7 +664,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/reactome_database",
@@ -464,7 +680,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/science_skills_common",
@@ -475,7 +696,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/ucsc_conservation_and_tfbs",
@@ -486,7 +712,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/unibind_database",
@@ -497,7 +728,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/uv",
@@ -508,7 +744,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/workflow_skill_creator",
@@ -519,7 +760,12 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "openai/few-shot-learning",
@@ -530,7 +776,11 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "arxiv": 100.0
+      },
+      "origin": true
     },
     {
       "skillId": "openai/self-consistency",
@@ -541,7 +791,11 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "arxiv": 100.0
+      },
+      "origin": false
     },
     {
       "skillId": "stanfordnlp/dspy",
@@ -552,18 +806,28 @@
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "arxiv": 100.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/hive-mind-coordination",
-      "tm": 96.09,
+      "tm": 96.45,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 15.43,
+        "repo-own": 36.0,
+        "social-signal": 45.02
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/flow-nexus",
@@ -574,7 +838,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "fusion-recipe": 60.0
+      },
+      "origin": true
     },
     {
       "skillId": "obra/brainstorming",
@@ -585,7 +854,13 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 30.0,
+        "social-signal": 29.15
+      },
+      "origin": true
     },
     {
       "skillId": "obra/executing-plans",
@@ -596,7 +871,13 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 30.0,
+        "social-signal": 29.15
+      },
+      "origin": true
     },
     {
       "skillId": "obra/verification-before-completion",
@@ -607,7 +888,13 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "social-signal": 29.15,
+        "peer-review": 30.0
+      },
+      "origin": true
     },
     {
       "skillId": "martin-stepanoski/nielsen-heuristics-audit",
@@ -618,62 +905,97 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 4.9,
+        "peer-review": 90.0
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/diagnose",
-      "tm": 90.38,
+      "tm": 93.18,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "2★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "github-stars-own": 37.05,
+        "social-signal": 44.92
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/edit-article",
-      "tm": 90.38,
+      "tm": 93.18,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "2★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "github-stars-own": 37.05,
+        "social-signal": 44.92
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/obsidian-vault",
-      "tm": 90.38,
+      "tm": 93.18,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "github-stars-own": 37.05,
+        "social-signal": 44.92
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/to-issues",
-      "tm": 90.38,
+      "tm": 93.18,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "3★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "github-stars-own": 37.05,
+        "social-signal": 44.92
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/ubiquitous-language",
-      "tm": 90.38,
+      "tm": 93.18,
       "grade": "B",
       "currentStars": "3★",
       "mayStars": "4★",
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "github-stars-own": 37.05,
+        "social-signal": 44.92
+      },
+      "origin": false
     },
     {
       "skillId": "anthropic/skill-creator",
@@ -684,7 +1006,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "arxiv": 60.0,
+        "peer-review": 30.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/browse",
@@ -695,7 +1022,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 52.5
+      },
+      "origin": true
     },
     {
       "skillId": "obra/dispatching-parallel-agents",
@@ -706,18 +1038,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "addy-osmani/performance-optimization",
-      "tm": 83.2,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 50.0
+      },
+      "origin": true
     },
     {
       "skillId": "garrytan/retro",
@@ -728,7 +1054,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 45.0
+      },
+      "origin": true
     },
     {
       "skillId": "browser-use/browser-harness",
@@ -739,7 +1070,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "social-signal": 37.59
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/chembl_database",
@@ -750,7 +1086,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/clinical_trials_database",
@@ -761,7 +1102,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/clinvar_database",
@@ -772,7 +1118,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/dbsnp_database",
@@ -783,7 +1134,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/literature_search_arxiv",
@@ -794,7 +1150,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/literature_search_biorxiv",
@@ -805,7 +1166,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/pdb_database",
@@ -816,7 +1182,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/protein_sequence_msa",
@@ -827,7 +1198,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/pubmed_database",
@@ -838,7 +1214,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/string_database",
@@ -849,7 +1230,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "skillId": "google-deepmind/uniprot_database",
@@ -860,7 +1246,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 10.82,
+        "peer-review": 60.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/careful",
@@ -871,7 +1262,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 30.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/office-hours",
@@ -882,7 +1278,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 30.0
+      },
+      "origin": true
     },
     {
       "skillId": "garrytan/plan-eng-review",
@@ -893,7 +1294,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 30.0
+      },
+      "origin": false
     },
     {
       "skillId": "ruvnet/github-suite",
@@ -904,7 +1310,268 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "fusion-recipe": 30.0
+      },
+      "origin": true
+    },
+    {
+      "skillId": "garrytan/benchmark",
+      "tm": 65.28,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "skillId": "garrytan/canary",
+      "tm": 65.28,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "skillId": "garrytan/cso",
+      "tm": 65.28,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": true
+    },
+    {
+      "skillId": "garrytan/design-consultation",
+      "tm": 65.28,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": true
+    },
+    {
+      "skillId": "garrytan/design-html",
+      "tm": 65.28,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": true
+    },
+    {
+      "skillId": "garrytan/design-shotgun",
+      "tm": 65.28,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "skillId": "garrytan/document-generate",
+      "tm": 65.28,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": true
+    },
+    {
+      "skillId": "garrytan/investigate",
+      "tm": 65.28,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": true
+    },
+    {
+      "skillId": "garrytan/land-and-deploy",
+      "tm": 65.28,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "skillId": "garrytan/plan-ceo-review",
+      "tm": 65.28,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "skillId": "garrytan/plan-design-review",
+      "tm": 65.28,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "skillId": "garrytan/plan-devex-review",
+      "tm": 65.28,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "skillId": "garrytan/qa",
+      "tm": 65.28,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "skillId": "garrytan/review",
+      "tm": 65.28,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
+    },
+    {
+      "skillId": "garrytan/ship",
+      "tm": 65.28,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": true
+    },
+    {
+      "skillId": "garrytan/skillify",
+      "tm": 65.28,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 29.28
+      },
+      "origin": false
     },
     {
       "skillId": "obra/systematic-debugging",
@@ -915,183 +1582,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "garrytan/benchmark",
-      "tm": 63.73,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "garrytan/canary",
-      "tm": 63.73,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "garrytan/cso",
-      "tm": 63.73,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "garrytan/design-consultation",
-      "tm": 63.73,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "garrytan/design-html",
-      "tm": 63.73,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "garrytan/design-shotgun",
-      "tm": 63.73,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "garrytan/document-generate",
-      "tm": 63.73,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "garrytan/investigate",
-      "tm": 63.73,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "garrytan/land-and-deploy",
-      "tm": 63.73,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "garrytan/plan-ceo-review",
-      "tm": 63.73,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "garrytan/plan-design-review",
-      "tm": 63.73,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "garrytan/plan-devex-review",
-      "tm": 63.73,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "garrytan/qa",
-      "tm": 63.73,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "garrytan/review",
-      "tm": 63.73,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "garrytan/ship",
-      "tm": 63.73,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null
-    },
-    {
-      "skillId": "garrytan/skillify",
-      "tm": 63.73,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "4★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "social-signal": 29.15
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/grill-me",
@@ -1102,7 +1598,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "peer-review": 52.5
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/grill-with-docs",
@@ -1113,7 +1614,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "peer-review": 52.5
+      },
+      "origin": true
     },
     {
       "skillId": "mattpocock/handoff",
@@ -1124,7 +1630,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "peer-review": 52.5
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/to-prd",
@@ -1135,7 +1646,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "peer-review": 52.5
+      },
+      "origin": true
     },
     {
       "skillId": "mattpocock/personal",
@@ -1146,7 +1662,11 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "fusion-recipe": 60.0
+      },
+      "origin": true
     },
     {
       "skillId": "mattpocock/setup-matt-pocock-skills",
@@ -1157,7 +1677,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "peer-review": 45.0
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/triage",
@@ -1168,7 +1693,12 @@
       "juneStars": "3★",
       "g7Stars": "3★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "peer-review": 45.0
+      },
+      "origin": true
     },
     {
       "skillId": "mattpocock/improve-codebase-architecture",
@@ -1179,7 +1709,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "peer-review": 45.0
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/write-a-skill",
@@ -1190,7 +1724,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "peer-review": 45.0
+      },
+      "origin": true
     },
     {
       "skillId": "mattpocock/teach",
@@ -1201,7 +1739,12 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "social-signal": 39.48
+      },
+      "origin": false
     },
     {
       "skillId": "xquik-dev/hermes-tweet",
@@ -1212,7 +1755,12 @@
       "juneStars": "3★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 6.12,
+        "social-signal": 36.35
+      },
+      "origin": true
     },
     {
       "skillId": "mattpocock/prototype",
@@ -1223,7 +1771,12 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 11.21,
+        "peer-review": 30.0
+      },
+      "origin": false
     },
     {
       "skillId": "bradautomates/claude-video",
@@ -1234,7 +1787,12 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.22,
+        "social-signal": 36.25
+      },
+      "origin": true
     },
     {
       "skillId": "addy-osmani/test-driven-development",
@@ -1245,7 +1803,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "anthropic/pptx",
@@ -1256,7 +1818,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "firecrawl/firecrawl",
@@ -1267,7 +1833,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "gaiabot/repo-docs-before-pr",
@@ -1278,7 +1848,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/benchmark-models",
@@ -1289,7 +1863,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/codex",
@@ -1300,7 +1878,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/context-restore",
@@ -1311,7 +1893,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/context-save",
@@ -1322,7 +1908,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/design-review",
@@ -1333,7 +1923,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/devex-review",
@@ -1344,7 +1938,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/document-release",
@@ -1355,7 +1953,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/freeze",
@@ -1366,7 +1968,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/gstack-upgrade",
@@ -1377,7 +1983,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/guard",
@@ -1388,7 +1998,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/health",
@@ -1399,7 +2013,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/landing-report",
@@ -1410,7 +2028,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/learn",
@@ -1421,7 +2043,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/make-pdf",
@@ -1432,7 +2058,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/open-gstack-browser",
@@ -1443,7 +2073,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/pair-agent",
@@ -1454,7 +2088,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/plan-tune",
@@ -1465,7 +2103,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/qa-only",
@@ -1476,7 +2118,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/scrape",
@@ -1487,7 +2133,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "garrytan/setup-browser-cookies",
@@ -1498,7 +2148,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/setup-deploy",
@@ -1509,7 +2163,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/setup-gbrain",
@@ -1520,7 +2178,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/sync-gbrain",
@@ -1531,7 +2193,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "garrytan/unfreeze",
@@ -1542,7 +2208,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "getagentseal/codeburn",
@@ -1553,7 +2223,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "huggingface/semantic-cache",
@@ -1564,7 +2238,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "karpathy/autoresearch",
@@ -1575,7 +2253,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "laravel/upgrade-laravel-v13",
@@ -1586,7 +2268,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "Manavarya09/design-extract",
@@ -1597,7 +2283,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "mbtiongson1/gaia-audit",
@@ -1608,7 +2298,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "mbtiongson1/gaia-curation-review",
@@ -1619,7 +2313,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "mbtiongson1/gaia-meta-audit",
@@ -1630,7 +2328,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "mbtiongson1/gaia-preview",
@@ -1641,7 +2343,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "mbtiongson1/graphify-triage",
@@ -1652,7 +2358,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "nexu-io/open-design",
@@ -1663,7 +2373,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "nousresearch/feed-monitoring",
@@ -1674,7 +2388,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "obra/finishing-a-development-branch",
@@ -1685,7 +2403,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "obra/receiving-code-review",
@@ -1696,7 +2418,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "obra/requesting-code-review",
@@ -1707,7 +2433,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/agentdb-advanced",
@@ -1718,7 +2448,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/agentdb-memory-patterns",
@@ -1729,7 +2463,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/agentdb-optimization",
@@ -1740,7 +2478,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/agentdb-vector-search",
@@ -1751,7 +2493,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/agentic-jujutsu",
@@ -1762,7 +2508,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/dual-collect",
@@ -1773,7 +2523,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/dual-coordinate",
@@ -1784,7 +2538,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/dual-spawn",
@@ -1795,7 +2553,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/flow-nexus-neural",
@@ -1806,7 +2568,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/flow-nexus-platform",
@@ -1817,7 +2583,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/github-multi-repo",
@@ -1828,7 +2598,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/pair-programming",
@@ -1839,7 +2613,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "ruvnet/reasoningbank-intelligence",
@@ -1850,7 +2628,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/stream-chain",
@@ -1861,7 +2643,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/swarm-advanced",
@@ -1872,7 +2658,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/swarm-orchestration",
@@ -1883,7 +2673,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/v3-cli-modernization",
@@ -1894,7 +2688,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/v3-core-implementation",
@@ -1905,7 +2703,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/v3-ddd-architecture",
@@ -1916,7 +2718,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "ruvnet/v3-integration-deep",
@@ -1927,7 +2733,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "ruvnet/verification-quality",
@@ -1938,7 +2748,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "ruvnet/worker-integration",
@@ -1949,7 +2763,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "santifer/career-ops",
@@ -1960,7 +2778,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "spring-ai/readme-generate",
@@ -1971,7 +2793,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "skillId": "vercel/find-skills",
@@ -1982,7 +2808,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true
     },
     {
       "skillId": "upsonic/unittest-generator",
@@ -1993,7 +2823,12 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "arxiv": 3.0,
+        "peer-review": 30.0
+      },
+      "origin": true
     },
     {
       "skillId": "devin-ai/autonomous-swe",
@@ -2004,7 +2839,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "peer-review": 30.0
+      },
+      "origin": true
     },
     {
       "skillId": "mattpocock/caveman",
@@ -2015,7 +2854,11 @@
       "juneStars": "2★",
       "g7Stars": "2★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "peer-review": 30.0
+      },
+      "origin": false
     },
     {
       "skillId": "intelligentcode-ai/database-engineer",
@@ -2026,7 +2869,12 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.3,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "intelligentcode-ai/devops-engineer",
@@ -2037,7 +2885,12 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.3,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "intelligentcode-ai/mcp-client",
@@ -2048,7 +2901,12 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.3,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "intelligentcode-ai/parallel-execution",
@@ -2059,7 +2917,12 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.3,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "intelligentcode-ai/release",
@@ -2070,7 +2933,12 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.3,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "intelligentcode-ai/requirements-engineer",
@@ -2081,7 +2949,12 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.3,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "intelligentcode-ai/security-engineer",
@@ -2092,7 +2965,12 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.3,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "intelligentcode-ai/user-tester",
@@ -2103,7 +2981,12 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.3,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "glincker/readme-generator",
@@ -2114,7 +2997,12 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.22,
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/ask-matt",
@@ -2125,7 +3013,11 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/codebase-design",
@@ -2136,7 +3028,11 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/diagnosing-bugs",
@@ -2147,7 +3043,11 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/domain-modeling",
@@ -2158,7 +3058,11 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/git-guardrails-claude-code",
@@ -2169,7 +3073,11 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/grilling",
@@ -2180,7 +3088,11 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/implement",
@@ -2191,7 +3103,11 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/migrate-to-shoehorn",
@@ -2202,7 +3118,11 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/resolving-merge-conflicts",
@@ -2213,7 +3133,11 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/scaffold-exercises",
@@ -2224,7 +3148,11 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/setup-pre-commit",
@@ -2235,7 +3163,11 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/tdd",
@@ -2246,7 +3178,11 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "mattpocock/writing-great-skills",
@@ -2257,7 +3193,11 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
     },
     {
       "skillId": "0xdarkmatter/pytest-patterns",
@@ -2268,7 +3208,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": true
     },
     {
       "skillId": "browserbase/stagehand",
@@ -2279,7 +3221,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "changkun/plan-decompose-gh-wallfacer",
@@ -2290,7 +3234,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "gaiabot/gaia-triage",
@@ -2301,7 +3247,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "gooseworks/notte-browser",
@@ -2312,7 +3260,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": true
     },
     {
       "skillId": "huggingface/hf-cli",
@@ -2323,7 +3273,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "huggingface/huggingface-datasets",
@@ -2334,7 +3286,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "huggingface/huggingface-llm-trainer",
@@ -2345,7 +3299,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "huggingface/huggingface-papers",
@@ -2356,7 +3312,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "huggingface/huggingface-vision-trainer",
@@ -2367,7 +3325,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "huggingface/transformers-js",
@@ -2378,7 +3338,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "langgenius/backend-code-review",
@@ -2389,7 +3351,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "langgenius/component-refactoring",
@@ -2400,7 +3364,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "langgenius/e2e-cucumber-playwright",
@@ -2411,7 +3377,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "langgenius/frontend-code-review",
@@ -2422,7 +3390,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "langgenius/frontend-testing",
@@ -2433,7 +3403,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "mattpocock/zoom-out",
@@ -2444,7 +3416,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": true
     },
     {
       "skillId": "mbtiongson1/gaia-bot-curate",
@@ -2455,7 +3429,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "mbtiongson1/gaia-curate",
@@ -2466,7 +3442,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": true
     },
     {
       "skillId": "mbtiongson1/gaia-docs-sync",
@@ -2477,7 +3455,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "mbtiongson1/gaia-draft-curate",
@@ -2488,7 +3468,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "mbtiongson1/gaia-integrity",
@@ -2499,7 +3481,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "mbtiongson1/gaia-triage",
@@ -2510,7 +3494,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "mbtiongson1/gaia-wiki-sync",
@@ -2521,7 +3507,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "ruvnet/agentdb-learning",
@@ -2532,7 +3520,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": true
     },
     {
       "skillId": "ruvnet/browser",
@@ -2543,7 +3533,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "ruvnet/flow-nexus-swarm",
@@ -2554,7 +3546,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": true
     },
     {
       "skillId": "ruvnet/github-code-review",
@@ -2565,7 +3559,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "ruvnet/github-project-management",
@@ -2576,7 +3572,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "ruvnet/github-release-management",
@@ -2587,7 +3585,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "ruvnet/github-workflow-automation",
@@ -2598,7 +3598,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "ruvnet/hooks-automation",
@@ -2609,7 +3611,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "ruvnet/performance-analysis",
@@ -2620,7 +3624,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "ruvnet/reasoningbank-agentdb",
@@ -2631,7 +3637,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "ruvnet/skill-builder",
@@ -2642,7 +3650,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "ruvnet/sparc-methodology",
@@ -2653,7 +3663,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "ruvnet/v3-mcp-optimization",
@@ -2664,7 +3676,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "ruvnet/v3-memory-unification",
@@ -2675,7 +3689,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "ruvnet/v3-performance-optimization",
@@ -2686,7 +3702,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "ruvnet/v3-security-overhaul",
@@ -2697,7 +3715,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "ruvnet/v3-swarm-coordination",
@@ -2708,7 +3728,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "ruvnet/worker-benchmarks",
@@ -2719,7 +3741,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "sickn33/ai-dev-jobs-mcp",
@@ -2730,7 +3754,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "sickn33/mcp-builder",
@@ -2741,7 +3767,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "sickn33/n8n-mcp-tools-expert",
@@ -2752,7 +3780,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "Taoidle/plan-decompose-gh-plan-cascade",
@@ -2763,7 +3793,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     },
     {
       "skillId": "yonatangross/orchestkit-rag",
@@ -2774,7 +3806,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": true
     },
     {
       "skillId": "yundu-ai/mcp-tool-developer",
@@ -2785,7 +3819,9 @@
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
-      "apexResults": null
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
     }
   ]
 }
