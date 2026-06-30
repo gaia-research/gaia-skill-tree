@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-30T16:25:29Z",
+  "generatedAt": "2026-06-30T16:58:34Z",
   "skills": [
     {
       "id": "safishamsi/graphify",
@@ -11,7 +11,8 @@
       "ascendedAt": "2026-06-20T06:31:38Z",
       "_links": {
         "self": "/api/v1/skills/safishamsi/graphify.json"
-      }
+      },
+      "previousLevel": "1★"
     },
     {
       "id": "stanfordnlp/dspy",
@@ -23,7 +24,8 @@
       "ascendedAt": "2026-06-20T06:31:38Z",
       "_links": {
         "self": "/api/v1/skills/stanfordnlp/dspy.json"
-      }
+      },
+      "previousLevel": "1★"
     },
     {
       "id": "ruvnet/reasoningbank-intelligence",
@@ -35,7 +37,8 @@
       "ascendedAt": "2026-06-20T06:31:37Z",
       "_links": {
         "self": "/api/v1/skills/ruvnet/reasoningbank-intelligence.json"
-      }
+      },
+      "previousLevel": "1★"
     },
     {
       "id": "ruvnet/swarm-advanced",
@@ -47,7 +50,8 @@
       "ascendedAt": "2026-06-20T06:31:37Z",
       "_links": {
         "self": "/api/v1/skills/ruvnet/swarm-advanced.json"
-      }
+      },
+      "previousLevel": "1★"
     },
     {
       "id": "ruvnet/swarm-orchestration",
@@ -59,7 +63,8 @@
       "ascendedAt": "2026-06-20T06:31:37Z",
       "_links": {
         "self": "/api/v1/skills/ruvnet/swarm-orchestration.json"
-      }
+      },
+      "previousLevel": "1★"
     },
     {
       "id": "ruvnet/dual-mode",
@@ -71,7 +76,8 @@
       "ascendedAt": "2026-06-20T06:31:36Z",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-mode.json"
-      }
+      },
+      "previousLevel": "3★"
     },
     {
       "id": "ruvnet/reasoningbank",
@@ -83,7 +89,8 @@
       "ascendedAt": "2026-06-20T06:31:36Z",
       "_links": {
         "self": "/api/v1/skills/ruvnet/reasoningbank.json"
-      }
+      },
+      "previousLevel": "3★"
     },
     {
       "id": "ruvnet/flow-nexus-neural",
@@ -95,7 +102,8 @@
       "ascendedAt": "2026-06-20T06:31:36Z",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus-neural.json"
-      }
+      },
+      "previousLevel": "1★"
     },
     {
       "id": "ruvnet/flow-nexus-platform",
@@ -107,7 +115,8 @@
       "ascendedAt": "2026-06-20T06:31:36Z",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus-platform.json"
-      }
+      },
+      "previousLevel": "1★"
     },
     {
       "id": "obra/writing-plans",
@@ -119,7 +128,8 @@
       "ascendedAt": "2026-06-20T06:31:35Z",
       "_links": {
         "self": "/api/v1/skills/obra/writing-plans.json"
-      }
+      },
+      "previousLevel": "2★"
     },
     {
       "id": "openai/few-shot-learning",
@@ -131,7 +141,8 @@
       "ascendedAt": "2026-06-20T06:31:35Z",
       "_links": {
         "self": "/api/v1/skills/openai/few-shot-learning.json"
-      }
+      },
+      "previousLevel": "2★"
     },
     {
       "id": "openai/self-consistency",
@@ -143,7 +154,8 @@
       "ascendedAt": "2026-06-20T06:31:35Z",
       "_links": {
         "self": "/api/v1/skills/openai/self-consistency.json"
-      }
+      },
+      "previousLevel": "2★"
     },
     {
       "id": "obra/verification-before-completion",
@@ -155,7 +167,8 @@
       "ascendedAt": "2026-06-20T06:31:35Z",
       "_links": {
         "self": "/api/v1/skills/obra/verification-before-completion.json"
-      }
+      },
+      "previousLevel": "2★"
     },
     {
       "id": "ruvnet/agentdb-advanced",
@@ -167,7 +180,8 @@
       "ascendedAt": "2026-06-20T06:31:35Z",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb-advanced.json"
-      }
+      },
+      "previousLevel": "1★"
     },
     {
       "id": "obra/using-git-worktrees",
@@ -179,7 +193,8 @@
       "ascendedAt": "2026-06-20T06:31:34Z",
       "_links": {
         "self": "/api/v1/skills/obra/using-git-worktrees.json"
-      }
+      },
+      "previousLevel": "2★"
     },
     {
       "id": "obra/brainstorming",
@@ -191,7 +206,8 @@
       "ascendedAt": "2026-06-20T06:31:34Z",
       "_links": {
         "self": "/api/v1/skills/obra/brainstorming.json"
-      }
+      },
+      "previousLevel": "2★"
     },
     {
       "id": "obra/executing-plans",
@@ -203,7 +219,8 @@
       "ascendedAt": "2026-06-20T06:31:34Z",
       "_links": {
         "self": "/api/v1/skills/obra/executing-plans.json"
-      }
+      },
+      "previousLevel": "2★"
     },
     {
       "id": "nexu-io/open-design",
@@ -215,7 +232,8 @@
       "ascendedAt": "2026-06-20T06:31:34Z",
       "_links": {
         "self": "/api/v1/skills/nexu-io/open-design.json"
-      }
+      },
+      "previousLevel": "1★"
     },
     {
       "id": "nousresearch/feed-monitoring",
@@ -227,7 +245,8 @@
       "ascendedAt": "2026-06-20T06:31:34Z",
       "_links": {
         "self": "/api/v1/skills/nousresearch/feed-monitoring.json"
-      }
+      },
+      "previousLevel": "1★"
     },
     {
       "id": "mattpocock/to-prd",
@@ -239,7 +258,8 @@
       "ascendedAt": "2026-06-20T06:31:32Z",
       "_links": {
         "self": "/api/v1/skills/mattpocock/to-prd.json"
-      }
+      },
+      "previousLevel": "2★"
     },
     {
       "id": "mattpocock/edit-article",
@@ -251,7 +271,8 @@
       "ascendedAt": "2026-06-20T06:31:31Z",
       "_links": {
         "self": "/api/v1/skills/mattpocock/edit-article.json"
-      }
+      },
+      "previousLevel": "2★"
     },
     {
       "id": "martin-stepanoski/nielsen-heuristics-audit",
@@ -263,7 +284,8 @@
       "ascendedAt": "2026-06-20T06:31:30Z",
       "_links": {
         "self": "/api/v1/skills/martin-stepanoski/nielsen-heuristics-audit.json"
-      }
+      },
+      "previousLevel": "2★"
     },
     {
       "id": "mattpocock/diagnose",
@@ -275,7 +297,8 @@
       "ascendedAt": "2026-06-20T06:31:30Z",
       "_links": {
         "self": "/api/v1/skills/mattpocock/diagnose.json"
-      }
+      },
+      "previousLevel": "2★"
     },
     {
       "id": "huggingface/semantic-cache",
@@ -287,7 +310,8 @@
       "ascendedAt": "2026-06-20T06:31:28Z",
       "_links": {
         "self": "/api/v1/skills/huggingface/semantic-cache.json"
-      }
+      },
+      "previousLevel": "1★"
     },
     {
       "id": "garrytan/careful",
@@ -299,7 +323,8 @@
       "ascendedAt": "2026-06-20T06:31:21Z",
       "_links": {
         "self": "/api/v1/skills/garrytan/careful.json"
-      }
+      },
+      "previousLevel": "2★"
     },
     {
       "id": "anthropic/skill-creator",
@@ -311,7 +336,8 @@
       "ascendedAt": "2026-06-20T06:31:20Z",
       "_links": {
         "self": "/api/v1/skills/anthropic/skill-creator.json"
-      }
+      },
+      "previousLevel": "2★"
     },
     {
       "id": "browser-use/browser-harness",
@@ -323,7 +349,8 @@
       "ascendedAt": "2026-06-20T06:31:20Z",
       "_links": {
         "self": "/api/v1/skills/browser-use/browser-harness.json"
-      }
+      },
+      "previousLevel": "2★"
     },
     {
       "id": "devin-ai/autonomous-swe",
@@ -335,7 +362,8 @@
       "ascendedAt": "2026-06-20T06:31:20Z",
       "_links": {
         "self": "/api/v1/skills/devin-ai/autonomous-swe.json"
-      }
+      },
+      "previousLevel": "1★"
     },
     {
       "id": "mattpocock/teach",
@@ -347,7 +375,8 @@
       "ascendedAt": "2026-06-19T18:41:33Z",
       "_links": {
         "self": "/api/v1/skills/mattpocock/teach.json"
-      }
+      },
+      "previousLevel": "awakened"
     },
     {
       "id": "ruvnet/hive-mind-coordination",
@@ -359,7 +388,8 @@
       "ascendedAt": "2026-06-04T20:30:55Z",
       "_links": {
         "self": "/api/v1/skills/ruvnet/hive-mind-coordination.json"
-      }
+      },
+      "previousLevel": "1★"
     }
   ],
   "_links": {
