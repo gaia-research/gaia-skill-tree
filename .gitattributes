@@ -9,3 +9,4 @@ docs/graph/*.svg  -diff linguist-generated=true
 
 # API projection — generated JSON, collapse in PR diffs
 docs/api/v1/**/*.json linguist-generated=true
+docs/api/v1/trending/feed.xml linguist-generated=true

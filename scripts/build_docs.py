@@ -387,6 +387,7 @@ def build_html_cache_busting(check: bool) -> bool:
         "codex/trust-methodology.html",
         "u/index.html",
         "api/index.html",  # pre-registered for Issue #850 (docs page not yet created)
+        "trending/index.html",
     ):
         path = ROOT / "docs" / filename
         if not path.exists():
@@ -667,6 +668,55 @@ def build_api_projection(check: bool) -> bool:
             import shutil
             shutil.rmtree(committed)
             shutil.copytree(out_dir, committed)
+        return True
+
+
+def build_trending_projection(check: bool) -> bool:
+    """Run buildTrendingProjection.py to a tempdir and diff against docs/api/v1/trending/."""
+    script = SCRIPTS / "buildTrendingProjection.py"
+    if not script.exists():
+        return False
+    committed = ROOT / "docs" / "api" / "v1" / "trending"
+    with tempfile.TemporaryDirectory() as tmp:
+        out_dir = Path(tmp) / "v1"
+        # Seed prior state so trending engine can compute real deltas
+        if committed.exists():
+            import shutil as _shutil
+            trending_tmp = out_dir / "trending"
+            trending_tmp.mkdir(parents=True, exist_ok=True)
+            snapshot = committed / "snapshot.json"
+            if snapshot.exists():
+                _shutil.copy2(snapshot, trending_tmp / "snapshot.json")
+            hist = committed / "history"
+            if hist.exists():
+                _shutil.copytree(hist, trending_tmp / "history")
+        rc, output = _run_script(script, ["--out-dir", str(out_dir)])
+        if rc != 0:
+            if check:
+                print(f"diff docs/api/v1/trending/ (regen failed: rc={rc})")
+                print(output)
+            raise RuntimeError(f"docs/api/v1/trending/ regen failed: rc={rc}")
+        generated = out_dir / "trending"
+        if not generated.exists():
+            return False
+        if not committed.exists():
+            if check:
+                print("diff docs/api/v1/trending/ (missing)")
+            else:
+                committed.parent.mkdir(parents=True, exist_ok=True)
+                import shutil
+                shutil.copytree(generated, committed)
+            return True
+        drifts = _diff_tree(committed, generated)
+        if not drifts:
+            return False
+        if check:
+            for d in drifts:
+                print(f"diff docs/api/v1/trending/{d}")
+        else:
+            import shutil
+            shutil.rmtree(committed)
+            shutil.copytree(generated, committed)
         return True
 
 
@@ -1137,6 +1187,7 @@ def main(argv: list[str] | None = None) -> int:
     named_index_changed = _run_step("named-index", build_named_index, args.check)
     docs_named_changed = _run_step("docs-named-index", build_docs_named_index, args.check)
     api_changed = _run_step("api-projection", build_api_projection, args.check)
+    trending_changed = _run_step("trending-projection", build_trending_projection, args.check)
     profiles_changed = _run_step("profiles", build_profile_pages, args.check)
     # Badges step honors a `[skip-badge-check]` opt-in escape: if the most
     # recent commit's SUBJECT (first line, not body) contains that marker,
@@ -1208,6 +1259,7 @@ def main(argv: list[str] | None = None) -> int:
         or named_index_changed
         or docs_named_changed
         or api_changed
+        or trending_changed
         or profiles_changed
         # badges_changed: intentionally omitted — see warn-only block above.
         or og_changed
