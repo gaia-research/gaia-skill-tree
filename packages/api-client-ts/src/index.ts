@@ -1,4 +1,4 @@
-export { GaiaClient } from "./client.js";
+export { GaiaClient, GaiaApiError } from "./client.js";
 export type {
   // Options
   GaiaClientOptions,

@@ -7,6 +7,7 @@ The API is static JSON served via CDN — no authentication required.
 from __future__ import annotations
 
 from typing import Any
+from urllib.parse import quote
 
 import httpx
 
@@ -334,7 +335,7 @@ class GaiaClient:
 
     def get_skill(self, contributor: str, skill: str) -> SkillDetail:
         """Get full detail for a single named skill."""
-        return _parse_skill_detail(self._get(f"/api/v1/skills/{contributor}/{skill}.json"))
+        return _parse_skill_detail(self._get(f"/api/v1/skills/{quote(contributor, safe='')}/{quote(skill, safe='')}.json"))
 
     def list_contributors(self) -> ContributorList:
         """List all contributors sorted by prestige score."""
@@ -342,7 +343,7 @@ class GaiaClient:
 
     def get_contributor(self, handle: str) -> ContributorDetail:
         """Get a contributor's full profile with all their named skills."""
-        return _parse_contributor_detail(self._get(f"/api/v1/contributors/{handle}.json"))
+        return _parse_contributor_detail(self._get(f"/api/v1/contributors/{quote(handle, safe='')}.json"))
 
     def get_leaderboard(self) -> Leaderboard:
         """Trust leaderboard — grade distribution and ranked skills."""
@@ -424,7 +425,7 @@ class AsyncGaiaClient:
 
     async def get_skill(self, contributor: str, skill: str) -> SkillDetail:
         """Get full detail for a single named skill."""
-        return _parse_skill_detail(await self._get(f"/api/v1/skills/{contributor}/{skill}.json"))
+        return _parse_skill_detail(await self._get(f"/api/v1/skills/{quote(contributor, safe='')}/{quote(skill, safe='')}.json"))
 
     async def list_contributors(self) -> ContributorList:
         """List all contributors sorted by prestige score."""
@@ -432,7 +433,7 @@ class AsyncGaiaClient:
 
     async def get_contributor(self, handle: str) -> ContributorDetail:
         """Get a contributor's full profile with all their named skills."""
-        return _parse_contributor_detail(await self._get(f"/api/v1/contributors/{handle}.json"))
+        return _parse_contributor_detail(await self._get(f"/api/v1/contributors/{quote(handle, safe='')}.json"))
 
     async def get_leaderboard(self) -> Leaderboard:
         """Trust leaderboard — grade distribution and ranked skills."""

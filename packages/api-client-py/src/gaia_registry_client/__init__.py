@@ -10,7 +10,7 @@ Usage:
     print(health.named_skills_count)
 """
 
-from gaia_registry_client.client import AsyncGaiaClient, GaiaClient
+from gaia_registry_client.client import AsyncGaiaClient, GaiaApiError, GaiaClient
 from gaia_registry_client.models import (
     ApexGateStatus,
     ContributorDetail,
@@ -41,6 +41,7 @@ __all__ = [
     # Clients
     "GaiaClient",
     "AsyncGaiaClient",
+    "GaiaApiError",
     # Models
     "ApexGateStatus",
     "ContributorDetail",
