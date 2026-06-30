@@ -2,6 +2,97 @@
 
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
+## State Snapshot (2026-06-30, session 30 — Sprint B closure: W1+W3+W4 merged, W2 initial impl done, design iteration next)
+
+### TLDR
+- Audited all Sprint B closed issues — found #651, #697, #698, #851 were prematurely bulk-closed (scripts existed but weren't wired). Reopened all 4.
+- Created `dev/sprint-b-closure` integration branch (EPIC branching model documented in `founder/CLAUDE.md`).
+- W1 (Trending Wiring): `buildTrendingProjection.py` wired into `build_docs.py`. Trending JSON now generated. PR #891 merged.
+- W2 (Hall of Heroes): Full prestige page at `docs/heroes/` with bespoke per-Ultimate animations, share modal, canvas particles. PR #892 OPEN for design iteration.
+- W3 (RSS + Ascended/Contested): RSS 2.0 feed.xml added, Ascended/Contested sections enhanced. PR #894 merged.
+- W4 (API Client SDK): TypeScript + Python SDKs built from OpenAPI spec (19+20 tests). PR #893 merged after reviewer fixes.
+- Draft PR #895 (`dev/sprint-b-closure` → `main`) opened.
+- All Sprint B kill criteria functionally met (KC#3 pending W2 merge to main).
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `dev/sprint-b-closure` | Integration branch — 5 squash-merged PRs ahead of main |
+| PR #891 (W1) | ✅ Merged — trending wired into build pipeline |
+| PR #894 (W3) | ✅ Merged — RSS + Ascended/Contested |
+| PR #893 (W4) | ✅ Merged — TypeScript + Python SDK |
+| PR #892 (W2) | ⏳ OPEN — Hall of Heroes, initial impl done, design iteration next |
+| PR #895 | 📝 Draft — `dev/sprint-b-closure` → `main` (sprint close PR) |
+| `founder/CLAUDE.md` | ✅ EPIC branching model added |
+| `founder/handovers/SPRINT_B_CLOSURE_PLAN.md` | ✅ Master execution plan |
+| `founder/handovers/W2_HALL_OF_HEROES_SPEC.md` | ✅ W2 implementation spec |
+| Issues #651, #697, #698, #851 | ✅ Reopened (were prematurely closed) |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `main` | `46a98b777` | Unchanged — v5.8.2 |
+| `dev/sprint-b-closure` | `da516e174` | Integration branch, 5 PRs merged, draft PR #895 open |
+| `feat/sprint-b/hall-of-heroes` | (6 commits) | PR #892 OPEN, Marcus on this branch for design review |
+
+### Issues + PRs touched
+| # | Title | Action |
+|---|---|---|
+| #651 | Implement Trending Engine | ✅ Reopened → resolved by PR #891 |
+| #697 | Implement Rising Skills View | ✅ Reopened → resolved by PR #891 |
+| #698 | Implement Rising Repositories View | ✅ Reopened → resolved by PR #891 |
+| #851 | @gaia-registry/api-client SDK | ✅ Reopened → resolved by PR #893 |
+| #852 | RSS feed + Trending This Week | ✅ Resolved by PR #894 |
+| #853 | Recently Ascended + Most Contested | ✅ Resolved by PR #894 |
+| #854 | Hall of Heroes | ⏳ PR #892 open, design iteration next |
+| #855 | Sprint B EPIC | ⏳ Draft PR #895 open |
+| PR #891 | Trending wiring | ✅ Merged to dev/sprint-b-closure |
+| PR #892 | Hall of Heroes | ⏳ Open for design iteration |
+| PR #893 | API Client SDK | ✅ Merged (after reviewer fixes) |
+| PR #894 | RSS + Ascended/Contested | ✅ Merged |
+| PR #895 | Sprint B integration → main | 📝 Draft |
+
+### Routing — where things live now
+| Artifact | Path |
+|---|---|
+| Sprint B integration branch | `dev/sprint-b-closure` (PR #895 → main) |
+| Hall of Heroes branch | `feat/sprint-b/hall-of-heroes` (PR #892 → dev/sprint-b-closure) |
+| Trending wiring | `scripts/build_docs.py::build_trending_projection()` |
+| Trending JSON | `docs/api/v1/trending/{7d,30d,ascended,contested,snapshot,feed.xml}` |
+| RSS feed | `docs/api/v1/trending/feed.xml` |
+| TypeScript SDK | `packages/api-client-ts/` (@gaia-registry/api-client v0.1.0) |
+| Python SDK | `packages/api-client-py/` (gaia-registry-client v0.1.0) |
+| SDK CI | `.github/workflows/sdk-tests.yml` |
+| Hall of Heroes page | `docs/heroes/` (5 files: HTML, CSS, JS, animations, share) |
+| Sprint B closure plan | `founder/handovers/SPRINT_B_CLOSURE_PLAN.md` |
+| W2 spec | `founder/handovers/W2_HALL_OF_HEROES_SPEC.md` |
+| EPIC branching model | `founder/CLAUDE.md` (new section) |
+
+### Lessons / hazards preserved
+- **Bulk-closing issues by PR merge is dangerous.** PR #863 closed 7 issues when it merged, but 4 of them weren't actually implemented (scripts existed but weren't wired). Always verify implementation exists before closing.
+- **EPIC branching model works well.** `dev/<sprint>` → small PRs per topic → merge to main at end. Keeps main clean, allows parallel work, enables incremental review.
+- **W4 reviewer caught real bugs.** GaiaApiError not exported, no URL-encoding in Python client. Always dispatch reviewers before merging SDK/API code.
+- **W3 reviewer caught code quality issue.** `_xml()` helper defined inside a loop (harmless but wasteful). Minor follow-up.
+- **Merge conflicts between parallel branches are manageable.** W4 conflicted with W3 on `buildTrendingProjection.py` — resolved by taking theirs (W3's version is canonical since it added the RSS code).
+
+### Open questions for next orchestrator
+- **W2 design iteration.** Marcus has "tons of nitpicks" for the Hall of Heroes page. He's on the `feat/sprint-b/hall-of-heroes` branch. Next session: receive nitpicks, dispatch Opus workers for iteration (expect 5–10 commits).
+- **Sprint B close.** After W2 merges to `dev/sprint-b-closure`, PR #895 can merge to `main`. Version bump to v5.9.0 or v6.0.0 (Marcus decides).
+- **Kill criterion #2 real movement.** Trending data is seeded (all deltas = 0 on first run). Real movement appears after the next `gaia dev docs` run following registry changes. The stargazer heartbeat cron fires monthly (1st of month).
+- **Issues to close after PR #895 merges:** #651, #697, #698, #851, #852, #853, #854, #855.
+
+### Token cost (this session)
+- 2026-06-30 (Marcus-reported actual):
+  - Output tokens: 207,538 | Input tokens: 891
+  - Cache write: 1,285,194 | Cache read: 25,258,955
+  - Total requests: 545
+  - Cost: 28.00 CU | **15.12€**
+- Cache read ratio: 25.3M read / 1.3M write (~20:1). Heavy context reuse across parallel agents.
+- Avg cost per request: 0.051 CU / 0.028€. Very efficient session due to high parallelization.
+- **Effective $/workstream:** W1 ~$2, W3 ~$3, W4 ~$5, W2 initial ~$4, orchestration ~$1 = ~$15 total.
+
+---
+
 ## State Snapshot (2026-06-30, session 29 — PR #863 merged, docs regen, Sprint B EPIC fully documented)
 
 ### TLDR
