@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hall of Heroes — Gaia Registry</title>
+  <meta name="description" content="The registry's highest-achieving contributors — celebrated in a dark ceremonial gallery.">
+  <script>window.GAIA_VERSION = "5.8.2";</script>
+
+  <!-- Fonts: Cinzel Decorative (display), EB Garamond (body), Departure Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Design tokens + plaque base -->
+  <link rel="stylesheet" href="../css/tokens.css?v=5.8.2">
+  <link rel="stylesheet" href="../css/plaque.css?v=5.8.2">
+
+  <!-- Page styles -->
+  <link rel="stylesheet" href="heroes.css?v=5.8.2">
+
+  <!-- Plaque renderer (needed for renderOg) -->
+  <script src="../js/plaque.js?v=5.8.2"></script>
+  <script>
+    // gaiaIconBase for sub-page (depth=1)
+    window.gaiaIconBase = function() { return '../assets/icons.svg'; };
+  </script>
+</head>
+<body>
+  <!-- Site navigation -->
+  <nav id="site-nav"></nav>
+  <script src="../js/mounts.js?v=5.8.2"></script>
+  <script src="../js/site-nav.js?v=5.8.2"></script>
+
+  <!-- ═══ GALLERY SHELL ═══ -->
+  <main class="heroes-gallery" id="heroesGallery">
+    <!-- Header stage -->
+    <header class="heroes-header" id="heroesHeader">
+      <div class="heroes-header__inner">
+        <h1 class="heroes-header__title">Hall of Heroes</h1>
+        <p class="heroes-header__subtitle">The registry's highest-achieving contributors, celebrated.</p>
+        <div class="heroes-header__scroll-hint" aria-hidden="true">
+          <span class="heroes-header__chevron">&#8964;</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dynamic stages injected here by heroes.js -->
+    <div id="heroesStages" class="heroes-stages"></div>
+
+    <!-- Footer -->
+    <footer class="heroes-footer">
+      <a href="../" class="heroes-footer__link">← Back to Registry</a>
+      <a href="../named/" class="heroes-footer__link">Browse Named Skills →</a>
+    </footer>
+  </main>
+
+  <!-- ═══ SHARE MODAL (exact structure from homepage) ═══ -->
+  <div id="hohFullscreenModal" class="hoh-fs-modal" aria-hidden="true" tabindex="-1">
+    <div class="hoh-fs-header">
+      <button class="hoh-fs-btn hoh-fs-btn--close" data-fs-action="close" title="Close modal" aria-label="Close modal">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="../assets/icons.svg#close-x"></use></svg>
+      </button>
+    </div>
+
+    <div class="hoh-fs-stage" id="hohFsStage">
+      <!-- Renders plaque.renderOg() dynamically -->
+    </div>
+
+    <!-- Compact confirm pill -->
+    <div class="hoh-fs-confirm" id="hohFsConfirm" role="group" aria-label="Confirm contributor">
+      <span class="hoh-fs-confirm-text">Are you <span id="hohFsHandleText">@handle</span>?</span>
+      <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--yes" data-fs-action="confirm-yes" aria-label="Yes, this is me">Yes</button>
+      <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--no" data-fs-action="confirm-no" aria-label="No, dismiss notification">No</button>
+    </div>
+
+    <!-- Share/download actions -->
+    <div class="hoh-fs-footer">
+      <div class="hoh-dl-wrap" id="hohDlWrap">
+        <button class="hoh-fs-btn" data-fs-action="download" title="Download OG Image Card" aria-label="Download OG Image Card" aria-expanded="false" aria-controls="hohDlPopover">
+          <svg class="ico" width="16" height="16" aria-hidden="true"><use href="../assets/icons.svg#download"></use></svg>
+        </button>
+        <div class="hoh-dl-popover" id="hohDlPopover" role="dialog" aria-label="Choose download format" hidden>
+          <div class="hoh-dl-popover-hint">1200&times;630px &middot; For social media sharing</div>
+          <button class="hoh-dl-choice" data-dl-format="png" type="button">
+            <span class="hoh-dl-choice-fmt">PNG</span>
+            <span class="hoh-dl-choice-sub">Recommended</span>
+          </button>
+          <button class="hoh-dl-choice" data-dl-format="svg" type="button">
+            <span class="hoh-dl-choice-fmt">SVG</span>
+            <span class="hoh-dl-choice-sub">Vector / lossless</span>
+          </button>
+        </div>
+      </div>
+      <button class="hoh-fs-btn" data-fs-action="copy" title="Copy Link" aria-label="Copy Link">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="../assets/icons.svg#link"></use></svg>
+      </button>
+      <button class="hoh-fs-btn" data-fs-action="x" title="Share on X" aria-label="Share on X">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="../assets/icons.svg#x"></use></svg>
+      </button>
+      <button class="hoh-fs-btn" data-fs-action="instagram" title="Copy OG Link & Open Instagram" aria-label="Copy OG Link & Open Instagram">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="../assets/icons.svg#instagram"></use></svg>
+      </button>
+    </div>
+
+    <div class="hoh-fs-overlay" id="hohFsOverlay" hidden>
+      <div class="hoh-fs-overlay-header">
+        <div class="hoh-fs-overlay-title">Add to your README.md!</div>
+        <div class="hoh-fs-overlay-controls">
+          <button type="button" class="hoh-fs-overlay-ctl" data-fs-action="overlay-minimize" aria-label="Minimize" title="Minimize">
+            <svg class="ico" width="14" height="14" aria-hidden="true" viewBox="0 0 16 16"><path d="M3 12h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+          <button type="button" class="hoh-fs-overlay-ctl" data-fs-action="overlay-close" aria-label="Close panel" title="Close panel">
+            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#close-x"></use></svg>
+          </button>
+        </div>
+      </div>
+      <div class="hoh-fs-overlay-body">
+        <img id="hohFsBadgePreview" class="hoh-fs-badge-img" src="" alt="Gaia contributor badge">
+        <div class="hoh-fs-code-wrap">
+          <code id="hohFsCodeBlock" class="hoh-fs-code">[![Gaia](https://gaia.tiongson.co/badges/handle/handle.svg)](https://gaia.tiongson.co/u/handle/)</code>
+          <button id="hohFsCopyBtn" class="hoh-fs-copy-btn hoh-fs-copy-btn--icon" type="button" aria-label="Copy markdown" title="Copy markdown">
+            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#copy"></use></svg>
+          </button>
+        </div>
+      </div>
+      <p id="hohFsDisclaimer" class="hoh-fs-disclaimer">Are you <span class="hoh-fs-disclaimer-handle"></span>? This will only work on <span class="hoh-fs-disclaimer-handle"></span>&rsquo;s repo!</p>
+      <div>
+        <a id="hohFsBadgesLink" href="../badges/" class="hoh-fs-copy-btn" style="text-decoration:none;font-size:11px;">
+          <svg class="ico" width="12" height="12" aria-hidden="true"><use href="../assets/icons.svg#seal-diamond"></use></svg> Get all your badges &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Minimized chip -->
+    <button type="button" class="hoh-fs-overlay-restore" id="hohFsOverlayRestore" data-fs-action="overlay-restore" aria-label="Show README panel" hidden>
+      <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#seal-diamond"></use></svg>
+      <span>Add to README</span>
+    </button>
+
+    <!-- Fullscreen toggle -->
+    <button type="button" class="hoh-fs-fullscreen-btn" data-fs-action="fullscreen" aria-label="Toggle fullscreen" title="Toggle fullscreen">
+      <svg class="ico hoh-fs-fullscreen-enter" width="16" height="16" aria-hidden="true" viewBox="0 0 16 16">
+        <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 6V2h4"/><path d="M14 6V2h-4"/>
+          <path d="M2 10v4h4"/><path d="M14 10v4h-4"/>
+        </g>
+      </svg>
+      <svg class="ico hoh-fs-fullscreen-exit" width="16" height="16" aria-hidden="true" viewBox="0 0 16 16">
+        <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2v4H2"/><path d="M10 2v4h4"/>
+          <path d="M6 14v-4H2"/><path d="M10 14v-4h4"/>
+        </g>
+      </svg>
+    </button>
+  </div>
+
+  <div id="hohFsToast" class="hoh-fs-toast" role="status" aria-live="polite">Permalink copied!</div>
+
+  <!-- Site footer -->
+  <div id="site-footer-mount"></div>
+  <script src="../js/site-footer.js?v=5.8.2"></script>
+
+  <!-- Share modal wiring -->
+  <script src="../js/hoh-modal.js?v=5.8.2"></script>
+
+  <!-- Heroes orchestrator + animations + share enhancements -->
+  <script src="heroes.js?v=5.8.2"></script>
+  <script src="hero-animations.js?v=5.8.2"></script>
+  <script src="hero-share.js?v=5.8.2"></script>
+</body>
+</html>
