@@ -1,0 +1,839 @@
+{
+  "generatedAt": "2026-06-30T16:25:29Z",
+  "skills": {
+    "garrytan/gstack": {
+      "tm": 589.32,
+      "grade": "S",
+      "level": "5★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/ruflo": {
+      "tm": 482.27,
+      "grade": "S",
+      "level": "5★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/skills": {
+      "tm": 480.29,
+      "grade": "S",
+      "level": "5★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "obra/superpowers": {
+      "tm": 445.15,
+      "grade": "S",
+      "level": "5★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/engineering": {
+      "tm": 270.0,
+      "grade": "A",
+      "level": "4★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/agentdb": {
+      "tm": 201.0,
+      "grade": "A",
+      "level": "4★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/ruflo-v3": {
+      "tm": 186.0,
+      "grade": "A",
+      "level": "4★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/garrytan": {
+      "tm": 156.0,
+      "grade": "A",
+      "level": "4★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/dual-mode": {
+      "tm": 126.0,
+      "grade": "A",
+      "level": "4★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "pbakaus/impeccable": {
+      "tm": 122.8,
+      "grade": "A",
+      "level": "4★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/productivity": {
+      "tm": 120.0,
+      "grade": "A",
+      "level": "4★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/reasoningbank": {
+      "tm": 118.5,
+      "grade": "A",
+      "level": "4★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "obra/subagent-driven-development": {
+      "tm": 117.65,
+      "grade": "A",
+      "level": "4★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "obra/using-git-worktrees": {
+      "tm": 117.65,
+      "grade": "A",
+      "level": "4★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "safishamsi/graphify": {
+      "tm": 116.57,
+      "grade": "A",
+      "level": "4★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "obra/writing-plans": {
+      "tm": 110.15,
+      "grade": "A",
+      "level": "4★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "openai/few-shot-learning": {
+      "tm": 100.0,
+      "grade": "A",
+      "level": "4★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "openai/self-consistency": {
+      "tm": 100.0,
+      "grade": "A",
+      "level": "4★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "stanfordnlp/dspy": {
+      "tm": 100.0,
+      "grade": "A",
+      "level": "4★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/hive-mind-coordination": {
+      "tm": 96.09,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/flow-nexus": {
+      "tm": 96.0,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "obra/brainstorming": {
+      "tm": 95.15,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "obra/executing-plans": {
+      "tm": 95.15,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "obra/verification-before-completion": {
+      "tm": 95.15,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "martin-stepanoski/nielsen-heuristics-audit": {
+      "tm": 94.9,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/diagnose": {
+      "tm": 90.38,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/edit-article": {
+      "tm": 90.38,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/obsidian-vault": {
+      "tm": 90.38,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/to-issues": {
+      "tm": 90.38,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/ubiquitous-language": {
+      "tm": 90.38,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "anthropic/skill-creator": {
+      "tm": 90.0,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/browse": {
+      "tm": 88.5,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "obra/dispatching-parallel-agents": {
+      "tm": 86.0,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "addy-osmani/performance-optimization": {
+      "tm": 83.2,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/retro": {
+      "tm": 81.0,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "browser-use/browser-harness": {
+      "tm": 73.59,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/careful": {
+      "tm": 66.0,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/office-hours": {
+      "tm": 66.0,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/plan-eng-review": {
+      "tm": 66.0,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/github-suite": {
+      "tm": 66.0,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "obra/systematic-debugging": {
+      "tm": 65.15,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/benchmark": {
+      "tm": 63.73,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/canary": {
+      "tm": 63.73,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/cso": {
+      "tm": 63.73,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/design-consultation": {
+      "tm": 63.73,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/design-html": {
+      "tm": 63.73,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/design-shotgun": {
+      "tm": 63.73,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/document-generate": {
+      "tm": 63.73,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/investigate": {
+      "tm": 63.73,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/land-and-deploy": {
+      "tm": 63.73,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/plan-ceo-review": {
+      "tm": 63.73,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/plan-design-review": {
+      "tm": 63.73,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/plan-devex-review": {
+      "tm": 63.73,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/qa": {
+      "tm": 63.73,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/review": {
+      "tm": 63.73,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/ship": {
+      "tm": 63.73,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/skillify": {
+      "tm": 63.73,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/grill-me": {
+      "tm": 63.71,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/grill-with-docs": {
+      "tm": 63.71,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/handoff": {
+      "tm": 63.71,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/to-prd": {
+      "tm": 63.71,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/personal": {
+      "tm": 60.0,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/setup-matt-pocock-skills": {
+      "tm": 56.21,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/triage": {
+      "tm": 56.21,
+      "grade": "B",
+      "level": "3★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/improve-codebase-architecture": {
+      "tm": 45.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/write-a-skill": {
+      "tm": 45.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/prototype": {
+      "tm": 41.21,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "bradautomates/claude-video": {
+      "tm": 37.47,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "Manavarya09/design-extract": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "addy-osmani/test-driven-development": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "anthropic/pptx": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "firecrawl/firecrawl": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/benchmark-models": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/codex": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/context-restore": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/context-save": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/design-review": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/devex-review": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/document-release": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/freeze": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/gstack-upgrade": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/guard": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/health": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/landing-report": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/learn": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/make-pdf": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/open-gstack-browser": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/pair-agent": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/plan-tune": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/qa-only": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/scrape": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/setup-browser-cookies": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/setup-deploy": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/setup-gbrain": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/sync-gbrain": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "garrytan/unfreeze": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "getagentseal/codeburn": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "huggingface/semantic-cache": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "karpathy/autoresearch": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "laravel/upgrade-laravel-v13": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mbtiongson1/gaia-audit": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mbtiongson1/gaia-curation-review": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mbtiongson1/gaia-meta-audit": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mbtiongson1/gaia-preview": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mbtiongson1/graphify-triage": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "nexu-io/open-design": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "nousresearch/feed-monitoring": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "obra/finishing-a-development-branch": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "obra/receiving-code-review": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "obra/requesting-code-review": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/agentdb-advanced": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/agentdb-memory-patterns": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/agentdb-optimization": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/agentdb-vector-search": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/agentic-jujutsu": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/dual-collect": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/dual-coordinate": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/dual-spawn": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/flow-nexus-neural": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/flow-nexus-platform": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/github-multi-repo": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/pair-programming": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/reasoningbank-intelligence": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/stream-chain": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/swarm-advanced": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/swarm-orchestration": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/v3-cli-modernization": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/v3-core-implementation": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/v3-ddd-architecture": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/v3-integration-deep": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/verification-quality": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "ruvnet/worker-integration": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "santifer/career-ops": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "spring-ai/readme-generate": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "vercel/find-skills": {
+      "tm": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "upsonic/unittest-generator": {
+      "tm": 33.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "devin-ai/autonomous-swe": {
+      "tm": 30.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/caveman": {
+      "tm": 30.0,
+      "grade": "C",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    },
+    "mattpocock/teach": {
+      "tm": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "updatedAt": "2026-06-30T16:25:29Z"
+    }
+  }
+}
