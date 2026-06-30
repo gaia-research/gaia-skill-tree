@@ -327,11 +327,20 @@ def build_ascended(
         if not ascend_events:
             continue
 
-        # Most recent event timestamp
+        # Most recent event timestamp and event
         ascended_at = max(e.get("timestamp", "") for e in ascend_events)
+        latest_event = max(ascend_events, key=lambda e: e.get("timestamp", ""))
+
+        # Extract previousLevel from event details text
+        # e.g. "Level updated from 1★ to 4★ …"
+        previous_level: str | None = None
+        details = latest_event.get("details", "")
+        m_prev = re.search(r"from\s+([^\s]+(?:\s+[^t][^o]\S*)?(?:★[^\s]*)?)\s+to\s+", details)
+        if m_prev:
+            previous_level = m_prev.group(1).strip()
 
         contributor, slug = _slug_from_id(skill_id)
-        entries.append({
+        entry: dict = {
             "id": skill_id,
             "name": skill.get("name", ""),
             "level": skill.get("level", ""),
@@ -340,7 +349,10 @@ def build_ascended(
             "overallTrustGrade": skill.get("overallTrustGrade"),
             "ascendedAt": ascended_at,
             "_links": {"self": f"/api/v1/skills/{contributor}/{slug}.json"},
-        })
+        }
+        if previous_level:
+            entry["previousLevel"] = previous_level
+        entries.append(entry)
 
     # Sort by most recent ascendedAt descending
     entries.sort(key=lambda e: e.get("ascendedAt", ""), reverse=True)
@@ -386,10 +398,13 @@ def build_contested(
     # Filter to buckets with >= 2 implementations
     contested = {ref: skills for ref, skills in buckets.items() if len(skills) >= 2}
 
-    # Build output — sort each bucket by TM descending
+    # Build output — sort each bucket by TM descending; mark origin (highest TM)
     bucket_list = []
     for ref, skills in contested.items():
         skills.sort(key=lambda s: -(s.get("trustMagnitude") or 0))
+        # Mark the top skill as origin (highest TM = most established impl)
+        for i, s in enumerate(skills):
+            s["origin"] = i == 0
         top_tm = skills[0].get("trustMagnitude", 0) if skills else 0
         bucket_list.append({
             "genericSkillRef": ref,
