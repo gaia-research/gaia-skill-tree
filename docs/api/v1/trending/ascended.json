@@ -1,0 +1,368 @@
+{
+  "generatedAt": "2026-06-30T16:25:29Z",
+  "skills": [
+    {
+      "id": "safishamsi/graphify",
+      "name": "Graphify",
+      "level": "4★",
+      "contributor": "safishamsi",
+      "trustMagnitude": 116.57,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-06-20T06:31:38Z",
+      "_links": {
+        "self": "/api/v1/skills/safishamsi/graphify.json"
+      }
+    },
+    {
+      "id": "stanfordnlp/dspy",
+      "name": "DSPy",
+      "level": "4★",
+      "contributor": "stanfordnlp",
+      "trustMagnitude": 100.0,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-06-20T06:31:38Z",
+      "_links": {
+        "self": "/api/v1/skills/stanfordnlp/dspy.json"
+      }
+    },
+    {
+      "id": "ruvnet/reasoningbank-intelligence",
+      "name": "ReasoningBank Intelligence",
+      "level": "2★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-06-20T06:31:37Z",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/reasoningbank-intelligence.json"
+      }
+    },
+    {
+      "id": "ruvnet/swarm-advanced",
+      "name": "Swarm Advanced",
+      "level": "2★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-06-20T06:31:37Z",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/swarm-advanced.json"
+      }
+    },
+    {
+      "id": "ruvnet/swarm-orchestration",
+      "name": "Swarm Orchestration",
+      "level": "2★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-06-20T06:31:37Z",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/swarm-orchestration.json"
+      }
+    },
+    {
+      "id": "ruvnet/dual-mode",
+      "name": "Dual Mode",
+      "level": "4★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 126.0,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-06-20T06:31:36Z",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-mode.json"
+      }
+    },
+    {
+      "id": "ruvnet/reasoningbank",
+      "name": "ReasoningBank",
+      "level": "4★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 118.5,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-06-20T06:31:36Z",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/reasoningbank.json"
+      }
+    },
+    {
+      "id": "ruvnet/flow-nexus-neural",
+      "name": "Flow Nexus Neural",
+      "level": "2★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-06-20T06:31:36Z",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/flow-nexus-neural.json"
+      }
+    },
+    {
+      "id": "ruvnet/flow-nexus-platform",
+      "name": "Flow Nexus Platform",
+      "level": "2★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-06-20T06:31:36Z",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/flow-nexus-platform.json"
+      }
+    },
+    {
+      "id": "obra/writing-plans",
+      "name": "Writing Plans",
+      "level": "4★",
+      "contributor": "obra",
+      "trustMagnitude": 110.15,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-06-20T06:31:35Z",
+      "_links": {
+        "self": "/api/v1/skills/obra/writing-plans.json"
+      }
+    },
+    {
+      "id": "openai/few-shot-learning",
+      "name": "Few-Shot Learning",
+      "level": "4★",
+      "contributor": "openai",
+      "trustMagnitude": 100.0,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-06-20T06:31:35Z",
+      "_links": {
+        "self": "/api/v1/skills/openai/few-shot-learning.json"
+      }
+    },
+    {
+      "id": "openai/self-consistency",
+      "name": "Self-Consistency",
+      "level": "4★",
+      "contributor": "openai",
+      "trustMagnitude": 100.0,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-06-20T06:31:35Z",
+      "_links": {
+        "self": "/api/v1/skills/openai/self-consistency.json"
+      }
+    },
+    {
+      "id": "obra/verification-before-completion",
+      "name": "Verification Before Completion",
+      "level": "3★",
+      "contributor": "obra",
+      "trustMagnitude": 95.15,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-06-20T06:31:35Z",
+      "_links": {
+        "self": "/api/v1/skills/obra/verification-before-completion.json"
+      }
+    },
+    {
+      "id": "ruvnet/agentdb-advanced",
+      "name": "AgentDB Advanced",
+      "level": "2★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-06-20T06:31:35Z",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb-advanced.json"
+      }
+    },
+    {
+      "id": "obra/using-git-worktrees",
+      "name": "Using Git Worktrees",
+      "level": "4★",
+      "contributor": "obra",
+      "trustMagnitude": 117.65,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-06-20T06:31:34Z",
+      "_links": {
+        "self": "/api/v1/skills/obra/using-git-worktrees.json"
+      }
+    },
+    {
+      "id": "obra/brainstorming",
+      "name": "Brainstorming",
+      "level": "3★",
+      "contributor": "obra",
+      "trustMagnitude": 95.15,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-06-20T06:31:34Z",
+      "_links": {
+        "self": "/api/v1/skills/obra/brainstorming.json"
+      }
+    },
+    {
+      "id": "obra/executing-plans",
+      "name": "Executing Plans",
+      "level": "3★",
+      "contributor": "obra",
+      "trustMagnitude": 95.15,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-06-20T06:31:34Z",
+      "_links": {
+        "self": "/api/v1/skills/obra/executing-plans.json"
+      }
+    },
+    {
+      "id": "nexu-io/open-design",
+      "name": "Open Design",
+      "level": "2★",
+      "contributor": "nexu-io",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-06-20T06:31:34Z",
+      "_links": {
+        "self": "/api/v1/skills/nexu-io/open-design.json"
+      }
+    },
+    {
+      "id": "nousresearch/feed-monitoring",
+      "name": "Feed Monitoring",
+      "level": "2★",
+      "contributor": "nousresearch",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-06-20T06:31:34Z",
+      "_links": {
+        "self": "/api/v1/skills/nousresearch/feed-monitoring.json"
+      }
+    },
+    {
+      "id": "mattpocock/to-prd",
+      "name": "To PRD",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 63.71,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-06-20T06:31:32Z",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/to-prd.json"
+      }
+    },
+    {
+      "id": "mattpocock/edit-article",
+      "name": "Edit Article",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 90.38,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-06-20T06:31:31Z",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/edit-article.json"
+      }
+    },
+    {
+      "id": "martin-stepanoski/nielsen-heuristics-audit",
+      "name": "Nielsen Heuristics Audit",
+      "level": "3★",
+      "contributor": "martin-stepanoski",
+      "trustMagnitude": 94.9,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-06-20T06:31:30Z",
+      "_links": {
+        "self": "/api/v1/skills/martin-stepanoski/nielsen-heuristics-audit.json"
+      }
+    },
+    {
+      "id": "mattpocock/diagnose",
+      "name": "Diagnose",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 90.38,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-06-20T06:31:30Z",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/diagnose.json"
+      }
+    },
+    {
+      "id": "huggingface/semantic-cache",
+      "name": "Semantic Cache",
+      "level": "2★",
+      "contributor": "huggingface",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-06-20T06:31:28Z",
+      "_links": {
+        "self": "/api/v1/skills/huggingface/semantic-cache.json"
+      }
+    },
+    {
+      "id": "garrytan/careful",
+      "name": "Careful",
+      "level": "3★",
+      "contributor": "garrytan",
+      "trustMagnitude": 66.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-06-20T06:31:21Z",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/careful.json"
+      }
+    },
+    {
+      "id": "anthropic/skill-creator",
+      "name": "Skill Creator",
+      "level": "3★",
+      "contributor": "anthropic",
+      "trustMagnitude": 90.0,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-06-20T06:31:20Z",
+      "_links": {
+        "self": "/api/v1/skills/anthropic/skill-creator.json"
+      }
+    },
+    {
+      "id": "browser-use/browser-harness",
+      "name": "Browser Harness",
+      "level": "3★",
+      "contributor": "browser-use",
+      "trustMagnitude": 73.59,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-06-20T06:31:20Z",
+      "_links": {
+        "self": "/api/v1/skills/browser-use/browser-harness.json"
+      }
+    },
+    {
+      "id": "devin-ai/autonomous-swe",
+      "name": "Autonomous SWE",
+      "level": "2★",
+      "contributor": "devin-ai",
+      "trustMagnitude": 30.0,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-06-20T06:31:20Z",
+      "_links": {
+        "self": "/api/v1/skills/devin-ai/autonomous-swe.json"
+      }
+    },
+    {
+      "id": "mattpocock/teach",
+      "name": "Teach",
+      "level": "2★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": "ungraded",
+      "ascendedAt": "2026-06-19T18:41:33Z",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/teach.json"
+      }
+    },
+    {
+      "id": "ruvnet/hive-mind-coordination",
+      "name": "Hive Mind Coordination",
+      "level": "3★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 96.09,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-06-04T20:30:55Z",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/hive-mind-coordination.json"
+      }
+    }
+  ],
+  "_links": {
+    "self": "/api/v1/trending/ascended.json"
+  }
+}
