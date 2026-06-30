@@ -1,0 +1,642 @@
+/* ============================================================
+   heroes.css — Hall of Heroes Prestige Gallery
+   Dark ceremonial aesthetic. Full-viewport stages per hero.
+   Cinzel Decorative (display), EB Garamond (body), Departure Mono (stats).
+   NO HEX COLORS — oklch, rgb, or var(--token) only.
+   ============================================================ */
+
+/* ── Page tokens ─────────────────────────────────────────────── */
+:root {
+  --heroes-bg-deep: oklch(0.12 0.02 250);
+  --heroes-gold-warm: oklch(0.78 0.15 80);
+  --heroes-frost: oklch(0.92 0.01 220);
+  --heroes-font-display: 'Cinzel Decorative', 'EB Garamond', Georgia, serif;
+  --heroes-font-body: 'EB Garamond', Georgia, serif;
+  --heroes-font-mono: 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace;
+  --heroes-stage-gap: 0;
+}
+
+
+/* ── Gallery shell ───────────────────────────────────────────── */
+.heroes-gallery {
+  background: var(--heroes-bg-deep);
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: var(--heroes-frost);
+}
+
+
+/* ── Header stage ────────────────────────────────────────────── */
+.heroes-header {
+  display: grid;
+  place-items: center;
+  min-height: 100svh;
+  padding: 4rem 2rem;
+  position: relative;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 30%, rgba(251, 191, 36, 0.04) 0%, transparent 70%),
+    var(--heroes-bg-deep);
+}
+
+.heroes-header__inner {
+  text-align: center;
+  max-width: 680px;
+}
+
+.heroes-header__title {
+  font-family: var(--heroes-font-display);
+  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: var(--heroes-gold-warm);
+  margin: 0 0 1rem;
+  text-shadow:
+    0 0 40px rgba(251, 191, 36, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.4);
+  animation: heroes-title-enter 1.2s ease-out both;
+}
+
+.heroes-header__subtitle {
+  font-family: var(--heroes-font-body);
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-style: italic;
+  color: var(--heroes-frost);
+  opacity: 0.6;
+  margin: 0;
+  animation: heroes-subtitle-enter 1.4s ease-out both;
+  animation-delay: 0.3s;
+}
+
+.heroes-header__scroll-hint {
+  margin-top: 3rem;
+  animation: heroes-bounce 2s ease-in-out infinite;
+  animation-delay: 2s;
+  opacity: 0.4;
+}
+
+.heroes-header__chevron {
+  font-size: 2.4rem;
+  color: var(--heroes-gold-warm);
+}
+
+@keyframes heroes-title-enter {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes heroes-subtitle-enter {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 0.6; transform: translateY(0); }
+}
+
+@keyframes heroes-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(8px); }
+}
+
+
+/* ── Stages container ────────────────────────────────────────── */
+.heroes-stages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--heroes-stage-gap);
+}
+
+
+/* ── Individual hero stage ───────────────────────────────────── */
+.hero-stage {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 4rem 2rem;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.hero-stage.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Tier-specific stage backgrounds */
+.hero-stage--ultimate {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 40%, rgba(251, 191, 36, 0.06) 0%, transparent 70%),
+    linear-gradient(180deg, var(--heroes-bg-deep) 0%, oklch(0.10 0.02 250) 100%);
+}
+
+.hero-stage--apex {
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 50%, rgba(251, 191, 36, 0.04) 0%, transparent 65%),
+    var(--heroes-bg-deep);
+}
+
+.hero-stage--unique {
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 50%, rgba(124, 58, 237, 0.05) 0%, transparent 65%),
+    var(--heroes-bg-deep);
+}
+
+.hero-stage--named {
+  background: var(--heroes-bg-deep);
+}
+
+/* Stage divider */
+.hero-stage::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(251, 191, 36, 0.2) 30%,
+    rgba(251, 191, 36, 0.4) 50%,
+    rgba(251, 191, 36, 0.2) 70%,
+    transparent 100%
+  );
+}
+
+.hero-stage:first-child::before {
+  display: none;
+}
+
+
+/* ── Hero card (inner content) ───────────────────────────────── */
+.hero-card {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  z-index: 2;
+}
+
+/* Canvas backdrop for particle effects */
+.hero-card__canvas {
+  position: absolute;
+  inset: -80px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.8;
+}
+
+/* OG card display */
+.hero-card__og {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(251, 191, 36, 0.1),
+    0 24px 80px rgba(0, 0, 0, 0.6);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.hero-card__og:hover {
+  transform: scale(1.02);
+  box-shadow:
+    0 0 0 1px rgba(251, 191, 36, 0.2),
+    0 32px 100px rgba(0, 0, 0, 0.7),
+    0 0 60px rgba(251, 191, 36, 0.1);
+}
+
+/* Tier-specific card glows */
+.hero-stage--ultimate .hero-card__og {
+  box-shadow:
+    0 0 0 1px rgba(251, 191, 36, 0.2),
+    0 24px 80px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(251, 191, 36, 0.12);
+}
+
+.hero-stage--unique .hero-card__og {
+  box-shadow:
+    0 0 0 1px rgba(124, 58, 237, 0.2),
+    0 24px 80px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(124, 58, 237, 0.1);
+}
+
+/* Hero metadata beneath the card */
+.hero-card__meta {
+  text-align: center;
+  z-index: 1;
+}
+
+.hero-card__name {
+  font-family: var(--heroes-font-display);
+  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+  font-weight: 700;
+  color: var(--heroes-gold-warm);
+  margin: 0 0 0.3rem;
+  letter-spacing: 0.04em;
+}
+
+.hero-stage--unique .hero-card__name {
+  color: var(--tier-unique, oklch(0.55 0.25 285));
+}
+
+.hero-card__handle {
+  font-family: var(--heroes-font-mono);
+  font-size: 0.9rem;
+  color: var(--honor-red, oklch(0.63 0.24 25));
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+  margin: 0 0 0.5rem;
+}
+
+.hero-card__epithet {
+  font-family: var(--heroes-font-body);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--heroes-frost);
+  opacity: 0.55;
+  margin: 0 0 0.8rem;
+}
+
+.hero-card__stats {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-family: var(--heroes-font-mono);
+  font-size: 0.75rem;
+  color: var(--heroes-frost);
+  opacity: 0.5;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.hero-card__stat-value {
+  color: var(--heroes-gold-warm);
+  font-weight: 600;
+}
+
+/* Share button per hero */
+.hero-card__share {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  border-radius: 6px;
+  background: rgba(251, 191, 36, 0.05);
+  color: var(--heroes-gold-warm);
+  font-family: var(--heroes-font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.hero-card__share:hover {
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(251, 191, 36, 0.4);
+  transform: translateY(-1px);
+}
+
+.hero-card__share .ico {
+  width: 14px;
+  height: 14px;
+}
+
+
+/* ── Tier section dividers ───────────────────────────────────── */
+.heroes-tier-divider {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 3rem 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.heroes-tier-divider__line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--heroes-gold-warm) 50%,
+    transparent 100%
+  );
+  opacity: 0.3;
+}
+
+.heroes-tier-divider__label {
+  font-family: var(--heroes-font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--heroes-gold-warm);
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+
+/* ── Ultimate hero entrance animations ───────────────────────── */
+@keyframes hero-constellation {
+  0%   { opacity: 0; transform: scale(0.8) rotate(-2deg); filter: blur(8px); }
+  40%  { opacity: 0.6; transform: scale(0.95) rotate(0deg); filter: blur(3px); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0); }
+}
+
+@keyframes hero-sovereign {
+  0%   { opacity: 0; transform: translateY(60px) scale(0.9); }
+  50%  { opacity: 0.8; transform: translateY(-5px) scale(1.01); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes hero-typeforge {
+  0%   { opacity: 0; clip-path: inset(50% 50% 50% 50%); }
+  60%  { opacity: 1; clip-path: inset(5% 5% 5% 5%); }
+  100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+
+@keyframes hero-cascade {
+  0%   { opacity: 0; transform: perspective(800px) rotateY(15deg) scale(0.85); }
+  50%  { opacity: 0.8; transform: perspective(800px) rotateY(-3deg) scale(1.02); }
+  100% { opacity: 1; transform: perspective(800px) rotateY(0) scale(1); }
+}
+
+/* Entrance classes applied by IntersectionObserver */
+.hero-stage--ultimate.is-visible .hero-card__og[data-anim="constellation"] {
+  animation: hero-constellation 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-stage--ultimate.is-visible .hero-card__og[data-anim="sovereign"] {
+  animation: hero-sovereign 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-stage--ultimate.is-visible .hero-card__og[data-anim="typeforge"] {
+  animation: hero-typeforge 1.0s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-stage--ultimate.is-visible .hero-card__og[data-anim="cascade"] {
+  animation: hero-cascade 1.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Meta stagger for ultimates */
+.hero-stage--ultimate.is-visible .hero-card__meta {
+  animation: heroes-subtitle-enter 0.8s ease-out both;
+  animation-delay: 0.6s;
+}
+
+.hero-stage--ultimate.is-visible .hero-card__share {
+  animation: heroes-subtitle-enter 0.6s ease-out both;
+  animation-delay: 1.0s;
+}
+
+
+/* ── Apex/Extra entrance ─────────────────────────────────────── */
+@keyframes hero-apex-enter {
+  0%   { opacity: 0; transform: scale(0.95); box-shadow: 0 0 0 0 transparent; }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.hero-stage--apex.is-visible .hero-card__og {
+  animation: hero-apex-enter 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-stage--apex.is-visible .hero-card__meta {
+  animation: heroes-subtitle-enter 0.7s ease-out both;
+  animation-delay: 0.4s;
+}
+
+/* Gold border sweep for apex */
+.hero-stage--apex.is-visible .hero-card__og::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid transparent;
+  background: linear-gradient(90deg, var(--heroes-gold-warm), transparent 50%) border-box;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: hero-border-sweep 2s ease-out both;
+  animation-delay: 0.3s;
+  pointer-events: none;
+}
+
+@keyframes hero-border-sweep {
+  0%   { opacity: 0; clip-path: inset(0 100% 0 0); }
+  50%  { opacity: 1; clip-path: inset(0 0 0 0); }
+  100% { opacity: 0.6; clip-path: inset(0 0 0 0); }
+}
+
+
+/* ── Unique entrance ─────────────────────────────────────────── */
+@keyframes hero-unique-enter {
+  0%   { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.hero-stage--unique.is-visible .hero-card__og {
+  animation: hero-unique-enter 0.8s ease-out both;
+}
+
+/* Violet edge glow pulse */
+.hero-stage--unique.is-visible .hero-card__og::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 16px;
+  background: transparent;
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+  animation: hero-unique-glow 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes hero-unique-glow {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 0.8; }
+}
+
+
+/* ── Named entrance ──────────────────────────────────────────── */
+.hero-stage--named.is-visible .hero-card__og {
+  animation: hero-unique-enter 0.7s ease-out both;
+}
+
+/* Tier-colored accent bar */
+.hero-stage--named.is-visible .hero-card__og::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 3px;
+  background: var(--tier-basic, oklch(0.7 0.15 220));
+  border-radius: 2px;
+  animation: hero-bar-slide 0.6s ease-out both;
+  animation-delay: 0.3s;
+  pointer-events: none;
+}
+
+@keyframes hero-bar-slide {
+  0%   { transform: scaleX(0); opacity: 0; }
+  100% { transform: scaleX(1); opacity: 0.7; }
+}
+
+
+/* ── Footer ──────────────────────────────────────────────────── */
+.heroes-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 4rem 2rem;
+  background: var(--heroes-bg-deep);
+  border-top: 1px solid rgba(251, 191, 36, 0.1);
+}
+
+.heroes-footer__link {
+  font-family: var(--heroes-font-body);
+  font-size: 1rem;
+  color: var(--heroes-gold-warm);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.heroes-footer__link:hover {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+
+/* ── Loading state ───────────────────────────────────────────── */
+.heroes-loading {
+  display: grid;
+  place-items: center;
+  min-height: 50vh;
+  font-family: var(--heroes-font-body);
+  font-style: italic;
+  color: var(--heroes-frost);
+  opacity: 0.4;
+}
+
+.heroes-loading__spinner {
+  width: 32px;
+  height: 32px;
+  border: 2px solid rgba(251, 191, 36, 0.2);
+  border-top-color: var(--heroes-gold-warm);
+  border-radius: 50%;
+  animation: heroes-spin 0.8s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes heroes-spin {
+  to { transform: rotate(360deg); }
+}
+
+
+/* ── Empty state ─────────────────────────────────────────────── */
+.heroes-empty {
+  display: grid;
+  place-items: center;
+  min-height: 40vh;
+  font-family: var(--heroes-font-body);
+  color: var(--heroes-frost);
+  opacity: 0.5;
+  text-align: center;
+  padding: 2rem;
+}
+
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 1199px) {
+  .hero-stage {
+    min-height: 80svh;
+    padding: 3rem 1.5rem;
+  }
+
+  .hero-card__og {
+    max-width: 520px;
+  }
+}
+
+@media (max-width: 819px) {
+  .hero-stage {
+    min-height: auto;
+    padding: 3rem 1rem;
+  }
+
+  .hero-card__og {
+    max-width: 100%;
+  }
+
+  .hero-card__canvas {
+    display: none;
+  }
+
+  .heroes-header {
+    min-height: 70svh;
+  }
+
+  .heroes-footer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 559px) {
+  .heroes-header__title {
+    font-size: 2rem;
+  }
+
+  .hero-card__name {
+    font-size: 1.2rem;
+  }
+
+  .hero-card__stats {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+}
+
+
+/* ── Reduced motion ──────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .heroes-header__title,
+  .heroes-header__subtitle,
+  .hero-stage,
+  .hero-card__og,
+  .hero-card__meta,
+  .hero-card__share {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+  }
+
+  .hero-stage {
+    opacity: 1;
+    transform: none;
+  }
+
+  .heroes-header__scroll-hint {
+    animation: none;
+  }
+
+  .hero-card__canvas {
+    display: none;
+  }
+}
