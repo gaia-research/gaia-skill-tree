@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gaia Trending Skills</title>
+    <link>https://gaia.tiongson.co/trending/</link>
+    <description>Skills gaining trust this week — ranked by evidence velocity, not hype.</description>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 30 Jun 2026 16:58:34 +0000</lastBuildDate>
+    <atom:link href="https://gaia.tiongson.co/api/v1/trending/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Founder Mode</title>
+      <link>https://gaia.tiongson.co/named/#explorer/garrytan/gstack</link>
+      <description>Trust Magnitude: 589.3 · Grade S</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-garrytan/gstack-2026-06-30</guid>
+    </item>
+    <item>
+      <title>Ruflo</title>
+      <link>https://gaia.tiongson.co/named/#explorer/ruvnet/ruflo</link>
+      <description>Trust Magnitude: 482.3 · Grade S</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-ruvnet/ruflo-2026-06-30</guid>
+    </item>
+    <item>
+      <title>Matt Pocock Skills</title>
+      <link>https://gaia.tiongson.co/named/#explorer/mattpocock/skills</link>
+      <description>Trust Magnitude: 480.3 · Grade S</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/skills-2026-06-30</guid>
+    </item>
+    <item>
+      <title>Superpowers</title>
+      <link>https://gaia.tiongson.co/named/#explorer/obra/superpowers</link>
+      <description>Trust Magnitude: 445.1 · Grade S</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-obra/superpowers-2026-06-30</guid>
+    </item>
+    <item>
+      <title>Engineering</title>
+      <link>https://gaia.tiongson.co/named/#explorer/mattpocock/engineering</link>
+      <description>Trust Magnitude: 270.0 · Grade A</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/engineering-2026-06-30</guid>
+    </item>
+    <item>
+      <title>AgentDB</title>
+      <link>https://gaia.tiongson.co/named/#explorer/ruvnet/agentdb</link>
+      <description>Trust Magnitude: 201.0 · Grade A</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-ruvnet/agentdb-2026-06-30</guid>
+    </item>
+    <item>
+      <title>Ruflo V3</title>
+      <link>https://gaia.tiongson.co/named/#explorer/ruvnet/ruflo-v3</link>
+      <description>Trust Magnitude: 186.0 · Grade A</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-ruvnet/ruflo-v3-2026-06-30</guid>
+    </item>
+    <item>
+      <title>Autoplan</title>
+      <link>https://gaia.tiongson.co/named/#explorer/garrytan/garrytan</link>
+      <description>Trust Magnitude: 156.0 · Grade A</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-garrytan/garrytan-2026-06-30</guid>
+    </item>
+    <item>
+      <title>Dual Mode</title>
+      <link>https://gaia.tiongson.co/named/#explorer/ruvnet/dual-mode</link>
+      <description>Trust Magnitude: 126.0 · Grade A</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-ruvnet/dual-mode-2026-06-30</guid>
+    </item>
+    <item>
+      <title>Impeccable</title>
+      <link>https://gaia.tiongson.co/named/#explorer/pbakaus/impeccable</link>
+      <description>Trust Magnitude: 122.8 · Grade A</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-pbakaus/impeccable-2026-06-30</guid>
+    </item>
+    <item>
+      <title>Productivity</title>
+      <link>https://gaia.tiongson.co/named/#explorer/mattpocock/productivity</link>
+      <description>Trust Magnitude: 120.0 · Grade A</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/productivity-2026-06-30</guid>
+    </item>
+    <item>
+      <title>ReasoningBank</title>
+      <link>https://gaia.tiongson.co/named/#explorer/ruvnet/reasoningbank</link>
+      <description>Trust Magnitude: 118.5 · Grade A</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-ruvnet/reasoningbank-2026-06-30</guid>
+    </item>
+    <item>
+      <title>Subagent-Driven Development</title>
+      <link>https://gaia.tiongson.co/named/#explorer/obra/subagent-driven-development</link>
+      <description>Trust Magnitude: 117.7 · Grade A</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-obra/subagent-driven-development-2026-06-30</guid>
+    </item>
+    <item>
+      <title>Using Git Worktrees</title>
+      <link>https://gaia.tiongson.co/named/#explorer/obra/using-git-worktrees</link>
+      <description>Trust Magnitude: 117.7 · Grade A</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-obra/using-git-worktrees-2026-06-30</guid>
+    </item>
+    <item>
+      <title>Graphify</title>
+      <link>https://gaia.tiongson.co/named/#explorer/safishamsi/graphify</link>
+      <description>Trust Magnitude: 116.6 · Grade A</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-safishamsi/graphify-2026-06-30</guid>
+    </item>
+    <item>
+      <title>Writing Plans</title>
+      <link>https://gaia.tiongson.co/named/#explorer/obra/writing-plans</link>
+      <description>Trust Magnitude: 110.2 · Grade A</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-obra/writing-plans-2026-06-30</guid>
+    </item>
+    <item>
+      <title>Few-Shot Learning</title>
+      <link>https://gaia.tiongson.co/named/#explorer/openai/few-shot-learning</link>
+      <description>Trust Magnitude: 100.0 · Grade A</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-openai/few-shot-learning-2026-06-30</guid>
+    </item>
+    <item>
+      <title>Self-Consistency</title>
+      <link>https://gaia.tiongson.co/named/#explorer/openai/self-consistency</link>
+      <description>Trust Magnitude: 100.0 · Grade A</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-openai/self-consistency-2026-06-30</guid>
+    </item>
+    <item>
+      <title>DSPy</title>
+      <link>https://gaia.tiongson.co/named/#explorer/stanfordnlp/dspy</link>
+      <description>Trust Magnitude: 100.0 · Grade A</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-stanfordnlp/dspy-2026-06-30</guid>
+    </item>
+    <item>
+      <title>Hive Mind Coordination</title>
+      <link>https://gaia.tiongson.co/named/#explorer/ruvnet/hive-mind-coordination</link>
+      <description>Trust Magnitude: 96.1 · Grade B</description>
+      <pubDate>Tue, 30 Jun 2026 16:58:34 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-ruvnet/hive-mind-coordination-2026-06-30</guid>
+    </item>
+  </channel>
+</rss>

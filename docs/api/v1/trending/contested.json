@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-30T16:25:29Z",
+  "generatedAt": "2026-06-30T16:58:34Z",
   "buckets": [
     {
       "genericSkillRef": "vertical-slice-planning",
@@ -10,13 +10,15 @@
           "id": "garrytan/garrytan",
           "trustMagnitude": 156.0,
           "level": "4★",
-          "overallTrustGrade": "A"
+          "overallTrustGrade": "A",
+          "origin": true
         },
         {
           "id": "mattpocock/to-issues",
           "trustMagnitude": 90.38,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": false
         }
       ]
     },
@@ -29,37 +31,43 @@
           "id": "pbakaus/impeccable",
           "trustMagnitude": 122.8,
           "level": "4★",
-          "overallTrustGrade": "A"
+          "overallTrustGrade": "A",
+          "origin": true
         },
         {
           "id": "martin-stepanoski/nielsen-heuristics-audit",
           "trustMagnitude": 94.9,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": false
         },
         {
           "id": "garrytan/plan-design-review",
           "trustMagnitude": 63.73,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": false
         },
         {
           "id": "garrytan/plan-devex-review",
           "trustMagnitude": 63.73,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": false
         },
         {
           "id": "garrytan/design-review",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         },
         {
           "id": "garrytan/devex-review",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         }
       ]
     },
@@ -72,13 +80,15 @@
           "id": "obra/subagent-driven-development",
           "trustMagnitude": 117.65,
           "level": "4★",
-          "overallTrustGrade": "A"
+          "overallTrustGrade": "A",
+          "origin": true
         },
         {
           "id": "ruvnet/pair-programming",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         }
       ]
     },
@@ -91,13 +101,15 @@
           "id": "stanfordnlp/dspy",
           "trustMagnitude": 100.0,
           "level": "4★",
-          "overallTrustGrade": "A"
+          "overallTrustGrade": "A",
+          "origin": true
         },
         {
           "id": "garrytan/plan-tune",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         }
       ]
     },
@@ -110,13 +122,15 @@
           "id": "obra/verification-before-completion",
           "trustMagnitude": 95.15,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": true
         },
         {
           "id": "ruvnet/verification-quality",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         }
       ]
     },
@@ -129,13 +143,15 @@
           "id": "mattpocock/diagnose",
           "trustMagnitude": 90.38,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": true
         },
         {
           "id": "devin-ai/autonomous-swe",
           "trustMagnitude": 30.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         }
       ]
     },
@@ -148,25 +164,29 @@
           "id": "mattpocock/edit-article",
           "trustMagnitude": 90.38,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": true
         },
         {
           "id": "garrytan/document-generate",
           "trustMagnitude": 63.73,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": false
         },
         {
           "id": "anthropic/pptx",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         },
         {
           "id": "garrytan/document-release",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         }
       ]
     },
@@ -179,13 +199,15 @@
           "id": "mattpocock/ubiquitous-language",
           "trustMagnitude": 90.38,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": true
         },
         {
           "id": "ruvnet/v3-ddd-architecture",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         }
       ]
     },
@@ -198,13 +220,15 @@
           "id": "anthropic/skill-creator",
           "trustMagnitude": 90.0,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": true
         },
         {
           "id": "mattpocock/write-a-skill",
           "trustMagnitude": 45.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         }
       ]
     },
@@ -217,25 +241,29 @@
           "id": "garrytan/browse",
           "trustMagnitude": 88.5,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": true
         },
         {
           "id": "browser-use/browser-harness",
           "trustMagnitude": 73.59,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": false
         },
         {
           "id": "garrytan/open-gstack-browser",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         },
         {
           "id": "garrytan/setup-browser-cookies",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         }
       ]
     },
@@ -248,13 +276,15 @@
           "id": "garrytan/retro",
           "trustMagnitude": 81.0,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": true
         },
         {
           "id": "spring-ai/readme-generate",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         }
       ]
     },
@@ -267,25 +297,29 @@
           "id": "garrytan/careful",
           "trustMagnitude": 66.0,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": true
         },
         {
           "id": "garrytan/freeze",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         },
         {
           "id": "garrytan/guard",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         },
         {
           "id": "garrytan/unfreeze",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         }
       ]
     },
@@ -298,13 +332,15 @@
           "id": "garrytan/plan-eng-review",
           "trustMagnitude": 66.0,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": true
         },
         {
           "id": "garrytan/review",
           "trustMagnitude": 63.73,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": false
         }
       ]
     },
@@ -317,13 +353,15 @@
           "id": "obra/systematic-debugging",
           "trustMagnitude": 65.15,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": true
         },
         {
           "id": "garrytan/investigate",
           "trustMagnitude": 63.73,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": false
         }
       ]
     },
@@ -336,13 +374,15 @@
           "id": "garrytan/benchmark",
           "trustMagnitude": 63.73,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": true
         },
         {
           "id": "garrytan/plan-ceo-review",
           "trustMagnitude": 63.73,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": false
         }
       ]
     },
@@ -355,13 +395,15 @@
           "id": "garrytan/design-consultation",
           "trustMagnitude": 63.73,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": true
         },
         {
           "id": "Manavarya09/design-extract",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         }
       ]
     },
@@ -374,19 +416,22 @@
           "id": "garrytan/land-and-deploy",
           "trustMagnitude": 63.73,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": true
         },
         {
           "id": "garrytan/setup-deploy",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         },
         {
           "id": "mbtiongson1/gaia-preview",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         }
       ]
     },
@@ -399,13 +444,15 @@
           "id": "garrytan/qa",
           "trustMagnitude": 63.73,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": true
         },
         {
           "id": "garrytan/qa-only",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         }
       ]
     },
@@ -418,13 +465,15 @@
           "id": "garrytan/ship",
           "trustMagnitude": 63.73,
           "level": "3★",
-          "overallTrustGrade": "B"
+          "overallTrustGrade": "B",
+          "origin": true
         },
         {
           "id": "obra/finishing-a-development-branch",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         }
       ]
     },
@@ -437,13 +486,15 @@
           "id": "firecrawl/firecrawl",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": true
         },
         {
           "id": "garrytan/scrape",
           "trustMagnitude": 36.0,
           "level": "2★",
-          "overallTrustGrade": "C"
+          "overallTrustGrade": "C",
+          "origin": false
         }
       ]
     }

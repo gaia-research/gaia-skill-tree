@@ -24,6 +24,7 @@ Constraint: No new scoring. TM values are read from existing API projection as-i
 from __future__ import annotations
 
 import argparse
+import email.utils
 import json
 import re
 import sys
@@ -327,11 +328,20 @@ def build_ascended(
         if not ascend_events:
             continue
 
-        # Most recent event timestamp
+        # Most recent event timestamp and event
         ascended_at = max(e.get("timestamp", "") for e in ascend_events)
+        latest_event = max(ascend_events, key=lambda e: e.get("timestamp", ""))
+
+        # Extract previousLevel from event details text
+        # e.g. "Level updated from 1★ to 4★ …"
+        previous_level: str | None = None
+        details = latest_event.get("details", "")
+        m_prev = re.search(r"from\s+(\S+)\s+to\s+", details)
+        if m_prev:
+            previous_level = m_prev.group(1).strip()
 
         contributor, slug = _slug_from_id(skill_id)
-        entries.append({
+        entry: dict = {
             "id": skill_id,
             "name": skill.get("name", ""),
             "level": skill.get("level", ""),
@@ -340,7 +350,10 @@ def build_ascended(
             "overallTrustGrade": skill.get("overallTrustGrade"),
             "ascendedAt": ascended_at,
             "_links": {"self": f"/api/v1/skills/{contributor}/{slug}.json"},
-        })
+        }
+        if previous_level:
+            entry["previousLevel"] = previous_level
+        entries.append(entry)
 
     # Sort by most recent ascendedAt descending
     entries.sort(key=lambda e: e.get("ascendedAt", ""), reverse=True)
@@ -351,6 +364,89 @@ def build_ascended(
         "skills": entries,
         "_links": {"self": "/api/v1/trending/ascended.json"},
     })
+
+
+def _write_rss(out_dir: Path, trending_7d: list[dict], generated_at: str) -> None:
+    """Write valid RSS 2.0 feed.xml for the top 20 trending skills."""
+    # Parse generated_at (ISO 8601 UTC) into RFC 2822 for <lastBuildDate>
+    try:
+        gen_dt = datetime.strptime(generated_at, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+    except ValueError:
+        gen_dt = datetime.now(timezone.utc)
+
+    last_build = email.utils.format_datetime(gen_dt)
+    top20 = trending_7d[:20]
+
+    items_xml: list[str] = []
+    for skill in top20:
+        skill_id = skill.get("id", "")
+        name = skill.get("name") or skill_id
+        tm = skill.get("trustMagnitude")
+        grade = skill.get("overallTrustGrade") or ""
+        delta = skill.get("tmDelta")
+
+        # Title: "Skill Name (+5.2 TM)" or just "Skill Name"
+        if delta is not None and delta != 0.0:
+            sign = "+" if delta > 0 else ""
+            title = f"{name} ({sign}{delta:.1f} TM)"
+        else:
+            title = name
+
+        link = f"https://gaia.tiongson.co/named/#explorer/{skill_id}"
+
+        # Description: TM + grade
+        tm_str = f"{tm:.1f}" if isinstance(tm, (int, float)) else "—"
+        grade_str = f" · Grade {grade}" if grade else ""
+        description = f"Trust Magnitude: {tm_str}{grade_str}"
+
+        # pubDate — use generated_at as RFC 2822
+        pub_date = last_build
+
+        # Date part of generated_at for guid suffix (YYYY-MM-DD)
+        date_part = generated_at[:10]
+
+        guid = f"gaia-trending-{skill_id}-{date_part}"
+
+        def _xml(s: str) -> str:
+            """Escape XML special characters."""
+            return (
+                str(s)
+                .replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace('"', "&quot;")
+            )
+
+        items_xml.append(
+            f"    <item>\n"
+            f"      <title>{_xml(title)}</title>\n"
+            f"      <link>{_xml(link)}</link>\n"
+            f"      <description>{_xml(description)}</description>\n"
+            f"      <pubDate>{pub_date}</pubDate>\n"
+            f"      <guid isPermaLink=\"false\">{_xml(guid)}</guid>\n"
+            f"    </item>"
+        )
+
+    items_block = "\n".join(items_xml)
+    rss = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n'
+        '  <channel>\n'
+        '    <title>Gaia Trending Skills</title>\n'
+        '    <link>https://gaia.tiongson.co/trending/</link>\n'
+        '    <description>Skills gaining trust this week — ranked by evidence velocity, not hype.</description>\n'
+        '    <language>en-us</language>\n'
+        f'    <lastBuildDate>{last_build}</lastBuildDate>\n'
+        '    <atom:link href="https://gaia.tiongson.co/api/v1/trending/feed.xml"'
+        ' rel="self" type="application/rss+xml"/>\n'
+        f'{items_block}\n'
+        '  </channel>\n'
+        '</rss>\n'
+    )
+
+    feed_path = out_dir / "feed.xml"
+    feed_path.parent.mkdir(parents=True, exist_ok=True)
+    feed_path.write_text(rss, encoding="utf-8")
 
 
 def build_contested(
@@ -386,10 +482,13 @@ def build_contested(
     # Filter to buckets with >= 2 implementations
     contested = {ref: skills for ref, skills in buckets.items() if len(skills) >= 2}
 
-    # Build output — sort each bucket by TM descending
+    # Build output — sort each bucket by TM descending; mark origin (highest TM)
     bucket_list = []
     for ref, skills in contested.items():
         skills.sort(key=lambda s: -(s.get("trustMagnitude") or 0))
+        # Mark the top skill as origin (highest TM = most established impl)
+        for i, s in enumerate(skills):
+            s["origin"] = i == 0
         top_tm = skills[0].get("trustMagnitude", 0) if skills else 0
         bucket_list.append({
             "genericSkillRef": ref,
@@ -488,9 +587,13 @@ def run(out_dir: Path) -> int:
     build_ascended(trending_dir, current_skills, api_dir, generated_at)
     build_contested(trending_dir, current_skills, api_dir, generated_at)
 
+    # Build RSS feed from 7d trending list
+    trending_7d_data = json.loads((trending_dir / "7d.json").read_text(encoding="utf-8"))
+    _write_rss(trending_dir, trending_7d_data.get("skills", []), generated_at)
+
     print(f"Trending projection written to {trending_dir}/")
     print(f"  snapshot.json, history/{today}.json")
-    print(f"  7d.json, 30d.json, ascended.json, contested.json")
+    print(f"  7d.json, 30d.json, ascended.json, contested.json, feed.xml")
     return 0
 
 
