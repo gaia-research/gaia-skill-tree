@@ -133,6 +133,40 @@
           "type": "integer",
           "minimum": 0,
           "description": "Proposals dropped for being below confidence floor."
+        },
+        "proposalsAccepted": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Proposals accepted by the deterministic adversarial/refute gate."
+        },
+        "proposalsRejected": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Proposals rejected by the deterministic adversarial/refute gate."
+        },
+        "proposalsRefuted": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Proposals marked refuted by the deterministic adversarial/refute gate."
+        },
+        "refuteReasons": {
+          "type": "array",
+          "description": "Aggregated deterministic refute reasons and counts for rejected/refuted proposals.",
+          "items": {
+            "type": "object",
+            "required": ["reason", "count"],
+            "additionalProperties": false,
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 10
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
         }
       }
     }

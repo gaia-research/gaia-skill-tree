@@ -305,6 +305,60 @@ def test_dry_run_runner_filters_duplicates_and_low_confidence(tmp_path):
     sourceCuration.validateReport(report, root)
 
 
+def test_deterministic_adversarial_review_refutes_bad_proposals(tmp_path, monkeypatch):
+    root = makeRoot(tmp_path)
+    seedPath = REPO_ROOT / "tests" / "fixtures" / "source_curation_bad_proposals.json"
+
+    def failNetwork(*_args, **_kwargs):
+        raise AssertionError("deterministic adversarial review must not call the network")
+
+    monkeypatch.setattr(sourceCuration.urllib.request, "urlopen", failNetwork)
+
+    report, _ = sourceCuration.runDryRun(
+        rootDir=root,
+        runId="20260702-refute-gate",
+        generatedAt="2026-07-02T14:00:00Z",
+        inputPath=str(seedPath),
+        maxProposalsPerSkill=10,
+        adversarialReview=True,
+    )
+
+    assert report["pipelinePhase"] == "adversarial-review"
+    assert report["summary"]["proposalsGenerated"] == 8
+    assert report["summary"]["proposalsAccepted"] == 1
+    assert report["summary"]["proposalsRejected"] == 7
+    assert report["summary"]["proposalsRefuted"] == 7
+    assert report["summary"]["duplicatesDropped"] == 1
+    assert report["summary"]["belowConfidenceDropped"] == 1
+
+    bySkill = {proposal["skillId"]: proposal for proposal in report["proposals"]}
+    firstResearchHelper = next(proposal for proposal in report["proposals"] if proposal["skillId"] == "alice/research-helper")
+    assert firstResearchHelper["adversarialReview"]["status"] == "accepted"
+    refutedSkills = [
+        "alice/tree-helper",
+        "alice/subjective-helper",
+        "alice/weak-helper",
+        "alice/benchmark-helper",
+        "alice/known-helper",
+        "alice/insecure-helper",
+    ]
+    assert all(bySkill[skill]["adversarialReview"]["status"] == "refuted" for skill in refutedSkills)
+
+    reasons = "\n".join(
+        vote["reason"]
+        for proposal in report["proposals"]
+        for vote in proposal["adversarialReview"]["skepticVotes"]
+    )
+    assert "duplicate source candidate" in reasons
+    assert "tree/ URLs" in reasons
+    assert "subjective or unsupported rationale wording" in reasons
+    assert "confidence below floor" in reasons
+    assert "missing numericPayload fields: percentile" in reasons
+    assert "source already exists in known evidence" in reasons
+    assert "GitHub source must be an https://github.com/... URL" in reasons
+    sourceCuration.validateReport(report, root)
+
+
 def test_dry_run_runner_does_not_mutate_registry_files(tmp_path):
     root = makeRoot(tmp_path)
     namedDir = root / "registry" / "named" / "alice"
