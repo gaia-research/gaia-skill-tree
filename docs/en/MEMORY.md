@@ -2,6 +2,54 @@
 
 ---
 
+## 2026-07-01 — Routine 013
+
+**Branch:** `docs/routines/013`
+**Task chosen:** Version bump to v5.8.2 and document MCP Advisor interfaces and telemetry options.
+
+### Trigger
+
+Audit of the MCP Advisor interfaces and request to document any telemetry options. Repo version bumped to v5.8.2.
+
+### What I did
+
+1. **Documented MCP Advisor Architecture**: Added the "Advisor Architecture" section to `docs/en/mcp-server.html` detailing the unified advisor system and its three concrete modules: `SkillDetector`, `FusionEngine`, and `NoveltyScorer`, all inheriting from `AbstractAdvisor<TResult>`.
+2. **Documented Telemetry Policy**: Documented the "Telemetry & Privacy" zero-telemetry policy of the Gaia MCP Server, ensuring users are informed that no usage metrics, analytics, or tracking are collected, and that operations run entirely locally.
+3. **Synchronized version numbers**: Updated all 12 English documentation HTML files under `docs/en/` from `v5.6.2` to `v5.8.2` and script query parameters from `?v=5.6.2` to `?v=5.8.2`.
+4. **Audited Custom Theme Mobile Layouts**: Performed a layout audit on mobile viewports for `.sidebar` (hidden gracefully via display:none), `.nav-mobile-drawer` and `.docs-nav-mobile-drawer` (open/close handled gracefully), and `.profile-sidebar` (hidden offscreen and animated).
+
+### Design decisions
+
+- Added Jaccard similarity threshold details (0.3) for the `NoveltyScorer` and mapped advisor functionality to the specific taxonomy symbols (Basic Skill ○, Extra Skill ◇, Unique Skill ◉, Ultimate Skill ◆).
+- Maintained consistent section and spacing structures in `mcp-server.html` matching existing CSS tokens.
+
+### Issues informed
+
+- Resolves #222
+
+### Files created / modified
+
+- `docs/en/MEMORY.md` (modified)
+- `docs/en/mcp-server.html` (modified)
+- `docs/en/cli-reference.html` (modified)
+- `docs/en/contributing.html` (modified)
+- `docs/en/evidence-classes.html` (modified)
+- `docs/en/faq.html` (modified)
+- `docs/en/fusion.html` (modified)
+- `docs/en/getting-started.html` (modified)
+- `docs/en/index.html` (modified)
+- `docs/en/named-skills.html` (modified)
+- `docs/en/share-bundles.html` (modified)
+- `docs/en/skill-hierarchy.html` (modified)
+- `docs/en/timeline-audit.html` (modified)
+
+### Planned next (Routine 014)
+
+- Research: Search for any broken links or HTML structural validation issues across the entire `docs/en/` space.
+- Maintain: Audit the newly added CLI/dev features and document in Getting Started.
+
+---
+
 ## 2026-06-27 — Routine 012
 
 **Branch:** `docs/routines/012`
