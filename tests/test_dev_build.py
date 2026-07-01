@@ -355,4 +355,3 @@ def test_link_happy_path_with_reset(tmp_path):
     newFile = Path(root) / "registry" / "nodes" / "basic" / "existing-skill.json"
     data = json.loads(newFile.read_text(encoding="utf-8"))
     assert data["prerequisites"] == ["another-skill"]
-

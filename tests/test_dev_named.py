@@ -218,4 +218,3 @@ def test_update_named_github_link_happy_path(tmp_path):
     from gaia_cli.commands.dev.helpers import _parse_md
     meta, _ = _parse_md(path)
     assert meta["links"]["github"] == "https://github.com/alice/repo/blob/main/skills/test-skill/SKILL.md"
-
