@@ -15,8 +15,8 @@ against the `sourceProposal.schema.json` contract.
 
 **Current scope (Phase 1):** The pipeline emits dry-run reports only. No
 registry mutation occurs. No auto-PRs are opened. Reports are written to
-`generated-output/source-proposals/` and reviewed by a human or the
-adversarial gate before any action is taken.
+`generated-output/source-curation/<run-id>/report.json` and reviewed by a
+human or the adversarial gate before any action is taken.
 
 ## Architecture
 
@@ -48,7 +48,8 @@ adversarial gate before any action is taken.
   +----------------------------+
   | Dry-Run Report             |  <-- sourceProposalReport.schema.json
   | (generated-output/         |      dryRun: true (enforced by schema)
-  |  source-proposals/*.json)  |
+  |  source-curation/<run-id>/ |
+  |  report.json)             |
   +----------------------------+
          |
          v  (FUTURE -- not yet implemented)
@@ -199,12 +200,23 @@ implemented in a future phase:
 Dry-run reports are written to:
 
 ```
-generated-output/source-proposals/<reportId>.json
+generated-output/source-curation/<run-id>/report.json
 ```
 
 This directory is gitignored. Reports are local artifacts consumed by
 reviewers and the adversarial gate. They are NOT committed to the
 repository or published to GitHub Pages.
+
+Run the deterministic dry-run runner with:
+
+```bash
+python3 scripts/sourceCuratorRunner.py --run-id 20260702-dry-run --generated-at 2026-07-02T14:00:00Z
+```
+
+By default the runner uses fixture discovery only: no live network calls, no
+registry mutation, `dryRun: true`, and `generatedBy: "nova-gaia"`. Pass
+`--input seed.json` to supply a local JSON array or an object with a `seeds`
+/ `proposals` array.
 
 ## Self-Bounding Rules
 
@@ -246,7 +258,7 @@ Test fixtures:
 
 ## What This PR Does NOT Do
 
-- **No network crawler implementation.** No `scripts/sourceCuratorRunner.py`.
+- **No network crawler implementation.** `scripts/sourceCuratorRunner.py` is dry-run fixture/seed driven only.
 - **No GitHub Actions workflow.** No `.github/workflows/auto-source-curation.yml`.
 - **No registry mutation.** The schemas and tooling cannot write to
   `registry/nodes/` or `registry/named/`.
