@@ -1,0 +1,40 @@
+{
+  "proposalId": "example-arxiv-b2c3d4e5-20260702",
+  "skillId": "researcher/attention-mechanism",
+  "source": "https://arxiv.org/abs/2301.12345",
+  "evidenceType": "arxiv",
+  "numericPayload": {
+    "citations": 250
+  },
+  "discoveredAt": "2026-07-02T12:00:00Z",
+  "discoveredBy": "nova-gaia",
+  "crawlerBackend": "arxiv-api",
+  "confidence": 0.9,
+  "rationale": "Foundational paper on attention mechanisms with 250 citations in Semantic Scholar, directly referenced in the skill's documentation.",
+  "existingEvidenceCheck": {
+    "checked": true,
+    "duplicate": false
+  },
+  "adversarialReview": {
+    "status": "accepted",
+    "skepticVotes": [
+      {
+        "skepticId": "skeptic-1",
+        "vote": "accept",
+        "reason": "Paper is directly relevant to the skill's core capability and citations are verifiable via Semantic Scholar."
+      },
+      {
+        "skepticId": "skeptic-2",
+        "vote": "accept",
+        "reason": "Citation count is genuine and the paper is clearly about the skill's domain."
+      },
+      {
+        "skepticId": "skeptic-3",
+        "vote": "accept",
+        "reason": "Cross-referenced with Google Scholar; citation count is consistent."
+      }
+    ],
+    "reviewedAt": "2026-07-02T12:30:00Z"
+  },
+  "dryRun": true
+}
