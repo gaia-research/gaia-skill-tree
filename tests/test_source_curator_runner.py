@@ -39,9 +39,14 @@ def test_dry_run_runner_emits_deterministic_schema_valid_report(tmp_path):
     assert report["pipelinePhase"] == "discovery"
     assert len(report["proposals"]) == 2
     assert [proposal["proposalId"] for proposal in report["proposals"]] == [
-        "mattpocock-grill-me-90af940b-20260702",
-        "karpathy-autoresearch-02e79a9c-20260702",
+        "mattpocock-grill-me-bd19fdf3-20260702",
+        "karpathy-autoresearch-c1a7d8ea-20260702",
     ]
+    assert {proposal["crawlerBackend"] for proposal in report["proposals"]} == {"github-fixture"}
+    assert all(proposal["source"].startswith("https://github.com/") for proposal in report["proposals"])
+    assert all("/blob/" in proposal["source"] for proposal in report["proposals"])
+    assert all(proposal["quotaCost"]["apiCalls"] == 0 for proposal in report["proposals"])
+    assert report["quotaSummary"]["totalApiCalls"] == 0
 
     sourceCuration.validateReport(report, root)
 
@@ -120,6 +125,71 @@ def test_dry_run_runner_rejects_output_path_outside_source_curation_dir(tmp_path
         )
 
     assert not forbidden.exists()
+
+
+def test_github_fixture_discovery_does_not_call_network_by_default(tmp_path, monkeypatch):
+    root = makeRoot(tmp_path)
+
+    def failNetwork(*_args, **_kwargs):
+        raise AssertionError("default source-curation discovery must not call the network")
+
+    monkeypatch.setattr(sourceCuration.urllib.request, "urlopen", failNetwork)
+
+    report, _ = sourceCuration.runDryRun(
+        rootDir=root,
+        runId="20260702-fixture-no-network",
+        generatedAt="2026-07-02T14:00:00Z",
+    )
+
+    assert len(report["proposals"]) == 2
+    assert report["crawlConfig"]["backends"] == ["github-fixture"]
+    assert report["quotaSummary"]["perBackend"] == {"github-fixture": {"calls": 0, "costUsd": 0}}
+
+
+def test_github_url_canonicalization_rejects_tree_urls():
+    assert sourceCuration.canonicalizeGithubBlobUrl(
+        "https://github.com/owner/repo/blob/main/skills/example/SKILL.md?plain=1#L1"
+    ) == "https://github.com/owner/repo/blob/main/skills/example/SKILL.md"
+
+    with pytest.raises(sourceCuration.GithubUrlError):
+        sourceCuration.canonicalizeGithubBlobUrl("https://github.com/owner/repo/tree/main/skills/example")
+
+
+def test_dry_run_runner_dedupes_same_source_url(tmp_path):
+    root = makeRoot(tmp_path)
+    seeds = [
+        {
+            "skillId": "alice/research-helper",
+            "source": "https://github.com/alice/research-helper/blob/main/SKILL.md",
+            "evidenceType": "repo-own",
+            "crawlerBackend": "github-fixture",
+            "confidence": 0.8,
+            "rationale": "First proposal for the same GitHub source file should remain.",
+            "existingEvidenceCheck": {"checked": True, "duplicate": False},
+        },
+        {
+            "skillId": "alice/research-helper",
+            "source": "https://github.com/alice/research-helper/blob/main/SKILL.md",
+            "evidenceType": "repo-own",
+            "crawlerBackend": "github-fixture",
+            "confidence": 0.9,
+            "rationale": "Second proposal for the same GitHub source file should be deduped.",
+            "existingEvidenceCheck": {"checked": True, "duplicate": False},
+        },
+    ]
+    seedPath = tmp_path / "seed.json"
+    seedPath.write_text(json.dumps(seeds), encoding="utf-8")
+
+    report, _ = sourceCuration.runDryRun(
+        rootDir=root,
+        runId="20260702-source-dedupe",
+        generatedAt="2026-07-02T14:00:00Z",
+        inputPath=str(seedPath),
+    )
+
+    assert len(report["proposals"]) == 1
+    assert report["summary"]["duplicatesDropped"] == 1
+    sourceCuration.validateReport(report, root)
 
 
 def test_dry_run_runner_filters_duplicates_and_low_confidence(tmp_path):
