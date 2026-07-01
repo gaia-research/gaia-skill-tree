@@ -32,6 +32,25 @@ DEFAULT_BACKENDS = [GITHUB_FIXTURE_BACKEND]
 GITHUB_LIVE_ENV = "GAIA_SOURCE_CURATION_LIVE_GITHUB"
 GITHUB_TOKEN_ENV = "GITHUB_TOKEN"
 GITHUB_ADAPTER_VERSION = "github-discovery-v1"
+SUBJECTIVE_RATIONALE_TERMS = {
+    "amazing",
+    "best",
+    "elite",
+    "excellent",
+    "high-quality",
+    "top-tier",
+    "world-class",
+}
+REQUIRED_NUMERIC_PAYLOAD_FIELDS = {
+    "arxiv": ["citations"],
+    "benchmark-result": ["percentile"],
+    "github-stars-own": ["stars", "skillCountInRepo"],
+    "peer-review": ["reviewers"],
+    "proxy-containment": ["externalStars", "skillCountInRepo"],
+    "repo-own": ["commits", "contributors"],
+    "social-signal": ["views"],
+    "verifier-attestation": ["verifiers"],
+}
 
 
 class GithubUrlError(ValueError):
@@ -234,11 +253,15 @@ def loadSeeds(inputPath: str | None, liveGithub: bool = False, token: str | None
     raise ValueError("Input seed file must be a JSON array, or an object with proposals/seeds array")
 
 
-def normalizeProposal(seed: dict[str, Any], generatedAt: str) -> dict[str, Any]:
+def normalizeProposal(seed: dict[str, Any], generatedAt: str, strictGithub: bool = True) -> dict[str, Any]:
     proposal = copy.deepcopy(seed)
     datePart = generatedAt[:10].replace("-", "")
     if isGithubHost(proposal.get("source", "")):
-        proposal["source"] = canonicalizeGithubBlobUrl(proposal["source"])
+        try:
+            proposal["source"] = canonicalizeGithubBlobUrl(proposal["source"])
+        except GithubUrlError:
+            if strictGithub:
+                raise
     proposal.setdefault("proposalId", proposalId(proposal, datePart))
     proposal.setdefault("discoveredAt", generatedAt)
     proposal["discoveredBy"] = BOT_IDENTITY
@@ -246,6 +269,106 @@ def normalizeProposal(seed: dict[str, Any], generatedAt: str) -> dict[str, Any]:
     proposal.setdefault("quotaCost", {"apiCalls": 0, "estimatedCostUsd": 0, "backend": proposal["crawlerBackend"]})
     proposal["dryRun"] = True
     return proposal
+
+
+def sourceKey(proposal: dict[str, Any]) -> str:
+    source = proposal.get("source", "")
+    if isGithubHost(source):
+        try:
+            return canonicalizeGithubBlobUrl(source)
+        except GithubUrlError:
+            return source.strip()
+    return source.strip()
+
+
+def refuteReasons(
+    proposal: dict[str, Any],
+    seenSources: set[str],
+    confidenceFloor: float,
+) -> list[str]:
+    reasons: list[str] = []
+    source = str(proposal.get("source", ""))
+    parsed = urllib.parse.urlparse(source)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        reasons.append("source URL must be a full http(s) URL")
+    if isGithubHost(source):
+        try:
+            canonicalizeGithubBlobUrl(source)
+        except GithubUrlError as error:
+            reasons.append(str(error))
+    if sourceKey(proposal) in seenSources:
+        reasons.append("duplicate source candidate in this report")
+    if proposal.get("existingEvidenceCheck", {}).get("duplicate") is True:
+        reasons.append("source already exists in known evidence")
+    try:
+        confidence = float(proposal.get("confidence", 0))
+    except (TypeError, ValueError):
+        confidence = 0
+    if confidence < confidenceFloor:
+        reasons.append(f"confidence below floor {confidenceFloor}")
+    rationale = str(proposal.get("rationale", ""))
+    rationaleLower = rationale.lower()
+    subjectiveTerms = sorted(term for term in SUBJECTIVE_RATIONALE_TERMS if term in rationaleLower)
+    if subjectiveTerms:
+        reasons.append("subjective or unsupported rationale wording: " + ", ".join(subjectiveTerms))
+    requiredFields = REQUIRED_NUMERIC_PAYLOAD_FIELDS.get(str(proposal.get("evidenceType", "")), [])
+    numericPayload = proposal.get("numericPayload")
+    if requiredFields and not isinstance(numericPayload, dict):
+        reasons.append("missing numericPayload for evidence type " + str(proposal.get("evidenceType", "")))
+    elif requiredFields:
+        missingFields = [field for field in requiredFields if field not in numericPayload]
+        if missingFields:
+            reasons.append("missing numericPayload fields: " + ", ".join(missingFields))
+    return reasons
+
+
+def applyAdversarialReview(
+    proposals: list[dict[str, Any]],
+    reviewedAt: str,
+    confidenceFloor: float,
+) -> dict[str, Any]:
+    seenSources: set[str] = set()
+    accepted = 0
+    refuted = 0
+    reasonCounts: dict[str, int] = {}
+    for proposal in proposals:
+        reasons = refuteReasons(proposal, seenSources, confidenceFloor)
+        key = sourceKey(proposal)
+        if not reasons:
+            seenSources.add(key)
+            accepted += 1
+            proposal["adversarialReview"] = {
+                "status": "accepted",
+                "skepticVotes": [
+                    {
+                        "skepticId": "deterministic-refute-gate",
+                        "vote": "accept",
+                        "reason": "Proposal passed deterministic offline validation checks.",
+                    }
+                ],
+                "reviewedAt": reviewedAt,
+            }
+            continue
+        refuted += 1
+        for reason in reasons:
+            reasonCounts[reason] = reasonCounts.get(reason, 0) + 1
+        proposal["adversarialReview"] = {
+            "status": "refuted",
+            "skepticVotes": [
+                {
+                    "skepticId": "deterministic-refute-gate",
+                    "vote": "refute",
+                    "reason": "; ".join(reasons),
+                }
+            ],
+            "reviewedAt": reviewedAt,
+        }
+    return {
+        "accepted": accepted,
+        "rejected": refuted,
+        "refuted": refuted,
+        "reasons": [{"reason": reason, "count": count} for reason, count in sorted(reasonCounts.items())],
+    }
 
 
 def quotaSummary(proposals: list[dict[str, Any]], backends: list[str]) -> dict[str, Any]:
@@ -269,6 +392,7 @@ def buildReport(
     generatedAt: str,
     confidenceFloor: float = DEFAULT_CONFIDENCE_FLOOR,
     maxProposalsPerSkill: int = DEFAULT_MAX_PROPOSALS_PER_SKILL,
+    adversarialReview: bool = False,
 ) -> dict[str, Any]:
     countsBySkill: dict[str, int] = {}
     seenSources: set[str] = set()
@@ -278,27 +402,54 @@ def buildReport(
     skillsTargeted = {seed.get("skillId") for seed in seeds if seed.get("skillId")}
 
     for seed in seeds:
-        proposal = normalizeProposal(seed, generatedAt)
-        source = proposal.get("source", "")
-        if proposal.get("existingEvidenceCheck", {}).get("duplicate") is True or source in seenSources:
-            duplicatesDropped += 1
-            continue
-        if float(proposal.get("confidence", 0)) < confidenceFloor:
-            belowConfidenceDropped += 1
-            continue
+        proposal = normalizeProposal(seed, generatedAt, strictGithub=not adversarialReview)
+        source = sourceKey(proposal)
+        if not adversarialReview:
+            if proposal.get("existingEvidenceCheck", {}).get("duplicate") is True or source in seenSources:
+                duplicatesDropped += 1
+                continue
+            if float(proposal.get("confidence", 0)) < confidenceFloor:
+                belowConfidenceDropped += 1
+                continue
         skillId = proposal.get("skillId", "")
         if countsBySkill.get(skillId, 0) >= maxProposalsPerSkill:
             continue
-        seenSources.add(source)
+        if not adversarialReview:
+            seenSources.add(source)
         proposals.append(proposal)
         countsBySkill[skillId] = countsBySkill.get(skillId, 0) + 1
 
+    reviewSummary = None
+    if adversarialReview:
+        reviewSummary = applyAdversarialReview(proposals, generatedAt, confidenceFloor)
+        duplicatesDropped = sum(
+            1 for proposal in proposals if "duplicate source candidate" in proposal["adversarialReview"]["skepticVotes"][0]["reason"]
+        )
+        belowConfidenceDropped = sum(
+            1 for proposal in proposals if "confidence below floor" in proposal["adversarialReview"]["skepticVotes"][0]["reason"]
+        )
+
     backends = sorted({proposal.get("crawlerBackend", GITHUB_FIXTURE_BACKEND) for proposal in proposals}) or DEFAULT_BACKENDS
+    summary = {
+        "skillsTargeted": len(skillsTargeted),
+        "proposalsGenerated": len(proposals),
+        "duplicatesDropped": duplicatesDropped,
+        "belowConfidenceDropped": belowConfidenceDropped,
+    }
+    if reviewSummary:
+        summary.update(
+            {
+                "proposalsAccepted": reviewSummary["accepted"],
+                "proposalsRejected": reviewSummary["rejected"],
+                "proposalsRefuted": reviewSummary["refuted"],
+                "refuteReasons": reviewSummary["reasons"],
+            }
+        )
     return {
         "reportId": runId,
         "generatedAt": generatedAt,
         "generatedBy": BOT_IDENTITY,
-        "pipelinePhase": PIPELINE_PHASE,
+        "pipelinePhase": "adversarial-review" if adversarialReview else PIPELINE_PHASE,
         "dryRun": True,
         "crawlConfig": {
             "targetGrades": ["C", "ungraded"],
@@ -308,12 +459,7 @@ def buildReport(
         },
         "quotaSummary": quotaSummary(proposals, backends),
         "proposals": proposals,
-        "summary": {
-            "skillsTargeted": len(skillsTargeted),
-            "proposalsGenerated": len(proposals),
-            "duplicatesDropped": duplicatesDropped,
-            "belowConfidenceDropped": belowConfidenceDropped,
-        },
+        "summary": summary,
     }
 
 
@@ -345,13 +491,14 @@ def runDryRun(
     confidenceFloor: float = DEFAULT_CONFIDENCE_FLOOR,
     maxProposalsPerSkill: int = DEFAULT_MAX_PROPOSALS_PER_SKILL,
     liveGithub: bool | None = None,
+    adversarialReview: bool = False,
 ) -> tuple[dict[str, Any], Path]:
     root = rootDir or repoRoot()
     stamp = generatedAt or utcNowStamp()
     reportId = runId or todayRunId(stamp)
     githubLive = envEnablesLiveGithub() if liveGithub is None else liveGithub
     seeds = loadSeeds(inputPath, liveGithub=githubLive, token=os.environ.get(GITHUB_TOKEN_ENV))
-    report = buildReport(seeds, reportId, stamp, confidenceFloor, maxProposalsPerSkill)
+    report = buildReport(seeds, reportId, stamp, confidenceFloor, maxProposalsPerSkill, adversarialReview)
     validateReport(report, root)
     path = resolveOutputPath(root, reportId, outputPath)
     writeJson(path, report)
@@ -371,6 +518,11 @@ def buildParser() -> argparse.ArgumentParser:
         action="store_true",
         help=f"Opt in to live GitHub API reads. Fixture mode is used unless this flag or {GITHUB_LIVE_ENV}=1 is set.",
     )
+    parser.add_argument(
+        "--adversarial-review",
+        action="store_true",
+        help="Run the deterministic offline validation/refute gate and mark proposals accepted/refuted.",
+    )
     return parser
 
 
@@ -384,9 +536,18 @@ def main(argv: list[str] | None = None) -> int:
         confidenceFloor=args.confidence_floor,
         maxProposalsPerSkill=args.max_proposals_per_skill,
         liveGithub=True if args.github_live else None,
+        adversarialReview=args.adversarial_review,
     )
     print(f"Wrote dry-run source-curation report: {path}")
     print(f"reportId={report['reportId']} proposals={len(report['proposals'])} generatedBy={report['generatedBy']}")
+    if args.adversarial_review:
+        summary = report["summary"]
+        print(
+            "adversarialReview "
+            f"accepted={summary.get('proposalsAccepted', 0)} "
+            f"rejected={summary.get('proposalsRejected', 0)} "
+            f"refuted={summary.get('proposalsRefuted', 0)}"
+        )
     return 0
 
 
