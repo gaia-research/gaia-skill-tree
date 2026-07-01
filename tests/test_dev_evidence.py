@@ -143,18 +143,32 @@ def test_index_updates_trust(tmp_path):
     assert len(_load_node(root)["evidence"]) == 1
 
 
-def test_index_out_of_range_exits(tmp_path):
+def test_index_out_of_range_exits_before_write(tmp_path, capsys):
     root = _make_registry(tmp_path, [{"source": "https://x"}])
+    before = _load_node(root)
+
     with pytest.raises(SystemExit) as exc:
         meta_evidence_command(_args(root, index=5, trust=80.0))
+
     assert exc.value.code != 0
+    assert _load_node(root) == before
+    err = capsys.readouterr().err
+    assert "Evidence index 5 out of range" in err
+    assert "--index" in err
 
 
-def test_index_with_no_update_field_exits(tmp_path):
+def test_index_with_no_update_field_exits_before_write(tmp_path, capsys):
     root = _make_registry(tmp_path, [{"source": "https://x"}])
+    before = _load_node(root)
+
     with pytest.raises(SystemExit) as exc:
         meta_evidence_command(_args(root, index=0))
+
     assert exc.value.code != 0
+    assert _load_node(root) == before
+    err = capsys.readouterr().err
+    assert "--index requires at least one update field" in err
+    assert "--trust" in err
 
 
 # ---------------------------------------------------------------------------
@@ -162,11 +176,18 @@ def test_index_with_no_update_field_exits(tmp_path):
 # ---------------------------------------------------------------------------
 
 
-def test_benchmark_without_percentile_exits(tmp_path):
+def test_benchmark_without_percentile_exits_before_write(tmp_path, capsys):
     root = _make_registry(tmp_path)
+    before = _load_node(root)
+
     with pytest.raises(SystemExit) as exc:
         meta_evidence_command(_args(root, evidence_type="benchmark-result", trust=80.0))
+
     assert exc.value.code != 0
+    assert _load_node(root) == before
+    err = capsys.readouterr().err
+    assert "--type benchmark-result" in err
+    assert "--percentile" in err
 
 
 def test_benchmark_with_percentile_succeeds(tmp_path):
@@ -221,11 +242,44 @@ def test_existing_class_field_preserved_on_regrade(tmp_path):
 # ---------------------------------------------------------------------------
 
 
-def test_invalid_type_exits(tmp_path):
+def test_invalid_type_exits_before_write(tmp_path, capsys):
     root = _make_registry(tmp_path)
+    before = _load_node(root)
+
     with pytest.raises(SystemExit) as exc:
         meta_evidence_command(_args(root, evidence_type="not-a-real-type", trust=50.0))
+
     assert exc.value.code != 0
+    assert _load_node(root) == before
+    err = capsys.readouterr().err
+    assert "unknown evidence type 'not-a-real-type'" in err
+    assert "repo-own" in err
+
+
+def test_invalid_date_exits_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    before = _load_node(root)
+
+    with pytest.raises(SystemExit) as exc:
+        meta_evidence_command(_args(root, trust=50.0, date="2026/07/01"))
+
+    assert exc.value.code != 0
+    assert _load_node(root) == before
+    err = capsys.readouterr().err
+    assert "--date must be ISO YYYY-MM-DD" in err
+
+
+def test_invalid_source_started_at_exits_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    before = _load_node(root)
+
+    with pytest.raises(SystemExit) as exc:
+        meta_evidence_command(_args(root, trust=50.0, source_started_at="July 1"))
+
+    assert exc.value.code != 0
+    assert _load_node(root) == before
+    err = capsys.readouterr().err
+    assert "--source-started-at must be ISO YYYY-MM-DD" in err
 
 
 # ---------------------------------------------------------------------------
