@@ -1,7 +1,8 @@
 """Dry-run source curation report runner.
 
-This module intentionally performs no network calls and no registry writes. It
-emits schema-validated proposal reports for human review only.
+This module defaults to offline fixture discovery. Live GitHub API reads are
+available only when explicitly enabled and still stop at schema-valid dry-run
+reports: no registry writes and no PR publishing.
 """
 
 from __future__ import annotations
@@ -12,6 +13,9 @@ import hashlib
 import json
 import os
 import re
+import urllib.error
+import urllib.parse
+import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -22,7 +26,16 @@ BOT_IDENTITY = "nova-gaia"
 PIPELINE_PHASE = "discovery"
 DEFAULT_CONFIDENCE_FLOOR = 0.3
 DEFAULT_MAX_PROPOSALS_PER_SKILL = 5
-DEFAULT_BACKENDS = ["fixture-discovery"]
+GITHUB_FIXTURE_BACKEND = "github-fixture"
+GITHUB_API_BACKEND = "github-api"
+DEFAULT_BACKENDS = [GITHUB_FIXTURE_BACKEND]
+GITHUB_LIVE_ENV = "GAIA_SOURCE_CURATION_LIVE_GITHUB"
+GITHUB_TOKEN_ENV = "GITHUB_TOKEN"
+GITHUB_ADAPTER_VERSION = "github-discovery-v1"
+
+
+class GithubUrlError(ValueError):
+    """Raised when a GitHub source URL is not acceptable for a proposal."""
 
 
 def repoRoot() -> Path:
@@ -97,36 +110,120 @@ def proposalId(seed: dict[str, Any], datePart: str) -> str:
     return f"{safeId(seed.get('skillId', 'unknown-skill'))}-{digest}-{datePart}"
 
 
-def defaultSeeds() -> list[dict[str, Any]]:
+def isGithubHost(url: str) -> bool:
+    parsed = urllib.parse.urlparse(url)
+    host = (parsed.hostname or "").lower()
+    return host in {"github.com", "www.github.com"}
+
+
+def canonicalizeGithubBlobUrl(url: str) -> str:
+    """Return a canonical GitHub blob URL, rejecting directory tree URLs.
+
+    Source-curation proposals that point at a skill file must be installable and
+    reviewable as a concrete file. GitHub directory-view URLs use `/tree/`; the
+    installer policy requires `/blob/<branch>/<subpath>` for file sources, so
+    tree URLs are rejected instead of silently rewritten to a possibly-wrong
+    file path.
+    """
+
+    parsed = urllib.parse.urlparse(url)
+    host = (parsed.hostname or "").lower()
+    if parsed.scheme.lower() != "https" or host not in {"github.com", "www.github.com"}:
+        raise GithubUrlError("GitHub source must be an https://github.com/... URL")
+
+    parts = [urllib.parse.unquote(part) for part in parsed.path.split("/") if part]
+    if len(parts) < 5:
+        raise GithubUrlError("GitHub skill-file source must include /blob/<branch>/<path>")
+    owner, repo, view, branch, *subpath = parts
+    viewType = view.lower()
+    if viewType == "tree":
+        raise GithubUrlError("GitHub tree/ URLs are directory views; use a blob/<branch>/<file> source")
+    if viewType != "blob":
+        raise GithubUrlError("GitHub skill-file source must use /blob/<branch>/<path>")
+    if not owner or not repo or not branch or not subpath:
+        raise GithubUrlError("GitHub blob URL is missing owner, repo, branch, or file path")
+
+    quotedParts = [urllib.parse.quote(part, safe="") for part in [owner, repo, "blob", branch, *subpath]]
+    return "https://github.com/" + "/".join(quotedParts)
+
+
+def githubFixtureDiscoveries() -> list[dict[str, Any]]:
     return [
         {
             "skillId": "mattpocock/grill-me",
             "genericSkillRef": "code-review-automation",
-            "source": "https://example.com/source-curation/grill-me-demo",
-            "evidenceType": "social-signal",
-            "numericPayload": {"views": 2400, "likes": 120, "comments": 18},
-            "crawlerBackend": "fixture-discovery",
-            "confidence": 0.74,
-            "rationale": "Deterministic fixture describing a public demonstration relevant to the grill-me named skill.",
-            "existingEvidenceCheck": {"checked": True, "duplicate": False},
+            "source": "https://github.com/mattpocock/grill-me/blob/main/SKILL.md",
+            "evidenceType": "github-stars-own",
+            "numericPayload": {"stars": 1280, "skillCountInRepo": 1},
+            "confidence": 0.86,
+            "rationale": "Offline GitHub fixture for a concrete SKILL.md file associated with the grill-me named skill.",
         },
         {
             "skillId": "karpathy/autoresearch",
             "genericSkillRef": "autonomous-research",
-            "source": "https://example.com/source-curation/autoresearch-repo",
+            "source": "https://github.com/karpathy/autoresearch/blob/main/skills/autoresearch/SKILL.md",
             "evidenceType": "repo-own",
             "numericPayload": {"commits": 42, "contributors": 3},
-            "crawlerBackend": "fixture-discovery",
             "confidence": 0.81,
-            "rationale": "Deterministic fixture describing repository activity relevant to the autoresearch named skill.",
-            "existingEvidenceCheck": {"checked": True, "duplicate": False},
+            "rationale": "Offline GitHub fixture for repository activity relevant to the autoresearch named skill.",
         },
     ]
 
 
-def loadSeeds(inputPath: str | None) -> list[dict[str, Any]]:
+def githubRepoApiUrl(blobUrl: str) -> str:
+    parsed = urllib.parse.urlparse(blobUrl)
+    parts = [part for part in parsed.path.split("/") if part]
+    owner, repo = parts[0], parts[1]
+    return f"https://api.github.com/repos/{owner}/{repo}"
+
+
+def fetchGithubRepo(repoApiUrl: str, token: str | None = None) -> dict[str, Any]:
+    headers = {"Accept": "application/vnd.github+json", "User-Agent": "nova-gaia-source-curation"}
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    request = urllib.request.Request(repoApiUrl, headers=headers)
+    try:
+        with urllib.request.urlopen(request, timeout=10) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as error:
+        raise RuntimeError(f"GitHub API request failed for {repoApiUrl}: {error}") from error
+
+
+def discoverGithubSeeds(liveGithub: bool = False, token: str | None = None) -> list[dict[str, Any]]:
+    """Discover GitHub-backed source proposals.
+
+    Fixture mode is the default and consumes zero quota. Live mode refreshes the
+    fixture repositories through the GitHub REST API only when explicitly
+    enabled by CLI flag or environment variable.
+    """
+
+    backend = GITHUB_API_BACKEND if liveGithub else GITHUB_FIXTURE_BACKEND
+    seeds: list[dict[str, Any]] = []
+    for raw in githubFixtureDiscoveries():
+        seed = copy.deepcopy(raw)
+        seed["source"] = canonicalizeGithubBlobUrl(seed["source"])
+        seed["crawlerBackend"] = backend
+        seed["crawlerVersion"] = GITHUB_ADAPTER_VERSION
+        seed["existingEvidenceCheck"] = {"checked": True, "duplicate": False}
+        seed["quotaCost"] = {"apiCalls": 0, "estimatedCostUsd": 0, "backend": backend}
+        if liveGithub:
+            repoPayload = fetchGithubRepo(githubRepoApiUrl(seed["source"]), token=token)
+            seed["quotaCost"]["apiCalls"] = 1
+            if seed["evidenceType"] == "github-stars-own":
+                seed.setdefault("numericPayload", {})["stars"] = int(repoPayload.get("stargazers_count", 0))
+            if seed["evidenceType"] == "repo-own":
+                seed.setdefault("numericPayload", {})["contributors"] = int(seed["numericPayload"].get("contributors", 0))
+        seeds.append(seed)
+    return seeds
+
+
+def defaultSeeds(liveGithub: bool = False, token: str | None = None) -> list[dict[str, Any]]:
+    return discoverGithubSeeds(liveGithub=liveGithub, token=token)
+
+
+def loadSeeds(inputPath: str | None, liveGithub: bool = False, token: str | None = None) -> list[dict[str, Any]]:
     if not inputPath:
-        return defaultSeeds()
+        return defaultSeeds(liveGithub=liveGithub, token=token)
     payload = loadJson(inputPath)
     if isinstance(payload, list):
         return payload
@@ -140,12 +237,30 @@ def loadSeeds(inputPath: str | None) -> list[dict[str, Any]]:
 def normalizeProposal(seed: dict[str, Any], generatedAt: str) -> dict[str, Any]:
     proposal = copy.deepcopy(seed)
     datePart = generatedAt[:10].replace("-", "")
+    if isGithubHost(proposal.get("source", "")):
+        proposal["source"] = canonicalizeGithubBlobUrl(proposal["source"])
     proposal.setdefault("proposalId", proposalId(proposal, datePart))
     proposal.setdefault("discoveredAt", generatedAt)
     proposal["discoveredBy"] = BOT_IDENTITY
-    proposal.setdefault("crawlerBackend", "fixture-discovery")
+    proposal.setdefault("crawlerBackend", GITHUB_FIXTURE_BACKEND)
+    proposal.setdefault("quotaCost", {"apiCalls": 0, "estimatedCostUsd": 0, "backend": proposal["crawlerBackend"]})
     proposal["dryRun"] = True
     return proposal
+
+
+def quotaSummary(proposals: list[dict[str, Any]], backends: list[str]) -> dict[str, Any]:
+    perBackend = {backend: {"calls": 0, "costUsd": 0} for backend in backends}
+    for proposal in proposals:
+        cost = proposal.get("quotaCost", {})
+        backend = cost.get("backend") or proposal.get("crawlerBackend", GITHUB_FIXTURE_BACKEND)
+        perBackend.setdefault(backend, {"calls": 0, "costUsd": 0})
+        perBackend[backend]["calls"] += int(cost.get("apiCalls", 0))
+        perBackend[backend]["costUsd"] += float(cost.get("estimatedCostUsd", 0))
+    return {
+        "totalApiCalls": sum(item["calls"] for item in perBackend.values()),
+        "estimatedTotalCostUsd": sum(item["costUsd"] for item in perBackend.values()),
+        "perBackend": perBackend,
+    }
 
 
 def buildReport(
@@ -156,26 +271,29 @@ def buildReport(
     maxProposalsPerSkill: int = DEFAULT_MAX_PROPOSALS_PER_SKILL,
 ) -> dict[str, Any]:
     countsBySkill: dict[str, int] = {}
+    seenSources: set[str] = set()
     proposals: list[dict[str, Any]] = []
     duplicatesDropped = 0
     belowConfidenceDropped = 0
     skillsTargeted = {seed.get("skillId") for seed in seeds if seed.get("skillId")}
 
     for seed in seeds:
-        if seed.get("existingEvidenceCheck", {}).get("duplicate") is True:
+        proposal = normalizeProposal(seed, generatedAt)
+        source = proposal.get("source", "")
+        if proposal.get("existingEvidenceCheck", {}).get("duplicate") is True or source in seenSources:
             duplicatesDropped += 1
             continue
-        if float(seed.get("confidence", 0)) < confidenceFloor:
+        if float(proposal.get("confidence", 0)) < confidenceFloor:
             belowConfidenceDropped += 1
             continue
-        skillId = seed.get("skillId", "")
+        skillId = proposal.get("skillId", "")
         if countsBySkill.get(skillId, 0) >= maxProposalsPerSkill:
             continue
-        proposal = normalizeProposal(seed, generatedAt)
+        seenSources.add(source)
         proposals.append(proposal)
         countsBySkill[skillId] = countsBySkill.get(skillId, 0) + 1
 
-    backends = sorted({proposal.get("crawlerBackend", "fixture-discovery") for proposal in proposals}) or DEFAULT_BACKENDS
+    backends = sorted({proposal.get("crawlerBackend", GITHUB_FIXTURE_BACKEND) for proposal in proposals}) or DEFAULT_BACKENDS
     return {
         "reportId": runId,
         "generatedAt": generatedAt,
@@ -188,11 +306,7 @@ def buildReport(
             "confidenceFloor": confidenceFloor,
             "backends": backends,
         },
-        "quotaSummary": {
-            "totalApiCalls": 0,
-            "estimatedTotalCostUsd": 0,
-            "perBackend": {backend: {"calls": 0, "costUsd": 0} for backend in backends},
-        },
+        "quotaSummary": quotaSummary(proposals, backends),
         "proposals": proposals,
         "summary": {
             "skillsTargeted": len(skillsTargeted),
@@ -218,6 +332,10 @@ def resolveOutputPath(rootDir: Path, runId: str, outputPath: str | None = None) 
     return resolved
 
 
+def envEnablesLiveGithub() -> bool:
+    return os.environ.get(GITHUB_LIVE_ENV, "").lower() in {"1", "true", "yes", "on"}
+
+
 def runDryRun(
     rootDir: Path | None = None,
     runId: str | None = None,
@@ -226,11 +344,13 @@ def runDryRun(
     outputPath: str | None = None,
     confidenceFloor: float = DEFAULT_CONFIDENCE_FLOOR,
     maxProposalsPerSkill: int = DEFAULT_MAX_PROPOSALS_PER_SKILL,
+    liveGithub: bool | None = None,
 ) -> tuple[dict[str, Any], Path]:
     root = rootDir or repoRoot()
     stamp = generatedAt or utcNowStamp()
     reportId = runId or todayRunId(stamp)
-    seeds = loadSeeds(inputPath)
+    githubLive = envEnablesLiveGithub() if liveGithub is None else liveGithub
+    seeds = loadSeeds(inputPath, liveGithub=githubLive, token=os.environ.get(GITHUB_TOKEN_ENV))
     report = buildReport(seeds, reportId, stamp, confidenceFloor, maxProposalsPerSkill)
     validateReport(report, root)
     path = resolveOutputPath(root, reportId, outputPath)
@@ -240,12 +360,17 @@ def runDryRun(
 
 def buildParser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Emit a dry-run nova-gaia source-curation proposal report.")
-    parser.add_argument("--input", help="Optional JSON seed file. Defaults to deterministic fixture discovery.")
+    parser.add_argument("--input", help="Optional JSON seed file. Defaults to deterministic GitHub fixture discovery.")
     parser.add_argument("--output", help="Output report path. Defaults to generated-output/source-curation/<run-id>/report.json")
     parser.add_argument("--run-id", help="Deterministic report ID. Defaults to <yyyymmdd>-dry-run")
     parser.add_argument("--generated-at", help="ISO 8601 timestamp for deterministic runs. Defaults to current UTC time.")
     parser.add_argument("--confidence-floor", type=float, default=DEFAULT_CONFIDENCE_FLOOR)
     parser.add_argument("--max-proposals-per-skill", type=int, default=DEFAULT_MAX_PROPOSALS_PER_SKILL)
+    parser.add_argument(
+        "--github-live",
+        action="store_true",
+        help=f"Opt in to live GitHub API reads. Fixture mode is used unless this flag or {GITHUB_LIVE_ENV}=1 is set.",
+    )
     return parser
 
 
@@ -258,6 +383,7 @@ def main(argv: list[str] | None = None) -> int:
         outputPath=args.output,
         confidenceFloor=args.confidence_floor,
         maxProposalsPerSkill=args.max_proposals_per_skill,
+        liveGithub=True if args.github_live else None,
     )
     print(f"Wrote dry-run source-curation report: {path}")
     print(f"reportId={report['reportId']} proposals={len(report['proposals'])} generatedBy={report['generatedBy']}")

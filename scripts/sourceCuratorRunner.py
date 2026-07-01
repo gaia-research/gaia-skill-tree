@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Dry-run source-curation runner.
 
-No network calls are made. No registry files are mutated. The runner writes a
-schema-valid proposal report for review.
+The default mode uses offline GitHub fixtures and makes no network calls. Live
+GitHub reads require explicit opt-in. No registry files are mutated; the runner
+writes a schema-valid proposal report for review.
 """
 
 import sys
