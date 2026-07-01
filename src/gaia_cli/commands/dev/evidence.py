@@ -13,38 +13,17 @@ from gaia_cli.commands.dev.helpers import (
     _get_contributor,
     _run_docs_build,
     _confirm_destructive,
+    _run_dev_preflights,
+    _preflight_evidence_static,
+    _preflight_evidence_index_bounds,
 )
 
 
 def _preflight_benchmark_percentile(args) -> None:
-    """Require --percentile when --type benchmark-result is used.
-
-    Without a percentile value the magnitude formula returns 0 and the
-    evidence entry is left ungraded. Per CLAUDE.md curation §5 ("benchmark-result
-    requires `percentile` field"), we reject the command before any write.
-
-    Raises SystemExit(1) if the invariant is violated.
-    """
-    if getattr(args, "evidence_type", None) != "benchmark-result":
-        return
-    percentile = getattr(args, "percentile", None)
-    if percentile is None:
-        print(
-            "Error: `--type benchmark-result` requires `--percentile <0-100>`.\n"
-            "Without a percentile value the Trust Magnitude formula yields 0 and the "
-            "evidence entry will be ungraded. Pass `--percentile <int>` (0–100 inclusive) "
-            "to record the benchmark result's performance percentile.\n"
-            "If the percentile is unknown, use `--type peer-review` with `--reviewers` "
-            "instead for a gradeable entry.",
-            file=sys.stderr,
-        )
-        sys.exit(1)
-    if not (0 <= int(percentile) <= 100):
-        print(
-            f"Error: `--percentile` must be in range 0-100; got {percentile!r}.",
-            file=sys.stderr,
-        )
-        sys.exit(1)
+    """Backward-compatible wrapper for the shared evidence preflight."""
+    _run_dev_preflights([
+        lambda: _preflight_evidence_static(args, ("benchmark-result", "repo-own")),
+    ])
 
 
 def meta_evidence_command(args):
@@ -63,31 +42,12 @@ def meta_evidence_command(args):
     trust_number = getattr(args, "trust", None)
     evidence_type = getattr(args, "evidence_type", None)
 
-    # Validate --type against meta.json evidence.types
-    if evidence_type is not None:
-        valid_types = load_evidence_types(registry_path)
-        if evidence_type not in valid_types:
-            print(
-                f"Error: unknown evidence type '{evidence_type}'. "
-                f"Valid types: {', '.join(valid_types)}",
-                file=sys.stderr,
-            )
-            sys.exit(1)
+    valid_types = load_evidence_types(registry_path)
+    _run_dev_preflights([
+        lambda: _preflight_evidence_static(args, valid_types),
+    ])
 
-    # Pre-flight: benchmark-result requires --percentile (magnitude formula uses it)
-    _preflight_benchmark_percentile(args)
-
-    # Validate --source-started-at as ISO YYYY-MM-DD; reject bad input loudly.
     source_started_at = getattr(args, "source_started_at", None)
-    if source_started_at is not None:
-        try:
-            datetime.date.fromisoformat(source_started_at)
-        except ValueError:
-            print(
-                f"Error: --source-started-at must be ISO YYYY-MM-DD; got '{source_started_at}'.",
-                file=sys.stderr,
-            )
-            sys.exit(1)
 
     # Derive grade from trust number (legacy fallback used when no type+artifact info available)
     derived_grade: str | None = None
@@ -98,16 +58,6 @@ def meta_evidence_command(args):
     # --index re-grades an existing entry in place (class→grade backfill);
     # otherwise a new entry is appended.
     index = getattr(args, "index", None)
-
-    if index is not None and trust_number is None and evidence_type is None and (
-        not getattr(args, "notes", None)
-    ) and source_started_at is None:
-        print(
-            "Error: --index requires at least one of --trust, --type, --notes, "
-            "or --source-started-at to update on the existing entry.",
-            file=sys.stderr,
-        )
-        sys.exit(1)
 
     evidence: dict = {
         "source": args.source,
@@ -256,6 +206,9 @@ def meta_evidence_command(args):
             print(f"Error: Named skill '{skill_id}' not found.")
             sys.exit(1)
         meta, body = _parse_md(named_file)
+        _run_dev_preflights([
+            lambda: _preflight_evidence_index_bounds(skill_id, meta.get("evidence") or [], index),
+        ])
         result_entry = _apply(meta.setdefault("evidence", []))
         # Stamp tenure baseline on the first evidence-add only.
         if index is None:
@@ -283,6 +236,9 @@ def meta_evidence_command(args):
 
         with open(node_file, "r", encoding="utf-8") as f:
             data = json.load(f)
+        _run_dev_preflights([
+            lambda: _preflight_evidence_index_bounds(skill_id, data.get("evidence") or [], index),
+        ])
         result_entry = _apply(data.setdefault("evidence", []))
         # Stamp tenure baseline on the first evidence-add only.
         if index is None:

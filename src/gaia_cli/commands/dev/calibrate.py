@@ -13,33 +13,9 @@ from gaia_cli.commands.dev.helpers import (
     _get_contributor,
     _run_docs_build,
     _confirm_destructive,
+    _run_dev_preflights,
+    _preflight_starbar_blob_link,
 )
-
-
-def _preflight_starbar(skill_data: dict, level: str) -> None:
-    """Reject calibrations to 3★+ when the skill lacks a verified blob URL.
-
-    Per META.md §2.4 "Star Bar": a named skill at 3★ or above must have a
-    verified `links.github` pointing to a `blob/` URL. Without it the skill
-    is uninstallable and fails the Star Bar gate.
-
-    Raises SystemExit(1) if the invariant is violated.
-    """
-    three_star_plus = {"3★", "4★", "5★", "6★"}
-    if level not in three_star_plus:
-        return
-    github_url = (skill_data.get("links") or {}).get("github", "")
-    if not github_url or "/blob/" not in github_url:
-        print(
-            f"Error: Cannot calibrate to {level} — `links.github` is missing or not a "
-            f"`blob/` URL. The Star Bar (META.md §2.4) requires a verified GitHub blob URL "
-            f"for 3★+ skills.\n"
-            f"  Current value: {github_url!r}\n"
-            f"  Fix: `gaia dev update-named <skill> --github-link "
-            f"https://github.com/<owner>/<repo>/blob/<branch>/<path-to-skill>`",
-            file=sys.stderr,
-        )
-        sys.exit(1)
 
 
 def meta_calibrate_command(args):
@@ -69,7 +45,9 @@ def meta_calibrate_command(args):
         sys.exit(1)
 
     skill_data, body = _parse_md(node_file)
-    _preflight_starbar(skill_data, level)
+    _run_dev_preflights([
+        lambda: _preflight_starbar_blob_link(skill_id, skill_data, level),
+    ])
     old_level = skill_data.get("level", "2★")
     skill_data["level"] = level
     skill_data["updatedAt"] = datetime.date.today().isoformat()
