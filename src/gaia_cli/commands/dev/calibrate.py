@@ -15,6 +15,7 @@ from gaia_cli.commands.dev.helpers import (
     _confirm_destructive,
     _run_dev_preflights,
     _preflight_starbar_blob_link,
+    _fail_dev_preflight,
 )
 
 
@@ -94,6 +95,34 @@ def calibrate_evidence_grades_command(args):
     if not per_row_thresholds:
         print("Error: perRowGradeThresholds not found in meta.json. Cannot proceed.", file=sys.stderr)
         sys.exit(1)
+
+    def _preflight_target_skill_exists() -> None:
+        if not target_skill:
+            return
+        nodes_dir_check = Path(registry_nodes_dir(registry_path))
+        for node_file in nodes_dir_check.rglob("*.json"):
+            try:
+                with open(node_file, "r", encoding="utf-8") as f:
+                    skill = json.load(f)
+            except Exception:
+                continue
+            if skill.get("id") == target_skill:
+                return
+        named_dir_check = Path(named_skills_dir(registry_path))
+        if named_dir_check.exists():
+            for md_file in named_dir_check.rglob("*.md"):
+                try:
+                    meta_fm, _ = _parse_md(md_file)
+                except Exception:
+                    continue
+                if meta_fm.get("id") == target_skill or meta_fm.get("genericSkillRef") == target_skill:
+                    return
+        _fail_dev_preflight(
+            f"--skill target '{target_skill}' was not found in generic or named registry data.",
+            fix="Pass an existing generic ref or named skill ID, or omit --skill to process the selected scope.",
+        )
+
+    _run_dev_preflights([_preflight_target_skill_exists])
 
     if not dry_run:
         _confirm_destructive(

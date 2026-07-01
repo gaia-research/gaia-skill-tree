@@ -16,6 +16,7 @@ from gaia_cli.commands.dev.helpers import (
     _run_dev_preflights,
     _preflight_evidence_static,
     _preflight_evidence_index_bounds,
+    _preflight_duplicate_evidence_source,
 )
 
 
@@ -208,6 +209,7 @@ def meta_evidence_command(args):
         meta, body = _parse_md(named_file)
         _run_dev_preflights([
             lambda: _preflight_evidence_index_bounds(skill_id, meta.get("evidence") or [], index),
+            lambda: _preflight_duplicate_evidence_source(skill_id, meta.get("evidence") or [], args.source),
         ])
         result_entry = _apply(meta.setdefault("evidence", []))
         # Stamp tenure baseline on the first evidence-add only.
@@ -238,6 +240,7 @@ def meta_evidence_command(args):
             data = json.load(f)
         _run_dev_preflights([
             lambda: _preflight_evidence_index_bounds(skill_id, data.get("evidence") or [], index),
+            lambda: _preflight_duplicate_evidence_source(skill_id, data.get("evidence") or [], args.source),
         ])
         result_entry = _apply(data.setdefault("evidence", []))
         # Stamp tenure baseline on the first evidence-add only.
