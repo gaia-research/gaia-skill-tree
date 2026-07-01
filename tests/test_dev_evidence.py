@@ -35,6 +35,7 @@ def _make_registry(tmp_path: Path, evidence: list | None = None) -> str:
                     {"id": "peer-review", "gradeCeiling": "S"},
                     {"id": "benchmark-result", "gradeCeiling": "A"},
                     {"id": "github-stars-own", "gradeCeiling": "B"},
+                    {"id": "social-signal", "gradeCeiling": "A"},
                 ],
                 "perRowGradeThresholds": {},
             }
@@ -107,7 +108,7 @@ def test_append_adds_evidence(tmp_path):
 
 def test_append_with_type(tmp_path):
     root = _make_registry(tmp_path)
-    meta_evidence_command(_args(root, evidence_type="repo-own", trust=120.0))
+    meta_evidence_command(_args(root, evidence_type="repo-own", trust=120.0, commits=50, contributors=2))
     ev = _load_node(root)["evidence"]
     assert ev[0]["type"] == "repo-own"
 
@@ -211,9 +212,47 @@ def test_percentile_out_of_range_exits(tmp_path):
 def test_non_benchmark_type_no_percentile_required(tmp_path):
     """Other types do not require --percentile."""
     root = _make_registry(tmp_path)
-    meta_evidence_command(_args(root, evidence_type="repo-own", trust=80.0))
+    meta_evidence_command(_args(root, evidence_type="peer-review", trust=80.0, reviewers=2))
     ev = _load_node(root)["evidence"]
     assert len(ev) == 1
+
+
+def test_peer_review_requires_reviewers_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    before = _load_node(root)
+
+    with pytest.raises(SystemExit) as exc:
+        meta_evidence_command(_args(root, evidence_type="peer-review", trust=80.0))
+
+    assert exc.value.code != 0
+    assert _load_node(root) == before
+    err = capsys.readouterr().err
+    assert "--type peer-review" in err
+    assert "--reviewers" in err
+
+
+def test_negative_numeric_payload_rejected_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    before = _load_node(root)
+
+    with pytest.raises(SystemExit) as exc:
+        meta_evidence_command(_args(root, evidence_type="social-signal", views=-1))
+
+    assert exc.value.code != 0
+    assert _load_node(root) == before
+    assert "--views must be >= 0" in capsys.readouterr().err
+
+
+def test_invalid_source_url_rejected_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    before = _load_node(root)
+
+    with pytest.raises(SystemExit) as exc:
+        meta_evidence_command(_args(root, source="not-a-url", trust=20.0))
+
+    assert exc.value.code != 0
+    assert _load_node(root) == before
+    assert "absolute http(s) URL" in capsys.readouterr().err
 
 
 # ---------------------------------------------------------------------------
@@ -299,5 +338,5 @@ def test_preflight_benchmark_with_percentile_passes():
 
 
 def test_preflight_non_benchmark_passes():
-    ns = SimpleNamespace(evidence_type="repo-own", percentile=None)
+    ns = SimpleNamespace(evidence_type="repo-own", percentile=None, commits=1, contributors=1)
     _preflight_benchmark_percentile(ns)  # must not raise
