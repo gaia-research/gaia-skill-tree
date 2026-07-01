@@ -13,6 +13,8 @@ from gaia_cli.commands.dev.helpers import (
     _run_docs_build,
     _run_dev_preflights,
     _preflight_named_status_identity,
+    preflightSuiteComponents,
+    preflightGithubLink,
 )
 
 
@@ -34,6 +36,8 @@ def meta_update_named_command(args):
 
     _run_dev_preflights([
         lambda: _preflight_named_status_identity(skill_id, meta, args),
+        lambda: preflightSuiteComponents(registry_path, getattr(args, "suite_components", None)),
+        lambda: preflightGithubLink(getattr(args, "github_link", None)),
     ])
 
     if getattr(args, "status", None):

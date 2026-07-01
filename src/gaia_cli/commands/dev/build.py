@@ -12,6 +12,9 @@ from gaia_cli.commands.dev.helpers import (
     _confirm_destructive,
     _get_contributor,
     _run_docs_build,
+    _run_dev_preflights,
+    preflightAddCommand,
+    preflightLinkCommand,
 )
 
 
@@ -23,6 +26,9 @@ def meta_build_command(args):
 
 
 def meta_add_command(args):
+    _run_dev_preflights([
+        lambda: preflightAddCommand(args),
+    ])
     registry_path = args.registry
     skill_name = args.name
     skill_id = args.id or skill_name.lower().replace(" ", "-")
@@ -201,6 +207,9 @@ def meta_remove_command(args):
 
 
 def meta_link_command(args):
+    _run_dev_preflights([
+        lambda: preflightLinkCommand(args),
+    ])
     registry_path = args.registry
     target_id = args.target.lstrip("/")
     prereqs = [p.strip() for p in args.prereqs.split(",")]
