@@ -86,13 +86,13 @@ evidence:
   grade: B
 - source: https://github.com/ruvnet/ruflo/stargazers
   evaluator: mbtiongson1
-  updatedAt: '2026-06-28'
+  updatedAt: '2026-07-01'
   date: '2026-06-19'
   type: github-stars-own
   class: A
   notes: 59,957 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
     mothership with sub-skills, divisor=4)
-  stars: 61720
+  stars: 62303
   skillCountInRepo: 4
 - source: https://arxiv.org/abs/2602.06547
   evaluator: mbtiongson1
