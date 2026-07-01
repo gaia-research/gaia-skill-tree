@@ -325,6 +325,216 @@ def genericSkillExists(registryPath: str, skillId: str) -> bool:
     return False
 
 
+def loadGenericNodes(registryPath: str) -> list[tuple[Path, dict]]:
+    """Load all parseable generic registry nodes once for dev preflights."""
+    nodesDir = Path(registry_nodes_dir(registryPath))
+    nodes = []
+    for p in nodesDir.glob("**/*.json"):
+        with open(p, "r", encoding="utf-8") as f:
+            try:
+                data = json.load(f)
+            except json.JSONDecodeError:
+                continue
+        nodes.append((p, data))
+    return nodes
+
+
+def indexGenericNodes(nodes: list[tuple[Path, dict]]) -> dict[str, list[tuple[Path, dict]]]:
+    """Return node rows grouped by id so callers can detect collisions."""
+    byId: dict[str, list[tuple[Path, dict]]] = {}
+    for path, data in nodes:
+        nodeId = data.get("id")
+        if nodeId:
+            byId.setdefault(nodeId, []).append((path, data))
+    return byId
+
+
+def _require_single_generic(byId: dict[str, list[tuple[Path, dict]]], skillId: str, label: str) -> tuple[Path, dict]:
+    matches = byId.get(skillId, [])
+    if not matches:
+        _fail_dev_preflight(f"{label} skill '{skillId}' does not exist.")
+    if len(matches) > 1:
+        locations = ", ".join(str(path) for path, _ in matches)
+        _fail_dev_preflight(
+            f"{label} skill '{skillId}' is duplicated in registry nodes.",
+            fix=f"Resolve the ID collision before mutating it. Matches: {locations}",
+        )
+    return matches[0]
+
+
+def _reject_duplicate_values(values: list[str], label: str) -> None:
+    seen = set()
+    duplicates = []
+    for value in values:
+        if value in seen and value not in duplicates:
+            duplicates.append(value)
+        seen.add(value)
+    if duplicates:
+        _fail_dev_preflight(
+            f"Duplicate {label} IDs are not allowed: {', '.join(duplicates)}.",
+            fix=f"Remove duplicate IDs from the {label} list.",
+        )
+
+
+def _valid_generic_id(skillId: str) -> bool:
+    import re
+    return bool(re.match(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$", skillId))
+
+
+def preflightMergeCommand(args) -> None:
+    registryPath = args.registry
+    targetId = args.target.lstrip("/")
+    sources = [source.lstrip("/") for source in args.sources]
+    if not sources:
+        _fail_dev_preflight("Merge requires at least one source skill.")
+    _reject_duplicate_values(sources, "source")
+    if targetId in sources:
+        _fail_dev_preflight(
+            f"Target skill '{targetId}' cannot also be a source skill.",
+            fix="Remove the target from the source list or choose a different target.",
+        )
+
+    if "/" in targetId:
+        namedDir = Path(named_skills_dir(registryPath))
+        if not _find_named_file(namedDir, targetId):
+            _fail_dev_preflight(f"Target named skill '{targetId}' does not exist.")
+        for sourceId in sources:
+            if "/" not in sourceId:
+                _fail_dev_preflight(
+                    f"Cannot merge generic source '{sourceId}' into named target '{targetId}'.",
+                    fix="Use all named IDs or all generic IDs in one merge.",
+                )
+            if not _find_named_file(namedDir, sourceId):
+                _fail_dev_preflight(f"Source named skill '{sourceId}' does not exist.")
+        return
+
+    for sourceId in sources:
+        if "/" in sourceId:
+            _fail_dev_preflight(
+                f"Cannot merge named source '{sourceId}' into generic target '{targetId}'.",
+                fix="Use all named IDs or all generic IDs in one merge.",
+            )
+    nodes = loadGenericNodes(registryPath)
+    byId = indexGenericNodes(nodes)
+    _require_single_generic(byId, targetId, "Target")
+    for sourceId in sources:
+        _require_single_generic(byId, sourceId, "Source")
+
+
+def preflightSplitCommand(args) -> None:
+    registryPath = args.registry
+    sourceId = args.source.lstrip("/")
+    targets = [target.lstrip("/") for target in args.targets]
+    if not targets:
+        _fail_dev_preflight("Split requires at least one target skill ID.")
+    _reject_duplicate_values(targets, "split target")
+    if sourceId in targets:
+        _fail_dev_preflight(
+            f"Split source '{sourceId}' cannot also be a target.",
+            fix="Choose new target IDs that do not match the source.",
+        )
+    for targetId in targets:
+        if not _valid_generic_id(targetId):
+            _fail_dev_preflight(
+                f"Split target ID '{targetId}' is invalid.",
+                fix="Use a valid lowercase, hyphenated generic skill slug.",
+            )
+
+    nodes = loadGenericNodes(registryPath)
+    byId = indexGenericNodes(nodes)
+    sourcePath, _ = _require_single_generic(byId, sourceId, "Source")
+    for targetId in targets:
+        if targetId in byId:
+            _fail_dev_preflight(f"Split target '{targetId}' already exists in registry.")
+        targetPath = sourcePath.parent / f"{targetId}.json"
+        if targetPath.exists():
+            _fail_dev_preflight(
+                f"Split target '{targetId}' already exists on disk at {targetPath}.",
+                fix="Choose a new target ID or remove the stale file first.",
+            )
+
+
+def preflightRenameCommand(args) -> None:
+    registryPath = args.registry
+    oldId = args.old_id.lstrip("/")
+    newId = args.new_id.lstrip("/")
+    if oldId == newId:
+        _fail_dev_preflight(
+            f"Cannot rename skill '{oldId}' to itself.",
+            fix="Choose a distinct new ID.",
+        )
+    if not _valid_generic_id(newId):
+        _fail_dev_preflight(
+            f"New skill ID '{newId}' is invalid.",
+            fix="Use a valid lowercase, hyphenated generic skill slug.",
+        )
+    nodes = loadGenericNodes(registryPath)
+    byId = indexGenericNodes(nodes)
+    oldPath, _ = _require_single_generic(byId, oldId, "Source")
+    if newId in byId:
+        _fail_dev_preflight(f"Skill with id '{newId}' already exists in registry.")
+    newPath = oldPath.parent / f"{newId}.json"
+    if newPath.exists():
+        _fail_dev_preflight(
+            f"'{newId}' already exists on disk at {newPath}.",
+            fix="Choose a new ID or remove the stale file before renaming.",
+        )
+
+
+def preflightRemoveCommand(args) -> None:
+    registryPath = args.registry
+    skillId = args.skill_id.lstrip("/")
+    nodes = loadGenericNodes(registryPath)
+    byId = indexGenericNodes(nodes)
+    _require_single_generic(byId, skillId, "Generic")
+
+    namedDir = Path(named_skills_dir(registryPath))
+    genericRefUsers = []
+    suiteRefUsers = []
+    for p in namedDir.glob("**/*.md"):
+        meta, _ = _parse_md(p)
+        namedId = meta.get("id") or str(p)
+        if meta.get("genericSkillRef") == skillId:
+            genericRefUsers.append(namedId)
+        if meta.get("suiteRef") == skillId:
+            suiteRefUsers.append(namedId)
+    if genericRefUsers:
+        _fail_dev_preflight(
+            f"Cannot remove generic skill '{skillId}' while named skills reference it as genericSkillRef: {', '.join(genericRefUsers)}.",
+            fix="Repoint those named skills with `gaia dev update-named --generic-ref` before removing the generic skill.",
+        )
+    if suiteRefUsers:
+        _fail_dev_preflight(
+            f"Cannot remove skill '{skillId}' while named skills reference it as suiteRef: {', '.join(suiteRefUsers)}.",
+            fix="Clear or repoint those suiteRef values before removing the skill.",
+        )
+
+
+def preflightReclassifyCommand(args) -> None:
+    registryPath = args.registry
+    skillId = args.skill_id.lstrip("/")
+    newType = args.new_type
+    validTypes = {"basic", "extra", "ultimate", "unique"}
+    if newType not in validTypes:
+        _fail_dev_preflight(
+            f"Type '{newType}' is invalid.",
+            fix=f"Type must be one of: {', '.join(sorted(validTypes))}",
+        )
+    nodes = loadGenericNodes(registryPath)
+    byId = indexGenericNodes(nodes)
+    nodePath, data = _require_single_generic(byId, skillId, "Skill")
+    oldType = data.get("type", "basic")
+    if oldType == newType:
+        return
+    nodesDir = Path(registry_nodes_dir(registryPath))
+    newPath = nodesDir / newType / f"{skillId}.json"
+    if newPath.exists() and newPath != nodePath:
+        _fail_dev_preflight(
+            f"Cannot reclassify '{skillId}' to {newType}: destination file already exists at {newPath}.",
+            fix="Resolve the destination collision before reclassifying.",
+        )
+
+
 def namedSkillExists(registryPath: str, contributor: str, skillId: str) -> bool:
     """Check if a named skill with the given ID exists."""
     from gaia_cli.registry import named_skills_dir

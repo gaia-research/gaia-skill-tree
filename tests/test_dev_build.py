@@ -11,6 +11,7 @@ from gaia_cli.commands.dev.build import (
     meta_add_command,
     meta_remove_command,
     meta_link_command,
+    meta_reclassify_command,
 )
 pytestmark = [pytest.mark.integration]
 
@@ -83,6 +84,12 @@ def _add_args(root: str, name: str = "New Skill",
 
 def _rm_args(root: str, skill_id: str = "existing-skill", **kw) -> SimpleNamespace:
     base = dict(registry=root, skill_id=skill_id, yes=True, no_build=True)
+    base.update(kw)
+    return SimpleNamespace(**base)
+
+
+def _reclassify_args(root: str, skill_id: str = "existing-skill", new_type: str = "extra", **kw) -> SimpleNamespace:
+    base = dict(registry=root, skill_id=skill_id, new_type=new_type, no_build=True)
     base.update(kw)
     return SimpleNamespace(**base)
 
@@ -168,6 +175,84 @@ def test_remove_missing_skill_exits(tmp_path):
     with pytest.raises(SystemExit) as exc:
         meta_remove_command(_rm_args(root, skill_id="nonexistent"))
     assert exc.value.code != 0
+
+
+def test_remove_rejects_named_generic_ref_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    _write_named(Path(root), "alice/my-skill")
+    named_file = Path(root) / "registry" / "named" / "alice" / "my-skill.md"
+    text = named_file.read_text(encoding="utf-8")
+    text = text.replace("genericSkillRef: unknown", "genericSkillRef: existing-skill")
+    named_file.write_text(text, encoding="utf-8")
+    node_file = Path(root) / "registry" / "nodes" / "basic" / "existing-skill.json"
+    before = node_file.read_text(encoding="utf-8")
+
+    with pytest.raises(SystemExit) as exc:
+        meta_remove_command(_rm_args(root))
+
+    assert exc.value.code != 0
+    assert node_file.exists()
+    assert node_file.read_text(encoding="utf-8") == before
+    err = capsys.readouterr().err
+    assert "genericSkillRef" in err
+
+
+def test_remove_rejects_suite_ref_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    _write_named(Path(root), "alice/my-skill")
+    named_file = Path(root) / "registry" / "named" / "alice" / "my-skill.md"
+    text = named_file.read_text(encoding="utf-8")
+    text = text.replace("title: Epithet\n", "title: Epithet\nsuiteRef: existing-skill\n")
+    named_file.write_text(text, encoding="utf-8")
+    node_file = Path(root) / "registry" / "nodes" / "basic" / "existing-skill.json"
+    before = node_file.read_text(encoding="utf-8")
+
+    with pytest.raises(SystemExit) as exc:
+        meta_remove_command(_rm_args(root))
+
+    assert exc.value.code != 0
+    assert node_file.exists()
+    assert node_file.read_text(encoding="utf-8") == before
+    err = capsys.readouterr().err
+    assert "suiteRef" in err
+
+
+# ---------------------------------------------------------------------------
+# meta_reclassify_command
+# ---------------------------------------------------------------------------
+
+
+def test_reclassify_moves_skill_file(tmp_path):
+    root = _make_registry(tmp_path)
+    meta_reclassify_command(_reclassify_args(root))
+    assert not (Path(root) / "registry" / "nodes" / "basic" / "existing-skill.json").exists()
+    assert (Path(root) / "registry" / "nodes" / "extra" / "existing-skill.json").exists()
+
+
+def test_reclassify_missing_skill_exits(tmp_path):
+    root = _make_registry(tmp_path)
+    with pytest.raises(SystemExit) as exc:
+        meta_reclassify_command(_reclassify_args(root, skill_id="nonexistent"))
+    assert exc.value.code != 0
+
+
+def test_reclassify_destination_collision_exits_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    dest_dir = Path(root) / "registry" / "nodes" / "extra"
+    dest_dir.mkdir(parents=True)
+    dest_file = dest_dir / "existing-skill.json"
+    dest_file.write_text('{"id":"stale"}\n', encoding="utf-8")
+    source_file = Path(root) / "registry" / "nodes" / "basic" / "existing-skill.json"
+    before = source_file.read_text(encoding="utf-8")
+
+    with pytest.raises(SystemExit) as exc:
+        meta_reclassify_command(_reclassify_args(root))
+
+    assert exc.value.code != 0
+    assert source_file.read_text(encoding="utf-8") == before
+    assert dest_file.read_text(encoding="utf-8") == '{"id":"stale"}\n'
+    err = capsys.readouterr().err
+    assert "destination file already exists" in err
 
 
 # ---------------------------------------------------------------------------

@@ -15,6 +15,8 @@ from gaia_cli.commands.dev.helpers import (
     _run_dev_preflights,
     preflightAddCommand,
     preflightLinkCommand,
+    preflightRemoveCommand,
+    preflightReclassifyCommand,
     parseCommaSeparatedIds,
 )
 
@@ -147,6 +149,9 @@ def meta_add_command(args):
 
 
 def meta_remove_command(args):
+    _run_dev_preflights([
+        lambda: preflightRemoveCommand(args),
+    ])
     registry_path = args.registry
     skill_id = args.skill_id.lstrip("/")
 
@@ -257,6 +262,9 @@ def meta_link_command(args):
 
 
 def meta_reclassify_command(args):
+    _run_dev_preflights([
+        lambda: preflightReclassifyCommand(args),
+    ])
     registry_path = args.registry
     skill_id = args.skill_id.lstrip("/")
     new_type = args.new_type
