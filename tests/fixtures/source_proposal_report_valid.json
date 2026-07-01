@@ -1,0 +1,73 @@
+{
+  "reportId": "20260702-crawl-001",
+  "generatedAt": "2026-07-02T14:00:00Z",
+  "generatedBy": "nova-gaia",
+  "pipelinePhase": "discovery",
+  "dryRun": true,
+  "crawlConfig": {
+    "targetGrades": ["C", "ungraded"],
+    "maxProposalsPerSkill": 5,
+    "confidenceFloor": 0.3,
+    "backends": ["github-api", "youtube-data-api", "firecrawl-search"]
+  },
+  "quotaSummary": {
+    "totalApiCalls": 47,
+    "estimatedTotalCostUsd": 1.23,
+    "perBackend": {
+      "github-api": { "calls": 20, "costUsd": 0 },
+      "youtube-data-api": { "calls": 15, "costUsd": 0.03 },
+      "firecrawl-search": { "calls": 12, "costUsd": 1.20 }
+    }
+  },
+  "proposals": [
+    {
+      "proposalId": "mattpocock-grill-me-a1b2c3d4-20260702",
+      "skillId": "mattpocock/grill-me",
+      "genericSkillRef": "code-review-automation",
+      "source": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "evidenceType": "social-signal",
+      "numericPayload": {
+        "views": 15000,
+        "likes": 320,
+        "comments": 45
+      },
+      "discoveredAt": "2026-07-02T10:30:00Z",
+      "discoveredBy": "nova-gaia",
+      "crawlerBackend": "youtube-data-api",
+      "confidence": 0.82,
+      "rationale": "YouTube video by an established TypeScript educator demonstrating the grill-me skill in a live coding session with audience interaction.",
+      "existingEvidenceCheck": {
+        "checked": true,
+        "duplicate": false
+      },
+      "dryRun": true
+    },
+    {
+      "proposalId": "karpathy-autoresearch-f8e9d0c1-20260702",
+      "skillId": "karpathy/autoresearch",
+      "genericSkillRef": "autonomous-research",
+      "source": "https://github.com/karpathy/autoresearch",
+      "evidenceType": "github-stars-own",
+      "numericPayload": {
+        "stars": 4200,
+        "skillCountInRepo": 1
+      },
+      "discoveredAt": "2026-07-02T11:00:00Z",
+      "discoveredBy": "nova-gaia",
+      "crawlerBackend": "github-api",
+      "confidence": 0.95,
+      "rationale": "Primary GitHub repository for the autoresearch skill with 4200 stargazers. Single-skill repo so no mothership discount applies.",
+      "existingEvidenceCheck": {
+        "checked": true,
+        "duplicate": false
+      },
+      "dryRun": true
+    }
+  ],
+  "summary": {
+    "skillsTargeted": 12,
+    "proposalsGenerated": 2,
+    "duplicatesDropped": 3,
+    "belowConfidenceDropped": 7
+  }
+}

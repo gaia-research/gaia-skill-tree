@@ -1,0 +1,7 @@
+{
+  "proposalId": "missing-required-a1b2c3d4",
+  "source": "https://example.com/evidence",
+  "evidenceType": "social-signal",
+  "confidence": 0.5,
+  "rationale": "This proposal is missing skillId, discoveredAt, discoveredBy, and crawlerBackend."
+}

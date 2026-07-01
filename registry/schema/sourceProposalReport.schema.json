@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gaia-registry.github.io/schema/sourceProposalReport.schema.json",
+  "title": "Gaia Source Proposal Report",
+  "description": "A dry-run report containing one or more source proposals for a scheduled curation cycle. Produced by the source-curation crawler and consumed by the adversarial gate and human reviewers. This file is the unit of review: it bundles all proposals from a single crawl run, tracks quota spend, and records the pipeline phase boundary. It MUST NOT be used to mutate the canonical registry directly.",
+  "type": "object",
+  "required": [
+    "reportId",
+    "generatedAt",
+    "generatedBy",
+    "pipelinePhase",
+    "dryRun",
+    "proposals"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "reportId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$",
+      "minLength": 8,
+      "description": "Unique identifier for this report. Format: <date>-<run-id>."
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when this report was generated."
+    },
+    "generatedBy": {
+      "type": "string",
+      "const": "nova-gaia",
+      "description": "Bot identity that generated the report. Currently only 'nova-gaia' is authorized."
+    },
+    "pipelinePhase": {
+      "type": "string",
+      "enum": ["discovery", "adversarial-review", "human-review"],
+      "description": "Current dry-run phase of the source-curation pipeline. Reports may stop at 'discovery', 'adversarial-review', or 'human-review'. 'ingestion' is reserved for future auto-PR publishing and is not valid until a publisher exists."
+    },
+    "dryRun": {
+      "type": "boolean",
+      "const": true,
+      "description": "MUST be true. Auto-PR publishing is not yet implemented. When ingestion is enabled in a future release, this field will allow false."
+    },
+    "crawlConfig": {
+      "type": "object",
+      "description": "Configuration snapshot of the crawl run for reproducibility.",
+      "additionalProperties": false,
+      "properties": {
+        "targetGrades": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["S", "A", "B", "C", "ungraded"]
+          },
+          "description": "Which overall trust grades were targeted in this cycle."
+        },
+        "maxProposalsPerSkill": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "default": 5,
+          "description": "Maximum proposals per skill per cycle. Self-bounding: avoids flooding."
+        },
+        "confidenceFloor": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.3,
+          "description": "Proposals below this confidence are auto-dropped before report inclusion."
+        },
+        "backends": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of crawler backends used in this run."
+        }
+      }
+    },
+    "quotaSummary": {
+      "type": "object",
+      "description": "Aggregate quota/cost accounting for the entire crawl run. Placeholder for future budget enforcement.",
+      "additionalProperties": false,
+      "properties": {
+        "totalApiCalls": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total API calls across all backends."
+        },
+        "estimatedTotalCostUsd": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Estimated total cost in USD."
+        },
+        "perBackend": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "calls": { "type": "integer", "minimum": 0 },
+              "costUsd": { "type": "number", "minimum": 0 }
+            }
+          },
+          "description": "Per-backend breakdown of API calls and cost."
+        }
+      }
+    },
+    "proposals": {
+      "type": "array",
+      "items": {
+        "$ref": "sourceProposal.schema.json"
+      },
+      "description": "Array of source proposals produced by this crawl run."
+    },
+    "summary": {
+      "type": "object",
+      "description": "Human-readable summary statistics for the report.",
+      "additionalProperties": false,
+      "properties": {
+        "skillsTargeted": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of distinct skills targeted in this crawl."
+        },
+        "proposalsGenerated": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total proposals generated (before dedup)."
+        },
+        "duplicatesDropped": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Proposals dropped due to existing evidence dedup."
+        },
+        "belowConfidenceDropped": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Proposals dropped for being below confidence floor."
+        }
+      }
+    }
+  }
+}
