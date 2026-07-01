@@ -918,3 +918,201 @@ def test_inheritance_multiplier_chain_visible_in_explain():
     output = explainTrustMagnitude(named, genericSkillMap=genericSkillMap)
     assert "0.70" in output, "Expected '0.70' in output, got: " + repr(output[:200])
     assert ("inherited" in output or "^" in output), "Expected inheritance annotation in output, got: " + repr(output[:200])
+
+
+# ---------------------------------------------------------------------------
+# Batch J: Apex lock-in tests (Issue #746)
+# ---------------------------------------------------------------------------
+
+
+def test_suiteBasedDepth2TraversalWorksForSuiteOnlyUltimates():
+    """Verify suite-based depth-2 traversal works for suite-only ultimates (Issue #746 target 1).
+
+    An ultimate skill has no fusion-recipe evidence, only suiteComponents.
+    Its depth-1 suite component itself has suiteComponents.
+    """
+    ultimate = {
+        "id": "ultimate-suite",
+        "suiteComponents": ["d1-component"],
+        "evidence": []
+    }
+    d1Node = {
+        "id": "d1-component",
+        "suiteComponents": ["d2-component"],
+        "evidence": []
+    }
+    state = {
+        "genericSkillMap": {
+            "d1-component": d1Node,
+            "d2-component": {"id": "d2-component"}
+        },
+        "namedSkillMap": {
+            "d1-component": d1Node
+        }
+    }
+    # Should resolve depth1 = {"d1-component"}, depth2 = {"d2-component"}.
+    # Since len(depth2) >= 1, the predicate passes.
+    assert checkDepth2OnlyReachableGte1(ultimate, state) is True
+
+    # Test failure: if depth-1 node has no suiteComponents or fusion origins.
+    ultimateNoD2 = {
+        "id": "ultimate-suite",
+        "suiteComponents": ["d1-component-leaf"],
+        "evidence": []
+    }
+    stateNoD2 = {
+        "genericSkillMap": {
+            "d1-component-leaf": {"id": "d1-component-leaf"}
+        },
+        "namedSkillMap": {}
+    }
+    assert checkDepth2OnlyReachableGte1(ultimateNoD2, stateNoD2) is False
+
+
+def test_missingSourceStartedAtOnAOrSEvidenceFailsTenure():
+    """Verify missing sourceStartedAt on A/S evidence fails tenure predicate (Issue #746 target 2)."""
+    # Case A: A/S row has no sourceStartedAt field
+    skillNoField = {
+        "id": "tenure-fail-no-field",
+        "evidence": [
+            {"type": "arxiv", "citations": 200, "grade": "A"}  # No sourceStartedAt
+        ]
+    }
+    assert checkSourceTenureDaysGte180AorS(skillNoField) is False
+
+    # Case B: A/S row has None for sourceStartedAt
+    skillNone = {
+        "id": "tenure-fail-none",
+        "evidence": [
+            {"type": "arxiv", "citations": 200, "grade": "A", "sourceStartedAt": None}
+        ]
+    }
+    assert checkSourceTenureDaysGte180AorS(skillNone) is False
+
+    # Case C: A/S row has empty string for sourceStartedAt
+    skillEmpty = {
+        "id": "tenure-fail-empty",
+        "evidence": [
+            {"type": "arxiv", "citations": 200, "grade": "A", "sourceStartedAt": ""}
+        ]
+    }
+    assert checkSourceTenureDaysGte180AorS(skillEmpty) is False
+
+    # Case D: A/S row has malformed sourceStartedAt
+    skillMalformed = {
+        "id": "tenure-fail-malformed",
+        "evidence": [
+            {"type": "arxiv", "citations": 200, "grade": "A", "sourceStartedAt": "invalid-date-format"}
+        ]
+    }
+    assert checkSourceTenureDaysGte180AorS(skillMalformed) is False
+
+
+def test_validSourceStartedAtOlderThan180DaysPassesTenure():
+    """Verify valid sourceStartedAt older than 180 days passes tenure predicate (Issue #746 target 3)."""
+    nowRef = datetime.datetime(2026, 7, 2, 12, 0, 0, tzinfo=datetime.timezone.utc)
+
+    # Case A: Exactly 180 days ago: 2026-07-02 - 180 days = 2026-01-03
+    started180Days = "2026-01-03T12:00:00Z"
+    skill180 = {
+        "id": "tenure-pass-180",
+        "evidence": [
+            {"type": "arxiv", "citations": 200, "grade": "A", "sourceStartedAt": started180Days}
+        ]
+    }
+    assert checkSourceTenureDaysGte180AorS(skill180, now=nowRef) is True
+
+    # Case B: Older than 180 days (e.g. 181 days ago): 2026-01-02
+    started181Days = "2026-01-02T12:00:00Z"
+    skill181 = {
+        "id": "tenure-pass-181",
+        "evidence": [
+            {"type": "arxiv", "citations": 200, "grade": "A", "sourceStartedAt": started181Days}
+        ]
+    }
+    assert checkSourceTenureDaysGte180AorS(skill181, now=nowRef) is True
+
+    # Case C: Less than 180 days ago (e.g. 179 days ago): 2026-01-04
+    started179Days = "2026-01-04T12:00:00Z"
+    skill179 = {
+        "id": "tenure-fail-179",
+        "evidence": [
+            {"type": "arxiv", "citations": 200, "grade": "A", "sourceStartedAt": started179Days}
+        ]
+    }
+    assert checkSourceTenureDaysGte180AorS(skill179, now=nowRef) is False
+
+    # Case D: Multi-row where one row passes and one fails (due to missing or young)
+    skillMulti = {
+        "id": "tenure-pass-multi",
+        "evidence": [
+            {"type": "arxiv", "citations": 200, "grade": "A", "sourceStartedAt": started179Days},
+            {"type": "github-stars-own", "stars": 500, "grade": "A", "sourceStartedAt": started181Days}
+        ]
+    }
+    assert checkSourceTenureDaysGte180AorS(skillMulti, now=nowRef) is True
+
+
+def test_asOriginCountingUsesIntendedClosureAndDoesNotOvercount():
+    """Verify A/S-origin counting uses intended suite/fusion origin closure and does not overcount (Issue #746 target 4).
+
+    Deduplicates elements listed in both suiteComponents and fusion-recipe origins.
+    """
+    # We set up an origin list of 5 distinct A-graded skills.
+    # If B is in both suiteComponents and fusion-recipe, it must only be counted once.
+    # genericSkillMap will contain the definitions and grades.
+    genericSkillMap = {
+        "origin-a": {"id": "origin-a", "overallTrustGrade": "A"},
+        "origin-b": {"id": "origin-b", "overallTrustGrade": "A"},
+        "origin-c": {"id": "origin-c", "overallTrustGrade": "A"},
+        "origin-d": {"id": "origin-d", "overallTrustGrade": "A"},
+        "origin-e": {"id": "origin-e", "overallTrustGrade": "A"},
+    }
+
+    # Case 1: Deduplication between suiteComponents and fusion-recipe origins.
+    # If "origin-b" is in both, total unique A/S graded origins = 5.
+    # Should PASS checkAGradedOriginsGte5.
+    skillDup = {
+        "id": "host-skill",
+        "suiteComponents": ["origin-a", "origin-b"],
+        "evidence": [
+            {
+                "type": "fusion-recipe",
+                "origins": ["origin-b", "origin-c", "origin-d", "origin-e"]
+            }
+        ]
+    }
+    assert checkAGradedOriginsGte5(skillDup, genericSkillMap=genericSkillMap) is True
+
+    # Case 2: Overcounting prevention.
+    # If we had 4 unique origins, but one was listed multiple times (which would count as 5 if not deduped),
+    # it should FAIL checkAGradedOriginsGte5.
+    skillOvercount = {
+        "id": "host-skill",
+        "suiteComponents": ["origin-a", "origin-b"],
+        "evidence": [
+            {
+                "type": "fusion-recipe",
+                "origins": ["origin-b", "origin-c", "origin-d"]
+            }
+        ]
+    }
+    # Unique origins are A, B, C, D (4 unique). Should fail because min required is 5.
+    assert checkAGradedOriginsGte5(skillOvercount, genericSkillMap=genericSkillMap) is False
+
+    # Case 3: Exclusion of variant roles.
+    # "origin-e" is listed as variant, so only A, B, C, D count. Total 4. Should fail.
+    genericSkillMapVariant = dict(genericSkillMap)
+    genericSkillMapVariant["origin-e"] = {"id": "origin-e", "overallTrustGrade": "A", "role": "variant"}
+    skillVariant = {
+        "id": "host-skill",
+        "suiteComponents": ["origin-a", "origin-b"],
+        "evidence": [
+            {
+                "type": "fusion-recipe",
+                "origins": ["origin-b", "origin-c", "origin-d", "origin-e"]
+            }
+        ]
+    }
+    assert checkAGradedOriginsGte5(skillVariant, genericSkillMap=genericSkillMapVariant) is False
+
