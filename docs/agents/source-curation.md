@@ -142,6 +142,28 @@ schema accepts any string value. Known backends include:
 New backends can be added without schema changes. The `crawlerVersion`
 field is optional but recommended for reproducibility.
 
+### GitHub discovery adapter
+
+`src/gaia_cli/sourceCuration.py` includes a GitHub discovery adapter for the
+Phase 1 dry-run runner:
+
+- **Default mode is offline fixture discovery.** Running
+  `scripts/sourceCuratorRunner.py` with no flags emits deterministic
+  `github-fixture` proposals and makes zero network calls.
+- **Live GitHub API reads are opt-in only.** Pass `--github-live` or set
+  `GAIA_SOURCE_CURATION_LIVE_GITHUB=1` to refresh fixture repo metadata via
+  the GitHub REST API. `GITHUB_TOKEN` is used if present. Tests do not enable
+  live mode.
+- **Skill-file sources must be `blob/<branch>/<subpath>` URLs.** The adapter
+  strips query strings and fragments from GitHub blob URLs and rejects
+  `tree/` directory URLs instead of guessing a file path.
+- **Same-source proposals are deduped.** The report drops repeated canonical
+  source URLs even when the incoming seed does not mark them as existing
+  evidence duplicates.
+- **Quota accounting is explicit.** Fixture proposals carry
+  `quotaCost.apiCalls: 0`; live GitHub reads increment per-proposal and report
+  `quotaSummary` call counts.
+
 ## Quota and Cost Placeholders
 
 The `quotaCost` (per-proposal) and `quotaSummary` (per-report) fields are
@@ -213,10 +235,12 @@ Run the deterministic dry-run runner with:
 python3 scripts/sourceCuratorRunner.py --run-id 20260702-dry-run --generated-at 2026-07-02T14:00:00Z
 ```
 
-By default the runner uses fixture discovery only: no live network calls, no
-registry mutation, `dryRun: true`, and `generatedBy: "nova-gaia"`. Pass
-`--input seed.json` to supply a local JSON array or an object with a `seeds`
-/ `proposals` array.
+By default the runner uses GitHub fixture discovery only: no live network
+calls, no registry mutation, `dryRun: true`, and `generatedBy: "nova-gaia"`.
+Pass `--input seed.json` to supply a local JSON array or an object with a
+`seeds` / `proposals` array. Pass `--github-live` (or set
+`GAIA_SOURCE_CURATION_LIVE_GITHUB=1`) only when an operator explicitly wants
+live GitHub API reads.
 
 ## Self-Bounding Rules
 
@@ -258,7 +282,7 @@ Test fixtures:
 
 ## What This PR Does NOT Do
 
-- **No network crawler implementation.** `scripts/sourceCuratorRunner.py` is dry-run fixture/seed driven only.
+- **No default network crawler execution.** `scripts/sourceCuratorRunner.py` is dry-run GitHub fixture/seed driven by default; live GitHub reads require explicit opt-in and still only write local reports.
 - **No GitHub Actions workflow.** No `.github/workflows/auto-source-curation.yml`.
 - **No registry mutation.** The schemas and tooling cannot write to
   `registry/nodes/` or `registry/named/`.
