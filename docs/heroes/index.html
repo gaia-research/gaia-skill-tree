@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hall of Heroes — Gaia Registry</title>
-  <meta name="description" content="The registry's highest-achieving contributors — celebrated in a dark ceremonial gallery.">
+  <title>Hall of Heroes | Gaia Registry</title>
+  <meta name="description" content="The registry's highest-achieving contributors, celebrated in a dark ceremonial gallery.">
   <script>window.GAIA_VERSION = "5.8.2";</script>
 
-  <!-- Fonts: Cinzel Decorative (display), EB Garamond (body), Departure Mono -->
+  <!-- Fonts: EB Garamond (display), Bricolage Grotesque (body), Departure Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- Design tokens + plaque base -->
   <link rel="stylesheet" href="../css/tokens.css?v=5.8.2">
+  <link rel="stylesheet" href="../css/styles.css?v=5.8.2">
   <link rel="stylesheet" href="../css/plaque.css?v=5.8.2">
 
   <!-- Page styles -->
@@ -45,6 +45,26 @@
         </div>
       </div>
     </header>
+
+    <aside class="heroes-ledger-rail" id="heroesLedgerRail" aria-label="Hall of Heroes scroll ledger" hidden>
+      <div class="heroes-ledger-rail__plate">
+        <span class="heroes-ledger-rail__kicker">Hall Ledger</span>
+        <strong class="heroes-ledger-rail__current" id="heroesLedgerCurrent">Awaiting registry</strong>
+        <span class="heroes-ledger-rail__meta" id="heroesLedgerMeta">Evidence loading</span>
+      </div>
+      <div class="heroes-ledger-rail__track" aria-hidden="true">
+        <span class="heroes-ledger-rail__progress" id="heroesLedgerProgress"></span>
+      </div>
+      <ol class="heroes-ledger-rail__list" id="heroesLedgerList"></ol>
+      <div class="heroes-ledger-rail__controls">
+        <button class="heroes-ledger-rail__nav" type="button" data-ledger-nav="prev" aria-label="Scroll to previous hero">
+          <svg class="ico" width="14" height="14" aria-hidden="true" viewBox="0 0 16 16"><path d="M8 4 3.5 8.5 8 13M4.5 8.5h8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="heroes-ledger-rail__nav" type="button" data-ledger-nav="next" aria-label="Scroll to next hero">
+          <svg class="ico" width="14" height="14" aria-hidden="true" viewBox="0 0 16 16"><path d="m8 4 4.5 4.5L8 13M3.5 8.5h8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </aside>
 
     <!-- Dynamic stages injected here by heroes.js -->
     <div id="heroesStages" class="heroes-stages"></div>
@@ -169,5 +189,8 @@
   <script src="heroes.js?v=5.8.2"></script>
   <script src="hero-animations.js?v=5.8.2"></script>
   <script src="hero-share.js?v=5.8.2"></script>
+<!-- impeccable-live-start -->
+<script src="http://localhost:8400/live.js"></script>
+<!-- impeccable-live-end -->
 </body>
 </html>

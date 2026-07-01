@@ -16,6 +16,7 @@
 
     var handle = btn.getAttribute('data-share-handle') || '';
     var skillId = btn.getAttribute('data-share-skill') || '';
+    var skillType = btn.getAttribute('data-share-type') || 'basic';
     var slug = skillId.split('/').pop() || handle;
 
     // Attempt to find the named skill in window._gaiaNamedAll (populated
@@ -27,7 +28,7 @@
       contributor: handle,
       name: slug,
       level: '',
-      type: 'ultimate',
+      type: skillType,
       origin: true,
       ogPath: 'og/' + handle + '/' + slug + '.svg',
       description: '',
@@ -40,14 +41,7 @@
       if (statValues.length >= 2) {
         ns.level = statValues[1].textContent.trim();
       }
-      // Determine type from stage class
-      if (stage.classList.contains('hero-stage--unique')) {
-        ns.type = 'unique';
-      } else if (stage.classList.contains('hero-stage--named')) {
-        ns.type = 'basic';
-      } else if (stage.classList.contains('hero-stage--apex')) {
-        ns.type = 'extra';
-      }
+      ns.type = stage.getAttribute('data-skill-type') || ns.type;
     }
 
     // Open the share modal

@@ -38,6 +38,7 @@
     this.behavior = behavior;
     this.particles = [];
     this.running = false;
+    this.initialized = false;
     this.lastFrame = 0;
     this.raf = null;
     this._resize();
@@ -60,7 +61,10 @@
   AnimController.prototype.start = function () {
     if (this.running) return;
     this.running = true;
-    this.behavior.init(this);
+    if (!this.initialized) {
+      this.behavior.init(this);
+      this.initialized = true;
+    }
     this._loop(performance.now());
   };
 
@@ -74,6 +78,10 @@
 
   AnimController.prototype.resume = function () {
     if (this.running) return;
+    if (!this.initialized) {
+      this.start();
+      return;
+    }
     this.running = true;
     this._loop(performance.now());
   };
