@@ -313,3 +313,266 @@ def _parse_named_frontmatter(content):
             key, _, val = line.partition(":")
             meta[key.strip()] = val.strip().strip("'\"")
     return meta
+
+
+def genericSkillExists(registryPath: str, skillId: str) -> bool:
+    """Check if a generic skill with the given ID exists."""
+    from gaia_cli.registry import registry_nodes_dir
+    nodesDir = Path(registry_nodes_dir(registryPath))
+    for p in nodesDir.glob("**/*.json"):
+        if p.stem == skillId:
+            return True
+    return False
+
+
+def namedSkillExists(registryPath: str, contributor: str, skillId: str) -> bool:
+    """Check if a named skill with the given ID exists."""
+    from gaia_cli.registry import named_skills_dir
+    namedDir = Path(named_skills_dir(registryPath))
+    destFile = namedDir / contributor / f"{skillId}.md"
+    return destFile.exists()
+
+
+def parseCommaSeparatedIds(rawValue: str | None, label: str) -> list[str]:
+    """Parse a comma-separated ID list and reject empty entries."""
+    if rawValue is None or rawValue == "":
+        return []
+    entries = [entry.strip() for entry in rawValue.split(",")]
+    emptyPositions = [str(index + 1) for index, entry in enumerate(entries) if not entry]
+    if emptyPositions:
+        _fail_dev_preflight(
+            f"Empty {label} entries are not allowed at position(s): {', '.join(emptyPositions)}.",
+            fix=f"Remove extra commas from the {label} list."
+        )
+    return entries
+
+
+def preflightSuiteComponents(registryPath: str, suiteComponentsStr: str | None) -> None:
+    """Validate suite components exist and have no duplicates."""
+    components = parseCommaSeparatedIds(suiteComponentsStr, "suite component")
+    if not components:
+        return
+    seen = set()
+    duplicates = []
+    for comp in components:
+        if comp in seen:
+            duplicates.append(comp)
+        else:
+            seen.add(comp)
+    if duplicates:
+        duplicateList = ", ".join(duplicates)
+        _fail_dev_preflight(
+            f"Duplicate suite components are not allowed: {duplicateList}.",
+            fix="Remove the duplicates from the --suite-components list."
+        )
+    from gaia_cli.registry import named_skills_dir
+    namedDir = Path(named_skills_dir(registryPath))
+    for comp in components:
+        if not _find_named_file(namedDir, comp):
+            _fail_dev_preflight(
+                f"Suite component '{comp}' does not exist in the registry.",
+                fix=f"Ensure the named skill '{comp}' is added to the registry before referencing it as a suite component."
+            )
+
+
+def preflightGithubLink(githubLink: str | None) -> None:
+    """Validate GitHub link uses the blob/<branch>/<subpath> format."""
+    import re
+    if not githubLink:
+        return
+    if not githubLink.startswith("https://github.com/"):
+        _fail_dev_preflight(
+            f"GitHub link must start with 'https://github.com/'; got {githubLink!r}.",
+            fix="Use https://github.com/<owner>/<repo>/blob/<branch>/<subpath>."
+        )
+    if "/tree/" in githubLink:
+        _fail_dev_preflight(
+            f"GitHub URL uses '/tree/' which is not supported: {githubLink!r}.",
+            fix="Convert the '/tree/' segment to '/blob/' and specify the path to the skill file/directory."
+        )
+    if "/blob/" not in githubLink:
+        _fail_dev_preflight(
+            f"GitHub URL is missing the '/blob/' segment: {githubLink!r}.",
+            fix="Ensure the URL uses the 'blob/<branch>/<subpath>' format rather than a bare repository URL."
+        )
+    match = re.match(r"^https://github\.com/([^/]+)/([^/]+)/blob/([^/]+)/(.+)$", githubLink)
+    if not match:
+        _fail_dev_preflight(
+            f"GitHub URL must match 'https://github.com/<owner>/<repo>/blob/<branch>/<subpath>'; got {githubLink!r}.",
+            fix="Provide a complete URL including the owner, repo, branch, and subpath."
+        )
+
+
+def preflightAddCommand(args) -> None:
+    """Validate arguments for the add command."""
+    import re
+    import json
+    registryPath = args.registry
+    skillName = args.name
+    isNamed = getattr(args, "named", False)
+    skillId = args.id or skillName.lower().replace(" ", "-")
+    descriptionText = (getattr(args, "description", None) or "").strip()
+    if len(descriptionText) < 10:
+        _fail_dev_preflight(
+            f"Skill description must be at least 10 characters; got {len(descriptionText)}.",
+            fix="Provide a longer, more descriptive --description."
+        )
+    if isNamed:
+        contributorVal = getattr(args, "contributor", "gaiabot")
+        if contributorVal is None:
+            contributorVal = "gaiabot"
+        if not re.match(r"^[a-zA-Z0-9][a-zA-Z0-9_-]*$", contributorVal):
+            _fail_dev_preflight(
+                f"Contributor username '{contributorVal}' is invalid.",
+                fix="Use only alphanumeric characters, underscores, or hyphens."
+            )
+        fullId = f"{contributorVal}/{skillId}"
+        if not re.match(r"^[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*$", fullId):
+            _fail_dev_preflight(
+                f"Named skill ID '{fullId}' is invalid.",
+                fix="Ensure both the contributor username and skill ID are valid lowercase slug patterns."
+            )
+        if namedSkillExists(registryPath, contributorVal, skillId):
+            _fail_dev_preflight(
+                f"Named skill '{fullId}' already exists.",
+                fix="Use a different ID or update the existing skill using `gaia dev update-named`."
+            )
+        levelVal = getattr(args, "level", "2★")
+        if levelVal is None:
+            levelVal = "2★"
+        validLevels = {"1★", "2★", "3★", "4★", "5★", "6★"}
+        if levelVal not in validLevels:
+            _fail_dev_preflight(
+                f"Level '{levelVal}' is invalid.",
+                fix=f"Level must be one of: {', '.join(sorted(validLevels))}"
+            )
+        statusVal = getattr(args, "status", "named")
+        if statusVal is None:
+            statusVal = "named"
+        validStatuses = {"awakened", "named"}
+        if statusVal not in validStatuses:
+            _fail_dev_preflight(
+                f"Status '{statusVal}' is invalid for named skill.",
+                fix="Status must be 'awakened' or 'named'."
+            )
+        titleVal = getattr(args, "title", None)
+        catalogRefVal = None
+        extraFieldsStr = getattr(args, "extra_fields", None)
+        if extraFieldsStr:
+            try:
+                extra = json.loads(extraFieldsStr)
+                if isinstance(extra, dict):
+                    catalogRefVal = extra.get("catalogRef")
+            except json.JSONDecodeError:
+                pass
+        if statusVal == "named" and not titleVal and not catalogRefVal:
+            _fail_dev_preflight(
+                f"status='named' requires 'title' or 'catalogRef' on {fullId}.",
+                fix="Pass --title '<lore title>' or include catalogRef in --extra-fields."
+            )
+        genericRef = getattr(args, "generic_ref", "unknown")
+        if genericRef is None:
+            genericRef = "unknown"
+        if genericRef != "unknown":
+            if not re.match(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$", genericRef):
+                _fail_dev_preflight(
+                    f"Generic skill reference '{genericRef}' has an invalid ID pattern.",
+                    fix="Use a valid lowercase, hyphenated slug pattern."
+                )
+            if not genericSkillExists(registryPath, genericRef):
+                _fail_dev_preflight(
+                    f"Referenced generic skill '{genericRef}' does not exist.",
+                    fix="Ensure the generic skill exists before referencing it as genericSkillRef."
+                )
+    else:
+        if not re.match(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$", skillId):
+            _fail_dev_preflight(
+                f"Generic skill ID '{skillId}' is invalid.",
+                fix="Use a valid lowercase, hyphenated slug pattern matching '^[a-z][a-z0-9]*(-[a-z0-9]+)*$'."
+            )
+        if genericSkillExists(registryPath, skillId):
+            _fail_dev_preflight(
+                f"Generic skill '{skillId}' already exists.",
+                fix="Use a different ID or edit the existing skill file directly."
+            )
+        typeVal = getattr(args, "type", "basic")
+        if typeVal is None:
+            typeVal = "basic"
+        validTypes = {"basic", "extra", "ultimate", "unique"}
+        if typeVal not in validTypes:
+            _fail_dev_preflight(
+                f"Type '{typeVal}' is invalid.",
+                fix=f"Type must be one of: {', '.join(sorted(validTypes))}"
+            )
+        statusVal = getattr(args, "status", "provisional")
+        if statusVal is None:
+            statusVal = "provisional"
+        validStatuses = {"provisional", "validated", "disputed", "deprecated"}
+        if statusVal not in validStatuses:
+            _fail_dev_preflight(
+                f"Status '{statusVal}' is invalid for generic skill.",
+                fix=f"Status must be one of: {', '.join(sorted(validStatuses))}"
+            )
+
+
+def preflightLinkCommand(args) -> None:
+    """Validate arguments for the link command."""
+    import json
+    registryPath = args.registry
+    targetId = args.target.lstrip("/")
+    prereqsList = parseCommaSeparatedIds(args.prereqs, "prerequisite")
+    if not prereqsList:
+        _fail_dev_preflight(
+            "No prerequisite skills specified.",
+            fix="Provide a comma-separated list of prerequisite skill IDs."
+        )
+    if not genericSkillExists(registryPath, targetId):
+        _fail_dev_preflight(
+            f"Target skill '{targetId}' does not exist.",
+            fix="Ensure the target skill exists before adding prerequisites to it."
+        )
+    for prereqId in prereqsList:
+        if not genericSkillExists(registryPath, prereqId):
+            _fail_dev_preflight(
+                f"Prerequisite skill '{prereqId}' does not exist.",
+                fix=f"Ensure the prerequisite skill '{prereqId}' exists in the registry first."
+            )
+    for prereqId in prereqsList:
+        if prereqId == targetId:
+            _fail_dev_preflight(
+                f"Cannot link skill '{targetId}' to itself.",
+                fix="Remove the target skill ID from the prerequisite list."
+            )
+    seen = set()
+    duplicatesInList = []
+    for prereqId in prereqsList:
+        if prereqId in seen:
+            duplicatesInList.append(prereqId)
+        else:
+            seen.add(prereqId)
+    if duplicatesInList:
+        dupListStr = ", ".join(duplicatesInList)
+        _fail_dev_preflight(
+            f"Duplicate prerequisite IDs are not allowed in the link list: {dupListStr}.",
+            fix="Remove duplicate IDs from the prerequisite list."
+        )
+    if not getattr(args, "reset", False):
+        from gaia_cli.registry import registry_nodes_dir
+        nodesDir = Path(registry_nodes_dir(registryPath))
+        targetPrereqs = []
+        for p in nodesDir.glob("**/*.json"):
+            if p.stem == targetId:
+                with open(p, "r", encoding="utf-8") as f:
+                    try:
+                        data = json.load(f)
+                        targetPrereqs = data.get("prerequisites", [])
+                    except Exception:
+                        pass
+                break
+        existingDups = [p for p in prereqsList if p in targetPrereqs]
+        if existingDups:
+            dupRelStr = ", ".join(existingDups)
+            _fail_dev_preflight(
+                f"Relationship already exists: {targetId} is already linked to prerequisite(s): {dupRelStr}.",
+                fix="Remove the already-linked prerequisite(s) from the list, or use --reset to overwrite them."
+            )
