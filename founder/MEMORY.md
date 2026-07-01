@@ -2,6 +2,121 @@
 
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
+---
+
+## ⚡ Ready-to-dispatch when Sprint B closes (READ THIS FIRST NEXT SESSION)
+
+**Blocker to unblock first:**
+- **PR #895** (`dev/sprint-b-closure` → `main`) is in `CONFLICTING` state. Merge conflicts must resolve before `dev/sprint-d` can cut. Sprint D critical path.
+
+**Once #895 lands, in order:**
+1. Cut v6.0.0 release (major bump — API + Trending are new product surfaces)
+2. Create `dev/sprint-d` off `main` HEAD
+3. Author `founder/handovers/sprint-d/CONTEXT.md` (agent onboarding bundle) — 15-min task
+4. Init empty `founder/handovers/sprint-d/journal.md`
+5. Dispatch **W1 (#903 Content Engine, Opus max)** + **W2a (#904 Benchmark schema, Opus max)** in parallel — Day 1 of Sprint D proper
+6. Sprint D EPIC: **#902** · Milestone: **#11** (target 2026-08-01)
+7. Plan file: `founder/handovers/SPRINT_D_EPIC_PLAN.md`
+8. Roadmap authority: `founder/GAIA_ROADMAP v4 (BUILD).md` (v3 superseded but retained)
+
+**Sprint D sub-issues to track:** #903 (W1) · #904 (W2a) · #905 (W2b) · #906 (W3) · #907 (W4) · #908 (W5)
+
+**Auto-close on #895 merge:** #697, #698, #651, #851, #852, #853, #854 (all have Resolves-clauses in the sub-PRs already merged into `dev/sprint-b-closure`).
+
+**Note:** Content Engine's Monday-auto-report feature stays in scope but there is NO current auto-report Monday cadence to preserve — this is greenfield in Sprint D W1.
+
+---
+
+## State Snapshot (2026-07-02, session 31 — v4 roadmap ratified + Sprint D fully scaffolded)
+
+### TLDR
+- Confirmed Sprint B is functionally done — PR #895 pending merge (conflicts to resolve).
+- Scouted Sprint C's original v3 scope (Prestige, named badges, rank history, skill graphs, per-generic SEO): found substantial overlap with existing infra. Verdict: Sprint C in its v3 form is mostly ornament for work already done.
+- **Authored `founder/GAIA_ROADMAP v4 (BUILD).md`** — the biggest strategic pivot since v3.
+- **Sprint order reshuffled:** D → C → E → F → G. Sprint D (Content Engine + Benchmark MVP) is next; the "megaphone before the medals" call.
+- **Sprint C reframed** as Index Foundations — TM v2 refinement (fusion + repo halving fixes), Prestige Index v1 (non-naive, suites-aware — NOT longevity), index versioning framework. Marco's call: indices become first-class Gaia Research products with semver + reproducibility hashes + citation format.
+- **Sprint E** now covers Skill Groups (Starless rename + ML clustering), Benchmarks 2.0 (cost/use, time-saved), named badges (moved from C — rewards need audience first), per-Skill-Group SEO pages (replaces per-generic-skill pages).
+- **NEW Sprint F** — React/Node migration + move to `gaia-research/gaia-research` monorepo. Marco's largest capital placement. Skill Tree gets packaged as a light dev-first OSS repo.
+- **Sprint G** = v3's old Sprint E (Enterprise + Auth API), deferred by one slot.
+- Sprint D EPIC #902 + 6 sub-issues (#903–#908) + Milestone #11 filed on GitHub. Plan at `founder/handovers/SPRINT_D_EPIC_PLAN.md`.
+- 4 new labels: `sprint-d`, `content-engine`, `auto-merge-eligible`, `migration-notes-missing`.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `founder/GAIA_ROADMAP v4 (BUILD).md` | ✅ Authored — 9-month plan, v3 superseded |
+| `founder/handovers/SPRINT_D_EPIC_PLAN.md` | ✅ Authored by Plan agent — 14 sections, per-workstream dispatch prompt sketches |
+| Milestone #11 | ✅ Created — "Sprint D — Content Engine + Benchmark MVP", target 2026-08-01 |
+| EPIC #902 | ✅ Filed with sub-issue links (#903–#908) |
+| Sub-issues #903–#908 | ✅ Filed — W1 W2a W2b W3 W4 W5 |
+| Labels `sprint-d`, `content-engine`, `auto-merge-eligible`, `migration-notes-missing` | ✅ Created |
+| Comment on #697, #698 | ✅ Provenance noted (resolved by PR #891) |
+| Comment on #855 EPIC | ✅ Session 31 update posted |
+| PR #895 | ⏳ Still CONFLICTING — Sprint B blocker |
+| `dev/sprint-d` branch | 📝 Not yet created (blocked on #895 merge) |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `main` | `85ee34ef4` | Unchanged from session 30 — v5.8.2 |
+| `dev/sprint-b-closure` | `da516e174` | Integration branch, 5 PRs merged, PR #895 CONFLICTING |
+| `dev/session-31-planning` | (this commit) | v4 roadmap + Sprint D plan docs — merges to `dev/sprint-b-closure` per Marco's direction |
+
+### Issues + PRs touched
+| # | Title | Action |
+|---|---|---|
+| #697 | Rising Skills View | ✅ Comment: resolved by PR #891 |
+| #698 | Rising Repos View | ✅ Comment: resolved by PR #891 |
+| #855 | Sprint B EPIC | ✅ Session-31 comment posted |
+| #902 | **NEW EPIC: Sprint D** | ✅ Filed with 6 sub-issue task list |
+| #903 | W1 Content Engine MVP | ✅ Filed |
+| #904 | W2a Benchmark schema | ✅ Filed — blocks W2b + W4 |
+| #905 | W2b Benchmark #1 pipeline | ✅ Filed |
+| #906 | W3 Benchmark #2 mirrored | ✅ Filed |
+| #907 | W4 Benchmark leaderboard | ✅ Filed |
+| #908 | W5 SEO surface | ✅ Filed |
+
+### Routing — where things live now
+| Artifact | Path |
+|---|---|
+| v4 roadmap (authoritative) | `founder/GAIA_ROADMAP v4 (BUILD).md` |
+| v3 roadmap (retained, superseded) | `founder/GAIA_ROADMAP v3 (BUILD).md` |
+| Sprint D EPIC plan | `founder/handovers/SPRINT_D_EPIC_PLAN.md` |
+| Sprint D EPIC issue | #902 |
+| Sprint D milestone | #11 |
+| Sprint D context bundle (next session) | `founder/handovers/sprint-d/CONTEXT.md` (to be created after #895 merges) |
+| Sprint D agent journal (next session) | `founder/handovers/sprint-d/journal.md` (to be created) |
+
+### Lessons / hazards preserved
+- **Scout before planning.** Fanning out 5 Explore agents to answer Sprint C readiness questions before authoring v4 was ~$1.50 well spent — surfaced that Prestige is 90% redundant with existing TM aggregation, Skill Graph types are 50% already in gaia.json edges, and OKF partially covers SEO. Saved a lot of downstream scope.
+- **Plan agents can't Write.** The Plan subagent produced the full Sprint D EPIC plan text but couldn't save it (read-only tools). Orchestrator writes the file after. Bake this into future Plan dispatch prompts: expect text output, not file output.
+- **Heredoc + markdown backticks are hostile.** Attempting to `cat > /tmp/... <<'EOF'` a body containing triple-backticks broke the multi-issue creation bash. Workaround: Write each body to a temp file, then `gh issue create --body-file`. Applied cleanly.
+- **Prestige v1 formula is genuinely undecided.** v4 says "suites-aware, not longevity" but not the math. Sprint C dispatch must present 2–3 candidate formulas for Marco's review before code lands.
+- **Every HTML/CSS PR in Sprint D has 6-month shelf life** — Sprint F React/Node migration rewrites the render layer. Migration Notes PR body block is mandatory starting Sprint D to force portable/rewrites/invariants discipline.
+- **URL preservation is a permanent SEO invariant.** Any URL introduced in Sprint D must survive Sprint F migration. `/reports/YYYY-WW/`, `/benchmarks/`, `/skills/` codified as frozen in v4.
+- **Benchmark evidence provenance gate is load-bearing.** Never self-attested; only verifier-attested or ci-reproduced. First bad benchmark score inflates TM permanently. `validate_benchmarks.py` will enforce.
+
+### Open questions for next orchestrator
+- **Resolve PR #895 conflicts** — Sprint B blocker.
+- **Content Engine cadence timing:** if W1 lands mid-week-3 of Sprint D, we only get one gated cycle before sprint close. Consider dispatching W1 in the first 3 days of the sprint window to give 3–4 Monday cycles for confidence-in-gate. (Note: no existing Monday auto-report to preserve — greenfield.)
+- **Prestige v1 formula options** — Sprint C dispatch needs 2–3 candidate formulas drafted for Marco's review.
+- **v6.0.0 release runbook** — after #895 merges. Snapshot bundling step in `publish-pypi.yml` runs for vX.Y.0 releases. Verify wheel size after publish.
+- **Auto-merge workflow doesn't exist yet.** Applied `auto-merge-eligible` label to Sprint D plan; the workflow that consumes it needs building (or fold into existing Auto-Triage in `.github/workflows/`).
+
+### Token cost (this session)
+- Model: **Claude Code Opus with ultrathink** (original harness, API costs)
+- **Output tokens: 109,035 · Input tokens: 41,163**
+- **Total requests: 155**
+- **Cost: 11.95 CU · 6.46€**
+- **Cache (write / read): 809,682 / 7,478,410** — ratio ~9.2:1 read-to-write, heavy context reuse across Explore agents + Plan agent
+- Breakdown estimate:
+  - 5 Explore agents scouting Sprint C readiness: ~1.5€
+  - 1 Plan agent authoring Sprint D EPIC plan: ~1.2€
+  - Orchestrator inline (v4 authoring + GH wiring + memory snapshot): ~3.8€
+- **Session 31 total: 6.46€**
+
+---
+
 ## State Snapshot (2026-06-30, session 30 — Sprint B closure: W1+W3+W4 merged, W2 initial impl done, design iteration next)
 
 ### TLDR
