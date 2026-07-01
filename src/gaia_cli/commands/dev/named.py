@@ -11,6 +11,8 @@ from gaia_cli.commands.dev.helpers import (
     _replace_section,
     _get_contributor,
     _run_docs_build,
+    _run_dev_preflights,
+    _preflight_named_status_identity,
 )
 
 
@@ -30,22 +32,12 @@ def meta_update_named_command(args):
     changed = False
     status_promoted_to_named = False
 
+    _run_dev_preflights([
+        lambda: _preflight_named_status_identity(skill_id, meta, args),
+    ])
+
     if getattr(args, "status", None):
         new_status = args.status
-        # Schema rule: status=named requires title or catalogRef. Block premature promotion
-        # so I13-style intake bugs don't slip past validation again.
-        if new_status == "named" and not (
-            meta.get("title")
-            or meta.get("catalogRef")
-            or getattr(args, "title", None)
-            or getattr(args, "catalog_ref", None)
-        ):
-            print(
-                f"Error: status='named' requires 'title' or 'catalogRef' on {skill_id}. "
-                f"Re-run with --title \"<lore title>\" (or --catalog-ref <slug>) to satisfy "
-                f"the schema constraint."
-            )
-            sys.exit(1)
         if prior_status != "named" and new_status == "named":
             status_promoted_to_named = True
         meta["status"] = new_status

@@ -3,7 +3,9 @@ import os
 import json
 import datetime
 import subprocess
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Callable, Iterable
 
 from gaia_cli.registry import (
     registry_graph_path,
@@ -41,6 +43,138 @@ _VERSION_FILES = {
     "registry/gaia.json",
     "docs/graph/gaia.json",
 }
+
+
+@dataclass(frozen=True)
+class DevPreflightError(Exception):
+    """A mutating `gaia dev` command would violate an invariant before writing."""
+
+    message: str
+    fix: str | None = None
+
+
+def _format_dev_preflight_error(error: DevPreflightError) -> str:
+    lines = [f"Error: {error.message}"]
+    if error.fix:
+        lines.append(f"Fix: {error.fix}")
+    return "\n".join(lines)
+
+
+def _fail_dev_preflight(message: str, *, fix: str | None = None) -> None:
+    raise DevPreflightError(message=message, fix=fix)
+
+
+def _run_dev_preflights(checks: Iterable[Callable[[], None]]) -> None:
+    """Run invariant checks and abort before any write if one fails."""
+    try:
+        for check in checks:
+            check()
+    except DevPreflightError as error:
+        print(_format_dev_preflight_error(error), file=sys.stderr)
+        sys.exit(1)
+
+
+def _preflight_named_status_identity(skill_id: str, meta: dict, args) -> None:
+    new_status = getattr(args, "status", None)
+    if new_status != "named":
+        return
+    if (
+        meta.get("title")
+        or meta.get("catalogRef")
+        or getattr(args, "title", None)
+        or getattr(args, "catalog_ref", None)
+    ):
+        return
+    _fail_dev_preflight(
+        f"status='named' requires 'title' or 'catalogRef' on {skill_id}.",
+        fix=(
+            f"Re-run `gaia dev update-named {skill_id} --status named "
+            f"--title \"<lore title>\"` (or `--catalog-ref <slug>`) to satisfy "
+            f"the schema constraint."
+        ),
+    )
+
+
+def _preflight_starbar_blob_link(skill_id: str, skill_data: dict, level: str) -> None:
+    three_star_plus = {"3★", "4★", "5★", "6★"}
+    if level not in three_star_plus:
+        return
+    github_url = (skill_data.get("links") or {}).get("github", "")
+    if github_url and "/blob/" in github_url:
+        return
+    _fail_dev_preflight(
+        f"Cannot calibrate {skill_id} to {level}: `links.github` is missing or not a `blob/` URL.",
+        fix=(
+            "The Star Bar (META.md §2.4) requires a verified GitHub blob URL for 3★+ skills. "
+            f"Current value: {github_url!r}. Re-run `gaia dev update-named {skill_id} "
+            "--github-link https://github.com/<owner>/<repo>/blob/<branch>/<path-to-skill>`."
+        ),
+    )
+
+
+def _preflight_evidence_static(args, valid_types: set[str] | list[str] | tuple[str, ...]) -> None:
+    evidence_type = getattr(args, "evidence_type", None)
+    if evidence_type is not None and evidence_type not in valid_types:
+        valid_list = ", ".join(valid_types)
+        _fail_dev_preflight(
+            f"unknown evidence type '{evidence_type}'.",
+            fix=f"Use one of: {valid_list}",
+        )
+
+    percentile = getattr(args, "percentile", None)
+    if evidence_type == "benchmark-result":
+        if percentile is None:
+            _fail_dev_preflight(
+                "`--type benchmark-result` requires `--percentile <0-100>`.",
+                fix=(
+                    "Pass `--percentile <int>` (0-100 inclusive). If the percentile is unknown, "
+                    "use `--type peer-review` with `--reviewers` instead for a gradeable entry."
+                ),
+            )
+        if not (0 <= int(percentile) <= 100):
+            _fail_dev_preflight(f"`--percentile` must be in range 0-100; got {percentile!r}.")
+
+    for attr, flag in (("date", "--date"), ("source_started_at", "--source-started-at")):
+        value = getattr(args, attr, None)
+        if value is None:
+            continue
+        try:
+            datetime.date.fromisoformat(value)
+        except ValueError:
+            _fail_dev_preflight(f"{flag} must be ISO YYYY-MM-DD; got '{value}'.")
+
+    index = getattr(args, "index", None)
+    patch_fields = (
+        "trust",
+        "evidence_type",
+        "notes",
+        "evaluator",
+        "date",
+        "stars",
+        "views",
+        "citations",
+        "reviewers",
+        "commits",
+        "contributors",
+        "skill_count_in_repo",
+        "percentile",
+        "source_started_at",
+    )
+    if index is not None and not any(getattr(args, field, None) is not None for field in patch_fields):
+        _fail_dev_preflight(
+            "--index requires at least one update field.",
+            fix="Pass one of --trust, --type, --notes, --date, --source-started-at, or a numeric payload flag.",
+        )
+
+
+def _preflight_evidence_index_bounds(skill_id: str, ev_list: list, index: int | None) -> None:
+    if index is None:
+        return
+    if index < 0 or index >= len(ev_list):
+        _fail_dev_preflight(
+            f"Evidence index {index} out of range for skill '{skill_id}' ({len(ev_list)} entries).",
+            fix="Use a valid zero-based --index value or omit --index to append new evidence.",
+        )
 
 
 def _run_docs_build(registry_path) -> None:

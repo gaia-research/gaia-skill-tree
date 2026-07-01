@@ -107,13 +107,21 @@ def test_update_named_missing_skill_exits(tmp_path):
     assert exc.value.code != 0
 
 
-def test_update_named_status_named_requires_title(tmp_path):
+def test_update_named_status_named_requires_title(tmp_path, capsys):
     """Setting status=named on a skill without a title/catalogRef must be rejected."""
     root = _make_registry(tmp_path, title="")
     # Remove title from the file
     path = Path(root) / "registry" / "named" / "alice" / "test-skill.md"
     content = path.read_text(encoding="utf-8").replace("title: \n", "").replace("title:\n", "")
     path.write_text(content, encoding="utf-8")
+    before = path.read_text(encoding="utf-8")
+
     with pytest.raises(SystemExit) as exc:
         meta_update_named_command(_args(root, status="named"))
+
     assert exc.value.code != 0
+    assert path.read_text(encoding="utf-8") == before
+    err = capsys.readouterr().err
+    assert "status='named' requires 'title' or 'catalogRef'" in err
+    assert "--title" in err
+    assert "--catalog-ref" in err
