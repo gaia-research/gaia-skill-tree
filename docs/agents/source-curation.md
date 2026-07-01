@@ -242,6 +242,24 @@ Pass `--input seed.json` to supply a local JSON array or an object with a
 `GAIA_SOURCE_CURATION_LIVE_GITHUB=1`) only when an operator explicitly wants
 live GitHub API reads.
 
+## Scheduled Dry-Run Workflow
+
+`.github/workflows/source-curation-dry-run.yml` runs the same dry-run runner on
+a conservative monthly schedule and through `workflow_dispatch`.
+
+Guardrails:
+
+- Scheduled runs force fixture/no-network mode and write only
+  `generated-output/source-curation/<run-id>/report.json`.
+- Manual live GitHub reads require the explicit `live_github` dispatch input;
+  they still stop at report generation and do not mutate the registry.
+- Workflow permissions are read-only (`contents: read`). There is no PR creation
+  step, no git push, and no `GAIA_OPERATOR_OVERRIDE`.
+- The workflow uploads `generated-output/source-curation/**` as a short-lived
+  artifact for human/adversarial review.
+- A guard step fails the run if `registry/`, `registry-for-review/`,
+  `skill-trees/`, or `docs/graph/` changed.
+
 ## Self-Bounding Rules
 
 From #762, the pipeline enforces:
@@ -283,7 +301,9 @@ Test fixtures:
 ## What This PR Does NOT Do
 
 - **No default network crawler execution.** `scripts/sourceCuratorRunner.py` is dry-run GitHub fixture/seed driven by default; live GitHub reads require explicit opt-in and still only write local reports.
-- **No GitHub Actions workflow.** No `.github/workflows/auto-source-curation.yml`.
+- **No auto-source-curation workflow.** The only GitHub Actions integration is
+  `.github/workflows/source-curation-dry-run.yml`, which emits fixture-first
+  report artifacts and does not publish PRs.
 - **No registry mutation.** The schemas and tooling cannot write to
   `registry/nodes/` or `registry/named/`.
 - **No auto-PR publishing.** `dryRun: true` is enforced as a schema const.
