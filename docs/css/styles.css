@@ -11825,7 +11825,10 @@ body[data-overall-grade="S"] .report-card {
    redundant heading — the chart panel itself IS the section header).
    ════════════════════════════════════════════════════════════════════ */
 .trust-preview {
-  padding: 1.5rem 1.25rem 2.5rem;
+  padding:
+    clamp(2.75rem, 5vw, 4rem)
+    1.25rem
+    clamp(3.5rem, 6vw, 5rem);
   max-width: 1180px;
   margin: 0 auto;
 }
@@ -11871,4 +11874,47 @@ body[data-overall-grade="S"] .report-card {
 }
 @media (max-width: 640px) {
   .trust-preview { padding: 1rem 0.75rem 2rem; }
+}
+
+/* Homepage narrative rhythm: hero and Hall are full-bleed moments; the
+   remaining direct sections share a tighter ledger cadence. */
+.home-page .section-divider {
+  width: min(54rem, 62vw);
+  opacity: 0.72;
+}
+
+.home-page > section:not(#hero):not(.hoh-section--mini):not(.trust-preview) {
+  padding:
+    clamp(4.25rem, 7vw, 6rem)
+    1.5rem
+    clamp(4.5rem, 7vw, 6.25rem);
+}
+
+.home-page > section:not(#hero):not(.trust-preview) > h2,
+.home-page > section:not(#hero):not(.trust-preview) .hoh-mini-intro h2 {
+  text-wrap: balance;
+}
+
+.home-page > section:not(#hero):not(.trust-preview) > .section-sub {
+  max-width: 46rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.home-page #paths {
+  max-width: 1120px;
+}
+
+.home-page .paths-wrap {
+  max-width: 1060px;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+.home-page #ascension,
+.home-page #evidence-cycle,
+.home-page #meta-reports {
+  max-width: 960px;
 }

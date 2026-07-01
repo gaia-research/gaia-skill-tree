@@ -46,15 +46,27 @@
   /* Review Section & Side-by-Side Simulator styling */
   .review-showcase-section {
     max-width: 1100px;
-    margin: 3rem auto;
+    margin: 0 auto;
+    padding:
+      clamp(4.25rem, 7vw, 6rem)
+      1.5rem
+      clamp(4.5rem, 7vw, 6.25rem);
+    text-align: center;
+  }
+
+  .review-showcase-section .section-sub {
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.35rem;
   }
 
   .review-sim-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-    margin-bottom: 2.5rem;
+    gap: clamp(1rem, 2.4vw, 1.75rem);
+    margin-top: 1.25rem;
+    margin-bottom: 1.75rem;
   }
 
   @media (max-width: 860px) {
@@ -64,8 +76,8 @@
   }
 
   .review-sim-wrapper {
-    background: #08080a;
-    border: 1px solid var(--border, #222);
+    background: var(--bg);
+    border: 1px solid var(--border);
     border-radius: 12px;
     overflow: hidden;
     font-family: var(--font-mono, ui-monospace, monospace);
@@ -76,7 +88,7 @@
 
   .review-sim-header {
     background: rgba(255, 255, 255, 0.02);
-    border-bottom: 1px solid var(--border, #222);
+    border-bottom: 1px solid var(--border);
     padding: 0.75rem 1.25rem;
     display: flex;
     align-items: center;
@@ -93,13 +105,13 @@
     height: 10px;
     border-radius: 50%;
   }
-  .review-sim-dots .dot.red { background: #ef4444; }
-  .review-sim-dots .dot.yellow { background: #fbbf24; }
-  .review-sim-dots .dot.green { background: #22c55e; }
+  .review-sim-dots .dot.red { background: var(--honor-red); }
+  .review-sim-dots .dot.yellow { background: var(--apex-gold); }
+  .review-sim-dots .dot.green { background: var(--rank-2); }
 
   .review-sim-title {
     font-size: 0.8rem;
-    color: var(--muted, #666);
+    color: var(--muted);
   }
 
   .review-sim-body {
@@ -111,23 +123,23 @@
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
-    color: #c9d1d9;
+    color: var(--text);
     scroll-behavior: smooth;
   }
 
   .review-sim-body .line { word-break: break-all; }
-  .review-sim-body .line.system { color: #8b949e; }
-  .review-sim-body .line.cmd { color: #58a6ff; font-weight: bold; }
-  .review-sim-body .line.check-run { color: #58a6ff; }
-  .review-sim-body .line.pass { color: #34d399; }
-  .review-sim-body .line.fail { color: #f85149; }
-  .review-sim-body .line.user { color: #fbbf24; }
-  .review-sim-body pre { margin: 0; line-height: 1.2; color: #a78bfa; font-size: 0.76rem; }
+  .review-sim-body .line.system { color: var(--muted); }
+  .review-sim-body .line.cmd { color: var(--tier-basic); font-weight: bold; }
+  .review-sim-body .line.check-run { color: var(--tier-basic); }
+  .review-sim-body .line.pass { color: var(--rank-2); }
+  .review-sim-body .line.fail { color: var(--honor-red); }
+  .review-sim-body .line.user { color: var(--apex-gold); }
+  .review-sim-body pre { margin: 0; line-height: 1.2; color: var(--rank-3); font-size: 0.76rem; }
 
   .review-sim-controls {
     display: flex;
     justify-content: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
   }
 
   .review-sim-btn {
@@ -135,14 +147,14 @@
     font-size: 0.85rem;
     padding: 0.5rem 1.5rem;
     border-radius: 6px;
-    background: var(--tier-basic, #38bdf8);
+    background: var(--tier-basic);
     border: none;
-    color: #000;
+    color: var(--bg);
     cursor: pointer;
     font-family: var(--font-body, system-ui, sans-serif);
     font-weight: 700;
     transition: all 0.2s ease;
-    box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+    box-shadow: 0 0 10px rgba(var(--tier-basic-rgb), 0.2);
   }
 
   .review-sim-btn:hover:not(:disabled) {
@@ -159,7 +171,7 @@
   .review-sim-cta-container {
     display: flex;
     justify-content: center;
-    margin-top: 1rem;
+    margin-top: 1.25rem;
     gap: 1rem;
   }
   </style>
