@@ -6,6 +6,7 @@ import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable, Iterable
+from urllib.parse import urlparse
 
 from gaia_cli.registry import (
     registry_graph_path,
@@ -112,27 +113,83 @@ def _preflight_starbar_blob_link(skill_id: str, skill_data: dict, level: str) ->
     )
 
 
+def _preflight_url(value: str | None, flag: str) -> None:
+    if not value:
+        return
+    parsed = urlparse(value)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        _fail_dev_preflight(
+            f"{flag} must be an absolute http(s) URL; got {value!r}.",
+            fix="Pass a full evidence URL such as https://example.com/path.",
+        )
+
+
+def _preflight_iso_timestamp(value: str | None, flag: str = "--timestamp") -> None:
+    if value is None:
+        return
+    normalized = value[:-1] + "+00:00" if value.endswith("Z") else value
+    try:
+        parsed = datetime.datetime.fromisoformat(normalized)
+    except ValueError:
+        _fail_dev_preflight(
+            f"{flag} must be ISO 8601 (for example 2026-03-01T00:00:00Z); got {value!r}."
+        )
+    if parsed.tzinfo is None:
+        _fail_dev_preflight(
+            f"{flag} must include a timezone (use Z for UTC); got {value!r}."
+        )
+
+
+def _preflight_non_negative(value, flag: str, *, allow_zero: bool = True) -> None:
+    if value is None:
+        return
+    if value < 0 or (value == 0 and not allow_zero):
+        comparator = ">= 0" if allow_zero else "> 0"
+        _fail_dev_preflight(f"{flag} must be {comparator}; got {value!r}.")
+
+
 def _preflight_evidence_static(args, valid_types: set[str] | list[str] | tuple[str, ...]) -> None:
     evidence_type = getattr(args, "evidence_type", None)
-    if evidence_type is not None and evidence_type not in valid_types:
-        valid_list = ", ".join(valid_types)
+    valid_type_set = set(valid_types)
+    if evidence_type is not None and evidence_type not in valid_type_set:
+        valid_list = ", ".join(sorted(valid_type_set))
         _fail_dev_preflight(
             f"unknown evidence type '{evidence_type}'.",
             fix=f"Use one of: {valid_list}",
         )
 
+    _preflight_url(getattr(args, "source", None), "source")
+
+    trust_number = getattr(args, "trust", None)
+    _preflight_non_negative(trust_number, "--trust")
+
+    numeric_fields = (
+        ("stars", "--stars", True),
+        ("views", "--views", True),
+        ("citations", "--citations", True),
+        ("reviewers", "--reviewers", False),
+        ("commits", "--commits", True),
+        ("contributors", "--contributors", True),
+        ("skill_count_in_repo", "--skill-count-in-repo", False),
+    )
+    for attr, flag, allow_zero in numeric_fields:
+        _preflight_non_negative(getattr(args, attr, None), flag, allow_zero=allow_zero)
+
     percentile = getattr(args, "percentile", None)
-    if evidence_type == "benchmark-result":
-        if percentile is None:
+    if percentile is not None and not (0 <= int(percentile) <= 100):
+        _fail_dev_preflight(f"`--percentile` must be in range 0-100; got {percentile!r}.")
+
+    required_payloads = {
+        "benchmark-result": (("percentile", "--percentile <0-100>"),),
+        "peer-review": (("reviewers", "--reviewers <count>"),),
+    }
+    if evidence_type in required_payloads:
+        missing = [flag for attr, flag in required_payloads[evidence_type] if getattr(args, attr, None) is None]
+        if missing:
             _fail_dev_preflight(
-                "`--type benchmark-result` requires `--percentile <0-100>`.",
-                fix=(
-                    "Pass `--percentile <int>` (0-100 inclusive). If the percentile is unknown, "
-                    "use `--type peer-review` with `--reviewers` instead for a gradeable entry."
-                ),
+                f"`--type {evidence_type}` requires {', '.join(missing)}.",
+                fix="Provide the required numeric payload so the evidence row can produce a non-zero artifact score.",
             )
-        if not (0 <= int(percentile) <= 100):
-            _fail_dev_preflight(f"`--percentile` must be in range 0-100; got {percentile!r}.")
 
     for attr, flag in (("date", "--date"), ("source_started_at", "--source-started-at")):
         value = getattr(args, attr, None)
@@ -174,6 +231,36 @@ def _preflight_evidence_index_bounds(skill_id: str, ev_list: list, index: int | 
         _fail_dev_preflight(
             f"Evidence index {index} out of range for skill '{skill_id}' ({len(ev_list)} entries).",
             fix="Use a valid zero-based --index value or omit --index to append new evidence.",
+        )
+
+
+def _preflight_duplicate_evidence_source(skill_id: str, ev_list: list, source: str | None) -> None:
+    if not source:
+        return
+    duplicates = [entry for entry in (ev_list or []) if entry.get("source") == source]
+    if duplicates:
+        plural = "entry" if len(duplicates) == 1 else "entries"
+        print(
+            f"Warning: {skill_id} already has {len(duplicates)} evidence {plural} at {source}; "
+            "same-source dedup may collapse Trust Magnitude contribution.",
+            file=sys.stderr,
+        )
+
+
+def _preflight_verify_evidence(skill_id: str, ev_list: list, index: int, *, is_dispute: bool, source: str | None) -> None:
+    _preflight_evidence_index_bounds(skill_id, ev_list, index)
+    _preflight_url(source, "--source")
+    entry = ev_list[index]
+    if is_dispute:
+        if entry.get("disputed") is True:
+            _fail_dev_preflight(
+                f"Evidence index {index} for '{skill_id}' is already disputed.",
+                fix="Choose a different evidence index or omit duplicate dispute attempts.",
+            )
+    elif entry.get("verified") is True and entry.get("disputed") is not True:
+        _fail_dev_preflight(
+            f"Evidence index {index} for '{skill_id}' is already verified.",
+            fix="Use --dispute to change the status, or choose an unverified evidence row.",
         )
 
 
