@@ -25,9 +25,11 @@
   // Fixed section markers, top → bottom. The explorer's own markers are
   // appended after these on every rebuild.
   var SECTIONS = [
+    { key: "sec:hall-of-heroes", label: "Hall of Heroes",        targetId: "hall-of-heroes" },
+    { key: "sec:trust-preview",   label: "Trust Ledger",          targetId: "trust-preview" },
     { key: "sec:paths",          label: "Register Your Repo",    targetId: "paths" },
     { key: "sec:ultimates",      label: "Claim an Ultimate",     targetId: "ultimates" },
-    { key: "sec:hall-of-heroes", label: "Hall of Heroes",        targetId: "hall-of-heroes" },
+    { key: "sec:review-showcase", label: "Review Gate",          targetId: "review-showcase" },
     { key: "sec:ascension",      label: "The Ascension Cycle",   targetId: "ascension" },
     { key: "sec:evidence-cycle", label: "The Evidence Grade Cycle", targetId: "evidence-cycle" },
     { key: "sec:meta-reports",   label: "Meta Reports",          targetId: "meta-reports", accent: "red" }
