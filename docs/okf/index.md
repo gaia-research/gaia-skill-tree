@@ -8,9 +8,10 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 
 ## Registry Index
 
-### Ultimate Skills (4)
+### Ultimate Skills (5)
 
 * [Founder Mode](/skills/ultimate/founder-mode-orchestration.md) - Garry Tan's complete autonomous agent discipline suite spanning 19 named skills: browser QA, security auditing, design system creation, HTML generation, plan reviews (CEO/eng/design/DX), code review, root-cause debugging, E2E testing, ship/deploy automation, post-deploy canary monitoring, documentation, and founder-mode orchestration.
+* [Git Ship Done Pipeline](/skills/ultimate/git-ship-done-pipeline.md) - Fuses decision capture, planning, parallel execution, verification, and shipping into a repeatable agentic software delivery pipeline.
 * [Ruflo](/skills/ultimate/multi-topology-orchestration.md) - The complete Ruflo AI orchestration platform: multi-topology swarm deployment, cloud platform management, GitHub automation, hive-mind consensus, reasoning memory bank, and full v3 architecture modernization.
 * [Superpowers](/skills/ultimate/superpowers.md) - A complete software development methodology for coding agents: combines brainstorming, planning, parallel execution, systematic debugging, code review loops, and branch discipline into a unified agentic workflow.
 * [mattpocock-skills](/skills/ultimate/skill-mastery.md) - Ultimate capstone suite for Matt Pocock's skills.

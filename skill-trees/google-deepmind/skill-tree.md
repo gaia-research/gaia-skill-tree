@@ -148,6 +148,31 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
      └─ · ○ /generate-text  (↑ see above)
 
+· ◆ /git-ship-done-pipeline  [Unclaimed]
+  ├─ · ◇ obra/brainstorming  [3★]
+  │  ├─ · ○ ████████/requirements-engineer
+  │  └─ · ○ garrytan/office-hours  [3★]
+  ├─ · ◇ obra/writing-plans  [4★]
+  │  ├─ · ○ /plan-decompose
+  │  └─ · ○ ████████/requirements-engineer  (↑ see above)
+  ├─ · ◇ obra/subagent-driven-development  [4★]
+  │  ├─ · ◇ obra/executing-plans  [3★]
+  │  │  ├─ · ◇ obra/writing-plans  [4★]  (↑ see above)
+  │  │  └─ · ○ /tool-use
+  │  ├─ · ◇ obra/dispatching-parallel-agents  [3★]
+  │  │  ├─ · ○ /plan-decompose  (↑ see above)
+  │  │  └─ · ○ ████████/parallel-execution
+  │  └─ · ◇ garrytan/plan-eng-review  [3★]
+  │     ├─ · ○ garrytan/design-html  [3★]
+  │     ├─ · ○ /diff-content
+  │     └─ · ○ garrytan/benchmark  [3★]
+  ├─ · ◇ obra/verification-before-completion  [3★]
+  │  ├─ · ○ /code-execution
+  │  └─ · ○ /self-critique
+  └─ · ◇ garrytan/ship  [3★]
+     ├─ · ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+     └─ · ○ /diff-content  (↑ see above)
+
 · ◆ ruvnet/ruflo  [5★]
   ├─ · ◇ ruvnet/flow-nexus  [3★]
   │  ├─ · ◇ ████████/flow-nexus-swarm
