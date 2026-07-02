@@ -32,7 +32,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 · ◆ garrytan/gstack  [5★]
   ├─ · ○ garrytan/office-hours  [3★]
   ├─ · ○ garrytan/benchmark  [3★]
-  ├─ · ◇ garrytan/plan-eng-review  [3★]
+  ├─ · ◇ addy-osmani/code-review-and-quality  [3★]
   │  ├─ · ○ garrytan/design-html  [3★]
   │  ├─ · ○ /diff-content
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
@@ -59,7 +59,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ · ○ /code-execution
   │     └─ · ○ /error-interpretation  (↑ see above)
   ├─ · ◇ garrytan/ship  [3★]
-  │  ├─ · ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  ├─ · ◇ addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ /diff-content  (↑ see above)
   ├─ · ◇ garrytan/land-and-deploy  [3★]
   │  ├─ · ◇ ████████/github-workflow-automation
@@ -73,7 +73,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ○ garrytan/document-generate  [3★]
   ├─ · ◇ ████████/stagehand  (↑ see above)
   ├─ · ◇ garrytan/cso  [3★]
-  │  ├─ · ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  ├─ · ◇ addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ · ○ garrytan/browse  [3★]
   ├─ · ◇ garrytan/scrape  [2★]
@@ -118,7 +118,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
      └─ · ○ /generate-text  (↑ see above)
 
-· ◆ /git-ship-done-pipeline  [Unclaimed]
+· ◆ addy-osmani/agent-skills  [5★]
   ├─ · ◇ obra/brainstorming  [3★]
   │  ├─ · ○ ████████/requirements-engineer
   │  └─ · ○ garrytan/office-hours  [3★]
@@ -132,7 +132,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ◇ obra/dispatching-parallel-agents  [3★]
   │  │  ├─ ✓ ○ /plan-decompose  (↑ see above)
   │  │  └─ · ○ ████████/parallel-execution
-  │  └─ · ◇ garrytan/plan-eng-review  [3★]
+  │  └─ · ◇ addy-osmani/code-review-and-quality  [3★]
   │     ├─ · ○ garrytan/design-html  [3★]
   │     ├─ · ○ /diff-content
   │     └─ · ○ garrytan/benchmark  [3★]
@@ -140,7 +140,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /code-execution
   │  └─ · ○ /self-critique
   └─ · ◇ garrytan/ship  [3★]
-     ├─ · ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+     ├─ · ◇ addy-osmani/code-review-and-quality  [3★]  (↑ see above)
      └─ · ○ /diff-content  (↑ see above)
 
 · ◆ ruvnet/ruflo  [5★]
@@ -171,7 +171,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ ruvnet/agentdb-optimization  [2★]
   │  └─ · ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
   ├─ · ◇ ruvnet/github-suite  [3★]
-  │  ├─ · ◇ garrytan/plan-eng-review  [3★]
+  │  ├─ · ◇ addy-osmani/code-review-and-quality  [3★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /diff-content
   │  │  └─ · ○ garrytan/benchmark  [3★]
@@ -218,14 +218,14 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  └─ · ○ ████████/requirements-engineer  (↑ see above)
   │  └─ · ○ /tool-use
   ├─ · ◇ garrytan/ship  [3★]
-  │  ├─ · ◇ garrytan/plan-eng-review  [3★]
+  │  ├─ · ◇ addy-osmani/code-review-and-quality  [3★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /diff-content
   │  │  └─ · ○ garrytan/benchmark  [3★]
   │  └─ · ○ /diff-content  (↑ see above)
   ├─ · ◇ obra/receiving-code-review  [2★]
   │  ├─ · ◇ obra/requesting-code-review  [2★]
-  │  │  ├─ · ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  │  ├─ · ◇ addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  │  └─ · ◇ obra/dispatching-parallel-agents  [3★]  (↑ see above)
   │  └─ · ◇ obra/verification-before-completion  [3★]
   │     ├─ · ○ /code-execution
@@ -234,7 +234,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ◇ obra/subagent-driven-development  [4★]
   │  ├─ · ◇ obra/executing-plans  [3★]  (↑ see above)
   │  ├─ · ◇ obra/dispatching-parallel-agents  [3★]  (↑ see above)
-  │  └─ · ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  └─ · ◇ addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   ├─ · ◇ garrytan/investigate  [3★]
   │  ├─ · ○ /hypothesis-generate
   │  └─ · ○ /error-interpretation
@@ -250,7 +250,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /code-execution
   │  │  └─ · ○ /error-interpretation
-  │  ├─ · ○ mattpocock/improve-codebase-architecture  [2★]
+  │  ├─ · ○ addy-osmani/code-simplification  [3★]
   │  ├─ · ◇ garrytan/garrytan  [4★]
   │  │  ├─ ✓ ○ /plan-decompose
   │  │  └─ ✓ ○ ████████/ask-matt

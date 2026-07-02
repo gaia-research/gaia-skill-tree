@@ -1,9 +1,30 @@
 {
-  "generatedAt": "2026-07-02T08:34:26Z",
+  "generatedAt": "2026-07-02T21:46:26Z",
   "buckets": [
     {
-      "genericSkillRef": "vertical-slice-planning",
+      "genericSkillRef": "git-ship-done-pipeline",
       "implementations": 2,
+      "topTM": 293.14,
+      "skills": [
+        {
+          "id": "addy-osmani/agent-skills",
+          "trustMagnitude": 293.14,
+          "level": "5★",
+          "overallTrustGrade": "S",
+          "origin": true
+        },
+        {
+          "id": "gsd-build/get-shit-done",
+          "trustMagnitude": 202.16,
+          "level": "4★",
+          "overallTrustGrade": "A",
+          "origin": false
+        }
+      ]
+    },
+    {
+      "genericSkillRef": "vertical-slice-planning",
+      "implementations": 3,
       "topTM": 156.0,
       "skills": [
         {
@@ -16,6 +37,13 @@
         {
           "id": "mattpocock/to-issues",
           "trustMagnitude": 90.38,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "addy-osmani/planning-and-task-breakdown",
+          "trustMagnitude": 53.14,
           "level": "3★",
           "overallTrustGrade": "B",
           "origin": false
@@ -73,7 +101,7 @@
     },
     {
       "genericSkillRef": "subagent-driven-development",
-      "implementations": 2,
+      "implementations": 3,
       "topTM": 117.65,
       "skills": [
         {
@@ -84,10 +112,38 @@
           "origin": true
         },
         {
+          "id": "gsd-build/execute-phase",
+          "trustMagnitude": 52.16,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
           "id": "ruvnet/pair-programming",
           "trustMagnitude": 36.0,
           "level": "2★",
           "overallTrustGrade": "C",
+          "origin": false
+        }
+      ]
+    },
+    {
+      "genericSkillRef": "writing-plans",
+      "implementations": 2,
+      "topTM": 110.15,
+      "skills": [
+        {
+          "id": "obra/writing-plans",
+          "trustMagnitude": 110.15,
+          "level": "4★",
+          "overallTrustGrade": "A",
+          "origin": true
+        },
+        {
+          "id": "gsd-build/plan-phase",
+          "trustMagnitude": 52.16,
+          "level": "3★",
+          "overallTrustGrade": "B",
           "origin": false
         }
       ]
@@ -114,8 +170,50 @@
       ]
     },
     {
-      "genericSkillRef": "verification-before-completion",
+      "genericSkillRef": "brainstorming",
       "implementations": 2,
+      "topTM": 95.15,
+      "skills": [
+        {
+          "id": "obra/brainstorming",
+          "trustMagnitude": 95.15,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": true
+        },
+        {
+          "id": "gsd-build/discuss-phase",
+          "trustMagnitude": 52.16,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        }
+      ]
+    },
+    {
+      "genericSkillRef": "executing-plans",
+      "implementations": 2,
+      "topTM": 95.15,
+      "skills": [
+        {
+          "id": "obra/executing-plans",
+          "trustMagnitude": 95.15,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": true
+        },
+        {
+          "id": "addy-osmani/incremental-implementation",
+          "trustMagnitude": 53.14,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        }
+      ]
+    },
+    {
+      "genericSkillRef": "verification-before-completion",
+      "implementations": 3,
       "topTM": 95.15,
       "skills": [
         {
@@ -124,6 +222,13 @@
           "level": "3★",
           "overallTrustGrade": "B",
           "origin": true
+        },
+        {
+          "id": "gsd-build/verify-work",
+          "trustMagnitude": 52.16,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
         },
         {
           "id": "ruvnet/verification-quality",
@@ -325,7 +430,7 @@
     },
     {
       "genericSkillRef": "code-review-pipeline",
-      "implementations": 2,
+      "implementations": 3,
       "topTM": 66.0,
       "skills": [
         {
@@ -338,6 +443,13 @@
         {
           "id": "garrytan/review",
           "trustMagnitude": 63.73,
+          "level": "3★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "addy-osmani/code-review-and-quality",
+          "trustMagnitude": 53.14,
           "level": "3★",
           "overallTrustGrade": "B",
           "origin": false
@@ -400,97 +512,6 @@
         },
         {
           "id": "Manavarya09/design-extract",
-          "trustMagnitude": 36.0,
-          "level": "2★",
-          "overallTrustGrade": "C",
-          "origin": false
-        }
-      ]
-    },
-    {
-      "genericSkillRef": "deployment-automation",
-      "implementations": 3,
-      "topTM": 63.73,
-      "skills": [
-        {
-          "id": "garrytan/land-and-deploy",
-          "trustMagnitude": 63.73,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": true
-        },
-        {
-          "id": "garrytan/setup-deploy",
-          "trustMagnitude": 36.0,
-          "level": "2★",
-          "overallTrustGrade": "C",
-          "origin": false
-        },
-        {
-          "id": "mbtiongson1/gaia-preview",
-          "trustMagnitude": 36.0,
-          "level": "2★",
-          "overallTrustGrade": "C",
-          "origin": false
-        }
-      ]
-    },
-    {
-      "genericSkillRef": "e2e-testing",
-      "implementations": 2,
-      "topTM": 63.73,
-      "skills": [
-        {
-          "id": "garrytan/qa",
-          "trustMagnitude": 63.73,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": true
-        },
-        {
-          "id": "garrytan/qa-only",
-          "trustMagnitude": 36.0,
-          "level": "2★",
-          "overallTrustGrade": "C",
-          "origin": false
-        }
-      ]
-    },
-    {
-      "genericSkillRef": "finishing-a-development-branch",
-      "implementations": 2,
-      "topTM": 63.73,
-      "skills": [
-        {
-          "id": "garrytan/ship",
-          "trustMagnitude": 63.73,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": true
-        },
-        {
-          "id": "obra/finishing-a-development-branch",
-          "trustMagnitude": 36.0,
-          "level": "2★",
-          "overallTrustGrade": "C",
-          "origin": false
-        }
-      ]
-    },
-    {
-      "genericSkillRef": "web-scrape",
-      "implementations": 2,
-      "topTM": 36.0,
-      "skills": [
-        {
-          "id": "firecrawl/firecrawl",
-          "trustMagnitude": 36.0,
-          "level": "2★",
-          "overallTrustGrade": "C",
-          "origin": true
-        },
-        {
-          "id": "garrytan/scrape",
           "trustMagnitude": 36.0,
           "level": "2★",
           "overallTrustGrade": "C",

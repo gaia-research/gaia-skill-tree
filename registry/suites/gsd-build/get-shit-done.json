@@ -1,0 +1,18 @@
+{
+  "id": "gsd-build/get-shit-done",
+  "name": "Get Shit Done",
+  "contributor": "gsd-build",
+  "description": "GSD's repeatable software-delivery loop for AI agents: discuss, plan, execute, verify, and ship.",
+  "version": "1.0.0",
+  "capstone": "gsd-build/get-shit-done",
+  "suites": [],
+  "standalones": [
+    "gsd-build/discuss-phase",
+    "gsd-build/plan-phase",
+    "gsd-build/execute-phase",
+    "gsd-build/verify-work",
+    "gsd-build/ship"
+  ],
+  "createdAt": "2026-07-03",
+  "updatedAt": "2026-07-03"
+}

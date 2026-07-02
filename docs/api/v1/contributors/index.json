@@ -53,6 +53,32 @@
       }
     },
     {
+      "handle": "addy-osmani",
+      "namedSkills": 9,
+      "topSkill": {
+        "id": "addy-osmani/agent-skills",
+        "level": "5★",
+        "trustMagnitude": 293.14
+      },
+      "prestigeScore": 731.18,
+      "_links": {
+        "self": "/api/v1/contributors/addy-osmani.json"
+      }
+    },
+    {
+      "handle": "gsd-build",
+      "namedSkills": 6,
+      "topSkill": {
+        "id": "gsd-build/get-shit-done",
+        "level": "4★",
+        "trustMagnitude": 202.16
+      },
+      "prestigeScore": 462.96,
+      "_links": {
+        "self": "/api/v1/contributors/gsd-build.json"
+      }
+    },
+    {
       "handle": "openai",
       "namedSkills": 2,
       "topSkill": {
@@ -102,19 +128,6 @@
       "prestigeScore": 122.8,
       "_links": {
         "self": "/api/v1/contributors/pbakaus.json"
-      }
-    },
-    {
-      "handle": "addy-osmani",
-      "namedSkills": 2,
-      "topSkill": {
-        "id": "addy-osmani/performance-optimization",
-        "level": "3★",
-        "trustMagnitude": 83.2
-      },
-      "prestigeScore": 119.2,
-      "_links": {
-        "self": "/api/v1/contributors/addy-osmani.json"
       }
     },
     {
@@ -352,7 +365,7 @@
       }
     }
   ],
-  "totalContributors": 27,
+  "totalContributors": 28,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

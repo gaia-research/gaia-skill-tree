@@ -62,6 +62,7 @@ INDEX_SKILL_FIELDS = [
     "description",
     "title",
     "catalogRef",
+    "installable",
     "tags",
     "links",
     "evidence",

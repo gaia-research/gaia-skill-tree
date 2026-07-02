@@ -32,10 +32,54 @@ UPSTREAM_CONFIG = {
         "url": "https://raw.githubusercontent.com/ruvnet/ruflo/main/README.md",
         "heading_keywords": ["Quick Start", "Installation"],
         "path": "registry/named/ruvnet/ruflo.md"
+    },
+    "addy-osmani/agent-skills": {
+        "url": "https://raw.githubusercontent.com/addyosmani/agent-skills/main/README.md",
+        "heading_keywords": ["Quick Start", "Installation"],
+        "path": "registry/named/addy-osmani/agent-skills.md"
+    },
+    "gsd-build/get-shit-done": {
+        "url": "https://raw.githubusercontent.com/open-gsd/gsd-core/main/README.md",
+        "heading_keywords": ["Quickstart", "Installation"],
+        "path": "registry/named/gsd-build/get-shit-done.md"
     }
 }
 
 # Templates
+ADDY_MEMBER_TEMPLATE = """This skill is included in the Addy Osmani agent skills suite. Install the suite with:
+
+```bash
+/plugin marketplace add addyosmani/agent-skills
+/plugin install agent-skills@addy-agent-skills
+```
+
+Invoke the matching slash command from the installed suite."""
+
+GSD_MEMBER_TEMPLATE = """This skill is part of the GSD Core pipeline. Install the suite with:
+
+```bash
+npx @opengsd/gsd-core@latest
+```
+
+Then use the matching phase from the installed GSD workflow."""
+
+ADDY_CAPSTONE_TEMPLATE = """Install the full Addy Osmani agent skills suite with:
+
+```bash
+/plugin marketplace add addyosmani/agent-skills
+/plugin install agent-skills@addy-agent-skills
+```
+
+This is the recommended path from the upstream repo's Quick Start."""
+
+GSD_CAPSTONE_TEMPLATE = """Install the full GSD Core software development pipeline with:
+
+```bash
+npx @opengsd/gsd-core@latest
+```
+
+This is the recommended path from the upstream repo's Quickstart."""
+
 MATT_TEMPLATE = """This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.
 
 ```bash
@@ -174,10 +218,16 @@ def main():
 
     # 1. Update Capstones from Upstream
     for suite_id, info in UPSTREAM_CONFIG.items():
-        # ruvnet/ruflo: the upstream README's Installation section is too long
-        # for inline display. Apply a curated short template instead.
+        # Curated capstone summaries where the upstream docs are either too long
+        # or where we want the canonical install path surfaced directly.
         if suite_id == "ruvnet/ruflo":
             surgical_update(info["path"], RUFLO_CAPSTONE_TEMPLATE)
+            continue
+        if suite_id == "addy-osmani/agent-skills":
+            surgical_update(info["path"], ADDY_CAPSTONE_TEMPLATE)
+            continue
+        if suite_id == "gsd-build/get-shit-done":
+            surgical_update(info["path"], GSD_CAPSTONE_TEMPLATE)
             continue
         raw_content = fetch_url(info["url"])
         if raw_content:
@@ -203,6 +253,10 @@ def main():
             
             elif "suiteRef: ruvnet/ruflo" in content:
                 surgical_update(fp, RUFLO_MEMBER_TEMPLATE)
+            elif "/addy-osmani/" in fp and "id: addy-osmani/agent-skills" not in content:
+                surgical_update(fp, ADDY_MEMBER_TEMPLATE)
+            elif "/gsd-build/" in fp and "id: gsd-build/get-shit-done" not in content:
+                surgical_update(fp, GSD_MEMBER_TEMPLATE)
 
     # 3. Bake changes
     print("Running indexer...")

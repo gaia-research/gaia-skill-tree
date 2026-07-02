@@ -79,6 +79,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 650f0466e751f4446ba928c959d5b8aa50cb4ff5b844c60a905f3f41f4286fa0
+suiteRef: "addy-osmani/agent-skills"
 ---
 
 ## Overview
@@ -93,16 +94,11 @@ First published by @addyosmani (Addy Osmani) and expanded with constraints popul
 
 ## Installation
 
-Install via [gaia](https://github.com/gaia-research/gaia-skill-tree):
+This skill is included in the Addy Osmani agent skills suite. Install the suite with:
 
 ```bash
-gaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md
+/plugin marketplace add addyosmani/agent-skills
+/plugin install agent-skills@addy-agent-skills
 ```
 
-Or copy the raw skill file directly into your agent context:
-
-```
-https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md
-```
-
-**Usage**: Invoke `/test-driven-development` (Claude Code) to enforce the red-green-refactor TDD cycle. The skill blocks horizontal slicing and enforces coverage thresholds before marking any task complete.
+Invoke the matching slash command from the installed suite.

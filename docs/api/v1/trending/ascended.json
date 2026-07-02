@@ -1,6 +1,174 @@
 {
-  "generatedAt": "2026-07-02T08:34:26Z",
+  "generatedAt": "2026-07-02T21:46:26Z",
   "skills": [
+    {
+      "id": "addy-osmani/agent-skills",
+      "name": "Agent Skills",
+      "level": "5★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 293.14,
+      "overallTrustGrade": "S",
+      "ascendedAt": "2026-07-02T21:46:18Z",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/agent-skills.json"
+      }
+    },
+    {
+      "id": "gsd-build/get-shit-done",
+      "name": "Get Shit Done",
+      "level": "4★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 202.16,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-02T21:34:10Z",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "gsd-build/ship",
+      "name": "GSD Ship",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 52.16,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-02T21:34:10Z",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/ship.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "gsd-build/execute-phase",
+      "name": "GSD Execute Phase",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 52.16,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-02T21:34:09Z",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/execute-phase.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "gsd-build/verify-work",
+      "name": "GSD Verify Work",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 52.16,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-02T21:34:09Z",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/verify-work.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "gsd-build/plan-phase",
+      "name": "GSD Plan Phase",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 52.16,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-02T21:34:08Z",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/plan-phase.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "gsd-build/discuss-phase",
+      "name": "GSD Discuss Phase",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 52.16,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-02T21:34:07Z",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/discuss-phase.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "addy-osmani/code-review-and-quality",
+      "name": "Code Review and Quality",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-02T21:34:06Z",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "addy-osmani/code-simplification",
+      "name": "Code Simplification",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-02T21:34:06Z",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/code-simplification.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "addy-osmani/incremental-implementation",
+      "name": "Incremental Implementation",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-02T21:34:06Z",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "addy-osmani/shipping-and-launch",
+      "name": "Shipping and Launch",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-02T21:34:06Z",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "addy-osmani/planning-and-task-breakdown",
+      "name": "Planning and Task Breakdown",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-02T21:34:05Z",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "addy-osmani/spec-driven-development",
+      "name": "Spec-Driven Development",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-02T21:34:05Z",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
+      },
+      "previousLevel": "2★"
+    },
     {
       "id": "safishamsi/graphify",
       "name": "Graphify",
@@ -221,175 +389,6 @@
         "self": "/api/v1/skills/obra/executing-plans.json"
       },
       "previousLevel": "2★"
-    },
-    {
-      "id": "nexu-io/open-design",
-      "name": "Open Design",
-      "level": "2★",
-      "contributor": "nexu-io",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-06-20T06:31:34Z",
-      "_links": {
-        "self": "/api/v1/skills/nexu-io/open-design.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "nousresearch/feed-monitoring",
-      "name": "Feed Monitoring",
-      "level": "2★",
-      "contributor": "nousresearch",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-06-20T06:31:34Z",
-      "_links": {
-        "self": "/api/v1/skills/nousresearch/feed-monitoring.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "mattpocock/to-prd",
-      "name": "To PRD",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 63.71,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-06-20T06:31:32Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/to-prd.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "mattpocock/edit-article",
-      "name": "Edit Article",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 90.38,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-06-20T06:31:31Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/edit-article.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "martin-stepanoski/nielsen-heuristics-audit",
-      "name": "Nielsen Heuristics Audit",
-      "level": "3★",
-      "contributor": "martin-stepanoski",
-      "trustMagnitude": 94.9,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-06-20T06:31:30Z",
-      "_links": {
-        "self": "/api/v1/skills/martin-stepanoski/nielsen-heuristics-audit.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "mattpocock/diagnose",
-      "name": "Diagnose",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 90.38,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-06-20T06:31:30Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/diagnose.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "huggingface/semantic-cache",
-      "name": "Semantic Cache",
-      "level": "2★",
-      "contributor": "huggingface",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-06-20T06:31:28Z",
-      "_links": {
-        "self": "/api/v1/skills/huggingface/semantic-cache.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "garrytan/careful",
-      "name": "Careful",
-      "level": "3★",
-      "contributor": "garrytan",
-      "trustMagnitude": 66.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-06-20T06:31:21Z",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/careful.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "anthropic/skill-creator",
-      "name": "Skill Creator",
-      "level": "3★",
-      "contributor": "anthropic",
-      "trustMagnitude": 90.0,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-06-20T06:31:20Z",
-      "_links": {
-        "self": "/api/v1/skills/anthropic/skill-creator.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "browser-use/browser-harness",
-      "name": "Browser Harness",
-      "level": "3★",
-      "contributor": "browser-use",
-      "trustMagnitude": 73.59,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-06-20T06:31:20Z",
-      "_links": {
-        "self": "/api/v1/skills/browser-use/browser-harness.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "devin-ai/autonomous-swe",
-      "name": "Autonomous SWE",
-      "level": "2★",
-      "contributor": "devin-ai",
-      "trustMagnitude": 30.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-06-20T06:31:20Z",
-      "_links": {
-        "self": "/api/v1/skills/devin-ai/autonomous-swe.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "mattpocock/teach",
-      "name": "Teach",
-      "level": "2★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "ascendedAt": "2026-06-19T18:41:33Z",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/teach.json"
-      },
-      "previousLevel": "awakened"
-    },
-    {
-      "id": "ruvnet/hive-mind-coordination",
-      "name": "Hive Mind Coordination",
-      "level": "3★",
-      "contributor": "ruvnet",
-      "trustMagnitude": 96.09,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-06-04T20:30:55Z",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/hive-mind-coordination.json"
-      },
-      "previousLevel": "1★"
     }
   ],
   "_links": {

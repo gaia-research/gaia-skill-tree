@@ -519,15 +519,58 @@
       ],
       "skillsByRepo": {
         "addyosmani/agent-skills": [
+          "addy-osmani/agent-skills",
+          "addy-osmani/code-review-and-quality",
+          "addy-osmani/code-simplification",
+          "addy-osmani/incremental-implementation",
           "addy-osmani/performance-optimization",
+          "addy-osmani/planning-and-task-breakdown",
+          "addy-osmani/shipping-and-launch",
+          "addy-osmani/spec-driven-development",
           "addy-osmani/test-driven-development"
         ]
       },
-      "topSkill": "addy-osmani/performance-optimization",
-      "topRank": 3,
+      "topSkill": "addy-osmani/agent-skills",
+      "topRank": 5,
       "topIsUnique": false,
       "count": 9,
       "namedSkills": [
+        {
+          "id": "addy-osmani/agent-skills",
+          "name": "Agent Skills",
+          "rank": 5,
+          "type": "ultimate",
+          "slash": "/agent-skills",
+          "file": "agent-skills.svg",
+          "fileSeal": "agent-skills-seal.svg"
+        },
+        {
+          "id": "addy-osmani/code-review-and-quality",
+          "name": "Code Review and Quality",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/code-review-and-quality",
+          "file": "code-review-and-quality.svg",
+          "fileSeal": "code-review-and-quality-seal.svg"
+        },
+        {
+          "id": "addy-osmani/code-simplification",
+          "name": "Code Simplification",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/code-simplification",
+          "file": "code-simplification.svg",
+          "fileSeal": "code-simplification-seal.svg"
+        },
+        {
+          "id": "addy-osmani/incremental-implementation",
+          "name": "Incremental Implementation",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/incremental-implementation",
+          "file": "incremental-implementation.svg",
+          "fileSeal": "incremental-implementation-seal.svg"
+        },
         {
           "id": "addy-osmani/performance-optimization",
           "name": "Performance Optimization",
@@ -538,6 +581,33 @@
           "fileSeal": "performance-optimization-seal.svg"
         },
         {
+          "id": "addy-osmani/planning-and-task-breakdown",
+          "name": "Planning and Task Breakdown",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/planning-and-task-breakdown",
+          "file": "planning-and-task-breakdown.svg",
+          "fileSeal": "planning-and-task-breakdown-seal.svg"
+        },
+        {
+          "id": "addy-osmani/shipping-and-launch",
+          "name": "Shipping and Launch",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/shipping-and-launch",
+          "file": "shipping-and-launch.svg",
+          "fileSeal": "shipping-and-launch-seal.svg"
+        },
+        {
+          "id": "addy-osmani/spec-driven-development",
+          "name": "Spec-Driven Development",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/spec-driven-development",
+          "file": "spec-driven-development.svg",
+          "fileSeal": "spec-driven-development-seal.svg"
+        },
+        {
           "id": "addy-osmani/test-driven-development",
           "name": "Test-Driven Development",
           "rank": 2,
@@ -545,6 +615,81 @@
           "slash": "/test-driven-development",
           "file": "test-driven-development.svg",
           "fileSeal": "test-driven-development-seal.svg"
+        }
+      ]
+    },
+    "gsd-build": {
+      "repos": [
+        "gsd-build/get-shit-done"
+      ],
+      "skillsByRepo": {
+        "gsd-build/get-shit-done": [
+          "gsd-build/discuss-phase",
+          "gsd-build/execute-phase",
+          "gsd-build/get-shit-done",
+          "gsd-build/plan-phase",
+          "gsd-build/ship",
+          "gsd-build/verify-work"
+        ]
+      },
+      "topSkill": "gsd-build/get-shit-done",
+      "topRank": 4,
+      "topIsUnique": false,
+      "count": 6,
+      "namedSkills": [
+        {
+          "id": "gsd-build/get-shit-done",
+          "name": "Get Shit Done",
+          "rank": 4,
+          "type": "ultimate",
+          "slash": "/get-shit-done",
+          "file": "get-shit-done.svg",
+          "fileSeal": "get-shit-done-seal.svg"
+        },
+        {
+          "id": "gsd-build/discuss-phase",
+          "name": "GSD Discuss Phase",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/discuss-phase",
+          "file": "discuss-phase.svg",
+          "fileSeal": "discuss-phase-seal.svg"
+        },
+        {
+          "id": "gsd-build/execute-phase",
+          "name": "GSD Execute Phase",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/execute-phase",
+          "file": "execute-phase.svg",
+          "fileSeal": "execute-phase-seal.svg"
+        },
+        {
+          "id": "gsd-build/plan-phase",
+          "name": "GSD Plan Phase",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/plan-phase",
+          "file": "plan-phase.svg",
+          "fileSeal": "plan-phase-seal.svg"
+        },
+        {
+          "id": "gsd-build/ship",
+          "name": "GSD Ship",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/ship",
+          "file": "ship.svg",
+          "fileSeal": "ship-seal.svg"
+        },
+        {
+          "id": "gsd-build/verify-work",
+          "name": "GSD Verify Work",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/verify-work",
+          "file": "verify-work.svg",
+          "fileSeal": "verify-work-seal.svg"
         }
       ]
     },
@@ -1075,6 +1220,141 @@
         }
       ]
     },
+    "obra": {
+      "repos": [
+        "obra/superpowers"
+      ],
+      "skillsByRepo": {
+        "obra/superpowers": [
+          "obra/brainstorming",
+          "obra/dispatching-parallel-agents",
+          "obra/executing-plans",
+          "obra/finishing-a-development-branch",
+          "obra/receiving-code-review",
+          "obra/requesting-code-review",
+          "obra/subagent-driven-development",
+          "obra/superpowers",
+          "obra/systematic-debugging",
+          "obra/using-git-worktrees",
+          "obra/verification-before-completion",
+          "obra/writing-plans"
+        ]
+      },
+      "topSkill": "obra/superpowers",
+      "topRank": 5,
+      "topIsUnique": false,
+      "count": 12,
+      "namedSkills": [
+        {
+          "id": "obra/superpowers",
+          "name": "Superpowers",
+          "rank": 5,
+          "type": "ultimate",
+          "slash": "/superpowers",
+          "file": "superpowers.svg",
+          "fileSeal": "superpowers-seal.svg"
+        },
+        {
+          "id": "obra/subagent-driven-development",
+          "name": "Subagent-Driven Development",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/subagent-driven-development",
+          "file": "subagent-driven-development.svg",
+          "fileSeal": "subagent-driven-development-seal.svg"
+        },
+        {
+          "id": "obra/using-git-worktrees",
+          "name": "Using Git Worktrees",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/using-git-worktrees",
+          "file": "using-git-worktrees.svg",
+          "fileSeal": "using-git-worktrees-seal.svg"
+        },
+        {
+          "id": "obra/writing-plans",
+          "name": "Writing Plans",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/writing-plans",
+          "file": "writing-plans.svg",
+          "fileSeal": "writing-plans-seal.svg"
+        },
+        {
+          "id": "obra/brainstorming",
+          "name": "Brainstorming",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/brainstorming",
+          "file": "brainstorming.svg",
+          "fileSeal": "brainstorming-seal.svg"
+        },
+        {
+          "id": "obra/dispatching-parallel-agents",
+          "name": "Dispatching Parallel Agents",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/dispatching-parallel-agents",
+          "file": "dispatching-parallel-agents.svg",
+          "fileSeal": "dispatching-parallel-agents-seal.svg"
+        },
+        {
+          "id": "obra/executing-plans",
+          "name": "Executing Plans",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/executing-plans",
+          "file": "executing-plans.svg",
+          "fileSeal": "executing-plans-seal.svg"
+        },
+        {
+          "id": "obra/systematic-debugging",
+          "name": "Systematic Debugging",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/systematic-debugging",
+          "file": "systematic-debugging.svg",
+          "fileSeal": "systematic-debugging-seal.svg"
+        },
+        {
+          "id": "obra/verification-before-completion",
+          "name": "Verification Before Completion",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/verification-before-completion",
+          "file": "verification-before-completion.svg",
+          "fileSeal": "verification-before-completion-seal.svg"
+        },
+        {
+          "id": "obra/finishing-a-development-branch",
+          "name": "Finishing a Development Branch",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/finishing-a-development-branch",
+          "file": "finishing-a-development-branch.svg",
+          "fileSeal": "finishing-a-development-branch-seal.svg"
+        },
+        {
+          "id": "obra/receiving-code-review",
+          "name": "Receiving Code Review",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/receiving-code-review",
+          "file": "receiving-code-review.svg",
+          "fileSeal": "receiving-code-review-seal.svg"
+        },
+        {
+          "id": "obra/requesting-code-review",
+          "name": "Requesting Code Review",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/requesting-code-review",
+          "file": "requesting-code-review.svg",
+          "fileSeal": "requesting-code-review-seal.svg"
+        }
+      ]
+    },
     "anthropic": {
       "repos": [
         "anthropics/skills"
@@ -1257,141 +1537,6 @@
           "slash": "/nielsen-heuristics-audit",
           "file": "nielsen-heuristics-audit.svg",
           "fileSeal": "nielsen-heuristics-audit-seal.svg"
-        }
-      ]
-    },
-    "obra": {
-      "repos": [
-        "obra/superpowers"
-      ],
-      "skillsByRepo": {
-        "obra/superpowers": [
-          "obra/brainstorming",
-          "obra/dispatching-parallel-agents",
-          "obra/executing-plans",
-          "obra/finishing-a-development-branch",
-          "obra/receiving-code-review",
-          "obra/requesting-code-review",
-          "obra/subagent-driven-development",
-          "obra/superpowers",
-          "obra/systematic-debugging",
-          "obra/using-git-worktrees",
-          "obra/verification-before-completion",
-          "obra/writing-plans"
-        ]
-      },
-      "topSkill": "obra/superpowers",
-      "topRank": 5,
-      "topIsUnique": false,
-      "count": 12,
-      "namedSkills": [
-        {
-          "id": "obra/superpowers",
-          "name": "Superpowers",
-          "rank": 5,
-          "type": "ultimate",
-          "slash": "/superpowers",
-          "file": "superpowers.svg",
-          "fileSeal": "superpowers-seal.svg"
-        },
-        {
-          "id": "obra/subagent-driven-development",
-          "name": "Subagent-Driven Development",
-          "rank": 4,
-          "type": "extra",
-          "slash": "/subagent-driven-development",
-          "file": "subagent-driven-development.svg",
-          "fileSeal": "subagent-driven-development-seal.svg"
-        },
-        {
-          "id": "obra/using-git-worktrees",
-          "name": "Using Git Worktrees",
-          "rank": 4,
-          "type": "extra",
-          "slash": "/using-git-worktrees",
-          "file": "using-git-worktrees.svg",
-          "fileSeal": "using-git-worktrees-seal.svg"
-        },
-        {
-          "id": "obra/writing-plans",
-          "name": "Writing Plans",
-          "rank": 4,
-          "type": "extra",
-          "slash": "/writing-plans",
-          "file": "writing-plans.svg",
-          "fileSeal": "writing-plans-seal.svg"
-        },
-        {
-          "id": "obra/brainstorming",
-          "name": "Brainstorming",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/brainstorming",
-          "file": "brainstorming.svg",
-          "fileSeal": "brainstorming-seal.svg"
-        },
-        {
-          "id": "obra/dispatching-parallel-agents",
-          "name": "Dispatching Parallel Agents",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/dispatching-parallel-agents",
-          "file": "dispatching-parallel-agents.svg",
-          "fileSeal": "dispatching-parallel-agents-seal.svg"
-        },
-        {
-          "id": "obra/executing-plans",
-          "name": "Executing Plans",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/executing-plans",
-          "file": "executing-plans.svg",
-          "fileSeal": "executing-plans-seal.svg"
-        },
-        {
-          "id": "obra/systematic-debugging",
-          "name": "Systematic Debugging",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/systematic-debugging",
-          "file": "systematic-debugging.svg",
-          "fileSeal": "systematic-debugging-seal.svg"
-        },
-        {
-          "id": "obra/verification-before-completion",
-          "name": "Verification Before Completion",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/verification-before-completion",
-          "file": "verification-before-completion.svg",
-          "fileSeal": "verification-before-completion-seal.svg"
-        },
-        {
-          "id": "obra/finishing-a-development-branch",
-          "name": "Finishing a Development Branch",
-          "rank": 2,
-          "type": "extra",
-          "slash": "/finishing-a-development-branch",
-          "file": "finishing-a-development-branch.svg",
-          "fileSeal": "finishing-a-development-branch-seal.svg"
-        },
-        {
-          "id": "obra/receiving-code-review",
-          "name": "Receiving Code Review",
-          "rank": 2,
-          "type": "extra",
-          "slash": "/receiving-code-review",
-          "file": "receiving-code-review.svg",
-          "fileSeal": "receiving-code-review-seal.svg"
-        },
-        {
-          "id": "obra/requesting-code-review",
-          "name": "Requesting Code Review",
-          "rank": 2,
-          "type": "extra",
-          "slash": "/requesting-code-review",
-          "file": "requesting-code-review.svg",
-          "fileSeal": "requesting-code-review-seal.svg"
         }
       ]
     },

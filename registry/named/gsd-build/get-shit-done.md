@@ -4,8 +4,8 @@ name: Get Shit Done
 contributor: gsd-build
 origin: false
 genericSkillRef: git-ship-done-pipeline
-status: awakened
-level: 1★
+status: named
+level: 4★
 description: 'Git Ship Done pipeline for Claude Code: discuss, plan, execute, verify,
   and ship as a repeatable agentic software delivery loop.'
 createdAt: '2026-07-03'
@@ -42,6 +42,33 @@ timeline:
   contributor: unknown
   details: 'Fused suite components: gsd-build/discuss-phase, gsd-build/plan-phase,
     gsd-build/execute-phase, gsd-build/verify-work, gsd-build/ship.'
+- timestamp: '2026-07-02T20:53:12Z'
+  action: name
+  contributor: unknown
+  details: Promoted from awakened to named.
+- timestamp: '2026-07-02T20:53:12Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 1★ to 2★
+- timestamp: '2026-07-02T20:59:03Z'
+  action: note
+  contributor: unknown
+  details: Set installable to false
+- timestamp: '2026-07-02T21:04:08Z'
+  action: note
+  contributor: unknown
+  details: Set installable to true
+- action: migrate_trust_magnitude
+  timestamp: '2026-07-02T21:30:15Z'
+  details: TM None -> 202.16, grade ungraded -> A (direct edit -- CLI gap)
+- timestamp: '2026-07-02T21:33:55Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/README.md
+- timestamp: '2026-07-02T21:34:10Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 2★ to 4★
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/stargazers
   evaluator: unknown
@@ -58,9 +85,36 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-07-02T18:05:09Z'
+title: Get Shit Done
+installable: true
+suiteComponents:
+- gsd-build/discuss-phase
+- gsd-build/execute-phase
+- gsd-build/plan-phase
+- gsd-build/ship
+- gsd-build/verify-work
+trustMagnitude: 202.16
+overallTrustGrade: A
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: e97616a7dfa339c7a99c95043b951f9b9a049190bc6ea5aacf7ab550d93cdf48
 links:
   github: https://github.com/gsd-build/get-shit-done/blob/main/README.md
 ---
 
 ## Installation
-Add installation instructions here.
+
+Install the full GSD Core software development pipeline with:
+
+```bash
+npx @opengsd/gsd-core@latest
+```
+
+This is the recommended path from the upstream repo's Quickstart.

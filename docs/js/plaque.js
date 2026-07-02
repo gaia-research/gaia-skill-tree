@@ -184,7 +184,7 @@
   // window.nsInstCopy (defined by named-skills.js). If that's not present
   // we fall back to navigator.clipboard inline.
   function _fieldInstallRow(ns) {
-    if (!ns || !ns.id) return '';
+    if (!ns || !ns.id || ns.installable === false) return '';
     // Pre-named/demoted (≤1★): withhold the handle in the install command —
     // "gaia install ████████/slug" (lifted once the skill is named at 2★+).
     var installId = ns.id;
@@ -256,16 +256,16 @@
   function _fieldTrustNotch(ns) {
     var TM = window.TM_CONFIG;
     var tg = (ns && (ns.overallTrustGrade || ns.trustGrade)) || '';
-    if (!tg || tg === 'ungraded' || !GRADE_NAMES[tg]) return '';
     var tm = (ns && (ns.trustMagnitude || ns.overallTrustMagnitude));
     var tmVal = (tm != null && tm !== '') ? parseFloat(Number(tm).toFixed(1)) : 0;
+    if ((!tg || tg === 'ungraded' || !GRADE_NAMES[tg]) && !(tmVal > 0)) return '';
     // Static initial display = the real magnitude (not "0"). Hover triggers a
     // count-up animation that resets to 0 then eases back to tmVal — see
     // _wireTrustNotches(). When _wireTrustNotches isn't called (e.g. plaques
     // injected outside the named-skills.js render path), the static value
     // remains visible so MAG never shows as a literal "0".
     var initialDisplay = tmVal % 1 === 0 ? String(Math.round(tmVal)) : tmVal.toFixed(1);
-    var gradeName = GRADE_NAMES[tg];
+    var gradeName = GRADE_NAMES[tg] || 'Ungraded';
     var ariaLabel = 'Trust grade: ' + gradeName + (tmVal > 0 ? ', magnitude ' + tmVal : '');
 
     // Build (i) tooltip from TM_CONFIG when available; degrade gracefully otherwise.
@@ -299,7 +299,7 @@
         '\nhttps://gaia.tiongson.co/trust/#grade-thresholds';
     }
 
-    return '<div class="plaque__trust-notch" data-trust-grade="' + esc(tg) + '"' +
+    return '<div class="plaque__trust-notch" data-trust-grade="' + esc(tg || 'none') + '"' +
       ' data-tm="' + esc(String(tmVal)) + '"' +
       ' aria-label="' + esc(ariaLabel) + '"' +
       ' title="' + esc(tooltipText) + '">' +

@@ -65,3 +65,13 @@ Skill Builder provides a complete guided workflow for creating, testing, and pub
 Published by @ruvnet as a variant implementation for the `skill-authoring` skill bucket.
 
 Sourced from the Ruflo platform (ruvnet/ruflo, 34k+ stars).
+
+## Installation
+
+This skill is part of the Ruflo orchestration platform.
+
+```bash
+npx ruflo@latest init
+```
+
+See the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.

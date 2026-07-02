@@ -29,6 +29,12 @@
       "action": "fuse",
       "contributor": "unknown",
       "details": "Fused from brainstorming + writing-plans + subagent-driven-development + verification-before-completion + finishing-a-development-branch. Named capstone: gsd-build/get-shit-done. CLI suite-manifest gap tracked in #926."
+    },
+    {
+      "timestamp": "2026-07-02T21:46:19Z",
+      "action": "type_change",
+      "contributor": "unknown",
+      "details": "Reclassified from extra to ultimate"
     }
   ]
 }

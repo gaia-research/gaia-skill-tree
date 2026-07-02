@@ -51,7 +51,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
   │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /code-execution
   │  │  └─ ○ /error-interpretation
-  │  ├─ ○ mattpocock/improve-codebase-architecture  [2★]
+  │  ├─ ○ addy-osmani/code-simplification  [3★]
   │  ├─ ◇ garrytan/garrytan  [4★]
   │  │  ├─ ○ /plan-decompose
   │  │  └─ ○ ████████/ask-matt
@@ -64,7 +64,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
 ◆ garrytan/gstack  [5★]
   ├─ ○ garrytan/office-hours  [3★]
   ├─ ○ garrytan/benchmark  [3★]
-  ├─ ◇ garrytan/plan-eng-review  [3★]
+  ├─ ◇ addy-osmani/code-review-and-quality  [3★]
   │  ├─ ○ garrytan/design-html  [3★]
   │  ├─ ○ /diff-content
   │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)

@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-02T08:34:26Z",
+  "generatedAt": "2026-07-02T21:46:26Z",
   "firstRun": false,
   "skills": [
     {
@@ -60,6 +60,20 @@
       }
     },
     {
+      "id": "addy-osmani/agent-skills",
+      "name": "Agent Skills",
+      "level": "5★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 293.14,
+      "overallTrustGrade": "S",
+      "trendingScore": 146.57,
+      "tmDelta": 293.14,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/agent-skills.json"
+      }
+    },
+    {
       "id": "mattpocock/engineering",
       "name": "Engineering",
       "level": "4★",
@@ -71,6 +85,20 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/mattpocock/engineering.json"
+      }
+    },
+    {
+      "id": "gsd-build/get-shit-done",
+      "name": "Get Shit Done",
+      "level": "4★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 202.16,
+      "overallTrustGrade": "A",
+      "trendingScore": 101.08,
+      "tmDelta": 202.16,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
       }
     },
     {
@@ -897,6 +925,160 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/mattpocock/triage.json"
+      }
+    },
+    {
+      "id": "addy-osmani/code-review-and-quality",
+      "name": "Code Review and Quality",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "trendingScore": 26.57,
+      "tmDelta": 53.14,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
+      }
+    },
+    {
+      "id": "addy-osmani/code-simplification",
+      "name": "Code Simplification",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "trendingScore": 26.57,
+      "tmDelta": 53.14,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/code-simplification.json"
+      }
+    },
+    {
+      "id": "addy-osmani/incremental-implementation",
+      "name": "Incremental Implementation",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "trendingScore": 26.57,
+      "tmDelta": 53.14,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
+      }
+    },
+    {
+      "id": "addy-osmani/planning-and-task-breakdown",
+      "name": "Planning and Task Breakdown",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "trendingScore": 26.57,
+      "tmDelta": 53.14,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
+      }
+    },
+    {
+      "id": "addy-osmani/shipping-and-launch",
+      "name": "Shipping and Launch",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "trendingScore": 26.57,
+      "tmDelta": 53.14,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
+      }
+    },
+    {
+      "id": "addy-osmani/spec-driven-development",
+      "name": "Spec-Driven Development",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "trendingScore": 26.57,
+      "tmDelta": 53.14,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
+      }
+    },
+    {
+      "id": "gsd-build/discuss-phase",
+      "name": "GSD Discuss Phase",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 52.16,
+      "overallTrustGrade": "B",
+      "trendingScore": 26.08,
+      "tmDelta": 52.16,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/discuss-phase.json"
+      }
+    },
+    {
+      "id": "gsd-build/execute-phase",
+      "name": "GSD Execute Phase",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 52.16,
+      "overallTrustGrade": "B",
+      "trendingScore": 26.08,
+      "tmDelta": 52.16,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/execute-phase.json"
+      }
+    },
+    {
+      "id": "gsd-build/plan-phase",
+      "name": "GSD Plan Phase",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 52.16,
+      "overallTrustGrade": "B",
+      "trendingScore": 26.08,
+      "tmDelta": 52.16,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/plan-phase.json"
+      }
+    },
+    {
+      "id": "gsd-build/ship",
+      "name": "GSD Ship",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 52.16,
+      "overallTrustGrade": "B",
+      "trendingScore": 26.08,
+      "tmDelta": 52.16,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/ship.json"
+      }
+    },
+    {
+      "id": "gsd-build/verify-work",
+      "name": "GSD Verify Work",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 52.16,
+      "overallTrustGrade": "B",
+      "trendingScore": 26.08,
+      "tmDelta": 52.16,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/verify-work.json"
       }
     },
     {
@@ -1936,7 +2118,7 @@
       }
     }
   ],
-  "totalTrending": 138,
+  "totalTrending": 151,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

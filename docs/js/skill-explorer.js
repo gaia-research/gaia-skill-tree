@@ -815,19 +815,22 @@
       : id;
     var gaiaCmd = isUlt ? 'gaia install --ultimate ' + installId : 'gaia install ' + installId;
     var gaiaLabel = isUlt ? '◆ ultimate suite' : '★ recommended';
+    var showGaia = ns.installable !== false;
+    var gaiaBlock = showGaia ? installBlock('Gaia', gaiaLabel, gaiaCmd, true) : '';
 
     if (ns.suiteComponents && ns.suiteComponents.length > 0 && ns.installBody) {
       el.innerHTML = '<div class="se-flow-h">' + COPY_ICON() + ' Installation</div>' +
-        installBlock('Gaia', gaiaLabel, gaiaCmd, true) +
+        gaiaBlock +
         (redacted ? '' : _renderTabbedInstall(ns));
     } else if (redacted) {
       el.innerHTML = '<div class="se-flow-h">' + COPY_ICON() + ' Installation</div>' +
-        installBlock('Gaia', gaiaLabel, gaiaCmd, true) +
+        gaiaBlock +
         '<div class="se-install-note">Source &amp; package install unlock when this skill is named (2★+).</div>';
     } else {
+      var npxBlock = showGaia ? installBlock('npx', 'skills package', 'npx skills add ' + skillsAddRef, false) : '';
       el.innerHTML = '<div class="se-flow-h">' + COPY_ICON() + ' Installation</div>' +
-        installBlock('Gaia', gaiaLabel, gaiaCmd, true) +
-        installBlock('npx', 'skills package', 'npx skills add ' + skillsAddRef, false) +
+        gaiaBlock +
+        npxBlock +
         (cloneUrl ? installBlock('Git Clone', '', 'git clone ' + cloneUrl, false) : '') +
         (ns.installBody ? _renderInstallBody(ns.installBody, repoUrl) : '');
     }
@@ -1223,13 +1226,29 @@
     var el = document.getElementById('se-upgrade');
     var sm = window._gaiaSkillMap || {};
     var buckets = window._gaiaNamedBuckets || {};
+    var allNamed = window._gaiaNamedAll || [];
     var lm = LEVEL_META_SE;
 
     var genericId = generic ? generic.id : ns.genericSkillRef || ns.id;
     var genericObj = sm[genericId] || generic || { id: genericId, type: ns.type, level: ns.level, name: ns.name };
     var currentType = (ns && ns.type) || genericObj.type || 'basic';
+    var suiteCapstoneId = ns.suiteRef || null;
+    var suiteCapstone = suiteCapstoneId ? namedEntryById(suiteCapstoneId) : ns;
+    var suiteComponents = [];
+    if (Array.isArray(ns.suiteComponents) && ns.suiteComponents.length) {
+      suiteComponents = ns.suiteComponents.slice();
+    } else if (suiteCapstone && Array.isArray(suiteCapstone.suiteComponents) && suiteCapstone.suiteComponents.length) {
+      suiteComponents = suiteCapstone.suiteComponents.slice();
+    }
 
     // Slash-name label: contributor in honor-red, skill name in text.
+    function namedEntryById(id) {
+      for (var i = 0; i < allNamed.length; i++) {
+        if (allNamed[i] && allNamed[i].id === id) return allNamed[i];
+      }
+      return null;
+    }
+
     function createNodeLabel(labelSource, navType, navTarget, level) {
       var parts = String(labelSource).split('/');
       var contrib = parts[0] || '';
@@ -1251,25 +1270,62 @@
       return '<div class="dag-node-label"' + navAttr + '>' + inner + '</div>';
     }
 
-    // Action-buttons header (Show Fusion).
+    // Action-buttons header (Show Fusion / Show Suite).
     function buildFlowActions() {
       return '<div class="se-flow-actions">' +
-        '<button type="button" class="se-flow-btn" id="seFlowShowFusion" title="Highlight prerequisites">' +
+        '<button type="button" class="se-flow-btn" id="seFlowShowFusion" title="Highlight the fusion graph">' +
           _se_icon('sparkle') + 'Show Fusion' +
         '</button>' +
+        (suiteComponents.length
+          ? '<button type="button" class="se-flow-btn" id="seFlowShowSuite" title="Highlight the suite structure">' +
+              _se_icon('sparkle') + 'Show Suite' +
+            '</button>'
+          : '') +
       '</div>';
     }
 
-    // Wire Show Fusion button handlers. Called after innerHTML set.
-    function wireFlowActions(focusId) {
+    // Wire flow action button handlers. Called after innerHTML set.
+    function wireFlowActions(fusionFocusId, suiteFocusId) {
       var btnFusion = document.getElementById('seFlowShowFusion');
+      var btnSuite = document.getElementById('seFlowShowSuite');
+      function setActive(activeBtn) {
+        if (btnFusion) btnFusion.classList.toggle('active', activeBtn === btnFusion);
+        if (btnSuite) btnSuite.classList.toggle('active', activeBtn === btnSuite);
+      }
       if (btnFusion) {
         btnFusion.addEventListener('click', function(e) {
           e.stopPropagation();
-          if (window.showFusionOnly) window.showFusionOnly(focusId);
-          btnFusion.classList.toggle('active');
+          if (window.showFusionOnly) window.showFusionOnly(fusionFocusId);
+          setActive(btnFusion);
         });
       }
+      if (btnSuite) {
+        btnSuite.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (window.showFusionOnly) window.showFusionOnly(suiteFocusId || fusionFocusId);
+          setActive(btnSuite);
+        });
+      }
+    }
+
+    function renderNamedFusionNode(skillId, syntheticId, isMain) {
+      var entry = namedEntryById(skillId);
+      if (!entry) return '';
+      var nodeType = entry.type || 'basic';
+      var nodeLevel = entry.level || '';
+      var isApex = nodeLevel && String(nodeLevel).indexOf('6') !== -1;
+      var dotColor = isApex
+        ? '#ffffff'
+        : 'var(--tier-' + nodeType + ', var(--muted))';
+      var extraMainClass = isMain ? ' git-node--main' : '';
+      return '<div class="git-node' + extraMainClass + '"' +
+          ' data-id="' + esc(syntheticId) + '"' +
+          ' data-type="' + esc(nodeType) + '"' +
+          ' data-level="' + esc(nodeLevel) + '"' +
+          ' data-ghost="false">' +
+        '<div class="git-commit-dot" style="--dot-color: ' + dotColor + '"></div>' +
+        createNodeLabel(skillId, 'named', skillId, nodeLevel) +
+      '</div>';
     }
 
     // Short-circuit for Unique-tier current skills: render the current
@@ -1293,7 +1349,7 @@
           '</div>' +
           '<svg class="se-flowchart-svg" id="seFlowSvg"></svg>' +
         '</div>';
-      wireFlowActions(genericId);
+      wireFlowActions(genericId, null);
       return;
     }
 
@@ -1375,6 +1431,8 @@
     });
 
     var htmlRows = '';
+    var fusionFocusId = genericId;
+    var suiteFocusId = null;
     
     function hashString(str) {
       var h = 0;
@@ -1433,11 +1491,36 @@
       htmlRows += '<div class="se-flowchart-row' + voidClass + '" data-depth="' + ri + '">' + rowHtml + '</div>';
     }
 
-    // Fusion requirements label
-    var fusionHtml = '';
-    if (relatedNodes[genericId] && relatedNodes[genericId].prerequisites && relatedNodes[genericId].prerequisites.length >= 2) {
-      fusionHtml = '<div class="se-fusion-label">&#x2728; Fuses from ' + relatedNodes[genericId].prerequisites.length + ' prerequisites</div>';
+    if (suiteComponents.length) {
+      var suiteMemberHtml = suiteComponents.map(function(skillId) {
+        return renderNamedFusionNode(skillId, 'suite-member:' + skillId, skillId === ns.id);
+      }).join('');
+      var suiteTargetId = suiteCapstoneId || ns.id;
+      var suiteCapstoneHtml = renderNamedFusionNode(
+        suiteTargetId,
+        'suite-capstone:' + suiteTargetId,
+        !suiteCapstoneId
+      );
+      if (suiteMemberHtml && suiteCapstoneHtml) {
+        var suiteBaseDepth = maxD + 1;
+        htmlRows += '<div class="se-flowchart-row" data-depth="' + suiteBaseDepth + '">' + suiteMemberHtml + '</div>';
+        htmlRows += '<div class="se-flowchart-row" data-depth="' + (suiteBaseDepth + 1) + '">' + suiteCapstoneHtml + '</div>';
+        suiteComponents.forEach(function(skillId) {
+          edges.push({ from: 'suite-member:' + skillId, to: 'suite-capstone:' + suiteTargetId });
+        });
+        suiteFocusId = 'suite-capstone:' + suiteTargetId;
+      }
     }
+
+    // Fusion requirements label
+    var fusionLabels = [];
+    if (relatedNodes[genericId] && relatedNodes[genericId].prerequisites && relatedNodes[genericId].prerequisites.length >= 2) {
+      fusionLabels.push('<div class="se-fusion-label">&#x2728; Generic fusion: ' + relatedNodes[genericId].prerequisites.length + ' prerequisite' + (relatedNodes[genericId].prerequisites.length === 1 ? '' : 's') + '</div>');
+    }
+    if (suiteComponents.length) {
+      fusionLabels.push('<div class="se-fusion-label">&#x2728; Suite fusion: ' + suiteComponents.length + ' component' + (suiteComponents.length === 1 ? '' : 's') + '</div>');
+    }
+    var fusionHtml = fusionLabels.join('');
 
     el.innerHTML = '<div class="se-flow-h">' + _se_icon('sparkle') +
         ' Upgrade Path &amp; Adjacent Skills' + buildFlowActions() + '</div>' +
@@ -1447,7 +1530,7 @@
       '</div>' +
       fusionHtml;
 
-    wireFlowActions(genericId);
+    wireFlowActions(fusionFocusId, suiteFocusId);
 
     // Centralized event delegation for the flowchart
     if (!el._flowWired) {
@@ -1609,16 +1692,18 @@
       });
     };
 
-    // Show Fusion: lock the focus node and reveal only its prerequisite
-    // chain (ancestors). Descendants and sibling branches dim out.
+    // Show Fusion / Show Suite: lock the focus node and reveal only its
+    // upstream chain (recursive ancestors). Descendants and sibling branches dim out.
     window.showFusionOnly = function(nodeId) {
       var ancestors = {};
-      ancestors[nodeId] = true;
-      (edges || []).forEach(function(e) {
-        if (e.to === nodeId && !ancestors[e.from]) {
-          ancestors[e.from] = true;
-        }
-      });
+      function traceAncestors(id) {
+        if (ancestors[id]) return;
+        ancestors[id] = true;
+        (edges || []).forEach(function(e) {
+          if (e.to === id) traceAncestors(e.from);
+        });
+      }
+      traceAncestors(nodeId);
 
       document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
       document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
