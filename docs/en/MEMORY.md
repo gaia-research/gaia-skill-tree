@@ -2,6 +2,45 @@
 
 ---
 
+## 2026-07-02 — Routine 014
+
+**Branch:** `docs/routines/014`
+**Task chosen:** Release/Changelog Sync (Version bump to v5.9.1)
+
+### Trigger
+Routine documentation agent triggered; observed recent version bump to v5.9.1 from repository tags.
+
+### What I did
+1. **Synchronized version numbers**: Updated all 12 English documentation HTML files under `docs/en/` to increment `v5.8.2` and `5.8.2` strings to `v5.9.1`. This covers navigation chips, footer versions, script query parameters, and What's New tags.
+2. **Sprint B Content Update**: Rewrote the "What's New" banner in `docs/en/index.html` to properly advertise the massive Sprint B Closure features (API Client SDKs, Trending Engine, Hall of Heroes, CLI Preflights).
+
+### Design decisions
+- Updated uniformly across all HTML files to ensure consistency.
+
+### Issues informed
+- No new open issues with `documentation` label.
+
+### Files created / modified
+- `docs/en/MEMORY.md` (modified)
+- `docs/en/cli-reference.html` (modified)
+- `docs/en/contributing.html` (modified)
+- `docs/en/evidence-classes.html` (modified)
+- `docs/en/faq.html` (modified)
+- `docs/en/fusion.html` (modified)
+- `docs/en/getting-started.html` (modified)
+- `docs/en/index.html` (modified)
+- `docs/en/mcp-server.html` (modified)
+- `docs/en/named-skills.html` (modified)
+- `docs/en/share-bundles.html` (modified)
+- `docs/en/skill-hierarchy.html` (modified)
+- `docs/en/timeline-audit.html` (modified)
+
+### Planned next (Routine 015)
+- Research: Search for any broken links or HTML structural validation issues across the entire `docs/en/` space.
+- Maintain: Audit the newly added CLI/dev features and document in Getting Started.
+
+---
+
 ## 2026-07-01 — Routine 013
 
 **Branch:** `docs/routines/013`
