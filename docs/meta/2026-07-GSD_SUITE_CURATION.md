@@ -1,6 +1,6 @@
 ---
 title: "GSD Suite Curation: From Command Pipeline to Registry Fusion"
-author: "Gaia Maintainers"
+author: "Gaia Research"
 summary: "Gaia adds the GSD pipeline as a named suite and introduces a stricter trust-appraisal step for high-star suite curation."
 abstract: |
   This note records the initial curation of Git Ship Done (GSD) into Gaia. The registry now tracks five concrete pipeline steps and a starless fusion node, while deferring automatic S-grade treatment until independent evidence and suite-fusion mechanics mature.
