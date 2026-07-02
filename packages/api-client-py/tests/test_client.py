@@ -3,24 +3,22 @@
 from __future__ import annotations
 
 import pytest
-import httpx
 import respx
 
-from gaia_registry_client import GaiaClient, AsyncGaiaClient
+from gaia_registry_client import AsyncGaiaClient, GaiaClient
 from gaia_registry_client.client import GaiaApiError
 from gaia_registry_client.models import (
-    Health,
-    SkillListPage,
-    SkillDetail,
-    ContributorList,
     ContributorDetail,
-    Leaderboard,
+    ContributorList,
     EvidenceTypeCatalogue,
-    SearchIndexEntry,
-    Trending,
+    Health,
     Heroes,
+    Leaderboard,
+    SearchIndexEntry,
+    SkillDetail,
+    SkillListPage,
+    Trending,
 )
-
 
 # ─── Fixtures (matching real API shapes) ──────────────────────────────────────
 

@@ -307,7 +307,7 @@ class GaiaClient:
         if self._owns_client:
             self._client.close()
 
-    def __enter__(self) -> "GaiaClient":
+    def __enter__(self) -> GaiaClient:
         return self
 
     def __exit__(self, *_: Any) -> None:
@@ -330,12 +330,20 @@ class GaiaClient:
 
     def list_skills(self, page: int = 1) -> SkillListPage:
         """List named skills (paginated). Page 1 is the default."""
-        path = "/api/v1/skills/index.json" if page <= 1 else f"/api/v1/skills/page-{page}.json"
+        path = (
+            "/api/v1/skills/index.json"
+            if page <= 1
+            else f"/api/v1/skills/page-{page}.json"
+        )
         return _parse_skill_list_page(self._get(path))
 
     def get_skill(self, contributor: str, skill: str) -> SkillDetail:
         """Get full detail for a single named skill."""
-        return _parse_skill_detail(self._get(f"/api/v1/skills/{quote(contributor, safe='')}/{quote(skill, safe='')}.json"))
+        contributor_slug = quote(contributor, safe="")
+        skill_slug = quote(skill, safe="")
+        return _parse_skill_detail(
+            self._get(f"/api/v1/skills/{contributor_slug}/{skill_slug}.json")
+        )
 
     def list_contributors(self) -> ContributorList:
         """List all contributors sorted by prestige score."""
@@ -343,7 +351,10 @@ class GaiaClient:
 
     def get_contributor(self, handle: str) -> ContributorDetail:
         """Get a contributor's full profile with all their named skills."""
-        return _parse_contributor_detail(self._get(f"/api/v1/contributors/{quote(handle, safe='')}.json"))
+        handle_slug = quote(handle, safe="")
+        return _parse_contributor_detail(
+            self._get(f"/api/v1/contributors/{handle_slug}.json")
+        )
 
     def get_leaderboard(self) -> Leaderboard:
         """Trust leaderboard — grade distribution and ranked skills."""
@@ -397,7 +408,7 @@ class AsyncGaiaClient:
         if self._owns_client:
             await self._client.aclose()
 
-    async def __aenter__(self) -> "AsyncGaiaClient":
+    async def __aenter__(self) -> AsyncGaiaClient:
         return self
 
     async def __aexit__(self, *_: Any) -> None:
@@ -420,12 +431,20 @@ class AsyncGaiaClient:
 
     async def list_skills(self, page: int = 1) -> SkillListPage:
         """List named skills (paginated). Page 1 is the default."""
-        path = "/api/v1/skills/index.json" if page <= 1 else f"/api/v1/skills/page-{page}.json"
+        path = (
+            "/api/v1/skills/index.json"
+            if page <= 1
+            else f"/api/v1/skills/page-{page}.json"
+        )
         return _parse_skill_list_page(await self._get(path))
 
     async def get_skill(self, contributor: str, skill: str) -> SkillDetail:
         """Get full detail for a single named skill."""
-        return _parse_skill_detail(await self._get(f"/api/v1/skills/{quote(contributor, safe='')}/{quote(skill, safe='')}.json"))
+        contributor_slug = quote(contributor, safe="")
+        skill_slug = quote(skill, safe="")
+        return _parse_skill_detail(
+            await self._get(f"/api/v1/skills/{contributor_slug}/{skill_slug}.json")
+        )
 
     async def list_contributors(self) -> ContributorList:
         """List all contributors sorted by prestige score."""
@@ -433,7 +452,10 @@ class AsyncGaiaClient:
 
     async def get_contributor(self, handle: str) -> ContributorDetail:
         """Get a contributor's full profile with all their named skills."""
-        return _parse_contributor_detail(await self._get(f"/api/v1/contributors/{quote(handle, safe='')}.json"))
+        handle_slug = quote(handle, safe="")
+        return _parse_contributor_detail(
+            await self._get(f"/api/v1/contributors/{handle_slug}.json")
+        )
 
     async def get_leaderboard(self) -> Leaderboard:
         """Trust leaderboard — grade distribution and ranked skills."""

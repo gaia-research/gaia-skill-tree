@@ -1,11 +1,13 @@
 ---
 name: gaia-meta-sweep
 description: >
-  Orchestrate a whole-registry sweep of Gaia — fan out 12 parallel audit agents across every skill in the registry, run adversarial verification, surface Semantic Fusion candidates, propose new generic skill references, and synthesize everything into a publish-ready HTML report under docs/meta/reports/.
-
-  Use this skill when the user wants broad, systemic analysis across many skills at once: "run a meta sweep", "sweep the meta", "full meta audit", "audit the whole registry against META.md", "what's wrong with the registry at a pattern level", "are there widespread nomenclature issues", "find all skills missing a GitHub link", "produce a meta report", "post a report under docs/meta/reports", "check for evidence type mismatches across the registry", or explicitly types /gaia-meta-sweep.
-
-  This is the registry-wide macro companion to /gaia-meta-audit (builds a prioritized queue, single-pass) and /gaia-audit (fixes one skill). Use /gaia-meta-sweep when you need the full surface — 12 audit dimensions, adversarial verification, fusion proposals, and a durable findings artifact — not just a queue.
+  Orchestrate a whole-registry Gaia meta sweep. Use when the user asks to run
+  a meta sweep, full meta audit, audit the whole registry against META.md,
+  find systemic nomenclature/evidence/type issues, surface Semantic Fusion
+  candidates, find missing GitHub links, or produce a durable report under
+  docs/meta/reports/. This is the macro companion to /gaia-meta-audit and
+  /gaia-audit: it fans out audit agents, adversarially verifies findings, and
+  synthesizes a publishable report.
 ---
 
 # gaia-meta-sweep
