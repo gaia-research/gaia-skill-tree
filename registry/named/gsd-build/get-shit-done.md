@@ -3,7 +3,7 @@ id: gsd-build/get-shit-done
 name: Get Shit Done
 contributor: gsd-build
 origin: false
-genericSkillRef: superpowers
+genericSkillRef: git-ship-done-pipeline
 status: awakened
 level: 1★
 description: 'Git Ship Done pipeline for Claude Code: discuss, plan, execute, verify,

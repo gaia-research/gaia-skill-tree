@@ -39,7 +39,6 @@ verification:
   firstEvidenceAt: '2026-07-02T18:05:01Z'
 links:
   github: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md
-suiteRef: gsd-build/get-shit-done
 ---
 
 ## Installation

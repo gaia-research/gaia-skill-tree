@@ -50,6 +50,7 @@
 | ◇ /generative-media | Extra Skill | API Call, Data Visualize | — |  |
 | ◇ /ghostwrite | Extra Skill | Research, Write Report, Audience Model | — | Requires research output as input context. |
 | ◇ [ruvnet](../docs/u/ruvnet/)/github-suite | Extra Skill | Code Review Pipeline, Multi-Repo Coordination, Deployment Automation, Project Management, Workflow Automation | 3★ |  |
+| ◆ /git-ship-done-pipeline | Ultimate Skill | Brainstorming, Writing Plans, Subagent-Driven Development, Verification Before Completion, Finishing a Development Branch | — |  |
 | ◇ [mbtiongson1](../docs/u/mbtiongson1/)/graphify-triage | Extra Skill | Issue Triage, Knowledge Graph Construction | 2★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | Design Review, Self-Critique | 3★ | Enforces a strict questioning loop that prevents the agent from proceeding to implementation until all branches are resolved. |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | Grill Me, Ubiquitous Language, Document Editing | 3★ | Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill. |
