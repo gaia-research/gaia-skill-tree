@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Conflicts",
+  "type": "object",
+  "required": ["conflicts"],
+  "properties": {
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["page", "issue", "factId"],
+        "properties": {
+          "page":   { "type": "string" },
+          "issue":  { "type": "string" },
+          "factId": { "type": "string", "description": "the rename/deprecation fact ID that was violated" },
+          "pages":  { "type": "array", "items": { "type": "string" }, "description": "both pages if a cross-page contradiction" }
+        }
+      }
+    }
+  }
+}

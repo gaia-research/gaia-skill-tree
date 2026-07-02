@@ -35,6 +35,7 @@ def _make_registry(tmp_path: Path, evidence: list | None = None) -> str:
                     {"id": "peer-review", "gradeCeiling": "S"},
                     {"id": "benchmark-result", "gradeCeiling": "A"},
                     {"id": "github-stars-own", "gradeCeiling": "B"},
+                    {"id": "social-signal", "gradeCeiling": "A"},
                 ],
                 "perRowGradeThresholds": {},
             }
@@ -56,6 +57,33 @@ def _load_node(root: str) -> dict:
     p = os.path.join(root, "registry", "nodes", "basic", "demo-skill.json")
     with open(p, encoding="utf-8") as f:
         return json.load(f)
+
+
+def _make_named_skill(root: str, evidence: list | None = None) -> Path:
+    named = Path(root) / "registry" / "named" / "tester"
+    named.mkdir(parents=True, exist_ok=True)
+    path = named / "demo.md"
+    path.write_text(
+        "---\n"
+        "id: tester/demo\n"
+        "title: Demo\n"
+        "status: named\n"
+        "evidence:\n"
+        + "".join(
+            "  - source: {source}\n".format(source=row.get("source", "https://example.com/named"))
+            + (
+                "    sourceStartedAt: {sourceStartedAt}\n".format(
+                    sourceStartedAt=row["sourceStartedAt"]
+                )
+                if "sourceStartedAt" in row
+                else ""
+            )
+            for row in (evidence or [])
+        )
+        + "---\n\n# Demo\n",
+        encoding="utf-8",
+    )
+    return path
 
 
 def _args(root: str, *, skill_id: str = "demo-skill", source: str = "https://example.com/ev",
@@ -107,7 +135,7 @@ def test_append_adds_evidence(tmp_path):
 
 def test_append_with_type(tmp_path):
     root = _make_registry(tmp_path)
-    meta_evidence_command(_args(root, evidence_type="repo-own", trust=120.0))
+    meta_evidence_command(_args(root, evidence_type="repo-own", trust=120.0, commits=50, contributors=2))
     ev = _load_node(root)["evidence"]
     assert ev[0]["type"] == "repo-own"
 
@@ -143,18 +171,95 @@ def test_index_updates_trust(tmp_path):
     assert len(_load_node(root)["evidence"]) == 1
 
 
-def test_index_out_of_range_exits(tmp_path):
+def test_index_source_started_at_emits_audit_event_without_trust(tmp_path, monkeypatch):
+    root = _make_registry(tmp_path, [{"source": "https://example.com/ev"}])
+    events = []
+    monkeypatch.setattr(
+        "gaia_cli.commands.dev.evidence.append_skill_event",
+        lambda *a, **kw: events.append({"args": a, "kwargs": kw}),
+    )
+
+    meta_evidence_command(_args(root, index=0, source_started_at="2026-01-01"))
+
+    entry = _load_node(root)["evidence"][0]
+    assert entry["sourceStartedAt"] == "2026-01-01"
+    assert len(events) == 1
+    assert events[0]["args"][0] == "demo-skill"
+    assert events[0]["args"][1] == "evidence_graded"
+    assert "Updated evidence #0 metadata" in events[0]["args"][3]
+    assert "sourceStartedAt" in events[0]["args"][3]
+    assert "trustNumber" not in events[0]["args"][3]
+
+
+def test_named_index_source_started_at_emits_audit_event_without_trust(tmp_path, monkeypatch):
+    root = _make_registry(tmp_path)
+    _make_named_skill(root, [{"source": "https://example.com/named"}])
+    events = []
+    monkeypatch.setattr(
+        "gaia_cli.commands.dev.evidence.append_skill_event",
+        lambda *a, **kw: events.append({"args": a, "kwargs": kw}),
+    )
+
+    meta_evidence_command(
+        _args(
+            root,
+            skill_id="tester/demo",
+            source="https://example.com/named",
+            index=0,
+            source_started_at="2026-01-01",
+        )
+    )
+
+    assert len(events) == 1
+    assert events[0]["args"][0] == "tester/demo"
+    assert events[0]["args"][1] == "evidence_graded"
+    assert "sourceStartedAt" in events[0]["args"][3]
+
+
+def test_index_same_source_started_at_adds_no_audit_event(tmp_path, monkeypatch):
+    root = _make_registry(
+        tmp_path,
+        [{"source": "https://example.com/ev", "sourceStartedAt": "2026-01-01"}],
+    )
+    before = _load_node(root)
+    events = []
+    monkeypatch.setattr(
+        "gaia_cli.commands.dev.evidence.append_skill_event",
+        lambda *a, **kw: events.append(a),
+    )
+
+    meta_evidence_command(_args(root, index=0, source_started_at="2026-01-01"))
+
+    assert events == []
+    assert _load_node(root) == before
+
+
+def test_index_out_of_range_exits_before_write(tmp_path, capsys):
     root = _make_registry(tmp_path, [{"source": "https://x"}])
+    before = _load_node(root)
+
     with pytest.raises(SystemExit) as exc:
         meta_evidence_command(_args(root, index=5, trust=80.0))
+
     assert exc.value.code != 0
+    assert _load_node(root) == before
+    err = capsys.readouterr().err
+    assert "Evidence index 5 out of range" in err
+    assert "--index" in err
 
 
-def test_index_with_no_update_field_exits(tmp_path):
+def test_index_with_no_update_field_exits_before_write(tmp_path, capsys):
     root = _make_registry(tmp_path, [{"source": "https://x"}])
+    before = _load_node(root)
+
     with pytest.raises(SystemExit) as exc:
         meta_evidence_command(_args(root, index=0))
+
     assert exc.value.code != 0
+    assert _load_node(root) == before
+    err = capsys.readouterr().err
+    assert "--index requires at least one update field" in err
+    assert "--trust" in err
 
 
 # ---------------------------------------------------------------------------
@@ -162,11 +267,18 @@ def test_index_with_no_update_field_exits(tmp_path):
 # ---------------------------------------------------------------------------
 
 
-def test_benchmark_without_percentile_exits(tmp_path):
+def test_benchmark_without_percentile_exits_before_write(tmp_path, capsys):
     root = _make_registry(tmp_path)
+    before = _load_node(root)
+
     with pytest.raises(SystemExit) as exc:
         meta_evidence_command(_args(root, evidence_type="benchmark-result", trust=80.0))
+
     assert exc.value.code != 0
+    assert _load_node(root) == before
+    err = capsys.readouterr().err
+    assert "--type benchmark-result" in err
+    assert "--percentile" in err
 
 
 def test_benchmark_with_percentile_succeeds(tmp_path):
@@ -190,9 +302,47 @@ def test_percentile_out_of_range_exits(tmp_path):
 def test_non_benchmark_type_no_percentile_required(tmp_path):
     """Other types do not require --percentile."""
     root = _make_registry(tmp_path)
-    meta_evidence_command(_args(root, evidence_type="repo-own", trust=80.0))
+    meta_evidence_command(_args(root, evidence_type="peer-review", trust=80.0, reviewers=2))
     ev = _load_node(root)["evidence"]
     assert len(ev) == 1
+
+
+def test_peer_review_requires_reviewers_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    before = _load_node(root)
+
+    with pytest.raises(SystemExit) as exc:
+        meta_evidence_command(_args(root, evidence_type="peer-review", trust=80.0))
+
+    assert exc.value.code != 0
+    assert _load_node(root) == before
+    err = capsys.readouterr().err
+    assert "--type peer-review" in err
+    assert "--reviewers" in err
+
+
+def test_negative_numeric_payload_rejected_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    before = _load_node(root)
+
+    with pytest.raises(SystemExit) as exc:
+        meta_evidence_command(_args(root, evidence_type="social-signal", views=-1))
+
+    assert exc.value.code != 0
+    assert _load_node(root) == before
+    assert "--views must be >= 0" in capsys.readouterr().err
+
+
+def test_invalid_source_url_rejected_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    before = _load_node(root)
+
+    with pytest.raises(SystemExit) as exc:
+        meta_evidence_command(_args(root, source="not-a-url", trust=20.0))
+
+    assert exc.value.code != 0
+    assert _load_node(root) == before
+    assert "absolute http(s) URL" in capsys.readouterr().err
 
 
 # ---------------------------------------------------------------------------
@@ -221,11 +371,44 @@ def test_existing_class_field_preserved_on_regrade(tmp_path):
 # ---------------------------------------------------------------------------
 
 
-def test_invalid_type_exits(tmp_path):
+def test_invalid_type_exits_before_write(tmp_path, capsys):
     root = _make_registry(tmp_path)
+    before = _load_node(root)
+
     with pytest.raises(SystemExit) as exc:
         meta_evidence_command(_args(root, evidence_type="not-a-real-type", trust=50.0))
+
     assert exc.value.code != 0
+    assert _load_node(root) == before
+    err = capsys.readouterr().err
+    assert "unknown evidence type 'not-a-real-type'" in err
+    assert "repo-own" in err
+
+
+def test_invalid_date_exits_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    before = _load_node(root)
+
+    with pytest.raises(SystemExit) as exc:
+        meta_evidence_command(_args(root, trust=50.0, date="2026/07/01"))
+
+    assert exc.value.code != 0
+    assert _load_node(root) == before
+    err = capsys.readouterr().err
+    assert "--date must be ISO YYYY-MM-DD" in err
+
+
+def test_invalid_source_started_at_exits_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    before = _load_node(root)
+
+    with pytest.raises(SystemExit) as exc:
+        meta_evidence_command(_args(root, trust=50.0, source_started_at="July 1"))
+
+    assert exc.value.code != 0
+    assert _load_node(root) == before
+    err = capsys.readouterr().err
+    assert "--source-started-at must be ISO YYYY-MM-DD" in err
 
 
 # ---------------------------------------------------------------------------
@@ -245,5 +428,5 @@ def test_preflight_benchmark_with_percentile_passes():
 
 
 def test_preflight_non_benchmark_passes():
-    ns = SimpleNamespace(evidence_type="repo-own", percentile=None)
+    ns = SimpleNamespace(evidence_type="repo-own", percentile=None, commits=1, contributors=1)
     _preflight_benchmark_percentile(ns)  # must not raise

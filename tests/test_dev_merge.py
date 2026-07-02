@@ -113,6 +113,36 @@ def test_merge_missing_target_exits(tmp_path):
     assert exc.value.code != 0
 
 
+def test_merge_missing_source_exits_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    target_file = Path(root) / "registry" / "nodes" / "basic" / "skill-a.json"
+    before = target_file.read_text(encoding="utf-8")
+
+    with pytest.raises(SystemExit) as exc:
+        meta_merge_command(_merge_args(root, "skill-a", ["nonexistent"]))
+
+    assert exc.value.code != 0
+    assert target_file.read_text(encoding="utf-8") == before
+    assert (Path(root) / "registry" / "nodes" / "basic" / "skill-b.json").exists()
+    err = capsys.readouterr().err
+    assert "Source skill 'nonexistent' does not exist" in err
+
+
+def test_merge_duplicate_sources_exit_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    target_file = Path(root) / "registry" / "nodes" / "basic" / "skill-a.json"
+    before = target_file.read_text(encoding="utf-8")
+
+    with pytest.raises(SystemExit) as exc:
+        meta_merge_command(_merge_args(root, "skill-a", ["skill-b", "skill-b"]))
+
+    assert exc.value.code != 0
+    assert target_file.read_text(encoding="utf-8") == before
+    assert (Path(root) / "registry" / "nodes" / "basic" / "skill-b.json").exists()
+    err = capsys.readouterr().err
+    assert "Duplicate source IDs" in err
+
+
 # ---------------------------------------------------------------------------
 # Split — happy path
 # ---------------------------------------------------------------------------
@@ -141,3 +171,48 @@ def test_split_missing_source_exits(tmp_path):
     with pytest.raises(SystemExit) as exc:
         meta_split_command(_split_args(root, "nonexistent", ["skill-d"]))
     assert exc.value.code != 0
+
+
+def test_split_duplicate_targets_exit_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    source_file = Path(root) / "registry" / "nodes" / "basic" / "skill-a.json"
+    before = source_file.read_text(encoding="utf-8")
+
+    with pytest.raises(SystemExit) as exc:
+        meta_split_command(_split_args(root, "skill-a", ["skill-d", "skill-d"]))
+
+    assert exc.value.code != 0
+    assert source_file.exists()
+    assert source_file.read_text(encoding="utf-8") == before
+    assert not (Path(root) / "registry" / "nodes" / "basic" / "skill-d.json").exists()
+    err = capsys.readouterr().err
+    assert "Duplicate split target IDs" in err
+
+
+def test_split_source_as_target_exits_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    source_file = Path(root) / "registry" / "nodes" / "basic" / "skill-a.json"
+    before = source_file.read_text(encoding="utf-8")
+
+    with pytest.raises(SystemExit) as exc:
+        meta_split_command(_split_args(root, "skill-a", ["skill-a", "skill-d"]))
+
+    assert exc.value.code != 0
+    assert source_file.read_text(encoding="utf-8") == before
+    err = capsys.readouterr().err
+    assert "cannot also be a target" in err
+
+
+def test_split_existing_target_exits_before_write(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    source_file = Path(root) / "registry" / "nodes" / "basic" / "skill-a.json"
+    before = source_file.read_text(encoding="utf-8")
+
+    with pytest.raises(SystemExit) as exc:
+        meta_split_command(_split_args(root, "skill-a", ["skill-b", "skill-d"]))
+
+    assert exc.value.code != 0
+    assert source_file.read_text(encoding="utf-8") == before
+    assert not (Path(root) / "registry" / "nodes" / "basic" / "skill-d.json").exists()
+    err = capsys.readouterr().err
+    assert "already exists" in err

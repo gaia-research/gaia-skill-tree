@@ -143,6 +143,28 @@ When in doubt, prefer **2 small PRs** over 1 large dispatched PR. Each merged PR
 
 A missing entry is auditable. A synthetic entry is not. **Do NOT include "fallback: direct frontmatter edit" language in any dispatch prompt for timeline operations.**
 
+### EPIC branching model (default for all multi-issue sprints)
+
+Big EPICs (like #855 Sprint B) use a **long-lived integration branch** (`dev/<sprint-name>`) that collects all feature work before merging to `main` at sprint end. This is the default for any EPIC with 3+ sub-issues.
+
+```
+main
+└── dev/<sprint-name>               ← integration branch (PR → main at sprint close)
+    ├── feat/<sprint>/<topic-1>     ← small PR → dev/<sprint-name>
+    ├── feat/<sprint>/<topic-2>     ← small PR → dev/<sprint-name>
+    └── feat/<sprint>/<topic-N>     ← small PR → dev/<sprint-name>
+```
+
+**Rules:**
+1. Create `dev/<sprint-name>` off `main` HEAD at sprint start.
+2. Each workstream opens a feature branch off the integration branch.
+3. Feature branches open PRs targeting the integration branch (never `main` directly).
+4. After all workstreams merge + reviewer sign-off, the integration branch opens a single PR → `main`.
+5. The integration branch PR carries the EPIC issue number in its body (`Resolves #<epic>`).
+6. CI runs on both layers: feature PRs validate their scope; the integration PR validates the aggregate.
+
+This prevents half-shipped features from landing on `main` and keeps the sprint atomic.
+
 ### Release runbook — bundled registry snapshot
 
 `src/gaia_cli/data/registry/gaia.json` and `named-skills.json` are gitignored. The PyPI wheel is built by `.github/workflows/publish-pypi.yml`, which has a "Bundle fresh registry snapshot" step that runs before `python -m build`:

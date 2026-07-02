@@ -123,13 +123,21 @@ def test_missing_named_skill_exits(tmp_path, monkeypatch):
 # ---------------------------------------------------------------------------
 
 
-def test_starbar_rejects_missing_github_link(tmp_path, monkeypatch):
+def test_starbar_rejects_missing_github_link_before_write(tmp_path, monkeypatch, capsys):
     """Calibrating to 3★ without links.github raises SystemExit(1)."""
     root = _make_registry(tmp_path)  # no github_link
+    md_path = tmp_path / "registry" / "named" / "alice" / "test-skill.md"
+    before = md_path.read_text(encoding="utf-8")
     monkeypatch.setattr("gaia_cli.commands.dev.calibrate._run_docs_build", lambda *a, **kw: None)
+
     with pytest.raises(SystemExit) as exc:
         meta_calibrate_command(_args(root, level="3★"))
+
     assert exc.value.code != 0
+    assert md_path.read_text(encoding="utf-8") == before
+    err = capsys.readouterr().err
+    assert "links.github" in err
+    assert "gaia dev update-named alice/test-skill --github-link" in err
 
 
 def test_starbar_rejects_tree_url(tmp_path, monkeypatch, capsys):
@@ -139,9 +147,14 @@ def test_starbar_rejects_tree_url(tmp_path, monkeypatch, capsys):
         github_link="https://github.com/alice/repo/tree/main/skills/test-skill",
     )
     monkeypatch.setattr("gaia_cli.commands.dev.calibrate._run_docs_build", lambda *a, **kw: None)
+    md_path = tmp_path / "registry" / "named" / "alice" / "test-skill.md"
+    before = md_path.read_text(encoding="utf-8")
+
     with pytest.raises(SystemExit) as exc:
         meta_calibrate_command(_args(root, level="4★"))
+
     assert exc.value.code != 0
+    assert md_path.read_text(encoding="utf-8") == before
     err = capsys.readouterr().err
     assert "blob/" in err
 
