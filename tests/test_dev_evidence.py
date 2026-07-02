@@ -59,6 +59,33 @@ def _load_node(root: str) -> dict:
         return json.load(f)
 
 
+def _make_named_skill(root: str, evidence: list | None = None) -> Path:
+    named = Path(root) / "registry" / "named" / "tester"
+    named.mkdir(parents=True, exist_ok=True)
+    path = named / "demo.md"
+    path.write_text(
+        "---\n"
+        "id: tester/demo\n"
+        "title: Demo\n"
+        "status: named\n"
+        "evidence:\n"
+        + "".join(
+            "  - source: {source}\n".format(source=row.get("source", "https://example.com/named"))
+            + (
+                "    sourceStartedAt: {sourceStartedAt}\n".format(
+                    sourceStartedAt=row["sourceStartedAt"]
+                )
+                if "sourceStartedAt" in row
+                else ""
+            )
+            for row in (evidence or [])
+        )
+        + "---\n\n# Demo\n",
+        encoding="utf-8",
+    )
+    return path
+
+
 def _args(root: str, *, skill_id: str = "demo-skill", source: str = "https://example.com/ev",
           **overrides) -> SimpleNamespace:
     base = dict(
@@ -142,6 +169,69 @@ def test_index_updates_trust(tmp_path):
     entry = _load_node(root)["evidence"][0]
     assert entry["trustNumber"] == 120.0
     assert len(_load_node(root)["evidence"]) == 1
+
+
+def test_index_source_started_at_emits_audit_event_without_trust(tmp_path, monkeypatch):
+    root = _make_registry(tmp_path, [{"source": "https://example.com/ev"}])
+    events = []
+    monkeypatch.setattr(
+        "gaia_cli.commands.dev.evidence.append_skill_event",
+        lambda *a, **kw: events.append({"args": a, "kwargs": kw}),
+    )
+
+    meta_evidence_command(_args(root, index=0, source_started_at="2026-01-01"))
+
+    entry = _load_node(root)["evidence"][0]
+    assert entry["sourceStartedAt"] == "2026-01-01"
+    assert len(events) == 1
+    assert events[0]["args"][0] == "demo-skill"
+    assert events[0]["args"][1] == "evidence_graded"
+    assert "Updated evidence #0 metadata" in events[0]["args"][3]
+    assert "sourceStartedAt" in events[0]["args"][3]
+    assert "trustNumber" not in events[0]["args"][3]
+
+
+def test_named_index_source_started_at_emits_audit_event_without_trust(tmp_path, monkeypatch):
+    root = _make_registry(tmp_path)
+    _make_named_skill(root, [{"source": "https://example.com/named"}])
+    events = []
+    monkeypatch.setattr(
+        "gaia_cli.commands.dev.evidence.append_skill_event",
+        lambda *a, **kw: events.append({"args": a, "kwargs": kw}),
+    )
+
+    meta_evidence_command(
+        _args(
+            root,
+            skill_id="tester/demo",
+            source="https://example.com/named",
+            index=0,
+            source_started_at="2026-01-01",
+        )
+    )
+
+    assert len(events) == 1
+    assert events[0]["args"][0] == "tester/demo"
+    assert events[0]["args"][1] == "evidence_graded"
+    assert "sourceStartedAt" in events[0]["args"][3]
+
+
+def test_index_same_source_started_at_adds_no_audit_event(tmp_path, monkeypatch):
+    root = _make_registry(
+        tmp_path,
+        [{"source": "https://example.com/ev", "sourceStartedAt": "2026-01-01"}],
+    )
+    before = _load_node(root)
+    events = []
+    monkeypatch.setattr(
+        "gaia_cli.commands.dev.evidence.append_skill_event",
+        lambda *a, **kw: events.append(a),
+    )
+
+    meta_evidence_command(_args(root, index=0, source_started_at="2026-01-01"))
+
+    assert events == []
+    assert _load_node(root) == before
 
 
 def test_index_out_of_range_exits_before_write(tmp_path, capsys):
