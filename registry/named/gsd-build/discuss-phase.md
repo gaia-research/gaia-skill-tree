@@ -24,6 +24,10 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md
+- timestamp: '2026-07-02T18:09:46Z'
+  action: suite_ref_set
+  contributor: unknown
+  details: Set suiteRef to gsd-build/get-shit-done
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md
   evaluator: unknown
@@ -35,6 +39,7 @@ verification:
   firstEvidenceAt: '2026-07-02T18:05:01Z'
 links:
   github: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md
+suiteRef: gsd-build/get-shit-done
 ---
 
 ## Installation

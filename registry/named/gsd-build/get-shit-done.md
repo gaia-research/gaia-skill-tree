@@ -14,12 +14,6 @@ tags:
 - suite
 - pipeline
 - agentic-workflow
-suiteComponents:
-- gsd-build/discuss-phase
-- gsd-build/plan-phase
-- gsd-build/execute-phase
-- gsd-build/verify-work
-- gsd-build/ship
 timeline:
 - timestamp: '2026-07-02T18:04:57Z'
   action: add
@@ -43,6 +37,11 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/README.md
+- timestamp: '2026-07-02T18:09:49Z'
+  action: note
+  contributor: unknown
+  details: 'Fused suite components: gsd-build/discuss-phase, gsd-build/plan-phase,
+    gsd-build/execute-phase, gsd-build/verify-work, gsd-build/ship.'
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/stargazers
   evaluator: unknown

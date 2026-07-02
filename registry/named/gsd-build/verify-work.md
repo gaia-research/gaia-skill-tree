@@ -24,6 +24,10 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md
+- timestamp: '2026-07-02T18:09:48Z'
+  action: suite_ref_set
+  contributor: unknown
+  details: Set suiteRef to gsd-build/get-shit-done
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md
   evaluator: unknown
@@ -35,6 +39,7 @@ verification:
   firstEvidenceAt: '2026-07-02T18:05:05Z'
 links:
   github: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md
+suiteRef: gsd-build/get-shit-done
 ---
 
 ## Installation
