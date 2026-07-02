@@ -27,6 +27,90 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-02, session 32 — Sprint B backlog PR train merged; CLI audit gap next)
+
+### TLDR
+- Executed Marcus's backlog plan as individual child PRs into `dev/sprint-b-closure`; all child PRs received reviewer/spec-check comments before merge.
+- #759 dev preflight hardening is now fully represented on the dev branch via #898, #900, #912, #916. Marcus explicitly requested "all dev verbs" and thorough tests; #916 carries the remaining verb matrix.
+- #746 apex gate hardening is on dev via #897, #901, #911. No apex pass is claimed; nothing passes yet, as expected.
+- #762 automated source curation is intentionally **dry-run only** on dev via #899, #910, #913, #915, #914. #762 stays open while Marcus evaluates auto-PR and crawler/tool choices.
+- PR #895 is no longer draft but is still `CONFLICTING` against `main`; aggregate CI/babysitting resumes after the quick CLI audit-gap fix + accurate timeline-event PRs.
+- Local-only skill updates are present and should be pushed with this snapshot: `memory-snapshot` now knows to call `pi-cost`, and new `.claude/skills/pi-cost/` parses Pi session token/cost logs.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `dev/sprint-b-closure` | ✅ Fast-forwarded locally to `667fe18e7`, matching origin |
+| #759 CLI preflights | ✅ #898, #900, #912, #916 merged into dev |
+| #746 apex gate | ✅ #897, #901, #911 merged into dev |
+| #762 source curation | ✅ #899, #910, #913, #915, #914 merged into dev; dry-run only |
+| Reviewer/spec checks | ✅ Posted before every child PR merge; worker-gpt used where quota allowed, orchestrator inline for final quota gaps |
+| EPIC/issues | ✅ Comments posted on #759, #746, #762, #855, and PR #895 summarizing merged child PRs |
+| PR #895 | ⚠️ Open and ready-for-review, but `mergeable: CONFLICTING` against `main` |
+| Local memory tooling | 📝 `memory-snapshot` skill updated to prefer `pi-cost` in Pi; `pi-cost` skill added locally |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `origin/main` | `8b8565dc6` | Base for #895; conflicts with dev branch remain |
+| `dev/sprint-b-closure` / `origin/dev/sprint-b-closure` | `667fe18e7` | Current branch; child backlog PRs merged |
+| PR #895 | `dev/sprint-b-closure` → `main` | Open, not draft, `CONFLICTING` |
+
+### Issues + PRs touched
+| # | Title | State / Action |
+|---|---|---|
+| #746 | apex gate: depth2 / tenure / A-origins | ✅ Child PRs merged; issue not fully solved because broader A/S-origin curation remains |
+| #759 | CLI pre-flight validation tech-debt | ✅ All planned dev-verb preflight PRs merged to dev |
+| #762 | automate source curation workflow | ⏳ Keep open; dry-run reports merged, auto-PR intentionally deferred |
+| #855 | Sprint B EPIC | 📝 Updated with merged child PR summary |
+| PR #895 | Sprint B closure → main | ⚠️ Aggregate PR; conflict/CI babysitting next |
+| PR #897 | apex lock-in tests | ✅ Merged |
+| PR #898 | shared dev preflight helper | ✅ Merged |
+| PR #899 | source proposal contract | ✅ Merged |
+| PR #900 | add/link/named preflights | ✅ Merged |
+| PR #901 | apex tenure backfill | ✅ Merged; exposed CLI audit gap |
+| PR #910 | source-curation dry-run runner | ✅ Merged |
+| PR #911 | apex reporting polish | ✅ Merged |
+| PR #912 | structural dev preflights | ✅ Merged |
+| PR #913 | GitHub source-curation adapter | ✅ Merged |
+| PR #914 | scheduled dry-run workflow | ✅ Merged |
+| PR #915 | deterministic refute gate | ✅ Merged |
+| PR #916 | remaining mutating dev verb preflights | ✅ Merged |
+
+### Routing — where things live now
+| Artifact | Path |
+|---|---|
+| Source-curation contract | `registry/schema/sourceProposal*.schema.json` |
+| Source-curation runner | `src/gaia_cli/sourceCuration.py`, `scripts/sourceCuratorRunner.py` |
+| Scheduled dry-run workflow | `.github/workflows/source-curation-dry-run.yml` |
+| Source-curation docs | `docs/agents/source-curation.md` |
+| Dev preflight helpers | `src/gaia_cli/commands/dev/helpers.py` and verb modules under `src/gaia_cli/commands/dev/` |
+| Apex reporting | `scripts/auditApexAtG7.py`, `scripts/inspectTrustMagnitude.py` |
+| Pi cost helper | `.claude/skills/pi-cost/` |
+| Memory snapshot skill update | `.claude/skills/memory-snapshot/SKILL.md` |
+
+### Lessons / hazards preserved
+- **#762 stays open.** Dry-run reports are useful, but auto-PR publishing is not ready until Marcus chooses crawler/tooling and reviews cost/quality tradeoffs (Firecrawl, Haunt API, Puppeteer, etc.).
+- **CLI audit gap found in #901:** `gaia dev evidence --index ... --source-started-at ...` does not emit an evidence-update timeline event unless `--trust` is supplied. Marcus wants this fixed quickly in a PR, merged after a quick test, then a second PR to add accurate timeline events. Do not fabricate timeline entries by hand.
+- **Apex gate still expected to fail.** #746 work improved tests/provenance/reporting; it did not promote anything to 6★ and should not be described as making apex pass.
+- **Branch-scope red on child PRs was accepted by explicit direction.** Child PRs merged into dev despite red checks; aggregate cleanup belongs on #895.
+- **Worker/reviewer fallback:** when reviewer/worker-pro quota was unavailable, worker-gpt was used; when worker-gpt quota ran out for final checks, orchestrator inline spec-checks were posted with that limitation disclosed.
+
+### Open questions for next orchestrator
+- Fix CLI audit gap first: ensure `gaia dev evidence --index ... --source-started-at ...` logs an accurate timeline/audit event without requiring unrelated `--trust` changes.
+- After the CLI fix merges, add the accurate timeline/audit events for #901 via CLI only. Confirm the exact event semantics before writing anything.
+- Resolve PR #895 conflicts against `main`, then babysit aggregate CI in superadmin mode.
+- Decide final release runbook after #895 is green: current Sprint D memory says v6.0.0, while earlier Sprint B planner recommended v5.9.0; Marcus's latest planning snapshot leans v6.0.0.
+
+### Token cost (this session)
+- Pi exact session log (`pi-cost`, active Pi session `2026-07-01T17-44-45-266Z_019f1ec8-83d1-78aa-97cd-44639ab3968d.jsonl`):
+  - Main session: `openai-codex/gpt-5.5`, efforts minimal/high/medium/low/off/xhigh; 77 turns; ↑697,937 input · ↓33,912 output · 6,644,224 cache read; estimated **$7.83**.
+  - Subagents: estimated **$17.18** total across planner/scout/worker/reviewer calls, including GPT, Opus/Sonnet, and 3.5 Flash workers.
+  - Consolidated total at snapshot time: estimated **$25.01**.
+- Note: user requested token snapshot later after main merges; this entry preserves the current Pi-calculated session cost for audit continuity.
+
+---
+
 ## State Snapshot (2026-07-02, session 31 — v4 roadmap ratified + Sprint D fully scaffolded)
 
 ### TLDR
