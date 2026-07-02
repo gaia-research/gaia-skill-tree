@@ -480,9 +480,9 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=5.6.2"></script>
-  <script src="../js/site-nav.js?v=5.6.2"></script>
-  <script src="../js/ui.js?v=5.6.2"></script>
+  <script src="../js/mounts.js?v=5.8.2"></script>
+  <script src="../js/site-nav.js?v=5.8.2"></script>
+  <script src="../js/ui.js?v=5.8.2"></script>
 
 
 
@@ -494,7 +494,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">MCP Server</span>
     <span class="nav-spacer"></span>
-    <span class="nav-version">v5.6.2</span>
+    <span class="nav-version">v5.8.2</span>
   </nav>
 
   <div class="page-layout">
@@ -511,6 +511,8 @@
           <li><a href="#config">Configuration</a></li>
           <li><a href="#prompts">Prompt examples</a></li>
           <li><a href="#how-it-works">How it works</a></li>
+          <li><a href="#advisor-architecture">Advisor Architecture</a></li>
+          <li><a href="#telemetry">Telemetry & Privacy</a></li>
           <li><a href="#known-issues">Known issues</a></li>
         </ul>
       </div>
@@ -533,7 +535,7 @@
 
     <!-- main -->
     <main class="main-content">
-      <div class="page-badge">● @gaia-registry/mcp-server · v5.6.2</div>
+      <div class="page-badge">● @gaia-registry/mcp-server · v5.8.2</div>
       <h1 class="page-title">MCP Server</h1>
       <p class="page-lead">
         Connect Gaia to any MCP-compatible agent — Claude Code, Claude Desktop, Cursor,
@@ -1033,6 +1035,37 @@
         </div>
       </section>
 
+      <!-- Advisor Architecture -->
+      <section class="section" id="advisor-architecture">
+        <h2 class="section-title">Advisor Architecture</h2>
+        <div class="section-body">
+          <p>
+            The MCP server runs a unified advisor module to scan project context and suggest skill fusions. All advisors inherit from a common base class: <code>AbstractAdvisor&lt;TResult&gt;</code>.
+          </p>
+          <p>
+            The engine runs three concrete advisor classes:
+          </p>
+          <ul>
+            <li><strong>SkillDetector</strong>: Inspects connected tool names and project signals. It uses regular expressions to find match patterns and returns a list of detected Basic Skills (○).</li>
+            <li><strong>FusionEngine</strong>: Compares owned and detected skills against the prerequisite graph. It identifies Extra Skills (◇) and Ultimate Skills (◆) that you can unlock immediately (<code>ready</code>) or skills that need only one more prerequisite (<code>one_away</code>).</li>
+            <li><strong>NoveltyScorer</strong>: Checks proposed skills against the existing registry. It calculates Jaccard similarity based on word tokens. A proposal is marked novel if the similarity score is below 0.3.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Telemetry & Privacy -->
+      <section class="section" id="telemetry">
+        <h2 class="section-title">Telemetry & Privacy</h2>
+        <div class="section-body">
+          <p>
+            The Gaia MCP server collects no usage data, telemetry, or analytics. It has zero tracking pixels or phone-home systems.
+          </p>
+          <p>
+            All skill detection and graph traversal run locally in your environment. The server only communicates with external hosts to fetch the registry data file (<code>gaia.json</code>) or write pull requests when you use <code>gaia_propose</code>.
+          </p>
+        </div>
+      </section>
+
       <!-- Known issues -->
       <section class="section" id="known-issues">
         <h2 class="section-title">Known issues</h2>
@@ -1121,7 +1154,7 @@
     <div class="footer-bottom">
       <span>MIT License</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
-      <span>v5.6.2</span>
+      <span>v5.8.2</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
       <span>© 2026 Gaia</span>
     </div>

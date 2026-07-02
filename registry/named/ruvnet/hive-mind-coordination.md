@@ -23,13 +23,13 @@ updatedAt: '2026-06-21'
 evidence:
 - source: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hive-mind/SKILL.md
   evaluator: unknown
-  updatedAt: '2026-06-28'
+  updatedAt: '2026-07-01'
   date: '2026-06-20'
   type: github-stars-own
   trustNumber: 85.0
   notes: ruflo platform SKILL.md — 60.3k GitHub stars, 34 plugins; hive-mind specific
     file avoids same-source dedup (verified 2026-06-20)
-  stars: 61720
+  stars: 62303
   skillCountInRepo: 34
   sourceStartedAt: '2024-01-01'
 - source: https://github.com/ruvnet/ruflo

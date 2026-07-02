@@ -35,14 +35,14 @@ evidence:
   grade: B
 - source: https://github.com/obra/superpowers
   evaluator: unknown
-  updatedAt: '2026-06-28'
+  updatedAt: '2026-07-01'
   date: '2026-06-20'
   type: github-stars-own
   trustNumber: 88.0
   grade: B
   notes: obra/superpowers — 233k GitHub stars, complete AI coding methodology adopted
     across Claude Code, Codex CLI, Gemini CLI (verified 2026-06-20)
-  stars: 239962
+  stars: 243025
   skillCountInRepo: 13
   sourceStartedAt: '2023-01-01'
 timeline:

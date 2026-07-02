@@ -50,13 +50,13 @@ evidence:
   grade: B
 - source: https://github.com/obra/superpowers/stargazers
   evaluator: mbtiongson1
-  updatedAt: '2026-06-28'
+  updatedAt: '2026-07-01'
   date: '2026-06-19'
   type: github-stars-own
   class: A
   notes: 230,818 GitHub stars as of 2026-06-19 (verified via firecrawl validation
     report; mothership with 11+ sub-skills, divisor=4)
-  stars: 239962
+  stars: 243025
   skillCountInRepo: 11
   grade: B
 - source: https://www.youtube.com/watch?v=6YltXh12W-g

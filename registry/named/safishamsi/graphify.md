@@ -75,13 +75,13 @@ apexGateStatus:
 evidence:
 - source: https://github.com/safishamsi/graphify/stargazers
   evaluator: mbtiongson1
-  updatedAt: '2026-06-28'
+  updatedAt: '2026-07-01'
   date: '2026-06-19'
   type: github-stars-own
   class: A
   notes: 68,766 GitHub stars as of 2026-06-19 (verified via firecrawl validation report;
     standalone skill)
-  stars: 72899
+  stars: 75052
   grade: A
 - source: https://arxiv.org/abs/2408.03910
   evaluator: mbtiongson1

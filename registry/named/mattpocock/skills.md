@@ -96,13 +96,13 @@ timeline:
 evidence:
 - source: https://github.com/mattpocock/skills/stargazers
   evaluator: mbtiongson1
-  updatedAt: '2026-06-28'
+  updatedAt: '2026-07-01'
   date: '2026-06-19'
   type: github-stars-own
   class: A
-  notes: 148,206 GitHub stars as of 2026-06-28 (GitHub repo created 2026-02-03T11:15:53Z;
+  notes: 152,357 GitHub stars as of 2026-07-01 (GitHub repo created 2026-02-03T11:15:53Z;
     mothership with 19 sub-skills, divisor=4)
-  stars: 148206
+  stars: 152357
   skillCountInRepo: 19
   grade: B
   sourceStartedAt: '2026-02-03'
