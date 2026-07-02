@@ -246,9 +246,14 @@
         });
       });
     });
-    // Sort by level desc, then by type rank (Ultimate first), then by name
+    // Sort by Trust Magnitude desc, then by level desc, then by type rank.
     var TYPE_RANK = { ultimate: 0, unique: 1, extra: 2, basic: 3 };
+    function heroTm(item) {
+      return Number((item && item.entry && item.entry.trustMagnitude) || 0);
+    }
     allOrigin.sort(function (a, b) {
+      var td = heroTm(b) - heroTm(a);
+      if (td !== 0) return td;
       var ld = levelNum(b.entry.level) - levelNum(a.entry.level);
       if (ld !== 0) return ld;
       return (TYPE_RANK[a.type] || 9) - (TYPE_RANK[b.type] || 9);
@@ -270,17 +275,21 @@
       if (!byContrib[c]) byContrib[c] = [];
       byContrib[c].push(item);
     });
-    // Sort within each group: highest-rank skill first.
+    // Sort within each group: highest-TM skill first.
     Object.keys(byContrib).forEach(function (c) {
       byContrib[c].sort(function (a, b) {
+        var td = heroTm(b) - heroTm(a);
+        if (td !== 0) return td;
         var ld = levelNum(b.entry.level) - levelNum(a.entry.level);
         if (ld !== 0) return ld;
         return (TYPE_RANK[a.type] || 9) - (TYPE_RANK[b.type] || 9);
       });
     });
-    // Order contributors by their primary (best) skill.
+    // Order contributors by their primary (best) skill TM.
     var contribOrder = Object.keys(byContrib).sort(function (a, b) {
       var ai = byContrib[a][0], bi = byContrib[b][0];
+      var td = heroTm(bi) - heroTm(ai);
+      if (td !== 0) return td;
       var ld = levelNum(bi.entry.level) - levelNum(ai.entry.level);
       if (ld !== 0) return ld;
       return (TYPE_RANK[ai.type] || 9) - (TYPE_RANK[bi.type] || 9);

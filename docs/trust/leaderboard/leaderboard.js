@@ -381,24 +381,44 @@
     updatedDate: ''
   };
 
+  function fetchJson(url) {
+    return fetch(url).then(function(r) {
+      if (!r.ok) throw new Error('Fetch failed: ' + url + ' (' + r.status + ')');
+      return r.json();
+    });
+  }
+
+  function fetchSkillPages() {
+    return fetchJson(BASE + 'skills/index.json' + VER).then(function(firstPage) {
+      var totalPages = Math.max(1, parseInt(firstPage.totalPages || 1, 10) || 1);
+      if (totalPages === 1) return [firstPage];
+      var rest = [];
+      for (var pageNum = 2; pageNum <= totalPages; pageNum++) {
+        var path = pageNum === 1 ? 'skills/index.json' : 'skills/page-' + pageNum + '.json';
+        rest.push(fetchJson(BASE + path + VER));
+      }
+      return Promise.all(rest).then(function(otherPages) {
+        return [firstPage].concat(otherPages);
+      });
+    });
+  }
+
   // ── DATA FETCH (parallel) ──
   Promise.all([
-    fetch(BASE + 'leaderboard.json' + VER).then(function(r) { return r.json(); }),
-    fetch(BASE + 'skills/index.json' + VER).then(function(r) { return r.json(); }),
-    fetch(BASE + 'skills/page-2.json' + VER).then(function(r) { return r.json(); }),
-    fetch(BASE + 'skills/page-3.json' + VER).then(function(r) { return r.json(); })
+    fetchJson(BASE + 'leaderboard.json' + VER),
+    fetchSkillPages()
   ]).then(function(results) {
-    boot(results[0], results[1], results[2], results[3]);
+    boot(results[0], results[1]);
   }).catch(function(err) {
     var page = document.querySelector('.lb-page');
     if (page) page.innerHTML = '<p style="padding:4rem 2rem;color:var(--muted);font-family:var(--font-body)">Failed to load leaderboard data.</p>';
     console.error('[leaderboard]', err);
   });
 
-  function boot(leaderboard, p1, p2, p3) {
+  function boot(leaderboard, skillPages) {
     // Build skill map
     var skillMap = {};
-    [p1, p2, p3].forEach(function(page) {
+    (skillPages || []).forEach(function(page) {
       if (!page || !page.skills) return;
       page.skills.forEach(function(s) { skillMap[s.id] = s; });
     });

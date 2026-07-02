@@ -562,93 +562,28 @@
           return;
         }
 
-        // Classify tiers
-        var ultimates = [];
-        var apex = [];
-        var transcendents = [];
-        var uniques = [];
-        var extras = [];
-        var basics = [];
-        var named = [];
         var ledgerEntries = [];
 
-        heroes.forEach(function (c) {
-          var tier = classifyTier(c);
-          switch (tier) {
-            case 'ultimate': ultimates.push(c); break;
-            case 'apex': apex.push(c); break;
-            case 'transcendent': transcendents.push(c); break;
-            case 'unique': uniques.push(c); break;
-            case 'extra': extras.push(c); break;
-            case 'basic': basics.push(c); break;
-            default: named.push(c); break;
-          }
-        });
-
-        // Build HTML
+        // Build HTML in strict TM order. Tier dividers are still rendered,
+        // but they follow the live ranking instead of regrouping the page.
         var html = '';
         var renderedIndex = 0;
         var totalHeroes = heroes.length;
+        var previousTier = null;
 
         function appendHeroStage(c, tier) {
           ledgerEntries.push({ contributor: c, tier: tier });
           html += renderHeroStage(c, tier, renderedIndex++, totalHeroes);
         }
 
-        // Ultimate tier
-        if (ultimates.length) {
-          ultimates.forEach(function (c) {
-            appendHeroStage(c, 'ultimate');
-          });
-        }
-
-        // Apex tier
-        if (apex.length) {
-          html += renderTierDivider('Apex');
-          apex.forEach(function (c) {
-            appendHeroStage(c, 'apex');
-          });
-        }
-
-        // Transcendent tier
-        if (transcendents.length) {
-          html += renderTierDivider('Transcendent');
-          transcendents.forEach(function (c) {
-            appendHeroStage(c, 'transcendent');
-          });
-        }
-
-        // Unique tier
-        if (uniques.length) {
-          html += renderTierDivider('Unique');
-          uniques.forEach(function (c) {
-            appendHeroStage(c, 'unique');
-          });
-        }
-
-        // Extra tier
-        if (extras.length) {
-          html += renderTierDivider('Extra');
-          extras.forEach(function (c) {
-            appendHeroStage(c, 'extra');
-          });
-        }
-
-        // Basic tier
-        if (basics.length) {
-          html += renderTierDivider('Basic');
-          basics.forEach(function (c) {
-            appendHeroStage(c, 'basic');
-          });
-        }
-
-        // Named tier
-        if (named.length) {
-          html += renderTierDivider('Named');
-          named.forEach(function (c) {
-            appendHeroStage(c, 'named');
-          });
-        }
+        heroes.forEach(function (c) {
+          var tier = classifyTier(c);
+          if (tier !== previousTier && previousTier !== null) {
+            html += renderTierDivider(TIER_LABEL[tier] || 'Named');
+          }
+          appendHeroStage(c, tier);
+          previousTier = tier;
+        });
 
         container.innerHTML = html;
 

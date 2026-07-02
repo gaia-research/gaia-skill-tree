@@ -133,7 +133,7 @@
   top: 50%;
   z-index: 12;
   width: var(--heroes-rail-width);
-  max-height: min(78svh, 720px);
+  max-height: none;
   display: grid;
   grid-template-columns: 12px minmax(0, 1fr);
   grid-template-areas:
@@ -227,11 +227,11 @@
   grid-area: list;
   display: grid;
   gap: 4px;
-  max-height: min(48svh, 420px);
+  max-height: none;
   margin: 0;
   padding: 2px 0;
-  overflow: auto;
-  scrollbar-width: thin;
+  overflow: visible;
+  scrollbar-width: none;
 }
 
 .heroes-ledger-rail__item {
