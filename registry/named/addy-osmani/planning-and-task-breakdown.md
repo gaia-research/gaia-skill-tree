@@ -4,8 +4,8 @@ name: Planning and Task Breakdown
 contributor: addy-osmani
 origin: false
 genericSkillRef: vertical-slice-planning
-status: awakened
-level: 1★
+status: named
+level: 3★
 description: Planning and task breakdown workflow decomposing features into manageable
   vertical slices.
 createdAt: '2026-07-03'
@@ -28,6 +28,38 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md
+- timestamp: '2026-07-02T20:53:14Z'
+  action: name
+  contributor: unknown
+  details: Promoted from awakened to named.
+- timestamp: '2026-07-02T20:53:15Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 1★ to 2★
+- timestamp: '2026-07-02T20:59:04Z'
+  action: note
+  contributor: unknown
+  details: Set installable to false
+- timestamp: '2026-07-02T21:04:10Z'
+  action: note
+  contributor: unknown
+  details: Set installable to true
+- timestamp: '2026-07-02T21:07:12Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/addyosmani/agent-skills (type:
+    repo-own)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-07-02T21:30:15Z'
+  details: TM None -> 53.14, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-07-02T21:33:50Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md
+- timestamp: '2026-07-02T21:34:05Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 2★ to 3★
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md
   evaluator: unknown
@@ -35,11 +67,41 @@ evidence:
   type: github-stars-own
   stars: 68564
   skillCountInRepo: 7
+- source: https://github.com/addyosmani/agent-skills
+  evaluator: unknown
+  date: '2026-07-03'
+  type: repo-own
+  commits: 260
+  contributors: 36
+  grade: B
 verification:
   firstEvidenceAt: '2026-07-02T18:42:24Z'
+title: Planning and Task Breakdown
+installable: true
+suiteRef: addy-osmani/agent-skills
+trustMagnitude: 53.14
+overallTrustGrade: B
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+trustMagnitudeInputHash: 1efb6a18a406cee1cf25e7d35c588008ee5b652b53acd65a0dfb1d0392c4776e
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md
 ---
 
 ## Installation
-Add installation instructions here.
+
+This skill is included in the Addy Osmani agent skills suite. Install the suite with:
+
+```bash
+/plugin marketplace add addyosmani/agent-skills
+/plugin install agent-skills@addy-agent-skills
+```
+
+Invoke the matching slash command from the installed suite.

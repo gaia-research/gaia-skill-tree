@@ -49,6 +49,18 @@
       }
     },
     {
+      "id": "addy-osmani/agent-skills",
+      "name": "Agent Skills",
+      "level": "5★",
+      "trustMagnitude": 293.14,
+      "overallTrustGrade": "S",
+      "contributor": "addy-osmani",
+      "type": "ultimate",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/agent-skills.json"
+      }
+    },
+    {
       "id": "mattpocock/engineering",
       "name": "Engineering",
       "level": "4★",
@@ -58,6 +70,18 @@
       "type": "extra",
       "_links": {
         "self": "/api/v1/skills/mattpocock/engineering.json"
+      }
+    },
+    {
+      "id": "gsd-build/get-shit-done",
+      "name": "Get Shit Done",
+      "level": "4★",
+      "trustMagnitude": 202.16,
+      "overallTrustGrade": "A",
+      "contributor": "gsd-build",
+      "type": "ultimate",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
       }
     },
     {
@@ -575,35 +599,11 @@
       "_links": {
         "self": "/api/v1/skills/garrytan/document-generate.json"
       }
-    },
-    {
-      "id": "garrytan/investigate",
-      "name": "Investigate",
-      "level": "3★",
-      "trustMagnitude": 63.73,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "extra",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/investigate.json"
-      }
-    },
-    {
-      "id": "garrytan/land-and-deploy",
-      "name": "Land and Deploy",
-      "level": "3★",
-      "trustMagnitude": 63.73,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "extra",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/land-and-deploy.json"
-      }
     }
   ],
   "page": 1,
-  "totalPages": 3,
-  "totalSkills": 139,
+  "totalPages": 4,
+  "totalSkills": 152,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

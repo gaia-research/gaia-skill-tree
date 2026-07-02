@@ -1,0 +1,92 @@
+{
+  "handle": "gsd-build",
+  "namedSkills": [
+    {
+      "id": "gsd-build/get-shit-done",
+      "name": "Get Shit Done",
+      "level": "4★",
+      "trustMagnitude": 202.16,
+      "overallTrustGrade": "A",
+      "contributor": "gsd-build",
+      "type": "ultimate",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
+      }
+    },
+    {
+      "id": "gsd-build/discuss-phase",
+      "name": "GSD Discuss Phase",
+      "level": "3★",
+      "trustMagnitude": 52.16,
+      "overallTrustGrade": "B",
+      "contributor": "gsd-build",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/discuss-phase.json"
+      }
+    },
+    {
+      "id": "gsd-build/execute-phase",
+      "name": "GSD Execute Phase",
+      "level": "3★",
+      "trustMagnitude": 52.16,
+      "overallTrustGrade": "B",
+      "contributor": "gsd-build",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/execute-phase.json"
+      }
+    },
+    {
+      "id": "gsd-build/plan-phase",
+      "name": "GSD Plan Phase",
+      "level": "3★",
+      "trustMagnitude": 52.16,
+      "overallTrustGrade": "B",
+      "contributor": "gsd-build",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/plan-phase.json"
+      }
+    },
+    {
+      "id": "gsd-build/ship",
+      "name": "GSD Ship",
+      "level": "3★",
+      "trustMagnitude": 52.16,
+      "overallTrustGrade": "B",
+      "contributor": "gsd-build",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/ship.json"
+      }
+    },
+    {
+      "id": "gsd-build/verify-work",
+      "name": "GSD Verify Work",
+      "level": "3★",
+      "trustMagnitude": 52.16,
+      "overallTrustGrade": "B",
+      "contributor": "gsd-build",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/verify-work.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 6,
+  "topSkill": {
+    "id": "gsd-build/get-shit-done",
+    "level": "4★",
+    "trustMagnitude": 202.16
+  },
+  "prestigeScore": 462.96,
+  "gradeDistribution": {
+    "A": 1,
+    "B": 5
+  },
+  "_links": {
+    "self": "/api/v1/contributors/gsd-build.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

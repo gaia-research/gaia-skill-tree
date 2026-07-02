@@ -1,0 +1,35 @@
+{
+  "skills": [
+    {
+      "id": "mattpocock/caveman",
+      "name": "Caveman Mode",
+      "level": "2★",
+      "trustMagnitude": 30.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/caveman.json"
+      }
+    },
+    {
+      "id": "mattpocock/teach",
+      "name": "Teach",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": "ungraded",
+      "contributor": "mattpocock",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/teach.json"
+      }
+    }
+  ],
+  "page": 4,
+  "totalPages": 4,
+  "totalSkills": 152,
+  "_links": {
+    "self": "/api/v1/skills/page-4.json",
+    "prev": "/api/v1/skills/page-3.json"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "addy-osmani/agent-skills",
+  "name": "Agent Skills",
+  "contributor": "addy-osmani",
+  "description": "Addy Osmani's production-grade engineering command suite for AI coding agents: spec, plan, build, test, review, webperf, ship, and simplify.",
+  "version": "1.0.0",
+  "capstone": "addy-osmani/agent-skills",
+  "suites": [],
+  "standalones": [
+    "addy-osmani/spec-driven-development",
+    "addy-osmani/planning-and-task-breakdown",
+    "addy-osmani/incremental-implementation",
+    "addy-osmani/test-driven-development",
+    "addy-osmani/code-review-and-quality",
+    "addy-osmani/shipping-and-launch",
+    "addy-osmani/code-simplification",
+    "addy-osmani/performance-optimization"
+  ],
+  "createdAt": "2026-07-03",
+  "updatedAt": "2026-07-03"
+}

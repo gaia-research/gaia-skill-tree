@@ -165,8 +165,7 @@ Superpowers is available via the [official Claude plugin marketplace](https://cl
 
   ```bash
   /plugin install superpowers@claude-plugins-official
-  ```
-
+  ```bash
 #### Superpowers Marketplace
 
 The Superpowers marketplace provides Superpowers and some other related plugins for Claude Code.
@@ -182,6 +181,24 @@ The Superpowers marketplace provides Superpowers and some other related plugins 
   ```bash
   /plugin install superpowers@superpowers-marketplace
   ```
+
+### Antigravity
+
+Install Superpowers as a plugin from this repository:
+
+```bash
+agy plugin install https://github.com/obra/superpowers
+```bash
+Antigravity runs the plugin's session-start hook, so Superpowers is active from
+the first message. Reinstall with the same command to update.
+
+### Codex App
+
+Superpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).
+
+- In the Codex app, click on Plugins in the sidebar.
+- You should see `Superpowers` in the Coding section.
+- Click the `+` next to Superpowers and follow the prompts.
 
 ### Codex CLI
 
@@ -201,13 +218,15 @@ Superpowers is available via the [official Codex plugin marketplace](https://git
 
 - Select `Install Plugin`.
 
-### Codex App
+### Cursor
 
-Superpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).
+- In Cursor Agent chat, install from marketplace:
 
-- In the Codex app, click on Plugins in the sidebar.
-- You should see `Superpowers` in the Coding section.
-- Click the `+` next to Superpowers and follow the prompts.
+  ```bash
+  /add-plugin superpowers
+  ```
+
+- Or search for "superpowers" in the plugin marketplace.
 
 ### Factory Droid
 
@@ -223,19 +242,39 @@ Superpowers is available via the [official Codex plugin marketplace](https://git
   droid plugin install superpowers@superpowers
   ```
 
-### Gemini CLI
+### GitHub Copilot CLI
 
-- Install the extension:
-
-  ```bash
-  gemini extensions install https://github.com/obra/superpowers
-  ```
-
-- Update later:
+- Register the marketplace:
 
   ```bash
-  gemini extensions update superpowers
+  copilot plugin marketplace add obra/superpowers-marketplace
   ```
+
+- Install the plugin:
+
+  ```bash
+  copilot plugin install superpowers@superpowers-marketplace
+  ```
+
+### Kimi Code
+
+Superpowers is available in Kimi Code's plugin marketplace.
+
+- Open Kimi Code's plugin manager:
+
+  ```bash
+  /plugins
+  ```
+
+- Go to `Marketplace` > `Superpowers` and install it.
+
+- Or install directly from this repository:
+
+  ```bash
+  /plugins install https://github.com/obra/superpowers
+  ```
+
+- Detailed docs: [docs/README.kimi.md](docs/README.kimi.md)
 
 ### OpenCode
 
@@ -250,26 +289,17 @@ already use it in another harness.
 
 - Detailed docs: [docs/README.opencode.md](docs/README.opencode.md)
 
-### Cursor
+### Pi
 
-- In Cursor Agent chat, install from marketplace:
+Install Superpowers as a Pi package from this repository:
 
-  ```bash
-  /add-plugin superpowers
-  ```
+```bash
+pi install git:github.com/obra/superpowers
+```bash
+For local development, run Pi with this checkout loaded as a temporary package:
 
-- Or search for "superpowers" in the plugin marketplace.
+```bash
+pi -e /path/to/superpowers
+```
 
-### GitHub Copilot CLI
-
-- Register the marketplace:
-
-  ```bash
-  copilot plugin marketplace add obra/superpowers-marketplace
-  ```
-
-- Install the plugin:
-
-  ```bash
-  copilot plugin install superpowers@superpowers-marketplace
-  ```
+The Pi package loads the Superpowers skills and a small extension that injects the `using-superpowers` bootstrap at session startup and again after compaction. Pi has native skills, so no compatibility `Skill` tool is required. Subagent and task-list tools remain optional Pi companion packages.

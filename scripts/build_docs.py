@@ -632,6 +632,38 @@ def build_docs_named_index(check: bool) -> bool:
 _API_HAND_AUTHORED = ["openapi.json", "trending"]
 
 
+def build_trust_ledger(check: bool) -> bool:
+    """Run generateLeaderboardData.py and compare against docs/graph/ledger/data.json."""
+    script = SCRIPTS / "generateLeaderboardData.py"
+    if not script.exists():
+        return False
+    committed = ROOT / "docs" / "graph" / "ledger" / "data.json"
+    with tempfile.TemporaryDirectory() as tmp:
+        out_path = Path(tmp) / "data.json"
+        rc, output = _run_script(script, ["--out", str(out_path)])
+        if rc != 0:
+            if check:
+                print(f"diff docs/graph/ledger/data.json (regen failed: rc={rc})")
+                print(output)
+            raise RuntimeError(f"docs/graph/ledger/data.json regen failed: rc={rc}")
+        if not committed.exists():
+            if check:
+                print("diff docs/graph/ledger/data.json (missing committed file)")
+            else:
+                committed.parent.mkdir(parents=True, exist_ok=True)
+                committed.write_bytes(out_path.read_bytes())
+            return True
+        if check:
+            if _equal_ignoring_dates(committed, out_path):
+                return False
+            print("diff docs/graph/ledger/data.json")
+            return True
+        if filecmp.cmp(committed, out_path, shallow=False):
+            return False
+        committed.write_bytes(out_path.read_bytes())
+        return True
+
+
 def build_api_projection(check: bool) -> bool:
     """Run buildApiProjection.py to a tempdir and diff against docs/api/v1/."""
     script = SCRIPTS / "buildApiProjection.py"
@@ -1208,6 +1240,7 @@ def main(argv: list[str] | None = None) -> int:
     # named-index drift specifically is the one most likely to land out of sync.
     named_index_changed = _run_step("named-index", build_named_index, args.check)
     docs_named_changed = _run_step("docs-named-index", build_docs_named_index, args.check)
+    trust_ledger_changed = _run_step("trust-ledger", build_trust_ledger, args.check)
     api_changed = _run_step("api-projection", build_api_projection, args.check)
     trending_changed = _run_step("trending-projection", build_trending_projection, args.check)
     profiles_changed = _run_step("profiles", build_profile_pages, args.check)
@@ -1280,6 +1313,7 @@ def main(argv: list[str] | None = None) -> int:
         or css_tokens_changed
         or named_index_changed
         or docs_named_changed
+        or trust_ledger_changed
         or api_changed
         or trending_changed
         or profiles_changed

@@ -35,7 +35,7 @@
 | ○ /code-execution | Basic Skill | — | `/code-execution` |
 | ○ ████████/zoom-out | Basic Skill | — | `/code-explain` |
 | ○ [garrytan](../docs/u/garrytan/)/design-html | Basic Skill | 3★ | `/code-generation` |
-| ◇ [garrytan](../docs/u/garrytan/)/plan-eng-review | Extra Skill | 3★ | `/code-review-pipeline` |
+| ◇ [addy-osmani](../docs/u/addy-osmani/)/code-review-and-quality | Extra Skill | 3★ | `/code-review-pipeline` |
 | ◇ /collaborative-diagramming | Extra Skill | — | `/collaborative-diagramming` |
 | ◇ /computational-biology-workflows | Extra Skill | — | `/computational-biology-workflows` |
 | ○ /computer-use | Basic Skill | — | `/computer-use` |
@@ -82,7 +82,7 @@
 | ○ /genomic-data-retrieval | Basic Skill | — | `/genomic-data-retrieval` |
 | ◇ /ghostwrite | Extra Skill | — | `/ghostwrite` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/github-suite | Extra Skill | 3★ | `/git-integration` |
-| ◆ /git-ship-done-pipeline | Ultimate Skill | — | `/git-ship-done-pipeline` |
+| ◆ [addy-osmani](../docs/u/addy-osmani/)/agent-skills | Ultimate Skill | 5★ | `/git-ship-done-pipeline` |
 | ◇ [mbtiongson1](../docs/u/mbtiongson1/)/graphify-triage | Extra Skill | 2★ | `/graph-driven-issue-triage` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | 3★ | `/grill-me` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | 3★ | `/grill-with-docs` |
@@ -146,7 +146,7 @@
 | ◇ [ruvnet](../docs/u/ruvnet/)/reasoningbank | Extra Skill | 4★ | `/reasoning-pattern-bank` |
 | ◇ [obra](../docs/u/obra/)/receiving-code-review | Extra Skill | 2★ | `/receiving-code-review` |
 | ◇ /recursive-self-improvement | Extra Skill | — | `/recursive-self-improvement` |
-| ○ [mattpocock](../docs/u/mattpocock/)/improve-codebase-architecture | Basic Skill | 2★ | `/refactor-code` |
+| ○ [addy-osmani](../docs/u/addy-osmani/)/code-simplification | Basic Skill | 3★ | `/refactor-code` |
 | ◇ ████████/gaia-bot-curate | Extra Skill | — | `/registry-curation` |
 | ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-audit | Extra Skill | 2★ | `/registry-entry-audit` |
 | ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-meta-audit | Extra Skill | 2★ | `/registry-health-scan` |
@@ -242,12 +242,4 @@
 | ○ Test-Driven Development | Intrinsic Skill | 2★ | `/test-driven-development` |
 | ○ Time Series Forecasting | Intrinsic Skill | — | `/time-series-forecasting` |
 | ○ Token Observability | Intrinsic Skill | 2★ | `/token-observability` |
-
-## Ultimate Skills Awaiting Name
-
-*These Ultimate skills have no named implementation yet. The first contributor to submit a valid named implementation claims the title slot.  Submit with `gaia propose /<skill_id> --ultimate` and open a PR.*
-
-| Skill Call | Prerequisites |
-|---|---|
-| `/git-ship-done-pipeline` | `/brainstorming`, `/writing-plans`, `/subagent-driven-development`, `/verification-before-completion`, `/finishing-a-development-branch` |
 

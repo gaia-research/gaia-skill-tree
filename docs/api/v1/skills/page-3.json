@@ -1,6 +1,162 @@
 {
   "skills": [
     {
+      "id": "garrytan/pair-agent",
+      "name": "Pair Agent",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/pair-agent.json"
+      }
+    },
+    {
+      "id": "garrytan/plan-tune",
+      "name": "Plan Tune",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/plan-tune.json"
+      }
+    },
+    {
+      "id": "garrytan/qa-only",
+      "name": "QA Only",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/qa-only.json"
+      }
+    },
+    {
+      "id": "garrytan/scrape",
+      "name": "Scrape",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/scrape.json"
+      }
+    },
+    {
+      "id": "garrytan/setup-browser-cookies",
+      "name": "Setup Browser Cookies",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/setup-browser-cookies.json"
+      }
+    },
+    {
+      "id": "garrytan/setup-deploy",
+      "name": "Setup Deploy",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/setup-deploy.json"
+      }
+    },
+    {
+      "id": "garrytan/setup-gbrain",
+      "name": "Setup GBrain",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/setup-gbrain.json"
+      }
+    },
+    {
+      "id": "garrytan/sync-gbrain",
+      "name": "Sync GBrain",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/sync-gbrain.json"
+      }
+    },
+    {
+      "id": "garrytan/unfreeze",
+      "name": "Unfreeze",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/unfreeze.json"
+      }
+    },
+    {
+      "id": "getagentseal/codeburn",
+      "name": "CodeBurn",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "getagentseal",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/getagentseal/codeburn.json"
+      }
+    },
+    {
+      "id": "huggingface/semantic-cache",
+      "name": "Semantic Cache",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "huggingface",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/huggingface/semantic-cache.json"
+      }
+    },
+    {
+      "id": "karpathy/autoresearch",
+      "name": "AutoResearch",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "karpathy",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/karpathy/autoresearch.json"
+      }
+    },
+    {
+      "id": "laravel/upgrade-laravel-v13",
+      "name": "Upgrade Laravel v13",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "laravel",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/laravel/upgrade-laravel-v13.json"
+      }
+    },
+    {
       "id": "mbtiongson1/gaia-audit",
       "name": "Gaia Audit",
       "level": "2★",
@@ -443,37 +599,14 @@
       "_links": {
         "self": "/api/v1/skills/devin-ai/autonomous-swe.json"
       }
-    },
-    {
-      "id": "mattpocock/caveman",
-      "name": "Caveman Mode",
-      "level": "2★",
-      "trustMagnitude": 30.0,
-      "overallTrustGrade": "C",
-      "contributor": "mattpocock",
-      "type": "basic",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/caveman.json"
-      }
-    },
-    {
-      "id": "mattpocock/teach",
-      "name": "Teach",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "contributor": "mattpocock",
-      "type": "extra",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/teach.json"
-      }
     }
   ],
   "page": 3,
-  "totalPages": 3,
-  "totalSkills": 139,
+  "totalPages": 4,
+  "totalSkills": 152,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
-    "prev": "/api/v1/skills/page-2.json"
+    "prev": "/api/v1/skills/page-2.json",
+    "next": "/api/v1/skills/page-4.json"
   }
 }

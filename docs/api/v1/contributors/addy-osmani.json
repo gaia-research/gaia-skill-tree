@@ -2,6 +2,18 @@
   "handle": "addy-osmani",
   "namedSkills": [
     {
+      "id": "addy-osmani/agent-skills",
+      "name": "Agent Skills",
+      "level": "5★",
+      "trustMagnitude": 293.14,
+      "overallTrustGrade": "S",
+      "contributor": "addy-osmani",
+      "type": "ultimate",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/agent-skills.json"
+      }
+    },
+    {
       "id": "addy-osmani/performance-optimization",
       "name": "Performance Optimization",
       "level": "3★",
@@ -11,6 +23,78 @@
       "type": "basic",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
+      }
+    },
+    {
+      "id": "addy-osmani/code-review-and-quality",
+      "name": "Code Review and Quality",
+      "level": "3★",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "contributor": "addy-osmani",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
+      }
+    },
+    {
+      "id": "addy-osmani/code-simplification",
+      "name": "Code Simplification",
+      "level": "3★",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/code-simplification.json"
+      }
+    },
+    {
+      "id": "addy-osmani/incremental-implementation",
+      "name": "Incremental Implementation",
+      "level": "3★",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "contributor": "addy-osmani",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
+      }
+    },
+    {
+      "id": "addy-osmani/planning-and-task-breakdown",
+      "name": "Planning and Task Breakdown",
+      "level": "3★",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "contributor": "addy-osmani",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
+      }
+    },
+    {
+      "id": "addy-osmani/shipping-and-launch",
+      "name": "Shipping and Launch",
+      "level": "3★",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "contributor": "addy-osmani",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
+      }
+    },
+    {
+      "id": "addy-osmani/spec-driven-development",
+      "name": "Spec-Driven Development",
+      "level": "3★",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "contributor": "addy-osmani",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
       }
     },
     {
@@ -26,15 +110,16 @@
       }
     }
   ],
-  "namedSkillsCount": 2,
+  "namedSkillsCount": 9,
   "topSkill": {
-    "id": "addy-osmani/performance-optimization",
-    "level": "3★",
-    "trustMagnitude": 83.2
+    "id": "addy-osmani/agent-skills",
+    "level": "5★",
+    "trustMagnitude": 293.14
   },
-  "prestigeScore": 119.2,
+  "prestigeScore": 731.18,
   "gradeDistribution": {
-    "B": 1,
+    "S": 1,
+    "B": 7,
     "C": 1
   },
   "_links": {

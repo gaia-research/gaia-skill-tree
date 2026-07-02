@@ -101,19 +101,16 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-19T09:20:40Z'
 trustMagnitudeInputHash: 32dbe25f29d47c797933a404beeec42d5f9e81254e88df6a574205f2153637a6
+suiteRef: "addy-osmani/agent-skills"
 ---
 
 ## Installation
-Install via [gaia](https://github.com/gaia-research/gaia-skill-tree):
+
+This skill is included in the Addy Osmani agent skills suite. Install the suite with:
 
 ```bash
-gaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
+/plugin marketplace add addyosmani/agent-skills
+/plugin install agent-skills@addy-agent-skills
 ```
 
-Or copy the raw skill file directly into your agent context:
-
-```
-https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
-```
-
-**Usage**: Invoke `/performance-optimization` (Claude Code) to trigger the measurement-driven 5-step performance audit workflow.
+Invoke the matching slash command from the installed suite.

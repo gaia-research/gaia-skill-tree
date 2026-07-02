@@ -478,6 +478,8 @@
       var buckets = indexData.buckets || {};
       var allNamed = [];
       Object.values(buckets).forEach(function(arr){ if (Array.isArray(arr)) Array.prototype.push.apply(allNamed, arr); });
+      var awaiting = indexData.awaitingClassification || [];
+      Array.prototype.push.apply(allNamed, awaiting);
 
       window._gaiaSkillMap = skillMap;
       window._gaiaNamedBuckets = buckets;

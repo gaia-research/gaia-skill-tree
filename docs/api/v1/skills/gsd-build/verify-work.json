@@ -1,0 +1,124 @@
+{
+  "id": "gsd-build/verify-work",
+  "name": "GSD Verify Work",
+  "contributor": "gsd-build",
+  "level": "3★",
+  "type": "extra",
+  "status": "named",
+  "trustMagnitude": 52.16,
+  "overallTrustGrade": "B",
+  "_links": {
+    "self": "/api/v1/skills/gsd-build/verify-work.json",
+    "contributor": "/api/v1/contributors/gsd-build.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "GSD Verify Work",
+  "genericSkillRef": "verification-before-completion",
+  "origin": false,
+  "description": "Walks through built work, diagnoses gaps, and fixes issues before completion is declared.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md",
+      "evaluator": "unknown",
+      "date": "2026-07-03",
+      "type": "github-stars-own",
+      "stars": 64635,
+      "skillCountInRepo": 5
+    },
+    {
+      "source": "https://github.com/gsd-build/get-shit-done",
+      "evaluator": "unknown",
+      "date": "2026-07-03",
+      "type": "repo-own",
+      "commits": 2888,
+      "contributors": 136,
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-07-02T18:04:50Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added named skill gsd-build/verify-work"
+    },
+    {
+      "timestamp": "2026-07-02T18:05:05Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-07-02T18:05:58Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md"
+    },
+    {
+      "timestamp": "2026-07-02T18:09:48Z",
+      "action": "suite_ref_set",
+      "contributor": "unknown",
+      "details": "Set suiteRef to gsd-build/get-shit-done"
+    },
+    {
+      "timestamp": "2026-07-02T20:53:09Z",
+      "action": "name",
+      "contributor": "unknown",
+      "details": "Promoted from awakened to named."
+    },
+    {
+      "timestamp": "2026-07-02T20:53:10Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 1★ to 2★"
+    },
+    {
+      "timestamp": "2026-07-02T20:59:01Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Set installable to false"
+    },
+    {
+      "timestamp": "2026-07-02T21:04:07Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Set installable to true"
+    },
+    {
+      "timestamp": "2026-07-02T21:07:14Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/gsd-build/get-shit-done (type: repo-own)"
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-07-02T21:30:15Z",
+      "details": "TM None -> 52.16, grade ungraded -> B (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-07-02T21:33:54Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md"
+    },
+    {
+      "timestamp": "2026-07-02T21:34:09Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 2★ to 3★"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md"
+  }
+}

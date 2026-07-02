@@ -131,4 +131,11 @@ title: Ask Matt
 ---
 
 ## Installation
-Add installation instructions here.
+
+This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.
+
+```bash
+npx skills@latest add mattpocock/skills
+```
+
+No additional setup required beyond the main suite installation.

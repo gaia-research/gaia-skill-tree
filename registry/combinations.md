@@ -20,7 +20,7 @@
 | ◇ [santifer](../docs/u/santifer/)/career-ops | Extra Skill | Autonomous Web Research, Summarize, Document Editing | 2★ |  |
 | ◇ /causal-inference | Extra Skill | Hypothesis Generation, Logical Inference, Statistical Analysis | — |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-platform | Extra Skill | API Call, Tool Use | 2★ |  |
-| ◇ [garrytan](../docs/u/garrytan/)/plan-eng-review | Extra Skill | Code Generation, Diff Content, Evaluate Output | 3★ |  |
+| ◇ [addy-osmani](../docs/u/addy-osmani/)/code-review-and-quality | Extra Skill | Code Generation, Diff Content, Evaluate Output | 3★ |  |
 | ◇ /collaborative-diagramming | Extra Skill | API Call, Data Visualize | — |  |
 | ◇ /computational-biology-workflows | Extra Skill | Bioinformatic Sequence Analysis, Genomic Data Retrieval, Molecular Databases, Protein Structure Analysis, Proteomic Data Retrieval | — |  |
 | ◇ /content-moderation | Extra Skill | Classify, Sentiment Analysis, Extract Entities | — |  |
@@ -50,7 +50,7 @@
 | ◇ /generative-media | Extra Skill | API Call, Data Visualize | — |  |
 | ◇ /ghostwrite | Extra Skill | Research, Write Report, Audience Model | — | Requires research output as input context. |
 | ◇ [ruvnet](../docs/u/ruvnet/)/github-suite | Extra Skill | Code Review Pipeline, Multi-Repo Coordination, Deployment Automation, Project Management, Workflow Automation | 3★ |  |
-| ◆ /git-ship-done-pipeline | Ultimate Skill | Brainstorming, Writing Plans, Subagent-Driven Development, Verification Before Completion, Finishing a Development Branch | — |  |
+| ◆ [addy-osmani](../docs/u/addy-osmani/)/agent-skills | Ultimate Skill | Brainstorming, Writing Plans, Subagent-Driven Development, Verification Before Completion, Finishing a Development Branch | 5★ |  |
 | ◇ [mbtiongson1](../docs/u/mbtiongson1/)/graphify-triage | Extra Skill | Issue Triage, Knowledge Graph Construction | 2★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | Design Review, Self-Critique | 3★ | Enforces a strict questioning loop that prevents the agent from proceeding to implementation until all branches are resolved. |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | Grill Me, Ubiquitous Language, Document Editing | 3★ | Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill. |
