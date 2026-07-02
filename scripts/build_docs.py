@@ -485,8 +485,9 @@ def build_css_tokens(check: bool) -> bool:
 # metadata" (Issue #807) — extended here to normalize the version stamp during
 # --check comparison.
 _VOLATILE_DATE_PATTERNS = (
-    # JSON: "generatedAt" or "registryGeneratedAt": "2026-06-13" | "...T..Z" → value blanked
+    # JSON: "generatedAt", "registryGeneratedAt", or trending "updatedAt": "2026-06-13" | "...T..Z" → value blanked
     (re.compile(r'("(?:\w+)?(?:g|G)eneratedAt"\s*:\s*)"[^"]*"'), r'\1"<normalized>"'),
+    (re.compile(r'("updatedAt"\s*:\s*)"\d{4}-\d{2}-\d{2}T[^"]*Z"'), r'\1"<normalized>"'),
     # docs/tree.md provenance lines, both forms:
     #   "GAIA SKILL TREE … · generated 2026-06-13"   (banner header)
     #   "Generated from gaia.json on 2026-06-13. …"  (footer)
@@ -498,6 +499,9 @@ _VOLATILE_DATE_PATTERNS = (
     # window.GAIA_VERSION = "5.1.6"; → "<normalized>"
     (re.compile(r'(window\.GAIA_VERSION\s*=\s*)"\d+\.\d+\.\d+"'),
      r'\1"<normalized>"'),
+    # RSS feed timestamps and date-suffixed trending GUIDs are volatile on every regen.
+    (re.compile(r'<(?:lastBuildDate|pubDate)>[^<]+</(?:lastBuildDate|pubDate)>'), '<rssDate><normalized></rssDate>'),
+    (re.compile(r'(gaia-trending-[^<]+-)\d{4}-\d{2}-\d{2}'), r'\1<normalized>'),
     # Human-readable footer "v5.1.6 ·" → v<normalized> ·
     (re.compile(r'\bv\d+\.\d+\.\d+(?=\s+·)'), 'v<normalized>'),
 )
@@ -625,7 +629,7 @@ def build_docs_named_index(check: bool) -> bool:
 
 # Files that live in docs/api/v1/ but are hand-authored (not emitted by
 # buildApiProjection.py).  They must be preserved across every regen cycle.
-_API_HAND_AUTHORED = ["openapi.json"]
+_API_HAND_AUTHORED = ["openapi.json", "trending"]
 
 
 def build_api_projection(check: bool) -> bool:
@@ -649,8 +653,13 @@ def build_api_projection(check: bool) -> bool:
             import shutil as _shutil
             for fname in _API_HAND_AUTHORED:
                 src = committed / fname
-                if src.exists():
-                    _shutil.copy2(src, out_dir / fname)
+                dst = out_dir / fname
+                if src.is_dir():
+                    if dst.exists():
+                        _shutil.rmtree(dst)
+                    _shutil.copytree(src, dst)
+                elif src.exists():
+                    _shutil.copy2(src, dst)
         if not committed.exists():
             if check:
                 print("diff docs/api/v1/ (missing)")
@@ -700,6 +709,18 @@ def build_trending_projection(check: bool) -> bool:
         generated = out_dir / "trending"
         if not generated.exists():
             return False
+        if check and committed.exists():
+            # The trending script writes a date-keyed history snapshot on every run.
+            # In --check mode that creates perpetual drift even when content is
+            # unchanged, so compare the stable projection files while preserving
+            # the committed history tree.
+            import shutil as _shutil
+            generated_history = generated / "history"
+            committed_history = committed / "history"
+            if generated_history.exists():
+                _shutil.rmtree(generated_history)
+            if committed_history.exists():
+                _shutil.copytree(committed_history, generated_history)
         if not committed.exists():
             if check:
                 print("diff docs/api/v1/trending/ (missing)")
