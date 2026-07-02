@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-02",
+  "generatedAt": "2026-07-01",
   "buckets": {
     "automated-testing": [
       {
@@ -196,13 +196,13 @@
           {
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
             "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; design-consultation is 1 of 42 named skills (verified 2026-06-20)",
-            "stars": 118552,
+            "stars": 117106,
             "skillCountInRepo": 42,
             "sourceStartedAt": "2024-01-01"
           }
@@ -411,12 +411,12 @@
           {
             "source": "https://github.com/addyosmani/agent-skills/stargazers",
             "evaluator": "mbtiongson1",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-19",
             "type": "github-stars-own",
             "class": "A",
             "notes": "47,200 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
-            "stars": 68291,
+            "stars": 67239,
             "grade": "B"
           }
         ],
@@ -891,13 +891,13 @@
           {
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
             "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; document-generate is 1 of 42 named skills (verified 2026-06-20)",
-            "stars": 118552,
+            "stars": 117106,
             "skillCountInRepo": 42,
             "sourceStartedAt": "2024-01-01"
           }
@@ -1021,13 +1021,13 @@
           {
             "source": "https://github.com/mattpocock/skills",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 88.0,
             "grade": "C",
             "notes": "mattpocock/skills suite — 137k GitHub stars; edit-article is part of this repo",
-            "stars": 152357,
+            "stars": 148206,
             "skillCountInRepo": 21,
             "sourceStartedAt": "2025-01-01"
           },
@@ -2396,13 +2396,13 @@
           {
             "source": "https://github.com/mattpocock/skills",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 88.0,
             "grade": "C",
             "notes": "mattpocock/skills suite — 137k GitHub stars; diagnose is part of this repo",
-            "stars": 152357,
+            "stars": 148206,
             "skillCountInRepo": 21,
             "sourceStartedAt": "2025-01-01"
           },
@@ -3067,13 +3067,13 @@
           {
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
             "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; benchmark is 1 of 42 named skills (verified 2026-06-20)",
-            "stars": 118552,
+            "stars": 117106,
             "skillCountInRepo": 42,
             "sourceStartedAt": "2024-01-01"
           }
@@ -3190,13 +3190,13 @@
           {
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
             "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; plan-ceo-review is 1 of 42 named skills (verified 2026-06-20)",
-            "stars": 118552,
+            "stars": 117106,
             "skillCountInRepo": 42,
             "sourceStartedAt": "2024-01-01"
           }
@@ -3315,13 +3315,13 @@
           {
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
             "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; canary is 1 of 42 named skills (verified 2026-06-20)",
-            "stars": 118552,
+            "stars": 117106,
             "skillCountInRepo": 42,
             "sourceStartedAt": "2024-01-01"
           }
@@ -4405,13 +4405,13 @@
           {
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
             "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; cso is 1 of 42 named skills (verified 2026-06-20)",
-            "stars": 118552,
+            "stars": 117106,
             "skillCountInRepo": 42,
             "sourceStartedAt": "2024-01-01"
           }
@@ -4711,13 +4711,13 @@
           {
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
             "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; design-html is 1 of 42 named skills (verified 2026-06-20)",
-            "stars": 118552,
+            "stars": 117106,
             "skillCountInRepo": 42,
             "sourceStartedAt": "2024-01-01"
           }
@@ -4841,12 +4841,12 @@
           {
             "source": "https://github.com/pbakaus/impeccable/stargazers",
             "evaluator": "mbtiongson1",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-19",
             "type": "github-stars-own",
             "class": "A",
             "notes": "38,000 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
-            "stars": 42611,
+            "stars": 41805,
             "grade": "B"
           },
           {
@@ -5023,13 +5023,13 @@
           {
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
             "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; plan-design-review is 1 of 42 named skills (verified 2026-06-20)",
-            "stars": 118552,
+            "stars": 117106,
             "skillCountInRepo": 42,
             "sourceStartedAt": "2024-01-01"
           }
@@ -5146,13 +5146,13 @@
           {
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
             "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; plan-devex-review is 1 of 42 named skills (verified 2026-06-20)",
-            "stars": 118552,
+            "stars": 117106,
             "skillCountInRepo": 42,
             "sourceStartedAt": "2024-01-01"
           }
@@ -5599,13 +5599,13 @@
           {
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
             "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; design-shotgun is 1 of 42 named skills (verified 2026-06-20)",
-            "stars": 118552,
+            "stars": 117106,
             "skillCountInRepo": 42,
             "sourceStartedAt": "2024-01-01"
           }
@@ -5952,13 +5952,13 @@
           {
             "source": "https://github.com/mattpocock/skills",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 88.0,
             "grade": "C",
             "notes": "mattpocock/skills suite — 137k GitHub stars; to-issues is part of this repo",
-            "stars": 152357,
+            "stars": 148206,
             "skillCountInRepo": 21,
             "sourceStartedAt": "2025-01-01"
           },
@@ -6186,12 +6186,12 @@
           {
             "source": "https://github.com/garrytan/gstack/stargazers",
             "evaluator": "mbtiongson1",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-19",
             "type": "github-stars-own",
             "class": "A",
             "notes": "110,930 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 47 sub-skills, divisor=4)",
-            "stars": 118552,
+            "stars": 117106,
             "skillCountInRepo": 47,
             "grade": "C"
           },
@@ -6371,13 +6371,13 @@
           {
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
             "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; investigate is 1 of 42 named skills (verified 2026-06-20)",
-            "stars": 118552,
+            "stars": 117106,
             "skillCountInRepo": 42,
             "sourceStartedAt": "2024-01-01"
           }
@@ -6765,13 +6765,13 @@
           {
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
             "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; land-and-deploy is 1 of 42 named skills (verified 2026-06-20)",
-            "stars": 118552,
+            "stars": 117106,
             "skillCountInRepo": 42,
             "sourceStartedAt": "2024-01-01"
           }
@@ -8101,13 +8101,13 @@
           {
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
             "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; review is 1 of 42 named skills (verified 2026-06-20)",
-            "stars": 118552,
+            "stars": 117106,
             "skillCountInRepo": 42,
             "sourceStartedAt": "2024-01-01"
           }
@@ -8468,13 +8468,13 @@
           {
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
             "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; qa is 1 of 42 named skills (verified 2026-06-20)",
-            "stars": 118552,
+            "stars": 117106,
             "skillCountInRepo": 42,
             "sourceStartedAt": "2024-01-01"
           }
@@ -9460,13 +9460,13 @@
           {
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
             "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; ship is 1 of 42 named skills (verified 2026-06-20)",
-            "stars": 118552,
+            "stars": 117106,
             "skillCountInRepo": 42,
             "sourceStartedAt": "2024-01-01"
           }
@@ -9710,13 +9710,13 @@
           {
             "source": "https://github.com/garrytan/gstack",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
             "grade": "C",
             "notes": "gstack suite repo — 110,930 GitHub stars; skillify is 1 of 42 named skills (verified 2026-06-20)",
-            "stars": 118552,
+            "stars": 117106,
             "skillCountInRepo": 42,
             "sourceStartedAt": "2024-01-01"
           }
@@ -12879,13 +12879,13 @@
           {
             "source": "https://github.com/mattpocock/skills",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 88.0,
             "grade": "C",
             "notes": "mattpocock/skills suite — 137k GitHub stars; obsidian-vault is part of this repo",
-            "stars": 152357,
+            "stars": 148206,
             "skillCountInRepo": 21,
             "sourceStartedAt": "2025-01-01"
           },
@@ -13544,15 +13544,14 @@
           {
             "source": "https://github.com/mattpocock/skills/stargazers",
             "evaluator": "mbtiongson1",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-19",
             "type": "github-stars-own",
             "class": "A",
-            "notes": "152,357 GitHub stars as of 2026-07-01 (GitHub repo created 2026-02-03T11:15:53Z; mothership with 19 sub-skills, divisor=4)",
-            "stars": 152357,
+            "notes": "133,210 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 19 sub-skills, divisor=4)",
+            "stars": 148206,
             "skillCountInRepo": 19,
-            "grade": "B",
-            "sourceStartedAt": "2026-02-03"
+            "grade": "C"
           },
           {
             "source": "https://arxiv.org/abs/2602.20867",
@@ -13561,8 +13560,7 @@
             "type": "arxiv",
             "class": "A",
             "notes": "Skills/tool-use paper — ~52 citations as of 2026-06-19 (arXiv:2602.20867)",
-            "citations": 52,
-            "sourceStartedAt": "2026-02-24"
+            "citations": 52
           },
           {
             "source": "https://www.youtube.com/watch?v=s5T5oQJcJ6U",
@@ -13585,7 +13583,7 @@
           }
         ],
         "createdAt": "2026-05-22",
-        "updatedAt": "2026-07-02",
+        "updatedAt": "2026-06-21",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -13662,18 +13660,6 @@
             "action": "verified",
             "contributor": "unknown",
             "details": "Apex promotion PR stamped by Marco (founder/mbtiongson1) per #746 directive — mattpocock/skills qualifies for §11.12.8 (apexPromotionPrSigned)"
-          },
-          {
-            "timestamp": "2026-07-01T22:21:07Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Backfilled evidence sourceStartedAt via gaia dev evidence --index for GitHub stargazers (2026-02-03 repo creation) and arXiv source (2026-02-24 publication)."
-          },
-          {
-            "timestamp": "2026-07-02T08:25:19Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Post-#918 audit follow-up for #901: sourceStartedAt provenance was backfilled on evidence #0 (https://github.com/mattpocock/skills/stargazers, sourceStartedAt 2026-02-03, repo creation date) and evidence #1 (https://arxiv.org/abs/2602.20867, sourceStartedAt 2026-02-24, arXiv publication date). Metadata-only provenance audit note; no rank, star, Trust Magnitude, grade, or apex-gate status changed."
           }
         ],
         "suiteComponents": [
@@ -14097,13 +14083,13 @@
           {
             "source": "https://github.com/mattpocock/skills",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 88.0,
             "grade": "C",
             "notes": "mattpocock/skills suite repo — 137k GitHub stars; ubiquitous-language was part of this suite (removed in v1.0.1 but authored by Matt Pocock)",
-            "stars": 152357,
+            "stars": 148206,
             "skillCountInRepo": 21,
             "sourceStartedAt": "2025-01-01"
           },
@@ -15544,13 +15530,13 @@
           {
             "source": "https://github.com/obra/superpowers",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 88.0,
             "grade": "B",
             "notes": "obra/superpowers — 233k GitHub stars, complete AI coding methodology adopted across Claude Code, Codex CLI, Gemini CLI (verified 2026-06-20)",
-            "stars": 243025,
+            "stars": 239962,
             "skillCountInRepo": 13,
             "sourceStartedAt": "2023-01-01"
           }
@@ -16125,12 +16111,12 @@
           {
             "source": "https://github.com/obra/superpowers/stargazers",
             "evaluator": "mbtiongson1",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-19",
             "type": "github-stars-own",
             "class": "A",
             "notes": "230,818 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with 11+ sub-skills, divisor=4)",
-            "stars": 243025,
+            "stars": 239962,
             "skillCountInRepo": 11,
             "grade": "B"
           },
@@ -18783,12 +18769,12 @@
           {
             "source": "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hive-mind/SKILL.md",
             "evaluator": "unknown",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-20",
             "type": "github-stars-own",
             "trustNumber": 85.0,
             "notes": "ruflo platform SKILL.md — 60.3k GitHub stars, 34 plugins; hive-mind specific file avoids same-source dedup (verified 2026-06-20)",
-            "stars": 62303,
+            "stars": 61720,
             "skillCountInRepo": 34,
             "sourceStartedAt": "2024-01-01"
           },
@@ -19370,12 +19356,12 @@
           {
             "source": "https://github.com/ruvnet/ruflo/stargazers",
             "evaluator": "mbtiongson1",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-19",
             "type": "github-stars-own",
             "class": "A",
             "notes": "59,957 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; mothership with sub-skills, divisor=4)",
-            "stars": 62303,
+            "stars": 61720,
             "skillCountInRepo": 4
           },
           {
@@ -20264,12 +20250,12 @@
           {
             "source": "https://github.com/safishamsi/graphify/stargazers",
             "evaluator": "mbtiongson1",
-            "updatedAt": "2026-07-01",
+            "updatedAt": "2026-06-28",
             "date": "2026-06-19",
             "type": "github-stars-own",
             "class": "A",
             "notes": "68,766 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
-            "stars": 75052,
+            "stars": 72899,
             "grade": "A"
           },
           {

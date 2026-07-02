@@ -13,18 +13,38 @@ from gaia_cli.commands.dev.helpers import (
     _get_contributor,
     _run_docs_build,
     _confirm_destructive,
-    _run_dev_preflights,
-    _preflight_evidence_static,
-    _preflight_evidence_index_bounds,
-    _preflight_duplicate_evidence_source,
 )
 
 
 def _preflight_benchmark_percentile(args) -> None:
-    """Backward-compatible wrapper for the shared evidence preflight."""
-    _run_dev_preflights([
-        lambda: _preflight_evidence_static(args, ("benchmark-result", "repo-own")),
-    ])
+    """Require --percentile when --type benchmark-result is used.
+
+    Without a percentile value the magnitude formula returns 0 and the
+    evidence entry is left ungraded. Per CLAUDE.md curation §5 ("benchmark-result
+    requires `percentile` field"), we reject the command before any write.
+
+    Raises SystemExit(1) if the invariant is violated.
+    """
+    if getattr(args, "evidence_type", None) != "benchmark-result":
+        return
+    percentile = getattr(args, "percentile", None)
+    if percentile is None:
+        print(
+            "Error: `--type benchmark-result` requires `--percentile <0-100>`.\n"
+            "Without a percentile value the Trust Magnitude formula yields 0 and the "
+            "evidence entry will be ungraded. Pass `--percentile <int>` (0–100 inclusive) "
+            "to record the benchmark result's performance percentile.\n"
+            "If the percentile is unknown, use `--type peer-review` with `--reviewers` "
+            "instead for a gradeable entry.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    if not (0 <= int(percentile) <= 100):
+        print(
+            f"Error: `--percentile` must be in range 0-100; got {percentile!r}.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
 
 def meta_evidence_command(args):
@@ -43,12 +63,31 @@ def meta_evidence_command(args):
     trust_number = getattr(args, "trust", None)
     evidence_type = getattr(args, "evidence_type", None)
 
-    valid_types = load_evidence_types(registry_path)
-    _run_dev_preflights([
-        lambda: _preflight_evidence_static(args, valid_types),
-    ])
+    # Validate --type against meta.json evidence.types
+    if evidence_type is not None:
+        valid_types = load_evidence_types(registry_path)
+        if evidence_type not in valid_types:
+            print(
+                f"Error: unknown evidence type '{evidence_type}'. "
+                f"Valid types: {', '.join(valid_types)}",
+                file=sys.stderr,
+            )
+            sys.exit(1)
 
+    # Pre-flight: benchmark-result requires --percentile (magnitude formula uses it)
+    _preflight_benchmark_percentile(args)
+
+    # Validate --source-started-at as ISO YYYY-MM-DD; reject bad input loudly.
     source_started_at = getattr(args, "source_started_at", None)
+    if source_started_at is not None:
+        try:
+            datetime.date.fromisoformat(source_started_at)
+        except ValueError:
+            print(
+                f"Error: --source-started-at must be ISO YYYY-MM-DD; got '{source_started_at}'.",
+                file=sys.stderr,
+            )
+            sys.exit(1)
 
     # Derive grade from trust number (legacy fallback used when no type+artifact info available)
     derived_grade: str | None = None
@@ -59,6 +98,16 @@ def meta_evidence_command(args):
     # --index re-grades an existing entry in place (class→grade backfill);
     # otherwise a new entry is appended.
     index = getattr(args, "index", None)
+
+    if index is not None and trust_number is None and evidence_type is None and (
+        not getattr(args, "notes", None)
+    ) and source_started_at is None:
+        print(
+            "Error: --index requires at least one of --trust, --type, --notes, "
+            "or --source-started-at to update on the existing entry.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
     evidence: dict = {
         "source": args.source,
@@ -121,18 +170,16 @@ def meta_evidence_command(args):
         else:
             evidence.pop("grade", None)
 
-    def _apply(ev_list: list) -> tuple[dict, dict | None, bool, list[str]]:
+    def _apply(ev_list: list) -> dict:
         """Append the new entry, or update the entry at ``index`` in place.
 
         In-place mode only touches the fields explicitly supplied, preserving
         the existing entry's other fields (notably the deprecated ``class``,
-        plus ``source`` unless a future CLI flag explicitly supports it).
-        Returns the resulting entry, the pre-update entry (if any), whether the
-        evidence row changed, and the changed field names for audit logging.
+        plus ``evaluator``/``date``/``source``). Returns the resulting entry.
         """
         if index is None:
             ev_list.append(evidence)
-            return evidence, None, True, list(evidence.keys())
+            return evidence
         if index < 0 or index >= len(ev_list):
             print(
                 f"Error: Evidence index {index} out of range "
@@ -141,39 +188,12 @@ def meta_evidence_command(args):
             )
             sys.exit(1)
         entry = ev_list[index]
-        before = json.loads(json.dumps(entry, sort_keys=True))
         if evidence_type is not None:
             entry["type"] = evidence_type
         if trust_number is not None:
             entry["trustNumber"] = trust_number
-        if getattr(args, "notes", None) is not None:
-            entry["notes"] = args.notes
-        if getattr(args, "evaluator", None) is not None:
-            entry["evaluator"] = args.evaluator
-        if getattr(args, "date", None) is not None:
-            entry["date"] = args.date
-        # Numeric payload fields — also patchable via --index.
-        if getattr(args, "stars", None) is not None:
-            entry["stars"] = args.stars
-        if getattr(args, "views", None) is not None:
-            entry["views"] = args.views
-        if getattr(args, "citations", None) is not None:
-            entry["citations"] = args.citations
-        if getattr(args, "reviewers", None) is not None:
-            entry["reviewers"] = args.reviewers
-        if getattr(args, "commits", None) is not None:
-            entry["commits"] = args.commits
-        if getattr(args, "contributors", None) is not None:
-            entry["contributors"] = args.contributors
-        if getattr(args, "skill_count_in_repo", None) is not None:
-            entry["skillCountInRepo"] = args.skill_count_in_repo
-        if getattr(args, "percentile", None) is not None:
-            entry["percentile"] = args.percentile
-        if source_started_at is not None:
-            entry["sourceStartedAt"] = source_started_at
-
-        # Re-derive grade after all patch fields are applied. This runs whenever
-        # type, trust, or numeric payload changes — not just when --trust is supplied.
+        # Re-derive grade using per-type artifact_score thresholds (Issue #761).
+        # Runs whenever type or any numeric payload changes — not just when --trust supplied.
         row_type = entry.get("type")
         if row_type is not None:
             from gaia_cli.trustMagnitude import computeArtifactScoreOrNone
@@ -196,18 +216,37 @@ def meta_evidence_command(args):
             else:
                 entry.pop("grade", None)
         elif trust_number is not None:
-            # No type info — fall back to skill-aggregate threshold.
+            # No type info — fall back to skill-aggregate threshold
             if derived_grade is not None:
                 entry["grade"] = derived_grade
             else:
                 entry.pop("grade", None)
-
-        changed_fields = sorted(
-            set(before.keys()) | set(entry.keys()),
-            key=lambda name: name.lower(),
-        )
-        changed_fields = [name for name in changed_fields if before.get(name) != entry.get(name)]
-        return entry, before, bool(changed_fields), changed_fields
+        if getattr(args, "notes", None):
+            entry["notes"] = args.notes
+        if getattr(args, "evaluator", None):
+            entry["evaluator"] = args.evaluator
+        if getattr(args, "date", None):
+            entry["date"] = args.date
+        # Numeric payload fields — also patchable via --index
+        if getattr(args, "stars", None) is not None:
+            entry["stars"] = args.stars
+        if getattr(args, "views", None) is not None:
+            entry["views"] = args.views
+        if getattr(args, "citations", None) is not None:
+            entry["citations"] = args.citations
+        if getattr(args, "reviewers", None) is not None:
+            entry["reviewers"] = args.reviewers
+        if getattr(args, "commits", None) is not None:
+            entry["commits"] = args.commits
+        if getattr(args, "contributors", None) is not None:
+            entry["contributors"] = args.contributors
+        if getattr(args, "skill_count_in_repo", None) is not None:
+            entry["skillCountInRepo"] = args.skill_count_in_repo
+        if getattr(args, "percentile", None) is not None:
+            entry["percentile"] = args.percentile
+        if source_started_at is not None:
+            entry["sourceStartedAt"] = source_started_at
+        return entry
 
     if "/" in skill_id:
         # Named implementation → write into the named .md frontmatter.
@@ -217,14 +256,7 @@ def meta_evidence_command(args):
             print(f"Error: Named skill '{skill_id}' not found.")
             sys.exit(1)
         meta, body = _parse_md(named_file)
-        _run_dev_preflights([
-            lambda: _preflight_evidence_index_bounds(skill_id, meta.get("evidence") or [], index),
-            lambda: _preflight_duplicate_evidence_source(skill_id, meta.get("evidence") or [], args.source),
-        ])
-        result_entry, before_entry, evidence_changed, changed_fields = _apply(meta.setdefault("evidence", []))
-        if not evidence_changed:
-            print(f"No evidence changes for {skill_id} entry #{index}.")
-            return
+        result_entry = _apply(meta.setdefault("evidence", []))
         # Stamp tenure baseline on the first evidence-add only.
         if index is None:
             from gaia_cli.verification import stampFirstEvidenceAt
@@ -251,14 +283,7 @@ def meta_evidence_command(args):
 
         with open(node_file, "r", encoding="utf-8") as f:
             data = json.load(f)
-        _run_dev_preflights([
-            lambda: _preflight_evidence_index_bounds(skill_id, data.get("evidence") or [], index),
-            lambda: _preflight_duplicate_evidence_source(skill_id, data.get("evidence") or [], args.source),
-        ])
-        result_entry, before_entry, evidence_changed, changed_fields = _apply(data.setdefault("evidence", []))
-        if not evidence_changed:
-            print(f"No evidence changes for {skill_id} entry #{index}.")
-            return
+        result_entry = _apply(data.setdefault("evidence", []))
         # Stamp tenure baseline on the first evidence-add only.
         if index is None:
             from gaia_cli.verification import stampFirstEvidenceAt
@@ -271,33 +296,25 @@ def meta_evidence_command(args):
 
     grade_label = result_entry.get("grade") or "ungraded"
     type_label = f" [{result_entry.get('type')}]" if result_entry.get("type") else ""
-    verb = "Updated evidence entry" if index is not None else "Added evidence to skill"
+    verb = "Re-graded evidence entry" if index is not None else "Added evidence to skill"
     suffix = f" #{index}" if index is not None else ""
     print(f"{verb}{suffix}: {skill_id}{type_label} (grade: {grade_label})")
 
     contributor = _get_contributor()
     src = result_entry.get("source")
     if index is not None:
-        previous_grade = (before_entry or {}).get("grade")
-        previous_trust = (before_entry or {}).get("trustNumber")
-        grade_changed = previous_grade != result_entry.get("grade")
-        trust_changed = previous_trust != result_entry.get("trustNumber")
-        changed_label = ", ".join(changed_fields) if changed_fields else "metadata"
-        if trust_changed or grade_changed:
-            detail = f"Updated evidence #{index} from {src}; changed {changed_label}"
-            if grade_changed:
-                detail += f" (grade: {previous_grade or 'ungraded'} → {grade_label})"
-            if trust_changed:
-                detail += f" (trustNumber: {previous_trust} → {result_entry.get('trustNumber')})"
-        else:
-            detail = f"Updated evidence #{index} metadata from {src}; changed {changed_label}"
-        append_skill_event(
-            skill_id,
-            "evidence_graded",
-            contributor,
-            detail,
-            registry_path=registry_path,
-        )
+        # In-place re-grade: a single evidence_graded event captures the change,
+        # fired whenever a trust number was supplied (graded or ungraded) so the
+        # backfill always leaves an audit trail.
+        if trust_number is not None:
+            append_skill_event(
+                skill_id,
+                "evidence_graded",
+                contributor,
+                f"Re-graded evidence from {src} as {grade_label} "
+                f"(trustNumber: {trust_number})",
+                registry_path=registry_path,
+            )
     else:
         append_skill_event(
             skill_id,

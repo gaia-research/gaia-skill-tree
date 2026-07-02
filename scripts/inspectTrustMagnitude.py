@@ -25,7 +25,6 @@ sys.path.insert(0, str(REPO_ROOT))
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
 from gaia_cli.trustMagnitude import (  # noqa: E402
-    APEX_AGRADED_ORIGINS_MIN,
     GRADE_A_FLOOR,
     GRADE_B_FLOOR,
     GRADE_C_FLOOR,
@@ -36,7 +35,6 @@ from gaia_cli.trustMagnitude import (  # noqa: E402
     passesApexGate,
     isApex,
 )
-from auditApexAtG7 import formatPredicateDetail  # noqa: E402
 
 NAMED_DIR = REPO_ROOT / "registry" / "named"
 NODES_DIR = REPO_ROOT / "registry" / "nodes"
@@ -72,7 +70,7 @@ STARS_ORDER: dict[str, int] = {
 
 # Human-readable labels for apex gate predicates (RFC §11.12)
 APEX_GATE_LABELS: dict[str, str] = {
-    "aGradedOriginsGte5":          f"§11.12.5  >={APEX_AGRADED_ORIGINS_MIN} A/S-graded origins in transitive closure",
+    "aGradedOriginsGte5":          "§11.12.5  >=8 A-graded origins in transitive closure",
     "sourceTenureDaysGte180AorS":  "§11.12.7  Tenure >= 180 days at A-or-S",
     "directNestedSuiteGte1":       "§11.12.2  >=1 direct component with suiteComponents",
     "depth2OnlyReachableGte1":     "§11.12.3  >=1 node reachable only at depth >= 2",
@@ -206,9 +204,7 @@ def formatApexGateLines(skill: dict, mergedMap: dict, namedSkillMap: dict) -> li
     lines.append(f"  {'─'*64}")
     for key, val in results.items():
         mark = "PASS" if val is True else ("FAIL" if val is False else "OFF ")
-        detail = formatPredicateDetail(key, val, skill, state)
-        suffix = f"  {detail}" if detail else ""
-        lines.append(f"    {mark}  {APEX_GATE_LABELS.get(key, key)}{suffix}")
+        lines.append(f"    {mark}  {APEX_GATE_LABELS.get(key, key)}")
     lines.append(f"  {'─'*64}")
     return lines
 
@@ -307,7 +303,6 @@ def leaderboardMode() -> int:
             "g7Stars": g7Stars,
             "flag": flag,
             "apexResults": apexResults,
-            "skill": fm,
         })
 
     rows.sort(key=lambda r: -r["tm"])
@@ -364,9 +359,7 @@ def leaderboardMode() -> int:
                 for key, val in r["apexResults"].items():
                     mark = "PASS" if val is True else ("FAIL" if val is False else "OFF ")
                     label = APEX_GATE_LABELS.get(key, key)
-                    detail = formatPredicateDetail(key, val, r["skill"], apexState)
-                    suffix = f"  {detail}" if detail else ""
-                    print(f"         {' '*49}  {mark}  {label}{suffix}")
+                    print(f"         {' '*49}  {mark}  {label}")
                 print()
                 pos += 1
         else:

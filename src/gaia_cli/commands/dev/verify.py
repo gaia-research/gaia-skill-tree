@@ -13,8 +13,6 @@ from gaia_cli.commands.dev.helpers import (
     _is_verifier,
     _get_contributor,
     _run_docs_build,
-    _run_dev_preflights,
-    _preflight_verify_evidence,
 )
 
 
@@ -72,15 +70,11 @@ def meta_verify_command(args):
 
     if node_file:
         evidence = skill_data.get("evidence", [])
-        _run_dev_preflights([
-            lambda: _preflight_verify_evidence(
-                skill_id,
-                evidence,
-                evidence_index,
-                is_dispute=is_dispute,
-                source=v_source,
-            ),
-        ])
+        if evidence_index >= len(evidence):
+            print(
+                f"Error: Evidence index {evidence_index} out of range (total {len(evidence)})."
+            )
+            sys.exit(1)
 
         ev = evidence[evidence_index]
         ev["verified"] = not is_dispute
@@ -116,15 +110,11 @@ def meta_verify_command(args):
 
         meta, body = _parse_md(target_file)
         evidence = meta.get("evidence", [])
-        _run_dev_preflights([
-            lambda: _preflight_verify_evidence(
-                skill_id,
-                evidence,
-                evidence_index,
-                is_dispute=is_dispute,
-                source=v_source,
-            ),
-        ])
+        if evidence_index >= len(evidence):
+            print(
+                f"Error: Evidence index {evidence_index} out of range (total {len(evidence)})."
+            )
+            sys.exit(1)
 
         ev = evidence[evidence_index]
         ev["verified"] = not is_dispute

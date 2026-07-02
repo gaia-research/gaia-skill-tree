@@ -137,7 +137,7 @@ class TestAppendSkillEventRouting:
 
 
 # ---------------------------------------------------------------------------
-# Test: meta_timeline_command with --user routes to user tree even for named skill
+# Test: meta_timeline_command with --user routes to named file for named skill
 # ---------------------------------------------------------------------------
 
 class TestMetaTimelineCommandRouting:
@@ -152,20 +152,12 @@ class TestMetaTimelineCommandRouting:
         args.no_build = no_build
         return args
 
-    def test_timeline_with_user_routes_to_user_tree_when_skill_is_named(self, tmp_path):
-        """meta_timeline_command with --user must write to the user tree, even for named IDs."""
+    def test_timeline_with_user_routes_to_named_file_when_named_skill(self, tmp_path):
+        """meta_timeline_command with --user must write to named .md when skill is named."""
         from gaia_cli.commands.dev import meta_timeline_command
 
         root = _make_registry(tmp_path)
         named_md = root / "registry" / "named" / "testuser" / "myskill.md"
-        before_named = named_md.read_text(encoding="utf-8")
-        user_tree_dir = root / "skill-trees" / "mbtiongson1"
-        user_tree_dir.mkdir(parents=True)
-        user_tree = user_tree_dir / "skill-tree.json"
-        user_tree.write_text(
-            json.dumps({"username": "mbtiongson1", "unlockedSkills": [], "timeline": []}),
-            encoding="utf-8",
-        )
 
         args = self._make_args(
             skill_id="testuser/myskill",
@@ -178,12 +170,13 @@ class TestMetaTimelineCommandRouting:
 
         meta_timeline_command(args)
 
-        assert named_md.read_text(encoding="utf-8") == before_named
-        tree_data = json.loads(user_tree.read_text(encoding="utf-8"))
-        assert any(
-            ev.get("action") == "demote" and ev.get("skillId") == "testuser/myskill"
-            for ev in tree_data.get("timeline", [])
-        )
+        updated_content = named_md.read_text(encoding="utf-8")
+        assert "timeline:" in updated_content
+        assert "demote" in updated_content
+
+        # User tree must NOT be created/touched
+        user_tree = root / "skill-trees" / "mbtiongson1" / "skill-tree.json"
+        assert not user_tree.exists()
 
     def test_timeline_with_user_routes_to_user_tree_for_generic_skill(self, tmp_path):
         """meta_timeline_command with --user must write to user tree for generic skill IDs."""

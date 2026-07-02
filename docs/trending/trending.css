@@ -40,19 +40,10 @@
 }
 
 /* ── Window tabs ─────────────────────────────────────────────── */
-/* ── Tabs row (tabs + RSS button) ───────────────────────────── */
-.trending-tabs-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
 .trending-tabs {
   display: flex;
   gap: 0.375rem;
-  margin-bottom: 0;
+  margin-bottom: 1.5rem;
 }
 
 .trending-tab {
@@ -78,29 +69,6 @@
   background: var(--rank-2-bg);
   border-color: var(--rank-2-border);
   color: var(--rank-2);
-}
-
-/* RSS subscribe button */
-.trending-rss-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.35rem 0.75rem;
-  border-radius: 0.375rem;
-  border: 1px solid var(--rank-1-border);
-  background: var(--rank-1-bg);
-  color: var(--rank-1);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
-  flex-shrink: 0;
-}
-
-.trending-rss-btn:hover {
-  border-color: var(--grade-A);
-  background: color-mix(in srgb, var(--grade-A) 12%, var(--rank-1-bg));
-  color: var(--grade-A);
 }
 
 /* ── Loading spinners ────────────────────────────────────────── */
@@ -375,17 +343,6 @@
   background: var(--rank-3-bg);
 }
 
-/* Gold accent for ascended cards */
-.ascended-card--gold {
-  border-color: var(--evidence-gold);
-  background: color-mix(in srgb, var(--evidence-gold) 6%, transparent);
-}
-
-.ascended-card--gold:hover {
-  border-color: var(--evidence-gold);
-  background: color-mix(in srgb, var(--evidence-gold) 12%, transparent);
-}
-
 .ascended-card-left {
   display: flex;
   flex-direction: column;
@@ -419,32 +376,6 @@
   font-size: 0.75rem;
   color: var(--rank-0);
   font-family: 'JetBrains Mono', monospace;
-}
-
-/* Previous → current level transition */
-.ascended-level-transition {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-.ascended-prev-level {
-  font-size: 0.75rem;
-  font-family: 'JetBrains Mono', monospace;
-  color: var(--rank-0);
-  opacity: 0.65;
-  text-decoration: line-through;
-}
-
-.ascended-transition-arrow {
-  font-size: 0.75rem;
-  color: var(--evidence-gold);
-  font-weight: 600;
-}
-
-.ascended-cur-level {
-  border-color: var(--evidence-gold);
-  color: var(--evidence-gold);
 }
 
 /* ── Contested list ──────────────────────────────────────────── */
@@ -514,25 +445,6 @@
   font-weight: 600;
   font-family: 'JetBrains Mono', monospace;
   color: var(--rank-2);
-}
-
-/* Origin chip highlight */
-.contested-chip--origin {
-  border-color: var(--grade-A);
-  background: color-mix(in srgb, var(--grade-A) 10%, var(--rank-0-bg));
-}
-
-.contested-chip-origin {
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 0.05rem 0.3rem;
-  border-radius: 0.2rem;
-  background: color-mix(in srgb, var(--grade-A) 20%, transparent);
-  color: var(--grade-A);
-  border: 1px solid var(--grade-A);
-  font-family: 'JetBrains Mono', monospace;
 }
 
 /* ── Result summary line ─────────────────────────────────────── */

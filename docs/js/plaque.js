@@ -677,8 +677,8 @@
 
   // ── variant: hall (Hall of Heroes redesigned plate) ─────────────
   // Per-contributor plate with:
-  //   • celestial-atlas crest medallion (contributor GitHub avatar)
-  //   • faint blurred backdrop echo of the primary skill OG art
+  //   • celestial-atlas crest medallion (primary skill OG art)
+  //   • faint blurred backdrop echo of the same OG art
   //   • Honor Red @handle + share button
   //   • Roman-numeral rank divider for the contributor's primary
   //   • Up to N skill rows, each carrying its own data-type/data-level
@@ -719,11 +719,8 @@
     var slashIdx = primaryId.indexOf('/');
     var skillSlug = slashIdx !== -1 ? primaryId.slice(slashIdx + 1) : primaryId;
     var ogPath = handle && skillSlug ? 'og/' + handle + '/' + skillSlug + '.svg' : '';
-    var avatarUrl = handle
-      ? 'https://github.com/' + encodeURIComponent(String(handle).replace(/^@/, '')) + '.png?size=160'
-      : '';
 
-    // Backdrop <img> with onerror that flags the parent.
+    // Backdrop & crest <img> with onerror that flags the parent.
     var artHtml = '';
     if (ogPath) {
       var loadAttr =
@@ -739,10 +736,9 @@
     }
 
     var primaryGlyph = TIER_GLYPH[primary.type] || TIER_GLYPH.basic;
-    // Crest uses the contributor's GitHub avatar; the OG art remains as backdrop.
-    var crestImg = avatarUrl
-      ? '<img class="plaque__hall-crest-img" src="' + esc(avatarUrl) + '" alt="" ' +
-          'decoding="async" loading="lazy" referrerpolicy="no-referrer" ' +
+    var crestImg = ogPath
+      ? '<img class="plaque__hall-crest-img" src="' + esc(ogPath) + '" alt="" ' +
+          'decoding="async" loading="lazy" ' +
           'onerror="this.parentNode.setAttribute(\'data-crest-fail\',\'true\');this.style.display=\'none\'">'
       : '';
     var crestHtml =

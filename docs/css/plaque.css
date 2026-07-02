@@ -946,8 +946,8 @@ button.plaque__slug:focus-visible {
 
 
 /* ── .plaque--hall — Hall of Heroes redesigned plate ────────────
-   Per-contributor plate with a celestial-atlas avatar medallion at
-   the top, the primary skill OG art echoed faintly behind the body, an
+   Per-contributor plate with a celestial-atlas crest medallion at
+   the top, the same OG art echoed faintly behind the body, an
    @handle row in Honor Red, a Roman-numeral rank divider, and up
    to N skill rows reusing the .plaque__stack-row markup so per-
    row tier colours just work.
@@ -1027,8 +1027,8 @@ button.plaque__slug:focus-visible {
   gap: 0.5rem;
 }
 
-/* Crest medallion — circular framed contributor avatar, with the
-   tier glyph as a small badge bottom-right. */
+/* Crest medallion — circular framed thumbnail of the primary skill's
+   OG art, with the tier glyph as a small badge bottom-right. */
 .plaque--hall .plaque__hall-crest {
   position: relative;
   width: var(--hall-crest-size);

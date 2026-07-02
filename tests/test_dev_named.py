@@ -107,114 +107,13 @@ def test_update_named_missing_skill_exits(tmp_path):
     assert exc.value.code != 0
 
 
-def test_update_named_status_named_requires_title(tmp_path, capsys):
+def test_update_named_status_named_requires_title(tmp_path):
     """Setting status=named on a skill without a title/catalogRef must be rejected."""
     root = _make_registry(tmp_path, title="")
     # Remove title from the file
     path = Path(root) / "registry" / "named" / "alice" / "test-skill.md"
     content = path.read_text(encoding="utf-8").replace("title: \n", "").replace("title:\n", "")
     path.write_text(content, encoding="utf-8")
-    before = path.read_text(encoding="utf-8")
-
     with pytest.raises(SystemExit) as exc:
         meta_update_named_command(_args(root, status="named"))
-
     assert exc.value.code != 0
-    assert path.read_text(encoding="utf-8") == before
-    err = capsys.readouterr().err
-    assert "status='named' requires 'title' or 'catalogRef'" in err
-    assert "--title" in err
-    assert "--catalog-ref" in err
-
-
-def test_update_named_suite_components_rejects_nonexistent(tmp_path, capsys):
-    root = _make_registry(tmp_path)
-    path = Path(root) / "registry" / "named" / "alice" / "test-skill.md"
-    before = path.read_text(encoding="utf-8")
-    with pytest.raises(SystemExit) as exc:
-        meta_update_named_command(_args(root, suite_components="alice/nonexistent"))
-    assert exc.value.code != 0
-    assert path.read_text(encoding="utf-8") == before
-    err = capsys.readouterr().err
-    assert "Suite component 'alice/nonexistent' does not exist in the registry." in err
-
-
-def test_update_named_suite_components_rejects_duplicates(tmp_path, capsys):
-    root = _make_registry(tmp_path)
-    _write_named(Path(root) / "registry" / "named", slug="alice/other-skill")
-    path = Path(root) / "registry" / "named" / "alice" / "test-skill.md"
-    before = path.read_text(encoding="utf-8")
-    with pytest.raises(SystemExit) as exc:
-        meta_update_named_command(_args(root, suite_components="alice/other-skill,alice/other-skill"))
-    assert exc.value.code != 0
-    assert path.read_text(encoding="utf-8") == before
-    err = capsys.readouterr().err
-    assert "Duplicate suite components are not allowed: alice/other-skill." in err
-
-
-def test_update_named_suite_components_rejects_empty_entry_before_write(tmp_path, capsys):
-    root = _make_registry(tmp_path)
-    _write_named(Path(root) / "registry" / "named", slug="alice/other-skill")
-    path = Path(root) / "registry" / "named" / "alice" / "test-skill.md"
-    before = path.read_text(encoding="utf-8")
-    with pytest.raises(SystemExit) as exc:
-        meta_update_named_command(_args(root, suite_components="alice/other-skill,"))
-    assert exc.value.code != 0
-    assert path.read_text(encoding="utf-8") == before
-    err = capsys.readouterr().err
-    assert "Empty suite component entries are not allowed" in err
-
-
-def test_update_named_suite_components_happy_path(tmp_path):
-    root = _make_registry(tmp_path)
-    _write_named(Path(root) / "registry" / "named", slug="alice/other-skill")
-    path = Path(root) / "registry" / "named" / "alice" / "test-skill.md"
-    meta_update_named_command(_args(root, suite_components="alice/other-skill"))
-    from gaia_cli.commands.dev.helpers import _parse_md
-    meta, _ = _parse_md(path)
-    assert meta["suiteComponents"] == ["alice/other-skill"]
-
-
-def test_update_named_github_link_rejects_tree(tmp_path, capsys):
-    root = _make_registry(tmp_path)
-    path = Path(root) / "registry" / "named" / "alice" / "test-skill.md"
-    before = path.read_text(encoding="utf-8")
-    with pytest.raises(SystemExit) as exc:
-        meta_update_named_command(_args(root, github_link="https://github.com/alice/repo/tree/main/skills/test-skill"))
-    assert exc.value.code != 0
-    assert path.read_text(encoding="utf-8") == before
-    err = capsys.readouterr().err
-    assert "uses '/tree/' which is not supported" in err
-
-
-def test_update_named_github_link_rejects_bare(tmp_path, capsys):
-    root = _make_registry(tmp_path)
-    path = Path(root) / "registry" / "named" / "alice" / "test-skill.md"
-    before = path.read_text(encoding="utf-8")
-    with pytest.raises(SystemExit) as exc:
-        meta_update_named_command(_args(root, github_link="https://github.com/alice/repo"))
-    assert exc.value.code != 0
-    assert path.read_text(encoding="utf-8") == before
-    err = capsys.readouterr().err
-    assert "missing the '/blob/' segment" in err
-
-
-def test_update_named_github_link_rejects_non_github_url(tmp_path, capsys):
-    root = _make_registry(tmp_path)
-    path = Path(root) / "registry" / "named" / "alice" / "test-skill.md"
-    before = path.read_text(encoding="utf-8")
-    with pytest.raises(SystemExit) as exc:
-        meta_update_named_command(_args(root, github_link="https://example.com/alice/repo/blob/main/skill.md"))
-    assert exc.value.code != 0
-    assert path.read_text(encoding="utf-8") == before
-    err = capsys.readouterr().err
-    assert "GitHub link must start with 'https://github.com/'" in err
-
-
-def test_update_named_github_link_happy_path(tmp_path):
-    root = _make_registry(tmp_path)
-    path = Path(root) / "registry" / "named" / "alice" / "test-skill.md"
-    meta_update_named_command(_args(root, github_link="https://github.com/alice/repo/blob/main/skills/test-skill/SKILL.md"))
-    from gaia_cli.commands.dev.helpers import _parse_md
-    meta, _ = _parse_md(path)
-    assert meta["links"]["github"] == "https://github.com/alice/repo/blob/main/skills/test-skill/SKILL.md"

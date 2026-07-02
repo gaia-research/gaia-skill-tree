@@ -14,16 +14,10 @@ from gaia_cli.commands.dev.helpers import (
     _get_contributor,
     _update_named_skill_ref,
     _run_docs_build,
-    _run_dev_preflights,
-    preflightMergeCommand,
-    preflightSplitCommand,
 )
 
 
 def meta_merge_command(args):
-    _run_dev_preflights([
-        lambda: preflightMergeCommand(args),
-    ])
     registry_path = args.registry
     target_id = args.target.lstrip("/")
     sources = [s.lstrip("/") for s in args.sources]
@@ -226,9 +220,6 @@ def meta_merge_command(args):
 
 
 def meta_split_command(args):
-    _run_dev_preflights([
-        lambda: preflightSplitCommand(args),
-    ])
     registry_path = args.registry
     source_id = args.source.lstrip("/")
     targets = [t.lstrip("/") for t in args.targets]

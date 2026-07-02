@@ -293,17 +293,3 @@ def test_stale_grade_cleared_when_score_below_floor(tmp_path):
     calibrate_evidence_grades_command(_args(root))
     ev = _load_node(root)["evidence"]
     assert "grade" not in ev[0]
-
-
-def test_missing_skill_filter_exits_before_write(tmp_path, capsys):
-    root = _build_registry(tmp_path, [
-        {"type": "arxiv", "source": "https://arxiv.org/abs/test", "grade": "B", "trustNumber": 5},
-    ])
-    before = _load_node(root)
-
-    with pytest.raises(SystemExit) as exc:
-        calibrate_evidence_grades_command(_args(root, skill="missing-skill"))
-
-    assert exc.value.code != 0
-    assert _load_node(root) == before
-    assert "--skill target 'missing-skill' was not found" in capsys.readouterr().err

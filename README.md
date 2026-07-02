@@ -25,7 +25,7 @@ Gaia is the open-source registry where AI agent capabilities aren't just claimed
 
 Generate yours at **[gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/)**.
 
-**Brand & product:** [PRODUCT.md](PRODUCT.md) · [CONTEXT.md](CONTEXT.md) · [DESIGN.md](DESIGN.md)
+**Brand & product:** [PRODUCT.md](founder/PRODUCT.md) · [CONTEXT.md](CONTEXT.md) · [DESIGN.md](founder/DESIGN.md)
 
 **Keywords:** AI Agent Skill Registry • Evidence-Backed Skill Graph • Capability Graph • Model Context Protocol • AI Agents • Attribution
 

@@ -10,15 +10,10 @@ from gaia_cli.commands.dev.helpers import (
     _update_named_skill_ref,
     _get_contributor,
     _run_docs_build,
-    _run_dev_preflights,
-    preflightRenameCommand,
 )
 
 
 def meta_rename_command(args):
-    _run_dev_preflights([
-        lambda: preflightRenameCommand(args),
-    ])
     registry_path = args.registry
     old_id = args.old_id.lstrip("/")
     new_id = args.new_id.lstrip("/")

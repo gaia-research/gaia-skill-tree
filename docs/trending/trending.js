@@ -208,27 +208,13 @@
       card.className = 'ascended-card';
       card.setAttribute('role', 'listitem');
 
-      /* Gold accent when skill has a level badge (it ascended to something visible) */
-      var levelDisplay = '';
-      if (skill.previousLevel && skill.level) {
-        /* Show previous → current level transition */
-        levelDisplay =
-          '<span class="ascended-level-transition">' +
-            '<span class="ascended-prev-level">' + esc(skill.previousLevel) + '</span>' +
-            '<span class="ascended-transition-arrow" aria-hidden="true">→</span>' +
-            '<span class="trending-level-badge ascended-cur-level">' + esc(skill.level) + '</span>' +
-          '</span>';
-      } else if (skill.level) {
-        levelDisplay = '<span class="trending-level-badge">' + esc(skill.level) + '</span>';
-      }
-
+      var levelBadge = skill.level
+        ? '<span class="trending-level-badge">' + esc(skill.level) + '</span>'
+        : '';
       var gradeBadge = skill.overallTrustGrade
         ? '<span class="trending-grade-badge" data-grade="' + esc(skill.overallTrustGrade) + '">' + esc(skill.overallTrustGrade) + '</span>'
         : '';
       var dateStr = skill.ascendedAt ? formatDate(skill.ascendedAt) : '';
-
-      /* Gold accent for ascended cards */
-      card.classList.add('ascended-card--gold');
 
       card.innerHTML =
         '<div class="ascended-card-left">' +
@@ -236,7 +222,7 @@
           '<div class="ascended-card-contributor">@' + esc(skill.contributor || '') + '</div>' +
         '</div>' +
         '<div class="ascended-card-right">' +
-          levelDisplay +
+          levelBadge +
           gradeBadge +
           (dateStr ? '<span class="ascended-date">' + esc(dateStr) + '</span>' : '') +
         '</div>';
@@ -284,20 +270,13 @@
         var tm = typeof s.trustMagnitude === 'number'
           ? '<span class="contested-chip-tm">' + s.trustMagnitude.toFixed(1) + '</span>'
           : '';
-        /* Origin highlight: highest TM implementation in the bucket */
-        var originTag = s.origin
-          ? '<span class="contested-chip-origin" aria-label="Origin implementation">origin</span>'
-          : '';
-        var chipClass = 'contested-chip' + (s.origin ? ' contested-chip--origin' : '');
-        return '<span class="' + chipClass + '">' +
+        return '<span class="contested-chip">' +
           '<span class="contested-chip-id">' + esc(s.id) + '</span>' +
           tm +
           gradeBadge +
-          originTag +
           '</span>';
       }).join('');
 
-      /* Show generic skill node name prominently in header */
       bucketEl.innerHTML =
         '<div class="contested-bucket-header">' +
           '<span class="contested-bucket-name">' + esc(bucket.genericSkillRef || '') + '</span>' +

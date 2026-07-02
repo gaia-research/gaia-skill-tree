@@ -96,9 +96,8 @@ The skill assumes the calling conversation has the relevant context. Pull from:
 - `gh issue list --search "involves:@me" --json number,title,state` for issues touched
 - The TaskList at end of session for what got done vs. deferred
 - Any explicit headline the user provided as `argument-hint`
-- Token spend:
-  - If in the Pi harness (indicated by `PI_CODING_AGENT=true` in `env`), run the `pi-cost` skill (`python3 .claude/skills/pi-cost/scripts/pi_cost.py` or `/skill:pi-cost`) to obtain the exact session token counts, subagent breakdown, and calculated session cost.
-  - Otherwise, pull from `founder/COST.md` if it exists, or estimate from the message count + average tokens-per-turn.
+- Token spend (sum from `founder/COST.md` if it exists; else estimate from the message
+  count + average tokens-per-turn)
 
 ## Failure modes — refuse cleanly
 

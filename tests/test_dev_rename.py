@@ -99,31 +99,3 @@ def test_rename_to_existing_id_exits(tmp_path):
     with pytest.raises(SystemExit) as exc:
         meta_rename_command(_args(root, new_id="skill-existing"))
     assert exc.value.code != 0
-
-
-def test_rename_to_self_exits_before_write(tmp_path, capsys):
-    root = _make_registry(tmp_path)
-    old_file = Path(root) / "registry" / "nodes" / "basic" / "skill-old.json"
-    before = old_file.read_text(encoding="utf-8")
-
-    with pytest.raises(SystemExit) as exc:
-        meta_rename_command(_args(root, new_id="skill-old"))
-
-    assert exc.value.code != 0
-    assert old_file.read_text(encoding="utf-8") == before
-    err = capsys.readouterr().err
-    assert "Cannot rename skill 'skill-old' to itself" in err
-
-
-def test_rename_invalid_new_id_exits_before_write(tmp_path, capsys):
-    root = _make_registry(tmp_path)
-    old_file = Path(root) / "registry" / "nodes" / "basic" / "skill-old.json"
-    before = old_file.read_text(encoding="utf-8")
-
-    with pytest.raises(SystemExit) as exc:
-        meta_rename_command(_args(root, new_id="Invalid_ID"))
-
-    assert exc.value.code != 0
-    assert old_file.read_text(encoding="utf-8") == before
-    err = capsys.readouterr().err
-    assert "New skill ID 'Invalid_ID' is invalid" in err

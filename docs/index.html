@@ -46,27 +46,15 @@
   /* Review Section & Side-by-Side Simulator styling */
   .review-showcase-section {
     max-width: 1100px;
-    margin: 0 auto;
-    padding:
-      clamp(4.25rem, 7vw, 6rem)
-      1.5rem
-      clamp(4.5rem, 7vw, 6.25rem);
-    text-align: center;
-  }
-
-  .review-showcase-section .section-sub {
-    max-width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 1.35rem;
+    margin: 3rem auto;
   }
 
   .review-sim-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: clamp(1rem, 2.4vw, 1.75rem);
-    margin-top: 1.25rem;
-    margin-bottom: 1.75rem;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 2.5rem;
   }
 
   @media (max-width: 860px) {
@@ -76,8 +64,8 @@
   }
 
   .review-sim-wrapper {
-    background: var(--bg);
-    border: 1px solid var(--border);
+    background: #08080a;
+    border: 1px solid var(--border, #222);
     border-radius: 12px;
     overflow: hidden;
     font-family: var(--font-mono, ui-monospace, monospace);
@@ -88,7 +76,7 @@
 
   .review-sim-header {
     background: rgba(255, 255, 255, 0.02);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border, #222);
     padding: 0.75rem 1.25rem;
     display: flex;
     align-items: center;
@@ -105,13 +93,13 @@
     height: 10px;
     border-radius: 50%;
   }
-  .review-sim-dots .dot.red { background: var(--honor-red); }
-  .review-sim-dots .dot.yellow { background: var(--apex-gold); }
-  .review-sim-dots .dot.green { background: var(--rank-2); }
+  .review-sim-dots .dot.red { background: #ef4444; }
+  .review-sim-dots .dot.yellow { background: #fbbf24; }
+  .review-sim-dots .dot.green { background: #22c55e; }
 
   .review-sim-title {
     font-size: 0.8rem;
-    color: var(--muted);
+    color: var(--muted, #666);
   }
 
   .review-sim-body {
@@ -123,23 +111,23 @@
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
-    color: var(--text);
+    color: #c9d1d9;
     scroll-behavior: smooth;
   }
 
   .review-sim-body .line { word-break: break-all; }
-  .review-sim-body .line.system { color: var(--muted); }
-  .review-sim-body .line.cmd { color: var(--tier-basic); font-weight: bold; }
-  .review-sim-body .line.check-run { color: var(--tier-basic); }
-  .review-sim-body .line.pass { color: var(--rank-2); }
-  .review-sim-body .line.fail { color: var(--honor-red); }
-  .review-sim-body .line.user { color: var(--apex-gold); }
-  .review-sim-body pre { margin: 0; line-height: 1.2; color: var(--rank-3); font-size: 0.76rem; }
+  .review-sim-body .line.system { color: #8b949e; }
+  .review-sim-body .line.cmd { color: #58a6ff; font-weight: bold; }
+  .review-sim-body .line.check-run { color: #58a6ff; }
+  .review-sim-body .line.pass { color: #34d399; }
+  .review-sim-body .line.fail { color: #f85149; }
+  .review-sim-body .line.user { color: #fbbf24; }
+  .review-sim-body pre { margin: 0; line-height: 1.2; color: #a78bfa; font-size: 0.76rem; }
 
   .review-sim-controls {
     display: flex;
     justify-content: center;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
   }
 
   .review-sim-btn {
@@ -147,14 +135,14 @@
     font-size: 0.85rem;
     padding: 0.5rem 1.5rem;
     border-radius: 6px;
-    background: var(--tier-basic);
+    background: var(--tier-basic, #38bdf8);
     border: none;
-    color: var(--bg);
+    color: #000;
     cursor: pointer;
     font-family: var(--font-body, system-ui, sans-serif);
     font-weight: 700;
     transition: all 0.2s ease;
-    box-shadow: 0 0 10px rgba(var(--tier-basic-rgb), 0.2);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
   }
 
   .review-sim-btn:hover:not(:disabled) {
@@ -171,7 +159,7 @@
   .review-sim-cta-container {
     display: flex;
     justify-content: center;
-    margin-top: 1.25rem;
+    margin-top: 1rem;
     gap: 1rem;
   }
   </style>
@@ -260,59 +248,6 @@
     </div>
   </section>
 
-  <!-- ─── HALL OF HEROES ─── -->
-  <section id="hall-of-heroes" class="reveal hoh-section hoh-section--mini" data-section="hoh" aria-labelledby="hohTitle">
-    <div class="hoh-mini-shell">
-      <div class="hoh-mini-intro">
-        <div class="hoh-mini-mark" aria-hidden="true"><span>◆</span></div>
-        <p class="hoh-mini-kicker">Registry honors</p>
-        <h2 id="hohTitle">Hall of Heroes</h2>
-        <p class="section-sub">The highest-ranked named implementations in the registry, kept on the public record.</p>
-        <div class="hoh-mini-ledger" aria-label="Hall of Heroes summary">
-          <span>Apex-first</span>
-          <span>Evidence-backed</span>
-          <span>Contributor-owned</span>
-        </div>
-        <div class="hoh-footer" aria-label="Hall of Heroes links">
-          <a href="heroes/" class="btn btn-ghost hoh-primary-link">View Hall of Heroes →</a>
-          <a href="named/" class="btn btn-ghost" id="browseAllBtn">Browse named skills →</a>
-          <a href="u/" class="btn btn-ghost">Named contributors →</a>
-        </div>
-      </div>
-      <div class="hoh-mini-stage" aria-label="Featured contributors">
-        <div class="hoh-mini-stage-rail" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div class="hoh-track-wrap">
-          <div class="hoh-track" id="hohPlates">
-            Populated by page-ia.js
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <template id="hall-of-heroes-legacy-template" data-archive-note="Homepage Hall of Heroes design before the mini-gallery treatment. IDs inside this archived copy are renamed to avoid duplicate-id checks.">
-    <section id="hall-of-heroes-legacy" class="reveal hoh-section" data-section="hoh">
-      <h2>Hall of Heroes</h2>
-      <p class="section-sub">The highest-ranked named implementations in the registry, by level.</p>
-      <div class="hoh-track-wrap">
-        <div class="hoh-track" id="hohPlatesLegacy">
-          Populated by page-ia.js
-        </div>
-      </div>
-      <div class="hoh-footer">
-        <a href="heroes/" class="btn btn-ghost" style="border-color:var(--apex-gold);color:var(--apex-gold);">View Hall of Heroes →</a>
-        <a href="named/" class="btn btn-ghost" id="browseAllBtnLegacy">Browse all named skills →</a>
-        <a href="u/" class="btn btn-ghost">Browse all named contributors →</a>
-      </div>
-    </section>
-  </template>
-
-  <div class="section-divider"></div>
-
   <!-- ─── TRUST LEADERBOARD PREVIEW ─── -->
   <section id="trust-preview" class="trust-preview reveal" data-section="trust-preview">
     <!-- Inline embed: mounts the leaderboard's Named-skills panel directly
@@ -398,8 +333,6 @@
   <div class="lb-tooltip" id="lbTooltip" hidden aria-hidden="true"></div>
   <script>window.GAIA_LB_EMBED_HOST = true;</script>
   <script src="trust/leaderboard/leaderboard.js?v=5.8.3"></script>
-
-  <div class="section-divider"></div>
 
   <!-- ─── TREE DIALOG ─── -->
   <a id="tree" tabindex="-1" aria-hidden="true"></a>
@@ -591,7 +524,7 @@
 
   <div class="section-divider"></div>
 
-  <section id="review-showcase" class="reveal review-showcase-section" data-section="review-showcase">
+  <section class="reveal review-showcase-section" data-section="review-showcase">
     <h2>How Your Skills Get Reviewed</h2>
     <p class="section-sub">Every contribution undergoes rigorous programmatic and contributor checks before merge, ensuring registry integrity. Click "Simulate Review" below to see it in action.</p>
 
@@ -635,6 +568,23 @@
 
     <div class="review-sim-cta-container">
       <a href="codex.html" class="btn btn-ghost">Read Full Curation Codex →</a>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── HALL OF HEROES ─── -->
+  <section id="hall-of-heroes" class="reveal hoh-section" data-section="hoh">
+    <h2>Hall of Heroes</h2>
+    <p class="section-sub">The highest-ranked named implementations in the registry, by level.</p>
+    <div class="hoh-track-wrap">
+      <div class="hoh-track" id="hohPlates">
+        Populated by page-ia.js
+      </div>
+    </div>
+    <div class="hoh-footer">
+      <a href="named/" class="btn btn-ghost" id="browseAllBtn">Browse all named skills →</a>
+      <a href="u/" class="btn btn-ghost">Browse all named contributors →</a>
     </div>
   </section>
 
@@ -746,7 +696,7 @@
 
   <!-- ─── META REPORTS ─── -->
   <!-- Lifted out of #paths so the home page reads top-down as
-       hero → heroes → trust → paths → review → ascension → evidence → meta. The list itself is
+       hero → paths → heroes → ascension → meta. The list itself is
        unchanged; only its DOM parent moved. -->
   <section id="meta-reports" class="reveal" data-section="meta">
     <h2>Meta Reports</h2>
@@ -1116,9 +1066,6 @@
        src="https://static.scarf.sh/a.png?x-pxid=b8e05c84-1886-4b68-b80c-7b00cdb68f94"
        alt="" style="display:none" />
 
-<!-- impeccable-live-start -->
-<script src="http://localhost:8400/live.js"></script>
-<!-- impeccable-live-end -->
 </body>
 
 </html>

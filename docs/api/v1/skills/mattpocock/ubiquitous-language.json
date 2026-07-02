@@ -50,13 +50,13 @@
     {
       "source": "https://github.com/mattpocock/skills",
       "evaluator": "unknown",
-      "updatedAt": "2026-07-01",
+      "updatedAt": "2026-06-28",
       "date": "2026-06-20",
       "type": "github-stars-own",
       "trustNumber": 88.0,
       "grade": "C",
       "notes": "mattpocock/skills suite repo — 137k GitHub stars; ubiquitous-language was part of this suite (removed in v1.0.1 but authored by Matt Pocock)",
-      "stars": 152357,
+      "stars": 148206,
       "skillCountInRepo": 21,
       "sourceStartedAt": "2025-01-01"
     },

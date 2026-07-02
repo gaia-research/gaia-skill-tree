@@ -34,15 +34,6 @@ def _make_registry(tmp_path: Path) -> str:
     return str(tmp_path)
 
 
-def _write_tree(root: str, user: str = "alice") -> None:
-    tree_dir = Path(root) / "skill-trees" / user
-    tree_dir.mkdir(parents=True, exist_ok=True)
-    (tree_dir / "skill-tree.json").write_text(
-        json.dumps({"userId": user, "unlockedSkills": [], "timeline": []}),
-        encoding="utf-8",
-    )
-
-
 def _args(root: str, skill_id: str = "demo-skill", action: str = "note",
           notes: str = "Test note.", **kw) -> SimpleNamespace:
     base = dict(registry=root, skill_id=skill_id, action=action, notes=notes,
@@ -94,7 +85,6 @@ def test_timeline_capsys_shows_completion(tmp_path, capsys):
 def test_timeline_with_user_routes_to_tree(tmp_path, monkeypatch):
     """With --user, event is routed to the user skill-tree."""
     root = _make_registry(tmp_path)
-    _write_tree(root, "alice")
     tree_events = []
     monkeypatch.setattr(
         "gaia_cli.timeline.append_skill_tree_event",
@@ -118,7 +108,6 @@ def test_timeline_with_user_routes_to_tree(tmp_path, monkeypatch):
 
 def test_timestamp_forwarded_to_tree_event(tmp_path, monkeypatch):
     root = _make_registry(tmp_path)
-    _write_tree(root, "alice")
     timestamps = []
     monkeypatch.setattr(
         "gaia_cli.timeline.append_skill_tree_event",
@@ -130,52 +119,3 @@ def test_timestamp_forwarded_to_tree_event(tmp_path, monkeypatch):
     monkeypatch.setattr("gaia_cli.timeline.append_skill_event", lambda *a, **kw: None)
     meta_timeline_command(_args(root, user="alice", timestamp="2026-01-01T00:00:00Z"))
     assert timestamps[0] == "2026-01-01T00:00:00Z"
-
-
-def test_invalid_timestamp_exits_before_tree_write(tmp_path, monkeypatch, capsys):
-    root = _make_registry(tmp_path)
-    _write_tree(root, "alice")
-    tree_events = []
-    monkeypatch.setattr(
-        "gaia_cli.timeline.append_skill_tree_event",
-        lambda *a, **kw: tree_events.append(a),
-    )
-
-    with pytest.raises(SystemExit) as exc:
-        meta_timeline_command(_args(root, user="alice", timestamp="not-a-date"))
-
-    assert exc.value.code != 0
-    assert tree_events == []
-    assert "--timestamp must be ISO 8601" in capsys.readouterr().err
-
-
-def test_timestamp_without_user_rejected_before_registry_write(tmp_path, monkeypatch, capsys):
-    root = _make_registry(tmp_path)
-    events = []
-    monkeypatch.setattr(
-        "gaia_cli.timeline.append_skill_event",
-        lambda *a, **kw: events.append(a),
-    )
-
-    with pytest.raises(SystemExit) as exc:
-        meta_timeline_command(_args(root, timestamp="2026-01-01T00:00:00Z"))
-
-    assert exc.value.code != 0
-    assert events == []
-    assert "--timestamp is only supported with --user" in capsys.readouterr().err
-
-
-def test_missing_user_tree_rejected_before_write(tmp_path, monkeypatch, capsys):
-    root = _make_registry(tmp_path)
-    tree_events = []
-    monkeypatch.setattr(
-        "gaia_cli.timeline.append_skill_tree_event",
-        lambda *a, **kw: tree_events.append(a),
-    )
-
-    with pytest.raises(SystemExit) as exc:
-        meta_timeline_command(_args(root, user="missing"))
-
-    assert exc.value.code != 0
-    assert tree_events == []
-    assert "skill-trees/missing/skill-tree.json does not exist" in capsys.readouterr().err
