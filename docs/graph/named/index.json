@@ -675,7 +675,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-03",
         "timeline": [
           {
             "timestamp": "2026-05-31T02:17:00Z",
@@ -714,6 +714,12 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-02T18:42:38Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef to addy-osmani/agent-skills"
           }
         ],
         "trustMagnitude": 36.0,
@@ -20793,6 +20799,395 @@
       "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only."
     },
     {
+      "id": "addy-osmani/agent-skills",
+      "name": "Agent Skills",
+      "contributor": "addy-osmani",
+      "origin": false,
+      "genericSkillRef": "git-ship-done-pipeline",
+      "status": "awakened",
+      "level": "1★",
+      "description": "A software development pipeline for AI agents that organizes coding cycles into structured slash commands.",
+      "links": {
+        "github": "https://github.com/addyosmani/agent-skills/blob/main/README.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/addyosmani/agent-skills/stargazers",
+          "evaluator": "unknown",
+          "date": "2026-07-03",
+          "type": "github-stars-own",
+          "stars": 68564,
+          "skillCountInRepo": 7
+        },
+        {
+          "source": "https://github.com/addyosmani/agent-skills",
+          "evaluator": "unknown",
+          "date": "2026-07-03",
+          "type": "repo-own"
+        }
+      ],
+      "createdAt": "2026-07-03",
+      "updatedAt": "2026-07-03",
+      "timeline": [
+        {
+          "timestamp": "2026-07-02T18:42:20Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill addy-osmani/agent-skills"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:29Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/addyosmani/agent-skills/stargazers (type: github-stars-own)"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:30Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/addyosmani/agent-skills (type: repo-own)"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:41Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/README.md"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:44Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Fused suite components: addy-osmani/spec-driven-development, addy-osmani/planning-and-task-breakdown, addy-osmani/incremental-implementation, addy-osmani/test-driven-development, addy-osmani/code-review-and-quality, addy-osmani/shipping-and-launch, addy-osmani/code-simplification."
+        },
+        {
+          "timestamp": "2026-07-02T18:42:54Z",
+          "action": "demote",
+          "contributor": "unknown",
+          "details": "Calibrated level from 2★ to 1★"
+        }
+      ],
+      "type": "ultimate",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "addy-osmani/code-review-and-quality",
+      "name": "Code Review and Quality",
+      "contributor": "addy-osmani",
+      "origin": false,
+      "genericSkillRef": "code-review-pipeline",
+      "status": "awakened",
+      "level": "1★",
+      "description": "Code review and quality enforcement workflow checking code style and patterns.",
+      "links": {
+        "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-07-03",
+          "type": "github-stars-own",
+          "stars": 68564,
+          "skillCountInRepo": 7
+        }
+      ],
+      "createdAt": "2026-07-03",
+      "updatedAt": "2026-07-03",
+      "timeline": [
+        {
+          "timestamp": "2026-07-02T18:42:18Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill addy-osmani/code-review-and-quality"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:24Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md (type: github-stars-own)"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:37Z",
+          "action": "suite_ref_set",
+          "contributor": "unknown",
+          "details": "Set suiteRef to addy-osmani/agent-skills"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:37Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/code-review-and-quality/SKILL.md"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "addy-osmani/code-simplification",
+      "name": "Code Simplification",
+      "contributor": "addy-osmani",
+      "origin": false,
+      "genericSkillRef": "refactor-code",
+      "status": "awakened",
+      "level": "1★",
+      "description": "Code simplification workflow identifying opportunities to reduce cognitive complexity.",
+      "links": {
+        "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-07-03",
+          "type": "github-stars-own",
+          "stars": 68564,
+          "skillCountInRepo": 7
+        }
+      ],
+      "createdAt": "2026-07-03",
+      "updatedAt": "2026-07-03",
+      "timeline": [
+        {
+          "timestamp": "2026-07-02T18:42:19Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill addy-osmani/code-simplification"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:25Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md (type: github-stars-own)"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:38Z",
+          "action": "suite_ref_set",
+          "contributor": "unknown",
+          "details": "Set suiteRef to addy-osmani/agent-skills"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:38Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md"
+        }
+      ],
+      "type": "basic",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "addy-osmani/incremental-implementation",
+      "name": "Incremental Implementation",
+      "contributor": "addy-osmani",
+      "origin": false,
+      "genericSkillRef": "executing-plans",
+      "status": "awakened",
+      "level": "1★",
+      "description": "Incremental implementation workflow prioritizing execution of planned steps systematically.",
+      "links": {
+        "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-07-03",
+          "type": "github-stars-own",
+          "stars": 68564,
+          "skillCountInRepo": 7
+        }
+      ],
+      "createdAt": "2026-07-03",
+      "updatedAt": "2026-07-03",
+      "timeline": [
+        {
+          "timestamp": "2026-07-02T18:42:18Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill addy-osmani/incremental-implementation"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:24Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md (type: github-stars-own)"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:37Z",
+          "action": "suite_ref_set",
+          "contributor": "unknown",
+          "details": "Set suiteRef to addy-osmani/agent-skills"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:37Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/incremental-implementation/SKILL.md"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "addy-osmani/planning-and-task-breakdown",
+      "name": "Planning and Task Breakdown",
+      "contributor": "addy-osmani",
+      "origin": false,
+      "genericSkillRef": "vertical-slice-planning",
+      "status": "awakened",
+      "level": "1★",
+      "description": "Planning and task breakdown workflow decomposing features into manageable vertical slices.",
+      "links": {
+        "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-07-03",
+          "type": "github-stars-own",
+          "stars": 68564,
+          "skillCountInRepo": 7
+        }
+      ],
+      "createdAt": "2026-07-03",
+      "updatedAt": "2026-07-03",
+      "timeline": [
+        {
+          "timestamp": "2026-07-02T18:42:18Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill addy-osmani/planning-and-task-breakdown"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:24Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md (type: github-stars-own)"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:37Z",
+          "action": "suite_ref_set",
+          "contributor": "unknown",
+          "details": "Set suiteRef to addy-osmani/agent-skills"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:37Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "addy-osmani/shipping-and-launch",
+      "name": "Shipping and Launch",
+      "contributor": "addy-osmani",
+      "origin": false,
+      "genericSkillRef": "finishing-a-development-branch",
+      "status": "awakened",
+      "level": "1★",
+      "description": "Shipping and launch readiness checks for code deployment and integration.",
+      "links": {
+        "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/shipping-and-launch/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/shipping-and-launch/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-07-03",
+          "type": "github-stars-own",
+          "stars": 68564,
+          "skillCountInRepo": 7
+        }
+      ],
+      "createdAt": "2026-07-03",
+      "updatedAt": "2026-07-03",
+      "timeline": [
+        {
+          "timestamp": "2026-07-02T18:42:18Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill addy-osmani/shipping-and-launch"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:24Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/shipping-and-launch/SKILL.md (type: github-stars-own)"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:37Z",
+          "action": "suite_ref_set",
+          "contributor": "unknown",
+          "details": "Set suiteRef to addy-osmani/agent-skills"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:37Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/shipping-and-launch/SKILL.md"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "addy-osmani/spec-driven-development",
+      "name": "Spec-Driven Development",
+      "contributor": "addy-osmani",
+      "origin": false,
+      "genericSkillRef": "prd-generation",
+      "status": "awakened",
+      "level": "1★",
+      "description": "Spec-driven development workflow enforcing specification generation before any coding starts.",
+      "links": {
+        "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-07-03",
+          "type": "github-stars-own",
+          "stars": 68564,
+          "skillCountInRepo": 7
+        }
+      ],
+      "createdAt": "2026-07-03",
+      "updatedAt": "2026-07-03",
+      "timeline": [
+        {
+          "timestamp": "2026-07-02T18:42:16Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill addy-osmani/spec-driven-development"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:22Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md (type: github-stars-own)"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:36Z",
+          "action": "suite_ref_set",
+          "contributor": "unknown",
+          "details": "Set suiteRef to addy-osmani/agent-skills"
+        },
+        {
+          "timestamp": "2026-07-02T18:42:36Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Updated GitHub link to https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
       "id": "changkun/plan-decompose-gh-wallfacer",
       "name": "Wallfacer",
       "contributor": "changkun",
@@ -25953,7 +26348,14 @@
       "Taoidle/plan-decompose-gh-plan-cascade"
     ],
     "addy-osmani": [
+      "addy-osmani/agent-skills",
+      "addy-osmani/code-review-and-quality",
+      "addy-osmani/code-simplification",
+      "addy-osmani/incremental-implementation",
       "addy-osmani/performance-optimization",
+      "addy-osmani/planning-and-task-breakdown",
+      "addy-osmani/shipping-and-launch",
+      "addy-osmani/spec-driven-development",
       "addy-osmani/test-driven-development"
     ],
     "anthropic": [
