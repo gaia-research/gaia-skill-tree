@@ -162,8 +162,9 @@ main
 4. After all workstreams merge + reviewer sign-off, the integration branch opens a single PR → `main`.
 5. The integration branch PR carries the EPIC issue number in its body (`Resolves #<epic>`).
 6. CI runs on both layers: feature PRs validate their scope; the integration PR validates the aggregate.
+7. **Never squash an EPIC integration PR.** Squash merges destroy the child PR commit topology and make post-hoc audits/reverts much harder. EPIC integration PRs must use a merge commit (or, if explicitly requested by Marcus, a rebase that preserves every child commit). Squash commits are absolutely banned for `dev/*` → `main` merges.
 
-This prevents half-shipped features from landing on `main` and keeps the sprint atomic.
+This prevents half-shipped features from landing on `main` and keeps the sprint atomic while preserving full audit history.
 
 ### Release runbook — bundled registry snapshot
 
