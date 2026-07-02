@@ -1,0 +1,13 @@
+{
+  "proposalId": "extra-fields-a1b2c3d4-20260702",
+  "skillId": "mattpocock/grill-me",
+  "source": "https://example.com/evidence",
+  "evidenceType": "social-signal",
+  "discoveredAt": "2026-07-02T10:30:00Z",
+  "discoveredBy": "nova-gaia",
+  "crawlerBackend": "firecrawl-search",
+  "confidence": 0.7,
+  "rationale": "This proposal has an extra field that is not in the schema.",
+  "secretMutation": "registry/nodes/grill-me.json",
+  "autoMerge": true
+}

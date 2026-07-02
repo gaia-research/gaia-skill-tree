@@ -1,0 +1,11 @@
+{
+  "proposalId": "bad",
+  "skillId": "InvalidFormat",
+  "source": "not-a-url",
+  "evidenceType": "WRONG_CASE",
+  "discoveredAt": "not-a-date",
+  "discoveredBy": "",
+  "crawlerBackend": "",
+  "confidence": 1.5,
+  "rationale": "too short"
+}

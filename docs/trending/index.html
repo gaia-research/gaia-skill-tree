@@ -2,7 +2,7 @@
 <html lang="en" data-icon-base="../assets/icons.svg">
 
 <head>
-  <script>window.GAIA_VERSION = "5.6.0";</script>
+  <script>window.GAIA_VERSION = "5.8.3";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -17,24 +17,24 @@
   <meta property="og:description" content="Skills gaining trust this week — ranked by evidence velocity, not hype.">
   <meta property="og:url" content="https://gaia.tiongson.co/trending/">
   <!-- RSS feed -->
-  <link rel="alternate" type="application/rss+xml" title="Gaia Trending" href="feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="Gaia Trending Skills" href="../api/v1/trending/feed.xml">
   <!-- Web fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
-  <link rel="stylesheet" href="../css/styles.css?v=5.6.0">
-  <link rel="stylesheet" href="trending.css?v=5.6.0">
+  <link rel="stylesheet" href="../css/styles.css?v=5.8.3">
+  <link rel="stylesheet" href="trending.css?v=5.8.3">
   <!-- Icon sprite helper -->
-  <script src="../js/icons.js?v=5.6.0"></script>
+  <script src="../js/icons.js?v=5.8.3"></script>
 </head>
 
 <body class="trending-page">
 
   <!-- ─── NAV ─── -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=5.6.0"></script>
-  <script src="../js/site-nav.js?v=5.6.0"></script>
+  <script src="../js/mounts.js?v=5.8.3"></script>
+  <script src="../js/site-nav.js?v=5.8.3"></script>
 
   <!-- ─── MAIN ─── -->
   <main class="trending-main">
@@ -61,9 +61,19 @@
     </div>
 
     <!-- Window toggle tabs -->
-    <div class="trending-tabs" role="tablist" aria-label="Time window">
-      <button class="trending-tab active" data-window="7d" role="tab" aria-selected="true">7 Days</button>
-      <button class="trending-tab" data-window="30d" role="tab" aria-selected="false">30 Days</button>
+    <div class="trending-tabs-row">
+      <div class="trending-tabs" role="tablist" aria-label="Time window">
+        <button class="trending-tab active" data-window="7d" role="tab" aria-selected="true">7 Days</button>
+        <button class="trending-tab" data-window="30d" role="tab" aria-selected="false">30 Days</button>
+      </div>
+      <a class="trending-rss-btn" href="../api/v1/trending/feed.xml" title="Subscribe to Gaia Trending RSS feed" aria-label="RSS feed">
+        <svg class="ico" width="16" height="16" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 11a9 9 0 0 1 9 9"/>
+          <path d="M4 4a16 16 0 0 1 16 16"/>
+          <circle cx="5" cy="19" r="1" fill="currentColor"/>
+        </svg>
+        <span>RSS</span>
+      </a>
     </div>
 
     <!-- Main trending list -->
@@ -106,10 +116,13 @@
 
   <!-- ─── FOOTER ─── -->
   <div id="site-footer-mount"></div>
-  <script src="../js/site-footer.js?v=5.6.0"></script>
+  <script src="../js/site-footer.js?v=5.8.3"></script>
 
   <!-- ─── PAGE SCRIPT ─── -->
-  <script src="trending.js?v=5.6.0"></script>
+  <script src="trending.js?v=5.8.3"></script>
 
+<!-- impeccable-live-start -->
+<script src="http://localhost:8400/live.js"></script>
+<!-- impeccable-live-end -->
 </body>
 </html>

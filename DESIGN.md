@@ -194,6 +194,12 @@ is retained ONLY as the background fill for the floating hero CTA pills (`◆ Op
 
 **Graph dialog** — `border: 1px solid rgba(56,189,248,.35)`, `box-shadow: 0 30px 100px rgba(0,0,0,.72), 0 0 55px rgba(56,189,248,.16)`, backdrop `rgba(0,0,0,.72) blur(6px)`. (The graph dialog is the one place glassmorphism earns its place — it is preserved here.)
 
+**Hall of Heroes homepage band** (`docs/index.html`) — the homepage Hall is a full-width prestige proof immediately after the hero, before the Trust leaderboard and contributor paths. It uses a two-column atlas composition: left-side ceremony (`Registry honors`, oversized EB Garamond title, short ledger pills, Hall/Named/Contributor links) and right-side generated plaque rail (`#hohPlates`). The section is not a generic card grid: it is a dark ledger band with gold/red atmospheric fields, a thin vertical rail, and asymmetric spacing. Apex Gold is permitted here only for the mark, rail, primary Hall link, and 6★/Ultimate emphasis; Honor Red remains reserved for contributor identity.
+
+**Hall of Heroes gallery page** (`docs/heroes/index.html`) — the dedicated Hall page is a theatrical scroll gallery, not a list page. The first viewport is a single centered title stage, followed by one full-viewport `.hero-stage` per contributor. Each stage centers a crest/card composition with avatar art inside a square front plate, a rotated diamond backplate, a rank/tier seal, and Trust Magnitude metadata. The fixed left ledger rail is the navigation model: avatar, glyph, contributor name, byline, active progress, and prev/next controls. Level 4 uses rank-4 fuchsia accents; 5★/6★ use Apex Gold; named contributor handles still inherit Honor Red via plaque and modal primitives.
+
+**Hall share modal** — the Hall share/download modal is shared between the homepage and `/heroes/` page. It renders the OG plaque in a fullscreen stage with compact icon controls, an identity confirmation pill, optional README badge overlay, and PNG/SVG download choices. Treat this as a production component family, not a decorative overlay: focus states, `aria-label`s, reduced-motion behavior, and path-depth differences (`assets/icons.svg` vs `../assets/icons.svg`) must remain intact.
+
 ---
 
 ## Skill Explorer

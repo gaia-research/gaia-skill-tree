@@ -13,7 +13,7 @@ description: The ultimate capstone suite encompassing all of Matt Pocock's engin
 links:
   github: https://github.com/mattpocock/skills
 createdAt: '2026-05-22'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-02'
 trustMagnitude: 480.29
 overallTrustGrade: S
 apexGateStatus:
@@ -80,6 +80,19 @@ timeline:
   contributor: unknown
   details: 'Apex promotion PR stamped by Marco (founder/mbtiongson1) per #746 directive
     — mattpocock/skills qualifies for §11.12.8 (apexPromotionPrSigned)'
+- timestamp: '2026-07-01T22:21:07Z'
+  action: note
+  contributor: unknown
+  details: Backfilled evidence sourceStartedAt via gaia dev evidence --index for GitHub
+    stargazers (2026-02-03 repo creation) and arXiv source (2026-02-24 publication).
+- timestamp: '2026-07-02T08:25:19Z'
+  action: note
+  contributor: unknown
+  details: 'Post-#918 audit follow-up for #901: sourceStartedAt provenance was backfilled
+    on evidence #0 (https://github.com/mattpocock/skills/stargazers, sourceStartedAt
+    2026-02-03, repo creation date) and evidence #1 (https://arxiv.org/abs/2602.20867,
+    sourceStartedAt 2026-02-24, arXiv publication date). Metadata-only provenance
+    audit note; no rank, star, Trust Magnitude, grade, or apex-gate status changed.'
 evidence:
 - source: https://github.com/mattpocock/skills/stargazers
   evaluator: mbtiongson1
@@ -87,11 +100,12 @@ evidence:
   date: '2026-06-19'
   type: github-stars-own
   class: A
-  notes: 133,210 GitHub stars as of 2026-06-19 (verified via firecrawl validation
-    report; mothership with 19 sub-skills, divisor=4)
+  notes: 152,357 GitHub stars as of 2026-07-01 (GitHub repo created 2026-02-03T11:15:53Z;
+    mothership with 19 sub-skills, divisor=4)
   stars: 152357
   skillCountInRepo: 19
-  grade: C
+  grade: B
+  sourceStartedAt: '2026-02-03'
 - source: https://arxiv.org/abs/2602.20867
   evaluator: mbtiongson1
   date: '2026-06-19'
@@ -99,6 +113,7 @@ evidence:
   class: A
   notes: Skills/tool-use paper — ~52 citations as of 2026-06-19 (arXiv:2602.20867)
   citations: 52
+  sourceStartedAt: '2026-02-24'
 - source: https://www.youtube.com/watch?v=s5T5oQJcJ6U
   evaluator: mbtiongson1
   date: '2026-06-19'
