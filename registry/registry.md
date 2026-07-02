@@ -82,6 +82,7 @@
 | ○ /genomic-data-retrieval | Basic Skill | — | `/genomic-data-retrieval` |
 | ◇ /ghostwrite | Extra Skill | — | `/ghostwrite` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/github-suite | Extra Skill | 3★ | `/git-integration` |
+| ◆ /git-ship-done-pipeline | Ultimate Skill | — | `/git-ship-done-pipeline` |
 | ◇ [mbtiongson1](../docs/u/mbtiongson1/)/graphify-triage | Extra Skill | 2★ | `/graph-driven-issue-triage` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | 3★ | `/grill-me` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | 3★ | `/grill-with-docs` |
@@ -241,4 +242,12 @@
 | ○ Test-Driven Development | Intrinsic Skill | 2★ | `/test-driven-development` |
 | ○ Time Series Forecasting | Intrinsic Skill | — | `/time-series-forecasting` |
 | ○ Token Observability | Intrinsic Skill | 2★ | `/token-observability` |
+
+## Ultimate Skills Awaiting Name
+
+*These Ultimate skills have no named implementation yet. The first contributor to submit a valid named implementation claims the title slot.  Submit with `gaia propose /<skill_id> --ultimate` and open a PR.*
+
+| Skill Call | Prerequisites |
+|---|---|
+| `/git-ship-done-pipeline` | `/brainstorming`, `/writing-plans`, `/subagent-driven-development`, `/verification-before-completion`, `/finishing-a-development-branch` |
 

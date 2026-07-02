@@ -24846,6 +24846,350 @@
       "type": "extra"
     },
     {
+      "id": "gsd-build/discuss-phase",
+      "name": "GSD Discuss Phase",
+      "contributor": "gsd-build",
+      "origin": false,
+      "genericSkillRef": "brainstorming",
+      "status": "awakened",
+      "level": "1★",
+      "description": "Captures implementation decisions and tradeoffs before planning so the agent begins with explicit shared context.",
+      "links": {
+        "github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md",
+          "evaluator": "unknown",
+          "date": "2026-07-03",
+          "type": "github-stars-own",
+          "stars": 64635,
+          "skillCountInRepo": 5
+        }
+      ],
+      "createdAt": "2026-07-03",
+      "updatedAt": "2026-07-03",
+      "timeline": [
+        {
+          "timestamp": "2026-07-02T18:04:47Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill gsd-build/discuss-phase"
+        },
+        {
+          "timestamp": "2026-07-02T18:05:01Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md (type: github-stars-own)"
+        },
+        {
+          "timestamp": "2026-07-02T18:05:56Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md"
+        },
+        {
+          "timestamp": "2026-07-02T18:09:46Z",
+          "action": "suite_ref_set",
+          "contributor": "unknown",
+          "details": "Set suiteRef to gsd-build/get-shit-done"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "gsd-build/execute-phase",
+      "name": "GSD Execute Phase",
+      "contributor": "gsd-build",
+      "origin": false,
+      "genericSkillRef": "subagent-driven-development",
+      "status": "awakened",
+      "level": "1★",
+      "description": "Runs implementation plans in parallel executor waves where each executor starts from a clean context.",
+      "links": {
+        "github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/execute-phase.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/execute-phase.md",
+          "evaluator": "unknown",
+          "date": "2026-07-03",
+          "type": "github-stars-own",
+          "stars": 64635,
+          "skillCountInRepo": 5
+        }
+      ],
+      "createdAt": "2026-07-03",
+      "updatedAt": "2026-07-03",
+      "timeline": [
+        {
+          "timestamp": "2026-07-02T18:04:49Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill gsd-build/execute-phase"
+        },
+        {
+          "timestamp": "2026-07-02T18:05:04Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/execute-phase.md (type: github-stars-own)"
+        },
+        {
+          "timestamp": "2026-07-02T18:05:57Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/execute-phase.md"
+        },
+        {
+          "timestamp": "2026-07-02T18:09:47Z",
+          "action": "suite_ref_set",
+          "contributor": "unknown",
+          "details": "Set suiteRef to gsd-build/get-shit-done"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "gsd-build/get-shit-done",
+      "name": "Get Shit Done",
+      "contributor": "gsd-build",
+      "origin": false,
+      "genericSkillRef": "git-ship-done-pipeline",
+      "status": "awakened",
+      "level": "1★",
+      "description": "Git Ship Done pipeline for Claude Code: discuss, plan, execute, verify, and ship as a repeatable agentic software delivery loop.",
+      "tags": [
+        "suite",
+        "pipeline",
+        "agentic-workflow"
+      ],
+      "links": {
+        "github": "https://github.com/gsd-build/get-shit-done/blob/main/README.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/gsd-build/get-shit-done/stargazers",
+          "evaluator": "unknown",
+          "date": "2026-07-03",
+          "type": "github-stars-own",
+          "stars": 64635,
+          "skillCountInRepo": 5
+        },
+        {
+          "source": "https://github.com/gsd-build/get-shit-done",
+          "evaluator": "unknown",
+          "date": "2026-07-03",
+          "type": "repo-own",
+          "commits": 2888,
+          "contributors": 136,
+          "grade": "B"
+        }
+      ],
+      "createdAt": "2026-07-03",
+      "updatedAt": "2026-07-03",
+      "timeline": [
+        {
+          "timestamp": "2026-07-02T18:04:57Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill gsd-build/get-shit-done"
+        },
+        {
+          "timestamp": "2026-07-02T18:05:09Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/gsd-build/get-shit-done/stargazers (type: github-stars-own)"
+        },
+        {
+          "timestamp": "2026-07-02T18:05:10Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/gsd-build/get-shit-done (type: repo-own)"
+        },
+        {
+          "timestamp": "2026-07-02T18:05:38Z",
+          "action": "demote",
+          "contributor": "unknown",
+          "details": "Origin status set to false."
+        },
+        {
+          "timestamp": "2026-07-02T18:06:04Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/README.md"
+        },
+        {
+          "timestamp": "2026-07-02T18:09:49Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Fused suite components: gsd-build/discuss-phase, gsd-build/plan-phase, gsd-build/execute-phase, gsd-build/verify-work, gsd-build/ship."
+        }
+      ],
+      "type": "ultimate",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "gsd-build/plan-phase",
+      "name": "GSD Plan Phase",
+      "contributor": "gsd-build",
+      "origin": false,
+      "genericSkillRef": "writing-plans",
+      "status": "awakened",
+      "level": "1★",
+      "description": "Researches, decomposes, and verifies an implementation plan against a fresh context window before execution.",
+      "links": {
+        "github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/plan-phase.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/plan-phase.md",
+          "evaluator": "unknown",
+          "date": "2026-07-03",
+          "type": "github-stars-own",
+          "stars": 64635,
+          "skillCountInRepo": 5
+        }
+      ],
+      "createdAt": "2026-07-03",
+      "updatedAt": "2026-07-03",
+      "timeline": [
+        {
+          "timestamp": "2026-07-02T18:04:48Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill gsd-build/plan-phase"
+        },
+        {
+          "timestamp": "2026-07-02T18:05:02Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/plan-phase.md (type: github-stars-own)"
+        },
+        {
+          "timestamp": "2026-07-02T18:05:57Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/plan-phase.md"
+        },
+        {
+          "timestamp": "2026-07-02T18:09:47Z",
+          "action": "suite_ref_set",
+          "contributor": "unknown",
+          "details": "Set suiteRef to gsd-build/get-shit-done"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "gsd-build/ship",
+      "name": "GSD Ship",
+      "contributor": "gsd-build",
+      "origin": false,
+      "genericSkillRef": "finishing-a-development-branch",
+      "status": "awakened",
+      "level": "1★",
+      "description": "Creates the pull request, runs review, archives the completed phase, and prepares the next iteration.",
+      "links": {
+        "github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/ship.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/ship.md",
+          "evaluator": "unknown",
+          "date": "2026-07-03",
+          "type": "github-stars-own",
+          "stars": 64635,
+          "skillCountInRepo": 5
+        }
+      ],
+      "createdAt": "2026-07-03",
+      "updatedAt": "2026-07-03",
+      "timeline": [
+        {
+          "timestamp": "2026-07-02T18:04:52Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill gsd-build/ship"
+        },
+        {
+          "timestamp": "2026-07-02T18:05:07Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/ship.md (type: github-stars-own)"
+        },
+        {
+          "timestamp": "2026-07-02T18:05:59Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/ship.md"
+        },
+        {
+          "timestamp": "2026-07-02T18:09:49Z",
+          "action": "suite_ref_set",
+          "contributor": "unknown",
+          "details": "Set suiteRef to gsd-build/get-shit-done"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "gsd-build/verify-work",
+      "name": "GSD Verify Work",
+      "contributor": "gsd-build",
+      "origin": false,
+      "genericSkillRef": "verification-before-completion",
+      "status": "awakened",
+      "level": "1★",
+      "description": "Walks through built work, diagnoses gaps, and fixes issues before completion is declared.",
+      "links": {
+        "github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md"
+      },
+      "evidence": [
+        {
+          "source": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md",
+          "evaluator": "unknown",
+          "date": "2026-07-03",
+          "type": "github-stars-own",
+          "stars": 64635,
+          "skillCountInRepo": 5
+        }
+      ],
+      "createdAt": "2026-07-03",
+      "updatedAt": "2026-07-03",
+      "timeline": [
+        {
+          "timestamp": "2026-07-02T18:04:50Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill gsd-build/verify-work"
+        },
+        {
+          "timestamp": "2026-07-02T18:05:05Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md (type: github-stars-own)"
+        },
+        {
+          "timestamp": "2026-07-02T18:05:58Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Updated GitHub link to https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md"
+        },
+        {
+          "timestamp": "2026-07-02T18:09:48Z",
+          "action": "suite_ref_set",
+          "contributor": "unknown",
+          "details": "Set suiteRef to gsd-build/get-shit-done"
+        }
+      ],
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
       "id": "langgenius/backend-code-review",
       "name": "Backend Code Review",
       "contributor": "langgenius",
@@ -25734,6 +26078,14 @@
     ],
     "gooseworks": [
       "gooseworks/notte-browser"
+    ],
+    "gsd-build": [
+      "gsd-build/discuss-phase",
+      "gsd-build/execute-phase",
+      "gsd-build/get-shit-done",
+      "gsd-build/plan-phase",
+      "gsd-build/ship",
+      "gsd-build/verify-work"
     ],
     "huggingface": [
       "huggingface/hf-cli",
