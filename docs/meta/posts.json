@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "id": "2026-07-03-curation-report-addy-osmani-7-skill-suite-integration",
+      "type": "report",
+      "date": "2026-07-03",
+      "title": "Curation Report: Addy Osmani 7-Skill Suite Integration",
+      "summary": "Gaia integrates Addy Osmani's 7-Skill developer suite and applies mothership discounting.",
+      "label": "Curation",
+      "url": "meta/reports/2026-07-03-curation-report-addy-osmani-7-skill-suite-integration.html",
+      "author": "Gaia Research",
+      "source": "docs/meta/2026-07-ADDY_OSMANI_SUITE_CURATION.md"
+    },
+    {
       "id": "2026-07-03-gsd-suite-curation",
       "type": "report",
       "date": "2026-07-03",

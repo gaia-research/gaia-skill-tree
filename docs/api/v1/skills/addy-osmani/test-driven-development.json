@@ -87,6 +87,12 @@
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-07-02T18:42:38Z",
+      "action": "suite_ref_set",
+      "contributor": "unknown",
+      "details": "Set suiteRef to addy-osmani/agent-skills"
     }
   ],
   "links": {
