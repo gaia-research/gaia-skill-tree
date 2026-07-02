@@ -9259,6 +9259,174 @@ button.nav-graph-trigger:hover {
   text-align: center
 }
 
+.hoh-section--mini {
+  max-width: none;
+  margin: 0;
+  scroll-margin-top: 5rem;
+  padding:
+    clamp(4rem, 7vw, 6rem)
+    max(1.25rem, calc((100vw - 1180px) / 2));
+  overflow: hidden;
+  isolation: isolate;
+  border-top: 1px solid rgba(var(--apex-gold-rgb), 0.16);
+  border-bottom: 1px solid rgba(var(--apex-gold-rgb), 0.14);
+  background:
+    radial-gradient(ellipse 58% 64% at 86% 10%, rgba(var(--apex-gold-rgb), 0.1), transparent 62%),
+    radial-gradient(ellipse 40% 52% at 10% 80%, rgba(var(--honor-red-rgb), 0.06), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 34%),
+    var(--bg);
+}
+
+.hoh-section--mini::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.45;
+  background:
+    linear-gradient(90deg, rgba(var(--apex-gold-rgb), 0.04) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(var(--apex-gold-rgb), 0.028) 1px, transparent 1px);
+  background-size: 56px 56px, 56px 56px;
+  mask-image: radial-gradient(ellipse 76% 68% at 58% 42%, black 0%, transparent 78%);
+}
+
+.hoh-mini-shell {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(250px, 0.62fr) minmax(0, 1.38fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.hoh-mini-intro {
+  text-align: left;
+}
+
+.hoh-mini-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 1.25rem;
+  color: var(--apex-gold);
+  border: 1px solid rgba(var(--apex-gold-rgb), 0.32);
+  background:
+    radial-gradient(circle, rgba(var(--apex-gold-rgb), 0.12), transparent 68%),
+    rgba(255, 255, 255, 0.025);
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  box-shadow: 0 0 28px rgba(var(--apex-gold-rgb), 0.14);
+  transform: rotate(45deg);
+}
+
+.hoh-mini-mark span {
+  display: inline-block;
+  transform: rotate(-45deg);
+}
+
+.hoh-mini-kicker {
+  margin: 0 0 0.65rem;
+  color: rgba(var(--apex-gold-rgb), 0.86);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+}
+
+.hoh-section--mini h2 {
+  max-width: 10ch;
+  margin-bottom: 0.85rem;
+  color: var(--text);
+  font-size: clamp(2.15rem, 5.4vw, 3.75rem);
+  line-height: 0.98;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+
+.hoh-section--mini .section-sub {
+  max-width: 33rem;
+  margin: 0 0 1.4rem;
+  color: rgba(226, 232, 240, 0.76);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.hoh-mini-ledger {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.6rem;
+}
+
+.hoh-mini-ledger span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid rgba(var(--apex-gold-rgb), 0.18);
+  border-radius: 999px;
+  color: rgba(226, 232, 240, 0.78);
+  background: rgba(255, 255, 255, 0.025);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.035em;
+  white-space: nowrap;
+}
+
+.hoh-section--mini .hoh-footer {
+  justify-content: flex-start;
+  margin-top: 0;
+  gap: 0.65rem;
+}
+
+.hoh-section--mini .hoh-footer .btn {
+  display: inline-flex;
+  align-items: center;
+}
+
+.hoh-section--mini .hoh-primary-link {
+  border-color: rgba(var(--apex-gold-rgb), 0.55);
+  color: var(--apex-gold);
+  box-shadow: 0 0 22px rgba(var(--apex-gold-rgb), 0.12);
+}
+
+.hoh-section--mini .hoh-primary-link:hover,
+.hoh-section--mini .hoh-primary-link:focus-visible {
+  border-color: rgba(var(--apex-gold-rgb), 0.82);
+  color: var(--apex-gold);
+}
+
+.hoh-mini-stage {
+  position: relative;
+  min-width: 0;
+  padding-left: clamp(1rem, 2.2vw, 1.7rem);
+}
+
+.hoh-mini-stage-rail {
+  position: absolute;
+  left: 0;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  width: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(180deg, transparent, rgba(var(--apex-gold-rgb), 0.4), transparent);
+}
+
+.hoh-mini-stage-rail span {
+  width: 9px;
+  height: 9px;
+  margin-left: -3.5px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--apex-gold-rgb), 0.42);
+  background: var(--bg);
+  box-shadow: 0 0 12px rgba(var(--apex-gold-rgb), 0.18);
+}
+
 /* Phase 9 — HoH plate redesign.
    Layout is a featured row (1–2 large plates whose primary skill is 6★)
    stacked above a uniform grid of standard plates. CSS Grid (not flex-
@@ -9274,6 +9442,13 @@ button.nav-graph-trigger:hover {
   margin: 2rem auto;
   padding: 0 1rem;
   text-align: left;
+}
+
+.hoh-section--mini #hohPlates {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  gap: 1.25rem;
 }
 
 .hoh-section #hohPlates > .hoh-featured,
@@ -9310,10 +9485,145 @@ button.nav-graph-trigger:hover {
   align-self: start;
 }
 
+.hoh-section--mini .hoh-featured {
+  gap: 1rem;
+}
+
+.hoh-section--mini .hoh-grid {
+  gap: 0.85rem;
+}
+
+.hoh-section--mini .plaque--hall {
+  --hoh-card-atmosphere:
+    radial-gradient(ellipse 42% 68% at 80% 18%, rgba(var(--plaque-accent-rgb), 0.12), transparent 70%),
+    linear-gradient(116deg, transparent 0%, transparent 60%, rgba(var(--plaque-accent-rgb), 0.18) 61%, transparent 62%);
+  --hoh-card-atmosphere-shift-x: 10px;
+  --hoh-card-atmosphere-shift-y: -8px;
+  --hoh-card-atmosphere-duration: 8s;
+  background:
+    radial-gradient(circle at 50% -24%, rgba(var(--plaque-accent-rgb), 0.075), transparent 58%),
+    rgba(15, 23, 42, 0.72);
+}
+
+.hoh-section--mini .plaque--hall:not(.plaque--apex-vi)::before {
+  content: '';
+  position: absolute;
+  inset: -18%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.78;
+  background: var(--hoh-card-atmosphere);
+  transform: translate3d(0, 0, 0);
+}
+
+.hoh-section--mini .hoh-featured > .plaque--hall:nth-child(2n) {
+  --hoh-card-atmosphere:
+    radial-gradient(ellipse 34% 78% at 18% 12%, rgba(var(--honor-red-rgb), 0.09), transparent 72%),
+    linear-gradient(64deg, transparent 0%, transparent 56%, rgba(var(--plaque-accent-rgb), 0.15) 57%, transparent 58%);
+  --hoh-card-atmosphere-shift-x: -12px;
+  --hoh-card-atmosphere-shift-y: 7px;
+  --hoh-card-atmosphere-duration: 9.5s;
+}
+
+.hoh-section--mini .hoh-featured > .plaque--hall:nth-child(3n) {
+  --hoh-card-atmosphere:
+    radial-gradient(circle at 50% 12%, rgba(var(--apex-gold-rgb), 0.12), transparent 34%),
+    linear-gradient(156deg, transparent 0%, transparent 48%, rgba(var(--plaque-accent-rgb), 0.14) 49%, transparent 50%),
+    linear-gradient(24deg, transparent 0%, transparent 72%, rgba(var(--honor-red-rgb), 0.08) 73%, transparent 74%);
+  --hoh-card-atmosphere-shift-x: 6px;
+  --hoh-card-atmosphere-shift-y: 12px;
+  --hoh-card-atmosphere-duration: 11s;
+}
+
+.hoh-section--mini .hoh-featured > .plaque--hall:nth-child(4n) {
+  --hoh-card-atmosphere:
+    radial-gradient(ellipse 50% 48% at 74% 72%, rgba(var(--plaque-accent-rgb), 0.11), transparent 72%),
+    linear-gradient(102deg, transparent 0%, transparent 64%, rgba(var(--apex-gold-rgb), 0.13) 65%, transparent 66%);
+  --hoh-card-atmosphere-shift-x: -8px;
+  --hoh-card-atmosphere-shift-y: -10px;
+  --hoh-card-atmosphere-duration: 10s;
+}
+
+.hoh-section--mini .plaque--hall .plaque__hall-content {
+  z-index: 2;
+}
+
+.hoh-section--mini .plaque--hall[data-art-loaded="true"] .plaque__hall-backdrop {
+  opacity: 0.035;
+}
+
+.hoh-section--mini .plaque--hall-featured[data-art-loaded="true"] .plaque__hall-backdrop {
+  opacity: 0.045;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hoh-section--mini .plaque--hall:not(.plaque--apex-vi)::before {
+    animation: hoh-mini-atmosphere-drift var(--hoh-card-atmosphere-duration) cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
+  }
+}
+
+@keyframes hoh-mini-atmosphere-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.58;
+  }
+  to {
+    transform: translate3d(var(--hoh-card-atmosphere-shift-x), var(--hoh-card-atmosphere-shift-y), 0) scale(1.04);
+    opacity: 0.88;
+  }
+}
+
 @media (max-width: 720px) {
   .hoh-featured,
   .hoh-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 920px) {
+  .hoh-mini-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .hoh-mini-intro {
+    max-width: 42rem;
+  }
+
+  .hoh-section--mini h2 {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .hoh-section--mini {
+    padding:
+      clamp(3.25rem, 14vw, 4.25rem)
+      1rem;
+  }
+
+  .hoh-mini-stage {
+    padding-left: 0;
+  }
+
+  .hoh-mini-stage-rail {
+    display: none;
+  }
+
+  .hoh-mini-ledger {
+    gap: 0.4rem;
+  }
+
+  .hoh-mini-ledger span {
+    white-space: normal;
+  }
+
+  .hoh-section--mini .hoh-footer {
+    justify-content: stretch;
+  }
+
+  .hoh-section--mini .hoh-footer .btn {
+    flex: 1 1 100%;
+    justify-content: center;
   }
 }
 
@@ -9323,6 +9633,11 @@ button.nav-graph-trigger:hover {
   position: relative;
   margin: 2rem auto;
   max-width: 1200px;
+}
+
+.hoh-section--mini .hoh-track-wrap {
+  max-width: none;
+  margin: 0;
 }
 
 .hoh-track {
@@ -11510,7 +11825,10 @@ body[data-overall-grade="S"] .report-card {
    redundant heading — the chart panel itself IS the section header).
    ════════════════════════════════════════════════════════════════════ */
 .trust-preview {
-  padding: 1.5rem 1.25rem 2.5rem;
+  padding:
+    clamp(2.75rem, 5vw, 4rem)
+    1.25rem
+    clamp(3.5rem, 6vw, 5rem);
   max-width: 1180px;
   margin: 0 auto;
 }
@@ -11556,4 +11874,47 @@ body[data-overall-grade="S"] .report-card {
 }
 @media (max-width: 640px) {
   .trust-preview { padding: 1rem 0.75rem 2rem; }
+}
+
+/* Homepage narrative rhythm: hero and Hall are full-bleed moments; the
+   remaining direct sections share a tighter ledger cadence. */
+.home-page .section-divider {
+  width: min(54rem, 62vw);
+  opacity: 0.72;
+}
+
+.home-page > section:not(#hero):not(.hoh-section--mini):not(.trust-preview) {
+  padding:
+    clamp(4.25rem, 7vw, 6rem)
+    1.5rem
+    clamp(4.5rem, 7vw, 6.25rem);
+}
+
+.home-page > section:not(#hero):not(.trust-preview) > h2,
+.home-page > section:not(#hero):not(.trust-preview) .hoh-mini-intro h2 {
+  text-wrap: balance;
+}
+
+.home-page > section:not(#hero):not(.trust-preview) > .section-sub {
+  max-width: 46rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.home-page #paths {
+  max-width: 1120px;
+}
+
+.home-page .paths-wrap {
+  max-width: 1060px;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+.home-page #ascension,
+.home-page #evidence-cycle,
+.home-page #meta-reports {
+  max-width: 960px;
 }

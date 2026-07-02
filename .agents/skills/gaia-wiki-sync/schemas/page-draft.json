@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PageDraft",
+  "type": "object",
+  "required": ["pageName", "newContent", "citedFactIds", "unresolvedFacts", "changed"],
+  "properties": {
+    "pageName":        { "type": "string" },
+    "newContent":      { "type": "string", "description": "full updated page markdown" },
+    "citedFactIds":    { "type": "array", "items": { "type": "string" }, "description": "fact IDs from SourceDigests used to justify changes" },
+    "unresolvedFacts": { "type": "array", "items": { "type": "string" }, "description": "things the draft needed but couldn't find in any digest — triggers human review" },
+    "changed":         { "type": "boolean" },
+    "changeReason":    { "type": "string" }
+  }
+}
