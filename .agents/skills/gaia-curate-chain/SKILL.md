@@ -167,7 +167,42 @@ jq -e '
 ```
 Also confirm no prerequisite cycle — every prereq must be an `existingId` or
 another batch entry, and the union must form a DAG. Fail → route back to L3
-with the offending field. Pass → L4.
+with the offending field. Pass → L3.5.
+
+---
+
+## L3.5 — Trust appraisal dry run
+
+Before the human review gate, run `/trust-appraise` for any proposed named
+suite or high-star named implementation whose rank could be distorted by repo
+stars, mothership discount, or fusion-recipe math. This is a non-mutating
+appraisal step: it informs review, but never auto-promotes.
+
+For suite candidates, record:
+
+- component count used for the dry run;
+- `github-stars-own`, `repo-own`, and `fusion-recipe` contributions;
+- whether the components are already curated/graded origins or merely proposed;
+- any archive/installability caveats.
+
+Example:
+
+```bash
+PYTHONPATH=src python3 scripts/trust_appraise.py \
+  --repo gsd-build/get-shit-done \
+  --components 5 \
+  --evidence-path docs/INVENTORY.md
+```
+
+**Gate g3.5 — appraisal sanity gate**:
+```bash
+# Any suite candidate must have an appraisal note before L4.
+jq -e 'all(.batch[] | select(.type=="ultimate" or (.suiteComponents|length>0));
+        (.trustAppraisal != null))' \
+  generated-output/curate-chain-state.json
+```
+Fail → route back to L3 to add the appraisal note or downgrade/defer the suite.
+Pass → L4.
 
 ---
 

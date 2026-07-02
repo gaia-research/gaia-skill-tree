@@ -1,7 +1,7 @@
 ---
-name: gaia-tm-inspect
+name: trust-appraise-all
 description: >
-  Use this skill when the user wants to understand why a named Gaia skill has a particular
+  Use this skill when the user wants the full existing-registry Trust Magnitude inspector: understand why a named Gaia skill has a particular
   star rank, what its Trust Magnitude (TM) score is, which evidence rows are contributing
   (or dead), how far it is from the next grade, or what evidence to add to move the needle.
   Also use when asked for a full leaderboard of all named skills ranked by TM.
@@ -13,7 +13,7 @@ version: "1.1.0"
 genericSkillRef: registry-inspection
 ---
 
-# /gaia-tm-inspect
+# /trust-appraise-all
 
 Breaks down the Trust Magnitude (TM) score for any named Gaia skill, or produces a full ranked leaderboard. TM is the composite evidence score that gates star promotions — understanding it tells you exactly why a skill is ranked where it is and what would change that.
 
@@ -22,7 +22,7 @@ Breaks down the Trust Magnitude (TM) score for any named Gaia skill, or produces
 ### Inspect Mode — single skill deep-dive
 
 ```
-/gaia-tm-inspect <skillId>
+/trust-appraise-all <skillId>
 ```
 
 `<skillId>` is the `contributor/name` path (e.g. `garrytan/gstack`, `mattpocock/grill-me`, `obra/superpowers`).
@@ -39,7 +39,7 @@ Breaks down the Trust Magnitude (TM) score for any named Gaia skill, or produces
 ### Leaderboard Mode — all skills ranked
 
 ```
-/gaia-tm-inspect --leaderboard
+/trust-appraise-all --leaderboard
 ```
 
 Full ranked table grouped by grade band:
@@ -68,7 +68,7 @@ The script loads named skills from `registry/named/`, resolves fusion recipes fr
 
 ## Agent Instructions
 
-**For `/gaia-tm-inspect <skillId>`:**
+**For `/trust-appraise-all <skillId>`:**
 
 1. Run the inspect command for the requested skill.
 2. Present a concise table of evidence rows: type, source, and final score. Group live rows above dead rows.
@@ -76,7 +76,7 @@ The script loads named skills from `registry/named/`, resolves fusion recipes fr
 4. State the next-grade gap plainly: "needs X more TM to reach grade Y (currently Z)".
 5. Recommend the single highest-impact evidence type to add, with reasoning (e.g. "one peer-review with 3 reviewers adds ~90 TM — more than doubling current score").
 
-**For `/gaia-tm-inspect --leaderboard`:**
+**For `/trust-appraise-all --leaderboard`:**
 
 1. Run the leaderboard command.
 2. Present the output grouped by grade band.
