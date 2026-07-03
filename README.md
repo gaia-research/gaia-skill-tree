@@ -168,7 +168,7 @@ curl https://gaia.tiongson.co/api/v1/leaderboard.json
 **1. CLI
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `5.11.1`.
+Current Gaia CLI version: `5.11.2`.
 
 ```bash
 curl -fsSL https://gaia.tiongson.co/install.sh | sh

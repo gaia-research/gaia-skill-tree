@@ -1,23 +1,21 @@
-# Skill Tree — getagentseal
-**Last Updated:** 2026-05-25
-**Total Skills Unlocked:** 1
+# Skill Tree — arukurmi
+**Last Updated:** 2026-07-03
+**Total Skills Unlocked:** 0
 **Highest Tier:** —
-**Deepest Lineage:** 1
+**Deepest Lineage:** 0
 
 ---
 
 ## Unlocked Skills
 
-| Skill | Type | Rank | Tier name | Source | Date |
-|---|---|---|---|---|---|
-| ○ getagentseal/codeburn | Basic Skill | 2★ | Named | getagentseal/gaia-skill-tree | 2026-05-14T00:00:00Z |
+_No skills unlocked yet._
 
 ---
 
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — getagentseal  ·  generated 2026-07-03
+GAIA SKILL TREE — arukurmi  ·  generated 2026-07-03
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
