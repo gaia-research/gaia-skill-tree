@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-03T06:45:15Z",
+  "generatedAt": "2026-07-03T19:57:12Z",
   "firstRun": false,
   "skills": [
     {
@@ -496,7 +496,7 @@
     {
       "id": "addy-osmani/performance-optimization",
       "name": "Performance Optimization",
-      "level": "3★",
+      "level": "4★",
       "contributor": "addy-osmani",
       "trustMagnitude": 83.2,
       "overallTrustGrade": "B",

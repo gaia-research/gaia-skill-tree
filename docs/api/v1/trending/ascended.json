@@ -1,6 +1,19 @@
 {
-  "generatedAt": "2026-07-03T06:45:15Z",
+  "generatedAt": "2026-07-03T19:57:12Z",
   "skills": [
+    {
+      "id": "addy-osmani/performance-optimization",
+      "name": "Performance Optimization",
+      "level": "4★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 83.2,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-03T19:57:07Z",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
+      },
+      "previousLevel": "3★"
+    },
     {
       "id": "addy-osmani/agent-skills",
       "name": "Agent Skills",
@@ -374,19 +387,6 @@
       "ascendedAt": "2026-06-20T06:31:34Z",
       "_links": {
         "self": "/api/v1/skills/obra/brainstorming.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "obra/executing-plans",
-      "name": "Executing Plans",
-      "level": "3★",
-      "contributor": "obra",
-      "trustMagnitude": 95.15,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-06-20T06:31:34Z",
-      "_links": {
-        "self": "/api/v1/skills/obra/executing-plans.json"
       },
       "previousLevel": "2★"
     }

@@ -5,13 +5,13 @@ contributor: addy-osmani
 origin: true
 genericSkillRef: performance-tuning
 status: named
-level: 3★
+level: 4★
 description: 'Measurement-driven performance workflow: baseline with Lighthouse and
   RUM, identify bottlenecks via profiling, fix targeted issues (N+1 queries, render
   blocking, unoptimized images), verify against Core Web Vitals thresholds (LCP ≤2.5s,
   INP ≤200ms, CLS ≤0.1), and guard against regression with perf budgets.'
 createdAt: '2026-05-31'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-04'
 title: The Perf Loop
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
@@ -62,6 +62,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:36Z'
   details: TM 0.0 -> 83.2, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-07-03T19:57:07Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 evidence:
 - class: A
   source: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
@@ -101,7 +105,7 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-19T09:20:40Z'
 trustMagnitudeInputHash: 32dbe25f29d47c797933a404beeec42d5f9e81254e88df6a574205f2153637a6
-suiteRef: "addy-osmani/agent-skills"
+suiteRef: addy-osmani/agent-skills
 ---
 
 ## Installation

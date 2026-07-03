@@ -7,7 +7,7 @@
     "C": 77,
     "ungraded": 70,
     "floor": 0,
-    "up": 1
+    "up": 0
   },
   "rows": [
     {
@@ -240,7 +240,7 @@
       "id": "addy-osmani/performance-optimization",
       "trustMagnitude": 104.29,
       "grade": "A",
-      "level": "3★",
+      "level": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 68.29

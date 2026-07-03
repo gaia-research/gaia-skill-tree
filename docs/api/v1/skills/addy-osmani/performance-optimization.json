@@ -2,7 +2,7 @@
   "id": "addy-osmani/performance-optimization",
   "name": "Performance Optimization",
   "contributor": "addy-osmani",
-  "level": "3★",
+  "level": "4★",
   "type": "basic",
   "status": "named",
   "trustMagnitude": 83.2,
@@ -118,6 +118,12 @@
       "action": "migrate_trust_magnitude",
       "timestamp": "2026-06-19T13:26:36Z",
       "details": "TM 0.0 -> 83.2, grade ungraded -> B (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-07-03T19:57:07Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 3★ to 4★"
     }
   ],
   "links": {

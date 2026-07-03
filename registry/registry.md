@@ -123,7 +123,7 @@
 | ○ /parse-html | Basic Skill | — | `/parse-html` |
 | ○ /parse-json | Basic Skill | — | `/parse-json` |
 | ○ /parse-pdf | Basic Skill | — | `/parse-pdf` |
-| ○ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Basic Skill | 3★ | `/performance-tuning` |
+| ○ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Basic Skill | 4★ | `/performance-tuning` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/personal | Extra Skill | 3★ | `/personal` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/obsidian-vault | Extra Skill | 3★ | `/personal-knowledge-management` |
 | ◇ /plan-and-execute | Extra Skill | — | `/plan-and-execute` |
