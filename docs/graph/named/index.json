@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-03",
+  "generatedAt": "2026-07-04",
   "buckets": {
     "automated-testing": [
       {
@@ -1875,7 +1875,7 @@
         "origin": true,
         "genericSkillRef": "performance-tuning",
         "status": "named",
-        "level": "3★",
+        "level": "4★",
         "description": "Measurement-driven performance workflow: baseline with Lighthouse and RUM, identify bottlenecks via profiling, fix targeted issues (N+1 queries, render blocking, unoptimized images), verify against Core Web Vitals thresholds (LCP ≤2.5s, INP ≤200ms, CLS ≤0.1), and guard against regression with perf budgets.",
         "title": "The Perf Loop",
         "tags": [
@@ -1914,7 +1914,7 @@
           }
         ],
         "createdAt": "2026-05-31",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-04",
         "timeline": [
           {
             "timestamp": "2026-05-31T02:15:44Z",
@@ -1975,6 +1975,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:36Z",
             "details": "TM 0.0 -> 83.2, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-07-03T19:57:07Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 4★"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",

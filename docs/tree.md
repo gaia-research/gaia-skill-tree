@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  ·  generated 2026-07-03
+GAIA SKILL TREE  ·  generated 2026-07-04
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -175,7 +175,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ ruvnet/v3-cli-modernization  [2★]
   │  ├─ ○ ruvnet/v3-core-implementation  [2★]
   │  ├─ ○ ruvnet/v3-integration-deep  [2★]
-  │  ├─ ○ addy-osmani/performance-optimization  [3★]
+  │  ├─ ○ addy-osmani/performance-optimization  [4★]
   │  └─ ◇ ruvnet/swarm-advanced  [2★]
   │     ├─ ○ ruvnet/swarm-orchestration  [2★]
   │     └─ ◇ garrytan/codex  [2★]
@@ -304,4 +304,4 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   ○ getagentseal/codeburn  [2★]
 ```
 
-*Generated from gaia.json on 2026-07-03. Do not edit directly.*
+*Generated from gaia.json on 2026-07-04. Do not edit directly.*

@@ -36,7 +36,7 @@
 <line x1="858.626" y1="622.832" x2="665.364" y2="271.903" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="841.437" y1="238.386" x2="674.317" y2="273.5" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="374.629" y1="543.938" x2="674.317" y2="273.5" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="569.941" y1="163.745" x2="674.317" y2="273.5" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="553.23" y1="168.53" x2="674.317" y2="273.5" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="364.676" y1="513.633" x2="634.258" y2="609.903" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="786.736" y1="195.677" x2="634.258" y2="609.903" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="885.816" y1="295.779" x2="634.258" y2="609.903" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
@@ -52,7 +52,7 @@
 <line x1="502.083" y1="539.393" x2="625.49" y2="609.38" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="430.879" y1="633.633" x2="625.49" y2="609.38" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="781.198" y1="687.564" x2="484.336" y2="508.328" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="538.859" y1="173.55" x2="484.336" y2="508.328" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="522.803" y1="180.212" x2="484.336" y2="508.328" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="430.879" y1="633.633" x2="698.765" y2="280.48" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="815.163" y1="215.182" x2="698.765" y2="280.48" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="625.49" y1="609.38" x2="619.031" y2="608.702" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
@@ -76,7 +76,7 @@
 <line x1="760.603" y1="181.775" x2="729.38" y2="295.393" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="651.153" y1="724.782" x2="729.38" y2="295.393" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="893.23" y1="309.235" x2="729.38" y2="295.393" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="538.859" y1="173.55" x2="737.982" y2="301.078" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="522.803" y1="180.212" x2="737.982" y2="301.078" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="546.586" y1="582.035" x2="737.982" y2="301.078" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="735.434" y1="708.547" x2="737.982" y2="301.078" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="908.532" y1="344.525" x2="745.049" y2="306.341" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
@@ -113,9 +113,9 @@
 <line x1="634.258" y1="609.903" x2="470.29" y2="449.933" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="493.427" y1="195.58" x2="757.722" y2="317.356" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="901.395" y1="326.431" x2="757.722" y2="317.356" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="523.22" y1="180.024" x2="757.722" y2="317.356" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="589.488" y1="159.512" x2="757.722" y2="317.356" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="489.3" y1="518.673" x2="621.712" y2="270.987" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="551.784" y1="168.996" x2="621.712" y2="270.987" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="535.426" y1="174.879" x2="621.712" y2="270.987" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="606.722" y1="273.289" x2="621.712" y2="270.987" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="482.646" y1="375.658" x2="621.712" y2="270.987" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="508.692" y1="187.051" x2="621.712" y2="270.987" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
@@ -134,7 +134,7 @@
 <line x1="599.533" y1="722.112" x2="769.62" y2="330.006" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="481.513" y1="501.497" x2="470.141" y2="433.079" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="853.588" y1="251.307" x2="470.141" y2="433.079" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="538.859" y1="173.55" x2="646.334" y2="386.373" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="522.803" y1="180.212" x2="646.334" y2="386.373" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="493.427" y1="195.58" x2="646.334" y2="386.373" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="481.513" y1="501.497" x2="646.334" y2="386.373" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="624.078" y1="155.445" x2="646.334" y2="386.373" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
@@ -153,7 +153,7 @@
 <line x1="450.744" y1="226.91" x2="646.334" y2="386.373" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="502.083" y1="539.393" x2="646.334" y2="386.373" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="490.889" y1="358.355" x2="646.334" y2="386.373" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="569.941" y1="163.745" x2="646.334" y2="386.373" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="553.23" y1="168.53" x2="646.334" y2="386.373" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="537.872" y1="575.904" x2="646.334" y2="386.373" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="512.747" y1="552.724" x2="646.334" y2="386.373" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="634.258" y1="609.903" x2="646.334" y2="386.373" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
@@ -167,14 +167,14 @@
 <line x1="572.494" y1="283.978" x2="646.334" y2="386.373" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="481.513" y1="501.497" x2="775.431" y2="337.246" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="634.258" y1="609.903" x2="775.431" y2="337.246" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="551.784" y1="168.996" x2="775.431" y2="337.246" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="535.426" y1="174.879" x2="775.431" y2="337.246" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="579.412" y1="718.485" x2="780.97" y2="344.987" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="640.143" y1="155.0" x2="780.97" y2="344.987" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="482.483" y1="677.515" x2="780.97" y2="344.987" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="640.143" y1="155.0" x2="785.162" y2="351.524" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="841.437" y1="238.386" x2="785.162" y2="351.524" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="777.305" y1="540.237" x2="788.775" y2="357.744" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="569.941" y1="163.745" x2="788.775" y2="357.744" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="553.23" y1="168.53" x2="788.775" y2="357.744" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="657.311" y1="155.526" x2="788.775" y2="357.744" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="481.513" y1="501.497" x2="471.796" y2="415.357" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="359.345" y1="390.426" x2="471.796" y2="415.357" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
@@ -216,7 +216,7 @@
 <line x1="786.736" y1="195.677" x2="809.829" y2="432.384" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="841.437" y1="238.386" x2="809.829" y2="432.384" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="355.375" y1="425.377" x2="805.195" y2="399.866" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="551.784" y1="168.996" x2="805.195" y2="399.866" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="535.426" y1="174.879" x2="805.195" y2="399.866" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="355.375" y1="425.377" x2="806.958" y2="407.982" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="499.726" y1="343.963" x2="806.958" y2="407.982" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="640.143" y1="155.0" x2="806.958" y2="407.982" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
@@ -243,7 +243,7 @@
 <line x1="565.754" y1="287.07" x2="676.907" y2="479.419" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="549.257" y1="296.244" x2="676.907" y2="479.419" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="923.301" y1="408.926" x2="809.582" y2="451.911" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="538.859" y1="173.55" x2="809.582" y2="451.911" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="522.803" y1="180.212" x2="809.582" y2="451.911" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="924.16" y1="461.86" x2="809.582" y2="451.911" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="893.23" y1="309.235" x2="808.704" y2="460.954" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="557.872" y1="291.155" x2="808.704" y2="460.954" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
@@ -258,9 +258,9 @@
 <line x1="409.172" y1="607.163" x2="565.754" y2="287.07" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="389.361" y1="575.666" x2="565.754" y2="287.07" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="385.321" y1="312.079" x2="565.754" y2="287.07" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="523.22" y1="180.024" x2="565.754" y2="287.07" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="589.488" y1="159.512" x2="565.754" y2="287.07" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="645.026" y1="609.926" x2="565.754" y2="287.07" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="569.941" y1="163.745" x2="482.646" y2="375.658" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="553.23" y1="168.53" x2="482.646" y2="375.658" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="858.626" y1="622.832" x2="482.646" y2="375.658" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="745.049" y1="306.341" x2="806.14" y2="476.021" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="430.879" y1="633.633" x2="806.14" y2="476.021" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
@@ -317,7 +317,7 @@
 <line x1="921.19" y1="393.554" x2="690.34" y2="277.624" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="922.034" y1="481.01" x2="690.34" y2="277.624" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="777.305" y1="540.237" x2="690.34" y2="277.624" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="569.941" y1="163.745" x2="771.881" y2="547.273" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="553.23" y1="168.53" x2="771.881" y2="547.273" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="740.411" y1="173.274" x2="771.881" y2="547.273" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="697.555" y1="719.128" x2="771.881" y2="547.273" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="897.274" y1="562.618" x2="677.658" y2="605.777" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
@@ -385,14 +385,14 @@
 <line x1="809.582" y1="451.911" x2="507.199" y2="546.131" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="613.59" y1="723.774" x2="507.199" y2="546.131" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="613.59" y1="723.774" x2="711.148" y2="594.396" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="538.859" y1="173.55" x2="711.148" y2="594.396" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="522.803" y1="180.212" x2="711.148" y2="594.396" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="530.2" y1="703.0" x2="711.148" y2="594.396" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="450.744" y1="226.91" x2="670.816" y2="607.184" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="624.078" y1="155.445" x2="670.816" y2="607.184" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="481.513" y1="501.497" x2="661.722" y2="608.606" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="523.22" y1="180.024" x2="661.722" y2="608.606" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="589.488" y1="159.512" x2="661.722" y2="608.606" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="567.237" y1="593.641" x2="652.471" y2="609.542" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="523.22" y1="180.024" x2="652.471" y2="609.542" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="589.488" y1="159.512" x2="652.471" y2="609.542" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="677.658" y1="605.777" x2="652.471" y2="609.542" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="670.816" y1="607.184" x2="652.471" y2="609.542" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="661.722" y1="608.606" x2="652.471" y2="609.542" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
@@ -442,7 +442,7 @@
 <circle cx="493.427" cy="195.58" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Evaluate Output</title></circle>
 <circle cx="893.23" cy="309.235" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Extract Entities</title></circle>
 <circle cx="381.838" cy="560.736" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Feed Monitoring</title></circle>
-<circle cx="589.092" cy="159.584" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Few-Shot Learning</title></circle>
+<circle cx="572.091" cy="163.209" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Few-Shot Learning</title></circle>
 <circle cx="901.395" cy="326.431" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Fine-Tune</title></circle>
 <circle cx="374.629" cy="543.938" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Format Output</title></circle>
 <circle cx="368.991" cy="528.2" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Framework Upgrade</title></circle>
@@ -472,15 +472,15 @@
 <circle cx="889.19" cy="578.309" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Parse JSON</title></circle>
 <circle cx="881.15" cy="591.893" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Parse PDF</title></circle>
 <circle cx="869.796" cy="608.579" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Pathway Ontology Retrieval</title></circle>
-<circle cx="523.22" cy="180.024" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Performance Tuning</title></circle>
+<circle cx="589.488" cy="159.512" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Performance Tuning</title></circle>
 <circle cx="858.626" cy="622.832" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Plan and Decompose</title></circle>
 <circle cx="850.891" cy="631.703" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Probabilistic Programming</title></circle>
 <circle cx="836.874" cy="646.072" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Prompt Injection Defense</title></circle>
 <circle cx="821.613" cy="659.64" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Protein Structure Analysis</title></circle>
 <circle cx="809.91" cy="668.813" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Proteomic Data Retrieval</title></circle>
-<circle cx="538.859" cy="173.55" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Question Answer</title></circle>
+<circle cx="522.803" cy="180.212" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Question Answer</title></circle>
 <circle cx="798.258" cy="677.022" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Rank</title></circle>
-<circle cx="551.784" cy="168.996" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Refactor Code</title></circle>
+<circle cx="535.426" cy="174.879" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Refactor Code</title></circle>
 <circle cx="781.198" cy="687.564" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Requirements Analysis</title></circle>
 <circle cx="763.72" cy="696.746" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Retrieve</title></circle>
 <circle cx="751.128" cy="702.441" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Reward Modeling</title></circle>
@@ -516,7 +516,7 @@
 <circle cx="443.519" cy="646.447" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Visual Question Answering</title></circle>
 <circle cx="430.879" cy="633.633" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Web Search</title></circle>
 <circle cx="436.595" cy="240.372" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Worker Agent Dispatch</title></circle>
-<circle cx="569.941" cy="163.745" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Write Report</title></circle>
+<circle cx="553.23" cy="168.53" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Write Report</title></circle>
 <circle cx="645.026" cy="609.926" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Advanced Swarm Coordination</title></circle>
 <circle cx="641.087" cy="270.003" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Adversarial Robustness Testing</title></circle>
 <circle cx="648.731" cy="270.224" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Agent Evaluation</title></circle>
@@ -663,7 +663,7 @@
 <text x="924.95" y="432.3" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Literature Search</text>
 <text x="359.345" y="377.4" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Multi-Repo Coordination</text>
 <text x="916.183" y="497.3" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">OCR</text>
-<text x="523.22" y="167.0" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Performance Tuning</text>
+<text x="589.488" y="146.5" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Performance Tuning</text>
 <text x="821.613" y="646.6" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Protein Structure Analysis</text>
 <text x="809.91" y="655.8" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Proteomic Data Retrieval</text>
 <text x="798.258" y="664.0" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Rank</text>
@@ -672,7 +672,7 @@
 <text x="651.153" y="711.8" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Sentiment Analysis</text>
 <text x="373.094" y="327.1" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Skill Discovery</text>
 <text x="468.93" y="654.9" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Tool Use</text>
-<text x="569.941" y="150.7" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Write Report</text>
+<text x="553.23" y="155.5" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Write Report</text>
 <text x="645.026" y="592.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Advanced Swarm Coordination</text>
 <text x="641.087" y="253.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Adversarial Robustness Testing</text>
 <text x="648.731" y="253.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Agent Evaluation</text>

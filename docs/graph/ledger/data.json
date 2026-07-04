@@ -1,6 +1,6 @@
 {
-  "version": "5.11.3",
-  "generatedAt": "2026-07-03T07:06:08Z",
+  "version": "5.11.0",
+  "generatedAt": "2026-07-04T09:58:39Z",
   "summary": {
     "total": 262,
     "S": 5,
@@ -9,7 +9,7 @@
     "C": 77,
     "ungraded": 70,
     "floor": 0,
-    "up": 1
+    "up": 0
   },
   "rows": [
     {
@@ -382,11 +382,11 @@
       "skillId": "addy-osmani/performance-optimization",
       "tm": 104.29,
       "grade": "A",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 36.0,
