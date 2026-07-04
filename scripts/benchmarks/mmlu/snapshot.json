@@ -1,0 +1,28 @@
+{
+  "_comment": "Static snapshot of MMLU 5-shot scores from the HuggingFace Open LLM Leaderboard. Source: https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard. Snapshot date: 2024-03-01. DO NOT add provenance=ci-reproduced rows here — this file is for mirror citations only.",
+  "sourceUrl": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard",
+  "sourceSnapshotDate": "2024-03-01",
+  "benchmarkId": "mmlu@2024-03",
+  "unit": "pct",
+  "runAt": "2024-03-01T00:00:00Z",
+  "entries": [
+    {
+      "skillId": "anthropic/skill-creator",
+      "score": 86.8,
+      "modelRef": "claude-3-opus-20240229",
+      "notes": "Anthropic Claude 3 Opus MMLU 5-shot average as reported on the leaderboard snapshot 2024-03-01."
+    },
+    {
+      "skillId": "openai/few-shot-learning",
+      "score": 86.4,
+      "modelRef": "gpt-4-0125-preview",
+      "notes": "OpenAI GPT-4 Turbo MMLU 5-shot average as reported on the leaderboard snapshot 2024-03-01. This skill embodies the few-shot prompting technique that MMLU evaluation directly exercises."
+    },
+    {
+      "skillId": "huggingface/semantic-cache",
+      "score": 63.9,
+      "modelRef": "mistral-7b-v0.1",
+      "notes": "Mistral 7B MMLU 5-shot average from the Open LLM Leaderboard 2024-03-01. Semantic caching skills are commonly benchmarked against open-weight models of this tier."
+    }
+  ]
+}

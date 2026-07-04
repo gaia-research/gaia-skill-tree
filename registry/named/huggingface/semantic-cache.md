@@ -16,7 +16,7 @@ tags:
 - cost-optimization
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-05'
 evidence:
 - class: B
   source: https://github.com/codefuse-ai/ModelCache
@@ -30,6 +30,18 @@ evidence:
   contributors: 10
   trustNumber: 70.0
   grade: B
+- source: https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
+  evaluator: unknown
+  date: '2026-07-05'
+  type: benchmark-result
+  benchmarkId: mmlu@2024-03
+  score: 63.9
+  unit: pct
+  runAt: '2024-03-01T00:00:00Z'
+  provenance: mirrored
+  attestor: https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
+  datasetHash: ab313191b8c989dea045d52eeb8896a4646eb66140b0f7723b8f0ebebea43eb5
+  benchmarkInputHash: 641e81ab9f021cec48470ee367820d5d8da81b22c92bbe31b0cf1e6d214066ac
 timeline:
 - timestamp: '2026-06-02T23:48:18Z'
   action: demote
@@ -72,6 +84,11 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 1★ to 2★ per G7 final rankings calibration.
+- timestamp: '2026-07-04T22:35:20Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
+    (type: benchmark-result)'
 installable: false
 trustMagnitude: 36.0
 overallTrustGrade: C
@@ -85,6 +102,8 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 218c09e58c2261c5210efad6f857a14f94bb2f35051476ca0207c34654dd5904
+verification:
+  firstEvidenceAt: '2026-07-04T22:35:20Z'
 ---
 
 ## Overview

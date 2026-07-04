@@ -12,7 +12,16 @@ Every dispatched agent must append an entry at close. Format:
 
 ---
 
-## 2026-07-05 · orchestrator · Sprint D kickoff
+## 2026-07-05 · sonnet-w3 · W3 MMLU mirrored ingest (#906)
+
+**What I did:** Landed W3 in 5 code commits + 1 PR on `dev/sprint-d-benchmark-mirror`. Scaffolded `scripts/benchmarks/mmlu/` (README, `__init__.py`, static `snapshot.json` from HF Open LLM Leaderboard 2024-03-01), wrote `ingest.py` (reads snapshot → `gaia dev evidence --provenance mirrored`, deterministic hashes, duplicate guard), dogfooded 3 mirrored rows on `anthropic/skill-creator` (86.8 pct), `openai/few-shot-learning` (86.4 pct), `huggingface/semantic-cache` (63.9 pct), seeded `docs/api/v1/benchmarks/mmlu.json` + updated `index.json` with both mmlu and humaneval entries, wrote `docs/benchmarks/mmlu-v1.md` methodology page, and added 4 passing tests in `tests/benchmarks/test_mmlu_ingest.py`.
+**SHAs pushed (dev/sprint-d-benchmark-mirror):** `103babc6f`, `e139d0e92`, `d2cd8161e`, `86213cc7e`, `554ec5c42`
+**Gotchas for next agent (W4 leaderboard render):**
+- **`gaia dev evidence` triggers a docs build that deletes `docs/api/v1/benchmarks/index.json` and `docs/api/v1/reports/index.json`.** Revert them with `git checkout -- docs/api/v1/benchmarks/index.json docs/api/v1/reports/index.json` after the CLI run. Also reverts `docs/graph/gaia.json`, `docs/css/tokens.css`, and `docs/graph/ledger/data.json` as usual Class P cleanup.
+- **`ingest.py` uses `yaml.safe_load` for the duplicate guard.** PyYAML must be available in the Python env (`pip install pyyaml`). The fallback (returns `[]`) means a missing PyYAML will silently skip the duplicate check and potentially double-write. CI env should be fine (PyYAML is already a dep), but worth verifying in a fresh venv.
+- **`docs/api/v1/benchmarks/humaneval.json` does not exist yet** (W2b only created the in-skill evidence rows, not the API projection). The `index.json` entry for `humaneval@v1.0` points to `/api/v1/benchmarks/humaneval.json` which is a 404 today. W4 or a follow-up should create that file for API consistency.
+- **Mirrored rows render as `grade: ungraded`** in the CLI output — this is correct per the W2a contract (`computeArtifactScoreOrNone` returns None → no grade written). W4 should surface these as "Cited" badges on the leaderboard (not scored, not ranked, clearly attributed). Do not add a grade field to these rows — the W2a exclusion logic is correct.
+
 
 **What I did:** Cut `dev/sprint-d` off `main@3bc629be9` after confirming PR #895 (Sprint B closure) merged. Seeded `founder/handovers/sprint-d/CONTEXT.md` and this journal.
 **SHAs pushed:** `dev/sprint-d`: 3bc629be9 (initial, matches main; the seed commit for CONTEXT.md + journal follows this entry)

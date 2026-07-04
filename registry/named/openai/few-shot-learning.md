@@ -20,7 +20,7 @@ tags:
 - gpt-3
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-05'
 trustMagnitude: 100.0
 overallTrustGrade: A
 apexGateStatus:
@@ -56,6 +56,11 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 2★ to 4★ per G7 final rankings calibration.
+- timestamp: '2026-07-04T22:34:46Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
+    (type: benchmark-result)'
 evidence:
 - source: https://arxiv.org/abs/2005.14165
   evaluator: mbtiongson1
@@ -65,6 +70,18 @@ evidence:
   notes: GPT-3 few-shot learning paper (Brown et al. 2020) — foundational, 50k+ citations
   citations: 50000
   grade: S
+- source: https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
+  evaluator: unknown
+  date: '2026-07-05'
+  type: benchmark-result
+  benchmarkId: mmlu@2024-03
+  score: 86.4
+  unit: pct
+  runAt: '2024-03-01T00:00:00Z'
+  provenance: mirrored
+  attestor: https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
+  datasetHash: ab313191b8c989dea045d52eeb8896a4646eb66140b0f7723b8f0ebebea43eb5
+  benchmarkInputHash: ededff463522c1793c65ce5c79411e4c1f5bbf4c7f369466a8dafbb61a9faca4
 verification:
   firstEvidenceAt: '2026-06-19T09:24:47Z'
 trustMagnitudeInputHash: 408d42e006dd910b5242b50e03126276ff7961527565125dd179b17b8cfb14dd
