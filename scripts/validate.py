@@ -386,9 +386,11 @@ def validate_benchmark_provenance(graph, strict=False):
 
     Reject self-attested rows always (schema also blocks this at Draft-07
     level; kept as defence-in-depth for pre-migration corpus rows). Reject
-    pending rows when strict is on (main-merge protection). Warn on mirrored
-    rows so operators know their entry is citation-only and excluded from
-    Trust Magnitude.
+    pending rows when strict is on (main-merge protection), UNLESS a later
+    ci-reproduced or verifier-attested row exists for the same skill +
+    benchmarkId (superseded-pending carve-out). Warn on mirrored rows so
+    operators know their entry is citation-only and excluded from Trust
+    Magnitude.
 
     Returns a list of error strings; the caller merges these into all_errors.
     Prints mirrored warnings directly to stdout.
@@ -398,7 +400,9 @@ def validate_benchmark_provenance(graph, strict=False):
     skills = graph.get("skills", []) if isinstance(graph, dict) else graph
     for skill in skills:
         skill_id = skill.get("id", "<unknown>")
-        for idx, row in enumerate(skill.get("evidence") or []):
+        evidence_list = skill.get("evidence") or []
+        
+        for idx, row in enumerate(evidence_list):
             if row.get("type") != "benchmark-result":
                 continue
             provenance = row.get("provenance")
@@ -409,15 +413,29 @@ def validate_benchmark_provenance(graph, strict=False):
                     f"verifier-attested, mirrored, or pending."
                 )
             elif provenance == "pending":
-                message = (
-                    f"Skill '{skill_id}' evidence[{idx}] has provenance='pending' "
-                    f"— must be promoted to ci-reproduced or verifier-attested "
-                    f"before landing on main."
-                )
-                if strict:
-                    errors.append(message)
-                else:
-                    mirrored_warnings.append("(pending) " + message)
+                # Superseded-pending carve-out (Sprint D W2b #905): a pending row is
+                # allowed on main if a later row for the same skill + benchmarkId exists
+                # with provenance in ('ci-reproduced', 'verifier-attested').
+                benchmark_id = row.get("benchmarkId")
+                is_superseded = False
+                if benchmark_id:
+                    for later_row in evidence_list[idx+1:]:
+                        if (later_row.get("type") == "benchmark-result" and
+                            later_row.get("benchmarkId") == benchmark_id and
+                            later_row.get("provenance") in ("ci-reproduced", "verifier-attested")):
+                            is_superseded = True
+                            break
+                
+                if not is_superseded:
+                    message = (
+                        f"Skill '{skill_id}' evidence[{idx}] has provenance='pending' "
+                        f"— must be promoted to ci-reproduced or verifier-attested "
+                        f"before landing on main."
+                    )
+                    if strict:
+                        errors.append(message)
+                    else:
+                        mirrored_warnings.append("(pending) " + message)
             elif provenance == "mirrored":
                 mirrored_warnings.append(
                     f"Skill '{skill_id}' evidence[{idx}] is mirrored — "
