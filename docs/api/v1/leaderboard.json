@@ -2,12 +2,12 @@
   "distribution": {
     "total": 262,
     "S": 5,
-    "A": 43,
+    "A": 44,
     "B": 66,
     "C": 77,
-    "ungraded": 71,
+    "ungraded": 70,
     "floor": 0,
-    "up": 0
+    "up": 1
   },
   "rows": [
     {
@@ -141,6 +141,16 @@
         "github-stars-own": 42.61,
         "arxiv": 3.8,
         "peer-review": 45.0
+      },
+      "origin": true
+    },
+    {
+      "id": "pexp13/sentiment-analysis",
+      "trustMagnitude": 126.07,
+      "grade": "A",
+      "level": "1★",
+      "typeBreakdown": {
+        "arxiv": 126.07
       },
       "origin": true
     },
@@ -2489,14 +2499,6 @@
       "level": "1★",
       "typeBreakdown": {},
       "origin": false
-    },
-    {
-      "id": "pexp13/sentiment-analysis",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "1★",
-      "typeBreakdown": {},
-      "origin": true
     },
     {
       "id": "ruvnet/agentdb-learning",
