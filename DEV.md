@@ -201,6 +201,22 @@ Refer to [CLAUDE.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/CLAUD
   - Always inspect git changes (git status && git diff) before committing; this tool only removes left-only files in targeted bundles.
   - If unsure, prefer the manual regenerate + review workflow above.
 
+  Additional notes:
+  - build_docs.py now normalizes the ledger "version" field (and generatedAt) when run with --check to reduce spurious failures caused by routine version bumps. This should make local --check results more consistent with CI; still follow the regenerate+commit flow for intentional version changes.
+
+  Reproduce CI merge snapshot locally (replace <PR_NUMBER>):
+  ```bash
+  git fetch origin pull/<PR_NUMBER>/merge:refs/tmp/pr-<PR_NUMBER>-merge
+  git checkout refs/tmp/pr-<PR_NUMBER>-merge
+  gaia dev docs
+  git add docs/
+  git commit -m "chore(docs): regenerate artifacts [skip-gen]"
+  ```
+  Notes:
+  - Run these commands from the repository root.
+  - If your branch introduces new CLI flags, run via the worktree source: `PYTHONPATH=$(pwd)/src gaia dev docs` or install editable (`pip install -e .`) first.
+  - Inspect all changes before pushing; prefer small, reviewable commits.
+
 * **Fix (CI):** Manually trigger the **Auto-Sync Registry Artifacts** GitHub Action on your branch.
 * **Encoding note (Windows):** `gaia dev docs` invokes subprocess scripts (`generateBadges.py`, `generateOgCards.py`, `renderGraphSvg.py`) that read UTF-8 JSON. On Windows, the default `cp1252` codec will choke on non-ASCII contributor handles or skill descriptions. Always export UTF-8 env before running:
   ```bash
