@@ -2,10 +2,10 @@
   "distribution": {
     "total": 262,
     "S": 5,
-    "A": 44,
+    "A": 43,
     "B": 66,
     "C": 77,
-    "ungraded": 70,
+    "ungraded": 71,
     "floor": 0,
     "up": 0
   },
@@ -117,17 +117,6 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "fusion-recipe": 150.0
-      },
-      "origin": true
-    },
-    {
-      "id": "pexp13/sentiment-analysis",
-      "trustMagnitude": 183.9,
-      "grade": "A",
-      "level": "4★",
-      "typeBreakdown": {
-        "peer-review": 135.0,
-        "arxiv": 48.9
       },
       "origin": true
     },
@@ -1362,16 +1351,6 @@
       "origin": true
     },
     {
-      "id": "Manavarya09/design-extract",
-      "trustMagnitude": 36.0,
-      "grade": "C",
-      "level": "2★",
-      "typeBreakdown": {
-        "repo-own": 36.0
-      },
-      "origin": false
-    },
-    {
       "id": "addy-osmani/test-driven-development",
       "trustMagnitude": 36.0,
       "grade": "C",
@@ -1690,6 +1669,16 @@
         "repo-own": 36.0
       },
       "origin": true
+    },
+    {
+      "id": "Manavarya09/design-extract",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
     },
     {
       "id": "mbtiongson1/gaia-audit",
@@ -2310,14 +2299,6 @@
       "origin": true
     },
     {
-      "id": "Taoidle/plan-decompose-gh-plan-cascade",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "1★",
-      "typeBreakdown": {},
-      "origin": false
-    },
-    {
       "id": "browserbase/stagehand",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
@@ -2502,6 +2483,14 @@
       "origin": false
     },
     {
+      "id": "pexp13/sentiment-analysis",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": true
+    },
+    {
       "id": "ruvnet/agentdb-learning",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
@@ -2663,6 +2652,14 @@
     },
     {
       "id": "sickn33/n8n-mcp-tools-expert",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
+    },
+    {
+      "id": "Taoidle/plan-decompose-gh-plan-cascade",
       "trustMagnitude": 0.0,
       "grade": "ungraded",
       "level": "1★",
