@@ -36,6 +36,22 @@ _REDACTION_BADGE_DIR_EXEMPTIONS: frozenset[str] = frozenset({
     "yonatangross",
 })
 
+# Auto-clean mode (opt-in via --auto-clean). Default False; when enabled the
+# script will remove left-only generated files in safe places (okf bundle) when
+# running in write mode (not --check). Use cautiously; CI should not enable it.
+AUTO_CLEAN: bool = False
+
+# Stage 1 — bring in the schema-driven CSS-token generator so --check can
+    "0xdarkmatter",
+    "Taoidle",
+    "browserbase",
+    "changkun",
+    "glincker",
+    "gooseworks",
+    "intelligentcode-ai",
+    "yonatangross",
+})
+
 # Stage 1 — bring in the schema-driven CSS-token generator so --check can
 # verify docs/css/tokens.css is in sync with registry/gaia.json.meta.
 SCRIPTS = Path(__file__).resolve().parent
@@ -317,6 +333,42 @@ def build_okf_bundle(check: bool) -> bool:
                         print(f"diff okf_dir diff_files: {comparison.diff_files} in {dir1} vs {dir2}")
                     if comparison.funny_files:
                         print(f"diff okf_dir funny_files: {comparison.funny_files}")
+                    return False
+
+                # Non-check mode: optionally auto-clean left-only files if maintainer enabled
+                # AUTO_CLEAN is a global flag set by main() when --auto-clean is passed.
+                # Be conservative: only remove left_only items (committed files not generated).
+                try:
+                    AUTO_CLEAN_FLAG = globals().get("AUTO_CLEAN", False)
+                except Exception:
+                    AUTO_CLEAN_FLAG = False
+
+                if AUTO_CLEAN_FLAG and comparison.left_only:
+                    import shutil as _shutil
+                    for name in comparison.left_only:
+                        target = dir1 / name
+                        if target.exists():
+                            if target.is_dir():
+                                _shutil.rmtree(target)
+                                print(f"auto-clean: removed directory {target}")
+                            else:
+                                try:
+                                    target.unlink()
+                                    print(f"auto-clean: removed file {target}")
+                                except Exception:
+                                    pass
+                    # Recompute comparison after cleanup
+                    comparison = filecmp.dircmp(dir1, dir2)
+
+                # If differences still exist, surface them as drift
+                if comparison.left_only:
+                    print(f"diff okf_dir left_only: {comparison.left_only} in {dir1}")
+                if comparison.right_only:
+                    print(f"diff okf_dir right_only: {comparison.right_only} in {dir2}")
+                if comparison.diff_files:
+                    print(f"diff okf_dir diff_files: {comparison.diff_files} in {dir1} vs {dir2}")
+                if comparison.funny_files:
+                    print(f"diff okf_dir funny_files: {comparison.funny_files}")
                 return False
             for common_dir in comparison.common_dirs:
                 if not are_dirs_same(dir1 / common_dir, dir2 / common_dir):
@@ -1218,7 +1270,11 @@ def build_docs_graph_assets(check: bool) -> bool:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build generated Gaia docs regions.")
     parser.add_argument("--check", action="store_true", help="Fail if generated docs are stale")
+    parser.add_argument("--auto-clean", action="store_true", help="(Opt-in) In write mode, remove left-only generated files in safe bundles (use cautiously)")
     args = parser.parse_args(argv)
+
+    # Set the global AUTO_CLEAN flag for helper functions to consult.
+    globals()["AUTO_CLEAN"] = bool(getattr(args, "auto_clean", False))
 
     # Track steps that may have failed (subscript errors return True = "stale"
     # but swallow the root cause). We surface warnings so they aren't silent.
