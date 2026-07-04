@@ -282,10 +282,18 @@ def main(argv: list[str] | None = None) -> int:
         for filename, content in outFiles.items():
             path = outDir / filename
             if not path.exists():
-                print(f"MISSING {path.relative_to(REPO_ROOT)}")
+                try:
+                    label = path.relative_to(REPO_ROOT)
+                except ValueError:
+                    label = path
+                print(f"MISSING {label}")
                 stale = True
             elif path.read_bytes() != content:
-                print(f"STALE   {path.relative_to(REPO_ROOT)}")
+                try:
+                    label = path.relative_to(REPO_ROOT)
+                except ValueError:
+                    label = path
+                print(f"STALE   {label}")
                 stale = True
         if stale:
             return 1
