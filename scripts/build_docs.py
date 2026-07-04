@@ -724,7 +724,7 @@ def build_docs_named_index(check: bool) -> bool:
 
 # Files that live in docs/api/v1/ but are hand-authored (not emitted by
 # buildApiProjection.py).  They must be preserved across every regen cycle.
-_API_HAND_AUTHORED = ["openapi.json", "trending"]
+_API_HAND_AUTHORED = ["openapi.json", "trending", "benchmarks", "reports"]
 
 
 def build_trust_ledger(check: bool) -> bool:
@@ -961,6 +961,26 @@ def build_profile_pages(check: bool) -> bool:
                 _apply_cache_busting(gen_index.read_text(encoding="utf-8"), version),
                 encoding="utf-8",
             )
+        # JSON-LD injection (scripts/injectJsonLd.py) runs in a separate
+        # build_docs step AFTER profile pages are written to disk. In check
+        # mode the tempdir pages lack JSON-LD blocks, causing perpetual drift
+        # against the committed pages which have JSON-LD already injected.
+        # Apply the same injection here so the comparison is like-for-like.
+        # NOTE: out_dir = <tmp>/u  →  inject_file classifies relative to the
+        # parent of out_dir so paths appear as u/<handle>/index.html (3 parts),
+        # matching the _classify(parts[0] == "u") branch.
+        try:
+            import importlib.util as _ilu
+            _spec = _ilu.spec_from_file_location(
+                "injectJsonLd", SCRIPTS / "injectJsonLd.py"
+            )
+            _ild = _ilu.module_from_spec(_spec)  # type: ignore[arg-type]
+            _spec.loader.exec_module(_ild)  # type: ignore[union-attr]
+            _ild.DOCS_DIR = out_dir.parent  # parent so rel = u/<handle>/index.html
+            for _hp in sorted(out_dir.rglob("*.html")):
+                _ild.inject_file(_hp, check=False)
+        except Exception:
+            pass  # JSON-LD injection is best-effort in check mode
         if not committed.exists():
             if check:
                 print("diff docs/u/ (missing)")
