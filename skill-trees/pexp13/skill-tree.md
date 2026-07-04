@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ pexp13/sentiment-analysis | Basic Skill | 4★ | Hardened | pexp13/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ pexp13/sentiment-analysis | Basic Skill | 1★ | Awakened | pexp13/gaia-skill-tree | 2026-05-25T00:00:00Z |
 
 ---
 
