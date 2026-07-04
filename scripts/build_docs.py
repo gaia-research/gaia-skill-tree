@@ -529,6 +529,13 @@ _VOLATILE_DATE_PATTERNS = (
     # JSON: "generatedAt", "registryGeneratedAt", or trending "updatedAt": "2026-06-13" | "...T..Z" → value blanked
     (re.compile(r'("(?:\w+)?(?:g|G)eneratedAt"\s*:\s*)"[^"]*"'), r'\1"<normalized>"'),
     (re.compile(r'("updatedAt"\s*:\s*)"\d{4}-\d{2}-\d{2}T[^"]*Z"'), r'\1"<normalized>"'),
+    # JSON: "version": "5.11.5" — bare semver stamp on generated API projections
+    # (docs/api/v1/health.json, ledger/data.json). The value is deterministically
+    # regenerated from pyproject.toml on every build; every PR opened between a
+    # release and its next auto-sync commit tripped `--check` on this field
+    # before this normalizer. Sibling patterns already cover the same drift in
+    # ?v= cache-bust strings and window.GAIA_VERSION.
+    (re.compile(r'("version"\s*:\s*)"\d+\.\d+\.\d+"'), r'\1"<normalized>"'),
     # docs/tree.md provenance lines, both forms:
     #   "GAIA SKILL TREE … · generated 2026-06-13"   (banner header)
     #   "Generated from gaia.json on 2026-06-13. …"  (footer)
