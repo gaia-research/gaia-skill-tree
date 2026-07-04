@@ -96,6 +96,74 @@
       font-weight: 500;
     }
     .benchmark-card a:hover { text-decoration: underline; }
+
+    /* Live leaderboard tiles (W4) */
+    .lb-tiles-heading {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+      margin: 2.5rem 0 1rem;
+    }
+    .lb-tiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .lb-tile {
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 1.1rem 1.3rem;
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+    .lb-tile-name {
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+    .lb-tile-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .lb-prov-badge {
+      display: inline-block;
+      padding: .1rem .4rem;
+      border-radius: 3px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      font-weight: 700;
+    }
+    .lb-prov-ci { background: rgba(74,222,128,.12); color: #4ade80; }
+    .lb-prov-mirrored { background: rgba(71,85,105,.18); color: #64748b; }
+    .lb-tile-actions {
+      display: flex;
+      gap: .7rem;
+      margin-top: .25rem;
+      font-size: .82rem;
+    }
+    .lb-tile-actions a {
+      color: var(--evidence-gold);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .lb-tile-actions a:hover { text-decoration: underline; }
+    .lb-tile-actions .lb-btn-primary {
+      background: rgba(251,191,36,.1);
+      border: 1px solid rgba(251,191,36,.3);
+      border-radius: 4px;
+      padding: .2rem .6rem;
+    }
     .benchmarks-footer {
       margin-top: 4rem;
       padding-top: 2rem;
@@ -136,7 +204,7 @@
 
   <main class="benchmarks-shell">
     <header class="benchmarks-header">
-      <span class="benchmarks-status">Seed page · Sprint D W2a</span>
+      <span class="benchmarks-status">Sprint D W4 · Leaderboards live</span>
       <h1>Benchmarks</h1>
       <p>
         Reproducible benchmark evidence for Gaia skills. Every score carries a
@@ -147,6 +215,10 @@
         from Trust Magnitude.
       </p>
     </header>
+
+    <!-- Live Leaderboards (W4) — tiles loaded from index.json -->
+    <div class="lb-tiles-heading">Live Leaderboards</div>
+    <div class="lb-tiles" id="lb-tiles-mount"></div>
 
     <section class="benchmarks-grid">
       <article class="benchmark-card">
@@ -173,15 +245,51 @@
 
     <footer class="benchmarks-footer">
       <p>
-        Leaderboards land in Sprint D W4 (issue #907). Until then, per-skill
-        benchmark evidence is visible on the skill explorer pages
+        Per-skill benchmark evidence is also visible on the skill explorer pages
         (<a href="../named/">Skills</a>). Schema:
         <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/schema/evidence/benchmark-result.schema.json">benchmark-result.schema.json</a>.
+        Leaderboard URLs frozen at <code>/benchmarks/humaneval/</code> and <code>/benchmarks/mmlu/</code>.
       </p>
     </footer>
   </main>
 
   <div id="site-footer"></div>
   <script src="../js/site-footer.js"></script>
+  <script>
+  (function () {
+    var mount = document.getElementById('lb-tiles-mount');
+    if (!mount) return;
+    fetch('../api/v1/benchmarks/index.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!data || !data.benchmarks || !data.benchmarks.length) {
+          mount.innerHTML = '<p style="color:var(--muted);font-size:.82rem">No leaderboards available yet.</p>';
+          return;
+        }
+        var html = '';
+        data.benchmarks.forEach(function (b) {
+          var slug = (b.id || '').split('@')[0];
+          var provClass = b.provenance === 'mirrored' ? 'lb-prov-mirrored' : 'lb-prov-ci';
+          var provLabel = b.provenance === 'mirrored' ? 'Cited' :
+                          b.provenance === 'ci-reproduced' ? 'CI-Reproduced' : b.provenance;
+          html += '<div class="lb-tile">';
+          html += '<div class="lb-tile-name">' + b.name + '</div>';
+          html += '<div class="lb-tile-meta">';
+          html += '<span class="lb-prov-badge ' + provClass + '">' + provLabel + '</span>';
+          html += '<span>' + (b.id || '') + '</span>';
+          html += '</div>';
+          html += '<div class="lb-tile-actions">';
+          html += '<a class="lb-btn-primary" href="' + slug + '/">View leaderboard &rarr;</a>';
+          html += '<a href="' + b.methodologyUrl + '">Methodology</a>';
+          html += '</div>';
+          html += '</div>';
+        });
+        mount.innerHTML = html;
+      })
+      .catch(function () {
+        mount.innerHTML = '<p style="color:var(--muted);font-size:.82rem">Could not load leaderboard index.</p>';
+      });
+  })();
+  </script>
 </body>
 </html>
