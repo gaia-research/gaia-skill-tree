@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HumanEval Leaderboard | Gaia Registry</title>
+  <meta name="description" content="HumanEval pass@1 benchmark scores for Gaia skills — CI-reproduced with datasetHash + benchmarkInputHash reproducibility fingerprints.">
+  <link rel="stylesheet" href="../../css/tokens.css">
+  <script>
+    window.gaiaIconBase = function () { return '../../assets/icons.svg'; };
+  </script>
+  <style>
+    /* ── Reuse leaderboard aesthetic from scripts/leaderboard.html ── */
+    :root {
+      --lb-bg: var(--surface, #161820);
+      --lb-surface2: var(--surface-raised, #1c1f29);
+      --lb-border: var(--border, #252830);
+      --lb-text: var(--text, #e2e8f0);
+      --lb-muted: var(--muted, #64748b);
+      --lb-mono: 'JetBrains Mono', 'Fira Code', monospace;
+      --lb-sans: 'Bricolage Grotesque', system-ui, sans-serif;
+      --lb-grade-S: var(--grade-S, #e2d5f8);
+      --lb-grade-A: var(--grade-A, #fbbf24);
+      --lb-grade-B: var(--grade-B, #94a3b8);
+      --lb-grade-C: var(--grade-C, #b87333);
+      --lb-grade-u: #475569;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg, #0d0f14); color: var(--lb-text); font-family: var(--lb-sans); font-size: 14px; line-height: 1.5; }
+    a { color: var(--lb-grade-A); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .lb-shell { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+
+    /* Header */
+    .lb-header { border-bottom: 1px solid var(--lb-border); padding-bottom: 1.25rem; margin-bottom: 1.5rem; }
+    .lb-header h1 { font-family: var(--lb-mono); font-size: 1.45rem; font-weight: 700; }
+    .lb-header-meta { color: var(--lb-muted); font-size: .8rem; margin-top: .35rem; font-family: var(--lb-mono); }
+
+    /* Controls */
+    .lb-controls { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 1.25rem; align-items: center; }
+    .lb-search { flex: 1; min-width: 220px; padding: .5rem .8rem; background: var(--lb-bg); border: 1px solid var(--lb-border); border-radius: 6px; color: var(--lb-text); font-family: var(--lb-mono); font-size: .82rem; }
+    .lb-search:focus { outline: none; border-color: var(--lb-grade-A); }
+
+    /* Sections */
+    .lb-section { margin-top: 1.5rem; }
+    .lb-section-dim { opacity: .75; }
+    .lb-section-title { font-family: var(--lb-mono); font-size: .88rem; font-weight: 700; padding: .5rem .8rem; background: var(--lb-bg); border: 1px solid var(--lb-border); border-radius: 6px 6px 0 0; border-bottom: none; display: flex; align-items: center; gap: .55rem; flex-wrap: wrap; }
+    .lb-count { color: var(--lb-muted); font-weight: 400; font-size: .75rem; }
+    .lb-note { font-size: .78rem; color: var(--lb-muted); padding: .55rem .85rem; background: var(--lb-bg); border-left: 1px solid var(--lb-border); border-right: 1px solid var(--lb-border); font-family: var(--lb-sans); }
+    .lb-note strong { color: var(--lb-text); }
+
+    /* Table */
+    .lb-table-wrap { background: var(--lb-bg); border: 1px solid var(--lb-border); border-radius: 0 0 6px 6px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+    th { text-align: left; color: var(--lb-muted); font-weight: 500; font-size: .66rem; text-transform: uppercase; letter-spacing: .07em; padding: .5rem .7rem; border-bottom: 1px solid var(--lb-border); white-space: nowrap; }
+    td { padding: .45rem .7rem; border-bottom: 1px solid rgba(37,40,48,.5); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--lb-surface2); }
+
+    .lb-rank { color: var(--lb-muted); text-align: right; width: 3rem; }
+    .lb-skill a { color: var(--lb-text); font-family: var(--lb-mono); font-weight: 500; }
+    .lb-skill a:hover { color: var(--lb-grade-A); }
+    .lb-score { font-weight: 700; }
+    .lb-mono { font-family: var(--lb-mono); }
+    .lb-dim { color: var(--lb-muted); }
+    .lb-attns a { font-size: .75rem; color: var(--lb-grade-A); font-family: var(--lb-mono); }
+
+    /* Badges */
+    .lb-badge { display: inline-block; padding: .1rem .4rem; border-radius: 3px; font-size: .68rem; font-weight: 700; font-family: var(--lb-mono); }
+    .lb-badge-S { background: rgba(226,213,248,.15); color: var(--lb-grade-S); }
+    .lb-badge-A { background: rgba(251,191,36,.15); color: var(--lb-grade-A); }
+    .lb-badge-B { background: rgba(148,163,184,.15); color: var(--lb-grade-B); }
+    .lb-badge-C { background: rgba(184,115,51,.15); color: var(--lb-grade-C); }
+    .lb-badge-u { background: rgba(71,85,105,.2); color: var(--lb-grade-u); }
+    .lb-badge-prov { font-weight: 600; }
+    .lb-badge-verified { background: rgba(74,222,128,.12); color: #4ade80; }
+    .lb-badge-pending  { background: rgba(148,163,184,.12); color: var(--lb-grade-B); }
+    .lb-badge-cited    { background: rgba(71,85,105,.18); color: var(--lb-grade-u); }
+
+    /* Misc */
+    .lb-empty, .lb-loading { padding: 1.5rem; text-align: center; color: var(--lb-muted); font-size: .82rem; font-family: var(--lb-mono); }
+    .lb-footer { margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--lb-border); color: var(--lb-muted); font-size: .76rem; }
+    .lb-back { margin-bottom: 1rem; font-size: .8rem; font-family: var(--lb-mono); }
+    .lb-back a { color: var(--lb-muted); }
+    .lb-back a:hover { color: var(--lb-grade-A); }
+  </style>
+</head>
+<body>
+  <nav id="site-nav"></nav>
+  <script src="../../js/mounts.js"></script>
+  <script src="../../js/site-nav.js"></script>
+
+  <main class="lb-shell">
+    <div class="lb-back"><a href="../">&larr; Benchmarks</a></div>
+
+    <header class="lb-header">
+      <h1>HumanEval Leaderboard</h1>
+      <div class="lb-header-meta" id="lb-meta">Loading&hellip;</div>
+      <div style="margin-top:.5rem;font-size:.78rem;color:var(--lb-muted)">
+        Methodology: <a href="../humaneval-v1.md">humaneval-v1.md</a>
+        &middot; benchmarkId: <code style="font-family:var(--lb-mono)">humaneval@v1.0</code>
+        &middot; unit: <code style="font-family:var(--lb-mono)">pass@1</code>
+      </div>
+    </header>
+
+    <div class="lb-controls">
+      <input type="text" id="lb-search" class="lb-search" placeholder="Search skill or contributor&hellip;" autocomplete="off">
+    </div>
+
+    <div id="lb-content" data-benchmark="humaneval"></div>
+
+    <footer class="lb-footer">
+      <p>
+        Scores from <strong>ci-reproduced</strong> or <strong>verifier-attested</strong> rows count toward Trust Magnitude.
+        <strong>Pending CI</strong> rows are awaiting first CI reproduction.
+        <strong>Cited</strong> rows are citation-only and are permanently excluded from Trust Magnitude.
+        Data contract: <a href="../../api/v1/benchmarks/humaneval.json">api/v1/benchmarks/humaneval.json</a> &mdash; URL frozen.
+      </p>
+    </footer>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="../../js/site-footer.js"></script>
+  <script src="../_shared/leaderboard.js" defer></script>
+</body>
+</html>
