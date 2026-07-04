@@ -1,15 +1,15 @@
 {
-  "version": "5.11.10",
-  "generatedAt": "2026-07-04T20:11:38Z",
+  "version": "5.11.5",
+  "generatedAt": "2026-07-04T20:18:18Z",
   "summary": {
     "total": 262,
     "S": 5,
-    "A": 43,
+    "A": 44,
     "B": 66,
     "C": 77,
-    "ungraded": 71,
+    "ungraded": 70,
     "floor": 0,
-    "up": 0
+    "up": 1
   },
   "rows": [
     {
@@ -243,6 +243,21 @@
         "github-stars-own": 42.61,
         "arxiv": 3.8,
         "peer-review": 45.0
+      },
+      "origin": true
+    },
+    {
+      "skillId": "pexp13/sentiment-analysis",
+      "tm": 126.07,
+      "grade": "A",
+      "currentStars": "1★",
+      "mayStars": "2★",
+      "juneStars": "1★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "arxiv": 126.07
       },
       "origin": true
     },
@@ -3726,19 +3741,6 @@
       "apexResults": null,
       "typeBreakdown": {},
       "origin": false
-    },
-    {
-      "skillId": "pexp13/sentiment-analysis",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "1★",
-      "mayStars": "2★",
-      "juneStars": "1★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": true
     },
     {
       "skillId": "ruvnet/agentdb-learning",
