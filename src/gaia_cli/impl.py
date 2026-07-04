@@ -2937,7 +2937,49 @@ def pull_command(args):
     scan_command(args)
 
 
+def _fetch_pypi_latest_version(package: str = "gaia-cli"):
+    """Fetch the latest published version of `package` from PyPI JSON API.
+
+    Returns the version string on success, or None on any network/parse failure.
+    """
+    import json as _json
+    import urllib.error
+    import urllib.request
+
+    url = f"https://pypi.org/pypi/{package}/json"
+    try:
+        req = urllib.request.Request(url, headers={"Accept": "application/json"})
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = _json.loads(resp.read())
+        return data.get("info", {}).get("version")
+    except (urllib.error.URLError, urllib.error.HTTPError, _json.JSONDecodeError, OSError, KeyError):
+        return None
+
+
+def _installed_gaia_cli_version():
+    """Return the currently installed gaia-cli version string, or None."""
+    try:
+        from importlib.metadata import PackageNotFoundError, version as package_version
+        try:
+            return package_version("gaia-cli")
+        except PackageNotFoundError:
+            return None
+    except ImportError:
+        return None
+
+
 def update_command(args):
+    # Issue #938: `gaia update` previously always did `pip install -e <registry>`
+    # when the registry checkout had a pyproject.toml, which meant the CLI was
+    # pinned to whatever version happened to live in the local clone even if
+    # PyPI had a newer wheel published. Compare installed vs PyPI and prefer
+    # the PyPI upgrade path when PyPI is strictly newer; only fall back to the
+    # editable install when PyPI is unreachable OR the local checkout is at a
+    # version ≥ PyPI (i.e., the user is developing against an unreleased bump).
+
+    registry_pyproject = Path(args.registry) / "pyproject.toml"
+
+    # Best-effort git pull for the registry data (unchanged behavior).
     res = subprocess.run(
         ["git", "-C", args.registry, "pull", "--ff-only"],
         capture_output=True,
@@ -2965,21 +3007,90 @@ def update_command(args):
                 f"Warning: git pull failed. Proceeding with package update...\n  {stderr}",
                 file=sys.stderr,
             )
-    registry_pyproject = Path(args.registry) / "pyproject.toml"
 
-    # PEP 668 fix: use --break-system-packages if not in a venv
+    # PEP 668 fix: use --break-system-packages if not in a venv/conda env
     pip_args = ["install"]
     if not (os.environ.get("VIRTUAL_ENV") or os.environ.get("CONDA_PREFIX")):
         pip_args.append("--break-system-packages")
 
+    # Resolve the latest published version on PyPI so we can decide whether to
+    # upgrade via wheel or fall back to editable install.
+    pypi_version_str = _fetch_pypi_latest_version("gaia-cli")
+    installed_version_str = _installed_gaia_cli_version()
+
+    pypi_version = _parse_semver(pypi_version_str) if pypi_version_str else None
+    installed_version = _parse_semver(installed_version_str) if installed_version_str else None
+
+    # Also read the checkout's pyproject version for context in messages.
+    local_checkout_version_str = None
     if registry_pyproject.exists():
-        # Editable source install — pipx doesn't support -e, so pip only
+        try:
+            for line in registry_pyproject.read_text(encoding="utf-8").splitlines():
+                if line.startswith("version = "):
+                    local_checkout_version_str = line.split("=", 1)[1].strip().strip('"')
+                    break
+        except OSError:
+            local_checkout_version_str = None
+
+    # Decide the upgrade route.
+    prefer_pypi = (
+        pypi_version is not None
+        and (installed_version is None or pypi_version > installed_version)
+    )
+
+    if prefer_pypi:
+        if installed_version_str:
+            print(
+                f"Upgrading gaia-cli from v{installed_version_str} to v{pypi_version_str} (PyPI)...",
+            )
+        else:
+            print(f"Installing gaia-cli v{pypi_version_str} from PyPI...")
+
+        pip_ok = (
+            subprocess.run(
+                [sys.executable, "-m", "pip"] + pip_args + ["gaia-cli", "--upgrade"],
+            ).returncode
+            == 0
+        )
+        if pip_ok:
+            return
+        # Fall through to pipx before giving up.
+        print("pip upgrade failed; attempting pipx upgrade...", file=sys.stderr)
+        pipx = subprocess.run(["pipx", "upgrade", "gaia-cli"]).returncode
+        if pipx == 0:
+            return
+        print(
+            "Update failed: pip and pipx both returned non-zero.", file=sys.stderr
+        )
+        sys.exit(1)
+
+    # PyPI is unreachable OR the installed version is already at/beyond PyPI.
+    # Prefer the editable install from the local checkout when it exists — this
+    # is the "developing locally" path.
+    if registry_pyproject.exists():
+        if pypi_version_str is None:
+            print(
+                "Warning: Could not reach PyPI to check for the latest release. "
+                "Falling back to editable install from the local registry checkout.",
+                file=sys.stderr,
+            )
+        elif installed_version and pypi_version and installed_version >= pypi_version:
+            print(
+                f"Installed v{installed_version_str} is already at or ahead of PyPI v{pypi_version_str}. "
+                f"Reinstalling from the local checkout"
+                + (f" (v{local_checkout_version_str})." if local_checkout_version_str else "."),
+            )
         subprocess.run(
             [sys.executable, "-m", "pip"] + pip_args + ["-e", args.registry],
             check=True,
         )
         return
-    # Non-editable: try pip first, fall back to pipx
+
+    # No local checkout to install from, and PyPI unreachable — best-effort pip/pipx.
+    print(
+        "Warning: PyPI unreachable and no local checkout available; attempting a plain pip upgrade...",
+        file=sys.stderr,
+    )
     pip_ok = (
         subprocess.run(
             [sys.executable, "-m", "pip"] + pip_args + ["gaia-cli", "--upgrade"],
