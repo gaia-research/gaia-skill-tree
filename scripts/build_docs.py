@@ -724,7 +724,7 @@ def build_docs_named_index(check: bool) -> bool:
 
 # Files that live in docs/api/v1/ but are hand-authored (not emitted by
 # buildApiProjection.py).  They must be preserved across every regen cycle.
-_API_HAND_AUTHORED = ["openapi.json", "trending"]
+_API_HAND_AUTHORED = ["openapi.json", "trending", "benchmarks", "reports"]
 
 
 def build_trust_ledger(check: bool) -> bool:
