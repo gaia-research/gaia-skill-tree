@@ -87,8 +87,9 @@ evidence:
   score: 0.5
   unit: pass@1
   runAt: '2026-07-05T00:00:00Z'
-  provenance: ci-reproduced
-  attestor: https://github.com/gaia-research/gaia-skill-tree/actions/runs/w2b-kc4-bootstrap@286e46e72631bdb1e2332b3a9745255b3ddd0bda
+  provenance: pending
+  attestor: pending-ci-reproduction
+  notes: 'Dogfood seed; will be promoted to ci-reproduced by the first real workflow run of benchmark-humaneval-ci.yml.'
   datasetHash: 244753b2a3366bfbb271e76205fdd88e939c91705093c1a18eebd60fc8a0ebf8
   benchmarkInputHash: 3391b5f75da98f71962896b44acbfc37b37648d35474a10610e12b00c9e582a9
   harnessUrl: https://github.com/gaia-research/gaia-skill-tree/blob/286e46e72631bdb1e2332b3a9745255b3ddd0bda/scripts/benchmarks/humaneval/run.py
