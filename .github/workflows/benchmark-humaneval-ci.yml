@@ -1,0 +1,184 @@
+name: Benchmark — HumanEval CI Reproduction
+
+# Sprint D W2b (#905) — reproduces a HumanEval benchmark score submitted via
+# `gaia push --benchmark humaneval`, then promotes the pending row to
+# provenance:ci-reproduced with the workflow-run URL + commit SHA stamped as
+# the attestor. This is the machine leg of the two-verb contract: push
+# proposes (pending), CI or Verifier promotes.
+#
+# The user-facing verb is documented at docs/benchmarks/humaneval-v1.md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      skillId:
+        description: "Target skill id (e.g. addy-osmani/code-simplification)"
+        required: true
+        type: string
+      datasetUrl:
+        description: "URL of the HumanEval JSONL dataset to download and hash"
+        required: false
+        default: "https://raw.githubusercontent.com/openai/human-eval/master/data/HumanEval.jsonl.gz"
+        type: string
+      promptTemplate:
+        description: "Path to the prompt template file"
+        required: false
+        default: "scripts/benchmarks/humaneval/prompts/default.md"
+        type: string
+      pendingScore:
+        description: "Score claimed by the pending row (0..1 pass@1). Reproduction must fall within tolerance."
+        required: false
+        default: ""
+        type: string
+      scoreTolerance:
+        description: "Absolute tolerance for score reproduction (default 0.05)"
+        required: false
+        default: "0.05"
+        type: string
+      targetBranch:
+        description: "Branch to write the promoted evidence row on (never main directly)"
+        required: false
+        default: "dev/sprint-d"
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  # One reproduction per (skill) at a time — avoid double-writes to the same
+  # named markdown file when two workflows race.
+  group: benchmark-humaneval-${{ inputs.skillId }}
+  cancel-in-progress: false
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GAIA_OPERATOR_OVERRIDE: '1'
+    steps:
+      - name: Checkout target branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.targetBranch }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install gaia CLI
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Download HumanEval dataset
+        id: dataset
+        run: |
+          mkdir -p .benchmark-data
+          url="${{ inputs.datasetUrl }}"
+          echo "Downloading dataset from $url"
+          # Support both .jsonl and .jsonl.gz endpoints
+          if [[ "$url" == *.gz ]]; then
+            curl -fsSL "$url" -o .benchmark-data/HumanEval.jsonl.gz
+            gunzip -f .benchmark-data/HumanEval.jsonl.gz
+          else
+            curl -fsSL "$url" -o .benchmark-data/HumanEval.jsonl
+          fi
+          dataset_hash=$(python -c "import hashlib,sys; print(hashlib.sha256(open('.benchmark-data/HumanEval.jsonl','rb').read()).hexdigest())")
+          echo "dataset_hash=$dataset_hash" >> "$GITHUB_OUTPUT"
+          echo "Dataset SHA-256: $dataset_hash"
+
+      - name: Run HumanEval harness (deterministic)
+        id: run
+        run: |
+          set -euo pipefail
+          python scripts/benchmarks/humaneval/run.py \
+            --skill-id "${{ inputs.skillId }}" \
+            --dataset .benchmark-data/HumanEval.jsonl \
+            --prompt-template "${{ inputs.promptTemplate }}" \
+            --out .benchmark-result.json
+          score=$(python -c "import json; print(json.load(open('.benchmark-result.json'))['score'])")
+          input_hash=$(python -c "import json; print(json.load(open('.benchmark-result.json'))['benchmarkInputHash'])")
+          run_at=$(python -c "import json; print(json.load(open('.benchmark-result.json'))['runAt'])")
+          echo "score=$score"                 >> "$GITHUB_OUTPUT"
+          echo "input_hash=$input_hash"       >> "$GITHUB_OUTPUT"
+          echo "run_at=$run_at"               >> "$GITHUB_OUTPUT"
+          cat .benchmark-result.json
+
+      - name: Verify reproduction score matches pending row (if provided)
+        if: ${{ inputs.pendingScore != '' }}
+        run: |
+          set -euo pipefail
+          pending="${{ inputs.pendingScore }}"
+          got="${{ steps.run.outputs.score }}"
+          tol="${{ inputs.scoreTolerance }}"
+          python - <<PY
+          import sys
+          pending = float("$pending")
+          got     = float("$got")
+          tol     = float("$tol")
+          delta   = abs(pending - got)
+          print(f"pending={pending}  reproduced={got}  delta={delta:.4f}  tolerance={tol}")
+          if delta > tol:
+              print(f"::error::Reproduction outside tolerance ({delta:.4f} > {tol}); row stays pending.")
+              sys.exit(1)
+          print("::notice::Reproduction within tolerance — promoting row.")
+          PY
+
+      - name: Promote pending row to provenance:ci-reproduced
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          attestor="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}@${{ github.sha }}"
+          harness_url="${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/scripts/benchmarks/humaneval/run.py"
+
+          # If a pending row already exists for this (skillId, benchmarkId, inputHash),
+          # the natural flow is: rm-evidence --source <pending source>, then add the
+          # ci-reproduced row. For MVP we simply append; the pending row can be
+          # cleaned up in a follow-up curation pass.
+          python -m gaia_cli dev evidence "${{ inputs.skillId }}" \
+              "$harness_url" \
+              --type benchmark-result \
+              --benchmark-id humaneval@v1.0 \
+              --score "${{ steps.run.outputs.score }}" \
+              --unit pass@1 \
+              --run-at "${{ steps.run.outputs.run_at }}" \
+              --provenance ci-reproduced \
+              --attestor "$attestor" \
+              --dataset-hash "${{ steps.dataset.outputs.dataset_hash }}" \
+              --benchmark-input-hash "${{ steps.run.outputs.input_hash }}" \
+              --harness-url "$harness_url" \
+              --no-build
+
+      - name: Commit and push evidence row
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          git config user.name  "gaia-benchmark-bot"
+          git config user.email "gaia-benchmark-bot@users.noreply.github.com"
+          git add registry/named registry/nodes 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "::notice::No evidence changes to commit."
+            exit 0
+          fi
+          git commit -m "chore(benchmark): promote humaneval score for ${{ inputs.skillId }} to ci-reproduced
+
+          Reproduced score: ${{ steps.run.outputs.score }}
+          Attestor:         ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}@${{ github.sha }}
+          Dataset SHA-256:  ${{ steps.dataset.outputs.dataset_hash }}
+          Input SHA-256:    ${{ steps.run.outputs.input_hash }}"
+          git push origin HEAD:${{ inputs.targetBranch }}
+
+      - name: Upload benchmark result artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: humaneval-result-${{ github.run_id }}
+          path: .benchmark-result.json
+          retention-days: 90

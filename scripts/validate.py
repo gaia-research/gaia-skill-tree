@@ -13,6 +13,7 @@ Validates registry/gaia.json against:
 9. Named skill frontmatter consistency.
 10. Skill suites validation.
 11. Benchmark-result provenance gate (Sprint D W2a, #904).
+12. Verifier benchmark attestation format & authorization (Sprint D W2b, #905).
 
 Generic skill refs are rank-less — stars live only on named skills — so there is
 no generic level/demerit validation.
@@ -34,6 +35,9 @@ import sys
 import os
 import glob
 import argparse
+from pathlib import Path
+
+_REPO_ROOT = Path(__file__).resolve().parent.parent
 
 if sys.platform == "win32":
     import io
@@ -348,6 +352,33 @@ def validate_unique_skills(graph):
             )
 
     return errors
+
+
+def validate_verifier_benchmark_attestations():
+    """Sprint D W2b (#905) — delegate to scripts/check_verifier_signoffs.py.
+
+    Every file under docs/verifier-signoffs/YYYY-MM/*.md must have a
+    well-formed YAML frontmatter block whose ``verifier`` handle resolves
+    to a 4★+ named-skill contributor. Unauthorized or malformed
+    attestations fail validation — and therefore fail CI — even if the
+    PR otherwise has enough reviewer sign-offs.
+    """
+    try:
+        import importlib.util
+        script_path = _REPO_ROOT / "scripts" / "check_verifier_signoffs.py"
+        if not script_path.exists():
+            return []
+        spec = importlib.util.spec_from_file_location("_gaia_signoffs", script_path)
+        module = importlib.util.module_from_spec(spec)
+        assert spec.loader is not None
+        spec.loader.exec_module(module)
+    except Exception as exc:  # pragma: no cover — defensive
+        return [f"Could not load check_verifier_signoffs.py: {exc}"]
+
+    signoffs_dir = _REPO_ROOT / "docs" / "verifier-signoffs"
+    verifiers = module.loadVerifiers()
+    known_skills = module.loadKnownSkills()
+    return module.checkBenchmarkAttestations(signoffs_dir, verifiers, known_skills)
 
 
 def validate_benchmark_provenance(graph, strict=False):
@@ -879,21 +910,25 @@ def main():
     all_errors.extend(validate_ultimate(graph))
 
     # 8. Unique skill constraints
-    print("   [8/11] Unique skill constraints...")
+    print("   [8/12] Unique skill constraints...")
     all_errors.extend(validate_unique_skills(graph))
 
     # 9. Named skills validation (includes reviewer gate + catalog cross-refs)
-    print("   [9/11] Named skills validation...")
+    print("   [9/12] Named skills validation...")
     all_errors.extend(validate_named_skills(graph))
 
     # 10. Skill suites validation
-    print("   [10/11] Skill suites validation...")
+    print("   [10/12] Skill suites validation...")
     all_errors.extend(validate_suites(graph))
 
     # 11. Benchmark-result provenance (Sprint D W2a, #904)
     strict_label = " [strict]" if strict_mode else ""
-    print(f"   [11/11] Benchmark-result provenance{strict_label}...")
+    print(f"   [11/12] Benchmark-result provenance{strict_label}...")
     all_errors.extend(validate_benchmark_provenance(graph, strict=strict_mode))
+
+    # 12. Verifier benchmark attestations (Sprint D W2b, #905)
+    print("   [12/12] Verifier benchmark attestations...")
+    all_errors.extend(validate_verifier_benchmark_attestations())
 
     # Stats
     compute_stats(graph)
