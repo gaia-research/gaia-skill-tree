@@ -77,9 +77,17 @@ def meta_update_named_command(args):
         body = _replace_section(body, "Installation", new_content)
         changed = True
 
-    if getattr(args, "github_link", None):
-        meta.setdefault("links", {})["github"] = args.github_link
-        changed = True
+    if getattr(args, "github_link", None) is not None:
+        if args.github_link == "":
+            # Empty string is an explicit clear.
+            if "links" in meta and "github" in meta["links"]:
+                del meta["links"]["github"]
+                if not meta["links"]:
+                    del meta["links"]
+                changed = True
+        else:
+            meta.setdefault("links", {})["github"] = args.github_link
+            changed = True
 
     installable_val = getattr(args, "installable", None)
     if installable_val is not None:
@@ -160,14 +168,23 @@ def meta_update_named_command(args):
                 f"Replaced ## Installation section from {args.installation_file}",
                 registry_path=registry_path,
             )
-        if getattr(args, "github_link", None):
-            append_skill_event(
-                skill_id,
-                "note",
-                contributor,
-                f"Updated GitHub link to {args.github_link}",
-                registry_path=registry_path,
-            )
+        if getattr(args, "github_link", None) is not None:
+            if args.github_link == "":
+                append_skill_event(
+                    skill_id,
+                    "note",
+                    contributor,
+                    "Cleared GitHub link.",
+                    registry_path=registry_path,
+                )
+            else:
+                append_skill_event(
+                    skill_id,
+                    "note",
+                    contributor,
+                    f"Updated GitHub link to {args.github_link}",
+                    registry_path=registry_path,
+                )
         if getattr(args, "installable", None) is not None:
             append_skill_event(
                 skill_id,

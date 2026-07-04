@@ -218,3 +218,36 @@ def test_update_named_github_link_happy_path(tmp_path):
     from gaia_cli.commands.dev.helpers import _parse_md
     meta, _ = _parse_md(path)
     assert meta["links"]["github"] == "https://github.com/alice/repo/blob/main/skills/test-skill/SKILL.md"
+
+
+# ---------------------------------------------------------------------------
+# Empty-string clear (Issue #936)
+# ---------------------------------------------------------------------------
+
+
+def test_update_named_github_link_empty_clears_existing(tmp_path):
+    """Empty string --github-link '' should clear an existing links.github entry."""
+    root = _make_registry(tmp_path)
+    path = Path(root) / "registry" / "named" / "alice" / "test-skill.md"
+    # First set a link.
+    meta_update_named_command(_args(root, github_link="https://github.com/alice/repo/blob/main/skills/test-skill/SKILL.md"))
+    from gaia_cli.commands.dev.helpers import _parse_md
+    meta, _ = _parse_md(path)
+    assert meta["links"]["github"].endswith("SKILL.md")
+
+    # Now clear it with an empty string.
+    meta_update_named_command(_args(root, github_link=""))
+    meta, _ = _parse_md(path)
+    # links.github should be gone; links dict itself is pruned if empty.
+    assert "github" not in meta.get("links", {})
+
+
+def test_update_named_github_link_empty_no_op_when_absent(tmp_path):
+    """Empty string --github-link '' on a skill with no link should be a no-op (still reports)."""
+    root = _make_registry(tmp_path)
+    path = Path(root) / "registry" / "named" / "alice" / "test-skill.md"
+    before = path.read_text(encoding="utf-8")
+    # Should not crash; may report "No changes specified." since nothing to remove.
+    meta_update_named_command(_args(root, github_link=""))
+    # File should be unchanged (no links.github to remove → no write).
+    assert path.read_text(encoding="utf-8") == before

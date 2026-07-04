@@ -71,6 +71,8 @@ Registry development commands (requires Verifier authorization):
   gaia dev evidence <skillId> <source> [--trust <0-100>] [--type <type>] [--evaluator <user>]
   gaia dev rm-evidence <skill_id> (--index N | --source URL) [--yes]
   gaia dev timeline <skill_id> --action <action> --notes <notes> [--user <username>]
+  gaia dev fuse <generic_id> [--name ...] [--type ultimate|extra|unique|basic] [--prereqs a,b,c] \\
+                [--named-capstone contributor/slug] [--suite-components a,b,c]
   gaia dev build
   gaia dev verify <skill_id>
 
@@ -550,6 +552,46 @@ class DevCommand(Command):
             "--check", action="store_true", help="Fail if docs are stale without writing"
         )
 
+        dev_fuse = dev_sub.add_parser(
+            "fuse",
+            help="Registry-level: upsert a generic fusion node + optional suite manifest",
+        )
+        dev_fuse.add_argument(
+            "generic_id",
+            help="Starless generic skill id (e.g. 'get-shit-done'). Created if it doesn't exist.",
+        )
+        dev_fuse.add_argument(
+            "--name",
+            help="Human-readable name for the generic fusion node (required if creating).",
+        )
+        dev_fuse.add_argument(
+            "--description",
+            help="Description for the generic fusion node (>=10 chars; required if creating).",
+        )
+        dev_fuse.add_argument(
+            "--type",
+            choices=("basic", "extra", "ultimate", "unique"),
+            help="Skill type for the generic fusion node (default: ultimate).",
+        )
+        dev_fuse.add_argument(
+            "--prereqs",
+            help="Comma-separated prerequisite generic skill ids for the fusion node.",
+        )
+        dev_fuse.add_argument(
+            "--named-capstone",
+            help="Existing named capstone id (contributor/slug) to link to this fusion.",
+        )
+        dev_fuse.add_argument(
+            "--suite-components",
+            help="Comma-separated named skill ids to record as suite members "
+                 "(persists to registry/suites/<contributor>/<slug>.json).",
+        )
+        dev_fuse.add_argument(
+            "--no-build",
+            action="store_true",
+            help="Skip rebuilding docs and graph assets after fusing.",
+        )
+
         dev_mcp = dev_sub.add_parser(
             "mcp", help="Manage or run the bundled Gaia MCP server"
         )
@@ -583,6 +625,7 @@ class DevCommand(Command):
             "verify-tier",
             "build",
             "release",
+            "fuse",
         }
         if dev_cmd in MUTATING_DEV_COMMANDS:
             from gaia_cli.authz import require_operator
@@ -660,6 +703,9 @@ class DevCommand(Command):
         elif dev_cmd == "mcp":
             from gaia_cli.commands.mcp_cmd import execute_dev_mcp
             execute_dev_mcp(args)
+        elif dev_cmd == "fuse":
+            from gaia_cli.commands.dev.fuse import meta_dev_fuse_command
+            meta_dev_fuse_command(args)
         elif dev_cmd == "hook":
             from gaia_cli.impl import hook_command
             hook_command(args)
