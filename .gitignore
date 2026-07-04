@@ -94,3 +94,6 @@ raw/graphify-out/cache/
 # Content migrated to evidence/research/ for long-term tracking; ephemeral new crawls
 # should not be committed to the main repo.
 .firecrawl/
+
+# Content Engine draft output (never leaves the runner unless GAIA_CONTENT_ENGINE_PUBLISH=1)
+docs/reports/DRAFT/
