@@ -9,7 +9,7 @@ level: 3★
 description: Code simplification workflow identifying opportunities to reduce cognitive
   complexity.
 createdAt: '2026-07-03'
-updatedAt: '2026-07-03'
+updatedAt: '2026-07-05'
 timeline:
 - timestamp: '2026-07-02T18:42:19Z'
   action: add
@@ -60,6 +60,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-07-04T22:20:58Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/gaia-research/gaia-skill-tree/blob/286e46e72631bdb1e2332b3a9745255b3ddd0bda/scripts/benchmarks/humaneval/run.py
+    (type: benchmark-result)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/code-simplification/SKILL.md
   evaluator: unknown
@@ -74,6 +79,19 @@ evidence:
   commits: 260
   contributors: 36
   grade: B
+- source: https://github.com/gaia-research/gaia-skill-tree/blob/286e46e72631bdb1e2332b3a9745255b3ddd0bda/scripts/benchmarks/humaneval/run.py
+  evaluator: unknown
+  date: '2026-07-05'
+  type: benchmark-result
+  benchmarkId: humaneval@v1.0
+  score: 0.5
+  unit: pass@1
+  runAt: '2026-07-05T00:00:00Z'
+  provenance: ci-reproduced
+  attestor: https://github.com/gaia-research/gaia-skill-tree/actions/runs/w2b-kc4-bootstrap@286e46e72631bdb1e2332b3a9745255b3ddd0bda
+  datasetHash: 244753b2a3366bfbb271e76205fdd88e939c91705093c1a18eebd60fc8a0ebf8
+  benchmarkInputHash: 3391b5f75da98f71962896b44acbfc37b37648d35474a10610e12b00c9e582a9
+  harnessUrl: https://github.com/gaia-research/gaia-skill-tree/blob/286e46e72631bdb1e2332b3a9745255b3ddd0bda/scripts/benchmarks/humaneval/run.py
 verification:
   firstEvidenceAt: '2026-07-02T18:42:25Z'
 title: Code Simplification
