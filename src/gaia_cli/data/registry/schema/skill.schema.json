@@ -323,6 +323,47 @@
           "format": "date",
           "description": "ISO date the source project/repo/publication was first created or published. Optional for B/C/ungraded rows. Required at A/S tier for apex eligibility (gaia validate warns on A/S rows missing this field; hard-fail is I4's job post-cutover). Used by the sourceTenureDaysGte180AorS apex predicate."
         },
+        "citations": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Raw academic citation count for arxiv-type evidence. Consumed by the arxiv magnitude formula: citations / 5 (capped at 100). Persisted so `gaia dev calibrate-evidence-grades` can re-derive the grade if the formula changes."
+        },
+        "stars": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Raw GitHub star count for github-stars-own / proxy-containment / repo-own evidence. Consumed by the github-stars-own formula: min(200, stars/1000) / min(skillCountInRepo, 4)."
+        },
+        "commits": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Raw commit count for repo-own evidence. Consumed by the repo-own formula: (commits/200) + (contributors² × 2), capped at 60."
+        },
+        "contributors": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Distinct contributor count for repo-own evidence. Consumed alongside `commits` in the repo-own formula."
+        },
+        "views": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "View count for social-signal evidence. Consumed by the social-signal formula: log₁₀(views) × 8 × creator_mult × engagement_ratio. Views below 1000 score 0 (floor)."
+        },
+        "reviewers": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Peer reviewer count for peer-review evidence. Consumed by the peer-review formula: 25 × reviewers."
+        },
+        "percentile": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Benchmark placement percentile (0–100) for benchmark-result evidence. Directly consumed by the benchmark-result formula (magnitude = percentile). Required by the CLI when --type benchmark-result."
+        },
+        "skillCountInRepo": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of skills that share the source repo for github-stars-own / proxy-containment evidence. Used as the divisor in the github-stars-own 'mothership discount' — the star pool is split across all skills in the repo up to a cap of 4."
+        },
         "unverified": {
           "type": "boolean",
           "description": "Interim flag for proxy-containment entries whose claim has not yet been validated by the proxy-containment validator (RFC §11.2). Entry counts at full magnitude while flagged; surfaced in gaia evidence listings and audit reports."
