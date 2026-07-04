@@ -110,8 +110,8 @@ jobs:
             case "$PREFIX" in
               schema)
                 case "$file" in
-                  registry/schema/*|*.md) ;; # allowed
-                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (schema/ branches may only touch registry/schema/ or *.md files)" ;;
+                  registry/schema/*|src/gaia_cli/data/registry/schema/*|*.md) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (schema/ branches may only touch registry/schema/, src/gaia_cli/data/registry/schema/, or *.md files)" ;;
                 esac
                 ;;
               cli)
@@ -140,13 +140,13 @@ jobs:
                 ;;
               review-meta)
                 case "$file" in
-                  registry/*|*.md) # allowed, but not schema
+                  registry/*|docs/*|*.md) # allowed, but not schema
                     case "$file" in
                       registry/schema/*) VIOLATIONS="$VIOLATIONS\n  ❌ $file (review/meta branches may not touch registry/schema/)" ;;
                       *) ;; # allowed
                     esac
                     ;;
-                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (review/meta branches may only touch registry/ (excluding registry/schema/) or *.md files)" ;;
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (review/meta branches may only touch registry/ (excluding registry/schema/), docs/, or *.md files)" ;;
                 esac
                 ;;
               jules)
