@@ -357,6 +357,7 @@ def _rebuildArchive(
     archiveJsonPath: Path,
     archiveHtmlPath: Path,
     generatedAt: str,
+    version: str,
 ) -> None:
     """Rebuild (not append) docs/api/v1/reports/index.json + docs/reports/index.html.
 
@@ -401,7 +402,7 @@ def _rebuildArchive(
     tpl = env.get_template("archive.html.j2")
     archiveHtmlPath.parent.mkdir(parents=True, exist_ok=True)
     archiveHtmlPath.write_text(
-        tpl.render(reports=entries, generatedAt=generatedAt),
+        tpl.render(reports=entries, generatedAt=generatedAt, version=version),
         encoding="utf-8",
     )
 
@@ -480,6 +481,7 @@ def run(
             targets["archiveJson"],
             targets["archiveHtml"],
             generatedAt,
+            version,
         )
         print(
             f"[content-engine] published: "
