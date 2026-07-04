@@ -1387,6 +1387,12 @@ def main(argv: list[str] | None = None) -> int:
             "infra/badge-* PRs, not auto-sync).",
             file=sys.stderr,
         )
+    if okf_bundle_changed and args.check:
+        print(
+            "::warning::docs/okf/ is stale (warn-only — decorative meta artifact, "
+            "not structural schema change).",
+            file=sys.stderr,
+        )
 
     changed = (
         assembly_changed
@@ -1407,7 +1413,7 @@ def main(argv: list[str] | None = None) -> int:
         or gexf_changed
         or svg_changed
         or sync_assets_changed
-        or okf_bundle_changed
+        # okf_bundle_changed: intentionally omitted — see warn-only block above.
     )
     if args.check:
         if changed or warnings:
