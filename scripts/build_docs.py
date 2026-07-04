@@ -42,17 +42,6 @@ _REDACTION_BADGE_DIR_EXEMPTIONS: frozenset[str] = frozenset({
 AUTO_CLEAN: bool = False
 
 # Stage 1 — bring in the schema-driven CSS-token generator so --check can
-    "0xdarkmatter",
-    "Taoidle",
-    "browserbase",
-    "changkun",
-    "glincker",
-    "gooseworks",
-    "intelligentcode-ai",
-    "yonatangross",
-})
-
-# Stage 1 — bring in the schema-driven CSS-token generator so --check can
 # verify docs/css/tokens.css is in sync with registry/gaia.json.meta.
 SCRIPTS = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPTS))
