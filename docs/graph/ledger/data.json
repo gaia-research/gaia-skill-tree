@@ -1,6 +1,6 @@
 {
   "version": "5.5.1",
-  "generatedAt": "2026-07-04T18:21:36Z",
+  "generatedAt": "2026-07-04T18:25:36Z",
   "summary": {
     "total": 262,
     "S": 5,
@@ -1998,6 +1998,21 @@
       "origin": true
     },
     {
+      "skillId": "Manavarya09/design-extract",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false
+    },
+    {
       "skillId": "addy-osmani/test-driven-development",
       "tm": 36.0,
       "grade": "C",
@@ -2476,21 +2491,6 @@
         "repo-own": 36.0
       },
       "origin": true
-    },
-    {
-      "skillId": "Manavarya09/design-extract",
-      "tm": 36.0,
-      "grade": "C",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "2★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0
-      },
-      "origin": false
     },
     {
       "skillId": "mbtiongson1/gaia-audit",
@@ -3416,6 +3416,19 @@
       "origin": true
     },
     {
+      "skillId": "Taoidle/plan-decompose-gh-plan-cascade",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "mayStars": "2★",
+      "juneStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
+    },
+    {
       "skillId": "browserbase/stagehand",
       "tm": 0.0,
       "grade": "ungraded",
@@ -3993,19 +4006,6 @@
       "grade": "ungraded",
       "currentStars": "1★",
       "mayStars": "1★",
-      "juneStars": "1★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false
-    },
-    {
-      "skillId": "Taoidle/plan-decompose-gh-plan-cascade",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "1★",
-      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",

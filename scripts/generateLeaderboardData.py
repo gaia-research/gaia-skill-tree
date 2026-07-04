@@ -136,7 +136,7 @@ def buildRows() -> list[dict]:
             "origin":       origin,
         })
 
-    rows.sort(key=lambda r: -r["tm"])
+    rows.sort(key=lambda r: (-r["tm"], r["skillId"]))
     return rows
 
 
