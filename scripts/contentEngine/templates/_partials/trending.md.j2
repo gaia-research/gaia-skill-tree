@@ -1,0 +1,12 @@
+{# trending.md.j2 — top-N trending skills for the past 7 days #}
+## {{ section.title }}
+
+{% if not section.entries %}
+_No trending activity this week._
+{% else %}
+| Rank | Skill | Contributor | Level | Trust Magnitude | Δ TM |
+| ---: | :--- | :--- | :---: | ---: | ---: |
+{% for e in section.entries %}
+| {{ loop.index }} | [{{ e.name }}]({{ e.url }}) | {{ e.contributor or '—' }} | {{ e.level or '—' }} | {{ '%.1f' | format(e.trustMagnitude or 0) }}{% if e.trustGrade %} · {{ e.trustGrade }}{% endif %} | {% if e.isNew %}new{% elif e.tmDelta %}{{ '%+.1f' | format(e.tmDelta) }}{% else %}—{% endif %} |
+{% endfor %}
+{% endif %}
