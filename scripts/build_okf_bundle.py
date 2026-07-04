@@ -146,7 +146,58 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
     with open(OKF_DIR / "index.md", "w", encoding="utf-8") as f_index:
         f_index.write(index_md)
 
-    print("✅ OKF Bundle generated successfully in docs/okf/!")
+    # ── emit index.json for the /skills/ aggregated index page (W5) ──────────
+    _build_okf_index(skills, OKF_DIR)
 
+    print("[OK] OKF Bundle generated successfully in docs/okf/!")
+
+
+def _build_okf_index(skills: list, okf_dir):
+    """Emit docs/okf/index.json — machine-readable index consumed by docs/skills/index.js.
+
+    Shape::
+        {
+          "schemaVersion": "1.0.0",
+          "generatedAt": null,     # frozen null to avoid timestamp drift
+          "families": [
+            {"id": "basic",    "count": N, "skills": [{"id": "...", "name": "...", "summary": "..."}, ...]},
+            {"id": "extra",    ...},
+            {"id": "ultimate", ...}
+          ]
+        }
+    """
+    from pathlib import Path as _Path
+    import json as _json
+
+    families = []
+    for stype in ["basic", "extra", "ultimate"]:
+        type_skills = sorted(
+            [s for s in skills if s.get("type") == stype],
+            key=lambda x: x.get("name", ""),
+        )
+        family_skills = [
+            {
+                "id": s.get("id"),
+                "name": s.get("name", s.get("id")),
+                "summary": re.sub(r'\s+', ' ', s.get("summary", s.get("description", ""))).strip(),
+            }
+            for s in type_skills
+        ]
+        families.append({
+            "id": stype,
+            "count": len(type_skills),
+            "skills": family_skills,
+        })
+
+    payload = {
+        "schemaVersion": "1.0.0",
+        "generatedAt": None,
+        "families": families,
+    }
+
+    out_path = _Path(okf_dir) / "index.json"
+    with open(out_path, "w", encoding="utf-8") as fh:
+        _json.dump(payload, fh, indent=2, ensure_ascii=False)
+        fh.write("\n")
 if __name__ == "__main__":
     main()

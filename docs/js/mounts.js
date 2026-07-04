@@ -12,4 +12,5 @@ window.GAIA_MOUNTS = [
   'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes',
   'reports',
   'benchmarks',
+  'skills',
 ];

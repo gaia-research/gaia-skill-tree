@@ -20,7 +20,7 @@
   if (!el) return;
 
   // ── Path / depth detection ─────────────────────────────────────────────
-  const MOUNTS = window.GAIA_MOUNTS || ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes', 'reports', 'benchmarks'];
+  const MOUNTS = window.GAIA_MOUNTS || ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes', 'reports', 'benchmarks', 'skills'];
   const segs = window.location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
   const dir = /\.html?$/i.test(segs[segs.length - 1]) ? segs.slice(0, -1) : segs;
 
@@ -74,6 +74,7 @@
     { type: 'link', href: root + 'evidence/',     label: 'Evidence Library',   color: 'var(--rank-3)' },
     { type: 'link', href: root + 'reports/',      label: 'Weekly Reports',     color: 'var(--evidence-gold)' },
     { type: 'link', href: root + 'benchmarks/',   label: 'Benchmarks',         color: 'var(--evidence-gold)' },
+    { type: 'link', href: root + 'skills/',        label: 'Skill Index',        color: 'var(--tier-basic)' },
   ];
 
   function li(item) {
