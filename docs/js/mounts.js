@@ -10,4 +10,5 @@
 window.GAIA_MOUNTS = [
   'named', 'en', 'badges', 'u', 'samples', 'graph',
   'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes',
+  'reports',
 ];
