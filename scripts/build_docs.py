@@ -697,7 +697,21 @@ def build_trust_ledger(check: bool) -> bool:
         if check:
             if _equal_ignoring_dates(committed, out_path):
                 return False
-            print("diff docs/graph/ledger/data.json")
+            # Emit a unified diff of the JSON payloads (with normalized timestamps)
+            try:
+                import json, difflib
+                a = json.loads(committed.read_text(encoding="utf-8"))
+                b = json.loads(out_path.read_text(encoding="utf-8"))
+                if "generatedAt" in a:
+                    a["generatedAt"] = "<normalized>"
+                if "generatedAt" in b:
+                    b["generatedAt"] = "<normalized>"
+                fa = json.dumps(a, indent=2, ensure_ascii=False).splitlines(keepends=True)
+                fb = json.dumps(b, indent=2, ensure_ascii=False).splitlines(keepends=True)
+                for line in difflib.unified_diff(fa, fb, fromfile=str(committed), tofile=str(out_path)):
+                    print(line.rstrip())
+            except Exception:
+                print("diff docs/graph/ledger/data.json")
             return True
         if filecmp.cmp(committed, out_path, shallow=False):
             return False
