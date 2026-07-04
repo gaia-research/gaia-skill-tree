@@ -430,6 +430,7 @@ def build_html_cache_busting(check: bool) -> bool:
         "api/index.html",  # pre-registered for Issue #850 (docs page not yet created)
         "trending/index.html",
         "heroes/index.html",
+        "benchmarks/index.html",
     ):
         path = ROOT / "docs" / filename
         if not path.exists():

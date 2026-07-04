@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benchmarks | Gaia Registry</title>
+  <meta name="description" content="Reproducible benchmark evidence for Gaia skills — verifier-attested and CI-reproduced scores with datasetHash + benchmarkInputHash reproducibility fingerprints.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <script>
+    window.gaiaIconBase = function () { return '../assets/icons.svg'; };
+  </script>
+  <style>
+    .benchmarks-shell {
+      max-width: 68rem;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 6rem;
+      color: var(--text);
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    }
+    .benchmarks-header {
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 2rem;
+      margin-bottom: 3rem;
+    }
+    .benchmarks-header h1 {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      line-height: 1.15;
+      margin: 0 0 0.75rem;
+      color: var(--text);
+    }
+    .benchmarks-header p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 44rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .benchmarks-status {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.6rem;
+      border: 1px solid var(--border-subtle);
+      border-radius: 3px;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .benchmarks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+      gap: 1.5rem;
+    }
+    .benchmark-card {
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 1.5rem;
+      background: var(--surface);
+      transition: border-color 0.15s ease;
+    }
+    .benchmark-card:hover {
+      border-color: var(--border);
+    }
+    .benchmark-card h3 {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.45rem;
+      margin: 0 0 0.5rem;
+      color: var(--text);
+    }
+    .benchmark-card .meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .benchmark-card p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 0 0 1rem;
+    }
+    .benchmark-card a {
+      color: var(--evidence-gold);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .benchmark-card a:hover { text-decoration: underline; }
+    .benchmarks-footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .benchmarks-footer a {
+      color: var(--evidence-gold);
+      text-decoration: none;
+    }
+    .benchmarks-footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <nav id="site-nav"></nav>
+  <script src="../js/mounts.js"></script>
+  <script src="../js/site-nav.js"></script>
+
+  <main class="benchmarks-shell">
+    <header class="benchmarks-header">
+      <span class="benchmarks-status">Seed page · Sprint D W2a</span>
+      <h1>Benchmarks</h1>
+      <p>
+        Reproducible benchmark evidence for Gaia skills. Every score carries a
+        reproducibility fingerprint (dataset hash + benchmark input hash), a
+        provenance label (verifier-attested, CI-reproduced, mirrored, or
+        pending), and an attestor identity. Self-attested scores are never
+        accepted. Mirrored scores appear as citations only and are excluded
+        from Trust Magnitude.
+      </p>
+    </header>
+
+    <section class="benchmarks-grid">
+      <article class="benchmark-card">
+        <h3>Methodology</h3>
+        <div class="meta">FROZEN post-merge · v6.x</div>
+        <p>
+          The provenance model, reproducibility fingerprint, Trust Magnitude
+          contribution rules, and the process for adding a new benchmark.
+        </p>
+        <a href="methodology.md">Read the methodology &rarr;</a>
+      </article>
+
+      <article class="benchmark-card">
+        <h3>HumanEval v1.0</h3>
+        <div class="meta">humaneval@v1.0 · pass@1 · CI-reproducible</div>
+        <p>
+          Python function-completion benchmark from OpenAI (2021).
+          Reproduced by Gaia's CI harness on submitted commit SHAs.
+          Full pipeline lands in W2b.
+        </p>
+        <a href="humaneval-v1.md">HumanEval v1.0 methodology &rarr;</a>
+      </article>
+    </section>
+
+    <footer class="benchmarks-footer">
+      <p>
+        Leaderboards land in Sprint D W4 (issue #907). Until then, per-skill
+        benchmark evidence is visible on the skill explorer pages
+        (<a href="../named/">Skills</a>). Schema:
+        <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/schema/evidence/benchmark-result.schema.json">benchmark-result.schema.json</a>.
+      </p>
+    </footer>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="../js/site-footer.js"></script>
+</body>
+</html>
