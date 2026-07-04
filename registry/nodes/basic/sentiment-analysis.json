@@ -17,34 +17,43 @@
       "date": "2026-04-28",
       "notes": "BERT paper — achieves SOTA on SST-2 sentiment benchmark (93.5% accuracy), foundational evidence for LLM-based sentiment analysis. (backfilled — class-to-type migration)",
       "type": "arxiv",
-      "trustNumber": 85.0
+      "trustNumber": 85.0,
+      "grade": "S"
     },
     {
       "class": "A",
       "source": "https://arxiv.org/abs/2202.03829",
       "evaluator": "pexp13",
       "date": "2026-05-17",
-      "notes": "CardiffNLP Twitter-RoBERTa (Barbieri et al., 2022) - SOTA transformer baseline for social-media sentiment analysis; 3-class, multilingual variants available. (backfilled — class-to-type migration)",
+      "notes": "TimeLMs: Diachronic Language Models from Twitter (Barbieri et al., 2022) — 366 citations; Twitter-RoBERTa SOTA baseline for social-media SA.",
       "type": "arxiv",
-      "trustNumber": 85.0
+      "trustNumber": 85.0,
+      "citations": 366,
+      "grade": "A"
     },
     {
       "class": "B",
       "source": "https://aclanthology.org/S17-2088/",
       "evaluator": "pexp13",
       "date": "2026-05-17",
-      "notes": "SemEval-2017 Task 4 - Standard Twitter sentiment benchmark; establishes macro-F1 as primary metric. (backfilled — class-to-type migration)",
+      "notes": "SemEval-2017 Task 4: Sentiment Analysis in Twitter — 905 citations (ACL Anthology); establishes macro-F1 as primary metric for sentiment analysis.",
       "type": "arxiv",
-      "trustNumber": 85.0
+      "trustNumber": 85.0,
+      "reviewers": 3,
+      "grade": "S",
+      "citations": 905
     },
     {
       "class": "B",
       "source": "https://ojs.aaai.org/index.php/ICWSM/article/view/14550",
       "evaluator": "pexp13",
       "date": "2026-05-17",
-      "notes": "VADER (Hutto & Gilbert, 2014) - Canonical lexicon-based baseline; validated on social media corpora. (backfilled — class-to-type migration)",
+      "notes": "VADER (Hutto & Gilbert, 2014) — 5755 citations (AAAI/ICWSM); canonical lexicon-based SA baseline; validated on social media corpora.",
       "type": "arxiv",
-      "trustNumber": 85.0
+      "trustNumber": 85.0,
+      "reviewers": 3,
+      "grade": "S",
+      "citations": 5755
     },
     {
       "class": "B",
@@ -52,7 +61,7 @@
       "evaluator": "pexp13",
       "date": "2026-05-17",
       "notes": "NLPTown BERT multilingual - 5-class (star-rating) model fine-tuned on product reviews; direct UGC applicability. (backfilled — class-to-type migration)",
-      "type": "repo",
+      "type": "repo-own",
       "trustNumber": 70.0
     },
     {
@@ -61,8 +70,9 @@
       "evaluator": "pexp13",
       "date": "2026-05-17",
       "notes": "declare-lab/conv-emotion - Sentiment/emotion recognition in conversations (MELD, IEMOCAP); relevant for threaded comment SA. (backfilled — class-to-type migration)",
-      "type": "repo",
-      "trustNumber": 70.0
+      "type": "repo-own",
+      "trustNumber": 70.0,
+      "grade": "B"
     },
     {
       "class": "C",
@@ -78,9 +88,11 @@
       "source": "https://arxiv.org/abs/2203.01054",
       "evaluator": "pexp13",
       "date": "2026-05-17",
-      "notes": "Aspect-Based SA survey (Zhang et al., 2022) - Covers ABSA methods for structured review analysis. (backfilled — class-to-type migration)",
+      "notes": "A Survey on Aspect-Based Sentiment Analysis: Tasks, Methods, and Challenges (Zhang et al., 2022) — 419 citations; covers ABSA methods for structured review analysis.",
       "type": "arxiv",
-      "trustNumber": 85.0
+      "trustNumber": 85.0,
+      "citations": 419,
+      "grade": "A"
     },
     {
       "class": "C",
@@ -88,14 +100,15 @@
       "evaluator": "pexp13",
       "date": "2026-05-17",
       "notes": "Curated reading list by DeCLaRe Lab; anchored by Poria et al. (2020) IEEE TAC survey on open challenges. (backfilled — class-to-type migration)",
-      "type": "repo",
-      "trustNumber": 70.0
+      "type": "repo-own",
+      "trustNumber": 70.0,
+      "grade": "C"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-21",
+  "updatedAt": "2026-07-05",
   "version": "1.0.0",
   "timeline": [
     {
@@ -175,6 +188,66 @@
       "action": "evidence_graded",
       "contributor": "unknown",
       "details": "Re-graded evidence from https://github.com/declare-lab/awesome-sentiment-analysis as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-04T18:33:27Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #0 from https://arxiv.org/abs/1810.04805; changed citations, grade, notes (grade: ungraded → S)"
+    },
+    {
+      "timestamp": "2026-07-04T18:33:33Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #1 from https://arxiv.org/abs/2202.03829; changed citations, grade, notes (grade: ungraded → A)"
+    },
+    {
+      "timestamp": "2026-07-04T18:33:38Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #2 from https://aclanthology.org/S17-2088/; changed grade, notes, reviewers, type (grade: ungraded → S)"
+    },
+    {
+      "timestamp": "2026-07-04T18:33:44Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #3 from https://ojs.aaai.org/index.php/ICWSM/article/view/14550; changed grade, notes, reviewers, type (grade: ungraded → S)"
+    },
+    {
+      "timestamp": "2026-07-04T18:34:01Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #2 metadata from https://aclanthology.org/S17-2088/; changed citations, notes, type"
+    },
+    {
+      "timestamp": "2026-07-04T18:34:06Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #3 metadata from https://ojs.aaai.org/index.php/ICWSM/article/view/14550; changed citations, notes, type"
+    },
+    {
+      "timestamp": "2026-07-04T18:34:12Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #7 from https://arxiv.org/abs/2203.01054; changed citations, grade, notes (grade: ungraded → A)"
+    },
+    {
+      "timestamp": "2026-07-04T18:34:25Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #5 from https://github.com/declare-lab/conv-emotion; changed commits, contributors, grade, notes, stars, type (grade: ungraded → B)"
+    },
+    {
+      "timestamp": "2026-07-04T18:34:31Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #8 from https://github.com/declare-lab/awesome-sentiment-analysis; changed commits, contributors, grade, notes, stars, type (grade: ungraded → C)"
+    },
+    {
+      "timestamp": "2026-07-04T18:34:47Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #4 metadata from https://huggingface.co/nlptown/bert-base-multilingual-uncased-sentiment; changed notes, stars, type"
     }
   ]
 }
