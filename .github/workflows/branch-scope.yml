@@ -110,8 +110,8 @@ jobs:
             case "$PREFIX" in
               schema)
                 case "$file" in
-                  registry/schema/*|*.md) ;; # allowed
-                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (schema/ branches may only touch registry/schema/ or *.md files)" ;;
+                  registry/schema/*|src/gaia_cli/data/registry/schema/*|*.md) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (schema/ branches may only touch registry/schema/, src/gaia_cli/data/registry/schema/, or *.md files)" ;;
                 esac
                 ;;
               cli)
