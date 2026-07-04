@@ -247,17 +247,6 @@ jobs:
             && echo "Dispatched publish-pypi.yml (production) for ${GITHUB_REF_NAME}." \
             || echo "::warning::Could not dispatch publish-pypi.yml — publish PyPI manually if needed."
 
-      - name: Sync Wiki Pages
-        if: github.event_name != 'pull_request' && github.repository == 'gaia-research/gaia-skill-tree'
-        env:
-          WIKI_PAT: ${{ secrets.WIKI_PAT }}
-        run: |
-          # Clone wiki with write credentials adjacent to the main repo
-          git clone "https://x-access-token:${WIKI_PAT}@github.com/gaia-research/gaia-skill-tree.wiki.git" ../gaia-wiki
-
-          # Sync README marker regions → wiki pages and push to master
-          python scripts/sync_wiki.py --wiki-dir ../gaia-wiki --push
-
       - name: Trigger Cloudflare Deploy
         # Now that the job grants `actions: write`, this dispatch succeeds (it
         # previously 403'd and reddened every run). Kept continue-on-error as a
