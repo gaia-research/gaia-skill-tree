@@ -22,12 +22,14 @@
 
 | # | Workstream | Class | Branch | Model | Depends on |
 |---|---|---|---|---|---|
-| W1 · #903 | Content Engine MVP + weekly auto-report | Splurge | `feat/sprint-d/content-engine` | Opus max | Sprint B trending API (already live) |
-| W2a · #904 | Benchmark evidence schema | Splurge | `feat/sprint-d/benchmark-schema` | Opus max | none |
-| W2b · #905 | Benchmark #1 pipeline (HumanEval CLI+CI) | Splurge | `feat/sprint-d/benchmark-pipeline` | Opus high | W2a merged |
-| W3 · #906 | Benchmark #2 mirrored ingest (MMLU) | Satisfice | `feat/sprint-d/benchmark-mirror` | Sonnet | W2a merged |
-| W4 · #907 | Benchmark leaderboard page (**FRONTEND — Marcus reviews before merge**) | Satisfice | `feat/sprint-d/benchmark-leaderboard` | Sonnet | W2b merged |
-| W5 · #908 | SEO surface (meta + sitemap + JSON-LD + `/skills/` index) | Satisfice | `feat/sprint-d/seo-surface` | Sonnet | none |
+| W1 · #903 | Content Engine MVP + weekly auto-report | Splurge | `dev/sprint-d-content-engine` | Opus max | Sprint B trending API (already live) |
+| W2a · #904 | Benchmark evidence schema | Splurge | `dev/sprint-d-benchmark-schema` | Opus max | none |
+| W2b · #905 | Benchmark #1 pipeline (HumanEval CLI+CI) | Splurge | `dev/sprint-d-benchmark-pipeline` | Opus high | W2a merged |
+| W3 · #906 | Benchmark #2 mirrored ingest (MMLU) | Satisfice | `dev/sprint-d-benchmark-mirror` | Sonnet | W2a merged |
+| W4 · #907 | Benchmark leaderboard page (**FRONTEND — Marcus reviews before merge**) | Satisfice | `dev/sprint-d-benchmark-leaderboard` | Sonnet | W2b merged |
+| W5 · #908 | SEO surface (meta + sitemap + JSON-LD + `/skills/` index) | Satisfice | `dev/sprint-d-seo-surface` | Sonnet | none |
+
+> **Branch-prefix decision (2026-07-05):** the EPIC plan's `feat/sprint-d/*` naming **fails `branch-scope.yml`** — `feat/*` isn't recognized and falls to `other` (hard reject). All Sprint D feature branches use `dev/sprint-d-<workstream>` (single-dash) — `dev/*` is unrestricted per branch-scope.yml. This avoids splitting scope-crossing workstreams (W1, W2a) into multi-PR chains.
 
 ---
 
@@ -66,12 +68,12 @@
 ```
 main
 └── dev/sprint-d                                ← integration (already cut)
-    ├── feat/sprint-d/content-engine
-    ├── feat/sprint-d/benchmark-schema
-    ├── feat/sprint-d/benchmark-pipeline        (depends on schema)
-    ├── feat/sprint-d/benchmark-mirror          (depends on schema)
-    ├── feat/sprint-d/benchmark-leaderboard     (depends on pipeline; FRONTEND — hold for Marcus)
-    └── feat/sprint-d/seo-surface
+    ├── dev/sprint-d-content-engine
+    ├── dev/sprint-d-benchmark-schema
+    ├── dev/sprint-d-benchmark-pipeline         (depends on schema)
+    ├── dev/sprint-d-benchmark-mirror           (depends on schema)
+    ├── dev/sprint-d-benchmark-leaderboard      (depends on pipeline; FRONTEND — hold for Marcus)
+    └── dev/sprint-d-seo-surface
 ```
 
 Feature PRs → `dev/sprint-d`. NEVER squash. Final PR: `dev/sprint-d` → `main` at sprint close (v6.0.0).
