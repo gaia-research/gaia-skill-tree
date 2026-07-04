@@ -1,0 +1,19 @@
+{# contested.md.j2 — top-N genericSkillRef buckets with multiple named implementations #}
+## {{ section.title }}
+
+{% if not section.entries %}
+_No contested spaces this week._
+{% else %}
+{% for bucket in section.entries %}
+### `{{ bucket.genericSkillRef }}` — {{ bucket.implementations }} implementations
+
+_Top TM in this space: **{{ '%.1f' | format(bucket.topTM or 0) }}**_
+
+| Skill | Level | Trust Magnitude | Grade | Origin? |
+| :--- | :---: | ---: | :---: | :---: |
+{% for s in bucket.skills %}
+| [{{ s.id }}]({{ s.url }}) | {{ s.level or '—' }} | {{ '%.1f' | format(s.trustMagnitude or 0) }} | {{ s.trustGrade or '—' }} | {% if s.origin %}✓{% else %}—{% endif %} |
+{% endfor %}
+
+{% endfor %}
+{% endif %}

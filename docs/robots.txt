@@ -7,6 +7,7 @@ Allow: /trust/
 Allow: /badges/
 Allow: /codex.html
 Allow: /graph/
+Allow: /reports/
 
 Disallow: /samples/
 Disallow: /archive/
