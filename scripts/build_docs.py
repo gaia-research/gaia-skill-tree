@@ -445,31 +445,6 @@ def build_html_cache_busting(check: bool) -> bool:
     return changed
 
 
-def build_wiki_sync(check: bool) -> bool:
-    """Run sync_wiki.py against ../gaia-wiki if that directory exists.
-
-    In --check mode the script is called with --check and any reported drift
-    contributes to the overall drift signal (but does NOT cause `gaia dev docs
-    --check` to fail — wiki drift is advisory only, since CI handles the push
-    separately via WIKI_PAT).
-
-    In write mode the wiki pages are updated on disk but NOT pushed; CI runs
-    sync_wiki.py --push after cloning the wiki with credentials.
-    """
-    script = SCRIPTS / "sync_wiki.py"
-    if not script.exists():
-        return False
-    wiki_dir = ROOT.parent / "gaia-wiki"
-    if not wiki_dir.exists():
-        # No local wiki clone — skip silently (not an error for local devs)
-        return False
-    args_extra = ["--check"] if check else []
-    rc, output = _run_script(script, ["--wiki-dir", str(wiki_dir), *args_extra])
-    if output.strip():
-        print(output.rstrip())
-    # Wiki drift is advisory — never fail the build over it
-    return False
-
 
 def build_css_tokens(check: bool) -> bool:
     """Regenerate docs/css/tokens.css from registry/gaia.json. Returns True if drift."""
@@ -1365,9 +1340,6 @@ def main(argv: list[str] | None = None) -> int:
     html_cache_busted = _run_step("html-cache-busting", build_html_cache_busting, args.check)
     css_tokens_changed = _run_step("css-tokens", build_css_tokens, args.check)
 
-    # Wiki sync — updates ../gaia-wiki pages from README marker regions.
-    # Advisory only: drift is reported but never blocks the build.
-    build_wiki_sync(args.check)
 
     if warnings:
         print(f"\nWarning: {len(warnings)} build step(s) encountered errors:", file=sys.stderr)
