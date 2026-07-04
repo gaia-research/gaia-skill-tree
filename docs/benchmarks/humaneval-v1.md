@@ -25,9 +25,11 @@ adjusted) would use a different `benchmarkId` or `unit`.
 
 **URL:** https://github.com/openai/human-eval — `data/HumanEval.jsonl.gz`
 
-**`datasetHash`:** *(pinned to the specific dataset revision at CI-reproduction
-time. W2b will populate the canonical hash in the run.py output and in this
-document.)*
+**`datasetHash`:** *(canonical dataset — pinned at CI-reproduction time.
+The fixture used by the unit-test harness has
+`datasetHash = 244753b2a3366bfbb271e76205fdd88e939c91705093c1a18eebd60fc8a0ebf8`;
+the canonical HumanEval.jsonl hash is stamped on the first ci-reproduced
+row that lands from `.github/workflows/benchmark-humaneval-ci.yml`.)*
 
 Any change to the dataset produces a new `datasetHash` and therefore a new
 row. Two rows referencing different HumanEval dataset revisions are not
@@ -37,7 +39,7 @@ comparable and must not be aggregated.
 
 ## Harness
 
-**URL:** `scripts/benchmarks/humaneval/run.py` — *lands in Sprint D W2b (#905).*
+**URL:** [`scripts/benchmarks/humaneval/run.py`](https://github.com/gaia-research/gaia-skill-tree/blob/main/scripts/benchmarks/humaneval/run.py) — shipped in Sprint D W2b (#905).
 
 The harness is required to:
 
@@ -56,7 +58,7 @@ The harness is required to:
 
 ## CI reproduction workflow
 
-**URL:** `.github/workflows/benchmark-humaneval-ci.yml` — *lands in Sprint D W2b (#905).*
+**URL:** [`.github/workflows/benchmark-humaneval-ci.yml`](https://github.com/gaia-research/gaia-skill-tree/blob/main/.github/workflows/benchmark-humaneval-ci.yml) — shipped in Sprint D W2b (#905).
 
 Triggered by the `gaia push --benchmark humaneval` flow. On success:
 
@@ -112,3 +114,24 @@ the leaderboard consumer's interpretation rules (Sprint D W4).
 - OpenAI, [Evaluating Large Language Models Trained on Code](https://arxiv.org/abs/2107.03374), 2021.
 - Schema: [`benchmark-result.schema.json`](https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/schema/evidence/benchmark-result.schema.json)
 - Methodology: [Gaia Benchmark Methodology](methodology.md)
+- Verifier attestation format: [`docs/verifier-signoffs/README.md`](../verifier-signoffs/README.md)
+
+---
+
+## First live row (dogfood, W2b)
+
+| Field           | Value                                                            |
+| --------------- | ---------------------------------------------------------------- |
+| Skill           | `addy-osmani/code-simplification`                                |
+| Benchmark       | `humaneval@v1.0`                                                 |
+| Score           | 0.5 (pass@1)                                                     |
+| Provenance      | `ci-reproduced`                                                  |
+| Dataset         | Fixture (`scripts/benchmarks/humaneval/fixtures/mini.jsonl`)     |
+| Harness         | `scripts/benchmarks/humaneval/run.py`                            |
+
+The fixture-based row is the reproducibility bootstrap: the score is
+deterministic under the stubbed evaluator, the fingerprint hashes are
+fixed, and any future CI reproduction against the fixture will land the
+same numbers. Once the full HumanEval dataset lands via `workflow_dispatch`,
+the canonical `datasetHash` will populate above and subsequent rows will
+carry the pinned URL as their evidence source.
