@@ -127,10 +127,22 @@ def meta_evidence_command(args):
 
     # Re-derive grade using per-type artifact_score thresholds (Issue #761).
     # This replaces the skill-aggregate TM threshold used above so grade pills
-    # are meaningful per-row rather than all showing "—".
+    # are meaningful per-row rather than all showing —.
     # Fallback: when no magnitude drivers are present (artifact_score == 0),
     # use the --trust value via aggregate thresholds to preserve backward compat.
-    if evidence_type is not None:
+    #
+    # Sprint D W2a (#904): mirrored and pending benchmark-result rows short-
+    # circuit here. They are citations only and MUST NOT be graded —
+    # computeArtifactScoreOrNone returns None for them (excluded from TM),
+    # but without this guard the fallback `derived_grade` branch below would
+    # still stamp a grade based on --trust. Strip any grade the caller supplied.
+    is_mirrored_or_pending_benchmark = (
+        evidence_type == "benchmark-result"
+        and evidence.get("provenance") in ("mirrored", "pending")
+    )
+    if is_mirrored_or_pending_benchmark:
+        evidence.pop("grade", None)
+    elif evidence_type is not None:
         from gaia_cli.trustMagnitude import computeArtifactScoreOrNone
         from gaia_cli.grading import load_evidence_types_full
         per_row_thresholds = load_per_row_grade_thresholds(registry_path)
@@ -205,8 +217,15 @@ def meta_evidence_command(args):
 
         # Re-derive grade after all patch fields are applied. This runs whenever
         # type, trust, or numeric payload changes — not just when --trust is supplied.
+        #
+        # Sprint D W2a (#904): as with the append path above, mirrored and pending
+        # benchmark-result rows are stripped of any grade — they are citations only
+        # and are excluded from Trust Magnitude entirely.
         row_type = entry.get("type")
-        if row_type is not None:
+        row_provenance = entry.get("provenance")
+        if row_type == "benchmark-result" and row_provenance in ("mirrored", "pending"):
+            entry.pop("grade", None)
+        elif row_type is not None:
             from gaia_cli.trustMagnitude import computeArtifactScoreOrNone
             from gaia_cli.grading import load_evidence_types_full
             per_row_thresholds = load_per_row_grade_thresholds(registry_path)

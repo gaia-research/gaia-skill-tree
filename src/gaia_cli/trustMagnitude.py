@@ -377,6 +377,16 @@ def computeArtifactScoreOrNone(
     if evidenceType is None:
         return 0.0
 
+    # Sprint D W2a (#904) — mirrored and pending benchmark-result rows are
+    # citations only and MUST be excluded from Trust Magnitude. Return None
+    # so the row is dropped from the TM sum entirely (matches the
+    # null-on-derank contract); returning 0.0 would still trigger a fallback
+    # grade-stamp through derive_row_grade, which is not the desired behavior.
+    if evidenceType == "benchmark-result":
+        provenance = evidenceRow.get("provenance")
+        if provenance in ("mirrored", "pending"):
+            return None
+
     # Null-on-derank: verifier-attestation rows tied to a now-sub-4-star verifier
     # evaluate to None (excluded from the sum, NOT zero in dedup math). The
     # CLI writes `verifierActiveRank: false` on rows whose attesting verifier

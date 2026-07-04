@@ -387,3 +387,229 @@ def test_standalone_benchmark_result_schema_is_draft07_valid():
     with open(schema_path, encoding="utf-8") as f:
         sub_schema = json.load(f)
     jsonschema.Draft7Validator.check_schema(sub_schema)
+
+
+# ---------------------------------------------------------------------------
+# Sprint D W2a (#904) — mirrored / pending exclusion from Trust Magnitude.
+#
+# These rows are citations only. computeArtifactScoreOrNone returns None so
+# the sum drops them; the row's `grade` field must not be written either.
+# ---------------------------------------------------------------------------
+
+
+def test_mirrored_benchmark_row_excluded_from_trust_magnitude():
+    from gaia_cli.trustMagnitude import computeArtifactScoreOrNone
+
+    row = {
+        "type": "benchmark-result",
+        "provenance": "mirrored",
+        "percentile": 95,
+        "date": "2026-07-05",
+    }
+    assert computeArtifactScoreOrNone(row) is None
+
+
+def test_pending_benchmark_row_excluded_from_trust_magnitude():
+    from gaia_cli.trustMagnitude import computeArtifactScoreOrNone
+
+    row = {
+        "type": "benchmark-result",
+        "provenance": "pending",
+        "percentile": 90,
+        "date": "2026-07-05",
+    }
+    assert computeArtifactScoreOrNone(row) is None
+
+
+def test_ci_reproduced_benchmark_row_graded_normally():
+    """Sanity: only mirrored/pending are excluded. Verifier-attested and
+    ci-reproduced rows continue to compute their artifact score."""
+    from gaia_cli.trustMagnitude import computeArtifactScoreOrNone
+
+    row = {
+        "type": "benchmark-result",
+        "provenance": "ci-reproduced",
+        "percentile": 90,
+        "date": "2026-07-05",
+    }
+    score = computeArtifactScoreOrNone(row)
+    assert score is not None
+    assert score > 0.0
+
+
+def test_mirrored_benchmark_row_written_without_grade(tmp_path):
+    root = _make_registry(tmp_path)
+    meta_evidence_command(_bench_args(root, provenance="mirrored", trust=90.0))
+    row = _load_node(root)["evidence"][0]
+    assert row["provenance"] == "mirrored"
+    assert "grade" not in row, "mirrored rows must never carry a grade"
+
+
+def test_pending_benchmark_row_written_without_grade(tmp_path):
+    root = _make_registry(tmp_path)
+    meta_evidence_command(_bench_args(root, provenance="pending", trust=90.0))
+    row = _load_node(root)["evidence"][0]
+    assert row["provenance"] == "pending"
+    assert "grade" not in row
+
+
+# ---------------------------------------------------------------------------
+# Sprint D W2a (#904) — validator strict gate.
+#
+# scripts/validate.py --strict rejects pending-provenance benchmark rows on
+# main-touching runs. self-attested is rejected in either mode.
+# ---------------------------------------------------------------------------
+
+
+# ---------------------------------------------------------------------------
+# Sprint D W2a (#904) — validator strict gate.
+#
+# scripts/validate.py --strict rejects pending-provenance benchmark rows on
+# main-touching runs. self-attested is rejected in either mode.
+#
+# The validator is exercised via subprocess rather than direct import so we
+# don't collide with scripts/validate.py's Windows-only sys.stdout wrapper
+# (line ~30) which conflicts with pytest's capture plumbing.
+# ---------------------------------------------------------------------------
+
+
+import subprocess
+import sys as _sys
+
+
+def _run_validator(tmp_path: Path, evidence: list, strict: bool = False):
+    """Write a minimal gaia.json with a single skill carrying `evidence`,
+    then invoke scripts/validate.py against it. Returns the CompletedProcess.
+
+    NB: validate.py also scans registry/named/ from the repo root, so the
+    corpus's own errors bleed into returncode. Tests below therefore assert
+    on stdout content (presence/absence of the benchmark-provenance error
+    signature) rather than the overall exit code.
+    """
+    graph = {
+        "skills": [
+            {
+                "id": "probe-skill",
+                "type": "basic",
+                "name": "Probe",
+                "description": "benchmark provenance validator probe",
+                "status": "provisional",
+                "evidence": evidence,
+            }
+        ],
+        "edges": [],
+        "meta": {},
+    }
+    graph_path = tmp_path / "gaia.json"
+    graph_path.write_text(json.dumps(graph), encoding="utf-8")
+    repo_root = Path(__file__).resolve().parents[2]
+    cmd = [_sys.executable, str(repo_root / "scripts" / "validate.py"), "--graph", str(graph_path)]
+    if strict:
+        cmd.append("--strict")
+    env = os.environ.copy()
+    env.pop("GITHUB_BASE_REF", None)
+    env.pop("GITHUB_REF", None)
+    env["PYTHONIOENCODING"] = "utf-8"
+    return subprocess.run(
+        cmd, capture_output=True, text=True, env=env,
+        encoding="utf-8", errors="replace",
+    )
+
+
+def _benchmark_error_lines(stdout: str) -> list[str]:
+    """Extract error lines that mention our probe-skill's benchmark row so we
+    can assert on the specific validator step without being confused by
+    unrelated corpus errors surfaced by the same run."""
+    return [line for line in stdout.splitlines() if "probe-skill" in line and "benchmark-result" not in line and "evidence[" in line]
+
+
+def test_validator_rejects_self_attested_always(tmp_path):
+    evidence = [{"type": "benchmark-result", "provenance": "self-attested", "date": "2026-07-05"}]
+    lax = _run_validator(tmp_path, evidence, strict=False)
+    strict = _run_validator(tmp_path, evidence, strict=True)
+    assert any("self-attested" in line and "probe-skill" in line for line in lax.stdout.splitlines())
+    assert any("self-attested" in line and "probe-skill" in line for line in strict.stdout.splitlines())
+
+
+def test_validator_pending_warns_lax_errors_strict(tmp_path):
+    evidence = [{"type": "benchmark-result", "provenance": "pending", "date": "2026-07-05"}]
+    lax = _run_validator(tmp_path, evidence, strict=False)
+    strict = _run_validator(tmp_path, evidence, strict=True)
+    # Lax: no hard error on probe-skill for pending (may appear as info notice)
+    assert not any(
+        "provenance='pending'" in line and "probe-skill" in line and "must be promoted" in line and line.strip().startswith(("1.", "2.", "3.", "4.", "5.", "6.", "7.", "8.", "9."))
+        for line in lax.stdout.splitlines()
+    ), "lax mode must not hard-fail pending rows"
+    # Strict: probe-skill's pending row surfaces as an error line
+    assert any(
+        "provenance='pending'" in line and "probe-skill" in line
+        for line in strict.stdout.splitlines()
+    )
+
+
+def test_validator_auto_strict_via_github_base_ref(tmp_path):
+    """GITHUB_BASE_REF=main auto-strict path (PR-into-main)."""
+    evidence = [{"type": "benchmark-result", "provenance": "pending", "date": "2026-07-05"}]
+    graph_path = tmp_path / "gaia.json"
+    graph_path.write_text(
+        json.dumps({
+            "skills": [{
+                "id": "probe-skill", "type": "basic", "name": "P",
+                "description": "probe", "status": "provisional",
+                "evidence": evidence,
+            }],
+            "edges": [], "meta": {},
+        }),
+        encoding="utf-8",
+    )
+    repo_root = Path(__file__).resolve().parents[2]
+    env = os.environ.copy()
+    env["GITHUB_BASE_REF"] = "main"
+    env["PYTHONIOENCODING"] = "utf-8"
+    env.pop("GITHUB_REF", None)
+    result = subprocess.run(
+        [_sys.executable, str(repo_root / "scripts" / "validate.py"), "--graph", str(graph_path)],
+        capture_output=True, text=True, env=env,
+        encoding="utf-8", errors="replace",
+    )
+    # GITHUB_BASE_REF=main should escalate pending to error AND log '[strict]'
+    assert "[strict]" in result.stdout, f"auto-strict banner missing; stdout={result.stdout[:500]}"
+    assert any(
+        "provenance='pending'" in line and "probe-skill" in line
+        for line in result.stdout.splitlines()
+    )
+
+
+def test_validator_mirrored_never_errors(tmp_path):
+    evidence = [{"type": "benchmark-result", "provenance": "mirrored", "date": "2026-07-05"}]
+    lax = _run_validator(tmp_path, evidence, strict=False)
+    strict = _run_validator(tmp_path, evidence, strict=True)
+    # Mirrored never generates an error line for probe-skill in either mode.
+    # It DOES generate an informational notice via the mirrored_warnings path.
+    for out in (lax.stdout, strict.stdout):
+        assert not any(
+            "probe-skill" in line and ("self-attested" in line or "must be promoted" in line)
+            for line in out.splitlines()
+        )
+        # Informational notice for mirrored row is expected in both modes.
+        assert any(
+            "probe-skill" in line and "mirrored" in line and "excluded from Trust Magnitude" in line
+            for line in out.splitlines()
+        )
+
+
+def test_validator_ci_reproduced_and_verifier_attested_pass(tmp_path):
+    evidence = [
+        {"type": "benchmark-result", "provenance": "ci-reproduced", "date": "2026-07-05"},
+        {"type": "benchmark-result", "provenance": "verifier-attested", "date": "2026-07-05"},
+    ]
+    result = _run_validator(tmp_path, evidence, strict=True)
+    # No benchmark-provenance error or notice should mention probe-skill.
+    for line in result.stdout.splitlines():
+        assert not (
+            "probe-skill" in line and (
+                "self-attested" in line
+                or "must be promoted" in line
+                or "excluded from Trust Magnitude" in line
+            )
+        ), f"unexpected benchmark-provenance line: {line}"
