@@ -366,8 +366,40 @@ def build_ascended(
     })
 
 
-def _write_rss(out_dir: Path, trending_7d: list[dict], generated_at: str) -> None:
-    """Write valid RSS 2.0 feed.xml for the top 20 trending skills."""
+def _load_latest_report(out_dir: Path) -> dict | None:
+    """Best-effort read of the newest weekly Content Engine report.
+
+    Reads `<out_dir>/../reports/index.json` (i.e. `docs/api/v1/reports/index.json`).
+    Returns None if the file is missing, empty, or unreadable so callers can
+    treat the RSS feed as trending-only when the Content Engine hasn't run yet.
+    """
+    # out_dir is docs/api/v1/trending/ — sibling `reports/` holds the archive.
+    reports_index = out_dir.parent / "reports" / "index.json"
+    if not reports_index.exists():
+        return None
+    try:
+        data = json.loads(reports_index.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return None
+    reports = data.get("reports") or []
+    if not reports:
+        return None
+    # Archive is emitted newest-first by generate_weekly_report._rebuildArchive.
+    return reports[0]
+
+
+def _write_rss(
+    out_dir: Path,
+    trending_7d: list[dict],
+    generated_at: str,
+    latest_report: dict | None = None,
+) -> None:
+    """Write valid RSS 2.0 feed.xml for the top 20 trending skills.
+
+    Optional ``latest_report`` prepends a first <item> pointing at the most
+    recent weekly Content Engine report when that report is <=7 days old.
+    Older reports are ignored so the RSS window stays weekly-fresh.
+    """
     # Parse generated_at (ISO 8601 UTC) into RFC 2822 for <lastBuildDate>
     try:
         gen_dt = datetime.strptime(generated_at, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
@@ -378,6 +410,50 @@ def _write_rss(out_dir: Path, trending_7d: list[dict], generated_at: str) -> Non
     top20 = trending_7d[:20]
 
     items_xml: list[str] = []
+
+    # Optional weekly-report entry — prepended so RSS readers see it first when
+    # the Content Engine has produced a report within the last 7 days.
+    if latest_report is not None:
+        try:
+            report_generated = latest_report.get("generatedAt") or ""
+            if report_generated:
+                report_dt = datetime.strptime(report_generated, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+            else:
+                report_dt = gen_dt
+            age = gen_dt - report_dt
+            if age.total_seconds() <= 7 * 86400:
+                report_label = latest_report.get("reportId") or ""
+
+                def _xml_esc(s: str) -> str:
+                    return (
+                        str(s)
+                        .replace("&", "&amp;")
+                        .replace("<", "&lt;")
+                        .replace(">", "&gt;")
+                        .replace('"', "&quot;")
+                    )
+
+                report_link = f"https://gaia.tiongson.co/reports/{report_label}/"
+                report_title = f"Weekly Report {report_label}"
+                report_desc = (
+                    f"Gaia weekly report for ISO week {report_label} — "
+                    f"trending, ascended, contested. Salvage layer: "
+                    f"{latest_report.get('salvageLayer') or '?'}."
+                )
+                report_pub = email.utils.format_datetime(report_dt)
+                items_xml.append(
+                    f"    <item>\n"
+                    f"      <title>{_xml_esc(report_title)}</title>\n"
+                    f"      <link>{_xml_esc(report_link)}</link>\n"
+                    f"      <description>{_xml_esc(report_desc)}</description>\n"
+                    f"      <pubDate>{report_pub}</pubDate>\n"
+                    f"      <guid isPermaLink=\"false\">gaia-weekly-report-{_xml_esc(report_label)}</guid>\n"
+                    f"    </item>"
+                )
+        except (ValueError, TypeError):
+            # Malformed timestamps are non-fatal — skip the weekly-report entry
+            # so the RSS feed still ships with trending skills.
+            pass
     for skill in top20:
         skill_id = skill.get("id", "")
         name = skill.get("name") or skill_id
@@ -589,7 +665,12 @@ def run(out_dir: Path) -> int:
 
     # Build RSS feed from 7d trending list
     trending_7d_data = json.loads((trending_dir / "7d.json").read_text(encoding="utf-8"))
-    _write_rss(trending_dir, trending_7d_data.get("skills", []), generated_at)
+    _write_rss(
+        trending_dir,
+        trending_7d_data.get("skills", []),
+        generated_at,
+        latest_report=_load_latest_report(trending_dir),
+    )
 
     print(f"Trending projection written to {trending_dir}/")
     print(f"  snapshot.json, history/{today}.json")

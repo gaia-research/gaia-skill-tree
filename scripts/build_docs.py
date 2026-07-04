@@ -412,6 +412,7 @@ def build_html_cache_busting(check: bool) -> bool:
     version = _read_version()
     changed = False
     for filename in (
+        "reports/index.html",
         "index.html",
         "about.html",
         "codex.html",
@@ -826,6 +827,40 @@ def build_trending_projection(check: bool) -> bool:
             shutil.rmtree(committed)
             shutil.copytree(generated, committed)
         return True
+
+
+def build_content_engine(check: bool) -> bool:
+    """Run scripts/contentEngine/generate_weekly_report.py against docs/.
+
+    Sprint D · W1 pipeline step. Always invoked with --publish 0 so that a
+    routine `gaia dev docs` run writes only to the gitignored DRAFT/ dir —
+    NEVER to the canonical /reports/YYYY-WW/ URL. Only the weekly cron
+    workflow (.github/workflows/weekly-content-engine.yml) flips publish=1
+    when GAIA_CONTENT_ENGINE_PUBLISH is set.
+
+    In --check mode this is a no-op: the DRAFT output is gitignored, and the
+    published artefacts (/reports/YYYY-WW/, /api/v1/reports/YYYY-WW.json,
+    /reports/index.html, /api/v1/reports/index.json) only change on the cron
+    runner. Local drift checks would produce false positives on any Monday
+    boundary because ISO week rolls forward. Safer to skip — the cron job
+    owns the truth.
+    """
+    script = SCRIPTS / "contentEngine" / "generate_weekly_report.py"
+    if not script.exists():
+        return False
+    if check:
+        # See docstring: content-engine artefacts live behind the cron gate.
+        # A locally-computed diff always produces false positives on ISO week
+        # rollover, so we intentionally skip --check for this step.
+        return False
+
+    # Write-mode: emit a DRAFT into docs/reports/DRAFT/ (gitignored) so agents
+    # working on Content Engine iteration have a fresh sample after each
+    # regen. Never touches the canonical /reports/YYYY-WW/ or index files.
+    rc, output = _run_script(script, ["--out-dir", str(ROOT / "docs"), "--publish", "0"])
+    if rc != 0:
+        raise RuntimeError(f"content_engine regen failed: rc={rc}\n{output}")
+    return False
 
 
 def build_profile_pages(check: bool) -> bool:
@@ -1301,6 +1336,7 @@ def main(argv: list[str] | None = None) -> int:
     trust_ledger_changed = _run_step("trust-ledger", build_trust_ledger, args.check)
     api_changed = _run_step("api-projection", build_api_projection, args.check)
     trending_changed = _run_step("trending-projection", build_trending_projection, args.check)
+    content_engine_changed = _run_step("content-engine", build_content_engine, args.check)
     profiles_changed = _run_step("profiles", build_profile_pages, args.check)
     # Badges step honors a `[skip-badge-check]` opt-in escape: if the most
     # recent commit's SUBJECT (first line, not body) contains that marker,
@@ -1377,6 +1413,7 @@ def main(argv: list[str] | None = None) -> int:
         or trust_ledger_changed
         or api_changed
         or trending_changed
+        or content_engine_changed
         or profiles_changed
         # badges_changed: intentionally omitted — see warn-only block above.
         or og_changed
