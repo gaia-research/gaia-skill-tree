@@ -73,3 +73,32 @@ Every dispatched agent must append an entry at close. Format:
 - **`gaia dev evidence` docs-build rewrites the whole named markdown YAML frontmatter.** My commit 6 diff is +125/-107 lines on `code-simplification.md`, almost all of that is YAML re-serialization noise (key order, wrapping). This is normal CLI behavior; don't hand-edit to shrink the diff.
 - **CI workflow uses `GAIA_OPERATOR_OVERRIDE=1` in env.** Bot-actor override path per the Authorization hierarchy — required because the workflow runs `gaia dev evidence` (a mutating verb) after Verifier gating goes live.
 - **Skill Explorer render:** the existing `benchmark-result` rows will surface in the generic evidence list on the named skill page without new render code. A prettier score-visualization treatment is scheduled for W4.
+
+
+## 2026-07-05 · sonnet-w5 · W5 SEO surface (#908)
+
+**What I did:** Landed the full W5 SEO surface layer in 6 commits on `dev/sprint-d-seo-surface`. PR #955 open → `dev/sprint-d`.
+
+**Commits:**
+1. `2babca88e` — `scripts/generateSitemap.py`: deterministic sitemap (73 URLs, was 8). --check flag for CI. Enumerates static pages, directory landings, /en/*.html, /u/<handle>/ contributor profiles, and future /named/<contrib>/<slug>.html skill pages (auto-detected).
+2. `6c8a3d150` — Wire `build_sitemap()` into `build_docs.py` before `build_html_cache_busting`; add `sitemap_changed` to OR-chain.
+3. `d9c51ec9a` — `scripts/injectJsonLd.py`: post-render JSON-LD injection across 89 HTML files. Schema type mapping frozen (WebSite+SearchAction for home, Person for contributors, SoftwareApplication+Article for named skills, Article+NewsArticle for reports, Dataset+TechArticle for benchmarks, WebPage fallback). Idempotent. Wire `build_jsonld()` into `build_docs.py` AFTER `build_html_cache_busting`.
+4. `265f9f401` — `docs/skills/index.html` + `docs/skills/index.js` (aggregated index page). `scripts/buildSkillsIndex.py` reads OKF markdown files, emits `docs/okf/index.json` ({schemaVersion, generatedAt:null, families}). Registers 'skills' in `mounts.js` + `site-nav.js` fallback + dropdown. `build_skills_index()` wired. `check_nav_mounts.py` passes.
+5. `f20a8abc7` — `docs/robots.txt` explicit Allow for /skills/, /benchmarks/, /trending/, /heroes/, /api/. `tests/test_seo.py`: 12 tests all green.
+
+**Architecture decisions:**
+- Used `scripts/buildSkillsIndex.py` (reads OKF .md files) instead of extending `build_okf_bundle.py` (requires `registry/gaia.json`, Class P). This makes the index.json generator CI-safe without needing `gaia pull` first.
+- `generatedAt: null` in `docs/okf/index.json` per CLAUDE.md §Decorative convention.
+- JSON-LD uses `data-injector="gaia-json-ld"` attribute on the script block — replace-on-re-run ensures idempotency.
+- `/skills/` page fetches `okf/index.json` at runtime (no SSR). Sprint F Next.js rewrite can swap the static page while keeping `okf/index.json` as the data contract.
+
+**Frozen invariants for Sprint F:**
+- URLs /skills/, /benchmarks/, /reports/ — do NOT rename.
+- schema.org types: WebSite (home), SoftwareApplication (named skills), Article (reports), Dataset (benchmarks).
+- `docs/okf/index.json` schema shape: {schemaVersion:"1.0.0", generatedAt:null, families:[{id,count,skills:[{id,name,summary}]}]}.
+
+**Gotchas for next agent:**
+- `build_okf_bundle.py` has a stub `_build_okf_index()` function that will run when `registry/gaia.json` is present. In CI/production this will regenerate index.json from the full graph — that's the intended path. The standalone `buildSkillsIndex.py` is the fallback for environments without Class P.
+- JSON-LD injection skips dirs: samples/, archive/, audits/, og/, assets/. If you add a new public dir, check those skip rules.
+- The sitemap LAST_MOD is frozen to "2026-07-05" — this is intentional. Do NOT change it to a dynamic date (CLAUDE.md §Decorative).
+- `docs/skills/index.js` uses `ROOT_PATH = '../'` assumption (depth 1). If you move the page deeper, update this.

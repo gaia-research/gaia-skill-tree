@@ -367,6 +367,29 @@ def build_okf_bundle(check: bool) -> bool:
         return not are_dirs_same(okf_dir, tmp_okf_dir)
 
 
+def build_skills_index(check: bool) -> bool:
+    """Generate docs/okf/index.json via scripts/buildSkillsIndex.py. Returns True if drift."""
+    import subprocess
+    script_path = Path(__file__).resolve().parent / "buildSkillsIndex.py"
+    if not script_path.exists():
+        return False
+    if check:
+        res = subprocess.run(
+            [sys.executable, str(script_path), "--check"],
+            capture_output=True, text=True,
+        )
+        if res.returncode != 0:
+            print("diff docs/okf/index.json (skills index stale -- run buildSkillsIndex.py)")
+            return True
+        return False
+    else:
+        res = subprocess.run(
+            [sys.executable, str(script_path)],
+            capture_output=True, text=True,
+        )
+        return res.returncode == 0
+
+
 def _apply_cache_busting(text: str, version: str) -> str:
     # 1. Inject or update Cache-Control meta tags inside <head>
     cache_meta = (
@@ -408,6 +431,29 @@ def _apply_cache_busting(text: str, version: str) -> str:
     return text
 
 
+def build_sitemap(check: bool) -> bool:
+    """Regenerate docs/sitemap.xml via scripts/generateSitemap.py. Returns True if drift."""
+    import subprocess
+    script_path = Path(__file__).resolve().parent / "generateSitemap.py"
+    if not script_path.exists():
+        return False
+    if check:
+        res = subprocess.run(
+            [sys.executable, str(script_path), "--check"],
+            capture_output=True, text=True,
+        )
+        if res.returncode != 0:
+            print("diff docs/sitemap.xml (sitemap stale — run generateSitemap.py)")
+            return True
+        return False
+    else:
+        res = subprocess.run(
+            [sys.executable, str(script_path)],
+            capture_output=True, text=True,
+        )
+        return res.returncode == 0
+
+
 def build_html_cache_busting(check: bool) -> bool:
     version = _read_version()
     changed = False
@@ -432,6 +478,7 @@ def build_html_cache_busting(check: bool) -> bool:
         "trending/index.html",
         "heroes/index.html",
         "benchmarks/index.html",
+        "skills/index.html",
     ):
         path = ROOT / "docs" / filename
         if not path.exists():
@@ -445,6 +492,29 @@ def build_html_cache_busting(check: bool) -> bool:
             else:
                 path.write_text(updated_text, encoding="utf-8")
     return changed
+
+
+def build_jsonld(check: bool) -> bool:
+    """Inject JSON-LD blocks into docs/**/*.html via scripts/injectJsonLd.py. Returns True if drift."""
+    import subprocess
+    script_path = Path(__file__).resolve().parent / "injectJsonLd.py"
+    if not script_path.exists():
+        return False
+    if check:
+        res = subprocess.run(
+            [sys.executable, str(script_path), "--check"],
+            capture_output=True, text=True,
+        )
+        if res.returncode != 0:
+            print("diff docs/**/*.html (JSON-LD blocks stale -- run injectJsonLd.py)")
+            return True
+        return False
+    else:
+        res = subprocess.run(
+            [sys.executable, str(script_path)],
+            capture_output=True, text=True,
+        )
+        return res.returncode == 0
 
 
 
@@ -1374,7 +1444,10 @@ def main(argv: list[str] | None = None) -> int:
     readme_changed = _run_step("readme", build_readme, args.check)
     docs_index_changed = _run_step("docs-index", build_docs_index, args.check)
     okf_bundle_changed = _run_step("okf-bundle", build_okf_bundle, args.check)
+    skills_index_changed = _run_step("skills-index", build_skills_index, args.check)
+    sitemap_changed = _run_step("sitemap", build_sitemap, args.check)
     html_cache_busted = _run_step("html-cache-busting", build_html_cache_busting, args.check)
+    jsonld_changed = _run_step("json-ld", build_jsonld, args.check)
     css_tokens_changed = _run_step("css-tokens", build_css_tokens, args.check)
 
 
@@ -1407,7 +1480,10 @@ def main(argv: list[str] | None = None) -> int:
         assembly_changed
         or readme_changed
         or docs_index_changed
+        or sitemap_changed
+        or skills_index_changed
         or html_cache_busted
+        or jsonld_changed
         or css_tokens_changed
         or named_index_changed
         or docs_named_changed
