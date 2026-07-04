@@ -3,18 +3,18 @@
   "generatedAt": null,
   "benchmarks": [
     {
-      "id": "mmlu@2024-03",
-      "name": "MMLU",
-      "provenance": "mirrored",
-      "leaderboardUrl": "/api/v1/benchmarks/mmlu.json",
-      "methodologyUrl": "/benchmarks/mmlu-v1.md"
-    },
-    {
       "id": "humaneval@v1.0",
       "name": "HumanEval",
       "provenance": "ci-reproduced",
       "leaderboardUrl": "/api/v1/benchmarks/humaneval.json",
       "methodologyUrl": "/benchmarks/humaneval-v1.md"
+    },
+    {
+      "id": "mmlu@2024-03",
+      "name": "MMLU (Massive Multitask Language Understanding)",
+      "provenance": "mirrored",
+      "leaderboardUrl": "/api/v1/benchmarks/mmlu.json",
+      "methodologyUrl": "/benchmarks/mmlu-v1.md"
     }
   ]
 }
