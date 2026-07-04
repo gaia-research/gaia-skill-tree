@@ -17,6 +17,7 @@ from gaia_cli.commands.dev.helpers import (
     _preflight_evidence_static,
     _preflight_evidence_index_bounds,
     _preflight_duplicate_evidence_source,
+    _preflight_benchmark_row,
 )
 
 
@@ -93,6 +94,36 @@ def meta_evidence_command(args):
         evidence["percentile"] = args.percentile
     if source_started_at is not None:
         evidence["sourceStartedAt"] = source_started_at
+
+    # Sprint D W2a (#904) — benchmark-result reproducibility fingerprint fields.
+    # Emitted only when the CLI caller passed the corresponding flag; the
+    # _preflight_benchmark_row helper below enforces that all 8 mandatory
+    # fields are present when evidence_type == 'benchmark-result'.
+    if getattr(args, "benchmark_id", None) is not None:
+        evidence["benchmarkId"] = args.benchmark_id
+    if getattr(args, "score", None) is not None:
+        evidence["score"] = args.score
+    if getattr(args, "unit", None) is not None:
+        evidence["unit"] = args.unit
+    if getattr(args, "run_at", None) is not None:
+        evidence["runAt"] = args.run_at
+    if getattr(args, "provenance", None) is not None:
+        evidence["provenance"] = args.provenance
+    if getattr(args, "attestor", None) is not None:
+        evidence["attestor"] = args.attestor
+    if getattr(args, "dataset_hash", None) is not None:
+        evidence["datasetHash"] = args.dataset_hash
+    if getattr(args, "benchmark_input_hash", None) is not None:
+        evidence["benchmarkInputHash"] = args.benchmark_input_hash
+    if getattr(args, "harness_url", None) is not None:
+        evidence["harnessUrl"] = args.harness_url
+
+    # CLI Pre-Flight (root CLAUDE.md §CLI Pre-Flight Rule) — refuse to write a
+    # benchmark-result row that would fail schema validation at merge time.
+    # Only fires for the append path (--index re-grades an existing row and
+    # doesn't accept benchmark-fingerprint flags).
+    if evidence_type == "benchmark-result" and index is None:
+        _run_dev_preflights([lambda: _preflight_benchmark_row(evidence)])
 
     # Re-derive grade using per-type artifact_score thresholds (Issue #761).
     # This replaces the skill-aggregate TM threshold used above so grade pills
