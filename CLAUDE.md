@@ -29,6 +29,10 @@ Never push directly to main.
 
 `schema/` branches may touch `registry/schema/` **and** `src/gaia_cli/data/registry/schema/` (the bundled snapshot the pip-installed CLI reads) in addition to `*.md`. The two schema directories must move in lockstep — `scripts/validate.py` "Meta sync check" fails when they diverge — so a schema PR that only touches one side always trips CI. Codified in `.github/workflows/branch-scope.yml`; do not require `skip-scope-check` for routine schema bumps.
 
+## Branch Scope — review/meta/ allowlist
+
+`review/meta/` branches may touch `docs/` in addition to `registry/` (excluding `registry/schema/`) and `*.md`. This is required by Guard E: any change to `registry/nodes/` or `registry/named/` MUST include the regenerated Class S artifacts (`docs/graph/*`, `docs/api/v1/*`, per-user profile pages, badges) in the same PR. Codified in `.github/workflows/branch-scope.yml`; do not require `skip-scope-check` on every curation PR just to land the `gaia dev docs` output.
+
 ## Redaction Exemptions — ordained, do not re-litigate
 
 The following 8 contributor handles are **permanently exempt** from Section D badge-dir violations (`validate_redaction.py` + `build_docs.py`). Their `docs/badges/_assets/<handle>/` directories are kept intentionally. Do NOT remove them from the exemption list, do NOT delete their dirs, do NOT open issues about them. If any of them reach 2★ their dir becomes valid anyway and the exemption becomes a no-op.
