@@ -383,7 +383,7 @@ Common ways to help:
 - Turn accepted reviews into concrete PRs (new skill, fusion, or reclassification).
 
 Contribution steps: [CONTRIBUTING.md](CONTRIBUTING.md).
-Full policy/reviewer guidance: <https://github.com/gaia-research/gaia-skill-tree/wiki> (repo: <https://github.com/gaia-research/gaia-skill-tree.wiki.git>).
+Full policy/reviewer guidance: <https://gaia.tiongson.co/en>.
 
 ## Contributors
 
