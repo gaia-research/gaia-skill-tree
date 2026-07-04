@@ -5,7 +5,7 @@ contributor: pexp13
 origin: true
 genericSkillRef: sentiment-analysis
 status: awakened
-level: 4★
+level: 1★
 description: 'Classifies the affective polarity (positive / negative / neutral, or
   fine-grained) of user-generated text. Covers the full pipeline from raw noisy input
   through preprocessing, inference, and output normalisation. Stack is intentionally
@@ -13,9 +13,9 @@ description: 'Classifies the affective polarity (positive / negative / neutral, 
 
   '
 createdAt: '2026-05-17'
-updatedAt: '2026-06-27'
-trustMagnitude: 192.8
-overallTrustGrade: A
+updatedAt: '2026-07-05'
+trustMagnitude: 0.0
+overallTrustGrade: ungraded
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -66,47 +66,27 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/pexp13/basic-nlp-text-processor-python/blob/main/SKILL.md
-evidence:
-- source: https://aclanthology.org/S17-2088/
-  evaluator: mbtiongson1
-  date: '2026-06-19'
-  type: peer-review
-  class: A
-  notes: SemEval-2017 Task 4 (Twitter SA benchmark) — ACL Anthology; establishes macro-F1
-    as primary metric for sentiment analysis
-  reviewers: 3
-  grade: S
-- source: https://arxiv.org/abs/2202.03829
-  evaluator: mbtiongson1
-  date: '2026-06-19'
-  type: arxiv
-  class: A
-  notes: CardiffNLP Twitter-RoBERTa-base-sentiment (Barbieri et al., 2022) — SOTA
-    transformer baseline for social-media SA (arXiv:2202.03829)
-  citations: 200
-  grade: B
-- source: https://ojs.aaai.org/index.php/ICWSM/article/view/14550
-  evaluator: mbtiongson1
-  date: '2026-06-19'
-  type: peer-review
-  class: A
-  notes: VADER (Hutto & Gilbert, 2014) — canonical lexicon-based SA baseline; AAAI/ICWSM;
-    validated on social media corpora
-  reviewers: 3
-  grade: B
-- source: https://arxiv.org/abs/2203.01054
-  evaluator: mbtiongson1
-  date: '2026-06-19'
-  type: arxiv
-  class: A
-  notes: Aspect-Based Sentiment Analysis survey (Zhang et al., 2022) — covers ABSA
-    methods for structured review analysis (arXiv:2203.01054)
-  citations: 89
+- timestamp: '2026-07-04T18:06:12Z'
+  action: evidence_removed
+  contributor: unknown
+  details: 'Removed dead/invalid evidence: https://aclanthology.org/S17-2088/'
+- timestamp: '2026-07-04T18:06:17Z'
+  action: evidence_removed
+  contributor: unknown
+  details: 'Removed dead/invalid evidence: https://arxiv.org/abs/2202.03829'
+- timestamp: '2026-07-04T18:06:22Z'
+  action: evidence_removed
+  contributor: unknown
+  details: 'Removed dead/invalid evidence: https://ojs.aaai.org/index.php/ICWSM/article/view/14550'
+- timestamp: '2026-07-04T18:06:27Z'
+  action: evidence_removed
+  contributor: unknown
+  details: 'Removed dead/invalid evidence: https://arxiv.org/abs/2203.01054'
+evidence: []
 verification:
   firstEvidenceAt: '2026-06-19T09:26:06Z'
-trustMagnitudeInputHash: 0fe967fac44ef008cb3a675f5da2775693274cff366b4bfaf33bd2bf9112e728
-links:
-  github: https://github.com/pexp13/basic-nlp-text-processor-python/blob/main/SKILL.md
+trustMagnitudeInputHash: null
+links: {}
 ---
 
 ## Implementation
@@ -160,13 +140,4 @@ Minimum acceptable macro-F1 on SST-2 or equivalent: **0.88** for Track A,
 
 ## Evidence
 
-| Source | Relevance |
-|--------|-----------|
-| [SemEval-2017 Task 4](https://aclanthology.org/S17-2088/) | Standard Twitter sentiment benchmark; establishes macro-F1 as primary metric |
-| [CardiffNLP Twitter-RoBERTa (Barbieri et al., 2022)](https://arxiv.org/abs/2202.03829) | SOTA transformer baseline for social-media SA; 3-class, multilingual variants available |
-| [VADER (Hutto & Gilbert, 2014)](https://ojs.aaai.org/index.php/ICWSM/article/view/14550) | Canonical lexicon-based baseline; validated on social media corpora |
-| [NLPTown BERT multilingual](https://huggingface.co/nlptown/bert-base-multilingual-uncased-sentiment) | 5-class (star-rating) model fine-tuned on product reviews; direct UGC applicability |
-| [SST-2 (GLUE benchmark)](https://gluebenchmark.com/tasks) | Standard binary SA benchmark for cross-model comparison |
-| [Aspect-Based SA survey (Zhang et al., 2022)](https://arxiv.org/abs/2203.01054) | Covers ABSA methods for structured review analysis |
-| [declare-lab/awesome-sentiment-analysis](https://github.com/declare-lab/awesome-sentiment-analysis) | Curated reading list by DeCLaRe Lab; anchored by Poria et al. (2020) IEEE TAC survey on open challenges |
-| [declare-lab/conv-emotion](https://github.com/declare-lab/conv-emotion) | Sentiment/emotion recognition in conversations (MELD, IEMOCAP); relevant for threaded comment SA |
+> All evidence rows rerouted to the starless generic node (`sentiment-analysis`) per issue #934 — generic SA literature, not specific to this implementation. Inherited via `genericSkillRef: sentiment-analysis`.
