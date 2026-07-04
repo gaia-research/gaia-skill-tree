@@ -426,11 +426,9 @@ def run(
     Returns the assembled report dict (for tests / callers). Writes:
       - draft markdown if publishFlag is False
       - canonical JSON + public HTML + archive rebuild if publishFlag is True
-
-    Note: this data-layer commit ships without the L1/L2/L3 salvage harness.
-    Commit 3 replaces the inline `salvageLayer='L3'` stub with a call to
-    `synthesizer.synthesize(report)` so a post-mortem can identify the layer.
     """
+    from synthesizer import synthesize  # noqa: WPS433 — local import to avoid cycle
+
     if now is None:
         now = datetime.now(timezone.utc).replace(tzinfo=None)
 
@@ -449,10 +447,24 @@ def run(
         "contested": contested,
     }
 
-    # 2. Assemble the canonical report dict.
-    report = assembleReport(year, week, sections, "L3", generatedAt, version)
+    # 2. Assemble a first-pass report so synthesize() has a stable input.
+    firstPass = assembleReport(year, week, sections, "L3", generatedAt, version)
 
-    # 3. Resolve publish target and write.
+    # 3. L1 → L2 → L3 salvage — synthesize() reports its own layer flag.
+    try:
+        report, layerFlag = synthesize(firstPass)
+    except ValueError as exc:
+        # L3 refused because ALL sections are empty. Emit a stub report so
+        # the URL still exists — the header tells readers no data was available.
+        emptyStub = assembleReport(
+            year, week, sections, "L3-empty", generatedAt, version
+        )
+        emptyStub["notice"] = f"No trending data available: {exc}"
+        report, layerFlag = emptyStub, "L3-empty"
+
+    report["salvageLayer"] = layerFlag
+
+    # 4. Resolve publish target and write.
     targets = resolvePublishTarget(year, week, publishFlag, docsRoot)
     templateDir = Path(__file__).resolve().parent / "templates"
 
@@ -472,7 +484,7 @@ def run(
         print(
             f"[content-engine] published: "
             f"{targets['canonicalJson']} + {targets['publicHtml']} "
-            f"(layer={report['salvageLayer']})",
+            f"(layer={layerFlag})",
             file=sys.stderr,
         )
 
