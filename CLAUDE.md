@@ -260,15 +260,6 @@ Users who need the latest registry between wheel releases should run `gaia pull`
 Warning: Using bundled registry snapshot from <DATE>. Run `gaia pull` for the latest.
 ```
 
-## Wiki Management
-
-The project wiki lives in a separate repository: `https://github.com/gaia-research/gaia-skill-tree.wiki.git`.
-
-If wiki updates are required:
-1. Clone the wiki repository adjacent to the workspace (e.g., `../gaia-wiki`).
-2. Update, commit, and push from that directory.
-3. **Do not** delete the wiki folder; preserve it for subsequent updates.
-
 ## Vocabulary
 
 `CONTEXT.md` is the single source of truth for product nomenclature and the banned-synonym list (CI greps it). Read it before writing any user-facing copy, CLI output, or agent skill.
@@ -285,7 +276,7 @@ All project skills live in `.claude/skills/`. There is no `.agents/` directory. 
 - `.claude/skills/gaia-meta-audit/` — `/gaia-meta-audit`: prioritized queue of skills/catalog items needing review.
 - `.claude/skills/gaia-audit/` — `/gaia-audit`: focused source-level correction for one target.
 - `.claude/skills/gaia-trace-timeline/` — `/gaia-trace-timeline`: audit & repair user-tree timelines so every skill's current rank is explained by its Hero's Journey (backfills missing demote/rank_up events). Backed by `scripts/trace_timeline.py`; enforced by `scripts/validate_timelines.py` (run via `gaia dev validate` + release CI).
-- `.claude/skills/gaia-draft-curate/`, `gaia-docs-sync/`, `gaia-integrity/`, `gaia-triage/`, `gaia-wiki-sync/`, `graphify-triage/` — supporting curation, doc-sync, integrity, and triage workflows.
+- `.claude/skills/gaia-draft-curate/`, `gaia-docs-sync/`, `gaia-integrity/`, `gaia-triage/`, `graphify-triage/` — supporting curation, doc-sync, integrity, and triage workflows.
 - `.claude/skills/gaia-bot-curate/` — bot-driven curation pass.
 - `.claude/skills/gaia-fuse-full-suite/` — `/gaia-fuse-full-suite`: fuse one contributor's named skills into a single ultimate.
 
