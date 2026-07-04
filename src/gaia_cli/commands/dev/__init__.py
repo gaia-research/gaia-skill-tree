@@ -451,7 +451,64 @@ class DevCommand(Command):
             "--percentile",
             type=int,
             metavar="N",
-            help="Benchmark result percentile (0-100). Required when --type benchmark-result.",
+            help="Benchmark result percentile (0-100). Optional for --type benchmark-result post-W2a; drives the magnitude formula additively.",
+        )
+        # Sprint D W2a (#904) — benchmark-result reproducibility fingerprint
+        # flags. All 8 are required when --type benchmark-result is passed
+        # (enforced by _preflight_benchmark_row in commands/dev/helpers.py).
+        dev_evidence.add_argument(
+            "--benchmark-id",
+            dest="benchmark_id",
+            metavar="ID",
+            help="Semver-ish benchmark spec id (e.g. humaneval@v1.0, swe-bench_verified@1.0). See registry/schema/evidence/benchmark-result.schema.json.",
+        )
+        dev_evidence.add_argument(
+            "--score",
+            type=float,
+            metavar="NUMBER",
+            help="Raw benchmark score in the units named by --unit (pass@1 is 0..1, pct is 0..100, elo is unbounded).",
+        )
+        dev_evidence.add_argument(
+            "--unit",
+            choices=["pct", "pass@1", "pass@10", "bleu", "f1", "accuracy", "elo", "raw"],
+            help="Frozen benchmark score unit enum. Extending this list is a major schema bump.",
+        )
+        dev_evidence.add_argument(
+            "--run-at",
+            dest="run_at",
+            metavar="ISO8601",
+            help="ISO 8601 date-time with timezone the harness was executed (e.g. 2026-07-05T12:00:00Z). Feeds freshness half-life.",
+        )
+        dev_evidence.add_argument(
+            "--provenance",
+            choices=["verifier-attested", "ci-reproduced", "mirrored", "pending"],
+            help=(
+                "How the row is anchored. self-attested is FOREVER rejected. "
+                "mirrored is EXCLUDED from Trust Magnitude. pending is rejected on main by validate.py --strict."
+            ),
+        )
+        dev_evidence.add_argument(
+            "--attestor",
+            metavar="HANDLE_OR_URL",
+            help="Verifier handle, workflow-run-URL@commit-sha, or upstream leaderboard URL (per --provenance).",
+        )
+        dev_evidence.add_argument(
+            "--dataset-hash",
+            dest="dataset_hash",
+            metavar="SHA256",
+            help="SHA-256 (64 lowercase hex chars) of the raw dataset used.",
+        )
+        dev_evidence.add_argument(
+            "--benchmark-input-hash",
+            dest="benchmark_input_hash",
+            metavar="SHA256",
+            help="SHA-256 (64 lowercase hex chars) of (dataset + prompt template + harness config). Reproducibility fingerprint distinct from --dataset-hash.",
+        )
+        dev_evidence.add_argument(
+            "--harness-url",
+            dest="harness_url",
+            metavar="URL",
+            help="Optional URL to the exact harness code that produced the score (typically a pinned-commit permalink into scripts/benchmarks/<benchmark>/run.py).",
         )
         dev_evidence.add_argument(
             "--source-started-at",
