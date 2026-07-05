@@ -163,9 +163,23 @@ def main(argv: list[str] | None = None) -> int:
             print("docs/sitemap.xml missing — run generateSitemap.py to create it")
             return 1
         existing = out_path.read_text(encoding="utf-8")
-        if existing == rendered:
+        # Normalize line endings when comparing to avoid Windows CRLF vs Linux LF
+        # false positives across platforms.
+        if existing.replace("\r\n", "\n") == rendered.replace("\r\n", "\n"):
             return 0
         print("docs/sitemap.xml is stale — run generateSitemap.py to regenerate")
+        # Print a small unified diff so future CI failures are debuggable.
+        import difflib
+        diff = list(difflib.unified_diff(
+            existing.splitlines(keepends=False)[:100],
+            rendered.splitlines(keepends=False)[:100],
+            lineterm="",
+            fromfile="committed",
+            tofile="regenerated",
+            n=1,
+        ))
+        for line in diff[:40]:
+            print(line)
         return 1
 
     # Write mode
