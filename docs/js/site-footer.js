@@ -45,7 +45,7 @@
               <li><a href="${r}index.html">Skill Tree</a></li>
               <li><a href="${r}index.html?field=1">Skill Graph</a></li>
               <li><a href="${r}starless.html">Starless</a></li>
-              <li><a href="${r}meta.html">Meta Reports</a></li>
+              <li><a href="${r}meta.html">Meta Changelog</a></li>
             </ul>
           </div>
 
@@ -54,7 +54,6 @@
             <ul>
               <li><a href="${r}codex.html">The Codex</a></li>
               <li><a href="${r}named/">Named Skills</a></li>
-              <li><a href="${r}index.html#hall-of-heroes">Hall of Heroes</a></li>
               <li><a href="${r}u/">Named Contributors</a></li>
               <li><a href="${r}badges/">GitHub Badges</a></li>
             </ul>

@@ -20,11 +20,68 @@
   <link rel="stylesheet" href="../../css/tokens.css?v={{ report.generatorVersion }}">
   <link rel="stylesheet" href="../../css/styles.css?v={{ report.generatorVersion }}">
   <link rel="alternate" type="application/json" href="{{ report.urls.json }}">
+
+  <style>
+    /* ── Deferred-surface WIP banner ──────────────────────────────────────
+       Discloses that this surface renders in its L3-mechanical bridge
+       state pending the Sprint F rendering-layer rewrite (issue #973).
+       Follows the deferred-surface convention in CLAUDE.md §Deferred
+       surface convention. Removed by the port. */
+    .wip-banner {
+      max-width: 62rem;
+      /* Clear the fixed nav (~58px). Matches the 5rem/6rem top-clearance
+         pattern used by .bench-shell and .reports-shell. */
+      margin: 5rem auto 0;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.9rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.55;
+      color: var(--text);
+      background: rgba(var(--evidence-gold-rgb), 0.06);
+      border: 1px solid rgba(var(--evidence-gold-rgb), 0.28);
+      border-radius: 6px;
+      letter-spacing: 0.02em;
+    }
+    @media (min-width: 768px) {
+      .wip-banner { margin-top: 6rem; }
+    }
+    .wip-banner .wip-tag {
+      color: var(--evidence-gold);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+    }
+    .wip-banner .wip-body { color: var(--text); opacity: 0.86; }
+    .wip-banner a {
+      color: var(--evidence-gold);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(var(--evidence-gold-rgb), 0.45);
+      transition: border-color 160ms ease-out;
+    }
+    .wip-banner a:hover,
+    .wip-banner a:focus-visible {
+      border-bottom-color: var(--evidence-gold);
+      outline: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .wip-banner a { transition: none; }
+    }
+  </style>
 </head>
 <body>
   <nav id="site-nav"></nav>
   <script src="../../js/mounts.js?v={{ report.generatorVersion }}"></script>
   <script src="../../js/site-nav.js?v={{ report.generatorVersion }}"></script>
+
+  <aside class="wip-banner" role="note" aria-label="Interim rendering notice">
+    <span class="wip-tag">◇ Interim rendering</span>
+    <span class="wip-body">Tables render as source markdown in this bridge state. Leaderboard view lands in Sprint F (<a href="https://github.com/gaia-research/gaia-skill-tree/issues/973">#973</a>). The <a href="{{ report.urls.json }}">canonical JSON</a> is frozen and permanent.</span>
+  </aside>
 
   <main class="report-body" style="max-width: 72rem; margin: 2rem auto; padding: 0 1.25rem; color: var(--text); font-family: 'EB Garamond', Georgia, serif; line-height: 1.6;">
     <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .75rem; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; margin-bottom: .5rem;">

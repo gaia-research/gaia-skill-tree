@@ -81,9 +81,69 @@
     border-radius: 12px;
     overflow: hidden;
     font-family: var(--font-mono, ui-monospace, monospace);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    /* Defined 8px blur elevation — pairs with the 1px border to read as a
+       framed terminal panel, not a diffuse ghost card. Was 0 4px 24px. */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
     display: flex;
     flex-direction: column;
+  }
+
+  /* ── Hero ledger flash ─────────────────────────────────────────────
+     Thin above-the-fold entrypoint pair for /reports/ and /benchmarks/.
+     Sits between #hero and #hall-of-heroes so the two Sprint-D headline
+     artifacts are reachable in the first two viewports. Preserves the
+     canonical #evidence-cycle CTAs; this is an additional entrypoint,
+     not a move. Ledger typography (JetBrains Mono, subdued separator)
+     matches the in-hero .ledger-strip register. */
+  .hero-ledger-flash {
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: 1.25rem 1.5rem 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+  }
+  .hlf-link {
+    color: var(--text);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4em;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid transparent;
+    transition: border-color 160ms ease-out, color 160ms ease-out;
+  }
+  .hlf-link:hover,
+  .hlf-link:focus-visible {
+    color: var(--evidence-gold);
+    border-bottom-color: var(--evidence-gold);
+    outline: none;
+  }
+  .hlf-glyph {
+    color: var(--evidence-gold);
+    font-size: 0.9em;
+  }
+  .hlf-tail {
+    color: var(--muted);
+    transition: color 160ms ease-out, transform 160ms ease-out;
+  }
+  .hlf-link:hover .hlf-tail,
+  .hlf-link:focus-visible .hlf-tail {
+    color: var(--evidence-gold);
+    transform: translateX(2px);
+  }
+  .hlf-sep {
+    color: var(--border);
+    user-select: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hlf-link, .hlf-tail { transition: none; }
+    .hlf-link:hover .hlf-tail, .hlf-link:focus-visible .hlf-tail { transform: none; }
   }
 
   .review-sim-header {
@@ -277,6 +337,24 @@
     </div>
   </section>
 
+  <!-- ─── HERO LEDGER FLASH ─── -->
+  <!-- Above-the-fold entrypoint for Weekly Reports + Benchmarks. Two links,
+       one line, ledger typography. Additive to the canonical CTAs in
+       #evidence-cycle further down; this is the near-the-fold surface. -->
+  <aside class="hero-ledger-flash" aria-label="Latest evidence">
+    <a href="reports/" class="hlf-link">
+      <span class="hlf-glyph" aria-hidden="true">◇</span>
+      <span>Latest weekly report</span>
+      <span class="hlf-tail" aria-hidden="true">→</span>
+    </a>
+    <span class="hlf-sep" aria-hidden="true">/</span>
+    <a href="benchmarks/" class="hlf-link">
+      <span class="hlf-glyph" aria-hidden="true">▲</span>
+      <span>Benchmarks leaderboard</span>
+      <span class="hlf-tail" aria-hidden="true">→</span>
+    </a>
+  </aside>
+
   <!-- ─── HALL OF HEROES ─── -->
   <section id="hall-of-heroes" class="reveal hoh-section hoh-section--mini" data-section="hoh" aria-labelledby="hohTitle">
     <div class="hoh-mini-shell">
@@ -396,6 +474,12 @@
     <div class="trust-preview-cta">
       <a class="trust-preview-cta-link" href="named/">
         <span>Browse Named Skills</span>
+        <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16">
+          <path d="M5 10 L15 10 M11 6 L15 10 L11 14" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a class="trust-preview-cta-link trust-preview-cta-link--ghost" href="trending/">
+        <span>Trending this week</span>
         <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16">
           <path d="M5 10 L15 10 M11 6 L15 10 L11 14" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -664,7 +748,7 @@
        Per-rank colour comes from .rank-badge[data-level="N"] tokens. -->
   <section id="ascension" class="reveal ascension-section" data-section="ascension">
     <h2>The Ascension Cycle</h2>
-    <p class="section-sub">Skills advance through evidence — not declaration. Each rank unlocks the next.</p>
+    <p class="section-sub">Skills advance through evidence, not declaration. Each rank unlocks the next.</p>
     <div class="ascension-track" data-pattern="journey">
       <div class="asc-stage">
         <div class="asc-node">
@@ -676,35 +760,35 @@
       <div class="asc-stage">
         <div class="asc-node">
           <span class="asc-label">Named</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="2" data-variant="chip" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span> · Class C</span>
+          <span class="asc-sub"><span class="rank-badge" data-level="2" data-variant="chip" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></span>
         </div>
         <span class="asc-arrow">→</span>
       </div>
       <div class="asc-stage">
         <div class="asc-node">
           <span class="asc-label">Evolved</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="3" data-variant="chip" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span></span> · Class B</span>
+          <span class="asc-sub"><span class="rank-badge" data-level="3" data-variant="chip" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span></span></span>
         </div>
         <span class="asc-arrow">→</span>
       </div>
       <div class="asc-stage">
         <div class="asc-node">
           <span class="asc-label">Hardened</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="4" data-variant="chip" role="img" aria-label="Rank 4 of 6"><span class="rank-badge__chip">4★</span></span> · Class B/A</span>
+          <span class="asc-sub"><span class="rank-badge" data-level="4" data-variant="chip" role="img" aria-label="Rank 4 of 6"><span class="rank-badge__chip">4★</span></span></span>
         </div>
         <span class="asc-arrow">→</span>
       </div>
       <div class="asc-stage">
         <div class="asc-node">
           <span class="asc-label">Transcendent</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="5" data-variant="chip" role="img" aria-label="Rank 5 of 6"><span class="rank-badge__chip">5★</span></span> · Class B/A</span>
+          <span class="asc-sub"><span class="rank-badge" data-level="5" data-variant="chip" role="img" aria-label="Rank 5 of 6"><span class="rank-badge__chip">5★</span></span></span>
         </div>
         <span class="asc-arrow">→</span>
       </div>
       <div class="asc-stage">
         <div class="asc-node is-apex">
           <span class="asc-label">Apex</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="6" data-variant="chip" role="img" aria-label="Rank 6 of 6"><span class="rank-badge__chip">6★</span></span> · Class A</span>
+          <span class="asc-sub"><span class="rank-badge" data-level="6" data-variant="chip" role="img" aria-label="Rank 6 of 6"><span class="rank-badge__chip">6★</span></span></span>
         </div>
       </div>
     </div>
@@ -721,7 +805,7 @@
        .grade-bar / .grade-segment from styles.css L10281+. -->
   <section id="evidence-cycle" class="reveal evidence-cycle-section" data-section="evidence-cycle">
     <h2>Evidence Grade</h2>
-    <p class="section-sub">A skill earns its Overall Trust Grade by the strength of the evidence behind it. Four tiers — Bronze, Silver, Gold, Platinum — mark the aggregate Trust Magnitude that a skill's evidence pool reaches.</p>
+    <p class="section-sub">A skill earns its Overall Trust Grade by the strength of the evidence behind it. Four tiers (Bronze, Silver, Gold, Platinum) mark the aggregate Trust Magnitude that a skill's evidence pool reaches.</p>
     <div class="grade-bar">
       <div class="grade-row">
         <div class="grade-segment grade-plat"><span class="grade-label">Platinum (S) ≥ 250 trust</span></div>
@@ -739,7 +823,7 @@
         <div class="grade-segment grade-ungraded"><span class="grade-label">Ungraded</span></div>
       </div>
     </div>
-    <p class="section-sub" style="max-width:680px;margin:1.5rem auto 0;font-size:14px;opacity:0.85;">Each piece of evidence (a repo, a benchmark, a peer-reviewed paper) earns its own per-row Evidence Grade. The numbers above are the aggregate Trust Magnitude thresholds the rows must combine to clear. See the methodology report for the full formula.</p>
+    <p class="section-sub" style="max-width:680px;margin:1.5rem auto 0;font-size:14px;">Each piece of evidence (a repo, a benchmark, a peer-reviewed paper) earns its own per-row Evidence Grade. The numbers above are the aggregate Trust Magnitude thresholds the rows must combine to clear. See the methodology report for the full formula.</p>
     <div style="margin-top:2.5rem;text-align:center;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
       <a href="evidence/" class="btn btn-ghost"
         style="text-decoration:none;font-size:13px;display:inline-flex;align-items:center;gap:0.4rem;">
@@ -763,6 +847,14 @@
           <use href="assets/icons.svg#sort-arrows"></use>
         </svg>
         Benchmarks →
+      </a>
+      <a href="reports/"
+        class="btn btn-ghost"
+        style="text-decoration:none;font-size:13px;display:inline-flex;align-items:center;gap:0.4rem;">
+        <svg class="ico" width="13" height="13" aria-hidden="true">
+          <use href="assets/icons.svg#info"></use>
+        </svg>
+        Weekly Reports →
       </a>
     </div>
   </section>
@@ -791,7 +883,7 @@
           <a href="meta/reports/2026-06-20-gaia-trust-infrastructure-a-june-2026-retrospective.html" class="pmq-post">
             <span class="pmq-label">Trust Model</span>
             <h4 class="pmq-title">GAIA Trust Infrastructure: A June 2026 Retrospective <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
-            <p class="pmq-summary">Phase 1 baseline through Phase 1.5 ratification — G7 RFC, Trust Magnitude formula, apex gate, public Trust Ledger. Now includes the Phase 1.5 closeout addendum on per-evidence grade calibration and the Trust Ledger May/June rollout.</p>
+            <p class="pmq-summary">Phase 1 baseline through Phase 1.5 ratification: G7 RFC, Trust Magnitude formula, apex gate, public Trust Ledger. Now includes the Phase 1.5 closeout addendum on per-evidence grade calibration and the Trust Ledger May/June rollout.</p>
           </a>
           <!-- gaia-posts-end -->
       <button type="button" class="pmq-changelog-btn" id="metaChangelogBtnPath">Open Meta Changelog →</button>
