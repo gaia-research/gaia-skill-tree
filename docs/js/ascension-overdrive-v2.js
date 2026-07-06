@@ -220,6 +220,34 @@
       }
     }
 
+    // Ledger opacity — scroll-linked (Issue #975 R3/R4). Full
+    // opacity (~0.48) at title / apex / coda so the parchment
+    // carries the atmosphere; fades to a whisper (~0.08) through
+    // the rank scenes + Unique branch so it doesn't fight the
+    // Asset F hero plates and doesn't paint a horizontal band
+    // across the top of the Unique branch scene. Boundary constants
+    // match the current scene layout (title 100vh + ranks 400vh +
+    // unique 100vh + rank5 100vh + apex 200vh + coda 180vh):
+    //   ~0.17 = end of title stage sticky range
+    //   ~0.65 = start of apex stage sticky range
+    // Each boundary is eased over a 0.05 transition band so the
+    // handoff reads as a slow dim, not a hard switch. CSS keeps the
+    // base opacity as the initial state before rAF runs.
+    if (ledger && !reduce && !isMobile) {
+      var LEDGER_FULL   = 0.48;
+      var LEDGER_VALLEY = 0.08;
+      var opRange       = LEDGER_FULL - LEDGER_VALLEY;
+      var ledgerOp      = LEDGER_FULL;
+      if (p >= 0.17 && p <= 0.65) {
+        ledgerOp = LEDGER_VALLEY;
+      } else if (p > 0.12 && p < 0.17) {
+        ledgerOp = LEDGER_FULL - ((p - 0.12) / 0.05) * opRange;
+      } else if (p > 0.65 && p < 0.70) {
+        ledgerOp = LEDGER_VALLEY + ((p - 0.65) / 0.05) * opRange;
+      }
+      ledger.style.opacity = ledgerOp.toFixed(3);
+    }
+
     // Gold thread — scroll-linked dashoffset. Bidirectional
     // because `lp` reads scroll progress each frame, so scrolling
     // up naturally undraws the thread. Reduced-motion: leave
@@ -325,6 +353,14 @@
     // completes at ~50% of the coda's scroll range (per shape
     // brief). Reduced-motion / mobile: rungs are lit at rest via
     // CSS !important; skip writing.
+    //
+    // R7 shape work (Issue #975): each crown rung also picks up an
+    // `.is-materializing` state class exactly once, the first time
+    // its threshold is crossed. The class drives the one-shot font
+    // animations (letter-spacing collapse on the Apex rung, outline
+    // stroke breathe + settle-in scale on the Unique Apex rung).
+    // The class is add-only — never removed on scroll-up — so the
+    // crown rungs stay composed even after `.is-lit` retracts.
     if (codaScene && orderRungs.length && !reduce && !isMobile) {
       var cr = codaScene.getBoundingClientRect();
       var codaRange = cr.height - vh;
@@ -341,8 +377,12 @@
         var threshold = i / n;
         if (assembleP >= threshold) {
           orderRungs[i].classList.add('is-lit');
+          orderRungs[i].classList.add('is-materializing');
         } else {
           orderRungs[i].classList.remove('is-lit');
+          // Deliberately do NOT remove is-materializing — the font
+          // animation is a one-shot; letting the class persist keeps
+          // the crown rungs composed on scroll-up.
         }
       }
     }
