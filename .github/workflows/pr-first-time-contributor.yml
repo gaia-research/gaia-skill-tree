@@ -1,0 +1,84 @@
+name: First-Time Contributor Advisory
+
+# Guard 3 (issue #986): non-blocking advisory comment for fork PRs opened
+# by GitHub accounts with zero prior merged PRs to this repo. Posts a
+# review checklist so the maintainer can eyeball the standard verification
+# points in one place.
+#
+# Non-blocking: this workflow only adds a comment, never fails the PR.
+# Uses pull_request_target so it can post the comment even on fork PRs
+# (which don't have pull-requests: write under the default pull_request
+# trigger). SAFE because this workflow never checks out fork code — only
+# calls gh api and gh pr comment, no code execution against fork content.
+
+on:
+  pull_request_target:
+    types: [opened]
+
+jobs:
+  advisory:
+    name: Post advisory for first-time fork contributors
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Check contributor history and post advisory
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          set -euo pipefail
+
+          # Only fire for fork PRs. Same-repo PRs are trusted collaborators.
+          if [ "$HEAD_REPO" = "$REPO" ]; then
+            echo "PR is from an origin branch (not a fork). No advisory needed."
+            exit 0
+          fi
+
+          # Count author's prior merged PRs to this repo
+          PRIOR_MERGED=$(gh api "search/issues?q=repo:$REPO+is:pr+is:merged+author:$AUTHOR" --jq '.total_count')
+          echo "Author @$AUTHOR has $PRIOR_MERGED prior merged PR(s) in $REPO."
+
+          if [ "$PRIOR_MERGED" -gt "0" ]; then
+            echo "Not a first-time contributor. Skipping advisory."
+            exit 0
+          fi
+
+          # Also capture fork creation age for the advisory
+          FORK_CREATED=$(gh api "repos/$HEAD_REPO" --jq '.created_at')
+          echo "Fork $HEAD_REPO was created at $FORK_CREATED."
+
+          # Post advisory
+          BODY=$(cat <<EOF
+          👋 Welcome, @$AUTHOR — thanks for the PR. This looks like your first contribution to \`$REPO\`.
+
+          This repo recently tightened its fork-PR acceptance policy after the incident tracked in #986. Before this PR can merge, a maintainer will verify:
+
+          - Every commit's author identity is tied to a verified GitHub account (\`author_login\` non-null) — the \`PR Author Identity\` check enforces this automatically
+          - No commit's author email uses a personal-machine hostname (\`.local\`, \`.localhost\`, \`*macbook*\`)
+          - The diff scope matches the branch prefix (docs/, design/, schema/, etc.) — the \`Verify branch scope matches changed files\` check enforces this
+          - Fork PRs on \`codex/*\` / \`claude/*\` / \`gemini/*\` / \`dev/*\` / \`fix/*\` / \`chore/*\` prefixes are downgraded to strict scope classification per the same policy (your PR on \`$HEAD_REF\` will get this treatment if applicable)
+
+          None of this is a rejection — legitimate first PRs from external contributors are welcome. The verification is about keeping the audit trail signable.
+
+          **If any check fails:** the workflow output will name the specific commit and issue. Most fixes are:
+
+          \`\`\`bash
+          git commit --amend --reset-author --no-edit
+          git push --force-with-lease
+          \`\`\`
+
+          Run that from a machine logged into your GitHub account so the commit's \`author.email\` resolves to your verified identity, then push. The CI checks re-run automatically.
+
+          Thanks for contributing to Gaia. 🌿
+
+          <sub>Automated advisory (fork created \`$FORK_CREATED\`, 0 prior merged PRs). Policy context: #986. Silence future advisories on your future PRs — once one merges, this workflow stops firing for your subsequent PRs.</sub>
+          EOF
+          )
+
+          gh pr comment "$PR_NUMBER" --body "$BODY"
+          echo "✓ Advisory posted on PR #$PR_NUMBER."
