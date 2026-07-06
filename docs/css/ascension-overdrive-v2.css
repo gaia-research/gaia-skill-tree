@@ -1,0 +1,944 @@
+/* ============================================================
+   Ascension Overdrive · v2 (Issue #975, bold direction preview)
+   ------------------------------------------------------------
+   Sibling to v1 (PR #988). Same mechanic content, viewport-scale
+   execution. Full-page bleed, sticky-pinned scenes across
+   ~9 viewport heights, real scroll-linked multi-layer parallax,
+   display-poster typography.
+
+   Design source: founder/handovers/design-v6.1.1-ascension-overdrive-shape-v2.md
+   Motion driver: docs/js/ascension-overdrive-v2.js
+   Assets:        docs/assets/ascension-overdrive/*.{png,mp4}
+   Content:       META.md §1.1 / §2.4 (rank ladder + Star Bar tags)
+                  founder/handovers/G7_TRUST_TAXONOMY_RFC.md §11.12 (predicates)
+
+   Token discipline: only existing --rank-N, --tier-*, --apex-gold,
+   --evidence-gold, --font-{display,body,mono}, --bg, --surface,
+   --border, --text, --muted. No new hex codes anywhere.
+   No mix-blend-mode PNG keying. No glassmorphism.
+   Frame-not-key: opaque asset backgrounds are accepted and framed
+   into their plate rather than blended.
+   ============================================================ */
+
+/* ── SECTION SHELL · full-viewport bleed ─────────────────────── */
+/* Escapes the site's main content column by using a symmetric
+   negative-margin trick. `margin-inline: calc(50% - 50vw)` places
+   the section's left/right edges at the viewport edges no matter
+   how narrow the parent column is. `width: 100vw` guarantees the
+   background layers know their painting rectangle.
+
+   `overflow: clip` (with `overflow-x` fallback) prevents any
+   riser / ledger from bleeding sideways into other sections; we
+   still want vertical scroll unaffected.
+
+   `--aov-scene-vh` and `--aov-apex-vh` are private locals used to
+   compose the section height and predicate segment lengths; they
+   are not tokens (no new tokens are introduced by v2). */
+.aov {
+  --aov-scene-vh: 100;                      /* one scene = 100vh */
+  --aov-apex-vh: 200;                       /* Apex Gate pin duration */
+  --aov-scene-count: 7;                     /* title + R1..R5 + Unique */
+
+  position: relative;
+  isolation: isolate;
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  overflow-x: clip;
+  color: var(--text);
+  background: var(--bg);
+  /* Preserve fixed-nav clearance for #ascension anchor jumps. */
+  scroll-margin-top: 5rem;
+}
+
+/* ── ATMOSPHERE · sticky background pinned to viewport ───────── */
+/* Held sticky at top:0 for the full section scroll. Inside sits
+   the ledger, an optional fog placeholder, and the Apex arch.
+   Each inner layer's translateY is written by rAF from the
+   section's scroll progress (see docs/js/ascension-overdrive-v2.js).
+
+   The atmosphere pins BEHIND the scene stages (z-index 0) while
+   scene stages pin at z-index 2. Both siblings can be `sticky`
+   at the same top:0 because sticky positions relative to the
+   nearest scroll container, so the atmosphere holds the viewport
+   for the whole section and each scene stage takes over inside
+   its own scene box.
+
+   `height: 100vh` clamps the atmosphere to one viewport frame so
+   its contents render at consistent scale regardless of scroll
+   position. */
+.aov-atmosphere {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  /* Neutral surface behind the parallax layers so the ledger's
+     warm sepia reads against a matching page tone. */
+  background: var(--bg);
+}
+
+/* Plane -2 · Ledger paper. Parallax rate 0.15× (barely drifts;
+   sets the ceremonial ground). Scaled up so translateY doesn't
+   expose an edge at the extremes of section scroll. */
+.aov-ledger {
+  position: absolute;
+  inset: -20% -5%;
+  width: 110%;
+  height: 140%;
+  background-image: url('../assets/ascension-overdrive/ledger-texture.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0.32;
+  filter: saturate(0.7);
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Plane -1b · Optional fog haze (Asset G placeholder). The
+   `--aov-fog-url` custom property is deliberately empty until
+   Asset G is delivered; the layer collapses to zero opacity so
+   there's nothing to paint until the URL is set at :root or via
+   a build-time patch. */
+.aov-fog {
+  position: absolute;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  background-image: var(--aov-fog-url, none);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.35;
+  mix-blend-mode: normal;
+  pointer-events: none;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Plane +1 · Apex arch. Sits behind Apex Gate scene and drifts
+   *toward* the viewer as the user descends into the terminal
+   pin. Parallax rate 0.60×. Kept opaque, framed (frame-not-key).
+   Its opacity is scroll-driven from JS (0 in early scenes → 0.55
+   by the Apex Gate pin). */
+.aov-arch {
+  position: absolute;
+  left: 50%;
+  top: 6vh;
+  width: min(120vw, 1800px);
+  height: auto;
+  transform: translate3d(-50%, 0, 0);
+  opacity: 0;
+  pointer-events: none;
+  filter: sepia(0.15) contrast(1.05);
+  will-change: transform, opacity;
+}
+.aov-arch img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Cream picture-frame to accept opaque backgrounds cleanly. */
+  border-radius: 6px;
+}
+
+/* Plane -1 · Riser lines. Rendered inside each rank scene at
+   the scene's mid-height, drawn on scroll progress by JS
+   (stroke-dashoffset). Placed absolute to bleed to the full
+   viewport width. */
+.aov-riser {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 1;
+}
+.aov-riser__line {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: var(--aov-riser-len, 100vw);
+  stroke-dashoffset: var(--aov-riser-len, 100vw);
+  transition: none;                         /* JS-driven, not time */
+}
+.aov-scene[data-rank="1"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-1) 45%, transparent); }
+.aov-scene[data-rank="2"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-2) 45%, transparent); }
+.aov-scene[data-rank="3"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-3) 45%, transparent); }
+.aov-scene[data-rank="4"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-4) 45%, transparent); }
+.aov-scene[data-rank="5"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-5) 55%, transparent); }
+.aov-scene[data-rank="6"] .aov-riser__line { stroke: color-mix(in oklab, var(--apex-gold) 65%, transparent); }
+
+/* Plane +2 · Gold thread. One continuous SVG spanning the full
+   section height. `stroke-dashoffset` is a linear function of
+   section scroll progress (bidirectional: draws on scroll-down,
+   undraws on scroll-up). Placed absolute inside .aov, above the
+   atmosphere but behind the scene stages so it reads as the
+   ledger's spine.
+
+   The SVG uses `preserveAspectRatio="none"` so its 100-unit
+   virtual grid maps into the section's actual pixel dimensions
+   regardless of aspect ratio. */
+.aov-thread {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.85;
+}
+.aov-thread__path {
+  fill: none;
+  stroke: var(--apex-gold);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 3px rgba(var(--apex-gold-rgb), 0.35));
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: var(--aov-thread-len, 4000);
+  stroke-dashoffset: var(--aov-thread-len, 4000);
+}
+
+/* ── SCENES · one 100vh box per beat ─────────────────────────── */
+.aov-scene {
+  position: relative;
+  min-height: 100vh;
+  width: 100vw;
+  z-index: 2;
+}
+/* Apex Gate scene is 200vh — the terminal pin holds twice as long
+   so predicates illuminate one-by-one over ~25vh each. */
+.aov-scene[data-scene="apex"] {
+  min-height: 200vh;
+}
+
+/* Stage · the sticky viewport-locked composition per scene. */
+.aov-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 5rem clamp(1.25rem, 4vw, 4rem) 3rem;
+}
+
+/* ── SCENE 1 · TITLE ─────────────────────────────────────────── */
+/* The massive "Ascension" display-poster. This is the scene
+   the operator wants to feel like the destination of the site,
+   so type is `clamp(6rem, 22vw, 20rem)` per Axis 3 of the brief.
+   Tight letter-spacing, line-height 0.9, EB Garamond. */
+.aov-stage--title {
+  grid-template-columns: 1fr;
+  place-items: center;
+  text-align: center;
+}
+.aov-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(6rem, 22vw, 20rem);
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+  margin: 0;
+  color: var(--text);
+  /* Subtle gold-lit backing to hint the ascension without going
+     into gradient text (banned per SKILL.md Absolute bans). We
+     use a text-shadow at 12% apex-gold to warm the letters
+     without applying a fill gradient. */
+  text-shadow: 0 0 30px rgba(var(--apex-gold-rgb), 0.12);
+}
+.aov-title-sub {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2vw, 1.8rem);
+  color: var(--muted);
+  margin: 1.5rem 0 0;
+  letter-spacing: 0.02em;
+}
+.aov-title-eyebrow {
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 0.9vw, 0.95rem);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  margin: 0 0 2rem;
+}
+
+/* ── SCENES 2..6 · RANK STAGES ───────────────────────────────── */
+/* Composition:
+   - Rank stamp (Asset C PNG) floated ~40vh, alternating left/right
+   - Rank name display-poster type (one word, clamp 3-12rem)
+   - Star Bar as inline stars
+   - Star Bar tags in Departure Mono below the name
+   - Caption in italic muted below tags
+*/
+.aov-stage--rank {
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+.aov-stage--rank[data-align="left"] {
+  /* Stamp left, text right */
+}
+.aov-stage--rank[data-align="right"] {
+  /* Stamp right, text left — visual rhythm */
+}
+.aov-stage--rank .aov-rank-plate {
+  grid-column: 1 / 6;
+  justify-self: center;
+  align-self: center;
+}
+.aov-stage--rank[data-align="right"] .aov-rank-plate {
+  grid-column: 8 / 13;
+}
+.aov-stage--rank .aov-rank-body {
+  grid-column: 7 / 13;
+  justify-self: start;
+  align-self: center;
+  max-width: min(52rem, 100%);
+}
+.aov-stage--rank[data-align="right"] .aov-rank-body {
+  grid-column: 1 / 7;
+  justify-self: end;
+  text-align: right;
+}
+
+/* Rank plate — a cream picture-frame around the opaque stamp.
+   This is the frame-not-key strategy: don't try to blend the
+   PNG's background out; give it a warm frame that the ledger
+   can peek around. */
+.aov-rank-plate {
+  position: relative;
+  width: clamp(280px, 34vw, 620px);
+  aspect-ratio: 1 / 1;
+  padding: 1.2rem;
+  background: linear-gradient(
+      145deg,
+      rgba(255, 248, 232, 0.06) 0%,
+      rgba(255, 248, 232, 0.02) 100%);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  box-shadow:
+    0 40px 80px -30px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(var(--apex-gold-rgb), 0.08) inset;
+  will-change: transform, opacity;
+  transform: translate3d(0, 40px, 0);
+  opacity: 0;
+  transition: none;                         /* JS-driven */
+}
+.aov-rank-plate img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 2px;
+}
+.aov-scene.is-active .aov-rank-plate,
+.aov-scene.is-active .aov-rank-body {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Rank body — the display-poster typography. */
+.aov-rank-body {
+  will-change: transform, opacity;
+  transform: translate3d(0, 40px, 0);
+  opacity: 0;
+}
+.aov-rank-stars {
+  display: inline-flex;
+  gap: 0.15em;
+  font-family: var(--font-mono);
+  font-size: clamp(1.5rem, 3vw, 3rem);
+  color: var(--muted);
+  line-height: 1;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.05em;
+}
+.aov-rank-stars .filled { color: var(--rank-active, var(--apex-gold)); }
+.aov-scene[data-rank="1"] .aov-rank-stars .filled { color: var(--rank-1); }
+.aov-scene[data-rank="2"] .aov-rank-stars .filled { color: var(--rank-2); }
+.aov-scene[data-rank="3"] .aov-rank-stars .filled { color: var(--rank-3); }
+.aov-scene[data-rank="4"] .aov-rank-stars .filled { color: var(--rank-4); }
+.aov-scene[data-rank="5"] .aov-rank-stars .filled { color: var(--rank-5); }
+.aov-scene[data-rank="6"] .aov-rank-stars .filled { color: var(--apex-gold); }
+
+.aov-rank-name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(3rem, 12vw, 10rem);
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+  margin: 0 0 1.5rem;
+  color: var(--text);
+}
+.aov-rank-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+.aov-stage--rank[data-align="right"] .aov-rank-tags { justify-content: flex-end; }
+
+.aov-tag {
+  display: inline-block;
+  padding: 0.32rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 0.9vw, 0.9rem);
+  letter-spacing: 0.02em;
+  color: var(--text);
+  background: rgba(148, 163, 184, 0.08);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.aov-rank-caption {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1rem, 1.4vw, 1.35rem);
+  color: var(--muted);
+  margin: 0;
+  max-width: 40ch;
+  line-height: 1.4;
+}
+.aov-stage--rank[data-align="right"] .aov-rank-caption { margin-left: auto; }
+
+/* ── SCENE 7 · UNIQUE BRANCH ─────────────────────────────────── */
+/* One plate holds all three Unique cards. The branch is a "you
+   can also go this way" beat; visual rhythm: header top, three
+   cards on a row, hairline connecting them + branching in from
+   the previous R4 scene (drawn by a small connector SVG). */
+.aov-stage--unique {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 2.5rem;
+  align-content: center;
+  place-items: center;
+  padding: 5rem clamp(1.25rem, 4vw, 4rem) 3rem;
+  text-align: center;
+}
+.aov-unique-header {
+  max-width: 62rem;
+}
+.aov-eyebrow {
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 0.85vw, 0.9rem);
+  color: var(--tier-unique);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  margin: 0 0 1rem;
+}
+.aov-unique-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  line-height: 0.9;
+  letter-spacing: -0.025em;
+  margin: 0 0 1rem;
+  color: var(--text);
+}
+.aov-unique-lede {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  color: var(--muted);
+  line-height: 1.5;
+  max-width: 48rem;
+  margin: 0 auto 1.5rem;
+}
+.aov-unique-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 2vw, 2rem);
+  width: min(100%, 92rem);
+  align-items: stretch;
+  position: relative;
+}
+.aov-unique-hairline {
+  position: absolute;
+  top: 50%;
+  left: 4%;
+  right: 4%;
+  height: 1px;
+  background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--tier-unique) 15%,
+      var(--tier-unique) 85%,
+      transparent 100%);
+  opacity: 0.4;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.aov-ucard {
+  position: relative;
+  z-index: 1;
+  padding: 1.4rem;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid var(--tier-unique-border);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  will-change: transform, opacity;
+  transform: translate3d(0, 30px, 0);
+  opacity: 0;
+  transition: transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1),
+              opacity 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.aov-scene.is-active .aov-ucard { opacity: 1; transform: translate3d(0, 0, 0); }
+.aov-scene.is-active .aov-ucard[data-rank="5"] { transition-delay: 120ms; }
+.aov-scene.is-active .aov-ucard[data-rank="6"] { transition-delay: 240ms; }
+
+.aov-ucard[data-rank="5"] {
+  /* 5★ Unique Ultimate — deep sinking radial, gold accretion ring */
+  background:
+    radial-gradient(ellipse at center,
+      #050202 0%,
+      #050202 40%,
+      rgba(15, 23, 42, 0.85) 100%);
+  border-color: rgba(var(--apex-gold-rgb), 0.4);
+  box-shadow:
+    0 0 0 1px rgba(var(--apex-gold-rgb), 0.08) inset,
+    0 0 40px -10px rgba(var(--apex-gold-rgb), 0.15);
+}
+.aov-ucard[data-rank="6"] {
+  /* 6★ Unique Apex / Unique Impossible — same void with a white
+     singularity core. The image drives the visual; the card frame
+     stays restrained. */
+  background:
+    radial-gradient(ellipse at center,
+      #050202 0%,
+      #050202 30%,
+      rgba(15, 23, 42, 0.85) 100%);
+  border-color: rgba(var(--evidence-gold-rgb), 0.4);
+  box-shadow:
+    0 0 0 1px rgba(var(--evidence-gold-rgb), 0.1) inset,
+    0 0 60px -20px rgba(var(--evidence-gold-rgb), 0.2);
+}
+
+.aov-ucard__plate {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.aov-ucard__plate img,
+.aov-ucard__plate video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.aov-ucard__plate video { opacity: 0; transition: opacity 400ms ease-out; }
+.aov-ucard__plate video.is-loaded { opacity: 1; }
+
+.aov-ucard__rankline {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.aov-ucard__num {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--tier-unique);
+  letter-spacing: 0.06em;
+}
+.aov-ucard[data-rank="5"] .aov-ucard__num { color: var(--apex-gold); }
+.aov-ucard[data-rank="6"] .aov-ucard__num { color: var(--evidence-gold); }
+
+.aov-ucard__name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  line-height: 1;
+  color: var(--text);
+  letter-spacing: -0.015em;
+}
+.aov-ucard__prestige {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+  color: var(--muted);
+}
+.aov-ucard[data-rank="6"] .aov-ucard__prestige {
+  color: var(--evidence-gold);
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.aov-ucard__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.aov-ucard__tag {
+  display: inline-block;
+  padding: 0.24rem 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  background: rgba(148, 163, 184, 0.06);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+.aov-ucard__caption {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.98rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* ── SCENE 8 · APEX GATE TERMINAL ────────────────────────────── */
+/* 200vh scene pin. Six brass-tag predicates arranged as a
+   staircase, each illuminating as scroll progresses through its
+   ~33vh (200 / 6) segment of the pin. Closing line "Six predicates.
+   All required. No exceptions." fades in at the last 20vh. */
+.aov-stage--apex {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+  gap: 2rem;
+  place-items: center;
+  padding: 6rem clamp(1.25rem, 4vw, 4rem) 4rem;
+  text-align: center;
+  position: relative;
+}
+.aov-apex-header {
+  max-width: 62rem;
+  z-index: 3;
+}
+.aov-apex-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(4rem, 15vw, 12rem);
+  line-height: 0.86;
+  letter-spacing: -0.035em;
+  margin: 0.4rem 0 0;
+  color: var(--text);
+  text-shadow: 0 0 40px rgba(var(--apex-gold-rgb), 0.2);
+}
+.aov-apex-eyebrow {
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 0.95vw, 1rem);
+  color: var(--apex-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  margin: 0;
+}
+.aov-apex-lede {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+  color: var(--muted);
+  margin: 1.2rem 0 0;
+  max-width: 42rem;
+  line-height: 1.4;
+}
+
+/* Predicate staircase — six brass-tag rows. Each rests at
+   `--muted` and toggles `.is-lit` for gold. Staircase indent
+   uses left-padding to visually rise. */
+.aov-predicates {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+  width: min(100%, 68rem);
+  z-index: 3;
+}
+.aov-pred {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.9rem 1.1rem 0.9rem 1.4rem;
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid var(--border);
+  border-left: 3px solid rgba(148, 163, 184, 0.35);
+  border-radius: 2px;
+  text-align: left;
+  color: var(--muted);
+  transition:
+    border-left-color 400ms ease-out,
+    color 400ms ease-out,
+    background-color 400ms ease-out,
+    transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  transform: translate3d(0, 10px, 0);
+  opacity: 0;
+}
+/* Staircase indent — each row shifts right slightly */
+.aov-pred[data-step="2"] { margin-left: clamp(0px, 1vw, 16px); }
+.aov-pred[data-step="3"] { margin-left: clamp(0px, 2vw, 32px); }
+.aov-pred[data-step="4"] { margin-left: clamp(0px, 3vw, 48px); }
+.aov-pred[data-step="5"] { margin-left: clamp(0px, 4vw, 64px); }
+.aov-pred[data-step="6"] { margin-left: clamp(0px, 5vw, 80px); }
+
+.aov-scene[data-scene="apex"].is-entering .aov-pred,
+.aov-scene[data-scene="apex"].is-active .aov-pred {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+.aov-pred.is-lit {
+  color: var(--text);
+  border-left-color: var(--apex-gold);
+  background: rgba(var(--apex-gold-rgb), 0.06);
+  box-shadow: 0 0 20px -5px rgba(var(--apex-gold-rgb), 0.25);
+}
+.aov-pred__id {
+  font-family: var(--font-mono);
+  font-size: clamp(0.85rem, 1.1vw, 1.05rem);
+  color: var(--tier-extra);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.aov-pred.is-lit .aov-pred__id { color: var(--apex-gold); }
+.aov-pred__desc {
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.05vw, 1.05rem);
+  line-height: 1.5;
+}
+
+.aov-apex-coda {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.5rem, 3vw, 3rem);
+  line-height: 1.2;
+  color: var(--apex-gold);
+  margin: 1.5rem 0 0;
+  text-shadow: 0 0 20px rgba(var(--apex-gold-rgb), 0.3);
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition: opacity 800ms ease-out, transform 800ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  z-index: 3;
+}
+.aov-apex-coda.is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Cross-section refs link, rendered outside the sticky pin so it
+   sits below the terminal scene when the section unpins. */
+.aov-refs {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  padding: 3rem 1.25rem 5rem;
+  font-family: var(--font-body);
+  margin: 0;
+}
+.aov-refs a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2px;
+  transition: color 200ms, border-color 200ms;
+}
+.aov-refs a:hover,
+.aov-refs a:focus-visible {
+  color: var(--apex-gold);
+  border-bottom-color: var(--apex-gold);
+}
+
+/* ── MOBILE (<900px) · collapse sticky pins to static flow ───── */
+/* Sticky pinning is jank-prone on mobile Safari; collapse to a
+   simpler stacked layout. Parallax rates → 1.0× (JS reads the
+   media query and disables). Rank names scale down; unique cards
+   go single-column; predicates lose staircase indent. */
+@media (max-width: 899px) {
+  .aov {
+    --aov-scene-vh: 100;
+    overflow-x: clip;
+  }
+  .aov-atmosphere {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+  .aov-arch {
+    top: 40vh;
+    opacity: 0.35;
+  }
+  .aov-scene,
+  .aov-scene[data-scene="apex"] {
+    min-height: auto;
+  }
+  .aov-stage,
+  .aov-stage--title,
+  .aov-stage--rank,
+  .aov-stage--unique,
+  .aov-stage--apex {
+    position: static;
+    height: auto;
+    min-height: 80vh;
+    grid-template-columns: 1fr;
+    padding: 4rem 1.25rem;
+    gap: 1.5rem;
+  }
+
+  .aov-title {
+    font-size: clamp(3rem, 15vw, 6rem);
+  }
+
+  /* Rank stages stack: stamp above body, both centered. */
+  .aov-stage--rank .aov-rank-plate,
+  .aov-stage--rank[data-align="right"] .aov-rank-plate {
+    grid-column: 1 / -1;
+    width: min(80vw, 380px);
+    justify-self: center;
+  }
+  .aov-stage--rank .aov-rank-body,
+  .aov-stage--rank[data-align="right"] .aov-rank-body {
+    grid-column: 1 / -1;
+    justify-self: center;
+    text-align: center;
+  }
+  .aov-stage--rank[data-align="right"] .aov-rank-caption { margin-left: 0; }
+  .aov-stage--rank[data-align="right"] .aov-rank-tags { justify-content: center; }
+  .aov-rank-name {
+    font-size: clamp(2rem, 10vw, 5rem);
+  }
+
+  .aov-unique-cards {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  .aov-unique-hairline {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    right: auto;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        var(--tier-unique) 15%,
+        var(--tier-unique) 85%,
+        transparent 100%);
+  }
+
+  .aov-apex-title {
+    font-size: clamp(3rem, 12vw, 6rem);
+  }
+  .aov-pred,
+  .aov-pred[data-step="2"],
+  .aov-pred[data-step="3"],
+  .aov-pred[data-step="4"],
+  .aov-pred[data-step="5"],
+  .aov-pred[data-step="6"] {
+    margin-left: 0;
+  }
+  .aov-pred {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+
+  /* All parallax layers snap to rest. */
+  .aov-ledger,
+  .aov-fog,
+  .aov-arch,
+  .aov-rank-plate,
+  .aov-rank-body {
+    will-change: auto;
+    transform: none;
+    opacity: 1;
+  }
+  .aov-arch { opacity: 0.35; }
+  .aov-ucard { opacity: 1; transform: none; }
+  .aov-pred { opacity: 1; transform: none; }
+  /* Gold thread becomes a vertical spine centred on the section. */
+  .aov-thread {
+    left: 50%;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(var(--apex-gold-rgb), 0.35) 8%,
+        rgba(var(--apex-gold-rgb), 0.55) 50%,
+        rgba(var(--apex-gold-rgb), 0.35) 92%,
+        transparent 100%);
+    opacity: 0.6;
+  }
+  .aov-thread svg,
+  .aov-thread__path {
+    display: none;
+  }
+}
+
+/* ── REDUCED MOTION · composed rest state ─────────────────────── */
+/* Parallax rates collapse to 1.0× (JS detects the query and stops
+   writing transforms). Sticky pins remain but sub-scene animations
+   pin to their fully-composed end state on scene entry. Gold thread
+   renders fully drawn. No cross-fades. */
+@media (prefers-reduced-motion: reduce) {
+  .aov-ledger,
+  .aov-fog,
+  .aov-arch {
+    will-change: auto;
+    transform: none;
+  }
+  .aov-arch { opacity: 0.35; }
+  .aov-thread__path {
+    stroke-dashoffset: 0 !important;
+  }
+  .aov-riser__line {
+    stroke-dashoffset: 0 !important;
+  }
+  .aov-rank-plate,
+  .aov-rank-body,
+  .aov-ucard,
+  .aov-pred {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+  .aov-pred {
+    color: var(--text);
+    border-left-color: var(--apex-gold);
+  }
+  .aov-pred__id { color: var(--apex-gold); }
+  .aov-apex-coda {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── PRINT · straightforward document flow ───────────────────── */
+@media print {
+  .aov-atmosphere,
+  .aov-thread,
+  .aov-riser,
+  .aov-arch {
+    display: none;
+  }
+  .aov-stage,
+  .aov-scene {
+    position: static;
+    height: auto;
+    min-height: auto;
+  }
+}

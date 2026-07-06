@@ -36,6 +36,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="assets/marks/diamond-seal.svg">
   <link rel="stylesheet" href="css/styles.css?v=6.5.3">
+  <link rel="stylesheet" href="css/ascension-overdrive-v2.css?v=6.5.3">
   <link rel="stylesheet" href="css/plaque.css?v=6.5.3">
   <!-- Universal AlphaRail (page-wide section + explorer index). -->
   <link rel="stylesheet" href="css/alpha-rail.css?v=6.5.3">
@@ -770,57 +771,320 @@
 
   <div class="section-divider"></div>
 
-  <!-- ─── ASCENSION CYCLE ─── -->
-  <!-- Stage 2/4 — the Ascension Cycle is the SOLE catalog that reads
-       ascending (journey). data-pattern="journey" annotates the exempt
-       direction; every other catalog reads descending (apex first).
-       Per-rank colour comes from .rank-badge[data-level="N"] tokens. -->
-  <section id="ascension" class="reveal ascension-section" data-section="ascension">
-    <h2>The Ascension Cycle</h2>
-    <p class="section-sub">Skills advance through evidence, not declaration. Each rank unlocks the next.</p>
-    <div class="ascension-track" data-pattern="journey">
-      <div class="asc-stage">
-        <div class="asc-node">
-          <span class="asc-label">Awakened</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="1" data-variant="chip" role="img" aria-label="Rank 1 of 6"><span class="rank-badge__chip">1★</span></span></span>
-        </div>
-        <span class="asc-arrow">→</span>
+  <!-- ─── ASCENSION CYCLE · OVERDRIVE v2 (Issue #975, bold direction preview) ─── -->
+  <!-- Sibling to v1 (PR #988). Same mechanic content, viewport-scale
+       execution: full-page bleed, sticky-pinned scenes across ~9
+       viewport heights, real scroll-linked multi-layer parallax,
+       display-poster typography. NO sessionStorage guard.
+
+       Structure (~900vh total when unpinned):
+         Scene 1  — Title ("Ascension", 100vh)
+         Scenes 2-5 — Rank 1..4 (100vh each)
+         Scene 6  — Unique branch pin (100vh)
+         Scene 7  — Rank 5 Transcendent (100vh)
+         Scene 8  — Apex Gate terminal (200vh, 6 predicates illuminate)
+
+       Motion: docs/js/ascension-overdrive-v2.js
+       Styles: docs/css/ascension-overdrive-v2.css
+       Assets: docs/assets/ascension-overdrive/*.{png,mp4}
+       Design: founder/handovers/design-v6.1.1-ascension-overdrive-shape-v2.md
+
+       Terminology (v2 ratified, 2026-07-06):
+         - 4★ Unique             (formal name: Unique)
+         - 5★ Unique Ultimate    (formal name: Unique Ultimate)
+         - 6★ Unique Apex        (formal name; prestige tag: Unique Impossible)
+       Do NOT use "Gravitational" or "Structural" as card names.
+
+       Stamp filenames from the illustrator are keyed by visible star
+       count, not by numeric prefix. Mapping visual↔rank inherited
+       from v1 (PR #988):
+         1★ Awakened     rank-1-awakened.png    (candle)
+         2★ Named        rank-4-evolved.png     (signet)
+         3★ Evolved      rank-2-named.png       (compass)
+         4★ Hardened     rank-3-hardened.png    (anvil)
+         5★ Transcendent rank-5-transcendent.png (laurel)
+         6★ Apex         apex-arch.png (composed inside Apex Gate)
+       Filename rename tracked as PR follow-up (v2 does not rename). -->
+  <section id="ascension"
+           class="aov"
+           data-section="ascension"
+           aria-labelledby="aov-title">
+
+    <!-- Atmosphere: sticky background pinned to viewport for the
+         full section scroll. Layers inside receive scroll-linked
+         translateY from rAF (see ascension-overdrive-v2.js). -->
+    <div class="aov-atmosphere" aria-hidden="true">
+      <div class="aov-ledger" data-parallax-rate="0.15"></div>
+      <div class="aov-fog" data-parallax-rate="0.25"></div>
+      <!-- Apex arch drifts into view during the Apex Gate scene.
+           Frame-not-key: opaque PNG framed, not blend-mode-keyed. -->
+      <div class="aov-arch" data-parallax-rate="0.60">
+        <img src="assets/ascension-overdrive/apex-arch.png"
+             alt="" width="1536" height="1024" loading="lazy" decoding="async">
       </div>
-      <div class="asc-stage">
-        <div class="asc-node">
-          <span class="asc-label">Named</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="2" data-variant="chip" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></span>
-        </div>
-        <span class="asc-arrow">→</span>
+    </div>
+
+    <!-- Gold thread: one continuous SVG spanning the full section
+         height. `stroke-dashoffset` is scroll-linked via rAF;
+         draws on scroll-down, undraws on scroll-up. -->
+    <svg class="aov-thread" viewBox="0 0 100 1000"
+         preserveAspectRatio="none" aria-hidden="true">
+      <path class="aov-thread__path"
+            d="M 50 20
+               C 30 90, 70 160, 50 240
+               C 30 320, 70 400, 50 480
+               C 30 560, 70 640, 50 720
+               C 30 800, 70 880, 50 980"/>
+    </svg>
+
+    <!-- ── Scene 1 · Section-opening title ─────────────────── -->
+    <div class="aov-scene" data-scene="title">
+      <div class="aov-stage aov-stage--title">
+        <p class="aov-title-eyebrow">The Ascension Cycle</p>
+        <h2 id="aov-title" class="aov-title">Ascension</h2>
+        <p class="aov-title-sub">Rank is earned. Apex is rare.</p>
       </div>
-      <div class="asc-stage">
-        <div class="asc-node">
-          <span class="asc-label">Evolved</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="3" data-variant="chip" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span></span></span>
+    </div>
+
+    <!-- ── Scene 2 · Rank 1 Awakened ───────────────────────── -->
+    <div class="aov-scene" data-scene="rank" data-rank="1">
+      <svg class="aov-riser" viewBox="0 0 1000 2" preserveAspectRatio="none" aria-hidden="true">
+        <line class="aov-riser__line" data-len="1000" x1="0" y1="1" x2="1000" y2="1"/>
+      </svg>
+      <div class="aov-stage aov-stage--rank" data-align="left">
+        <div class="aov-rank-plate">
+          <img src="assets/ascension-overdrive/rank-1-awakened.png"
+               alt="" width="1254" height="1254" loading="lazy" decoding="async">
         </div>
-        <span class="asc-arrow">→</span>
-      </div>
-      <div class="asc-stage">
-        <div class="asc-node">
-          <span class="asc-label">Hardened</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="4" data-variant="chip" role="img" aria-label="Rank 4 of 6"><span class="rank-badge__chip">4★</span></span></span>
-        </div>
-        <span class="asc-arrow">→</span>
-      </div>
-      <div class="asc-stage">
-        <div class="asc-node">
-          <span class="asc-label">Transcendent</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="5" data-variant="chip" role="img" aria-label="Rank 5 of 6"><span class="rank-badge__chip">5★</span></span></span>
-        </div>
-        <span class="asc-arrow">→</span>
-      </div>
-      <div class="asc-stage">
-        <div class="asc-node is-apex">
-          <span class="asc-label">Apex</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="6" data-variant="chip" role="img" aria-label="Rank 6 of 6"><span class="rank-badge__chip">6★</span></span></span>
+        <div class="aov-rank-body">
+          <span class="aov-rank-stars" aria-hidden="true"><span class="filled">★</span><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></span>
+          <h3 class="aov-rank-name">Awakened</h3>
+          <div class="aov-rank-tags">
+            <span class="aov-tag">verified as real skill</span>
+          </div>
+          <p class="aov-rank-caption">A candidate the registry has seen and recognised.</p>
         </div>
       </div>
     </div>
+
+    <!-- ── Scene 3 · Rank 2 Named ──────────────────────────── -->
+    <div class="aov-scene" data-scene="rank" data-rank="2">
+      <svg class="aov-riser" viewBox="0 0 1000 2" preserveAspectRatio="none" aria-hidden="true">
+        <line class="aov-riser__line" data-len="1000" x1="0" y1="1" x2="1000" y2="1"/>
+      </svg>
+      <div class="aov-stage aov-stage--rank" data-align="right">
+        <div class="aov-rank-plate">
+          <img src="assets/ascension-overdrive/rank-4-evolved.png"
+               alt="" width="1254" height="1254" loading="lazy" decoding="async">
+        </div>
+        <div class="aov-rank-body">
+          <span class="aov-rank-stars" aria-hidden="true"><span class="filled">★</span><span class="filled">★</span><span>★</span><span>★</span><span>★</span><span>★</span></span>
+          <h3 class="aov-rank-name">Named</h3>
+          <div class="aov-rank-tags">
+            <span class="aov-tag">RPG title assigned</span>
+            <span class="aov-tag">Grade C+ evidence</span>
+          </div>
+          <p class="aov-rank-caption">Given a name, a signet, a place in the ledger.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Scene 4 · Rank 3 Evolved ────────────────────────── -->
+    <div class="aov-scene" data-scene="rank" data-rank="3">
+      <svg class="aov-riser" viewBox="0 0 1000 2" preserveAspectRatio="none" aria-hidden="true">
+        <line class="aov-riser__line" data-len="1000" x1="0" y1="1" x2="1000" y2="1"/>
+      </svg>
+      <div class="aov-stage aov-stage--rank" data-align="left">
+        <div class="aov-rank-plate">
+          <img src="assets/ascension-overdrive/rank-2-named.png"
+               alt="" width="1254" height="1254" loading="lazy" decoding="async">
+        </div>
+        <div class="aov-rank-body">
+          <span class="aov-rank-stars" aria-hidden="true"><span class="filled">★</span><span class="filled">★</span><span class="filled">★</span><span>★</span><span>★</span><span>★</span></span>
+          <h3 class="aov-rank-name">Evolved</h3>
+          <div class="aov-rank-tags">
+            <span class="aov-tag">Grade B+</span>
+            <span class="aov-tag">verified blob link</span>
+          </div>
+          <p class="aov-rank-caption">Reproducible, installable, traceable to a file.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Scene 5 · Rank 4 Hardened ───────────────────────── -->
+    <div class="aov-scene" data-scene="rank" data-rank="4">
+      <svg class="aov-riser" viewBox="0 0 1000 2" preserveAspectRatio="none" aria-hidden="true">
+        <line class="aov-riser__line" data-len="1000" x1="0" y1="1" x2="1000" y2="1"/>
+      </svg>
+      <div class="aov-stage aov-stage--rank" data-align="right">
+        <div class="aov-rank-plate">
+          <img src="assets/ascension-overdrive/rank-3-hardened.png"
+               alt="" width="1254" height="1254" loading="lazy" decoding="async">
+        </div>
+        <div class="aov-rank-body">
+          <span class="aov-rank-stars" aria-hidden="true"><span class="filled">★</span><span class="filled">★</span><span class="filled">★</span><span class="filled">★</span><span>★</span><span>★</span></span>
+          <h3 class="aov-rank-name">Hardened</h3>
+          <div class="aov-rank-tags">
+            <span class="aov-tag">Grade B+ rank-floor</span>
+            <span class="aov-tag">security-reviewed</span>
+          </div>
+          <p class="aov-rank-caption">Production-grade, defended, kept.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Scene 6 · Unique branch (dedicated pin between R4 and R5) ─ -->
+    <div class="aov-scene" data-scene="unique">
+      <div class="aov-stage aov-stage--unique">
+        <div class="aov-unique-header">
+          <p class="aov-eyebrow">The Unique branch</p>
+          <h3 class="aov-unique-title">Ascension without fusion.</h3>
+          <p class="aov-unique-lede">A Basic or Extra skill that reaches 4★ without ever becoming a Suite earns Unique. The class stays; its state deepens as it climbs.</p>
+        </div>
+        <div class="aov-unique-cards" role="list" aria-label="The three states of the Unique class">
+          <div class="aov-unique-hairline" aria-hidden="true"></div>
+
+          <div class="aov-ucard" data-rank="4" role="listitem">
+            <div class="aov-ucard__plate">
+              <img src="assets/ascension-overdrive/unique-4-structural.png"
+                   alt="" width="1254" height="1254" loading="lazy" decoding="async">
+              <video loop muted playsinline preload="none"
+                     poster="assets/ascension-overdrive/unique-4-structural.png"
+                     aria-hidden="true">
+                <source data-src="assets/ascension-overdrive/unique-4-loop.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="aov-ucard__rankline">
+              <span class="aov-ucard__num">4★</span>
+              <span class="aov-ucard__name">Unique</span>
+            </div>
+            <div class="aov-ucard__tags">
+              <span class="aov-ucard__tag">Basic or Extra</span>
+              <span class="aov-ucard__tag">not a Suite</span>
+              <span class="aov-ucard__tag">4★+</span>
+            </div>
+            <p class="aov-ucard__caption">A parallel prestige class. Not a rank step.</p>
+          </div>
+
+          <div class="aov-ucard" data-rank="5" role="listitem">
+            <div class="aov-ucard__plate">
+              <img src="assets/ascension-overdrive/unique-5-gravitational.png"
+                   alt="" width="1254" height="1254" loading="lazy" decoding="async">
+              <!-- unique-5-loop.mp4 is 19MB pending recompression; poster-only. -->
+              <video loop muted playsinline preload="none"
+                     data-motion-pending="true"
+                     poster="assets/ascension-overdrive/unique-5-gravitational.png"
+                     aria-hidden="true">
+                <source data-src="assets/ascension-overdrive/unique-5-loop.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="aov-ucard__rankline">
+              <span class="aov-ucard__num">5★</span>
+              <span class="aov-ucard__name">Unique Ultimate</span>
+            </div>
+            <div class="aov-ucard__tags">
+              <span class="aov-ucard__tag">Transcendent Unique</span>
+              <span class="aov-ucard__tag">enterprise-ready</span>
+              <span class="aov-ucard__tag">non-Suite</span>
+            </div>
+            <p class="aov-ucard__caption">A Unique that reaches Ultimate. Depth without fusion.</p>
+          </div>
+
+          <div class="aov-ucard" data-rank="6" role="listitem">
+            <div class="aov-ucard__plate">
+              <img src="assets/ascension-overdrive/unique-6-impossible.png"
+                   alt="" width="1254" height="1254" loading="lazy" decoding="async">
+              <video loop muted playsinline preload="none"
+                     poster="assets/ascension-overdrive/unique-6-impossible.png"
+                     aria-hidden="true">
+                <source data-src="assets/ascension-overdrive/unique-6-loop.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="aov-ucard__rankline">
+              <span class="aov-ucard__num">6★</span>
+              <span class="aov-ucard__name">Unique Apex</span>
+              <span class="aov-ucard__prestige">Unique Impossible</span>
+            </div>
+            <div class="aov-ucard__tags">
+              <span class="aov-ucard__tag">Unique Apex</span>
+              <span class="aov-ucard__tag">Grade S</span>
+              <span class="aov-ucard__tag">never fused</span>
+            </div>
+            <p class="aov-ucard__caption">Apex without the suite fusion. Literally impossible under the standard rule.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Scene 7 · Rank 5 Transcendent ───────────────────── -->
+    <div class="aov-scene" data-scene="rank" data-rank="5">
+      <svg class="aov-riser" viewBox="0 0 1000 2" preserveAspectRatio="none" aria-hidden="true">
+        <line class="aov-riser__line" data-len="1000" x1="0" y1="1" x2="1000" y2="1"/>
+      </svg>
+      <div class="aov-stage aov-stage--rank" data-align="left">
+        <div class="aov-rank-plate">
+          <img src="assets/ascension-overdrive/rank-5-transcendent.png"
+               alt="" width="1254" height="1254" loading="lazy" decoding="async">
+        </div>
+        <div class="aov-rank-body">
+          <span class="aov-rank-stars" aria-hidden="true"><span class="filled">★</span><span class="filled">★</span><span class="filled">★</span><span class="filled">★</span><span class="filled">★</span><span>★</span></span>
+          <h3 class="aov-rank-name">Transcendent</h3>
+          <div class="aov-rank-tags">
+            <span class="aov-tag">Grade B+ rank-floor</span>
+            <span class="aov-tag">enterprise-ready</span>
+          </div>
+          <p class="aov-rank-caption">Mastery, often the capstone of an Ultimate.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Scene 8 · Apex Gate terminal (200vh pin) ────────── -->
+    <div class="aov-scene" data-scene="apex" data-rank="6" aria-labelledby="aov-apex-title">
+      <svg class="aov-riser" viewBox="0 0 1000 2" preserveAspectRatio="none" aria-hidden="true">
+        <line class="aov-riser__line" data-len="1000" x1="0" y1="1" x2="1000" y2="1"/>
+      </svg>
+      <div class="aov-stage aov-stage--apex">
+        <div class="aov-apex-header">
+          <p class="aov-apex-eyebrow">The Apex Gate · 6 predicates</p>
+          <h3 id="aov-apex-title" class="aov-apex-title">Apex</h3>
+          <p class="aov-apex-lede">The step from 5★ Transcendent to 6★ Apex is not another rank threshold; it is a gate. Every predicate below must evaluate true. Partial satisfaction is logged, never promoted.</p>
+        </div>
+
+        <ol class="aov-predicates" role="list" aria-label="Apex Gate predicates">
+          <li class="aov-pred" data-step="1" role="listitem">
+            <span class="aov-pred__id">aGradedOriginsGte5</span>
+            <span class="aov-pred__desc">At least five fusion-origin components each hold Grade A or higher.</span>
+          </li>
+          <li class="aov-pred" data-step="2" role="listitem">
+            <span class="aov-pred__id">directNestedSuiteGte1</span>
+            <span class="aov-pred__desc">At least one directly-nested Suite sits among the origins.</span>
+          </li>
+          <li class="aov-pred" data-step="3" role="listitem">
+            <span class="aov-pred__id">depth2OnlyReachableGte1</span>
+            <span class="aov-pred__desc">At least one origin is reachable only at depth two, not by top-level install.</span>
+          </li>
+          <li class="aov-pred" data-step="4" role="listitem">
+            <span class="aov-pred__id">overallGradeS</span>
+            <span class="aov-pred__desc">Overall Trust Grade S; the diversity gate satisfied at Trust Magnitude ≥ 250.</span>
+          </li>
+          <li class="aov-pred" data-step="5" role="listitem">
+            <span class="aov-pred__id">sourceTenureDaysGte180AorS</span>
+            <span class="aov-pred__desc">At least one A- or S-graded evidence row has been public for ≥ 180 days.</span>
+          </li>
+          <li class="aov-pred" data-step="6" role="listitem">
+            <span class="aov-pred__id">apexPromotionPrSigned</span>
+            <span class="aov-pred__desc">The promotion pull request is signed by the maintainer at promotion time.</span>
+          </li>
+        </ol>
+
+        <p class="aov-apex-coda">Six predicates. All required. No exceptions.</p>
+      </div>
+    </div>
+
+    <p class="aov-refs">
+      <a href="codex/trust-methodology.html#apex-gate">Read the full Apex Gate specification →</a>
+    </p>
+
   </section>
 
   <div class="section-divider"></div>
@@ -1034,6 +1298,7 @@
   <script src="js/ui.js?v=6.5.3"></script>
   <script src="js/page-ia.js?v=6.5.3"></script>
   <script src="js/plaque-reveal.js?v=6.5.3" defer></script>
+  <script src="js/ascension-overdrive-v2.js?v=6.5.3" defer></script>
 
   <!-- ── Share modal (single instance) — opened from plaque__share-btn ── -->
   <div class="share-modal" hidden role="dialog" aria-modal="true" aria-labelledby="share-modal-title" id="shareModal">
