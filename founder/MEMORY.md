@@ -4,6 +4,101 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## ⚡ Ready-to-dispatch — W4 design approved, PR #958 ready for merge (READ THIS FIRST NEXT SESSION)
+
+**W4 frontend design approved.** Marcus reviewed and approved the `/benchmarks/` redesign in session 35. PR #958 (`dev/sprint-d-benchmark-leaderboard → dev/sprint-d`) is ready to merge — no outstanding blockers.
+
+**Once #958 merges, in order:**
+1. `gh pr merge 958 --merge` — lands W4 into `dev/sprint-d`.
+2. Open aggregate PR: `gh pr create --base main --head dev/sprint-d --title "feat: Sprint D — Content Engine + Benchmark MVP (v6.0.0)" --body-file <body>`. Body carries `Resolves #902`. **NEVER squash** — use merge commit (founder/CLAUDE.md §EPIC branching model, rule 7).
+3. Drive aggregate CI to green. Known outstanding: `test_sitemap_script_check_passes` Linux red (self-heal on Linux regen likely); `tests/test_push.py` pre-existing broken (skip).
+4. Merge aggregate `dev/sprint-d → main` via merge commit. Cut **v6.0.0**.
+5. Close EPIC **#902** (auto-closes via `Resolves` clause).
+
+**GSB tracking issue:** #964 (`feat(gsb): bootstrap gaia-skill-bench repo`) filed this session. Not Sprint D work — deferred until after `gaia-research` website launches.
+
+---
+
+## State Snapshot (2026-07-06, session 35 — /benchmarks/ design approved; impeccable shape + parallax GSB panel shipped to PR #958)
+
+### TLDR
+- `/benchmarks/` landing page completely redesigned: two-family framing (External live vs GSB WIP), parallax background (gold-grid abstract v2), mobile-first, scroll-triggered tile entrance animations.
+- Three methodology HTML pages shipped (`methodology/`, `humaneval-v1/`, `mmlu-v1/`) — properly rendered prose-shell pages, not raw `.md` links.
+- `.agents/skills/impeccable/` duplicate deleted; `.claude/skills/impeccable/` is canonical.
+- DESIGN.md updated with parallax + mobile-first philosophy (Motion section + Mobile-First Construction section).
+- CLAUDE.md updated with Design Entrypoints rule.
+- GSB vision v2 doc written (`founder/handovers/GAIA_BENCH_VISION.md`): own repo, community-submits/Gaia-certifies, skill-groups as head-to-head unit.
+- Rico thanked as co-founder in README + vision doc §0 surname fixed.
+- #960 comment posted with reshape summary. #964 opened for GSB bootstrap.
+- ALL frontend work is on PR #958 (`dev/sprint-d-benchmark-leaderboard`), NOT #961.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `/benchmarks/` landing redesign | ✅ Parallax GSB panel, two-family framing, scroll-entrance tiles, WIP banner |
+| Background image | ✅ v2 abstract gold-grid (no text conflict with overlaid HTML) |
+| Methodology pages | ✅ 3 HTML prose-shell pages: `methodology/`, `humaneval-v1/`, `mmlu-v1/` |
+| `humaneval/` + `mmlu/` nav cache-busts | ✅ `?v=5.11.13` added to mounts.js, site-nav.js, site-footer.js |
+| `impeccable` skill dedup | ✅ `.agents/skills/impeccable/` deleted; canonical at `.claude/skills/impeccable/` |
+| DESIGN.md | ✅ Parallax spec (RAF 0.45×, iOS-safe, reduced-motion guard) + mobile-first breakpoints codified |
+| CLAUDE.md | ✅ Design Entrypoints rule added (plan nav/footer/homepage before shipping) |
+| GSB vision v2 | ✅ `founder/handovers/GAIA_BENCH_VISION.md` (172 lines) |
+| #960 comment | ✅ Reshape summary posted |
+| #964 tracking issue | ✅ GSB bootstrap (post-gaia-research, not Sprint D) |
+| PR #961 | ⚠️ No new commits from this session — all design work on #958 |
+| Task #7 (GSB skill-explorer entrypoint) | ⏳ Deferred — still pending |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/sprint-d-benchmark-leaderboard` | `21a4d757d` | Open as PR #958, awaits merge into `dev/sprint-d` |
+| `dev/sprint-d` | `b4997fc8f` | Integration branch; 33+ commits ahead of main |
+| `main` | `2be8d191f` (approx) | Stable at v5.11.16 |
+
+### Commits shipped this session (on `dev/sprint-d-benchmark-leaderboard`)
+| SHA | Message |
+|---|---|
+| `168712c59` | docs(founder): gaia-skill-bench vision v2 — reshape of #960 |
+| `ccb205f6d` | docs(claude-md): codify Design Entrypoints rule |
+| `2a73bcf87` | docs(readme,vision): thank @rico-favor as co-founder |
+| `db8598ceb` | feat(benchmarks): reshape /benchmarks/ into two-family landing + homepage entrypoint |
+| `e6656afcf` | feat(benchmarks): parallax GSB panel, mobile-first, 3 methodology HTML pages |
+| `61d219bc6` | chore(skills): dedup impeccable — canonical at .claude/skills/impeccable |
+| `21a4d757d` | design(benchmarks): swap abstract background v2, add nav cache-busts |
+
+### Issues + PRs touched
+| # | Type | Action |
+|---|---|---|
+| #958 | PR | All session design work lives here; ready for merge |
+| #960 | Issue | Comment posted with GSB v2 reshape summary |
+| #961 | PR | NOT touched this session — no new commits |
+| #964 | Issue | Opened: `feat(gsb): bootstrap gaia-skill-bench repo` |
+
+### Design decisions — load-bearing for future sessions
+- **Parallax implementation**: RAF-based `translateY` at 0.45× ratio, never `background-attachment: fixed` (iOS Safari breaks). `inset: -30% 0` on `.gsb-panel-bg`. `will-change: transform`. Disabled `< 768px` + `prefers-reduced-motion`.
+- **Parallax overlay**: `rgba(3,7,18, 0.82)` desktop, `0.88` mobile.
+- **Scroll entrance**: `opacity: 0 → 1` + `translateY(12px) → 0`, 0.35s, 0.08s stagger per tile. `@keyframes lb-tile-enter`.
+- **Mobile-first**: 320px baseline, `min-width` breakpoints only. Pillar grid: 1-col → 2-col at 480px → 4-col at 768px.
+- **GSB panel full-bleed at < 479px**: no radius, negative margins, no side borders.
+- **Background image**: `docs/benchmarks/assets/benchmark-matrix.png` — abstract gold-grid on near-black, no text, no numbers (v2 from Marcus).
+- **Design language**: documented in DESIGN.md under "Motion — Parallax and Scroll Animation" and "Mobile-First Construction".
+- **All frontend for Sprint D lives in PR #958**, not #961. Never consolidate design commits onto `dev/sprint-d` directly.
+
+### Lessons / hazards this session
+- **Auto-compact kills orchestrator identity.** After compaction, session resumed without gaia-orchestrator persona active. Always re-load `/gaia-orchestrator` at session start after compact. The skill loads `founder/ORCHESTRATOR.md` — that file contains the superadmin mode rules too.
+- **#961 vs #958 confusion.** #961 is the aggregate Sprint D PR (`dev/sprint-d → main`). #958 is the W4 leaderboard feature PR (`dev/sprint-d-benchmark-leaderboard → dev/sprint-d`). All frontend work this session went to #958. Verify branch before making any edits.
+- **Orchestrator actions are orchestrator actions.** GitHub comments and issue creation are NOT "user actions" — orchestrator does these directly via `gh` CLI.
+
+### Open questions for next orchestrator
+- Task #7 still pending: greyed-out per-skill GSB entrypoint in `docs/js/skill-explorer.js` (benchmark evidence rows). Low priority; can ship post Sprint D if not before.
+- Once #958 merges: drive aggregate PR (#961) CI to green and merge to main. v6.0.0 tag follows.
+- #964 (GSB bootstrap) is deferred — surfaces after `gaia-research` launches.
+
+### Token cost (this session)
+Estimated (Pi harness not active): ~3–4 sessions × ~40k tokens = ~120–160k input, ~30–40k output across sessions 35a–35d. Multiple auto-compacts occurred. No pi-cost data available.
+
+---
+
 ## ⚡ Ready-to-dispatch when @mbtiongson1 approves W4 (READ THIS FIRST NEXT SESSION)
 
 **Only blocker:** PR **#958** (W4 Benchmark leaderboard, FRONTEND) awaits Marcus's design review. Everything else in Sprint D is merged into `dev/sprint-d`.
