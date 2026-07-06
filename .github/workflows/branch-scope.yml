@@ -134,8 +134,8 @@ jobs:
                 ;;
               design)
                 case "$file" in
-                  docs/*|*.md) ;; # allowed
-                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (design/ branches may only touch docs/ or *.md files)" ;;
+                  docs/*|*.md|scripts/contentEngine/templates/*.j2) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (design/ branches may only touch docs/, scripts/contentEngine/templates/*.j2, or *.md files)" ;;
                 esac
                 ;;
               review-push)
