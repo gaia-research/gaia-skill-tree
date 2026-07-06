@@ -239,22 +239,14 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      opacity: 0.14;
+      opacity: 0.28;
       will-change: transform;
-      z-index: -2;
-      pointer-events: none;
-    }
-    .gsb-bg::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(3, 7, 18, 0.88);
       z-index: -1;
+      pointer-events: none;
     }
     @media (min-width: 768px) {
       .gsb { padding: 5.5rem 0 4.5rem; }
-      .gsb-bg { opacity: 0.18; }
-      .gsb-bg::after { background: rgba(3, 7, 18, 0.82); }
+      .gsb-bg { opacity: 0.35; }
     }
     .gsb-status {
       font-family: var(--font-mono);
@@ -518,8 +510,8 @@
     </footer>
   </main>
 
-  <div id="site-footer"></div>
-  <script src="../js/site-footer.js"></script>
+  <div id="site-footer-mount"></div>
+  <script src="../js/site-footer.js?v=5.11.16"></script>
   <script>
   /* Mobile-first parallax on the GSB panel per DESIGN.md §Motion.
      - RAF-driven translateY, never background-attachment:fixed
