@@ -218,10 +218,43 @@
     }
     .methodology-line a:hover { border-bottom-color: var(--apex-gold); }
 
-    /* ── GSB: quiet, typographic, no card grid ─────────────── */
+    /* ── GSB: quiet typographic panel with mobile-first parallax
+       —————————————————————————————————————————————————————————
+       Per DESIGN.md §Motion: the block frames its content with a
+       decorative benchmark-matrix image behind it, translateY-driven
+       at 0.45× scroll speed (RAF, never background-attachment:fixed),
+       disabled below 768px, respects prefers-reduced-motion.
+       The dark overlay preserves 4.5:1 body contrast on --text. */
     .gsb {
-      padding-top: 3.5rem;
+      position: relative;
+      padding: 4.5rem 0 3.5rem;
+      margin-top: 3.5rem;
       border-top: 1px solid var(--border);
+      isolation: isolate;
+    }
+    .gsb-bg {
+      position: absolute;
+      inset: -30% 0;
+      background-image: url('assets/benchmark-matrix.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.14;
+      will-change: transform;
+      z-index: -2;
+      pointer-events: none;
+    }
+    .gsb-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(3, 7, 18, 0.88);
+      z-index: -1;
+    }
+    @media (min-width: 768px) {
+      .gsb { padding: 5.5rem 0 4.5rem; }
+      .gsb-bg { opacity: 0.18; }
+      .gsb-bg::after { background: rgba(3, 7, 18, 0.82); }
     }
     .gsb-status {
       font-family: var(--font-mono);
@@ -421,6 +454,7 @@
 
     <!-- ─── GAIA SKILL BENCH: the direction ─── -->
     <section class="bench-block gsb" aria-labelledby="gsb-heading">
+      <div class="gsb-bg" aria-hidden="true"></div>
       <p class="gsb-status">In design</p>
       <h2 id="gsb-heading">Gaia Skill Bench</h2>
       <p class="gsb-lede">
@@ -486,6 +520,48 @@
 
   <div id="site-footer"></div>
   <script src="../js/site-footer.js"></script>
+  <script>
+  /* Mobile-first parallax on the GSB panel per DESIGN.md §Motion.
+     - RAF-driven translateY, never background-attachment:fixed
+     - 0.45× speed
+     - disabled below 768px
+     - honors prefers-reduced-motion */
+  (function () {
+    var bg = document.querySelector('.gsb .gsb-bg');
+    var section = document.querySelector('.gsb');
+    if (!bg || !section) return;
+
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+    var wide   = window.matchMedia && window.matchMedia('(min-width: 768px)');
+    if (reduce && reduce.matches) return;
+    if (!wide || !wide.matches) return;
+
+    var speed = 0.45;
+    var ticking = false;
+    var lastY = 0;
+
+    function update() {
+      ticking = false;
+      var rect = section.getBoundingClientRect();
+      var viewportH = window.innerHeight || document.documentElement.clientHeight;
+      // Only translate while the section is in-flight of the viewport
+      if (rect.bottom < 0 || rect.top > viewportH) return;
+      var offset = (rect.top - viewportH / 2) * -speed;
+      bg.style.transform = 'translate3d(0,' + offset.toFixed(1) + 'px,0)';
+    }
+    function onScroll() {
+      lastY = window.scrollY || window.pageYOffset || 0;
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    // Prime the first frame so the image isn't stuck at 0 on load.
+    update();
+  })();
+  </script>
   <script>
   (function () {
     var mount = document.getElementById('lb-tiles-mount');
