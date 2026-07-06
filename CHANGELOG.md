@@ -2,6 +2,28 @@
 
 All notable changes to GAIA are documented in this file. Versions follow semver (MAJOR.MINOR.PATCH); the four manifests (`pyproject.toml`, `packages/cli-npm/package.json`, `packages/mcp/package.json`, `registry/gaia.json`) move in lockstep.
 
+## [6.0.0] - 2026-07-06
+
+### Sprint D EPIC #902 — Evidence, Benchmarks, and the Content Engine
+
+This release closes Sprint D, the "flywheel orbit" epic. Four key capabilities land together:
+
+- **KC1 — Weekly Content Engine.** `.github/workflows/weekly-content-engine.yml` runs every Monday at 08:00 UTC, generating a canonical JSON report + public HTML page for the ISO week. Draft-only by default; toggle `GAIA_CONTENT_ENGINE_PUBLISH=1` in the `content-engine-live` environment to publish. First live report: [2026-28](https://gaiaskilltree.com/reports/2026-28/).
+- **KC2 — `gaia push --benchmark`.** New verb for submitting a claimed benchmark score as a pending evidence row. See `docs/benchmarks/humaneval-v1.md`.
+- **KC3 — Public /benchmarks/ page + reports archive.** New site sections at `gaiaskilltree.com/benchmarks/` and `gaiaskilltree.com/reports/` with nav + footer + homepage entrypoints per CLAUDE.md §Design Entrypoints.
+- **KC4 — HumanEval CI reproduction.** `.github/workflows/benchmark-humaneval-ci.yml` reproduces a claimed HumanEval score deterministically and promotes the pending row to `provenance: ci-reproduced` with the workflow-run URL as attestor.
+
+### Also in this release
+
+- `fix(ci)`: branch-scope guard survives all-bot commit windows (#967) — `git log | grep -v github-actions[bot]` under `set -euo pipefail` no longer silently kills the check on cron-generated branches.
+- `fix(content-engine)`: weekly report publish step is now idempotent (`git push --force-with-lease` upsert + open-PR detection), so stale same-week branches don't crash the runner.
+- `fix(tests)`: `tests/test_seo.py:65` regex updated from `gaia\.tiongson\.co` to `gaiaskilltree\.com` (missed in the June domain migration).
+- Domain migration to `gaiaskilltree.com` fully consolidated; all CNAME, sitemap, robots, and test references aligned.
+
+### Breaking changes
+
+None at the CLI or API surface. The major bump marks the Sprint D closure milestone, not a contract break; existing tree JSONs, evidence rows, and benchmark row shapes are all backwards-compatible.
+
 ## 5.1.1 — 2026-06-23
 
 ### Fixed
