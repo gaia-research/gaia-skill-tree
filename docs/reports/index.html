@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-icon-base="../assets/icons.svg">
 <head>
-  <script>window.GAIA_VERSION = "5.11.16";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -18,14 +17,6 @@
   <link rel="stylesheet" href="../css/tokens.css?v=5.11.16">
   <link rel="stylesheet" href="../css/styles.css?v=5.11.16">
   <link rel="alternate" type="application/json" href="/api/v1/reports/index.json">
-<script type="application/ld+json" data-injector="gaia-json-ld">
-{
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "Index",
-  "url": "https://gaiaskilltree.com/reports/"
-}
-</script>
 </head>
 <body>
   <nav id="site-nav"></nav>
@@ -39,7 +30,15 @@
       <p style="color: var(--muted); font-size: .95rem; margin-top: .5rem;">One report per ISO week. Trending, ascended, contested — mechanically compiled from the <a href="/api/v1/trending/" style="color: var(--evidence-gold);">trending API</a>.</p>
     </header>
 
-      <p style="color: var(--muted);">No reports published yet — the first one lands Monday 08:00 UTC.</p>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="padding: 1rem 0; border-bottom: 1px solid var(--border);">
+          <a href="/reports/2026-28/" style="color: var(--text); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 1.1rem; text-decoration: none;">
+            2026-28
+          </a>
+          <span style="color: var(--muted); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .75rem; margin-left: 1rem;">ISO 2026-W28</span>
+<span style="color: var(--muted); font-size: .75rem; margin-left: 1rem;">Layer <code>L3</code></span>          <span style="color: var(--muted); font-size: .75rem; margin-left: 1rem;"><a href="/api/v1/reports/2026-28.json" style="color: var(--muted);">JSON</a></span>
+        </li>
+      </ul>
 
     <footer style="margin-top: 2rem; color: var(--muted); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .75rem;">
       Archive rebuilt on every publish. Machine-readable index: <a href="/api/v1/reports/index.json" style="color: var(--muted);">/api/v1/reports/index.json</a>.
