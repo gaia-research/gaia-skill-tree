@@ -37,6 +37,26 @@ delegated.
 
 ---
 
+## Post-Compact Bootstrap (read after every auto-compact or session resume)
+
+Auto-compact summaries describe what happened but do NOT re-activate loaded skills or routing constraints. After any compaction, the orchestrator persona, PR routing, and branch constraints must be explicitly re-established.
+
+**Current session state (update this block each session):**
+
+- **Active branch / worktree:** `dev/sprint-d-benchmark-leaderboard` at `.claude/worktrees/sprint-d-w4`
+- **Feature PR:** #958 — `dev/sprint-d-benchmark-leaderboard → dev/sprint-d` (W4 /benchmarks/ leaderboard redesign). ALL Sprint D frontend work lands here.
+- **Aggregate PR:** #961 — `dev/sprint-d → main` (Sprint D integration). Do NOT commit design directly to `dev/sprint-d`.
+- **EPIC:** #902 Sprint D — closes when #961 merges.
+- **Orchestrator mode:** active. Delegate all code to workers via Agent tool. Only plan, review, and run `git`/`gh` CLI directly.
+
+**Recovery steps after compaction:**
+1. Re-invoke `/gaia-orchestrator` to reload this file and restore the persona.
+2. Run `git branch` to confirm CWD is on `dev/sprint-d-benchmark-leaderboard`.
+3. Run `gh pr view 958` to confirm #958 is still open and targeting `dev/sprint-d`.
+4. Resume from the last task in the session summary.
+
+---
+
 ## Session Management & Compaction
 
 Long sessions are the point. To keep them healthy:
