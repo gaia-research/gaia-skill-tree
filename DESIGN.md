@@ -200,6 +200,8 @@ is retained ONLY as the background fill for the floating hero CTA pills (`◆ Op
 
 **Hall share modal** — the Hall share/download modal is shared between the homepage and `/heroes/` page. It renders the OG plaque in a fullscreen stage with compact icon controls, an identity confirmation pill, optional README badge overlay, and PNG/SVG download choices. Treat this as a production component family, not a decorative overlay: focus states, `aria-label`s, reduced-motion behavior, and path-depth differences (`assets/icons.svg` vs `../assets/icons.svg`) must remain intact.
 
+**Deferred-surface WIP banner** — when a user-visible surface ships in an intentional bridge state that a later sprint will replace (per `founder/GAIA_ROADMAP v*.md`), disclose the state with a `.wip-banner` element between `<nav>` and `<main>`. Uses `--font-mono` at `0.78rem`, a subtle `rgba(var(--evidence-gold-rgb), 0.06)` tint on `rgba(var(--evidence-gold-rgb), 0.28)` border, one uppercase `.wip-tag` label (`◇ Interim rendering` or equivalent), and one prose `.wip-body` sentence linking to the tracking issue and naming what is frozen (typically the JSON contract) versus what is provisional (the rendering layer). Full policy in `CLAUDE.md` § Deferred-surface convention; reference implementation in `scripts/contentEngine/templates/report.html.j2`. The banner is removed by the port; do not treat it as permanent chrome.
+
 ---
 
 ## Skill Explorer
