@@ -188,6 +188,7 @@
         '<li><a href="' + root + 'evidence/" style="color:var(--rank-3)">Evidence Library</a></li>' +
         '<li><a href="' + root + 'reports/" style="color:var(--evidence-gold)">Weekly Reports</a></li>' +
         '<li><a href="' + root + 'benchmarks/" style="color:var(--evidence-gold)">Benchmarks</a></li>' +
+        '<li><a href="' + root + 'skills/" style="color:var(--tier-basic)">Skill Index</a></li>' +
       '</ul>' +
     '</div>';
 
