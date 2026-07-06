@@ -1162,6 +1162,29 @@
 
     var trustMethodologyUrl = rootPath + 'codex/trust-methodology.html';
 
+    // GSB entrypoint — muted "coming soon" footnote shown when skill has
+    // benchmark-result evidence OR is at 3★+. Wrapped in try/catch so a
+    // data-shape surprise cannot cascade into the surrounding render.
+    // Rendered inside the Evidence section (as the Benchmark entrypoint)
+    // rather than after Links, so users find it where evidence lives.
+    var gsbHtml = '';
+    try {
+      var rankNum = parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) || 0;
+      var hasBenchmarkEvidence = (ns.evidence || []).some(function(e) {
+        return e && e.type === 'benchmark-result';
+      });
+      if (hasBenchmarkEvidence || rankNum >= 3) {
+        gsbHtml = '<div style="margin-top:1.25rem;padding-top:.75rem;border-top:1px solid var(--border,#252830);font-size:0.8rem;color:var(--muted,#64748b);">' +
+          '<a href="' + esc(rootPath) + 'benchmarks/" style="color:var(--muted,#64748b);text-decoration:none;" title="Gaia Skill Bench — coming soon">' +
+            'Submit to Gaia Skill Bench →' +
+          '</a>' +
+          ' <span style="color:var(--muted,#64748b);font-size:0.75rem;">[In Design]</span>' +
+        '</div>';
+      }
+    } catch (e) {
+      // GSB entrypoint failed silently — do not cascade
+    }
+
     var evidenceHtml = '<div class="se-docs-block">' +
       '<div class="se-ev-section-header">' +
         '<h4>Evidence</h4>' +
@@ -1196,6 +1219,7 @@
         '</div>' +
       '</div>' +
       evidenceContent +
+      gsbHtml +
     '</div>';
 
     var demeritText = (generic && Array.isArray(generic.demerits) && generic.demerits.length)
@@ -1218,28 +1242,7 @@
       (issuesUrl ? '<p><a style="color:var(--basic)" href="'+esc(issuesUrl)+'" target="_blank" rel="noopener">Issues ↗</a></p>' : '') +
     '</div>';
 
-    // GSB entrypoint — muted "coming soon" footnote shown when skill has
-    // benchmark-result evidence OR is at 3★+. Wrapped in try/catch so a
-    // data-shape surprise cannot cascade into the surrounding render.
-    var gsbHtml = '';
-    try {
-      var rankNum = parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) || 0;
-      var hasBenchmarkEvidence = (ns.evidence || []).some(function(e) {
-        return e && e.type === 'benchmark-result';
-      });
-      if (hasBenchmarkEvidence || rankNum >= 3) {
-        gsbHtml = '<div style="margin-top:1.25rem;padding-top:.75rem;border-top:1px solid var(--border,#252830);font-size:0.8rem;color:var(--muted,#64748b);">' +
-          '<a href="../../benchmarks/" style="color:var(--muted,#64748b);text-decoration:none;" title="Gaia Skill Bench — coming soon">' +
-            'Submit to Gaia Skill Bench →' +
-          '</a>' +
-          ' <span style="color:var(--muted,#64748b);font-size:0.75rem;">[In Design]</span>' +
-        '</div>';
-      }
-    } catch (e) {
-      // GSB entrypoint failed silently — do not cascade
-    }
-
-    el.innerHTML = '<div class="se-flow-h">' + _se_icon('external-link') + ' Documentation</div>' + skillDefHtml + evidenceHtml + agentsHtml + linksHtml + gsbHtml;
+    el.innerHTML = '<div class="se-flow-h">' + _se_icon('external-link') + ' Documentation</div>' + skillDefHtml + evidenceHtml + agentsHtml + linksHtml;
   }
 
   // ── RENDER FLOWCHART (upgrade path) ─────────────────────────
