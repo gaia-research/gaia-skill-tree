@@ -9,7 +9,7 @@ All notable changes to GAIA are documented in this file. Versions follow semver 
 This release closes Sprint D, the "flywheel orbit" epic. Four key capabilities land together:
 
 - **KC1 — Weekly Content Engine.** `.github/workflows/weekly-content-engine.yml` runs every Monday at 08:00 UTC, generating a canonical JSON report + public HTML page for the ISO week. Draft-only by default; toggle `GAIA_CONTENT_ENGINE_PUBLISH=1` in the `content-engine-live` environment to publish. First live report: [2026-28](https://gaiaskilltree.com/reports/2026-28/).
-- **KC2 — `gaia push --benchmark`.** New verb for submitting a claimed benchmark score as a pending evidence row. See `docs/benchmarks/humaneval-v1.md`.
+- **KC2 — `gaia push --benchmark`.** New verb for submitting a claimed benchmark score as a pending evidence row. See [`docs/benchmarks/humaneval-v1/`](https://gaiaskilltree.com/benchmarks/humaneval-v1/).
 - **KC3 — Public /benchmarks/ page + reports archive.** New site sections at `gaiaskilltree.com/benchmarks/` and `gaiaskilltree.com/reports/` with nav + footer + homepage entrypoints per CLAUDE.md §Design Entrypoints.
 - **KC4 — HumanEval CI reproduction.** `.github/workflows/benchmark-humaneval-ci.yml` reproduces a claimed HumanEval score deterministically and promotes the pending row to `provenance: ci-reproduced` with the workflow-run URL as attestor.
 
