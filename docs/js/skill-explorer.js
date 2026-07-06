@@ -1218,7 +1218,28 @@
       (issuesUrl ? '<p><a style="color:var(--basic)" href="'+esc(issuesUrl)+'" target="_blank" rel="noopener">Issues ↗</a></p>' : '') +
     '</div>';
 
-    el.innerHTML = '<div class="se-flow-h">' + _se_icon('external-link') + ' Documentation</div>' + skillDefHtml + evidenceHtml + agentsHtml + linksHtml;
+    // GSB entrypoint — muted "coming soon" footnote shown when skill has
+    // benchmark-result evidence OR is at 3★+. Wrapped in try/catch so a
+    // data-shape surprise cannot cascade into the surrounding render.
+    var gsbHtml = '';
+    try {
+      var rankNum = parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) || 0;
+      var hasBenchmarkEvidence = (ns.evidence || []).some(function(e) {
+        return e && e.type === 'benchmark-result';
+      });
+      if (hasBenchmarkEvidence || rankNum >= 3) {
+        gsbHtml = '<div style="margin-top:1.25rem;padding-top:.75rem;border-top:1px solid var(--border,#252830);font-size:0.8rem;color:var(--muted,#64748b);">' +
+          '<a href="../../benchmarks/" style="color:var(--muted,#64748b);text-decoration:none;" title="Gaia Skill Bench — coming soon">' +
+            'Submit to Gaia Skill Bench →' +
+          '</a>' +
+          ' <span style="color:var(--muted,#64748b);font-size:0.75rem;">[In Design]</span>' +
+        '</div>';
+      }
+    } catch (e) {
+      // GSB entrypoint failed silently — do not cascade
+    }
+
+    el.innerHTML = '<div class="se-flow-h">' + _se_icon('external-link') + ' Documentation</div>' + skillDefHtml + evidenceHtml + agentsHtml + linksHtml + gsbHtml;
   }
 
   // ── RENDER FLOWCHART (upgrade path) ─────────────────────────
