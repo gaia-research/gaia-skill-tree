@@ -202,6 +202,8 @@ is retained ONLY as the background fill for the floating hero CTA pills (`◆ Op
 
 **Deferred-surface WIP banner** — when a user-visible surface ships in an intentional bridge state that a later sprint will replace (per `founder/GAIA_ROADMAP v*.md`), disclose the state with a `.wip-banner` element between `<nav>` and `<main>`. Uses `--font-mono` at `0.78rem`, a subtle `rgba(var(--evidence-gold-rgb), 0.06)` tint on `rgba(var(--evidence-gold-rgb), 0.28)` border, one uppercase `.wip-tag` label (`◇ Interim rendering` or equivalent), and one prose `.wip-body` sentence linking to the tracking issue and naming what is frozen (typically the JSON contract) versus what is provisional (the rendering layer). Full policy in `CLAUDE.md` § Deferred-surface convention; reference implementation in `scripts/contentEngine/templates/report.html.j2`. The banner is removed by the port; do not treat it as permanent chrome.
 
+**Fixed-nav clearance** — the site nav is `position: fixed` at ~58px tall (rule at `docs/css/styles.css` L299–315). Every top-level page container that sits directly under `<body>` provides its own top clearance using the value ladder `padding-top: 5rem` at base and `6rem` (thin strips) or `8rem` (full page shells) at `>= 768px`. Nothing offsets automatically. Reference implementations: `.bench-shell`, `.reports-shell`, `.trending-main`, `.wip-banner`. Full policy in `CLAUDE.md` § Fixed-nav clearance. Anti-pattern: the `margin-top: -Npx + padding-top: calc(... + Npx)` trick on `.profile-back-row`; do not extend it to new surfaces.
+
 ---
 
 ## Skill Explorer
