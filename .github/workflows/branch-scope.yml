@@ -61,6 +61,35 @@ jobs:
           echo "Detected prefix: $PREFIX"
           echo ""
 
+          # ── Fork-scoped downgrade (issue #986) ────────────────────────────────
+          # The unrestricted prefixes (codex/*, claude/*, gemini/*, dev/*, fix/*,
+          # chore/*) exist to grant Codex/Claude/Jules/Gemini in-repo bot sessions
+          # a free-scope pass. That assumption doesn't hold when the branch is
+          # pushed from a FORK — a fresh external contributor can name their
+          # branch codex/anything and slip past every file-type guard.
+          #
+          # For fork-origin PRs, downgrade any 'unrestricted' classification to
+          # 'other', which triggers the "unrecognized branch prefix" violation.
+          # Fork contributors must use a scope-appropriate prefix (docs/,
+          # schema/, design/, etc.) or apply 'skip-scope-check' via a maintainer.
+          #
+          # See #986 for the full policy context; triggered by the #974 probe.
+          HEAD_REPO="${{ github.event.pull_request.head.repo.full_name }}"
+          BASE_REPO="${{ github.repository }}"
+          IS_FORK="false"
+          if [ -n "$HEAD_REPO" ] && [ "$HEAD_REPO" != "$BASE_REPO" ]; then
+            IS_FORK="true"
+          fi
+          echo "Head repo: $HEAD_REPO"
+          echo "Base repo: $BASE_REPO"
+          echo "Fork PR:   $IS_FORK"
+          echo ""
+
+          if [ "$IS_FORK" = "true" ] && [ "$PREFIX" = "unrestricted" ]; then
+            echo "::warning::Fork PR with unrestricted branch prefix '$BRANCH'; downgrading classification to 'other' per fork-origin policy (issue #986). Fork contributors must use scope-appropriate prefixes (docs/, schema/, design/, etc.) or a maintainer must apply the 'skip-scope-check' label."
+            PREFIX="other"
+          fi
+
           # unrestricted branches (dev/*, claude/*, codex/*, gemini/*, chore/*) have no forward restriction
           if [ "$PREFIX" = "unrestricted" ]; then
             echo "✓ $BRANCH has no scope restrictions."
