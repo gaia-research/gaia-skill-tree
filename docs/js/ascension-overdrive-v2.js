@@ -51,6 +51,7 @@
   var ledger = section.querySelector('.aov-ledger');
   var fog    = section.querySelector('.aov-fog');
   var arch   = section.querySelector('.aov-arch');
+  var apexHero = section.querySelector('.aov-apex-hero');
   var thread = section.querySelector('.aov-thread__path');
   var risers = Array.prototype.slice.call(section.querySelectorAll('.aov-riser__line'));
   var predicates = Array.prototype.slice.call(section.querySelectorAll('.aov-pred'));
@@ -61,6 +62,12 @@
   var uniqueHeader  = section.querySelector('.aov-unique-header-line');
   var codaScene     = section.querySelector('.aov-scene[data-scene="coda"]');
   var orderRungs    = Array.prototype.slice.call(section.querySelectorAll('.aov-order-rung'));
+  // Rank hero backdrops (Asset F). One per rank scene (r1..r5).
+  // Each hero fades in over the first ~30vh of its scene, peaks at
+  // ~0.55 at scene mid, fades out over the final ~30vh. Bidirectional.
+  var rankHeroes = Array.prototype.slice.call(
+    section.querySelectorAll('.aov-scene[data-scene="rank"] .aov-rank-hero')
+  );
 
   // Cache the thread path's total length once so dashoffset math
   // is a pure normalization from scroll progress. `getTotalLength`
@@ -125,7 +132,7 @@
      it to free GPU resources when the section is quiet. */
   var scrolling = false;
   var scrollEndTimer = null;
-  var parallaxLayers = [ledger, fog, arch].filter(Boolean);
+  var parallaxLayers = [ledger, fog, arch, apexHero].filter(Boolean);
 
   function markScrolling(active) {
     if (active === scrolling) return;
@@ -182,16 +189,29 @@
       if (arch) {
         // Arch descends toward the viewer as user enters Apex.
         // Rate 0.60 but only becomes visible in the last third
-        // of the section. Opacity ramps from 0 → 0.55 over the
-        // last 30% of scroll progress.
+        // of the section. Opacity ramps from 0 → 0.70 over the
+        // last ~45% of scroll progress.
+        //
+        // G4 realignment (Issue #975): peak opacity lifted 0.55 →
+        // 0.70 so the arch reads monumental at the Apex terminus.
         var ap = Math.max(0, (p - 0.55) / 0.45);
         ap = ap * ap * (3 - 2 * ap);        // smoothstep
         var ay = (ap - 0.5) * 200;          // -100 → +100 px
         arch.style.transform = 'translate3d(-50%, ' + ay.toFixed(1) + 'px, 0)';
-        arch.style.opacity = (ap * 0.55).toFixed(3);
+        arch.style.opacity = (ap * 0.70).toFixed(3);
+
+        // G7 realignment: apex hero plate rides the same ap ramp
+        // but peaks at 0.55 so it sits underneath the arch as an
+        // atmospheric backdrop rather than competing with it.
+        if (apexHero) {
+          apexHero.style.opacity = (ap * 0.55).toFixed(3);
+        }
       }
     } else {
-      // Reduced-motion / mobile: composed rest state.
+      // Reduced-motion / mobile: composed rest state. Do NOT write
+      // inline opacity on the hero backdrops — CSS pins them at a
+      // composed dim value via `@media (prefers-reduced-motion)` +
+      // `@media (max-width: 899px)`, so inline styles would fight it.
       if (ledger) ledger.style.transform = 'translate3d(0, 0, 0)';
       if (fog)    fog.style.transform    = 'translate3d(0, 0, 0)';
       if (arch) {
@@ -229,6 +249,37 @@
         line.style.strokeDashoffset = 0;
       }
     });
+
+    // Rank hero backdrops (Asset F). One per rank scene. Opacity
+    // ramps 0 → 0.55 → 0 across each scene's viewport traversal:
+    // fade-in over first 30% of scene scroll (scene top hits vh),
+    // peak at scene mid (scene center at viewport center), fade-out
+    // over final 30% (scene bottom leaving viewport top).
+    //
+    // We express this as a triangular envelope on scene-local
+    // progress `sp` ∈ [0, 1], where sp = 0.5 when the scene center
+    // hits the viewport center. Envelope: 0 at sp=0 and sp=1, peak
+    // at sp=0.5. `smoothstep(min(sp, 1-sp) / 0.35)` gives a smooth
+    // 30% ramp on each side with a held peak in the middle.
+    //
+    // Mobile / reduced-motion: CSS pins opacity to a static value
+    // (0.25 on mobile via !important; 0 elsewhere), so we skip.
+    if (!reduce && !isMobile) {
+      rankHeroes.forEach(function (hero) {
+        var scene = hero.closest('.aov-scene');
+        if (!scene) return;
+        var sr = scene.getBoundingClientRect();
+        // Scene-local progress: 0 when scene top touches viewport
+        // bottom, 1 when scene bottom leaves viewport top.
+        var denom = (sr.height + vh);
+        var sp = 1 - (sr.top + sr.height) / denom;
+        sp = Math.max(0, Math.min(1, sp));
+        var edge = Math.min(sp, 1 - sp);         // triangular envelope
+        var ramp = Math.min(1, edge / 0.35);     // 30% fade on each side
+        ramp = ramp * ramp * (3 - 2 * ramp);     // smoothstep
+        hero.style.opacity = (ramp * 0.55).toFixed(3);
+      });
+    }
 
     // Apex Gate — six predicates illuminate over the scene's
     // 200vh pin. Compute scene-local progress: 0 at scene top,

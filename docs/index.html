@@ -831,8 +831,17 @@
     <div class="aov-atmosphere" aria-hidden="true">
       <div class="aov-ledger" data-parallax-rate="0.15"></div>
       <div class="aov-fog" data-parallax-rate="0.25"></div>
+      <!-- Apex hero plate (Asset F rank 6). Full-viewport backdrop
+           that fades in during the Apex Gate pin, sitting BEHIND the
+           arch line-art. Opacity is scroll-linked from JS; peaks at
+           ~0.55 while the arch peaks at 0.70 on top. -->
+      <div class="aov-apex-hero" data-parallax-rate="0.60">
+        <img src="assets/ascension-overdrive/f-rank-6-hero.webp"
+             alt="" width="3840" height="2160" loading="lazy" decoding="async">
+      </div>
       <!-- Apex arch drifts into view during the Apex Gate scene.
-           Frame-not-key: opaque PNG framed, not blend-mode-keyed. -->
+           Transparent line-art now, so no frame/key needed — sits
+           atop the apex hero plate. -->
       <div class="aov-arch" data-parallax-rate="0.60">
         <img src="assets/ascension-overdrive/apex-arch.png"
              alt="" width="1536" height="1024" loading="lazy" decoding="async">
@@ -841,15 +850,31 @@
 
     <!-- Gold thread: one continuous SVG spanning the full section
          height. `stroke-dashoffset` is scroll-linked via rAF;
-         draws on scroll-down, undraws on scroll-up. -->
+         draws on scroll-down, undraws on scroll-up.
+
+         G5 realignment (Issue #975): the previous path was three
+         50→30→70→50 zig-zag waves that read as a lazy diagonal.
+         Rewritten to weave through each rank scene's Star Bar y-
+         anchor. viewBox is 100 wide × 1000 tall; anchor y's are
+         fractional multiples of section height per the shape brief.
+         x-coordinates alternate ~30/70 for the visual weave, and
+         the Unique detour dips toward center (50) between R4 and R5
+         before returning to the alternating rhythm. Bezier Q curves
+         keep the transitions readable at scroll speed. -->
     <svg class="aov-thread" viewBox="0 0 100 1000"
          preserveAspectRatio="none" aria-hidden="true">
       <path class="aov-thread__path"
             d="M 50 20
-               C 30 90, 70 160, 50 240
-               C 30 320, 70 400, 50 480
-               C 30 560, 70 640, 50 720
-               C 30 800, 70 880, 50 980"/>
+               Q 50 65, 50 110
+               Q 42 165, 30 220
+               Q 30 275, 70 330
+               Q 70 385, 30 440
+               Q 30 495, 70 550
+               Q 62 580, 50 610
+               Q 50 635, 50 660
+               Q 40 690, 30 720
+               Q 40 795, 50 870
+               Q 50 930, 50 990"/>
     </svg>
 
     <!-- ── Scene 1 · Section-opening title ─────────────────── -->
@@ -867,6 +892,10 @@
         <line class="aov-riser__line" data-len="1000" x1="0" y1="1" x2="1000" y2="1"/>
       </svg>
       <div class="aov-stage aov-stage--rank" data-align="left">
+        <div class="aov-rank-hero" aria-hidden="true">
+          <img src="assets/ascension-overdrive/f-rank-1-hero.webp"
+               alt="" width="3840" height="2160" loading="lazy" decoding="async">
+        </div>
         <div class="aov-rank-plate">
           <img src="assets/ascension-overdrive/rank-1-awakened.png"
                alt="" width="1254" height="1254" loading="lazy" decoding="async">
@@ -888,6 +917,10 @@
         <line class="aov-riser__line" data-len="1000" x1="0" y1="1" x2="1000" y2="1"/>
       </svg>
       <div class="aov-stage aov-stage--rank" data-align="right">
+        <div class="aov-rank-hero" aria-hidden="true">
+          <img src="assets/ascension-overdrive/f-rank-2-hero.webp"
+               alt="" width="3840" height="2160" loading="lazy" decoding="async">
+        </div>
         <div class="aov-rank-plate">
           <img src="assets/ascension-overdrive/rank-2-named.png"
                alt="" width="1254" height="1254" loading="lazy" decoding="async">
@@ -910,6 +943,10 @@
         <line class="aov-riser__line" data-len="1000" x1="0" y1="1" x2="1000" y2="1"/>
       </svg>
       <div class="aov-stage aov-stage--rank" data-align="left">
+        <div class="aov-rank-hero" aria-hidden="true">
+          <img src="assets/ascension-overdrive/f-rank-3-hero.webp"
+               alt="" width="3840" height="2160" loading="lazy" decoding="async">
+        </div>
         <div class="aov-rank-plate">
           <img src="assets/ascension-overdrive/rank-3-evolved.png"
                alt="" width="1254" height="1254" loading="lazy" decoding="async">
@@ -932,6 +969,10 @@
         <line class="aov-riser__line" data-len="1000" x1="0" y1="1" x2="1000" y2="1"/>
       </svg>
       <div class="aov-stage aov-stage--rank" data-align="right">
+        <div class="aov-rank-hero" aria-hidden="true">
+          <img src="assets/ascension-overdrive/f-rank-4-hero.webp"
+               alt="" width="3840" height="2160" loading="lazy" decoding="async">
+        </div>
         <div class="aov-rank-plate">
           <img src="assets/ascension-overdrive/rank-4-hardened.png"
                alt="" width="1254" height="1254" loading="lazy" decoding="async">
@@ -1036,6 +1077,10 @@
         <line class="aov-riser__line" data-len="1000" x1="0" y1="1" x2="1000" y2="1"/>
       </svg>
       <div class="aov-stage aov-stage--rank" data-align="left">
+        <div class="aov-rank-hero" aria-hidden="true">
+          <img src="assets/ascension-overdrive/f-rank-5-hero.webp"
+               alt="" width="3840" height="2160" loading="lazy" decoding="async">
+        </div>
         <div class="aov-rank-plate">
           <img src="assets/ascension-overdrive/rank-5-ultimate.png"
                alt="" width="1254" height="1254" loading="lazy" decoding="async">

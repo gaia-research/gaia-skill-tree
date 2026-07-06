@@ -115,7 +115,12 @@
 
 /* Plane -2 · Ledger paper. Parallax rate 0.15× (barely drifts;
    sets the ceremonial ground). Scaled up so translateY doesn't
-   expose an edge at the extremes of section scroll. */
+   expose an edge at the extremes of section scroll.
+
+   G1 realignment (Issue #975): opacity lifted 0.32 → 0.48 and the
+   0.7 saturation clamp dropped so the parchment reads warm sepia
+   rather than the greyed-out noise the /impeccable critique surfaced.
+   The ledger is meant to feel like an old atlas page, not a shadow. */
 .aov-ledger {
   position: absolute;
   inset: -20% -5%;
@@ -125,8 +130,7 @@
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  opacity: 0.32;
-  filter: saturate(0.7);
+  opacity: 0.48;
   will-change: transform;
   transform: translate3d(0, 0, 0);
 }
@@ -153,9 +157,15 @@
 
 /* Plane +1 · Apex arch. Sits behind Apex Gate scene and drifts
    *toward* the viewer as the user descends into the terminal
-   pin. Parallax rate 0.60×. Kept opaque, framed (frame-not-key).
-   Its opacity is scroll-driven from JS (0 in early scenes → 0.55
-   by the Apex Gate pin). */
+   pin. Parallax rate 0.60×. The arch PNG is transparent line-art
+   now, so no framing/keying is needed. Its opacity is scroll-driven
+   from JS (0 in early scenes → 0.70 by the Apex Gate pin).
+
+   G4 realignment (Issue #975): peak opacity lifted 0.55 → 0.70 (in
+   the JS clamp) and the sepia/contrast filter dropped — the arch is
+   transparent line-art now, so tone-mapping muddied it rather than
+   warming it. Read the arch as a monumental gate at the terminus,
+   not a faint watermark. */
 .aov-arch {
   position: absolute;
   left: 50%;
@@ -165,15 +175,37 @@
   transform: translate3d(-50%, 0, 0);
   opacity: 0;
   pointer-events: none;
-  filter: sepia(0.15) contrast(1.05);
   will-change: transform, opacity;
 }
 .aov-arch img {
   display: block;
   width: 100%;
   height: auto;
-  /* Cream picture-frame to accept opaque backgrounds cleanly. */
-  border-radius: 6px;
+}
+
+/* Plane +1a · Apex hero plate (Asset F rank 6). Sits inside the
+   atmosphere as a sibling of the arch, one z-layer below so the
+   arch line-art paints on top. Full-viewport bleed; opacity is
+   scroll-driven from JS (0 in early scenes → ~0.55 at Apex pin
+   mid, keeping the arch dominant above). Frame-not-key: the plate
+   already has its own atmospheric background baked in. */
+.aov-apex-hero {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+  z-index: 0;
+}
+.aov-apex-hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* Plane -1 · Riser lines. Rendered inside each rank scene at
@@ -190,20 +222,24 @@
   pointer-events: none;
   z-index: 1;
 }
+/* G6 realignment (Issue #975): stroke-width 1.5 → 2.5 and rank-
+   stroke opacity bumped to 65% across the board so the chromatic
+   climb reads as intended. Prior spec ran too shy against the dark
+   ground and the risers registered as artifacts, not a plane. */
 .aov-riser__line {
   fill: none;
-  stroke-width: 1.5;
+  stroke-width: 2.5;
   stroke-linecap: round;
   stroke-dasharray: var(--aov-riser-len, 100vw);
   stroke-dashoffset: var(--aov-riser-len, 100vw);
   transition: none;                         /* JS-driven, not time */
 }
-.aov-scene[data-rank="1"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-1) 45%, transparent); }
-.aov-scene[data-rank="2"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-2) 45%, transparent); }
-.aov-scene[data-rank="3"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-3) 45%, transparent); }
-.aov-scene[data-rank="4"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-4) 45%, transparent); }
-.aov-scene[data-rank="5"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-5) 55%, transparent); }
-.aov-scene[data-rank="6"] .aov-riser__line { stroke: color-mix(in oklab, var(--apex-gold) 65%, transparent); }
+.aov-scene[data-rank="1"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-1) 65%, transparent); }
+.aov-scene[data-rank="2"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-2) 65%, transparent); }
+.aov-scene[data-rank="3"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-3) 65%, transparent); }
+.aov-scene[data-rank="4"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-4) 65%, transparent); }
+.aov-scene[data-rank="5"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-5) 70%, transparent); }
+.aov-scene[data-rank="6"] .aov-riser__line { stroke: color-mix(in oklab, var(--apex-gold) 75%, transparent); }
 
 /* Plane +2 · Gold thread. One continuous SVG spanning the full
    section height. `stroke-dashoffset` is a linear function of
@@ -305,62 +341,91 @@
 
 /* ── SCENES 2..6 · RANK STAGES ───────────────────────────────── */
 /* Composition:
-   - Rank stamp (Asset C PNG) floated ~40vh, alternating left/right
-   - Rank name display-poster type (one word, clamp 3-12rem)
-   - Star Bar as inline stars
-   - Star Bar tags in Departure Mono below the name
-   - Caption in italic muted below tags
-*/
+   - Rank hero plate (Asset F) as full-viewport backdrop, opacity
+     scroll-linked, sits behind everything at z-index 0
+   - Rank stamp (Asset C transparent PNG) floated ~34vw, alternating
+     left/right, at z-index 2 above the hero
+   - Rank body (display-poster type + Star Bar) on opposite side,
+     at z-index 2 above the hero
+
+   G3 realignment (Issue #975): the 12-col grid was letting children
+   settle at the top/bottom of their tracks and produced the top-
+   right stamp + bottom-left text misalignment the /impeccable
+   critique flagged. Flex with `align-items: center` guarantees
+   vertical centering of both children relative to each other, and
+   `justify-content: space-between` puts the stamp and body at the
+   viewport's outer thirds without a middle gap. `flex-direction:
+   row-reverse` on `[data-align="right"]` swaps sides without moving
+   any of the internal alignment rules. */
 .aov-stage--rank {
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 1fr;
-  gap: 2rem;
+  display: flex;
   align-items: center;
-}
-.aov-stage--rank[data-align="left"] {
-  /* Stamp left, text right */
+  justify-content: space-between;
+  gap: clamp(2rem, 6vw, 8rem);
+  padding-inline: clamp(2rem, 8vw, 8rem);
 }
 .aov-stage--rank[data-align="right"] {
-  /* Stamp right, text left — visual rhythm */
+  flex-direction: row-reverse;
 }
 .aov-stage--rank .aov-rank-plate {
-  grid-column: 1 / 6;
-  justify-self: center;
+  flex: 0 0 auto;
   align-self: center;
-}
-.aov-stage--rank[data-align="right"] .aov-rank-plate {
-  grid-column: 8 / 13;
 }
 .aov-stage--rank .aov-rank-body {
-  grid-column: 7 / 13;
-  justify-self: start;
+  flex: 1 1 auto;
   align-self: center;
-  max-width: min(52rem, 100%);
+  max-width: min(52rem, 50%);
 }
 .aov-stage--rank[data-align="right"] .aov-rank-body {
-  grid-column: 1 / 7;
-  justify-self: end;
   text-align: right;
 }
 
-/* Rank plate — a cream picture-frame around the opaque stamp.
-   This is the frame-not-key strategy: don't try to blend the
-   PNG's background out; give it a warm frame that the ledger
-   can peek around. */
+/* Rank hero plate (Asset F, G7 realignment, Issue #975).
+   Full-viewport backdrop per rank scene. Absolute-positioned inside
+   the stage, inset:0, z-index 0 — sits behind stamp/body but above
+   the ledger (ledger lives in .aov-atmosphere at z-index 0 outside
+   this stacking context; the scene at z-index 2 already stacks its
+   descendants above the atmosphere).
+
+   Opacity is scroll-linked from rAF: fades in over the first ~30vh
+   of each scene, peaks at ~0.55 at scene mid, fades out over the
+   final ~30vh of scene exit. Rest opacity 0 so the hero is dormant
+   when the scene isn't in view.
+
+   Mobile (<900px): hero pins at 0.25 opacity (JS + CSS collaboration;
+   see the mobile block below). */
+.aov-rank-hero {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+  z-index: 0;
+}
+.aov-rank-hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Rank plate — G2 realignment (Issue #975): the cream picture-
+   frame was inherited from the v1 opaque-PNG plan and turned into
+   vestigial weight once the vendor delivered transparent stamps.
+   Background gradient, border, and drop-shadow all removed so the
+   stamp <img> floats directly on the scene backdrop. Sizing and
+   position offsets preserved because JS still writes the entrance
+   transform. z-index 2 keeps the stamp above the rank hero at z-
+   index 0 inside the same flex ancestor. */
 .aov-rank-plate {
   position: relative;
+  z-index: 2;
   width: clamp(280px, 34vw, 620px);
   aspect-ratio: 1 / 1;
-  padding: 1.2rem;
-  background: linear-gradient(
-      145deg,
-      rgba(255, 248, 232, 0.06) 0%,
-      rgba(255, 248, 232, 0.02) 100%);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  box-shadow:
-    0 40px 80px -30px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(var(--apex-gold-rgb), 0.08) inset;
   will-change: transform, opacity;
   transform: translate3d(0, 40px, 0);
   opacity: 0;
@@ -371,7 +436,6 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 2px;
 }
 .aov-scene.is-active .aov-rank-plate,
 .aov-scene.is-active .aov-rank-body {
@@ -379,8 +443,11 @@
   transform: translate3d(0, 0, 0);
 }
 
-/* Rank body — the display-poster typography. */
+/* Rank body — the display-poster typography. z-index 2 mirrors
+   the plate so both stack above the rank hero backdrop. */
 .aov-rank-body {
+  position: relative;
+  z-index: 2;
   will-change: transform, opacity;
   transform: translate3d(0, 40px, 0);
   opacity: 0;
@@ -1012,22 +1079,41 @@
   }
 
   /* Rank stages stack: stamp above body, both centered. */
+  .aov-stage--rank {
+    /* Restore positioning context lost by the static reset above,
+       so .aov-rank-hero (position:absolute; inset:0) stays inside
+       the stage rather than escaping to the viewport. */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-inline: 1.25rem;
+  }
+  .aov-stage--rank[data-align="right"] {
+    flex-direction: column;
+  }
   .aov-stage--rank .aov-rank-plate,
   .aov-stage--rank[data-align="right"] .aov-rank-plate {
-    grid-column: 1 / -1;
     width: min(80vw, 380px);
-    justify-self: center;
+    max-width: 100%;
   }
   .aov-stage--rank .aov-rank-body,
   .aov-stage--rank[data-align="right"] .aov-rank-body {
-    grid-column: 1 / -1;
-    justify-self: center;
+    max-width: 100%;
     text-align: center;
   }
   .aov-stage--rank[data-align="right"] .aov-rank-caption { margin-left: 0; }
   .aov-stage--rank[data-align="right"] .aov-rank-tags { justify-content: center; }
   .aov-rank-name {
     font-size: clamp(2rem, 10vw, 5rem);
+  }
+
+  /* Rank hero + apex hero: pinned at low opacity so the scene
+     still reads as distinct without dominating on small screens. */
+  .aov-rank-hero,
+  .aov-apex-hero {
+    opacity: 0.25 !important;
   }
 
   .aov-unique-cards {
@@ -1139,11 +1225,17 @@
 @media (prefers-reduced-motion: reduce) {
   .aov-ledger,
   .aov-fog,
-  .aov-arch {
+  .aov-arch,
+  .aov-apex-hero,
+  .aov-rank-hero {
     will-change: auto;
     transform: none;
   }
   .aov-arch { opacity: 0.35; }
+  /* Rank + apex hero backdrops pin at a composed dim state so each
+     scene still reads as distinct without scroll-linked motion. */
+  .aov-rank-hero { opacity: 0.35; }
+  .aov-apex-hero { opacity: 0.35; }
   .aov-thread__path {
     stroke-dashoffset: 0 !important;
   }
@@ -1186,7 +1278,9 @@
   .aov-atmosphere,
   .aov-thread,
   .aov-riser,
-  .aov-arch {
+  .aov-arch,
+  .aov-apex-hero,
+  .aov-rank-hero {
     display: none;
   }
   .aov-stage,
