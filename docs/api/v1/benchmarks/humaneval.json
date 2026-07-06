@@ -4,7 +4,7 @@
   "name": "HumanEval",
   "unit": "pass@1",
   "provenance": "ci-reproduced",
-  "methodologyUrl": "/benchmarks/humaneval-v1.md",
+  "methodologyUrl": "/benchmarks/humaneval-v1/",
   "sourceUrl": "https://github.com/openai/human-eval",
   "notes": "Python function-completion benchmark (164 problems). Gaia reproduces via CI harness; each row carries a datasetHash + benchmarkInputHash. ci-reproduced rows count toward Trust Magnitude. pending rows are awaiting first CI reproduction run.",
   "rows": [

@@ -60,7 +60,7 @@ BENCHMARK_META: dict[str, dict[str, Any]] = {
         "unit": "pass@1",
         "provenance": "ci-reproduced",
         "sourceUrl": "https://github.com/openai/human-eval",
-        "methodologyUrl": "/benchmarks/humaneval-v1.md",
+        "methodologyUrl": "/benchmarks/humaneval-v1/",
         "notes": (
             "Python function-completion benchmark (164 problems). Gaia reproduces "
             "via CI harness; each row carries a datasetHash + benchmarkInputHash. "
@@ -74,7 +74,7 @@ BENCHMARK_META: dict[str, dict[str, Any]] = {
         "provenance": "mirrored",
         "sourceUrl": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard",
         "sourceSnapshotDate": "2024-03-01",
-        "methodologyUrl": "/benchmarks/mmlu-v1.md",
+        "methodologyUrl": "/benchmarks/mmlu-v1/",
         "notes": (
             "5-shot MMLU average scores sourced from the HuggingFace Open LLM "
             "Leaderboard snapshot dated 2024-03-01. Provenance is 'mirrored': "
@@ -190,7 +190,7 @@ def buildBenchmarkFile(benchId: str, rows: list[dict[str, Any]]) -> dict[str, An
         "name": meta.get("name", benchId),
         "unit": meta.get("unit", ""),
         "provenance": meta.get("provenance", ""),
-        "methodologyUrl": meta.get("methodologyUrl", f"/benchmarks/{slug}-v1.md"),
+        "methodologyUrl": meta.get("methodologyUrl", f"/benchmarks/{slug}-v1/"),
     }
     if "sourceUrl" in meta:
         doc["sourceUrl"] = meta["sourceUrl"]
@@ -217,7 +217,7 @@ def buildIndexDoc(liveIds: list[str]) -> dict[str, Any]:
             "name": meta.get("name", benchId),
             "provenance": meta.get("provenance", ""),
             "leaderboardUrl": f"/api/v1/benchmarks/{slug}.json",
-            "methodologyUrl": meta.get("methodologyUrl", f"/benchmarks/{slug}-v1.md"),
+            "methodologyUrl": meta.get("methodologyUrl", f"/benchmarks/{slug}-v1/"),
         })
     return {
         "schemaVersion": SCHEMA_VERSION,

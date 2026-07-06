@@ -3,7 +3,7 @@
 Reference implementation of the Gaia benchmark harness contract. Produces
 `benchmark-result` evidence rows for the `humaneval@v1.0` benchmark.
 
-See the top-level [`docs/benchmarks/humaneval-v1.md`](../../../docs/benchmarks/humaneval-v1.md)
+See the top-level [`docs/benchmarks/humaneval-v1/`](../../../docs/benchmarks/humaneval-v1/)
 for the benchmark spec, methodology, and provenance requirements.
 
 ## Files

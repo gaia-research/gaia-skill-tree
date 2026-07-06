@@ -4,7 +4,7 @@
   "name": "MMLU (Massive Multitask Language Understanding)",
   "unit": "pct",
   "provenance": "mirrored",
-  "methodologyUrl": "/benchmarks/mmlu-v1.md",
+  "methodologyUrl": "/benchmarks/mmlu-v1/",
   "sourceUrl": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard",
   "sourceSnapshotDate": "2024-03-01",
   "notes": "5-shot MMLU average scores sourced from the HuggingFace Open LLM Leaderboard snapshot dated 2024-03-01. Provenance is 'mirrored': these rows are citation-only and are permanently excluded from Trust Magnitude. See methodologyUrl for the full provenance rationale.",
