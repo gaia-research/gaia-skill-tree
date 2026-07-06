@@ -34,6 +34,16 @@
       border-bottom: 1px solid var(--border-subtle);
       padding-bottom: 2.5rem;
       margin-bottom: 3.5rem;
+      padding-top: 5rem;
+      min-height: 40vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    @media (min-width: 768px) {
+      .benchmarks-header {
+        padding-top: 7rem;
+      }
     }
     .benchmarks-header h1 {
       font-family: 'EB Garamond', Georgia, serif;
@@ -46,7 +56,7 @@
     }
     .benchmarks-header .lede {
       font-family: 'EB Garamond', Georgia, serif;
-      font-size: 1.3rem;
+      font-size: clamp(1.2rem, 2.5vw, 1.4rem);
       color: var(--text);
       opacity: 0.92;
       max-width: 46rem;
@@ -61,28 +71,6 @@
       max-width: 44rem;
       line-height: 1.65;
       margin: 0;
-    }
-    .benchmarks-status {
-      display: inline-block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      padding: 0.28rem 0.7rem;
-      border: 1px solid var(--border-subtle);
-      border-radius: 3px;
-      color: var(--muted);
-      margin-bottom: 1.5rem;
-    }
-    .benchmarks-status .live-dot {
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      background: #4ade80;
-      border-radius: 50%;
-      margin-right: 0.4rem;
-      vertical-align: 1px;
-      box-shadow: 0 0 6px rgba(74,222,128,0.6);
     }
 
     /* ── Family section shared ── */
@@ -135,6 +123,10 @@
       gap: 1rem;
       margin-bottom: 1.5rem;
     }
+    @keyframes lb-tile-enter {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
     .lb-tile {
       border: 1px solid var(--border-subtle);
       border-radius: 6px;
@@ -144,6 +136,11 @@
       flex-direction: column;
       gap: .55rem;
       transition: border-color 0.15s ease;
+      opacity: 0;
+      animation: lb-tile-enter 0.35s ease-out forwards;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .lb-tile { opacity: 1; animation: none; }
     }
     .lb-tile:hover { border-color: var(--border); }
     .lb-tile-name { font-weight: 600; font-size: 1.05rem; color: var(--text); }
@@ -166,7 +163,7 @@
       letter-spacing: 0.03em;
     }
     .lb-prov-ci { background: rgba(74,222,128,.12); color: #4ade80; }
-    .lb-prov-mirrored { background: rgba(71,85,105,.22); color: #94a3b8; }
+    .lb-prov-mirrored { background: rgba(71,85,105,.22); color: var(--rank-0); }
     .lb-tile-actions {
       display: flex;
       gap: .8rem;
@@ -182,6 +179,16 @@
       border-radius: 4px;
       padding: .25rem .7rem;
     }
+    .lb-empty {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--muted);
+      padding: 1.5rem;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      text-align: center;
+    }
+    .lb-empty--error { color: var(--rank-4); border-color: rgba(232,121,249,.2); }
     .external-methodology {
       border: 1px solid var(--border-subtle);
       border-radius: 6px;
@@ -216,6 +223,7 @@
         var(--surface);
       position: relative;
       overflow: hidden;
+      isolation: isolate;
     }
     .gsb-panel::before {
       content: "";
@@ -224,6 +232,41 @@
       width: 3px;
       height: 100%;
       background: linear-gradient(180deg, var(--evidence-gold) 0%, rgba(251,191,36,0.15) 100%);
+      z-index: 1;
+    }
+    /* Full-bleed on very small screens */
+    @media (max-width: 479px) {
+      .gsb-panel {
+        border-radius: 0;
+        margin-left: -1.5rem;
+        margin-right: -1.5rem;
+        border-left: none;
+        border-right: none;
+      }
+    }
+    /* Parallax background layer */
+    .gsb-panel-bg {
+      position: absolute;
+      inset: -30% 0;
+      background-image: url('assets/benchmark-matrix.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.18;
+      z-index: 0;
+      pointer-events: none;
+      will-change: transform;
+    }
+    @media (max-width: 767px) {
+      .gsb-panel-bg {
+        inset: 0;
+        opacity: 0.14;
+      }
+    }
+    /* All direct children of gsb-panel need z-index above bg */
+    .gsb-panel > *:not(.gsb-panel-bg) {
+      position: relative;
+      z-index: 1;
     }
     .gsb-credit {
       font-family: 'JetBrains Mono', monospace;
@@ -244,13 +287,29 @@
       margin: 0 0 0.6rem;
     }
 
+    /* Mobile-first pillar grid */
     .gsb-pillars {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(1, 1fr);
       gap: 0;
       margin: 1.5rem 0 2rem;
       border-top: 1px solid var(--border-subtle);
       border-bottom: 1px solid var(--border-subtle);
+    }
+    @media (min-width: 480px) {
+      .gsb-pillars { grid-template-columns: repeat(2, 1fr); }
+      .gsb-pillar:nth-child(2) { border-right: none; }
+      .gsb-pillar:nth-child(1),
+      .gsb-pillar:nth-child(2) {
+        border-bottom: 1px solid var(--border-subtle);
+      }
+    }
+    @media (min-width: 768px) {
+      .gsb-pillars { grid-template-columns: repeat(4, 1fr); }
+      .gsb-pillar:nth-child(1),
+      .gsb-pillar:nth-child(2) {
+        border-bottom: none;
+      }
     }
     .gsb-pillar {
       padding: 1.1rem 1rem;
@@ -275,13 +334,6 @@
       font-size: 0.78rem;
       color: var(--muted);
       line-height: 1.45;
-    }
-    @media (max-width: 640px) {
-      .gsb-pillars { grid-template-columns: repeat(2, 1fr); }
-      .gsb-pillar:nth-child(2) { border-right: none; }
-      .gsb-pillar:nth-child(1), .gsb-pillar:nth-child(2) {
-        border-bottom: 1px solid var(--border-subtle);
-      }
     }
 
     .gsb-mechanic {
@@ -385,7 +437,6 @@
 
   <main class="benchmarks-shell">
     <header class="benchmarks-header">
-      <span class="benchmarks-status"><span class="live-dot"></span>Sprint D W4 · Live</span>
       <h1>Benchmarks</h1>
       <p class="lede">
         Two families of measurement — the model behind the skill, and the skill itself.
@@ -416,7 +467,7 @@
           which provenance labels count toward Trust Magnitude, and the process for adding a new
           benchmark to this family.
         </p>
-        <a href="methodology.md">Read the benchmark methodology &rarr;</a>
+        <a href="methodology/">Read the benchmark methodology &rarr;</a>
       </div>
     </section>
 
@@ -430,6 +481,7 @@
       <p class="family-tagline">Measuring the skill itself — not the model.</p>
 
       <div class="gsb-panel">
+        <div class="gsb-panel-bg" aria-hidden="true"></div>
         <p class="gsb-credit">
           Original proposal:
           <a href="https://github.com/gaia-research/gaia-skill-tree/issues/960" target="_blank" rel="noopener">issue #960</a>,
@@ -502,16 +554,16 @@
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (data) {
         if (!data || !data.benchmarks || !data.benchmarks.length) {
-          mount.innerHTML = '<p style="color:var(--muted);font-size:.82rem">No leaderboards available yet.</p>';
+          mount.innerHTML = '<p class="lb-empty">No leaderboards available yet.</p>';
           return;
         }
         var html = '';
-        data.benchmarks.forEach(function (b) {
+        data.benchmarks.forEach(function (b, i) {
           var slug = (b.id || '').split('@')[0];
           var provClass = b.provenance === 'mirrored' ? 'lb-prov-mirrored' : 'lb-prov-ci';
           var provLabel = b.provenance === 'mirrored' ? 'Cited' :
                           b.provenance === 'ci-reproduced' ? 'CI-Reproduced' : b.provenance;
-          html += '<div class="lb-tile">';
+          html += '<div class="lb-tile" style="animation-delay:' + (i * 0.08) + 's">';
           html += '<div class="lb-tile-name">' + b.name + '</div>';
           html += '<div class="lb-tile-meta">';
           html += '<span class="lb-prov-badge ' + provClass + '">' + provLabel + '</span>';
@@ -526,8 +578,38 @@
         mount.innerHTML = html;
       })
       .catch(function () {
-        mount.innerHTML = '<p style="color:var(--muted);font-size:.82rem">Could not load leaderboard index.</p>';
+        mount.innerHTML = '<p class="lb-empty lb-empty--error">Could not load leaderboard index.</p>';
       });
+  })();
+  </script>
+  <script>
+  (function () {
+    var bg = document.querySelector('.gsb-panel-bg');
+    var panel = document.querySelector('.gsb-panel');
+    if (!bg || !panel) return;
+
+    // Disable below 768px and when prefers-reduced-motion
+    var mq = window.matchMedia('(min-width: 768px) and (prefers-reduced-motion: no-preference)');
+    if (!mq.matches) return;
+
+    var ticking = false;
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(function () {
+          var rect = panel.getBoundingClientRect();
+          var viewH = window.innerHeight;
+          // how far through the viewport the panel centre has travelled
+          var progress = 1 - (rect.top + rect.height / 2) / viewH;
+          // 0.45x parallax — bg moves at 45% of scroll speed
+          var offset = progress * rect.height * 0.45;
+          bg.style.transform = 'translateY(' + offset + 'px)';
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   })();
   </script>
 </body>

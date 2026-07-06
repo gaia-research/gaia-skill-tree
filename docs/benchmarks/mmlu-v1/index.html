@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>window.GAIA_VERSION = "5.11.13";</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MMLU v1 — Benchmark Methodology | Gaia Registry</title>
+  <meta name="description" content="MMLU benchmark methodology v1: citation-only provenance, snapshot source, and Trust Magnitude exclusion rules.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>window.gaiaIconBase = function () { return '../../assets/icons.svg'; };</script>
+  <link rel="stylesheet" href="../../css/tokens.css?v=5.11.13">
+  <link rel="stylesheet" href="../../css/styles.css?v=5.11.13">
+  <style>
+    .prose-shell {
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 4rem 1.5rem 6rem;
+      color: var(--text);
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      line-height: 1.7;
+    }
+    .prose-shell h1 {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 500;
+      margin: 0 0 2rem;
+      letter-spacing: -0.01em;
+    }
+    .prose-shell h2 {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+      font-weight: 500;
+      margin: 3rem 0 1rem;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 2rem;
+    }
+    .prose-shell p { margin: 0 0 1.1rem; font-size: 0.97rem; }
+    .prose-shell code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      padding: 0.1em 0.4em;
+      border-radius: 3px;
+      color: var(--text);
+    }
+    .prose-shell table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 1.5rem 0;
+    }
+    .prose-shell th {
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding: 0.5rem 0.75rem;
+    }
+    .prose-shell td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text);
+      vertical-align: top;
+    }
+    .prose-shell .breadcrumb {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin: 0 0 2.5rem;
+      display: block;
+    }
+    .prose-shell .breadcrumb a { color: var(--evidence-gold); text-decoration: none; }
+    .prose-shell .breadcrumb a:hover { text-decoration: underline; }
+    .prose-shell strong { font-weight: 600; color: var(--text); }
+    .prose-shell ul { padding-left: 1.4rem; margin: 0 0 1.1rem; }
+    .prose-shell li { margin-bottom: 0.4rem; font-size: 0.97rem; }
+    .prose-shell .callout {
+      border-left: 3px solid var(--evidence-gold);
+      background: rgba(251,191,36,0.05);
+      padding: 0.9rem 1.1rem;
+      margin: 1.5rem 0;
+      border-radius: 0 4px 4px 0;
+      font-size: 0.9rem;
+    }
+    .prose-shell .callout-cited {
+      border-left-color: var(--muted);
+      background: rgba(71,85,105,0.08);
+    }
+    .prose-shell hr {
+      border: none;
+      border-top: 1px solid var(--border-subtle);
+      margin: 2rem 0;
+    }
+  </style>
+</head>
+<body>
+  <nav id="site-nav"></nav>
+  <script src="../../js/mounts.js?v=5.11.13"></script>
+  <script src="../../js/site-nav.js?v=5.11.13"></script>
+  <main class="prose-shell">
+    <span class="breadcrumb"><a href="../mmlu/">&larr; MMLU Leaderboard</a></span>
+
+    <h1>MMLU v1 — Benchmark Methodology</h1>
+
+    <div class="callout callout-cited">
+      <strong>Provenance: <code>mirrored</code></strong> — This is a citation-only benchmark.
+      Scores sourced here do <strong>not</strong> count toward Trust Magnitude (TM).
+      See <a href="#provenance-ladder">Provenance Ladder</a> below.
+    </div>
+
+    <h2>What is MMLU?</h2>
+
+    <p><strong>Massive Multitask Language Understanding (MMLU)</strong> is a benchmark that
+    measures a language model's knowledge and reasoning across 57 academic
+    subjects, including mathematics, history, law, medicine, and computer
+    science. It evaluates models in a <strong>5-shot</strong> setting: the model is given
+    five example questions with answers before being tested on new questions.</p>
+
+    <p>Original paper: <a href="https://arxiv.org/abs/2009.03300" target="_blank" rel="noopener">Measuring Massive Multitask Language Understanding</a> (Hendrycks et al., 2020).</p>
+
+    <h2>Snapshot source</h2>
+
+    <p>Scores in this registry come from a static snapshot of the
+    <a href="https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard" target="_blank" rel="noopener">HuggingFace Open LLM Leaderboard</a>
+    dated <strong>2024-03-01</strong>. The snapshot file lives at
+    <code>scripts/benchmarks/mmlu/snapshot.json</code> in this repository.</p>
+
+    <table>
+      <thead>
+        <tr><th>Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>benchmarkId</code></td><td><code>mmlu@2024-03</code></td></tr>
+        <tr><td><code>unit</code></td><td><code>pct</code> (0–100 percentage accuracy)</td></tr>
+        <tr><td><code>sourceSnapshotDate</code></td><td><code>2024-03-01</code></td></tr>
+        <tr><td><code>runAt</code></td><td><code>2024-03-01T00:00:00Z</code></td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="provenance-ladder">Provenance ladder</h2>
+
+    <p>The Gaia registry requires reproducible provenance for Trust Magnitude
+    contribution. MMLU scores in this snapshot are <strong>cited</strong> from a public
+    leaderboard — they were not produced by a CI-executed harness in this
+    repository and have not been co-signed by a 4★+ Verifier running the
+    model directly.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Provenance</th>
+          <th>TM contribution</th>
+          <th>How achieved</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>ci-reproduced</code></td>
+          <td>Counted</td>
+          <td>CI workflow re-ran the harness on the same commit</td>
+        </tr>
+        <tr>
+          <td><code>verifier-attested</code></td>
+          <td>Counted</td>
+          <td>4★+ Verifier co-signed the run</td>
+        </tr>
+        <tr>
+          <td><code>mirrored</code></td>
+          <td><strong>Excluded</strong></td>
+          <td>Cited from a public leaderboard</td>
+        </tr>
+        <tr>
+          <td><code>pending</code></td>
+          <td>Excluded</td>
+          <td>Awaiting CI reproduction</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>Why exclude mirrored?</strong> A cited number can be stale, incorrectly
+    attributed, or measured under different conditions (prompt format,
+    tokenization, dataset split). Counting it toward TM would allow badge
+    inflation from numbers we cannot independently verify. The leaderboard
+    renders mirrored rows with a <strong>"Cited"</strong> badge (W4 responsibility) to
+    surface the distinction without hiding the data.</p>
+
+    <h2>Refreshing the snapshot</h2>
+
+    <ol style="padding-left:1.4rem;margin:0 0 1.1rem;font-size:0.97rem;">
+      <li style="margin-bottom:0.5rem">Visit the <a href="https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard" target="_blank" rel="noopener">leaderboard</a>.</li>
+      <li style="margin-bottom:0.5rem">Export current 5-shot MMLU averages for the skills in <code>snapshot.json</code>.</li>
+      <li style="margin-bottom:0.5rem">Edit <code>scripts/benchmarks/mmlu/snapshot.json</code>, bump <code>sourceSnapshotDate</code>.</li>
+      <li style="margin-bottom:0.5rem">Run <code>python scripts/benchmarks/mmlu/ingest.py --dry-run</code> to preview.</li>
+      <li style="margin-bottom:0.5rem">Run <code>GAIA_OPERATOR_OVERRIDE=1 python scripts/benchmarks/mmlu/ingest.py</code> to write.</li>
+      <li style="margin-bottom:0.5rem">Regenerate <code>docs/api/v1/benchmarks/mmlu.json</code> to reflect the updated rows.</li>
+      <li style="margin-bottom:0.5rem">Open a PR on a <code>review/meta/</code> branch.</li>
+    </ol>
+
+    <h2>API projection</h2>
+
+    <p>Machine-readable row data is served at
+    <a href="../../api/v1/benchmarks/mmlu.json"><code>/api/v1/benchmarks/mmlu.json</code></a>.
+    The index of all registered benchmarks is at
+    <a href="../../api/v1/benchmarks/index.json"><code>/api/v1/benchmarks/index.json</code></a>.</p>
+
+    <p>See the <a href="../methodology/">Gaia Benchmark Methodology</a> page for the full
+    cross-benchmark provenance contract.</p>
+  </main>
+  <div id="site-footer"></div>
+  <script src="../../js/site-footer.js"></script>
+</body>
+</html>

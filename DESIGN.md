@@ -341,3 +341,59 @@ The 3D canvas (`canvas3d`) is **preserved** as a secondary view — repurposed a
 ## Anti-references & accessibility (see PRODUCT.md)
 
 Visual guardrails — generic AI-startup dark mode, SaaS hero-metric dashboards, gamification-as-product, decorative glassmorphism, gradient text, and hype-heavy marketing copy — are enumerated in [`PRODUCT.md`](PRODUCT.md#anti-references). The accessibility baseline (WCAG AA; never symbol-alone or color-alone tier signal; `prefers-reduced-motion` for 6★ Apex shimmer, the Naming Reveal cinematic, and the Ascension Cycle diagram; screen-reader-friendly CLI renders) lives in [`PRODUCT.md`](PRODUCT.md#accessibility--inclusion). Don't restate them here — link only, so the spec doesn't drift.
+
+---
+
+## Motion — Parallax and Scroll Animation
+
+### Parallax (continuous scroll)
+
+Use for background image layers on signature sections only. The primary use case is a dark-tinted asset layer behind a content-heavy panel that benefits from depth.
+
+**Spec:**
+- Speed ratio: 0.45× (background moves at 45% of scroll speed)
+- Implementation: `requestAnimationFrame` + `translateY` — never `background-attachment: fixed` (breaks on iOS Safari)
+- Background element: absolutely positioned, `inset: -30% 0` to allow vertical travel without white-edge gaps, `will-change: transform`
+- Overlay: `rgba(3,7,18, 0.82)` minimum for text readability; `0.88` on mobile
+- Disable below 768px: use `window.matchMedia('(min-width: 768px) and (prefers-reduced-motion: no-preference)')` guard
+- `prefers-reduced-motion`: skip the scroll listener entirely when reduced motion is preferred
+
+### Scroll-triggered entrance (one-shot)
+
+Use for card grids and tile lists where items appear on first scroll into view. Not continuous — fires once.
+
+**Spec:**
+- Animation: `opacity: 0 → 1` + `translateY(12px) → 0`, duration `0.35s ease-out`
+- Stagger: `0.08s` delay per item
+- Default state: `opacity: 0` in CSS so items are invisible before animation fires
+- `prefers-reduced-motion`: reset to `opacity: 1; animation: none`
+
+### What does NOT get parallax
+
+- Hero sections (the text IS the content; parallax would compete)
+- Navigation and footer
+- Form elements or interactive controls
+- Any element the user is actively scrolling to read
+
+---
+
+## Mobile-First Construction
+
+All new CSS is written from the 320px baseline upward. `min-width` breakpoints only. `max-width` queries are reserved for component-level overrides (not layout).
+
+### Breakpoint scale (project-wide)
+
+| Token | Value | Use |
+|---|---|---|
+| `sm` | `480px` | 2-column card grids |
+| `md` | `768px` | Full-width → constrained layout, parallax enable |
+| `lg` | `1024px` | Sidebar patterns, wide grids |
+| `xl` | `1280px` | Max-content column widths |
+
+### Mobile-specific rules
+
+- Cards and panels with `border-radius` become full-bleed on `< 480px` (no radius, negative margin to escape padding, no left/right border)
+- Parallax disabled on mobile (static background, overlay lifted)
+- Font sizes use `clamp()` with a floor that works at 320px
+- Touch targets minimum 44×44px
+- No `position: fixed` for decorative elements on mobile (performance)

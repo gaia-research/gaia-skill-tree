@@ -480,6 +480,9 @@ def build_html_cache_busting(check: bool) -> bool:
         "benchmarks/index.html",
         "benchmarks/humaneval/index.html",
         "benchmarks/mmlu/index.html",
+        "benchmarks/methodology/index.html",
+        "benchmarks/humaneval-v1/index.html",
+        "benchmarks/mmlu-v1/index.html",
         "skills/index.html",
     ):
         path = ROOT / "docs" / filename

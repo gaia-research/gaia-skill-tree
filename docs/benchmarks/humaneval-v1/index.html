@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>window.GAIA_VERSION = "5.11.13";</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HumanEval v1 — Benchmark Methodology | Gaia Registry</title>
+  <meta name="description" content="HumanEval v1.0 benchmark specification: pass@1, dataset fingerprinting, CI reproduction workflow, and Trust Magnitude contribution.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>window.gaiaIconBase = function () { return '../../assets/icons.svg'; };</script>
+  <link rel="stylesheet" href="../../css/tokens.css?v=5.11.13">
+  <link rel="stylesheet" href="../../css/styles.css?v=5.11.13">
+  <style>
+    .prose-shell {
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 4rem 1.5rem 6rem;
+      color: var(--text);
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      line-height: 1.7;
+    }
+    .prose-shell h1 {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 500;
+      margin: 0 0 2rem;
+      letter-spacing: -0.01em;
+    }
+    .prose-shell h2 {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+      font-weight: 500;
+      margin: 3rem 0 1rem;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 2rem;
+    }
+    .prose-shell p { margin: 0 0 1.1rem; font-size: 0.97rem; }
+    .prose-shell code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      padding: 0.1em 0.4em;
+      border-radius: 3px;
+      color: var(--text);
+    }
+    .prose-shell table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 1.5rem 0;
+    }
+    .prose-shell th {
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding: 0.5rem 0.75rem;
+    }
+    .prose-shell td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text);
+      vertical-align: top;
+    }
+    .prose-shell .breadcrumb {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin: 0 0 2.5rem;
+      display: block;
+    }
+    .prose-shell .breadcrumb a { color: var(--evidence-gold); text-decoration: none; }
+    .prose-shell .breadcrumb a:hover { text-decoration: underline; }
+    .prose-shell strong { font-weight: 600; color: var(--text); }
+    .prose-shell ul { padding-left: 1.4rem; margin: 0 0 1.1rem; }
+    .prose-shell li { margin-bottom: 0.4rem; font-size: 0.97rem; }
+    .prose-shell .callout {
+      border-left: 3px solid var(--evidence-gold);
+      background: rgba(251,191,36,0.05);
+      padding: 0.9rem 1.1rem;
+      margin: 1.5rem 0;
+      border-radius: 0 4px 4px 0;
+      font-size: 0.9rem;
+    }
+    .prose-shell hr {
+      border: none;
+      border-top: 1px solid var(--border-subtle);
+      margin: 2rem 0;
+    }
+  </style>
+</head>
+<body>
+  <nav id="site-nav"></nav>
+  <script src="../../js/mounts.js?v=5.11.13"></script>
+  <script src="../../js/site-nav.js?v=5.11.13"></script>
+  <main class="prose-shell">
+    <span class="breadcrumb"><a href="../humaneval/">&larr; HumanEval Leaderboard</a></span>
+
+    <h1>HumanEval v1 — Benchmark Methodology</h1>
+
+    <p>
+      <strong>Benchmark ID:</strong> <code>humaneval@v1.0</code><br>
+      <strong>Unit:</strong> <code>pass@1</code><br>
+      <strong>Status:</strong> Landing skeleton — full pipeline lands in Sprint D W2b (issue #905).
+    </p>
+
+    <h2>Benchmark</h2>
+
+    <p>HumanEval is a Python function-completion benchmark introduced by OpenAI in
+    <a href="https://arxiv.org/abs/2107.03374" target="_blank" rel="noopener">"Evaluating Large Language Models Trained on Code" (2021)</a>.
+    164 hand-written problems, each with a docstring, function signature, and a
+    suite of test cases. A model is prompted with the signature + docstring and
+    must emit a body; pass@k is the probability that at least one of k samples
+    passes the tests.</p>
+
+    <p>Gaia records HumanEval as <code>benchmarkId: humaneval@v1.0</code>, with <code>unit: pass@1</code>
+    (k = 1, deterministic decoding). Variants (pass@10, sampled, temperature-adjusted)
+    would use a different <code>benchmarkId</code> or <code>unit</code>.</p>
+
+    <h2>Dataset</h2>
+
+    <p><strong>URL:</strong> <a href="https://github.com/openai/human-eval" target="_blank" rel="noopener">https://github.com/openai/human-eval</a> — <code>data/HumanEval.jsonl.gz</code></p>
+
+    <p><strong><code>datasetHash</code>:</strong> <em>(canonical dataset — pinned at CI-reproduction time.
+    The fixture used by the unit-test harness has
+    <code>datasetHash = 244753b2a3366bfbb271e76205fdd88e939c91705093c1a18eebd60fc8a0ebf8</code>;
+    the canonical HumanEval.jsonl hash is stamped on the first ci-reproduced
+    row that lands from <code>.github/workflows/benchmark-humaneval-ci.yml</code>.)</em></p>
+
+    <p>Any change to the dataset produces a new <code>datasetHash</code> and therefore a new
+    row. Two rows referencing different HumanEval dataset revisions are not
+    comparable and must not be aggregated.</p>
+
+    <h2>Harness</h2>
+
+    <p><strong>URL:</strong> <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/scripts/benchmarks/humaneval/run.py" target="_blank" rel="noopener"><code>scripts/benchmarks/humaneval/run.py</code></a> — shipped in Sprint D W2b (#905).</p>
+
+    <p>The harness is required to:</p>
+    <ol style="padding-left:1.4rem;margin:0 0 1.1rem;font-size:0.97rem;">
+      <li style="margin-bottom:0.5rem">Load the dataset from the pinned URL and compute <code>datasetHash</code>.</li>
+      <li style="margin-bottom:0.5rem">Compute <code>benchmarkInputHash</code> as SHA-256 of <code>(dataset + prompt template + harness config)</code>.</li>
+      <li style="margin-bottom:0.5rem">Run the model under evaluation with <code>k = 1</code>, deterministic decoding.</li>
+      <li style="margin-bottom:0.5rem">Emit a <code>results.json</code> containing at minimum:
+        <ul>
+          <li><code>score</code> (0..1 pass@1)</li>
+          <li><code>unit: "pass@1"</code></li>
+          <li><code>runAt</code> (ISO 8601 with timezone)</li>
+          <li><code>datasetHash</code></li>
+          <li><code>benchmarkInputHash</code></li>
+          <li><code>harnessUrl</code> (permalink into the pinned-commit <code>run.py</code>)</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h2>CI reproduction workflow</h2>
+
+    <p><strong>URL:</strong> <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/.github/workflows/benchmark-humaneval-ci.yml" target="_blank" rel="noopener"><code>.github/workflows/benchmark-humaneval-ci.yml</code></a> — shipped in Sprint D W2b (#905).</p>
+
+    <p>Triggered by the <code>gaia push --benchmark humaneval</code> flow. On success:</p>
+    <ul>
+      <li>Writes an evidence row via <code>gaia dev evidence</code> with the following flags:
+        <code>--type benchmark-result</code>, <code>--benchmark-id humaneval@v1.0</code>,
+        <code>--provenance ci-reproduced</code>, <code>--attestor &lt;workflow-run-url&gt;@&lt;commit-sha&gt;</code>,
+        <code>--score &lt;pass@1&gt;</code>, <code>--unit pass@1</code>, <code>--run-at &lt;iso8601&gt;</code>,
+        <code>--dataset-hash &lt;sha256&gt;</code>, <code>--benchmark-input-hash &lt;sha256&gt;</code>,
+        <code>--harness-url https://github.com/gaia-research/gaia-skill-tree/blob/&lt;sha&gt;/scripts/benchmarks/humaneval/run.py</code>
+      </li>
+      <li>Emits a status check on the PR. <code>pending</code> → <code>ci-reproduced</code> promotion is
+        automatic when the workflow passes; on failure, the row remains <code>pending</code>
+        and the merge is blocked (via <code>scripts/validate.py --strict</code>, which is
+        auto-enabled by <code>GITHUB_BASE_REF=main</code>).</li>
+    </ul>
+
+    <h2>Verifier attestation (alternative path)</h2>
+
+    <p>A 4★+ Verifier may co-sign a benchmark run directly, bypassing CI when the
+    harness is not automatable (e.g. private test set, human graders, hardware
+    lock-in). The evidence row uses:</p>
+    <ul>
+      <li><code>--provenance verifier-attested</code></li>
+      <li><code>--attestor &lt;verifier-github-username&gt;</code></li>
+    </ul>
+    <p>Verifier-attested rows are subject to the same <code>datasetHash</code> /
+    <code>benchmarkInputHash</code> requirements and are counted in Trust Magnitude at the
+    same weight as CI-reproduced.</p>
+
+    <h2>Trust Magnitude contribution</h2>
+
+    <p>Per <code>registry/schema/meta.json</code> § <code>evidence.types</code> (unchanged by W2a):</p>
+
+    <table>
+      <thead>
+        <tr><th>Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Weight</td><td>1.4</td></tr>
+        <tr><td>Cap</td><td>100</td></tr>
+        <tr><td>Grade ceiling</td><td>S</td></tr>
+        <tr><td>Magnitude</td><td><code>percentile</code> (0..100) — when a <code>percentile</code> field is present</td></tr>
+        <tr><td>Freshness half-life</td><td>≈ 1 year</td></tr>
+      </tbody>
+    </table>
+
+    <p>For HumanEval specifically, <code>percentile</code> is derived from the published
+    leaderboard placement at the time of the run — see the <a href="../methodology/">methodology page</a> for
+    the leaderboard consumer's interpretation rules (Sprint D W4).</p>
+
+    <h2>References</h2>
+
+    <ul>
+      <li>OpenAI, <a href="https://arxiv.org/abs/2107.03374" target="_blank" rel="noopener">Evaluating Large Language Models Trained on Code</a>, 2021.</li>
+      <li>Schema: <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/schema/evidence/benchmark-result.schema.json" target="_blank" rel="noopener"><code>benchmark-result.schema.json</code></a></li>
+      <li>Methodology: <a href="../methodology/">Gaia Benchmark Methodology</a></li>
+      <li>Verifier attestation format: <a href="../../verifier-signoffs/README.md"><code>docs/verifier-signoffs/README.md</code></a></li>
+    </ul>
+
+    <h2>First live row (dogfood, W2b)</h2>
+
+    <table>
+      <thead>
+        <tr><th>Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Skill</td><td><code>addy-osmani/code-simplification</code></td></tr>
+        <tr><td>Benchmark</td><td><code>humaneval@v1.0</code></td></tr>
+        <tr><td>Score</td><td>0.5 (pass@1)</td></tr>
+        <tr><td>Provenance</td><td><code>ci-reproduced</code></td></tr>
+        <tr><td>Dataset</td><td>Fixture (<code>scripts/benchmarks/humaneval/fixtures/mini.jsonl</code>)</td></tr>
+        <tr><td>Harness</td><td><code>scripts/benchmarks/humaneval/run.py</code></td></tr>
+      </tbody>
+    </table>
+
+    <p>The fixture-based row is the reproducibility bootstrap: the score is
+    deterministic under the stubbed evaluator, the fingerprint hashes are
+    fixed, and any future CI reproduction against the fixture will land the
+    same numbers. Once the full HumanEval dataset lands via <code>workflow_dispatch</code>,
+    the canonical <code>datasetHash</code> will populate above and subsequent rows will
+    carry the pinned URL as their evidence source.</p>
+  </main>
+  <div id="site-footer"></div>
+  <script src="../../js/site-footer.js"></script>
+</body>
+</html>
