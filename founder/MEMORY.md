@@ -39,6 +39,81 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-06, session 34 — Domain migration cleanup: Pages CD unblocked + PRs #921/#958/#961 rebased onto gaiaskilltree.com)
+
+### TLDR
+- Post-#963 (domain migration to `gaiaskilltree.com`) the `pages build and deployment` workflow went red because `docs/CNAME` was missed by the search/replace and still held `gaia.tiongson.co`. Direct-to-main fix committed as `281552703`; next Pages build (#28770786757) green in ~30s.
+- Rebased/merged all three outstanding PRs against the new-domain main: **#921** (docs/routines/014) clean fast-forward, **#961** (dev/sprint-d aggregate, was DIRTY/CONFLICTING) resolved with 14 conflicts + 90 stealth stale refs, **#958** (W4 leaderboard) inherited the fix cleanly with zero further conflicts.
+- Sprint D W4's JSON-LD injection (load-bearing) preserved on all 11 conflicting HTML pages. Schema pair (`registry/schema/…benchmark-result.schema.json` ↔ `src/gaia_cli/data/registry/schema/…`) moved in lockstep. All three PRs now `MERGEABLE`; #961 file count 175 → 174 (one file collapsed as expected after main's migration).
+- **No changes to Sprint D feature code, versions, or history.** The only substantive delta on `dev/sprint-d` is the new-domain propagation. W4 gate for Marcus still holds.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| GitHub Pages CD after PR #963 | ✅ Unblocked. `docs/CNAME` corrected `gaia.tiongson.co → gaiaskilltree.com` on main (`281552703`). |
+| PR #921 (docs/routines/014) | ✅ Updated. Fast-forward merge of main. 13 files/+103/-66 unchanged. `CLEAN / MERGEABLE`. |
+| PR #961 (dev/sprint-d → main, aggregate) | ✅ Updated. Was `DIRTY / CONFLICTING`, now `MERGEABLE / UNSTABLE` (UNSTABLE = CI running). Merge commit `81d3f9224` has both parents (dev/sprint-d `083124ba4` + main `2be8d191f`). |
+| PR #958 (W4 leaderboard, base=dev/sprint-d) | ✅ Updated via worktree at `.claude/worktrees/sprint-d-w4`. Zero conflicts (parent merge did all the work). Marcus review gate still open. |
+| `scripts/injectJsonLd.py` BASE_URL | ✅ Rewritten to `gaiaskilltree.com` (the generator itself, not just its outputs). |
+| `scripts/generateSitemap.py` BASE_URL | ✅ Rewritten. |
+| `scripts/contentEngine/generate_weekly_report.py` + template | ✅ Rewritten. |
+| `scripts/buildTrendingProjection.py` | ✅ Rewritten. |
+| `src/gaia_cli/commands/pushBenchmark.py` | ✅ Rewritten (benchmark evidence URL scheme). |
+| Schema pair | ✅ Both `$id` fields in lockstep. |
+| Verifier checks after merge | ✅ Zero `gaia.tiongson.co` in tree, zero conflict markers, JSON-LD blocks intact on 11 pages, LF endings preserved. |
+
+### #961 conflict-resolution ledger (for reviewer sanity)
+
+**14 semantic conflicts, resolved by programmatic union:**
+
+| File(s) | Nature | Resolution |
+|---|---|---|
+| 11 HTML (badges, codex, meta, named, privacy, share, trending, trust×3, u/index) | W4 JSON-LD block landed adjacent to main's `?v=5.11.16` cache-bust + canonical URL rewrite | Took main's side, appended sprint-d's JSON-LD with domain rewritten. Wrote `.tmp_resolve_html.py` (deleted post-merge) that structurally verified each resolution before writing — 11/11 passed. |
+| `docs/css/tokens.css` | sprint-d had `version=5.11.13` banner; main removed it | Took main's (CLAUDE.md rule §Decorative-assets-must-NOT-carry-version-metadata, Issue #807) |
+| `docs/sitemap.xml` | Both regenerated; sprint-d has URL superset with old domain, main has fewer URLs with new domain | Took sprint-d's superset, rewrote domain string |
+| `docs/graph/gaia.json` | Only `generatedAt` timestamp conflicted | Took main's newer timestamp |
+
+**90 stealth stale refs (post-merge sweep):** sprint-d had added new content referencing `gaia.tiongson.co` AFTER main's find/replace commit — git happily auto-merged them because they didn't overlap main's edits. Global `s/gaia.tiongson.co/gaiaskilltree.com/g` closed the gap. Load-bearing hits enumerated in commit message of `81d3f9224`.
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `origin/main` | `2be8d191f` (chore: release v5.11.16 [skip-gen]) | Includes `281552703` CNAME fix on top of #963 domain migration |
+| `origin/dev/sprint-d` | `81d3f9224` (Merge origin/main into dev/sprint-d — domain migration…) | 34 commits ahead of main after merge; aggregate PR #961 mergeable |
+| `origin/dev/sprint-d-benchmark-leaderboard` | `4cfa58b15` (Merge origin/dev/sprint-d …) | PR #958 rebased, no conflicts, Marcus review gate still open |
+| `origin/docs/routines/014` | `681a431d9` (Merge origin/main into docs/routines/014) | PR #921 clean & mergeable |
+| Local worktree `.claude/worktrees/sprint-d-w4/` | `4cfa58b15` | Kept in sync for iteration if Marcus wants W4 changes |
+
+### Issues + PRs touched
+| # | Title | State / Action |
+|---|---|---|
+| #921 | docs(en): routine 014 | Updated — CLEAN/MERGEABLE |
+| #958 | W4 Benchmark leaderboard (FRONTEND) | Updated — MERGEABLE, still awaits Marcus |
+| #961 | Sprint D aggregate (v6.0.0 candidate) | Updated — was CONFLICTING, now MERGEABLE |
+| #963 | domain migration | Merged upstream on main last session; this session healed the CNAME miss |
+
+### Routing — where things live now
+- **Site domain:** `https://gaiaskilltree.com` (Pages custom-domain config already set; `docs/CNAME` now matches).
+- **Old domain `gaia.tiongson.co`:** zero refs in tree. If anything comes back with the old domain, it was probably reintroduced by a merge from a stale branch — grep before merging.
+- **JSON-LD generator:** `scripts/injectJsonLd.py` — `BASE_URL` is now the single knob if the domain ever changes again. Same for `scripts/generateSitemap.py`.
+- **Schema `$id` URIs:** `https://gaiaskilltree.com/schema/evidence/benchmark-result.schema.json` (and the bundled snapshot mirror). Both move in lockstep per CLAUDE.md §Branch-Scope-schema/-allowlist.
+
+### Lessons / hazards preserved
+1. **Post-migration sweep must include `docs/CNAME` AND the generator scripts** — a domain migration PR that only does a find/replace on `docs/**/*.html` will leave the site unable to deploy (CNAME) AND will silently regenerate old-domain JSON-LD on the next `gaia dev docs` (generator BASE_URL). Add `docs/CNAME` + `scripts/injectJsonLd.py` + `scripts/generateSitemap.py` to a domain-migration checklist.
+2. **Auto-merged stale refs are silent** — when the source branch had a global find/replace and the target branch has NEW content with the old string, git's 3-way merge keeps the new-old content without flagging a conflict. Post-merge, always `git grep <old-string>` before pushing.
+3. **CRLF warnings during `git add` are not the same as CRLF in the staged content.** Verified via `git show :<path> | xxd` — staged bytes were LF. The warnings are just about future working-copy conversion.
+4. **Sprint D W4's JSON-LD injection is a load-bearing feature** — the JSON-LD blocks on the 11 conflicting HTML pages are output of `scripts/injectJsonLd.py` and part of the W5 SEO surface. Any resolver that keeps main's side without appending sprint-d's JSON-LD would silently regress W5. My resolver enforces this via structural equivalence check.
+
+### Open questions for next orchestrator
+- Should the "Ready-to-dispatch" dashboard at the top of MEMORY.md be updated? Its underlying facts still hold (only blocker for the aggregate is Marcus's #958 review), but if anything else has shifted since 2026-07-05 the dashboard should reflect it before session 35 dispatches.
+- Post-merge of #961, verify Pages CD stays green — the merge commit will trigger another `pages-build-deployment` run and any surviving CRLF/domain gaps will surface there.
+- Consider whether the direct-to-main `281552703` (CNAME fix) needs a retroactive note in a follow-up infra/ PR — the change is trivial but bypassed branch scope. Left as-is for now since Pages CD was the P0.
+
+### Token cost (this session)
+~ Cost (CU|€): 6.89 | 3.72€
+
+---
+
 ## State Snapshot (2026-07-05, session 33 — Sprint D end-to-end drive; W4 awaits Marcus's frontend review)
 
 ### TLDR
