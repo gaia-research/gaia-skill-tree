@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Writing Plans"
 description: "Writes comprehensive implementation plans breaking down multi-step tasks into bite-sized sub-tasks."
-resource: "https://gaia.tiongson.co/codex.html#writing-plans"
+resource: "https://gaiaskilltree.com/codex.html#writing-plans"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

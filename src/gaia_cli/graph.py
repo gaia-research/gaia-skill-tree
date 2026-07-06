@@ -454,9 +454,9 @@ def render_html(
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="https://gaia.tiongson.co/css/styles.css">
-  <link rel="stylesheet" href="https://gaia.tiongson.co/css/plaque.css">
-  <link rel="stylesheet" href="https://gaia.tiongson.co/css/alpha-rail.css">
+  <link rel="stylesheet" href="https://gaiaskilltree.com/css/styles.css">
+  <link rel="stylesheet" href="https://gaiaskilltree.com/css/plaque.css">
+  <link rel="stylesheet" href="https://gaiaskilltree.com/css/alpha-rail.css">
   <style>
     body {{ margin: 0; overflow: hidden; background: #020617; color: #fff; font-family: system-ui, sans-serif; }}
     #hero {{ height: 100vh; width: 100vw; position: relative; z-index: 1; }}
@@ -488,7 +488,7 @@ def render_html(
       const url = typeof resource === 'string' ? resource : resource.url;
       
       if (url.includes('icons.svg')) {{
-          {f"return new Response({json.dumps(icons_svg)}, {{ status: 200, headers: {{ 'Content-Type': 'image/svg+xml' }} }});" if icons_svg else "return originalFetch('https://gaia.tiongson.co/assets/icons.svg', options);"}
+          {f"return new Response({json.dumps(icons_svg)}, {{ status: 200, headers: {{ 'Content-Type': 'image/svg+xml' }} }});" if icons_svg else "return originalFetch('https://gaiaskilltree.com/assets/icons.svg', options);"}
       }}
       
       if (url.includes('ping.json') || url.includes('gaia.json') || url.includes('index.json')) {{
@@ -503,11 +503,11 @@ def render_html(
     }};
   </script>
 
-  <script src="https://gaia.tiongson.co/js/icons.js"></script>
-  <script src="https://gaia.tiongson.co/js/atlas-helpers.js"></script>
-  <script src="https://gaia.tiongson.co/js/rank-badge.js"></script>
-  <script src="https://gaia.tiongson.co/js/plaque.js"></script>
-  <script src="https://gaia.tiongson.co/js/skill-graph.js"></script>
+  <script src="https://gaiaskilltree.com/js/icons.js"></script>
+  <script src="https://gaiaskilltree.com/js/atlas-helpers.js"></script>
+  <script src="https://gaiaskilltree.com/js/rank-badge.js"></script>
+  <script src="https://gaiaskilltree.com/js/plaque.js"></script>
+  <script src="https://gaiaskilltree.com/js/skill-graph.js"></script>
   <script>
     window.addEventListener('load', () => {{
       setTimeout(() => {{

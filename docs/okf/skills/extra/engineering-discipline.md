@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "mattpocock-engineering"
 description: "Engineering category suite for Matt Pocock's skills."
-resource: "https://gaia.tiongson.co/codex.html#engineering-discipline"
+resource: "https://gaiaskilltree.com/codex.html#engineering-discipline"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

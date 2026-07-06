@@ -203,7 +203,7 @@ export interface Heroes {
 // ─── Client Options ────────────────────────────────────────────────────────────
 
 export interface GaiaClientOptions {
-  /** Base URL of the Gaia site. Default: https://gaia.tiongson.co */
+  /** Base URL of the Gaia site. Default: https://gaiaskilltree.com */
   baseUrl?: string;
   /** Custom fetch implementation (for testing or Node <18 polyfills) */
   fetch?: typeof globalThis.fetch;

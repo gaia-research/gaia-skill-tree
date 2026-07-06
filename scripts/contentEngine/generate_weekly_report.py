@@ -146,7 +146,7 @@ def renderTrendingSection(entries: list[dict]) -> dict:
                 "trendingScore": e.get("trendingScore", 0),
                 "tmDelta": e.get("tmDelta", 0),
                 "isNew": bool(e.get("new", False)),
-                "url": f"https://gaia.tiongson.co/named/#explorer/{e.get('id', '')}",
+                "url": f"https://gaiaskilltree.com/named/#explorer/{e.get('id', '')}",
             }
             for e in entries
         ],
@@ -167,7 +167,7 @@ def renderAscendedSection(entries: list[dict]) -> dict:
                 "trustMagnitude": e.get("trustMagnitude", 0),
                 "trustGrade": e.get("overallTrustGrade"),
                 "ascendedAt": e.get("ascendedAt", ""),
-                "url": f"https://gaia.tiongson.co/named/#explorer/{e.get('id', '')}",
+                "url": f"https://gaiaskilltree.com/named/#explorer/{e.get('id', '')}",
             }
             for e in entries
         ],
@@ -190,7 +190,7 @@ def renderContestedSection(buckets: list[dict]) -> dict:
                         "trustMagnitude": s.get("trustMagnitude", 0),
                         "trustGrade": s.get("overallTrustGrade"),
                         "origin": bool(s.get("origin", False)),
-                        "url": f"https://gaia.tiongson.co/named/#explorer/{s.get('id', '')}",
+                        "url": f"https://gaiaskilltree.com/named/#explorer/{s.get('id', '')}",
                     }
                     for s in (b.get("skills", []) or [])
                 ],
@@ -248,10 +248,10 @@ def assembleReport(
             "contested": sections.get("contested", {"title": "Most contested spaces", "entries": []}),
         },
         "urls": {
-            "canonical": f"https://gaia.tiongson.co/reports/{weekLabel(year, week)}/",
-            "json": f"https://gaia.tiongson.co/api/v1/reports/{weekLabel(year, week)}.json",
-            "previous": f"https://gaia.tiongson.co/reports/{prevWeekLabel(year, week)}/",
-            "archive": "https://gaia.tiongson.co/reports/",
+            "canonical": f"https://gaiaskilltree.com/reports/{weekLabel(year, week)}/",
+            "json": f"https://gaiaskilltree.com/api/v1/reports/{weekLabel(year, week)}.json",
+            "previous": f"https://gaiaskilltree.com/reports/{prevWeekLabel(year, week)}/",
+            "archive": "https://gaiaskilltree.com/reports/",
         },
     }
 

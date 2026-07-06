@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "personal-knowledge-management"
 description: "Managing notes and organization in a specific vault."
-resource: "https://gaia.tiongson.co/codex.html#personal-knowledge-management"
+resource: "https://gaiaskilltree.com/codex.html#personal-knowledge-management"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

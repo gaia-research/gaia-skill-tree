@@ -16,7 +16,7 @@
 (function () {
   'use strict';
 
-  var RFC_BASE = 'https://gaia.tiongson.co/codex/trust-methodology.html';
+  var RFC_BASE = 'https://gaiaskilltree.com/codex/trust-methodology.html';
   var RFC = {
     overview:      RFC_BASE + '#trust-magnitude',
     types:         RFC_BASE + '#evidence-types',

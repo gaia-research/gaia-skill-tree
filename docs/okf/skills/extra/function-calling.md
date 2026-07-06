@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Function Calling"
 description: "Selects an external callable, emits schema-valid arguments, invokes the function or API, and integrates the returned result into the agent loop."
-resource: "https://gaia.tiongson.co/codex.html#function-calling"
+resource: "https://gaiaskilltree.com/codex.html#function-calling"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

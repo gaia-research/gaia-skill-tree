@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Requesting Code Review"
 description: "Dispatches a code reviewer subagent to catch issues before they cascade, providing isolated context for evaluation."
-resource: "https://gaia.tiongson.co/codex.html#requesting-code-review"
+resource: "https://gaiaskilltree.com/codex.html#requesting-code-review"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

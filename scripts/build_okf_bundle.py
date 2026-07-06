@@ -72,7 +72,7 @@ def main():
 type: "AI Agent Skill"
 title: {title_esc}
 description: {summary_esc}
-resource: "https://gaia.tiongson.co/codex.html#{sid}"
+resource: "https://gaiaskilltree.com/codex.html#{sid}"
 tags: ["gaia-skill-tree", "{stype}-skill"]
 timestamp: "{timestamp}"
 ---

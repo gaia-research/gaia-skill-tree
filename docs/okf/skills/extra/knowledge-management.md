@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Knowledge Management"
 description: "Organizes, relates, and retrieves information across structured pages, databases, and shared knowledge bases, maintaining semantic links between information nodes."
-resource: "https://gaia.tiongson.co/codex.html#knowledge-management"
+resource: "https://gaiaskilltree.com/codex.html#knowledge-management"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

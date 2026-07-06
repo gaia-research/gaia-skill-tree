@@ -14,7 +14,7 @@
 Sprint D depends on:
 - PR #895 (`dev/sprint-b-closure` → `main`) merged
 - v6.0.0 tag cut
-- `gaia.tiongson.co/api/v1/trending/7d.json` returning live data
+- `gaiaskilltree.com/api/v1/trending/7d.json` returning live data
 
 `dev/sprint-d` is **not created** until the three above are green. The orchestrator holds W1/W2 dispatches until this gate flips. If PR #895 slips past 2026-07-07, revisit the Sprint D window and slide W3/W4/W5 forward (Content Engine + Benchmark schema stay on the critical path regardless).
 
@@ -24,7 +24,7 @@ Sprint D depends on:
 
 - **KC1:** First Monday auto-report ships without orchestrator intervention (behind manual-publish gate).
 - **KC2:** `gaia push --benchmark humaneval --score X` writes a valid benchmark-result evidence row; verifier gate or CI check enforces trust.
-- **KC3:** `gaia.tiongson.co/reports/YYYY-WW/` returns a permanent, indexed, tweetable URL.
+- **KC3:** `gaiaskilltree.com/reports/YYYY-WW/` returns a permanent, indexed, tweetable URL.
 - **KC4:** One skill has a live benchmark score visible on its explorer page.
 
 All four must pass before `dev/sprint-d` → `main` opens.

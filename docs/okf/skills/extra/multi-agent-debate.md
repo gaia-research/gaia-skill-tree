@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Multi-Agent Debate"
 description: "Runs multiple LLM agents that propose, critique, and iteratively refine answers across structured debate rounds, converging on more accurate and well-reasoned responses than any single agent achieves."
-resource: "https://gaia.tiongson.co/codex.html#multi-agent-debate"
+resource: "https://gaiaskilltree.com/codex.html#multi-agent-debate"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

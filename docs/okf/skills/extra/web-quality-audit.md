@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "web-quality-audit"
 description: "Orchestrates a multi-axis web quality audit covering performance (Core Web Vitals), accessibility (WCAG), SEO, and best practices, producing actionable remediation plans from Lighthouse and real-user data."
-resource: "https://gaia.tiongson.co/codex.html#web-quality-audit"
+resource: "https://gaiaskilltree.com/codex.html#web-quality-audit"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

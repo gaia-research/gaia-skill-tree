@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Dual Mode"
 description: "Orchestrates hybrid Claude+Codex workflows: spawns headless parallel workers, coordinates task routing between interactive and background phases, and collects distributed results."
-resource: "https://gaia.tiongson.co/codex.html#dual-mode"
+resource: "https://gaiaskilltree.com/codex.html#dual-mode"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

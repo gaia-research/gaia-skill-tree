@@ -2,7 +2,7 @@
 
 > **For agentic workers:** This plan is the output of an `/impeccable shape` discovery grilled with `grill-with-docs`. Use `/impeccable craft` or sub-agent-driven execution to implement. The canonical glossary lives at `/CONTEXT.md`; design tokens and locked schema sit in `/DESIGN.md` and must not be moved without an ADR.
 
-**Goal:** Full visual overhaul of the public Gaia site (`docs/`) at gaia.tiongson.co. Re-anchor the brand from "dev-tool SaaS landing page" to **Hunter's Atlas** — a sacred-atlas × Solo-Leveling guild-registry surface where contributing devs feel their repo is a main character earning evidence-based rank, and where claiming an Ultimate carries the prestige of going on the permanent record next to Karpathy and Pocock.
+**Goal:** Full visual overhaul of the public Gaia site (`docs/`) at gaiaskilltree.com. Re-anchor the brand from "dev-tool SaaS landing page" to **Hunter's Atlas** — a sacred-atlas × Solo-Leveling guild-registry surface where contributing devs feel their repo is a main character earning evidence-based rank, and where claiming an Ultimate carries the prestige of going on the permanent record next to Karpathy and Pocock.
 
 **Branch:** Implementation on `design/hunters-atlas` (per CLAUDE.md `design/` prefix for `docs/` HTML/CSS/JS work). This planning artifact + glossary land on `docs/hunters-atlas-plan` first.
 
@@ -14,7 +14,7 @@
 
 | Axis | Lock | Source |
 |---|---|---|
-| Register | Brand (gaia.tiongson.co is a marketing surface; design IS the product). | `/impeccable` setup |
+| Register | Brand (gaiaskilltree.com is a marketing surface; design IS the product). | `/impeccable` setup |
 | Lane | **Hunter's Atlas** — Sacred Atlas × Solo Leveling guild registry. | User Q1 |
 | Voice register | **Half-Merged** — truthful primary labels; fantasy verbs and ornamental section titles. | User Q2 |
 | Typography | **Scholar's Plate** — EB Garamond (display) · Bricolage Grotesque (body) · Departure Mono (HUD/code). All OFL/free. | User Q3 |
@@ -68,7 +68,7 @@ Both routes converge on the same end-state: contributor handle in honor red on t
 
 | Dimension | Decision |
 |---|---|
-| Fidelity | **Production-ready.** Ships to gaia.tiongson.co. |
+| Fidelity | **Production-ready.** Ships to gaiaskilltree.com. |
 | Breadth | Home page (full replacement) · `how-we-do-things.html` → renamed **The Codex** (reskinned, content preserved) · existing graph dialog (chrome reskinned, mechanics identical) · favicon · OG card · Plaque system (Priority D, B, C). |
 | Interactivity | Shipped-quality. All interactions wired to real data from `registry/gaia.json` and `registry/named-skills.json`. |
 | Time intent | Polish until ships. |
@@ -215,7 +215,7 @@ Implementation: SVG + CSS animation primarily (no Lottie dependency unless we hi
 
 ### Priority B — The Contributor Profile Page
 
-Route: `gaia.tiongson.co/u/{handle}/` (pre-generated static page).
+Route: `gaiaskilltree.com/u/{handle}/` (pre-generated static page).
 
 Layout:
 
@@ -330,7 +330,7 @@ Pre-generated at build time via a node script that reads from `registry/named-sk
 
 1. **3D HUD recoloured ambient palette:** muted gold-on-midnight (`#fbbf24` @ 0.18 opacity) vs midnight-blue dust (`#1e293b` @ 0.4 opacity). Recommendation: muted gold — it preserves the apex-gold brand role even in the ambient layer.
 2. **Codex page route:** rename `how-we-do-things.html` → `codex.html` with a 301-style meta-refresh on the old URL, or keep both URLs alive. Recommendation: rename and refresh — voice consistency matters more than old-URL stability for a docs page.
-3. **Profile page route:** `gaia.tiongson.co/u/{handle}/` vs `gaia.tiongson.co/heroes/{handle}/`. Recommendation: `/u/` — short, GitHub-pattern-familiar, doesn't over-commit voice.
+3. **Profile page route:** `gaiaskilltree.com/u/{handle}/` vs `gaiaskilltree.com/heroes/{handle}/`. Recommendation: `/u/` — short, GitHub-pattern-familiar, doesn't over-commit voice.
 4. **Naming reveal implementation:** pure SVG+CSS (preferred for filesize), Lottie JSON (if motion gets too complex), or canvas (if pixel-level effects are needed). Recommendation: try SVG+CSS first; escalate only if blocked.
 5. **Build-time OG card generation:** Python `cairosvg` vs Node `@vercel/og` vs Playwright headless screenshots. Recommendation: defer — pick once OG card design is final.
 

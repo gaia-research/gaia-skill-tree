@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "API Call"
 description: "A fundamental skill that enables agents to interact with external services via HTTP API calls."
-resource: "https://gaia.tiongson.co/codex.html#api-call"
+resource: "https://gaiaskilltree.com/codex.html#api-call"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

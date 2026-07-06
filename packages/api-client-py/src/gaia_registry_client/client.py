@@ -36,7 +36,7 @@ from gaia_registry_client.models import (
     TrendingEntry,
 )
 
-DEFAULT_BASE_URL = "https://gaia.tiongson.co"
+DEFAULT_BASE_URL = "https://gaiaskilltree.com"
 DEFAULT_TIMEOUT = 30.0
 
 

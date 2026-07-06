@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Video Intelligence"
 description: "Processes video streams by extracting frames, transcribing audio, and applying multimodal reasoning to understand temporal and visual context."
-resource: "https://gaia.tiongson.co/codex.html#video-intelligence"
+resource: "https://gaiaskilltree.com/codex.html#video-intelligence"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

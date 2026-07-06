@@ -13,7 +13,7 @@ import type {
   Heroes,
 } from "./types.js";
 
-const DEFAULT_BASE_URL = "https://gaia.tiongson.co";
+const DEFAULT_BASE_URL = "https://gaiaskilltree.com";
 
 /**
  * GaiaClient — typed HTTP client for the Gaia Registry API.

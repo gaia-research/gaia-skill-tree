@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Requirements Analysis"
 description: "Elicit and structure requirements from stakeholder inputs into formal specifications \u2014 user stories, acceptance criteria, and traceability matrices."
-resource: "https://gaia.tiongson.co/codex.html#requirements-analysis"
+resource: "https://gaiaskilltree.com/codex.html#requirements-analysis"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

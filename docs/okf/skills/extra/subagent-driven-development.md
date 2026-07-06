@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Subagent-Driven Development"
 description: "Executes plans by dispatching a fresh subagent per task with a two-stage review (spec compliance then code quality)."
-resource: "https://gaia.tiongson.co/codex.html#subagent-driven-development"
+resource: "https://gaiaskilltree.com/codex.html#subagent-driven-development"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

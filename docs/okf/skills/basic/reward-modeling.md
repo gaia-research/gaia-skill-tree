@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Reward Modeling"
 description: "Learns a scalar reward signal from human preference comparisons between model outputs, enabling reinforcement learning from human feedback (RLHF) to align model behavior with human values."
-resource: "https://gaia.tiongson.co/codex.html#reward-modeling"
+resource: "https://gaiaskilltree.com/codex.html#reward-modeling"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

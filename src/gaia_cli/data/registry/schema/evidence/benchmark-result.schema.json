@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://gaia.tiongson.co/schema/evidence/benchmark-result.schema.json",
+  "$id": "https://gaiaskilltree.com/schema/evidence/benchmark-result.schema.json",
   "title": "Benchmark result evidence row",
   "description": "Reproducible benchmark measurement attached to a Gaia skill as an evidence row. Sprint D W2a (issue #904) — field names and shape are FROZEN post-merge (API contract for downstream benchmark indices W2b/W3/W4). Two provenance paths are honored: verifier-attested (4★+ verifier sign-off) or ci-reproduced (GitHub Actions workflow run on the submitted commit). Self-attested provenance is FOREVER rejected. Mirrored rows appear as citations only and are excluded from Trust Magnitude. This standalone sub-schema is citable from external clients (docs/benchmarks/methodology.md links here); enforcement inside the skill graph happens via the mirrored allOf clause on evidenceEntry in skill.schema.json.",
   "type": "object",

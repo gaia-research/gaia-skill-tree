@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Self-Consistency"
 description: "Samples multiple independent reasoning paths for the same problem and selects the answer by majority vote, improving robustness without any additional training."
-resource: "https://gaia.tiongson.co/codex.html#self-consistency"
+resource: "https://gaiaskilltree.com/codex.html#self-consistency"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

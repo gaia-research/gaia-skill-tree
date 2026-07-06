@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Platform Modernization Sprint"
 description: "Systematic v3 platform overhaul: CLI modernization, core implementation, DDD architecture, deep integration, MCP optimization, memory unification, performance tuning, security overhaul, and swarm coordination."
-resource: "https://gaia.tiongson.co/codex.html#platform-modernization-sprint"
+resource: "https://gaiaskilltree.com/codex.html#platform-modernization-sprint"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

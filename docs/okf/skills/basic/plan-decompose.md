@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Plan and Decompose"
 description: "Breaks a complex objective into an ordered sequence of executable sub-tasks."
-resource: "https://gaia.tiongson.co/codex.html#plan-decompose"
+resource: "https://gaiaskilltree.com/codex.html#plan-decompose"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-02T00:00:00Z"
 ---

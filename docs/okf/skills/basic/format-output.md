@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Format Output"
 description: "Structures raw output into a specified format such as markdown, JSON, CSV, or HTML."
-resource: "https://gaia.tiongson.co/codex.html#format-output"
+resource: "https://gaiaskilltree.com/codex.html#format-output"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-02T00:00:00Z"
 ---

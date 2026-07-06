@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Browser Control"
 description: "A foundational skill for interacting directly with the web browser using Chrome DevTools Protocol (CDP)."
-resource: "https://gaia.tiongson.co/codex.html#browser-control"
+resource: "https://gaiaskilltree.com/codex.html#browser-control"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

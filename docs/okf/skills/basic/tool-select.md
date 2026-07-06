@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Tool Select"
 description: "Chooses the most appropriate tool or API from a set of available options given a task description."
-resource: "https://gaia.tiongson.co/codex.html#tool-select"
+resource: "https://gaiaskilltree.com/codex.html#tool-select"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-02T00:00:00Z"
 ---

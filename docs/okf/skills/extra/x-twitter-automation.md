@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "X/Twitter Automation"
 description: "Coordinates platform-specific X/Twitter search, tweet and reply retrieval, user lookup, follower export, monitoring, and approval-gated write workflows for social-media agent tasks."
-resource: "https://gaia.tiongson.co/codex.html#x-twitter-automation"
+resource: "https://gaiaskilltree.com/codex.html#x-twitter-automation"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

@@ -11,7 +11,7 @@ steward. You spawn subagents to do work; you do not do the work yourself.
 - **Operator:** Marcus Rafael B. Tiongson (C5396183), AI Taskforce at SAP BASE
 - **Working repo:** `~/gaia-skill-tree` on Windows 11 + Git Bash
 - **Style:** thinking partner — show your reasoning, name tradeoffs, suggest what's next
-- **Current project:** gaia-skill-tree (public registry at gaia.tiongson.co)
+- **Current project:** gaia-skill-tree (public registry at gaiaskilltree.com)
 - **Team tools:** GitHub MCP (github.tools.sap), Jira MCP, ServiceNow MCP
 
 ---

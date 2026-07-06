@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Memory Manage"
 description: "Maintains, indexes, and retrieves conversational and long-term memory across sessions, managing context window constraints."
-resource: "https://gaia.tiongson.co/codex.html#memory-manage"
+resource: "https://gaiaskilltree.com/codex.html#memory-manage"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

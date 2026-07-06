@@ -1,6 +1,6 @@
 # gaia-registry-client
 
-Python client for the [Gaia Registry API](https://gaia.tiongson.co/api/v1/health.json).
+Python client for the [Gaia Registry API](https://gaiaskilltree.com/api/v1/health.json).
 
 Provides both **synchronous** and **asynchronous** typed HTTP clients.
 

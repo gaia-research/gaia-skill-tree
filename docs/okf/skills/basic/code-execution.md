@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Code Execution"
 description: "Writes and executes code in a sandboxed environment, uses the runtime output to verify correctness, and iterates until the result is correct."
-resource: "https://gaia.tiongson.co/codex.html#code-execution"
+resource: "https://gaiaskilltree.com/codex.html#code-execution"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

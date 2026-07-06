@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Extract Entities"
 description: "Identifies and extracts named entities such as people, organizations, dates, and locations from text."
-resource: "https://gaia.tiongson.co/codex.html#extract-entities"
+resource: "https://gaiaskilltree.com/codex.html#extract-entities"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-02T00:00:00Z"
 ---

@@ -130,7 +130,7 @@ def _resolveSourceUrl(harnessUrl: str | None, benchmarkId: str, inputHash: str) 
     if harnessUrl and harnessUrl.strip():
         return harnessUrl.strip()
     shortName = benchmarkId.split("@", 1)[0]
-    return f"https://gaia.tiongson.co/benchmarks/{shortName}-v1.md#{inputHash}"
+    return f"https://gaiaskilltree.com/benchmarks/{shortName}-v1.md#{inputHash}"
 
 
 def _buildEvidenceNamespace(args: argparse.Namespace, resolved: dict) -> argparse.Namespace:
