@@ -1,414 +1,362 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>window.GAIA_VERSION = "5.11.13";</script>
+  <script>window.GAIA_VERSION = "5.11.16";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Benchmarks | Gaia Registry</title>
-  <meta name="description" content="Two families of benchmark evidence for Gaia skills — external benchmarks that measure the model, and Gaia Skill Bench (in design) that measures the skill itself. Every score carries a reproducibility fingerprint and a provenance label. Self-attested scores are never accepted.">
+  <meta name="description" content="Reproducibility-fingerprinted benchmark evidence for Gaia skills. External benchmarks CI-reproduced or citation-mirrored against public tasksets; Gaia Skill Bench (in design) measures the skill itself.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="../css/tokens.css?v=5.11.13">
-  <link rel="stylesheet" href="../css/styles.css?v=5.11.13">
+  <link rel="stylesheet" href="../css/tokens.css?v=5.11.16">
+  <link rel="stylesheet" href="../css/styles.css?v=5.11.16">
 
   <script>
     window.gaiaIconBase = function () { return '../assets/icons.svg'; };
   </script>
   <style>
-    .benchmarks-shell {
-      max-width: 68rem;
-      margin: 0 auto;
-      padding: 3rem 1.5rem 6rem;
-      color: var(--text);
-      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-    }
+    /* ─────────────────────────────────────────────────────────────
+       BENCHMARKS LANDING — proof surface, not marketing landing.
+       One bold moment (the leaderboard row). Everything else quiet.
+       Body copy sits on --text, not --muted, so it clears 4.5:1
+       contrast on --bg (#030712). Mono is reserved for identifiers
+       and provenance labels.
+       ───────────────────────────────────────────────────────────── */
 
-    /* ── Hero ── */
-    .benchmarks-header {
-      border-bottom: 1px solid var(--border-subtle);
-      padding-bottom: 2.5rem;
-      margin-bottom: 3.5rem;
-      padding-top: 5rem;
-      min-height: 40vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
+    .bench-shell {
+      max-width: 62rem;
+      margin: 0 auto;
+      padding: 5rem 1.5rem 6rem;
+      color: var(--text);
+      font-family: var(--font-body);
     }
     @media (min-width: 768px) {
-      .benchmarks-header {
-        padding-top: 7rem;
-      }
+      .bench-shell { padding: 8rem 2rem 7rem; }
     }
-    .benchmarks-header h1 {
-      font-family: 'EB Garamond', Georgia, serif;
+
+    /* ── Hero: thesis, not tagline ─────────────────────────── */
+    .bench-hero {
+      max-width: 44rem;
+      margin: 0 0 5.5rem;
+    }
+    .bench-hero h1 {
+      font-family: var(--font-display);
       font-weight: 500;
-      font-size: clamp(2.25rem, 4.5vw, 3.5rem);
-      line-height: 1.1;
-      margin: 0 0 1rem;
+      font-size: clamp(2.4rem, 6.5vw, 4.25rem);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      margin: 0 0 1.75rem;
       color: var(--text);
-      letter-spacing: -0.01em;
     }
-    .benchmarks-header .lede {
-      font-family: 'EB Garamond', Georgia, serif;
-      font-size: clamp(1.2rem, 2.5vw, 1.4rem);
-      color: var(--text);
-      opacity: 0.92;
-      max-width: 46rem;
-      line-height: 1.5;
-      margin: 0 0 1.25rem;
+    .bench-hero h1 em {
       font-style: italic;
+      color: var(--apex-gold);
       font-weight: 400;
     }
-    .benchmarks-header .sub {
-      font-size: 0.98rem;
-      color: var(--muted);
-      max-width: 44rem;
-      line-height: 1.65;
-      margin: 0;
-    }
-
-    /* ── Family section shared ── */
-    .family {
-      margin-bottom: 5rem;
-    }
-    .family-head {
-      display: flex;
-      align-items: baseline;
-      gap: 1.5rem;
-      margin-bottom: 0.75rem;
-    }
-    .family-num {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--muted);
-      letter-spacing: 0.05em;
-    }
-    .family-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      padding: 0.15rem 0.5rem;
-      border-radius: 3px;
-    }
-    .family-tag.tag-live { background: rgba(74,222,128,.12); color: #4ade80; }
-    .family-tag.tag-design { background: rgba(251,191,36,.12); color: var(--evidence-gold); }
-    .family h2 {
-      font-family: 'EB Garamond', Georgia, serif;
-      font-weight: 500;
-      font-size: clamp(1.65rem, 3vw, 2.15rem);
-      margin: 0 0 0.5rem;
+    .bench-hero p {
+      font-size: 1.15rem;
+      line-height: 1.55;
       color: var(--text);
-      letter-spacing: -0.005em;
+      opacity: 0.82;
+      margin: 0 0 1rem;
+      max-width: 38rem;
     }
-    .family-tagline {
-      font-family: 'EB Garamond', Georgia, serif;
-      font-style: italic;
-      font-size: 1.05rem;
-      color: var(--muted);
-      margin: 0 0 2rem;
+    @media (min-width: 768px) {
+      .bench-hero p { font-size: 1.25rem; }
+    }
+    .bench-hero .contract {
+      margin-top: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: var(--text);
+      opacity: 0.72;
+      max-width: 40rem;
+    }
+    .bench-hero .contract code {
+      font-family: var(--font-mono);
+      color: var(--apex-gold);
+      background: none;
+      padding: 0;
     }
 
-    /* ── External benchmarks: leaderboard tiles ── */
+    /* ── External benchmarks: the loud row ─────────────────── */
+    .bench-block { margin-bottom: 6rem; }
+    .bench-block h2 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(1.7rem, 3.2vw, 2.35rem);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin: 0 0 0.6rem;
+      color: var(--text);
+    }
+    .bench-block .block-sub {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text);
+      opacity: 0.78;
+      margin: 0 0 2.5rem;
+      max-width: 38rem;
+    }
+
+    /* Leaderboard tile grid — the one bold moment. Wide-format
+       tiles, generous vertical space, single-color hairline. */
     .lb-tiles {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
-      gap: 1rem;
-      margin-bottom: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
     }
     @keyframes lb-tile-enter {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
     }
     .lb-tile {
-      border: 1px solid var(--border-subtle);
-      border-radius: 6px;
-      padding: 1.25rem 1.4rem;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      padding: 2rem 1.75rem 1.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
       background: var(--surface);
-      display: flex;
-      flex-direction: column;
-      gap: .55rem;
-      transition: border-color 0.15s ease;
+      transition: border-color 0.2s ease, transform 0.2s ease;
       opacity: 0;
       animation: lb-tile-enter 0.35s ease-out forwards;
+      position: relative;
     }
     @media (prefers-reduced-motion: reduce) {
       .lb-tile { opacity: 1; animation: none; }
     }
-    .lb-tile:hover { border-color: var(--border); }
-    .lb-tile-name { font-weight: 600; font-size: 1.05rem; color: var(--text); }
-    .lb-tile-meta {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--muted);
-      display: flex;
-      gap: .5rem;
-      align-items: center;
-      flex-wrap: wrap;
+    .lb-tile:hover {
+      border-color: var(--apex-gold);
+      transform: translateY(-1px);
     }
-    .lb-prov-badge {
-      display: inline-block;
-      padding: .12rem .45rem;
-      border-radius: 3px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: .66rem;
-      font-weight: 700;
-      letter-spacing: 0.03em;
-    }
-    .lb-prov-ci { background: rgba(74,222,128,.12); color: #4ade80; }
-    .lb-prov-mirrored { background: rgba(71,85,105,.22); color: var(--rank-0); }
-    .lb-tile-actions {
-      display: flex;
-      gap: .8rem;
-      margin-top: .3rem;
-      font-size: .85rem;
-      align-items: center;
-    }
-    .lb-tile-actions a { color: var(--evidence-gold); text-decoration: none; font-weight: 500; }
-    .lb-tile-actions a:hover { text-decoration: underline; }
-    .lb-tile-actions .lb-btn-primary {
-      background: rgba(251,191,36,.1);
-      border: 1px solid rgba(251,191,36,.3);
-      border-radius: 4px;
-      padding: .25rem .7rem;
-    }
-    .lb-empty {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
-      color: var(--muted);
-      padding: 1.5rem;
-      border: 1px solid var(--border-subtle);
-      border-radius: 6px;
-      text-align: center;
-    }
-    .lb-empty--error { color: var(--rank-4); border-color: rgba(232,121,249,.2); }
-    .external-methodology {
-      border: 1px solid var(--border-subtle);
-      border-radius: 6px;
-      padding: 1.25rem 1.4rem;
-      background: transparent;
-    }
-    .external-methodology h4 {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      margin: 0 0 0.6rem;
-    }
-    .external-methodology p {
-      font-size: 0.92rem;
-      color: var(--muted);
-      line-height: 1.55;
-      margin: 0 0 0.7rem;
-    }
-    .external-methodology a { color: var(--evidence-gold); text-decoration: none; font-size: 0.88rem; }
-    .external-methodology a:hover { text-decoration: underline; }
-
-    /* ── GSB panel (the signature moment) ── */
-    .gsb-panel {
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 2rem 2rem 2.25rem;
-      background:
-        linear-gradient(180deg, rgba(251,191,36,0.03) 0%, transparent 45%),
-        var(--surface);
-      position: relative;
-      overflow: hidden;
-      isolation: isolate;
-    }
-    .gsb-panel::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px;
-      height: 100%;
-      background: linear-gradient(180deg, var(--evidence-gold) 0%, rgba(251,191,36,0.15) 100%);
-      z-index: 1;
-    }
-    /* Full-bleed on very small screens */
-    @media (max-width: 479px) {
-      .gsb-panel {
-        border-radius: 0;
-        margin-left: -1.5rem;
-        margin-right: -1.5rem;
-        border-left: none;
-        border-right: none;
-      }
-    }
-    /* Parallax background layer */
-    .gsb-panel-bg {
-      position: absolute;
-      inset: -30% 0;
-      background-image: url('assets/benchmark-matrix.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0.18;
-      z-index: 0;
-      pointer-events: none;
-      will-change: transform;
-    }
-    @media (max-width: 767px) {
-      .gsb-panel-bg {
-        inset: 0;
-        opacity: 0.14;
-      }
-    }
-    /* All direct children of gsb-panel need z-index above bg */
-    .gsb-panel > *:not(.gsb-panel-bg) {
-      position: relative;
-      z-index: 1;
-    }
-    .gsb-credit {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--muted);
-      margin: 0 0 1.5rem;
+    .lb-tile-id {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--text);
+      opacity: 0.55;
+      margin-bottom: 0.75rem;
       letter-spacing: 0.02em;
     }
-    .gsb-credit a { color: var(--evidence-gold); text-decoration: none; }
-    .gsb-credit a:hover { text-decoration: underline; }
-    .gsb-panel h3 {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      margin: 0 0 0.6rem;
-    }
-
-    /* Mobile-first pillar grid */
-    .gsb-pillars {
-      display: grid;
-      grid-template-columns: repeat(1, 1fr);
-      gap: 0;
-      margin: 1.5rem 0 2rem;
-      border-top: 1px solid var(--border-subtle);
-      border-bottom: 1px solid var(--border-subtle);
-    }
-    @media (min-width: 480px) {
-      .gsb-pillars { grid-template-columns: repeat(2, 1fr); }
-      .gsb-pillar:nth-child(2) { border-right: none; }
-      .gsb-pillar:nth-child(1),
-      .gsb-pillar:nth-child(2) {
-        border-bottom: 1px solid var(--border-subtle);
-      }
-    }
-    @media (min-width: 768px) {
-      .gsb-pillars { grid-template-columns: repeat(4, 1fr); }
-      .gsb-pillar:nth-child(1),
-      .gsb-pillar:nth-child(2) {
-        border-bottom: none;
-      }
-    }
-    .gsb-pillar {
-      padding: 1.1rem 1rem;
-      border-right: 1px solid var(--border-subtle);
-    }
-    .gsb-pillar:last-child { border-right: none; }
-    .gsb-pillar-weight {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.35rem;
-      font-weight: 600;
-      color: var(--evidence-gold);
-      line-height: 1;
-      margin-bottom: 0.35rem;
-    }
-    .gsb-pillar-name {
-      font-weight: 600;
-      font-size: 0.95rem;
+    .lb-tile-name {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.7rem;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
       color: var(--text);
-      margin-bottom: 0.25rem;
+      margin-bottom: 1.25rem;
     }
-    .gsb-pillar-desc {
-      font-size: 0.78rem;
-      color: var(--muted);
-      line-height: 1.45;
-    }
-
-    .gsb-mechanic {
+    .lb-tile-foot {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 0.75rem;
-      flex-wrap: wrap;
-      margin: 0 0 2rem;
-      padding: 1rem 1.2rem;
-      background: rgba(255,255,255,0.02);
-      border-radius: 4px;
-      font-size: 0.9rem;
-      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text);
+      opacity: 0.72;
     }
-    .gsb-mechanic-step {
+    .lb-prov {
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
     }
-    .gsb-mechanic-arrow {
-      color: var(--evidence-gold);
-      font-family: 'JetBrains Mono', monospace;
-      opacity: 0.7;
+    .lb-prov::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
     }
-    .gsb-mechanic strong { color: var(--text); font-weight: 500; }
+    .lb-prov--ci { color: var(--rank-2); }
+    .lb-prov--mirrored { color: var(--rank-0); }
+    .lb-tile-arrow {
+      opacity: 0.5;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .lb-tile:hover .lb-tile-arrow {
+      opacity: 1;
+      color: var(--apex-gold);
+      transform: translateX(3px);
+    }
+    .lb-empty {
+      padding: 3rem 1.5rem;
+      border: 1px dashed var(--border);
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text);
+      opacity: 0.6;
+      text-align: center;
+    }
+    .lb-empty--error { color: var(--rank-4); opacity: 0.85; }
+
+    .methodology-line {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text);
+      opacity: 0.8;
+    }
+    .methodology-line a {
+      color: var(--apex-gold);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s ease;
+    }
+    .methodology-line a:hover { border-bottom-color: var(--apex-gold); }
+
+    /* ── GSB: quiet, typographic, no card grid ─────────────── */
+    .gsb {
+      padding-top: 3.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .gsb-status {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--apex-gold);
+      margin: 0 0 1rem;
+    }
+    .gsb h2 { margin-bottom: 0.75rem; }
+    .gsb-lede {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.15rem, 2vw, 1.35rem);
+      line-height: 1.5;
+      color: var(--text);
+      opacity: 0.85;
+      max-width: 36rem;
+      margin: 0 0 2.5rem;
+    }
+
+    /* Pillar list — typographic, not tiled. Weight number in the
+       margin, name in body face, description opts for prose over
+       card labels. Numbers ARE the sequence signal here. */
+    .gsb-pillars {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 2.5rem;
+      counter-reset: pillar;
+    }
+    .gsb-pillar {
+      display: grid;
+      grid-template-columns: 4.5rem 1fr;
+      gap: 1.25rem;
+      padding: 1.15rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: baseline;
+    }
+    .gsb-pillar:first-child { border-top: 1px solid var(--border); }
+    .gsb-pillar-weight {
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--apex-gold);
+      letter-spacing: 0.02em;
+    }
+    .gsb-pillar-body {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.35rem 0.85rem;
+    }
+    .gsb-pillar-name {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.005em;
+    }
+    .gsb-pillar-desc {
+      font-size: 0.95rem;
+      line-height: 1.55;
+      color: var(--text);
+      opacity: 0.75;
+      flex: 1 1 20rem;
+    }
+
+    /* Flow: single sentence with mono accents; not a card, not
+       a diagram — a claim about the pipeline in one line. */
+    .gsb-flow {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--text);
+      opacity: 0.85;
+      margin: 0 0 2.25rem;
+      max-width: 40rem;
+    }
+    .gsb-flow code {
+      font-family: var(--font-mono);
+      font-size: 0.86rem;
+      color: var(--apex-gold);
+      background: none;
+      padding: 0;
+    }
 
     .gsb-actions {
       display: flex;
-      gap: 0.8rem;
+      gap: 1.75rem;
       flex-wrap: wrap;
+      font-size: 0.95rem;
     }
-    .gsb-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.55rem 1rem;
-      border-radius: 4px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.15s ease;
-    }
-    .gsb-btn-primary {
-      background: rgba(251,191,36,.12);
-      border: 1px solid rgba(251,191,36,.35);
-      color: var(--evidence-gold);
-    }
-    .gsb-btn-primary:hover {
-      background: rgba(251,191,36,.18);
-      border-color: rgba(251,191,36,.55);
-    }
-    .gsb-btn-ghost {
-      background: transparent;
-      border: 1px solid var(--border-subtle);
-      color: var(--muted);
-    }
-    .gsb-btn-ghost:hover {
+    .gsb-actions a {
       color: var(--text);
-      border-color: var(--border);
+      text-decoration: none;
+      border-bottom: 1px solid var(--apex-gold);
+      padding-bottom: 2px;
+      transition: color 0.15s ease;
+    }
+    .gsb-actions a:hover { color: var(--apex-gold); }
+    .gsb-actions a.secondary {
+      border-bottom-color: var(--border);
+      color: var(--text);
+      opacity: 0.7;
+    }
+    .gsb-actions a.secondary:hover {
+      opacity: 1;
+      border-bottom-color: var(--apex-gold);
     }
 
-    /* ── Footer ── */
-    .benchmarks-footer {
-      margin-top: 4rem;
+    .gsb-attribution {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text);
+      opacity: 0.6;
+      line-height: 1.7;
+    }
+    .gsb-attribution a { color: var(--apex-gold); text-decoration: none; }
+    .gsb-attribution a:hover { text-decoration: underline; }
+
+    /* ── Footer strip ──────────────────────────────────────── */
+    .bench-foot {
+      margin-top: 5rem;
       padding-top: 2rem;
-      border-top: 1px solid var(--border-subtle);
-      font-size: 0.88rem;
-      color: var(--muted);
-      line-height: 1.65;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text);
+      opacity: 0.6;
+      line-height: 1.7;
     }
-    .benchmarks-footer a {
-      color: var(--evidence-gold);
-      text-decoration: none;
-    }
-    .benchmarks-footer a:hover { text-decoration: underline; }
+    .bench-foot a { color: var(--apex-gold); text-decoration: none; }
+    .bench-foot a:hover { text-decoration: underline; }
   </style>
 <script type="application/ld+json" data-injector="gaia-json-ld">
 {
@@ -432,115 +380,107 @@
 </head>
 <body>
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=5.11.13"></script>
-  <script src="../js/site-nav.js?v=5.11.13"></script>
+  <script src="../js/mounts.js?v=5.11.16"></script>
+  <script src="../js/site-nav.js?v=5.11.16"></script>
 
-  <main class="benchmarks-shell">
-    <header class="benchmarks-header">
-      <h1>Benchmarks</h1>
-      <p class="lede">
-        Two families of measurement — the model behind the skill, and the skill itself.
-      </p>
-      <p class="sub">
-        Every score carries a reproducibility fingerprint (dataset hash + benchmark input hash),
-        a provenance label (verifier-attested, CI-reproduced, mirrored, or pending), and an
-        attestor identity. Self-attested scores are never accepted. Mirrored scores appear as
-        citations only and are excluded from Trust Magnitude.
-      </p>
-    </header>
+  <main class="bench-shell">
 
-    <!-- ─── FAMILY 01 · EXTERNAL BENCHMARKS ─── -->
-    <section class="family" aria-labelledby="family-external">
-      <div class="family-head">
-        <span class="family-num">01</span>
-        <span class="family-tag tag-live">Live</span>
-      </div>
-      <h2 id="family-external">External Benchmarks</h2>
-      <p class="family-tagline">Measuring the model behind the skill.</p>
+    <!-- ─── HERO: the thesis ─── -->
+    <section class="bench-hero">
+      <h1>How do we know a&nbsp;skill <em>is real?</em></h1>
+      <p>
+        Reproducibility fingerprints. Provenance labels. A public commit SHA
+        for every score that touches a badge. Self-attestation is rejected at
+        the schema; mirrored numbers cite but never count.
+      </p>
+      <p class="contract">
+        Every row carries <code>datasetHash</code>, <code>benchmarkInputHash</code>, and an
+        attestor identity. Provenance is one of
+        <code>ci-reproduced</code>, <code>verifier-attested</code>, <code>mirrored</code>, or
+        <code>pending</code> &mdash; only the first two contribute to Trust
+        Magnitude.
+      </p>
+    </section>
+
+    <!-- ─── LEADERBOARDS: the bold row ─── -->
+    <section class="bench-block" aria-labelledby="lb-heading">
+      <h2 id="lb-heading">External benchmarks</h2>
+      <p class="block-sub">
+        Public tasksets, run inside a Gaia CI harness or mirrored as citations
+        from a named upstream leaderboard. Every score links back to the commit
+        that produced it.
+      </p>
 
       <div class="lb-tiles" id="lb-tiles-mount"></div>
 
-      <div class="external-methodology">
-        <h4>Methodology</h4>
-        <p>
-          How external benchmarks are ingested, how the reproducibility fingerprint is computed,
-          which provenance labels count toward Trust Magnitude, and the process for adding a new
-          benchmark to this family.
-        </p>
-        <a href="methodology/">Read the benchmark methodology &rarr;</a>
-      </div>
-    </section>
-
-    <!-- ─── FAMILY 02 · GAIA SKILL BENCH ─── -->
-    <section class="family" aria-labelledby="family-gsb">
-      <div class="family-head">
-        <span class="family-num">02</span>
-        <span class="family-tag tag-design">In design</span>
-      </div>
-      <h2 id="family-gsb">Gaia Skill Bench</h2>
-      <p class="family-tagline">Measuring the skill itself — not the model.</p>
-
-      <div class="gsb-panel">
-        <div class="gsb-panel-bg" aria-hidden="true"></div>
-        <p class="gsb-credit">
-          Original proposal:
-          <a href="https://github.com/gaia-research/gaia-skill-tree/issues/960" target="_blank" rel="noopener">issue #960</a>,
-          authored by
-          <a href="https://github.com/rico-favor" target="_blank" rel="noopener">@rico-favor</a>.
-          Reshape: <a href="https://github.com/gaia-research/gaia-skill-tree/blob/dev/sprint-d-benchmark-leaderboard/founder/handovers/GAIA_BENCH_VISION.md" target="_blank" rel="noopener">GSB Vision v2</a>.
-        </p>
-
-        <h3>Four pillars</h3>
-        <div class="gsb-pillars">
-          <div class="gsb-pillar">
-            <div class="gsb-pillar-weight">40%</div>
-            <div class="gsb-pillar-name">Performance</div>
-            <div class="gsb-pillar-desc">Task success rate on the frozen taskset.</div>
-          </div>
-          <div class="gsb-pillar">
-            <div class="gsb-pillar-weight">30%</div>
-            <div class="gsb-pillar-name">Reliability</div>
-            <div class="gsb-pillar-desc">Consistency across repeated seeded runs.</div>
-          </div>
-          <div class="gsb-pillar">
-            <div class="gsb-pillar-weight">20%</div>
-            <div class="gsb-pillar-name">Triggering</div>
-            <div class="gsb-pillar-desc">Fires when it should; stays silent when it shouldn't.</div>
-          </div>
-          <div class="gsb-pillar">
-            <div class="gsb-pillar-weight">10%</div>
-            <div class="gsb-pillar-name">Efficiency</div>
-            <div class="gsb-pillar-desc">Tokens, calls, and latency to reach the answer.</div>
-          </div>
-        </div>
-
-        <h3>How a submission becomes a score</h3>
-        <div class="gsb-mechanic">
-          <span class="gsb-mechanic-step"><strong>Community</strong> submits a run</span>
-          <span class="gsb-mechanic-arrow">→</span>
-          <span class="gsb-mechanic-step"><strong>Gaia CI</strong> reproduces on the same taskset hash</span>
-          <span class="gsb-mechanic-arrow">→</span>
-          <span class="gsb-mechanic-step">Row lands with <strong>provenance: ci-reproduced</strong></span>
-        </div>
-
-        <div class="gsb-actions">
-          <a class="gsb-btn gsb-btn-primary" href="https://github.com/gaia-research/gaia-skill-tree/blob/dev/sprint-d-benchmark-leaderboard/founder/handovers/GAIA_BENCH_VISION.md" target="_blank" rel="noopener">
-            Read the vision doc &rarr;
-          </a>
-          <a class="gsb-btn gsb-btn-ghost" href="https://github.com/gaia-research/gaia-skill-tree/issues/960" target="_blank" rel="noopener">
-            Follow issue #960
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <footer class="benchmarks-footer">
-      <p>
-        Per-skill benchmark evidence is also visible on the skill explorer pages
-        (<a href="../named/">Skills</a>). Schema:
-        <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/schema/evidence/benchmark-result.schema.json">benchmark-result.schema.json</a>.
-        Leaderboard URLs frozen at <code>/benchmarks/humaneval/</code> and <code>/benchmarks/mmlu/</code> through the Sprint F migration.
+      <p class="methodology-line">
+        How rows are ingested, hashed, and gated at merge time is documented in
+        the <a href="methodology/">benchmark methodology</a>.
       </p>
+    </section>
+
+    <!-- ─── GAIA SKILL BENCH: the direction ─── -->
+    <section class="bench-block gsb" aria-labelledby="gsb-heading">
+      <p class="gsb-status">In design</p>
+      <h2 id="gsb-heading">Gaia Skill Bench</h2>
+      <p class="gsb-lede">
+        A frozen taskset that scores the skill&mdash;its harness, its prompts,
+        its refusal behaviour&mdash;independent of the model executing it.
+      </p>
+
+      <ol class="gsb-pillars">
+        <li class="gsb-pillar">
+          <span class="gsb-pillar-weight">40%</span>
+          <div class="gsb-pillar-body">
+            <span class="gsb-pillar-name">Performance</span>
+            <span class="gsb-pillar-desc">Task success rate against the frozen taskset hash.</span>
+          </div>
+        </li>
+        <li class="gsb-pillar">
+          <span class="gsb-pillar-weight">30%</span>
+          <div class="gsb-pillar-body">
+            <span class="gsb-pillar-name">Reliability</span>
+            <span class="gsb-pillar-desc">Consistency across repeated seeded runs.</span>
+          </div>
+        </li>
+        <li class="gsb-pillar">
+          <span class="gsb-pillar-weight">20%</span>
+          <div class="gsb-pillar-body">
+            <span class="gsb-pillar-name">Triggering</span>
+            <span class="gsb-pillar-desc">Fires when it should; stays silent when it shouldn't.</span>
+          </div>
+        </li>
+        <li class="gsb-pillar">
+          <span class="gsb-pillar-weight">10%</span>
+          <div class="gsb-pillar-body">
+            <span class="gsb-pillar-name">Efficiency</span>
+            <span class="gsb-pillar-desc">Tokens, calls, and latency to reach the answer.</span>
+          </div>
+        </li>
+      </ol>
+
+      <p class="gsb-flow">
+        Submissions enter through the community harness. Gaia CI re-executes
+        the run against the frozen taskset hash and, on success, writes a row
+        with <code>provenance: ci-reproduced</code>. Everything else stays in
+        <code>pending</code> until a Verifier or a green workflow promotes it.
+      </p>
+
+      <div class="gsb-actions">
+        <a href="https://github.com/gaia-research/gaia-skill-tree/blob/dev/sprint-d-benchmark-leaderboard/founder/handovers/GAIA_BENCH_VISION.md" target="_blank" rel="noopener">Read the vision doc</a>
+        <a class="secondary" href="https://github.com/gaia-research/gaia-skill-tree/issues/960" target="_blank" rel="noopener">Follow issue&nbsp;#960</a>
+      </div>
+
+      <p class="gsb-attribution">
+        Original proposal by <a href="https://github.com/rico-favor" target="_blank" rel="noopener">@rico-favor</a> in
+        <a href="https://github.com/gaia-research/gaia-skill-tree/issues/960" target="_blank" rel="noopener">issue&nbsp;#960</a>.
+      </p>
+    </section>
+
+    <footer class="bench-foot">
+      Per-skill benchmark evidence surfaces on the <a href="../named/">skill explorer</a> pages.
+      Schema: <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/schema/evidence/benchmark-result.schema.json">benchmark-result.schema.json</a>.
+      Leaderboard URLs frozen at <code>/benchmarks/humaneval/</code> and <code>/benchmarks/mmlu/</code> through Sprint&nbsp;F.
     </footer>
   </main>
 
@@ -560,56 +500,24 @@
         var html = '';
         data.benchmarks.forEach(function (b, i) {
           var slug = (b.id || '').split('@')[0];
-          var provClass = b.provenance === 'mirrored' ? 'lb-prov-mirrored' : 'lb-prov-ci';
-          var provLabel = b.provenance === 'mirrored' ? 'Cited' :
-                          b.provenance === 'ci-reproduced' ? 'CI-Reproduced' : b.provenance;
-          html += '<div class="lb-tile" style="animation-delay:' + (i * 0.08) + 's">';
-          html += '<div class="lb-tile-name">' + b.name + '</div>';
-          html += '<div class="lb-tile-meta">';
-          html += '<span class="lb-prov-badge ' + provClass + '">' + provLabel + '</span>';
-          html += '<span>' + (b.id || '') + '</span>';
+          var provClass = b.provenance === 'mirrored' ? 'lb-prov--mirrored' : 'lb-prov--ci';
+          var provLabel = b.provenance === 'mirrored' ? 'Citation-mirrored'
+                        : b.provenance === 'ci-reproduced' ? 'CI-reproduced'
+                        : b.provenance;
+          html += '<a class="lb-tile" href="' + slug + '/" style="animation-delay:' + (i * 0.06) + 's">';
+          html += '<div class="lb-tile-id">' + (b.id || '') + '</div>';
+          html += '<div class="lb-tile-name">' + (b.name || slug) + '</div>';
+          html += '<div class="lb-tile-foot">';
+          html += '<span class="lb-prov ' + provClass + '">' + provLabel + '</span>';
+          html += '<span class="lb-tile-arrow" aria-hidden="true">&rarr;</span>';
           html += '</div>';
-          html += '<div class="lb-tile-actions">';
-          html += '<a class="lb-btn-primary" href="' + slug + '/">View leaderboard &rarr;</a>';
-          html += '<a href="' + b.methodologyUrl + '">Methodology</a>';
-          html += '</div>';
-          html += '</div>';
+          html += '</a>';
         });
         mount.innerHTML = html;
       })
       .catch(function () {
         mount.innerHTML = '<p class="lb-empty lb-empty--error">Could not load leaderboard index.</p>';
       });
-  })();
-  </script>
-  <script>
-  (function () {
-    var bg = document.querySelector('.gsb-panel-bg');
-    var panel = document.querySelector('.gsb-panel');
-    if (!bg || !panel) return;
-
-    // Disable below 768px and when prefers-reduced-motion
-    var mq = window.matchMedia('(min-width: 768px) and (prefers-reduced-motion: no-preference)');
-    if (!mq.matches) return;
-
-    var ticking = false;
-    function onScroll() {
-      if (!ticking) {
-        window.requestAnimationFrame(function () {
-          var rect = panel.getBoundingClientRect();
-          var viewH = window.innerHeight;
-          // how far through the viewport the panel centre has travelled
-          var progress = 1 - (rect.top + rect.height / 2) / viewH;
-          // 0.45x parallax — bg moves at 45% of scroll speed
-          var offset = progress * rect.height * 0.45;
-          bg.style.transform = 'translateY(' + offset + 'px)';
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
   })();
   </script>
 </body>
