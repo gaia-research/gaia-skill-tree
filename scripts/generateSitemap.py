@@ -61,7 +61,7 @@ def _en_docs_urls() -> list[tuple[str, float]]:
     if not en_dir.is_dir():
         return []
     urls: list[tuple[str, float]] = []
-    for html_path in sorted(en_dir.glob("*.html")):
+    for html_path in sorted(en_dir.glob("*.html"), key=lambda p: p.name):
         # Skip index.html — already covered by /en/ landing
         if html_path.name == "index.html":
             continue
@@ -75,7 +75,13 @@ def _contributor_profile_urls() -> list[tuple[str, float]]:
     if not u_dir.is_dir():
         return []
     urls: list[tuple[str, float]] = []
-    for handle_dir in sorted(u_dir.iterdir()):
+    # Sort by name string (case-sensitive, str-codepoint order) rather than by
+    # Path object. `Path.__lt__` is case-insensitive on Windows and case-sensitive
+    # on Linux, so sorting Path objects produces platform-dependent output — the
+    # committed sitemap ends up differing from the CI-regenerated one on any repo
+    # that has mixed-case handles (e.g. `Manavarya09`, `Taoidle`). Sorting on the
+    # bare name string is deterministic across OSes.
+    for handle_dir in sorted(u_dir.iterdir(), key=lambda p: p.name):
         if not handle_dir.is_dir():
             continue
         # Skip utility pages (index.html at root, report.html)
@@ -97,10 +103,12 @@ def _named_skill_urls() -> list[tuple[str, float]]:
     if not named_dir.is_dir():
         return []
     urls: list[tuple[str, float]] = []
-    for contributor_dir in sorted(named_dir.iterdir()):
+    # Same cross-OS Path.__lt__ hazard as in `_contributor_profile_urls` — sort
+    # by the bare name string so Windows and Linux produce identical output.
+    for contributor_dir in sorted(named_dir.iterdir(), key=lambda p: p.name):
         if not contributor_dir.is_dir():
             continue
-        for html_path in sorted(contributor_dir.glob("*.html")):
+        for html_path in sorted(contributor_dir.glob("*.html"), key=lambda p: p.name):
             # index.html is the contributor landing — skip
             if html_path.name == "index.html":
                 continue
