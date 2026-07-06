@@ -79,9 +79,15 @@ jobs:
           # Merge commits and github-actions[bot] commits (auto-regen, sync) are
           # intentionally excluded so automated maintenance does not trigger false
           # scope violations on otherwise-clean branches.
+          #
+          # NOTE: `grep -v` returns exit 1 when it filters out EVERY line (i.e.
+          # 100% of commits are bot-authored — the case for weekly-content-engine
+          # cron branches). With `set -euo pipefail`, that would kill the script
+          # silently with no violation output. `|| true` on the grep + a safe
+          # awk fallback keep the pipeline zero-exit in that case.
           HUMAN_COMMITS=$(
             git log --no-merges --format="%H %ae" "$MERGE_BASE..HEAD" \
-              | grep -v 'github-actions\[bot\]' \
+              | { grep -v 'github-actions\[bot\]' || true; } \
               | awk '{print $1}'
           )
 
