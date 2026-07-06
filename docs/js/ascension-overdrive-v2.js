@@ -20,8 +20,14 @@
      scene's 200vh pin (each takes ~33vh).
    - Apex Gate .aov-apex-coda toggles `.is-revealed` at the last
      20vh of the Apex scene.
-   - Motion loops (<video>) inside .aov-ucard__plate lazy-load on
-     card entry EXCEPT those flagged data-motion-pending=true.
+   - Unique branch scene: .aov-unique-header-line opacity ramps
+     0→1 across the first 20vh of the scene pin (scroll-linked).
+   - The Order coda scene: 9 .aov-order-rung elements toggle
+     .is-lit top-to-bottom as scroll progresses; full assembly
+     completes at ~50% of the coda scroll range.
+   - Post-ratification 2026-07-06: Asset E MP4 loops on Unique
+     cards are dropped; cards render static-poster only. The
+     previous video-lazy-load observer is removed with them.
 
    NO sessionStorage guard (deliberate: scroll-linked motion is
    designed to be re-experienced every visit; the user drives it).
@@ -51,6 +57,10 @@
   var coda   = section.querySelector('.aov-apex-coda');
   var scenes = Array.prototype.slice.call(section.querySelectorAll('.aov-scene'));
   var apexScene = section.querySelector('.aov-scene[data-scene="apex"]');
+  var uniqueScene   = section.querySelector('.aov-scene[data-scene="unique"]');
+  var uniqueHeader  = section.querySelector('.aov-unique-header-line');
+  var codaScene     = section.querySelector('.aov-scene[data-scene="coda"]');
+  var orderRungs    = Array.prototype.slice.call(section.querySelectorAll('.aov-order-rung'));
 
   // Cache the thread path's total length once so dashoffset math
   // is a pure normalization from scroll progress. `getTotalLength`
@@ -103,30 +113,6 @@
     }, { threshold: [0, 0.05, 0.35, 0.75] });
 
     scenes.forEach(function (s) { sceneObserver.observe(s); });
-
-    /* Motion-loop lazy-load: swap data-src → src and .play() when
-       the card enters the viewport. Cards flagged data-motion-pending
-       stay poster-only (unique-5-loop.mp4 is 19MB pending recompression). */
-    var videos = Array.prototype.slice.call(section.querySelectorAll('.aov-ucard__plate video'));
-    var videoObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        var v = entry.target;
-        if (v.dataset.motionPending === 'true') return;
-        var srcEl = v.querySelector('source[data-src]');
-        if (srcEl && !srcEl.getAttribute('src')) {
-          srcEl.setAttribute('src', srcEl.getAttribute('data-src'));
-          v.load();
-          v.play().then(function () {
-            v.classList.add('is-loaded');
-          }).catch(function () {
-            /* autoplay refused — poster stays visible */
-          });
-        }
-        videoObserver.unobserve(v);
-      });
-    }, { threshold: 0.35 });
-    videos.forEach(function (v) { videoObserver.observe(v); });
   }
 
   /* Scroll-linked rAF loop.
@@ -266,6 +252,47 @@
       if (coda) {
         if (apexP > 0.85) coda.classList.add('is-revealed');
         else              coda.classList.remove('is-revealed');
+      }
+    }
+
+    // Unique branch scene — the header line fades in as scroll
+    // enters the pin. Opacity ramps 0→1 across the first 20vh of
+    // scene-local scroll, then stays composed. Bidirectional.
+    // Reduced-motion / mobile: leave to CSS (opacity 1 !important).
+    if (uniqueScene && uniqueHeader && !reduce && !isMobile) {
+      var ur = uniqueScene.getBoundingClientRect();
+      // Scene-local progress: 0 when scene top hits viewport top;
+      // grows as scene scrolls past. Cap at 1 (scene has released).
+      var uniqueP = Math.max(0, Math.min(1, -ur.top / vh));
+      var headerOpacity = Math.max(0, Math.min(1, uniqueP / 0.2));
+      uniqueHeader.style.opacity = headerOpacity.toFixed(3);
+    }
+
+    // The Order coda — nine rungs assemble top-to-bottom. Each
+    // rung has a scene-local threshold; below the threshold the
+    // rung is dormant, above it .is-lit is added. Full assembly
+    // completes at ~50% of the coda's scroll range (per shape
+    // brief). Reduced-motion / mobile: rungs are lit at rest via
+    // CSS !important; skip writing.
+    if (codaScene && orderRungs.length && !reduce && !isMobile) {
+      var cr = codaScene.getBoundingClientRect();
+      var codaRange = cr.height - vh;
+      var codaP = 0;
+      if (codaRange > 0) {
+        codaP = Math.max(0, Math.min(1, -cr.top / codaRange));
+      }
+      // Compress the assembly to the first 50% of the pin, so the
+      // ladder is fully lit by the time the operator reaches half
+      // the coda pin. The remaining 50% holds the composed state.
+      var assembleP = Math.min(1, codaP / 0.5);
+      var n = orderRungs.length;
+      for (var i = 0; i < n; i++) {
+        var threshold = i / n;
+        if (assembleP >= threshold) {
+          orderRungs[i].classList.add('is-lit');
+        } else {
+          orderRungs[i].classList.remove('is-lit');
+        }
       }
     }
 
