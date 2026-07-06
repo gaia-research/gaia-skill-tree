@@ -35,6 +35,8 @@
   <link rel="stylesheet" href="css/plaque.css?v=6.1.3">
   <!-- Universal AlphaRail (page-wide section + explorer index). -->
   <link rel="stylesheet" href="css/alpha-rail.css?v=6.1.3">
+  <!-- Ascension Overdrive · homepage #ascension section (Issue #975). -->
+  <link rel="stylesheet" href="css/ascension-overdrive.css?v=6.1.3">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
   <script src="js/icons.js?v=6.1.3"></script>
   <!-- Stage 2 — shared rank-badge primitive, loaded after icons. -->
@@ -741,57 +743,326 @@
 
   <div class="section-divider"></div>
 
-  <!-- ─── ASCENSION CYCLE ─── -->
-  <!-- Stage 2/4 — the Ascension Cycle is the SOLE catalog that reads
-       ascending (journey). data-pattern="journey" annotates the exempt
-       direction; every other catalog reads descending (apex first).
-       Per-rank colour comes from .rank-badge[data-level="N"] tokens. -->
-  <section id="ascension" class="reveal ascension-section" data-section="ascension">
-    <h2>The Ascension Cycle</h2>
-    <p class="section-sub">Skills advance through evidence, not declaration. Each rank unlocks the next.</p>
-    <div class="ascension-track" data-pattern="journey">
-      <div class="asc-stage">
-        <div class="asc-node">
-          <span class="asc-label">Awakened</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="1" data-variant="chip" role="img" aria-label="Rank 1 of 6"><span class="rank-badge__chip">1★</span></span></span>
+  <!-- ─── ASCENSION CYCLE · OVERDRIVE (Issue #975, first-shape preview) ─── -->
+  <!-- Five-plane atlas plate:
+         -2 ledger paper base   ─ background texture
+         -1 six ascending risers ─ SVG hairlines coloured by rank
+          0 main-line rank cards ─ six stages, 1★→6★ (data-pattern="journey")
+         0b Unique branch cards  ─ three states of the ◉ class
+         +1 Apex Gate panel      ─ arch inset + brass-tag staircase
+         +2 gold thread          ─ SVG spine from 1★ through gate to Apex
+       Motion is one-shot per session (sessionStorage-guarded);
+       reduced-motion collapses to composed rest state. Rank names
+       and Star Bar tags are content-invariant per META.md §1.1 / §2.4;
+       Apex predicates per G7 RFC §11.12.
+
+       Stamp filenames from the illustrator are keyed by star count in
+       the artwork itself, not by numeric prefix in the filename. The
+       mapping visual-↔-rank is:
+         1★ Awakened     rank-1-awakened.png    (candle,   ★)
+         2★ Named        rank-4-evolved.png     (signet,   ★★)
+         3★ Evolved      rank-2-named.png       (compass,  ★★★)
+         4★ Hardened     rank-3-hardened.png    (anvil,    ★★★★)
+         5★ Transcendent rank-5-transcendent.png (laurel,  ★★★★★)
+         6★ Apex         apex-arch.png (composed inside Apex Gate)
+       Filename rename is tracked as PR follow-up. -->
+  <section id="ascension"
+           class="reveal ao-plate"
+           data-section="ascension"
+           aria-labelledby="ao-title">
+
+    <div class="ao-ledger" aria-hidden="true"></div>
+
+    <svg class="ao-risers" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <!-- Risers ascend in unequal heights (bottom → top); the palette
+           climbs from --rank-1 (1★) to --apex-gold (6★). Percentages are
+           relative to the plate; y-values fall closer to the top of the
+           SVG as rank increases so the geometry physically rises. -->
+      <line class="ao-risers__line" data-rank="1" x1="6"  y1="88" x2="22" y2="88"></line>
+      <line class="ao-risers__line" data-rank="2" x1="22" y1="78" x2="38" y2="78"></line>
+      <line class="ao-risers__line" data-rank="3" x1="38" y1="68" x2="54" y2="68"></line>
+      <line class="ao-risers__line" data-rank="4" x1="54" y1="56" x2="70" y2="56"></line>
+      <line class="ao-risers__line" data-rank="5" x1="70" y1="42" x2="86" y2="42"></line>
+      <line class="ao-risers__line" data-rank="6" x1="86" y1="24" x2="96" y2="24"></line>
+    </svg>
+
+    <svg class="ao-thread" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <!-- Single continuous thread traces the ascension line from the
+           1★ baseline, up each riser edge, arcs over the Apex Gate
+           panel, and terminates at the 6★ chip. Path is drawn once,
+           1400ms ease-out-quart starting T=1100ms via CSS transition. -->
+      <path class="ao-thread__path"
+            d="M 6 88
+               L 22 88 L 22 78
+               L 38 78 L 38 68
+               L 54 68 L 54 56
+               L 70 56 L 70 42
+               L 86 42 L 86 24
+               Q 92 12 96 24"></path>
+    </svg>
+
+    <header class="ao-header">
+      <p class="ao-eyebrow">Stage · The Ascension Cycle</p>
+      <h2 id="ao-title" class="ao-title">Six ranks. Six thresholds.</h2>
+      <p class="ao-sub">Rank is earned in evidence, not declared in copy. Apex is rare on purpose.</p>
+    </header>
+
+    <!-- Plane 0 · Main-line rank cards -->
+    <ol class="ao-mainline"
+       data-pattern="journey"
+       role="list"
+       aria-label="The six ranks of the Ascension Cycle">
+
+      <li class="ao-card" data-rank="1">
+        <div class="ao-card__stamp">
+          <img src="assets/ascension-overdrive/rank-1-awakened.png"
+               alt="" width="1254" height="1254" loading="lazy" decoding="async">
         </div>
-        <span class="asc-arrow">→</span>
-      </div>
-      <div class="asc-stage">
-        <div class="asc-node">
-          <span class="asc-label">Named</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="2" data-variant="chip" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></span>
+        <div class="ao-card__rankline">
+          <span class="ao-card__num">1★</span>
+          <span class="ao-card__name">Awakened</span>
         </div>
-        <span class="asc-arrow">→</span>
-      </div>
-      <div class="asc-stage">
-        <div class="asc-node">
-          <span class="asc-label">Evolved</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="3" data-variant="chip" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span></span></span>
+        <span class="ao-card__starbar" aria-hidden="true">
+          <span data-on>★</span><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </span>
+        <div class="ao-card__tags">
+          <span class="ao-tag">verified as real skill</span>
         </div>
-        <span class="asc-arrow">→</span>
-      </div>
-      <div class="asc-stage">
-        <div class="asc-node">
-          <span class="asc-label">Hardened</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="4" data-variant="chip" role="img" aria-label="Rank 4 of 6"><span class="rank-badge__chip">4★</span></span></span>
+        <p class="ao-card__caption">A candidate the registry has seen and recognised.</p>
+      </li>
+
+      <li class="ao-card" data-rank="2">
+        <div class="ao-card__stamp">
+          <img src="assets/ascension-overdrive/rank-4-evolved.png"
+               alt="" width="1254" height="1254" loading="lazy" decoding="async">
         </div>
-        <span class="asc-arrow">→</span>
-      </div>
-      <div class="asc-stage">
-        <div class="asc-node">
-          <span class="asc-label">Transcendent</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="5" data-variant="chip" role="img" aria-label="Rank 5 of 6"><span class="rank-badge__chip">5★</span></span></span>
+        <div class="ao-card__rankline">
+          <span class="ao-card__num">2★</span>
+          <span class="ao-card__name">Named</span>
         </div>
-        <span class="asc-arrow">→</span>
-      </div>
-      <div class="asc-stage">
-        <div class="asc-node is-apex">
-          <span class="asc-label">Apex</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="6" data-variant="chip" role="img" aria-label="Rank 6 of 6"><span class="rank-badge__chip">6★</span></span></span>
+        <span class="ao-card__starbar" aria-hidden="true">
+          <span data-on>★</span><span data-on>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </span>
+        <div class="ao-card__tags">
+          <span class="ao-tag">RPG title assigned</span>
+          <span class="ao-tag">Grade C+ evidence</span>
+        </div>
+        <p class="ao-card__caption">Given a name, a signet, a place in the ledger.</p>
+      </li>
+
+      <li class="ao-card" data-rank="3">
+        <div class="ao-card__stamp">
+          <img src="assets/ascension-overdrive/rank-2-named.png"
+               alt="" width="1254" height="1254" loading="lazy" decoding="async">
+        </div>
+        <div class="ao-card__rankline">
+          <span class="ao-card__num">3★</span>
+          <span class="ao-card__name">Evolved</span>
+        </div>
+        <span class="ao-card__starbar" aria-hidden="true">
+          <span data-on>★</span><span data-on>★</span><span data-on>★</span><span>★</span><span>★</span><span>★</span>
+        </span>
+        <div class="ao-card__tags">
+          <span class="ao-tag">Grade B+</span>
+          <span class="ao-tag">verified blob link</span>
+        </div>
+        <p class="ao-card__caption">Reproducible, installable, traceable to a file.</p>
+      </li>
+
+      <li class="ao-card" data-rank="4">
+        <div class="ao-card__stamp">
+          <img src="assets/ascension-overdrive/rank-3-hardened.png"
+               alt="" width="1254" height="1254" loading="lazy" decoding="async">
+        </div>
+        <div class="ao-card__rankline">
+          <span class="ao-card__num">4★</span>
+          <span class="ao-card__name">Hardened</span>
+        </div>
+        <span class="ao-card__starbar" aria-hidden="true">
+          <span data-on>★</span><span data-on>★</span><span data-on>★</span><span data-on>★</span><span>★</span><span>★</span>
+        </span>
+        <div class="ao-card__tags">
+          <span class="ao-tag">Grade B+ rank-floor</span>
+          <span class="ao-tag">security-reviewed</span>
+        </div>
+        <p class="ao-card__caption">Production-grade, defended, kept.</p>
+      </li>
+
+      <li class="ao-card" data-rank="5">
+        <div class="ao-card__stamp">
+          <img src="assets/ascension-overdrive/rank-5-transcendent.png"
+               alt="" width="1254" height="1254" loading="lazy" decoding="async">
+        </div>
+        <div class="ao-card__rankline">
+          <span class="ao-card__num">5★</span>
+          <span class="ao-card__name">Transcendent</span>
+        </div>
+        <span class="ao-card__starbar" aria-hidden="true">
+          <span data-on>★</span><span data-on>★</span><span data-on>★</span><span data-on>★</span><span data-on>★</span><span>★</span>
+        </span>
+        <div class="ao-card__tags">
+          <span class="ao-tag">Grade B+ rank-floor</span>
+          <span class="ao-tag">enterprise-ready</span>
+        </div>
+        <p class="ao-card__caption">Mastery, often the capstone of an Ultimate.</p>
+      </li>
+
+      <li class="ao-card ao-card--apex" data-rank="6">
+        <div class="ao-card__stamp">
+          <!-- No standalone 6★ stamp — the Apex Gate arch below IS the stamp.
+               A small crown-of-the-ladder placeholder keeps the card visually
+               balanced with its siblings; the arch composition carries the
+               semantic weight. -->
+          <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);color:var(--apex-gold);font-size:2.6rem;" aria-hidden="true">✧</div>
+        </div>
+        <div class="ao-card__rankline">
+          <span class="ao-card__num">6★</span>
+          <span class="ao-card__name">Apex</span>
+        </div>
+        <span class="ao-card__starbar" aria-hidden="true">
+          <span data-on>★</span><span data-on>★</span><span data-on>★</span><span data-on>★</span><span data-on>★</span><span data-on>★</span>
+        </span>
+        <div class="ao-card__tags">
+          <span class="ao-tag">Grade S</span>
+          <span class="ao-tag">6-predicate gate</span>
+        </div>
+        <p class="ao-card__caption">The pinnacle. Passed by the six predicates below.</p>
+      </li>
+
+    </ol>
+
+    <!-- Plane 0b · Unique branch (three cards, one class deepening) -->
+    <div class="ao-branch-wrap">
+      <p class="ao-branch-eyebrow">Unique · the parallel prestige class</p>
+      <p class="ao-branch-desc">
+        A Basic or Extra skill that reaches 4★ without ever becoming a Suite
+        earns Unique. The class stays the same as it climbs; its state deepens
+        from structural, through gravitational, to impossible.
+      </p>
+
+      <div class="ao-branch" role="list" aria-label="The three states of the Unique class">
+        <div class="ao-branch__hairline" aria-hidden="true"></div>
+
+        <div class="ao-ucard" data-rank="4" role="listitem">
+          <div class="ao-ucard__stamp">
+            <img src="assets/ascension-overdrive/unique-4-structural.png"
+                 alt="" width="1254" height="1254" loading="lazy" decoding="async">
+            <video class="ao-uvid"
+                   loop muted playsinline preload="none"
+                   poster="assets/ascension-overdrive/unique-4-structural.png"
+                   aria-hidden="true">
+              <source data-src="assets/ascension-overdrive/unique-4-loop.mp4" type="video/mp4">
+            </video>
+          </div>
+          <span class="ao-ucard__num">4★</span>
+          <span class="ao-ucard__name">Structural</span>
+          <div class="ao-ucard__tags">
+            <span class="ao-ucard__tag">Basic or Extra</span>
+            <span class="ao-ucard__tag">not a Suite</span>
+            <span class="ao-ucard__tag">4★+</span>
+          </div>
+          <p class="ao-ucard__caption">A parallel prestige class. Not a rank step.</p>
+        </div>
+
+        <div class="ao-ucard" data-rank="5" role="listitem">
+          <div class="ao-ucard__stamp">
+            <img src="assets/ascension-overdrive/unique-5-gravitational.png"
+                 alt="" width="1254" height="1254" loading="lazy" decoding="async">
+            <!-- unique-5-loop.mp4 is 19MB pending recompression; poster-only. -->
+            <video class="ao-uvid"
+                   loop muted playsinline preload="none"
+                   data-motion-pending="true"
+                   poster="assets/ascension-overdrive/unique-5-gravitational.png"
+                   aria-hidden="true">
+              <source data-src="assets/ascension-overdrive/unique-5-loop.mp4" type="video/mp4">
+            </video>
+          </div>
+          <span class="ao-ucard__num">5★</span>
+          <span class="ao-ucard__name">Gravitational</span>
+          <div class="ao-ucard__tags">
+            <span class="ao-ucard__tag">Transcendent Unique</span>
+            <span class="ao-ucard__tag">enterprise-ready</span>
+            <span class="ao-ucard__tag">non-Suite</span>
+          </div>
+          <p class="ao-ucard__caption">The Unique passes through Transcendent. Depth becomes gravity.</p>
+        </div>
+
+        <div class="ao-ucard" data-rank="6" role="listitem">
+          <div class="ao-ucard__stamp">
+            <img src="assets/ascension-overdrive/unique-6-impossible.png"
+                 alt="" width="1254" height="1254" loading="lazy" decoding="async">
+            <video class="ao-uvid"
+                   loop muted playsinline preload="none"
+                   poster="assets/ascension-overdrive/unique-6-impossible.png"
+                   aria-hidden="true">
+              <source data-src="assets/ascension-overdrive/unique-6-loop.mp4" type="video/mp4">
+            </video>
+          </div>
+          <span class="ao-ucard__num">6★</span>
+          <span class="ao-ucard__name">Impossible</span>
+          <div class="ao-ucard__tags">
+            <span class="ao-ucard__tag">Apex Unique</span>
+            <span class="ao-ucard__tag">Grade S</span>
+            <span class="ao-ucard__tag">never fused</span>
+          </div>
+          <p class="ao-ucard__caption">Apex without fusion. The rarest form.</p>
         </div>
       </div>
     </div>
+
+    <!-- Plane +1 · Apex Gate panel -->
+    <div class="ao-gate" aria-labelledby="ao-gate-title">
+      <p class="ao-gate__eyebrow">The Apex Gate · 6 predicates</p>
+      <h3 id="ao-gate-title" class="ao-gate__title">Six conditions. All required.</h3>
+      <p class="ao-gate__lede">
+        The step from 5★ Transcendent to 6★ Apex is not another rank
+        threshold; it is a gate. Every predicate below must evaluate true.
+        Partial satisfaction is logged, never promoted.
+      </p>
+
+      <figure class="ao-gate__arch">
+        <img src="assets/ascension-overdrive/apex-arch.png"
+             alt="An atlas-plate lineup of columns, an arch, a gate, an obelisk, and a stele: monuments the Apex candidate must pass"
+             width="1536" height="1024" loading="lazy" decoding="async">
+        <figcaption class="ao-gate__arch-caption">Plate ⅰ · monuments of promotion</figcaption>
+      </figure>
+
+      <ol class="ao-gate__predicates"
+         role="list"
+         aria-label="Apex Gate predicates">
+        <li class="ao-pred" data-step="1" role="listitem">
+          <span class="ao-pred__id">aGradedOriginsGte5</span>
+          <span class="ao-pred__desc">At least five fusion-origin components each hold Grade A or higher.</span>
+        </li>
+        <li class="ao-pred" data-step="2" role="listitem">
+          <span class="ao-pred__id">directNestedSuiteGte1</span>
+          <span class="ao-pred__desc">At least one directly-nested Suite sits among the origins.</span>
+        </li>
+        <li class="ao-pred" data-step="3" role="listitem">
+          <span class="ao-pred__id">depth2OnlyReachableGte1</span>
+          <span class="ao-pred__desc">At least one origin is reachable only at depth two, not by top-level install.</span>
+        </li>
+        <li class="ao-pred" data-step="4" role="listitem">
+          <span class="ao-pred__id">overallGradeS</span>
+          <span class="ao-pred__desc">Overall Trust Grade S; the diversity gate satisfied at Trust Magnitude ≥ 250.</span>
+        </li>
+        <li class="ao-pred" data-step="5" role="listitem">
+          <span class="ao-pred__id">sourceTenureDaysGte180AorS</span>
+          <span class="ao-pred__desc">At least one A- or S-graded evidence row has been public for ≥ 180 days.</span>
+        </li>
+        <li class="ao-pred" data-step="6" role="listitem">
+          <span class="ao-pred__id">apexPromotionPrSigned</span>
+          <span class="ao-pred__desc">The promotion pull request is signed by the maintainer at promotion time.</span>
+        </li>
+      </ol>
+
+      <p class="ao-gate__coda">Six predicates. All required. No exceptions.</p>
+    </div>
+
+    <p class="ao-refs">
+      <a href="codex/trust-methodology.html#apex-gate">Read the full Apex Gate specification →</a>
+    </p>
+
   </section>
 
   <div class="section-divider"></div>
@@ -1004,6 +1275,8 @@
   <script src="js/ui.js?v=6.1.3"></script>
   <script src="js/page-ia.js?v=6.1.3"></script>
   <script src="js/plaque-reveal.js?v=6.1.3" defer></script>
+  <!-- Ascension Overdrive motion + video lazy-load (Issue #975). -->
+  <script src="js/ascension-overdrive.js?v=6.1.3" defer></script>
 
   <!-- ── Share modal (single instance) — opened from plaque__share-btn ── -->
   <div class="share-modal" hidden role="dialog" aria-modal="true" aria-labelledby="share-modal-title" id="shareModal">

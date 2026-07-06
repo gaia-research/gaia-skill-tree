@@ -1,0 +1,801 @@
+/* ============================================================
+   Ascension Cycle · Overdrive (Issue #975, PR: first-shape preview)
+   ------------------------------------------------------------
+   Five-plane atlas plate for the #ascension section on the homepage.
+   Owned by: docs/js/ascension-overdrive.js (motion) + inline markup
+   in docs/index.html.
+
+   Design source: founder/handovers/design-v6.1.1-ascension-overdrive-shape.md
+   Assets:       docs/assets/ascension-overdrive/*.{png,mp4}
+   Content:      META.md §1.1 / §2.4 (rank ladder + Star Bar tags)
+                 founder/handovers/G7_TRUST_TAXONOMY_RFC.md §11.12 (predicates)
+
+   Token discipline: only --rank-N, --tier-*, --apex-gold, --evidence-gold,
+   --font-{display,body,mono}, --bg, --surface, --border, --text, --muted.
+   No new hex codes. No mix-blend-mode PNG keying. No glassmorphism.
+   ============================================================ */
+
+/* Section shell ------------------------------------------------- */
+.ao-plate {
+  position: relative;
+  isolation: isolate;              /* fresh stacking context for planes */
+  overflow: hidden;                /* trims ledger + risers to the plate */
+  padding: 5rem 1.25rem 6rem;      /* fixed-nav clearance ladder (CLAUDE.md) */
+  scroll-margin-top: 5rem;         /* nav highlight jump target */
+  text-align: center;
+}
+
+@media (min-width: 900px) {
+  .ao-plate {
+    min-height: 88vh;
+    padding: 8rem 2rem 8rem;
+  }
+}
+
+/* Plane -2 · Ledger paper base --------------------------------- */
+.ao-ledger {
+  position: absolute;
+  inset: 0;
+  background-image: url('../assets/ascension-overdrive/ledger-texture.png');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  opacity: 0.28;                   /* per spec, opacity does the tint */
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Plane -1 · Ascending risers (SVG, animated) ------------------ */
+.ao-risers {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  will-change: transform;          /* removed after motion completes */
+}
+
+.ao-risers__line {
+  fill: none;
+  stroke-width: 1;
+  stroke-linecap: round;
+  opacity: 0.55;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;         /* hidden until motion fires */
+  transition: stroke-dashoffset 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ao-risers__line[data-rank="1"] { stroke: var(--rank-1); }
+.ao-risers__line[data-rank="2"] { stroke: var(--rank-2); }
+.ao-risers__line[data-rank="3"] { stroke: var(--rank-3); }
+.ao-risers__line[data-rank="4"] { stroke: var(--rank-4); }
+.ao-risers__line[data-rank="5"] { stroke: var(--rank-5); }
+.ao-risers__line[data-rank="6"] { stroke: var(--apex-gold); }
+
+.ao-plate.is-playing .ao-risers__line { stroke-dashoffset: 0; }
+.ao-plate.is-playing .ao-risers__line[data-rank="1"] { transition-delay: 0ms; }
+.ao-plate.is-playing .ao-risers__line[data-rank="2"] { transition-delay: 80ms; }
+.ao-plate.is-playing .ao-risers__line[data-rank="3"] { transition-delay: 160ms; }
+.ao-plate.is-playing .ao-risers__line[data-rank="4"] { transition-delay: 240ms; }
+.ao-plate.is-playing .ao-risers__line[data-rank="5"] { transition-delay: 320ms; }
+.ao-plate.is-playing .ao-risers__line[data-rank="6"] { transition-delay: 400ms; }
+
+/* Plane +2 · Gold thread (SVG overlay) ------------------------- */
+.ao-thread {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;                      /* over risers, under cards */
+}
+
+.ao-thread__path {
+  fill: none;
+  stroke: var(--apex-gold);
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 6px rgba(var(--apex-gold-rgb), 0.4));
+  stroke-dasharray: 3200;
+  stroke-dashoffset: 3200;
+  transition: stroke-dashoffset 1400ms cubic-bezier(0.22, 1, 0.36, 1) 1100ms;
+}
+.ao-plate.is-playing .ao-thread__path { stroke-dashoffset: 0; }
+
+/* Header ------------------------------------------------------- */
+.ao-header {
+  position: relative;
+  z-index: 4;
+  margin: 0 auto 3.5rem;
+  max-width: 44rem;
+}
+
+.ao-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+
+.ao-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.4vw, 3rem);
+  font-weight: 500;
+  color: var(--text);
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.ao-sub {
+  font-family: var(--font-body);
+  font-size: clamp(0.98rem, 1.4vw, 1.1rem);
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Plane 0 · Main-line rank cards (row of six) ------------------ */
+.ao-mainline {
+  position: relative;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+  max-width: 1240px;
+  margin: 0 auto 3rem;
+  padding: 0 0.5rem;
+  list-style: none;
+}
+
+.ao-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem 0.75rem 1.15rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.ao-card__stamp {
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 128px;
+  border-radius: 8px;
+  background: #f4ede1;             /* warm ledger cream, matches opaque PNG bg */
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ao-card__stamp img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  mix-blend-mode: normal;          /* no keying; opaque PNGs sit as-is */
+}
+
+.ao-card__rankline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.ao-card__num {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text);
+}
+
+.ao-card__name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+
+.ao-card__starbar {
+  display: inline-flex;
+  gap: 3px;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+.ao-card__starbar > span {
+  color: rgba(255, 255, 255, 0.14);
+}
+.ao-card__starbar > span[data-on] {
+  color: var(--rank-1);
+  text-shadow: 0 0 4px currentColor;
+}
+.ao-card[data-rank="1"] .ao-card__starbar > span[data-on] { color: var(--rank-1); }
+.ao-card[data-rank="2"] .ao-card__starbar > span[data-on] { color: var(--rank-2); }
+.ao-card[data-rank="3"] .ao-card__starbar > span[data-on] { color: var(--rank-3); }
+.ao-card[data-rank="4"] .ao-card__starbar > span[data-on] { color: var(--rank-4); }
+.ao-card[data-rank="5"] .ao-card__starbar > span[data-on] { color: var(--rank-5); }
+.ao-card[data-rank="6"] .ao-card__starbar > span[data-on] { color: var(--apex-gold); }
+
+.ao-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.3rem;
+  margin: 0.15rem 0 0;
+}
+
+.ao-tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.18rem 0.5rem;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.ao-card__caption {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--muted);
+  margin: 0.15rem 0 0;
+  max-width: 14ch;
+}
+
+/* Apex card — visually heavier, gold-edged --------------------- */
+.ao-card--apex {
+  border-color: rgba(var(--apex-gold-rgb), 0.5);
+  background:
+    linear-gradient(180deg,
+      rgba(var(--apex-gold-rgb), 0.04) 0%,
+      rgba(var(--apex-gold-rgb), 0.01) 100%),
+    var(--surface);
+  box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.15),
+              0 6px 40px rgba(var(--apex-gold-rgb), 0.06);
+}
+
+.ao-card--apex .ao-card__num,
+.ao-card--apex .ao-card__name {
+  color: var(--apex-gold);
+}
+
+.ao-card--apex .ao-card__stamp {
+  background: #1a1512;             /* warm dark to match apex-arch.png bg */
+  border-color: rgba(var(--apex-gold-rgb), 0.35);
+}
+
+.ao-card--apex .ao-tag {
+  color: var(--apex-gold);
+  border-color: rgba(var(--apex-gold-rgb), 0.35);
+  background: rgba(var(--apex-gold-rgb), 0.05);
+}
+
+.ao-card--apex .ao-card__caption {
+  color: rgba(var(--apex-gold-rgb), 0.75);
+}
+
+.ao-card--apex .ao-card__num::after {
+  /* pulse target, controlled by .is-apex-pulsed class */
+  content: '';
+}
+.ao-plate.is-apex-pulsed .ao-card--apex {
+  animation: ao-apex-pulse 600ms cubic-bezier(0.16, 1, 0.3, 1) 1;
+}
+@keyframes ao-apex-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(var(--apex-gold-rgb), 0.6),
+                     0 6px 40px rgba(var(--apex-gold-rgb), 0.06); }
+  100% { box-shadow: 0 0 0 60px rgba(var(--apex-gold-rgb), 0),
+                     0 6px 40px rgba(var(--apex-gold-rgb), 0.06); }
+}
+
+/* Plane 0b · Unique branch ------------------------------------- */
+.ao-branch-wrap {
+  position: relative;
+  z-index: 4;
+  max-width: 1240px;
+  margin: 0 auto 4rem;
+  padding: 0 0.5rem;
+}
+
+/* Drop hairline that connects the mainline (between cols 3/4) down to
+   the top of the Unique branch. Same violet as the connecting hairline
+   so the branch reads as one path forking off the ladder. */
+.ao-branch-wrap::before {
+  content: '';
+  position: absolute;
+  top: -2.6rem;
+  left: calc((100% / 6) * 3.5 - 0.25rem);
+  width: 1px;
+  height: 2.2rem;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(var(--tier-unique-rgb), 0.55) 40%,
+    rgba(var(--tier-unique-rgb), 0.55) 100%);
+  pointer-events: none;
+}
+@media (max-width: 899px) {
+  .ao-branch-wrap::before { display: none; }
+}
+
+.ao-branch-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--tier-unique);
+  text-transform: uppercase;
+  margin: 0 0 0.35rem;
+  text-align: center;
+}
+.ao-branch-eyebrow::before {
+  content: '◉ ';
+  font-size: 0.85rem;
+  vertical-align: middle;
+}
+
+.ao-branch-desc {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-align: center;
+  max-width: 46rem;
+  margin: 0 auto 2rem;
+}
+
+.ao-branch {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+/* Branch hairline connecting the three cards ------------------- */
+.ao-branch__hairline {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(var(--tier-unique-rgb), 0.55) 12%,
+    rgba(var(--tier-unique-rgb), 0.55) 88%,
+    transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ao-ucard {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1.1rem 0.85rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid rgba(var(--tier-unique-rgb), 0.35);
+  background: var(--surface);
+  text-align: center;
+}
+
+.ao-ucard__stamp {
+  position: relative;
+  width: 100%;
+  max-width: 168px;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  background: #f4ede1;
+  border: 1px solid rgba(var(--tier-unique-rgb), 0.3);
+  overflow: hidden;
+}
+
+.ao-ucard__stamp video,
+.ao-ucard__stamp img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.ao-ucard__stamp video {
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+.ao-ucard__stamp video.is-live {
+  opacity: 1;
+}
+.ao-ucard__stamp img {
+  z-index: 0;                      /* poster below video */
+}
+
+.ao-ucard__num {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--tier-unique);
+  line-height: 1;
+}
+.ao-ucard__num::before {
+  content: '◉ ';
+  font-size: 0.85em;
+}
+
+.ao-ucard__name {
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.ao-ucard__tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.ao-ucard__tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--tier-unique);
+  border: 1px solid rgba(var(--tier-unique-rgb), 0.4);
+  background: rgba(var(--tier-unique-rgb), 0.06);
+  border-radius: 999px;
+  padding: 0.18rem 0.5rem;
+  white-space: nowrap;
+}
+
+.ao-ucard__caption {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--muted);
+  max-width: 22ch;
+  line-height: 1.4;
+  margin: 0.15rem 0 0;
+}
+
+/* Unique state gradation ---------------------------------------
+   The class stays violet; the CARD deepens. 4★ structural (violet),
+   5★ gravitational (black hole + gold accretion), 6★ impossible
+   (white singularity inside void). */
+.ao-ucard[data-rank="5"] {
+  background: radial-gradient(circle at center, #0a0403 0%, #050202 100%);
+  border-color: rgba(var(--apex-gold-rgb), 0.28);
+}
+.ao-ucard[data-rank="5"] .ao-ucard__stamp {
+  background: #0a0605;
+  border-color: rgba(var(--apex-gold-rgb), 0.4);
+  box-shadow: inset 0 0 40px rgba(var(--apex-gold-rgb), 0.06);
+}
+.ao-ucard[data-rank="5"] .ao-ucard__num {
+  color: var(--apex-gold);
+}
+.ao-ucard[data-rank="5"] .ao-ucard__tag {
+  color: var(--apex-gold);
+  border-color: rgba(var(--apex-gold-rgb), 0.35);
+  background: rgba(var(--apex-gold-rgb), 0.05);
+}
+
+.ao-ucard[data-rank="6"] {
+  background: radial-gradient(circle at center, #050202 0%, #010101 100%);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+.ao-ucard[data-rank="6"] .ao-ucard__stamp {
+  background: #050202;
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: inset 0 0 40px rgba(var(--apex-gold-rgb), 0.04),
+              inset 0 0 6px rgba(255, 255, 255, 0.08);
+}
+.ao-ucard[data-rank="6"] .ao-ucard__num {
+  color: var(--text);
+}
+.ao-ucard[data-rank="6"] .ao-ucard__num::before {
+  color: var(--text);
+}
+.ao-ucard[data-rank="6"] .ao-ucard__tag {
+  color: var(--text);
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.03);
+}
+.ao-ucard[data-rank="6"] .ao-ucard__name {
+  color: var(--text);
+}
+
+/* Plane +1 · Apex Gate panel ----------------------------------- */
+.ao-gate {
+  position: relative;
+  z-index: 4;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 3rem;
+  border-radius: 14px;
+  border: 1px solid rgba(var(--apex-gold-rgb), 0.28);
+  background:
+    linear-gradient(180deg,
+      rgba(var(--apex-gold-rgb), 0.03) 0%,
+      transparent 60%),
+    rgba(3, 7, 18, 0.65);          /* --bg at 65% for subtle mask over ledger */
+  overflow: hidden;
+}
+
+.ao-gate__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  color: var(--apex-gold);
+  text-transform: uppercase;
+  margin: 0 0 0.6rem;
+  text-align: center;
+}
+
+.ao-gate__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  font-weight: 500;
+  color: var(--apex-gold);
+  margin: 0 0 0.5rem;
+  text-align: center;
+  letter-spacing: -0.005em;
+}
+
+.ao-gate__lede {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-align: center;
+  max-width: 42rem;
+  margin: 0 auto 2rem;
+  line-height: 1.55;
+}
+
+/* Framed inset for apex-arch.png ------------------------------- */
+.ao-gate__arch {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto 2.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(var(--apex-gold-rgb), 0.25);
+  background: #efe7d8;             /* matches opaque PNG cream ground */
+  padding: 4px;
+  overflow: hidden;
+  box-shadow: 0 12px 60px rgba(0, 0, 0, 0.35),
+              inset 0 0 0 1px rgba(var(--apex-gold-rgb), 0.15);
+}
+
+.ao-gate__arch img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.ao-gate__arch-caption {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  color: rgba(var(--apex-gold-rgb), 0.7);
+  text-transform: uppercase;
+  margin: 0.8rem 0 0;
+  text-align: center;
+}
+
+/* Brass-tag staircase ------------------------------------------ */
+.ao-gate__predicates {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.ao-pred {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(11rem, 15rem) 1fr;
+  gap: 0.9rem;
+  align-items: baseline;
+  padding: 0.7rem 1rem 0.75rem 1.1rem;
+  border-left: 2px solid var(--border);
+  background: rgba(255, 255, 255, 0.015);
+  border-radius: 0 6px 6px 0;
+  transition: border-color 260ms ease, background 260ms ease;
+}
+
+/* Staircase indent — each row nudges further right up to a cap ---
+   Total travel is ~72px across 6 steps, so it reads as an ascending
+   climb without pushing the last row off the panel. */
+.ao-pred[data-step="1"] { margin-left: 0;    }
+.ao-pred[data-step="2"] { margin-left: 14px; }
+.ao-pred[data-step="3"] { margin-left: 28px; }
+.ao-pred[data-step="4"] { margin-left: 42px; }
+.ao-pred[data-step="5"] { margin-left: 56px; }
+.ao-pred[data-step="6"] { margin-left: 72px; }
+
+.ao-pred__id {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--tier-extra);
+  letter-spacing: 0.005em;
+  transition: color 240ms ease;
+}
+
+.ao-pred__desc {
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+/* Illuminated state — set once thread crosses the arch ---------- */
+.ao-pred.is-lit {
+  border-left-color: rgba(var(--apex-gold-rgb), 0.65);
+  background: rgba(var(--apex-gold-rgb), 0.04);
+}
+.ao-pred.is-lit .ao-pred__id {
+  color: var(--apex-gold);
+  animation: ao-brass-flash 240ms ease-out 1;
+}
+@keyframes ao-brass-flash {
+  0%   { text-shadow: 0 0 0 rgba(var(--apex-gold-rgb), 0); }
+  40%  { text-shadow: 0 0 8px rgba(var(--apex-gold-rgb), 0.9); }
+  100% { text-shadow: 0 0 4px rgba(var(--apex-gold-rgb), 0.3); }
+}
+
+.ao-gate__coda {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--apex-gold);
+  text-align: center;
+  margin: 2.2rem auto 0;
+  letter-spacing: 0.005em;
+  max-width: 40rem;
+}
+
+/* Cross-refs / footer of section -------------------------------- */
+.ao-refs {
+  position: relative;
+  z-index: 4;
+  margin: 2.5rem auto 0;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+}
+.ao-refs a {
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--border);
+  padding-bottom: 1px;
+  transition: color 200ms ease, border-color 200ms ease;
+}
+.ao-refs a:hover,
+.ao-refs a:focus-visible {
+  color: var(--apex-gold);
+  border-bottom-color: rgba(var(--apex-gold-rgb), 0.5);
+}
+
+/* Responsive collapse ------------------------------------------ */
+@media (max-width: 899px) {
+  .ao-mainline {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    max-width: 26rem;
+  }
+  .ao-card {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    padding: 0.85rem;
+    gap: 1rem;
+  }
+  .ao-card__stamp {
+    max-width: 72px;
+    flex-shrink: 0;
+  }
+  .ao-card__rankline,
+  .ao-card__tags {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .ao-card__tags { flex-direction: row; flex-wrap: wrap; }
+  .ao-card__caption { max-width: none; }
+
+  .ao-branch {
+    grid-template-columns: 1fr;
+    max-width: 26rem;
+    margin: 0 auto;
+    gap: 0.75rem;
+  }
+  .ao-branch__hairline {
+    left: 50%;
+    right: auto;
+    top: 5%;
+    bottom: 5%;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(var(--tier-unique-rgb), 0.55) 12%,
+      rgba(var(--tier-unique-rgb), 0.55) 88%,
+      transparent 100%);
+  }
+  .ao-ucard__stamp { max-width: 132px; }
+
+  .ao-gate {
+    padding: 2rem 1rem 2.25rem;
+    margin: 0 0.25rem;
+  }
+  .ao-pred {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+    padding: 0.65rem 0.85rem;
+  }
+  /* Kill the staircase indent on mobile — one-column feed */
+  .ao-pred[data-step] { margin-left: 0; }
+
+  .ao-risers,
+  .ao-thread {
+    display: none;                 /* motion collapses; static rows tell the story */
+  }
+}
+
+/* Reduced-motion composed rest --------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .ao-plate,
+  .ao-plate * {
+    animation: none !important;
+    transition: none !important;
+  }
+  .ao-risers__line { stroke-dashoffset: 0; }
+  .ao-thread__path { stroke-dashoffset: 0; }
+  .ao-pred {
+    border-left-color: rgba(var(--apex-gold-rgb), 0.65);
+    background: rgba(var(--apex-gold-rgb), 0.04);
+  }
+  .ao-pred .ao-pred__id { color: var(--apex-gold); }
+  .ao-ucard__stamp video { display: none; }
+}
+
+/* Already-played state (sessionStorage guard) ------------------
+   Pin the composed rest state without animating. Distinct from
+   .is-playing so we can skip transitions and skip the pulse. */
+.ao-plate.is-played .ao-risers__line,
+.ao-plate.is-played .ao-thread__path {
+  transition: none;
+  stroke-dashoffset: 0;
+}
+.ao-plate.is-played .ao-pred {
+  transition: none;
+  border-left-color: rgba(var(--apex-gold-rgb), 0.65);
+  background: rgba(var(--apex-gold-rgb), 0.04);
+}
+.ao-plate.is-played .ao-pred .ao-pred__id {
+  color: var(--apex-gold);
+  animation: none;
+}
+.ao-plate.is-played .ao-card--apex {
+  animation: none;
+}
