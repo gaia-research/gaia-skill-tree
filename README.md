@@ -168,7 +168,7 @@ curl https://gaiaskilltree.com/api/v1/leaderboard.json
 **1. CLI
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `5.11.16`.
+Current Gaia CLI version: `5.11.17`.
 
 ```bash
 curl -fsSL https://gaiaskilltree.com/install.sh | sh
