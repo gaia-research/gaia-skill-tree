@@ -4,34 +4,52 @@
   "name": "MMLU (Massive Multitask Language Understanding)",
   "unit": "pct",
   "provenance": "mirrored",
+  "methodologyUrl": "/benchmarks/mmlu-v1/",
   "sourceUrl": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard",
   "sourceSnapshotDate": "2024-03-01",
-  "methodologyUrl": "/benchmarks/mmlu-v1.md",
   "notes": "5-shot MMLU average scores sourced from the HuggingFace Open LLM Leaderboard snapshot dated 2024-03-01. Provenance is 'mirrored': these rows are citation-only and are permanently excluded from Trust Magnitude. See methodologyUrl for the full provenance rationale.",
   "rows": [
     {
       "skillId": "anthropic/skill-creator",
       "score": 86.8,
-      "modelRef": "claude-3-opus-20240229",
+      "unit": "pct",
+      "provenance": "mirrored",
       "attestor": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard",
       "datasetHash": "ab313191b8c989dea045d52eeb8896a4646eb66140b0f7723b8f0ebebea43eb5",
-      "benchmarkInputHash": "6fa69c944f0e74add4ed3a136321e0247224eb1a8cebab1e0a85763532d6daf5"
+      "benchmarkInputHash": "6fa69c944f0e74add4ed3a136321e0247224eb1a8cebab1e0a85763532d6daf5",
+      "runAt": "2024-03-01T00:00:00Z",
+      "harnessUrl": null,
+      "percentile": null,
+      "modelRef": null,
+      "notes": null
     },
     {
       "skillId": "openai/few-shot-learning",
       "score": 86.4,
-      "modelRef": "gpt-4-0125-preview",
+      "unit": "pct",
+      "provenance": "mirrored",
       "attestor": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard",
       "datasetHash": "ab313191b8c989dea045d52eeb8896a4646eb66140b0f7723b8f0ebebea43eb5",
-      "benchmarkInputHash": "ededff463522c1793c65ce5c79411e4c1f5bbf4c7f369466a8dafbb61a9faca4"
+      "benchmarkInputHash": "ededff463522c1793c65ce5c79411e4c1f5bbf4c7f369466a8dafbb61a9faca4",
+      "runAt": "2024-03-01T00:00:00Z",
+      "harnessUrl": null,
+      "percentile": null,
+      "modelRef": null,
+      "notes": null
     },
     {
       "skillId": "huggingface/semantic-cache",
       "score": 63.9,
-      "modelRef": "mistral-7b-v0.1",
+      "unit": "pct",
+      "provenance": "mirrored",
       "attestor": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard",
       "datasetHash": "ab313191b8c989dea045d52eeb8896a4646eb66140b0f7723b8f0ebebea43eb5",
-      "benchmarkInputHash": "641e81ab9f021cec48470ee367820d5d8da81b22c92bbe31b0cf1e6d214066ac"
+      "benchmarkInputHash": "641e81ab9f021cec48470ee367820d5d8da81b22c92bbe31b0cf1e6d214066ac",
+      "runAt": "2024-03-01T00:00:00Z",
+      "harnessUrl": null,
+      "percentile": null,
+      "modelRef": null,
+      "notes": null
     }
   ]
 }

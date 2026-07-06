@@ -102,3 +102,36 @@ Every dispatched agent must append an entry at close. Format:
 - JSON-LD injection skips dirs: samples/, archive/, audits/, og/, assets/. If you add a new public dir, check those skip rules.
 - The sitemap LAST_MOD is frozen to "2026-07-05" — this is intentional. Do NOT change it to a dynamic date (CLAUDE.md §Decorative).
 - `docs/skills/index.js` uses `ROOT_PATH = '../'` assumption (depth 1). If you move the page deeper, update this.
+
+
+## 2026-07-05 · sonnet-w4 · W4 Benchmark Leaderboard pages (#907)
+
+**What I did:** Landed the full W4 benchmark leaderboard surface in 6 commits on `dev/sprint-d-benchmark-leaderboard`. PR open → `dev/sprint-d`. **Marcus must review before merge.**
+
+**Commits:**
+1. `f879b4a29` — `scripts/generateBenchmarkProjection.py` (~245 LoC): reads `registry/named/**/*.md`, collects `benchmark-result` evidence rows grouped by benchmarkId, writes `docs/api/v1/benchmarks/<slug>.json` per benchmark + updates `index.json`. Row shape: skillId, score, unit, provenance, attestor, datasetHash, benchmarkInputHash, runAt, harnessUrl, percentile, modelRef, notes. Sorted score DESC. `--check` flag. Wired into `build_docs.py::build_benchmark_projection()` before `build_trending_projection`.
+2. `7a7af0829` — First generation of `docs/api/v1/benchmarks/humaneval.json`. Contains addy-osmani/code-simplification row (provenance ci-reproduced, score 0.5 pass@1, full hashes). Refreshed `mmlu.json` to match new row shape. Updated `index.json`.
+3. `6c3606d52` — `docs/benchmarks/_shared/leaderboard.js`: shared renderer (fetches `api/v1/benchmarks/<slug>.json`, renders Verified / Pending CI / Cited sections). `docs/benchmarks/humaneval/index.html`: depth-2, mounts.js before site-nav.js, data-benchmark=humaneval.
+4. `04bd62db5` — `docs/benchmarks/mmlu/index.html`: mirrors humaneval page, data-benchmark=mmlu. Cited-only banner since all MMLU rows are mirrored.
+5. `fb402414d` — `docs/benchmarks/index.html` updated: Live Leaderboards tile section added (JS fetches index.json, renders one tile per benchmark with provenance badge + methodology link + "View leaderboard →" button). Status badge updated. Footer placeholder removed.
+6. `d0d6c891a` — Cache-busting registration for humaneval + mmlu pages. 19 tests in `tests/test_benchmark_projection.py` (all green): covers creation, determinism, pending rows, mirrored rows, --check flag.
+
+**Architecture decisions:**
+- Shared renderer in `docs/benchmarks/_shared/leaderboard.js` — both benchmark pages use `data-benchmark` attribute to indicate which JSON to fetch, avoiding copy-paste divergence (DRY at ~1× LoC vs 2× if duplicated).
+- Three-section model: Verified / Pending CI / Cited reflects the provenance ladder from EPIC. Frontend renders all three sections correctly; mirrored rows are visually distinct and carry the "excluded from Trust Magnitude" footnote.
+- Score color bands tied to grade thresholds: ≥85% → S (purple), ≥70% → A (gold), ≥50% → B (slate), <50% → C (copper). These align with TM grade coloring from scripts/leaderboard.html.
+- `generatedAt: null` in index.json per Sprint D convention (CLAUDE.md §Decorative).
+- Reused CSS variables from `scripts/leaderboard.html` (`--grade-S/A/B/C`). Zero new design tokens.
+
+**Frozen invariants for Sprint F:**
+- URLs `/benchmarks/`, `/benchmarks/humaneval/`, `/benchmarks/mmlu/` — FROZEN. Do NOT rename.
+- Data contract `docs/api/v1/benchmarks/<slug>.json` — FROZEN row shape. Sprint F Next.js rewrite consumes unchanged.
+- `generateBenchmarkProjection.py` is pure Python, registry-reads only — portable across Sprint F.
+
+**KC4 status:** addy-osmani/code-simplification humaneval row is live in `humaneval.json` (provenance ci-reproduced, score 0.5 pass@1). Renders under Verified section on `/benchmarks/humaneval/`. KC4 fully lands once a real `workflow_dispatch` of benchmark-humaneval-ci.yml runs against the skill.
+
+**Gotchas for next agent:**
+- The shared `_shared/leaderboard.js` infers getRootPath() from GAIA_MOUNTS. If you add a new depth page, verify the depth inference logic.
+- MMLU page shows only "Cited" section because all rows have `provenance: mirrored`. This is correct — do NOT add a "Verified" section header for MMLU.
+- `build_benchmark_projection()` in `build_docs.py` uses subprocess to run the script directly (avoids import-time side effects). This mirrors the pattern used by `build_api_projection`.
+- The tiles JS on `/benchmarks/index.html` fetches `../api/v1/benchmarks/index.json` (relative, depth-1 page). If the benchmarks page ever moves, update this path.

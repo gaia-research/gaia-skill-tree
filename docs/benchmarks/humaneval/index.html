@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>window.GAIA_VERSION = "5.11.16";</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HumanEval Leaderboard | Gaia Registry</title>
+  <meta name="description" content="HumanEval pass@1 benchmark scores for Gaia skills — CI-reproduced with datasetHash + benchmarkInputHash reproducibility fingerprints.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/tokens.css?v=5.11.16">
+  <link rel="stylesheet" href="../../css/styles.css?v=5.11.16">
+  <script>
+    window.gaiaIconBase = function () { return '../../assets/icons.svg'; };
+  </script>
+  <style>
+    /* ─────────────────────────────────────────────────────────────
+       LEADERBOARD SUBPAGE — the table is the proof; header carries
+       the voice. Wide shell for the table, narrow shell for the
+       header content, so prose stays legible even at 1200px wide.
+       ───────────────────────────────────────────────────────────── */
+    :root {
+      --lb-mono: var(--font-mono);
+      --lb-sans: var(--font-body);
+      --lb-serif: var(--font-display);
+      --lb-grade-S: var(--grade-S, #e2d5f8);
+      --lb-grade-A: var(--grade-A, #fbbf24);
+      --lb-grade-B: var(--grade-B, #94a3b8);
+      --lb-grade-C: var(--grade-C, #b87333);
+      --lb-grade-u: #475569;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--lb-sans);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    a { color: var(--apex-gold); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .lb-shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4.5rem 1.5rem 5rem;
+    }
+    @media (min-width: 768px) {
+      .lb-shell { padding: 6.5rem 2rem 6rem; }
+    }
+
+    /* ── Back link — small, quiet, mono ───────────────────── */
+    .lb-back {
+      margin-bottom: 2.5rem;
+      font-family: var(--lb-mono);
+      font-size: 0.78rem;
+    }
+    .lb-back a {
+      color: var(--text);
+      opacity: 0.6;
+      transition: opacity 0.15s ease, color 0.15s ease;
+    }
+    .lb-back a:hover { opacity: 1; color: var(--apex-gold); text-decoration: none; }
+
+    /* ── Header: matches landing voice ─────────────────────── */
+    .lb-header {
+      max-width: 44rem;
+      margin: 0 0 3rem;
+    }
+    .lb-header-eyebrow {
+      font-family: var(--lb-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--apex-gold);
+      margin: 0 0 1rem;
+    }
+    .lb-header h1 {
+      font-family: var(--lb-serif);
+      font-weight: 500;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin: 0 0 1.25rem;
+    }
+    .lb-header-desc {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: var(--text);
+      opacity: 0.82;
+      max-width: 38rem;
+      margin: 0 0 1.5rem;
+    }
+    .lb-header-desc code {
+      font-family: var(--lb-mono);
+      font-size: 0.82rem;
+      color: var(--apex-gold);
+      background: none;
+      padding: 0;
+    }
+    .lb-header-facts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem 2.25rem;
+      padding: 1.1rem 0 0;
+      border-top: 1px solid var(--border);
+      font-family: var(--lb-mono);
+      font-size: 0.78rem;
+    }
+    .lb-fact {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .lb-fact-label {
+      color: var(--text);
+      opacity: 0.55;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .lb-fact-value {
+      color: var(--text);
+    }
+    .lb-fact-value a { color: var(--apex-gold); }
+    #lb-meta { color: var(--text); opacity: 0.75; }
+
+    /* ── Search input ──────────────────────────────────────── */
+    .lb-controls {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .lb-search {
+      flex: 1;
+      min-width: 220px;
+      padding: 0.6rem 0.9rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      font-family: var(--lb-mono);
+      font-size: 0.82rem;
+      transition: border-color 0.15s ease;
+    }
+    .lb-search::placeholder { color: var(--text); opacity: 0.45; }
+    .lb-search:focus { outline: none; border-color: var(--apex-gold); }
+
+    /* ── Sections + tables (dense; the proof surface) ──────── */
+    .lb-section { margin-top: 2rem; }
+    .lb-section-dim { opacity: 0.75; }
+    .lb-section-title {
+      font-family: var(--lb-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0 0 0.7rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .lb-count {
+      color: var(--text);
+      opacity: 0.55;
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+    }
+    .lb-note {
+      font-size: 0.82rem;
+      color: var(--text);
+      opacity: 0.7;
+      padding: 0 0 0.85rem;
+      font-family: var(--lb-sans);
+      line-height: 1.55;
+      max-width: 46rem;
+    }
+    .lb-note strong { color: var(--text); opacity: 1; }
+
+    .lb-table-wrap {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    th {
+      text-align: left;
+      color: var(--text);
+      opacity: 0.55;
+      font-weight: 500;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      padding: 0.7rem 0.8rem;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      background: rgba(255,255,255,0.02);
+    }
+    td {
+      padding: 0.55rem 0.8rem;
+      border-bottom: 1px solid rgba(30,41,59,0.5);
+      vertical-align: middle;
+      color: var(--text);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .lb-rank { color: var(--text); opacity: 0.5; text-align: right; width: 3rem; font-family: var(--lb-mono); }
+    .lb-skill a { color: var(--text); font-family: var(--lb-mono); font-weight: 500; }
+    .lb-skill a:hover { color: var(--apex-gold); text-decoration: none; }
+    .lb-score { font-weight: 700; font-family: var(--lb-mono); }
+    .lb-mono { font-family: var(--lb-mono); }
+    .lb-dim { color: var(--text); opacity: 0.5; }
+    .lb-attns a { font-size: 0.75rem; color: var(--apex-gold); font-family: var(--lb-mono); }
+
+    .lb-badge {
+      display: inline-block;
+      padding: 0.1rem 0.45rem;
+      border-radius: 3px;
+      font-size: 0.66rem;
+      font-weight: 600;
+      font-family: var(--lb-mono);
+      letter-spacing: 0.03em;
+    }
+    .lb-badge-S { background: rgba(226,213,248,.15); color: var(--lb-grade-S); }
+    .lb-badge-A { background: rgba(251,191,36,.15); color: var(--lb-grade-A); }
+    .lb-badge-B { background: rgba(148,163,184,.15); color: var(--lb-grade-B); }
+    .lb-badge-C { background: rgba(184,115,51,.15); color: var(--lb-grade-C); }
+    .lb-badge-u { background: rgba(71,85,105,.2); color: var(--lb-grade-u); }
+    .lb-badge-prov { font-weight: 600; }
+    .lb-badge-verified { background: rgba(74,222,128,.12); color: #4ade80; }
+    .lb-badge-pending  { background: rgba(148,163,184,.12); color: var(--lb-grade-B); }
+    .lb-badge-cited    { background: rgba(71,85,105,.18); color: var(--lb-grade-u); }
+
+    .lb-empty, .lb-loading {
+      padding: 1.75rem;
+      text-align: center;
+      color: var(--text);
+      opacity: 0.5;
+      font-size: 0.82rem;
+      font-family: var(--lb-mono);
+    }
+
+    .lb-footer {
+      margin-top: 3rem;
+      padding-top: 1.75rem;
+      border-top: 1px solid var(--border);
+      color: var(--text);
+      opacity: 0.6;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      max-width: 52rem;
+    }
+    .lb-footer a { color: var(--apex-gold); }
+    .lb-footer strong { color: var(--text); opacity: 1; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <nav id="site-nav"></nav>
+  <script src="../../js/mounts.js?v=5.11.16"></script>
+  <script src="../../js/site-nav.js?v=5.11.16"></script>
+
+  <main class="lb-shell">
+    <div class="lb-back"><a href="../">&larr; Benchmarks</a></div>
+
+    <header class="lb-header">
+      <p class="lb-header-eyebrow">Live &middot; CI-reproduced</p>
+      <h1>HumanEval</h1>
+      <p class="lb-header-desc">
+        164 Python function-completion problems. Every score below carries
+        <code>datasetHash</code>, <code>benchmarkInputHash</code>, and a permalink
+        into the harness that produced it.
+      </p>
+      <div class="lb-header-facts">
+        <div class="lb-fact">
+          <span class="lb-fact-label">Benchmark ID</span>
+          <span class="lb-fact-value lb-mono">humaneval@v1.0</span>
+        </div>
+        <div class="lb-fact">
+          <span class="lb-fact-label">Unit</span>
+          <span class="lb-fact-value lb-mono">pass@1</span>
+        </div>
+        <div class="lb-fact">
+          <span class="lb-fact-label">Methodology</span>
+          <span class="lb-fact-value"><a href="../humaneval-v1/">humaneval-v1</a></span>
+        </div>
+        <div class="lb-fact">
+          <span class="lb-fact-label">Last updated</span>
+          <span class="lb-fact-value" id="lb-meta">Loading&hellip;</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="lb-controls">
+      <input type="text" id="lb-search" class="lb-search" placeholder="Search skill or contributor&hellip;" autocomplete="off">
+    </div>
+
+    <div id="lb-content" data-benchmark="humaneval"></div>
+
+    <footer class="lb-footer">
+      <p>
+        <strong>ci-reproduced</strong> and <strong>verifier-attested</strong> rows contribute to Trust Magnitude.
+        <strong>Pending</strong> rows await first reproduction. <strong>Cited</strong> rows are permanently excluded.
+        Data contract: <a href="../../api/v1/benchmarks/humaneval.json">/api/v1/benchmarks/humaneval.json</a> &mdash; URL frozen.
+      </p>
+    </footer>
+  </main>
+
+  <div id="site-footer-mount"></div>
+  <script src="../../js/site-footer.js?v=5.11.16"></script>
+  <script src="../_shared/leaderboard.js" defer></script>
+</body>
+</html>

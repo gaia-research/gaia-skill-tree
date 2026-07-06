@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>window.GAIA_VERSION = "5.11.16";</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MMLU v1 &mdash; Methodology | Gaia Registry</title>
+  <meta name="description" content="MMLU v1 benchmark methodology: citation-only provenance, snapshot source, and Trust Magnitude exclusion rules.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>window.gaiaIconBase = function () { return '../../assets/icons.svg'; };</script>
+  <link rel="stylesheet" href="../../css/tokens.css?v=5.11.16">
+  <link rel="stylesheet" href="../../css/styles.css?v=5.11.16">
+  <style>
+    /* Shares the methodology-page prose shell voice. */
+    .prose-shell {
+      max-width: 42rem;
+      margin: 0 auto;
+      padding: 4.5rem 1.5rem 6rem;
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.7;
+    }
+    @media (min-width: 768px) {
+      .prose-shell { padding: 6.5rem 2rem 7rem; }
+    }
+    .breadcrumb {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--text);
+      opacity: 0.55;
+      margin: 0 0 2.5rem;
+      display: block;
+    }
+    .breadcrumb a { color: inherit; text-decoration: none; transition: color 0.15s, opacity 0.15s; }
+    .breadcrumb a:hover { color: var(--apex-gold); opacity: 1; }
+
+    .prose-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--apex-gold);
+      margin: 0 0 1rem;
+    }
+    .prose-eyebrow.is-cited { color: var(--text); opacity: 0.55; }
+
+    h1.prose-title {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin: 0 0 2rem;
+      color: var(--text);
+    }
+    .prose-lede {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+      line-height: 1.55;
+      color: var(--text);
+      opacity: 0.9;
+      margin: 0 0 3rem;
+    }
+    .prose-lede::first-letter {
+      font-family: var(--font-display);
+      font-style: normal;
+      font-size: 3.6em;
+      float: left;
+      line-height: 0.9;
+      margin: 0.05em 0.12em -0.05em 0;
+      color: var(--apex-gold);
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(1.5rem, 2.8vw, 1.9rem);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin: 4rem 0 1.5rem;
+      color: var(--text);
+    }
+    h2 + p { margin-top: 0; }
+    .h2-num {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--apex-gold);
+      opacity: 0.75;
+      margin-bottom: 0.5rem;
+    }
+
+    p { margin: 0 0 1.2rem; font-size: 1rem; line-height: 1.7; }
+    strong { font-weight: 600; color: var(--text); }
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--apex-gold);
+      background: none;
+      padding: 0;
+    }
+
+    .pullquote {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+      line-height: 1.4;
+      color: var(--text);
+      padding: 0.5rem 0 0.5rem 1.5rem;
+      border-left: 2px solid var(--apex-gold);
+      margin: 2.5rem 0;
+      max-width: 36rem;
+    }
+    .pullquote em { color: var(--apex-gold); font-style: italic; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 1.75rem 0 2rem;
+    }
+    th {
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text);
+      opacity: 0.55;
+      border-bottom: 1px solid var(--border);
+      padding: 0.55rem 0.75rem;
+      font-weight: 500;
+    }
+    td {
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+      line-height: 1.55;
+    }
+    tr:last-child td { border-bottom: none; }
+
+    ul, ol { padding-left: 1.4rem; margin: 0 0 1.5rem; }
+    li { margin-bottom: 0.55rem; font-size: 1rem; line-height: 1.65; }
+
+    /* Cited callout — muted left-rule, no colored fill */
+    .callout {
+      border-left: 2px solid var(--apex-gold);
+      padding: 0.5rem 0 0.5rem 1.5rem;
+      margin: 2rem 0;
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: var(--text);
+      opacity: 0.9;
+    }
+    .callout-cited {
+      border-left-color: #475569;
+    }
+    .callout strong { color: var(--text); opacity: 1; }
+
+    .prose-footer {
+      margin-top: 5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--text);
+      opacity: 0.55;
+      line-height: 1.7;
+    }
+    .prose-footer a { color: var(--apex-gold); text-decoration: none; }
+    .prose-footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <nav id="site-nav"></nav>
+  <script src="../../js/mounts.js?v=5.11.16"></script>
+  <script src="../../js/site-nav.js?v=5.11.16"></script>
+  <main class="prose-shell">
+    <span class="breadcrumb"><a href="../mmlu/">&larr; MMLU Leaderboard</a></span>
+
+    <p class="prose-eyebrow is-cited">mmlu@2024-03 &middot; Citation-only</p>
+    <h1 class="prose-title">The MMLU citation.</h1>
+
+    <p class="prose-lede">
+      Fifty-seven academic subjects, five-shot. Every score in this section
+      is copied from a public leaderboard &mdash; rendered so the record is
+      complete, permanently excluded so it never inflates a badge.
+    </p>
+
+    <div class="callout callout-cited">
+      <strong>Provenance: <code>mirrored</code>.</strong> Scores here do <strong>not</strong> count toward
+      Trust Magnitude. See section <a href="#provenance">03</a> for the ladder.
+    </div>
+
+    <h2><span class="h2-num">01</span>What is MMLU</h2>
+
+    <p><strong>Massive Multitask Language Understanding</strong> measures a language
+    model's knowledge and reasoning across 57 academic subjects &mdash; mathematics,
+    history, law, medicine, computer science &mdash; in a <strong>5-shot</strong> setting.
+    The model sees five example questions with answers before being tested on
+    new ones.</p>
+
+    <p>Original paper:
+      <a href="https://arxiv.org/abs/2009.03300" target="_blank" rel="noopener">Measuring Massive Multitask Language Understanding</a>
+      (Hendrycks et al., 2020).</p>
+
+    <h2><span class="h2-num">02</span>Snapshot source</h2>
+
+    <p>Scores in this registry are copied from a static snapshot of the
+    <a href="https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard" target="_blank" rel="noopener">HuggingFace Open LLM Leaderboard</a>
+    dated <strong>2024-03-01</strong>. The snapshot file lives at
+    <code>scripts/benchmarks/mmlu/snapshot.json</code>.</p>
+
+    <table>
+      <thead><tr><th>Field</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td><code>benchmarkId</code></td><td><code>mmlu@2024-03</code></td></tr>
+        <tr><td><code>unit</code></td><td><code>pct</code> (0..100 percentage accuracy)</td></tr>
+        <tr><td><code>sourceSnapshotDate</code></td><td><code>2024-03-01</code></td></tr>
+        <tr><td><code>runAt</code></td><td><code>2024-03-01T00:00:00Z</code></td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="provenance"><span class="h2-num">03</span>Provenance ladder</h2>
+
+    <p>The Gaia registry requires reproducible provenance for Trust Magnitude
+    contribution. MMLU scores in this snapshot are <strong>cited</strong> from a public
+    leaderboard &mdash; they were not produced by a CI-executed harness in this
+    repository and have not been co-signed by a 4&#9733;+ Verifier running the model
+    directly.</p>
+
+    <table>
+      <thead>
+        <tr><th>Provenance</th><th>TM</th><th>How achieved</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>ci-reproduced</code></td><td>Counted</td><td>CI workflow re-ran the harness on the same commit</td></tr>
+        <tr><td><code>verifier-attested</code></td><td>Counted</td><td>A 4&#9733;+ Verifier co-signed the run</td></tr>
+        <tr><td><code>mirrored</code></td><td><strong>Excluded</strong></td><td>Cited from a public leaderboard</td></tr>
+        <tr><td><code>pending</code></td><td>Excluded</td><td>Awaiting CI reproduction</td></tr>
+      </tbody>
+    </table>
+
+    <p class="pullquote">
+      A cited number can be stale. It can be measured under different prompts,
+      different splits, a different tokenizer. <em>Counting it would inflate the badge.</em>
+    </p>
+
+    <p>The leaderboard renders mirrored rows with a "Cited" badge to surface the
+    distinction without hiding the data. This is deliberate: the record is
+    complete, the score is legible, and TM stays clean.</p>
+
+    <h2><span class="h2-num">04</span>Refreshing the snapshot</h2>
+
+    <ol>
+      <li>Visit the
+        <a href="https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard" target="_blank" rel="noopener">leaderboard</a>.</li>
+      <li>Export current 5-shot MMLU averages for the skills in <code>snapshot.json</code>.</li>
+      <li>Edit <code>scripts/benchmarks/mmlu/snapshot.json</code>; bump <code>sourceSnapshotDate</code>.</li>
+      <li>Run <code>python scripts/benchmarks/mmlu/ingest.py --dry-run</code> to preview.</li>
+      <li>Run <code>GAIA_OPERATOR_OVERRIDE=1 python scripts/benchmarks/mmlu/ingest.py</code> to write.</li>
+      <li>Regenerate <code>docs/api/v1/benchmarks/mmlu.json</code>.</li>
+      <li>Open a PR on a <code>review/meta/</code> branch.</li>
+    </ol>
+
+    <h2><span class="h2-num">05</span>API projection</h2>
+
+    <p>Machine-readable row data is served at
+      <a href="../../api/v1/benchmarks/mmlu.json"><code>/api/v1/benchmarks/mmlu.json</code></a>.
+    The index of all registered benchmarks lives at
+      <a href="../../api/v1/benchmarks/index.json"><code>/api/v1/benchmarks/index.json</code></a>.</p>
+
+    <footer class="prose-footer">
+      References: Hendrycks et al., <a href="https://arxiv.org/abs/2009.03300" target="_blank" rel="noopener">Measuring Massive Multitask Language Understanding</a> (2020)
+      &middot; cross-benchmark <a href="../methodology/">methodology</a>
+      &middot; schema <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/schema/evidence/benchmark-result.schema.json" target="_blank" rel="noopener"><code>benchmark-result.schema.json</code></a>.
+    </footer>
+  </main>
+  <div id="site-footer-mount"></div>
+  <script src="../../js/site-footer.js?v=5.11.16"></script>
+</body>
+</html>

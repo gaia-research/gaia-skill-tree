@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>window.GAIA_VERSION = "5.11.16";</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benchmark Methodology | Gaia Registry</title>
+  <meta name="description" content="Canonical description of how benchmark evidence enters the Gaia registry, how it is validated, and how it contributes to Trust Magnitude.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>window.gaiaIconBase = function () { return '../../assets/icons.svg'; };</script>
+  <link rel="stylesheet" href="../../css/tokens.css?v=5.11.16">
+  <link rel="stylesheet" href="../../css/styles.css?v=5.11.16">
+  <style>
+    /* ─────────────────────────────────────────────────────────────
+       METHODOLOGY — long-form prose with typographic rhythm.
+       Serif headings, wide airy body, mono for identifiers.
+       One pull-quote per major transition, drop-cap on the lede.
+       ───────────────────────────────────────────────────────────── */
+    .prose-shell {
+      max-width: 42rem;
+      margin: 0 auto;
+      padding: 4.5rem 1.5rem 6rem;
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.7;
+    }
+    @media (min-width: 768px) {
+      .prose-shell { padding: 6.5rem 2rem 7rem; }
+    }
+    .breadcrumb {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--text);
+      opacity: 0.55;
+      margin: 0 0 2.5rem;
+      display: block;
+    }
+    .breadcrumb a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.15s ease, opacity 0.15s ease;
+    }
+    .breadcrumb a:hover { color: var(--apex-gold); opacity: 1; }
+
+    .prose-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--apex-gold);
+      margin: 0 0 1rem;
+    }
+    h1.prose-title {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin: 0 0 2rem;
+      color: var(--text);
+    }
+
+    /* Lede: bigger, italic serif, drop-cap first letter */
+    .prose-lede {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+      line-height: 1.55;
+      color: var(--text);
+      opacity: 0.9;
+      margin: 0 0 3rem;
+    }
+    .prose-lede::first-letter {
+      font-family: var(--font-display);
+      font-style: normal;
+      font-size: 3.6em;
+      float: left;
+      line-height: 0.9;
+      margin: 0.05em 0.12em -0.05em 0;
+      color: var(--apex-gold);
+    }
+
+    /* Section headings — no top border, breath comes from margin */
+    h2 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(1.5rem, 2.8vw, 1.9rem);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin: 4rem 0 1.5rem;
+      color: var(--text);
+    }
+    h2 + p { margin-top: 0; }
+
+    /* Section number — mono chip in the margin, quiet */
+    .h2-num {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--apex-gold);
+      opacity: 0.75;
+      margin-bottom: 0.5rem;
+    }
+
+    p { margin: 0 0 1.2rem; font-size: 1rem; line-height: 1.7; }
+    strong { font-weight: 600; color: var(--text); }
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--apex-gold);
+      background: none;
+      padding: 0;
+    }
+
+    /* Pull-quote — big italic serif, gold left rule, breathes wide */
+    .pullquote {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+      line-height: 1.4;
+      color: var(--text);
+      padding: 0.5rem 0 0.5rem 1.5rem;
+      border-left: 2px solid var(--apex-gold);
+      margin: 2.5rem 0;
+      max-width: 36rem;
+    }
+    .pullquote em {
+      color: var(--apex-gold);
+      font-style: italic;
+    }
+
+    /* Tables — dense, mono-header, hairline row separators */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 1.75rem 0 2rem;
+    }
+    th {
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text);
+      opacity: 0.55;
+      border-bottom: 1px solid var(--border);
+      padding: 0.55rem 0.75rem;
+      font-weight: 500;
+    }
+    td {
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+      line-height: 1.55;
+    }
+    tr:last-child td { border-bottom: none; }
+
+    ul, ol { padding-left: 1.4rem; margin: 0 0 1.5rem; }
+    li { margin-bottom: 0.55rem; font-size: 1rem; line-height: 1.65; }
+
+    /* Callout — quiet left-rule, no colored fill */
+    .callout {
+      border-left: 2px solid var(--apex-gold);
+      padding: 0.5rem 0 0.5rem 1.5rem;
+      margin: 2rem 0;
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: var(--text);
+      opacity: 0.9;
+    }
+    .callout ul { margin: 0.4rem 0 0; padding-left: 1.2rem; }
+    .callout li { font-size: 0.95rem; }
+
+    .prose-footer {
+      margin-top: 5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--text);
+      opacity: 0.55;
+      line-height: 1.7;
+    }
+    .prose-footer a { color: var(--apex-gold); text-decoration: none; }
+    .prose-footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <nav id="site-nav"></nav>
+  <script src="../../js/mounts.js?v=5.11.16"></script>
+  <script src="../../js/site-nav.js?v=5.11.16"></script>
+  <main class="prose-shell">
+    <span class="breadcrumb"><a href="../">&larr; Benchmarks</a></span>
+
+    <p class="prose-eyebrow">Methodology &middot; Frozen post-merge</p>
+    <h1 class="prose-title">How a score becomes evidence.</h1>
+
+    <p class="prose-lede">
+      Every benchmark row that touches a Gaia badge carries a public commit
+      SHA, two SHA-256 fingerprints, and a provenance label from a frozen
+      enum. Self-attestation is rejected at the schema. Citations render, but
+      they never count.
+    </p>
+
+    <h2><span class="h2-num">01</span>Provenance</h2>
+
+    <p>Every <code>benchmark-result</code> evidence row carries a <code>provenance</code> label from a
+    frozen enum of four values. Two of them contribute to Trust Magnitude;
+    two do not.</p>
+
+    <table>
+      <thead>
+        <tr><th>Value</th><th>Meaning</th><th>TM</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>verifier-attested</code></td>
+          <td>A 4&#9733;+ Verifier co-signed the score. Attestor is the verifier's GitHub handle.</td>
+          <td>Counted</td>
+        </tr>
+        <tr>
+          <td><code>ci-reproduced</code></td>
+          <td>A GitHub Actions workflow ran the harness on a public commit. Attestor is <code>&lt;workflow-url&gt;@&lt;sha&gt;</code>.</td>
+          <td>Counted</td>
+        </tr>
+        <tr>
+          <td><code>mirrored</code></td>
+          <td>Citation-only copy from an external leaderboard. Attestor is the upstream URL.</td>
+          <td>Excluded</td>
+        </tr>
+        <tr>
+          <td><code>pending</code></td>
+          <td>Freshly filed row awaiting promotion.</td>
+          <td>Excluded</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><code>self-attested</code> is intentionally absent and forever rejected — both at the
+    schema and in <code>scripts/validate.py</code>. A self-run score enters as <code>pending</code>;
+    a Verifier or CI job promotes it before merge.</p>
+
+    <p><code>pending</code> is informational under lax validation but a hard error under
+    <code>--strict</code>, which the validator auto-enables when the base ref is <code>main</code>.
+    Pending rows can never survive a merge into <code>main</code>.</p>
+
+    <p class="pullquote">
+      Two hashes and a public URL. <em>That is the entire contract.</em>
+    </p>
+
+    <h2><span class="h2-num">02</span>Reproducibility fingerprint</h2>
+
+    <p>Two SHA-256 hashes are required on every row:</p>
+
+    <ul>
+      <li><strong><code>datasetHash</code></strong> &mdash; SHA-256 of the raw dataset. A revision produces a new hash and therefore a new row.</li>
+      <li><strong><code>benchmarkInputHash</code></strong> &mdash; SHA-256 of <code>(dataset + prompt template + harness config)</code>. Same dataset, different config, different row.</li>
+    </ul>
+
+    <p>Both are 64-character lowercase hex. Uppercase, short, or non-hex values
+    are rejected at both the CLI and schema layers. The harness is
+    responsible for emitting them; W2a ships the scaffolding, W2b (issue
+    #905) ships the first real <code>run.py</code>.</p>
+
+    <h2><span class="h2-num">03</span>Trust Magnitude contribution</h2>
+
+    <p>The <code>benchmark-result</code> evidence type is one of the highest-weight signals in
+    the registry:</p>
+
+    <ul>
+      <li><code>weight: 1.4</code></li>
+      <li><code>gradeCeiling: S</code></li>
+      <li><code>allowedLayers: [generic, named]</code></li>
+      <li><code>inheritMultiplier: 0.15</code></li>
+      <li>Magnitude = <code>percentile</code> (0..100), when provided.</li>
+      <li>Freshness: 50%/year decay (half-life &asymp; 1 year).</li>
+    </ul>
+
+    <p>Mirrored and pending rows are excluded from the sum entirely via
+    <code>computeArtifactScoreOrNone</code> returning <code>None</code>, matching the
+    null-on-derank contract used for deranked verifier-attestation rows.
+    Their <code>grade</code> field is stripped at CLI write time so they are never
+    visually presented as if they were graded.</p>
+
+    <h2><span class="h2-num">04</span>Adding a new benchmark</h2>
+
+    <ol>
+      <li>
+        <strong>Author the harness.</strong> Deterministic Python, pinned deps, emits results
+        JSON with <code>score</code>, <code>unit</code>, <code>runAt</code>, <code>datasetHash</code>, and
+        <code>benchmarkInputHash</code>. Lands at
+        <code>scripts/benchmarks/&lt;id&gt;/run.py</code>.
+      </li>
+      <li>
+        <strong>Author the CI workflow.</strong>
+        <code>.github/workflows/benchmark-&lt;id&gt;-ci.yml</code> runs <code>run.py</code> on the
+        submitted commit and, on success, writes an evidence row via
+        <code>gaia dev evidence</code> with <code>--provenance ci-reproduced</code> and
+        <code>--attestor &lt;workflow-url&gt;@&lt;sha&gt;</code>.
+      </li>
+      <li>
+        <strong>Register the benchmark id.</strong> Add a landing document at
+        <code>docs/benchmarks/&lt;id&gt;/</code> (see <a href="../humaneval-v1/">humaneval-v1</a>).
+      </li>
+      <li>
+        <strong>Wire the leaderboard.</strong> Point at
+        <code>docs/api/v1/benchmarks/&lt;id&gt;.json</code>.
+      </li>
+    </ol>
+
+    <p>The <code>benchmarkId</code> field is semver-ish: <code>&lt;name&gt;@&lt;version&gt;</code> or
+    <code>&lt;name&gt;/&lt;subset&gt;@&lt;version&gt;</code>. Examples: <code>humaneval@v1.0</code>,
+    <code>humaneval/python@v1.0</code>, <code>swe-bench_verified@1.0</code>,
+    <code>mmlu-5shot@2024-03</code>.</p>
+
+    <p class="pullquote">
+      A rename is a major schema bump. <em>Names in this document are load-bearing.</em>
+    </p>
+
+    <h2><span class="h2-num">05</span>Frozen invariants</h2>
+
+    <div class="callout">
+      <ul>
+        <li>Field names and shape of <code>benchmark-result</code> are frozen &mdash; a rename or removal is a major schema bump (v7+).</li>
+        <li>The <code>provenance</code> enum is frozen.</li>
+        <li>The <code>unit</code> enum (<code>pct</code>, <code>pass@1</code>, <code>pass@10</code>, <code>bleu</code>, <code>f1</code>, <code>accuracy</code>, <code>elo</code>, <code>raw</code>) is frozen.</li>
+        <li>Mirrored rows are forever excluded from Trust Magnitude.</li>
+        <li>Self-attested provenance is forever rejected.</li>
+      </ul>
+      <p style="margin:0.8rem 0 0;">Any change requires a Splurge-tier RFC.</p>
+    </div>
+
+    <footer class="prose-footer">
+      Related: <a href="../humaneval-v1/">humaneval-v1</a> &middot; <a href="../mmlu-v1/">mmlu-v1</a> &middot; schema <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/schema/evidence/benchmark-result.schema.json"><code>benchmark-result.schema.json</code></a>.
+    </footer>
+  </main>
+  <div id="site-footer-mount"></div>
+  <script src="../../js/site-footer.js?v=5.11.16"></script>
+</body>
+</html>

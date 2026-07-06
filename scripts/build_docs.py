@@ -478,6 +478,11 @@ def build_html_cache_busting(check: bool) -> bool:
         "trending/index.html",
         "heroes/index.html",
         "benchmarks/index.html",
+        "benchmarks/humaneval/index.html",
+        "benchmarks/mmlu/index.html",
+        "benchmarks/methodology/index.html",
+        "benchmarks/humaneval-v1/index.html",
+        "benchmarks/mmlu-v1/index.html",
         "skills/index.html",
     ):
         path = ROOT / "docs" / filename
@@ -837,6 +842,32 @@ def build_api_projection(check: bool) -> bool:
             shutil.rmtree(committed)
             shutil.copytree(out_dir, committed)
         return True
+
+
+def build_benchmark_projection(check: bool) -> bool:
+    """Run generateBenchmarkProjection.py and diff against docs/api/v1/benchmarks/."""
+    script = SCRIPTS / "generateBenchmarkProjection.py"
+    if not script.exists():
+        return False
+    committed = ROOT / "docs" / "api" / "v1" / "benchmarks"
+    import subprocess as _sp
+    if check:
+        result = _sp.run(
+            [sys.executable, str(script), "--check"],
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+        )
+        if result.returncode != 0:
+            print(result.stdout.strip())
+            return True
+        return False
+    else:
+        result = _sp.run(
+            [sys.executable, str(script), "--out-dir", str(committed)],
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+        )
+        if result.returncode != 0:
+            raise RuntimeError(f"generateBenchmarkProjection.py failed: {result.stderr.strip()}")
+        return "nothing changed" not in result.stdout
 
 
 def build_trending_projection(check: bool) -> bool:
@@ -1426,6 +1457,7 @@ def main(argv: list[str] | None = None) -> int:
     docs_named_changed = _run_step("docs-named-index", build_docs_named_index, args.check)
     trust_ledger_changed = _run_step("trust-ledger", build_trust_ledger, args.check)
     api_changed = _run_step("api-projection", build_api_projection, args.check)
+    benchmark_proj_changed = _run_step("benchmark-projection", build_benchmark_projection, args.check)
     trending_changed = _run_step("trending-projection", build_trending_projection, args.check)
     content_engine_changed = _run_step("content-engine", build_content_engine, args.check)
     profiles_changed = _run_step("profiles", build_profile_pages, args.check)
@@ -1509,6 +1541,7 @@ def main(argv: list[str] | None = None) -> int:
         or docs_named_changed
         or trust_ledger_changed
         or api_changed
+        or benchmark_proj_changed
         or trending_changed
         or content_engine_changed
         or profiles_changed

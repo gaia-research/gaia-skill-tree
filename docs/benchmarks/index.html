@@ -1,117 +1,387 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>window.GAIA_VERSION = "5.11.13";</script>
+  <script>window.GAIA_VERSION = "5.11.16";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Benchmarks | Gaia Registry</title>
-  <meta name="description" content="Reproducible benchmark evidence for Gaia skills — verifier-attested and CI-reproduced scores with datasetHash + benchmarkInputHash reproducibility fingerprints.">
+  <meta name="description" content="Reproducibility-fingerprinted benchmark evidence for Gaia skills. External benchmarks CI-reproduced or citation-mirrored against public tasksets; Gaia Skill Bench (in design) measures the skill itself.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="../css/tokens.css?v=5.11.13">
-  <link rel="stylesheet" href="../css/styles.css?v=5.11.13">
+  <link rel="stylesheet" href="../css/tokens.css?v=5.11.16">
+  <link rel="stylesheet" href="../css/styles.css?v=5.11.16">
 
   <script>
     window.gaiaIconBase = function () { return '../assets/icons.svg'; };
   </script>
   <style>
-    .benchmarks-shell {
-      max-width: 68rem;
+    /* ─────────────────────────────────────────────────────────────
+       BENCHMARKS LANDING — proof surface, not marketing landing.
+       One bold moment (the leaderboard row). Everything else quiet.
+       Body copy sits on --text, not --muted, so it clears 4.5:1
+       contrast on --bg (#030712). Mono is reserved for identifiers
+       and provenance labels.
+       ───────────────────────────────────────────────────────────── */
+
+    .bench-shell {
+      max-width: 62rem;
       margin: 0 auto;
-      padding: 3rem 1.5rem 6rem;
+      padding: 5rem 1.5rem 6rem;
       color: var(--text);
-      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-family: var(--font-body);
     }
-    .benchmarks-header {
-      border-bottom: 1px solid var(--border-subtle);
-      padding-bottom: 2rem;
-      margin-bottom: 3rem;
+    @media (min-width: 768px) {
+      .bench-shell { padding: 8rem 2rem 7rem; }
     }
-    .benchmarks-header h1 {
-      font-family: 'EB Garamond', Georgia, serif;
-      font-weight: 500;
-      font-size: clamp(2rem, 4vw, 3.25rem);
-      line-height: 1.15;
-      margin: 0 0 0.75rem;
-      color: var(--text);
-    }
-    .benchmarks-header p {
-      font-size: 1.05rem;
-      color: var(--muted);
+
+    /* ── Hero: thesis, not tagline ─────────────────────────── */
+    .bench-hero {
       max-width: 44rem;
+      margin: 0 0 5.5rem;
+    }
+    .bench-hero h1 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(2.4rem, 6.5vw, 4.25rem);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      margin: 0 0 1.75rem;
+      color: var(--text);
+    }
+    .bench-hero h1 em {
+      font-style: italic;
+      color: var(--apex-gold);
+      font-weight: 400;
+    }
+    .bench-hero p {
+      font-size: 1.15rem;
+      line-height: 1.55;
+      color: var(--text);
+      opacity: 0.82;
+      margin: 0 0 1rem;
+      max-width: 38rem;
+    }
+    @media (min-width: 768px) {
+      .bench-hero p { font-size: 1.25rem; }
+    }
+    .bench-hero .contract {
+      margin-top: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: var(--text);
+      opacity: 0.72;
+      max-width: 40rem;
+    }
+    .bench-hero .contract code {
+      font-family: var(--font-mono);
+      color: var(--apex-gold);
+      background: none;
+      padding: 0;
+    }
+
+    /* ── External benchmarks: the loud row ─────────────────── */
+    .bench-block { margin-bottom: 6rem; }
+    .bench-block h2 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(1.7rem, 3.2vw, 2.35rem);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin: 0 0 0.6rem;
+      color: var(--text);
+    }
+    .bench-block .block-sub {
+      font-family: var(--font-body);
+      font-size: 1rem;
       line-height: 1.6;
-      margin: 0;
+      color: var(--text);
+      opacity: 0.78;
+      margin: 0 0 2.5rem;
+      max-width: 38rem;
     }
-    .benchmarks-status {
-      display: inline-block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 0.25rem 0.6rem;
-      border: 1px solid var(--border-subtle);
-      border-radius: 3px;
-      color: var(--muted);
-      margin-bottom: 1rem;
-    }
-    .benchmarks-grid {
+
+    /* Leaderboard tile grid — the one bold moment. Wide-format
+       tiles, generous vertical space, single-color hairline. */
+    .lb-tiles {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-      gap: 1.5rem;
+      gap: 1.25rem;
+      margin-bottom: 2rem;
     }
-    .benchmark-card {
-      border: 1px solid var(--border-subtle);
-      border-radius: 6px;
-      padding: 1.5rem;
+    @keyframes lb-tile-enter {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .lb-tile {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      padding: 2rem 1.75rem 1.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
       background: var(--surface);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+      opacity: 0;
+      animation: lb-tile-enter 0.35s ease-out forwards;
+      position: relative;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .lb-tile { opacity: 1; animation: none; }
+    }
+    .lb-tile:hover {
+      border-color: var(--apex-gold);
+      transform: translateY(-1px);
+    }
+    .lb-tile-id {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--text);
+      opacity: 0.55;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+    .lb-tile-name {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.7rem;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+    }
+    .lb-tile-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text);
+      opacity: 0.72;
+    }
+    .lb-prov {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .lb-prov::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .lb-prov--ci { color: var(--rank-2); }
+    .lb-prov--mirrored { color: var(--rank-0); }
+    .lb-tile-arrow {
+      opacity: 0.5;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .lb-tile:hover .lb-tile-arrow {
+      opacity: 1;
+      color: var(--apex-gold);
+      transform: translateX(3px);
+    }
+    .lb-empty {
+      padding: 3rem 1.5rem;
+      border: 1px dashed var(--border);
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text);
+      opacity: 0.6;
+      text-align: center;
+    }
+    .lb-empty--error { color: var(--rank-4); opacity: 0.85; }
+
+    .methodology-line {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text);
+      opacity: 0.8;
+    }
+    .methodology-line a {
+      color: var(--apex-gold);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
       transition: border-color 0.15s ease;
     }
-    .benchmark-card:hover {
-      border-color: var(--border);
+    .methodology-line a:hover { border-bottom-color: var(--apex-gold); }
+
+    /* ── GSB: quiet typographic panel with mobile-first parallax
+       —————————————————————————————————————————————————————————
+       Per DESIGN.md §Motion: the block frames its content with a
+       decorative benchmark-matrix image behind it, translateY-driven
+       at 0.45× scroll speed (RAF, never background-attachment:fixed),
+       disabled below 768px, respects prefers-reduced-motion.
+       The dark overlay preserves 4.5:1 body contrast on --text. */
+    .gsb {
+      position: relative;
+      padding: 4.5rem 0 3.5rem;
+      margin-top: 3.5rem;
+      border-top: 1px solid var(--border);
+      isolation: isolate;
     }
-    .benchmark-card h3 {
-      font-family: 'EB Garamond', Georgia, serif;
-      font-size: 1.45rem;
-      margin: 0 0 0.5rem;
-      color: var(--text);
+    .gsb-bg {
+      position: absolute;
+      inset: -30% 0;
+      background-image: url('assets/benchmark-matrix.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.28;
+      will-change: transform;
+      z-index: -1;
+      pointer-events: none;
     }
-    .benchmark-card .meta {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-bottom: 0.75rem;
+    @media (min-width: 768px) {
+      .gsb { padding: 5.5rem 0 4.5rem; }
+      .gsb-bg { opacity: 0.35; }
     }
-    .benchmark-card p {
-      font-size: 0.95rem;
-      color: var(--muted);
-      line-height: 1.55;
+    .gsb-status {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--apex-gold);
       margin: 0 0 1rem;
     }
-    .benchmark-card a {
-      color: var(--evidence-gold);
-      text-decoration: none;
-      font-size: 0.9rem;
+    .gsb h2 { margin-bottom: 0.75rem; }
+    .gsb-lede {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.15rem, 2vw, 1.35rem);
+      line-height: 1.5;
+      color: var(--text);
+      opacity: 0.85;
+      max-width: 36rem;
+      margin: 0 0 2.5rem;
+    }
+
+    /* Pillar list — typographic, not tiled. Weight number in the
+       margin, name in body face, description opts for prose over
+       card labels. Numbers ARE the sequence signal here. */
+    .gsb-pillars {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 2.5rem;
+      counter-reset: pillar;
+    }
+    .gsb-pillar {
+      display: grid;
+      grid-template-columns: 4.5rem 1fr;
+      gap: 1.25rem;
+      padding: 1.15rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: baseline;
+    }
+    .gsb-pillar:first-child { border-top: 1px solid var(--border); }
+    .gsb-pillar-weight {
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
       font-weight: 500;
+      color: var(--apex-gold);
+      letter-spacing: 0.02em;
     }
-    .benchmark-card a:hover { text-decoration: underline; }
-    .benchmarks-footer {
-      margin-top: 4rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border-subtle);
-      font-size: 0.9rem;
-      color: var(--muted);
+    .gsb-pillar-body {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.35rem 0.85rem;
     }
-    .benchmarks-footer a {
-      color: var(--evidence-gold);
+    .gsb-pillar-name {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.005em;
+    }
+    .gsb-pillar-desc {
+      font-size: 0.95rem;
+      line-height: 1.55;
+      color: var(--text);
+      opacity: 0.75;
+      flex: 1 1 20rem;
+    }
+
+    /* Flow: single sentence with mono accents; not a card, not
+       a diagram — a claim about the pipeline in one line. */
+    .gsb-flow {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--text);
+      opacity: 0.85;
+      margin: 0 0 2.25rem;
+      max-width: 40rem;
+    }
+    .gsb-flow code {
+      font-family: var(--font-mono);
+      font-size: 0.86rem;
+      color: var(--apex-gold);
+      background: none;
+      padding: 0;
+    }
+
+    .gsb-actions {
+      display: flex;
+      gap: 1.75rem;
+      flex-wrap: wrap;
+      font-size: 0.95rem;
+    }
+    .gsb-actions a {
+      color: var(--text);
       text-decoration: none;
+      border-bottom: 1px solid var(--apex-gold);
+      padding-bottom: 2px;
+      transition: color 0.15s ease;
     }
-    .benchmarks-footer a:hover { text-decoration: underline; }
+    .gsb-actions a:hover { color: var(--apex-gold); }
+    .gsb-actions a.secondary {
+      border-bottom-color: var(--border);
+      color: var(--text);
+      opacity: 0.7;
+    }
+    .gsb-actions a.secondary:hover {
+      opacity: 1;
+      border-bottom-color: var(--apex-gold);
+    }
+
+    .gsb-attribution {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text);
+      opacity: 0.6;
+      line-height: 1.7;
+    }
+    .gsb-attribution a { color: var(--apex-gold); text-decoration: none; }
+    .gsb-attribution a:hover { text-decoration: underline; }
+
+    /* ── Footer strip ──────────────────────────────────────── */
+    .bench-foot {
+      margin-top: 5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text);
+      opacity: 0.6;
+      line-height: 1.7;
+    }
+    .bench-foot a { color: var(--apex-gold); text-decoration: none; }
+    .bench-foot a:hover { text-decoration: underline; }
   </style>
 <script type="application/ld+json" data-injector="gaia-json-ld">
 {
@@ -135,57 +405,188 @@
 </head>
 <body>
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=5.11.13"></script>
-  <script src="../js/site-nav.js?v=5.11.13"></script>
+  <script src="../js/mounts.js?v=5.11.16"></script>
+  <script src="../js/site-nav.js?v=5.11.16"></script>
 
-  <main class="benchmarks-shell">
-    <header class="benchmarks-header">
-      <span class="benchmarks-status">Seed page · Sprint D W2a</span>
-      <h1>Benchmarks</h1>
+  <main class="bench-shell">
+
+    <!-- ─── HERO: the thesis ─── -->
+    <section class="bench-hero">
+      <h1>How do we know a&nbsp;skill <em>is real?</em></h1>
       <p>
-        Reproducible benchmark evidence for Gaia skills. Every score carries a
-        reproducibility fingerprint (dataset hash + benchmark input hash), a
-        provenance label (verifier-attested, CI-reproduced, mirrored, or
-        pending), and an attestor identity. Self-attested scores are never
-        accepted. Mirrored scores appear as citations only and are excluded
-        from Trust Magnitude.
+        Reproducibility fingerprints. Provenance labels. A public commit SHA
+        for every score that touches a badge. Self-attestation is rejected at
+        the schema; mirrored numbers cite but never count.
       </p>
-    </header>
-
-    <section class="benchmarks-grid">
-      <article class="benchmark-card">
-        <h3>Methodology</h3>
-        <div class="meta">FROZEN post-merge · v6.x</div>
-        <p>
-          The provenance model, reproducibility fingerprint, Trust Magnitude
-          contribution rules, and the process for adding a new benchmark.
-        </p>
-        <a href="methodology.md">Read the methodology &rarr;</a>
-      </article>
-
-      <article class="benchmark-card">
-        <h3>HumanEval v1.0</h3>
-        <div class="meta">humaneval@v1.0 · pass@1 · CI-reproducible</div>
-        <p>
-          Python function-completion benchmark from OpenAI (2021).
-          Reproduced by Gaia's CI harness on submitted commit SHAs.
-          Full pipeline lands in W2b.
-        </p>
-        <a href="humaneval-v1.md">HumanEval v1.0 methodology &rarr;</a>
-      </article>
+      <p class="contract">
+        Every row carries <code>datasetHash</code>, <code>benchmarkInputHash</code>, and an
+        attestor identity. Provenance is one of
+        <code>ci-reproduced</code>, <code>verifier-attested</code>, <code>mirrored</code>, or
+        <code>pending</code> &mdash; only the first two contribute to Trust
+        Magnitude.
+      </p>
     </section>
 
-    <footer class="benchmarks-footer">
-      <p>
-        Leaderboards land in Sprint D W4 (issue #907). Until then, per-skill
-        benchmark evidence is visible on the skill explorer pages
-        (<a href="../named/">Skills</a>). Schema:
-        <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/schema/evidence/benchmark-result.schema.json">benchmark-result.schema.json</a>.
+    <!-- ─── LEADERBOARDS: the bold row ─── -->
+    <section class="bench-block" aria-labelledby="lb-heading">
+      <h2 id="lb-heading">External benchmarks</h2>
+      <p class="block-sub">
+        Public tasksets, run inside a Gaia CI harness or mirrored as citations
+        from a named upstream leaderboard. Every score links back to the commit
+        that produced it.
       </p>
+
+      <div class="lb-tiles" id="lb-tiles-mount"></div>
+
+      <p class="methodology-line">
+        How rows are ingested, hashed, and gated at merge time is documented in
+        the <a href="methodology/">benchmark methodology</a>.
+      </p>
+    </section>
+
+    <!-- ─── GAIA SKILL BENCH: the direction ─── -->
+    <section class="bench-block gsb" aria-labelledby="gsb-heading">
+      <div class="gsb-bg" aria-hidden="true"></div>
+      <p class="gsb-status">In design</p>
+      <h2 id="gsb-heading">Gaia Skill Bench</h2>
+      <p class="gsb-lede">
+        A frozen taskset that scores the skill&mdash;its harness, its prompts,
+        its refusal behaviour&mdash;independent of the model executing it.
+      </p>
+
+      <ol class="gsb-pillars">
+        <li class="gsb-pillar">
+          <span class="gsb-pillar-weight">40%</span>
+          <div class="gsb-pillar-body">
+            <span class="gsb-pillar-name">Performance</span>
+            <span class="gsb-pillar-desc">Task success rate against the frozen taskset hash.</span>
+          </div>
+        </li>
+        <li class="gsb-pillar">
+          <span class="gsb-pillar-weight">30%</span>
+          <div class="gsb-pillar-body">
+            <span class="gsb-pillar-name">Reliability</span>
+            <span class="gsb-pillar-desc">Consistency across repeated seeded runs.</span>
+          </div>
+        </li>
+        <li class="gsb-pillar">
+          <span class="gsb-pillar-weight">20%</span>
+          <div class="gsb-pillar-body">
+            <span class="gsb-pillar-name">Triggering</span>
+            <span class="gsb-pillar-desc">Fires when it should; stays silent when it shouldn't.</span>
+          </div>
+        </li>
+        <li class="gsb-pillar">
+          <span class="gsb-pillar-weight">10%</span>
+          <div class="gsb-pillar-body">
+            <span class="gsb-pillar-name">Efficiency</span>
+            <span class="gsb-pillar-desc">Tokens, calls, and latency to reach the answer.</span>
+          </div>
+        </li>
+      </ol>
+
+      <p class="gsb-flow">
+        Submissions enter through the community harness. Gaia CI re-executes
+        the run against the frozen taskset hash and, on success, writes a row
+        with <code>provenance: ci-reproduced</code>. Everything else stays in
+        <code>pending</code> until a Verifier or a green workflow promotes it.
+      </p>
+
+      <div class="gsb-actions">
+        <a href="https://github.com/gaia-research/gaia-skill-tree/blob/dev/sprint-d-benchmark-leaderboard/founder/handovers/GAIA_BENCH_VISION.md" target="_blank" rel="noopener">Read the vision doc</a>
+        <a class="secondary" href="https://github.com/gaia-research/gaia-skill-tree/issues/960" target="_blank" rel="noopener">Follow issue&nbsp;#960</a>
+      </div>
+
+      <p class="gsb-attribution">
+        Original proposal by <a href="https://github.com/rico-favor" target="_blank" rel="noopener">@rico-favor</a> in
+        <a href="https://github.com/gaia-research/gaia-skill-tree/issues/960" target="_blank" rel="noopener">issue&nbsp;#960</a>.
+      </p>
+    </section>
+
+    <footer class="bench-foot">
+      Per-skill benchmark evidence surfaces on the <a href="../named/">skill explorer</a> pages.
+      Schema: <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/schema/evidence/benchmark-result.schema.json">benchmark-result.schema.json</a>.
+      Leaderboard URLs frozen at <code>/benchmarks/humaneval/</code> and <code>/benchmarks/mmlu/</code> through Sprint&nbsp;F.
     </footer>
   </main>
 
-  <div id="site-footer"></div>
-  <script src="../js/site-footer.js?v=5.11.13"></script>
+  <div id="site-footer-mount"></div>
+  <script src="../js/site-footer.js?v=5.11.16"></script>
+  <script>
+  /* Mobile-first parallax on the GSB panel per DESIGN.md §Motion.
+     - RAF-driven translateY, never background-attachment:fixed
+     - 0.45× speed
+     - disabled below 768px
+     - honors prefers-reduced-motion */
+  (function () {
+    var bg = document.querySelector('.gsb .gsb-bg');
+    var section = document.querySelector('.gsb');
+    if (!bg || !section) return;
+
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+    var wide   = window.matchMedia && window.matchMedia('(min-width: 768px)');
+    if (reduce && reduce.matches) return;
+    if (!wide || !wide.matches) return;
+
+    var speed = 0.45;
+    var ticking = false;
+    var lastY = 0;
+
+    function update() {
+      ticking = false;
+      var rect = section.getBoundingClientRect();
+      var viewportH = window.innerHeight || document.documentElement.clientHeight;
+      // Only translate while the section is in-flight of the viewport
+      if (rect.bottom < 0 || rect.top > viewportH) return;
+      var offset = (rect.top - viewportH / 2) * -speed;
+      bg.style.transform = 'translate3d(0,' + offset.toFixed(1) + 'px,0)';
+    }
+    function onScroll() {
+      lastY = window.scrollY || window.pageYOffset || 0;
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    // Prime the first frame so the image isn't stuck at 0 on load.
+    update();
+  })();
+  </script>
+  <script>
+  (function () {
+    var mount = document.getElementById('lb-tiles-mount');
+    if (!mount) return;
+    fetch('../api/v1/benchmarks/index.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!data || !data.benchmarks || !data.benchmarks.length) {
+          mount.innerHTML = '<p class="lb-empty">No leaderboards available yet.</p>';
+          return;
+        }
+        var html = '';
+        data.benchmarks.forEach(function (b, i) {
+          var slug = (b.id || '').split('@')[0];
+          var provClass = b.provenance === 'mirrored' ? 'lb-prov--mirrored' : 'lb-prov--ci';
+          var provLabel = b.provenance === 'mirrored' ? 'Citation-mirrored'
+                        : b.provenance === 'ci-reproduced' ? 'CI-reproduced'
+                        : b.provenance;
+          html += '<a class="lb-tile" href="' + slug + '/" style="animation-delay:' + (i * 0.06) + 's">';
+          html += '<div class="lb-tile-id">' + (b.id || '') + '</div>';
+          html += '<div class="lb-tile-name">' + (b.name || slug) + '</div>';
+          html += '<div class="lb-tile-foot">';
+          html += '<span class="lb-prov ' + provClass + '">' + provLabel + '</span>';
+          html += '<span class="lb-tile-arrow" aria-hidden="true">&rarr;</span>';
+          html += '</div>';
+          html += '</a>';
+        });
+        mount.innerHTML = html;
+      })
+      .catch(function () {
+        mount.innerHTML = '<p class="lb-empty lb-empty--error">Could not load leaderboard index.</p>';
+      });
+  })();
+  </script>
 </body>
 </html>

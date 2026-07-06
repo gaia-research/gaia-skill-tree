@@ -64,4 +64,4 @@ co-signed by a 4★+ Verifier who ran the model themselves.  A cited leaderboard
 number satisfies neither — it is informational, not authoritative.  Excluding
 it prevents badge inflation from numbers we cannot independently verify.
 
-See `docs/benchmarks/methodology.md` for the full provenance ladder.
+See `docs/benchmarks/methodology/` for the full provenance ladder.
