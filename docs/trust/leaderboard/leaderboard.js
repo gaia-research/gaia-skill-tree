@@ -196,8 +196,12 @@
     return Math.ceil(rotated + labelLines * fontPx * 1.4 + 24);
   }
 
-  // Resolve target container width — viewport-aware, capped at design max.
+  // Resolve target container width — uses the actual panel element width when
+  // available so embedded contexts (e.g. homepage #trust-preview with a
+  // max-width:1180px wrapper) don't produce an SVG wider than the container.
   function chartContainerW() {
+    var panel = document.querySelector('.lb-chart-panel');
+    if (panel && panel.offsetWidth > 0) return panel.offsetWidth;
     var vw = (typeof window !== 'undefined' && window.innerWidth) || 1024;
     return Math.min(vw - 40, 1280);
   }

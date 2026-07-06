@@ -1,55 +1,366 @@
 <!DOCTYPE html>
 <html lang="en" data-icon-base="../assets/icons.svg">
 <head>
+  <script>window.GAIA_VERSION = "{{ version }}";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="gaia-content-engine">
-  <title>Weekly Reports — Gaia</title>
-  <meta name="description" content="Archive of Gaia weekly reports — a permanent record of what moved in the skill registry each ISO week.">
+  <title>Weekly Reports | Gaia Registry</title>
+  <meta name="description" content="Archive of Gaia weekly reports. One report per ISO week. Trending, ascended, contested. Mechanically compiled from the trending API.">
   <link rel="canonical" href="https://gaiaskilltree.com/reports/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Weekly Reports — Gaia">
+  <meta property="og:title" content="Weekly Reports | Gaia Registry">
   <meta property="og:description" content="Every Monday: what changed in the Gaia skill registry, mechanically compiled from the trending API.">
   <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="../css/tokens.css?v={{ version }}">
   <link rel="stylesheet" href="../css/styles.css?v={{ version }}">
   <link rel="alternate" type="application/json" href="/api/v1/reports/index.json">
+
+  <script>
+    window.gaiaIconBase = function () { return '../assets/icons.svg'; };
+  </script>
+
+  <style>
+    /* ─────────────────────────────────────────────────────────────
+       WEEKLY REPORTS ARCHIVE — ledger surface, not blog index.
+       Matches the benchmarks landing register (bench-shell): one
+       display hero, one contract line, a list where the list IS the
+       experience. EB Garamond for display, Bricolage for body,
+       Departure/JetBrains Mono reserved for ISO identifiers and
+       provenance labels. Body copy sits on --text (#e2e8f0) against
+       --bg (#030712) for 4.5:1+ contrast.
+       ───────────────────────────────────────────────────────────── */
+
+    .reports-shell {
+      max-width: 62rem;
+      margin: 0 auto;
+      padding: 5rem 1.5rem 6rem;
+      color: var(--text);
+      font-family: var(--font-body);
+    }
+    @media (min-width: 768px) {
+      .reports-shell { padding: 8rem 2rem 7rem; }
+    }
+
+    /* ── Hero: thesis, not tagline ─────────────────────────── */
+    .reports-hero {
+      max-width: 44rem;
+      margin: 0 0 5rem;
+    }
+    .reports-hero h1 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(2.4rem, 6.5vw, 4.25rem);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      margin: 0 0 1.75rem;
+      color: var(--text);
+      text-wrap: balance;
+    }
+    .reports-hero h1 em {
+      font-style: italic;
+      color: var(--apex-gold);
+      font-weight: 400;
+    }
+    .reports-hero p {
+      font-size: 1.15rem;
+      line-height: 1.55;
+      color: var(--text);
+      opacity: 0.82;
+      margin: 0 0 1rem;
+      max-width: 38rem;
+      text-wrap: pretty;
+    }
+    @media (min-width: 768px) {
+      .reports-hero p { font-size: 1.25rem; }
+    }
+    .reports-hero .contract {
+      margin-top: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: var(--text);
+      opacity: 0.72;
+      max-width: 40rem;
+    }
+    .reports-hero .contract code {
+      font-family: var(--font-mono);
+      color: var(--apex-gold);
+      background: none;
+      padding: 0;
+    }
+
+    /* ── Archive block ─────────────────────────────────────── */
+    .reports-block { margin-bottom: 5rem; }
+    .reports-block-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding-bottom: 1.25rem;
+      margin-bottom: 0;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .reports-block-head h2 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin: 0;
+      color: var(--text);
+    }
+    .reports-block-head .count {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── The list is the experience ────────────────────────── */
+    .reports-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .reports-row {
+      display: grid;
+      grid-template-columns: minmax(9rem, auto) 1fr auto;
+      align-items: baseline;
+      gap: 1rem 1.5rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    @media (max-width: 640px) {
+      .reports-row {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+    }
+    .reports-row:last-child { border-bottom: none; }
+
+    .reports-row a.rr-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 2.4vw, 1.75rem);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      color: var(--text);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      transition: color 160ms ease-out;
+    }
+    .reports-row a.rr-title:hover,
+    .reports-row a.rr-title:focus-visible {
+      color: var(--apex-gold);
+      outline: none;
+    }
+    .reports-row a.rr-title .rr-tail {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.7em;
+      transition: color 160ms ease-out, transform 160ms ease-out;
+    }
+    .reports-row a.rr-title:hover .rr-tail,
+    .reports-row a.rr-title:focus-visible .rr-tail {
+      color: var(--apex-gold);
+      transform: translateX(2px);
+    }
+
+    .reports-row .rr-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.25rem;
+      align-items: baseline;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+    .reports-row .rr-meta .rr-layer {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4em;
+    }
+    .reports-row .rr-meta .rr-layer code {
+      font-family: var(--font-mono);
+      color: var(--evidence-gold);
+      background: rgba(var(--evidence-gold-rgb), 0.08);
+      border: 1px solid rgba(var(--evidence-gold-rgb), 0.28);
+      padding: 0.05em 0.4em;
+      border-radius: 3px;
+      font-size: 0.85em;
+    }
+
+    .reports-row a.rr-json {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      padding: 0.25rem 0;
+      border-bottom: 1px solid transparent;
+      transition: color 160ms ease-out, border-color 160ms ease-out;
+      justify-self: end;
+    }
+    .reports-row a.rr-json:hover,
+    .reports-row a.rr-json:focus-visible {
+      color: var(--text);
+      border-bottom-color: var(--border);
+      outline: none;
+    }
+    @media (max-width: 640px) {
+      .reports-row a.rr-json { justify-self: start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reports-row a.rr-title,
+      .reports-row a.rr-title .rr-tail,
+      .reports-row a.rr-json { transition: none; }
+      .reports-row a.rr-title:hover .rr-tail,
+      .reports-row a.rr-title:focus-visible .rr-tail { transform: none; }
+    }
+
+    /* ── Empty state ───────────────────────────────────────── */
+    .reports-empty {
+      padding: 4rem 0;
+      text-align: center;
+      color: var(--text);
+    }
+    .reports-empty .glyph {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      line-height: 1;
+    }
+    .reports-empty h3 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.5rem;
+      margin: 0 0 0.75rem;
+      color: var(--text);
+    }
+    .reports-empty p {
+      color: var(--text);
+      opacity: 0.72;
+      max-width: 32rem;
+      margin: 0 auto;
+      line-height: 1.55;
+    }
+    .reports-empty .cadence {
+      display: inline-block;
+      margin-top: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ── Footer caption ────────────────────────────────────── */
+    .reports-caption {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+    .reports-caption a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 160ms ease-out, border-color 160ms ease-out;
+    }
+    .reports-caption a:hover,
+    .reports-caption a:focus-visible {
+      color: var(--text);
+      border-bottom-color: var(--border);
+      outline: none;
+    }
+  </style>
+
+<script type="application/ld+json" data-injector="gaia-json-ld">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Weekly Reports",
+  "url": "https://gaiaskilltree.com/reports/"
+}
+</script>
 </head>
 <body>
   <nav id="site-nav"></nav>
   <script src="../js/mounts.js?v={{ version }}"></script>
   <script src="../js/site-nav.js?v={{ version }}"></script>
 
-  <main class="reports-archive" style="max-width: 72rem; margin: 2rem auto; padding: 0 1.25rem; color: var(--text); font-family: 'EB Garamond', Georgia, serif; line-height: 1.6;">
-    <header style="border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
-      <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .75rem; color: var(--muted); letter-spacing: .12em; text-transform: uppercase;">Gaia · Weekly Reports</div>
-      <h1 style="margin: .25rem 0 0; font-family: 'Bricolage Grotesque', 'EB Garamond', sans-serif; font-weight: 600;">What moved this week</h1>
-      <p style="color: var(--muted); font-size: .95rem; margin-top: .5rem;">One report per ISO week. Trending, ascended, contested — mechanically compiled from the <a href="/api/v1/trending/" style="color: var(--evidence-gold);">trending API</a>.</p>
+  <main class="reports-shell">
+
+    <header class="reports-hero">
+      <h1>The ledger, <em>week by week</em>.</h1>
+      <p>Every Monday, Gaia publishes what moved in the skill registry over the prior ISO week. Trending skills, recent rank-ups, contested contribution spaces. Mechanically compiled from the trending API, not editorial commentary.</p>
+      <p class="contract">
+        One report per ISO week at <code>/reports/YYYY-WW/</code>. Canonical JSON at <code>/api/v1/reports/YYYY-WW.json</code>. Archive index at <code>/api/v1/reports/index.json</code>. Cadence: Monday 08:00 UTC via cron.
+      </p>
     </header>
 
-    {% if not reports %}
-      <p style="color: var(--muted);">No reports published yet — the first one lands Monday 08:00 UTC.</p>
-    {% else %}
-      <ul style="list-style: none; padding: 0; margin: 0;">
-        {% for r in reports %}
-        <li style="padding: 1rem 0; border-bottom: 1px solid var(--border);">
-          <a href="/reports/{{ r.reportId }}/" style="color: var(--text); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 1.1rem; text-decoration: none;">
-            {{ r.reportId }}
-          </a>
-          <span style="color: var(--muted); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .75rem; margin-left: 1rem;">ISO {{ r.isoYear }}-W{{ '%02d' | format(r.isoWeek) }}</span>
-          {% if r.salvageLayer %}<span style="color: var(--muted); font-size: .75rem; margin-left: 1rem;">Layer <code>{{ r.salvageLayer }}</code></span>{% endif %}
-          <span style="color: var(--muted); font-size: .75rem; margin-left: 1rem;"><a href="/api/v1/reports/{{ r.reportId }}.json" style="color: var(--muted);">JSON</a></span>
-        </li>
-        {% endfor %}
-      </ul>
-    {% endif %}
+    <section class="reports-block" aria-labelledby="archiveHeading">
+      <div class="reports-block-head">
+        <h2 id="archiveHeading">Archive</h2>
+        {% if reports %}
+        <span class="count">{{ reports | length }} report{{ '' if reports | length == 1 else 's' }}</span>
+        {% endif %}
+      </div>
 
-    <footer style="margin-top: 2rem; color: var(--muted); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .75rem;">
-      Archive rebuilt on every publish. Machine-readable index: <a href="/api/v1/reports/index.json" style="color: var(--muted);">/api/v1/reports/index.json</a>.
+      {% if not reports %}
+        <div class="reports-empty" role="status">
+          <div class="glyph" aria-hidden="true">◇</div>
+          <h3>No reports published yet.</h3>
+          <p>The first weekly report lands on the next Monday cadence. Until then, the archive is empty by design, not by omission.</p>
+          <span class="cadence">Monday 08:00 UTC</span>
+        </div>
+      {% else %}
+        <ol class="reports-list">
+          {% for r in reports %}
+          <li class="reports-row">
+            <a class="rr-title" href="/reports/{{ r.reportId }}/">
+              <span>{{ r.reportId }}</span>
+              <span class="rr-tail" aria-hidden="true">→</span>
+            </a>
+            <div class="rr-meta">
+              <span>ISO {{ r.isoYear }}-W{{ '%02d' | format(r.isoWeek) }}</span>
+              {% if r.salvageLayer %}
+              <span class="rr-layer">Layer <code>{{ r.salvageLayer }}</code></span>
+              {% endif %}
+            </div>
+            <a class="rr-json" href="/api/v1/reports/{{ r.reportId }}.json" aria-label="Canonical JSON for report {{ r.reportId }}">JSON</a>
+          </li>
+          {% endfor %}
+        </ol>
+      {% endif %}
+    </section>
+
+    <footer class="reports-caption">
+      Archive rebuilt on every publish. Machine-readable index at <a href="/api/v1/reports/index.json">/api/v1/reports/index.json</a>. Compiled from the <a href="/api/v1/trending/">trending API</a>.
     </footer>
+
   </main>
+
+  <div id="site-footer-mount"></div>
+  <script src="../js/site-footer.js?v={{ version }}"></script>
 </body>
 </html>

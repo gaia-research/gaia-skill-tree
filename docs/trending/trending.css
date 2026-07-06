@@ -7,7 +7,12 @@
 .trending-main {
   max-width: 860px;
   margin: 0 auto;
-  padding: 0 1.5rem 4rem;
+  /* Clear the fixed nav (~58px). Matches the 5rem/6rem top-clearance
+     pattern used by .bench-shell, .reports-shell, and .wip-banner. */
+  padding: 5rem 1.5rem 4rem;
+}
+@media (min-width: 768px) {
+  .trending-main { padding-top: 6rem; }
 }
 
 /* ── Hero tweaks ─────────────────────────────────────────────── */
