@@ -1,0 +1,1179 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": null,
+  "families": [
+    {
+      "id": "basic",
+      "count": 103,
+      "skills": [
+        {
+          "id": "adaptive-pattern-learning",
+          "name": "Adaptive Pattern Learning",
+          "summary": "Implements adaptive learning through pattern recognition and strategy optimization."
+        },
+        {
+          "id": "api-call",
+          "name": "API Call",
+          "summary": "A fundamental skill that enables agents to interact with external services via HTTP API calls."
+        },
+        {
+          "id": "audience-model",
+          "name": "Audience Model",
+          "summary": "Adapts tone, complexity, and framing of output to match a target audience profile."
+        },
+        {
+          "id": "autonomous-engineering-platform",
+          "name": "Autonomous Engineering Platform",
+          "summary": "An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery."
+        },
+        {
+          "id": "bioinformatic-sequence-analysis",
+          "name": "Bioinformatic Sequence Analysis",
+          "summary": "Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases."
+        },
+        {
+          "id": "browser-control",
+          "name": "Browser Control",
+          "summary": "A foundational skill for interacting directly with the web browser using Chrome DevTools Protocol (CDP)."
+        },
+        {
+          "id": "chain-of-thought",
+          "name": "Chain-of-Thought Reasoning",
+          "summary": "Produces explicit intermediate reasoning steps before arriving at a final answer, dramatically improving accuracy on multi-step problems."
+        },
+        {
+          "id": "chunk-document",
+          "name": "Chunk Document",
+          "summary": "Splits a document into semantically meaningful segments optimized for embedding and retrieval."
+        },
+        {
+          "id": "cite-sources",
+          "name": "Cite Sources",
+          "summary": "Attributes claims to specific sources with proper references, URLs, or bibliographic entries."
+        },
+        {
+          "id": "classify",
+          "name": "Classify",
+          "summary": "Assigns one or more categorical labels to an input based on learned or rule-based criteria."
+        },
+        {
+          "id": "cli-modernization",
+          "name": "CLI Modernization",
+          "summary": "Refactors command-line interfaces for improved UX, plugin architecture, and extensibility."
+        },
+        {
+          "id": "clinical-data-retrieval",
+          "name": "Clinical Data Retrieval",
+          "summary": "Retrieves and parses clinical trial records, drug approvals, regulatory filings, or medical variant databases (e.g. ClinicalTrials.gov, OpenFDA, ClinVar)."
+        },
+        {
+          "id": "code-execution",
+          "name": "Code Execution",
+          "summary": "Writes and executes code in a sandboxed environment, uses the runtime output to verify correctness, and iterates until the result is correct."
+        },
+        {
+          "id": "code-explain",
+          "name": "Code Explain",
+          "summary": "Generates accurate natural-language explanations of source code, describing intent, logic flow, and key decisions at function or module level."
+        },
+        {
+          "id": "code-generation",
+          "name": "Code Generation",
+          "summary": "Produces syntactically correct and functionally appropriate source code from specifications or prompts."
+        },
+        {
+          "id": "computer-use",
+          "name": "Computer Use",
+          "summary": "Controls desktop GUIs and web browsers by interpreting screenshots, issuing mouse/keyboard actions, and verifying visual state to complete open-ended computer tasks."
+        },
+        {
+          "id": "context-compression",
+          "name": "Context Compression",
+          "summary": "Reduces the length of prompts or retrieved context to fit token limits while preserving semantic content, using techniques such as selective token removal, summarization, or token-classification-based pruning (e.g. LLMLingua)."
+        },
+        {
+          "id": "core-platform-implementation",
+          "name": "Core Platform Implementation",
+          "summary": "Implements foundational platform architecture including plugin discovery, server lifecycle management, and API contracts."
+        },
+        {
+          "id": "cultural-localization",
+          "name": "Cultural Localization",
+          "summary": "Adapts content for regional audiences beyond translation: idioms, cultural nuance, tone, trust conventions, and regional compliance for culturally faithful output."
+        },
+        {
+          "id": "data-visualize",
+          "name": "Data Visualize",
+          "summary": "Generates charts, graphs, and visual summaries from datasets by selecting appropriate visualization types and mapping data dimensions."
+        },
+        {
+          "id": "diff-content",
+          "name": "Diff Content",
+          "summary": "Compares two versions of content and produces a structured delta highlighting additions, deletions, and modifications."
+        },
+        {
+          "id": "document-editing",
+          "name": "Document Editing",
+          "summary": "Reads, edits, repacks, and applies styling or design principles to structured binary document formats such as PPTX, DOCX, and XLSX."
+        },
+        {
+          "id": "domain-modeling",
+          "name": "Domain Modeling",
+          "summary": "Build and maintain a shared domain model with ubiquitous language and architectural decision records."
+        },
+        {
+          "id": "embed-text",
+          "name": "Embed Text",
+          "summary": "Converts text into dense vector representations suitable for similarity search and clustering."
+        },
+        {
+          "id": "error-interpretation",
+          "name": "Error Interpretation",
+          "summary": "Diagnoses error messages, stack traces, and failure modes to identify root causes and suggest fixes."
+        },
+        {
+          "id": "evaluate-output",
+          "name": "Evaluate Output",
+          "summary": "Assesses the quality, correctness, or safety of generated output against defined criteria."
+        },
+        {
+          "id": "extract-entities",
+          "name": "Extract Entities",
+          "summary": "Identifies and extracts named entities such as people, organizations, dates, and locations from text."
+        },
+        {
+          "id": "feed-monitoring",
+          "name": "Feed Monitoring",
+          "summary": "Monitors RSS, Atom, blog, or other recurring content feeds, discovers updates, tracks read state, and surfaces new signals for downstream agent workflows."
+        },
+        {
+          "id": "few-shot-learning",
+          "name": "Few-Shot Learning",
+          "summary": "Conditions a language model on a small number of input-output demonstrations within the prompt, enabling task adaptation without weight updates."
+        },
+        {
+          "id": "fine-tune",
+          "name": "Fine-Tune",
+          "summary": "Adapts a pre-trained model to a new task or domain by updating model weights using parameter-efficient methods such as LoRA, QLoRA, or full supervised fine-tuning, without retraining from scratch."
+        },
+        {
+          "id": "format-output",
+          "name": "Format Output",
+          "summary": "Structures raw output into a specified format such as markdown, JSON, CSV, or HTML."
+        },
+        {
+          "id": "framework-upgrade",
+          "name": "Framework Upgrade",
+          "summary": "Guides an agent through upgrading a project from one major framework version to another, including breaking-change detection, migration steps, and post-upgrade validation."
+        },
+        {
+          "id": "generate-sql",
+          "name": "Generate SQL",
+          "summary": "Translates natural-language data questions into syntactically correct, executable SQL queries against a given schema."
+        },
+        {
+          "id": "generate-test",
+          "name": "Generate Test",
+          "summary": "Produces comprehensive unit, integration, and edge-case test suites from source code."
+        },
+        {
+          "id": "generate-text",
+          "name": "Generate Text",
+          "summary": "Produces coherent natural language output given a prompt, instruction, or context window."
+        },
+        {
+          "id": "genomic-data-retrieval",
+          "name": "Genomic Data Retrieval",
+          "summary": "Queries and retrieves DNA sequence data, transcription factor binding models, cis-regulatory elements, and genetic annotations from genomic repositories (e.g. Ensembl, GTEx, JASPAR, UniBind, ENCODE, UCSC, dbSNP)."
+        },
+        {
+          "id": "git-diff-risk-analysis",
+          "name": "Git Diff Risk Analysis",
+          "summary": "Analyzes git diffs for complexity, churn, and risk scores to prioritize review attention and flag dangerous changes."
+        },
+        {
+          "id": "headless-worker-collect",
+          "name": "Headless Worker Collect",
+          "summary": "Aggregates and formats results from distributed headless workers stored in shared memory with filtering and status reporting."
+        },
+        {
+          "id": "headless-worker-spawn",
+          "name": "Headless Worker Spawn",
+          "summary": "Launches headless AI worker processes for parallel background task execution with configurable worker types and shared memory coordination."
+        },
+        {
+          "id": "hybrid-workflow-coordination",
+          "name": "Hybrid Workflow Coordination",
+          "summary": "Routes tasks between interactive reasoning phases and parallel background execution with configurable workflow templates."
+        },
+        {
+          "id": "hypothesis-generate",
+          "name": "Hypothesis Generation",
+          "summary": "Formulates novel, testable scientific hypotheses by synthesising existing literature, identifying knowledge gaps, and proposing mechanistic explanations."
+        },
+        {
+          "id": "image-caption",
+          "name": "Image Caption",
+          "summary": "Generates accurate natural-language descriptions of images, capturing objects, actions, and spatial relationships."
+        },
+        {
+          "id": "image-generate",
+          "name": "Image Generate",
+          "summary": "Creates photorealistic or stylized images from text prompts using diffusion-based or autoregressive generative models."
+        },
+        {
+          "id": "issue-triage",
+          "name": "Issue Triage",
+          "summary": "Classifies incoming issue reports through a structured state machine, assigns triage roles (bug/enhancement, needs-info/ready-for-agent/wontfix), reproduces bugs, requests missing detail, and produces structured resolution briefs for agent or human handoff."
+        },
+        {
+          "id": "literature-search",
+          "name": "Literature Search",
+          "summary": "Queries and searches academic literature databases (e.g. PubMed, arXiv, bioRxiv, OpenAlex) to locate papers, retrieve abstracts, resolve citations, and fetch full-text documents."
+        },
+        {
+          "id": "logical-inference",
+          "name": "Logical Inference",
+          "summary": "Applies deductive, inductive, or abductive reasoning to derive valid conclusions from premises and structured knowledge."
+        },
+        {
+          "id": "math-reason",
+          "name": "Math Reason",
+          "summary": "Solves multi-step mathematical problems including arithmetic, algebra, calculus, and competition mathematics through symbolic and numeric reasoning."
+        },
+        {
+          "id": "mcp-integration",
+          "name": "MCP Integration",
+          "summary": "Connect to and invoke tools exposed by Model Context Protocol (MCP) servers \\u2014 enumerate available tools, execute calls, and handle responses across any MCP-compatible backend."
+        },
+        {
+          "id": "memory-pattern-design",
+          "name": "Memory Pattern Design",
+          "summary": "Designs recurring memory storage patterns for AI agents with LRU caching, SQLite persistence, and associative retrieval."
+        },
+        {
+          "id": "molecular-databases",
+          "name": "Molecular Databases",
+          "summary": "Queries and retrieves structural, chemical, and biological activity data for small molecules, chemical compounds, or drug candidates from molecular repositories (e.g., ChEMBL, PubChem)."
+        },
+        {
+          "id": "multi-repo-coordination",
+          "name": "Multi-Repo Coordination",
+          "summary": "Manages synchronized operations across multiple repositories including cross-repo PRs, dependency tracking, and bulk workflow automation."
+        },
+        {
+          "id": "object-detection",
+          "name": "Object Detection",
+          "summary": "Locates and classifies multiple objects within images by producing bounding boxes, confidence scores, and category labels in a single forward pass."
+        },
+        {
+          "id": "optical-character-recognition",
+          "name": "OCR",
+          "summary": "Extracts machine-readable text from raster images, scanned pages, and photo documents using optical character recognition, preserving layout and handling skew, noise, and varied fonts."
+        },
+        {
+          "id": "parallel-execution",
+          "name": "Parallel Execution",
+          "summary": "Decompose a task into independent sub-tasks and execute them concurrently, merging results with configurable concurrency limits and queue-based state tracking."
+        },
+        {
+          "id": "parse-html",
+          "name": "Parse HTML",
+          "summary": "Extracts structured content from raw HTML, navigating DOM trees and handling malformed markup."
+        },
+        {
+          "id": "parse-json",
+          "name": "Parse JSON",
+          "summary": "Extracts structured data from JSON-formatted input, handling nested objects and arrays."
+        },
+        {
+          "id": "parse-pdf",
+          "name": "Parse PDF",
+          "summary": "Extracts text, tables, equations, and structure from PDF documents, preserving layout and reading order."
+        },
+        {
+          "id": "pathway-ontology-retrieval",
+          "name": "Pathway Ontology Retrieval",
+          "summary": "Queries, parses, and resolves biological pathway models, cellular reactions, and hierarchical ontology metadata from pathway and ontology search systems (e.g., Reactome, QuickGO, EMBL-EBI OLS)."
+        },
+        {
+          "id": "performance-tuning",
+          "name": "Performance Tuning",
+          "summary": "Profiles execution hotspots, measures throughput and latency, and applies targeted optimizations to reduce resource consumption."
+        },
+        {
+          "id": "plan-decompose",
+          "name": "Plan and Decompose",
+          "summary": "Breaks a complex objective into an ordered sequence of executable sub-tasks."
+        },
+        {
+          "id": "probabilistic-programming",
+          "name": "Probabilistic Programming",
+          "summary": "Specifies Bayesian models and runs inference (MCMC/NUTS, variational) to quantify epistemic and aleatoric uncertainty using PyMC, Stan, Pyro, or NumPyro."
+        },
+        {
+          "id": "prompt-injection-defense",
+          "name": "Prompt Injection Defense",
+          "summary": "Detects and neutralizes adversarial instructions injected into agent context from untrusted external sources (indirect prompt injection), using techniques such as context isolation, hierarchical intent verification, or semantic consistency checks."
+        },
+        {
+          "id": "protein-structure-analysis",
+          "name": "Protein Structure Analysis",
+          "summary": "Analyzes, searches, and aligns three-dimensional macromolecular structures using structural databases, alignment search algorithms (e.g. Foldseek, PDB search), or molecular modeling tools."
+        },
+        {
+          "id": "proteomic-data-retrieval",
+          "name": "Proteomic Data Retrieval",
+          "summary": "Queries and retrieves amino acid sequences, protein families, functional domains, tissue distribution, and protein-protein interactions from proteomic repositories (e.g. UniProt, InterPro, Human Protein Atlas, STRING)."
+        },
+        {
+          "id": "question-answer",
+          "name": "Question Answer",
+          "summary": "Produces accurate, context-grounded answers to natural-language questions, handling unanswerable cases."
+        },
+        {
+          "id": "rank",
+          "name": "Rank",
+          "summary": "Orders a set of candidate items by relevance, quality, or fitness for a given objective."
+        },
+        {
+          "id": "refactor-code",
+          "name": "Refactor Code",
+          "summary": "Restructures existing source code to improve readability, maintainability, or performance without changing observable behavior."
+        },
+        {
+          "id": "requirements-analysis",
+          "name": "Requirements Analysis",
+          "summary": "Elicit and structure requirements from stakeholder inputs into formal specifications \\u2014 user stories, acceptance criteria, and traceability matrices."
+        },
+        {
+          "id": "retrieve",
+          "name": "Retrieve",
+          "summary": "Fetches relevant documents or passages from an indexed corpus given a query."
+        },
+        {
+          "id": "reward-modeling",
+          "name": "Reward Modeling",
+          "summary": "Learns a scalar reward signal from human preference comparisons between model outputs, enabling reinforcement learning from human feedback (RLHF) to align model behavior with human values."
+        },
+        {
+          "id": "route-intent",
+          "name": "Route Intent",
+          "summary": "Classifies user intent and directs execution to the appropriate handler, tool, or sub-agent."
+        },
+        {
+          "id": "schema-design",
+          "name": "Schema Design",
+          "summary": "Design database schemas across relational, NoSQL, graph, and time-series stores \\u2014 entity modelling, normalization, indexing strategies, and migration planning."
+        },
+        {
+          "id": "scientific-visualization",
+          "name": "Scientific Visualization",
+          "summary": "Creates publication-ready scientific figures and visualizes molecular structures."
+        },
+        {
+          "id": "score-relevance",
+          "name": "Score Relevance",
+          "summary": "Assigns a numerical relevance score to candidate items relative to a query or objective."
+        },
+        {
+          "id": "self-consistency",
+          "name": "Self-Consistency",
+          "summary": "Samples multiple independent reasoning paths for the same problem and selects the answer by majority vote, improving robustness without any additional training."
+        },
+        {
+          "id": "self-critique",
+          "name": "Self-Critique",
+          "summary": "Iteratively evaluates and refines its own outputs using self-generated feedback, improving quality without external supervision."
+        },
+        {
+          "id": "semantic-cache",
+          "name": "Semantic Cache",
+          "summary": "Stores LLM responses keyed by embedding similarity so that semantically equivalent queries are served from cache, reducing inference latency and token cost without sacrificing answer quality."
+        },
+        {
+          "id": "sentiment-analysis",
+          "name": "Sentiment Analysis",
+          "summary": "Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers pipelines from raw noisy input through preprocessing, inference (Transformer, Lexicon, or LLM), and output normalisation."
+        },
+        {
+          "id": "sequential-agent-pipeline",
+          "name": "Sequential Agent Pipeline",
+          "summary": "Chains agent outputs sequentially so each step's result feeds the next, enabling multi-stage data transformation and coordinated processing."
+        },
+        {
+          "id": "skill-discovery",
+          "name": "Skill Discovery",
+          "summary": "Searches a skill or tool registry, ranks results by relevance and install count, and surfaces candidates for the agent to adopt or invoke."
+        },
+        {
+          "id": "software-design",
+          "name": "Software Design",
+          "summary": "Design software modules with clean interfaces, seams, and deep implementations for maintainability and testability."
+        },
+        {
+          "id": "speech-to-text",
+          "name": "Speech to Text",
+          "summary": "Transcribes spoken audio into accurate text, handling diverse accents, noise conditions, and multiple languages."
+        },
+        {
+          "id": "statistical-analysis",
+          "name": "Statistical Analysis",
+          "summary": "Performs hypothesis testing, regression analysis, and Bayesian modelling with effect size calculation and APA-formatted statistical reporting using scipy, statsmodels, and PyMC."
+        },
+        {
+          "id": "structured-output",
+          "name": "Structured Output Generation",
+          "summary": "Generates output guaranteed to conform to a given schema (JSON, YAML, Pydantic model, etc.) using constrained decoding or grammar-guided generation."
+        },
+        {
+          "id": "summarize",
+          "name": "Summarize",
+          "summary": "Condenses longer input into a shorter representation that preserves key information and intent."
+        },
+        {
+          "id": "swarm-topology-management",
+          "name": "Swarm Topology Management",
+          "summary": "Initializes and manages multi-agent swarm network topologies (hierarchical, mesh, ring, star) with load balancing and fault tolerance."
+        },
+        {
+          "id": "synthetic-data-generation",
+          "name": "Synthetic Data Generation",
+          "summary": "Generates privacy-preserving, domain-representative datasets via tabular synthesis and generative models, infusing schema and regulatory constraints to substitute for sensitive real data."
+        },
+        {
+          "id": "system-integration",
+          "name": "System Integration",
+          "summary": "Connects disparate subsystems via shared contracts, event buses, and compatibility layers for coherent cross-component operation."
+        },
+        {
+          "id": "test-driven-development",
+          "name": "Test-Driven Development",
+          "summary": "Enforces a strict red-green-refactor TDD loop: writes failing tests before implementation, blocks code generation that skips the test step, and validates coverage thresholds before marking tasks complete."
+        },
+        {
+          "id": "text-to-speech",
+          "name": "Text to Speech",
+          "summary": "Synthesizes natural-sounding speech audio from text input, supporting voice cloning and prosody control."
+        },
+        {
+          "id": "time-series-forecasting",
+          "name": "Time Series Forecasting",
+          "summary": "Forecasts temporal sequences with seasonal-trend decomposition, ensemble models (ARIMA, Prophet, NBEATS, TFT), and residual-based anomaly detection."
+        },
+        {
+          "id": "token-observability",
+          "name": "Token Observability",
+          "summary": "Observability tool for tracking AI coding agent token spend locally."
+        },
+        {
+          "id": "tokenize",
+          "name": "Tokenize",
+          "summary": "Splits input text into discrete tokens suitable for downstream processing by language models."
+        },
+        {
+          "id": "tool-select",
+          "name": "Tool Select",
+          "summary": "Chooses the most appropriate tool or API from a set of available options given a task description."
+        },
+        {
+          "id": "tool-use",
+          "name": "Tool Use",
+          "summary": "Invokes external functions or APIs by generating well-formed call signatures, parsing results, and incorporating them into reasoning."
+        },
+        {
+          "id": "translate",
+          "name": "Translate",
+          "summary": "Converts text from one natural language to another while preserving meaning, tone, and formatting."
+        },
+        {
+          "id": "ux-audit",
+          "name": "UX Audit",
+          "summary": "Systematically evaluates a user interface against established usability heuristics or accessibility standards, producing a scored finding report with remediation recommendations."
+        },
+        {
+          "id": "vector-db-optimization",
+          "name": "Vector DB Optimization",
+          "summary": "Tunes vector database indices, sharding strategies, and multi-database coordination for production-scale retrieval."
+        },
+        {
+          "id": "vector-search",
+          "name": "Vector Search",
+          "summary": "Performs similarity search over high-dimensional embeddings using cosine, Euclidean, dot-product, or custom distance metrics."
+        },
+        {
+          "id": "vision-qa",
+          "name": "Visual Question Answering",
+          "summary": "Answers natural-language questions grounded in a specific image or screenshot by combining visual perception with language reasoning, enabling visual debugging, UI analysis, and document-image Q&A."
+        },
+        {
+          "id": "web-search",
+          "name": "Web Search",
+          "summary": "Queries external search engines or APIs and retrieves relevant result sets."
+        },
+        {
+          "id": "worker-agent-dispatch",
+          "name": "Worker Agent Dispatch",
+          "summary": "Maps trigger events to optimal agent combinations for background task execution with performance tracking and continuous feedback."
+        },
+        {
+          "id": "write-report",
+          "name": "Write Report",
+          "summary": "Produces structured, multi-section written output with headings, citations, and coherent narrative."
+        }
+      ]
+    },
+    {
+      "id": "extra",
+      "count": 123,
+      "skills": [
+        {
+          "id": "advanced-swarm-coordination",
+          "name": "Advanced Swarm Coordination",
+          "summary": "Domain-specific swarm patterns for research, development, testing, and analysis workflows with neural learning and cross-session state persistence."
+        },
+        {
+          "id": "adversarial-robustness-testing",
+          "name": "Adversarial Robustness Testing",
+          "summary": "Systematically red-teams models with adversarial and multi-turn jailbreak prompts, input perturbations, and semantic-preserving transformations to measure resilience at scale."
+        },
+        {
+          "id": "agent-environment-setup",
+          "name": "agent-environment-setup",
+          "summary": "Scaffolding per-repo configuration for other engineering skills."
+        },
+        {
+          "id": "agent-eval",
+          "name": "Agent Evaluation",
+          "summary": "Holistically evaluates an AI agent's performance on multi-step tasks by running standardised benchmarks, scoring full interaction trajectories, and producing reproducible capability reports."
+        },
+        {
+          "id": "agent-handoff",
+          "name": "agent-handoff",
+          "summary": "Compacting the current conversation into a summary for a fresh agent."
+        },
+        {
+          "id": "agent-memory-learning",
+          "name": "Agent Memory Learning",
+          "summary": "Builds self-improving agent memory by analyzing task success patterns and adapting retrieval strategies with AgentDB-backed persistence."
+        },
+        {
+          "id": "agent-memory-platform",
+          "name": "Agent Memory Platform",
+          "summary": "Complete AgentDB vector memory ecosystem: QUIC-synchronized distributed vector storage, adaptive pattern learning, memory pattern design, database optimization, and semantic vector search."
+        },
+        {
+          "id": "agentic-workflow-design",
+          "name": "Agentic Workflow Design",
+          "summary": "Autonomously designs, authors, and iterates on complex multi-step workflows by translating high-level goals into executable DAGs or playbooks, managing task dependencies and distributed execution environments."
+        },
+        {
+          "id": "architecture-diagram",
+          "name": "Architecture Diagram",
+          "summary": "Generates technical architecture, infrastructure, or cloud diagrams as structured visual artifacts from natural-language system descriptions."
+        },
+        {
+          "id": "automated-testing",
+          "name": "Automated Testing",
+          "summary": "Generates test suites, executes them in a sandbox, interprets failures, and iterates until the target pass rate is reached."
+        },
+        {
+          "id": "autonomous-data-scientist",
+          "name": "Autonomous Data Scientist",
+          "summary": "Conducts end-to-end data science workflows autonomously: hypothesis generation, data analysis, statistical modeling, and insight reporting."
+        },
+        {
+          "id": "autonomous-debug",
+          "name": "Autonomous Debug",
+          "summary": "Independently identifies, diagnoses, and fixes software bugs through code generation and execution."
+        },
+        {
+          "id": "autonomous-web-research",
+          "name": "Autonomous Web Research",
+          "summary": "Independently surveys, maps, and extracts structured information from the web by autonomously deciding which domains to crawl and synthesizing data into comprehensive research reports."
+        },
+        {
+          "id": "brainstorming",
+          "name": "Brainstorming",
+          "summary": "Explores user intent, requirements, and design before implementation."
+        },
+        {
+          "id": "browser-automation",
+          "name": "Browser Automation",
+          "summary": "Navigates web pages, fills forms, clicks elements, and extracts information by combining web search with screenshot-based GUI control to complete multi-step web tasks."
+        },
+        {
+          "id": "career-operations",
+          "name": "Career Operations",
+          "summary": "Orchestrates an end-to-end job application pipeline, including automated search, fit evaluation, and tailored CV/cover letter generation."
+        },
+        {
+          "id": "causal-inference",
+          "name": "Causal Inference",
+          "summary": "Estimates treatment effects and identifies causal relationships from observational and experimental data using propensity scoring, instrumental variables, and causal graphs."
+        },
+        {
+          "id": "cloud-platform-management",
+          "name": "Cloud Platform Management",
+          "summary": "Full lifecycle management of cloud AI platforms including user auth, sandbox environments, app store deployment, payments, and challenge systems. Home of the Queen Seraphina AI assistant."
+        },
+        {
+          "id": "code-review-pipeline",
+          "name": "Code Review Pipeline",
+          "summary": "Performs automated code review by generating, diffing, and evaluating code changes for correctness, style, security, and maintainability."
+        },
+        {
+          "id": "collaborative-diagramming",
+          "name": "Collaborative Diagramming",
+          "summary": "Generates and manages digital diagrams, flowcharts, and architecture maps in web-native or collaborative formats, optimized for hand-drawn aesthetics or structured vector output."
+        },
+        {
+          "id": "computational-biology-workflows",
+          "name": "Computational Biology Workflows",
+          "summary": "Integrates structural, genomic, proteomic, and molecular database querying with bioinformatics analysis (such as sequence alignment, structure prediction, and molecular rendering) to solve multi-step, complex computational biology tasks."
+        },
+        {
+          "id": "content-moderation",
+          "name": "Content Moderation",
+          "summary": "Detects policy-violating content by combining intent classification, sentiment scoring, and entity extraction across text, images, and mixed media."
+        },
+        {
+          "id": "conversational-agent",
+          "name": "Conversational Agent",
+          "summary": "Manages coherent multi-turn dialogue by routing intent, maintaining memory across turns, and generating contextually appropriate responses."
+        },
+        {
+          "id": "data-analysis",
+          "name": "Data Analysis",
+          "summary": "Conducts end-to-end quantitative analysis: queries data via SQL, computes statistics, generates visualizations, and summarizes findings."
+        },
+        {
+          "id": "deployment-automation",
+          "name": "Deployment Automation",
+          "summary": "Automate CI/CD pipeline execution and deployment to target environments \\u2014 build, test, artifact publishing, environment promotion, and rollback strategies."
+        },
+        {
+          "id": "design-generation",
+          "name": "Design Generation",
+          "summary": "Generates high-fidelity visual assets, prototypes, and UI components from design intent or discovery forms, adhering to brand and UX standards."
+        },
+        {
+          "id": "design-review",
+          "name": "Design Review",
+          "summary": "Stress-tests a plan or design through relentless targeted questioning, walking the decision tree branch-by-branch, resolving concept dependencies, surfacing contradictions against the existing codebase, and crystallising ubiquitous language \\u2014 optionally persisting resolved decisions to CONTEXT.md and ADRs."
+        },
+        {
+          "id": "design-system-extraction",
+          "name": "Design System Extraction",
+          "summary": "Automates the discovery and extraction of design tokens, component architectures, and CSS configurations from live web applications or URLs."
+        },
+        {
+          "id": "detect-anomaly",
+          "name": "Detect Anomaly",
+          "summary": "Identifies statistical outliers, novel patterns, or deviations from expected behavior in structured or unstructured data."
+        },
+        {
+          "id": "dispatching-parallel-agents",
+          "name": "Dispatching Parallel Agents",
+          "summary": "Delegates independent tasks to specialized agents with isolated context to work concurrently."
+        },
+        {
+          "id": "distributed-consensus-coordination",
+          "name": "Hive Mind Coordination",
+          "summary": "Queen-led collective intelligence with Byzantine, majority, and weighted consensus mechanisms, eight worker specializations, and persistent collective SQLite memory with LRU caching."
+        },
+        {
+          "id": "distributed-neural-training",
+          "name": "Distributed Neural Training",
+          "summary": "Trains neural networks (feedforward, LSTM, GAN, autoencoder, transformer) across distributed E2B sandbox clusters with federated learning and model marketplace publishing."
+        },
+        {
+          "id": "distributed-vector-memory",
+          "name": "Distributed Vector Memory",
+          "summary": "Sub-millisecond cross-node vector synchronization using QUIC protocol with hybrid metadata-filtered search and MMR diversity retrieval."
+        },
+        {
+          "id": "document-analyst",
+          "name": "Document Analyst",
+          "summary": "Parses, extracts entities from, summarizes, and formats structured documents."
+        },
+        {
+          "id": "dual-mode",
+          "name": "Dual Mode",
+          "summary": "Orchestrates hybrid Claude+Codex workflows: spawns headless parallel workers, coordinates task routing between interactive and background phases, and collects distributed results."
+        },
+        {
+          "id": "e2e-testing",
+          "name": "End-to-End Testing",
+          "summary": "Execute full end-to-end user journey tests using browser automation frameworks (Playwright/Puppeteer), validating complete workflows from UI to backend across real environments."
+        },
+        {
+          "id": "edge-optimization",
+          "name": "Edge Optimization",
+          "summary": "Compresses and tunes models for low-latency on-device inference via quantization, pruning, knowledge distillation, and federated learning under resource constraints."
+        },
+        {
+          "id": "engineering-discipline",
+          "name": "mattpocock-engineering",
+          "summary": "Engineering category suite for Matt Pocock's skills."
+        },
+        {
+          "id": "executing-plans",
+          "name": "Executing Plans",
+          "summary": "Loads a written implementation plan, reviews it critically, executes all tasks sequentially, and reports when complete."
+        },
+        {
+          "id": "explainability-audit",
+          "name": "Explainability Audit",
+          "summary": "Audits model transparency by computing feature-importance attributions (SHAP, LIME) and intrinsic-interpretability metrics, surfacing them as governance evidence."
+        },
+        {
+          "id": "financial-modeling",
+          "name": "Financial Modeling",
+          "summary": "Builds financial projections, DCF and LBO valuation models, Monte Carlo simulations, and portfolio optimization by querying data, computing statistics, and running sensitivity analysis."
+        },
+        {
+          "id": "finishing-a-development-branch",
+          "name": "Finishing a Development Branch",
+          "summary": "Guides completion of development work by presenting structured options for merge, PR, or cleanup, verifying tests first."
+        },
+        {
+          "id": "full-stack-developer",
+          "name": "Full-Stack Developer",
+          "summary": "Autonomously implements, reviews, tests, and refactors complete software features across the full development lifecycle from specification to merged PR."
+        },
+        {
+          "id": "function-calling",
+          "name": "Function Calling",
+          "summary": "Selects an external callable, emits schema-valid arguments, invokes the function or API, and integrates the returned result into the agent loop."
+        },
+        {
+          "id": "generative-media",
+          "name": "Generative Media",
+          "summary": "Generates and manipulates images, video, and audio through complex node-based or scripted generative workflows, managing model dependencies and parameter injection."
+        },
+        {
+          "id": "ghostwrite",
+          "name": "Ghostwrite",
+          "summary": "Produces audience-tailored, research-backed long-form written content."
+        },
+        {
+          "id": "git-integration",
+          "name": "GitHub Platform Mastery",
+          "summary": "Full GitHub platform automation: code review pipelines, multi-repo coordination, project management, release management, and workflow automation."
+        },
+        {
+          "id": "graph-driven-issue-triage",
+          "name": "Graph-Driven Issue Triage",
+          "summary": "Combines codebase or knowledge-graph construction with automated issue triage: ingest a graph artifact, surface architectural debt or missing-prerequisite signals from the graph topology, and convert each finding into a tracked issue with reproducible evidence."
+        },
+        {
+          "id": "grill-me",
+          "name": "Grill Me",
+          "summary": "Conducts a relentless, one-question-at-a-time Socratic interview to stress-test designs and force the resolution of hidden assumptions before code is written."
+        },
+        {
+          "id": "grill-with-docs",
+          "name": "Grill With Docs",
+          "summary": "The apex of agentic design alignment. Fuses relentless Socratic questioning with deep domain awareness, ensuring every decision is cross-referenced against a persistent ubiquitous language and documented via real-time ADR generation."
+        },
+        {
+          "id": "grounding",
+          "name": "Grounding",
+          "summary": "Verifies generated claims against retrieved evidence, identifies unsupported or contradicted assertions, and anchors outputs in traceable, cited sources."
+        },
+        {
+          "id": "guardrails",
+          "name": "Guardrails",
+          "summary": "Wraps LLM outputs with programmatic safety rules, content filters, and topical constraints that detect policy violations and enforce compliant, on-policy responses before they reach the user."
+        },
+        {
+          "id": "humanize-prose",
+          "name": "Humanize Prose",
+          "summary": "Audits and rewrites prose to remove generic AI-writing patterns, preserve author intent, and adapt tone toward a more natural human voice."
+        },
+        {
+          "id": "knowledge-graph-build",
+          "name": "Knowledge Graph Construction",
+          "summary": "Extracts entities and relations from unstructured text, resolves co-references, and assembles them into a queryable graph structure with typed edges."
+        },
+        {
+          "id": "knowledge-harvest",
+          "name": "Knowledge Harvest",
+          "summary": "Extracts, structures, and embeds knowledge from web sources into a searchable corpus."
+        },
+        {
+          "id": "knowledge-management",
+          "name": "Knowledge Management",
+          "summary": "Organizes, relates, and retrieves information across structured pages, databases, and shared knowledge bases, maintaining semantic links between information nodes."
+        },
+        {
+          "id": "literature-review",
+          "name": "Literature Review",
+          "summary": "Conducts systematic multi-database academic literature searches following PRISMA/SWARM protocols, screens and synthesises findings, verifies all citations, and generates a structured review report."
+        },
+        {
+          "id": "mathematical-animation",
+          "name": "Mathematical Animation",
+          "summary": "Produces programmatic mathematical and algorithmic animations with high pedagogical and visual quality, utilizing LaTeX for notation and geometric coordinate systems for spatial layout."
+        },
+        {
+          "id": "mcp-debugger-control",
+          "name": "MCP Debugger Control",
+          "summary": "Exposes low-level debugger capabilities (breakpoints, stepping, stack inspection, variable evaluation) to AI agents via the Model Context Protocol, enabling real-time runtime diagnosis and autonomous bug fixing."
+        },
+        {
+          "id": "mcp-server-creation",
+          "name": "MCP Server Creation",
+          "summary": "Designs and implements Model Context Protocol servers that expose external APIs, files, or services as well-typed tools with clear schemas, authentication, and testable agent workflows."
+        },
+        {
+          "id": "memory-manage",
+          "name": "Memory Manage",
+          "summary": "Maintains, indexes, and retrieves conversational and long-term memory across sessions, managing context window constraints."
+        },
+        {
+          "id": "ml-artifact-management",
+          "name": "ML Artifact Management",
+          "summary": "Manages machine learning models, datasets, and experiment logs through centralized hub or tracking repositories, handling versioning and metadata extraction."
+        },
+        {
+          "id": "ml-pipeline",
+          "name": "ML Pipeline",
+          "summary": "Designs and implements production ML pipelines with experiment tracking (MLflow, W&B), feature stores (Feast), orchestration (Kubeflow, Airflow), and automated retraining workflows including model evaluation gates and A/B deployment."
+        },
+        {
+          "id": "multi-agent-debate",
+          "name": "Multi-Agent Debate",
+          "summary": "Runs multiple LLM agents that propose, critique, and iteratively refine answers across structured debate rounds, converging on more accurate and well-reasoned responses than any single agent achieves."
+        },
+        {
+          "id": "multi-agent-orchestration-v",
+          "name": "Multi-Agent Orchestration",
+          "summary": "Coordinates multiple specialized agents across complex workflows with dynamic task allocation and conflict resolution."
+        },
+        {
+          "id": "multi-node-orchestration",
+          "name": "Flow Nexus Orchestration",
+          "summary": "Complete Flow Nexus platform: multi-topology swarm deployment, cloud platform management, and distributed neural training unified into one orchestration layer."
+        },
+        {
+          "id": "multimodal-reasoning",
+          "name": "Multimodal Reasoning",
+          "summary": "Integrates information from images and text to answer questions requiring visual grounding and logical inference across modalities."
+        },
+        {
+          "id": "ontology-alignment",
+          "name": "Ontology Alignment",
+          "summary": "Maps entities, classes, and relationships across heterogeneous schemas and knowledge graphs to harmonize multi-source data, using class-hierarchy and instance-level alignment."
+        },
+        {
+          "id": "personal-knowledge-management",
+          "name": "personal-knowledge-management",
+          "summary": "Managing notes and organization in a specific vault."
+        },
+        {
+          "id": "personal",
+          "name": "mattpocock-personal",
+          "summary": "Personal category suite for Matt Pocock's skills."
+        },
+        {
+          "id": "plan-and-execute",
+          "name": "Plan and Execute",
+          "summary": "Decomposes complex objectives into sub-tasks, selects tools, and orchestrates execution."
+        },
+        {
+          "id": "platform-modernization-sprint",
+          "name": "Platform Modernization Sprint",
+          "summary": "Systematic v3 platform overhaul: CLI modernization, core implementation, DDD architecture, deep integration, MCP optimization, memory unification, performance tuning, security overhaul, and swarm coordination."
+        },
+        {
+          "id": "prd-generation",
+          "name": "PRD Generation",
+          "summary": "Synthesizes conversational context and codebase knowledge into a structured Product Requirements Document."
+        },
+        {
+          "id": "prediction-market-analysis",
+          "name": "Prediction Market Analysis",
+          "summary": "Queries prediction-market data, compares market probabilities and price history, and summarizes probabilistic signals for forecasting or decision-support workflows."
+        },
+        {
+          "id": "productivity",
+          "name": "mattpocock-productivity",
+          "summary": "Productivity category suite for Matt Pocock's skills."
+        },
+        {
+          "id": "project-management",
+          "name": "Project Management",
+          "summary": "Manages issues, tasks, projects, and team workflows through structured project management platforms, handling state transitions and priority levels."
+        },
+        {
+          "id": "prompt-optimization",
+          "name": "Prompt Optimization",
+          "summary": "Automatically improves prompt instructions through iterative compilation, treating prompts as programs that can be optimized against a metric using LLM-driven feedback loops."
+        },
+        {
+          "id": "prototype",
+          "name": "prototype",
+          "summary": "Building throwaway prototypes to answer specific design or logic questions."
+        },
+        {
+          "id": "rag-pipeline",
+          "name": "RAG Pipeline",
+          "summary": "End-to-end retrieval-augmented generation combining document chunking, embedding, retrieval, and relevance scoring."
+        },
+        {
+          "id": "re-act-reasoning",
+          "name": "ReAct Reasoning",
+          "summary": "Interleaves free-form reasoning traces with discrete tool actions in a single loop, enabling agents to plan, act, observe, and update beliefs step-by-step."
+        },
+        {
+          "id": "real-time-voice-assistant",
+          "name": "Real-Time Voice Assistant",
+          "summary": "Provides low-latency spoken interactions combining real-time speech I/O, persistent memory, and goal-directed task execution across multi-session conversations."
+        },
+        {
+          "id": "reasoning-pattern-bank",
+          "name": "Reasoning Pattern Bank",
+          "summary": "Fuses adaptive pattern learning with persistent vector memory to build a self-improving agent knowledge base across sessions."
+        },
+        {
+          "id": "receiving-code-review",
+          "name": "Receiving Code Review",
+          "summary": "Processes code review feedback with technical rigor and verification before implementation, questioning unclear feedback."
+        },
+        {
+          "id": "recursive-self-improvement",
+          "name": "Recursive Self-Improvement",
+          "summary": "Agent iteratively refines its own prompts, tools, or strategies based on performance feedback loops."
+        },
+        {
+          "id": "registry-curation",
+          "name": "Registry Curation",
+          "summary": "Systematically discovers, evaluates, and ingests new skill definitions into a structured skill registry: researching capabilities, sourcing reproducible evidence, scripting graph updates, validating schema and DAG integrity, and publishing via pull request."
+        },
+        {
+          "id": "registry-entry-audit",
+          "name": "Gaia Audit",
+          "summary": "Reviews one Gaia skill, named skill, or real-skill catalog item against current evidence, source URLs, taxonomy mapping, promotion status, and demotion criteria, then proposes the smallest source-of-truth correction. Implements a sophisticated 7-phase audit discipline including evidence re-verification, demotion checks, and automatic asset regeneration."
+        },
+        {
+          "id": "registry-health-scan",
+          "name": "Gaia Meta Audit",
+          "summary": "Scans Gaia registry and real-skill catalog entries for review candidates whose evidence may be outdated, superseded, overpromoted, unmapped, stale, or insufficient for their current level or named-skill claim."
+        },
+        {
+          "id": "regulatory-compliance-mapping",
+          "name": "Regulatory Compliance Mapping",
+          "summary": "Cross-references regulatory requirements (GDPR, SOC2, HIPAA) against implementation controls using knowledge-graph-augmented retrieval to detect compliance gaps and drift."
+        },
+        {
+          "id": "release-automation",
+          "name": "Release Automation",
+          "summary": "Automate the full software release cycle: determine semantic version bump, update CHANGELOG, commit, create a git tag, and publish a GitHub release with release notes."
+        },
+        {
+          "id": "requesting-code-review",
+          "name": "Requesting Code Review",
+          "summary": "Dispatches a code reviewer subagent to catch issues before they cascade, providing isolated context for evaluation."
+        },
+        {
+          "id": "research",
+          "name": "Research",
+          "summary": "Conducts multi-source information gathering, synthesis, and citation for a given topic."
+        },
+        {
+          "id": "scientific-discovery",
+          "name": "Autonomous Scientific Discovery",
+          "summary": "Autonomously generates novel scientific hypotheses, designs and executes experiments, analyses results, and produces a written report \\u00e2\\u20ac\\u201d completing a full research cycle without human intervention."
+        },
+        {
+          "id": "scientific-writing",
+          "name": "Scientific Writing",
+          "summary": "Composes research manuscripts in IMRAD structure with reporting-guideline compliance (CONSORT, STROBE, PRISMA), citation management, publication-quality figures, and LaTeX/PDF formatting."
+        },
+        {
+          "id": "search-engine-optimization",
+          "name": "search-engine-optimization",
+          "summary": "Search Engine Optimization"
+        },
+        {
+          "id": "security-audit",
+          "name": "Security Audit",
+          "summary": "Systematically identify security vulnerabilities, assess attack surface, and produce actionable remediation guidance across code, dependencies, and infrastructure."
+        },
+        {
+          "id": "skill-authoring",
+          "name": "Skill Authoring",
+          "summary": "Designs, writes, packages, and iteratively improves reusable agent skill directories with metadata, progressive instructions, supporting assets, and measurable trigger criteria."
+        },
+        {
+          "id": "skill-performance-benchmarking",
+          "name": "Skill Performance Benchmarking",
+          "summary": "Builds and runs task suites that measure whether agents select, invoke, and complete installed skills correctly across artifact-rich workflows and repeated trials."
+        },
+        {
+          "id": "skill-security-analysis",
+          "name": "Skill Security Analysis",
+          "summary": "Assesses third-party agent skills for malicious behavior, unsafe permissions, prompt-injection exposure, repository-context mismatch, and supply-chain risk before installation or invocation."
+        },
+        {
+          "id": "stealth-browser-interaction",
+          "name": "Stealth Browser Interaction",
+          "summary": "Operates web browsers through an advanced stealth layer that handles bot-detection, fingerprinting, session rotation, and human-like interaction patterns to maintain resilient access to protected domains."
+        },
+        {
+          "id": "subagent-driven-development",
+          "name": "Subagent-Driven Development",
+          "summary": "Executes plans by dispatching a fresh subagent per task with a two-stage review (spec compliance then code quality)."
+        },
+        {
+          "id": "supply-chain-optimization",
+          "name": "Supply Chain Optimization",
+          "summary": "Orchestrates inventory, logistics, and procurement decisions using demand forecasting, EOQ and safety-stock computation, route optimization, and anomaly-aware fulfilment monitoring."
+        },
+        {
+          "id": "systematic-debugging",
+          "name": "Systematic Debugging",
+          "summary": "Finds the root cause before attempting fixes when encountering bugs, test failures, or unexpected behavior."
+        },
+        {
+          "id": "text-to-sql-pipeline",
+          "name": "Text-to-SQL Pipeline",
+          "summary": "Converts natural-language queries into validated, executable SQL against a target schema and returns formatted result sets."
+        },
+        {
+          "id": "threat-intelligence-synthesis",
+          "name": "Threat Intelligence Synthesis",
+          "summary": "Synthesizes security feeds, CVE/CWE data, and incident signals into actionable intelligence with IoC/TTP management and MITRE ATT&CK mapping."
+        },
+        {
+          "id": "tool-chaining",
+          "name": "Tool Chaining",
+          "summary": "Sequences multiple tool invocations into a dependency graph where the output of each tool feeds as structured input to the next, handling state propagation, intermediate result validation, and error recovery across multi-step execution pipelines."
+        },
+        {
+          "id": "tool-creation",
+          "name": "Tool Creation",
+          "summary": "Dynamically generates reusable tool functions (code) at runtime to solve novel sub-tasks, then invokes those tools to complete the overall objective without human-written APIs."
+        },
+        {
+          "id": "translation-pipeline",
+          "name": "Translation Pipeline",
+          "summary": "Translates content end-to-end while preserving sentiment and adapting tone and register for the target audience."
+        },
+        {
+          "id": "tree-of-thought",
+          "name": "Tree of Thought",
+          "summary": "Frames problem solving as a search over a tree of partial solutions, using LLM-generated evaluations to prune unpromising branches and backtrack, dramatically improving success on complex reasoning tasks."
+        },
+        {
+          "id": "ubiquitous-language",
+          "name": "Ubiquitous Language",
+          "summary": "Establishes and maintains a consistent, domain-driven vocabulary between the agent and human, formalising terminology in a shared glossary (typically CONTEXT.md) to reduce ambiguity and token waste."
+        },
+        {
+          "id": "using-git-worktrees",
+          "name": "Using Git Worktrees",
+          "summary": "Ensures work happens in an isolated workspace via native tools or git worktree fallback before starting feature work."
+        },
+        {
+          "id": "verification-before-completion",
+          "name": "Verification Before Completion",
+          "summary": "Requires running verification commands and confirming output before claiming work is complete, fixed, or passing."
+        },
+        {
+          "id": "vertical-slice-planning",
+          "name": "Vertical Slice Planning",
+          "summary": "Decomposes a product plan into independently-demoable vertical slices that each cut through all integration layers end-to-end. Classifies each slice as HITL (human-in-the-loop) or AFK (autonomous), identifies dependency ordering, and publishes structured issues with acceptance criteria."
+        },
+        {
+          "id": "video-intelligence",
+          "name": "Video Intelligence",
+          "summary": "Processes video streams by extracting frames, transcribing audio, and applying multimodal reasoning to understand temporal and visual context."
+        },
+        {
+          "id": "voice-agent",
+          "name": "Voice Agent",
+          "summary": "Handles spoken interactions end-to-end: transcribes audio input, produces language responses, and synthesizes speech output."
+        },
+        {
+          "id": "web-accessibility",
+          "name": "web-accessibility",
+          "summary": "Accessibility"
+        },
+        {
+          "id": "web-best-practices",
+          "name": "web-best-practices",
+          "summary": "Web Best Practices"
+        },
+        {
+          "id": "web-quality-audit",
+          "name": "web-quality-audit",
+          "summary": "Orchestrates a multi-axis web quality audit covering performance (Core Web Vitals), accessibility (WCAG), SEO, and best practices, producing actionable remediation plans from Lighthouse and real-user data."
+        },
+        {
+          "id": "web-scrape",
+          "name": "Web Scrape",
+          "summary": "Retrieves and structures data from web pages into usable entities."
+        },
+        {
+          "id": "wiki-search",
+          "name": "Wiki Search",
+          "summary": "Builds, maintains, and queries an interlinked markdown or wiki-style knowledge base so an agent can retrieve durable local context across research sessions."
+        },
+        {
+          "id": "workflow-automation",
+          "name": "Workflow Automation",
+          "summary": "Designs, configures, and runs trigger-based multi-step automation pipelines that connect external services, schedule jobs, and orchestrate tool sequences without continuous human supervision."
+        },
+        {
+          "id": "workspace-automation",
+          "name": "Workspace Automation",
+          "summary": "Orchestrates productivity tasks across email, calendar, drive, and documents through unified office suite integrations, automating scheduling and file management."
+        },
+        {
+          "id": "writing-plans",
+          "name": "Writing Plans",
+          "summary": "Writes comprehensive implementation plans breaking down multi-step tasks into bite-sized sub-tasks."
+        },
+        {
+          "id": "x-twitter-automation",
+          "name": "X/Twitter Automation",
+          "summary": "Coordinates platform-specific X/Twitter search, tweet and reply retrieval, user lookup, follower export, monitoring, and approval-gated write workflows for social-media agent tasks."
+        }
+      ]
+    },
+    {
+      "id": "ultimate",
+      "count": 5,
+      "skills": [
+        {
+          "id": "founder-mode-orchestration",
+          "name": "Founder Mode",
+          "summary": "Garry Tan's complete autonomous agent discipline suite spanning 19 named skills: browser QA, security auditing, design system creation, HTML generation, plan reviews (CEO/eng/design/DX), code review, root-cause debugging, E2E testing, ship/deploy automation, post-deploy canary monitoring, documentation, and founder-mode orchestration."
+        },
+        {
+          "id": "git-ship-done-pipeline",
+          "name": "Git Ship Done Pipeline",
+          "summary": "Fuses decision capture, planning, parallel execution, verification, and shipping into a repeatable agentic software delivery pipeline."
+        },
+        {
+          "id": "multi-topology-orchestration",
+          "name": "Ruflo",
+          "summary": "The complete Ruflo AI orchestration platform: multi-topology swarm deployment, cloud platform management, GitHub automation, hive-mind consensus, reasoning memory bank, and full v3 architecture modernization."
+        },
+        {
+          "id": "skill-mastery",
+          "name": "mattpocock-skills",
+          "summary": "Ultimate capstone suite for Matt Pocock's skills."
+        },
+        {
+          "id": "superpowers",
+          "name": "Superpowers",
+          "summary": "A complete software development methodology for coding agents: combines brainstorming, planning, parallel execution, systematic debugging, code review loops, and branch discipline into a unified agentic workflow."
+        }
+      ]
+    }
+  ]
+}

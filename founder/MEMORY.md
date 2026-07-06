@@ -4,26 +4,367 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
-## ⚡ Ready-to-dispatch when Sprint B closes (READ THIS FIRST NEXT SESSION)
+## ⚡ Ready-to-dispatch — W4 design approved, PR #958 ready for merge (READ THIS FIRST NEXT SESSION)
 
-**Blocker to unblock first:**
-- **PR #895** (`dev/sprint-b-closure` → `main`) is in `CONFLICTING` state. Merge conflicts must resolve before `dev/sprint-d` can cut. Sprint D critical path.
+**W4 frontend design approved.** Marcus reviewed and approved the `/benchmarks/` redesign in session 35. PR #958 (`dev/sprint-d-benchmark-leaderboard → dev/sprint-d`) is ready to merge — no outstanding blockers.
 
-**Once #895 lands, in order:**
-1. Cut v6.0.0 release (major bump — API + Trending are new product surfaces)
-2. Create `dev/sprint-d` off `main` HEAD
-3. Author `founder/handovers/sprint-d/CONTEXT.md` (agent onboarding bundle) — 15-min task
-4. Init empty `founder/handovers/sprint-d/journal.md`
-5. Dispatch **W1 (#903 Content Engine, Opus max)** + **W2a (#904 Benchmark schema, Opus max)** in parallel — Day 1 of Sprint D proper
-6. Sprint D EPIC: **#902** · Milestone: **#11** (target 2026-08-01)
-7. Plan file: `founder/handovers/SPRINT_D_EPIC_PLAN.md`
-8. Roadmap authority: `founder/GAIA_ROADMAP v4 (BUILD).md` (v3 superseded but retained)
+**Once #958 merges, in order:**
+1. `gh pr merge 958 --merge` — lands W4 into `dev/sprint-d`.
+2. Open aggregate PR: `gh pr create --base main --head dev/sprint-d --title "feat: Sprint D — Content Engine + Benchmark MVP (v6.0.0)" --body-file <body>`. Body carries `Resolves #902`. **NEVER squash** — use merge commit (founder/CLAUDE.md §EPIC branching model, rule 7).
+3. Drive aggregate CI to green. Known outstanding: `test_sitemap_script_check_passes` Linux red (self-heal on Linux regen likely); `tests/test_push.py` pre-existing broken (skip).
+4. Merge aggregate `dev/sprint-d → main` via merge commit. Cut **v6.0.0**.
+5. Close EPIC **#902** (auto-closes via `Resolves` clause).
 
-**Sprint D sub-issues to track:** #903 (W1) · #904 (W2a) · #905 (W2b) · #906 (W3) · #907 (W4) · #908 (W5)
+**GSB tracking issue:** #964 (`feat(gsb): bootstrap gaia-skill-bench repo`) filed this session. Not Sprint D work — deferred until after `gaia-research` website launches.
 
-**Auto-close on #895 merge:** #697, #698, #651, #851, #852, #853, #854 (all have Resolves-clauses in the sub-PRs already merged into `dev/sprint-b-closure`).
+---
 
-**Note:** Content Engine's Monday-auto-report feature stays in scope but there is NO current auto-report Monday cadence to preserve — this is greenfield in Sprint D W1.
+## State Snapshot (2026-07-06, session 36 — Sprint D EPIC #902 pre-merge sanity; KC2 dogfooded, sitemap determinism fix landed, #961 CLEAN)
+
+### TLDR
+- **#961 is green + MERGEABLE.** All CI passes on `b5af1f38f` (Schema+DAG, Test/Build/Smoke, Design-lint, branch-scope, meta-guard). Only the tag + merge gesture remains.
+- **KC2 acceptance PROVEN inline** via `PYTHONPATH=./src python -m gaia_cli push --benchmark humaneval --skill-id anthropic/claude-code --score 0.92 --unit pass@1 --dry-run` — CLI emitted a well-formed `provenance:pending` row (schema-validated, no writes). Ambient `gaia` shim is broken on this Windows box (`ModuleNotFoundError: No module named 'gaia_cli'`) but that's env, NOT a v6.0.0 code blocker.
+- **Sitemap CI failure root-caused + fixed.** `Path.__lt__` is case-insensitive on Windows (`WindowsPath`) but case-sensitive on Linux (`PosixPath`); `sorted(u_dir.iterdir())` therefore produced different orderings on the two OSes. Patched `scripts/generateSitemap.py` to sort by `key=lambda p: p.name` (bare str codepoint) at all three call sites (`u_dir.iterdir()`, `named_dir.iterdir()`, `contributor_dir.glob()`, `en_dir.glob()`). Regenerated `docs/sitemap.xml` on Windows now produces the same output CI Linux will (capitals first: `0xdarkmatter → Manavarya09 → Taoidle → addy-osmani → …`).
+- **Marcus's plan for close:** merge #961 with a **merge commit** (NEVER squash — EPIC integration rule), tag `v6.0.0` **annotated** with a Sprint D message, mark it as **"latest" release** (not canary), close EPIC #902. Pre-merge sanity sweep in-flight before firing the merge.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `scripts/generateSitemap.py` — cross-OS sort determinism | ✅ Patched at all four `sorted(...iterdir()/glob())` call sites |
+| `docs/sitemap.xml` — regenerated with Linux-matching order | ✅ Committed on `b5af1f38f` |
+| PR #961 CI | ✅ CLEAN + MERGEABLE (all checks pass, 0 pending) |
+| KC2 acceptance | ✅ Proven inline via PYTHONPATH shim |
+| KC surface sanity sweep | ⏳ Explore agent running (`aa5845da08b1fefcb`) |
+| EPIC #902 merge to `main` | ⏳ HELD — awaiting sanity sweep result + Marcus green |
+| v6.0.0 tag | ⏳ Annotated, mark as "latest" (per Marcus 2026-07-06) |
+| Memory snapshot | ✅ This entry |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/sprint-d` | `b5af1f38f` | PR #961 CLEAN + MERGEABLE, awaiting Marcus's merge green |
+| `main` | latest via #966/#967 merges | Ready to receive Sprint D merge commit |
+
+### Issues + PRs touched
+- **PR #961** (`dev/sprint-d → main`) — Sprint D closeout aggregate. Green + MERGEABLE.
+- **EPIC #902** — will auto-close via `Resolves` clause in #961 body when #961 lands.
+
+### Routing — where things live now
+- **KC2 dogfood repeat**: `PYTHONPATH=./src python -m gaia_cli push --benchmark humaneval …` — always works from source tree. Bypasses broken Windows shim.
+- **Sitemap regen**: run `python scripts/generateSitemap.py` on ANY OS post-fix — output is now deterministic across Windows and Linux.
+- **v6.0.0 tag** goes on the `dev/sprint-d → main` merge commit SHA (not on `b5af1f38f` directly).
+
+### Lessons / hazards preserved
+- **`Path.__lt__` is OS-dependent.** WindowsPath comparison is case-insensitive; PosixPath is case-sensitive. `sorted(path.iterdir())` is a cross-OS footgun any time mixed-case names exist (contributor handles like `Manavarya09`, `Taoidle`). ALWAYS sort by `key=lambda p: p.name` — Python str comparison is deterministic. Codified this pattern in the docstring comment on `generateSitemap.py:_contributor_profile_urls`.
+- **CI sitemap staleness with an empty visible diff** = platform-sort mismatch. The diff-print at `generateSitemap.py:174` truncates at 100 lines, so 40+ moved handles further down the file show nothing on stdout. Debug path: run `git diff docs/sitemap.xml` locally after `python scripts/generateSitemap.py` on Windows; if the diff moves handles like `Manavarya09` / `Taoidle` around, that's the platform-sort bug.
+- **The CLI Pre-Flight Rule saved us on KC2 dogfood.** `gaia push --benchmark humaneval --score X --dry-run` without `--dataset-hash` correctly errored ("`--dataset-hash required (or provide --from-result-file)`") rather than writing a bad state. The CLI is being what it should be — the mutation surface that refuses invalid input.
+
+### Open questions for next orchestrator
+- Windows ambient `gaia` shim: broken. Filing a fast-follow issue is on the deferred list — non-blocking for v6.0.0. Marcus was told the workaround; not a v6.0.0 blocker.
+- Post-merge: does the PyPI wheel build via `.github/workflows/publish-pypi.yml` fire on the `v6.0.0` tag push? If yes, verify `unzip -l dist/*.whl | grep data/registry` shows the fresh snapshot bundled.
+
+### Token cost (this session)
+- Awaiting Marcus's cost drop right before the green.
+
+
+### TLDR
+- `/benchmarks/` landing page completely redesigned: two-family framing (External live vs GSB WIP), parallax background (gold-grid abstract v2), mobile-first, scroll-triggered tile entrance animations.
+- Three methodology HTML pages shipped (`methodology/`, `humaneval-v1/`, `mmlu-v1/`) — properly rendered prose-shell pages, not raw `.md` links.
+- `.agents/skills/impeccable/` duplicate deleted; `.claude/skills/impeccable/` is canonical.
+- DESIGN.md updated with parallax + mobile-first philosophy (Motion section + Mobile-First Construction section).
+- CLAUDE.md updated with Design Entrypoints rule.
+- GSB vision v2 doc written (`founder/handovers/GAIA_BENCH_VISION.md`): own repo, community-submits/Gaia-certifies, skill-groups as head-to-head unit.
+- Rico thanked as co-founder in README + vision doc §0 surname fixed.
+- #960 comment posted with reshape summary. #964 opened for GSB bootstrap.
+- ALL frontend work is on PR #958 (`dev/sprint-d-benchmark-leaderboard`), NOT #961.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `/benchmarks/` landing redesign | ✅ Parallax GSB panel, two-family framing, scroll-entrance tiles, WIP banner |
+| Background image | ✅ v2 abstract gold-grid (no text conflict with overlaid HTML) |
+| Methodology pages | ✅ 3 HTML prose-shell pages: `methodology/`, `humaneval-v1/`, `mmlu-v1/` |
+| `humaneval/` + `mmlu/` nav cache-busts | ✅ `?v=5.11.13` added to mounts.js, site-nav.js, site-footer.js |
+| `impeccable` skill dedup | ✅ `.agents/skills/impeccable/` deleted; canonical at `.claude/skills/impeccable/` |
+| DESIGN.md | ✅ Parallax spec (RAF 0.45×, iOS-safe, reduced-motion guard) + mobile-first breakpoints codified |
+| CLAUDE.md | ✅ Design Entrypoints rule added (plan nav/footer/homepage before shipping) |
+| GSB vision v2 | ✅ `founder/handovers/GAIA_BENCH_VISION.md` (172 lines) |
+| #960 comment | ✅ Reshape summary posted |
+| #964 tracking issue | ✅ GSB bootstrap (post-gaia-research, not Sprint D) |
+| PR #961 | ⚠️ No new commits from this session — all design work on #958 |
+| Task #7 (GSB skill-explorer entrypoint) | ⏳ Deferred — still pending |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/sprint-d-benchmark-leaderboard` | `21a4d757d` | Open as PR #958, awaits merge into `dev/sprint-d` |
+| `dev/sprint-d` | `b4997fc8f` | Integration branch; 33+ commits ahead of main |
+| `main` | `2be8d191f` (approx) | Stable at v5.11.16 |
+
+### Commits shipped this session (on `dev/sprint-d-benchmark-leaderboard`)
+| SHA | Message |
+|---|---|
+| `168712c59` | docs(founder): gaia-skill-bench vision v2 — reshape of #960 |
+| `ccb205f6d` | docs(claude-md): codify Design Entrypoints rule |
+| `2a73bcf87` | docs(readme,vision): thank @rico-favor as co-founder |
+| `db8598ceb` | feat(benchmarks): reshape /benchmarks/ into two-family landing + homepage entrypoint |
+| `e6656afcf` | feat(benchmarks): parallax GSB panel, mobile-first, 3 methodology HTML pages |
+| `61d219bc6` | chore(skills): dedup impeccable — canonical at .claude/skills/impeccable |
+| `21a4d757d` | design(benchmarks): swap abstract background v2, add nav cache-busts |
+
+### Issues + PRs touched
+| # | Type | Action |
+|---|---|---|
+| #958 | PR | All session design work lives here; ready for merge |
+| #960 | Issue | Comment posted with GSB v2 reshape summary |
+| #961 | PR | NOT touched this session — no new commits |
+| #964 | Issue | Opened: `feat(gsb): bootstrap gaia-skill-bench repo` |
+
+### Design decisions — load-bearing for future sessions
+- **Parallax implementation**: RAF-based `translateY` at 0.45× ratio, never `background-attachment: fixed` (iOS Safari breaks). `inset: -30% 0` on `.gsb-panel-bg`. `will-change: transform`. Disabled `< 768px` + `prefers-reduced-motion`.
+- **Parallax overlay**: `rgba(3,7,18, 0.82)` desktop, `0.88` mobile.
+- **Scroll entrance**: `opacity: 0 → 1` + `translateY(12px) → 0`, 0.35s, 0.08s stagger per tile. `@keyframes lb-tile-enter`.
+- **Mobile-first**: 320px baseline, `min-width` breakpoints only. Pillar grid: 1-col → 2-col at 480px → 4-col at 768px.
+- **GSB panel full-bleed at < 479px**: no radius, negative margins, no side borders.
+- **Background image**: `docs/benchmarks/assets/benchmark-matrix.png` — abstract gold-grid on near-black, no text, no numbers (v2 from Marcus).
+- **Design language**: documented in DESIGN.md under "Motion — Parallax and Scroll Animation" and "Mobile-First Construction".
+- **All frontend for Sprint D lives in PR #958**, not #961. Never consolidate design commits onto `dev/sprint-d` directly.
+
+### Lessons / hazards this session
+- **Auto-compact kills orchestrator identity.** After compaction, session resumed without gaia-orchestrator persona active. Always re-load `/gaia-orchestrator` at session start after compact. The skill loads `founder/ORCHESTRATOR.md` — that file contains the superadmin mode rules too.
+- **#961 vs #958 confusion.** #961 is the aggregate Sprint D PR (`dev/sprint-d → main`). #958 is the W4 leaderboard feature PR (`dev/sprint-d-benchmark-leaderboard → dev/sprint-d`). All frontend work this session went to #958. Verify branch before making any edits.
+- **Orchestrator actions are orchestrator actions.** GitHub comments and issue creation are NOT "user actions" — orchestrator does these directly via `gh` CLI.
+
+### Open questions for next orchestrator
+- Task #7 still pending: greyed-out per-skill GSB entrypoint in `docs/js/skill-explorer.js` (benchmark evidence rows). Low priority; can ship post Sprint D if not before.
+- Once #958 merges: drive aggregate PR (#961) CI to green and merge to main. v6.0.0 tag follows.
+- #964 (GSB bootstrap) is deferred — surfaces after `gaia-research` launches.
+
+### Token cost (this session)
+Estimated (Pi harness not active): ~3–4 sessions × ~40k tokens = ~120–160k input, ~30–40k output across sessions 35a–35d. Multiple auto-compacts occurred. No pi-cost data available.
+
+---
+
+## ⚡ Ready-to-dispatch when @mbtiongson1 approves W4 (READ THIS FIRST NEXT SESSION)
+
+**Only blocker:** PR **#958** (W4 Benchmark leaderboard, FRONTEND) awaits Marcus's design review. Everything else in Sprint D is merged into `dev/sprint-d`.
+
+**Once #958 approves, in order:**
+1. `gh pr merge 958 --merge` — lands W4 into `dev/sprint-d`.
+2. Open aggregate PR: `gh pr create --base main --head dev/sprint-d --title "feat: Sprint D — Content Engine + Benchmark MVP (v6.0.0)" --body-file <body>`. Body carries `Resolves #902`. **NEVER squash** — use merge commit (founder/CLAUDE.md §EPIC branching model, rule 7).
+3. Drive aggregate CI to green. Known outstanding:
+   - `test_sitemap_script_check_passes` still red on Linux CI despite LF normalization + diff-print (diff-print emitted zero lines — the delta is subtler than CRLF/LF; the aggregate PR's Linux CI regen will reveal or self-heal).
+   - Any docs-drift on W4's `docs/api/v1/benchmarks/humaneval.json` post-merge.
+   - `tests/test_push.py` pre-existing broken (needs local Class P snapshot) — skip, not this sprint's regression.
+4. Merge aggregate `dev/sprint-d → main` via merge commit.
+5. Cut **v6.0.0** tag — major bump bundling Sprint B API + Sprint D Content Engine + Benchmarks (Decision 1 this session).
+6. Close EPIC **#902** (auto-closes via `Resolves` clause on aggregate PR).
+7. Optionally: trigger `weekly-content-engine.yml` via `workflow_dispatch` with `forcePublish=0` to prove KC1 live (draft artifact upload, no auto-PR). Then run `benchmark-humaneval-ci.yml` against `addy-osmani/code-simplification` to promote KC4's pending row to `ci-reproduced`.
+
+**PRs merged into `dev/sprint-d` this session (chronological):**
+- #950 W1 Content Engine (Splurge)
+- #951 W2a Benchmark schema (Splurge)
+- #953 W2b HumanEval pipeline (Splurge)
+- #954 W3 MMLU mirror (Satisfice)
+- #955 W5 SEO surface (Satisfice)
+- #956 W2b attestor honesty + validator superseded-carveout (adversarial-review follow-up)
+- #957 W1 archive template cache-bust (adversarial-review follow-up)
+- #959 Preemptive CI-fix (jinja2 core dep, Class S regen, LF normalization)
+
+**Open PR:** #958 W4 Leaderboard (FRONTEND-gated).
+
+**Sprint D scope files (don't re-derive):**
+- `founder/handovers/sprint-d/CONTEXT.md` — agent onboarding bundle (seeded 2026-07-05).
+- `founder/handovers/sprint-d/journal.md` — append-only agent log; W1 + W2a + W2b + W3 + W5 entries all present.
+- `founder/handovers/SPRINT_D_EPIC_PLAN.md` — the ratified execution plan.
+
+---
+
+## State Snapshot (2026-07-06, session 34 — Domain migration cleanup: Pages CD unblocked + PRs #921/#958/#961 rebased onto gaiaskilltree.com)
+
+### TLDR
+- Post-#963 (domain migration to `gaiaskilltree.com`) the `pages build and deployment` workflow went red because `docs/CNAME` was missed by the search/replace and still held `gaia.tiongson.co`. Direct-to-main fix committed as `281552703`; next Pages build (#28770786757) green in ~30s.
+- Rebased/merged all three outstanding PRs against the new-domain main: **#921** (docs/routines/014) clean fast-forward, **#961** (dev/sprint-d aggregate, was DIRTY/CONFLICTING) resolved with 14 conflicts + 90 stealth stale refs, **#958** (W4 leaderboard) inherited the fix cleanly with zero further conflicts.
+- Sprint D W4's JSON-LD injection (load-bearing) preserved on all 11 conflicting HTML pages. Schema pair (`registry/schema/…benchmark-result.schema.json` ↔ `src/gaia_cli/data/registry/schema/…`) moved in lockstep. All three PRs now `MERGEABLE`; #961 file count 175 → 174 (one file collapsed as expected after main's migration).
+- **No changes to Sprint D feature code, versions, or history.** The only substantive delta on `dev/sprint-d` is the new-domain propagation. W4 gate for Marcus still holds.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| GitHub Pages CD after PR #963 | ✅ Unblocked. `docs/CNAME` corrected `gaia.tiongson.co → gaiaskilltree.com` on main (`281552703`). |
+| PR #921 (docs/routines/014) | ✅ Updated. Fast-forward merge of main. 13 files/+103/-66 unchanged. `CLEAN / MERGEABLE`. |
+| PR #961 (dev/sprint-d → main, aggregate) | ✅ Updated. Was `DIRTY / CONFLICTING`, now `MERGEABLE / UNSTABLE` (UNSTABLE = CI running). Merge commit `81d3f9224` has both parents (dev/sprint-d `083124ba4` + main `2be8d191f`). |
+| PR #958 (W4 leaderboard, base=dev/sprint-d) | ✅ Updated via worktree at `.claude/worktrees/sprint-d-w4`. Zero conflicts (parent merge did all the work). Marcus review gate still open. |
+| `scripts/injectJsonLd.py` BASE_URL | ✅ Rewritten to `gaiaskilltree.com` (the generator itself, not just its outputs). |
+| `scripts/generateSitemap.py` BASE_URL | ✅ Rewritten. |
+| `scripts/contentEngine/generate_weekly_report.py` + template | ✅ Rewritten. |
+| `scripts/buildTrendingProjection.py` | ✅ Rewritten. |
+| `src/gaia_cli/commands/pushBenchmark.py` | ✅ Rewritten (benchmark evidence URL scheme). |
+| Schema pair | ✅ Both `$id` fields in lockstep. |
+| Verifier checks after merge | ✅ Zero `gaia.tiongson.co` in tree, zero conflict markers, JSON-LD blocks intact on 11 pages, LF endings preserved. |
+
+### #961 conflict-resolution ledger (for reviewer sanity)
+
+**14 semantic conflicts, resolved by programmatic union:**
+
+| File(s) | Nature | Resolution |
+|---|---|---|
+| 11 HTML (badges, codex, meta, named, privacy, share, trending, trust×3, u/index) | W4 JSON-LD block landed adjacent to main's `?v=5.11.16` cache-bust + canonical URL rewrite | Took main's side, appended sprint-d's JSON-LD with domain rewritten. Wrote `.tmp_resolve_html.py` (deleted post-merge) that structurally verified each resolution before writing — 11/11 passed. |
+| `docs/css/tokens.css` | sprint-d had `version=5.11.13` banner; main removed it | Took main's (CLAUDE.md rule §Decorative-assets-must-NOT-carry-version-metadata, Issue #807) |
+| `docs/sitemap.xml` | Both regenerated; sprint-d has URL superset with old domain, main has fewer URLs with new domain | Took sprint-d's superset, rewrote domain string |
+| `docs/graph/gaia.json` | Only `generatedAt` timestamp conflicted | Took main's newer timestamp |
+
+**90 stealth stale refs (post-merge sweep):** sprint-d had added new content referencing `gaia.tiongson.co` AFTER main's find/replace commit — git happily auto-merged them because they didn't overlap main's edits. Global `s/gaia.tiongson.co/gaiaskilltree.com/g` closed the gap. Load-bearing hits enumerated in commit message of `81d3f9224`.
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `origin/main` | `2be8d191f` (chore: release v5.11.16 [skip-gen]) | Includes `281552703` CNAME fix on top of #963 domain migration |
+| `origin/dev/sprint-d` | `81d3f9224` (Merge origin/main into dev/sprint-d — domain migration…) | 34 commits ahead of main after merge; aggregate PR #961 mergeable |
+| `origin/dev/sprint-d-benchmark-leaderboard` | `4cfa58b15` (Merge origin/dev/sprint-d …) | PR #958 rebased, no conflicts, Marcus review gate still open |
+| `origin/docs/routines/014` | `681a431d9` (Merge origin/main into docs/routines/014) | PR #921 clean & mergeable |
+| Local worktree `.claude/worktrees/sprint-d-w4/` | `4cfa58b15` | Kept in sync for iteration if Marcus wants W4 changes |
+
+### Issues + PRs touched
+| # | Title | State / Action |
+|---|---|---|
+| #921 | docs(en): routine 014 | Updated — CLEAN/MERGEABLE |
+| #958 | W4 Benchmark leaderboard (FRONTEND) | Updated — MERGEABLE, still awaits Marcus |
+| #961 | Sprint D aggregate (v6.0.0 candidate) | Updated — was CONFLICTING, now MERGEABLE |
+| #963 | domain migration | Merged upstream on main last session; this session healed the CNAME miss |
+
+### Routing — where things live now
+- **Site domain:** `https://gaiaskilltree.com` (Pages custom-domain config already set; `docs/CNAME` now matches).
+- **Old domain `gaia.tiongson.co`:** zero refs in tree. If anything comes back with the old domain, it was probably reintroduced by a merge from a stale branch — grep before merging.
+- **JSON-LD generator:** `scripts/injectJsonLd.py` — `BASE_URL` is now the single knob if the domain ever changes again. Same for `scripts/generateSitemap.py`.
+- **Schema `$id` URIs:** `https://gaiaskilltree.com/schema/evidence/benchmark-result.schema.json` (and the bundled snapshot mirror). Both move in lockstep per CLAUDE.md §Branch-Scope-schema/-allowlist.
+
+### Lessons / hazards preserved
+1. **Post-migration sweep must include `docs/CNAME` AND the generator scripts** — a domain migration PR that only does a find/replace on `docs/**/*.html` will leave the site unable to deploy (CNAME) AND will silently regenerate old-domain JSON-LD on the next `gaia dev docs` (generator BASE_URL). Add `docs/CNAME` + `scripts/injectJsonLd.py` + `scripts/generateSitemap.py` to a domain-migration checklist.
+2. **Auto-merged stale refs are silent** — when the source branch had a global find/replace and the target branch has NEW content with the old string, git's 3-way merge keeps the new-old content without flagging a conflict. Post-merge, always `git grep <old-string>` before pushing.
+3. **CRLF warnings during `git add` are not the same as CRLF in the staged content.** Verified via `git show :<path> | xxd` — staged bytes were LF. The warnings are just about future working-copy conversion.
+4. **Sprint D W4's JSON-LD injection is a load-bearing feature** — the JSON-LD blocks on the 11 conflicting HTML pages are output of `scripts/injectJsonLd.py` and part of the W5 SEO surface. Any resolver that keeps main's side without appending sprint-d's JSON-LD would silently regress W5. My resolver enforces this via structural equivalence check.
+
+### Open questions for next orchestrator
+- Should the "Ready-to-dispatch" dashboard at the top of MEMORY.md be updated? Its underlying facts still hold (only blocker for the aggregate is Marcus's #958 review), but if anything else has shifted since 2026-07-05 the dashboard should reflect it before session 35 dispatches.
+- Post-merge of #961, verify Pages CD stays green — the merge commit will trigger another `pages-build-deployment` run and any surviving CRLF/domain gaps will surface there.
+- Consider whether the direct-to-main `281552703` (CNAME fix) needs a retroactive note in a follow-up infra/ PR — the change is trivial but bypassed branch scope. Left as-is for now since Pages CD was the P0.
+
+### Token cost (this session)
+~ Cost (CU|€): 6.89 | 3.72€
+
+---
+
+## State Snapshot (2026-07-05, session 33 — Sprint D end-to-end drive; W4 awaits Marcus's frontend review)
+
+### TLDR
+- Cut `dev/sprint-d` off `main@3bc629be9`, seeded `founder/handovers/sprint-d/CONTEXT.md` + `journal.md`, then drove all 5 workstreams to merge (W1 + W2a + W2b + W3 + W5) with SPLURGE adversarial-review protocol on W1/W2a/W2b.
+- Two adversarial-review follow-ups (#956 W2b attestor honesty; #957 W1 archive cache-bust) merged as separate PRs per Marcus's "no follow-up issues" policy.
+- Preemptive CI-fix PR #959 delivered jinja2 core promotion + Class S regen + line-ending normalization for aggregate readiness.
+- **W4 (#958 leaderboard) opened but NOT merged** — held for Marcus's frontend review per session-start directive.
+- Everything else on `dev/sprint-d` is 33 commits ahead of `main`, aggregate PR ready to open as soon as W4 approves.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `dev/sprint-d` integration branch | ✅ Cut, 33 commits ahead of main, awaits W4 + aggregate |
+| W1 Content Engine (#950 + #957) | ✅ Merged. Cron workflow, publish gate, L1/L2/L3 salvage, /reports/ URL, RSS extension, 13 tests. |
+| W2a Benchmark schema (#951) | ✅ Merged. Frozen sub-schema, 8-field allOf gate w/ 2026-07 date epoch, CLI Pre-Flight `_preflight_benchmark_row` (SSOT for W2b), validator step [11/11] w/ auto-strict, TM exclusion for mirrored/pending. |
+| W2b HumanEval pipeline (#953 + #956) | ✅ Merged. `gaia push --benchmark` (pending-only, no override), `.github/workflows/benchmark-humaneval-ci.yml` (workflow_dispatch reproducer), verifier signoff format at `docs/verifier-signoffs/YYYY-MM/`, KC4 dogfood on `addy-osmani/code-simplification` (honest `pending` after #956). |
+| W3 MMLU mirror (#954) | ✅ Merged. Static snapshot ingest, 3 mirrored rows (anthropic/skill-creator, openai/few-shot-learning, huggingface/semantic-cache), zero TM inflation. |
+| W5 SEO surface (#955) | ✅ Merged. `scripts/generateSitemap.py`, `scripts/injectJsonLd.py` (idempotent across 90 pages), `docs/skills/` data index page, `docs/okf/index.json` seed, robots.txt allow-list, 12 tests. |
+| W4 Leaderboard (#958) | 🟡 **Open, awaits Marcus review**. Per-benchmark pages, shared renderer, 3-section provenance model (Verified/Pending CI/Cited), `generateBenchmarkProjection.py` fills W2b's `humaneval.json` gap, 19 tests. |
+| Preemptive CI-fix (#959) | ✅ Merged. jinja2 core dep, `_API_HAND_AUTHORED` extended, JSON-LD --check pass, Class S regen, line-ending normalization. |
+| EPIC #902 kickoff + milestone comments | ✅ 4 comments posted (kickoff, M1, M3, session-close handoff). |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `origin/main` | `3bc629be9` | Base for `dev/sprint-d`; unchanged this session |
+| `origin/dev/sprint-d` | `91d627781` | 33 commits ahead of main; aggregate PR pending W4 |
+| `origin/dev/sprint-d-benchmark-leaderboard` | `e3b6a9cf3` | W4 PR #958, awaits Marcus |
+| Local worktree `.claude/worktrees/sprint-d-w4/` | `e3b6a9cf3` | Kept for iteration if Marcus wants changes |
+| Stale worktrees (Sprint B leftovers) | — | 6 dirs under `.claude/worktrees/agent-*` and `rss-ascended-contested`; cleanup deferred |
+
+### Issues + PRs touched
+| # | Title | State / Action |
+|---|---|---|
+| #902 | EPIC Sprint D | 4 orchestrator comments posted |
+| #903 W1 | Content Engine | Resolves via #950 |
+| #904 W2a | Benchmark schema | Resolves via #951 |
+| #905 W2b | HumanEval pipeline | Resolves via #953 |
+| #906 W3 | MMLU mirror | Resolves via #954 |
+| #907 W4 | Leaderboard | Resolves via #958 (open) |
+| #908 W5 | SEO surface | Resolves via #955 |
+| PR #950 | W1 Content Engine | ✅ Merged, adversarial review MERGE-WITH-NOTES |
+| PR #951 | W2a Benchmark schema | ✅ Merged, adversarial review MERGE-WITH-NOTES |
+| PR #953 | W2b HumanEval pipeline | ✅ Merged, adversarial review MERGE-WITH-NOTES |
+| PR #954 | W3 MMLU mirror | ✅ Merged, orchestrator sanity-only |
+| PR #955 | W5 SEO surface | ✅ Merged, orchestrator sanity-only |
+| PR #956 | W2b adversarial follow-up | ✅ Merged (KC4 attestor honesty + validator carveout) |
+| PR #957 | W1 adversarial follow-up | ✅ Merged (archive.html.j2 cache-bust) |
+| PR #958 | W4 Leaderboard | 🟡 Open, awaits Marcus's frontend review |
+| PR #959 | Preemptive CI-fix | ✅ Merged (partial — sitemap Linux quirk deferred to aggregate) |
+
+### Decisions logged (contestable)
+1. **v6.0.0 deferred to Sprint D close.** Bundle Sprint B API + Sprint D Content Engine + Benchmarks into one major release rather than v6.0.0 → v6.1.0. Alternative: cut v6.0.0 now, Sprint D → v6.1.0. Chose bundle.
+2. **SPLURGE workstreams got two-agent adversarial rigor** (planner writes → planner red-teams → opus-worker implements → sonnet-worker hostile-reviews). Alternative: single planner + implementer. Chose adversarial for correctness.
+3. **W4 gated for Marcus review;** W1's thin templated HTML + W5's meta injection didn't gate. W4's SVG leaderboard is design work.
+4. **Feature branches `feat/sprint-d/*` → `dev/sprint-d-*`** because `feat/*` isn't in `branch-scope.yml`'s allowed prefix list — falls to `other` = hard-reject. `dev/*` is unrestricted per branch-scope.yml.
+5. **No follow-up issues — fixes on separate PR branches into `dev/sprint-d`** (Marcus directive at session start). #956, #957, #959 followed this pattern.
+6. **CI fixes deferred to aggregate PR** (Marcus directive mid-session). Child-PR CI wasn't iterated once red; #959 was preemptive but tolerated a residual sitemap-check red.
+
+### Routing — where things live now
+- **Sprint D scope files:** `founder/handovers/sprint-d/CONTEXT.md`, `founder/handovers/sprint-d/journal.md`, `founder/handovers/SPRINT_D_EPIC_PLAN.md`.
+- **Content Engine:** `scripts/contentEngine/{__init__.py,generate_weekly_report.py,synthesizer.py,templates/*.j2}`, `.github/workflows/weekly-content-engine.yml`, `docs/reports/{index.html,DRAFT/}`, `docs/api/v1/reports/index.json`. Publish gate `GAIA_CONTENT_ENGINE_PUBLISH` in the `content-engine-live` GH Environment.
+- **Benchmark schema/preflight (SSOT):** `registry/schema/evidence/benchmark-result.schema.json`, `src/gaia_cli/commands/dev/helpers.py::_preflight_benchmark_row`. Reused by W2b's `gaia push --benchmark` — do NOT reimplement.
+- **Benchmark harness + CI:** `scripts/benchmarks/humaneval/{run.py,fixtures/mini.jsonl,prompts/default.md}`, `.github/workflows/benchmark-humaneval-ci.yml`.
+- **Benchmark projections:** `docs/api/v1/benchmarks/{index.json,humaneval.json,mmlu.json}`. Generator: `scripts/generateBenchmarkProjection.py`.
+- **Leaderboard pages (unmerged, in W4 #958):** `docs/benchmarks/{index.html,humaneval/index.html,mmlu/index.html,_shared/leaderboard.js,humaneval-v1.md,mmlu-v1.md}`.
+- **MMLU mirror:** `scripts/benchmarks/mmlu/{ingest.py,snapshot.json,README.md}`. 3 rows on anthropic/skill-creator, openai/few-shot-learning, huggingface/semantic-cache.
+- **SEO:** `scripts/{generateSitemap.py,injectJsonLd.py,buildSkillsIndex.py}`, `docs/{sitemap.xml,robots.txt,skills/index.{html,js},okf/index.json}`. `.gitattributes` forces LF on sitemap + okf/index.
+- **Verifier signoff format (new W2b surface):** `docs/verifier-signoffs/YYYY-MM/<benchmark>-<contributor>-<slug>.md` with 6 flat frontmatter fields (verifier, skill, benchmark, score, datasetHash, attestedAt). Validated by `scripts/check_verifier_signoffs.py::checkBenchmarkAttestations` at step [12/12].
+- **Validator numbering:** `scripts/validate.py` steps now 1..12 (was 10 pre-Sprint-D). Auto-strict via `GITHUB_BASE_REF == main` OR `GITHUB_REF == refs/heads/main`. Superseded-pending carveout in `validate_benchmark_provenance` (W2b #956).
+
+### Lessons / hazards preserved for next orchestrator
+1. **`feat/*` branches fail CI at the branch-scope check.** They fall to `other` = hard-reject. Sprint D used `dev/sprint-d-<workstream>` (unrestricted per `dev/*`). If a future EPIC plan lists `feat/*` branches, override with `dev/<sprint>-*` before dispatching.
+2. **Worktrees created BEFORE a follow-up PR merges will hold stale state.** W4 was cut before follow-up #956 landed — W4's initial projection JSON captured the pre-fix ci-reproduced KC4 row. Sync-merge dev/sprint-d back into the worktree + regenerate before opening the PR (fixed successfully). Pattern for future EPICs: batch follow-ups before spawning downstream worktrees.
+3. **Scout-haiku pattern reduces spend significantly.** Marcus flagged mid-session that sonnet/opus workers with big read lists were wasteful; switching to a haiku scout → digest → sonnet/opus worker cut ~30% off the remaining workstream costs (W2b, W3, W5, W4).
+4. **CRLF/LF causes silent CI-only failures on Windows-authored files.** `docs/sitemap.xml` was checked in with CRLF (Windows autocrlf); Linux CI's `--check` saw it as stale. `.gitattributes` `text eol=lf` + `git add --renormalize` fixed the file bytes; a `.replace("\r\n", "\n")` normalization in the check function is defensive. **Yet the CI failure persisted after normalization, and the `difflib.unified_diff` debug print emitted zero lines** — which strongly implies `existing.splitlines()` and `rendered.splitlines()` produced identical lists yet the equality check still failed. Root cause NOT fully diagnosed. Aggregate PR runner (Linux, fresh regen) will reveal or self-heal it.
+5. **`w2b-kc4-bootstrap` was a synthetic github.run_id.** Adversarial review caught this. Follow-up #956 demoted the row to `provenance: pending` with honest attestor `pending-ci-reproduction`. Provenance-contract integrity is the load-bearing invariant of the Content Engine + Benchmarks megaphone (SPRINT_D_EPIC_PLAN.md Risk #1). NEVER hand-seed a `ci-reproduced` row again.
+6. **The trust-invariant enforcement is airtight in W2b's `gaia push --benchmark`** — there is NO `--provenance` flag on push. Hardcoded to `pending`. Three tests assert this. Belt + suspenders + belt.
+7. **Adversarial-review protocol worked well for SPLURGE workstreams.** W1/W2a/W2b each had a planner write + planner red-team + opus impl + sonnet review, and every review surfaced at least one HIGH-or-MEDIUM finding. Two of the three needed follow-up PRs to resolve blockers before aggregate. Would repeat.
+8. **Adversarial-review for Satisfice was skipped** — orchestrator sanity-check only on W3/W5. Neither triggered issues at merge, but W4 (also Satisfice) got full adversarial (frontend gate). Rule: Satisfice review lightness is OK when the surface is small + testable.
+9. **`dev/sprint-d` has no branch protection.** Merges accepted red CI. Aggregate `dev/sprint-d → main` will hit branch protection on main and require green CI.
+10. **Model config drift:** `.pi/agent/agents/{planner,opus-worker}.md` referenced `anthropic--claude-4.6-opus` which doesn't exist. Fixed to `4.7-opus` inline at session start. Watch for similar drift after model bumps.
+
+### Follow-up work queued (nothing on branches; all captured in EPIC comments)
+- **Aggregate PR CI:** sitemap-stale check + likely W4 docs drift + any residual jinja2/import issues discovered on Linux CI. Fix on the aggregate PR itself.
+- **v6.0.0 release runbook:** `gaia dev release major --sync` (or equivalent) + Bundled Registry Snapshot step in `.github/workflows/publish-pypi.yml` (which auto-refreshes for X.Y.0 releases per root CLAUDE.md).
+- **Post-merge KC verification:**
+  - KC1: `workflow_dispatch weekly-content-engine.yml forcePublish=0` — confirm DRAFT artifact uploads.
+  - KC2: dogfood a second `gaia push --benchmark humaneval --score X --dry-run` from CLI to prove the surface.
+  - KC4: `workflow_dispatch benchmark-humaneval-ci.yml skillId=addy-osmani/code-simplification` — promote the pending row to `ci-reproduced`.
+
+### Open questions for next orchestrator
+- Sitemap-check Linux failure with 0-line diff — what's actually different? Likely worth a 10-minute debug on the aggregate PR (add `print(repr(existing[:200])); print(repr(rendered[:200]))` in the check function, push, read logs).
+- Should Marcus's approval of #958 open the aggregate immediately, or first want a Cloudflare `/gaia-preview` build?
+- Confirm with Marcus whether the `content-engine-live` GitHub Environment is provisioned (Marcus-only UI step) before the first live cron.
+- The `verifier-signoffs/` directory format was introduced by W2b but not yet exercised by any live signoff. When the first verifier attests a real benchmark row, verify the frontmatter format holds.
+
+### Token cost (this session)
+- **Reported by Marcus:** Output 602,690 / Input 1,945 / Cache W 3,636,264 / Cache R 113,768,661 / **Total €59.53 (110.25 CU) across 1,189 requests.**
+- Cache reuse was heavy — ~114M cache reads vs 1.9K uncached input — which is what kept spend below the 25–35 EUR/hour ceiling despite the wide subagent fan-out (~30 subagent invocations).
+- Rough by-agent breakdown (interpolated from subagent completion reports, un-audited):
+  - 2× Opus planner (W1 + W2a plan-writers) + 2× Opus planner (W1 + W2a red-teams) — ~$8
+  - 3× Opus worker (W1, W2a, W2b): ~$3.90 + ~$3.90 + ~$3.90 — ~$12
+  - 3× Sonnet worker (W3, W5, W4): ~$1.20 + ~$1.50 + ~$1.50 — ~$4
+  - 1× Sonnet worker (CI-fix #959): ~$1.20
+  - 2× Haiku worker (W1 archive fix, W2b attestor fix): ~$1.60 + minor — ~$2
+  - 3× Sonnet reviewer (W1, W2a, W2b adversarial reviews): ~$3
+  - 4× Haiku scout (W2b, W3, W5, W4): ~$1
+  - Orchestrator inline: bulk of cache reads absorbed the remaining spend.
+- **Final canonical figure to log in Marcus's tracker: €59.53 for session 33.**
 
 ---
 

@@ -263,11 +263,18 @@ def test_index_with_no_update_field_exits_before_write(tmp_path, capsys):
 
 
 # ---------------------------------------------------------------------------
-# Pre-flight: benchmark-result percentile (#789)
+# Pre-flight: benchmark-result reproducibility fingerprint (Sprint D W2a, #904)
+#
+# Post-W2a, --percentile is OPTIONAL for benchmark-result (additive magnitude
+# contribution). The mandatory-field enforcement moved to the 8 fingerprint
+# fields (benchmarkId, score, unit, runAt, provenance, attestor, datasetHash,
+# benchmarkInputHash) — exercised in detail by tests/cli/test_dev_evidence_benchmark.py.
+# The three tests below are retained here for backward-compat coverage of the
+# meta_evidence_command entry point.
 # ---------------------------------------------------------------------------
 
 
-def test_benchmark_without_percentile_exits_before_write(tmp_path, capsys):
+def test_benchmark_without_fingerprint_exits_before_write(tmp_path, capsys):
     root = _make_registry(tmp_path)
     before = _load_node(root)
 
@@ -277,17 +284,22 @@ def test_benchmark_without_percentile_exits_before_write(tmp_path, capsys):
     assert exc.value.code != 0
     assert _load_node(root) == before
     err = capsys.readouterr().err
+    # Post-W2a: the required-fields error names the reproducibility fingerprint
+    # (benchmarkId, datasetHash, benchmarkInputHash …) rather than --percentile.
     assert "--type benchmark-result" in err
-    assert "--percentile" in err
+    assert "benchmarkId" in err
 
 
-def test_benchmark_with_percentile_succeeds(tmp_path):
+def test_benchmark_with_percentile_only_still_fails_without_fingerprint(tmp_path, capsys):
     root = _make_registry(tmp_path)
-    meta_evidence_command(
-        _args(root, evidence_type="benchmark-result", trust=80.0, percentile=92)
-    )
-    ev = _load_node(root)["evidence"]
-    assert ev[0]["percentile"] == 92
+    before = _load_node(root)
+    # --percentile alone no longer satisfies the benchmark-result contract:
+    # W2a requires the 8 fingerprint fields for the row to be citable.
+    with pytest.raises(SystemExit):
+        meta_evidence_command(
+            _args(root, evidence_type="benchmark-result", trust=80.0, percentile=92)
+        )
+    assert _load_node(root) == before, "row must not be written when fingerprint is missing"
 
 
 def test_percentile_out_of_range_exits(tmp_path):
@@ -413,13 +425,18 @@ def test_invalid_source_started_at_exits_before_write(tmp_path, capsys):
 
 # ---------------------------------------------------------------------------
 # Unit test for _preflight_benchmark_percentile directly
+#
+# Post-W2a (#904), --percentile is optional for benchmark-result, so the
+# wrapper no longer raises when it is absent. We keep the direct-call
+# coverage as a smoke test that the wrapper still exists and is safe to call.
 # ---------------------------------------------------------------------------
 
 
 def test_preflight_benchmark_no_percentile_direct():
     ns = SimpleNamespace(evidence_type="benchmark-result", percentile=None)
-    with pytest.raises(SystemExit):
-        _preflight_benchmark_percentile(ns)
+    # Post-W2a: no longer raises on missing --percentile (fingerprint fields
+    # carry the required-payload contract now).
+    _preflight_benchmark_percentile(ns)
 
 
 def test_preflight_benchmark_with_percentile_passes():

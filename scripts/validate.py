@@ -12,12 +12,18 @@ Validates registry/gaia.json against:
 8. Unique skill constraints.
 9. Named skill frontmatter consistency.
 10. Skill suites validation.
+11. Benchmark-result provenance gate (Sprint D W2a, #904).
+12. Verifier benchmark attestation format & authorization (Sprint D W2b, #905).
 
 Generic skill refs are rank-less — stars live only on named skills — so there is
 no generic level/demerit validation.
 
 Usage:
-    python scripts/validate.py [--graph PATH]
+    python scripts/validate.py [--graph PATH] [--strict]
+
+    --strict is auto-enabled on push-to-main and PR-into-main runs (via
+    GITHUB_BASE_REF / GITHUB_REF); it turns pending-provenance benchmark rows
+    into hard errors instead of warnings.
 
 Exit codes:
     0 — All checks passed.
@@ -29,6 +35,9 @@ import sys
 import os
 import glob
 import argparse
+from pathlib import Path
+
+_REPO_ROOT = Path(__file__).resolve().parent.parent
 
 if sys.platform == "win32":
     import io
@@ -342,6 +351,100 @@ def validate_unique_skills(graph):
                 f"unique skills require at least one entry in named-skills.json."
             )
 
+    return errors
+
+
+def validate_verifier_benchmark_attestations():
+    """Sprint D W2b (#905) — delegate to scripts/check_verifier_signoffs.py.
+
+    Every file under docs/verifier-signoffs/YYYY-MM/*.md must have a
+    well-formed YAML frontmatter block whose ``verifier`` handle resolves
+    to a 4★+ named-skill contributor. Unauthorized or malformed
+    attestations fail validation — and therefore fail CI — even if the
+    PR otherwise has enough reviewer sign-offs.
+    """
+    try:
+        import importlib.util
+        script_path = _REPO_ROOT / "scripts" / "check_verifier_signoffs.py"
+        if not script_path.exists():
+            return []
+        spec = importlib.util.spec_from_file_location("_gaia_signoffs", script_path)
+        module = importlib.util.module_from_spec(spec)
+        assert spec.loader is not None
+        spec.loader.exec_module(module)
+    except Exception as exc:  # pragma: no cover — defensive
+        return [f"Could not load check_verifier_signoffs.py: {exc}"]
+
+    signoffs_dir = _REPO_ROOT / "docs" / "verifier-signoffs"
+    verifiers = module.loadVerifiers()
+    known_skills = module.loadKnownSkills()
+    return module.checkBenchmarkAttestations(signoffs_dir, verifiers, known_skills)
+
+
+def validate_benchmark_provenance(graph, strict=False):
+    """Sprint D W2a (#904) — benchmark-result provenance gate.
+
+    Reject self-attested rows always (schema also blocks this at Draft-07
+    level; kept as defence-in-depth for pre-migration corpus rows). Reject
+    pending rows when strict is on (main-merge protection), UNLESS a later
+    ci-reproduced or verifier-attested row exists for the same skill +
+    benchmarkId (superseded-pending carve-out). Warn on mirrored rows so
+    operators know their entry is citation-only and excluded from Trust
+    Magnitude.
+
+    Returns a list of error strings; the caller merges these into all_errors.
+    Prints mirrored warnings directly to stdout.
+    """
+    errors = []
+    mirrored_warnings = []
+    skills = graph.get("skills", []) if isinstance(graph, dict) else graph
+    for skill in skills:
+        skill_id = skill.get("id", "<unknown>")
+        evidence_list = skill.get("evidence") or []
+        
+        for idx, row in enumerate(evidence_list):
+            if row.get("type") != "benchmark-result":
+                continue
+            provenance = row.get("provenance")
+            if provenance == "self-attested":
+                errors.append(
+                    f"Skill '{skill_id}' evidence[{idx}] has provenance='self-attested' "
+                    f"— FOREVER rejected for benchmark-result rows. Use ci-reproduced, "
+                    f"verifier-attested, mirrored, or pending."
+                )
+            elif provenance == "pending":
+                # Superseded-pending carve-out (Sprint D W2b #905): a pending row is
+                # allowed on main if a later row for the same skill + benchmarkId exists
+                # with provenance in ('ci-reproduced', 'verifier-attested').
+                benchmark_id = row.get("benchmarkId")
+                is_superseded = False
+                if benchmark_id:
+                    for later_row in evidence_list[idx+1:]:
+                        if (later_row.get("type") == "benchmark-result" and
+                            later_row.get("benchmarkId") == benchmark_id and
+                            later_row.get("provenance") in ("ci-reproduced", "verifier-attested")):
+                            is_superseded = True
+                            break
+                
+                if not is_superseded:
+                    message = (
+                        f"Skill '{skill_id}' evidence[{idx}] has provenance='pending' "
+                        f"— must be promoted to ci-reproduced or verifier-attested "
+                        f"before landing on main."
+                    )
+                    if strict:
+                        errors.append(message)
+                    else:
+                        mirrored_warnings.append("(pending) " + message)
+            elif provenance == "mirrored":
+                mirrored_warnings.append(
+                    f"Skill '{skill_id}' evidence[{idx}] is mirrored — "
+                    f"citation-only, excluded from Trust Magnitude."
+                )
+    if mirrored_warnings:
+        print(f"   ℹ  {len(mirrored_warnings)} benchmark provenance notice(s):")
+        for w in mirrored_warnings:
+            print(f"      - {w}")
     return errors
 
 
@@ -751,11 +854,27 @@ def main():
         "--check-meta-sync", action="store_true",
         help="Verify meta.json is in sync with gaia.json and bundled copies"
     )
+    parser.add_argument(
+        "--strict", action="store_true",
+        help=(
+            "Escalate benchmark-result provenance='pending' rows to hard errors. "
+            "Auto-enabled when GITHUB_BASE_REF == 'main' (PR run) or GITHUB_REF == "
+            "'refs/heads/main' (push run); Sprint D W2a #904."
+        ),
+    )
     args = parser.parse_args()
 
     if args.check_meta_sync:
         check_meta_sync()
         return
+
+    # Sprint D W2a (#904): auto-strict on main-touching runs. Covers both
+    # PR runs (GITHUB_BASE_REF) and push-to-main (GITHUB_REF).
+    strict_mode = (
+        args.strict
+        or os.environ.get("GITHUB_BASE_REF") == "main"
+        or os.environ.get("GITHUB_REF") == "refs/heads/main"
+    )
 
     # Resolve paths
     repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -779,46 +898,55 @@ def main():
     all_errors = []
 
     # 1. Schema validation
-    print("   [1/10] Schema validation...")
+    print("   [1/11] Schema validation...")
     all_errors.extend(validate_schema(graph, schema_dir))
 
     # 2. Unique identifiers
-    print("   [2/10] Unique identifiers...")
+    print("   [2/11] Unique identifiers...")
     all_errors.extend(validate_unique_ids(graph))
 
     # 3. DAG cycle detection
-    print("   [3/10] DAG cycle detection...")
+    print("   [3/11] DAG cycle detection...")
     all_errors.extend(validate_dag(graph))
 
     # 4. Reference integrity
-    print("   [4/10] Reference integrity...")
+    print("   [4/11] Reference integrity...")
     all_errors.extend(validate_references(graph))
 
     # 5. Prerequisite count
-    print("   [5/10] Prerequisite count...")
+    print("   [5/11] Prerequisite count...")
     all_errors.extend(validate_prerequisites_count(graph))
 
     # 6. Named skill evidence floors (inherited generic + own evidence).
     #    Non-blocking for now: generic refs are rank-less and the per-named
     #    evidence-floor enforcement is the next meta step. Surfaced as warnings.
-    print("   [6/10] Named evidence thresholds (warn)...")
+    print("   [6/11] Named evidence thresholds (warn)...")
     evidence_warnings = validate_named_evidence(graph)
 
     # 7. Ultimate constraints
-    print("   [7/10] Ultimate constraints...")
+    print("   [7/11] Ultimate constraints...")
     all_errors.extend(validate_ultimate(graph))
 
     # 8. Unique skill constraints
-    print("   [8/10] Unique skill constraints...")
+    print("   [8/12] Unique skill constraints...")
     all_errors.extend(validate_unique_skills(graph))
 
     # 9. Named skills validation (includes reviewer gate + catalog cross-refs)
-    print("   [9/10] Named skills validation...")
+    print("   [9/12] Named skills validation...")
     all_errors.extend(validate_named_skills(graph))
 
     # 10. Skill suites validation
-    print("   [10/10] Skill suites validation...")
+    print("   [10/12] Skill suites validation...")
     all_errors.extend(validate_suites(graph))
+
+    # 11. Benchmark-result provenance (Sprint D W2a, #904)
+    strict_label = " [strict]" if strict_mode else ""
+    print(f"   [11/12] Benchmark-result provenance{strict_label}...")
+    all_errors.extend(validate_benchmark_provenance(graph, strict=strict_mode))
+
+    # 12. Verifier benchmark attestations (Sprint D W2b, #905)
+    print("   [12/12] Verifier benchmark attestations...")
+    all_errors.extend(validate_verifier_benchmark_attestations())
 
     # Stats
     compute_stats(graph)

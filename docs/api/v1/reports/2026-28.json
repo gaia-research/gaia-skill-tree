@@ -1,0 +1,257 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "2026-28",
+  "isoYear": 2026,
+  "isoWeek": 28,
+  "generatedAt": "2026-07-06T11:32:53Z",
+  "generator": "gaia-content-engine",
+  "generatorVersion": "5.11.16",
+  "salvageLayer": "L3",
+  "sections": {
+    "trending": {
+      "title": "Trending this week",
+      "entries": [
+        {
+          "id": "addy-osmani/agent-skills",
+          "name": "Agent Skills",
+          "contributor": "addy-osmani",
+          "level": "5★",
+          "trustMagnitude": 293.14,
+          "trustGrade": "S",
+          "trendingScore": 146.57,
+          "tmDelta": 293.14,
+          "isNew": true,
+          "url": "https://gaiaskilltree.com/named/#explorer/addy-osmani/agent-skills"
+        },
+        {
+          "id": "gsd-build/get-shit-done",
+          "name": "Get Shit Done",
+          "contributor": "gsd-build",
+          "level": "4★",
+          "trustMagnitude": 202.16,
+          "trustGrade": "A",
+          "trendingScore": 101.08,
+          "tmDelta": 202.16,
+          "isNew": true,
+          "url": "https://gaiaskilltree.com/named/#explorer/gsd-build/get-shit-done"
+        },
+        {
+          "id": "addy-osmani/performance-optimization",
+          "name": "Performance Optimization",
+          "contributor": "addy-osmani",
+          "level": "4★",
+          "trustMagnitude": 83.2,
+          "trustGrade": "B",
+          "trendingScore": 50.0,
+          "tmDelta": 0.0,
+          "isNew": false,
+          "url": "https://gaiaskilltree.com/named/#explorer/addy-osmani/performance-optimization"
+        },
+        {
+          "id": "addy-osmani/code-review-and-quality",
+          "name": "Code Review and Quality",
+          "contributor": "addy-osmani",
+          "level": "3★",
+          "trustMagnitude": 53.14,
+          "trustGrade": "B",
+          "trendingScore": 26.57,
+          "tmDelta": 53.14,
+          "isNew": true,
+          "url": "https://gaiaskilltree.com/named/#explorer/addy-osmani/code-review-and-quality"
+        },
+        {
+          "id": "addy-osmani/code-simplification",
+          "name": "Code Simplification",
+          "contributor": "addy-osmani",
+          "level": "3★",
+          "trustMagnitude": 53.14,
+          "trustGrade": "B",
+          "trendingScore": 26.57,
+          "tmDelta": 53.14,
+          "isNew": true,
+          "url": "https://gaiaskilltree.com/named/#explorer/addy-osmani/code-simplification"
+        }
+      ]
+    },
+    "ascended": {
+      "title": "Recently ascended",
+      "entries": [
+        {
+          "id": "addy-osmani/performance-optimization",
+          "name": "Performance Optimization",
+          "contributor": "addy-osmani",
+          "level": "4★",
+          "previousLevel": "3★",
+          "trustMagnitude": 83.2,
+          "trustGrade": "B",
+          "ascendedAt": "2026-07-03T19:57:07Z",
+          "url": "https://gaiaskilltree.com/named/#explorer/addy-osmani/performance-optimization"
+        },
+        {
+          "id": "addy-osmani/agent-skills",
+          "name": "Agent Skills",
+          "contributor": "addy-osmani",
+          "level": "5★",
+          "previousLevel": null,
+          "trustMagnitude": 293.14,
+          "trustGrade": "S",
+          "ascendedAt": "2026-07-02T21:46:18Z",
+          "url": "https://gaiaskilltree.com/named/#explorer/addy-osmani/agent-skills"
+        },
+        {
+          "id": "gsd-build/get-shit-done",
+          "name": "Get Shit Done",
+          "contributor": "gsd-build",
+          "level": "4★",
+          "previousLevel": "2★",
+          "trustMagnitude": 202.16,
+          "trustGrade": "A",
+          "ascendedAt": "2026-07-02T21:34:10Z",
+          "url": "https://gaiaskilltree.com/named/#explorer/gsd-build/get-shit-done"
+        },
+        {
+          "id": "gsd-build/ship",
+          "name": "GSD Ship",
+          "contributor": "gsd-build",
+          "level": "3★",
+          "previousLevel": "2★",
+          "trustMagnitude": 52.16,
+          "trustGrade": "B",
+          "ascendedAt": "2026-07-02T21:34:10Z",
+          "url": "https://gaiaskilltree.com/named/#explorer/gsd-build/ship"
+        },
+        {
+          "id": "gsd-build/execute-phase",
+          "name": "GSD Execute Phase",
+          "contributor": "gsd-build",
+          "level": "3★",
+          "previousLevel": "2★",
+          "trustMagnitude": 52.16,
+          "trustGrade": "B",
+          "ascendedAt": "2026-07-02T21:34:09Z",
+          "url": "https://gaiaskilltree.com/named/#explorer/gsd-build/execute-phase"
+        }
+      ]
+    },
+    "contested": {
+      "title": "Most contested spaces",
+      "entries": [
+        {
+          "genericSkillRef": "git-ship-done-pipeline",
+          "implementations": 2,
+          "topTM": 293.14,
+          "skills": [
+            {
+              "id": "addy-osmani/agent-skills",
+              "level": "5★",
+              "trustMagnitude": 293.14,
+              "trustGrade": "S",
+              "origin": true,
+              "url": "https://gaiaskilltree.com/named/#explorer/addy-osmani/agent-skills"
+            },
+            {
+              "id": "gsd-build/get-shit-done",
+              "level": "4★",
+              "trustMagnitude": 202.16,
+              "trustGrade": "A",
+              "origin": false,
+              "url": "https://gaiaskilltree.com/named/#explorer/gsd-build/get-shit-done"
+            }
+          ]
+        },
+        {
+          "genericSkillRef": "vertical-slice-planning",
+          "implementations": 3,
+          "topTM": 156.0,
+          "skills": [
+            {
+              "id": "garrytan/garrytan",
+              "level": "4★",
+              "trustMagnitude": 156.0,
+              "trustGrade": "A",
+              "origin": true,
+              "url": "https://gaiaskilltree.com/named/#explorer/garrytan/garrytan"
+            },
+            {
+              "id": "mattpocock/to-issues",
+              "level": "3★",
+              "trustMagnitude": 90.38,
+              "trustGrade": "B",
+              "origin": false,
+              "url": "https://gaiaskilltree.com/named/#explorer/mattpocock/to-issues"
+            },
+            {
+              "id": "addy-osmani/planning-and-task-breakdown",
+              "level": "3★",
+              "trustMagnitude": 53.14,
+              "trustGrade": "B",
+              "origin": false,
+              "url": "https://gaiaskilltree.com/named/#explorer/addy-osmani/planning-and-task-breakdown"
+            }
+          ]
+        },
+        {
+          "genericSkillRef": "ux-audit",
+          "implementations": 6,
+          "topTM": 122.8,
+          "skills": [
+            {
+              "id": "pbakaus/impeccable",
+              "level": "4★",
+              "trustMagnitude": 122.8,
+              "trustGrade": "A",
+              "origin": true,
+              "url": "https://gaiaskilltree.com/named/#explorer/pbakaus/impeccable"
+            },
+            {
+              "id": "martin-stepanoski/nielsen-heuristics-audit",
+              "level": "3★",
+              "trustMagnitude": 94.9,
+              "trustGrade": "B",
+              "origin": false,
+              "url": "https://gaiaskilltree.com/named/#explorer/martin-stepanoski/nielsen-heuristics-audit"
+            },
+            {
+              "id": "garrytan/plan-design-review",
+              "level": "3★",
+              "trustMagnitude": 63.73,
+              "trustGrade": "B",
+              "origin": false,
+              "url": "https://gaiaskilltree.com/named/#explorer/garrytan/plan-design-review"
+            },
+            {
+              "id": "garrytan/plan-devex-review",
+              "level": "3★",
+              "trustMagnitude": 63.73,
+              "trustGrade": "B",
+              "origin": false,
+              "url": "https://gaiaskilltree.com/named/#explorer/garrytan/plan-devex-review"
+            },
+            {
+              "id": "garrytan/design-review",
+              "level": "2★",
+              "trustMagnitude": 36.0,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "https://gaiaskilltree.com/named/#explorer/garrytan/design-review"
+            },
+            {
+              "id": "garrytan/devex-review",
+              "level": "2★",
+              "trustMagnitude": 36.0,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "https://gaiaskilltree.com/named/#explorer/garrytan/devex-review"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "urls": {
+    "canonical": "https://gaiaskilltree.com/reports/2026-28/",
+    "json": "https://gaiaskilltree.com/api/v1/reports/2026-28.json",
+    "previous": "https://gaiaskilltree.com/reports/2026-27/",
+    "archive": "https://gaiaskilltree.com/reports/"
+  }
+}

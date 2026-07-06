@@ -367,6 +367,29 @@ def build_okf_bundle(check: bool) -> bool:
         return not are_dirs_same(okf_dir, tmp_okf_dir)
 
 
+def build_skills_index(check: bool) -> bool:
+    """Generate docs/okf/index.json via scripts/buildSkillsIndex.py. Returns True if drift."""
+    import subprocess
+    script_path = Path(__file__).resolve().parent / "buildSkillsIndex.py"
+    if not script_path.exists():
+        return False
+    if check:
+        res = subprocess.run(
+            [sys.executable, str(script_path), "--check"],
+            capture_output=True, text=True,
+        )
+        if res.returncode != 0:
+            print("diff docs/okf/index.json (skills index stale -- run buildSkillsIndex.py)")
+            return True
+        return False
+    else:
+        res = subprocess.run(
+            [sys.executable, str(script_path)],
+            capture_output=True, text=True,
+        )
+        return res.returncode == 0
+
+
 def _apply_cache_busting(text: str, version: str) -> str:
     # 1. Inject or update Cache-Control meta tags inside <head>
     cache_meta = (
@@ -408,10 +431,34 @@ def _apply_cache_busting(text: str, version: str) -> str:
     return text
 
 
+def build_sitemap(check: bool) -> bool:
+    """Regenerate docs/sitemap.xml via scripts/generateSitemap.py. Returns True if drift."""
+    import subprocess
+    script_path = Path(__file__).resolve().parent / "generateSitemap.py"
+    if not script_path.exists():
+        return False
+    if check:
+        res = subprocess.run(
+            [sys.executable, str(script_path), "--check"],
+            capture_output=True, text=True,
+        )
+        if res.returncode != 0:
+            print("diff docs/sitemap.xml (sitemap stale — run generateSitemap.py)")
+            return True
+        return False
+    else:
+        res = subprocess.run(
+            [sys.executable, str(script_path)],
+            capture_output=True, text=True,
+        )
+        return res.returncode == 0
+
+
 def build_html_cache_busting(check: bool) -> bool:
     version = _read_version()
     changed = False
     for filename in (
+        "reports/index.html",
         "index.html",
         "about.html",
         "codex.html",
@@ -430,6 +477,13 @@ def build_html_cache_busting(check: bool) -> bool:
         "api/index.html",  # pre-registered for Issue #850 (docs page not yet created)
         "trending/index.html",
         "heroes/index.html",
+        "benchmarks/index.html",
+        "benchmarks/humaneval/index.html",
+        "benchmarks/mmlu/index.html",
+        "benchmarks/methodology/index.html",
+        "benchmarks/humaneval-v1/index.html",
+        "benchmarks/mmlu-v1/index.html",
+        "skills/index.html",
     ):
         path = ROOT / "docs" / filename
         if not path.exists():
@@ -443,6 +497,29 @@ def build_html_cache_busting(check: bool) -> bool:
             else:
                 path.write_text(updated_text, encoding="utf-8")
     return changed
+
+
+def build_jsonld(check: bool) -> bool:
+    """Inject JSON-LD blocks into docs/**/*.html via scripts/injectJsonLd.py. Returns True if drift."""
+    import subprocess
+    script_path = Path(__file__).resolve().parent / "injectJsonLd.py"
+    if not script_path.exists():
+        return False
+    if check:
+        res = subprocess.run(
+            [sys.executable, str(script_path), "--check"],
+            capture_output=True, text=True,
+        )
+        if res.returncode != 0:
+            print("diff docs/**/*.html (JSON-LD blocks stale -- run injectJsonLd.py)")
+            return True
+        return False
+    else:
+        res = subprocess.run(
+            [sys.executable, str(script_path)],
+            capture_output=True, text=True,
+        )
+        return res.returncode == 0
 
 
 
@@ -652,7 +729,7 @@ def build_docs_named_index(check: bool) -> bool:
 
 # Files that live in docs/api/v1/ but are hand-authored (not emitted by
 # buildApiProjection.py).  They must be preserved across every regen cycle.
-_API_HAND_AUTHORED = ["openapi.json", "trending"]
+_API_HAND_AUTHORED = ["openapi.json", "trending", "benchmarks", "reports"]
 
 
 def build_trust_ledger(check: bool) -> bool:
@@ -767,6 +844,32 @@ def build_api_projection(check: bool) -> bool:
         return True
 
 
+def build_benchmark_projection(check: bool) -> bool:
+    """Run generateBenchmarkProjection.py and diff against docs/api/v1/benchmarks/."""
+    script = SCRIPTS / "generateBenchmarkProjection.py"
+    if not script.exists():
+        return False
+    committed = ROOT / "docs" / "api" / "v1" / "benchmarks"
+    import subprocess as _sp
+    if check:
+        result = _sp.run(
+            [sys.executable, str(script), "--check"],
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+        )
+        if result.returncode != 0:
+            print(result.stdout.strip())
+            return True
+        return False
+    else:
+        result = _sp.run(
+            [sys.executable, str(script), "--out-dir", str(committed)],
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+        )
+        if result.returncode != 0:
+            raise RuntimeError(f"generateBenchmarkProjection.py failed: {result.stderr.strip()}")
+        return "nothing changed" not in result.stdout
+
+
 def build_trending_projection(check: bool) -> bool:
     """Run buildTrendingProjection.py to a tempdir and diff against docs/api/v1/trending/."""
     script = SCRIPTS / "buildTrendingProjection.py"
@@ -828,6 +931,40 @@ def build_trending_projection(check: bool) -> bool:
         return True
 
 
+def build_content_engine(check: bool) -> bool:
+    """Run scripts/contentEngine/generate_weekly_report.py against docs/.
+
+    Sprint D · W1 pipeline step. Always invoked with --publish 0 so that a
+    routine `gaia dev docs` run writes only to the gitignored DRAFT/ dir —
+    NEVER to the canonical /reports/YYYY-WW/ URL. Only the weekly cron
+    workflow (.github/workflows/weekly-content-engine.yml) flips publish=1
+    when GAIA_CONTENT_ENGINE_PUBLISH is set.
+
+    In --check mode this is a no-op: the DRAFT output is gitignored, and the
+    published artefacts (/reports/YYYY-WW/, /api/v1/reports/YYYY-WW.json,
+    /reports/index.html, /api/v1/reports/index.json) only change on the cron
+    runner. Local drift checks would produce false positives on any Monday
+    boundary because ISO week rolls forward. Safer to skip — the cron job
+    owns the truth.
+    """
+    script = SCRIPTS / "contentEngine" / "generate_weekly_report.py"
+    if not script.exists():
+        return False
+    if check:
+        # See docstring: content-engine artefacts live behind the cron gate.
+        # A locally-computed diff always produces false positives on ISO week
+        # rollover, so we intentionally skip --check for this step.
+        return False
+
+    # Write-mode: emit a DRAFT into docs/reports/DRAFT/ (gitignored) so agents
+    # working on Content Engine iteration have a fresh sample after each
+    # regen. Never touches the canonical /reports/YYYY-WW/ or index files.
+    rc, output = _run_script(script, ["--out-dir", str(ROOT / "docs"), "--publish", "0"])
+    if rc != 0:
+        raise RuntimeError(f"content_engine regen failed: rc={rc}\n{output}")
+    return False
+
+
 def build_profile_pages(check: bool) -> bool:
     """Run generateProfilePages.py to a tempdir and diff against docs/u/."""
     script = SCRIPTS / "generateProfilePages.py"
@@ -855,6 +992,26 @@ def build_profile_pages(check: bool) -> bool:
                 _apply_cache_busting(gen_index.read_text(encoding="utf-8"), version),
                 encoding="utf-8",
             )
+        # JSON-LD injection (scripts/injectJsonLd.py) runs in a separate
+        # build_docs step AFTER profile pages are written to disk. In check
+        # mode the tempdir pages lack JSON-LD blocks, causing perpetual drift
+        # against the committed pages which have JSON-LD already injected.
+        # Apply the same injection here so the comparison is like-for-like.
+        # NOTE: out_dir = <tmp>/u  →  inject_file classifies relative to the
+        # parent of out_dir so paths appear as u/<handle>/index.html (3 parts),
+        # matching the _classify(parts[0] == "u") branch.
+        try:
+            import importlib.util as _ilu
+            _spec = _ilu.spec_from_file_location(
+                "injectJsonLd", SCRIPTS / "injectJsonLd.py"
+            )
+            _ild = _ilu.module_from_spec(_spec)  # type: ignore[arg-type]
+            _spec.loader.exec_module(_ild)  # type: ignore[union-attr]
+            _ild.DOCS_DIR = out_dir.parent  # parent so rel = u/<handle>/index.html
+            for _hp in sorted(out_dir.rglob("*.html")):
+                _ild.inject_file(_hp, check=False)
+        except Exception:
+            pass  # JSON-LD injection is best-effort in check mode
         if not committed.exists():
             if check:
                 print("diff docs/u/ (missing)")
@@ -1300,7 +1457,9 @@ def main(argv: list[str] | None = None) -> int:
     docs_named_changed = _run_step("docs-named-index", build_docs_named_index, args.check)
     trust_ledger_changed = _run_step("trust-ledger", build_trust_ledger, args.check)
     api_changed = _run_step("api-projection", build_api_projection, args.check)
+    benchmark_proj_changed = _run_step("benchmark-projection", build_benchmark_projection, args.check)
     trending_changed = _run_step("trending-projection", build_trending_projection, args.check)
+    content_engine_changed = _run_step("content-engine", build_content_engine, args.check)
     profiles_changed = _run_step("profiles", build_profile_pages, args.check)
     # Badges step honors a `[skip-badge-check]` opt-in escape: if the most
     # recent commit's SUBJECT (first line, not body) contains that marker,
@@ -1337,7 +1496,10 @@ def main(argv: list[str] | None = None) -> int:
     readme_changed = _run_step("readme", build_readme, args.check)
     docs_index_changed = _run_step("docs-index", build_docs_index, args.check)
     okf_bundle_changed = _run_step("okf-bundle", build_okf_bundle, args.check)
+    skills_index_changed = _run_step("skills-index", build_skills_index, args.check)
+    sitemap_changed = _run_step("sitemap", build_sitemap, args.check)
     html_cache_busted = _run_step("html-cache-busting", build_html_cache_busting, args.check)
+    jsonld_changed = _run_step("json-ld", build_jsonld, args.check)
     css_tokens_changed = _run_step("css-tokens", build_css_tokens, args.check)
 
 
@@ -1370,13 +1532,18 @@ def main(argv: list[str] | None = None) -> int:
         assembly_changed
         or readme_changed
         or docs_index_changed
+        or sitemap_changed
+        or skills_index_changed
         or html_cache_busted
+        or jsonld_changed
         or css_tokens_changed
         or named_index_changed
         or docs_named_changed
         or trust_ledger_changed
         or api_changed
+        or benchmark_proj_changed
         or trending_changed
+        or content_engine_changed
         or profiles_changed
         # badges_changed: intentionally omitted — see warn-only block above.
         or og_changed

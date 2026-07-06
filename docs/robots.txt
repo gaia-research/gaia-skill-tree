@@ -7,6 +7,12 @@ Allow: /trust/
 Allow: /badges/
 Allow: /codex.html
 Allow: /graph/
+Allow: /reports/
+Allow: /skills/
+Allow: /benchmarks/
+Allow: /trending/
+Allow: /heroes/
+Allow: /api/
 
 Disallow: /samples/
 Disallow: /archive/

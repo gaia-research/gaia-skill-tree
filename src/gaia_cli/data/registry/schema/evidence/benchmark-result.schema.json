@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gaiaskilltree.com/schema/evidence/benchmark-result.schema.json",
+  "title": "Benchmark result evidence row",
+  "description": "Reproducible benchmark measurement attached to a Gaia skill as an evidence row. Sprint D W2a (issue #904) — field names and shape are FROZEN post-merge (API contract for downstream benchmark indices W2b/W3/W4). Two provenance paths are honored: verifier-attested (4★+ verifier sign-off) or ci-reproduced (GitHub Actions workflow run on the submitted commit). Self-attested provenance is FOREVER rejected. Mirrored rows appear as citations only and are excluded from Trust Magnitude. This standalone sub-schema is citable from external clients (docs/benchmarks/methodology.md links here); enforcement inside the skill graph happens via the mirrored allOf clause on evidenceEntry in skill.schema.json.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "type",
+    "source",
+    "evaluator",
+    "date",
+    "benchmarkId",
+    "score",
+    "unit",
+    "runAt",
+    "provenance",
+    "attestor",
+    "datasetHash",
+    "benchmarkInputHash"
+  ],
+  "properties": {
+    "type": {
+      "const": "benchmark-result",
+      "description": "Fixed discriminator. Matched by the evidenceEntry allOf/if branch to gate the benchmark-only required fields."
+    },
+    "source": {
+      "type": "string",
+      "format": "uri",
+      "description": "Public URL where the benchmark run or report can be inspected (leaderboard entry, blog post, CI workflow run, arXiv paper). Mirrors evidenceEntry.source."
+    },
+    "evaluator": {
+      "type": "string",
+      "description": "GitHub username of the person who filed the evidence row. For CI-reproduced rows this is typically the workflow owner or a bot handle."
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date (YYYY-MM-DD) the evidence was filed against the registry. Distinct from runAt (when the benchmark itself was run)."
+    },
+    "benchmarkId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9\\-_/]*@v?\\d+(\\.\\d+)?(\\.\\d+)?(-[a-z0-9\\-_.]+)?$",
+      "description": "Semver-ish identifier of the benchmark spec. Widened to accept humaneval@v1.0, humaneval/python@v1.0, swe-bench_verified@1.0, mmlu-5shot@2024-03. FROZEN — extensions require a major schema bump."
+    },
+    "score": {
+      "type": "number",
+      "description": "Raw score as reported by the harness, in the units named by `unit`. Interpretation is unit-specific: pass@1 is 0..1, pct is 0..100, elo is unbounded, etc."
+    },
+    "unit": {
+      "type": "string",
+      "enum": [
+        "pct",
+        "pass@1",
+        "pass@10",
+        "bleu",
+        "f1",
+        "accuracy",
+        "elo",
+        "raw"
+      ],
+      "description": "FROZEN enum of score units. Extending this list is a major schema bump — downstream leaderboard consumers switch on it."
+    },
+    "runAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 date-time (with timezone) the benchmark harness was executed. Feeds the freshness half-life calculation in Trust Magnitude."
+    },
+    "provenance": {
+      "type": "string",
+      "enum": [
+        "verifier-attested",
+        "ci-reproduced",
+        "mirrored",
+        "pending"
+      ],
+      "description": "How the row's authenticity is anchored. verifier-attested: a 4★+ Verifier co-signed the score. ci-reproduced: a GitHub Actions workflow ran the harness on a public commit SHA. mirrored: citation-only copy from an external leaderboard (excluded from Trust Magnitude — see trustMagnitude.py). pending: default state for freshly filed rows awaiting promotion; rejected on main by scripts/validate.py --strict. self-attested is intentionally absent and FOREVER rejected."
+    },
+    "attestor": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable attestor identity. For verifier-attested: GitHub username of the co-signing verifier. For ci-reproduced: workflow run URL plus commit SHA (e.g. 'https://github.com/owner/repo/actions/runs/12345@abc1234'). For mirrored: upstream leaderboard URL. For pending: filer's own handle."
+    },
+    "datasetHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 (64 lowercase hex chars) of the raw dataset used for evaluation. Locks the row to a specific dataset version — a dataset revision produces a different hash, and thus a different row."
+    },
+    "benchmarkInputHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 (64 lowercase hex chars) of the concatenation of (dataset + prompt template + harness config). Reproducibility fingerprint — a downstream verifier can re-run the harness with the same inputs and expect the same score. Different concept from datasetHash: two rows may share datasetHash but differ in benchmarkInputHash if the harness config or prompt template changed."
+    },
+    "percentile": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Optional placement percentile (0..100) within the field of published scores on this benchmark. Feeds the benchmark-result magnitude formula in trustMagnitude.py (magnitude = percentile)."
+    },
+    "harnessUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "Optional URL to the exact harness code used to produce the score. For CI-reproduced rows this is typically a permalink into scripts/benchmarks/<benchmark>/run.py at the pinned commit."
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": null,
+  "benchmarks": [
+    {
+      "id": "humaneval@v1.0",
+      "name": "HumanEval",
+      "provenance": "ci-reproduced",
+      "leaderboardUrl": "/api/v1/benchmarks/humaneval.json",
+      "methodologyUrl": "/benchmarks/humaneval-v1/"
+    },
+    {
+      "id": "mmlu@2024-03",
+      "name": "MMLU (Massive Multitask Language Understanding)",
+      "provenance": "mirrored",
+      "leaderboardUrl": "/api/v1/benchmarks/mmlu.json",
+      "methodologyUrl": "/benchmarks/mmlu-v1/"
+    }
+  ]
+}
