@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Object Detection"
 description: "Locates and classifies multiple objects within images by producing bounding boxes, confidence scores, and category labels in a single forward pass."
-resource: "https://gaia.tiongson.co/codex.html#object-detection"
+resource: "https://gaiaskilltree.com/codex.html#object-detection"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Software Design"
 description: "Design software modules with clean interfaces, seams, and deep implementations for maintainability and testability."
-resource: "https://gaia.tiongson.co/codex.html#software-design"
+resource: "https://gaiaskilltree.com/codex.html#software-design"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-19T00:00:00Z"
 ---

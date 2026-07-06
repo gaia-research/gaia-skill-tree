@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Autonomous Debug"
 description: "Independently identifies, diagnoses, and fixes software bugs through code generation and execution."
-resource: "https://gaia.tiongson.co/codex.html#autonomous-debug"
+resource: "https://gaiaskilltree.com/codex.html#autonomous-debug"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Knowledge Harvest"
 description: "Extracts, structures, and embeds knowledge from web sources into a searchable corpus."
-resource: "https://gaia.tiongson.co/codex.html#knowledge-harvest"
+resource: "https://gaiaskilltree.com/codex.html#knowledge-harvest"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

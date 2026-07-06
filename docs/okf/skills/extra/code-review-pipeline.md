@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Code Review Pipeline"
 description: "Performs automated code review by generating, diffing, and evaluating code changes for correctness, style, security, and maintainability."
-resource: "https://gaia.tiongson.co/codex.html#code-review-pipeline"
+resource: "https://gaiaskilltree.com/codex.html#code-review-pipeline"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

@@ -392,7 +392,7 @@ def _write_rss(out_dir: Path, trending_7d: list[dict], generated_at: str) -> Non
         else:
             title = name
 
-        link = f"https://gaia.tiongson.co/named/#explorer/{skill_id}"
+        link = f"https://gaiaskilltree.com/named/#explorer/{skill_id}"
 
         # Description: TM + grade
         tm_str = f"{tm:.1f}" if isinstance(tm, (int, float)) else "—"
@@ -433,11 +433,11 @@ def _write_rss(out_dir: Path, trending_7d: list[dict], generated_at: str) -> Non
         '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n'
         '  <channel>\n'
         '    <title>Gaia Trending Skills</title>\n'
-        '    <link>https://gaia.tiongson.co/trending/</link>\n'
+        '    <link>https://gaiaskilltree.com/trending/</link>\n'
         '    <description>Skills gaining trust this week — ranked by evidence velocity, not hype.</description>\n'
         '    <language>en-us</language>\n'
         f'    <lastBuildDate>{last_build}</lastBuildDate>\n'
-        '    <atom:link href="https://gaia.tiongson.co/api/v1/trending/feed.xml"'
+        '    <atom:link href="https://gaiaskilltree.com/api/v1/trending/feed.xml"'
         ' rel="self" type="application/rss+xml"/>\n'
         f'{items_block}\n'
         '  </channel>\n'

@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Git Ship Done Pipeline"
 description: "Fuses decision capture, planning, parallel execution, verification, and shipping into a repeatable agentic software delivery pipeline."
-resource: "https://gaia.tiongson.co/codex.html#git-ship-done-pipeline"
+resource: "https://gaiaskilltree.com/codex.html#git-ship-done-pipeline"
 tags: ["gaia-skill-tree", "ultimate-skill"]
 timestamp: "2026-07-03T00:00:00Z"
 ---

@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Generate Test"
 description: "Produces comprehensive unit, integration, and edge-case test suites from source code."
-resource: "https://gaia.tiongson.co/codex.html#generate-test"
+resource: "https://gaiaskilltree.com/codex.html#generate-test"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

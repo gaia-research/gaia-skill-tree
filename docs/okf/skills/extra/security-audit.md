@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Security Audit"
 description: "Systematically identify security vulnerabilities, assess attack surface, and produce actionable remediation guidance across code, dependencies, and infrastructure."
-resource: "https://gaia.tiongson.co/codex.html#security-audit"
+resource: "https://gaiaskilltree.com/codex.html#security-audit"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Token Observability"
 description: "Observability tool for tracking AI coding agent token spend locally."
-resource: "https://gaia.tiongson.co/codex.html#token-observability"
+resource: "https://gaiaskilltree.com/codex.html#token-observability"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

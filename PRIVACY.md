@@ -51,7 +51,7 @@ A *named skill* (2★+) attaches a public GitHub username as the skill's credite
 
 ## Third Parties
 
-The Gaia registry is a static GitHub repository. We do not operate any backend server, database, or analytics service. The public website (`gaia.tiongson.co`) is a static site hosted on GitHub Pages and does not set tracking cookies or collect telemetry.
+The Gaia registry is a static GitHub repository. We do not operate any backend server, database, or analytics service. The public website (`gaiaskilltree.com`) is a static site hosted on GitHub Pages and does not set tracking cookies or collect telemetry.
 
 ---
 

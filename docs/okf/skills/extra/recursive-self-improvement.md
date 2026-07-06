@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Recursive Self-Improvement"
 description: "Agent iteratively refines its own prompts, tools, or strategies based on performance feedback loops."
-resource: "https://gaia.tiongson.co/codex.html#recursive-self-improvement"
+resource: "https://gaiaskilltree.com/codex.html#recursive-self-improvement"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

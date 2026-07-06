@@ -1,21 +1,21 @@
-[GGaia](https://gaia.tiongson.co/index.html)
+[GGaia](https://gaiaskilltree.com/index.html)
 
-- [Home](https://gaia.tiongson.co/index.html)
-- [About](https://gaia.tiongson.co/about.html)
-- [GitHub Badges](https://gaia.tiongson.co/badges/)
-- [Skills](https://gaia.tiongson.co/named/)
-- [Docs](https://gaia.tiongson.co/en/)
+- [Home](https://gaiaskilltree.com/index.html)
+- [About](https://gaiaskilltree.com/about.html)
+- [GitHub Badges](https://gaiaskilltree.com/badges/)
+- [Skills](https://gaiaskilltree.com/named/)
+- [Docs](https://gaiaskilltree.com/en/)
 - More
   - Skill Tree
   - Skill Graph
-  - [The Codex](https://gaia.tiongson.co/codex.html)
-  - [Trust Leaderboard](https://gaia.tiongson.co/trust/leaderboard/)
-  - [Starless](https://gaia.tiongson.co/starless.html)
-  - [Named Contributors](https://gaia.tiongson.co/u/)
-  - [Meta Reports](https://gaia.tiongson.co/meta.html)
-  - [Evidence Library](https://gaia.tiongson.co/evidence/)
+  - [The Codex](https://gaiaskilltree.com/codex.html)
+  - [Trust Leaderboard](https://gaiaskilltree.com/trust/leaderboard/)
+  - [Starless](https://gaiaskilltree.com/starless.html)
+  - [Named Contributors](https://gaiaskilltree.com/u/)
+  - [Meta Reports](https://gaiaskilltree.com/meta.html)
+  - [Evidence Library](https://gaiaskilltree.com/evidence/)
 
-[Back](https://gaia.tiongson.co/index.html)
+[Back](https://gaiaskilltree.com/index.html)
 
 HonestyON
 
@@ -26,9 +26,9 @@ For those who have named their skill
 You earned a named skill — wear it. Drop a Gaia badge in your README; it auto-updates each release with your highest rank, total skills, or a specific named skill.
 
 
-live![Owner identity badge](https://gaia.tiongson.co/badges/_assets/mbtiongson1/handle.svg)![Owner rank badge](https://gaia.tiongson.co/badges/_assets/mbtiongson1/rank.svg)![Owner skills count badge](https://gaia.tiongson.co/badges/_assets/mbtiongson1/skills.svg)
+live![Owner identity badge](https://gaiaskilltree.com/badges/_assets/mbtiongson1/handle.svg)![Owner rank badge](https://gaiaskilltree.com/badges/_assets/mbtiongson1/rank.svg)![Owner skills count badge](https://gaiaskilltree.com/badges/_assets/mbtiongson1/skills.svg)
 
-seal-only![Owner identity badge, seal-only variant](https://gaia.tiongson.co/badges/_assets/mbtiongson1/handle-seal.svg)
+seal-only![Owner identity badge, seal-only variant](https://gaiaskilltree.com/badges/_assets/mbtiongson1/handle-seal.svg)
 
 ## Claim your badge
 
@@ -41,7 +41,7 @@ Generate my badges
 
 rank sampler
 
-![Sample rank badge](https://gaia.tiongson.co/badges/samples/rank-1.svg)
+![Sample rank badge](https://gaiaskilltree.com/badges/samples/rank-1.svg)
 
 Awakened · 1★
 
@@ -77,15 +77,15 @@ the badge URL in a new tab to confirm it’s live — if you see it
 there, only GitHub’s cache is stale.
 
 
-![Awakened · 1★](https://gaia.tiongson.co/badges/samples/rank-1.svg)
+![Awakened · 1★](https://gaiaskilltree.com/badges/samples/rank-1.svg)
 
-`[![Gaia rank](https://gaia.tiongson.co/badges/_assets/gaia-bot/rank.svg)](https://gaia.tiongson.co/)`
+`[![Gaia rank](https://gaiaskilltree.com/badges/_assets/gaia-bot/rank.svg)](https://gaiaskilltree.com/)`
 
 README.md
 
 ### my-project
 
-![Awakened · 1★](https://gaia.tiongson.co/badges/samples/rank-1.svg)
+![Awakened · 1★](https://gaiaskilltree.com/badges/samples/rank-1.svg)
 
 Welcome to my repository. Check out my official Gaia contributor rank and verified agent skills above!
 
@@ -93,7 +93,7 @@ Welcome to my repository. Check out my official Gaia contributor rank and verifi
 
 Three contributor formats plus a generic badge for any project.
 
-![@garrytan handle badge](https://gaia.tiongson.co/badges/_assets/garrytan/handle.svg)
+![@garrytan handle badge](https://gaiaskilltree.com/badges/_assets/garrytan/handle.svg)
 
 @garrytan · top skill
 
@@ -101,7 +101,7 @@ handle.svg
 
 Single-line identity. `@handle` in honor red, selected named skill in its rank color, star count in the same hue.
 
-![garrytan rank badge](https://gaia.tiongson.co/badges/_assets/garrytan/rank.svg)
+![garrytan rank badge](https://gaiaskilltree.com/badges/_assets/garrytan/rank.svg)
 
 Highest rank: 4★
 
@@ -109,7 +109,7 @@ rank.svg
 
 Highest rank earned. Right panel color is the rank tier (1★ cyan → 5/6★ gold, unique → purple). Regenerates on every release.
 
-![garrytan skills badge](https://gaia.tiongson.co/badges/_assets/garrytan/skills.svg)
+![garrytan skills badge](https://gaiaskilltree.com/badges/_assets/garrytan/skills.svg)
 
 4 named skills
 
@@ -117,11 +117,11 @@ skills.svg
 
 Total named skills contributed. Panel color matches rank tier.
 
-![Powered by Gaia](https://gaia.tiongson.co/badges/powered-by-gaia.svg)
+![Powered by Gaia](https://gaiaskilltree.com/badges/powered-by-gaia.svg)
 
 For anyone — no account required
 
-`[![Powered by Gaia](https://gaia.tiongson.co/badges/powered-by-gaia.svg)](https://gaia.tiongson.co/)`
+`[![Powered by Gaia](https://gaiaskilltree.com/badges/powered-by-gaia.svg)](https://gaiaskilltree.com/)`
 
 ## The rank system
 
@@ -150,7 +150,7 @@ Every badge tells a specific story. Here's what each one signals to anyone who r
 | `/skill-slug.svg` | A badge for a specific named skill — same format as `handle.svg` but pinned to one capability. Use it in the repo where that skill lives. | Named contributors showcasing a single skill in context. |
 
 Badges are static SVGs regenerated by `gaia docs build` and served from
-`gaia.tiongson.co`. GitHub's camo proxy caches images for ~24 hours, so newly earned
+`gaiaskilltree.com`. GitHub's camo proxy caches images for ~24 hours, so newly earned
 ranks may take a day to propagate after a release. Logo: the Gaia diamond seal.
 
 
@@ -162,41 +162,41 @@ of agent capabilities.
 
 Registry
 
-- [Home](https://gaia.tiongson.co/badges/index.html)
-- [Skill Tree](https://gaia.tiongson.co/badges/index.html)
-- [Skill Graph](https://gaia.tiongson.co/badges/index.html?field=1)
-- [Starless](https://gaia.tiongson.co/badges/starless.html)
-- [Meta Reports](https://gaia.tiongson.co/badges/meta.html)
+- [Home](https://gaiaskilltree.com/badges/index.html)
+- [Skill Tree](https://gaiaskilltree.com/badges/index.html)
+- [Skill Graph](https://gaiaskilltree.com/badges/index.html?field=1)
+- [Starless](https://gaiaskilltree.com/badges/starless.html)
+- [Meta Reports](https://gaiaskilltree.com/badges/meta.html)
 
 Discover
 
-- [The Codex](https://gaia.tiongson.co/badges/codex.html)
-- [Named Skills](https://gaia.tiongson.co/badges/named/)
-- [Hall of Heroes](https://gaia.tiongson.co/badges/index.html#hall-of-heroes)
-- [Named Contributors](https://gaia.tiongson.co/badges/u/)
-- [GitHub Badges](https://gaia.tiongson.co/badges/badges/)
+- [The Codex](https://gaiaskilltree.com/badges/codex.html)
+- [Named Skills](https://gaiaskilltree.com/badges/named/)
+- [Hall of Heroes](https://gaiaskilltree.com/badges/index.html#hall-of-heroes)
+- [Named Contributors](https://gaiaskilltree.com/badges/u/)
+- [GitHub Badges](https://gaiaskilltree.com/badges/badges/)
 
 Docs
 
-- [Docs Home](https://gaia.tiongson.co/badges/en/)
-- [Getting Started](https://gaia.tiongson.co/badges/en/getting-started.html)
-- [CLI Reference](https://gaia.tiongson.co/badges/en/cli-reference.html)
+- [Docs Home](https://gaiaskilltree.com/badges/en/)
+- [Getting Started](https://gaiaskilltree.com/badges/en/getting-started.html)
+- [CLI Reference](https://gaiaskilltree.com/badges/en/cli-reference.html)
 
 Contribute
 
-- [Push a skill](https://gaia.tiongson.co/badges/index.html#paths)
+- [Push a skill](https://gaiaskilltree.com/badges/index.html#paths)
 - [GitHub](https://github.com/gaia-research/gaia-skill-tree)
 - [Open Issues](https://github.com/gaia-research/gaia-skill-tree/issues)
 
 About
 
-- [About Gaia](https://gaia.tiongson.co/badges/about.html)
+- [About Gaia](https://gaiaskilltree.com/badges/about.html)
 - [@mbtiongson1](https://github.com/mbtiongson1)
-- [Privacy](https://gaia.tiongson.co/badges/privacy.html)
+- [Privacy](https://gaiaskilltree.com/badges/privacy.html)
 - Copy Page
 
 
-—Gaia Registry· [GitHub](https://github.com/gaia-research/gaia-skill-tree)· [Privacy](https://gaia.tiongson.co/badges/privacy.html)
+—Gaia Registry· [GitHub](https://github.com/gaia-research/gaia-skill-tree)· [Privacy](https://gaiaskilltree.com/badges/privacy.html)
 
 Gaia Skill Tree
 

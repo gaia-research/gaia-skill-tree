@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Content Moderation"
 description: "Detects policy-violating content by combining intent classification, sentiment scoring, and entity extraction across text, images, and mixed media."
-resource: "https://gaia.tiongson.co/codex.html#content-moderation"
+resource: "https://gaiaskilltree.com/codex.html#content-moderation"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Causal Inference"
 description: "Estimates treatment effects and identifies causal relationships from observational and experimental data using propensity scoring, instrumental variables, and causal graphs."
-resource: "https://gaia.tiongson.co/codex.html#causal-inference"
+resource: "https://gaiaskilltree.com/codex.html#causal-inference"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

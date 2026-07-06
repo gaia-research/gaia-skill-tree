@@ -18,8 +18,8 @@ const HONESTY_MODE = true;   // or false
 
 | Value | Copied-markdown URL | Where it works |
 |---|---|---|
-| `true` (default backup) | `https://gaia.tiongson.co/badges/_assets/<handle>/<file>.svg` | Anywhere — bypasses worker, no `?repo=` |
-| `false` | `https://gaia.tiongson.co/badges/<handle>/<file>.svg?repo=<repo>` | Only when the Cloudflare Worker is deployed and `run_worker_first = true` |
+| `true` (default backup) | `https://gaiaskilltree.com/badges/_assets/<handle>/<file>.svg` | Anywhere — bypasses worker, no `?repo=` |
+| `false` | `https://gaiaskilltree.com/badges/<handle>/<file>.svg?repo=<repo>` | Only when the Cloudflare Worker is deployed and `run_worker_first = true` |
 
 When the user says `/honesty-mode on`, set the constant to `true`. When they say `/honesty-mode off`, set it to `false`. When they ask for status without an argument, just report the current value — don't edit.
 

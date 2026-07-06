@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Brainstorming"
 description: "Explores user intent, requirements, and design before implementation."
-resource: "https://gaia.tiongson.co/codex.html#brainstorming"
+resource: "https://gaiaskilltree.com/codex.html#brainstorming"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

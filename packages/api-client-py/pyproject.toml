@@ -36,9 +36,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://gaia.tiongson.co"
+Homepage = "https://gaiaskilltree.com"
 Repository = "https://github.com/gaia-research/gaia-skill-tree"
-Documentation = "https://gaia.tiongson.co/api/v1/health.json"
+Documentation = "https://gaiaskilltree.com/api/v1/health.json"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/gaia_registry_client"]

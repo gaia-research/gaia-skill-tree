@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Adaptive Pattern Learning"
 description: "Implements adaptive learning through pattern recognition and strategy optimization."
-resource: "https://gaia.tiongson.co/codex.html#adaptive-pattern-learning"
+resource: "https://gaiaskilltree.com/codex.html#adaptive-pattern-learning"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

@@ -10,7 +10,7 @@
 
 Today, anyone wanting to embed Gaia trust data has two options:
 
-1. **Scrape `gaia.tiongson.co`** — fragile, breaks on every redesign.
+1. **Scrape `gaiaskilltree.com`** — fragile, breaks on every redesign.
 2. **Git clone the registry** — works for one-shot reads, doesn't work for production agent platforms that need fresh data on demand.
 
 Neither is "infrastructure". A read-only public API is the **single highest-leverage Sprint B deliverable** because it converts Gaia from a website into something Claude Code, Cursor, Windsurf, and Continue can call directly. **One API → N consumers.**
@@ -30,7 +30,7 @@ Marco's question, paraphrased: *"For API any 'hidden fees' or anything need to b
 | AWS Lambda / Cloudflare Workers (compute) | Pay-per-request, ~$0.50/M requests | Logs cost, observability cost, vendor lock-in |
 | Postgres + REST | $20+/mo + dev time | Migration burden, backup story, snapshot fidelity vs git |
 
-**Recommended: build-time projection.** During the existing `gaia docs build` pipeline, generate a static JSON tree at `docs/api/v1/...` that mirrors what the API would return. Cloudflare Pages serves it under `gaia.tiongson.co/api/v1/...`.
+**Recommended: build-time projection.** During the existing `gaia docs build` pipeline, generate a static JSON tree at `docs/api/v1/...` that mirrors what the API would return. Cloudflare Pages serves it under `gaiaskilltree.com/api/v1/...`.
 
 **Hidden fees: zero** beyond the existing static site cost.
 
@@ -242,7 +242,7 @@ Compare to even a $5/mo Hetzner VPS: $60/year + dev time + ops complexity. Stati
 | Stale data — the API is only as fresh as the last `gaia docs build`. | Trigger a build on every merge to main (already done via Auto-Sync). Document the freshness lag (≤5 minutes typical) in the API docs. |
 | File size — paginated `/skills/` index could grow. | Pagination caps payload at 50 skills/page. Search index is currently <100 KB. Re-evaluate at 500 skills. |
 | Search quality — pre-built inverted index won't beat a real search service. | v1 ships basic substring + tag match. If users need fuzzy / semantic, ship v2 with a hosted edge function (still cheap on Cloudflare Workers free tier). |
-| Embed clients abuse the data — scrape, rebrand. | License is Apache 2.0; this is the bargain. Mitigation is reputation: "powered by gaia.tiongson.co" badge convention encouraged but not required. |
+| Embed clients abuse the data — scrape, rebrand. | License is Apache 2.0; this is the bargain. Mitigation is reputation: "powered by gaiaskilltree.com" badge convention encouraged but not required. |
 | Rate limits — Cloudflare anonymous 100k/day per IP. | Surface in OpenAPI spec. If a real consumer needs more, Sprint E adds an authenticated tier with keys + 5k/day. |
 | Schema drift — the static JSON shape changes when the registry adds fields. | OpenAPI spec is regenerated each build; consumers read the spec to detect changes. Schemas are versioned (v1 frozen, v2 alongside if breaking). |
 
@@ -254,8 +254,8 @@ Compare to even a $5/mo Hetzner VPS: $60/year + dev time + ops complexity. Stati
 2. **Day 3–4** — Add `/api/v1/leaderboard`, `/api/v1/skills/<contrib>/<skill>`, `/api/v1/skills/<contrib>/<skill>/evidence`, `/api/v1/skills/<contrib>/<skill>/timeline`.
 3. **Day 5** — Generate OpenAPI spec from the implemented endpoints. Smoke test with `swagger-codegen` in Python + JS.
 4. **Day 6–7** — Search index + `/api/v1/search?q=`. **Semantic-first** per Marco's call: if `registry/named-skills.json` already carries embeddings, project them into a static `search-vectors.json`; else add a one-time embedding step (cached) to the build pipeline. Substring fallback always present.
-5. **Day 8** — Documentation page at `gaia.tiongson.co/api/` with copy-pastable curl examples.
-6. **Day 9–10** — Cross-link from CLI, README, MCP server. Each says "or use the public API at gaia.tiongson.co/api/v1/...".
+5. **Day 8** — Documentation page at `gaiaskilltree.com/api/` with copy-pastable curl examples.
+6. **Day 9–10** — Cross-link from CLI, README, MCP server. Each says "or use the public API at gaiaskilltree.com/api/v1/...".
 7. **Day 11–13** — `@gaia-registry/api-client` SDK (Python + TS). Generated from OpenAPI spec; published to PyPI + npm alongside the API. Includes typed `searchSkills(query, mode='semantic')` helper.
 
 `/trending/` defers to Sprint B B2 (depends on the trending engine landing first).
@@ -266,7 +266,7 @@ Compare to even a $5/mo Hetzner VPS: $60/year + dev time + ops complexity. Stati
 
 - `pytest tests/test_api_projection.py` — round-trip from `registry/named-skills.json` → API JSON → parse → assert structure invariants.
 - `pytest tests/test_api_openapi.py` — validate OpenAPI spec is well-formed; every endpoint exists; no orphan schemas.
-- Smoke test: `curl -sS https://gaia.tiongson.co/api/v1/health | jq` returns 200 with valid JSON post-deploy.
+- Smoke test: `curl -sS https://gaiaskilltree.com/api/v1/health | jq` returns 200 with valid JSON post-deploy.
 
 ---
 
@@ -284,7 +284,7 @@ Compare to even a $5/mo Hetzner VPS: $60/year + dev time + ops complexity. Stati
 
 ## Marco's calls — RATIFIED 2026-06-20
 
-1. **API base URL: `gaia.tiongson.co/api/v1/`** ✅ — same Cloudflare Pages project, no new DNS surface.
+1. **API base URL: `gaiaskilltree.com/api/v1/`** ✅ — same Cloudflare Pages project, no new DNS surface.
 2. **Anonymous rate limit posture: Cloudflare defaults** ✅ — revisit only when a real consumer hits the cap.
 3. **Search quality bar: SEMANTIC from day one** ✅ — Marco's lean: *"I believe I have the embeddings already in the json..."* The v1 search index becomes a vector-augmented inverted index. Implementation note for Sprint B B1: detect existing embeddings on `registry/named-skills.json` records (look for `embedding`, `vector`, or analogous field). If present, ship semantic-first. If absent, ship substring v1 and queue embeddings as a B1 sub-task before the SDK lands. Either way: substring is the always-available fallback.
 4. **Ship `@gaia-registry/api-client` SDK in Sprint B** ✅ — wraps the JSON-on-HTTP. Two language targets: Python (matches CLI) + TypeScript (matches MCP). Day-1 bonus: agent platforms (Claude Code, Cursor, Continue) get a typed import on the same week the API ships.

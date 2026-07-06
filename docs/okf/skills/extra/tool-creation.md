@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Tool Creation"
 description: "Dynamically generates reusable tool functions (code) at runtime to solve novel sub-tasks, then invokes those tools to complete the overall objective without human-written APIs."
-resource: "https://gaia.tiongson.co/codex.html#tool-creation"
+resource: "https://gaiaskilltree.com/codex.html#tool-creation"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

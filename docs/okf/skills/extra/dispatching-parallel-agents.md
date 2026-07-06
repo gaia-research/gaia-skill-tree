@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Dispatching Parallel Agents"
 description: "Delegates independent tasks to specialized agents with isolated context to work concurrently."
-resource: "https://gaia.tiongson.co/codex.html#dispatching-parallel-agents"
+resource: "https://gaiaskilltree.com/codex.html#dispatching-parallel-agents"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Flow Nexus Orchestration"
 description: "Complete Flow Nexus platform: multi-topology swarm deployment, cloud platform management, and distributed neural training unified into one orchestration layer."
-resource: "https://gaia.tiongson.co/codex.html#multi-node-orchestration"
+resource: "https://gaiaskilltree.com/codex.html#multi-node-orchestration"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

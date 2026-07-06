@@ -1,5 +1,5 @@
-# Gaia CLI Windows Installer — https://gaia.tiongson.co/install.ps1
-# Usage: iex (irm https://gaia.tiongson.co/install.ps1)
+# Gaia CLI Windows Installer — https://gaiaskilltree.com/install.ps1
+# Usage: iex (irm https://gaiaskilltree.com/install.ps1)
 # -----------------------------------------------------------------------------
 $ErrorActionPreference = "Stop"
 

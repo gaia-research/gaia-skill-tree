@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Finishing a Development Branch"
 description: "Guides completion of development work by presenting structured options for merge, PR, or cleanup, verifying tests first."
-resource: "https://gaia.tiongson.co/codex.html#finishing-a-development-branch"
+resource: "https://gaiaskilltree.com/codex.html#finishing-a-development-branch"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Autonomous Web Research"
 description: "Independently surveys, maps, and extracts structured information from the web by autonomously deciding which domains to crawl and synthesizing data into comprehensive research reports."
-resource: "https://gaia.tiongson.co/codex.html#autonomous-web-research"
+resource: "https://gaiaskilltree.com/codex.html#autonomous-web-research"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

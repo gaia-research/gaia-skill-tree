@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Workflow Automation"
 description: "Designs, configures, and runs trigger-based multi-step automation pipelines that connect external services, schedule jobs, and orchestrate tool sequences without continuous human supervision."
-resource: "https://gaia.tiongson.co/codex.html#workflow-automation"
+resource: "https://gaiaskilltree.com/codex.html#workflow-automation"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---
