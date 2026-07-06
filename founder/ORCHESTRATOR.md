@@ -39,21 +39,19 @@ delegated.
 
 ## Post-Compact Bootstrap (read after every auto-compact or session resume)
 
-Auto-compact summaries describe what happened but do NOT re-activate loaded skills or routing constraints. After any compaction, the orchestrator persona, PR routing, and branch constraints must be explicitly re-established.
+Auto-compact summaries describe what happened but do NOT re-activate loaded skills or routing constraints. After any compaction, recover state from live sources — do not guess from memory.
 
-**Current session state (update this block each session):**
-
-- **Active branch / worktree:** `dev/sprint-d-benchmark-leaderboard` at `.claude/worktrees/sprint-d-w4`
-- **Feature PR:** #958 — `dev/sprint-d-benchmark-leaderboard → dev/sprint-d` (W4 /benchmarks/ leaderboard redesign). ALL Sprint D frontend work lands here.
-- **Aggregate PR:** #961 — `dev/sprint-d → main` (Sprint D integration). Do NOT commit design directly to `dev/sprint-d`.
-- **EPIC:** #902 Sprint D — closes when #961 merges.
-- **Orchestrator mode:** active. Delegate all code to workers via Agent tool. Only plan, review, and run `git`/`gh` CLI directly.
-
-**Recovery steps after compaction:**
+**Recovery steps (run these in order):**
 1. Re-invoke `/gaia-orchestrator` to reload this file and restore the persona.
-2. Run `git branch` to confirm CWD is on `dev/sprint-d-benchmark-leaderboard`.
-3. Run `gh pr view 958` to confirm #958 is still open and targeting `dev/sprint-d`.
-4. Resume from the last task in the session summary.
+2. `git branch` — confirm which branch and worktree you are on.
+3. `gh pr list --author @me --state open --json number,title,headRefName,baseRefName` — reconstruct the active PR stack (feature → integration → main).
+4. Read the most recent `## State Snapshot` block in `founder/MEMORY.md` — it has the session headline, open tasks, and PR numbers at close of last session.
+5. Resume from the last open task listed in that snapshot.
+
+**Invariants that survive any sprint:**
+- Never commit directly to `main` or the integration branch (`dev/<sprint-name>`). All work goes through a feature branch PR.
+- The integration branch PR is the aggregate; the feature branch PR is the workstream. Keep them distinct.
+- Orchestrator mode: delegate all code to workers via the Agent tool. Only plan, review, and run `git`/`gh` CLI directly.
 
 ---
 
