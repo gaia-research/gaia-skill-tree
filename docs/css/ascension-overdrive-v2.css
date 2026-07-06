@@ -135,6 +135,13 @@
   transform: translate3d(0, 0, 0);
 }
 
+/* Ledger opacity is scroll-linked from JS on the section's normalized
+   scroll progress (Issue #975 R3/R4): full at title / apex / coda
+   scenes (~0.48), fades to a whisper (~0.08) through the rank and
+   Unique scenes so the parchment doesn't fight the Asset F hero
+   plates nor paint a horizontal band across the top of the Unique
+   branch scene. See docs/js/ascension-overdrive-v2.js `tick()`. */
+
 /* Plane -1b · Optional fog haze (Asset G placeholder). The
    `--aov-fog-url` custom property is deliberately empty until
    Asset G is delivered; the layer collapses to zero opacity so
@@ -177,10 +184,20 @@
   pointer-events: none;
   will-change: transform, opacity;
 }
+/* Asset A gold filter (Issue #975 R5). The Asset A line-art PNG
+   ships as near-black strokes on a transparent ground, which reads
+   as invisible against the dark section backdrop. This filter chain
+   inverts it to white, then tone-maps toward the apex gold via a
+   sepia + saturation lift + slight hue rotation, then dims a hair
+   with brightness so the arch reads as illuminated gold rather than
+   bleached highlight. Scoped to the arch <img> only — the sibling
+   .aov-apex-hero is an Asset F composed backdrop (already toned in
+   its own palette) and does NOT get the invert chain. */
 .aov-arch img {
   display: block;
   width: 100%;
   height: auto;
+  filter: invert(1) sepia(1) saturate(3.2) hue-rotate(-12deg) brightness(0.85);
 }
 
 /* Plane +1a · Apex hero plate (Asset F rank 6). Sits inside the
@@ -207,7 +224,6 @@
   object-fit: cover;
   object-position: center;
 }
-
 /* Plane -1 · Riser lines. Rendered inside each rank scene at
    the scene's mid-height, drawn on scroll progress by JS
    (stroke-dashoffset). Placed absolute to bleed to the full
@@ -285,6 +301,15 @@
 .aov-scene[data-scene="apex"] {
   min-height: 200vh;
 }
+/* Coda scene is 180vh (Issue #975 R6). The prior 100vh scene left
+   `codaRange = cr.height - vh = 0` in the rAF math, which meant
+   only the top rung ever illuminated. Extending to 180vh gives ~80vh
+   of sticky-pin scroll, over which the 9 rungs assemble top-to-bottom
+   (fully lit by ~50vh into the pin per the shape brief). The sticky
+   stage stays 100vh so the pin releases cleanly at scene end. */
+.aov-scene[data-scene="coda"] {
+  min-height: 180vh;
+}
 
 /* Stage · the sticky viewport-locked composition per scene. */
 .aov-stage {
@@ -340,44 +365,30 @@
 }
 
 /* ── SCENES 2..6 · RANK STAGES ───────────────────────────────── */
-/* Composition:
+/* Composition (post R1 realignment, Issue #975):
    - Rank hero plate (Asset F) as full-viewport backdrop, opacity
-     scroll-linked, sits behind everything at z-index 0
-   - Rank stamp (Asset C transparent PNG) floated ~34vw, alternating
-     left/right, at z-index 2 above the hero
-   - Rank body (display-poster type + Star Bar) on opposite side,
-     at z-index 2 above the hero
+     scroll-linked, sits behind everything at z-index 0. The Asset F
+     hero is the sole totem now; the earlier Asset C rank stamp has
+     been retired from these scenes (files preserved for reuse in
+     other surfaces).
+   - Rank body (display-poster type + Star Bar) centered inside the
+     stage on top of the hero, at z-index 2.
 
-   G3 realignment (Issue #975): the 12-col grid was letting children
-   settle at the top/bottom of their tracks and produced the top-
-   right stamp + bottom-left text misalignment the /impeccable
-   critique flagged. Flex with `align-items: center` guarantees
-   vertical centering of both children relative to each other, and
-   `justify-content: space-between` puts the stamp and body at the
-   viewport's outer thirds without a middle gap. `flex-direction:
-   row-reverse` on `[data-align="right"]` swaps sides without moving
-   any of the internal alignment rules. */
+   The stage remains flex-centered so the body sits at the viewport
+   center. `data-align="left|right"` is preserved on the markup for
+   possible future use but no longer gates layout (both sides collapse
+   to center now that there's no second child to swap). */
 .aov-stage--rank {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: clamp(2rem, 6vw, 8rem);
+  justify-content: center;
   padding-inline: clamp(2rem, 8vw, 8rem);
 }
-.aov-stage--rank[data-align="right"] {
-  flex-direction: row-reverse;
-}
-.aov-stage--rank .aov-rank-plate {
-  flex: 0 0 auto;
-  align-self: center;
-}
 .aov-stage--rank .aov-rank-body {
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   align-self: center;
-  max-width: min(52rem, 50%);
-}
-.aov-stage--rank[data-align="right"] .aov-rank-body {
-  text-align: right;
+  max-width: min(60rem, 78%);
+  text-align: center;
 }
 
 /* Rank hero plate (Asset F, G7 realignment, Issue #975).
@@ -413,44 +424,27 @@
   object-position: center;
 }
 
-/* Rank plate — G2 realignment (Issue #975): the cream picture-
-   frame was inherited from the v1 opaque-PNG plan and turned into
-   vestigial weight once the vendor delivered transparent stamps.
-   Background gradient, border, and drop-shadow all removed so the
-   stamp <img> floats directly on the scene backdrop. Sizing and
-   position offsets preserved because JS still writes the entrance
-   transform. z-index 2 keeps the stamp above the rank hero at z-
-   index 0 inside the same flex ancestor. */
-.aov-rank-plate {
-  position: relative;
-  z-index: 2;
-  width: clamp(280px, 34vw, 620px);
-  aspect-ratio: 1 / 1;
-  will-change: transform, opacity;
-  transform: translate3d(0, 40px, 0);
-  opacity: 0;
-  transition: none;                         /* JS-driven */
-}
-.aov-rank-plate img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-.aov-scene.is-active .aov-rank-plate,
-.aov-scene.is-active .aov-rank-body {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
-/* Rank body — the display-poster typography. z-index 2 mirrors
-   the plate so both stack above the rank hero backdrop. */
+/* Rank body — the display-poster typography. z-index 2 sits above
+   the rank hero backdrop (Asset F). */
 .aov-rank-body {
   position: relative;
   z-index: 2;
   will-change: transform, opacity;
   transform: translate3d(0, 40px, 0);
   opacity: 0;
+}
+.aov-scene.is-active .aov-rank-body {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* CSS Star Bar (Issue #975 R2): hidden on rank scenes. The Asset F
+   hero plates ship with their own rating stars baked into the
+   illustration, so a second CSS star row produced a double-star
+   display. Star Bar stays on Unique branch cards (D-glyphs have no
+   embedded rating stars) — see .aov-ucard__stars rules below. */
+.aov-scene[data-scene="rank"] .aov-rank-stars {
+  display: none;
 }
 .aov-rank-stars {
   display: inline-flex;
@@ -484,8 +478,8 @@
   flex-wrap: wrap;
   gap: 0.6rem;
   margin-bottom: 1.5rem;
+  justify-content: center;
 }
-.aov-stage--rank[data-align="right"] .aov-rank-tags { justify-content: flex-end; }
 
 .aov-tag {
   display: inline-block;
@@ -504,11 +498,10 @@
   font-style: italic;
   font-size: clamp(1rem, 1.4vw, 1.35rem);
   color: var(--muted);
-  margin: 0;
-  max-width: 40ch;
+  margin: 0 auto;
+  max-width: 44ch;
   line-height: 1.4;
 }
-.aov-stage--rank[data-align="right"] .aov-rank-caption { margin-left: auto; }
 
 /* ── SCENE 7 · UNIQUE BRANCH ─────────────────────────────────── */
 /* One plate holds all three Unique cards. The branch is a "you
@@ -949,58 +942,133 @@
   transform: translate3d(0, 0, 0);
 }
 
-/* Top three rungs sit in --apex-gold at descending opacities.
-   Weight climbs toward the top of the ladder so the eye reads
-   the crown first. */
-.aov-order-rung[data-tier="unique-apex"] {
-  color: var(--apex-gold);
-  font-weight: 600;
-  text-shadow: 0 0 18px rgba(var(--apex-gold-rgb), 0.35);
-}
-.aov-order-rung[data-tier="unique-apex"].is-lit { opacity: 1; }
+/* Top of the ladder — the two crown rungs get bespoke shape
+   treatments (Issue #975 R7 + shape brief).
+
+   Apex (prestige rank 2): solid white, weight 700, subtle gold halo.
+   The destination made real. Font-materialization on scroll-entry:
+   letter-spacing collapses from 0.5em → -0.02em over 800ms and
+   opacity ramps 0 → 1 in parallel, driven by a state class the JS
+   toggles when the rung's scroll threshold passes. Class is one-
+   shot (add-only), so scrolling back up leaves it composed. */
 .aov-order-rung[data-tier="apex"] {
-  color: var(--apex-gold);
-  font-weight: 550;
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: 0.5em;
+  text-shadow: 0 0 20px color-mix(in oklab, var(--apex-gold) 40%, transparent);
+  transition:
+    opacity 800ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    letter-spacing 800ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
-.aov-order-rung[data-tier="apex"].is-lit { opacity: 0.85; }
+.aov-order-rung[data-tier="apex"].is-lit,
+.aov-order-rung[data-tier="apex"].is-materializing {
+  opacity: 1;
+  letter-spacing: -0.02em;
+}
+
+/* Unique Apex (prestige rank 1, "Impossible"): outline-only gold,
+   weight 800, no fill. Reads as a photonegative Apex — the same
+   silhouette in the ladder as Apex directly beneath, but hollow:
+   the letters ARE the shadow of what should be there. No text-shadow
+   (halo would fill the outline and defeat the treatment).
+
+   Font-materialization on scroll-entry, two-stage:
+     Stage 1 (0–600ms):  opacity 0 → 1, scale 1.005 → 1.0
+     Stage 2 (600–1400ms): stroke-width breathes 3px → 2px once
+   Stage 2 is the `uapex-outline-breathe` keyframe below, triggered
+   by `.is-materializing` with a 200ms lead-in delay so Stage 1's
+   settle-in reads before the outline breath begins.
+
+   The (IMPOSSIBLE) prestige tag inherits the outline treatment at a
+   thinner 1px stroke; it fades in ~800ms after the crown letters
+   start materializing (delay handled inline via the prestige-tag
+   transition below). */
+.aov-order-rung[data-tier="unique-apex"] {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--apex-gold);
+  font-weight: 800;
+  letter-spacing: 0.5em;
+  transform: translate3d(0, 12px, 0) scale(1.005);
+  transition:
+    opacity 600ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    letter-spacing 800ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.aov-order-rung[data-tier="unique-apex"].is-lit,
+.aov-order-rung[data-tier="unique-apex"].is-materializing {
+  opacity: 1;
+  letter-spacing: -0.02em;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+.aov-order-rung[data-tier="unique-apex"].is-materializing {
+  animation: uapex-outline-breathe 1400ms cubic-bezier(0.4, 0, 0.2, 1) 200ms 1;
+}
+@keyframes uapex-outline-breathe {
+  0%   { -webkit-text-stroke-width: 2px; }
+  30%  { -webkit-text-stroke-width: 3px; }
+  100% { -webkit-text-stroke-width: 2px; }
+}
+
+/* Unique Ultimate (prestige rank 3): solid apex-gold at 100%, weight
+   600. Sits between the crown pair (outline / solid-white) and the
+   opacity-graded rest of the ladder. */
 .aov-order-rung[data-tier="unique-ultimate"] {
   color: var(--apex-gold);
+  font-weight: 600;
+}
+.aov-order-rung[data-tier="unique-ultimate"].is-lit { opacity: 1; }
+
+/* Ultimate: solid apex-gold at 70% opacity, weight 600. */
+.aov-order-rung[data-tier="ultimate"] {
+  color: var(--apex-gold);
+  font-weight: 600;
+}
+.aov-order-rung[data-tier="ultimate"].is-lit { opacity: 0.7; }
+
+/* Unique: solid tier-unique, weight 500. */
+.aov-order-rung[data-tier="unique"] {
+  color: var(--tier-unique);
   font-weight: 500;
 }
-.aov-order-rung[data-tier="unique-ultimate"].is-lit { opacity: 0.7; }
+.aov-order-rung[data-tier="unique"].is-lit { opacity: 1; }
 
-/* Middle rungs — Ultimate + Unique — sit in their own tier
-   colours mixed toward muted. */
-.aov-order-rung[data-tier="ultimate"] {
-  color: color-mix(in oklab, var(--rank-5) 55%, var(--muted) 45%);
+/* Standard rank rungs — solid rank colour, opacity descends. */
+.aov-order-rung[data-tier="hardened"] {
+  color: var(--rank-4);
+  font-weight: 500;
 }
-.aov-order-rung[data-tier="unique"] {
-  color: color-mix(in oklab, var(--tier-unique) 60%, var(--muted) 40%);
-}
-
-/* Standard rank rungs — progressively darker as rank descends. */
-.aov-order-rung[data-rank="4"] {
-  color: color-mix(in oklab, var(--rank-4) 45%, var(--muted) 55%);
-}
-.aov-order-rung[data-rank="3"] {
-  color: color-mix(in oklab, var(--rank-3) 40%, var(--muted) 60%);
-}
-.aov-order-rung[data-rank="2"] {
-  color: color-mix(in oklab, var(--rank-2) 35%, var(--muted) 65%);
-}
-.aov-order-rung[data-rank="1"] {
-  color: color-mix(in oklab, var(--rank-1) 30%, var(--muted) 70%);
+.aov-order-rung[data-tier="hardened"].is-lit { opacity: 0.8; }
+.aov-order-rung[data-tier="evolved"] {
+  color: var(--rank-3);
   font-weight: 400;
 }
+.aov-order-rung[data-tier="evolved"].is-lit { opacity: 0.65; }
+.aov-order-rung[data-tier="named"] {
+  color: var(--rank-2);
+  font-weight: 400;
+}
+.aov-order-rung[data-tier="named"].is-lit { opacity: 0.5; }
+.aov-order-rung[data-tier="awakened"] {
+  color: var(--muted);
+  font-weight: 400;
+}
+.aov-order-rung[data-tier="awakened"].is-lit { opacity: 0.4; }
 
-.aov-order-rung__prestige {
-  font-family: var(--font-mono);
-  font-size: 0.42em;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--evidence-gold);
-  vertical-align: middle;
+/* (IMPOSSIBLE) prestige tag on the Unique Apex crown rung — same
+   outline treatment at a thinner 1px stroke so the tag reads as a
+   subordinate echo of the crown letters. Fades in ~800ms after the
+   parent rung starts materializing. */
+.aov-order-rung[data-tier="unique-apex"] .aov-order-rung__prestige {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--apex-gold);
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 400ms cubic-bezier(0.22, 0.61, 0.36, 1) 800ms;
+}
+.aov-order-rung[data-tier="unique-apex"].is-lit .aov-order-rung__prestige,
+.aov-order-rung[data-tier="unique-apex"].is-materializing .aov-order-rung__prestige {
+  opacity: 1;
 }
 
 .aov-order-footer {
@@ -1093,11 +1161,6 @@
   .aov-stage--rank[data-align="right"] {
     flex-direction: column;
   }
-  .aov-stage--rank .aov-rank-plate,
-  .aov-stage--rank[data-align="right"] .aov-rank-plate {
-    width: min(80vw, 380px);
-    max-width: 100%;
-  }
   .aov-stage--rank .aov-rank-body,
   .aov-stage--rank[data-align="right"] .aov-rank-body {
     max-width: 100%;
@@ -1188,7 +1251,6 @@
   .aov-ledger,
   .aov-fog,
   .aov-arch,
-  .aov-rank-plate,
   .aov-rank-body {
     will-change: auto;
     transform: none;
@@ -1242,7 +1304,6 @@
   .aov-riser__line {
     stroke-dashoffset: 0 !important;
   }
-  .aov-rank-plate,
   .aov-rank-body,
   .aov-ucard,
   .aov-pred {
@@ -1268,9 +1329,27 @@
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+    animation: none !important;
   }
-  .aov-order-rung[data-tier="apex"] { opacity: 0.85 !important; }
-  .aov-order-rung[data-tier="unique-ultimate"] { opacity: 0.7 !important; }
+  /* Crown-pair shape treatments (Issue #975 R7): reduced-motion
+     pins the outline breathe and letter-spacing collapse at their
+     composed end state — the shape is preserved, the animation
+     isn't. */
+  .aov-order-rung[data-tier="apex"],
+  .aov-order-rung[data-tier="unique-apex"] {
+    animation: none !important;
+    letter-spacing: -0.02em !important;
+    opacity: 1 !important;
+  }
+  .aov-order-rung[data-tier="unique-apex"] .aov-order-rung__prestige {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+  .aov-order-rung[data-tier="ultimate"] { opacity: 0.7 !important; }
+  .aov-order-rung[data-tier="hardened"] { opacity: 0.8 !important; }
+  .aov-order-rung[data-tier="evolved"] { opacity: 0.65 !important; }
+  .aov-order-rung[data-tier="named"] { opacity: 0.5 !important; }
+  .aov-order-rung[data-tier="awakened"] { opacity: 0.4 !important; }
 }
 
 /* ── PRINT · straightforward document flow ───────────────────── */
