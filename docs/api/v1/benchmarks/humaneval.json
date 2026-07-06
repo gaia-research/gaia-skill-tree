@@ -10,6 +10,20 @@
   "rows": [
     {
       "skillId": "addy-osmani/code-simplification",
+      "score": 0.75,
+      "unit": "pass@1",
+      "provenance": "ci-reproduced",
+      "attestor": "https://github.com/gaia-research/gaia-skill-tree/actions/runs/28785817438@84bd47aa0fa1ae8bfb6de81b12cf1bc0674880b1",
+      "datasetHash": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+      "benchmarkInputHash": "020c89e15872648ee880ebccf6e6e67eb1ceae74f3f52aba4602fa61d417e2f7",
+      "runAt": "2026-07-06T10:44:08Z",
+      "harnessUrl": "https://github.com/gaia-research/gaia-skill-tree/blob/84bd47aa0fa1ae8bfb6de81b12cf1bc0674880b1/scripts/benchmarks/humaneval/run.py",
+      "percentile": null,
+      "modelRef": null,
+      "notes": null
+    },
+    {
+      "skillId": "addy-osmani/code-simplification",
       "score": 0.5,
       "unit": "pass@1",
       "provenance": "pending",
