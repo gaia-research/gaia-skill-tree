@@ -179,7 +179,79 @@ v1 assets are ALL still in play. The following are additional or replacement nee
 **Priority 4 — Optional but valuable: parallax layer masks**
 - **Asset G (parallax fog / haze layer)**: 2000×1200 semitransparent PNG (alpha required) with faint atmospheric wisps in warm sepia. Purpose: sits between ledger and risers at parallax 0.25× to add depth on the bleed direction. ≤120KB.
 
-**Vendor briefing note (for resend):**
+---
+
+## Tier ordering layout (post-ratification 2026-07-06)
+
+Operator's design directive: the Unique-vs-normal ordering must be **legible on the page**, not implicit. Three treatments compose it:
+
+### Treatment 1 — Per-Unique-card ordering pill
+
+Each of the three Unique cards carries a compact ordering pill immediately below its title:
+
+- 4★ Unique: `Unique tier · above 4★ Hardened`
+- 5★ Unique Ultimate: `Unique tier · above 5★ Ultimate`
+- 6★ Unique Apex: `Unique tier · above 6★ Apex`
+
+Rendered as Departure Mono at `clamp(0.75rem, 0.9vw, 0.9rem)`, `--muted` colour, letter-spacing `0.02em`. Understated but explicit. The pill is a semantic statement, not decoration.
+
+### Treatment 2 — Unique branch scene header line
+
+The Unique branch scene opens with a one-line explanation before the three cards render:
+
+> *The Unique tier sits one prestige level above the same-rank normal.*
+
+EB Garamond italic, `clamp(1.25rem, 2vw, 1.75rem)`, `--muted` colour with slight warm tint. Fades in on scene entry (scroll-linked opacity 0→1 across first 20vh of the scene pin).
+
+### Treatment 3 — The Order coda (new closing beat)
+
+A final compact scene between the Apex Gate closing line and the section's end — a **9-rung prestige ladder** rendered as display typography, top-to-bottom in descending prestige order:
+
+```
+           Unique Apex (Impossible)
+                    Apex
+               Unique Ultimate
+                   Ultimate
+                    Unique
+                  Hardened
+                   Evolved
+                    Named
+                  Awakened
+```
+
+Rendering spec:
+- EB Garamond, weight climbs top to bottom (lighter at bottom, heavier at top)
+- Size: `clamp(1.5rem, 4vw, 3.5rem)` — display type but smaller than rank-scene names
+- Line-height: 1.1 (readable stack, not crushed)
+- Alignment: center on desktop; left-align on mobile
+- Colour: top three rungs (Unique Apex, Apex, Unique Ultimate) in `--apex-gold` at descending opacity (1.0, 0.85, 0.7); remaining rungs interpolate from `--rank-N` colour toward `--muted`
+- Interpolation: each rung fades in as scroll passes its scene-local threshold — the ladder assembles top-to-bottom as user scrolls through the coda pin
+- Header line above the ladder: `The Order.` (EB Garamond, `clamp(2rem, 5vw, 4rem)`, `--apex-gold`)
+- Optional footer line: `Unique sits one tier above the same-rank normal.` (mono small, muted, one line below the ladder)
+
+Coda pin: `min-height: 100vh`; the ladder fully assembles by 50vh of scroll and then the scene releases. Total section length climbs from ~900vh to ~1000vh with this addition.
+
+Reduced-motion: ladder rendered fully-composed on scene entry.
+
+### Placement in the section
+
+Revised sub-scene order for v2 with the new coda:
+
+1. Title (`Ascension`)
+2. Rank 1 Awakened
+3. Rank 2 Named
+4. Rank 3 Evolved
+5. Rank 4 Hardened
+6. Unique branch (three cards with per-card ordering pills)
+7. Rank 5 **Ultimate** (renamed from Transcendent)
+8. Rank 6 Apex + Apex Gate (consolidated terminal, 200vh pin)
+9. **The Order** coda (new, 100vh pin)
+
+Section total: ~1000vh.
+
+---
+
+## Vendor briefing note (for resend):
 - Backgrounds must be a single flat colour (removable via CSS or alpha-key). No detailed background scenes (v1's assets had varied backgrounds which don't composite cleanly over ledger).
 - All new assets 2560×1440 minimum (v1's 1254×1254 stamps read small at viewport scale).
 - Alpha channel required on all resends of v1 primaries (A, C stamps, D stamps).

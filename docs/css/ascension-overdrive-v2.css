@@ -24,8 +24,8 @@
 /* Escapes the site's main content column by using a symmetric
    negative-margin trick. `margin-inline: calc(50% - 50vw)` places
    the section's left/right edges at the viewport edges no matter
-   how narrow the parent column is. `width: 100vw` guarantees the
-   background layers know their painting rectangle.
+   how narrow the parent column is. `max-width: 100vw` clamps the
+   painting rectangle so background layers know their extent.
 
    `overflow: clip` (with `overflow-x` fallback) prevents any
    riser / ledger from bleeding sideways into other sections; we
@@ -37,12 +37,21 @@
 .aov {
   --aov-scene-vh: 100;                      /* one scene = 100vh */
   --aov-apex-vh: 200;                       /* Apex Gate pin duration */
-  --aov-scene-count: 7;                     /* title + R1..R5 + Unique */
+  /* Scene count: title + R1..R4 + Unique + R5 + Apex(2vh) + coda = 9
+     narrative beats over ~1000vh unpinned. Number is documentation
+     only; layout does not compute against it. */
+  --aov-scene-count: 9;
 
   position: relative;
   isolation: isolate;
-  width: 100vw;
+  /* Bleed the section to viewport edges via negative margin-inline.
+     Deliberately NOT using `width: 100vw` here — that measures
+     including the vertical scrollbar (~15–17px on Windows) and
+     overshoots the body's usable width, cropping content on the
+     right. `margin-inline: calc(50% - 50vw)` handles the escape
+     from the parent column without the scrollbar mismatch. */
   margin-inline: calc(50% - 50vw);
+  max-width: 100vw;
   overflow-x: clip;
   color: var(--text);
   background: var(--bg);
@@ -70,7 +79,7 @@
   position: sticky;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   z-index: 0;
   pointer-events: none;
@@ -186,7 +195,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100%;
   pointer-events: none;
   z-index: 1;
@@ -208,7 +217,7 @@
 .aov-scene {
   position: relative;
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
   z-index: 2;
 }
 /* Apex Gate scene is 200vh — the terminal pin holds twice as long
@@ -222,7 +231,7 @@
   position: sticky;
   top: 0;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -414,7 +423,13 @@
 /* One plate holds all three Unique cards. The branch is a "you
    can also go this way" beat; visual rhythm: header top, three
    cards on a row, hairline connecting them + branching in from
-   the previous R4 scene (drawn by a small connector SVG). */
+   the previous R4 scene (drawn by a small connector SVG).
+
+   Post-ratification (2026-07-06): the tier-ordering rule ("Unique
+   sits one prestige level above the same-rank normal") is made
+   legible via two on-page treatments: a scene-entry header line
+   (fades in on scroll) and per-card ordering pills. Motion loops
+   (Asset E) are dropped; cards are static-poster only. */
 .aov-stage--unique {
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
@@ -451,6 +466,23 @@
   line-height: 1.5;
   max-width: 48rem;
   margin: 0 auto 1.5rem;
+}
+/* Tier-ordering header line — one italic sentence, fades in on
+   scroll across the first 20vh of the Unique scene pin. Opacity
+   is written by rAF (see docs/js/ascension-overdrive-v2.js); the
+   at-rest value is 0. Reduced-motion + mobile bypass this and
+   pin the line to opacity 1. */
+.aov-unique-header-line {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  line-height: 1.4;
+  color: color-mix(in oklab, var(--muted) 88%, var(--apex-gold) 12%);
+  max-width: 52rem;
+  margin: 0.5rem auto 0;
+  letter-spacing: 0.005em;
+  opacity: 0;
+  will-change: opacity;
 }
 .aov-unique-cards {
   display: grid;
@@ -566,6 +598,17 @@
   line-height: 1;
   color: var(--text);
   letter-spacing: -0.015em;
+}
+/* Ordering pill — one line below each Unique card's title.
+   Understated, semantic ("this tier sits above that rank"),
+   not decorative. Departure Mono, small, muted. */
+.aov-unique-ordering-pill {
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 0.9vw, 0.9rem);
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  margin: -0.25rem 0 0;
+  line-height: 1.35;
 }
 .aov-ucard__prestige {
   font-family: var(--font-display);
@@ -737,6 +780,147 @@
   transform: translate3d(0, 0, 0);
 }
 
+/* ── SCENE 9 · THE ORDER CODA ────────────────────────────────── */
+/* 100vh pin. The 9-rung prestige ladder assembles top-to-bottom
+   as scroll passes each rung's scene-local threshold. Full assembly
+   completes at ~50% of the scene's scroll range; the scene then
+   releases. Rungs start at rest opacity 0 and animate to their
+   composed opacity via .is-lit written by rAF.
+
+   Colour ladder:
+     Rung 1 (Unique Apex / Impossible) : --apex-gold, opacity 1.0
+     Rung 2 (Apex)                     : --apex-gold, opacity 0.85
+     Rung 3 (Unique Ultimate)          : --apex-gold, opacity 0.70
+     Rung 4 (Ultimate)                 : --rank-5 → --muted mix
+     Rung 5 (Unique)                   : --tier-unique → --muted
+     Rung 6-9 (Hardened..Awakened)     : --rank-N → --muted mix,
+                                         darker as rank descends
+
+   Reduced-motion / mobile: rungs render fully composed on entry. */
+.aov-stage--coda {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 1.5rem;
+  place-items: center;
+  padding: 5rem clamp(1.25rem, 4vw, 4rem) 4rem;
+  text-align: center;
+}
+.aov-order-eyebrow {
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 0.9vw, 0.95rem);
+  color: var(--apex-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  margin: 0;
+}
+.aov-order-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--apex-gold);
+  margin: 0;
+  text-shadow: 0 0 25px rgba(var(--apex-gold-rgb), 0.25);
+}
+.aov-order-ladder {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.1rem, 0.4vw, 0.4rem);
+  width: min(100%, 62rem);
+}
+.aov-order-rung {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 4vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--muted);
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  transition:
+    opacity 600ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    color 400ms ease-out;
+  will-change: opacity, transform;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.4em;
+  flex-wrap: wrap;
+}
+.aov-order-rung.is-lit {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Top three rungs sit in --apex-gold at descending opacities.
+   Weight climbs toward the top of the ladder so the eye reads
+   the crown first. */
+.aov-order-rung[data-tier="unique-apex"] {
+  color: var(--apex-gold);
+  font-weight: 600;
+  text-shadow: 0 0 18px rgba(var(--apex-gold-rgb), 0.35);
+}
+.aov-order-rung[data-tier="unique-apex"].is-lit { opacity: 1; }
+.aov-order-rung[data-tier="apex"] {
+  color: var(--apex-gold);
+  font-weight: 550;
+}
+.aov-order-rung[data-tier="apex"].is-lit { opacity: 0.85; }
+.aov-order-rung[data-tier="unique-ultimate"] {
+  color: var(--apex-gold);
+  font-weight: 500;
+}
+.aov-order-rung[data-tier="unique-ultimate"].is-lit { opacity: 0.7; }
+
+/* Middle rungs — Ultimate + Unique — sit in their own tier
+   colours mixed toward muted. */
+.aov-order-rung[data-tier="ultimate"] {
+  color: color-mix(in oklab, var(--rank-5) 55%, var(--muted) 45%);
+}
+.aov-order-rung[data-tier="unique"] {
+  color: color-mix(in oklab, var(--tier-unique) 60%, var(--muted) 40%);
+}
+
+/* Standard rank rungs — progressively darker as rank descends. */
+.aov-order-rung[data-rank="4"] {
+  color: color-mix(in oklab, var(--rank-4) 45%, var(--muted) 55%);
+}
+.aov-order-rung[data-rank="3"] {
+  color: color-mix(in oklab, var(--rank-3) 40%, var(--muted) 60%);
+}
+.aov-order-rung[data-rank="2"] {
+  color: color-mix(in oklab, var(--rank-2) 35%, var(--muted) 65%);
+}
+.aov-order-rung[data-rank="1"] {
+  color: color-mix(in oklab, var(--rank-1) 30%, var(--muted) 70%);
+  font-weight: 400;
+}
+
+.aov-order-rung__prestige {
+  font-family: var(--font-mono);
+  font-size: 0.42em;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--evidence-gold);
+  vertical-align: middle;
+}
+
+.aov-order-footer {
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 0.9vw, 0.9rem);
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  margin: 1.5rem 0 0;
+  max-width: 40rem;
+}
+
 /* Cross-section refs link, rendered outside the sticky pin so it
    sits below the terminal scene when the section unpins. */
 .aov-refs {
@@ -789,7 +973,8 @@
   .aov-stage--title,
   .aov-stage--rank,
   .aov-stage--unique,
-  .aov-stage--apex {
+  .aov-stage--apex,
+  .aov-stage--coda {
     position: static;
     height: auto;
     min-height: 80vh;
@@ -825,6 +1010,16 @@
     grid-template-columns: 1fr;
     gap: 1.2rem;
   }
+  /* Header line + ordering pills stay legible on mobile;
+     no scroll-linked fade (motion is disabled here). */
+  .aov-unique-header-line {
+    opacity: 1 !important;
+    font-size: clamp(1.05rem, 3.5vw, 1.5rem);
+    padding: 0 0.5rem;
+  }
+  .aov-unique-ordering-pill {
+    font-size: 0.78rem;
+  }
   .aov-unique-hairline {
     top: 0;
     bottom: 0;
@@ -854,6 +1049,29 @@
   .aov-pred {
     grid-template-columns: 1fr;
     gap: 0.4rem;
+  }
+
+  /* The Order coda — left-align on mobile per spec, fully
+     composed on entry (no scroll-linked reveal). */
+  .aov-stage--coda {
+    text-align: left;
+    align-items: stretch;
+  }
+  .aov-order-ladder {
+    align-items: flex-start;
+  }
+  .aov-order-rung {
+    justify-content: flex-start;
+    font-size: clamp(1.2rem, 6vw, 2.4rem);
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .aov-order-title {
+    align-self: flex-start;
+    font-size: clamp(1.75rem, 8vw, 3rem);
+  }
+  .aov-order-footer {
+    text-align: left;
   }
 
   /* All parallax layers snap to rest. */
@@ -925,6 +1143,18 @@
     opacity: 1;
     transform: none;
   }
+  /* Coda ladder + Unique header line: fully composed on entry;
+     the scroll-linked ladder assembly is a motion effect. */
+  .aov-unique-header-line {
+    opacity: 1 !important;
+  }
+  .aov-order-rung {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .aov-order-rung[data-tier="apex"] { opacity: 0.85 !important; }
+  .aov-order-rung[data-tier="unique-ultimate"] { opacity: 0.7 !important; }
 }
 
 /* ── PRINT · straightforward document flow ───────────────────── */

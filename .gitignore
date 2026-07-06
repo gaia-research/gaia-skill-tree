@@ -9,7 +9,7 @@ feature-pipeline-workspace/
 # web-ready outputs at docs/assets/ascension-overdrive/ (and analogous
 # sibling folders) are tracked.  Compression pipeline lives at
 # scripts/compress-assets.py (see Issue #975).
-docs/assets/Asset */
+docs/assets/Asset*/
 docs/assets/**/Variations/
 docs/assets/**/Individual/
 

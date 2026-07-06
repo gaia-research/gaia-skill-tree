@@ -777,34 +777,45 @@
        viewport heights, real scroll-linked multi-layer parallax,
        display-poster typography. NO sessionStorage guard.
 
-       Structure (~900vh total when unpinned):
+       Structure (~1000vh total when unpinned):
          Scene 1  — Title ("Ascension", 100vh)
          Scenes 2-5 — Rank 1..4 (100vh each)
          Scene 6  — Unique branch pin (100vh)
-         Scene 7  — Rank 5 Transcendent (100vh)
+         Scene 7  — Rank 5 Ultimate (100vh)
          Scene 8  — Apex Gate terminal (200vh, 6 predicates illuminate)
+         Scene 9  — The Order coda (100vh, 9-rung prestige ladder)
 
        Motion: docs/js/ascension-overdrive-v2.js
        Styles: docs/css/ascension-overdrive-v2.css
-       Assets: docs/assets/ascension-overdrive/*.{png,mp4}
+       Assets: docs/assets/ascension-overdrive/*.png (Asset E MP4 loops dropped in
+               post-ratification update; static poster only on Unique cards)
        Design: founder/handovers/design-v6.1.1-ascension-overdrive-shape-v2.md
 
-       Terminology (v2 ratified, 2026-07-06):
+       Terminology (v2 post-ratification, 2026-07-06):
+         - Rank 5 renamed Transcendent → Ultimate (single word doing both
+           jobs; matches the Apex pattern at 6★).
          - 4★ Unique             (formal name: Unique)
          - 5★ Unique Ultimate    (formal name: Unique Ultimate)
          - 6★ Unique Apex        (formal name; prestige tag: Unique Impossible)
-       Do NOT use "Gravitational" or "Structural" as card names.
+         - Unique tier sits one prestige level above the same-rank
+           normal at 4★/5★/6★. Made explicit via per-card ordering
+           pills, a Unique-branch scene header, and The Order coda.
+       Do NOT use "Gravitational", "Structural", or "Transcendent"
+       as card / rank names.
 
        Stamp filenames from the illustrator are keyed by visible star
        count, not by numeric prefix. Mapping visual↔rank inherited
        from v1 (PR #988):
-         1★ Awakened     rank-1-awakened.png    (candle)
-         2★ Named        rank-4-evolved.png     (signet)
-         3★ Evolved      rank-2-named.png       (compass)
-         4★ Hardened     rank-3-hardened.png    (anvil)
-         5★ Transcendent rank-5-transcendent.png (laurel)
-         6★ Apex         apex-arch.png (composed inside Apex Gate)
-       Filename rename tracked as PR follow-up (v2 does not rename). -->
+         1★ Awakened  rank-1-awakened.png    (candle)
+         2★ Named     rank-4-evolved.png     (signet)
+         3★ Evolved   rank-2-named.png       (compass)
+         4★ Hardened  rank-3-hardened.png    (anvil)
+         5★ Ultimate  rank-5-ultimate.png    (laurel — sonnet compress-
+                                              assets.py output; the pre-
+                                              ratification file name
+                                              rank-5-transcendent.png is
+                                              retired)
+         6★ Apex      apex-arch.png (composed inside Apex Gate) -->
   <section id="ascension"
            class="aov"
            data-section="ascension"
@@ -933,13 +944,21 @@
       </div>
     </div>
 
-    <!-- ── Scene 6 · Unique branch (dedicated pin between R4 and R5) ─ -->
+    <!-- ── Scene 6 · Unique branch (dedicated pin between R4 and R5) ─
+         The tier-ordering treatments live here:
+           1. Scene-entry header line explaining the ordering
+              rule (fades in on scroll, first 20vh of pin).
+           2. Per-card ordering pill under each Unique title.
+         The Order coda (Scene 9) closes with the full 9-rung ladder.
+         Asset E motion loops are dropped in the post-ratification
+         update; each card is static-poster only. -->
     <div class="aov-scene" data-scene="unique">
       <div class="aov-stage aov-stage--unique">
         <div class="aov-unique-header">
           <p class="aov-eyebrow">The Unique branch</p>
           <h3 class="aov-unique-title">Ascension without fusion.</h3>
           <p class="aov-unique-lede">A Basic or Extra skill that reaches 4★ without ever becoming a Suite earns Unique. The class stays; its state deepens as it climbs.</p>
+          <p class="aov-unique-header-line">The Unique tier sits one prestige level above the same-rank normal.</p>
         </div>
         <div class="aov-unique-cards" role="list" aria-label="The three states of the Unique class">
           <div class="aov-unique-hairline" aria-hidden="true"></div>
@@ -948,16 +967,12 @@
             <div class="aov-ucard__plate">
               <img src="assets/ascension-overdrive/unique-4-structural.png"
                    alt="" width="1254" height="1254" loading="lazy" decoding="async">
-              <video loop muted playsinline preload="none"
-                     poster="assets/ascension-overdrive/unique-4-structural.png"
-                     aria-hidden="true">
-                <source data-src="assets/ascension-overdrive/unique-4-loop.mp4" type="video/mp4">
-              </video>
             </div>
             <div class="aov-ucard__rankline">
               <span class="aov-ucard__num">4★</span>
               <span class="aov-ucard__name">Unique</span>
             </div>
+            <p class="aov-unique-ordering-pill">Unique tier · above 4★ Hardened</p>
             <div class="aov-ucard__tags">
               <span class="aov-ucard__tag">Basic or Extra</span>
               <span class="aov-ucard__tag">not a Suite</span>
@@ -970,20 +985,14 @@
             <div class="aov-ucard__plate">
               <img src="assets/ascension-overdrive/unique-5-gravitational.png"
                    alt="" width="1254" height="1254" loading="lazy" decoding="async">
-              <!-- unique-5-loop.mp4 is 19MB pending recompression; poster-only. -->
-              <video loop muted playsinline preload="none"
-                     data-motion-pending="true"
-                     poster="assets/ascension-overdrive/unique-5-gravitational.png"
-                     aria-hidden="true">
-                <source data-src="assets/ascension-overdrive/unique-5-loop.mp4" type="video/mp4">
-              </video>
             </div>
             <div class="aov-ucard__rankline">
               <span class="aov-ucard__num">5★</span>
               <span class="aov-ucard__name">Unique Ultimate</span>
             </div>
+            <p class="aov-unique-ordering-pill">Unique tier · above 5★ Ultimate</p>
             <div class="aov-ucard__tags">
-              <span class="aov-ucard__tag">Transcendent Unique</span>
+              <span class="aov-ucard__tag">Unique Ultimate</span>
               <span class="aov-ucard__tag">enterprise-ready</span>
               <span class="aov-ucard__tag">non-Suite</span>
             </div>
@@ -994,17 +1003,13 @@
             <div class="aov-ucard__plate">
               <img src="assets/ascension-overdrive/unique-6-impossible.png"
                    alt="" width="1254" height="1254" loading="lazy" decoding="async">
-              <video loop muted playsinline preload="none"
-                     poster="assets/ascension-overdrive/unique-6-impossible.png"
-                     aria-hidden="true">
-                <source data-src="assets/ascension-overdrive/unique-6-loop.mp4" type="video/mp4">
-              </video>
             </div>
             <div class="aov-ucard__rankline">
               <span class="aov-ucard__num">6★</span>
               <span class="aov-ucard__name">Unique Apex</span>
               <span class="aov-ucard__prestige">Unique Impossible</span>
             </div>
+            <p class="aov-unique-ordering-pill">Unique tier · above 6★ Apex</p>
             <div class="aov-ucard__tags">
               <span class="aov-ucard__tag">Unique Apex</span>
               <span class="aov-ucard__tag">Grade S</span>
@@ -1016,24 +1021,29 @@
       </div>
     </div>
 
-    <!-- ── Scene 7 · Rank 5 Transcendent ───────────────────── -->
+    <!-- ── Scene 7 · Rank 5 Ultimate ───────────────────────── -->
+    <!-- Post-ratification 2026-07-06: rank name renamed Transcendent
+         → Ultimate. Asset filename tracks that rename via the sonnet
+         compress-assets.py output (rank-5-ultimate.png). If the file
+         is not yet present on disk, the missing asset resolves to a
+         transparent frame; the display-poster type carries the scene. -->
     <div class="aov-scene" data-scene="rank" data-rank="5">
       <svg class="aov-riser" viewBox="0 0 1000 2" preserveAspectRatio="none" aria-hidden="true">
         <line class="aov-riser__line" data-len="1000" x1="0" y1="1" x2="1000" y2="1"/>
       </svg>
       <div class="aov-stage aov-stage--rank" data-align="left">
         <div class="aov-rank-plate">
-          <img src="assets/ascension-overdrive/rank-5-transcendent.png"
+          <img src="assets/ascension-overdrive/rank-5-ultimate.png"
                alt="" width="1254" height="1254" loading="lazy" decoding="async">
         </div>
         <div class="aov-rank-body">
           <span class="aov-rank-stars" aria-hidden="true"><span class="filled">★</span><span class="filled">★</span><span class="filled">★</span><span class="filled">★</span><span class="filled">★</span><span>★</span></span>
-          <h3 class="aov-rank-name">Transcendent</h3>
+          <h3 class="aov-rank-name">Ultimate</h3>
           <div class="aov-rank-tags">
             <span class="aov-tag">Grade B+ rank-floor</span>
             <span class="aov-tag">enterprise-ready</span>
           </div>
-          <p class="aov-rank-caption">Mastery, often the capstone of an Ultimate.</p>
+          <p class="aov-rank-caption">Mastery. The standard 5★ ceiling.</p>
         </div>
       </div>
     </div>
@@ -1047,7 +1057,7 @@
         <div class="aov-apex-header">
           <p class="aov-apex-eyebrow">The Apex Gate · 6 predicates</p>
           <h3 id="aov-apex-title" class="aov-apex-title">Apex</h3>
-          <p class="aov-apex-lede">The step from 5★ Transcendent to 6★ Apex is not another rank threshold; it is a gate. Every predicate below must evaluate true. Partial satisfaction is logged, never promoted.</p>
+          <p class="aov-apex-lede">The step from 5★ Ultimate to 6★ Apex is not another rank threshold; it is a gate. Every predicate below must evaluate true. Partial satisfaction is logged, never promoted.</p>
         </div>
 
         <ol class="aov-predicates" role="list" aria-label="Apex Gate predicates">
@@ -1078,6 +1088,52 @@
         </ol>
 
         <p class="aov-apex-coda">Six predicates. All required. No exceptions.</p>
+      </div>
+    </div>
+
+    <!-- ── Scene 9 · The Order coda (100vh) ─────────────────────
+         Terminal beat that renders the full 9-rung prestige order
+         top-to-bottom. Each rung fades in as scroll passes its
+         scene-local threshold; the ladder is fully assembled by
+         ~50vh of the pin, then the scene releases. Top three rungs
+         sit in --apex-gold at descending opacity; remaining rungs
+         interpolate their rank colour toward --muted. Reduced-motion
+         renders the ladder fully composed on scene entry. -->
+    <div class="aov-scene" data-scene="coda">
+      <div class="aov-stage aov-stage--coda">
+        <p class="aov-order-eyebrow">The prestige order</p>
+        <h3 class="aov-order-title">The Order.</h3>
+        <ol class="aov-order-ladder" role="list" aria-label="The nine-tier prestige order, highest first">
+          <li class="aov-order-rung" data-rung="1" data-tier="unique-apex">
+            <span class="aov-order-rung__name">Unique Apex</span>
+            <span class="aov-order-rung__prestige">(Impossible)</span>
+          </li>
+          <li class="aov-order-rung" data-rung="2" data-tier="apex">
+            <span class="aov-order-rung__name">Apex</span>
+          </li>
+          <li class="aov-order-rung" data-rung="3" data-tier="unique-ultimate">
+            <span class="aov-order-rung__name">Unique Ultimate</span>
+          </li>
+          <li class="aov-order-rung" data-rung="4" data-tier="ultimate" data-rank="5">
+            <span class="aov-order-rung__name">Ultimate</span>
+          </li>
+          <li class="aov-order-rung" data-rung="5" data-tier="unique">
+            <span class="aov-order-rung__name">Unique</span>
+          </li>
+          <li class="aov-order-rung" data-rung="6" data-rank="4">
+            <span class="aov-order-rung__name">Hardened</span>
+          </li>
+          <li class="aov-order-rung" data-rung="7" data-rank="3">
+            <span class="aov-order-rung__name">Evolved</span>
+          </li>
+          <li class="aov-order-rung" data-rung="8" data-rank="2">
+            <span class="aov-order-rung__name">Named</span>
+          </li>
+          <li class="aov-order-rung" data-rung="9" data-rank="1">
+            <span class="aov-order-rung__name">Awakened</span>
+          </li>
+        </ol>
+        <p class="aov-order-footer">Unique sits one tier above the same-rank normal.</p>
       </div>
     </div>
 
