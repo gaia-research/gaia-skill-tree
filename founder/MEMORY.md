@@ -19,7 +19,53 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
-## State Snapshot (2026-07-06, session 35 — /benchmarks/ design approved; impeccable shape + parallax GSB panel shipped to PR #958)
+## State Snapshot (2026-07-06, session 36 — Sprint D EPIC #902 pre-merge sanity; KC2 dogfooded, sitemap determinism fix landed, #961 CLEAN)
+
+### TLDR
+- **#961 is green + MERGEABLE.** All CI passes on `b5af1f38f` (Schema+DAG, Test/Build/Smoke, Design-lint, branch-scope, meta-guard). Only the tag + merge gesture remains.
+- **KC2 acceptance PROVEN inline** via `PYTHONPATH=./src python -m gaia_cli push --benchmark humaneval --skill-id anthropic/claude-code --score 0.92 --unit pass@1 --dry-run` — CLI emitted a well-formed `provenance:pending` row (schema-validated, no writes). Ambient `gaia` shim is broken on this Windows box (`ModuleNotFoundError: No module named 'gaia_cli'`) but that's env, NOT a v6.0.0 code blocker.
+- **Sitemap CI failure root-caused + fixed.** `Path.__lt__` is case-insensitive on Windows (`WindowsPath`) but case-sensitive on Linux (`PosixPath`); `sorted(u_dir.iterdir())` therefore produced different orderings on the two OSes. Patched `scripts/generateSitemap.py` to sort by `key=lambda p: p.name` (bare str codepoint) at all three call sites (`u_dir.iterdir()`, `named_dir.iterdir()`, `contributor_dir.glob()`, `en_dir.glob()`). Regenerated `docs/sitemap.xml` on Windows now produces the same output CI Linux will (capitals first: `0xdarkmatter → Manavarya09 → Taoidle → addy-osmani → …`).
+- **Marcus's plan for close:** merge #961 with a **merge commit** (NEVER squash — EPIC integration rule), tag `v6.0.0` **annotated** with a Sprint D message, mark it as **"latest" release** (not canary), close EPIC #902. Pre-merge sanity sweep in-flight before firing the merge.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `scripts/generateSitemap.py` — cross-OS sort determinism | ✅ Patched at all four `sorted(...iterdir()/glob())` call sites |
+| `docs/sitemap.xml` — regenerated with Linux-matching order | ✅ Committed on `b5af1f38f` |
+| PR #961 CI | ✅ CLEAN + MERGEABLE (all checks pass, 0 pending) |
+| KC2 acceptance | ✅ Proven inline via PYTHONPATH shim |
+| KC surface sanity sweep | ⏳ Explore agent running (`aa5845da08b1fefcb`) |
+| EPIC #902 merge to `main` | ⏳ HELD — awaiting sanity sweep result + Marcus green |
+| v6.0.0 tag | ⏳ Annotated, mark as "latest" (per Marcus 2026-07-06) |
+| Memory snapshot | ✅ This entry |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/sprint-d` | `b5af1f38f` | PR #961 CLEAN + MERGEABLE, awaiting Marcus's merge green |
+| `main` | latest via #966/#967 merges | Ready to receive Sprint D merge commit |
+
+### Issues + PRs touched
+- **PR #961** (`dev/sprint-d → main`) — Sprint D closeout aggregate. Green + MERGEABLE.
+- **EPIC #902** — will auto-close via `Resolves` clause in #961 body when #961 lands.
+
+### Routing — where things live now
+- **KC2 dogfood repeat**: `PYTHONPATH=./src python -m gaia_cli push --benchmark humaneval …` — always works from source tree. Bypasses broken Windows shim.
+- **Sitemap regen**: run `python scripts/generateSitemap.py` on ANY OS post-fix — output is now deterministic across Windows and Linux.
+- **v6.0.0 tag** goes on the `dev/sprint-d → main` merge commit SHA (not on `b5af1f38f` directly).
+
+### Lessons / hazards preserved
+- **`Path.__lt__` is OS-dependent.** WindowsPath comparison is case-insensitive; PosixPath is case-sensitive. `sorted(path.iterdir())` is a cross-OS footgun any time mixed-case names exist (contributor handles like `Manavarya09`, `Taoidle`). ALWAYS sort by `key=lambda p: p.name` — Python str comparison is deterministic. Codified this pattern in the docstring comment on `generateSitemap.py:_contributor_profile_urls`.
+- **CI sitemap staleness with an empty visible diff** = platform-sort mismatch. The diff-print at `generateSitemap.py:174` truncates at 100 lines, so 40+ moved handles further down the file show nothing on stdout. Debug path: run `git diff docs/sitemap.xml` locally after `python scripts/generateSitemap.py` on Windows; if the diff moves handles like `Manavarya09` / `Taoidle` around, that's the platform-sort bug.
+- **The CLI Pre-Flight Rule saved us on KC2 dogfood.** `gaia push --benchmark humaneval --score X --dry-run` without `--dataset-hash` correctly errored ("`--dataset-hash required (or provide --from-result-file)`") rather than writing a bad state. The CLI is being what it should be — the mutation surface that refuses invalid input.
+
+### Open questions for next orchestrator
+- Windows ambient `gaia` shim: broken. Filing a fast-follow issue is on the deferred list — non-blocking for v6.0.0. Marcus was told the workaround; not a v6.0.0 blocker.
+- Post-merge: does the PyPI wheel build via `.github/workflows/publish-pypi.yml` fire on the `v6.0.0` tag push? If yes, verify `unzip -l dist/*.whl | grep data/registry` shows the fresh snapshot bundled.
+
+### Token cost (this session)
+- Awaiting Marcus's cost drop right before the green.
+
 
 ### TLDR
 - `/benchmarks/` landing page completely redesigned: two-family framing (External live vs GSB WIP), parallax background (gold-grid abstract v2), mobile-first, scroll-triggered tile entrance animations.
