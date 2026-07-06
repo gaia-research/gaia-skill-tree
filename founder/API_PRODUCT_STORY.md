@@ -108,7 +108,7 @@ The tradeoff is staleness: the API reflects the registry at the time of the last
 ## Success Criterion (Sprint B Kill Criterion)
 
 ```bash
-curl https://gaia.tiongson.co/api/v1/skills/garrytan/gstack.json
+curl https://gaiaskilltree.com/api/v1/skills/garrytan/gstack.json
 # Returns valid JSON with trustMagnitude and overallTrustGrade
 ```
 

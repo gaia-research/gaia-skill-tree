@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "web-best-practices"
 description: "Web Best Practices"
-resource: "https://gaia.tiongson.co/codex.html#web-best-practices"
+resource: "https://gaiaskilltree.com/codex.html#web-best-practices"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

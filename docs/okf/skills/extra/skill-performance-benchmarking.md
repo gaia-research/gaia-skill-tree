@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Skill Performance Benchmarking"
 description: "Builds and runs task suites that measure whether agents select, invoke, and complete installed skills correctly across artifact-rich workflows and repeated trials."
-resource: "https://gaia.tiongson.co/codex.html#skill-performance-benchmarking"
+resource: "https://gaiaskilltree.com/codex.html#skill-performance-benchmarking"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

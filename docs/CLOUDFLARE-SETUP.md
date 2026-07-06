@@ -5,7 +5,7 @@ This document explains the **Worker** that gates Gaia README badges on a
 
 ## What this does
 
-- Every badge under `https://gaia.tiongson.co/badges/<handle>/<file>.svg`
+- Every badge under `https://gaiaskilltree.com/badges/<handle>/<file>.svg`
   validates the `?repo=<owner>/<repo>` query (the badges page generates these
   URLs). The site Worker (`worker/index.js`) looks `<owner>/<repo>` up in
   `docs/badges/registry.json` and serves the **validating badge**

@@ -15,7 +15,7 @@ stack inside GitHub).
 
 ```
 mbtiongson1/gaia-skill-tree            (this repo — production)
-  └── main/docs/                       served at gaia.tiongson.co (GitHub Pages)
+  └── main/docs/                       served at gaiaskilltree.com (GitHub Pages)
 
 mbtiongson1/gaia-skill-tree-previews   (new repo — previews only)
   └── main/                            served at previews.tiongson.co

@@ -127,7 +127,7 @@
   // All values read from window.TM_CONFIG — no hardcoded numbers.
   function _magTooltip(ev, tmRaw, skillTm) {
     var TM = window.TM_CONFIG;
-    if (!TM) return 'Trust config unavailable. See https://gaia.tiongson.co/codex/trust-methodology.html';
+    if (!TM) return 'Trust config unavailable. See https://gaiaskilltree.com/codex/trust-methodology.html';
 
     var t = TM.canonicalType(ev.type || '');
     var cfg = TM.TYPES[t];
@@ -1187,7 +1187,7 @@
                   '| (e.g. arxiv, github-stars-own) | https://... | |\n\n' +
                   '### Notes\n' +
                   'Add any context that helps a reviewer verify the source (date accessed, star count at time of submission, etc.).\n\n' +
-                  'A maintainer will audit the sources and open a registry PR after the evidence pipeline review. See the [Trust Methodology](https://gaia.tiongson.co/codex/trust-methodology.html) for evidence type definitions.'
+                  'A maintainer will audit the sources and open a registry PR after the evidence pipeline review. See the [Trust Methodology](https://gaiaskilltree.com/codex/trust-methodology.html) for evidence type definitions.'
                 ) + '" ' +
                 'target="_blank" rel="noopener" class="se-ev-submit-btn" title="Submit evidence for this skill">' +
                 '+ Boost this skill\'s rank' +

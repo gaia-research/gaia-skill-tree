@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Plan and Execute"
 description: "Decomposes complex objectives into sub-tasks, selects tools, and orchestrates execution."
-resource: "https://gaia.tiongson.co/codex.html#plan-and-execute"
+resource: "https://gaiaskilltree.com/codex.html#plan-and-execute"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

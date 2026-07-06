@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Ghostwrite"
 description: "Produces audience-tailored, research-backed long-form written content."
-resource: "https://gaia.tiongson.co/codex.html#ghostwrite"
+resource: "https://gaiaskilltree.com/codex.html#ghostwrite"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

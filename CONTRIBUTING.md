@@ -173,7 +173,7 @@ Taxonomy definitions, evidence floors, and ranking rules have been consolidated.
 
 Named skills now read evidence `grade` (S/A/B/C, S strongest) as the primary floor signal per the G7 Trust Taxonomy RFC (`founder/handovers/G7_TRUST_TAXONOMY_RFC.md`), with fallback to the deprecated `class` field for existing rows during the migration window. Grade A is not Class A — never conflate the two axes. See [META.md §2](META.md#2-evidence-methodology-the-trust-stack) for the full dual-axis spec.
 
-The skill-level **Trust Magnitude** (the unbounded set-bonus aggregate that derives the Overall Trust Grade) is computed live from each skill's evidence inventory. Browse the public ranking at [`docs/trust/leaderboard/`](../docs/trust/leaderboard/) (deployed at <https://gaia.tiongson.co/trust/leaderboard/>) to see current S/A/B/C tier counts and the top-scoring skills before opening a calibration PR.
+The skill-level **Trust Magnitude** (the unbounded set-bonus aggregate that derives the Overall Trust Grade) is computed live from each skill's evidence inventory. Browse the public ranking at [`docs/trust/leaderboard/`](../docs/trust/leaderboard/) (deployed at <https://gaiaskilltree.com/trust/leaderboard/>) to see current S/A/B/C tier counts and the top-scoring skills before opening a calibration PR.
 
 ### Ultimate (`ultimate`) requirements
 

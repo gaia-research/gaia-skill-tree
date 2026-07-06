@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Systematic Debugging"
 description: "Finds the root cause before attempting fixes when encountering bugs, test failures, or unexpected behavior."
-resource: "https://gaia.tiongson.co/codex.html#systematic-debugging"
+resource: "https://gaiaskilltree.com/codex.html#systematic-debugging"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

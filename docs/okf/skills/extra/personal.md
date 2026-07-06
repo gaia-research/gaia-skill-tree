@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "mattpocock-personal"
 description: "Personal category suite for Matt Pocock's skills."
-resource: "https://gaia.tiongson.co/codex.html#personal"
+resource: "https://gaiaskilltree.com/codex.html#personal"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

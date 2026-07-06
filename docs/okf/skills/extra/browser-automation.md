@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Browser Automation"
 description: "Navigates web pages, fills forms, clicks elements, and extracts information by combining web search with screenshot-based GUI control to complete multi-step web tasks."
-resource: "https://gaia.tiongson.co/codex.html#browser-automation"
+resource: "https://gaiaskilltree.com/codex.html#browser-automation"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

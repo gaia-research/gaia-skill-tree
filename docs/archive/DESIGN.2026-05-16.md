@@ -290,7 +290,7 @@ Honor Red and Apex Gold are the **two carry-everything brand roles**. Tier token
 
 ## Hunter's Atlas Brand Lane
 
-Gaia's public surface (`gaia.tiongson.co`) is the **Hunter's Atlas**: a Sacred-Atlas × Solo-Leveling guild registry where contributing devs feel their repo is a main character earning evidence-based rank, and where claiming an Ultimate carries the prestige of going on the permanent record. The voice register is **Half-Merged** — primary labels stay truthful (commands, schema, evidence, named contributors) while section titles and ornamental copy carry ceremonial verbs (Initiate's Rite, Ascension Cycle, Hall of Heroes, The Codex).
+Gaia's public surface (`gaiaskilltree.com`) is the **Hunter's Atlas**: a Sacred-Atlas × Solo-Leveling guild registry where contributing devs feel their repo is a main character earning evidence-based rank, and where claiming an Ultimate carries the prestige of going on the permanent record. The voice register is **Half-Merged** — primary labels stay truthful (commands, schema, evidence, named contributors) while section titles and ornamental copy carry ceremonial verbs (Initiate's Rite, Ascension Cycle, Hall of Heroes, The Codex).
 
 On top of the locked tier and rank colour tokens, two brand-voice tokens do the carry-everything work: **Honor Red (`--honor-red`)** is reserved for contributor handles; **Apex Gold (`--apex-gold`)** is reserved for 6★/Ultimate/Diamond-Seal moments and Apex-only affordances. Tier and rank colour tokens, Level VI shimmer, the graph canvas geometry, the Skill Explorer glow tokens, and the Ultimate/Extra cycling animations are all hard-locked and survive unchanged into this lane.
 

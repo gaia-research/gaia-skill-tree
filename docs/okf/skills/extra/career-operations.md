@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Career Operations"
 description: "Orchestrates an end-to-end job application pipeline, including automated search, fit evaluation, and tailored CV/cover letter generation."
-resource: "https://gaia.tiongson.co/codex.html#career-operations"
+resource: "https://gaiaskilltree.com/codex.html#career-operations"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

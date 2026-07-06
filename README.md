@@ -13,17 +13,17 @@ Gaia is the open-source registry where AI agent capabilities aren't just claimed
 
 [![Validate](https://github.com/gaia-research/gaia-skill-tree/actions/workflows/validate.yml/badge.svg)](https://github.com/gaia-research/gaia-skill-tree/actions/workflows/validate.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Website](https://img.shields.io/badge/Website-gaia.tiongson.co-f59e0b)](https://gaia.tiongson.co/)
+[![Website](https://img.shields.io/badge/Website-gaiaskilltree.com-f59e0b)](https://gaiaskilltree.com/)
 
-👉 **Claim your skill origin:** Run `curl -fsSL https://gaia.tiongson.co/install.sh | sh` and verify your first skill in under 2 minutes.
+👉 **Claim your skill origin:** Run `curl -fsSL https://gaiaskilltree.com/install.sh | sh` and verify your first skill in under 2 minutes.
 
 
 # Get your badges! Some skills already curated.
 
-[![Gaia rank](https://gaia.tiongson.co/badges/_assets/mbtiongson1/rank.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)<br>
-[![Gaia skills](https://gaia.tiongson.co/badges/_assets/mbtiongson1/skills.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
+[![Gaia rank](https://gaiaskilltree.com/badges/_assets/mbtiongson1/rank.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaiaskilltree.com/u/mbtiongson1/)<br>
+[![Gaia skills](https://gaiaskilltree.com/badges/_assets/mbtiongson1/skills.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaiaskilltree.com/u/mbtiongson1/)
 
-Generate yours at **[gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/)**.
+Generate yours at **[gaiaskilltree.com/badges/](https://gaiaskilltree.com/badges/)**.
 
 **Brand & product:** [PRODUCT.md](PRODUCT.md) · [CONTEXT.md](CONTEXT.md) · [DESIGN.md](DESIGN.md)
 
@@ -95,7 +95,7 @@ Do a `gaia scan` and `gaia fuse` render in your terminal:
 Basics fuse into Extras; Extras can fuse into Ultimates. Evidence powers each ascent.
 
 > [!TIP]
-> **New here?** The interactive tutorial at **[gaia.tiongson.co](https://gaia.tiongson.co/)** covers everything visually: skill tiers, the stars axis, The Initiate's Rite, and copy-paste commands.
+> **New here?** The interactive tutorial at **[gaiaskilltree.com](https://gaiaskilltree.com/)** covers everything visually: skill tiers, the stars axis, The Initiate's Rite, and copy-paste commands.
 
 ---
 
@@ -133,7 +133,7 @@ This is the evidence grade at the Skill level.
 
 > **Detailed Policy:** See [META.md](META.md) for the full evidence methodology, ranking floors, and prestige requirements.
 
-> **Public Trust Ledger:** The Trust Ledger ranks every named skill by computed Trust Magnitude — see [`docs/trust/ledger/`](docs/trust/ledger/) (deployed at <https://gaia.tiongson.co/trust/ledger/> once the site rebuilds).
+> **Public Trust Ledger:** The Trust Ledger ranks every named skill by computed Trust Magnitude — see [`docs/trust/ledger/`](docs/trust/ledger/) (deployed at <https://gaiaskilltree.com/trust/ledger/> once the site rebuilds).
 
 ---
 
@@ -141,24 +141,24 @@ This is the evidence grade at the Skill level.
 
 The Gaia registry is available as a static read-only JSON API — no authentication, no rate limits.
 
-- **Base URL:** `https://gaia.tiongson.co/api/v1/`
-- **Docs:** [gaia.tiongson.co/api/](https://gaia.tiongson.co/api/)
-- **OpenAPI 3.1 spec:** [/api/v1/openapi.json](https://gaia.tiongson.co/api/v1/openapi.json)
+- **Base URL:** `https://gaiaskilltree.com/api/v1/`
+- **Docs:** [gaiaskilltree.com/api/](https://gaiaskilltree.com/api/)
+- **OpenAPI 3.1 spec:** [/api/v1/openapi.json](https://gaiaskilltree.com/api/v1/openapi.json)
 
 Quick examples:
 
 ```bash
 # Health check
-curl https://gaia.tiongson.co/api/v1/health.json
+curl https://gaiaskilltree.com/api/v1/health.json
 
 # All skills (page 1, sorted by Trust Magnitude)
-curl https://gaia.tiongson.co/api/v1/skills/index.json
+curl https://gaiaskilltree.com/api/v1/skills/index.json
 
 # Single skill detail
-curl https://gaia.tiongson.co/api/v1/skills/garrytan/gstack.json
+curl https://gaiaskilltree.com/api/v1/skills/garrytan/gstack.json
 
 # Trust leaderboard
-curl https://gaia.tiongson.co/api/v1/leaderboard.json
+curl https://gaiaskilltree.com/api/v1/leaderboard.json
 ```
 
 ---
@@ -171,7 +171,7 @@ curl https://gaia.tiongson.co/api/v1/leaderboard.json
 Current Gaia CLI version: `5.11.14`.
 
 ```bash
-curl -fsSL https://gaia.tiongson.co/install.sh | sh
+curl -fsSL https://gaiaskilltree.com/install.sh | sh
 ```
 
 Python installation alternative:
@@ -192,7 +192,7 @@ pipx install gaia-cli
 
 **Windows** (PowerShell one-liner installer):
 ```powershell
-iex (irm https://gaia.tiongson.co/install.ps1)
+iex (irm https://gaiaskilltree.com/install.ps1)
 ```
 
 Manual Python/pip fallback (Windows):
@@ -349,9 +349,9 @@ Set `GAIA_USER=your-github-username` and optionally `GITHUB_TOKEN` for PR tools.
 ## Agent Discovery
 
 To help AI agents and automated clients discover and crawl the registry programmatically:
-- **Registry graph:** [`/graph/gaia.json`](https://gaia.tiongson.co/graph/gaia.json)
-- **Named skills:** [`/named/`](https://gaia.tiongson.co/named/)
-- **Trust ledger:** [`/trust/ledger/`](https://gaia.tiongson.co/trust/ledger/)
+- **Registry graph:** [`/graph/gaia.json`](https://gaiaskilltree.com/graph/gaia.json)
+- **Named skills:** [`/named/`](https://gaiaskilltree.com/named/)
+- **Trust ledger:** [`/trust/ledger/`](https://gaiaskilltree.com/trust/ledger/)
 
 ---
 
@@ -383,7 +383,7 @@ Common ways to help:
 - Turn accepted reviews into concrete PRs (new skill, fusion, or reclassification).
 
 Contribution steps: [CONTRIBUTING.md](CONTRIBUTING.md).
-Full policy/reviewer guidance: <https://gaia.tiongson.co/en>.
+Full policy/reviewer guidance: <https://gaiaskilltree.com/en>.
 
 ## Contributors
 
@@ -448,7 +448,7 @@ Gaia does not store personal information.
 - **Generalised by default.** Skill descriptions capture capability categories, not personal details about you or your agent's behaviour.
 - **No telemetry.** The CLI and the static website collect zero analytics or usage data.
 
-Full details: [PRIVACY.md](PRIVACY.md) · [gaia.tiongson.co/privacy.html](https://gaia.tiongson.co/privacy.html)
+Full details: [PRIVACY.md](PRIVACY.md) · [gaiaskilltree.com/privacy.html](https://gaiaskilltree.com/privacy.html)
 
 **Topics:** gaia-skill-tree, ai-agent, skill-registry, capability-graph, evidence-backed, agent-skills, attribution, model-context-protocol, open-source-ai, llm-ops, agent-framework
 

@@ -40,7 +40,7 @@ Numbers are execution priority: G1 → G7 = lowest → highest cost.
 | **G2** | Rank gate translation: `class` → `grade` | #699 | `cli/rank-gate-grade` | S — 1 file, ~30 lines + tests | **Sonnet 4.6** | A | — | `_meets_evidence_floor()` reads `grade` first, falls back to `class`; test for both paths; floors transcoded so S satisfies any A floor |
 | **G3** | Security Scanner | #185 | `cli/security-scanner` | L — new module, integrated into `gaia push` + `gaia dev verify` | **Opus 4.8** | B | — | Detects shell exec, destructive ops, network exfiltration, prompt-injection markers, credential harvesting; blocks `gaia push` with structured warnings; ≥10 unit cases covering each detector; integration test on a poisoned skill fixture |
 | **G4** | Verification Workflow | #658 (folds #650) | `cli/verification-workflow` | L — schema + grading + CLI surface | **Opus 4.8** | C | **G2, G3** | 4 tiers (Community Verified / Benchmark Verified / Security Reviewed / Enterprise Ready); tenure baseline = `firstEvidenceAt`, measured in completed UTC days; `verification_status` field added to schema; `gaia skills info <id>` shows tier; predicate logic unit-tested per tier |
-| **G5** | Share static page (`docs/share/`) | new fast-follow of closed #128 | `design/share-page` | M — frontend only | **Sonnet 4.6** | B | — | Page at `gaia.tiongson.co/share/?b=<url>` renders bundle JSON; copy-link button; matches site visual language; renders empty + malformed bundle gracefully; Lighthouse Perf ≥ 90 on a sample bundle |
+| **G5** | Share static page (`docs/share/`) | new fast-follow of closed #128 | `design/share-page` | M — frontend only | **Sonnet 4.6** | B | — | Page at `gaiaskilltree.com/share/?b=<url>` renders bundle JSON; copy-link button; matches site visual language; renders empty + malformed bundle gracefully; Lighthouse Perf ≥ 90 on a sample bundle |
 | **G6** | Narrow-path tree render | #642 | `cli/narrow-tree-render` | S — 1 module, ~50 lines | **Sonnet 4.6** | B | — | When called from share-bundle export, `treeManager.show_tree()` (or sibling) emits only the path slice for the bundle's skills; full-tree mode unchanged; test fixture covers a 3-deep narrow path |
 | **G7** | Benchmark Framework RFC | #649 | `design/benchmark-rfc` | M — research + writing | **Opus 4.8** (xhigh) | D | — | 6–10 page RFC at `docs/architecture/benchmark-framework.md`; covers reproducibility model, category taxonomy (Coding / Research / Automation / Agent Orch / Tool Use / MCP / Multi-Agent), one worked percentile→grade example, list of open questions deferred to Phase 2; **no code** |
 
@@ -161,7 +161,7 @@ All of the following must be true:
 
 **Files:** `docs/share/index.html`, `docs/share/styles.css`, `docs/share/share.js`.
 **Behavior:** read `?b=<https-url-to-bundle.json>` query param; fetch bundle; render sharer name + tree preview + per-skill rows with install commands; "Copy install" button per row; "Copy all" button for the whole bundle.
-**Visual language:** match `gaia.tiongson.co` palette/typography; reuse existing components if any in `docs/`.
+**Visual language:** match `gaiaskilltree.com` palette/typography; reuse existing components if any in `docs/`.
 **Edge cases:** empty bundle ("Nothing to share yet"), malformed JSON ("Invalid bundle, ask the sharer to regenerate"), 404 ("Bundle not reachable").
 **Acceptance:** Lighthouse Performance ≥ 90 on a 20-skill bundle; works at viewport 320px wide; WCAG 2.1 AA color contrast.
 **Issue:** open new fast-follow of closed #128; reference closed #128 in the body.

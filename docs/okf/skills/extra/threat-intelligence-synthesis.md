@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Threat Intelligence Synthesis"
 description: "Synthesizes security feeds, CVE/CWE data, and incident signals into actionable intelligence with IoC/TTP management and MITRE ATT&CK mapping."
-resource: "https://gaia.tiongson.co/codex.html#threat-intelligence-synthesis"
+resource: "https://gaiaskilltree.com/codex.html#threat-intelligence-synthesis"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

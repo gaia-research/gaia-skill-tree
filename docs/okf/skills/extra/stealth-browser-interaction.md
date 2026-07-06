@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Stealth Browser Interaction"
 description: "Operates web browsers through an advanced stealth layer that handles bot-detection, fingerprinting, session rotation, and human-like interaction patterns to maintain resilient access to protected domains."
-resource: "https://gaia.tiongson.co/codex.html#stealth-browser-interaction"
+resource: "https://gaiaskilltree.com/codex.html#stealth-browser-interaction"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-02T00:00:00Z"
 ---

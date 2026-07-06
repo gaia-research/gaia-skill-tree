@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Ruflo"
 description: "The complete Ruflo AI orchestration platform: multi-topology swarm deployment, cloud platform management, GitHub automation, hive-mind consensus, reasoning memory bank, and full v3 architecture modernization."
-resource: "https://gaia.tiongson.co/codex.html#multi-topology-orchestration"
+resource: "https://gaiaskilltree.com/codex.html#multi-topology-orchestration"
 tags: ["gaia-skill-tree", "ultimate-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

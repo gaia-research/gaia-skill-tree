@@ -6,7 +6,7 @@
     "description": "Static read-only JSON API for the Gaia skill registry. All endpoints are served as pre-generated JSON files via GitHub Pages. No authentication required.",
     "contact": {
       "name": "Gaia Registry",
-      "url": "https://gaia.tiongson.co"
+      "url": "https://gaiaskilltree.com"
     },
     "license": {
       "name": "MIT",
@@ -15,7 +15,7 @@
   },
   "servers": [
     {
-      "url": "https://gaia.tiongson.co",
+      "url": "https://gaiaskilltree.com",
       "description": "Production (GitHub Pages)"
     }
   ],

@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Cite Sources"
 description: "Attributes claims to specific sources with proper references, URLs, or bibliographic entries."
-resource: "https://gaia.tiongson.co/codex.html#cite-sources"
+resource: "https://gaiaskilltree.com/codex.html#cite-sources"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-02T00:00:00Z"
 ---

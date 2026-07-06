@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Autonomous Data Scientist"
 description: "Conducts end-to-end data science workflows autonomously: hypothesis generation, data analysis, statistical modeling, and insight reporting."
-resource: "https://gaia.tiongson.co/codex.html#autonomous-data-scientist"
+resource: "https://gaiaskilltree.com/codex.html#autonomous-data-scientist"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

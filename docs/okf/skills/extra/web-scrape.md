@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Web Scrape"
 description: "Retrieves and structures data from web pages into usable entities."
-resource: "https://gaia.tiongson.co/codex.html#web-scrape"
+resource: "https://gaiaskilltree.com/codex.html#web-scrape"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-02T00:00:00Z"
 ---

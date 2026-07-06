@@ -347,7 +347,7 @@ Every worker prompt MUST include:
 |----|-----------|-----------|
 | ✅ KC#1 | API returns TM + grade | Already done (PR #857) |
 | 🎯 KC#2 | `/trending/7d` shows real movement Monday morning | **W1** (seeds data) + stargazer heartbeat cron (provides real deltas over time) |
-| 🎯 KC#3 | Tweet-pitch URL | **W2** delivers `gaia.tiongson.co/heroes/` |
+| 🎯 KC#3 | Tweet-pitch URL | **W2** delivers `gaiaskilltree.com/heroes/` |
 
 **After W1 + W2 merge, Sprint B kill criteria are all met.** W3 and W4 are "completeness" items that ship before the sprint formally closes but aren't blocking.
 

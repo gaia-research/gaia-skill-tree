@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "agent-environment-setup"
 description: "Scaffolding per-repo configuration for other engineering skills."
-resource: "https://gaia.tiongson.co/codex.html#agent-environment-setup"
+resource: "https://gaiaskilltree.com/codex.html#agent-environment-setup"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---
