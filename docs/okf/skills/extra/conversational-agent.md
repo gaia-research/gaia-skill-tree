@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Conversational Agent"
 description: "Manages coherent multi-turn dialogue by routing intent, maintaining memory across turns, and generating contextually appropriate responses."
-resource: "https://gaia.tiongson.co/codex.html#conversational-agent"
+resource: "https://gaiaskilltree.com/codex.html#conversational-agent"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-02T00:00:00Z"
 ---

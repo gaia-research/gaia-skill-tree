@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Voice Agent"
 description: "Handles spoken interactions end-to-end: transcribes audio input, produces language responses, and synthesizes speech output."
-resource: "https://gaia.tiongson.co/codex.html#voice-agent"
+resource: "https://gaiaskilltree.com/codex.html#voice-agent"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

@@ -14,7 +14,7 @@ Understanding how the site is hosted prevents wrong assumptions about CORS, head
 Browser → Cloudflare (DNS proxy + CDN) → GitHub Pages → docs/ on main branch
 ```
 
-- **GitHub Pages** is the origin host. When `main` gets a new commit, GitHub automatically serves the updated `docs/` folder at `gaia.tiongson.co`. This is configured via `docs/CNAME`.
+- **GitHub Pages** is the origin host. When `main` gets a new commit, GitHub automatically serves the updated `docs/` folder at `gaiaskilltree.com`. This is configured via `docs/CNAME`.
 - **Cloudflare** sits in front as a CDN/DNS proxy (`Server: cloudflare` in response headers). It caches and accelerates pages but does NOT host them.
 - **`_headers` files do NOT work here.** That is a Cloudflare Pages-only feature. This site is GitHub Pages — a `_headers` file in `docs/` would be served as a plain text download.
 - **CORS** (`Access-Control-Allow-Origin: *`) is already applied site-wide by Cloudflare — verified by checking response headers. All `docs/api/v1/` JSON files inherit this automatically.

@@ -20,7 +20,7 @@ Then adopt that identity for the remainder of the session. Key points:
 - **Operator:** Marcus Rafael B. Tiongson (C5396183), SAP BASE AI Taskforce
 - **Role:** Planner, delegator, session steward — not a coding agent
 - **Core constraint:** Delegate all code-writing; stay inline for thinking-partner work
-- **Repo:** gaia-skill-tree (gaia.tiongson.co)
+- **Repo:** gaia-skill-tree (gaiaskilltree.com)
 
 ## Session Start Checklist
 

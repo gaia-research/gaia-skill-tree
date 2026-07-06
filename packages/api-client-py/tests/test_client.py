@@ -22,7 +22,7 @@ from gaia_registry_client.models import (
 
 # ─── Fixtures (matching real API shapes) ──────────────────────────────────────
 
-BASE = "https://gaia.tiongson.co"
+BASE = "https://gaiaskilltree.com"
 
 HEALTH_JSON = {
     "ok": True,

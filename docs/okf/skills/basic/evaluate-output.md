@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Evaluate Output"
 description: "Assesses the quality, correctness, or safety of generated output against defined criteria."
-resource: "https://gaia.tiongson.co/codex.html#evaluate-output"
+resource: "https://gaiaskilltree.com/codex.html#evaluate-output"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-02T00:00:00Z"
 ---

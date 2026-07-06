@@ -13,7 +13,7 @@
 
 - **KC1** — First Monday auto-report ships without orchestrator intervention (behind manual-publish gate `GAIA_CONTENT_ENGINE_PUBLISH`).
 - **KC2** — `gaia push --benchmark humaneval --score X` writes a valid `benchmark-result` evidence row; verifier gate OR CI check enforces trust.
-- **KC3** — `gaia.tiongson.co/reports/YYYY-WW/` returns a permanent, indexed, tweetable URL.
+- **KC3** — `gaiaskilltree.com/reports/YYYY-WW/` returns a permanent, indexed, tweetable URL.
 - **KC4** — At least one skill has a live benchmark score visible on its explorer page.
 
 ---

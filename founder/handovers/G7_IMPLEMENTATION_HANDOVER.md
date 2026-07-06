@@ -216,7 +216,7 @@ The report is written by the I3 agent (Opus 4.8) in markdown, then rendered to H
 2. Run again — second run produces no diff (idempotency check).
 3. `gaia validate` green after run.
 4. Manually inspect `mattpocock/skills` and `ruvnet/ruflo`: `apexGateStatus` shows the failing predicates from RFC §11.12.
-5. Confirm the stamp report renders correctly on `gaia.tiongson.co/meta/`.
+5. Confirm the stamp report renders correctly on `gaiaskilltree.com/meta/`.
 
 **Token-spend log:** Comment on the I3 issue + on the merged PR.
 
@@ -271,7 +271,7 @@ The report is written by the I3 agent (Opus 4.8) in markdown, then rendered to H
 3. Document gap in PR description if direct edits are used.
 
 **Verification:**
-1. After merge, both skills show `level: 5★` on `gaia.tiongson.co/named/`.
+1. After merge, both skills show `level: 5★` on `gaiaskilltree.com/named/`.
 2. Stamp report (from I3) is the lead announcement.
 3. System-wide 6★ count = 0; Job B baseline asserted.
 
@@ -330,7 +330,7 @@ All of the following must be true:
 2. `gaia validate` green on main; full pytest suite green.
 3. `registry/named-skills.json` carries `trustMagnitude` and `overallTrustGrade` for all 183 named skills.
 4. `apexGateStatus` populated for all skills; system-wide 6★ count = 0.
-5. Stamp report (`docs/meta/JUN_2026_TRUST_REGRADE.md`) live on `gaia.tiongson.co/meta/`, leading with apex demotions.
+5. Stamp report (`docs/meta/JUN_2026_TRUST_REGRADE.md`) live on `gaiaskilltree.com/meta/`, leading with apex demotions.
 6. Trust Report page (PR #714) shows TM card alongside Links + Upgrade Path + Evidence + Gap + Gate + Timeline.
 7. CLAUDE.md skill-explorer verification rule passes — all five sections + TM card render in modal.
 8. CI gate (I4) blocks apex promotion without label + 2 sign-offs (verified by intentional violating draft PR).

@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Grounding"
 description: "Verifies generated claims against retrieved evidence, identifies unsupported or contradicted assertions, and anchors outputs in traceable, cited sources."
-resource: "https://gaia.tiongson.co/codex.html#grounding"
+resource: "https://gaiaskilltree.com/codex.html#grounding"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

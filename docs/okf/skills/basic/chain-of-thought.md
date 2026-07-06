@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Chain-of-Thought Reasoning"
 description: "Produces explicit intermediate reasoning steps before arriving at a final answer, dramatically improving accuracy on multi-step problems."
-resource: "https://gaia.tiongson.co/codex.html#chain-of-thought"
+resource: "https://gaiaskilltree.com/codex.html#chain-of-thought"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

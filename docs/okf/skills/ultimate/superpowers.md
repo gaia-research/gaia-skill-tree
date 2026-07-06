@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Superpowers"
 description: "A complete software development methodology for coding agents: combines brainstorming, planning, parallel execution, systematic debugging, code review loops, and branch discipline into a unified agentic workflow."
-resource: "https://gaia.tiongson.co/codex.html#superpowers"
+resource: "https://gaiaskilltree.com/codex.html#superpowers"
 tags: ["gaia-skill-tree", "ultimate-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Using Git Worktrees"
 description: "Ensures work happens in an isolated workspace via native tools or git worktree fallback before starting feature work."
-resource: "https://gaia.tiongson.co/codex.html#using-git-worktrees"
+resource: "https://gaiaskilltree.com/codex.html#using-git-worktrees"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

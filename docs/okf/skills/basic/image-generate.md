@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Image Generate"
 description: "Creates photorealistic or stylized images from text prompts using diffusion-based or autoregressive generative models."
-resource: "https://gaia.tiongson.co/codex.html#image-generate"
+resource: "https://gaiaskilltree.com/codex.html#image-generate"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

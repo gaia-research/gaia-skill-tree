@@ -37,12 +37,12 @@ def test_sitemap_contains_all_known_routes():
     assert sitemap_path.exists(), "docs/sitemap.xml missing"
     content = sitemap_path.read_text(encoding="utf-8")
     required = [
-        "https://gaia.tiongson.co/skills/",
-        "https://gaia.tiongson.co/benchmarks/",
-        "https://gaia.tiongson.co/reports/",
-        "https://gaia.tiongson.co/api/",
-        "https://gaia.tiongson.co/heroes/",
-        "https://gaia.tiongson.co/trending/",
+        "https://gaiaskilltree.com/skills/",
+        "https://gaiaskilltree.com/benchmarks/",
+        "https://gaiaskilltree.com/reports/",
+        "https://gaiaskilltree.com/api/",
+        "https://gaiaskilltree.com/heroes/",
+        "https://gaiaskilltree.com/trending/",
     ]
     for url in required:
         assert url in content, f"sitemap.xml missing expected URL: {url}"

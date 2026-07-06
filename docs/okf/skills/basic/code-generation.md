@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Code Generation"
 description: "Produces syntactically correct and functionally appropriate source code from specifications or prompts."
-resource: "https://gaia.tiongson.co/codex.html#code-generation"
+resource: "https://gaiaskilltree.com/codex.html#code-generation"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-02T00:00:00Z"
 ---

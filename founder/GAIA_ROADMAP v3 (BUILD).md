@@ -67,7 +67,7 @@ GAIA becomes the canonical source of truth for AI agent skills, skill discovery,
 
 **Task budget:** ~80k tokens / ~$6 / 1 orchestrator + 2 dispatched agents.
 
-**Kill criterion:** all CI green on `main`, `gaia --version` prints `5.0.0`, leaderboard at `gaia.tiongson.co/trust/leaderboard/` reads correctly.
+**Kill criterion:** all CI green on `main`, `gaia --version` prints `5.0.0`, leaderboard at `gaiaskilltree.com/trust/leaderboard/` reads correctly.
 
 **Out of scope:** anything API-shaped, anything trending-shaped. Sprint A is just landing what's already done.
 
@@ -82,7 +82,7 @@ GAIA becomes the canonical source of truth for AI agent skills, skill discovery,
 #### B1. Public Trust API (Phase 7 brought forward)
 
 - Read-only endpoints for skills, contributors, evidence, leaderboard.
-- Hosted on the existing static site (`gaia.tiongson.co/api/v1/...`) — see `founder/handovers/API_PLATFORM_DESIGN_2026-06-20.md` for the full design (build mode: snapshot from `registry/named-skills.json` → static JSON, served via Cloudflare Pages — no DB, no server, free).
+- Hosted on the existing static site (`gaiaskilltree.com/api/v1/...`) — see `founder/handovers/API_PLATFORM_DESIGN_2026-06-20.md` for the full design (build mode: snapshot from `registry/named-skills.json` → static JSON, served via Cloudflare Pages — no DB, no server, free).
 - Auth: anonymous (no key), rate-limited at the edge (Cloudflare Pages default).
 - Versioned (`/api/v1/`), schema documented (OpenAPI 3.1), response schema stable.
 
@@ -104,7 +104,7 @@ GAIA becomes the canonical source of truth for AI agent skills, skill discovery,
 **Task budget:** ~250k tokens / ~$25 / 1 orchestrator + 4 dispatched agents (B1 design + impl, B2 design + impl, B3 wiring).
 
 **Kill criterion:**
-- A third-party agent platform can `curl https://gaia.tiongson.co/api/v1/skills/garrytan/gstack` and parse it.
+- A third-party agent platform can `curl https://gaiaskilltree.com/api/v1/skills/garrytan/gstack` and parse it.
 - `/trending/7d` shows real movement (not zero) on Monday morning.
 - A Tweet-length pitch — *"Gaia tracks which AI agent skills are trending"* — has a clickable URL to land on.
 

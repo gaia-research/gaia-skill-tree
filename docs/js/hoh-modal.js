@@ -304,8 +304,8 @@
     var badgesLink = document.getElementById('hohFsBadgesLink');
 
     var slug = ns.id ? ns.id.split('/').pop() : ns.contributor;
-    var badgeBase = 'https://gaia.tiongson.co/badges/_assets/' + ns.contributor + '/' + slug + '.svg';
-    var profileUrl = 'https://gaia.tiongson.co/u/' + ns.contributor + '/';
+    var badgeBase = 'https://gaiaskilltree.com/badges/_assets/' + ns.contributor + '/' + slug + '.svg';
+    var profileUrl = 'https://gaiaskilltree.com/u/' + ns.contributor + '/';
 
     // Set immediately without ?repo= so the badge shows right away, then
     // update both src and markdown once the registry resolves.
@@ -357,8 +357,8 @@
     });
 
     // Dynamic Permalinks & URLs
-    var permalink = 'https://gaia.tiongson.co/u/' + ns.contributor + '/#' + ns.id.replace('/', '-');
-    var fullOgUrl = 'https://gaia.tiongson.co/' + ns.ogPath;
+    var permalink = 'https://gaiaskilltree.com/u/' + ns.contributor + '/#' + ns.id.replace('/', '-');
+    var fullOgUrl = 'https://gaiaskilltree.com/' + ns.ogPath;
 
     // Action: Download — popover bubble with PNG / SVG choices
     var downloadBtn = modal.querySelector('[data-fs-action="download"]');

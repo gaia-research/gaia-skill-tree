@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Document Analyst"
 description: "Parses, extracts entities from, summarizes, and formats structured documents."
-resource: "https://gaia.tiongson.co/codex.html#document-analyst"
+resource: "https://gaiaskilltree.com/codex.html#document-analyst"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

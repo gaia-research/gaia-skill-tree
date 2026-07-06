@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-injectJsonLd.py — post-render JSON-LD injector for gaia.tiongson.co.
+injectJsonLd.py — post-render JSON-LD injector for gaiaskilltree.com.
 
 Injects a <script type="application/ld+json" data-injector="gaia-json-ld"> block
 into each HTML page's <head> based on its path pattern.  Idempotent: any block
@@ -29,7 +29,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS_DIR = ROOT / "docs"
-BASE_URL = "https://gaia.tiongson.co"
+BASE_URL = "https://gaiaskilltree.com"
 
 # Regex to find an existing injected block (replaces it) or the </head> tag (inserts before it).
 _RE_EXISTING = re.compile(

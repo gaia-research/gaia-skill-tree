@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Detect Anomaly"
 description: "Identifies statistical outliers, novel patterns, or deviations from expected behavior in structured or unstructured data."
-resource: "https://gaia.tiongson.co/codex.html#detect-anomaly"
+resource: "https://gaiaskilltree.com/codex.html#detect-anomaly"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

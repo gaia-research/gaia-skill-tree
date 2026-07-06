@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Agent Evaluation"
 description: "Holistically evaluates an AI agent's performance on multi-step tasks by running standardised benchmarks, scoring full interaction trajectories, and producing reproducible capability reports."
-resource: "https://gaia.tiongson.co/codex.html#agent-eval"
+resource: "https://gaiaskilltree.com/codex.html#agent-eval"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "RAG Pipeline"
 description: "End-to-end retrieval-augmented generation combining document chunking, embedding, retrieval, and relevance scoring."
-resource: "https://gaia.tiongson.co/codex.html#rag-pipeline"
+resource: "https://gaiaskilltree.com/codex.html#rag-pipeline"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

@@ -26,7 +26,7 @@ Direction signals: prefer **ranks** over arbitrary 0–100 scores; score **evide
 
 **3. #128 (gaia push/share) has a full design note awaiting Marco's call:** share-bundle CLI is buildable now; the static copy-link page needs a hosting decision — (a) committed `docs/share/` static file, (b) gist/external, (c) OAuth-bound behind #155.
 
-**4. #155 (GitHub sign-in) has a mini-PRD; blocked on operational setup only:** real GitHub OAuth app, registered callback (gaia.tiongson.co/auth/callback), Cloudflare secrets. Blocks #494 signed badges. Code scaffolding can start once Marco provisions.
+**4. #155 (GitHub sign-in) has a mini-PRD; blocked on operational setup only:** real GitHub OAuth app, registered callback (gaiaskilltree.com/auth/callback), Cloudflare secrets. Blocks #494 signed badges. Code scaffolding can start once Marco provisions.
 
 **5. #637:** per Marco — #635 covers `gaia tree`/`gaia graph`; everything else except `gaia skills` stays RFC.
 

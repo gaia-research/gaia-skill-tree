@@ -16,7 +16,7 @@ description: >
 
 # gaia-docs-sync
 
-Keep the live website (`gaia.tiongson.co`) and the project wiki in lockstep with the
+Keep the live website (`gaiaskilltree.com`) and the project wiki in lockstep with the
 registry. GitHub Pages publishes `main:/docs` as-is — if Class S artifacts aren't
 committed, the site is dark or stale.
 

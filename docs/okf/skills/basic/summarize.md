@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Summarize"
 description: "Condenses longer input into a shorter representation that preserves key information and intent."
-resource: "https://gaia.tiongson.co/codex.html#summarize"
+resource: "https://gaiaskilltree.com/codex.html#summarize"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-02T00:00:00Z"
 ---

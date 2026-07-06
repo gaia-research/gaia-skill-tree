@@ -320,7 +320,7 @@ Regenerated from `registry/nodes/` + `registry/named/` by `gaia dev docs`. Consu
 _Avoid_: tracking Class P in git (manufactures merge conflicts on every PR touching source); editing Class P by hand (always derived).
 
 **Class S (site-served artifacts):**
-Files inside `docs/` that browsers fetch at runtime or that GitHub Pages serves as downloads. Members include the four graph mirrors under `docs/graph/` (`gaia.json`, `named/index.json`, `gaia.gexf`, `gaia.svg`) alongside the regular content files (`docs/**/*.html`, `docs/css/*`, `docs/js/*`, `docs/og/*`). Storage: **tracked in git.** The deploy substrate is git → GitHub Pages → `gaia.tiongson.co` from `main:/docs`; whatever lives there at any moment IS the live website.
+Files inside `docs/` that browsers fetch at runtime or that GitHub Pages serves as downloads. Members include the four graph mirrors under `docs/graph/` (`gaia.json`, `named/index.json`, `gaia.gexf`, `gaia.svg`) alongside the regular content files (`docs/**/*.html`, `docs/css/*`, `docs/js/*`, `docs/og/*`). Storage: **tracked in git.** The deploy substrate is git → GitHub Pages → `gaiaskilltree.com` from `main:/docs`; whatever lives there at any moment IS the live website.
 
 _Avoid_: gitignoring Class S (deletes the live site at next Pages publish); editing the graph mirrors by hand (regenerated; hand-edits get overwritten on next `gaia dev docs`).
 

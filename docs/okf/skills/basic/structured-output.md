@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Structured Output Generation"
 description: "Generates output guaranteed to conform to a given schema (JSON, YAML, Pydantic model, etc.) using constrained decoding or grammar-guided generation."
-resource: "https://gaia.tiongson.co/codex.html#structured-output"
+resource: "https://gaiaskilltree.com/codex.html#structured-output"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

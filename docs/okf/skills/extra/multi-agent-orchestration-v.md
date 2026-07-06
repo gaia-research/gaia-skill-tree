@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Multi-Agent Orchestration"
 description: "Coordinates multiple specialized agents across complex workflows with dynamic task allocation and conflict resolution."
-resource: "https://gaia.tiongson.co/codex.html#multi-agent-orchestration-v"
+resource: "https://gaiaskilltree.com/codex.html#multi-agent-orchestration-v"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

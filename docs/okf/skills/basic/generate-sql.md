@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Generate SQL"
 description: "Translates natural-language data questions into syntactically correct, executable SQL queries against a given schema."
-resource: "https://gaia.tiongson.co/codex.html#generate-sql"
+resource: "https://gaiaskilltree.com/codex.html#generate-sql"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

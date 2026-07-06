@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Executing Plans"
 description: "Loads a written implementation plan, reviews it critically, executes all tasks sequentially, and reports when complete."
-resource: "https://gaia.tiongson.co/codex.html#executing-plans"
+resource: "https://gaiaskilltree.com/codex.html#executing-plans"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

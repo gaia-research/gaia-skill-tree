@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-generateSitemap.py — deterministic sitemap generator for gaia.tiongson.co.
+generateSitemap.py — deterministic sitemap generator for gaiaskilltree.com.
 
 Usage:
     python scripts/generateSitemap.py          # write docs/sitemap.xml
@@ -17,7 +17,7 @@ from xml.etree import ElementTree as ET
 # ── constants ────────────────────────────────────────────────────────────────
 ROOT = Path(__file__).resolve().parents[1]
 DOCS_DIR = ROOT / "docs"
-BASE_URL = "https://gaia.tiongson.co"
+BASE_URL = "https://gaiaskilltree.com"
 # Frozen canonical date — avoids timestamp drift on unrelated PRs (CLAUDE.md §Decorative).
 LAST_MOD = "2026-07-05"
 

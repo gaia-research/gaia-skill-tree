@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Web Search"
 description: "Queries external search engines or APIs and retrieves relevant result sets."
-resource: "https://gaia.tiongson.co/codex.html#web-search"
+resource: "https://gaiaskilltree.com/codex.html#web-search"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-02T00:00:00Z"
 ---

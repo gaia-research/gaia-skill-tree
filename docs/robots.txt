@@ -26,4 +26,4 @@ Allow: /
 User-agent: Amazonbot
 Allow: /
 
-Sitemap: https://gaia.tiongson.co/sitemap.xml
+Sitemap: https://gaiaskilltree.com/sitemap.xml

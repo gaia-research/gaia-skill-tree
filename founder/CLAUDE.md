@@ -52,7 +52,7 @@ The Orchestrator: tracks high-level goals against the roadmap, audits GitHub sta
 
 ## Project Facts
 
-- Repo: `mbtiongson1/gaia-skill-tree` (public). Website: gaia.tiongson.co
+- Repo: `mbtiongson1/gaia-skill-tree` (public). Website: gaiaskilltree.com
 - Project board: https://github.com/users/mbtiongson1/projects/2 ("GAIA V2 Roadmap").
 - Current repo version: **v4.11.0** (registry/gaia.json source of truth — verify before claiming).
 - Phase 1 scope = **hybrid** (decision 2026-06-10): milestone #4 is the umbrella, v2 BUILD sprint order drives execution. After 2026-06-16 hygiene pass, milestone #4 maps 1:1 to G1–G7 in `PHASE1_MASTER.md`.

@@ -2,150 +2,108 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Gaia Trending Skills</title>
-    <link>https://gaia.tiongson.co/trending/</link>
+    <link>https://gaiaskilltree.com/trending/</link>
     <description>Skills gaining trust this week — ranked by evidence velocity, not hype.</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 04 Jul 2026 10:10:09 +0000</lastBuildDate>
-    <atom:link href="https://gaia.tiongson.co/api/v1/trending/feed.xml" rel="self" type="application/rss+xml"/>
-    <item>
-      <title>Founder Mode (+589.3 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/garrytan/gstack</link>
-      <description>Trust Magnitude: 589.3 · Grade S</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-garrytan/gstack-2026-07-04</guid>
-    </item>
-    <item>
-      <title>Ruflo (+482.3 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/ruvnet/ruflo</link>
-      <description>Trust Magnitude: 482.3 · Grade S</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-ruvnet/ruflo-2026-07-04</guid>
-    </item>
-    <item>
-      <title>Matt Pocock Skills (+480.3 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/mattpocock/skills</link>
-      <description>Trust Magnitude: 480.3 · Grade S</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/skills-2026-07-04</guid>
-    </item>
-    <item>
-      <title>Superpowers (+445.1 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/obra/superpowers</link>
-      <description>Trust Magnitude: 445.1 · Grade S</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-obra/superpowers-2026-07-04</guid>
-    </item>
+    <lastBuildDate>Mon, 06 Jul 2026 00:28:55 +0000</lastBuildDate>
+    <atom:link href="https://gaiaskilltree.com/api/v1/trending/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>Agent Skills (+293.1 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/addy-osmani/agent-skills</link>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/agent-skills</link>
       <description>Trust Magnitude: 293.1 · Grade S</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-addy-osmani/agent-skills-2026-07-04</guid>
-    </item>
-    <item>
-      <title>Engineering (+270.0 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/mattpocock/engineering</link>
-      <description>Trust Magnitude: 270.0 · Grade A</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/engineering-2026-07-04</guid>
+      <pubDate>Mon, 06 Jul 2026 00:28:55 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/agent-skills-2026-07-06</guid>
     </item>
     <item>
       <title>Get Shit Done (+202.2 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/gsd-build/get-shit-done</link>
+      <link>https://gaiaskilltree.com/named/#explorer/gsd-build/get-shit-done</link>
       <description>Trust Magnitude: 202.2 · Grade A</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-gsd-build/get-shit-done-2026-07-04</guid>
+      <pubDate>Mon, 06 Jul 2026 00:28:55 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-gsd-build/get-shit-done-2026-07-06</guid>
     </item>
     <item>
-      <title>AgentDB (+201.0 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/ruvnet/agentdb</link>
-      <description>Trust Magnitude: 201.0 · Grade A</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-ruvnet/agentdb-2026-07-04</guid>
+      <title>Performance Optimization</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/performance-optimization</link>
+      <description>Trust Magnitude: 83.2 · Grade B</description>
+      <pubDate>Mon, 06 Jul 2026 00:28:55 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/performance-optimization-2026-07-06</guid>
     </item>
     <item>
-      <title>Ruflo V3 (+186.0 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/ruvnet/ruflo-v3</link>
-      <description>Trust Magnitude: 186.0 · Grade A</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-ruvnet/ruflo-v3-2026-07-04</guid>
+      <title>Code Review and Quality (+53.1 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/code-review-and-quality</link>
+      <description>Trust Magnitude: 53.1 · Grade B</description>
+      <pubDate>Mon, 06 Jul 2026 00:28:55 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/code-review-and-quality-2026-07-06</guid>
     </item>
     <item>
-      <title>Autoplan (+156.0 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/garrytan/garrytan</link>
-      <description>Trust Magnitude: 156.0 · Grade A</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-garrytan/garrytan-2026-07-04</guid>
+      <title>Code Simplification (+53.1 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/code-simplification</link>
+      <description>Trust Magnitude: 53.1 · Grade B</description>
+      <pubDate>Mon, 06 Jul 2026 00:28:55 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/code-simplification-2026-07-06</guid>
     </item>
     <item>
-      <title>Dual Mode (+126.0 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/ruvnet/dual-mode</link>
-      <description>Trust Magnitude: 126.0 · Grade A</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-ruvnet/dual-mode-2026-07-04</guid>
+      <title>Incremental Implementation (+53.1 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/incremental-implementation</link>
+      <description>Trust Magnitude: 53.1 · Grade B</description>
+      <pubDate>Mon, 06 Jul 2026 00:28:55 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/incremental-implementation-2026-07-06</guid>
     </item>
     <item>
-      <title>Impeccable (+122.8 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/pbakaus/impeccable</link>
-      <description>Trust Magnitude: 122.8 · Grade A</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-pbakaus/impeccable-2026-07-04</guid>
+      <title>Planning and Task Breakdown (+53.1 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/planning-and-task-breakdown</link>
+      <description>Trust Magnitude: 53.1 · Grade B</description>
+      <pubDate>Mon, 06 Jul 2026 00:28:55 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/planning-and-task-breakdown-2026-07-06</guid>
     </item>
     <item>
-      <title>Productivity (+120.0 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/mattpocock/productivity</link>
-      <description>Trust Magnitude: 120.0 · Grade A</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-mattpocock/productivity-2026-07-04</guid>
+      <title>Shipping and Launch (+53.1 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/shipping-and-launch</link>
+      <description>Trust Magnitude: 53.1 · Grade B</description>
+      <pubDate>Mon, 06 Jul 2026 00:28:55 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/shipping-and-launch-2026-07-06</guid>
     </item>
     <item>
-      <title>ReasoningBank (+118.5 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/ruvnet/reasoningbank</link>
-      <description>Trust Magnitude: 118.5 · Grade A</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-ruvnet/reasoningbank-2026-07-04</guid>
+      <title>Spec-Driven Development (+53.1 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/spec-driven-development</link>
+      <description>Trust Magnitude: 53.1 · Grade B</description>
+      <pubDate>Mon, 06 Jul 2026 00:28:55 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/spec-driven-development-2026-07-06</guid>
     </item>
     <item>
-      <title>Subagent-Driven Development (+117.7 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/obra/subagent-driven-development</link>
-      <description>Trust Magnitude: 117.7 · Grade A</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-obra/subagent-driven-development-2026-07-04</guid>
+      <title>GSD Discuss Phase (+52.2 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/gsd-build/discuss-phase</link>
+      <description>Trust Magnitude: 52.2 · Grade B</description>
+      <pubDate>Mon, 06 Jul 2026 00:28:55 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-gsd-build/discuss-phase-2026-07-06</guid>
     </item>
     <item>
-      <title>Using Git Worktrees (+117.7 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/obra/using-git-worktrees</link>
-      <description>Trust Magnitude: 117.7 · Grade A</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-obra/using-git-worktrees-2026-07-04</guid>
+      <title>GSD Execute Phase (+52.2 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/gsd-build/execute-phase</link>
+      <description>Trust Magnitude: 52.2 · Grade B</description>
+      <pubDate>Mon, 06 Jul 2026 00:28:55 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-gsd-build/execute-phase-2026-07-06</guid>
     </item>
     <item>
-      <title>Graphify (+116.6 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/safishamsi/graphify</link>
-      <description>Trust Magnitude: 116.6 · Grade A</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-safishamsi/graphify-2026-07-04</guid>
+      <title>GSD Plan Phase (+52.2 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/gsd-build/plan-phase</link>
+      <description>Trust Magnitude: 52.2 · Grade B</description>
+      <pubDate>Mon, 06 Jul 2026 00:28:55 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-gsd-build/plan-phase-2026-07-06</guid>
     </item>
     <item>
-      <title>Writing Plans (+110.2 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/obra/writing-plans</link>
-      <description>Trust Magnitude: 110.2 · Grade A</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-obra/writing-plans-2026-07-04</guid>
+      <title>GSD Ship (+52.2 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/gsd-build/ship</link>
+      <description>Trust Magnitude: 52.2 · Grade B</description>
+      <pubDate>Mon, 06 Jul 2026 00:28:55 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-gsd-build/ship-2026-07-06</guid>
     </item>
     <item>
-      <title>Few-Shot Learning (+100.0 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/openai/few-shot-learning</link>
-      <description>Trust Magnitude: 100.0 · Grade A</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-openai/few-shot-learning-2026-07-04</guid>
-    </item>
-    <item>
-      <title>Self-Consistency (+100.0 TM)</title>
-      <link>https://gaia.tiongson.co/named/#explorer/openai/self-consistency</link>
-      <description>Trust Magnitude: 100.0 · Grade A</description>
-      <pubDate>Sat, 04 Jul 2026 10:10:09 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-openai/self-consistency-2026-07-04</guid>
+      <title>GSD Verify Work (+52.2 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/gsd-build/verify-work</link>
+      <description>Trust Magnitude: 52.2 · Grade B</description>
+      <pubDate>Mon, 06 Jul 2026 00:28:55 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-gsd-build/verify-work-2026-07-06</guid>
     </item>
   </channel>
 </rss>

@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Deployment Automation"
 description: "Automate CI/CD pipeline execution and deployment to target environments \u2014 build, test, artifact publishing, environment promotion, and rollback strategies."
-resource: "https://gaia.tiongson.co/codex.html#deployment-automation"
+resource: "https://gaiaskilltree.com/codex.html#deployment-automation"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

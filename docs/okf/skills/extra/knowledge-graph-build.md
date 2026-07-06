@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Knowledge Graph Construction"
 description: "Extracts entities and relations from unstructured text, resolves co-references, and assembles them into a queryable graph structure with typed edges."
-resource: "https://gaia.tiongson.co/codex.html#knowledge-graph-build"
+resource: "https://gaiaskilltree.com/codex.html#knowledge-graph-build"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

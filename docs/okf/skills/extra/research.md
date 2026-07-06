@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Research"
 description: "Conducts multi-source information gathering, synthesis, and citation for a given topic."
-resource: "https://gaia.tiongson.co/codex.html#research"
+resource: "https://gaiaskilltree.com/codex.html#research"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-02T00:00:00Z"
 ---
