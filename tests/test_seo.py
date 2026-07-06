@@ -62,7 +62,7 @@ def test_sitemap_has_skills_priority():
     content = sitemap_path.read_text(encoding="utf-8")
     # Find the skills url block
     m = re.search(
-        r"<url>\s*<loc>https://gaia\.tiongson\.co/skills/</loc>.*?</url>",
+        r"<url>\s*<loc>https://gaiaskilltree\.com/skills/</loc>.*?</url>",
         content,
         re.DOTALL,
     )
