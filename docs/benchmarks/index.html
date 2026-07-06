@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Benchmarks | Gaia Registry</title>
-  <meta name="description" content="Reproducible benchmark evidence for Gaia skills — verifier-attested and CI-reproduced scores with datasetHash + benchmarkInputHash reproducibility fingerprints.">
+  <meta name="description" content="Two families of benchmark evidence for Gaia skills — external benchmarks that measure the model, and Gaia Skill Bench (in design) that measures the skill itself. Every score carries a reproducibility fingerprint and a provenance label. Self-attested scores are never accepted.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,109 +28,125 @@
       color: var(--text);
       font-family: 'Bricolage Grotesque', system-ui, sans-serif;
     }
+
+    /* ── Hero ── */
     .benchmarks-header {
       border-bottom: 1px solid var(--border-subtle);
-      padding-bottom: 2rem;
-      margin-bottom: 3rem;
+      padding-bottom: 2.5rem;
+      margin-bottom: 3.5rem;
     }
     .benchmarks-header h1 {
       font-family: 'EB Garamond', Georgia, serif;
       font-weight: 500;
-      font-size: clamp(2rem, 4vw, 3.25rem);
-      line-height: 1.15;
-      margin: 0 0 0.75rem;
+      font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+      line-height: 1.1;
+      margin: 0 0 1rem;
       color: var(--text);
+      letter-spacing: -0.01em;
     }
-    .benchmarks-header p {
-      font-size: 1.05rem;
+    .benchmarks-header .lede {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.3rem;
+      color: var(--text);
+      opacity: 0.92;
+      max-width: 46rem;
+      line-height: 1.5;
+      margin: 0 0 1.25rem;
+      font-style: italic;
+      font-weight: 400;
+    }
+    .benchmarks-header .sub {
+      font-size: 0.98rem;
       color: var(--muted);
       max-width: 44rem;
-      line-height: 1.6;
+      line-height: 1.65;
       margin: 0;
     }
     .benchmarks-status {
       display: inline-block;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 0.25rem 0.6rem;
+      letter-spacing: 0.1em;
+      padding: 0.28rem 0.7rem;
       border: 1px solid var(--border-subtle);
       border-radius: 3px;
       color: var(--muted);
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
-    .benchmarks-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    .benchmarks-status .live-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: #4ade80;
+      border-radius: 50%;
+      margin-right: 0.4rem;
+      vertical-align: 1px;
+      box-shadow: 0 0 6px rgba(74,222,128,0.6);
+    }
+
+    /* ── Family section shared ── */
+    .family {
+      margin-bottom: 5rem;
+    }
+    .family-head {
+      display: flex;
+      align-items: baseline;
       gap: 1.5rem;
-    }
-    .benchmark-card {
-      border: 1px solid var(--border-subtle);
-      border-radius: 6px;
-      padding: 1.5rem;
-      background: var(--surface);
-      transition: border-color 0.15s ease;
-    }
-    .benchmark-card:hover {
-      border-color: var(--border);
-    }
-    .benchmark-card h3 {
-      font-family: 'EB Garamond', Georgia, serif;
-      font-size: 1.45rem;
-      margin: 0 0 0.5rem;
-      color: var(--text);
-    }
-    .benchmark-card .meta {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--muted);
       margin-bottom: 0.75rem;
     }
-    .benchmark-card p {
-      font-size: 0.95rem;
-      color: var(--muted);
-      line-height: 1.55;
-      margin: 0 0 1rem;
-    }
-    .benchmark-card a {
-      color: var(--evidence-gold);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-    .benchmark-card a:hover { text-decoration: underline; }
-
-    /* Live leaderboard tiles (W4) */
-    .lb-tiles-heading {
+    .family-num {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
+      font-size: 0.85rem;
+      font-weight: 500;
       color: var(--muted);
-      margin: 2.5rem 0 1rem;
+      letter-spacing: 0.05em;
     }
+    .family-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+    }
+    .family-tag.tag-live { background: rgba(74,222,128,.12); color: #4ade80; }
+    .family-tag.tag-design { background: rgba(251,191,36,.12); color: var(--evidence-gold); }
+    .family h2 {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(1.65rem, 3vw, 2.15rem);
+      margin: 0 0 0.5rem;
+      color: var(--text);
+      letter-spacing: -0.005em;
+    }
+    .family-tagline {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--muted);
+      margin: 0 0 2rem;
+    }
+
+    /* ── External benchmarks: leaderboard tiles ── */
     .lb-tiles {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
       gap: 1rem;
-      margin-bottom: 2.5rem;
+      margin-bottom: 1.5rem;
     }
     .lb-tile {
       border: 1px solid var(--border-subtle);
       border-radius: 6px;
-      padding: 1.1rem 1.3rem;
+      padding: 1.25rem 1.4rem;
       background: var(--surface);
       display: flex;
       flex-direction: column;
-      gap: .5rem;
+      gap: .55rem;
+      transition: border-color 0.15s ease;
     }
-    .lb-tile-name {
-      font-weight: 600;
-      font-size: 1.05rem;
-      color: var(--text);
-    }
+    .lb-tile:hover { border-color: var(--border); }
+    .lb-tile-name { font-weight: 600; font-size: 1.05rem; color: var(--text); }
     .lb-tile-meta {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
@@ -142,38 +158,199 @@
     }
     .lb-prov-badge {
       display: inline-block;
-      padding: .1rem .4rem;
+      padding: .12rem .45rem;
       border-radius: 3px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: .68rem;
+      font-size: .66rem;
       font-weight: 700;
+      letter-spacing: 0.03em;
     }
     .lb-prov-ci { background: rgba(74,222,128,.12); color: #4ade80; }
-    .lb-prov-mirrored { background: rgba(71,85,105,.18); color: #64748b; }
+    .lb-prov-mirrored { background: rgba(71,85,105,.22); color: #94a3b8; }
     .lb-tile-actions {
       display: flex;
-      gap: .7rem;
-      margin-top: .25rem;
-      font-size: .82rem;
+      gap: .8rem;
+      margin-top: .3rem;
+      font-size: .85rem;
+      align-items: center;
     }
-    .lb-tile-actions a {
-      color: var(--evidence-gold);
-      text-decoration: none;
-      font-weight: 500;
-    }
+    .lb-tile-actions a { color: var(--evidence-gold); text-decoration: none; font-weight: 500; }
     .lb-tile-actions a:hover { text-decoration: underline; }
     .lb-tile-actions .lb-btn-primary {
       background: rgba(251,191,36,.1);
       border: 1px solid rgba(251,191,36,.3);
       border-radius: 4px;
-      padding: .2rem .6rem;
+      padding: .25rem .7rem;
     }
+    .external-methodology {
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 1.25rem 1.4rem;
+      background: transparent;
+    }
+    .external-methodology h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin: 0 0 0.6rem;
+    }
+    .external-methodology p {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 0 0 0.7rem;
+    }
+    .external-methodology a { color: var(--evidence-gold); text-decoration: none; font-size: 0.88rem; }
+    .external-methodology a:hover { text-decoration: underline; }
+
+    /* ── GSB panel (the signature moment) ── */
+    .gsb-panel {
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 2rem 2rem 2.25rem;
+      background:
+        linear-gradient(180deg, rgba(251,191,36,0.03) 0%, transparent 45%),
+        var(--surface);
+      position: relative;
+      overflow: hidden;
+    }
+    .gsb-panel::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--evidence-gold) 0%, rgba(251,191,36,0.15) 100%);
+    }
+    .gsb-credit {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin: 0 0 1.5rem;
+      letter-spacing: 0.02em;
+    }
+    .gsb-credit a { color: var(--evidence-gold); text-decoration: none; }
+    .gsb-credit a:hover { text-decoration: underline; }
+    .gsb-panel h3 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin: 0 0 0.6rem;
+    }
+
+    .gsb-pillars {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin: 1.5rem 0 2rem;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .gsb-pillar {
+      padding: 1.1rem 1rem;
+      border-right: 1px solid var(--border-subtle);
+    }
+    .gsb-pillar:last-child { border-right: none; }
+    .gsb-pillar-weight {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--evidence-gold);
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+    .gsb-pillar-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+    .gsb-pillar-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    @media (max-width: 640px) {
+      .gsb-pillars { grid-template-columns: repeat(2, 1fr); }
+      .gsb-pillar:nth-child(2) { border-right: none; }
+      .gsb-pillar:nth-child(1), .gsb-pillar:nth-child(2) {
+        border-bottom: 1px solid var(--border-subtle);
+      }
+    }
+
+    .gsb-mechanic {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin: 0 0 2rem;
+      padding: 1rem 1.2rem;
+      background: rgba(255,255,255,0.02);
+      border-radius: 4px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .gsb-mechanic-step {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .gsb-mechanic-arrow {
+      color: var(--evidence-gold);
+      font-family: 'JetBrains Mono', monospace;
+      opacity: 0.7;
+    }
+    .gsb-mechanic strong { color: var(--text); font-weight: 500; }
+
+    .gsb-actions {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .gsb-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .gsb-btn-primary {
+      background: rgba(251,191,36,.12);
+      border: 1px solid rgba(251,191,36,.35);
+      color: var(--evidence-gold);
+    }
+    .gsb-btn-primary:hover {
+      background: rgba(251,191,36,.18);
+      border-color: rgba(251,191,36,.55);
+    }
+    .gsb-btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--muted);
+    }
+    .gsb-btn-ghost:hover {
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    /* ── Footer ── */
     .benchmarks-footer {
       margin-top: 4rem;
       padding-top: 2rem;
       border-top: 1px solid var(--border-subtle);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--muted);
+      line-height: 1.65;
     }
     .benchmarks-footer a {
       color: var(--evidence-gold);
@@ -208,43 +385,101 @@
 
   <main class="benchmarks-shell">
     <header class="benchmarks-header">
-      <span class="benchmarks-status">Sprint D W4 · Leaderboards live</span>
+      <span class="benchmarks-status"><span class="live-dot"></span>Sprint D W4 · Live</span>
       <h1>Benchmarks</h1>
-      <p>
-        Reproducible benchmark evidence for Gaia skills. Every score carries a
-        reproducibility fingerprint (dataset hash + benchmark input hash), a
-        provenance label (verifier-attested, CI-reproduced, mirrored, or
-        pending), and an attestor identity. Self-attested scores are never
-        accepted. Mirrored scores appear as citations only and are excluded
-        from Trust Magnitude.
+      <p class="lede">
+        Two families of measurement — the model behind the skill, and the skill itself.
+      </p>
+      <p class="sub">
+        Every score carries a reproducibility fingerprint (dataset hash + benchmark input hash),
+        a provenance label (verifier-attested, CI-reproduced, mirrored, or pending), and an
+        attestor identity. Self-attested scores are never accepted. Mirrored scores appear as
+        citations only and are excluded from Trust Magnitude.
       </p>
     </header>
 
-    <!-- Live Leaderboards (W4) — tiles loaded from index.json -->
-    <div class="lb-tiles-heading">Live Leaderboards</div>
-    <div class="lb-tiles" id="lb-tiles-mount"></div>
+    <!-- ─── FAMILY 01 · EXTERNAL BENCHMARKS ─── -->
+    <section class="family" aria-labelledby="family-external">
+      <div class="family-head">
+        <span class="family-num">01</span>
+        <span class="family-tag tag-live">Live</span>
+      </div>
+      <h2 id="family-external">External Benchmarks</h2>
+      <p class="family-tagline">Measuring the model behind the skill.</p>
 
-    <section class="benchmarks-grid">
-      <article class="benchmark-card">
-        <h3>Methodology</h3>
-        <div class="meta">FROZEN post-merge · v6.x</div>
-        <p>
-          The provenance model, reproducibility fingerprint, Trust Magnitude
-          contribution rules, and the process for adding a new benchmark.
-        </p>
-        <a href="methodology.md">Read the methodology &rarr;</a>
-      </article>
+      <div class="lb-tiles" id="lb-tiles-mount"></div>
 
-      <article class="benchmark-card">
-        <h3>HumanEval v1.0</h3>
-        <div class="meta">humaneval@v1.0 · pass@1 · CI-reproducible</div>
+      <div class="external-methodology">
+        <h4>Methodology</h4>
         <p>
-          Python function-completion benchmark from OpenAI (2021).
-          Reproduced by Gaia's CI harness on submitted commit SHAs.
-          Full pipeline lands in W2b.
+          How external benchmarks are ingested, how the reproducibility fingerprint is computed,
+          which provenance labels count toward Trust Magnitude, and the process for adding a new
+          benchmark to this family.
         </p>
-        <a href="humaneval-v1.md">HumanEval v1.0 methodology &rarr;</a>
-      </article>
+        <a href="methodology.md">Read the benchmark methodology &rarr;</a>
+      </div>
+    </section>
+
+    <!-- ─── FAMILY 02 · GAIA SKILL BENCH ─── -->
+    <section class="family" aria-labelledby="family-gsb">
+      <div class="family-head">
+        <span class="family-num">02</span>
+        <span class="family-tag tag-design">In design</span>
+      </div>
+      <h2 id="family-gsb">Gaia Skill Bench</h2>
+      <p class="family-tagline">Measuring the skill itself — not the model.</p>
+
+      <div class="gsb-panel">
+        <p class="gsb-credit">
+          Original proposal:
+          <a href="https://github.com/gaia-research/gaia-skill-tree/issues/960" target="_blank" rel="noopener">issue #960</a>,
+          authored by
+          <a href="https://github.com/rico-favor" target="_blank" rel="noopener">@rico-favor</a>.
+          Reshape: <a href="https://github.com/gaia-research/gaia-skill-tree/blob/dev/sprint-d-benchmark-leaderboard/founder/handovers/GAIA_BENCH_VISION.md" target="_blank" rel="noopener">GSB Vision v2</a>.
+        </p>
+
+        <h3>Four pillars</h3>
+        <div class="gsb-pillars">
+          <div class="gsb-pillar">
+            <div class="gsb-pillar-weight">40%</div>
+            <div class="gsb-pillar-name">Performance</div>
+            <div class="gsb-pillar-desc">Task success rate on the frozen taskset.</div>
+          </div>
+          <div class="gsb-pillar">
+            <div class="gsb-pillar-weight">30%</div>
+            <div class="gsb-pillar-name">Reliability</div>
+            <div class="gsb-pillar-desc">Consistency across repeated seeded runs.</div>
+          </div>
+          <div class="gsb-pillar">
+            <div class="gsb-pillar-weight">20%</div>
+            <div class="gsb-pillar-name">Triggering</div>
+            <div class="gsb-pillar-desc">Fires when it should; stays silent when it shouldn't.</div>
+          </div>
+          <div class="gsb-pillar">
+            <div class="gsb-pillar-weight">10%</div>
+            <div class="gsb-pillar-name">Efficiency</div>
+            <div class="gsb-pillar-desc">Tokens, calls, and latency to reach the answer.</div>
+          </div>
+        </div>
+
+        <h3>How a submission becomes a score</h3>
+        <div class="gsb-mechanic">
+          <span class="gsb-mechanic-step"><strong>Community</strong> submits a run</span>
+          <span class="gsb-mechanic-arrow">→</span>
+          <span class="gsb-mechanic-step"><strong>Gaia CI</strong> reproduces on the same taskset hash</span>
+          <span class="gsb-mechanic-arrow">→</span>
+          <span class="gsb-mechanic-step">Row lands with <strong>provenance: ci-reproduced</strong></span>
+        </div>
+
+        <div class="gsb-actions">
+          <a class="gsb-btn gsb-btn-primary" href="https://github.com/gaia-research/gaia-skill-tree/blob/dev/sprint-d-benchmark-leaderboard/founder/handovers/GAIA_BENCH_VISION.md" target="_blank" rel="noopener">
+            Read the vision doc &rarr;
+          </a>
+          <a class="gsb-btn gsb-btn-ghost" href="https://github.com/gaia-research/gaia-skill-tree/issues/960" target="_blank" rel="noopener">
+            Follow issue #960
+          </a>
+        </div>
+      </div>
     </section>
 
     <footer class="benchmarks-footer">
@@ -252,7 +487,7 @@
         Per-skill benchmark evidence is also visible on the skill explorer pages
         (<a href="../named/">Skills</a>). Schema:
         <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/schema/evidence/benchmark-result.schema.json">benchmark-result.schema.json</a>.
-        Leaderboard URLs frozen at <code>/benchmarks/humaneval/</code> and <code>/benchmarks/mmlu/</code>.
+        Leaderboard URLs frozen at <code>/benchmarks/humaneval/</code> and <code>/benchmarks/mmlu/</code> through the Sprint F migration.
       </p>
     </footer>
   </main>
