@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <script>window.GAIA_VERSION = "5.11.16";</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -183,6 +186,25 @@
     .lb-footer a { color: var(--apex-gold); }
     .lb-footer strong { color: var(--text); opacity: 1; font-weight: 500; }
   </style>
+<script type="application/ld+json" data-injector="gaia-json-ld">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Index",
+  "url": "https://gaiaskilltree.com/benchmarks/mmlu/",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Gaia Skill Tree",
+    "url": "https://gaiaskilltree.com/"
+  }
+}
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Index",
+  "url": "https://gaiaskilltree.com/benchmarks/mmlu/"
+}
+</script>
 </head>
 <body>
   <nav id="site-nav"></nav>
@@ -247,6 +269,6 @@
 
   <div id="site-footer-mount"></div>
   <script src="../../js/site-footer.js?v=5.11.16"></script>
-  <script src="../_shared/leaderboard.js" defer></script>
+  <script src="../_shared/leaderboard.js?v=5.11.16" defer></script>
 </body>
 </html>
