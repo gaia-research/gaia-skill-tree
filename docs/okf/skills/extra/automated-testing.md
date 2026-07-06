@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Automated Testing"
 description: "Generates test suites, executes them in a sandbox, interprets failures, and iterates until the target pass rate is reached."
-resource: "https://gaia.tiongson.co/codex.html#automated-testing"
+resource: "https://gaiaskilltree.com/codex.html#automated-testing"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

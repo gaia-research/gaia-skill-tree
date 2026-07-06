@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Tree of Thought"
 description: "Frames problem solving as a search over a tree of partial solutions, using LLM-generated evaluations to prune unpromising branches and backtrack, dramatically improving success on complex reasoning tasks."
-resource: "https://gaia.tiongson.co/codex.html#tree-of-thought"
+resource: "https://gaiaskilltree.com/codex.html#tree-of-thought"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

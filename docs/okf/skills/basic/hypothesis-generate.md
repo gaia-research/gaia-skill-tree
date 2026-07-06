@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Hypothesis Generation"
 description: "Formulates novel, testable scientific hypotheses by synthesising existing literature, identifying knowledge gaps, and proposing mechanistic explanations."
-resource: "https://gaia.tiongson.co/codex.html#hypothesis-generate"
+resource: "https://gaiaskilltree.com/codex.html#hypothesis-generate"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

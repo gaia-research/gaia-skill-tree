@@ -50,7 +50,7 @@ Ships in the same `design/` PR as Deliverable A or as its own small post PR — 
 ## ⚠️ Known traps (from repo `CLAUDE.md` — do not relearn the hard way)
 
 - **`docs/js/skill-graph.js` bootstrap guard (PR #365):** any `querySelector(...).addEventListener(...)` at module-bootstrap level **silently aborts the whole IIFE** if the selector is null, dropping the canvas back to the ~18-node `FALLBACK_SKILLS`. **Null-check every overlay selector** before wiring events. Grep `_graphCloseOverlay.querySelector` if the 3D graph regresses to fallback.
-- **`docs/badges/index.html` `renderRows()` destructuring (PR #675, #674):** if this report reuses any badge-rendering path, every field read inside `renderRows()` **must** be in the `currentState` destructuring (or defined with a default) — a missing var throws a silent `ReferenceError` that blanks the entire output. After any edit there, verify `https://gaia.tiongson.co/badges/?u=mattpocock&s=grill-me` still renders.
+- **`docs/badges/index.html` `renderRows()` destructuring (PR #675, #674):** if this report reuses any badge-rendering path, every field read inside `renderRows()` **must** be in the `currentState` destructuring (or defined with a default) — a missing var throws a silent `ReferenceError` that blanks the entire output. After any edit there, verify `https://gaiaskilltree.com/badges/?u=mattpocock&s=grill-me` still renders.
 - **`docs/badges/index.html` and the badge scripts are Hermes-owned-adjacent / core** — badge generation is user-facing and must work at all times.
 
 ## Cross-cutting constraints

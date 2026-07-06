@@ -78,7 +78,7 @@ Each index carries a semver number, a `<index>InputHash` reproducibility fingerp
 
 **Task budget:** ~$3 (mostly resolve conflicts + release runbook)
 
-**Kill criterion:** PR #895 merged, v6.0.0 tagged, `gaia.tiongson.co/api/v1/trending/7d.json` returns live data.
+**Kill criterion:** PR #895 merged, v6.0.0 tagged, `gaiaskilltree.com/api/v1/trending/7d.json` returns live data.
 
 ---
 
@@ -132,7 +132,7 @@ Each index carries a semver number, a `<index>InputHash` reproducibility fingerp
 **Kill criteria (all must pass):**
 - KC1: First Monday auto-report ships without orchestrator intervention (behind manual-publish gate)
 - KC2: `gaia push --benchmark humaneval --score X` writes a valid benchmark-result evidence row; verifier gate or CI check enforces trust
-- KC3: `gaia.tiongson.co/reports/YYYY-WW/` returns a permanent, indexed, tweetable URL
+- KC3: `gaiaskilltree.com/reports/YYYY-WW/` returns a permanent, indexed, tweetable URL
 - KC4: One skill has a live benchmark score visible on its explorer page
 
 **Splurge/satisfice rationale:** biggest strategic surface is the megaphone (KC1 + KC3) and the schema that ripples into Sprint E benchmarks. Everything else can be modularly rebuilt in the React/Node migration; the auto-report content pipeline and evidence schema are portable Python that survives migration.
@@ -177,7 +177,7 @@ Each index carries a semver number, a `<index>InputHash` reproducibility fingerp
 - Orchestration + review: ~$4
 
 **Kill criteria:**
-- KC1: `gaia.tiongson.co/indices/` lists TM v2 + Prestige v1 with whitepapers and citations
+- KC1: `gaiaskilltree.com/indices/` lists TM v2 + Prestige v1 with whitepapers and citations
 - KC2: A press/paper citing "Gaia TM v2.0, 2026-08" gets a permanent reproducible fingerprint
 - KC3: Prestige Index v1 does NOT rank contributors purely by sum-of-skills (suites-aware)
 - KC4: Contributor profile page renders a prestige-over-time chart
@@ -251,7 +251,7 @@ Each index carries a semver number, a `<index>InputHash` reproducibility fingerp
    - PyPI/npm continues shipping from `gaia-skill-tree` unchanged (users don't feel this)
 
 4. **Cutover + DNS (~$3)**
-   - `gaia.tiongson.co` DNS switches to `gaia-research/gaia-research` deployment
+   - `gaiaskilltree.com` DNS switches to `gaia-research/gaia-research` deployment
    - 30-day grace period where old site still runs (fallback)
    - Post-cutover monitoring
 
@@ -260,7 +260,7 @@ Each index carries a semver number, a `<index>InputHash` reproducibility fingerp
 **Task budget (cushioned):** ~$60 total — biggest single sprint. Marco's call: "putting most of my funds here."
 
 **Kill criteria:**
-- KC1: `gaia.tiongson.co` serves React/Node stack; all v4-shipped URLs return 200
+- KC1: `gaiaskilltree.com` serves React/Node stack; all v4-shipped URLs return 200
 - KC2: `gaia-skill-tree` repo passes CI with website removed
 - KC3: `gaia dev docs` still generates all data artifacts (Class P + Class S — the S artifacts now live in the new repo)
 - KC4: No SEO regression 14 days post-cutover (search console diff acceptable)

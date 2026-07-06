@@ -372,7 +372,7 @@ This project deploys as a **Cloudflare Worker with Static Assets** — NOT Cloud
 | **Entry** | `worker/index.js` |
 | **Assets dir** | `docs/` — all static files served via `env.ASSETS.fetch` |
 | **`run_worker_first`** | `true` — Worker runs for every request; non-badge paths delegate to `env.ASSETS.fetch(request)` |
-| **Custom domain** | `gaia.tiongson.co` (attached in Cloudflare dashboard) |
+| **Custom domain** | `gaiaskilltree.com` (attached in Cloudflare dashboard) |
 | **Worker's sole job today** | Badge path validation (`/badges/<handle>/<file>.svg` + `?repo=` checking) — **currently disabled** |
 | **Deploy CI** | `.github/workflows/cloudflare-deploy.yml` → `cloudflare/wrangler-action@v3` |
 
@@ -388,9 +388,9 @@ This project deploys as a **Cloudflare Worker with Static Assets** — NOT Cloud
    - ✅ `curl` / `httpie`
    - ✅ Python `requests`, Node `fetch` (server-side SDKs)
    - ✅ MCP server integrations (all server-side)
-   - ✅ Same-origin JS at `gaia.tiongson.co`
+   - ✅ Same-origin JS at `gaiaskilltree.com`
 
-5. **The only cross-origin scenario:** a third-party website running browser-side `fetch('https://gaia.tiongson.co/api/v1/skills/garrytan/gstack')`.
+5. **The only cross-origin scenario:** a third-party website running browser-side `fetch('https://gaiaskilltree.com/api/v1/skills/garrytan/gstack')`.
 
 ### Status: BLOCKED — awaiting Marcus's answers to §5B
 
@@ -406,11 +406,11 @@ These must be answered before the CORS approach is decided. The coding agent can
 
 ### Q1: Confirm single-deployment architecture
 
-**Evidence:** The repo has exactly ONE deployment mechanism — `cloudflare-deploy.yml` running `wrangler deploy --minify`. No GitHub Pages workflow. No `pages deploy`. `docs/CNAME` contains `gaia.tiongson.co` — this is the custom domain attached to the Worker in the Cloudflare dashboard.
+**Evidence:** The repo has exactly ONE deployment mechanism — `cloudflare-deploy.yml` running `wrangler deploy --minify`. No GitHub Pages workflow. No `pages deploy`. `docs/CNAME` contains `gaiaskilltree.com` — this is the custom domain attached to the Worker in the Cloudflare dashboard.
 
 **Despite the workflow job being named "Deploy to Cloudflare Pages,"** it uses `wrangler-action` (Worker deploy), not `cloudflare/pages-action`. The naming is misleading.
 
-**Question for Marcus:** Is `gaia.tiongson.co` served ONLY by the `gaia-skill-tree` Worker (custom domain attached in Cloudflare dashboard)? If yes, `_headers` is definitively off the table.
+**Question for Marcus:** Is `gaiaskilltree.com` served ONLY by the `gaia-skill-tree` Worker (custom domain attached in Cloudflare dashboard)? If yes, `_headers` is definitively off the table.
 
 ---
 
@@ -420,7 +420,7 @@ The primary B1 consumers are server-side:
 - AI agents (Claude Code, Cursor, Continue, Codex) — no CORS needed
 - `@gaia-registry/api-client` Python + TS SDKs — no CORS needed
 - `curl` examples in the `/api/` docs page — no CORS needed
-- Same-origin JS on `gaia.tiongson.co` — no CORS needed
+- Same-origin JS on `gaiaskilltree.com` — no CORS needed
 
 **CORS is only needed for third-party websites embedding skill data via browser-side `fetch`.** Is this a B1 requirement or a later concern?
 
@@ -479,7 +479,7 @@ If Option C (defer CORS), Cache-Control can be deferred too.
 
 ### Q5: CLAUDE.md accuracy — "GitHub Pages" wording
 
-CLAUDE.md §Current Layout says: `"served as-is by GitHub Pages from main:/docs at gaia.tiongson.co"`. This is factually incorrect — the site is served by Cloudflare Worker with Static Assets. Future agents read CLAUDE.md first and may make wrong assumptions (as this planning session did).
+CLAUDE.md §Current Layout says: `"served as-is by GitHub Pages from main:/docs at gaiaskilltree.com"`. This is factually incorrect — the site is served by Cloudflare Worker with Static Assets. Future agents read CLAUDE.md first and may make wrong assumptions (as this planning session did).
 
 **Recommendation:** Fix CLAUDE.md in the B1 PR (low-priority addition, but prevents future agent confusion).
 
@@ -559,13 +559,13 @@ No new CI guard needed. The existing `build_docs.py --check` pipeline (run by CI
 
 ```bash
 # Run after Cloudflare deploy completes:
-curl -sS https://gaia.tiongson.co/api/v1/health.json | jq '.ok'
+curl -sS https://gaiaskilltree.com/api/v1/health.json | jq '.ok'
 # Expected: true
 
-curl -sS https://gaia.tiongson.co/api/v1/skills/garrytan/gstack.json | jq '.trustMagnitude'
+curl -sS https://gaiaskilltree.com/api/v1/skills/garrytan/gstack.json | jq '.trustMagnitude'
 # Expected: a float (the Sprint B kill criterion)
 
-curl -sS https://gaia.tiongson.co/api/v1/skills/index.json | jq '.totalSkills'
+curl -sS https://gaiaskilltree.com/api/v1/skills/index.json | jq '.totalSkills'
 # Expected: ~200+ (non-redacted named skills count)
 ```
 
@@ -651,7 +651,7 @@ Same pattern as `docs/graph/gaia.json`. Include in B1 PR.
 
 ### 9.9 CLAUDE.md "GitHub Pages" reference — FLAG FOR MARCUS
 
-CLAUDE.md §Current Layout says "served as-is by GitHub Pages from main:/docs at gaia.tiongson.co." This is factually incorrect. The site is served by Cloudflare Worker with Static Assets. Future agents will make wrong CORS assumptions (as this planning session did). Recommend fixing in the B1 PR — see §5B Q5.
+CLAUDE.md §Current Layout says "served as-is by GitHub Pages from main:/docs at gaiaskilltree.com." This is factually incorrect. The site is served by Cloudflare Worker with Static Assets. Future agents will make wrong CORS assumptions (as this planning session did). Recommend fixing in the B1 PR — see §5B Q5.
 
 ---
 

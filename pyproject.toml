@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gaia-cli"
-version = "5.11.13"
+version = "5.11.16"
 description = "Gaia AI Agent Skill Registry CLI"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -72,7 +72,7 @@ dev = [
 Homepage = "https://github.com/gaia-research/gaia-skill-tree"
 Repository = "https://github.com/gaia-research/gaia-skill-tree"
 Issues = "https://github.com/gaia-research/gaia-skill-tree/issues"
-Documentation = "https://gaia.tiongson.co/"
+Documentation = "https://gaiaskilltree.com/"
 
 [project.scripts]
 gaia = "gaia_cli.main:main"

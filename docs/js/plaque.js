@@ -296,7 +296,7 @@
         (tmVal > 0 ? initialDisplay : '—') +
         '\nWeighted aggregate across all evidence rows.' +
         '\nEvidence cards show per-row artifact scores.' +
-        '\nhttps://gaia.tiongson.co/trust/#grade-thresholds';
+        '\nhttps://gaiaskilltree.com/trust/#grade-thresholds';
     }
 
     return '<div class="plaque__trust-notch" data-trust-grade="' + esc(tg || 'none') + '"' +

@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "mattpocock-skills"
 description: "Ultimate capstone suite for Matt Pocock's skills."
-resource: "https://gaia.tiongson.co/codex.html#skill-mastery"
+resource: "https://gaiaskilltree.com/codex.html#skill-mastery"
 tags: ["gaia-skill-tree", "ultimate-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

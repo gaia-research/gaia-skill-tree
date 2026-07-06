@@ -1,6 +1,6 @@
 # PR Previews via Cloudflare Pages
 
-Production stays on GitHub Pages (`main/docs/`, custom domain `gaia.tiongson.co`).
+Production stays on GitHub Pages (`main/docs/`, custom domain `gaiaskilltree.com`).
 Cloudflare Pages handles **PR previews only**, giving each pull request a unique
 URL like `pr-42.gaia-skill-tree.pages.dev` without touching the production
 branch or the `gh-pages` branch.
@@ -39,7 +39,7 @@ this branch because Cloudflare replaces it entirely.
 
 4. **Save and Deploy**. Cloudflare builds `main` first — this is fine; we
    ignore the production URL since GitHub Pages still serves
-   `gaia.tiongson.co`.
+   `gaiaskilltree.com`.
 5. In the project's **Settings → Builds & deployments → Preview branches**,
    enable previews for **All non-Production branches** (or restrict to specific
    prefixes like `infra/*`, `docs/*`, `design/*`, `claude/*`).

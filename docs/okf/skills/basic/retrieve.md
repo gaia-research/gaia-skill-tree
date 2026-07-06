@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Retrieve"
 description: "Fetches relevant documents or passages from an indexed corpus given a query."
-resource: "https://gaia.tiongson.co/codex.html#retrieve"
+resource: "https://gaiaskilltree.com/codex.html#retrieve"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-02T00:00:00Z"
 ---

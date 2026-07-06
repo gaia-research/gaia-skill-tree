@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Receiving Code Review"
 description: "Processes code review feedback with technical rigor and verification before implementation, questioning unclear feedback."
-resource: "https://gaia.tiongson.co/codex.html#receiving-code-review"
+resource: "https://gaiaskilltree.com/codex.html#receiving-code-review"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

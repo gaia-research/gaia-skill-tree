@@ -193,7 +193,7 @@ gh release create v5.0.0 \
 - [ ] `gaia validate` passes against fresh registry pull
 - [ ] `npm install -g @gaia-registry/cli@5.0.0` works
 - [ ] `npx @gaia-registry/mcp-server` starts cleanly
-- [ ] gaia.tiongson.co/trust/leaderboard/ renders post-deploy
+- [ ] gaiaskilltree.com/trust/leaderboard/ renders post-deploy
 - [ ] Update `founder/MEMORY.md` with release timestamp
 
 ## Rollback path

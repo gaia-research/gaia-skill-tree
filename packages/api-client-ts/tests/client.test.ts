@@ -163,7 +163,7 @@ function mockFetch(data: unknown, status = 200): typeof globalThis.fetch {
 }
 
 function createClient(fetchFn: typeof globalThis.fetch): GaiaClient {
-  return new GaiaClient({ baseUrl: "https://gaia.tiongson.co", fetch: fetchFn });
+  return new GaiaClient({ baseUrl: "https://gaiaskilltree.com", fetch: fetchFn });
 }
 
 // ─── Tests ─────────────────────────────────────────────────────────────────────
@@ -175,7 +175,7 @@ describe("GaiaClient", () => {
       const client = new GaiaClient({ fetch: fetchFn });
       await client.getHealth();
       expect(fetchFn).toHaveBeenCalledWith(
-        "https://gaia.tiongson.co/api/v1/health.json"
+        "https://gaiaskilltree.com/api/v1/health.json"
       );
     });
 
@@ -199,7 +199,7 @@ describe("GaiaClient", () => {
       const result = await client.getHealth();
 
       expect(fetchFn).toHaveBeenCalledWith(
-        "https://gaia.tiongson.co/api/v1/health.json"
+        "https://gaiaskilltree.com/api/v1/health.json"
       );
       expect(result).toEqual(HEALTH_FIXTURE);
       expect(result.ok).toBe(true);
@@ -214,7 +214,7 @@ describe("GaiaClient", () => {
       const result = await client.listSkills();
 
       expect(fetchFn).toHaveBeenCalledWith(
-        "https://gaia.tiongson.co/api/v1/skills/index.json"
+        "https://gaiaskilltree.com/api/v1/skills/index.json"
       );
       expect(result.page).toBe(1);
       expect(result.skills).toHaveLength(1);
@@ -226,7 +226,7 @@ describe("GaiaClient", () => {
       const result = await client.listSkills(2);
 
       expect(fetchFn).toHaveBeenCalledWith(
-        "https://gaia.tiongson.co/api/v1/skills/page-2.json"
+        "https://gaiaskilltree.com/api/v1/skills/page-2.json"
       );
       expect(result.page).toBe(2);
     });
@@ -237,7 +237,7 @@ describe("GaiaClient", () => {
       await client.listSkills(0);
 
       expect(fetchFn).toHaveBeenCalledWith(
-        "https://gaia.tiongson.co/api/v1/skills/index.json"
+        "https://gaiaskilltree.com/api/v1/skills/index.json"
       );
     });
   });
@@ -249,7 +249,7 @@ describe("GaiaClient", () => {
       const result = await client.getSkill("garrytan", "gstack");
 
       expect(fetchFn).toHaveBeenCalledWith(
-        "https://gaia.tiongson.co/api/v1/skills/garrytan/gstack.json"
+        "https://gaiaskilltree.com/api/v1/skills/garrytan/gstack.json"
       );
       expect(result.id).toBe("garrytan/gstack");
       expect(result.evidence).toHaveLength(1);
@@ -261,7 +261,7 @@ describe("GaiaClient", () => {
       await client.getSkill("user/name", "skill name");
 
       expect(fetchFn).toHaveBeenCalledWith(
-        "https://gaia.tiongson.co/api/v1/skills/user%2Fname/skill%20name.json"
+        "https://gaiaskilltree.com/api/v1/skills/user%2Fname/skill%20name.json"
       );
     });
   });
@@ -273,7 +273,7 @@ describe("GaiaClient", () => {
       const result = await client.listContributors();
 
       expect(fetchFn).toHaveBeenCalledWith(
-        "https://gaia.tiongson.co/api/v1/contributors/index.json"
+        "https://gaiaskilltree.com/api/v1/contributors/index.json"
       );
       expect(result.contributors).toHaveLength(1);
       expect(result.contributors[0].handle).toBe("garrytan");
@@ -287,7 +287,7 @@ describe("GaiaClient", () => {
       const result = await client.getContributor("garrytan");
 
       expect(fetchFn).toHaveBeenCalledWith(
-        "https://gaia.tiongson.co/api/v1/contributors/garrytan.json"
+        "https://gaiaskilltree.com/api/v1/contributors/garrytan.json"
       );
       expect(result.handle).toBe("garrytan");
       expect(result.namedSkills).toHaveLength(1);
@@ -301,7 +301,7 @@ describe("GaiaClient", () => {
       const result = await client.getLeaderboard();
 
       expect(fetchFn).toHaveBeenCalledWith(
-        "https://gaia.tiongson.co/api/v1/leaderboard.json"
+        "https://gaiaskilltree.com/api/v1/leaderboard.json"
       );
       expect(result.distribution.total).toBe(249);
       expect(result.rows).toHaveLength(1);
@@ -315,7 +315,7 @@ describe("GaiaClient", () => {
       const result = await client.getEvidenceTypes();
 
       expect(fetchFn).toHaveBeenCalledWith(
-        "https://gaia.tiongson.co/api/v1/evidence-types.json"
+        "https://gaiaskilltree.com/api/v1/evidence-types.json"
       );
       expect(result.types).toHaveLength(1);
       expect(result.types[0].id).toBe("github-stars-own");
@@ -329,7 +329,7 @@ describe("GaiaClient", () => {
       const result = await client.getSearchIndex();
 
       expect(fetchFn).toHaveBeenCalledWith(
-        "https://gaia.tiongson.co/api/v1/search-index.json"
+        "https://gaiaskilltree.com/api/v1/search-index.json"
       );
       expect(result).toHaveLength(1);
       expect(result[0].tokens).toContain("agent");
@@ -343,7 +343,7 @@ describe("GaiaClient", () => {
       const result = await client.getTrending();
 
       expect(fetchFn).toHaveBeenCalledWith(
-        "https://gaia.tiongson.co/api/v1/trending/7d.json"
+        "https://gaiaskilltree.com/api/v1/trending/7d.json"
       );
       expect(result.window).toBe("7d");
     });
@@ -354,7 +354,7 @@ describe("GaiaClient", () => {
       await client.getTrending("30d");
 
       expect(fetchFn).toHaveBeenCalledWith(
-        "https://gaia.tiongson.co/api/v1/trending/30d.json"
+        "https://gaiaskilltree.com/api/v1/trending/30d.json"
       );
     });
   });
@@ -366,7 +366,7 @@ describe("GaiaClient", () => {
       const result = await client.getHeroes();
 
       expect(fetchFn).toHaveBeenCalledWith(
-        "https://gaia.tiongson.co/api/v1/heroes.json"
+        "https://gaiaskilltree.com/api/v1/heroes.json"
       );
       expect(result.heroes).toHaveLength(1);
       expect(result.heroes[0].handle).toBe("garrytan");

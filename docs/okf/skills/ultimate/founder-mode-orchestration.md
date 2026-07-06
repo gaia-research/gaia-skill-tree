@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Founder Mode"
 description: "Garry Tan's complete autonomous agent discipline suite spanning 19 named skills: browser QA, security auditing, design system creation, HTML generation, plan reviews (CEO/eng/design/DX), code review, root-cause debugging, E2E testing, ship/deploy automation, post-deploy canary monitoring, documentation, and founder-mode orchestration."
-resource: "https://gaia.tiongson.co/codex.html#founder-mode-orchestration"
+resource: "https://gaiaskilltree.com/codex.html#founder-mode-orchestration"
 tags: ["gaia-skill-tree", "ultimate-skill"]
 timestamp: "2026-06-02T00:00:00Z"
 ---

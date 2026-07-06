@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Explainability Audit"
 description: "Audits model transparency by computing feature-importance attributions (SHAP, LIME) and intrinsic-interpretability metrics, surfacing them as governance evidence."
-resource: "https://gaia.tiongson.co/codex.html#explainability-audit"
+resource: "https://gaiaskilltree.com/codex.html#explainability-audit"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

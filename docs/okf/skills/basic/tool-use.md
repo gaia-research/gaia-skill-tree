@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Tool Use"
 description: "Invokes external functions or APIs by generating well-formed call signatures, parsing results, and incorporating them into reasoning."
-resource: "https://gaia.tiongson.co/codex.html#tool-use"
+resource: "https://gaiaskilltree.com/codex.html#tool-use"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

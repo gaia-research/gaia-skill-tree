@@ -1,6 +1,6 @@
 #!/bin/sh
-# Gaia CLI installer — https://gaia.tiongson.co/install.sh
-# Usage: curl -fsSL https://gaia.tiongson.co/install.sh | sh
+# Gaia CLI installer — https://gaiaskilltree.com/install.sh
+# Usage: curl -fsSL https://gaiaskilltree.com/install.sh | sh
 set -e
 
 PACKAGE="gaia-cli"

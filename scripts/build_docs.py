@@ -102,7 +102,7 @@ def _versions() -> str:
     return f"""Current Gaia CLI version: `{version}`.
 
 ```bash
-curl -fsSL https://gaia.tiongson.co/install.sh | sh
+curl -fsSL https://gaiaskilltree.com/install.sh | sh
 ```
 
 Python installation alternative:

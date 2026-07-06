@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Registry Curation"
 description: "Systematically discovers, evaluates, and ingests new skill definitions into a structured skill registry: researching capabilities, sourcing reproducible evidence, scripting graph updates, validating schema and DAG integrity, and publishing via pull request."
-resource: "https://gaia.tiongson.co/codex.html#registry-curation"
+resource: "https://gaiaskilltree.com/codex.html#registry-curation"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

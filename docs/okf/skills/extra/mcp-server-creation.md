@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "MCP Server Creation"
 description: "Designs and implements Model Context Protocol servers that expose external APIs, files, or services as well-typed tools with clear schemas, authentication, and testable agent workflows."
-resource: "https://gaia.tiongson.co/codex.html#mcp-server-creation"
+resource: "https://gaiaskilltree.com/codex.html#mcp-server-creation"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

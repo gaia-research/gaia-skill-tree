@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Agent Memory Platform"
 description: "Complete AgentDB vector memory ecosystem: QUIC-synchronized distributed vector storage, adaptive pattern learning, memory pattern design, database optimization, and semantic vector search."
-resource: "https://gaia.tiongson.co/codex.html#agent-memory-platform"
+resource: "https://gaiaskilltree.com/codex.html#agent-memory-platform"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-20T00:00:00Z"
 ---

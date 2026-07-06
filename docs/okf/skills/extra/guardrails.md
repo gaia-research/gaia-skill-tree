@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Guardrails"
 description: "Wraps LLM outputs with programmatic safety rules, content filters, and topical constraints that detect policy violations and enforce compliant, on-policy responses before they reach the user."
-resource: "https://gaia.tiongson.co/codex.html#guardrails"
+resource: "https://gaiaskilltree.com/codex.html#guardrails"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---

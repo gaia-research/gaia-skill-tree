@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Document Editing"
 description: "Reads, edits, repacks, and applies styling or design principles to structured binary document formats such as PPTX, DOCX, and XLSX."
-resource: "https://gaia.tiongson.co/codex.html#document-editing"
+resource: "https://gaiaskilltree.com/codex.html#document-editing"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-01T00:00:00Z"
 ---

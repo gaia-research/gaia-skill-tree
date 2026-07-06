@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "Scientific Visualization"
 description: "Creates publication-ready scientific figures and visualizes molecular structures."
-resource: "https://gaia.tiongson.co/codex.html#scientific-visualization"
+resource: "https://gaiaskilltree.com/codex.html#scientific-visualization"
 tags: ["gaia-skill-tree", "basic-skill"]
 timestamp: "2026-06-02T00:00:00Z"
 ---

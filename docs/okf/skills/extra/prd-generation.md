@@ -2,7 +2,7 @@
 type: "AI Agent Skill"
 title: "PRD Generation"
 description: "Synthesizes conversational context and codebase knowledge into a structured Product Requirements Document."
-resource: "https://gaia.tiongson.co/codex.html#prd-generation"
+resource: "https://gaiaskilltree.com/codex.html#prd-generation"
 tags: ["gaia-skill-tree", "extra-skill"]
 timestamp: "2026-06-21T00:00:00Z"
 ---
