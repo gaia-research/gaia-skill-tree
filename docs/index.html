@@ -804,10 +804,17 @@
        count, not by numeric prefix. Mapping visual↔rank inherited
        from v1 (PR #988):
          1★ Awakened  rank-1-awakened.png    (candle)
-         2★ Named     rank-4-evolved.png     (signet)
-         3★ Evolved   rank-2-named.png       (compass)
-         4★ Hardened  rank-3-hardened.png    (anvil)
-         5★ Ultimate  rank-5-ultimate.png    (laurel — sonnet compress-
+         2★ Named     rank-2-named.png       (signet)
+         3★ Evolved   rank-3-evolved.png     (compass)
+         4★ Hardened  rank-4-hardened.png    (anvil)
+         5★ Ultimate  rank-5-ultimate.png    (laurel — renamed from
+                                              rank-5-transcendent.png)
+
+         Post-2026-07-06 update: vendor delivered a new drop with
+         consistent naming (asset-c-01-awakened through -05-transcendent)
+         and the compression pipeline maps each to rank-N-<name>.png at
+         the correct star count. The prior v1 workaround mapping (using
+         vendor-mislabeled filenames as visual proxies) is retired.
                                               assets.py output; the pre-
                                               ratification file name
                                               rank-5-transcendent.png is
@@ -882,7 +889,7 @@
       </svg>
       <div class="aov-stage aov-stage--rank" data-align="right">
         <div class="aov-rank-plate">
-          <img src="assets/ascension-overdrive/rank-4-evolved.png"
+          <img src="assets/ascension-overdrive/rank-2-named.png"
                alt="" width="1254" height="1254" loading="lazy" decoding="async">
         </div>
         <div class="aov-rank-body">
@@ -904,7 +911,7 @@
       </svg>
       <div class="aov-stage aov-stage--rank" data-align="left">
         <div class="aov-rank-plate">
-          <img src="assets/ascension-overdrive/rank-2-named.png"
+          <img src="assets/ascension-overdrive/rank-3-evolved.png"
                alt="" width="1254" height="1254" loading="lazy" decoding="async">
         </div>
         <div class="aov-rank-body">
@@ -926,7 +933,7 @@
       </svg>
       <div class="aov-stage aov-stage--rank" data-align="right">
         <div class="aov-rank-plate">
-          <img src="assets/ascension-overdrive/rank-3-hardened.png"
+          <img src="assets/ascension-overdrive/rank-4-hardened.png"
                alt="" width="1254" height="1254" loading="lazy" decoding="async">
         </div>
         <div class="aov-rank-body">
@@ -962,7 +969,7 @@
 
           <div class="aov-ucard" data-rank="4" role="listitem">
             <div class="aov-ucard__plate">
-              <img src="assets/ascension-overdrive/unique-4-structural.png"
+              <img src="assets/ascension-overdrive/unique-4.png"
                    alt="" width="1254" height="1254" loading="lazy" decoding="async">
             </div>
             <div class="aov-ucard__rankline">
@@ -980,7 +987,7 @@
 
           <div class="aov-ucard" data-rank="5" role="listitem">
             <div class="aov-ucard__plate">
-              <img src="assets/ascension-overdrive/unique-5-gravitational.png"
+              <img src="assets/ascension-overdrive/unique-5-ultimate.png"
                    alt="" width="1254" height="1254" loading="lazy" decoding="async">
             </div>
             <div class="aov-ucard__rankline">
