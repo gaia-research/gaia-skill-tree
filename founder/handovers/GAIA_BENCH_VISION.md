@@ -10,7 +10,7 @@
 
 ## §0 Executive summary
 
-Rico Osborne's issue #960 laid out the first credible plan for benchmarking skills — not the models behind them, but the skills themselves. The pillar formulas, the auto-generation pipeline, and the `benchmark-result` evidence hookup are load-bearing and stay as designed.
+Rico Tiongson's issue #960 laid out the first credible plan for benchmarking skills — not the models behind them, but the skills themselves. The pillar formulas, the auto-generation pipeline, and the `benchmark-result` evidence hookup are load-bearing and stay as designed.
 
 This v2 reshapes the initiative on three principles. First, **Gaia Skill Bench (GSB) moves to its own repo** (`gaia-skill-bench`) rather than living inside `gaia-skill-tree` as tooling — GSB is a bench-methodology project and deserves its own contributor community and docs surface, analogous to SWE-bench. Second, **community submits, Gaia certifies** — Gaia does not centrally operate ~540 runs × 262 skills, which was Rico's Open Question #10.1 and the single largest cost risk in v1. Third, **skill-groups are the head-to-head unit** — most individual skills are not comparable, but suites-within-a-category are the natural comparison and the exact question users walk into Gaia asking; the site UI leads with brackets, not flat leaderboards.
 
