@@ -44,22 +44,22 @@ The staging branch is forked from `design/v6.1.1-ascension-overdrive-v2` (the ac
 2. `dev/yggdrasil-ii-staging` merges to `main` **once**, at the end of the sprint, as a single squash-merged EPIC-closer PR (or a rebase-preserving merge if commit provenance matters — decide at closure time).
 3. CI's `branch-scope.yml` allows `dev/*` unrestricted scope (per CLAUDE.md), so schema + registry + docs + CLI + frontend can all move on one branch without prefix constraints.
 4. If a sub-issue PR needs to be revised, it is revised **on the staging branch**, not on a new fork of main.
-5. The Ascension design work (Y-fork diagram, animated cycle) can continue on `design/v6.1.1-ascension-overdrive-v2` in parallel; that branch also merges into `dev/yggdrasil-ii-staging` (not directly to main) once ready. This means `dev/yggdrasil-ii-staging` becomes the single collector for both the taxonomy shift and the design work that ratifies it visually.
+5. The Ascension design work (Y-fork diagram, animated cycle, hero backdrops, plates, arch, thread, risers) continues on `design/v6.1.1-ascension-overdrive-v2` in parallel and **merges INTO `dev/yggdrasil-ii-staging` (not directly to main) once ready.** The design branch is effectively the eighth sub-issue of this EPIC — it does not have its own dedicated GitHub issue (the design work predates the Yggdrasil II ratification), but it participates in the sprint under the same staging-branch protocol. This ensures the taxonomy shift and its visual expression land together at the single staging→main merge at sprint closure.
 6. **Never push directly to `main`** (CLAUDE.md invariant). The staging branch is the only landing zone for Yggdrasil II work until closure.
 
 **Branch topology:**
 
 ```
 main
- └─ design/v6.1.1-ascension-overdrive-v2      ── continues design work
-     └─ dev/yggdrasil-ii-staging               ── this doc lands here first
-         ├─ sub-issue: docs ratification PR   ── base: dev/yggdrasil-ii-staging
-         ├─ sub-issue: schema PR              ── base: dev/yggdrasil-ii-staging
-         ├─ sub-issue: CLI PR                 ── base: dev/yggdrasil-ii-staging
-         ├─ sub-issue: migration script PR    ── base: dev/yggdrasil-ii-staging
-         ├─ sub-issue: frontend PR            ── base: dev/yggdrasil-ii-staging
-         ├─ sub-issue: CI guards PR           ── base: dev/yggdrasil-ii-staging
-         └─ sub-issue: agent-skills PR        ── base: dev/yggdrasil-ii-staging
+ └─ dev/yggdrasil-ii-staging                    ── this doc lands here first
+     ├─ #994 Docs ratification PR               ── base: dev/yggdrasil-ii-staging
+     ├─ #995 Schema PR                          ── base: dev/yggdrasil-ii-staging
+     ├─ #996 CLI PR                             ── base: dev/yggdrasil-ii-staging
+     ├─ #997 Migration script PR                ── base: dev/yggdrasil-ii-staging
+     ├─ #998 Frontend PR                        ── base: dev/yggdrasil-ii-staging
+     ├─ #999 CI guards PR                       ── base: dev/yggdrasil-ii-staging
+     ├─ #1000 Agent-skills PR                   ── base: dev/yggdrasil-ii-staging
+     └─ design/v6.1.1-ascension-overdrive-v2    ── merges INTO staging when ready
 ```
 
 At sprint closure, `dev/yggdrasil-ii-staging` → `main` in one merge.
