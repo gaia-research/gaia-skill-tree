@@ -189,7 +189,12 @@
 
     // Reduced-motion: leave all transforms at rest (0). Predicates
     // and coda still toggle so the composition reads as intended.
-    var writeTransforms = !reduce && !isMobile;
+    // Parallax transforms are ALLOWED on mobile (per operator nitpick
+    // 2026-07-07): sticky pins are off on mobile (position: static
+    // in the collapse block), but the parallax layers translate
+    // freely with scroll to add subtle depth. Only reduced-motion
+    // suppresses all transforms.
+    var writeTransforms = !reduce;
 
     if (writeTransforms) {
       // Parallax translateY offsets. The layer moves *opposite*
@@ -322,8 +327,11 @@
     // at sp=0.5. `smoothstep(min(sp, 1-sp) / 0.35)` gives a smooth
     // 30% ramp on each side with a held peak in the middle.
     //
-    // Mobile / reduced-motion: CSS pins opacity to a static value
-    // (0.25 on mobile via !important; 0 elsewhere), so we skip.
+    // Rank hero opacity ramp: writes to `.aov-rank-hero` div's inline
+    // opacity based on scroll-local progress. On mobile the JS skips
+    // this write (leaving the CSS `!important 0.15` pin) so the hero
+    // stays subtle on small screens where it would otherwise dominate
+    // the compressed viewport.
     if (!reduce && !isMobile) {
       rankHeroes.forEach(function (hero) {
         var scene = hero.closest('.aov-scene');
@@ -372,7 +380,12 @@
         apexP = Math.max(0, Math.min(1, -ar.top / apexRange));
       }
       var segSize = 1 / unlockablePreds.length;
-      var approachBand = 0.15 * segSize;
+      // Approach band widened to 0.35 of a segment (was 0.15) so
+      // the .is-breaking shudder + seal fade have visible scroll
+      // duration under normal reading pace. At 6 predicates, this
+      // is ~35% * 16.7% = ~5.8% of apex scroll (~156px on a 350vh
+      // pin at 1080 vh) — enough to see the animation land.
+      var approachBand = 0.35 * segSize;
       unlockablePreds.forEach(function (pred, i) {
         if (pred.dataset.state === 'unlocked') return;
         var threshold = (i + 1) * segSize;
