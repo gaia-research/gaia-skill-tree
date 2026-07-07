@@ -1331,9 +1331,21 @@
     height: 100%;
     overflow: hidden;
   }
+  /* Atmosphere-scoped Apex overlays (`.aov-apex-hero`, `.aov-arch`)
+     are designed as VIEWPORT-sized layers gated by scroll-linked
+     opacity during the sticky Apex pin on desktop. On mobile the
+     atmosphere flips to `position: absolute; height: 100%` so it
+     spans the entire section (~9040px on a 390-wide viewport),
+     and the JS opacity ramp is disabled — which means these
+     overlays render at their static CSS opacity across the WHOLE
+     scroll, painting faint sepia noise over every scene.
+     Simplest fix: retire them on mobile. The Apex scene keeps its
+     text-driven visual weight (title + predicates + coda) and the
+     mobile atmosphere still gets ledger + fog + scene-scoped rank
+     heroes for depth. */
+  .aov-apex-hero,
   .aov-arch {
-    top: 40vh;
-    opacity: 0.35;
+    display: none;
   }
   .aov-scene,
   .aov-scene[data-scene="apex"] {
@@ -1361,7 +1373,7 @@
   .aov-stage--rank {
     /* Restore positioning context lost by the static reset above,
        so .aov-rank-hero (position:absolute; inset:0) stays inside
-       the stage rather than escaping to the viewport. */
+       the stage rather than escaping to the section. */
     position: relative;
     display: flex;
     flex-direction: column;
