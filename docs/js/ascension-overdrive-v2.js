@@ -16,8 +16,16 @@
    - Each rank scene's .aov-riser__line receives a scene-local
      scroll progress and draws its own dashoffset across the
      viewport width.
-   - Apex Gate predicates toggle `.is-lit` one-by-one across the
-     scene's 200vh pin (each takes ~33vh).
+   - Apex Gate predicates run a modular state machine over the
+     scene's 350vh pin. Each row carries `data-state="locked" |
+     "unlocked" | "disabled"`. JS queries `[data-state="locked"]`
+     at page load, divides the pin evenly across them, and adds
+     `.is-breaking` (transient) then flips `data-state="unlocked"`
+     (add-only) as each threshold is crossed. `disabled` rows are
+     skipped entirely — they render as-is with no scroll trigger.
+     Adding a new predicate in HTML is the only change needed to
+     extend the gate; math auto-distributes across whatever `locked`
+     rows the DOM presents.
    - Apex Gate .aov-apex-coda toggles `.is-revealed` at the last
      20vh of the Apex scene.
    - Unique branch scene: .aov-unique-header-line opacity ramps
@@ -46,15 +54,28 @@
   var isMobile = window.matchMedia && window.matchMedia('(max-width: 899px)').matches;
 
   // Parallax layer registry: element + rate. Rate 1.0 = native scroll.
-  // Ledger 0.15 (nearly-static ground); fog 0.25 (drifts slowly);
-  // arch 0.60 (descends toward viewer as user enters Apex).
+  // Ledger 0.15 (nearly-static ground); fog 0.25 (drifts slowly, per
+  // Asset G manifest); arch 0.60 (descends toward viewer as user
+  // enters Apex).
   var ledger = section.querySelector('.aov-ledger');
   var fog    = section.querySelector('.aov-fog');
   var arch   = section.querySelector('.aov-arch');
   var apexHero = section.querySelector('.aov-apex-hero');
   var thread = section.querySelector('.aov-thread__path');
   var risers = Array.prototype.slice.call(section.querySelectorAll('.aov-riser__line'));
-  var predicates = Array.prototype.slice.call(section.querySelectorAll('.aov-pred'));
+  // Predicate rows that participate in the unlock ladder. Snapshotted
+  // once at page load: everything in DOM order except rows whose
+  // `data-state` is `disabled`. Its length N is the stable denominator
+  // for the unlock threshold math, so segment size doesn't reshuffle
+  // as rows transition from locked to unlocked. Adding a new
+  // predicate = HTML edit + reload; no CSS or JS churn. Devtools
+  // toggles that flip an existing row's data-state require a page
+  // reload to be re-picked up.
+  var unlockablePreds = Array.prototype.slice.call(
+    section.querySelectorAll('.aov-pred')
+  ).filter(function (pred) {
+    return pred.dataset.state !== 'disabled';
+  });
   var coda   = section.querySelector('.aov-apex-coda');
   var scenes = Array.prototype.slice.call(section.querySelectorAll('.aov-scene'));
   var apexScene = section.querySelector('.aov-scene[data-scene="apex"]');
@@ -220,32 +241,43 @@
       }
     }
 
-    // Ledger opacity — scroll-linked (Issue #975 R3/R4). Full
-    // opacity (~0.48) at title / apex / coda so the parchment
-    // carries the atmosphere; fades to a whisper (~0.08) through
-    // the rank scenes + Unique branch so it doesn't fight the
-    // Asset F hero plates and doesn't paint a horizontal band
-    // across the top of the Unique branch scene. Boundary constants
-    // match the current scene layout (title 100vh + ranks 400vh +
-    // unique 100vh + rank5 100vh + apex 200vh + coda 180vh):
+    // Ledger + haze opacity — scroll-linked (Issue #975 R3/R4 +
+    // Asset G wire-up). Both parchment and haze ride the same ramp:
+    // full at title / apex / coda so the atmosphere carries; fade
+    // to a whisper through the rank scenes + Unique branch so
+    // they don't fight the Asset F hero plates nor paint a
+    // horizontal band across the top of the Unique scene. Boundary
+    // constants match the current scene layout (title 100vh +
+    // ranks 400vh + unique 100vh + rank5 100vh + apex 350vh +
+    // coda 180vh):
     //   ~0.17 = end of title stage sticky range
     //   ~0.65 = start of apex stage sticky range
-    // Each boundary is eased over a 0.05 transition band so the
-    // handoff reads as a slow dim, not a hard switch. CSS keeps the
-    // base opacity as the initial state before rAF runs.
-    if (ledger && !reduce && !isMobile) {
+    // Each boundary is eased over a 0.05 band so the handoff
+    // reads as a slow dim, not a hard switch. Haze rides at about
+    // half the ledger amplitude per Asset G manifest guidance
+    // (0.18 base / 0.03 valley) — subtle warm depth on the title
+    // and terminus, mostly invisible where the ranks own the plane.
+    if (!reduce && !isMobile) {
       var LEDGER_FULL   = 0.48;
       var LEDGER_VALLEY = 0.08;
-      var opRange       = LEDGER_FULL - LEDGER_VALLEY;
-      var ledgerOp      = LEDGER_FULL;
+      var FOG_FULL      = 0.18;
+      var FOG_VALLEY    = 0.03;
+      var ramp          = 1;               // 1.0 at full, 0.0 at valley
       if (p >= 0.17 && p <= 0.65) {
-        ledgerOp = LEDGER_VALLEY;
+        ramp = 0;
       } else if (p > 0.12 && p < 0.17) {
-        ledgerOp = LEDGER_FULL - ((p - 0.12) / 0.05) * opRange;
+        ramp = 1 - (p - 0.12) / 0.05;
       } else if (p > 0.65 && p < 0.70) {
-        ledgerOp = LEDGER_VALLEY + ((p - 0.65) / 0.05) * opRange;
+        ramp = (p - 0.65) / 0.05;
       }
-      ledger.style.opacity = ledgerOp.toFixed(3);
+      if (ledger) {
+        var ledgerOp = LEDGER_VALLEY + ramp * (LEDGER_FULL - LEDGER_VALLEY);
+        ledger.style.opacity = ledgerOp.toFixed(3);
+      }
+      if (fog) {
+        var fogOp = FOG_VALLEY + ramp * (FOG_FULL - FOG_VALLEY);
+        fog.style.opacity = fogOp.toFixed(3);
+      }
     }
 
     // Gold thread — scroll-linked dashoffset. Bidirectional
@@ -309,25 +341,53 @@
       });
     }
 
-    // Apex Gate — six predicates illuminate over the scene's
-    // 200vh pin. Compute scene-local progress: 0 at scene top,
-    // 1 at scene bottom. Divide into 6 segments; light each once
-    // its segment starts. Reversible: scrolling back up unlights.
-    if (apexScene && predicates.length) {
+    // Apex Gate — modular latch-and-seal state machine over the
+    // 350vh pin. See docs/css/ascension-overdrive-v2.css `.aov-pred`
+    // block for the visual states.
+    //
+    // Contract:
+    //   - `unlockablePreds` is snapshotted at page load as the DOM
+    //     order of every `.aov-pred` whose `data-state` is NOT
+    //     `disabled`. Its length N is the stable denominator.
+    //   - Row i unlocks when apex-scene-local progress crosses its
+    //     threshold `(i + 1) / N`. Approaching band (15% of segment
+    //     before threshold) adds transient `.is-breaking`.
+    //     Crossing the threshold removes `.is-breaking` and flips
+    //     `data-state` to `"unlocked"` (add-only — never re-locks
+    //     on scroll-back). Scrolling back past the approach band
+    //     drops the transient breaking class so the seal reappears
+    //     for rows still in the locked state.
+    //   - Disabled rows are never in the list; they render as-is.
+    //
+    // Predicate-count-agnostic by design: adding an <li> with
+    // `data-state="locked"` in HTML on next reload redistributes
+    // the pin math automatically. Reduced-motion runs the state
+    // flips so the composition reads as intended — CSS drops the
+    // transitions and shudder animation.
+    if (apexScene && unlockablePreds.length) {
       var ar = apexScene.getBoundingClientRect();
       var apexRange = ar.height - vh;
       var apexP = 0;
       if (apexRange > 0) {
         apexP = Math.max(0, Math.min(1, -ar.top / apexRange));
       }
-      var lit = Math.floor(apexP * 6 + 0.5);
-      predicates.forEach(function (p, i) {
-        if (i < lit) {
-          p.classList.add('is-lit');
-        } else {
-          p.classList.remove('is-lit');
+      var segSize = 1 / unlockablePreds.length;
+      var approachBand = 0.15 * segSize;
+      unlockablePreds.forEach(function (pred, i) {
+        if (pred.dataset.state === 'unlocked') return;
+        var threshold = (i + 1) * segSize;
+        if (apexP >= threshold) {
+          pred.classList.remove('is-breaking');
+          pred.dataset.state = 'unlocked';
+        } else if (apexP >= threshold - approachBand) {
+          if (!pred.classList.contains('is-breaking')) {
+            pred.classList.add('is-breaking');
+          }
+        } else if (pred.classList.contains('is-breaking')) {
+          pred.classList.remove('is-breaking');
         }
       });
+
       if (coda) {
         if (apexP > 0.85) coda.classList.add('is-revealed');
         else              coda.classList.remove('is-revealed');

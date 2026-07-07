@@ -1089,30 +1089,158 @@
           <p class="aov-apex-lede">The step from 5★ Ultimate to 6★ Apex is not another rank threshold; it is a gate. Every predicate below must evaluate true. Partial satisfaction is logged, never promoted.</p>
         </div>
 
+        <!-- Apex predicates — modular latch-and-seal state machine.
+             Each `.aov-pred` supports three states via `data-state`:
+
+               locked   (default) closed padlock, chain seal, muted
+                                  colours. Set by page load.
+               unlocked           open padlock, seal gone, gold-tinted
+                                  row. Set by JS on scroll (add-only —
+                                  persists on scroll-back).
+               disabled           reserved for future/inactive gates.
+                                  Dashed border, half-opacity, no
+                                  scroll trigger. Set only in HTML.
+
+             Adding new predicates requires only appending an <li>
+             with a fresh data-step. The unlock scroll math in
+             docs/js/ascension-overdrive-v2.js auto-distributes across
+             whatever `.aov-pred[data-state="locked"]` rows exist in
+             the DOM — no CSS or JS edits needed.
+
+             Canonical predicate list lives in
+             docs/codex/trust-methodology.html §Apex Gate. Future
+             gates (e.g. crossOrgCosignerGte1 below) can land as
+             `disabled` and flip to `locked` when the ecosystem
+             matures, per RFC §11.12 note on cross-org cosigners. -->
         <ol class="aov-predicates" role="list" aria-label="Apex Gate predicates">
-          <li class="aov-pred" data-step="1" role="listitem">
+          <li class="aov-pred" data-step="1" data-state="locked" role="listitem">
+            <span class="aov-pred__latch" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="aov-pred__latch-svg">
+                <path class="aov-pred__latch-shackle" d="M8 10V7a4 4 0 0 1 8 0v3"/>
+                <rect x="5" y="10" width="14" height="10" rx="1.5"/>
+                <circle cx="12" cy="15" r="1.2" fill="currentColor"/>
+              </svg>
+            </span>
             <span class="aov-pred__id">aGradedOriginsGte5</span>
             <span class="aov-pred__desc">At least five fusion-origin components each hold Grade A or higher.</span>
+            <span class="aov-pred__seal" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" class="aov-pred__seal-svg">
+                <ellipse cx="9"  cy="12" rx="3.5" ry="2.2" transform="rotate(-30 9 12)"/>
+                <ellipse cx="15" cy="12" rx="3.5" ry="2.2" transform="rotate(30 15 12)"/>
+              </svg>
+            </span>
           </li>
-          <li class="aov-pred" data-step="2" role="listitem">
+          <li class="aov-pred" data-step="2" data-state="locked" role="listitem">
+            <span class="aov-pred__latch" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="aov-pred__latch-svg">
+                <path class="aov-pred__latch-shackle" d="M8 10V7a4 4 0 0 1 8 0v3"/>
+                <rect x="5" y="10" width="14" height="10" rx="1.5"/>
+                <circle cx="12" cy="15" r="1.2" fill="currentColor"/>
+              </svg>
+            </span>
             <span class="aov-pred__id">directNestedSuiteGte1</span>
             <span class="aov-pred__desc">At least one directly-nested Suite sits among the origins.</span>
+            <span class="aov-pred__seal" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" class="aov-pred__seal-svg">
+                <ellipse cx="9"  cy="12" rx="3.5" ry="2.2" transform="rotate(-30 9 12)"/>
+                <ellipse cx="15" cy="12" rx="3.5" ry="2.2" transform="rotate(30 15 12)"/>
+              </svg>
+            </span>
           </li>
-          <li class="aov-pred" data-step="3" role="listitem">
+          <li class="aov-pred" data-step="3" data-state="locked" role="listitem">
+            <span class="aov-pred__latch" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="aov-pred__latch-svg">
+                <path class="aov-pred__latch-shackle" d="M8 10V7a4 4 0 0 1 8 0v3"/>
+                <rect x="5" y="10" width="14" height="10" rx="1.5"/>
+                <circle cx="12" cy="15" r="1.2" fill="currentColor"/>
+              </svg>
+            </span>
             <span class="aov-pred__id">depth2OnlyReachableGte1</span>
             <span class="aov-pred__desc">At least one origin is reachable only at depth two, not by top-level install.</span>
+            <span class="aov-pred__seal" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" class="aov-pred__seal-svg">
+                <ellipse cx="9"  cy="12" rx="3.5" ry="2.2" transform="rotate(-30 9 12)"/>
+                <ellipse cx="15" cy="12" rx="3.5" ry="2.2" transform="rotate(30 15 12)"/>
+              </svg>
+            </span>
           </li>
-          <li class="aov-pred" data-step="4" role="listitem">
+          <li class="aov-pred" data-step="4" data-state="locked" role="listitem">
+            <span class="aov-pred__latch" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="aov-pred__latch-svg">
+                <path class="aov-pred__latch-shackle" d="M8 10V7a4 4 0 0 1 8 0v3"/>
+                <rect x="5" y="10" width="14" height="10" rx="1.5"/>
+                <circle cx="12" cy="15" r="1.2" fill="currentColor"/>
+              </svg>
+            </span>
             <span class="aov-pred__id">overallGradeS</span>
             <span class="aov-pred__desc">Overall Trust Grade S; the diversity gate satisfied at Trust Magnitude ≥ 250.</span>
+            <span class="aov-pred__seal" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" class="aov-pred__seal-svg">
+                <ellipse cx="9"  cy="12" rx="3.5" ry="2.2" transform="rotate(-30 9 12)"/>
+                <ellipse cx="15" cy="12" rx="3.5" ry="2.2" transform="rotate(30 15 12)"/>
+              </svg>
+            </span>
           </li>
-          <li class="aov-pred" data-step="5" role="listitem">
+          <li class="aov-pred" data-step="5" data-state="locked" role="listitem">
+            <span class="aov-pred__latch" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="aov-pred__latch-svg">
+                <path class="aov-pred__latch-shackle" d="M8 10V7a4 4 0 0 1 8 0v3"/>
+                <rect x="5" y="10" width="14" height="10" rx="1.5"/>
+                <circle cx="12" cy="15" r="1.2" fill="currentColor"/>
+              </svg>
+            </span>
             <span class="aov-pred__id">sourceTenureDaysGte180AorS</span>
             <span class="aov-pred__desc">At least one A- or S-graded evidence row has been public for ≥ 180 days.</span>
+            <span class="aov-pred__seal" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" class="aov-pred__seal-svg">
+                <ellipse cx="9"  cy="12" rx="3.5" ry="2.2" transform="rotate(-30 9 12)"/>
+                <ellipse cx="15" cy="12" rx="3.5" ry="2.2" transform="rotate(30 15 12)"/>
+              </svg>
+            </span>
           </li>
-          <li class="aov-pred" data-step="6" role="listitem">
+          <li class="aov-pred" data-step="6" data-state="locked" role="listitem">
+            <span class="aov-pred__latch" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="aov-pred__latch-svg">
+                <path class="aov-pred__latch-shackle" d="M8 10V7a4 4 0 0 1 8 0v3"/>
+                <rect x="5" y="10" width="14" height="10" rx="1.5"/>
+                <circle cx="12" cy="15" r="1.2" fill="currentColor"/>
+              </svg>
+            </span>
             <span class="aov-pred__id">apexPromotionPrSigned</span>
             <span class="aov-pred__desc">The promotion pull request is signed by the maintainer at promotion time.</span>
+            <span class="aov-pred__seal" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" class="aov-pred__seal-svg">
+                <ellipse cx="9"  cy="12" rx="3.5" ry="2.2" transform="rotate(-30 9 12)"/>
+                <ellipse cx="15" cy="12" rx="3.5" ry="2.2" transform="rotate(30 15 12)"/>
+              </svg>
+            </span>
+          </li>
+          <!-- Demonstration `disabled` row — previews the modular
+               pattern for a future cross-org cosigner gate. Renders
+               with a dashed left border, half-opacity, and a
+               "reserved" note. Never triggers `.is-breaking` nor
+               flips to `unlocked` — JS skips it entirely. When the
+               ecosystem matures and the schema adopts this gate,
+               flipping `data-state="disabled"` to `data-state="locked"`
+               here is the only change needed. -->
+          <li class="aov-pred" data-step="7" data-state="disabled" role="listitem">
+            <span class="aov-pred__latch" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="aov-pred__latch-svg">
+                <path class="aov-pred__latch-shackle" d="M8 10V7a4 4 0 0 1 8 0v3"/>
+                <rect x="5" y="10" width="14" height="10" rx="1.5"/>
+                <circle cx="12" cy="15" r="1.2" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="aov-pred__id">crossOrgCosignerGte1</span>
+            <span class="aov-pred__desc">At least one cross-org cosigner attests to the promotion.
+              <em class="aov-pred__reserved-note">Reserved · activates as the ecosystem matures</em>
+            </span>
+            <span class="aov-pred__seal" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" class="aov-pred__seal-svg">
+                <ellipse cx="9"  cy="12" rx="3.5" ry="2.2" transform="rotate(-30 9 12)"/>
+                <ellipse cx="15" cy="12" rx="3.5" ry="2.2" transform="rotate(30 15 12)"/>
+              </svg>
+            </span>
           </li>
         </ol>
 
