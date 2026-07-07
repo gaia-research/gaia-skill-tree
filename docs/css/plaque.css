@@ -1354,7 +1354,7 @@ button.plaque__slug:focus-visible {
    IntersectionObserver on #hall-of-heroes; rows light up top-to-bottom.
    The default state is fully visible; the cascade only animates when
    the section first scrolls into view (initial transform). */
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
   .plaque--hall .plaque__stack-row {
     animation: hall-row-rise 0.45s ease-out backwards;
     animation-delay: calc(var(--row-index, 0) * 70ms);
@@ -1389,7 +1389,7 @@ button.plaque__slug:focus-visible {
   pointer-events: none;
   z-index: 2;
 }
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
   .plaque--hall-featured:not(.plaque--apex-vi)::after {
     animation: hall-edge-sweep 12s linear infinite;
   }
@@ -3813,7 +3813,7 @@ button.plaque__slug:focus-visible {
 }
 
 /* ── Expand on plaque hover ──────────────────────────────────── */
-.plaque:hover .plaque__trust-notch {
+.plaque:hover:not(.plaque--hall) .plaque__trust-notch {
   height: 24px;
 }
 
@@ -3835,7 +3835,7 @@ button.plaque__slug:focus-visible {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.plaque:hover .trust-notch-label {
+.plaque:hover:not(.plaque--hall) .trust-notch-label {
   opacity: 1;
 }
 

@@ -323,6 +323,7 @@
         if (!numEl) return;
         var plaque = notch.closest ? notch.closest('.plaque') : notch.parentElement;
         if (!plaque) return;
+        if (plaque.classList.contains('plaque--hall')) return;
         var raf, startTs;
         var DURATION = 380;
         function countUp(ts) {
