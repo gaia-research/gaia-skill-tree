@@ -9556,7 +9556,7 @@ button.nav-graph-trigger:hover {
   opacity: 0.045;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
   .hoh-section--mini .plaque--hall:not(.plaque--apex-vi)::before {
     animation: hoh-mini-atmosphere-drift var(--hoh-card-atmosphere-duration) cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
   }
@@ -11829,7 +11829,7 @@ body[data-overall-grade="S"] .report-card {
     clamp(2.75rem, 5vw, 4rem)
     1.25rem
     clamp(3.5rem, 6vw, 5rem);
-  max-width: 1180px;
+  max-width: 62rem;
   margin: 0 auto;
 }
 .trust-preview .lb-embed-host { margin: 0; }
