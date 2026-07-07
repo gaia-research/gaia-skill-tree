@@ -1,0 +1,10 @@
+{# header.md.j2 — report frontmatter + hero block #}
+# {{ report.sections.trending.title | replace('Trending this week', 'Weekly Report') }} · {{ report.reportId }}
+
+> **Report ID:** `{{ report.reportId }}` · **ISO week:** {{ report.isoYear }}-W{{ '%02d' | format(report.isoWeek) }}
+> **Generated:** {{ report.generatedAt }} · **Layer:** `{{ report.salvageLayer }}` · **Generator:** {{ report.generator }} v{{ report.generatorVersion }}
+{% if report.notice %}
+> ⚠️ **Notice:** {{ report.notice }}
+{% endif %}
+
+{% if report.urls.previous %}[← Previous week]({{ report.urls.previous }}) · {% endif %}[Archive]({{ report.urls.archive }}) · [Canonical JSON]({{ report.urls.json }})

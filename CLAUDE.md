@@ -47,6 +47,101 @@ To add a new exemption: edit `REDACTION_BADGE_DIR_EXEMPTIONS` in **both** `scrip
 - Avoid hex color fallbacks; use design tokens only (CI guard rejects hex).
 - When bumping assets, also update cache-bust version strings across all referencing pages.
 
+## Design Entrypoints — plan before you ship
+
+**Every new user-facing page or section MUST plan its entrypoints as part of the design pass, not reactively.** Shipping `/benchmarks/`, `/named/`, `/graph/`, or any new section without a way for a homepage visitor to reach it is a broken feature — the page might as well not exist. This rule is codified after the 2026-07-06 Sprint D W4 review, where `/benchmarks/` shipped with no homepage link, no docs/index.html tile, and no nav-drawer entry, and the gap only surfaced when the operator noticed there was "literally no way to get there."
+
+Before opening a PR that adds a new page (or a substantively new section on an existing page), the design must enumerate:
+
+1. **Main nav (`docs/js/site-nav.js`)** — does the section belong in the top-level nav? If yes, add it to the `MOUNTS` array AND the visible nav link list AND the mobile drawer. If no, justify it in the PR body.
+2. **Footer (`docs/js/site-footer.js`)** — is the section a peer of existing footer categories (product, docs, community)? Add it there or justify the exclusion.
+3. **Homepage (`docs/index.html`)** — does the section deserve a tile, CTA, or prose mention on the landing page? For anything that concerns Trust Magnitude, evidence, benchmarks, badges, or measurement, the answer is almost always yes.
+4. **`docs/js/mounts.js`** — every new `docs/<section>/` subdirectory that uses site-nav must be added to `window.GAIA_MOUNTS`. CI Guard D enforces this, but plan it upfront so you're not scrambling at PR time.
+5. **Cross-page references** — if the new content is discovered from a specific existing surface (e.g. skill explorer → benchmark evidence rows), wire the link at both ends in the same PR.
+6. **Cache-busting** — every new HTML page must be registered in `build_html_cache_busting()` in `scripts/build_docs.py`. Never manually patch `?v=` strings.
+
+The PR description must include an "Entrypoints" section listing which of the above were touched (or explicitly waived, with justification). Design-review agents check for this section; PRs without it get bounced regardless of code quality.
+
+**Rule of thumb:** if a user landing on `gaiaskilltree.com/` with fresh eyes cannot discover the new feature within 30 seconds of scanning, the entrypoints are broken.
+
+## Deferred-surface convention — ship the bridge state, disclose the bridge state
+
+**When a surface ships to satisfy a kill criterion but its design register is explicitly slated for a later sprint, the interim state MUST be disclosed on the surface itself with a WIP banner linking to the tracking issue.** Codified after the v6.0.1 review, where the archive landing at `/reports/` was correctly redesigned but the per-report page at `/reports/YYYY-WW/` shipped as the L3-mechanical `<pre>{{ markdownBody }}</pre>` fallback and confused a reviewer into thinking the leaderboard rendering was missing (it wasn't; it was Sprint F scope).
+
+### When this applies
+
+Apply the pattern when **all three** conditions hold:
+
+1. The surface is user-visible and reachable from the homepage or main nav.
+2. Its current rendering satisfies its ratified kill criterion (URL exists, JSON contract shipped, cron produces output, etc.) but is visibly below the design bar of adjacent surfaces.
+3. `founder/GAIA_ROADMAP v*.md` explicitly slates the rendering-layer work for a named later sprint, OR a tracking issue exists with that sprint tag.
+
+Do **not** apply the pattern to hide unfinished work that has no sprint home. That's not a bridge state, that's a defect. File it and fix it.
+
+### What ships
+
+1. **A `.wip-banner` element** at the top of the surface (inside `<main>`, before content). Uses the shared class from the content-engine template pass, or an equivalent local styled element that matches:
+   - `--font-mono`, `0.78rem`, subtle `--evidence-gold` tint background + border
+   - Two spans: `<span class="wip-tag">◇ Interim rendering</span>` (or an equivalent short label) + `<span class="wip-body">` with one sentence of what's provisional, one sentence of what's frozen, and a link to the tracking issue.
+   - `role="note"` + `aria-label` describing the notice.
+2. **A tracking issue** with the target sprint label (e.g. `sprint-f`) and an explicit `## Non-goals` section noting the WIP banner is removed by the port. Reference sprint scope from `founder/GAIA_ROADMAP v*.md` by line number.
+3. **A note in the shipping PR body** under a `## Deferred surfaces` section listing which surfaces carry the banner and their tracking issues.
+
+### What NOT to do
+
+- Do not silently ship the bridge state and hope reviewers infer the sprint schedule. That was the v6.0.1 failure mode; the fix is disclosure.
+- Do not add a WIP banner without a tracking issue. The banner exists to point somewhere; without a link, it's decoration.
+- Do not use the banner to defer trivial polish (missing padding, wrong color, one label). Polish gets fixed in the same PR. The banner is for cross-sprint rendering-layer or infrastructure boundaries.
+- Do not stack multiple WIP banners on one surface. If a surface has more than one deferred concern, consolidate them into one tracking issue and one banner.
+
+### Reference implementation
+
+See `scripts/contentEngine/templates/report.html.j2` (added in PR #972, tracking issue #973 for Sprint F rendering-layer rewrite). The banner CSS is inline in the template `<style>` block; the markup sits between the `<nav>` and `<main>` elements.
+
+## Fixed-nav clearance — every top-level page container must clear ~58px
+
+**Every page-level container that sits directly under `<body>` MUST provide its own top clearance to sit below the fixed nav.** The site nav (`<nav>` in `docs/js/site-nav.js`, rule at `docs/css/styles.css` L299–315) is `position: fixed` with `padding: .9rem 2rem` + a 1px border, giving it an effective height of ~58px. Nothing in the layout compensates for that automatically. Every page-level container fixes this on its own, and every design pass on a new surface must apply the pattern from the start. Codified after the v6.1.1 review, where the `.wip-banner` on the per-report page and the `.trending-main` on `/trending/` both shipped with insufficient top padding and got cut off by the nav.
+
+### The pattern (use this exact value ladder)
+
+```css
+.some-page-shell {
+  padding: 5rem 1.5rem 6rem;   /* top: 5rem (80px) clears the ~58px nav with 22px breathing room */
+  max-width: 62rem;
+  margin: 0 auto;
+}
+@media (min-width: 768px) {
+  .some-page-shell { padding: 8rem 2rem 7rem; }   /* or padding-top: 6rem for compact strips */
+}
+```
+
+Base clearance is **5rem (80px)**. Desktop clearance is **6rem (96px) for thin strips** (banners, notices) or **8rem (128px) for full page shells** (hero-carrying containers where a bit more breathing room is warranted). Do not invent other values; consistency across surfaces is the point.
+
+### Existing reference implementations
+
+Every current site surface uses this ladder. When adding a new page, copy one of these:
+
+- `.bench-shell` (`docs/benchmarks/index.html` inline `<style>`) — canonical full-page shell, `5rem`/`8rem`
+- `.reports-shell` (`scripts/contentEngine/templates/archive.html.j2` inline `<style>`) — full-page shell, `5rem`/`8rem`
+- `.trending-main` (`docs/trending/trending.css` L7–16) — full-page shell, `5rem`/`6rem` (added in PR #972 after cutoff regression)
+- `.wip-banner` (`scripts/contentEngine/templates/report.html.j2` inline `<style>`) — thin strip, `5rem`/`6rem`
+
+### Anti-patterns (refuse and rewrite)
+
+- **`padding-top: 0` on a body-child container.** The default. Will cut off content. Every page-level container needs an explicit top pad; there is no global `body { padding-top: ... }` and there won't be one (the fixed nav is a scroll-persistent surface, not a document flow element, and a global body offset would break the hero which is intentionally full-bleed under the nav).
+- **The `margin-top: -Npx` + `padding-top: calc(... + Npx)` trick** (as seen on `.profile-back-row` at `docs/css/styles.css` L1109–1122). Pulls the element into negative layout space to "pretend" the nav isn't there. Fragile: any preceding sibling with margin breaks the offset math, and the descendants inherit the compressed vertical origin. Legacy; do not extend to new surfaces.
+- **Inline `style="margin: 2rem auto"` or similar on `<main>`.** Was the pattern on the pre-Sprint-D bridge-state per-report page. `2rem` (32px) < nav height (58px), so the top of `<main>` sits under the nav. Same failure mode as the `.wip-banner` regression.
+- **Adding padding-top only to a nested child** (e.g. the hero inside a page shell). Works for that hero but breaks any subsequent design change that swaps or removes the hero. Put the clearance on the outermost body-child container so it's a property of the surface, not of one section.
+
+### Verification during design pass
+
+Before closing any PR that adds a new page or moves a top-level container:
+
+1. Load the page in a browser, scroll to absolute top (Ctrl+Home).
+2. The first content pixel below the nav should have visible breathing room, not touch the nav border.
+3. Confirm at both breakpoints (<768px and ≥768px).
+4. If a WIP-banner sits above the main content, verify the banner clears the nav AND the main content clears the banner.
+
 ## Testing
 
 Always run the test suite after making changes and fix any regressions before reporting completion.

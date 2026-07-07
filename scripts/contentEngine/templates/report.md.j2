@@ -1,0 +1,19 @@
+{# report.md.j2 — canonical markdown body.
+   Used verbatim for the DRAFT output and embedded into the HTML wrapper. #}
+{% include '_partials/header.md.j2' %}
+
+{% with section = report.sections.trending %}
+{% include '_partials/trending.md.j2' %}
+{% endwith %}
+
+{% with section = report.sections.ascended %}
+{% include '_partials/ascended.md.j2' %}
+{% endwith %}
+
+{% with section = report.sections.contested %}
+{% include '_partials/contested.md.j2' %}
+{% endwith %}
+
+---
+
+_Generated mechanically by the [Gaia Content Engine](https://github.com/gaia-research/gaia-skill-tree/tree/main/scripts/contentEngine). Data flows from `/api/v1/trending/*.json` — recomputed daily by `buildTrendingProjection.py`. Salvage layer: `{{ report.salvageLayer }}`._

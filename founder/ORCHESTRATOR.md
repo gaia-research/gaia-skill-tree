@@ -37,6 +37,24 @@ delegated.
 
 ---
 
+## Post-Compact Bootstrap (read after every auto-compact or session resume)
+
+Auto-compact summaries describe what happened but do NOT re-activate loaded skills or routing constraints. After any compaction, recover state from live sources — do not guess from memory.
+
+**Recovery steps (run these in order):**
+1. Re-invoke `/gaia-orchestrator` to reload this file and restore the persona.
+2. `git branch` — confirm which branch and worktree you are on.
+3. `gh pr list --author @me --state open --json number,title,headRefName,baseRefName` — reconstruct the active PR stack (feature → integration → main).
+4. Read the most recent `## State Snapshot` block in `founder/MEMORY.md` — it has the session headline, open tasks, and PR numbers at close of last session.
+5. Resume from the last open task listed in that snapshot.
+
+**Invariants that survive any sprint:**
+- Never commit directly to `main` or the integration branch (`dev/<sprint-name>`). All work goes through a feature branch PR.
+- The integration branch PR is the aggregate; the feature branch PR is the workstream. Keep them distinct.
+- Orchestrator mode: delegate all code to workers via the Agent tool. Only plan, review, and run `git`/`gh` CLI directly.
+
+---
+
 ## Session Management & Compaction
 
 Long sessions are the point. To keep them healthy:

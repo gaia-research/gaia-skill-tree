@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../../assets/icons.svg">
+<head>
+  <script>window.GAIA_VERSION = "{{ report.generatorVersion }}";</script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="gaia-content-engine">
+  <title>Weekly Report {{ report.reportId }} — Gaia</title>
+  <meta name="description" content="Gaia weekly report for ISO week {{ report.reportId }} — trending skills, recent rank-ups, and the most contested skill spaces.">
+  <link rel="canonical" href="{{ report.urls.canonical }}">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Gaia Weekly Report · {{ report.reportId }}">
+  <meta property="og:description" content="What's moving in the Gaia skill registry — ISO week {{ report.reportId }}.">
+  <meta property="og:url" content="{{ report.urls.canonical }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../../assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="../../css/tokens.css?v={{ report.generatorVersion }}">
+  <link rel="stylesheet" href="../../css/styles.css?v={{ report.generatorVersion }}">
+  <link rel="alternate" type="application/json" href="{{ report.urls.json }}">
+
+  <style>
+    /* ── Deferred-surface WIP banner ──────────────────────────────────────
+       Discloses that this surface renders in its L3-mechanical bridge
+       state pending the Sprint F rendering-layer rewrite (issue #973).
+       Follows the deferred-surface convention in CLAUDE.md §Deferred
+       surface convention. Removed by the port. */
+    .wip-banner {
+      max-width: 62rem;
+      /* Clear the fixed nav (~58px). Matches the 5rem/6rem top-clearance
+         pattern used by .bench-shell and .reports-shell. */
+      margin: 5rem auto 0;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.9rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.55;
+      color: var(--text);
+      background: rgba(var(--evidence-gold-rgb), 0.06);
+      border: 1px solid rgba(var(--evidence-gold-rgb), 0.28);
+      border-radius: 6px;
+      letter-spacing: 0.02em;
+    }
+    @media (min-width: 768px) {
+      .wip-banner { margin-top: 6rem; }
+    }
+    .wip-banner .wip-tag {
+      color: var(--evidence-gold);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+    }
+    .wip-banner .wip-body { color: var(--text); opacity: 0.86; }
+    .wip-banner a {
+      color: var(--evidence-gold);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(var(--evidence-gold-rgb), 0.45);
+      transition: border-color 160ms ease-out;
+    }
+    .wip-banner a:hover,
+    .wip-banner a:focus-visible {
+      border-bottom-color: var(--evidence-gold);
+      outline: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .wip-banner a { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav id="site-nav"></nav>
+  <script src="../../js/mounts.js?v={{ report.generatorVersion }}"></script>
+  <script src="../../js/site-nav.js?v={{ report.generatorVersion }}"></script>
+
+  <aside class="wip-banner" role="note" aria-label="Interim rendering notice">
+    <span class="wip-tag">◇ Interim rendering</span>
+    <span class="wip-body">Tables render as source markdown in this bridge state. Leaderboard view lands in Sprint F (<a href="https://github.com/gaia-research/gaia-skill-tree/issues/973">#973</a>). The <a href="{{ report.urls.json }}">canonical JSON</a> is frozen and permanent.</span>
+  </aside>
+
+  <main class="report-body" style="max-width: 72rem; margin: 2rem auto; padding: 0 1.25rem; color: var(--text); font-family: 'EB Garamond', Georgia, serif; line-height: 1.6;">
+    <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .75rem; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; margin-bottom: .5rem;">
+      Weekly Report · Salvage Layer {{ report.salvageLayer }}
+    </div>
+    <pre class="report-markdown" style="white-space: pre-wrap; font-family: inherit; font-size: 1rem; background: transparent; padding: 0; margin: 0;">{{ markdownBody }}</pre>
+  </main>
+
+  <footer style="max-width: 72rem; margin: 3rem auto 2rem; padding: 1.5rem 1.25rem 0; color: var(--muted); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .75rem; border-top: 1px solid var(--border);">
+    <a href="{{ report.urls.archive }}" style="color: var(--muted); text-decoration: none;">← All reports</a>
+    · <a href="{{ report.urls.json }}" style="color: var(--muted); text-decoration: none;">Canonical JSON</a>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <script>window.GAIA_VERSION = "6.1.7";</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MMLU Leaderboard | Gaia Registry</title>
+  <meta name="description" content="MMLU benchmark scores for Gaia skills — mirrored from the HuggingFace Open LLM Leaderboard snapshot (2024-03). Citation-only; excluded from Trust Magnitude.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/tokens.css?v=6.1.7">
+  <link rel="stylesheet" href="../../css/styles.css?v=6.1.7">
+  <script>
+    window.gaiaIconBase = function () { return '../../assets/icons.svg'; };
+  </script>
+  <style>
+    /* ─────────────────────────────────────────────────────────────
+       MMLU LEADERBOARD — same shell as humaneval, but the eyebrow
+       + banner declare "citation-only" up front so no one confuses
+       these numbers with TM-eligible evidence.
+       ───────────────────────────────────────────────────────────── */
+    :root {
+      --lb-mono: var(--font-mono);
+      --lb-sans: var(--font-body);
+      --lb-serif: var(--font-display);
+      --lb-grade-S: var(--grade-S, #e2d5f8);
+      --lb-grade-A: var(--grade-A, #fbbf24);
+      --lb-grade-B: var(--grade-B, #94a3b8);
+      --lb-grade-C: var(--grade-C, #b87333);
+      --lb-grade-u: #475569;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: var(--lb-sans); font-size: 14px; line-height: 1.5; }
+    a { color: var(--apex-gold); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .lb-shell { max-width: 1200px; margin: 0 auto; padding: 4.5rem 1.5rem 5rem; }
+    @media (min-width: 768px) { .lb-shell { padding: 6.5rem 2rem 6rem; } }
+
+    .lb-back { margin-bottom: 2.5rem; font-family: var(--lb-mono); font-size: 0.78rem; }
+    .lb-back a { color: var(--text); opacity: 0.6; transition: opacity 0.15s, color 0.15s; }
+    .lb-back a:hover { opacity: 1; color: var(--apex-gold); text-decoration: none; }
+
+    .lb-header { max-width: 44rem; margin: 0 0 2rem; }
+    .lb-header-eyebrow {
+      font-family: var(--lb-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted, #64748b);
+      margin: 0 0 1rem;
+    }
+    .lb-header-eyebrow.is-cited { color: var(--lb-grade-u); }
+    .lb-header h1 {
+      font-family: var(--lb-serif);
+      font-weight: 500;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin: 0 0 1.25rem;
+    }
+    .lb-header-desc {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: var(--text);
+      opacity: 0.82;
+      max-width: 38rem;
+      margin: 0 0 1.5rem;
+    }
+    .lb-header-desc code {
+      font-family: var(--lb-mono);
+      font-size: 0.82rem;
+      color: var(--apex-gold);
+      background: none;
+      padding: 0;
+    }
+    .lb-header-facts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem 2.25rem;
+      padding: 1.1rem 0 0;
+      border-top: 1px solid var(--border);
+      font-family: var(--lb-mono);
+      font-size: 0.78rem;
+    }
+    .lb-fact { display: flex; flex-direction: column; gap: 0.2rem; }
+    .lb-fact-label { color: var(--text); opacity: 0.55; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .lb-fact-value { color: var(--text); }
+    .lb-fact-value a { color: var(--apex-gold); }
+    #lb-meta { color: var(--text); opacity: 0.75; }
+
+    /* Cited-only banner — quiet strip, not a colored card */
+    .lb-cited-banner {
+      max-width: 46rem;
+      margin: 0 0 2rem;
+      padding: 0.9rem 0 0.9rem 1.1rem;
+      border-left: 2px solid var(--lb-grade-u);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--text);
+      opacity: 0.82;
+    }
+    .lb-cited-banner strong { color: var(--text); opacity: 1; font-weight: 500; }
+    .lb-cited-banner em {
+      font-family: var(--lb-serif);
+      font-style: italic;
+      color: var(--text);
+      opacity: 1;
+    }
+
+    .lb-controls { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .lb-search {
+      flex: 1;
+      min-width: 220px;
+      padding: 0.6rem 0.9rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      font-family: var(--lb-mono);
+      font-size: 0.82rem;
+      transition: border-color 0.15s ease;
+    }
+    .lb-search::placeholder { color: var(--text); opacity: 0.45; }
+    .lb-search:focus { outline: none; border-color: var(--apex-gold); }
+
+    .lb-section { margin-top: 2rem; }
+    .lb-section-dim { opacity: 0.75; }
+    .lb-section-title {
+      font-family: var(--lb-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0 0 0.7rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .lb-count { color: var(--text); opacity: 0.55; font-weight: 400; font-size: 0.7rem; letter-spacing: 0.06em; }
+    .lb-note { font-size: 0.82rem; color: var(--text); opacity: 0.7; padding: 0 0 0.85rem; line-height: 1.55; max-width: 46rem; }
+    .lb-note strong { color: var(--text); opacity: 1; }
+
+    .lb-table-wrap { border: 1px solid var(--border); border-radius: 4px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    th {
+      text-align: left; color: var(--text); opacity: 0.55;
+      font-weight: 500; font-size: 0.66rem;
+      text-transform: uppercase; letter-spacing: 0.09em;
+      padding: 0.7rem 0.8rem;
+      border-bottom: 1px solid var(--border); white-space: nowrap;
+      background: rgba(255,255,255,0.02);
+    }
+    td { padding: 0.55rem 0.8rem; border-bottom: 1px solid rgba(30,41,59,0.5); vertical-align: middle; color: var(--text); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .lb-rank { color: var(--text); opacity: 0.5; text-align: right; width: 3rem; font-family: var(--lb-mono); }
+    .lb-skill a { color: var(--text); font-family: var(--lb-mono); font-weight: 500; }
+    .lb-skill a:hover { color: var(--apex-gold); text-decoration: none; }
+    .lb-score { font-weight: 700; font-family: var(--lb-mono); }
+    .lb-mono { font-family: var(--lb-mono); }
+    .lb-dim { color: var(--text); opacity: 0.5; }
+    .lb-attns a { font-size: 0.75rem; color: var(--apex-gold); font-family: var(--lb-mono); }
+
+    .lb-badge { display: inline-block; padding: 0.1rem 0.45rem; border-radius: 3px; font-size: 0.66rem; font-weight: 600; font-family: var(--lb-mono); letter-spacing: 0.03em; }
+    .lb-badge-S { background: rgba(226,213,248,.15); color: var(--lb-grade-S); }
+    .lb-badge-A { background: rgba(251,191,36,.15); color: var(--lb-grade-A); }
+    .lb-badge-B { background: rgba(148,163,184,.15); color: var(--lb-grade-B); }
+    .lb-badge-C { background: rgba(184,115,51,.15); color: var(--lb-grade-C); }
+    .lb-badge-u { background: rgba(71,85,105,.2); color: var(--lb-grade-u); }
+    .lb-badge-prov { font-weight: 600; }
+    .lb-badge-verified { background: rgba(74,222,128,.12); color: #4ade80; }
+    .lb-badge-pending  { background: rgba(148,163,184,.12); color: var(--lb-grade-B); }
+    .lb-badge-cited    { background: rgba(71,85,105,.18); color: var(--lb-grade-u); }
+
+    .lb-empty, .lb-loading { padding: 1.75rem; text-align: center; color: var(--text); opacity: 0.5; font-size: 0.82rem; font-family: var(--lb-mono); }
+    .lb-footer { margin-top: 3rem; padding-top: 1.75rem; border-top: 1px solid var(--border); color: var(--text); opacity: 0.6; font-size: 0.82rem; line-height: 1.7; max-width: 52rem; }
+    .lb-footer a { color: var(--apex-gold); }
+    .lb-footer strong { color: var(--text); opacity: 1; font-weight: 500; }
+  </style>
+<script type="application/ld+json" data-injector="gaia-json-ld">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Index",
+  "url": "https://gaiaskilltree.com/benchmarks/mmlu/",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Gaia Skill Tree",
+    "url": "https://gaiaskilltree.com/"
+  }
+}
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Index",
+  "url": "https://gaiaskilltree.com/benchmarks/mmlu/"
+}
+</script>
+</head>
+<body>
+  <nav id="site-nav"></nav>
+  <script src="../../js/mounts.js?v=6.1.7"></script>
+  <script src="../../js/site-nav.js?v=6.1.7"></script>
+
+  <main class="lb-shell">
+    <div class="lb-back"><a href="../">&larr; Benchmarks</a></div>
+
+    <header class="lb-header">
+      <p class="lb-header-eyebrow is-cited">Citation-mirrored &middot; Excluded from TM</p>
+      <h1>MMLU</h1>
+      <p class="lb-header-desc">
+        Massive Multitask Language Understanding, 5-shot. Every row here is
+        mirrored from a public leaderboard — Gaia has not independently
+        reproduced the number, so it appears but doesn't count.
+      </p>
+      <div class="lb-header-facts">
+        <div class="lb-fact">
+          <span class="lb-fact-label">Benchmark ID</span>
+          <span class="lb-fact-value lb-mono">mmlu@2024-03</span>
+        </div>
+        <div class="lb-fact">
+          <span class="lb-fact-label">Unit</span>
+          <span class="lb-fact-value lb-mono">pct</span>
+        </div>
+        <div class="lb-fact">
+          <span class="lb-fact-label">Snapshot</span>
+          <span class="lb-fact-value lb-mono">2024-03-01</span>
+        </div>
+        <div class="lb-fact">
+          <span class="lb-fact-label">Methodology</span>
+          <span class="lb-fact-value"><a href="../mmlu-v1/">mmlu-v1</a></span>
+        </div>
+        <div class="lb-fact">
+          <span class="lb-fact-label">Last updated</span>
+          <span class="lb-fact-value" id="lb-meta">Loading&hellip;</span>
+        </div>
+      </div>
+    </header>
+
+    <aside class="lb-cited-banner" role="note">
+      <em>Every score below is a citation, not a measurement.</em>
+      Sourced from the <a href="https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard" target="_blank" rel="noopener">HuggingFace Open LLM Leaderboard</a> (2024-03-01).
+      <strong>Permanently excluded from Trust Magnitude</strong> — we render them so the record is complete, not so they count.
+    </aside>
+
+    <div class="lb-controls">
+      <input type="text" id="lb-search" class="lb-search" placeholder="Search skill or contributor&hellip;" autocomplete="off">
+    </div>
+
+    <div id="lb-content" data-benchmark="mmlu"></div>
+
+    <footer class="lb-footer">
+      <p>
+        All entries carry provenance <strong>mirrored</strong> and are permanently excluded from Trust Magnitude.
+        Source: <a href="https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard" target="_blank" rel="noopener">HuggingFace Open LLM Leaderboard</a>.
+        Data contract: <a href="../../api/v1/benchmarks/mmlu.json">/api/v1/benchmarks/mmlu.json</a> &mdash; URL frozen.
+      </p>
+    </footer>
+  </main>
+
+  <div id="site-footer-mount"></div>
+  <script src="../../js/site-footer.js?v=6.1.7"></script>
+  <script src="../_shared/leaderboard.js?v=6.1.7" defer></script>
+</body>
+</html>

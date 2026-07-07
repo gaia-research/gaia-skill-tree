@@ -7,7 +7,14 @@
   const el = document.getElementById('site-footer-mount');
   if (!el) return;
 
-  const MOUNTS = window.GAIA_MOUNTS || ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex'];
+  // Fallback mirrors docs/js/mounts.js — keep in lockstep. Every top-level
+  // docs/ subdirectory that uses site-nav or site-footer must appear here so
+  // path-depth math still resolves when mounts.js hasn't loaded yet.
+  const MOUNTS = window.GAIA_MOUNTS || [
+    'named', 'en', 'badges', 'u', 'samples', 'graph',
+    'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes',
+    'reports', 'benchmarks', 'skills',
+  ];
   const segs = window.location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
   const dir = /\.html?$/i.test(segs[segs.length - 1]) ? segs.slice(0, -1) : segs;
   let depth = 0;
@@ -38,7 +45,7 @@
               <li><a href="${r}index.html">Skill Tree</a></li>
               <li><a href="${r}index.html?field=1">Skill Graph</a></li>
               <li><a href="${r}starless.html">Starless</a></li>
-              <li><a href="${r}meta.html">Meta Reports</a></li>
+              <li><a href="${r}meta.html">Meta Changelog</a></li>
             </ul>
           </div>
 
@@ -47,9 +54,18 @@
             <ul>
               <li><a href="${r}codex.html">The Codex</a></li>
               <li><a href="${r}named/">Named Skills</a></li>
-              <li><a href="${r}index.html#hall-of-heroes">Hall of Heroes</a></li>
               <li><a href="${r}u/">Named Contributors</a></li>
               <li><a href="${r}badges/">GitHub Badges</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <span class="footer-col-heading">Evidence</span>
+            <ul>
+              <li><a href="${r}benchmarks/">Benchmarks</a></li>
+              <li><a href="${r}reports/">Weekly Reports</a></li>
+              <li><a href="${r}trending/">Trending</a></li>
+              <li><a href="${r}heroes/">Hall of Heroes</a></li>
             </ul>
           </div>
 

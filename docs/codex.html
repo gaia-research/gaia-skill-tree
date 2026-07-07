@@ -2,24 +2,25 @@
 <!-- Codex updated to include gaia curate chain pipeline and interactive diagram -->
 <html lang="en">
 <head>
-  <script>window.GAIA_VERSION = "5.11.16";</script>
+  <script>window.GAIA_VERSION = "6.1.7";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Codex - Gaia</title>
+<meta name="description" content="The Gaia Codex: an interactive map of the agent skill graph, the curate-chain pipeline, and how capabilities evolve from basic to ultimate tiers.">
 <!-- Stage 1 — Web fonts (EB Garamond display, Bricolage body, JetBrains Mono fallback). -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/styles.css?v=5.11.16">
+<link rel="stylesheet" href="css/styles.css?v=6.1.7">
 <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
-<script src="js/icons.js?v=5.11.16"></script>
+<script src="js/icons.js?v=6.1.7"></script>
 <!-- Stage 2 — shared rank-badge primitive. -->
-<script src="js/rank-badge.js?v=5.11.16"></script>
+<script src="js/rank-badge.js?v=6.1.7"></script>
 <!-- Stage 3 — plaque component family. -->
-<script src="js/plaque.js?v=5.11.16"></script>
+<script src="js/plaque.js?v=6.1.7"></script>
 <style>
 /* Curate Chain CSS definitions */
 .curate-chain-section {
@@ -429,13 +430,21 @@
   }
 }
 </style>
-  <link rel="stylesheet" href="css/plaque.css?v=5.11.16">
+  <link rel="stylesheet" href="css/plaque.css?v=6.1.7">
+<script type="application/ld+json" data-injector="gaia-json-ld">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Codex",
+  "url": "https://gaiaskilltree.com/codex.html"
+}
+</script>
 </head>
 <body class="process-page">
 
   <nav id="site-nav"></nav>
-  <script src="js/mounts.js?v=5.11.16"></script>
-  <script src="js/site-nav.js?v=5.11.16"></script>
+  <script src="js/mounts.js?v=6.1.7"></script>
+  <script src="js/site-nav.js?v=6.1.7"></script>
 
 <main>
   <!-- ─── BACK ─── -->
@@ -1069,7 +1078,7 @@
 
 <!-- ─── FOOTER v2 ─── -->
   <div id="site-footer-mount"></div>
-  <script src="js/site-footer.js?v=5.11.16"></script>
+  <script src="js/site-footer.js?v=6.1.7"></script>
 
   <!-- ─── TREE DIALOG ─── -->
   <a id="tree" tabindex="-1" aria-hidden="true"></a>
@@ -1093,10 +1102,10 @@
   </button>
 
   <!-- ─── SCRIPTS ─── -->
-  <script src="js/atlas-helpers.js?v=5.11.16"></script>
-  <script src="js/skill-explorer.js?v=5.11.16"></script>
-  <script src="js/ui.js?v=5.11.16"></script>
-  <script src="js/page-ia.js?v=5.11.16"></script>
+  <script src="js/atlas-helpers.js?v=6.1.7"></script>
+  <script src="js/skill-explorer.js?v=6.1.7"></script>
+  <script src="js/ui.js?v=6.1.7"></script>
+  <script src="js/page-ia.js?v=6.1.7"></script>
 
 <!-- impeccable-live-start -->
 <script src="http://localhost:8400/live.js"></script>

@@ -17,7 +17,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — browser-use  ·  generated 2026-07-06
+GAIA SKILL TREE — browser-use  ·  generated 2026-07-07
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.

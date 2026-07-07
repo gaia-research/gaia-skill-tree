@@ -416,8 +416,100 @@
               }
             }
           }
+        },
+        "benchmarkId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9\\-_/]*@v?\\d+(\\.\\d+)?(\\.\\d+)?(-[a-z0-9\\-_.]+)?$",
+          "description": "Semver-ish benchmark spec id for benchmark-result evidence (Sprint D W2a, #904). Widened pattern accepts humaneval@v1.0, humaneval/python@v1.0, swe-bench_verified@1.0, mmlu-5shot@2024-03. FROZEN post-merge — see registry/schema/evidence/benchmark-result.schema.json for the citable standalone form."
+        },
+        "score": {
+          "type": "number",
+          "description": "Raw benchmark score for benchmark-result evidence, in the units named by `unit`. Interpretation is unit-specific (pass@1 is 0..1, pct is 0..100, elo is unbounded)."
+        },
+        "unit": {
+          "type": "string",
+          "enum": [
+            "pct",
+            "pass@1",
+            "pass@10",
+            "bleu",
+            "f1",
+            "accuracy",
+            "elo",
+            "raw"
+          ],
+          "description": "Frozen benchmark score unit enum for benchmark-result evidence. Extending the list is a major schema bump — downstream leaderboard consumers switch on it."
+        },
+        "runAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 date-time (with timezone) the benchmark harness was executed. Feeds the freshness half-life for benchmark-result rows in Trust Magnitude. Distinct from `date` (when the evidence row itself was filed)."
+        },
+        "provenance": {
+          "type": "string",
+          "enum": [
+            "verifier-attested",
+            "ci-reproduced",
+            "mirrored",
+            "pending"
+          ],
+          "description": "How the benchmark-result row's authenticity is anchored. verifier-attested: a 4★+ Verifier co-signed the score. ci-reproduced: a GitHub Actions workflow ran the harness on a public commit SHA. mirrored: citation-only copy from an external leaderboard (EXCLUDED from Trust Magnitude by trustMagnitude.py). pending: default state for freshly filed rows awaiting promotion; rejected on main by scripts/validate.py --strict. self-attested is intentionally absent and FOREVER rejected."
+        },
+        "attestor": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Attestor identity for benchmark-result evidence. For verifier-attested: GitHub username of the co-signing verifier. For ci-reproduced: workflow run URL plus commit SHA (e.g. 'https://github.com/owner/repo/actions/runs/12345@abc1234'). For mirrored: upstream leaderboard URL. For pending: filer's own handle."
+        },
+        "datasetHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "SHA-256 (64 lowercase hex chars) of the raw dataset used to produce the benchmark-result score. Locks the row to a specific dataset revision — a bumped dataset produces a different hash and therefore a different row."
+        },
+        "benchmarkInputHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "SHA-256 (64 lowercase hex chars) of the concatenation (dataset + prompt template + harness config). Reproducibility fingerprint for benchmark-result rows — a downstream verifier can re-run with the same inputs and expect the same score. Different concept from datasetHash: two rows may share datasetHash but differ in benchmarkInputHash if the harness config or prompt template changed."
+        },
+        "harnessUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Optional URL to the exact harness code that produced the benchmark-result score. For CI-reproduced rows this is typically a permalink into scripts/benchmarks/<benchmark>/run.py at the pinned commit."
         }
-      }
+      },
+      "allOf": [
+        {
+          "$comment": "Sprint D W2a (#904) benchmark-result gate. Legacy rows filed before 2026-07-05 are exempt — they predate the reproducibility-fingerprint requirement and the `type` key alone triggers no branch. Rows filed 2026-07-05 or later must carry the 8 mandatory benchmark fields. Draft-07: `required: [\"type\"]` INSIDE the `if` clause is load-bearing — without it, evidence rows lacking a `type` field silently fall through the `then` branch and fail on missing benchmarkId.",
+          "if": {
+            "properties": {
+              "type": { "const": "benchmark-result" },
+              "date": { "pattern": "^(2026-(0[7-9]|1[0-2])|20(2[7-9]|[3-9][0-9]))" }
+            },
+            "required": ["type", "date"]
+          },
+          "then": {
+            "required": [
+              "benchmarkId",
+              "score",
+              "unit",
+              "runAt",
+              "provenance",
+              "attestor",
+              "datasetHash",
+              "benchmarkInputHash"
+            ],
+            "properties": {
+              "provenance": {
+                "enum": [
+                  "verifier-attested",
+                  "ci-reproduced",
+                  "mirrored",
+                  "pending"
+                ]
+              }
+            }
+          }
+        }
+      ]
     },
     "timelineEvent": {
       "type": "object",

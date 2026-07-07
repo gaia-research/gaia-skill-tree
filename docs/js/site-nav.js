@@ -20,7 +20,7 @@
   if (!el) return;
 
   // ── Path / depth detection ─────────────────────────────────────────────
-  const MOUNTS = window.GAIA_MOUNTS || ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex'];
+  const MOUNTS = window.GAIA_MOUNTS || ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes', 'reports', 'benchmarks', 'skills'];
   const segs = window.location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
   const dir = /\.html?$/i.test(segs[segs.length - 1]) ? segs.slice(0, -1) : segs;
 
@@ -72,6 +72,9 @@
     { type: 'link', href: root + 'u/',            label: 'Named Contributors', color: 'var(--honor-red)' },
     { type: 'link', href: root + 'meta.html',     label: 'Meta Reports',       cls: 'nav-meta', id: 'metaNavBtn' },
     { type: 'link', href: root + 'evidence/',     label: 'Evidence Library',   color: 'var(--rank-3)' },
+    { type: 'link', href: root + 'reports/',      label: 'Weekly Reports',     color: 'var(--evidence-gold)' },
+    { type: 'link', href: root + 'benchmarks/',   label: 'Benchmarks',         color: 'var(--evidence-gold)' },
+    { type: 'link', href: root + 'skills/',        label: 'Skill Index',        color: 'var(--tier-basic)' },
   ];
 
   function li(item) {
@@ -183,6 +186,9 @@
         '<li><a href="' + root + 'u/" style="color:var(--honor-red)">Named Contributors</a></li>' +
         '<li><a href="' + root + 'meta.html">Meta Reports</a></li>' +
         '<li><a href="' + root + 'evidence/" style="color:var(--rank-3)">Evidence Library</a></li>' +
+        '<li><a href="' + root + 'reports/" style="color:var(--evidence-gold)">Weekly Reports</a></li>' +
+        '<li><a href="' + root + 'benchmarks/" style="color:var(--evidence-gold)">Benchmarks</a></li>' +
+        '<li><a href="' + root + 'skills/" style="color:var(--tier-basic)">Skill Index</a></li>' +
       '</ul>' +
     '</div>';
 

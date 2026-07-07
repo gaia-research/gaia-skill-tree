@@ -1,0 +1,12 @@
+{# ascended.md.j2 — skills that ranked up or were re-calibrated this window #}
+## {{ section.title }}
+
+{% if not section.entries %}
+_No rank-up events this week._
+{% else %}
+| Skill | Contributor | Rank change | Trust Magnitude | Ascended at |
+| :--- | :--- | :---: | ---: | :--- |
+{% for e in section.entries %}
+| [{{ e.name }}]({{ e.url }}) | {{ e.contributor or '—' }} | {% if e.previousLevel %}{{ e.previousLevel }} → {{ e.level or '—' }}{% else %}→ {{ e.level or '—' }}{% endif %} | {{ '%.1f' | format(e.trustMagnitude or 0) }}{% if e.trustGrade %} · {{ e.trustGrade }}{% endif %} | {{ e.ascendedAt or '—' }} |
+{% endfor %}
+{% endif %}

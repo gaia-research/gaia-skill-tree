@@ -2,6 +2,7 @@ import sys
 import os
 import json
 import datetime
+import re
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
@@ -180,7 +181,11 @@ def _preflight_evidence_static(args, valid_types: set[str] | list[str] | tuple[s
         _fail_dev_preflight(f"`--percentile` must be in range 0-100; got {percentile!r}.")
 
     required_payloads = {
-        "benchmark-result": (("percentile", "--percentile <0-100>"),),
+        # Sprint D W2a (#904): --percentile is optional for benchmark-result
+        # post-hardening. The 8 reproducibility-fingerprint fields (enforced
+        # by _preflight_benchmark_row in evidence.py) drive the credibility
+        # of the row; percentile only feeds the magnitude formula and is now
+        # additive.
         "peer-review": (("reviewers", "--reviewers <count>"),),
     }
     if evidence_type in required_payloads:
@@ -221,6 +226,192 @@ def _preflight_evidence_static(args, valid_types: set[str] | list[str] | tuple[s
         _fail_dev_preflight(
             "--index requires at least one update field.",
             fix="Pass one of --trust, --type, --notes, --date, --source-started-at, or a numeric payload flag.",
+        )
+
+
+# ---------------------------------------------------------------------------
+# Sprint D W2a (#904) — benchmark-result CLI Pre-Flight.
+#
+# Enforces the invariants that registry/schema/evidence/benchmark-result.schema.json
+# would otherwise only catch at `gaia validate` time. Following the CLI Pre-Flight
+# Rule (root CLAUDE.md): the CLI is the canonical mutation interface — if it lets
+# a bad state through, the gap is the bug.
+# ---------------------------------------------------------------------------
+
+_BENCHMARK_ID_PATTERN = re.compile(
+    r"^[a-z][a-z0-9\-_/]*@v?\d+(\.\d+)?(\.\d+)?(-[a-z0-9\-_.]+)?$"
+)
+_HASH_PATTERN = re.compile(r"^[0-9a-f]{64}$")
+_ALLOWED_PROVENANCE = ("verifier-attested", "ci-reproduced", "mirrored", "pending")
+_ALLOWED_UNITS = ("pct", "pass@1", "pass@10", "bleu", "f1", "accuracy", "elo", "raw")
+
+
+def _findBenchmarkResultSchema() -> Path | None:
+    """Locate registry/schema/evidence/benchmark-result.schema.json.
+
+    Mirrors the repo-root-or-bundled lookup pattern used by leveling.py and
+    promotion.py. Returns None if neither location has the file so the caller
+    can fall back to the in-file semantic checks (which cover the same
+    invariants — the JSON Schema pass is a belt-and-braces layer).
+    """
+    candidates = [
+        Path(__file__).resolve().parents[3] / "registry" / "schema" / "evidence" / "benchmark-result.schema.json",
+        Path(__file__).resolve().parents[2] / "data" / "registry" / "schema" / "evidence" / "benchmark-result.schema.json",
+    ]
+    for path in candidates:
+        if path.is_file():
+            return path
+    return None
+
+
+def _preflight_benchmark_row(evidence: dict) -> None:
+    """Validate a fully-assembled benchmark-result evidence dict before write.
+
+    Fires ONLY when ``evidence['type'] == 'benchmark-result'``; caller is
+    responsible for the discriminator check. Runs three layers:
+
+    1. JSON Schema validation against the standalone sub-schema (if the
+       bundled copy is reachable), which catches shape, required fields,
+       and pattern violations wholesale.
+    2. Semantic checks the schema cannot express as a single error message:
+       provenance must not be `self-attested`; benchmarkId, unit, hashes,
+       runAt all get individually-actionable error messages via
+       ``_fail_dev_preflight`` so the fix hint is field-specific.
+    3. Existence-of-required-fields fallback for the case where the schema
+       file cannot be located (defensive; keeps the CLI safe even when the
+       bundled snapshot is stale).
+    """
+    if evidence.get("type") != "benchmark-result":
+        return
+
+    required = (
+        "benchmarkId",
+        "score",
+        "unit",
+        "runAt",
+        "provenance",
+        "attestor",
+        "datasetHash",
+        "benchmarkInputHash",
+    )
+    missing = [name for name in required if name not in evidence]
+    if missing:
+        flag_hints = {
+            "benchmarkId": "--benchmark-id humaneval@v1.0",
+            "score": "--score <number>",
+            "unit": "--unit pass@1",
+            "runAt": "--run-at 2026-07-05T12:00:00Z",
+            "provenance": "--provenance ci-reproduced",
+            "attestor": "--attestor <handle-or-workflow-url>",
+            "datasetHash": "--dataset-hash <64-char-sha256>",
+            "benchmarkInputHash": "--benchmark-input-hash <64-char-sha256>",
+        }
+        hint_list = " ".join(flag_hints[name] for name in missing)
+        _fail_dev_preflight(
+            f"`--type benchmark-result` requires: {', '.join(missing)}.",
+            fix=(
+                "Provide the reproducibility fingerprint so the benchmark row is\n"
+                f"    citable and re-runnable. Example flags: {hint_list}"
+            ),
+        )
+
+    provenance = evidence["provenance"]
+    if provenance == "self-attested":
+        _fail_dev_preflight(
+            "provenance='self-attested' is FOREVER rejected for benchmark-result rows.",
+            fix=(
+                "Use --provenance ci-reproduced (workflow run URL + commit SHA in --attestor)\n"
+                "    or --provenance verifier-attested (4★+ verifier co-sign).\n"
+                "    Freshly filed self-run scores should use --provenance pending; a Verifier\n"
+                "    or CI job will promote the row before merge."
+            ),
+        )
+    if provenance not in _ALLOWED_PROVENANCE:
+        _fail_dev_preflight(
+            f"--provenance {provenance!r} is not a recognised value.",
+            fix=f"Use one of: {', '.join(_ALLOWED_PROVENANCE)}.",
+        )
+
+    benchmark_id = evidence["benchmarkId"]
+    if not _BENCHMARK_ID_PATTERN.match(benchmark_id):
+        _fail_dev_preflight(
+            f"--benchmark-id {benchmark_id!r} does not match the semver-ish pattern.",
+            fix=(
+                "Expected form '<name>@<version>' or '<name>/<subset>@<version>' —\n"
+                "    for example humaneval@v1.0, humaneval/python@v1.0,\n"
+                "    swe-bench_verified@1.0, or mmlu-5shot@2024-03."
+            ),
+        )
+
+    unit = evidence["unit"]
+    if unit not in _ALLOWED_UNITS:
+        _fail_dev_preflight(
+            f"--unit {unit!r} is not in the frozen unit enum.",
+            fix=f"Use one of: {', '.join(_ALLOWED_UNITS)}. Extending this list is a major schema bump.",
+        )
+
+    for field, flag in (("datasetHash", "--dataset-hash"), ("benchmarkInputHash", "--benchmark-input-hash")):
+        value = evidence.get(field)
+        if not isinstance(value, str) or not _HASH_PATTERN.match(value):
+            _fail_dev_preflight(
+                f"{flag} must be a 64-char lowercase hex SHA-256 digest; got {value!r}.",
+                fix=(
+                    f"Compute the digest of the raw dataset (for {flag}) or of\n"
+                    "    (dataset + prompt template + harness config) for --benchmark-input-hash.\n"
+                    "    Example: python -c \"import hashlib; print(hashlib.sha256(open('data.jsonl','rb').read()).hexdigest())\"."
+                ),
+            )
+
+    run_at = evidence["runAt"]
+    if not isinstance(run_at, str):
+        _fail_dev_preflight(
+            f"--run-at must be an ISO 8601 date-time string; got {type(run_at).__name__}."
+        )
+    normalized = run_at[:-1] + "+00:00" if run_at.endswith("Z") else run_at
+    try:
+        parsed = datetime.datetime.fromisoformat(normalized)
+    except ValueError:
+        _fail_dev_preflight(
+            f"--run-at {run_at!r} is not a valid ISO 8601 date-time.",
+            fix="Use the form 2026-07-05T12:00:00Z (Z or explicit timezone required).",
+        )
+    else:
+        if parsed.tzinfo is None:
+            _fail_dev_preflight(
+                f"--run-at {run_at!r} is missing a timezone offset.",
+                fix="Append Z for UTC or an explicit +HH:MM offset.",
+            )
+
+    attestor = evidence["attestor"]
+    if not isinstance(attestor, str) or not attestor.strip():
+        _fail_dev_preflight(
+            "--attestor must be a non-empty string.",
+            fix=(
+                "For verifier-attested: pass the co-signing verifier's GitHub username.\n"
+                "    For ci-reproduced: pass 'https://github.com/<owner>/<repo>/actions/runs/<id>@<sha>'."
+            ),
+        )
+
+    schema_path = _findBenchmarkResultSchema()
+    if schema_path is None:
+        return
+    try:
+        import jsonschema  # type: ignore
+    except ImportError:
+        return
+    with open(schema_path, "r", encoding="utf-8") as f:
+        sub_schema = json.load(f)
+    validator = jsonschema.Draft7Validator(sub_schema)
+    errors = sorted(validator.iter_errors(evidence), key=lambda e: e.path)
+    if errors:
+        first = errors[0]
+        location = ".".join(str(p) for p in first.path) or "<root>"
+        _fail_dev_preflight(
+            f"benchmark-result schema violation at {location}: {first.message}",
+            fix=(
+                "See registry/schema/evidence/benchmark-result.schema.json for the\n"
+                "    full field contract. Every field is documented inline."
+            ),
         )
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@gaia-registry/mcp-server",
-  "version": "5.11.16",
+  "version": "6.1.7",
   "description": "MCP server for the Gaia Skill Registry \u2014 agent-native skill detection, fusion, and progression",
   "type": "module",
   "main": "dist/index.js",

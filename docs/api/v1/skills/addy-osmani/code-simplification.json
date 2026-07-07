@@ -43,6 +43,37 @@
       "commits": 260,
       "contributors": 36,
       "grade": "B"
+    },
+    {
+      "source": "https://github.com/gaia-research/gaia-skill-tree/blob/286e46e72631bdb1e2332b3a9745255b3ddd0bda/scripts/benchmarks/humaneval/run.py",
+      "evaluator": "unknown",
+      "date": "2026-07-05",
+      "type": "benchmark-result",
+      "benchmarkId": "humaneval@v1.0",
+      "score": 0.5,
+      "unit": "pass@1",
+      "runAt": "2026-07-05T00:00:00Z",
+      "provenance": "pending",
+      "attestor": "pending-ci-reproduction",
+      "notes": "Dogfood seed; will be promoted to ci-reproduced by the first real workflow run of benchmark-humaneval-ci.yml.",
+      "datasetHash": "244753b2a3366bfbb271e76205fdd88e939c91705093c1a18eebd60fc8a0ebf8",
+      "benchmarkInputHash": "3391b5f75da98f71962896b44acbfc37b37648d35474a10610e12b00c9e582a9",
+      "harnessUrl": "https://github.com/gaia-research/gaia-skill-tree/blob/286e46e72631bdb1e2332b3a9745255b3ddd0bda/scripts/benchmarks/humaneval/run.py"
+    },
+    {
+      "source": "https://github.com/gaia-research/gaia-skill-tree/blob/84bd47aa0fa1ae8bfb6de81b12cf1bc0674880b1/scripts/benchmarks/humaneval/run.py",
+      "evaluator": "unknown",
+      "date": "2026-07-06",
+      "type": "benchmark-result",
+      "benchmarkId": "humaneval@v1.0",
+      "score": 0.75,
+      "unit": "pass@1",
+      "runAt": "2026-07-06T10:44:08Z",
+      "provenance": "ci-reproduced",
+      "attestor": "https://github.com/gaia-research/gaia-skill-tree/actions/runs/28785817438@84bd47aa0fa1ae8bfb6de81b12cf1bc0674880b1",
+      "datasetHash": "1d49078ba3e2b196b9344535bef34a43021f038fad9561d6ee7c53450609a6a2",
+      "benchmarkInputHash": "020c89e15872648ee880ebccf6e6e67eb1ceae74f3f52aba4602fa61d417e2f7",
+      "harnessUrl": "https://github.com/gaia-research/gaia-skill-tree/blob/84bd47aa0fa1ae8bfb6de81b12cf1bc0674880b1/scripts/benchmarks/humaneval/run.py"
     }
   ],
   "timeline": [
@@ -116,6 +147,18 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-07-04T22:20:58Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/gaia-research/gaia-skill-tree/blob/286e46e72631bdb1e2332b3a9745255b3ddd0bda/scripts/benchmarks/humaneval/run.py (type: benchmark-result)"
+    },
+    {
+      "timestamp": "2026-07-06T10:44:09Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/gaia-research/gaia-skill-tree/blob/84bd47aa0fa1ae8bfb6de81b12cf1bc0674880b1/scripts/benchmarks/humaneval/run.py (type: benchmark-result)"
     }
   ],
   "links": {
