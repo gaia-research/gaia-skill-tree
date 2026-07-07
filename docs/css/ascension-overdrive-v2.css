@@ -36,7 +36,7 @@
    are not tokens (no new tokens are introduced by v2). */
 .aov {
   --aov-scene-vh: 100;                      /* one scene = 100vh */
-  --aov-apex-vh: 200;                       /* Apex Gate pin duration */
+  --aov-apex-vh: 350;                       /* Apex Gate pin duration */
   /* Scene count: title + R1..R4 + Unique + R5 + Apex(2vh) + coda = 9
      narrative beats over ~1000vh unpinned. Number is documentation
      only; layout does not compute against it. */
@@ -142,20 +142,33 @@
    plates nor paint a horizontal band across the top of the Unique
    branch scene. See docs/js/ascension-overdrive-v2.js `tick()`. */
 
-/* Plane -1b · Optional fog haze (Asset G placeholder). The
-   `--aov-fog-url` custom property is deliberately empty until
-   Asset G is delivered; the layer collapses to zero opacity so
-   there's nothing to paint until the URL is set at :root or via
-   a build-time patch. */
+/* Plane -1b · Asset G haze layer. Warm-sepia dust/smoke overlay
+   sitting between the ledger paper (Plane -2) and the riser lines
+   (Plane -1). Adds atmospheric depth without becoming a fog wall.
+
+   Asset G specs (docs/assets/Asset G/manifest.json):
+     2000x1200 alpha-native WebP, ~62KB, warm sepia palette,
+     recommended base opacity 0.18, parallax rate 0.25x.
+
+   Regeneration script lives at
+   `docs/assets/Asset G/scripts/make_asset_g_haze.py`. The raw
+   Asset G directory is gitignored; only the compressed served
+   copy at `docs/assets/ascension-overdrive/haze.webp` is tracked.
+
+   Opacity is scroll-linked from JS on the same ramp as the ledger,
+   at roughly half strength (0.18 base, 0.03 valley) so the haze
+   fades during rank/unique scenes and restores during title /
+   apex / coda. Parallax translateY at 0.25x is written by the
+   same rAF tick as the other atmosphere layers. */
 .aov-fog {
   position: absolute;
   inset: -10%;
   width: 120%;
   height: 120%;
-  background-image: var(--aov-fog-url, none);
+  background-image: url('../assets/ascension-overdrive/haze.webp');
   background-size: cover;
   background-position: center;
-  opacity: 0.35;
+  opacity: 0.18;
   mix-blend-mode: normal;
   pointer-events: none;
   will-change: transform;
@@ -296,10 +309,22 @@
   width: 100%;
   z-index: 2;
 }
-/* Apex Gate scene is 200vh — the terminal pin holds twice as long
-   so predicates illuminate one-by-one over ~25vh each. */
+/* Apex Gate scene is 350vh — the terminal pin gives each active
+   predicate ~50vh of scroll range to break its seal, plus a ~40vh
+   overhead for the arch fade-in and closing-line reveal.
+
+   Formula:
+     apex_min_height = max(300vh, N_active * 50vh + 40vh)
+
+   Recomputed manually whenever active predicate count changes.
+   Currently 6 active + 1 disabled = 7 rows visually; 6 * 50 + 40 =
+   340vh, rounded to 350vh for comfortable padding. The disabled
+   row still occupies list space but has no scroll trigger, so its
+   50vh allocation is visual only. See docs/js/ascension-overdrive-v2.js
+   `tick()` — the unlock math auto-distributes across whatever
+   `.aov-pred[data-state="locked"]` rows exist in the DOM. */
 .aov-scene[data-scene="apex"] {
-  min-height: 200vh;
+  min-height: 350vh;
 }
 /* Coda scene is 180vh (Issue #975 R6). The prior 100vh scene left
    `codaRange = cr.height - vh = 0` in the rAF math, which meant
@@ -780,9 +805,37 @@
   line-height: 1.4;
 }
 
-/* Predicate staircase — six brass-tag rows. Each rests at
-   `--muted` and toggles `.is-lit` for gold. Staircase indent
-   uses left-padding to visually rise. */
+/* Apex predicates — modular latch-and-seal state machine.
+   ------------------------------------------------------------
+   Each `.aov-pred` row supports THREE states via `data-state`:
+
+     locked   (default) - closed padlock, chain seal visible,
+                          muted colours, dark row background,
+                          solid muted left border.
+     unlocked           - open padlock, seal fades away, gold-
+                          tinted row background, apex-gold id,
+                          solid gold left border. Set by JS on
+                          scroll. Add-only — persists on scroll-back.
+     disabled           - reserved for future/inactive gates. Half-
+                          opacity, dashed left border, closed pad-
+                          lock at 40%, italic reserved note in the
+                          description. Set explicitly in HTML; JS
+                          never toggles it.
+
+   Data-driven, predicate-count-agnostic: the scene divides its
+   scroll range evenly across whatever rows have `data-state=
+   "locked"` at page-load time. Adding new predicates requires
+   only appending markup — no CSS or JS changes.
+
+   `.is-breaking` is a transient class added ~15% of a segment
+   before the unlock threshold; it shudders the latch and fades
+   the seal, and is removed once the row flips to unlocked.
+
+   Trust-methodology (docs/codex/trust-methodology.html §Apex Gate)
+   is the canonical source for the current 6 predicates; future
+   additions (e.g. crossOrgCosignerGte1) can land as `disabled`
+   and later flip to `locked` per the RFC note about cross-org
+   cosigners as the ecosystem matures. */
 .aov-predicates {
   list-style: none;
   padding: 0;
@@ -793,57 +846,211 @@
   width: min(100%, 68rem);
   z-index: 3;
 }
+
+/* Row shell — shared across all three states. Layout is a
+   two-row, three-column grid so the latch and seal glyphs each
+   own one flanking column while the id + desc stack in between. */
 .aov-pred {
   position: relative;
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 1rem;
-  align-items: baseline;
-  padding: 0.9rem 1.1rem 0.9rem 1.4rem;
-  background: rgba(15, 23, 42, 0.55);
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas:
+    "latch id   seal"
+    "latch desc seal";
+  column-gap: clamp(0.75rem, 1.5vw, 1.4rem);
+  row-gap: 0.2rem;
+  align-items: center;
+  padding: 0.85rem clamp(0.9rem, 1.6vw, 1.3rem) 0.85rem 1.3rem;
+  background: color-mix(in oklab, var(--border) 40%, transparent);
   border: 1px solid var(--border);
-  border-left: 3px solid rgba(148, 163, 184, 0.35);
+  border-left: 3px solid var(--border);
   border-radius: 2px;
   text-align: left;
   color: var(--muted);
-  transition:
-    border-left-color 400ms ease-out,
-    color 400ms ease-out,
-    background-color 400ms ease-out,
-    transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1);
   transform: translate3d(0, 10px, 0);
   opacity: 0;
+  transition:
+    border-left-color 480ms cubic-bezier(0.4, 0, 0.2, 1),
+    background-color  480ms cubic-bezier(0.4, 0, 0.2, 1),
+    color             480ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow        480ms cubic-bezier(0.4, 0, 0.2, 1),
+    padding           480ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform         600ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity           600ms ease-out;
 }
-/* Staircase indent — each row shifts right slightly */
+
+/* Staircase indent — each row shifts right slightly as the
+   ladder climbs. Also carries over to any future data-step
+   beyond 6 via the nth-child fallback below. */
 .aov-pred[data-step="2"] { margin-left: clamp(0px, 1vw, 16px); }
 .aov-pred[data-step="3"] { margin-left: clamp(0px, 2vw, 32px); }
 .aov-pred[data-step="4"] { margin-left: clamp(0px, 3vw, 48px); }
 .aov-pred[data-step="5"] { margin-left: clamp(0px, 4vw, 64px); }
 .aov-pred[data-step="6"] { margin-left: clamp(0px, 5vw, 80px); }
+.aov-pred[data-step="7"] { margin-left: clamp(0px, 6vw, 96px); }
+.aov-pred[data-step="8"] { margin-left: clamp(0px, 7vw, 112px); }
 
+/* Scene-entry fade-in — shared across states, preserved from
+   prior implementation so rows still assemble as the pin starts. */
 .aov-scene[data-scene="apex"].is-entering .aov-pred,
-.aov-scene[data-scene="apex"].is-active .aov-pred {
+.aov-scene[data-scene="apex"].is-active   .aov-pred {
   opacity: 1;
   transform: translate3d(0, 0, 0);
 }
-.aov-pred.is-lit {
-  color: var(--text);
-  border-left-color: var(--apex-gold);
-  background: rgba(var(--apex-gold-rgb), 0.06);
-  box-shadow: 0 0 20px -5px rgba(var(--apex-gold-rgb), 0.25);
+
+/* Grid cell placement per glyph. */
+.aov-pred__latch { grid-area: latch; align-self: center; display: inline-flex; }
+.aov-pred__id    { grid-area: id;    align-self: end; }
+.aov-pred__desc  { grid-area: desc;  align-self: start; }
+.aov-pred__seal  { grid-area: seal;  align-self: center; display: inline-flex; }
+
+/* Latch + seal SVGs inherit currentColor from the row so state
+   transitions on `color` also recolour the strokes. */
+.aov-pred__latch-svg,
+.aov-pred__seal-svg {
+  display: block;
+  color: inherit;
 }
+.aov-pred__seal-svg {
+  transition:
+    opacity   400ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+.aov-pred__latch-shackle {
+  transform-origin: 8px 10px;
+  transition: transform 520ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Predicate id typography — mono, letterspaced. Colour tightens
+   in the unlocked state (letters draw closer as the seal breaks). */
 .aov-pred__id {
   font-family: var(--font-mono);
   font-size: clamp(0.85rem, 1.1vw, 1.05rem);
-  color: var(--tier-extra);
-  letter-spacing: 0.01em;
+  letter-spacing: 0.06em;
   white-space: nowrap;
+  transition:
+    color 500ms cubic-bezier(0.4, 0, 0.2, 1),
+    letter-spacing 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.aov-pred.is-lit .aov-pred__id { color: var(--apex-gold); }
 .aov-pred__desc {
   font-family: var(--font-body);
   font-size: clamp(0.9rem, 1.05vw, 1.05rem);
   line-height: 1.5;
+}
+
+/* ------------------------------------------------------------
+   State: locked (default). Muted glyphs, chain visible.
+   ------------------------------------------------------------ */
+.aov-pred[data-state="locked"] {
+  color: var(--muted);
+  background: color-mix(in oklab, var(--border) 40%, transparent);
+  border-left-color: var(--border);
+}
+.aov-pred[data-state="locked"] .aov-pred__id {
+  color: color-mix(in oklab, var(--muted) 85%, var(--tier-unique) 15%);
+}
+
+/* ------------------------------------------------------------
+   State: is-breaking (transient). Latch shudders in place and
+   the chain-link seal begins to fade out. This class is added
+   ~15% of a segment before the unlock threshold and removed the
+   moment `data-state="unlocked"` lands.
+   ------------------------------------------------------------ */
+.aov-pred.is-breaking .aov-pred__latch-svg {
+  animation: aov-latch-shudder 300ms ease-in-out 2;
+}
+.aov-pred.is-breaking .aov-pred__seal-svg {
+  opacity: 0;
+  transform: scale(0.85) translateX(4px);
+}
+
+/* ------------------------------------------------------------
+   State: unlocked. Gold-tinted row, open padlock, seal gone.
+   Set by JS on scroll. Add-only — persists on scroll-back.
+   ------------------------------------------------------------ */
+.aov-pred[data-state="unlocked"] {
+  color: var(--text);
+  background: color-mix(in oklab, var(--apex-gold) 8%, transparent);
+  border-left-color: var(--apex-gold);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  box-shadow:
+    0 0 0 1px rgba(var(--apex-gold-rgb), 0.10) inset,
+    0 0 24px -6px rgba(var(--apex-gold-rgb), 0.30);
+}
+.aov-pred[data-state="unlocked"] .aov-pred__id {
+  color: var(--apex-gold);
+  letter-spacing: 0.02em;
+}
+.aov-pred[data-state="unlocked"] .aov-pred__latch-shackle {
+  /* Shackle rotates up-and-left to read as "opened". */
+  transform: rotate(-25deg) translateX(-2px);
+}
+.aov-pred[data-state="unlocked"] .aov-pred__seal-svg {
+  opacity: 0;
+  transform: scale(0.8) translateX(6px);
+}
+.aov-pred[data-state="unlocked"] .aov-pred__seal {
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------
+   State: disabled. Reserved for future/inactive gates. Dashed
+   left border, half-opacity, closed padlock, italic reserved
+   note. Never receives `is-breaking` or `unlocked` transitions.
+   ------------------------------------------------------------ */
+.aov-pred[data-state="disabled"] {
+  color: color-mix(in oklab, var(--muted) 70%, transparent);
+  background: transparent;
+  border-left-color: color-mix(in oklab, var(--muted) 55%, transparent);
+  border-left-style: dashed;
+  opacity: 0.6;
+}
+.aov-pred[data-state="disabled"] .aov-pred__latch-svg {
+  opacity: 0.55;
+}
+/* Diagonal strike across the latch so a disabled row reads as
+   "this seal is not part of the current promotion path". Rendered
+   as a pseudo-element so the SVG itself stays state-agnostic. */
+.aov-pred[data-state="disabled"] .aov-pred__latch {
+  position: relative;
+}
+.aov-pred[data-state="disabled"] .aov-pred__latch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to top right,
+      transparent calc(50% - 1px),
+      color-mix(in oklab, var(--muted) 60%, transparent) 50%,
+      transparent calc(50% + 1px)
+    );
+  opacity: 0.55;
+}
+.aov-pred[data-state="disabled"] .aov-pred__seal-svg {
+  opacity: 0.4;
+}
+.aov-pred__reserved-note {
+  display: block;
+  margin-top: 0.35rem;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 0.78em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--muted) 75%, var(--evidence-gold) 25%);
+}
+
+/* Shudder played by `.is-breaking`. Small ±2px horizontal jitter
+   over 300ms, two iterations, so the latch reads as "straining"
+   just before the seal snaps. */
+@keyframes aov-latch-shudder {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-2px); }
+  75%      { transform: translateX(2px); }
 }
 
 .aov-apex-coda {
@@ -1216,12 +1423,18 @@
   .aov-pred[data-step="3"],
   .aov-pred[data-step="4"],
   .aov-pred[data-step="5"],
-  .aov-pred[data-step="6"] {
+  .aov-pred[data-step="6"],
+  .aov-pred[data-step="7"],
+  .aov-pred[data-step="8"] {
     margin-left: 0;
   }
   .aov-pred {
-    grid-template-columns: 1fr;
-    gap: 0.4rem;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      "latch id   seal"
+      "latch desc seal";
+    column-gap: 0.75rem;
+    row-gap: 0.2rem;
   }
 
   /* The Order coda — left-align on mobile per spec, fully
@@ -1311,11 +1524,26 @@
     opacity: 1 !important;
     transition: none !important;
   }
-  .aov-pred {
+  /* Predicates render at their composed rest state — all locked
+     rows read as still-sealed (this is a static preview of the
+     gate, not the animated unlock). Disabled rows keep their
+     dashed/half-opacity treatment via the state selectors above,
+     which the !important opacity here intentionally overrides so
+     the row is still legible; the dashed border stays. */
+  .aov-pred[data-state="unlocked"] {
     color: var(--text);
     border-left-color: var(--apex-gold);
   }
-  .aov-pred__id { color: var(--apex-gold); }
+  .aov-pred[data-state="unlocked"] .aov-pred__id { color: var(--apex-gold); }
+  .aov-pred[data-state="unlocked"] .aov-pred__latch-shackle {
+    transform: rotate(-25deg) translateX(-2px);
+  }
+  .aov-pred[data-state="unlocked"] .aov-pred__seal-svg {
+    opacity: 0;
+  }
+  .aov-pred.is-breaking .aov-pred__latch-svg {
+    animation: none !important;
+  }
   .aov-apex-coda {
     opacity: 1;
     transform: none;
