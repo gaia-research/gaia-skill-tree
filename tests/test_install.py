@@ -75,6 +75,36 @@ class TestInstallInfra:
         assert branch is None
         assert subpath == ""
 
+    def test_parse_github_url_tree_with_subpath(self):
+        """tree/ URL extracts the correct subpath rather than installing the repo root."""
+        url = "https://github.com/garrytan/gstack/tree/main/review"
+        repo, branch, subpath = _parse_github_url(url)
+        assert repo == "https://github.com/garrytan/gstack.git"
+        assert branch == "main"
+        assert subpath == "review"
+
+    def test_parse_github_url_tree_root_only(self):
+        """tree/ URL with no subpath (just /tree/branch) returns subpath=''."""
+        url = "https://github.com/garrytan/gstack/tree/main"
+        repo, branch, subpath = _parse_github_url(url)
+        assert repo == "https://github.com/garrytan/gstack.git"
+        assert branch == "main"
+        assert subpath == ""
+
+    def test_parse_github_url_tree_trailing_slash_stripped(self):
+        """tree/ URL with trailing slash produces same result as without."""
+        with_slash = _parse_github_url("https://github.com/garrytan/gstack/tree/main/review/")
+        without_slash = _parse_github_url("https://github.com/garrytan/gstack/tree/main/review")
+        assert with_slash == without_slash
+
+    def test_parse_github_url_tree_deep_subpath(self):
+        """tree/ URL with a multi-segment path preserves the full path."""
+        url = "https://github.com/owner/repo/tree/main/skills/foo/bar"
+        repo, branch, subpath = _parse_github_url(url)
+        assert repo == "https://github.com/owner/repo.git"
+        assert branch == "main"
+        assert subpath == "skills/foo/bar"
+
     def test_parse_github_url_dir_path_no_md_extension(self):
         """Blob URL pointing to a directory (no .md suffix) → subpath is the full path."""
         url = "https://github.com/garrytan/gstack/blob/main/browse"
