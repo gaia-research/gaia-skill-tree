@@ -125,6 +125,12 @@ timeline:
   contributor: unknown
   details: 'Apex promotion PR stamped by Marco (founder/mbtiongson1) per #746 directive
     — superpowers qualifies for §11.12.8 (apexPromotionPrSigned)'
+- timestamp: '2026-07-08T19:56:27Z'
+  action: upstream_synced
+  contributor: github-actions[bot]
+  previousValue: null
+  newValue: v6.1.1
+  details: first-run baseline
 trustMagnitude: 445.15
 overallTrustGrade: S
 apexGateStatus:
@@ -141,6 +147,13 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-19T09:17:53Z'
 trustMagnitudeInputHash: 2d67b35c36b1d3e307febe93181725bf1ac72fc1f25555849b9517d275189606
+upstream:
+  mode: components
+  releasedAt: '2026-07-02T21:58:30Z'
+  repo: obra/superpowers
+  sourceUrl: https://github.com/obra/superpowers/releases/tag/v6.1.1
+  syncedAt: '2026-07-08T19:56:27Z'
+  version: v6.1.1
 ---
 
 ## Overview
