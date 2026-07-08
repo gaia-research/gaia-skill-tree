@@ -110,6 +110,19 @@ class PushCommand(Command):
             dest="overrideReason",
             help="Document an --allow-unsafe override for the audit trail",
         )
+        parser.add_argument(
+            "--from-file",
+            dest="fromFile",
+            metavar="PATH",
+            default=None,
+            help=(
+                "Load a batch of skills from a YAML file instead of scanning the repo. "
+                "The file must contain a top-level 'skills:' list using the intake schema "
+                "(see .github/ISSUE_TEMPLATE/new_skill_intake.yml for the schema). "
+                "Bypasses the .gaia/custom_state.json scan path entirely. "
+                "Compatible with --dry-run, --no-issue, and --yes."
+            ),
+        )
 
     def execute(self, args: argparse.Namespace) -> int | None:
         # Sprint D W2b (#905) — divert to the benchmark-evidence flow when
@@ -117,9 +130,12 @@ class PushCommand(Command):
         if getattr(args, "benchmark", None):
             from gaia_cli.commands.pushBenchmark import push_benchmark_command
             return push_benchmark_command(args)
+        # --from-file: bypass scan, load batch from a YAML skills file.
+        if getattr(args, "fromFile", None):
+            from gaia_cli.commands.pushFromFile import push_from_file_command
+            return push_from_file_command(args)
         from gaia_cli.main import push_command
-        push_command(args)
-        return 0
+        return push_command(args) or 0
 
 class ProposeCommand(Command):
     name = "propose"

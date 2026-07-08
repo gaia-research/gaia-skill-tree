@@ -4,19 +4,20 @@ description: >-
   Phase 5 of the feature-pipeline suite. Use this after /fp-iterate prints the
   M4 stop hook confirming CI is green. Fetches origin/main, runs gaia dev diff
   to surface any skill-registry changes the PR introduced that are unrelated to
-  its stated purpose (accidental drift), then prints the final pipeline summary.
-  Also invoke standalone whenever you want to audit whether a branch has
-  unexpected registry drift — e.g. before merging any review/meta or cli/
-  branch, or when a reviewer asks "did this PR touch anything it shouldn't?".
-  Triggers: "check for drift", "drift check", "final summary", "pipeline done",
-  "wrap up the pipeline", "fp-drift", "Phase 5".
-version: 3.0.0
+  its stated purpose (accidental drift), then prints the final pipeline summary
+  including a CI churn report (via /ci-churn). Also invoke standalone whenever
+  you want to audit whether a branch has unexpected registry drift — e.g. before
+  merging any review/meta or cli/ branch, or when a reviewer asks "did this PR
+  touch anything it shouldn't?". Triggers: "check for drift", "drift check",
+  "final summary", "pipeline done", "wrap up the pipeline", "fp-drift", "Phase 5".
+version: 3.1.0
 ---
 
 # fp-drift  (Phase 5 — Drift Check & Final Summary)
 
 Verify no unintended registry changes leaked into the branch, then close the
-pipeline with a human-readable summary. Runs in the main turn — no sub-agent.
+pipeline with a human-readable summary that includes a CI churn report.
+Runs in the main turn — no sub-agent.
 
 ## Setup
 
@@ -79,6 +80,23 @@ Collect the commit list for the summary:
 git log origin/main..HEAD --oneline
 ```
 
+## CI Churn Report
+
+Before printing the final summary, run the `/ci-churn` script to measure how
+many commits and CI-compute seconds were burned on avoidable push rounds.
+See `.agents/skills/ci-churn/SKILL.md` for full documentation.
+
+```bash
+python3 scripts/ci_churn.py "$pr" 2>/dev/null
+```
+
+If `$pr` is unavailable from state, pass the PR number directly.  
+If the script is unavailable (not yet in repo), skip gracefully with a note.
+
+Capture the output and embed it verbatim in the final summary under a
+`CI Churn` section. Do **not** interpret or editorialize the numbers —
+just include the raw report so the human can read it directly.
+
 Print the final summary and close the pipeline state:
 
 ```
@@ -100,6 +118,10 @@ What was fixed
 ──────────────
 • <issue title>
 …
+
+CI Churn
+────────
+<output of python3 scripts/ci_churn.py $pr>
 ```
 
 ```bash
