@@ -299,6 +299,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
 ══════════════════════════════════════════════════════════════════════
 
   · ○ /autonomous-engineering-platform
+  · ○ /ci-churn-analysis
   · ○ /clinical-data-retrieval
   · ○ /cultural-localization
   · ○ ████████/domain-modeling

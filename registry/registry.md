@@ -168,6 +168,7 @@
 | ○ /sentiment-analysis | Basic Skill | — | `/sentiment-analysis` |
 | ◇ [garrytan](../docs/u/garrytan/)/skillify | Extra Skill | 3★ | `/skill-authoring` |
 | ○ [vercel](../docs/u/vercel/)/find-skills | Basic Skill | 2★ | `/skill-discovery` |
+| ◇ /skill-fusion | Extra Skill | — | `/skill-fusion` |
 | ◆ [mattpocock](../docs/u/mattpocock/)/skills | Ultimate Skill | 5★ | `/skill-mastery` |
 | ◇ [garrytan](../docs/u/garrytan/)/benchmark-models | Extra Skill | 2★ | `/skill-performance-benchmarking` |
 | ◇ /skill-security-analysis | Extra Skill | — | `/skill-security-analysis` |
@@ -223,6 +224,7 @@
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|
 | ○ Autonomous Engineering Platform | Intrinsic Skill | — | `/autonomous-engineering-platform` |
+| ○ CI Churn Analysis | Intrinsic Skill | — | `/ci-churn-analysis` |
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
 | ○ Cultural Localization | Intrinsic Skill | — | `/cultural-localization` |
 | ○ Domain Modeling | Intrinsic Skill | — | `/domain-modeling` |
