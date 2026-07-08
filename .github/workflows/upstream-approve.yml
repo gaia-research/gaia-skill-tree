@@ -146,10 +146,10 @@ jobs:
           except json.JSONDecodeError as e:
               print(f'JSON parse error: {e}', file=sys.stderr)
               sys.exit(1)
-          " 2>parse_error.txt || true)
+          " 2>"$RUNNER_TEMP/parse_error.txt" || true)
 
           if [ -z "$PAYLOAD_JSON" ] || [ "$PAYLOAD_JSON" = "{}" ]; then
-            ERROR=$(cat parse_error.txt 2>/dev/null || echo "unknown parse error")
+            ERROR=$(cat "$RUNNER_TEMP/parse_error.txt" 2>/dev/null || echo "unknown parse error")
             gh issue comment "$ISSUE_NUMBER" \
               --body "⚠️ **Payload parse failure.** Could not extract the machine-readable payload from this issue body. Error: \`$ERROR\`. Cannot proceed with sync."
             exit 1
@@ -233,7 +233,7 @@ jobs:
           git checkout -b "$BRANCH"
           echo "branch=$BRANCH" >> $GITHUB_OUTPUT
 
-      # ── Bug 1 fix: bootstrap mode uses --bootstrap flag, not --mode bootstrap
+      # ── Hotfix 2: bootstrap mode uses --bootstrap flag; --version renamed to --tag
       - name: Run gaia dev sync-upstream
         env:
           GAIA_OPERATOR_OVERRIDE: "1"
@@ -246,14 +246,14 @@ jobs:
           set -euo pipefail
           if [ "$MODE" = "bootstrap" ]; then
             python -m gaia_cli dev sync-upstream "$SKILL_ID" \
-              --version "$NEW_VERSION" \
+              --tag "$NEW_VERSION" \
               --source-url "$SOURCE_URL" \
               --released-at "$RELEASED_AT" \
               --bootstrap \
               --user "github-actions[bot]"
           else
             python -m gaia_cli dev sync-upstream "$SKILL_ID" \
-              --version "$NEW_VERSION" \
+              --tag "$NEW_VERSION" \
               --source-url "$SOURCE_URL" \
               --released-at "$RELEASED_AT" \
               --mode "$MODE" \
@@ -285,14 +285,37 @@ jobs:
         run: |
           python -m gaia_cli dev docs || true
 
+      # ── Hotfix 2: abort if sync produced no real registry changes ──────────
+      - name: Verify sync produced real changes
+        id: change_check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+        run: |
+          set -euo pipefail
+          # Sync-upstream + freeze should have modified files under registry/named/
+          # If the ONLY changes are docs regen noise, this was a no-op and we abort.
+          REGISTRY_CHANGES=$(git status --porcelain registry/named/ | wc -l)
+          if [ "$REGISTRY_CHANGES" -eq 0 ]; then
+            echo "no_changes=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::sync-upstream produced no changes to registry/named/. Aborting PR creation."
+            gh issue comment "$ISSUE_NUMBER" \
+              --body "⚠️ **Sync aborted: no registry changes.** The \`gaia dev sync-upstream\` step ran but did not modify any file under \`registry/named/\`. This usually means the sync silently no-op'd (see PR #1043 for the known argparse clash regression). No PR was opened. Please re-run once diagnostics are complete."
+            exit 0
+          fi
+          echo "no_changes=false" >> "$GITHUB_OUTPUT"
+
       - name: Commit and push
+        if: steps.change_check.outputs.no_changes != 'true'
         env:
           BRANCH: ${{ steps.branch.outputs.branch }}
           NEW_VERSION: ${{ steps.payload.outputs.new_version }}
           SKILL_ID: ${{ steps.payload.outputs.skill_id }}
         run: |
           set -euo pipefail
-          git add -A
+          # Stage only the paths we intend to commit — defence-in-depth against
+          # stray files (e.g. parse_error.txt) leaking into the commit.
+          git add registry/named/ registry/gaia.json registry/named-skills.json docs/graph/ || true
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
@@ -301,6 +324,7 @@ jobs:
           git push origin "$BRANCH"
 
       - name: Open draft PR
+        if: steps.change_check.outputs.no_changes != 'true'
         id: pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -324,6 +348,7 @@ jobs:
           echo "pr_url=$PR_URL" >> $GITHUB_OUTPUT
 
       - name: Comment PR link on umbrella
+        if: steps.change_check.outputs.no_changes != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
