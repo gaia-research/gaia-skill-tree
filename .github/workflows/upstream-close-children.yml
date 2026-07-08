@@ -1,0 +1,122 @@
+name: Upstream Close Children
+
+on:
+  issues:
+    types: [closed]
+
+permissions:
+  issues: write
+
+jobs:
+  close-children:
+    name: Handle upstream child/umbrella close events
+    runs-on: ubuntu-latest
+    # Fire for upstream:child closes OR upstream:release closes
+    if: >-
+      contains(github.event.issue.labels.*.name, 'upstream:child') ||
+      contains(github.event.issue.labels.*.name, 'upstream:release')
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # ── Case 1: An upstream:child issue was closed ──────────────────────────
+      - name: Re-fire approve workflow if all siblings closed
+        if: contains(github.event.issue.labels.*.name, 'upstream:child')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CLOSED_ISSUE_BODY: ${{ github.event.issue.body }}
+          CLOSED_ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          set -euo pipefail
+
+          # Parse umbrella number from "Umbrella: #<n>"
+          UMBRELLA_NUMBER=$(echo "$CLOSED_ISSUE_BODY" | python3 -c "
+          import sys, re
+          body = sys.stdin.read()
+          m = re.search(r'Umbrella:\s*#(\d+)', body)
+          if m:
+              print(m.group(1))
+          " 2>/dev/null || true)
+
+          if [ -z "$UMBRELLA_NUMBER" ]; then
+            echo "Could not parse umbrella number from child body. Skipping."
+            exit 0
+          fi
+
+          echo "Child #${CLOSED_ISSUE_NUMBER} closed. Umbrella: #${UMBRELLA_NUMBER}"
+
+          # Check if umbrella is open and has upstream:approved
+          UMBRELLA_STATE=$(gh issue view "$UMBRELLA_NUMBER" --json state,labels \
+            --jq '{state: .state, approved: ([.labels[].name] | contains(["upstream:approved"]))}' \
+            2>/dev/null || echo '{"state":"unknown","approved":false}')
+
+          IS_OPEN=$(echo "$UMBRELLA_STATE" | python3 -c "import sys,json; d=json.load(sys.stdin); print('true' if d['state']=='OPEN' else 'false')")
+          IS_APPROVED=$(echo "$UMBRELLA_STATE" | python3 -c "import sys,json; d=json.load(sys.stdin); print('true' if d['approved'] else 'false')")
+
+          if [ "$IS_OPEN" != "true" ] || [ "$IS_APPROVED" != "true" ]; then
+            echo "Umbrella #${UMBRELLA_NUMBER} is not open+approved. No action needed."
+            exit 0
+          fi
+
+          # Check if ALL sibling upstream:child issues for this umbrella are now closed
+          OPEN_SIBLINGS=$(gh issue list \
+            --label "upstream:child" \
+            --state open \
+            --search "Umbrella: #${UMBRELLA_NUMBER}" \
+            --json number \
+            --jq 'length' 2>/dev/null || echo "0")
+
+          if [ "$OPEN_SIBLINGS" = "0" ]; then
+            echo "All siblings closed. Re-firing upstream-approve.yml for umbrella #${UMBRELLA_NUMBER}."
+            gh workflow run upstream-approve.yml \
+              -f issue_number="$UMBRELLA_NUMBER" || \
+              echo "::warning::Could not re-fire upstream-approve.yml. May need manual re-labeling of #${UMBRELLA_NUMBER}."
+          else
+            echo "${OPEN_SIBLINGS} sibling(s) still open. Waiting."
+          fi
+
+      # ── Case 2: An upstream:release umbrella was closed (reject cascade) ───
+      - name: Cascade close children on umbrella rejection
+        if: contains(github.event.issue.labels.*.name, 'upstream:release')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UMBRELLA_BODY: ${{ github.event.issue.body }}
+          UMBRELLA_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          set -euo pipefail
+
+          # Only cascade if closed as rejected
+          HAS_REJECTED=$(gh issue view "$UMBRELLA_NUMBER" --json labels \
+            --jq '[.labels[].name] | contains(["upstream:rejected"])' 2>/dev/null || echo "false")
+
+          if [ "$HAS_REJECTED" != "true" ]; then
+            echo "Umbrella #${UMBRELLA_NUMBER} closed without upstream:rejected label. No cascade."
+            exit 0
+          fi
+
+          echo "Umbrella #${UMBRELLA_NUMBER} was rejected. Closing open child intakes."
+
+          # Find open children referencing this umbrella
+          OPEN_CHILDREN=$(gh issue list \
+            --label "upstream:child" \
+            --state open \
+            --search "Umbrella: #${UMBRELLA_NUMBER}" \
+            --json number \
+            --jq '.[].number' 2>/dev/null || true)
+
+          if [ -z "$OPEN_CHILDREN" ]; then
+            echo "No open children found for umbrella #${UMBRELLA_NUMBER}."
+            exit 0
+          fi
+
+          while IFS= read -r child_num; do
+            [ -z "$child_num" ] && continue
+            echo "Closing child #${child_num}"
+            gh issue close "$child_num" \
+              --reason "not planned" \
+              --comment "Umbrella #${UMBRELLA_NUMBER} was rejected. Auto-closing this child intake." \
+              || echo "::warning::Could not close child #${child_num}"
+          done <<< "$OPEN_CHILDREN"
