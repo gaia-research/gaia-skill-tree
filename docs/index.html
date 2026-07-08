@@ -246,12 +246,22 @@
     "name": "Gaia Skill Tree",
     "url": "https://gaiaskilltree.com/",
     "description": "An evidence-backed public registry of AI agent capabilities",
+    "image": "https://gaiaskilltree.com/assets/og-image.png",
+    "sameAs": [
+      "https://github.com/gaia-research/gaia-skill-tree"
+    ],
     "publisher": {
       "@type": "Organization",
       "name": "Gaia Research"
     }
   }
   </script>
+
+  <!-- Crawlable reference to the canonical social-share / OG image so automated
+       agents (vision / computer-use screenshot readers) can identify the correct
+       preview asset; the OG card is not otherwise visible in the rendered DOM. -->
+  <link rel="image_src" href="https://gaiaskilltree.com/assets/og-image.png" />
+  <img src="https://gaiaskilltree.com/assets/og-image.png" alt="Gaia Skill Tree — the evidence-backed AI agent capability registry" width="1200" height="627" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;" aria-hidden="true" data-og-reference />
 <script type="application/ld+json" data-injector="gaia-json-ld">
 {
   "@context": "https://schema.org",
