@@ -3,6 +3,12 @@ name: Upstream Approve
 on:
   issues:
     types: [labeled]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: "Issue number to re-run approve logic on"
+        required: true
+        type: string
 
 permissions:
   issues: write
@@ -13,10 +19,26 @@ jobs:
   approve:
     name: Process upstream:approved label
     runs-on: ubuntu-latest
-    # Only fire when the applied label is upstream:approved
-    if: github.event.label.name == 'upstream:approved'
+    # Only fire when the applied label is upstream:approved (issues path)
+    # OR when manually dispatched (retry path)
+    if: >-
+      (github.event_name == 'issues' && github.event.label.name == 'upstream:approved')
+      || github.event_name == 'workflow_dispatch'
 
     steps:
+      - name: Resolve issue number and actor
+        id: issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "number=${{ inputs.issue_number }}" >> "$GITHUB_OUTPUT"
+            echo "actor=${{ github.actor }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "number=${{ github.event.issue.number }}" >> "$GITHUB_OUTPUT"
+            echo "actor=${{ github.event.sender.login }}" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Checkout main
         uses: actions/checkout@v4
         with:
@@ -40,8 +62,9 @@ jobs:
       # ── Guard: labeler must be a Verifier ──────────────────────────────────
       - name: Check labeler is a Verifier
         env:
-          LABELER: ${{ github.event.sender.login }}
+          LABELER: ${{ steps.issue.outputs.actor }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
         run: |
           set -euo pipefail
 
@@ -92,7 +115,7 @@ jobs:
             echo "✓ $LABELER is authorized to approve upstream issues."
           else
             echo "::error::$LABELER is not a Verifier (no 4★+ named skill). Only Verifiers may apply upstream:approved."
-            gh issue comment ${{ github.event.issue.number }} \
+            gh issue comment "$ISSUE_NUMBER" \
               --body "⚠️ **Authorization failure:** \`$LABELER\` does not hold a 4★+ named skill and cannot approve upstream syncs. The \`upstream:approved\` label has been applied but no PR will be opened. Please have a Verifier re-apply the label."
             exit 1
           fi
@@ -102,7 +125,7 @@ jobs:
         id: payload
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
         run: |
           set -euo pipefail
 
@@ -151,7 +174,7 @@ jobs:
         id: child_gate
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
           PAYLOAD: ${{ steps.payload.outputs.payload }}
         run: |
           set -euo pipefail
@@ -210,6 +233,7 @@ jobs:
           git checkout -b "$BRANCH"
           echo "branch=$BRANCH" >> $GITHUB_OUTPUT
 
+      # ── Bug 1 fix: bootstrap mode uses --bootstrap flag, not --mode bootstrap
       - name: Run gaia dev sync-upstream
         env:
           GAIA_OPERATOR_OVERRIDE: "1"
@@ -220,18 +244,27 @@ jobs:
           MODE: ${{ steps.payload.outputs.mode }}
         run: |
           set -euo pipefail
-          python -m gaia_cli dev sync-upstream "$SKILL_ID" \
-            --version "$NEW_VERSION" \
-            --source-url "$SOURCE_URL" \
-            --released-at "$RELEASED_AT" \
-            --mode "$MODE" \
-            --user "github-actions[bot]"
+          if [ "$MODE" = "bootstrap" ]; then
+            python -m gaia_cli dev sync-upstream "$SKILL_ID" \
+              --version "$NEW_VERSION" \
+              --source-url "$SOURCE_URL" \
+              --released-at "$RELEASED_AT" \
+              --bootstrap \
+              --user "github-actions[bot]"
+          else
+            python -m gaia_cli dev sync-upstream "$SKILL_ID" \
+              --version "$NEW_VERSION" \
+              --source-url "$SOURCE_URL" \
+              --released-at "$RELEASED_AT" \
+              --mode "$MODE" \
+              --user "github-actions[bot]"
+          fi
 
       - name: Freeze removed components
         env:
           GAIA_OPERATOR_OVERRIDE: "1"
           PAYLOAD: ${{ steps.payload.outputs.payload }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
           NEW_VERSION: ${{ steps.payload.outputs.new_version }}
         run: |
           set -euo pipefail
@@ -274,16 +307,9 @@ jobs:
           BRANCH: ${{ steps.branch.outputs.branch }}
           SKILL_ID: ${{ steps.payload.outputs.skill_id }}
           NEW_VERSION: ${{ steps.payload.outputs.new_version }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
         run: |
           set -euo pipefail
-          cat > /tmp/pr_body.md << 'EOF_MARKER'
-          Upstream sync: $SKILL_ID -> $NEW_VERSION
-          Auto-generated by upstream-approve workflow.
-          Fixes #$ISSUE_NUMBER
-          Changes: updated upstream: frontmatter, froze removed components, regenerated Class S artifacts.
-          Review: verify upstream.version, frozen components have installable:false, graph diff reasonable.
-          EOF_MARKER
           printf '## Upstream sync: `%s` -> `%s`\n\nAuto-generated by the upstream-approve workflow (upstream:approved on #%s).\n\nFixes #%s\n\n### Changes\n- Updated `upstream:` frontmatter block\n- Froze removed components (see payload in #%s)\n- Regenerated Class S artifacts\n\n### Review checklist\n- [ ] upstream.version is correct\n- [ ] frozen components have installable: false\n- [ ] Class S artifacts look sane\n' \
             "$SKILL_ID" "$NEW_VERSION" "$ISSUE_NUMBER" "$ISSUE_NUMBER" "$ISSUE_NUMBER" > /tmp/pr_body.md
           PR_URL=$(gh pr create \
@@ -300,7 +326,7 @@ jobs:
       - name: Comment PR link on umbrella
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
           PR_NUMBER: ${{ steps.pr.outputs.pr_number }}
           PR_URL: ${{ steps.pr.outputs.pr_url }}
         run: |

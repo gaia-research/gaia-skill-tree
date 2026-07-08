@@ -1,0 +1,100 @@
+name: Upstream Reject
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  issues: write
+
+jobs:
+  reject:
+    name: Process upstream:rejected label
+    runs-on: ubuntu-latest
+    if: github.event.label.name == 'upstream:rejected'
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      # ── Guard: labeler must be a Verifier ──────────────────────────────────
+      - name: Check labeler is a Verifier
+        env:
+          LABELER: ${{ github.event.sender.login }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          # Bot actors are always allowed
+          case "$LABELER" in
+            *\[bot\]|github-actions|jules|codex|claude-bot|gemini-bot|mbtiongson1)
+              echo "✓ $LABELER is an allowlisted actor."
+              exit 0
+              ;;
+          esac
+
+          AUTHORIZED=$(python3 - "$LABELER" <<'PY'
+          import json, sys, os
+
+          actor = sys.argv[1]
+          index_path = "registry/named-skills.json"
+
+          if not os.path.exists(index_path):
+              print("bootstrap")
+              sys.exit(0)
+
+          try:
+              with open(index_path, "r", encoding="utf-8") as f:
+                  idx = json.load(f)
+          except Exception:
+              print("bootstrap")
+              sys.exit(0)
+
+          has_any_verifier = False
+          for entries in idx.get("buckets", {}).values():
+              for e in entries:
+                  lvl = e.get("level", "")
+                  if lvl and lvl[0].isdigit() and int(lvl[0]) >= 4:
+                      has_any_verifier = True
+                      if e.get("contributor") == actor:
+                          print("yes")
+                          sys.exit(0)
+
+          if not has_any_verifier:
+              print("bootstrap")
+          else:
+              print("no")
+          PY
+          )
+
+          echo "Labeler authorization: $AUTHORIZED"
+          if [ "$AUTHORIZED" = "yes" ] || [ "$AUTHORIZED" = "bootstrap" ]; then
+            echo "✓ $LABELER is authorized to reject upstream issues."
+          else
+            echo "::error::$LABELER is not a Verifier (no 4★+ named skill). Only Verifiers may apply upstream:rejected."
+            gh issue remove-label ${{ github.event.issue.number }} "upstream:rejected" || true
+            gh issue comment ${{ github.event.issue.number }} \
+              --body "⚠️ **Authorization failure:** \`$LABELER\` does not hold a 4★+ named skill and cannot reject upstream syncs. The \`upstream:rejected\` label has been removed. Please have a Verifier apply the label."
+            exit 1
+          fi
+
+      # ── Close the umbrella as not planned ──────────────────────────────────
+      - name: Close umbrella issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue close ${{ github.event.issue.number }} \
+            --reason "not planned" \
+            --comment "Rejected via \`upstream:rejected\` label by @${{ github.event.sender.login }}. Cascading to close any \`upstream:child\` intakes."
