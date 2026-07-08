@@ -24,119 +24,59 @@ Auth: set GH_TOKEN env var to raise rate limit to 5000 req/hr.
 from __future__ import annotations
 
 import argparse
-import os
-import re
 import sys
-import time
-import urllib.request
-import urllib.error
-import json
-from datetime import date, timezone
+from datetime import date
 from pathlib import Path
+
+# ---------------------------------------------------------------------------
+# Ensure repo root is on sys.path so ``scripts.lib`` resolves when this file
+# is executed directly (e.g. ``python scripts/stargazerHeartbeat.py --apply``)
+# as well as when imported as a module (e.g. in tests via pytest).
+# ---------------------------------------------------------------------------
+
+_REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
+
+# ---------------------------------------------------------------------------
+# Shared library imports (scripts.lib — extracted in PR 2/7)
+# ---------------------------------------------------------------------------
+
+from scripts.lib.frontmatter import (
+    load_yaml_simple,
+    split_frontmatter,
+    update_list_item_in_frontmatter,
+)
+from scripts.lib.github_api import fetch_json, parse_owner_repo
 
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = _REPO_ROOT
 NAMED_DIR = REPO_ROOT / "registry" / "named"
 
 # ---------------------------------------------------------------------------
-# Frontmatter parser (regex-based — no ruamel/python-frontmatter dep needed)
+# GitHub star fetch — thin wrapper around the shared fetch_json primitive
 # ---------------------------------------------------------------------------
 
-_FM_RE = re.compile(r"^---\r?\n(.*?)\r?\n---(?:\r?\n|$)", re.DOTALL)
 
+def _fetch_stars(owner: str, repo: str) -> int | None:
+    """Fetch stargazers_count for *owner*/*repo* via the GitHub API.
 
-def _split_frontmatter(text: str) -> tuple[str, str, str]:
-    """Return (pre_fence, fm_content, body).
-
-    pre_fence is always '---\\n'.  Returns ('', '', text) if no frontmatter.
+    Returns ``None`` on any error (HTTPError, timeout, missing field).
+    Delegates caching, throttling, and auth to ``scripts.lib.github_api.fetch_json``.
     """
-    m = _FM_RE.match(text)
-    if not m:
-        return ("", "", text)
-    fm_raw = m.group(1)
-    body = text[m.end():]
-    return ("---\n", fm_raw, body)
-
-
-def _load_yaml_simple(text: str) -> dict:
-    """Thin wrapper — project uses pyyaml (listed in pyproject.toml deps)."""
-    import yaml  # pyyaml — always available in this project
-    return yaml.safe_load(text) or {}
-
-
-# ---------------------------------------------------------------------------
-# GitHub URL parser
-# ---------------------------------------------------------------------------
-
-_GH_RE = re.compile(
-    r"https?://github\.com/([^/]+)/([^/\s#?]+)"
-    r"(?:/(?:blob|tree|stargazers|commits?|releases?)(/[^\s#?]*)?)?"
-)
-
-
-def parse_owner_repo(url: str) -> tuple[str, str] | None:
-    """Extract (owner, repo) from a GitHub URL.  Returns None on failure."""
-    if not url:
+    data = fetch_json(f"https://api.github.com/repos/{owner}/{repo}")
+    if data is None:
         return None
-    m = _GH_RE.match(url.strip())
-    if not m:
-        return None
-    owner = m.group(1)
-    repo = m.group(2).rstrip("/")
-    # Strip .git suffix if present
-    if repo.endswith(".git"):
-        repo = repo[:-4]
-    return (owner, repo)
-
-
-# ---------------------------------------------------------------------------
-# GitHub API
-# ---------------------------------------------------------------------------
-
-_GH_API = "https://api.github.com/repos/{owner}/{repo}"
-_CACHE: dict[str, int | None] = {}  # (owner/repo) -> star count or None on error
-
-
-def fetch_stars(owner: str, repo: str) -> int | None:
-    """Fetch stargazers_count from GitHub API.  Returns None on any error."""
-    key = f"{owner}/{repo}"
-    if key in _CACHE:
-        return _CACHE[key]
-
-    url = _GH_API.format(owner=owner, repo=repo)
-    req = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json"})
-
-    token = os.environ.get("GH_TOKEN", "")
-    if token:
-        req.add_header("Authorization", f"token {token}")
-
-    try:
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            data = json.loads(resp.read().decode())
-            count = data.get("stargazers_count")
-            _CACHE[key] = count
-            return count
-    except urllib.error.HTTPError as exc:
-        print(
-            f"  [warn] GitHub API {exc.code} for {key}: {exc.reason}",
-            file=sys.stderr,
-        )
-        _CACHE[key] = None
-        return None
-    except Exception as exc:  # noqa: BLE001
-        print(f"  [warn] GitHub API error for {key}: {exc}", file=sys.stderr)
-        _CACHE[key] = None
-        return None
-    finally:
-        time.sleep(0.1)
+    return data.get("stargazers_count")
 
 
 # ---------------------------------------------------------------------------
 # Delta threshold
 # ---------------------------------------------------------------------------
+
 
 def _needs_update(old: int, new: int) -> bool:
     """Return True if the star count warrants a refresh."""
@@ -149,107 +89,25 @@ def _needs_update(old: int, new: int) -> bool:
 
 
 # ---------------------------------------------------------------------------
-# Frontmatter rewriter
-# ---------------------------------------------------------------------------
-
-def _update_evidence_row_in_text(text: str, row_index: int, new_stars: int) -> str:
-    """Update the `stars:` field (and add/update `updatedAt:`) in the raw YAML
-    frontmatter text for the evidence entry at *row_index*.
-
-    We rewrite only the matching evidence block to avoid disturbing ordering or
-    formatting of the rest of the document.
-
-    Strategy: locate the N-th evidence list item inside the frontmatter and do
-    targeted in-place substitution.
-    """
-    m = _FM_RE.match(text)
-    if not m:
-        return text  # safety: nothing to update
-
-    fm_text = m.group(1)
-    body_text = text[m.end():]
-
-    # Find all top-level '- ' evidence list item start positions in the fm_text.
-    # Evidence block is under the 'evidence:' key — we find the block and then
-    # locate the N-th list item.
-    # Simple approach: split fm into lines and walk the evidence block.
-
-    lines = fm_text.split("\n")
-    in_evidence = False
-    item_idx = -1
-    item_start_line = None  # line index where item_idx == row_index starts
-    item_end_line = None
-    today_str = date.today().isoformat()
-
-    for i, line in enumerate(lines):
-        if re.match(r"^evidence\s*:", line):
-            in_evidence = True
-            continue
-        if in_evidence:
-            # A top-level key (no leading spaces) ends the evidence block
-            if line and not line[0].isspace() and line[0] != "-":
-                in_evidence = False
-                if item_start_line is not None and item_end_line is None:
-                    item_end_line = i
-                break
-            if re.match(r"^- ", line):
-                item_idx += 1
-                if item_idx == row_index:
-                    item_start_line = i
-                elif item_idx == row_index + 1:
-                    item_end_line = i
-                    break
-
-    if item_start_line is None:
-        return text  # Couldn't locate the block — bail out
-
-    if item_end_line is None:
-        item_end_line = len(lines)
-
-    block_lines = lines[item_start_line:item_end_line]
-
-    # Update or insert stars:
-    stars_updated = False
-    updated_at_updated = False
-    new_block = []
-    for bl in block_lines:
-        if re.match(r"\s+stars\s*:", bl):
-            indent = re.match(r"(\s+)", bl)
-            prefix = indent.group(1) if indent else "  "
-            new_block.append(f"{prefix}stars: {new_stars}")
-            stars_updated = True
-        elif re.match(r"\s+updatedAt\s*:", bl):
-            indent = re.match(r"(\s+)", bl)
-            prefix = indent.group(1) if indent else "  "
-            new_block.append(f"{prefix}updatedAt: '{today_str}'")
-            updated_at_updated = True
-        else:
-            new_block.append(bl)
-
-    if not stars_updated:
-        # Insert after first line of block (the '- ...' line)
-        new_block.insert(1, f"  stars: {new_stars}")
-    if not updated_at_updated:
-        new_block.insert(1 if not stars_updated else 2, f"  updatedAt: '{today_str}'")
-
-    new_lines = lines[:item_start_line] + new_block + lines[item_end_line:]
-    new_fm = "\n".join(new_lines)
-    return f"---\n{new_fm}\n---\n{body_text}"
-
-
-# ---------------------------------------------------------------------------
 # Process a single file
 # ---------------------------------------------------------------------------
+
 
 def process_file(path: Path, apply: bool) -> list[dict]:
     """Process one skill markdown file.  Returns list of result rows."""
     text = path.read_text(encoding="utf-8")
-    _, fm_raw, _ = _split_frontmatter(text)
+    _, fm_raw, _ = split_frontmatter(text)
     if not fm_raw:
         return []
 
-    fm = _load_yaml_simple(fm_raw)
-    skill_id = fm.get("id", str(path.relative_to(NAMED_DIR).with_suffix("")))
+    fm = load_yaml_simple(fm_raw)
+    if "id" in fm:
+        skill_id = fm["id"]
+    else:
+        try:
+            skill_id = str(path.relative_to(NAMED_DIR).with_suffix(""))
+        except ValueError:
+            skill_id = path.stem
 
     # links.github for fallback owner/repo resolution
     links_github = (fm.get("links") or {}).get("github", "")
@@ -284,7 +142,7 @@ def process_file(path: Path, apply: bool) -> list[dict]:
             continue
 
         owner, repo = parsed
-        new_stars = fetch_stars(owner, repo)
+        new_stars = _fetch_stars(owner, repo)
 
         if new_stars is None:
             results.append({
@@ -312,7 +170,10 @@ def process_file(path: Path, apply: bool) -> list[dict]:
         })
 
         if should_update and apply:
-            text = _update_evidence_row_in_text(text, idx, new_stars)
+            today_str = date.today().isoformat()
+            text = update_list_item_in_frontmatter(
+                text, "evidence", idx, {"stars": new_stars, "updatedAt": today_str}
+            )
 
     if apply and any(r["updated"] for r in results):
         path.write_text(text, encoding="utf-8")
@@ -323,6 +184,7 @@ def process_file(path: Path, apply: bool) -> list[dict]:
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
+
 
 def main() -> int:
     parser = argparse.ArgumentParser(
