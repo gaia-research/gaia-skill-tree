@@ -168,6 +168,12 @@ timeline:
   contributor: unknown
   details: 'Apex promotion PR stamped by Marco (founder/mbtiongson1) per #746 directive
     — ruflo qualifies for §11.12.8 (apexPromotionPrSigned)'
+- timestamp: '2026-07-08T19:57:51Z'
+  action: upstream_synced
+  contributor: github-actions[bot]
+  previousValue: null
+  newValue: v3.25.5
+  details: first-run baseline
 trustMagnitude: 482.27
 overallTrustGrade: S
 apexGateStatus:
@@ -184,6 +190,13 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-19T09:21:01Z'
 trustMagnitudeInputHash: 490f123ef91fa042713964e1a8ff96a6da965a81539693e3c33e3237b823eaf2
+upstream:
+  mode: components
+  releasedAt: '2026-07-08T17:27:46Z'
+  repo: ruvnet/ruflo
+  sourceUrl: https://github.com/ruvnet/ruflo/releases/tag/v3.25.5
+  syncedAt: '2026-07-08T19:57:51Z'
+  version: v3.25.5
 ---
 
 ## Overview
