@@ -1,0 +1,25 @@
+{
+  "id": "skill-fusion",
+  "name": "Skill Fusion",
+  "type": "extra",
+  "description": "Composes multiple named skill implementations for a single contributor into a unified ultimate or suite skill node: collecting component IDs, verifying node existence, researching evidence, writing the ultimate node, back-linking derivatives on components, updating registry indexes, and opening a pull request.",
+  "prerequisites": [
+    "registry-curation",
+    "skill-authoring"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-08",
+  "updatedAt": "2026-07-08",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-08T10:17:41Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill skill-fusion"
+    }
+  ]
+}

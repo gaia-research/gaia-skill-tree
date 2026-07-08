@@ -283,13 +283,16 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
 ══════════════════════════════════════════════════════════════════════
 
   ○ /autonomous-engineering-platform
+  ○ gaia-research/skill-ci-churn  [2★]
   ○ /clinical-data-retrieval
   ○ /cultural-localization
   ○ ████████/domain-modeling
+  ○ ████████/evidence-attestation
   ○ openai/few-shot-learning  [4★]
   ○ laravel/upgrade-laravel-v13  [2★]
   ○ ruvnet/agentic-jujutsu  [2★]
   ○ /image-generate
+  ○ ████████/implement-with-discernment
   ○ ████████/huggingface-vision-trainer
   ○ /pathway-ontology-retrieval
   ○ /probabilistic-programming

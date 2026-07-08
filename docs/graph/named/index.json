@@ -5106,6 +5106,87 @@
         "role": "variant"
       }
     ],
+    "evidence-attestation": [
+      {
+        "id": "caioribeiroclw-pixel/evidence-attestation",
+        "name": "evidence-attestation",
+        "contributor": "caioribeiroclw-pixel",
+        "origin": false,
+        "genericSkillRef": "evidence-attestation",
+        "status": "named",
+        "level": "1★",
+        "description": "Produces privacy-safe proof objects from agent claims by recording what evidence supports or contradicts each claim, what raw content was intentionally omitted, what verdict follows, and what would make the evidence stale.",
+        "title": "Evidence Attestation",
+        "links": {
+          "github": "https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md",
+            "evaluator": "unknown",
+            "date": "2026-07-09",
+            "type": "self-attestation",
+            "trustNumber": 25.0,
+            "grade": "C",
+            "notes": "Canonical SKILL.md for the evidence-attestation procedure in the pluribus repo — named skill implementation spec."
+          }
+        ],
+        "createdAt": "2026-07-09",
+        "updatedAt": "2026-07-09",
+        "timeline": [
+          {
+            "timestamp": "2026-07-08T21:02:20Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill caioribeiroclw-pixel/evidence-attestation"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:39Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:40Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md as C (trustNumber: 25.0)"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:40Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:50Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 2★"
+          },
+          {
+            "timestamp": "2026-07-08T21:48:33Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 1★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 7.34,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      }
+    ],
     "autonomous-debug": [
       {
         "id": "mattpocock/diagnose",
@@ -5619,6 +5700,200 @@
         },
         "type": "extra",
         "role": "variant"
+      }
+    ],
+    "ci-churn-analysis": [
+      {
+        "id": "gaia-research/skill-ci-churn",
+        "name": "CI Churn",
+        "contributor": "gaia-research",
+        "origin": false,
+        "genericSkillRef": "ci-churn-analysis",
+        "status": "named",
+        "level": "2★",
+        "description": "Measures avoidable CI iteration cost for a pull request by classifying commits as feature work versus fix-the-CI rework, summing CI compute time burned on avoidable push rounds, and surfacing pre-push checks that would have prevented them.",
+        "title": "CI Churn Analysis",
+        "links": {
+          "github": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/ci-churn/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/gaia-research/gaia-skill-tree",
+            "evaluator": "unknown",
+            "date": "2026-07-08",
+            "type": "repo-own",
+            "notes": "gaia-skill-tree repo — 2884 commits, 24 contributors; ci-churn SKILL.md lives at .agents/skills/ci-churn/",
+            "commits": 2884,
+            "contributors": 24,
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/ci-churn/SKILL.md",
+            "evaluator": "unknown",
+            "date": "2026-07-08",
+            "type": "self-attestation",
+            "notes": "Implemented and in active production use — called automatically by /fp-drift at every pipeline close",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-08",
+        "updatedAt": "2026-07-09",
+        "timeline": [
+          {
+            "timestamp": "2026-07-08T10:19:05Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill gaia-research/skill-ci-churn"
+          },
+          {
+            "timestamp": "2026-07-08T10:21:40Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/gaia-research/gaia-skill-tree (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-08T10:21:46Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/ci-churn/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-08T10:22:19Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 2★"
+          },
+          {
+            "timestamp": "2026-07-08T10:22:39Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/ci-churn/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-08T20:47:22Z",
+            "action": "name",
+            "contributor": "unknown",
+            "details": "Promoted from awakened to named."
+          },
+          {
+            "timestamp": "2026-07-08T20:47:36Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 2★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 41.0,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      }
+    ],
+    "skill-fusion": [
+      {
+        "id": "gaia-research/skill-fuse",
+        "name": "Skill Fuse",
+        "contributor": "gaia-research",
+        "origin": false,
+        "genericSkillRef": "skill-fusion",
+        "status": "named",
+        "level": "2★",
+        "description": "Composes multiple named skill implementations for a single contributor into a unified ultimate or suite skill node: collecting component IDs, verifying node existence, researching evidence, writing the ultimate node, back-linking derivatives on components, updating registry indexes, and opening a pull request.",
+        "title": "Skill Fusion",
+        "links": {
+          "github": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/skill-fuse/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/gaia-research/gaia-skill-tree",
+            "evaluator": "unknown",
+            "date": "2026-07-08",
+            "type": "repo-own",
+            "notes": "gaia-skill-tree repo — 2884 commits, 24 contributors; skill-fuse SKILL.md added in intake PR",
+            "commits": 2884,
+            "contributors": 24,
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-fuse-full-suite/SKILL.md",
+            "evaluator": "unknown",
+            "date": "2026-07-08",
+            "type": "self-attestation",
+            "notes": "In production use — fuses contributor skill sets into ultimates/suites",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-08",
+        "updatedAt": "2026-07-09",
+        "timeline": [
+          {
+            "timestamp": "2026-07-08T10:19:43Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill gaia-research/skill-fuse"
+          },
+          {
+            "timestamp": "2026-07-08T10:21:52Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/gaia-research/gaia-skill-tree (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-08T10:22:00Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/gaia-fuse-full-suite/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-08T10:22:20Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 2★"
+          },
+          {
+            "timestamp": "2026-07-08T10:22:40Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/skill-fuse/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-08T20:47:22Z",
+            "action": "name",
+            "contributor": "unknown",
+            "details": "Promoted from awakened to named."
+          },
+          {
+            "timestamp": "2026-07-08T20:47:37Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 2★"
+          }
+        ],
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 41.0,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
       }
     ],
     "skill-performance-benchmarking": [
@@ -18964,6 +19239,89 @@
         "role": "variant"
       }
     ],
+    "implement-with-discernment": [
+      {
+        "id": "rico-favor/implement-with-discernment",
+        "name": "implement-with-discernment",
+        "contributor": "rico-favor",
+        "origin": false,
+        "genericSkillRef": "implement-with-discernment",
+        "status": "named",
+        "level": "1★",
+        "description": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value.",
+        "title": "Implement With Discernment",
+        "links": {
+          "github": "https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/rico-favor/gaia-skill-tree",
+            "evaluator": "unknown",
+            "date": "2026-07-09",
+            "type": "repo-own",
+            "trustNumber": 22.0,
+            "notes": "rico-favor's active gaia-skill-tree fork — 96 commits demonstrating real agent skill curation and implementation workflow usage.",
+            "stars": 0,
+            "commits": 96,
+            "contributors": 1
+          }
+        ],
+        "createdAt": "2026-07-09",
+        "updatedAt": "2026-07-09",
+        "timeline": [
+          {
+            "timestamp": "2026-07-08T21:02:12Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill rico-favor/implement-with-discernment"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/rico-favor/gaia-skill-tree (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:30Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/rico-favor/gaia-skill-tree as C (trustNumber: 22.0)"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:31Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:49Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 2★"
+          },
+          {
+            "timestamp": "2026-07-08T21:48:31Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 1★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 2.49,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      }
+    ],
     "distributed-vector-memory": [
       {
         "id": "ruvnet/agentdb-advanced",
@@ -27536,6 +27894,9 @@
     "browserbase": [
       "browserbase/stagehand"
     ],
+    "caioribeiroclw-pixel": [
+      "caioribeiroclw-pixel/evidence-attestation"
+    ],
     "changkun": [
       "changkun/plan-decompose-gh-wallfacer"
     ],
@@ -27544,6 +27905,10 @@
     ],
     "firecrawl": [
       "firecrawl/firecrawl"
+    ],
+    "gaia-research": [
+      "gaia-research/skill-ci-churn",
+      "gaia-research/skill-fuse"
     ],
     "gaiabot": [
       "gaiabot/gaia-triage",
@@ -27768,6 +28133,9 @@
     ],
     "pexp13": [
       "pexp13/sentiment-analysis"
+    ],
+    "rico-favor": [
+      "rico-favor/implement-with-discernment"
     ],
     "ruvnet": [
       "ruvnet/agentdb-advanced",

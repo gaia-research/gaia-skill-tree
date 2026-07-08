@@ -1,11 +1,11 @@
 {
   "distribution": {
-    "total": 262,
+    "total": 266,
     "S": 5,
     "A": 44,
     "B": 66,
-    "C": 77,
-    "ungraded": 70,
+    "C": 79,
+    "ungraded": 72,
     "floor": 0,
     "up": 1
   },
@@ -1350,6 +1350,28 @@
       "origin": false
     },
     {
+      "id": "gaia-research/skill-ci-churn",
+      "trustMagnitude": 41.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "id": "gaia-research/skill-fuse",
+      "trustMagnitude": 41.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
       "id": "bradautomates/claude-video",
       "trustMagnitude": 37.47,
       "grade": "C",
@@ -2072,6 +2094,17 @@
       "origin": false
     },
     {
+      "id": "caioribeiroclw-pixel/evidence-attestation",
+      "trustMagnitude": 7.34,
+      "grade": "ungraded",
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 2.34
+      },
+      "origin": false
+    },
+    {
       "id": "intelligentcode-ai/database-engineer",
       "trustMagnitude": 6.3,
       "grade": "ungraded",
@@ -2297,6 +2330,17 @@
       "level": "1★",
       "typeBreakdown": {
         "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "id": "rico-favor/implement-with-discernment",
+      "trustMagnitude": 2.19,
+      "grade": "ungraded",
+      "level": "1★",
+      "typeBreakdown": {
+        "repo-own": 1.49,
+        "arxiv": 0.7
       },
       "origin": false
     },

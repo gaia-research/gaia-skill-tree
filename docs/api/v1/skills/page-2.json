@@ -361,6 +361,30 @@
       }
     },
     {
+      "id": "gaia-research/skill-ci-churn",
+      "name": "CI Churn",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "gaia-research",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/gaia-research/skill-ci-churn.json"
+      }
+    },
+    {
+      "id": "gaia-research/skill-fuse",
+      "name": "Skill Fuse",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "gaia-research",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
+      }
+    },
+    {
       "id": "bradautomates/claude-video",
       "name": "Claude Video",
       "level": "2★",
@@ -575,35 +599,11 @@
       "_links": {
         "self": "/api/v1/skills/garrytan/learn.json"
       }
-    },
-    {
-      "id": "garrytan/make-pdf",
-      "name": "Make PDF",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "basic",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/make-pdf.json"
-      }
-    },
-    {
-      "id": "garrytan/open-gstack-browser",
-      "name": "Open GStack Browser",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "basic",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/open-gstack-browser.json"
-      }
     }
   ],
   "page": 2,
   "totalPages": 4,
-  "totalSkills": 152,
+  "totalSkills": 154,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",

@@ -170,6 +170,19 @@
       }
     },
     {
+      "handle": "gaia-research",
+      "namedSkills": 2,
+      "topSkill": {
+        "id": "gaia-research/skill-ci-churn",
+        "level": "2★",
+        "trustMagnitude": 41.0
+      },
+      "prestigeScore": 82.0,
+      "_links": {
+        "self": "/api/v1/contributors/gaia-research.json"
+      }
+    },
+    {
       "handle": "browser-use",
       "namedSkills": 1,
       "topSkill": {
@@ -365,7 +378,7 @@
       }
     }
   ],
-  "totalContributors": 28,
+  "totalContributors": 29,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

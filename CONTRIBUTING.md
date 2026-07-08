@@ -12,6 +12,27 @@ This page is now a **contributor guide**. Detailed policy, reviewer playbooks, a
 
 ---
 
+## Agent Skills — Quick Reference
+
+These slash-commands are available to AI agents (and maintainers) working in this repo. Invoke via `/skill-name` in Claude Code.
+
+| Skill | When to use |
+|---|---|
+| `/gaia-curate-chain` | Expanding the registry with new skills — six gated links (scope → research → design → L4 review → mutate → ship). Use when evidence quality and schema correctness matter. Default for maintainer curation. |
+| `/gaia-curate` | Quick single-pass curation for small, trusted, low-stakes batches. Less gated than the chain. |
+| `/gaia-curate-dynamic` | Wide sweeps with parallel sub-agent fan-out and proposer↔refuter validation. Use for large batches or high-stakes verification. |
+| `/gaia-meta-audit` | Prioritized queue of skills needing review — overlap checks, missing evidence, stale status. |
+| `/gaia-audit` | Focused source-level correction for one target skill. |
+| `/gaia-intake-close` | Post-merge intake closing — posts standardized pipeline findings, /trust-appraise TM output, decisions rationale, path-to-promotion, and badge status on the PR and each linked issue. Run after L4 review is complete. |
+| `/trust-appraise` | Non-mutating TM dry-run. Use `--skill contributor/id` for curated registry nodes (shows per-row artifact scores); use `--repo owner/repo` for proposed suites (live GitHub signals). Run during L4 human review before signing off. |
+| `/trust-appraise-all` | Bulk TM appraisal across all curated registry entries. |
+| `/gaia-trace-timeline` | Audit and repair user-tree timelines — backfills missing demote/rank_up events so every skill's rank is explained by its Hero's Journey. |
+| `/gaia-fuse-full-suite` | Fuse one contributor's named skills into a single ultimate. |
+| `/ev-pipeline` | Full evidence verification pipeline (collect → star-verify → adversarial audit → link-validate). Run before ingesting any evidence into the registry. |
+| `/gaia-integrity` | Cross-registry integrity checks — schema, DAG, redaction invariants. |
+| `/gaia-triage` | Triage open issues and PRs, apply canonical labels, route to correct workflow. |
+| `/graphify-triage` | Deep architecture audit using codebase graph. Use for dependency mapping and cross-cutting impact assessments. |
+
 ---
 
 ## 1) Pick your workflow

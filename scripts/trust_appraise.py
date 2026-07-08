@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Dry-run Trust Magnitude appraisal for proposed named suites.
+"""Dry-run Trust Magnitude appraisal for proposed Gaia skills or suites.
 
-This script is intentionally non-mutating. It appraises a proposed suite before
-curation by combining live GitHub repository signals with a proposed component
-count, then runs the same Trust Magnitude scorer used by the registry.
+Two modes:
+  --skill  contributor/skill-id   Appraise an already-curated registry node
+  --repo   owner/repo             Appraise a proposed suite from live GitHub signals
+
+This script is intentionally non-mutating.
 """
 
 from __future__ import annotations
@@ -23,6 +25,8 @@ if str(SRC) not in sys.path:
 
 from gaia_cli.trustMagnitude import (  # noqa: E402
     computeOverallTrustGrade,
+    computeOverallTrustGradeFromSkill,
+    computeRowArtifactScores,
     computeTrustMagnitude,
     computeTrustMagnitudeByType,
 )
@@ -103,6 +107,59 @@ def appraise(target: AppraisalTarget) -> dict[str, Any]:
     }
 
 
+def appraiseNode(skillRef: str) -> dict[str, Any]:
+    """Appraise an already-curated registry node by contributor/skill-id."""
+    parts = skillRef.split("/", 1)
+    if len(parts) == 2:
+        contributor, skillId = parts
+        namedPath = REPO_ROOT / "registry" / "named" / contributor / f"{skillId}.md"
+        genericPath = REPO_ROOT / "registry" / "nodes" / "basic" / f"{skillId}.json"
+        # Try named skill frontmatter first, fall back to generic node
+        nodePath = genericPath
+        for p in [
+            REPO_ROOT / "registry" / "nodes" / "basic" / f"{skillId}.json",
+            REPO_ROOT / "registry" / "nodes" / "extra" / f"{skillId}.json",
+        ]:
+            if p.exists():
+                nodePath = p
+                break
+    else:
+        skillId = parts[0]
+        nodePath = None
+        for p in [
+            REPO_ROOT / "registry" / "nodes" / "basic" / f"{skillId}.json",
+            REPO_ROOT / "registry" / "nodes" / "extra" / f"{skillId}.json",
+        ]:
+            if p.exists():
+                nodePath = p
+                break
+
+    if nodePath is None or not nodePath.exists():
+        return {"skillRef": skillRef, "error": f"node not found for {skillRef!r}"}
+
+    skill = json.loads(nodePath.read_text(encoding="utf-8"))
+    tm = computeTrustMagnitude(skill)
+    grade = computeOverallTrustGradeFromSkill(skill)
+    rowScores = computeRowArtifactScores(skill)
+    byType = computeTrustMagnitudeByType(skill)
+
+    return {
+        "skillRef": skillRef,
+        "tm": round(tm, 2),
+        "grade": grade,
+        "byType": dict(byType),
+        "rows": [
+            {
+                "type": ev.get("type"),
+                "score": round(score, 2),
+                "trust": ev.get("trustNumber"),
+                "source": ev.get("source", "")[:80],
+            }
+            for ev, score in rowScores
+        ],
+    }
+
+
 def defaultTargets() -> list[AppraisalTarget]:
     return [
         AppraisalTarget("gsd-build/get-shit-done", 5, "docs/INVENTORY.md"),
@@ -112,12 +169,32 @@ def defaultTargets() -> list[AppraisalTarget]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Dry-run TM for proposed Gaia suites")
-    parser.add_argument("--repo", action="append", help="GitHub repo owner/name")
+    parser = argparse.ArgumentParser(description="Dry-run TM appraisal for Gaia skills or suites")
+    parser.add_argument("--skill", action="append", metavar="CONTRIBUTOR/SKILL-ID",
+                        help="Appraise a curated registry node (e.g. rico-favor/implement-with-discernment)")
+    parser.add_argument("--repo", action="append", help="GitHub repo owner/name (suite mode)")
     parser.add_argument("--components", action="append", type=int, help="Component count for matching --repo")
     parser.add_argument("--evidence-path", action="append", default=[], help="Evidence path for matching --repo")
     parser.add_argument("--json", action="store_true", help="Emit JSON")
     args = parser.parse_args()
+
+    if args.skill:
+        results = [appraiseNode(ref) for ref in args.skill]
+        if args.json:
+            print(json.dumps(results, indent=2))
+            return 0
+        for r in results:
+            if "error" in r:
+                print(f"ERROR {r['skillRef']}: {r['error']}")
+                continue
+            print(f"\n=== {r['skillRef']} ===")
+            print(f"  TM: {r['tm']:.1f}  Grade: {r['grade']}")
+            print(f"  {'Type':<22} {'Score':>7}  {'Trust':>6}  Source")
+            for row in r["rows"]:
+                print(f"  {row['type']:<22} {row['score']:>7.1f}  {str(row['trust'] or ''):>6}  {row['source']}")
+            byType = ", ".join(f"{k}={v}" for k, v in r["byType"].items())
+            print(f"  By type: {byType}")
+        return 0
 
     if args.repo:
         componentCounts = args.components or []

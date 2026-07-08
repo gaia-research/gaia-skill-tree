@@ -1,0 +1,61 @@
+{
+  "asset": "Asset F v2 rank hero plates",
+  "target_size": "3840x2160",
+  "method": "Pillow ImageOps.fit cover resize with Lanczos, light unsharp mask",
+  "files": [
+    {
+      "slug": "asset-f-rank-1-awakened",
+      "source": "a_dark_moody_minimalist_fantasy_heritage_illustr.png",
+      "source_size": "1672x941",
+      "png": "png/asset-f-rank-1-awakened-plate-4k.png",
+      "png_bytes": 9266478,
+      "webp": "webp/asset-f-rank-1-awakened-plate-4k.webp",
+      "webp_bytes": 758032
+    },
+    {
+      "slug": "asset-f-rank-2-named",
+      "source": "a_clean_stylized_fantasy_illustration_graphic_d.png",
+      "source_size": "1672x941",
+      "png": "png/asset-f-rank-2-named-plate-4k.png",
+      "png_bytes": 9634204,
+      "webp": "webp/asset-f-rank-2-named-plate-4k.webp",
+      "webp_bytes": 855716
+    },
+    {
+      "slug": "asset-f-rank-3-evolved",
+      "source": "a_wide_centered_mystical_illustration_on_a_textu.png",
+      "source_size": "1672x941",
+      "png": "png/asset-f-rank-3-evolved-plate-4k.png",
+      "png_bytes": 9863620,
+      "webp": "webp/asset-f-rank-3-evolved-plate-4k.webp",
+      "webp_bytes": 831066
+    },
+    {
+      "slug": "asset-f-rank-4-hardened",
+      "source": "a_wide_cinematic_fantasy_medieval_concept_art_sce.png",
+      "source_size": "1672x941",
+      "png": "png/asset-f-rank-4-hardened-plate-4k.png",
+      "png_bytes": 9421722,
+      "webp": "webp/asset-f-rank-4-hardened-plate-4k.webp",
+      "webp_bytes": 761348
+    },
+    {
+      "slug": "asset-f-rank-5-transcendent",
+      "source": "a_highly_detailed_ornate_fantasy_royal_emblem_il.png",
+      "source_size": "1672x941",
+      "png": "png/asset-f-rank-5-transcendent-plate-4k.png",
+      "png_bytes": 9486307,
+      "webp": "webp/asset-f-rank-5-transcendent-plate-4k.webp",
+      "webp_bytes": 906682
+    },
+    {
+      "slug": "asset-f-rank-6-apex",
+      "source": "a_highly_detailed_fantasy_ornamental_digital_illus.png",
+      "source_size": "1672x941",
+      "png": "png/asset-f-rank-6-apex-plate-4k.png",
+      "png_bytes": 7843458,
+      "webp": "webp/asset-f-rank-6-apex-plate-4k.webp",
+      "webp_bytes": 580112
+    }
+  ]
+}

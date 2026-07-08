@@ -168,6 +168,7 @@
 | ○ /sentiment-analysis | Basic Skill | — | `/sentiment-analysis` |
 | ◇ [garrytan](../docs/u/garrytan/)/skillify | Extra Skill | 3★ | `/skill-authoring` |
 | ○ [vercel](../docs/u/vercel/)/find-skills | Basic Skill | 2★ | `/skill-discovery` |
+| ◇ [gaia-research](../docs/u/gaia-research/)/skill-fuse | Extra Skill | 2★ | `/skill-fusion` |
 | ◆ [mattpocock](../docs/u/mattpocock/)/skills | Ultimate Skill | 5★ | `/skill-mastery` |
 | ◇ [garrytan](../docs/u/garrytan/)/benchmark-models | Extra Skill | 2★ | `/skill-performance-benchmarking` |
 | ◇ /skill-security-analysis | Extra Skill | — | `/skill-security-analysis` |
@@ -223,13 +224,16 @@
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|
 | ○ Autonomous Engineering Platform | Intrinsic Skill | — | `/autonomous-engineering-platform` |
+| ○ CI Churn Analysis | Intrinsic Skill | 2★ | `/ci-churn-analysis` |
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
 | ○ Cultural Localization | Intrinsic Skill | — | `/cultural-localization` |
 | ○ Domain Modeling | Intrinsic Skill | — | `/domain-modeling` |
+| ○ evidence-attestation | Intrinsic Skill | — | `/evidence-attestation` |
 | ○ Few-Shot Learning | Intrinsic Skill | 4★ | `/few-shot-learning` |
 | ○ Framework Upgrade | Intrinsic Skill | 2★ | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
 | ○ Image Generate | Intrinsic Skill | — | `/image-generate` |
+| ○ implement-with-discernment | Intrinsic Skill | — | `/implement-with-discernment` |
 | ○ Object Detection | Intrinsic Skill | — | `/object-detection` |
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
 | ○ Probabilistic Programming | Intrinsic Skill | — | `/probabilistic-programming` |

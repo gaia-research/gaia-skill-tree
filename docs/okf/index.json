@@ -4,7 +4,7 @@
   "families": [
     {
       "id": "basic",
-      "count": 103,
+      "count": 106,
       "skills": [
         {
           "id": "adaptive-pattern-learning",
@@ -45,6 +45,11 @@
           "id": "chunk-document",
           "name": "Chunk Document",
           "summary": "Splits a document into semantically meaningful segments optimized for embedding and retrieval."
+        },
+        {
+          "id": "ci-churn-analysis",
+          "name": "CI Churn Analysis",
+          "summary": "Measures avoidable CI iteration cost for a pull request by classifying commits as feature work versus fix-the-CI rework, summing CI compute time burned on avoidable push rounds, and surfacing pre-push checks that would have prevented them."
         },
         {
           "id": "cite-sources",
@@ -137,6 +142,11 @@
           "summary": "Assesses the quality, correctness, or safety of generated output against defined criteria."
         },
         {
+          "id": "evidence-attestation",
+          "name": "evidence-attestation",
+          "summary": "Produces privacy-safe proof objects from agent claims by recording what evidence supports or contradicts each claim, what raw content was intentionally omitted, what verdict follows, and what would make the evidence stale; enables downstream registries, review gates, and scoreboards to verify agent work without accessing raw private context."
+        },
+        {
           "id": "extract-entities",
           "name": "Extract Entities",
           "summary": "Identifies and extracts named entities such as people, organizations, dates, and locations from text."
@@ -220,6 +230,11 @@
           "id": "image-generate",
           "name": "Image Generate",
           "summary": "Creates photorealistic or stylized images from text prompts using diffusion-based or autoregressive generative models."
+        },
+        {
+          "id": "implement-with-discernment",
+          "name": "implement-with-discernment",
+          "summary": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value, and stopping when the task is done."
         },
         {
           "id": "issue-triage",
@@ -525,7 +540,7 @@
     },
     {
       "id": "extra",
-      "count": 123,
+      "count": 124,
       "skills": [
         {
           "id": "advanced-swarm-coordination",
@@ -1006,6 +1021,11 @@
           "id": "skill-authoring",
           "name": "Skill Authoring",
           "summary": "Designs, writes, packages, and iteratively improves reusable agent skill directories with metadata, progressive instructions, supporting assets, and measurable trigger criteria."
+        },
+        {
+          "id": "skill-fusion",
+          "name": "Skill Fusion",
+          "summary": "Composes multiple named skill implementations for a single contributor into a unified ultimate or suite skill node: collecting component IDs, verifying node existence, researching evidence, writing the ultimate node, back-linking derivatives on components, updating registry indexes, and opening a pull request."
         },
         {
           "id": "skill-performance-benchmarking",

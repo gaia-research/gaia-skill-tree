@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-04",
+  "generatedAt": "2026-07-08",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -1487,6 +1487,41 @@
           "slash": "/firecrawl",
           "file": "firecrawl.svg",
           "fileSeal": "firecrawl-seal.svg"
+        }
+      ]
+    },
+    "gaia-research": {
+      "repos": [
+        "gaia-research/gaia-skill-tree"
+      ],
+      "skillsByRepo": {
+        "gaia-research/gaia-skill-tree": [
+          "gaia-research/skill-ci-churn",
+          "gaia-research/skill-fuse"
+        ]
+      },
+      "topSkill": "gaia-research/skill-ci-churn",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 2,
+      "namedSkills": [
+        {
+          "id": "gaia-research/skill-ci-churn",
+          "name": "CI Churn",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/skill-ci-churn",
+          "file": "skill-ci-churn.svg",
+          "fileSeal": "skill-ci-churn-seal.svg"
+        },
+        {
+          "id": "gaia-research/skill-fuse",
+          "name": "Skill Fuse",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/skill-fuse",
+          "file": "skill-fuse.svg",
+          "fileSeal": "skill-fuse-seal.svg"
         }
       ]
     },

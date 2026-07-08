@@ -1,0 +1,155 @@
+{
+  "id": "implement-with-discernment",
+  "name": "implement-with-discernment",
+  "type": "basic",
+  "description": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value, and stopping when the task is done.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [
+    {
+      "source": "https://arxiv.org/abs/2403.06484",
+      "evaluator": "unknown",
+      "date": "2026-07-09",
+      "type": "arxiv",
+      "trustNumber": 50.0,
+      "notes": "ICSE-FoSE 2024 paper by Avgeriou et al. surveying technical debt management — frames unnecessary complexity as a driver of software delivery failures. Supporting context for deliberate minimal implementation. Submitted March 2024, 5 citations.",
+      "citations": 5
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-09",
+  "updatedAt": "2026-07-09",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-08T20:52:53Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill implement-with-discernment"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:28Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/rico-favor/gaia-skill-tree (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:28Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://github.com/rico-favor/gaia-skill-tree as C (trustNumber: 22.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:39Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:39Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems as A (trustNumber: 110.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:40Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://martinfowler.com/bliki/Yagni.html (type: social-signal)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:40Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://martinfowler.com/bliki/Yagni.html as B (trustNumber: 80.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:48Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://martinfowler.com/articles/designDead.html (type: social-signal)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:48Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://martinfowler.com/articles/designDead.html as B (trustNumber: 60.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:49Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/2403.06484 (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:49Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://arxiv.org/abs/2403.06484 as B (trustNumber: 50.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:03:38Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #1 from https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems; changed trustNumber (trustNumber: 110.0 → 100.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:37:11Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://github.com/rico-favor/gaia-skill-tree"
+    },
+    {
+      "timestamp": "2026-07-08T21:37:22Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #0 from https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems; changed citations, notes, trustNumber (trustNumber: 100.0 → 70.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:37:36Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #1 from https://martinfowler.com/bliki/Yagni.html; changed notes, trustNumber (trustNumber: 80.0 → 30.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:37:37Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #2 from https://martinfowler.com/articles/designDead.html; changed notes, trustNumber (trustNumber: 60.0 → 20.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:37:38Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #3 metadata from https://arxiv.org/abs/2403.06484; changed notes"
+    },
+    {
+      "timestamp": "2026-07-08T21:38:36Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #1 from https://martinfowler.com/bliki/Yagni.html; changed grade, views (grade: B → ungraded)"
+    },
+    {
+      "timestamp": "2026-07-08T21:39:39Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://martinfowler.com/bliki/Yagni.html"
+    },
+    {
+      "timestamp": "2026-07-08T21:39:40Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://martinfowler.com/articles/designDead.html"
+    },
+    {
+      "timestamp": "2026-07-08T21:41:53Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems"
+    }
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-07-08T21:00:28Z"
+  }
+}

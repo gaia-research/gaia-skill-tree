@@ -16,7 +16,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Superpowers](/skills/ultimate/superpowers.md) - A complete software development methodology for coding agents: combines brainstorming, planning, parallel execution, systematic debugging, code review loops, and branch discipline into a unified agentic workflow.
 * [mattpocock-skills](/skills/ultimate/skill-mastery.md) - Ultimate capstone suite for Matt Pocock's skills.
 
-### Extra Skills (123)
+### Extra Skills (124)
 
 * [Advanced Swarm Coordination](/skills/extra/advanced-swarm-coordination.md) - Domain-specific swarm patterns for research, development, testing, and analysis workflows with neural learning and cross-session state persistence.
 * [Adversarial Robustness Testing](/skills/extra/adversarial-robustness-testing.md) - Systematically red-teams models with adversarial and multi-turn jailbreak prompts, input perturbations, and semantic-preserving transformations to measure resilience at scale.
@@ -106,6 +106,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Scientific Writing](/skills/extra/scientific-writing.md) - Composes research manuscripts in IMRAD structure with reporting-guideline compliance (CONSORT, STROBE, PRISMA), citation management, publication-quality figures, and LaTeX/PDF formatting.
 * [Security Audit](/skills/extra/security-audit.md) - Systematically identify security vulnerabilities, assess attack surface, and produce actionable remediation guidance across code, dependencies, and infrastructure.
 * [Skill Authoring](/skills/extra/skill-authoring.md) - Designs, writes, packages, and iteratively improves reusable agent skill directories with metadata, progressive instructions, supporting assets, and measurable trigger criteria.
+* [Skill Fusion](/skills/extra/skill-fusion.md) - Composes multiple named skill implementations for a single contributor into a unified ultimate or suite skill node: collecting component IDs, verifying node existence, researching evidence, writing the ultimate node, back-linking derivatives on components, updating registry indexes, and opening a pull request.
 * [Skill Performance Benchmarking](/skills/extra/skill-performance-benchmarking.md) - Builds and runs task suites that measure whether agents select, invoke, and complete installed skills correctly across artifact-rich workflows and repeated trials.
 * [Skill Security Analysis](/skills/extra/skill-security-analysis.md) - Assesses third-party agent skills for malicious behavior, unsafe permissions, prompt-injection exposure, repository-context mismatch, and supply-chain risk before installation or invocation.
 * [Stealth Browser Interaction](/skills/extra/stealth-browser-interaction.md) - Operates web browsers through an advanced stealth layer that handles bot-detection, fingerprinting, session rotation, and human-like interaction patterns to maintain resilient access to protected domains.
@@ -142,7 +143,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [web-best-practices](/skills/extra/web-best-practices.md) - Web Best Practices
 * [web-quality-audit](/skills/extra/web-quality-audit.md) - Orchestrates a multi-axis web quality audit covering performance (Core Web Vitals), accessibility (WCAG), SEO, and best practices, producing actionable remediation plans from Lighthouse and real-user data.
 
-### Basic Skills (103)
+### Basic Skills (106)
 
 * [API Call](/skills/basic/api-call.md) - A fundamental skill that enables agents to interact with external services via HTTP API calls.
 * [Adaptive Pattern Learning](/skills/basic/adaptive-pattern-learning.md) - Implements adaptive learning through pattern recognition and strategy optimization.
@@ -150,6 +151,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Autonomous Engineering Platform](/skills/basic/autonomous-engineering-platform.md) - An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery.
 * [Bioinformatic Sequence Analysis](/skills/basic/bioinformatic-sequence-analysis.md) - Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases.
 * [Browser Control](/skills/basic/browser-control.md) - A foundational skill for interacting directly with the web browser using Chrome DevTools Protocol (CDP).
+* [CI Churn Analysis](/skills/basic/ci-churn-analysis.md) - Measures avoidable CI iteration cost for a pull request by classifying commits as feature work versus fix-the-CI rework, summing CI compute time burned on avoidable push rounds, and surfacing pre-push checks that would have prevented them.
 * [CLI Modernization](/skills/basic/cli-modernization.md) - Refactors command-line interfaces for improved UX, plugin architecture, and extensibility.
 * [Chain-of-Thought Reasoning](/skills/basic/chain-of-thought.md) - Produces explicit intermediate reasoning steps before arriving at a final answer, dramatically improving accuracy on multi-step problems.
 * [Chunk Document](/skills/basic/chunk-document.md) - Splits a document into semantically meaningful segments optimized for embedding and retrieval.
@@ -247,4 +249,6 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Web Search](/skills/basic/web-search.md) - Queries external search engines or APIs and retrieves relevant result sets.
 * [Worker Agent Dispatch](/skills/basic/worker-agent-dispatch.md) - Maps trigger events to optimal agent combinations for background task execution with performance tracking and continuous feedback.
 * [Write Report](/skills/basic/write-report.md) - Produces structured, multi-section written output with headings, citations, and coherent narrative.
+* [evidence-attestation](/skills/basic/evidence-attestation.md) - Produces privacy-safe proof objects from agent claims by recording what evidence supports or contradicts each claim, what raw content was intentionally omitted, what verdict follows, and what would make the evidence stale; enables downstream registries, review gates, and scoreboards to verify agent work without accessing raw private context.
+* [implement-with-discernment](/skills/basic/implement-with-discernment.md) - Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value, and stopping when the task is done.
 
