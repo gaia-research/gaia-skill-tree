@@ -1,0 +1,32 @@
+name: Sync GitHub Labels
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/labels.yml'
+
+# Only run on pushes to main — not on PRs — so label state is only reconciled
+# from the authoritative merged definition, never from a speculative branch.
+jobs:
+  labels:
+    name: Reconcile labels from .github/labels.yml
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      issues: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync labels
+        uses: crazy-max/ghaction-github-labeler@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          yaml-file: .github/labels.yml
+          # skip-delete: leave labels not listed in labels.yml intact rather
+          # than deleting them. Set to false only when you intend a full purge.
+          skip-delete: false
+          dry-run: false
+          verbose: true

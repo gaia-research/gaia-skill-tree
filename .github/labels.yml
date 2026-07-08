@@ -1,0 +1,334 @@
+# .github/labels.yml
+# Authoritative label definitions for the gaia-skill-tree repo.
+# Managed by crazy-max/ghaction-github-labeler via .github/workflows/labels-sync.yml.
+# Sync runs automatically on push to main when this file changes.
+#
+# Color conventions:
+#   Source / classifier labels:   purple  #5319E7
+#   skip-* bypass labels:         orange-red  #e04e25
+#   upstream:* state labels:      teal family
+#   Workflow/status:              varies (see per-group comments)
+#   Generic/neutral tags:         light grey  #ededed
+
+# ── Pre-existing labels (preserve verbatim) ────────────────────────────────
+
+- name: bug
+  color: "d73a4a"
+  description: "Something isn't working"
+
+- name: documentation
+  color: "0075ca"
+  description: "Improvements or additions to documentation"
+
+- name: duplicate
+  color: "cfd3d7"
+  description: "This issue or pull request already exists"
+
+- name: enhancement
+  color: "a2eeef"
+  description: "New feature or request"
+
+- name: "good first issue"
+  color: "7057ff"
+  description: "Good for newcomers"
+
+- name: "help wanted"
+  color: "008672"
+  description: "Extra attention is needed"
+
+- name: invalid
+  color: "e4e669"
+  description: "This doesn't seem right"
+
+- name: question
+  color: "d876e3"
+  description: "Further information is requested"
+
+- name: wontfix
+  color: "ffffff"
+  description: "This will not be worked on"
+
+- name: codex
+  color: "ededed"
+  description: ""
+
+- name: human-proposal
+  color: "1d76db"
+  description: ""
+
+- name: needs-review
+  color: "0e8a16"
+  description: ""
+
+- name: draft-skills
+  color: "5319e7"
+  description: ""
+
+- name: CLI
+  color: "0075ca"
+  description: "CLI tooling"
+
+- name: RFC
+  color: "d93f0b"
+  description: "Request for comments — design discussion"
+
+- name: codex-automation
+  color: "ededed"
+  description: ""
+
+- name: bot-proposal
+  color: "0E8A16"
+  description: "Automated crawler proposal"
+
+- name: "source:vscode"
+  color: "5319E7"
+  description: "Proposal from VS Code Marketplace crawler"
+
+- name: "source:huggingface"
+  color: "5319E7"
+  description: "Proposal from HuggingFace crawler"
+
+- name: "source:github"
+  color: "5319E7"
+  description: "Proposal from GitHub crawler"
+
+- name: skip-scope-check
+  color: "e04e25"
+  description: ""
+
+- name: ultimate-review
+  color: "aa9235"
+  description: "review for 5 star promotions and demotions"
+
+- name: mcp
+  color: "d5c9eb"
+  description: ""
+
+- name: Jules
+  color: "5319e7"
+  description: "Daily / Weekly Jules updates"
+
+- name: deprecation
+  color: "ededed"
+  description: ""
+
+- name: schema
+  color: "ededed"
+  description: ""
+
+- name: tech-debt
+  color: "ededed"
+  description: ""
+
+- name: auto-merge
+  color: "ededed"
+  description: ""
+
+- name: claude-bot
+  color: "ededed"
+  description: ""
+
+- name: docs
+  color: "ededed"
+  description: ""
+
+- name: dependencies
+  color: "0366d6"
+  description: "Pull requests that update a dependency file"
+
+- name: "python:uv"
+  color: "2b67c6"
+  description: "Pull requests that update python:uv code"
+
+- name: javascript
+  color: "168700"
+  description: "Pull requests that update javascript code"
+
+- name: security
+  color: "1f4984"
+  description: ""
+
+- name: exploration
+  color: "ededed"
+  description: "Issues found during feature exploration"
+
+- name: needs-triage
+  color: "ededed"
+  description: "New issues waiting for triage"
+
+- name: taxonomy
+  color: "ededed"
+  description: ""
+
+- name: backend
+  color: "0052cc"
+  description: "Server-side logic and infrastructure"
+
+- name: infrastructure
+  color: "d93f0b"
+  description: "Foundational systems and architecture"
+
+- name: planning
+  color: "cfd3d7"
+  description: "Research and design phases"
+
+- name: frontend
+  color: "006b75"
+  description: "User interface and presentation"
+
+- name: transparency
+  color: "f9d0c4"
+  description: "Focus on explainability and open data"
+
+- name: v2-roadmap
+  color: "0E8A16"
+  description: "Part of the GAIA V2 Strategic Roadmap"
+
+- name: v2-unrelated
+  color: "D1D5DA"
+  description: "Not part of the V2 roadmap deliverables"
+
+- name: phase-1
+  color: "0E8A16"
+  description: "Phase 1 — Trust Infrastructure scope"
+
+- name: phase-2
+  color: "1D76DB"
+  description: "Phase 2 — Product Moat scope"
+
+- name: phase-1.5
+  color: "BFDBFE"
+  description: "Phase 1.5 — G7 Implementation"
+
+- name: apex-promotion
+  color: "FBBF24"
+  description: "PR promotes a skill to 6★ — requires 2 verifier sign-offs and apex gate audit"
+
+- name: verifier-signoff
+  color: "A78BFA"
+  description: "Cosign on an apex-promotion PR by a 4★+ Verifier"
+
+- name: evidence
+  color: "2cf4d3"
+  description: ""
+
+- name: gemini-bot
+  color: "ededed"
+  description: ""
+
+- name: epic
+  color: "ededed"
+  description: ""
+
+- name: technical-debt
+  color: "ededed"
+  description: ""
+
+- name: ci-cd
+  color: "ededed"
+  description: ""
+
+- name: sub-issue
+  color: "ededed"
+  description: ""
+
+- name: monorepo
+  color: "ededed"
+  description: ""
+
+- name: quality-gates
+  color: "ededed"
+  description: ""
+
+- name: refactoring
+  color: "ededed"
+  description: ""
+
+- name: skills
+  color: "ededed"
+  description: ""
+
+- name: versioning
+  color: "ededed"
+  description: ""
+
+- name: sprint-b
+  color: "0052CC"
+  description: "Sprint B — API + Trending + Hall of Heroes"
+
+- name: sprint-d
+  color: "5319E7"
+  description: "Sprint D — Content Engine + Benchmark MVP"
+
+- name: content-engine
+  color: "0E8A16"
+  description: "Weekly auto-report content pipeline"
+
+- name: auto-merge-eligible
+  color: "C2E0C6"
+  description: "Satisfice PRs <100 LoC + CI green — auto-merge"
+
+- name: migration-notes-missing
+  color: "E99695"
+  description: "PR lacks required Migration Notes block"
+
+- name: sprint-f
+  color: "8B5CF6"
+  description: "Sprint F — Migration + Monorepo Move (React/Node port)"
+
+- name: awaiting-assets
+  color: "FBCA04"
+  description: "Blocked on commissioned illustration / motion asset delivery"
+
+- name: capability-gap
+  color: "0e8a16"
+  description: "A missing generic node the registry should have"
+
+# ── New labels: intake (latent bug fix) ────────────────────────────────────
+# NOTE: `intake` was missing from the repo despite being referenced in
+# .github/ISSUE_TEMPLATE/new_skill_intake.yml — applying it as a latent bug fix.
+
+- name: intake
+  color: "5319E7"
+  description: "New skill intake — batch proposal awaiting triage"
+
+# ── New labels: upstream-watcher family ────────────────────────────────────
+# Colors:
+#   upstream:release / upstream:child / upstream:bootstrap  →  teal #0D9B8A
+#     (categorisation labels — identify the issue type at a glance)
+#   upstream:approved                                        →  green #0E8A16
+#     (positive action; same green as bot-proposal/needs-review family)
+#   upstream:rejected                                        →  red #d73a4a
+#     (negative resolution; same red as bug)
+#   upstream:needs-info                                      →  yellow #FBCA04
+#     (hold/blocked; matches awaiting-assets amber)
+#   skip-child-gate                                          →  orange-red #e04e25
+#     (bypass label; matches skip-scope-check convention)
+
+- name: "upstream:release"
+  color: "0D9B8A"
+  description: "Upstream watcher — release-delta umbrella issue"
+
+- name: "upstream:child"
+  color: "0D9B8A"
+  description: "Upstream watcher — child intake issue linked to an umbrella"
+
+- name: "upstream:bootstrap"
+  color: "0D9B8A"
+  description: "Upstream watcher — first-run baselining issue (one-time per suite)"
+
+- name: "upstream:approved"
+  color: "0E8A16"
+  description: "Upstream watcher — maintainer approved; fires sync workflow"
+
+- name: "upstream:rejected"
+  color: "d73a4a"
+  description: "Upstream watcher — maintainer rejected; closes with sync-skipped comment"
+
+- name: "upstream:needs-info"
+  color: "FBCA04"
+  description: "Upstream watcher — on hold; no automation fires until resolved"
+
+- name: skip-child-gate
+  color: "e04e25"
+  description: "Bypass the child-intake resolution gate on an upstream:approved umbrella"
