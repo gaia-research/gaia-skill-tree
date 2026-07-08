@@ -1,0 +1,63 @@
+name: Upstream Watcher
+
+on:
+  workflow_dispatch:
+    inputs:
+      skill_id:
+        description: "Optional: single skill to poll (default = all suites)"
+        required: false
+        default: ""
+      apply:
+        description: "Actually create issues (default: dry-run)"
+        type: boolean
+        default: false
+  # V1.1 TODO: enable daily cron once outputs are trusted for 2+ weeks.
+  # schedule:
+  #   - cron: '0 6 * * *'  # 06:00 UTC daily
+
+# Prevent overlap between manual runs
+concurrency: upstream-watcher
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  watcher:
+    name: Poll upstream repos for new releases
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Run upstream watcher
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GAIA_OPERATOR_OVERRIDE: "1"
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.skill_id }}" ]; then
+            ARGS="--skill ${{ inputs.skill_id }}"
+          fi
+          if [ "${{ inputs.apply }}" = "true" ]; then
+            ARGS="$ARGS --apply"
+          else
+            ARGS="$ARGS --dry-run"
+          fi
+          python scripts/upstream_watcher/watcher.py $ARGS
