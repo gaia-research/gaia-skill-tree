@@ -3,11 +3,11 @@
     "total": 266,
     "S": 5,
     "A": 44,
-    "B": 67,
+    "B": 66,
     "C": 79,
-    "ungraded": 71,
+    "ungraded": 72,
     "floor": 0,
-    "up": 2
+    "up": 1
   },
   "rows": [
     {
@@ -1297,19 +1297,6 @@
       "origin": false
     },
     {
-      "id": "rico-favor/implement-with-discernment",
-      "trustMagnitude": 52.15,
-      "grade": "B",
-      "level": "2★",
-      "typeBreakdown": {
-        "repo-own": 1.49,
-        "peer-review": 27.0,
-        "social-signal": 22.96,
-        "arxiv": 0.7
-      },
-      "origin": false
-    },
-    {
       "id": "mattpocock/improve-codebase-architecture",
       "trustMagnitude": 45.0,
       "grade": "C",
@@ -2108,12 +2095,12 @@
     },
     {
       "id": "caioribeiroclw-pixel/evidence-attestation",
-      "trustMagnitude": 6.47,
+      "trustMagnitude": 7.34,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
       "typeBreakdown": {
         "self-attestation": 5.0,
-        "repo-own": 1.47
+        "repo-own": 2.34
       },
       "origin": false
     },
@@ -2343,6 +2330,17 @@
       "level": "1★",
       "typeBreakdown": {
         "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "id": "rico-favor/implement-with-discernment",
+      "trustMagnitude": 2.19,
+      "grade": "ungraded",
+      "level": "1★",
+      "typeBreakdown": {
+        "repo-own": 1.49,
+        "arxiv": 0.7
       },
       "origin": false
     },

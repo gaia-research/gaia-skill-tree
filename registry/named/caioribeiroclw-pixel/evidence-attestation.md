@@ -5,7 +5,7 @@ contributor: caioribeiroclw-pixel
 origin: false
 genericSkillRef: evidence-attestation
 status: named
-level: 2★
+level: 1★
 description: Produces privacy-safe proof objects from agent claims by recording what
   evidence supports or contradicts each claim, what raw content was intentionally
   omitted, what verdict follows, and what would make the evidence stale.
@@ -35,6 +35,10 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 2★ to 2★
+- timestamp: '2026-07-08T21:48:33Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 2★ to 1★
 evidence:
 - source: https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md
   evaluator: unknown

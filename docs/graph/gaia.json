@@ -1,6 +1,6 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "generatedAt": "2026-07-08T21:15:42Z",
+  "generatedAt": "2026-07-08T21:50:16Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -5012,31 +5012,11 @@
           "evaluator": "unknown",
           "date": "2026-07-09",
           "type": "repo-own",
-          "trustNumber": 60.0,
-          "notes": "Host repo for the skill; 7 stars, 90 commits. Focused on privacy-safe context receipts for AI coding agents across Claude, Cursor, Copilot.",
+          "trustNumber": 25.0,
+          "notes": "Host repo for the skill; 7 stars, 379 commits. Focused on privacy-safe context receipts for AI coding agents. Single contributor. Multi-skill repo — evidence-attestation is one skill within a broader context-provenance toolset.",
           "stars": 7,
-          "commits": 90,
+          "commits": 379,
           "contributors": 1
-        },
-        {
-          "source": "https://arxiv.org/abs/2602.20214",
-          "evaluator": "unknown",
-          "date": "2026-07-09",
-          "type": "arxiv",
-          "trustNumber": 65.0,
-          "grade": "B",
-          "notes": "Right to History: A Sovereignty Kernel for Verifiable AI Agent Execution — formalizes tamper-evident, independently verifiable records of AI agent actions using Merkle tree audit logs. Directly supports the evidence-attestation proof-object design.",
-          "citations": 0
-        },
-        {
-          "source": "https://arxiv.org/abs/2603.06365",
-          "evaluator": "unknown",
-          "date": "2026-07-09",
-          "type": "arxiv",
-          "trustNumber": 60.0,
-          "grade": "B",
-          "notes": "ESAA-Security: An Event-Sourced, Verifiable Architecture for Agent-Assisted Security Audits — proposes structured agent outputs validated through deterministic protocols, directly paralleling the evidence-attestation proof-object pattern.",
-          "citations": 0
         }
       ],
       "knownAgents": [],
@@ -5110,6 +5090,36 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Graded evidence from https://arxiv.org/abs/2603.06365 as B (trustNumber: 60.0)"
+        },
+        {
+          "timestamp": "2026-07-08T21:37:53Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Updated evidence #1 from https://github.com/caioribeiroclw-pixel/pluribus; changed commits, notes, trustNumber (trustNumber: 60.0 → 25.0)"
+        },
+        {
+          "timestamp": "2026-07-08T21:37:54Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Updated evidence #2 from https://arxiv.org/abs/2602.20214; changed grade, notes, trustNumber (grade: B → ungraded) (trustNumber: 65.0 → 15.0)"
+        },
+        {
+          "timestamp": "2026-07-08T21:37:55Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Updated evidence #3 from https://arxiv.org/abs/2603.06365; changed grade, notes, trustNumber (grade: B → ungraded) (trustNumber: 60.0 → 10.0)"
+        },
+        {
+          "timestamp": "2026-07-08T21:40:54Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://arxiv.org/abs/2602.20214"
+        },
+        {
+          "timestamp": "2026-07-08T21:40:55Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://arxiv.org/abs/2603.06365"
         }
       ],
       "verification": {
@@ -5136,8 +5146,7 @@
           0.00017498776301754564
         ]
       },
-      "namedMaxLevel": "2★",
-      "overallTrustGrade": "B"
+      "overallTrustGrade": "C"
     },
     {
       "id": "executing-plans",
@@ -7655,54 +7664,12 @@
       "derivatives": [],
       "evidence": [
         {
-          "source": "https://github.com/rico-favor/gaia-skill-tree",
-          "evaluator": "unknown",
-          "date": "2026-07-09",
-          "type": "repo-own",
-          "trustNumber": 22.0,
-          "notes": "rico-favor's gaia-skill-tree fork — 96 commits. Active usage of gaia skill workflows and agent skill implementation practices, evidencing real applied judgment in software implementation contexts.",
-          "stars": 0,
-          "commits": 96,
-          "contributors": 1
-        },
-        {
-          "source": "https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems",
-          "evaluator": "unknown",
-          "date": "2026-07-09",
-          "type": "peer-review",
-          "trustNumber": 100.0,
-          "grade": "S",
-          "notes": "Landmark NeurIPS 2015 paper by Sculley et al. (~1,492 citations) showing that feature accumulation and unnecessary complexity create hidden long-term costs — foundational empirical case for deliberate, minimal implementation.",
-          "citations": 1492,
-          "reviewers": 3
-        },
-        {
-          "source": "https://martinfowler.com/bliki/Yagni.html",
-          "evaluator": "unknown",
-          "date": "2026-07-09",
-          "type": "social-signal",
-          "trustNumber": 80.0,
-          "grade": "B",
-          "notes": "Canonical YAGNI treatment by Martin Fowler (2015) — structures the four-part cost model of unnecessary features (build/delay/carry/repair) and cites research that 1/3 of shipped features fail to improve their target metrics. Most authoritative practitioner essay on when not to implement.",
-          "views": 500000
-        },
-        {
-          "source": "https://martinfowler.com/articles/designDead.html",
-          "evaluator": "unknown",
-          "date": "2026-07-09",
-          "type": "social-signal",
-          "trustNumber": 60.0,
-          "grade": "B",
-          "notes": "Foundational 2004 Fowler essay from XP 2000 conference integrating YAGNI into evolutionary design theory — argues that restraint from speculative implementation requires continuous refactoring, grounding 'when not to build' judgment in design practice.",
-          "views": 100000
-        },
-        {
           "source": "https://arxiv.org/abs/2403.06484",
           "evaluator": "unknown",
           "date": "2026-07-09",
           "type": "arxiv",
           "trustNumber": 50.0,
-          "notes": "ICSE 2023 peer-reviewed paper by Avgeriou et al. surveying technical debt management — frames unnecessary complexity as a 'silent killer' of software projects, supporting the evidence base for deliberate minimal implementation.",
+          "notes": "ICSE-FoSE 2024 paper by Avgeriou et al. surveying technical debt management — frames unnecessary complexity as a driver of software delivery failures. Supporting context for deliberate minimal implementation. Submitted March 2024, 5 citations.",
           "citations": 5
         }
       ],
@@ -7783,6 +7750,60 @@
           "action": "evidence_graded",
           "contributor": "unknown",
           "details": "Updated evidence #1 from https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems; changed trustNumber (trustNumber: 110.0 → 100.0)"
+        },
+        {
+          "timestamp": "2026-07-08T21:37:11Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/rico-favor/gaia-skill-tree"
+        },
+        {
+          "timestamp": "2026-07-08T21:37:22Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Updated evidence #0 from https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems; changed citations, notes, trustNumber (trustNumber: 100.0 → 70.0)"
+        },
+        {
+          "timestamp": "2026-07-08T21:37:36Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Updated evidence #1 from https://martinfowler.com/bliki/Yagni.html; changed notes, trustNumber (trustNumber: 80.0 → 30.0)"
+        },
+        {
+          "timestamp": "2026-07-08T21:37:37Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Updated evidence #2 from https://martinfowler.com/articles/designDead.html; changed notes, trustNumber (trustNumber: 60.0 → 20.0)"
+        },
+        {
+          "timestamp": "2026-07-08T21:37:38Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Updated evidence #3 metadata from https://arxiv.org/abs/2403.06484; changed notes"
+        },
+        {
+          "timestamp": "2026-07-08T21:38:36Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Updated evidence #1 from https://martinfowler.com/bliki/Yagni.html; changed grade, views (grade: B → ungraded)"
+        },
+        {
+          "timestamp": "2026-07-08T21:39:39Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://martinfowler.com/bliki/Yagni.html"
+        },
+        {
+          "timestamp": "2026-07-08T21:39:40Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://martinfowler.com/articles/designDead.html"
+        },
+        {
+          "timestamp": "2026-07-08T21:41:53Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems"
         }
       ],
       "verification": {
@@ -7808,9 +7829,7 @@
           0.15151601152433755,
           -0.0006164515205178611
         ]
-      },
-      "namedMaxLevel": "2★",
-      "overallTrustGrade": "S"
+      }
     },
     {
       "id": "issue-triage",

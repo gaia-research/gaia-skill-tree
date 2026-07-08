@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-08T21:08:21Z",
+  "generatedAt": "2026-07-08T21:49:04Z",
   "firstRun": false,
   "skills": [
     {
@@ -15,20 +15,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/addy-osmani/code-simplification.json"
-      }
-    },
-    {
-      "id": "rico-favor/implement-with-discernment",
-      "name": "implement-with-discernment",
-      "level": "2★",
-      "contributor": "rico-favor",
-      "trustMagnitude": 158.08,
-      "overallTrustGrade": "A",
-      "trendingScore": 79.04,
-      "tmDelta": 158.08,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/rico-favor/implement-with-discernment.json"
       }
     },
     {
@@ -282,23 +268,9 @@
       "_links": {
         "self": "/api/v1/skills/huggingface/semantic-cache.json"
       }
-    },
-    {
-      "id": "caioribeiroclw-pixel/evidence-attestation",
-      "name": "evidence-attestation",
-      "level": "2★",
-      "contributor": "caioribeiroclw-pixel",
-      "trustMagnitude": 6.47,
-      "overallTrustGrade": null,
-      "trendingScore": 3.23,
-      "tmDelta": 6.47,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/caioribeiroclw-pixel/evidence-attestation.json"
-      }
     }
   ],
-  "totalTrending": 21,
+  "totalTrending": 19,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

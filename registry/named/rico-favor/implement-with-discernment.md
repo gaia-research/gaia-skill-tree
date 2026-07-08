@@ -5,7 +5,7 @@ contributor: rico-favor
 origin: false
 genericSkillRef: implement-with-discernment
 status: named
-level: 2★
+level: 1★
 description: 'Applies deliberate judgment before writing code: evaluating whether
   to implement at all, scoping to the minimum needed, deferring or rejecting features
   that add complexity without proportionate value.'
@@ -35,6 +35,10 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 2★ to 2★
+- timestamp: '2026-07-08T21:48:31Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 2★ to 1★
 evidence:
 - source: https://github.com/rico-favor/gaia-skill-tree
   evaluator: unknown

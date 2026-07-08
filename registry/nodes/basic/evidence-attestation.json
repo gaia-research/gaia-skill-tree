@@ -20,31 +20,11 @@
       "evaluator": "unknown",
       "date": "2026-07-09",
       "type": "repo-own",
-      "trustNumber": 60.0,
-      "notes": "Host repo for the skill; 7 stars, 90 commits. Focused on privacy-safe context receipts for AI coding agents across Claude, Cursor, Copilot.",
+      "trustNumber": 25.0,
+      "notes": "Host repo for the skill; 7 stars, 379 commits. Focused on privacy-safe context receipts for AI coding agents. Single contributor. Multi-skill repo — evidence-attestation is one skill within a broader context-provenance toolset.",
       "stars": 7,
-      "commits": 90,
+      "commits": 379,
       "contributors": 1
-    },
-    {
-      "source": "https://arxiv.org/abs/2602.20214",
-      "evaluator": "unknown",
-      "date": "2026-07-09",
-      "type": "arxiv",
-      "trustNumber": 65.0,
-      "grade": "B",
-      "notes": "Right to History: A Sovereignty Kernel for Verifiable AI Agent Execution — formalizes tamper-evident, independently verifiable records of AI agent actions using Merkle tree audit logs. Directly supports the evidence-attestation proof-object design.",
-      "citations": 0
-    },
-    {
-      "source": "https://arxiv.org/abs/2603.06365",
-      "evaluator": "unknown",
-      "date": "2026-07-09",
-      "type": "arxiv",
-      "trustNumber": 60.0,
-      "grade": "B",
-      "notes": "ESAA-Security: An Event-Sourced, Verifiable Architecture for Agent-Assisted Security Audits — proposes structured agent outputs validated through deterministic protocols, directly paralleling the evidence-attestation proof-object pattern.",
-      "citations": 0
     }
   ],
   "knownAgents": [],
@@ -118,6 +98,36 @@
       "action": "evidence_graded",
       "contributor": "unknown",
       "details": "Graded evidence from https://arxiv.org/abs/2603.06365 as B (trustNumber: 60.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:37:53Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #1 from https://github.com/caioribeiroclw-pixel/pluribus; changed commits, notes, trustNumber (trustNumber: 60.0 → 25.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:37:54Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #2 from https://arxiv.org/abs/2602.20214; changed grade, notes, trustNumber (grade: B → ungraded) (trustNumber: 65.0 → 15.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:37:55Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #3 from https://arxiv.org/abs/2603.06365; changed grade, notes, trustNumber (grade: B → ungraded) (trustNumber: 60.0 → 10.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:40:54Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://arxiv.org/abs/2602.20214"
+    },
+    {
+      "timestamp": "2026-07-08T21:40:55Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://arxiv.org/abs/2603.06365"
     }
   ],
   "verification": {

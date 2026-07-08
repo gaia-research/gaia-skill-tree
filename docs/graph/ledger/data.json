@@ -1,15 +1,15 @@
 {
   "version": "6.0.0",
-  "generatedAt": "2026-07-08T21:15:21Z",
+  "generatedAt": "2026-07-08T21:48:52Z",
   "summary": {
     "total": 266,
     "S": 5,
     "A": 44,
-    "B": 67,
+    "B": 66,
     "C": 79,
-    "ungraded": 71,
+    "ungraded": 72,
     "floor": 0,
-    "up": 2
+    "up": 1
   },
   "rows": [
     {
@@ -1919,24 +1919,6 @@
       "origin": false
     },
     {
-      "skillId": "rico-favor/implement-with-discernment",
-      "tm": 52.15,
-      "grade": "B",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "3★",
-      "flag": "[up]",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 1.49,
-        "peer-review": 27.0,
-        "social-signal": 22.96,
-        "arxiv": 0.7
-      },
-      "origin": false
-    },
-    {
       "skillId": "mattpocock/improve-codebase-architecture",
       "tm": 45.0,
       "grade": "C",
@@ -3130,17 +3112,17 @@
     },
     {
       "skillId": "caioribeiroclw-pixel/evidence-attestation",
-      "tm": 6.47,
+      "tm": 7.34,
       "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
+      "currentStars": "1★",
+      "mayStars": "1★",
+      "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "self-attestation": 5.0,
-        "repo-own": 1.47
+        "repo-own": 2.34
       },
       "origin": false
     },
@@ -3480,6 +3462,22 @@
       "apexResults": null,
       "typeBreakdown": {
         "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "rico-favor/implement-with-discernment",
+      "tm": 2.19,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "mayStars": "1★",
+      "juneStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.49,
+        "arxiv": 0.7
       },
       "origin": false
     },

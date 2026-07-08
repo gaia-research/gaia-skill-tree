@@ -5114,7 +5114,7 @@
         "origin": false,
         "genericSkillRef": "evidence-attestation",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "Produces privacy-safe proof objects from agent claims by recording what evidence supports or contradicts each claim, what raw content was intentionally omitted, what verdict follows, and what would make the evidence stale.",
         "title": "Evidence Attestation",
         "links": {
@@ -5163,12 +5163,18 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 2★"
+          },
+          {
+            "timestamp": "2026-07-08T21:48:33Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 6.47,
+        "trustMagnitude": 7.34,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -19241,7 +19247,7 @@
         "origin": false,
         "genericSkillRef": "implement-with-discernment",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value.",
         "title": "Implement With Discernment",
         "links": {
@@ -19292,13 +19298,18 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 2★"
+          },
+          {
+            "timestamp": "2026-07-08T21:48:31Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 158.08,
-        "overallTrustGrade": "A",
+        "trustMagnitude": 2.49,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,

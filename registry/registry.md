@@ -228,12 +228,12 @@
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
 | ○ Cultural Localization | Intrinsic Skill | — | `/cultural-localization` |
 | ○ Domain Modeling | Intrinsic Skill | — | `/domain-modeling` |
-| ○ evidence-attestation | Intrinsic Skill | 2★ | `/evidence-attestation` |
+| ○ evidence-attestation | Intrinsic Skill | — | `/evidence-attestation` |
 | ○ Few-Shot Learning | Intrinsic Skill | 4★ | `/few-shot-learning` |
 | ○ Framework Upgrade | Intrinsic Skill | 2★ | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
 | ○ Image Generate | Intrinsic Skill | — | `/image-generate` |
-| ○ implement-with-discernment | Intrinsic Skill | 2★ | `/implement-with-discernment` |
+| ○ implement-with-discernment | Intrinsic Skill | — | `/implement-with-discernment` |
 | ○ Object Detection | Intrinsic Skill | — | `/object-detection` |
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
 | ○ Probabilistic Programming | Intrinsic Skill | — | `/probabilistic-programming` |
