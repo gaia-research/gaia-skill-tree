@@ -511,9 +511,9 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=5.9.1"></script>
-  <script src="../js/site-nav.js?v=5.9.1"></script>
-  <script src="../js/ui.js?v=5.9.1"></script>
+  <script src="../js/mounts.js?v=6.1.8"></script>
+  <script src="../js/site-nav.js?v=6.1.8"></script>
+  <script src="../js/ui.js?v=6.1.8"></script>
 
 
 
@@ -525,7 +525,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">Skill Hierarchy</span>
     <div class="nav-spacer"></div>
-    <span class="nav-version">v5.9.1</span>
+    <span class="nav-version">v6.1.8</span>
   </nav>
 
   <div class="page-layout">
@@ -542,7 +542,6 @@
           <li><a href="#ultimate">Ultimate ◆</a></li>
           <li><a href="#stars">Stars axis</a></li>
           <li><a href="#rank-names">Rank names</a></li>
-          <li><a href="#evidence">Evidence classes</a></li>
           <li><a href="#fusion">Fusion</a></li>
           <li><a href="#named-skills">Named Skills</a></li>
           <li><a href="#generic-starless">Generic / Starless</a></li>
@@ -618,15 +617,15 @@
               </div>
               <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;">
                 <span class="r2" style="font-family:'JetBrains Mono',monospace;width:22px;">2★</span>
-                <span style="color:var(--muted,#64748b);">Named — claimed + Class C</span>
+                <span style="color:var(--muted,#64748b);">Named — claimed + Grade C (Bronze)</span>
               </div>
               <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;">
                 <span class="r3" style="font-family:'JetBrains Mono',monospace;width:22px;">3★</span>
-                <span style="color:var(--muted,#64748b);">Evolved — Class B evidence</span>
+                <span style="color:var(--muted,#64748b);">Evolved — Grade B (Silver) evidence</span>
               </div>
               <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;">
                 <span class="r4" style="font-family:'JetBrains Mono',monospace;width:22px;">4★</span>
-                <span style="color:var(--muted,#64748b);">Hardened — verified + Class A</span>
+                <span style="color:var(--muted,#64748b);">Hardened — verified + Grade A (Gold)</span>
               </div>
               <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;">
                 <span class="r5" style="font-family:'JetBrains Mono',monospace;width:22px;">5★</span>
@@ -753,32 +752,32 @@
             <tr>
               <td class="r1">1★</td>
               <td style="color:var(--text,#e2e8f0);">Awakened</td>
-              <td style="color:var(--muted,#64748b);font-size:0.85rem;">First sighting — a single Class C evidence entry exists.</td>
+              <td style="color:var(--muted,#64748b);font-size:0.85rem;">First sighting — initial observation on record.</td>
             </tr>
             <tr>
               <td class="r2">2★</td>
               <td style="color:var(--text,#e2e8f0);">Named</td>
-              <td style="color:var(--muted,#64748b);font-size:0.85rem;">Skill has been claimed by a contributor with Class C evidence or better. Origin Contributor name attached.</td>
+              <td style="color:var(--muted,#64748b);font-size:0.85rem;">Skill has been claimed by a contributor with Bronze (Grade C) evidence or better. Origin Contributor name attached.</td>
             </tr>
             <tr>
               <td class="r3">3★</td>
               <td style="color:var(--text,#e2e8f0);">Evolved</td>
-              <td style="color:var(--muted,#64748b);font-size:0.85rem;">Class B evidence — reproducible, documented demonstration.</td>
+              <td style="color:var(--muted,#64748b);font-size:0.85rem;">Silver (Grade B) evidence — reproducible, documented demonstration.</td>
             </tr>
             <tr>
               <td class="r4">4★</td>
               <td style="color:var(--text,#e2e8f0);">Hardened</td>
-              <td style="color:var(--muted,#64748b);font-size:0.85rem;">Class A evidence — battle-tested. Threshold for Verifier authorization.</td>
+              <td style="color:var(--muted,#64748b);font-size:0.85rem;">Gold (Grade A) evidence — battle-tested. Threshold for Verifier authorization.</td>
             </tr>
             <tr>
               <td class="r5">5★</td>
               <td style="color:var(--text,#e2e8f0);">Transcendent</td>
-              <td style="color:var(--muted,#64748b);font-size:0.85rem;">Multiple peer-reviewed Class A entries.</td>
+              <td style="color:var(--muted,#64748b);font-size:0.85rem;">Platinum (Grade S) evidence — peer-reviewed academic literature or equivalent.</td>
             </tr>
             <tr>
               <td class="r6">6★</td>
               <td style="color:var(--text,#e2e8f0);">Transcendent ★</td>
-              <td style="color:var(--muted,#64748b);font-size:0.85rem;">The Apex. Reserved for skills with exhaustive, community-validated evidence across multiple independent sources.</td>
+              <td style="color:var(--muted,#64748b);font-size:0.85rem;">The Apex. Reserved for skills with community-verified Grade S evidence across multiple independent sources.</td>
             </tr>
           </tbody>
         </table>
@@ -791,62 +790,7 @@
         </div>
       </section>
 
-      <hr class="section-hr">
 
-      <!-- ═══ EVIDENCE ═══ -->
-      <section class="section" id="evidence">
-        <h2 class="section-title">Evidence classes</h2>
-        <div class="section-body">
-          <p>
-            Evidence classes grade the quality of a real-world demonstration.
-            Every star advance above 0★ requires at least one evidence entry meeting the
-            threshold for that rank. Evidence is attached by Verifiers using
-            <code>gaia dev evidence</code>.
-          </p>
-        </div>
-
-        <div style="background:var(--surface,#0f172a);border:1px solid var(--border,#1e293b);border-radius:8px;padding:1.25rem;margin-top:0.5rem;">
-          <div class="evidence-row">
-            <div class="evidence-class ev-c">C <span style="font-size:0.7rem;color:var(--muted,#64748b);">— Bronze</span></div>
-            <div class="evidence-body">
-              <strong>First sighting.</strong> A single, credible observation of the skill
-              in a real repository or agent context. No reproducibility required.
-              Sufficient for the 1★ Awakened rank. All Named Skills (2★) require
-              at least Class C.
-            </div>
-          </div>
-          <div class="evidence-row">
-            <div class="evidence-class ev-b">B <span style="font-size:0.7rem;color:var(--muted,#64748b);">— Silver</span></div>
-            <div class="evidence-body">
-              <strong>Reproducible and documented.</strong> A demonstration that another
-              evaluator can independently verify. Typically a public GitHub repo with a
-              <code>SKILL.md</code> file and test coverage. Enables the 3★ Evolved rank.
-            </div>
-          </div>
-          <div class="evidence-row">
-            <div class="evidence-class ev-a">A <span style="font-size:0.7rem;color:var(--muted,#64748b);">— Gold</span></div>
-            <div class="evidence-body">
-              <strong>Battle-tested and peer-reviewed.</strong> Published benchmarks,
-              academic papers (arXiv or equivalent), or broad community verification.
-              Required for the 4★ Hardened rank and above. Grants Verifier authorization
-              to the holder.
-            </div>
-          </div>
-        </div>
-
-        <div class="code-fence" style="margin-top:1.25rem;">
-          <div class="code-fence-label">attach evidence via CLI</div>
-          <pre><span class="c"># Class C — first sighting (requires Verifier auth)</span>
-<span class="cmd">gaia dev evidence</span> <span class="arg">web-search https://github.com/you/your-agent --class C</span>
-
-<span class="c"># Class B — reproducible repo with SKILL.md</span>
-<span class="cmd">gaia dev evidence</span> <span class="arg">web-search https://github.com/you/your-agent --class B \
-  --notes "Tested across 50 queries, results logged in SKILL.md"</span>
-
-<span class="c"># Class A — peer-reviewed paper</span>
-<span class="cmd">gaia dev evidence</span> <span class="arg">web-search https://arxiv.org/abs/2401.00000 --class A</span></pre>
-        </div>
-      </section>
 
       <hr class="section-hr">
 
@@ -1082,7 +1026,7 @@
 
   <!-- footer -->
   <footer class="docs-footer">
-    <span class="docs-footer-left">Gaia Registry v5.9.1 — open, evidence-backed skill graph for AI agents.</span>
+    <span class="docs-footer-left">Gaia Registry v6.1.8 — open, evidence-backed skill graph for AI agents.</span>
     <div class="docs-footer-right">
       <a href="index.html" style="color:var(--muted,#64748b);">Docs</a>
       <a href="../index.html" style="color:var(--muted,#64748b);">Atlas</a>
