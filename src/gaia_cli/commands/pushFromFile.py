@@ -37,6 +37,8 @@ import re
 import sys
 from datetime import datetime, timezone
 
+from urllib.parse import urlparse
+
 from gaia_cli.push import (
     SKILL_ID_RE,
     build_similarity,
@@ -44,6 +46,25 @@ from gaia_cli.push import (
     skill_name_from_id,
 )
 from gaia_cli.registry import registry_graph_path, skill_batches_dir
+
+
+def _is_github_tree_url(url):
+    """Return True when *url* is a GitHub tree/ directory URL.
+
+    Uses urlparse so the netloc is checked exactly rather than via substring
+    matching, which CodeQL flags as incomplete URL sanitization (CWE-625).
+    A blob/ URL or a non-GitHub URL both return False.
+    """
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        return False
+    netloc = parsed.netloc.lower()
+    # Accept github.com and the github.com. prefix-spoof guard:
+    # require the netloc to be exactly 'github.com' (with optional www.).
+    if netloc not in ("github.com", "www.github.com"):
+        return False
+    return "/tree/" in parsed.path
 
 # ---------------------------------------------------------------------------
 # Validation helpers
@@ -146,7 +167,7 @@ def _validate_skill(entry, index, canonicalIds):
         url = ev.get("url", "")
         if not url:
             errors.append(f"{evPrefix}: 'url' is required")
-        elif url.startswith("https://github.com") and "/tree/" in url:
+        elif _is_github_tree_url(url):
             errors.append(
                 f"{evPrefix}.url: use blob/ URLs, not tree/ (got: {url})"
             )
@@ -170,7 +191,7 @@ def _validate_skill(entry, index, canonicalIds):
                 f"{prefix}.named.links_github: required when named block present "
                 f"(blob/ URL to SKILL.md or repo root)"
             )
-        elif "/tree/" in linksGithub:
+        elif _is_github_tree_url(linksGithub):
             errors.append(
                 f"{prefix}.named.links_github: use blob/ URLs, not tree/ (got: {linksGithub})"
             )
