@@ -93,6 +93,12 @@ timeline:
     2026-02-03, repo creation date) and evidence #1 (https://arxiv.org/abs/2602.20867,
     sourceStartedAt 2026-02-24, arXiv publication date). Metadata-only provenance
     audit note; no rank, star, Trust Magnitude, grade, or apex-gate status changed.'
+- timestamp: '2026-07-08T19:53:32Z'
+  action: upstream_synced
+  contributor: github-actions[bot]
+  previousValue: null
+  newValue: v1.1.0
+  details: first-run baseline
 evidence:
 - source: https://github.com/mattpocock/skills/stargazers
   evaluator: mbtiongson1
@@ -154,6 +160,13 @@ suiteComponents:
 - mattpocock/write-a-skill
 - mattpocock/zoom-out
 trustMagnitudeInputHash: 349d174f8f94cd100299e12ac72dde50e45702118e3e22c9d36cf4091e48f522
+upstream:
+  mode: components
+  releasedAt: '2026-07-08T13:20:57Z'
+  repo: mattpocock/skills
+  sourceUrl: https://github.com/mattpocock/skills/releases/tag/v1.1.0
+  syncedAt: '2026-07-08T19:53:32Z'
+  version: v1.1.0
 ---
 
 ## Installation

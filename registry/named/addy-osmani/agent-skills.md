@@ -80,6 +80,12 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 4★ to 5★
+- timestamp: '2026-07-08T19:56:05Z'
+  action: upstream_synced
+  contributor: github-actions[bot]
+  previousValue: null
+  newValue: 0.6.3
+  details: first-run baseline
 evidence:
 - source: https://github.com/addyosmani/agent-skills/stargazers
   evaluator: unknown
@@ -121,6 +127,13 @@ apexGateStatus:
 trustMagnitudeInputHash: 328510a733654dd48aa9af8b91b72de65f27baa1665a5afb720b3548f5c4e477
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/README.md
+upstream:
+  mode: components
+  releasedAt: '2026-07-03T05:42:25Z'
+  repo: addyosmani/agent-skills
+  sourceUrl: https://github.com/addyosmani/agent-skills/releases/tag/0.6.3
+  syncedAt: '2026-07-08T19:56:05Z'
+  version: 0.6.3
 ---
 
 ## Installation

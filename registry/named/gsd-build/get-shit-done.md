@@ -69,6 +69,12 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 4★
+- timestamp: '2026-07-08T19:56:14Z'
+  action: upstream_synced
+  contributor: github-actions[bot]
+  previousValue: null
+  newValue: v1.42.3
+  details: first-run baseline
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/stargazers
   evaluator: unknown
@@ -107,6 +113,13 @@ apexGateStatus:
 trustMagnitudeInputHash: e97616a7dfa339c7a99c95043b951f9b9a049190bc6ea5aacf7ab550d93cdf48
 links:
   github: https://github.com/gsd-build/get-shit-done/blob/main/README.md
+upstream:
+  mode: components
+  releasedAt: '2026-05-16T04:36:09Z'
+  repo: gsd-build/get-shit-done
+  sourceUrl: https://github.com/gsd-build/get-shit-done/releases/tag/v1.42.3
+  syncedAt: '2026-07-08T19:56:14Z'
+  version: v1.42.3
 ---
 
 ## Installation
