@@ -3,7 +3,7 @@ gaia_cli.frontmatter — regex-based YAML frontmatter parse and rewrite helpers.
 
 # Duplicated from scripts/lib/frontmatter.py — see docs/agents/upstream-watcher.md §9.
 # Keep in sync manually until a shared package extraction lands.
-# Follow-up: https://github.com/gaia-registry/gaia-skill-tree/issues/<TBD>
+# Follow-up: https://github.com/gaia-research/gaia-skill-tree/issues/1028
 #   "Extract scripts/lib into a shared installable package (upstream-watcher PR 5 follow-up)"
 
 Public API
