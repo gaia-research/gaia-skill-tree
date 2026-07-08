@@ -1,12 +1,12 @@
 {
-  "version": "6.3.12",
-  "generatedAt": "2026-07-08T20:27:00Z",
+  "version": "6.0.0",
+  "generatedAt": "2026-07-08T20:47:50Z",
   "summary": {
-    "total": 262,
+    "total": 264,
     "S": 5,
     "A": 44,
     "B": 66,
-    "C": 77,
+    "C": 79,
     "ungraded": 70,
     "floor": 0,
     "up": 1
@@ -1993,6 +1993,38 @@
       "typeBreakdown": {
         "repo-own": 11.21,
         "peer-review": 30.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "gaia-research/skill-ci-churn",
+      "tm": 41.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "gaia-research/skill-fuse",
+      "tm": 41.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false
     },

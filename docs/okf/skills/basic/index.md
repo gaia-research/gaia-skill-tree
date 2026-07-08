@@ -6,6 +6,7 @@
 * [Autonomous Engineering Platform](/autonomous-engineering-platform.md) - An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery.
 * [Bioinformatic Sequence Analysis](/bioinformatic-sequence-analysis.md) - Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases.
 * [Browser Control](/browser-control.md) - A foundational skill for interacting directly with the web browser using Chrome DevTools Protocol (CDP).
+* [CI Churn Analysis](/ci-churn-analysis.md) - Measures avoidable CI iteration cost for a pull request by classifying commits as feature work versus fix-the-CI rework, summing CI compute time burned on avoidable push rounds, and surfacing pre-push checks that would have prevented them.
 * [CLI Modernization](/cli-modernization.md) - Refactors command-line interfaces for improved UX, plugin architecture, and extensibility.
 * [Chain-of-Thought Reasoning](/chain-of-thought.md) - Produces explicit intermediate reasoning steps before arriving at a final answer, dramatically improving accuracy on multi-step problems.
 * [Chunk Document](/chunk-document.md) - Splits a document into semantically meaningful segments optimized for embedding and retrieval.

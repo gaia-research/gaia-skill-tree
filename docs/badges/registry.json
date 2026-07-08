@@ -1490,6 +1490,41 @@
         }
       ]
     },
+    "gaia-research": {
+      "repos": [
+        "gaia-research/gaia-skill-tree"
+      ],
+      "skillsByRepo": {
+        "gaia-research/gaia-skill-tree": [
+          "gaia-research/skill-ci-churn",
+          "gaia-research/skill-fuse"
+        ]
+      },
+      "topSkill": "gaia-research/skill-ci-churn",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 2,
+      "namedSkills": [
+        {
+          "id": "gaia-research/skill-ci-churn",
+          "name": "CI Churn",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/skill-ci-churn",
+          "file": "skill-ci-churn.svg",
+          "fileSeal": "skill-ci-churn-seal.svg"
+        },
+        {
+          "id": "gaia-research/skill-fuse",
+          "name": "Skill Fuse",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/skill-fuse",
+          "file": "skill-fuse.svg",
+          "fileSeal": "skill-fuse-seal.svg"
+        }
+      ]
+    },
     "pbakaus": {
       "repos": [
         "pbakaus/impeccable"
@@ -1918,41 +1953,6 @@
           "slash": "/find-skills",
           "file": "find-skills.svg",
           "fileSeal": "find-skills-seal.svg"
-        }
-      ]
-    },
-    "gaia-research": {
-      "repos": [
-        "gaia-research/gaia-skill-tree"
-      ],
-      "skillsByRepo": {
-        "gaia-research/gaia-skill-tree": [
-          "gaia-research/skill-ci-churn",
-          "gaia-research/skill-fuse"
-        ]
-      },
-      "topSkill": "gaia-research/skill-ci-churn",
-      "topRank": 2,
-      "topIsUnique": false,
-      "count": 2,
-      "namedSkills": [
-        {
-          "id": "gaia-research/skill-ci-churn",
-          "name": "CI Churn",
-          "rank": 2,
-          "type": "basic",
-          "slash": "/skill-ci-churn",
-          "file": "skill-ci-churn.svg",
-          "fileSeal": "skill-ci-churn-seal.svg"
-        },
-        {
-          "id": "gaia-research/skill-fuse",
-          "name": "Skill Fuse",
-          "rank": 2,
-          "type": "extra",
-          "slash": "/skill-fuse",
-          "file": "skill-fuse.svg",
-          "fileSeal": "skill-fuse-seal.svg"
         }
       ]
     },

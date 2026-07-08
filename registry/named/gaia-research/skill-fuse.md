@@ -4,14 +4,14 @@ name: Skill Fuse
 contributor: gaia-research
 origin: false
 genericSkillRef: skill-fusion
-status: awakened
+status: named
 level: 2★
 description: 'Composes multiple named skill implementations for a single contributor
   into a unified ultimate or suite skill node: collecting component IDs, verifying
   node existence, researching evidence, writing the ultimate node, back-linking derivatives
   on components, updating registry indexes, and opening a pull request.'
 createdAt: '2026-07-08'
-updatedAt: '2026-07-08'
+updatedAt: '2026-07-09'
 timeline:
 - timestamp: '2026-07-08T10:19:43Z'
   action: add
@@ -35,6 +35,14 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/skill-fuse/SKILL.md
+- timestamp: '2026-07-08T20:47:22Z'
+  action: name
+  contributor: unknown
+  details: Promoted from awakened to named.
+- timestamp: '2026-07-08T20:47:37Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 2★ to 2★
 evidence:
 - source: https://github.com/gaia-research/gaia-skill-tree
   evaluator: unknown
@@ -55,6 +63,7 @@ verification:
   firstEvidenceAt: '2026-07-08T10:21:52Z'
 links:
   github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/skill-fuse/SKILL.md
+title: Skill Fusion
 ---
 
 ## Installation

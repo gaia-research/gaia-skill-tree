@@ -340,7 +340,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
 ══════════════════════════════════════════════════════════════════════
 
   · ○ /autonomous-engineering-platform
-  · ○ /ci-churn-analysis
+  · ○ gaia-research/skill-ci-churn  [2★]
   · ○ /clinical-data-retrieval
   · ○ /cultural-localization
   · ○ ████████/domain-modeling

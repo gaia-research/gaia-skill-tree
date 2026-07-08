@@ -4,14 +4,14 @@ name: CI Churn
 contributor: gaia-research
 origin: false
 genericSkillRef: ci-churn-analysis
-status: awakened
+status: named
 level: 2★
 description: Measures avoidable CI iteration cost for a pull request by classifying
   commits as feature work versus fix-the-CI rework, summing CI compute time burned
   on avoidable push rounds, and surfacing pre-push checks that would have prevented
   them.
 createdAt: '2026-07-08'
-updatedAt: '2026-07-08'
+updatedAt: '2026-07-09'
 timeline:
 - timestamp: '2026-07-08T10:19:05Z'
   action: add
@@ -35,6 +35,14 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/ci-churn/SKILL.md
+- timestamp: '2026-07-08T20:47:22Z'
+  action: name
+  contributor: unknown
+  details: Promoted from awakened to named.
+- timestamp: '2026-07-08T20:47:36Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 2★ to 2★
 evidence:
 - source: https://github.com/gaia-research/gaia-skill-tree
   evaluator: unknown
@@ -56,6 +64,7 @@ verification:
   firstEvidenceAt: '2026-07-08T10:21:40Z'
 links:
   github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/ci-churn/SKILL.md
+title: CI Churn Analysis
 ---
 
 ## Installation

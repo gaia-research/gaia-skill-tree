@@ -101,7 +101,7 @@
 | ◇ /search-engine-optimization | Extra Skill | Parse HTML, Parse JSON | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/cso | Extra Skill | Code Review Pipeline, Evaluate Output | 3★ | Requires access to the full codebase or diff; output must include severity classification and reproduction steps. |
 | ◇ [garrytan](../docs/u/garrytan/)/skillify | Extra Skill | Generate Text, Structured Output Generation, Code Generation | 3★ | Requires a target agent skill format and a repeatable evaluation loop for trigger accuracy and task success. |
-| ◇ /skill-fusion | Extra Skill | Registry Curation, Skill Authoring | — |  |
+| ◇ [gaia-research](../docs/u/gaia-research/)/skill-fuse | Extra Skill | Registry Curation, Skill Authoring | 2★ |  |
 | ◆ [mattpocock](../docs/u/mattpocock/)/skills | Ultimate Skill | mattpocock-engineering, mattpocock-productivity, mattpocock-personal, Tool Creation, Ubiquitous Language | 5★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/benchmark-models | Extra Skill | Agent Evaluation, Skill Discovery, Statistical Analysis | 2★ | Requires a skill corpus, benchmark tasks, success rubrics, and variance-aware reporting across multiple runs. |
 | ◇ /skill-security-analysis | Extra Skill | Security Audit, Prompt Injection Defense, Skill Discovery | — | Requires access to the skill manifest, referenced files, source repository context, and a policy for trusted permissions. |

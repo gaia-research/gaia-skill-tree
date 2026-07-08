@@ -4,7 +4,7 @@
   "families": [
     {
       "id": "basic",
-      "count": 103,
+      "count": 104,
       "skills": [
         {
           "id": "adaptive-pattern-learning",
@@ -45,6 +45,11 @@
           "id": "chunk-document",
           "name": "Chunk Document",
           "summary": "Splits a document into semantically meaningful segments optimized for embedding and retrieval."
+        },
+        {
+          "id": "ci-churn-analysis",
+          "name": "CI Churn Analysis",
+          "summary": "Measures avoidable CI iteration cost for a pull request by classifying commits as feature work versus fix-the-CI rework, summing CI compute time burned on avoidable push rounds, and surfacing pre-push checks that would have prevented them."
         },
         {
           "id": "cite-sources",
@@ -525,7 +530,7 @@
     },
     {
       "id": "extra",
-      "count": 123,
+      "count": 124,
       "skills": [
         {
           "id": "advanced-swarm-coordination",
@@ -1006,6 +1011,11 @@
           "id": "skill-authoring",
           "name": "Skill Authoring",
           "summary": "Designs, writes, packages, and iteratively improves reusable agent skill directories with metadata, progressive instructions, supporting assets, and measurable trigger criteria."
+        },
+        {
+          "id": "skill-fusion",
+          "name": "Skill Fusion",
+          "summary": "Composes multiple named skill implementations for a single contributor into a unified ultimate or suite skill node: collecting component IDs, verifying node existence, researching evidence, writing the ultimate node, back-linking derivatives on components, updating registry indexes, and opening a pull request."
         },
         {
           "id": "skill-performance-benchmarking",

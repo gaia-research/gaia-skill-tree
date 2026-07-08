@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-08T00:09:02Z",
+  "generatedAt": "2026-07-08T20:47:53Z",
   "firstRun": false,
   "skills": [
     {
@@ -200,6 +200,34 @@
       }
     },
     {
+      "id": "gaia-research/skill-ci-churn",
+      "name": "CI Churn",
+      "level": "2★",
+      "contributor": "gaia-research",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gaia-research/skill-ci-churn.json"
+      }
+    },
+    {
+      "id": "gaia-research/skill-fuse",
+      "name": "Skill Fuse",
+      "level": "2★",
+      "contributor": "gaia-research",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
+      }
+    },
+    {
       "id": "openai/few-shot-learning",
       "name": "Few-Shot Learning",
       "level": "4★",
@@ -242,7 +270,7 @@
       }
     }
   ],
-  "totalTrending": 17,
+  "totalTrending": 19,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

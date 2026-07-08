@@ -1,6 +1,30 @@
 {
   "skills": [
     {
+      "id": "upsonic/unittest-generator",
+      "name": "Unittest Generator",
+      "level": "2★",
+      "trustMagnitude": 33.0,
+      "overallTrustGrade": "C",
+      "contributor": "upsonic",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/upsonic/unittest-generator.json"
+      }
+    },
+    {
+      "id": "devin-ai/autonomous-swe",
+      "name": "Autonomous SWE",
+      "level": "2★",
+      "trustMagnitude": 30.0,
+      "overallTrustGrade": "C",
+      "contributor": "devin-ai",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/devin-ai/autonomous-swe.json"
+      }
+    },
+    {
       "id": "mattpocock/caveman",
       "name": "Caveman Mode",
       "level": "2★",
@@ -27,7 +51,7 @@
   ],
   "page": 4,
   "totalPages": 4,
-  "totalSkills": 152,
+  "totalSkills": 154,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json"
