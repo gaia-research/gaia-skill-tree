@@ -523,6 +523,59 @@ class TestSuiteInstallFlow:
 
         assert result is False
 
+    def test_nested_suite_failure_annotated_in_outer_summary(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        """When a nested suite fails, the outer summary labels it '(nested suite -- see above)'.
+
+        The bool propagation was already correct; this tests the diagnostic annotation
+        added for Issue #1015 so operators can trace failures without scanning the full log.
+        """
+        _setup_install_env(tmp_path, monkeypatch)
+        _make_json_registry(
+            tmp_path,
+            [
+                {
+                    "id": "testuser/outer-suite",
+                    "name": "Outer Suite",
+                    "status": "named",
+                    "suiteComponents": ["testuser/inner-suite", "testuser/good-leaf"],
+                },
+                {
+                    "id": "testuser/inner-suite",
+                    "name": "Inner Suite",
+                    "status": "named",
+                    "suiteComponents": ["testuser/broken-leaf"],
+                },
+                {
+                    # No links.github — will fail to install
+                    "id": "testuser/broken-leaf",
+                    "name": "Broken Leaf",
+                    "status": "named",
+                },
+                _component_meta("good-leaf"),
+            ],
+        )
+        monkeypatch.setattr(
+            "gaia_cli.install._run_git",
+            _make_git_mock(tmp_path, {"good-leaf": "Good leaf content"}),
+        )
+
+        result = install_suite("testuser/outer-suite", str(tmp_path))
+
+        assert result is False
+        captured = capsys.readouterr()
+
+        # Inner suite should print its own failure summary
+        assert "inner-suite" in captured.err
+        # Outer summary should annotate the nested suite failure
+        assert "nested suite" in captured.err
+        assert "see above" in captured.err
+        # Good leaf was still installed
+        manifest = load_manifest()
+        installed_ids = {e["id"] for e in manifest["installed"]}
+        assert "testuser/good-leaf" in installed_ids
+
 
 class TestSuiteInstallBugs:
     """Document existing bugs; tests pass by asserting the current buggy behaviour.
