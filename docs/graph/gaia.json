@@ -1,6 +1,6 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "generatedAt": "2026-07-08T22:02:46Z",
+  "generatedAt": "2026-07-08T23:46:26Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
