@@ -1,0 +1,207 @@
+name: "Upstream Release — Suite Watcher"
+description: "Propose a version bump and component delta sync for a curated Gaia suite whose upstream repo has released a new version. Normally auto-populated by the upstream watcher crawler; can also be filed by hand."
+title: "[upstream] <owner/repo> → <new-version>   e.g. mattpocock/skills → v1.1.0"
+labels: ["upstream:release", "needs-triage"]
+assignees: []
+body:
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Upstream Release Tracker
+
+        This issue tracks a detected new release in an upstream source repository
+        for a curated Gaia suite skill.
+
+        **When auto-filed by the watcher crawler**, the machine-readable payload
+        and human-readable sections below are fully populated. A maintainer reviews
+        and applies one of the labels from the **Label vocabulary** table to act.
+
+        **When filed by hand**, fill in as much of the payload and summary sections
+        as you can. The crawler will not retroactively populate missing fields, but
+        a maintainer can manually trigger the sync workflow after review.
+
+        > **Note:** This issue only tracks the *version bump* and *component delta*
+        > for an existing curated suite. To propose a brand-new skill, use the
+        > **Skill Intake — Batch Proposal** template instead.
+
+  - type: textarea
+    id: machine_payload
+    attributes:
+      label: "Machine-readable payload (crawler-populated — do not edit by hand)"
+      description: |
+        JSON payload consumed by the upstream-approve workflow. Populated
+        automatically by the watcher crawler. If filing by hand, leave this blank
+        or fill in what you know — the workflow will validate on apply.
+      value: |
+        <!-- gaia-upstream-payload
+        {
+          "skillId": "",
+          "previousVersion": "",
+          "newVersion": "",
+          "releasedAt": "",
+          "sourceUrl": "",
+          "componentAdds": [],
+          "componentRemoves": [],
+          "linkLiveness": {}
+        }
+        -->
+      render: shell
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+
+        ## Version
+
+        *(Crawler fills this in. Hand-filers: paste the release comparison here.)*
+
+        | Field | Value |
+        |---|---|
+        | Skill ID | *(e.g. `mattpocock-skills`)* |
+        | Upstream repo | *(e.g. `mattpocock/skills`)* |
+        | Previous version | *(e.g. `v1.0.3`)* |
+        | New version | *(e.g. `v1.1.0`)* |
+        | Released at | *(ISO 8601 UTC)* |
+        | Release URL | *(GitHub releases tag URL)* |
+
+  - type: textarea
+    id: version_summary
+    attributes:
+      label: "Version summary"
+      description: "Human-readable 'was X → is Y; released on date' summary. Auto-filled by crawler."
+      placeholder: |
+        **was** v1.0.3 → **is** v1.1.0
+        Released: 2026-07-05 (5 days ago)
+        Release notes: https://github.com/mattpocock/skills/releases/tag/v1.1.0
+    validations:
+      required: false
+
+  - type: textarea
+    id: component_delta
+    attributes:
+      label: "Component delta"
+      description: |
+        Checklist of added and removed components. Populated by the crawler.
+        - `+` new components will have a linked child intake issue.
+        - `-` removed components will be proposed for freeze (installable: false).
+      placeholder: |
+        ### Added
+        - [ ] + `new-component-a` — child intake: #123
+        - [ ] + `new-component-b` — child intake: #124
+
+        ### Removed (proposed freeze)
+        - [ ] - `old-component-x` — freeze via `gaia dev freeze`; umbrella approval covers this
+        - [ ] - `old-component-y` — freeze via `gaia dev freeze`
+
+        ### Unchanged
+        All other components remain in the suite with no changes detected.
+
+        ---
+        Child intakes: #123, #124
+    validations:
+      required: false
+
+  - type: textarea
+    id: link_liveness
+    attributes:
+      label: "Link liveness report"
+      description: |
+        HEAD-check results for each component's `links.github` URL.
+        200 = healthy. 4xx/5xx = broken. Empty = not checked (version-only mode).
+      placeholder: |
+        | Component | URL | Status |
+        |---|---|---|
+        | `component-a` | https://github.com/owner/repo/blob/main/skills/a/SKILL.md | ✅ 200 |
+        | `component-b` | https://github.com/owner/repo/blob/main/skills/b/SKILL.md | ❌ 404 |
+
+        **Action needed:** `component-b` link is broken — upstream file may have been renamed.
+        Use `gaia dev relink component-b --new-url <url>` if the correct path is known,
+        or flag as `upstream:needs-info` if unclear.
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+
+        ## Label vocabulary
+
+        Every label that can be applied to this issue and its effect on automation:
+
+        | Label | Applied by | When | Effect |
+        |---|---|---|---|
+        | `intake` | crawler / human | new-skill intake issue creation | categorization for skill batch proposals |
+        | `upstream:release` | crawler | umbrella creation | categorizes this as a release-delta umbrella |
+        | `upstream:child` | crawler | child intake creation | links child to umbrella; auto-closes on umbrella rejection |
+        | `upstream:bootstrap` | crawler | first-poll baselining | fires bootstrap confirmation flow (one-time per suite) |
+        | `needs-triage` | crawler | any issue creation | standard triage queue; remove when reviewed |
+        | `upstream:approved` | maintainer | after review | fires `upstream-approve.yml` workflow (gated on child resolution unless `skip-child-gate` also applied) |
+        | `upstream:rejected` | maintainer | after review | closes issue with sync-skipped comment; auto-closes open child intakes |
+        | `upstream:needs-info` | maintainer | after review | puts issue on hold; no automation fires |
+        | `skip-child-gate` | maintainer (rare) | alongside `upstream:approved` | bypasses the child-intake resolution gate; auditable via label history |
+
+        > **Child gate rule:** when you apply `upstream:approved`, the sync workflow
+        > checks that all child intake issues are closed (accepted or rejected) before
+        > opening the draft PR. If any are still open, the workflow posts a comment
+        > and waits. To bypass (e.g. when a child intake is irrelevant or handled
+        > separately), apply `skip-child-gate` *before* or *alongside* `upstream:approved`.
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: "Reviewer notes (optional)"
+      description: "Any context, concerns, or curation decisions that should be recorded alongside this issue."
+      placeholder: |
+        e.g. The v1.1.0 release renames `typescript-expert` → `ts-expert`; the component
+        ID in our registry doesn't need to change since our naming is independent.
+        Freezing `old-component-x` is straightforward — it was removed from suite root
+        in the upstream changelog and had no active users per our install telemetry.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: reviewer_checklist
+    attributes:
+      label: Reviewer checklist (maintainer)
+      options:
+        - label: "Verified that the machine-readable payload `skillId` matches the registry node"
+          required: false
+        - label: "Verified the upstream release URL is authentic (not a draft or pre-release)"
+          required: false
+        - label: "Reviewed all component additions — each has a child intake issue or is explicitly deferred"
+          required: false
+        - label: "Reviewed all component removals — freeze action is appropriate (no 3★+ Star Bar conflicts)"
+          required: false
+        - label: "Reviewed link liveness — any 4xx/5xx flagged is understood and actioned"
+          required: false
+        - label: "All child intake issues are closed (or `skip-child-gate` is justified above)"
+          required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+
+        ### Reviewer actions (maintainer only)
+
+        Apply exactly **one** of these labels to trigger the corresponding automation:
+
+        | Action label | Shorthand | Effect |
+        |---|---|---|
+        | `upstream:approved` | ✅ Approve | Fires `upstream-approve.yml` → opens draft `review/meta/upstream-<skill>-<version>` PR after child gate passes |
+        | `upstream:rejected` | ❌ Reject | Closes this umbrella with a sync-skipped comment; auto-closes open child intakes |
+        | `upstream:needs-info` | ⏸ Hold | No automation; issue stays open until info arrives and label is swapped |
+        | `skip-child-gate` + `upstream:approved` | ⚡ Force-approve | Bypasses child resolution check; use only when child intakes are irrelevant/deferred |
+
+        **After approval:** a draft PR is opened automatically on branch
+        `review/meta/upstream-<skill>-<version>`. That PR runs `gaia dev sync-upstream`
+        and `gaia dev freeze` for removed components, then `gaia dev docs` to regen
+        Class S artifacts. Merge that PR as normal — the umbrella issue auto-closes
+        on merge via the `Fixes #<N>` reference in the PR body.
+
+        **Design reference:** `docs/agents/upstream-watcher.md` §5 (Issue shape), §6 (Labels), §7 (Approval mechanics).
