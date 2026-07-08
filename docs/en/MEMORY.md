@@ -2,6 +2,54 @@
 
 ---
 
+## 2026-07-08 — Routine 015
+
+**Branch:** `docs/routines/015`
+**Task chosen:** Version bump to v6.1.8, address Issue #917, and perform link/structural validation.
+
+### Trigger
+Routine documentation agent triggered; observed recent version bump to v6.1.8 (Sprint D release) from repository tags.
+
+### What I did
+1. **Synchronized version numbers**: Updated all 12 English documentation HTML files under `docs/en/` to increment `v5.9.1` and `5.9.1` strings to `v6.1.8`. This covers navigation chips, footer versions, script query parameters, and What's New tags.
+2. **Sprint D Content Update**: Rewrote the "What's New" banner in `docs/en/index.html` to properly advertise the Sprint D / v6.1.8 features (automated Content Engine, Benchmark Engine with HumanEval & MMLU leaderboards, SEO discoverability).
+3. **Addressed Issue #917 (Deprecated Evidence Classes)**:
+   - Removed the legacy `#evidence` section from the bottom of `docs/en/skill-hierarchy.html` which showed deprecated `--class A/B/C` CLI usage.
+   - Removed the `Evidence classes` sidebar link from `docs/en/skill-hierarchy.html`.
+   - Updated the "Stars axis — how mature" box and "Rank names" table in `docs/en/skill-hierarchy.html` to refer to Evidence Grades (Bronze, Silver, Gold, Platinum / Grade C, B, A, S) instead of Classes.
+   - Updated the star progression descriptions in `docs/en/getting-started.html` to use the new Evidence Grade terminology.
+4. **Link / Structural Validation**:
+   - Wrote and executed a link/anchor validation script across all HTML files.
+   - Identified and fixed a broken link in `docs/en/timeline-audit.html` which referenced `cli-reference.html#dev` instead of the correct `cli-reference.html#dev-timeline`.
+
+### Design decisions
+- Swapped deprecated `Class A/B/C` mentions for the new `Grade C (Bronze) / B (Silver) / A (Gold) / S (Platinum)` terminology to align with the current Trust Magnitude model.
+- Fixed structural links to keep the documentation consistent and error-free.
+
+### Issues informed
+- Resolves #917
+
+### Files created / modified
+- `docs/en/MEMORY.md` (modified)
+- `docs/en/cli-reference.html` (modified)
+- `docs/en/contributing.html` (modified)
+- `docs/en/evidence-classes.html` (modified)
+- `docs/en/faq.html` (modified)
+- `docs/en/fusion.html` (modified)
+- `docs/en/getting-started.html` (modified)
+- `docs/en/index.html` (modified)
+- `docs/en/mcp-server.html` (modified)
+- `docs/en/named-skills.html` (modified)
+- `docs/en/share-bundles.html` (modified)
+- `docs/en/skill-hierarchy.html` (modified)
+- `docs/en/timeline-audit.html` (modified)
+
+### Planned next (Routine 016)
+- Research: Audit new features from upcoming Sprint E.
+- Maintain: Audit and expand documentation for any new CLI commands added in Sprint D.
+
+---
+
 ## 2026-07-02 — Routine 014
 
 **Branch:** `docs/routines/014`
