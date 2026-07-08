@@ -83,6 +83,7 @@ def _parse_github_url(url: str) -> tuple[str, str, str]:
     Examples:
     - https://github.com/owner/repo -> (https://github.com/owner/repo.git, None, "")
     - https://github.com/owner/repo/blob/main/path/to/skill.md -> (https://github.com/owner/repo.git, main, path/to)
+    - https://github.com/owner/repo/tree/main/path/to/skill -> (https://github.com/owner/repo.git, main, path/to/skill)
     """
     url = url.rstrip("/")
     # Pattern for blob URLs: https://github.com/owner/repo/blob/branch/path
@@ -95,6 +96,17 @@ def _parse_github_url(url: str) -> tuple[str, str, str]:
             subpath = os.path.dirname(path)
         else:
             subpath = path
+        return repo_url, branch, subpath
+
+    # Pattern for tree URLs: https://github.com/owner/repo/tree/branch[/path]
+    # tree/ paths always refer to directories — use the path verbatim (no dirname step).
+    # This is a common curator copy-paste mistake; handle it correctly rather than
+    # silently falling through to the bare-repo pattern and dropping the subpath.
+    tree_match = re.match(r"https://github\.com/([^/]+)/([^/]+)/tree/([^/]+)(.*)", url)
+    if tree_match:
+        owner, repo, branch, path = tree_match.groups()
+        repo_url = f"https://github.com/{owner}/{repo}.git"
+        subpath = path.lstrip("/")  # strip leading slash; empty string = repo root
         return repo_url, branch, subpath
 
     # Pattern for base repo: https://github.com/owner/repo
@@ -312,11 +324,22 @@ def install_suite(suite_id: str, registry_path: str, visited: set[str] | None = 
     print(f"\nInstalling suite: {sid} ({len(components)} components)...")
     success_count = 0
     failed: list[str] = []
+    has_nested_suite_failure = False
     for comp_id in components:
+        # Check if the component is itself a suite so we can annotate failures clearly.
+        _, comp_meta = resolve_named_skill_reference(comp_id, registry_path)
+        comp_is_suite = bool(
+            comp_meta and comp_meta.get("suiteComponents")
+        ) if comp_meta else False
+
         if install_skill(comp_id, registry_path, visited, location=location):
             success_count += 1
         else:
-            failed.append(comp_id)
+            if comp_is_suite:
+                failed.append(f"{comp_id} (nested suite — see above)")
+                has_nested_suite_failure = True
+            else:
+                failed.append(comp_id)
 
     # Install the suite root itself if it has its own github source.
     # Use _install_single directly to bypass suite-component detection and
@@ -338,6 +361,11 @@ def install_suite(suite_id: str, registry_path: str, visited: set[str] | None = 
             f"Failed: {', '.join(failed)}",
             file=sys.stderr,
         )
+        if has_nested_suite_failure:
+            print(
+                "  (nested-suite failures listed their own component summaries above.)",
+                file=sys.stderr,
+            )
         return False
 
     print(f"\n✓ Suite {sid} complete: {achieved}/{total} component(s) installed.")
