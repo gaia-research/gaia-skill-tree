@@ -122,6 +122,12 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 3★ to 4★ per G7 final rankings calibration.
+- timestamp: '2026-07-08T19:57:22Z'
+  action: upstream_synced
+  contributor: github-actions[bot]
+  previousValue: null
+  newValue: v3.25.5
+  details: first-run baseline
 trustMagnitude: 118.5
 overallTrustGrade: A
 apexGateStatus:
@@ -136,6 +142,13 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-19T12:49:58Z'
 trustMagnitudeInputHash: 14db5a1d7daf78680d3d2f58499fde5caa3ce712339f9dd377d1e383263f6f27
+upstream:
+  mode: components
+  releasedAt: '2026-07-08T17:27:46Z'
+  repo: ruvnet/ruflo
+  sourceUrl: https://github.com/ruvnet/ruflo/releases/tag/v3.25.5
+  syncedAt: '2026-07-08T19:57:22Z'
+  version: v3.25.5
 ---
 
 ## Overview
