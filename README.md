@@ -77,7 +77,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
   │  │  ├─ ○ /web-search
   │  │  └─ ○ /computer-use
 
-(233 skills total — see docs/tree.md)
+(235 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 
