@@ -1,0 +1,68 @@
+{
+  "id": "ci-churn-analysis",
+  "name": "CI Churn Analysis",
+  "type": "basic",
+  "description": "Measures avoidable CI iteration cost for a pull request by classifying commits as feature work versus fix-the-CI rework, summing CI compute time burned on avoidable push rounds, and surfacing pre-push checks that would have prevented them.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [
+    {
+      "source": "https://arxiv.org/abs/2504.11839",
+      "evaluator": "unknown",
+      "date": "2026-07-08",
+      "type": "arxiv",
+      "notes": "Good and Bad Failures in Industrial CI/CD — Balancing Cost and Quality Assurance (Chalmers/Zenseact, Apr 2025) — latent, 0 citations today",
+      "citations": 0
+    },
+    {
+      "source": "https://arxiv.org/abs/2602.02307",
+      "evaluator": "unknown",
+      "date": "2026-07-08",
+      "type": "arxiv",
+      "notes": "Understanding and Detecting Flaky Builds in GitHub Actions (Feb 2026) — latent, 0 citations today",
+      "citations": 0
+    },
+    {
+      "source": "https://arxiv.org/abs/2602.02307",
+      "evaluator": "unknown",
+      "date": "2026-07-08",
+      "type": "arxiv",
+      "notes": "Understanding and Detecting Flaky Builds in GitHub Actions (Feb 2026) — latent, 0 citations today",
+      "citations": 0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-08",
+  "updatedAt": "2026-07-08",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-08T10:16:29Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill ci-churn-analysis"
+    },
+    {
+      "timestamp": "2026-07-08T10:20:32Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/2509.14347 (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-07-08T10:21:18Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/2602.02307 (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-07-08T10:21:33Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/2602.02307 (type: arxiv)"
+    }
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-07-08T10:20:32Z"
+  }
+}

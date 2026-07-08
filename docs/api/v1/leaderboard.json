@@ -1,10 +1,10 @@
 {
   "distribution": {
-    "total": 262,
+    "total": 264,
     "S": 5,
     "A": 44,
     "B": 66,
-    "C": 77,
+    "C": 79,
     "ungraded": 70,
     "floor": 0,
     "up": 1
@@ -1346,6 +1346,28 @@
       "typeBreakdown": {
         "repo-own": 11.21,
         "peer-review": 30.0
+      },
+      "origin": false
+    },
+    {
+      "id": "gaia-research/skill-ci-churn",
+      "trustMagnitude": 41.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "id": "gaia-research/skill-fuse",
+      "trustMagnitude": 41.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "self-attestation": 5.0
       },
       "origin": false
     },

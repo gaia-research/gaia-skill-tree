@@ -1,0 +1,18 @@
+{
+  "asset": "Asset G \u2014 parallax fog / haze layer",
+  "dimensions": "2000x1200",
+  "outputs": {
+    "png": "outputs/asset-g-haze.png",
+    "webp": "outputs/asset-g-haze.webp",
+    "preview": "outputs/asset-g-haze-preview-on-midnight.png",
+    "webp_bytes": 61538,
+    "webp_quality": 48,
+    "webp_under_120kb": true
+  },
+  "implementation": {
+    "layer": "between Asset B ledger paper and SVG risers",
+    "suggested_css_opacity": "0.18",
+    "parallax_rate": "0.25x",
+    "z_index": "-25"
+  }
+}
