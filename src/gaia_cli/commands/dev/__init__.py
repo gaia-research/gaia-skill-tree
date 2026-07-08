@@ -662,6 +662,83 @@ class DevCommand(Command):
         )
         dev_hook.add_argument("--event", default="file_edit", help="Hook event type")
 
+        # --- upstream-watcher verbs (PR 5/7) ---
+        dev_sync_upstream = dev_sub.add_parser(
+            "sync-upstream",
+            help="Write/update the upstream: frontmatter block and append upstream_synced timeline event",
+        )
+        dev_sync_upstream.add_argument(
+            "skill_id",
+            help="Named skill ID (e.g. mattpocock/skills)",
+        )
+        dev_sync_upstream.add_argument(
+            "--version",
+            required=True,
+            help="Release tag (must match ^v?\\d+\\.\\d+\\.\\d+.*$, e.g. v1.2.3)",
+        )
+        dev_sync_upstream.add_argument(
+            "--source-url",
+            required=True,
+            dest="source_url",
+            help="GitHub releases URL: https://github.com/<owner>/<repo>/releases/tag/<tag>",
+        )
+        dev_sync_upstream.add_argument(
+            "--bootstrap",
+            action="store_true",
+            default=False,
+            help="First-time write; refuses if upstream: block already exists",
+        )
+        dev_sync_upstream.add_argument(
+            "--released-at",
+            dest="released_at",
+            default=None,
+            help="ISO 8601 timestamp of the upstream release (published_at from GitHub). Defaults to now.",
+        )
+        dev_sync_upstream.add_argument(
+            "--mode",
+            default="components",
+            choices=["components", "version-only"],
+            help="Upstream tracking mode (default: components)",
+        )
+        dev_sync_upstream.add_argument(
+            "--dry-run",
+            action="store_true",
+            default=False,
+            dest="dry_run",
+            help="Print intended changes without writing",
+        )
+        dev_sync_upstream.add_argument(
+            "--user",
+            default=None,
+            help="Contributor handle attributed to the timeline event (defaults to whoami actor)",
+        )
+
+        dev_freeze = dev_sub.add_parser(
+            "freeze",
+            help="Set installable: false and append upstream_deprecated timeline event",
+        )
+        dev_freeze.add_argument(
+            "skill_id",
+            help="Named skill ID to freeze (e.g. mattpocock/old-skill)",
+        )
+        dev_freeze.add_argument(
+            "--reason",
+            required=True,
+            help="Human-readable explanation (≤500 chars)",
+        )
+        dev_freeze.add_argument(
+            "--dry-run",
+            action="store_true",
+            default=False,
+            dest="dry_run",
+            help="Print intended changes without writing",
+        )
+        dev_freeze.add_argument(
+            "--user",
+            default=None,
+            help="Contributor handle attributed to the timeline event (defaults to whoami actor)",
+        )
+
     def execute(self, args: argparse.Namespace) -> int | None:
         dev_cmd = getattr(args, "dev_command", None)
         MUTATING_DEV_COMMANDS = {
@@ -683,6 +760,8 @@ class DevCommand(Command):
             "build",
             "release",
             "fuse",
+            "sync-upstream",
+            "freeze",
         }
         if dev_cmd in MUTATING_DEV_COMMANDS:
             from gaia_cli.authz import require_operator
@@ -766,6 +845,12 @@ class DevCommand(Command):
         elif dev_cmd == "hook":
             from gaia_cli.impl import hook_command
             hook_command(args)
+        elif dev_cmd == "sync-upstream":
+            from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
+            sync_upstream_command(args)
+        elif dev_cmd == "freeze":
+            from gaia_cli.commands.dev.freeze import freeze_command
+            freeze_command(args)
         else:
             from gaia_cli.main import get_parser
             parser, subparsers = get_parser()
