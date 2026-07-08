@@ -128,7 +128,7 @@ def _pf_not_already_synced(version: str, meta: dict) -> None:
         _fail_dev_preflight(
             f"Skill already synced at version {existing!r}. "
             "Use --force to re-record (not implemented in V1).",
-            fix="Nothing was written. Bump the version tag or omit --version to check current state.",
+            fix="Nothing was written. Bump the --tag value or omit --tag to check current state.",
         )
 
 
@@ -174,7 +174,7 @@ def sync_upstream_command(args) -> None:
     """Implement ``gaia dev sync-upstream``."""
     registry_path = args.registry
     skill_id = args.skill_id.lstrip("/")
-    version: str = args.version
+    version: str = args.tag
     source_url: str = args.source_url
     is_bootstrap: bool = getattr(args, "bootstrap", False)
     released_at: str | None = getattr(args, "released_at", None)

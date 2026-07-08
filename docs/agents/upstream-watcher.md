@@ -131,7 +131,7 @@ Why manual first: control, verify outputs are useful before making it ambient. E
 **Decision: label-driven, gated on child intake resolution.**
 
 - Maintainer applies `upstream:approved` to the umbrella issue.
-- Workflow fires on `issues.labeled`, checks that all child intake issues are closed (accepted or rejected), then runs `gaia dev sync-upstream <skill-id> --version <tag>` on a fresh `review/meta/upstream-<skill>-<version>` branch and opens a **draft PR**.
+- Workflow fires on `issues.labeled`, checks that all child intake issues are closed (accepted or rejected), then runs `gaia dev sync-upstream <skill-id> --tag <tag>` on a fresh `review/meta/upstream-<skill>-<version>` branch and opens a **draft PR**.
 - If child issues are still open, workflow comments back: `Cannot sync yet — 2 child intakes still open: #123, #124.` No PR opened. Reapply label after children close (or a re-trigger workflow fires automatically on the last child's `issues.closed`).
 - `skip-child-gate` label bypasses the check (documented, auditable, follows existing `skip-*` convention).
 
@@ -259,7 +259,7 @@ Cross-link this table into `docs/agents/triage-labels.md`.
 2. Parse machine-readable payload from the issue body.
 3. Check for open child intakes referenced in the payload. If any are open AND `skip-child-gate` is not applied, comment on the umbrella and exit 0 (no failure — this is expected state).
 4. Checkout `main`, create branch `review/meta/upstream-<skill>-<version>`.
-5. Run `gaia dev sync-upstream <skill-id> --version <tag> --source-url <url>` (writes frontmatter block + appends timeline event atomically).
+5. Run `gaia dev sync-upstream <skill-id> --tag <tag> --source-url <url>` (writes frontmatter block + appends timeline event atomically).
 6. For each `componentRemoves[]`: run `gaia dev freeze <component-id> --reason "removed from <umbrella>@<version>"` (writes `installable: false` + timeline `upstream_deprecated`).
 7. Run `gaia dev docs` to regen Class S artifacts (per docs-cohesion Guard E).
 8. Commit, push, open **draft** PR titled `[upstream sync] <skill-id> → <version>`, body links back to umbrella and lists changes.
@@ -345,7 +345,7 @@ scripts/lib/
 
 Follows `CLAUDE.md`'s Programmatic-First Policy and CLI Pre-Flight Rule: every registry mutation atomic, every mutation logs to timeline, no hand-edits.
 
-### `gaia dev sync-upstream <skill-id> --version <tag> --source-url <url>`
+### `gaia dev sync-upstream <skill-id> --tag <tag> --source-url <url>`
 
 Mutates `registry/named/<contributor>/<skill>.md`:
 
@@ -360,7 +360,7 @@ Mutates `registry/named/<contributor>/<skill>.md`:
 
 **Pre-flight validation** (per CLI Pre-Flight Rule):
 
-- `--version` must match a valid GitHub release tag pattern (`v?\d+\.\d+\.\d+.*`).
+- `--tag` must match a valid GitHub release tag pattern (`v?\d+\.\d+\.\d+.*`).
 - `--source-url` must be a `github.com/{owner}/{repo}/releases/tag/{tag}` URL that matches the derived `upstream.repo`.
 - Refuses to write if the previous `upstream.version` equals the target (already synced) unless `--force`.
 - Refuses to write if the skill is not currently 2★+ (below the reward-artifact threshold).
