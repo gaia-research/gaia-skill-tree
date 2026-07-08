@@ -435,7 +435,7 @@ class TestFetchJson:
             with patch("time.sleep"):  # suppress 100ms throttle in tests
                 result = fetch_json("/repos/owner/repo")
 
-        assert any("api.github.com" in u for u in captured_url)
+        assert any(u.startswith("https://api.github.com/") for u in captured_url)
 
     def test_caches_result(self):
         import json as _json
