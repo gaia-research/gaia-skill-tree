@@ -1,0 +1,223 @@
+name: "Skill Intake — Batch Proposal"
+description: "Propose one or more generic skills (basic or fusion) for the Gaia registry in a single issue. Yggdrasil II compatible. Equivalent to `gaia push --from-file skills.yml`."
+title: "[intake] <short batch description, e.g. 'scientific research skills' or 'single: persistent-agent-planning'>"
+labels: ["intake", "needs-triage"]
+assignees: []
+body:
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Skill Batch Intake (Yggdrasil II compatible)
+
+        Propose **one or more generic (starless) skills** in a single issue using the
+        inline YAML format below. Each skill becomes one row in
+        `registry-for-review/skill-batches/`.
+
+        ### Two equivalent entry points — same schema, your choice:
+
+        **A — This form (paste YAML in the textarea)**
+        Fill the `skills:` block in the **Skill definitions** field below.
+
+        **B — CLI (`gaia push --from-file`)**
+        ```bash
+        # Save the same YAML block to a file and push:
+        gaia push --from-file skills.yml          # writes batch + opens this issue automatically
+        gaia push --from-file skills.yml --dry-run  # preview without writing
+        gaia push --from-file skills.yml --no-issue # write batch only, no issue
+        ```
+        The `skills.yml` file uses the exact same schema as the textarea below.
+        Copy the placeholder, fill it in, and either paste it here **or** pass it to the CLI.
+
+  - type: textarea
+    id: skills_yaml
+    attributes:
+      label: "Skill definitions (YAML — one or many)"
+      description: |
+        Paste one or more skill entries using the schema below.
+        Every field marked `# required` must be present.
+        Fields marked `# optional` may be omitted.
+        The `named:` block is only needed when you also want a named skill entry.
+      value: |
+        # ── INTAKE SCHEMA v1 (Yggdrasil II) ──────────────────────────────────────
+        # Copy this block once per skill. Stack multiple skills in the same file.
+        # CLI equivalent: gaia push --from-file <this-file>.yml
+        # ─────────────────────────────────────────────────────────────────────────
+
+        skills:
+
+          - id: example-skill-id          # required · kebab-case · no vendor names
+            name: Example Skill Name      # required · human-readable display name
+            type: basic                   # required · "basic" (no prereqs) or "fusion" (has prereqs)
+                                          #   Yggdrasil II only — NOT extra / unique / ultimate
+            prerequisites: []             # required for fusion, empty list for basic
+                                          #   e.g. [plan-decompose, executing-plans]
+            description: >-              # required · min 10 chars · no vendor/model names
+              Clear, agent-agnostic definition of the capability. Should be
+              falsifiable — a reviewer can verify whether an agent has this skill.
+
+            attribution:
+              upstream_author: github-handle   # optional · GitHub handle of the original author
+                                               #   Leave blank for abstract taxonomy entries.
+                                               #   For aggregator skills (e.g. Orchestra Research
+                                               #   wrappers), set this to the REAL upstream author.
+              skill_file_url: https://...      # optional · blob/ URL to upstream SKILL.md or repo root
+              type: self-made                  # required · one of:
+                                               #   self-made     → you are the original author
+                                               #   aggregator    → you wrap an upstream tool; upstream_author is the real creator
+                                               #   attributed    → skill is by a third party you're nominating
+                                               #   abstract      → no specific upstream; purely taxonomy
+
+            evidence:                          # required · at least one Grade B or above
+              - grade: B                       #   A = peer-reviewed/benchmarked (arXiv abs URL)
+                type: repo                     #   B = reproducible OSS impl (GitHub blob URL)
+                url: https://github.com/...    #   C = community/vendor demo
+                notes: "25K stars, MIT, ..."   # optional · brief description
+              # - grade: A
+              #   type: arxiv
+              #   url: https://arxiv.org/abs/...
+              #   notes: "Paper title — relevant finding"
+
+            named:                             # optional block · omit if no named skill requested
+              contributor: github-handle       # required if named · use upstream_author when attributed
+              level: "2★"                      # required if named · 2★–6★ · do NOT write branch words
+              links_github: https://...        # required if named · blob/ URL for links.github field
+
+          # ── Add more skills below — copy the block above ──────────────────────
+
+          # - id: another-skill-id
+          #   name: Another Skill
+          #   type: fusion
+          #   prerequisites: [skill-a, skill-b]
+          #   description: >-
+          #     Emergent capability produced when skill-a and skill-b combine.
+          #   attribution:
+          #     type: abstract
+          #   evidence:
+          #     - grade: B
+          #       type: repo
+          #       url: https://github.com/...
+          #       notes: "..."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+
+        ## Evidence grade reference
+
+        | Grade | Standard | Typical source | TM impact |
+        |---|---|---|---|
+        | **A** Gold | Peer-reviewed / benchmarked | `https://arxiv.org/abs/<id>`, Zenodo DOI | Highest |
+        | **B** Silver | Reproducible OSS implementation | GitHub `blob/` URL — SKILL.md or well-starred repo | Standard |
+        | **C** Bronze | Community / vendor demo | SkillsMP, blog post, docs page | Supplementary |
+
+        **Valid `type` values for evidence entries:**
+        `repo` · `arxiv` · `github-stars-own` · `social-signal` · `peer-review` ·
+        `benchmark-result` · `course-certification` · `enterprise-adoption` ·
+        `ecosystem-integration` · `registry-curation`
+
+        **Same-source dedup:** a `repo` entry and a `github-stars-own` entry at the same URL
+        → only the higher-scoring one counts. Use the specific SKILL.md `blob/` URL for
+        `github-stars-own` to avoid dedup with a `repo` entry at the same path.
+
+        ---
+
+        ## Attribution rules (anti-aggregator guard)
+
+        | Scenario | `type` to use | `upstream_author` |
+        |---|---|---|
+        | You made the skill yourself | `self-made` | your own handle (or omit) |
+        | Your skill wraps/documents a third-party tool (e.g. Orchestra Research scraping `stanfordnlp/dspy`) | `aggregator` | the real tool author (`stanfordnlp`) |
+        | You're nominating someone else's published SKILL.md | `attributed` | the original author's handle |
+        | Pure taxonomy composite with no upstream | `abstract` | omit |
+
+        Named skill entries for `aggregator` and `attributed` skills **must** use
+        `upstream_author` as the `contributor` — not the proposer's handle.
+
+        ---
+
+        ## Yggdrasil II type axis (two values only)
+
+        The legacy `{basic, extra, unique, ultimate}` enum is collapsed in Yggdrasil II:
+
+        | New value | Meaning | Old equivalents |
+        |---|---|---|
+        | `basic` | Zero prerequisites — primitive, stands alone | `basic`, `unique` (starless) |
+        | `fusion` | One or more prerequisites — emergent combination | `extra`, `ultimate` (starless) |
+
+        Branch (`standard` / `unique` / `suite`) is **always derived at read-time** from
+        the named skill's level and its generic parent's `suiteComponents`. Never declare it.
+
+  - type: textarea
+    id: cli_batch_json
+    attributes:
+      label: "`gaia push` batch JSON output (alternative)"
+      description: |
+        If you ran `gaia push --from-file skills.yml --dry-run` or
+        `gaia push --stdout`, paste the resulting JSON here instead of
+        (or alongside) the YAML above. The reviewer will use whichever is more complete.
+      render: json
+
+  - type: textarea
+    id: batch_notes
+    attributes:
+      label: Batch notes (optional)
+      description: "Any context about this batch — why these skills are being proposed together, a related PR or issue, a source marketplace being swept, etc."
+      placeholder: "e.g. These 6 skills come from K-Dense-AI/scientific-agent-skills (30K ★). Skills 1–4 are K-Dense originals; skill 5 is attributed to ashrafkahoush-ux per upstream frontmatter."
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Submitter checklist
+      options:
+        - label: "All skill IDs are kebab-case with no vendor names or unexplained abbreviations"
+          required: true
+        - label: "All descriptions are precise, falsifiable, and non-overlapping with existing skills in gaia.json"
+          required: true
+        - label: "All fusion skills list prerequisite IDs that already exist in registry/gaia.json"
+          required: true
+        - label: "All evidence URLs are real, resolvable, and use blob/ (not tree/) for SKILL.md links"
+          required: true
+        - label: "Every aggregator or attributed skill identifies the real upstream author in its attribution block"
+          required: true
+        - label: "No skill declares branch, title, or catalogRef (reviewer-only fields)"
+          required: true
+        - label: "I understand this issue stages skills for review — promotion to registry/gaia.json requires a separate maintainer PR"
+          required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+
+        ### Reviewer actions (maintainer only)
+
+        Reply to this issue with per-skill decisions. One decision per line:
+
+        ```
+        persistent-agent-planning   accept
+        session-context-injection   accept
+        diagram-generation          rename drawio-generation
+        bad-skill-id                reject  — overlaps with existing-skill
+        unverified-skill            needs-evidence  — need Grade B source
+        ```
+
+        | Decision | Effect |
+        |---|---|
+        | `accept` | Promote via `gaia dev add` on a `review/meta/` branch |
+        | `rename <new-id>` | Change ID then promote |
+        | `duplicate` | Close — map to existing skill ID in comment |
+        | `needs-evidence` | Hold — state what Grade B+ source is needed |
+        | `reject` | Close with explanation |
+
+        After all skills are decided: run `gaia validate` + `gaia dev docs`,
+        open a `review/meta/` PR, and close this issue with a link to the PR.
+
+        For any accepted skill that also has a `named:` block: open a separate
+        `new_named_skill` PR on `review/meta/` for each named entry.
+
+        > **Yggdrasil II staging note:** until schema sub-issue #995 merges to `main`,
+        > PRs that introduce `type: fusion` nodes must target `dev/yggdrasil-ii-staging`.

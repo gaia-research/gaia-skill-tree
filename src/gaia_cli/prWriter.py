@@ -46,7 +46,114 @@ def _github_file_url(source_repo, batch_id):
     return None
 
 
+# ---------------------------------------------------------------------------
+# _EVIDENCE_GRADE_EMOJI — visual grade badges used in issue body rendering.
+# ---------------------------------------------------------------------------
+_EVIDENCE_GRADE_EMOJI = {"A": "🥇", "B": "🥈", "C": "🥉"}
+
+
+def _render_evidence_rows(evidence_list):
+    """Return a markdown table string for a skill's evidence list, or a dash."""
+    if not evidence_list:
+        return "*none — needs Grade B+ before promotion*"
+    rows = ["| Grade | Type | URL | Notes |", "|---|---|---|---|"] 
+    for ev in evidence_list:
+        grade = ev.get("grade", ev.get("class", "?"))
+        emoji = _EVIDENCE_GRADE_EMOJI.get(str(grade).upper(), "")
+        ev_type = ev.get("type", "-")
+        url = ev.get("url", ev.get("source", "-"))
+        notes = ev.get("notes", "").replace("|", "\\|")  # escape pipes inside table cells
+        url_cell = f"[link]({url})" if url.startswith("http") else url
+        rows.append(f"| {emoji} **{grade}** | `{ev_type}` | {url_cell} | {notes} |")
+    return "\n".join(rows)
+
+
+def _render_attribution_badge(attribution):
+    """Return a one-line attribution summary string."""
+    if not attribution:
+        return "-"
+    attr_type = attribution.get("type", "unknown")
+    author = attribution.get("upstream_author", "")
+    url = attribution.get("skill_file_url", "")
+    badge = {
+        "self-made": "✅ self-made",
+        "aggregator": "⚠️ aggregator",
+        "attributed": "👤 attributed",
+        "abstract": "🔷 abstract",
+    }.get(attr_type, f"❓ {attr_type}")
+    parts = [badge]
+    if author:
+        parts.append(f"upstream: `{author}`")
+    if url:
+        short = url.split("/")[-1] or url
+        parts.append(f"[{short}]({url})")
+    return " · ".join(parts)
+
+
+def _render_named_block(named):
+    """Return a compact named-skill request summary, or empty string."""
+    if not named:
+        return ""
+    contributor = named.get("contributor", "?")
+    level = named.get("level", "?")
+    link = named.get("links_github", named.get("links", {}).get("github", ""))
+    link_cell = f" · [blob link]({link})" if link else ""
+    return f"📌 Named: `{contributor}/{{}}`  ·  {level}{link_cell}"
+
+
+def _render_skill_section(skill, similarity_index):
+    """Render one collapsible <details> block for a single proposed skill."""
+    skill_id = skill.get("id", "unknown")
+    name = skill.get("name", skill_id)
+    sk_type = skill.get("type", "basic")
+    description = skill.get("description", "-")
+    prereqs = skill.get("prerequisites", [])
+    attribution = skill.get("attribution", {})
+    evidence = skill.get("evidence", [])
+    named = skill.get("named", None)
+
+    hints = similarity_index.get(skill_id, [])[:3]
+    hint_text = ", ".join([f"`{t}` ({s:.2f})" for s, t in hints]) if hints else "none"
+
+    prereq_text = ", ".join(f"`{p}`" for p in prereqs) if prereqs else "*none (basic)*"
+    named_line = _render_named_block(named).format(skill_id) if named else ""
+
+    block = [
+        f"<details>",
+        f"<summary><b><code>{skill_id}</code></b> — {name} &nbsp;·&nbsp; <code>{sk_type}</code></summary>",
+        "",
+        f"**Description:** {description}",
+        "",
+        f"**Prerequisites:** {prereq_text}",
+        "",
+        f"**Attribution:** {_render_attribution_badge(attribution)}",
+        "",
+        "**Evidence:**",
+        "",
+        _render_evidence_rows(evidence),
+        "",
+    ]
+    if named_line:
+        block += [f"**Named skill request:** {named_line}", ""]
+    block += [
+        f"**Similarity hints (top 3):** {hint_text}",
+        "",
+        "**Reviewer decision:** *(replace with: `accept` · `rename <id>` · `duplicate <existing-id>` · `needs-evidence <what>` · `reject <reason>`)*",
+        "",
+        "</details>",
+    ]
+    return "\n".join(block)
+
+
 def build_intake_issue_body(batch_data):
+    """Build the GitHub issue body for a skill intake batch.
+
+    Handles both the legacy scan-based batch format (flat proposed_skills list with
+    minimal fields) and the richer --from-file format (full attribution, evidence,
+    and named blocks per skill).  The richer format renders one collapsible
+    <details> block per skill so reviewers can triage them independently within a
+    single issue.
+    """
     source_repo = batch_data.get("sourceRepo", "unknown")
     generated_at = batch_data.get("generatedAt", "unknown")
     batch_id = batch_data.get("batchId", "unknown")
@@ -54,69 +161,117 @@ def build_intake_issue_body(batch_data):
     proposed_skills = batch_data.get("proposedSkills", [])
     similarity = _build_similarity_index(batch_data.get("similarity", []))
     file_url = _github_file_url(source_repo, batch_id)
+    from_file = batch_data.get("fromFile", False)  # set by --from-file path in push.py
 
+    # ── header ──────────────────────────────────────────────────────────────
+    repo_link = (
+        f"[`{source_repo}`](https://github.com/{source_repo})"
+        if source_repo and "/" in source_repo
+        else f"`{source_repo}`"
+    )
+    via = "`gaia push --from-file`" if from_file else "`gaia push`"
     lines = [
-        "## Gaia Draft Skill Intake",
+        "## Gaia Skill Batch Intake",
         "",
-        "Draft skill batch submitted for human review via `gaia push`.",
+        f"Batch submitted via {via} · {len(proposed_skills)} skill(s) proposed.",
         "Reviewed skills must be promoted separately into `registry/gaia.json`.",
         "",
-        "### Batch Summary",
-        f"- **User:** `{batch_data.get('userId', 'unknown')}`",
-        f"- **Source repo:** [`{source_repo}`](https://github.com/{source_repo})" if source_repo and "/" in source_repo else f"- **Source repo:** `{source_repo}`",
-        f"- **Generated at:** `{generated_at}`",
-        f"- **Batch ID:** `{batch_id}`",
-        f"- **Known canonical skills:** `{len(known_skills)}`",
-        f"- **Proposed new skills:** `{len(proposed_skills)}`",
+        "### Batch metadata",
+        f"| Field | Value |",
+        f"|---|---|",
+        f"| User | `{batch_data.get('userId', 'unknown')}` |",
+        f"| Source repo | {repo_link} |",
+        f"| Generated at | `{generated_at}` |",
+        f"| Batch ID | `{batch_id}` |",
+        f"| Known canonical skills | `{len(known_skills)}` |",
+        f"| Proposed new skills | `{len(proposed_skills)}` |",
     ]
 
     if file_url:
-        lines.extend([
-            "",
-            f"**Batch file (after push):** [{batch_id}.json]({file_url})",
-            f"> Commit and push `registry-for-review/skill-batches/{batch_id}.json` to make this link live.",
-        ])
+        lines += [
+            f"| Batch file | [{batch_id}.json]({file_url}) |",
+        ]
 
-    lines.extend([
+    # ── quick decision table (always shown for scan speed) ───────────────────
+    lines += [
         "",
-        "### Proposed Skills",
-        "| ID | Name | Type | Similarity hints |",
-        "|---|---|---|---|",
-    ])
+        "### Quick decision table",
+        "*Fill in the Decision column — details for each skill are in the collapsible sections below.*",
+        "",
+        "| # | ID | Type | Attribution | Decision |",
+        "|---|---|---|---|---|",
+    ]
+    for i, skill in enumerate(proposed_skills, 1):
+        skill_id = skill.get("id", "")
+        sk_type = skill.get("type", "basic")
+        attr = skill.get("attribution", {})
+        attr_type = attr.get("type", "-") if attr else "-"
+        attr_author = attr.get("upstream_author", "") if attr else ""
+        attr_cell = f"`{attr_type}`" + (f" (`{attr_author}`)") if attr_author else f"`{attr_type}`"
+        lines.append(
+            f"| {i} | `{skill_id}` | `{sk_type}` | {attr_cell} | *(pending)* |"
+        )
 
+    if not proposed_skills:
+        lines.append("| — | — | — | — | — |")
+
+    # ── per-skill collapsible detail blocks ──────────────────────────────────
     if proposed_skills:
-        for skill in proposed_skills:
-            skill_id = skill.get("id", "")
-            hints = similarity.get(skill_id, [])[:2]
-            hint_text = ", ".join([f"`{target}` ({score:.3f})" for score, target in hints]) if hints else "-"
-            lines.append(
-                f"| `{skill_id}` | {skill.get('name', '')} | `{skill.get('type', '')}` | {hint_text} |"
-            )
-    else:
-        lines.append("| - | - | - | - |")
+        lines += ["", "---", "", "### Skill details"]
+        # Rich format: render full detail blocks when any skill carries attribution/evidence
+        has_rich_fields = any(
+            skill.get("attribution") or skill.get("evidence") or skill.get("named")
+            for skill in proposed_skills
+        )
+        if has_rich_fields:
+            for skill in proposed_skills:
+                lines += ["", _render_skill_section(skill, similarity)]
+        else:
+            # Legacy scan format — simple table (backwards-compatible)
+            lines += [
+                "",
+                "| ID | Name | Type | Similarity hints |",
+                "|---|---|---|---|",
+            ]
+            for skill in proposed_skills:
+                skill_id = skill.get("id", "")
+                hints = similarity.get(skill_id, [])[:2]
+                hint_text = (
+                    ", ".join([f"`{t}` ({s:.3f})" for s, t in hints]) if hints else "-"
+                )
+                lines.append(
+                    f"| `{skill_id}` | {skill.get('name', '')} | `{skill.get('type', '')}` | {hint_text} |"
+                )
 
+    # ── known canonical skills (scan path) ───────────────────────────────────
     if known_skills:
-        lines.extend(["", "### Detected Canonical Skills"])
+        lines += ["", "### Detected canonical skills (already in registry)"]
         for s in known_skills:
             lines.append(f"- `{s.get('skillId', '')}`")
 
-    lines.extend(
-        [
-            "",
-            "### Reviewer Checklist",
-            "- [ ] Reviewed each proposed skill for clarity and non-overlap.",
-            "- [ ] Marked each candidate as: accept, rename, duplicate, needs evidence, or reject.",
-            "- [ ] Verified similarity hints are directionally useful (not authoritative).",
-            "- [ ] Noted any evidence gaps or requests for follow-up.",
-            "",
-            "### Maintainer Promotion Checklist",
-            "- [ ] Convert accepted draft skills into canonical `registry/gaia.json` edits.",
-            "- [ ] Run `gaia validate` and `gaia validate --intake` after promotion.",
-            "- [ ] Close this issue once all proposed skills are resolved.",
-            "",
-            "_Automatically generated by `gaia push`._",
-        ]
-    )
+    # ── reviewer + maintainer checklists ─────────────────────────────────────
+    lines += [
+        "",
+        "---",
+        "",
+        "### Reviewer checklist",
+        "- [ ] Every proposed skill has a decision in the Quick decision table above.",
+        "- [ ] Attribution flags (`aggregator` / `attributed`) have been verified — named entry uses the upstream author, not the proposer.",
+        "- [ ] Similarity hints checked; no undetected duplicates.",
+        "- [ ] Evidence Grade B+ confirmed for every `accept` decision.",
+        "",
+        "### Maintainer promotion checklist",
+        "- [ ] Accepted skills promoted via `gaia dev add` on a `review/meta/` branch.",
+        "- [ ] `gaia validate` + `gaia validate --intake` pass.",
+        "- [ ] `gaia dev docs` run and Class S artifacts committed.",
+        "- [ ] Named skill PRs opened for any skill with an accepted `named:` block.",
+        "- [ ] This issue closed with a link to the promotion PR.",
+        "",
+        "> **Yggdrasil II staging:** PRs introducing `type: fusion` nodes must target",
+        "> `dev/yggdrasil-ii-staging` until schema sub-issue #995 merges to `main`.",
+        "",
+        "_Automatically generated by `gaia push`._",
+    ]
     return "\n".join(lines)
 
 
@@ -164,9 +319,31 @@ def _print_manual_issue_steps(title, body_path):
     )
 
 
+def _build_intake_issue_title(batch_data):
+    """Generate a human-readable issue title from batch contents."""
+    proposed = batch_data.get("proposedSkills", [])
+    from_file = batch_data.get("fromFile", False)
+    count = len(proposed)
+    if count == 1:
+        skill_id = proposed[0].get("id", "unknown")
+        return f"[intake] single: {skill_id}"
+    if count <= 4:
+        ids = ", ".join(s.get("id", "?") for s in proposed[:4])
+        return f"[intake] {count} skills: {ids}"
+    # Summarise by attribution source when available
+    sources = {}
+    for s in proposed:
+        attr = s.get("attribution") or {}
+        author = attr.get("upstream_author", "") or batch_data.get("userId", "")
+        sources[author] = sources.get(author, 0) + 1
+    top = sorted(sources.items(), key=lambda x: -x[1])
+    top_label = top[0][0] if top else batch_data.get("sourceRepo", "unknown").split("/")[-1]
+    return f"[intake] {count} skills from {top_label}"
+
+
 def open_intake_issue(username, batch_data, batch_path=None, repo_root="."):
     """Create a GitHub issue for this skill intake batch."""
-    title = f"[intake] {username} skill batch - {batch_data.get('sourceRepo', 'unknown')}"
+    title = _build_intake_issue_title(batch_data)
     body = build_intake_issue_body(batch_data)
     body_path = os.path.join(repo_root, ".gaia-intake-issue-body.md")
     with open(body_path, "w", encoding="utf-8") as f:
