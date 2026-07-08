@@ -140,6 +140,14 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 4★ to 5★"
+    },
+    {
+      "timestamp": "2026-07-08T19:56:05Z",
+      "action": "upstream_synced",
+      "contributor": "github-actions[bot]",
+      "previousValue": null,
+      "newValue": "0.6.3",
+      "details": "first-run baseline"
     }
   ],
   "links": {

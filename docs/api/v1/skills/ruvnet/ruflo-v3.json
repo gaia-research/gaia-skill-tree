@@ -74,6 +74,14 @@
       "action": "migrate_trust_magnitude",
       "timestamp": "2026-06-19T13:26:44Z",
       "details": "TM 0.0 -> 186.0, grade ungraded -> A (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-07-08T19:57:31Z",
+      "action": "upstream_synced",
+      "contributor": "github-actions[bot]",
+      "previousValue": null,
+      "newValue": "v3.25.5",
+      "details": "first-run baseline"
     }
   ],
   "links": {

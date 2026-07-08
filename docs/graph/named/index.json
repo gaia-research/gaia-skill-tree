@@ -505,6 +505,14 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 4★ to 5★"
+          },
+          {
+            "timestamp": "2026-07-08T19:56:05Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "0.6.3",
+            "details": "first-run baseline"
           }
         ],
         "suiteComponents": [
@@ -655,6 +663,14 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 4★"
+          },
+          {
+            "timestamp": "2026-07-08T19:56:14Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "v1.42.3",
+            "details": "first-run baseline"
           }
         ],
         "suiteComponents": [
@@ -16114,6 +16130,14 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-08T19:57:13Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "v3.25.5",
+            "details": "first-run baseline"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -16522,6 +16546,14 @@
             "action": "note",
             "contributor": "unknown",
             "details": "Post-#918 audit follow-up for #901: sourceStartedAt provenance was backfilled on evidence #0 (https://github.com/mattpocock/skills/stargazers, sourceStartedAt 2026-02-03, repo creation date) and evidence #1 (https://arxiv.org/abs/2602.20867, sourceStartedAt 2026-02-24, arXiv publication date). Metadata-only provenance audit note; no rank, star, Trust Magnitude, grade, or apex-gate status changed."
+          },
+          {
+            "timestamp": "2026-07-08T19:53:32Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "v1.1.0",
+            "details": "first-run baseline"
           }
         ],
         "suiteComponents": [
@@ -18492,6 +18524,14 @@
             "action": "verified",
             "contributor": "unknown",
             "details": "Apex promotion PR stamped by Marco (founder/mbtiongson1) per #746 directive — superpowers qualifies for §11.12.8 (apexPromotionPrSigned)"
+          },
+          {
+            "timestamp": "2026-07-08T19:56:27Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "v6.1.1",
+            "details": "first-run baseline"
           }
         ],
         "suiteComponents": [
@@ -19501,6 +19541,14 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 5★ to 4★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-08T19:56:40Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "v3.25.5",
+            "details": "first-run baseline"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -19852,6 +19900,14 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 3★ to 4★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-08T19:56:47Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "v3.25.5",
+            "details": "first-run baseline"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -20354,6 +20410,14 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-08T19:57:06Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "v3.25.5",
+            "details": "first-run baseline"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -21041,6 +21105,14 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 3★ to 4★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-08T19:57:22Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "v3.25.5",
+            "details": "first-run baseline"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -21131,6 +21203,14 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:44Z",
             "details": "TM 0.0 -> 186.0, grade ungraded -> A (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-07-08T19:57:31Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "v3.25.5",
+            "details": "first-run baseline"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -21317,6 +21397,14 @@
             "action": "verified",
             "contributor": "unknown",
             "details": "Apex promotion PR stamped by Marco (founder/mbtiongson1) per #746 directive — ruflo qualifies for §11.12.8 (apexPromotionPrSigned)"
+          },
+          {
+            "timestamp": "2026-07-08T19:57:51Z",
+            "action": "upstream_synced",
+            "contributor": "github-actions[bot]",
+            "previousValue": null,
+            "newValue": "v3.25.5",
+            "details": "first-run baseline"
           }
         ],
         "suiteComponents": [

@@ -150,6 +150,14 @@
       "action": "verified",
       "contributor": "unknown",
       "details": "Apex promotion PR stamped by Marco (founder/mbtiongson1) per #746 directive — superpowers qualifies for §11.12.8 (apexPromotionPrSigned)"
+    },
+    {
+      "timestamp": "2026-07-08T19:56:27Z",
+      "action": "upstream_synced",
+      "contributor": "github-actions[bot]",
+      "previousValue": null,
+      "newValue": "v6.1.1",
+      "details": "first-run baseline"
     }
   ],
   "links": {

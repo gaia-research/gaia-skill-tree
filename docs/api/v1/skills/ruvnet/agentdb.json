@@ -114,6 +114,14 @@
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Level updated from 5★ to 4★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-07-08T19:56:40Z",
+      "action": "upstream_synced",
+      "contributor": "github-actions[bot]",
+      "previousValue": null,
+      "newValue": "v3.25.5",
+      "details": "first-run baseline"
     }
   ],
   "links": {
