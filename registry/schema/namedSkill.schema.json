@@ -175,6 +175,44 @@
       },
       "description": "Users who have adopted this named skill via gaia install."
     },
+    "upstream": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Upstream release tracking metadata (populated by the upstream watcher on approved sync). See docs/agents/upstream-watcher.md.",
+      "properties": {
+        "repo": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]*/[a-zA-Z0-9._-]+$",
+          "description": "owner/repo of the upstream source; stored to catch drift if links.github changes"
+        },
+        "version": {
+          "type": "string",
+          "description": "Last synced release tag (e.g. v1.0.3)"
+        },
+        "releasedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "GitHub release.published_at value"
+        },
+        "syncedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the sync commit landed on main"
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Full URL to the GitHub release tag page"
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["components", "version-only"],
+          "description": "components = suite with a diffable component list; version-only = general-purpose repo, version tag tracked but no component structure",
+          "default": "components"
+        }
+      },
+      "required": ["repo", "version"]
+    },
     "verification": {
       "type": "object",
       "additionalProperties": false,
@@ -502,7 +540,9 @@
             "verified",
             "disputed",
             "security_scan_passed",
-            "apex_pr_signed"
+            "apex_pr_signed",
+            "upstream_synced",
+            "upstream_deprecated"
           ],
           "description": "The meta-action that occurred."
         },
