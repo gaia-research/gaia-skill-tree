@@ -343,10 +343,12 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ /clinical-data-retrieval
   · ○ /cultural-localization
   · ○ ████████/domain-modeling
+  · ○ caioribeiroclw-pixel/evidence-attestation  [2★]
   · ○ openai/few-shot-learning  [4★]
   · ○ laravel/upgrade-laravel-v13  [2★]
   · ○ ruvnet/agentic-jujutsu  [2★]
   · ○ /image-generate
+  · ○ rico-favor/implement-with-discernment  [2★]
   · ○ ████████/huggingface-vision-trainer
   · ○ /pathway-ontology-retrieval
   · ○ /probabilistic-programming

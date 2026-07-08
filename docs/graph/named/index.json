@@ -5106,6 +5106,81 @@
         "role": "variant"
       }
     ],
+    "evidence-attestation": [
+      {
+        "id": "caioribeiroclw-pixel/evidence-attestation",
+        "name": "evidence-attestation",
+        "contributor": "caioribeiroclw-pixel",
+        "origin": false,
+        "genericSkillRef": "evidence-attestation",
+        "status": "named",
+        "level": "2★",
+        "description": "Produces privacy-safe proof objects from agent claims by recording what evidence supports or contradicts each claim, what raw content was intentionally omitted, what verdict follows, and what would make the evidence stale.",
+        "title": "Evidence Attestation",
+        "links": {
+          "github": "https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md",
+            "evaluator": "unknown",
+            "date": "2026-07-09",
+            "type": "self-attestation",
+            "trustNumber": 25.0,
+            "grade": "C",
+            "notes": "Canonical SKILL.md for the evidence-attestation procedure in the pluribus repo — named skill implementation spec."
+          }
+        ],
+        "createdAt": "2026-07-09",
+        "updatedAt": "2026-07-09",
+        "timeline": [
+          {
+            "timestamp": "2026-07-08T21:02:20Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill caioribeiroclw-pixel/evidence-attestation"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:39Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:40Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md as C (trustNumber: 25.0)"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:40Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:50Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 2★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 6.47,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      }
+    ],
     "autonomous-debug": [
       {
         "id": "mattpocock/diagnose",
@@ -19158,6 +19233,84 @@
         "role": "variant"
       }
     ],
+    "implement-with-discernment": [
+      {
+        "id": "rico-favor/implement-with-discernment",
+        "name": "implement-with-discernment",
+        "contributor": "rico-favor",
+        "origin": false,
+        "genericSkillRef": "implement-with-discernment",
+        "status": "named",
+        "level": "2★",
+        "description": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value.",
+        "title": "Implement With Discernment",
+        "links": {
+          "github": "https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/rico-favor/gaia-skill-tree",
+            "evaluator": "unknown",
+            "date": "2026-07-09",
+            "type": "repo-own",
+            "trustNumber": 22.0,
+            "notes": "rico-favor's active gaia-skill-tree fork — 96 commits demonstrating real agent skill curation and implementation workflow usage.",
+            "stars": 0,
+            "commits": 96,
+            "contributors": 1
+          }
+        ],
+        "createdAt": "2026-07-09",
+        "updatedAt": "2026-07-09",
+        "timeline": [
+          {
+            "timestamp": "2026-07-08T21:02:12Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill rico-favor/implement-with-discernment"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/rico-favor/gaia-skill-tree (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:30Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/rico-favor/gaia-skill-tree as C (trustNumber: 22.0)"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:31Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:49Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 2★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 158.08,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      }
+    ],
     "distributed-vector-memory": [
       {
         "id": "ruvnet/agentdb-advanced",
@@ -27730,6 +27883,9 @@
     "browserbase": [
       "browserbase/stagehand"
     ],
+    "caioribeiroclw-pixel": [
+      "caioribeiroclw-pixel/evidence-attestation"
+    ],
     "changkun": [
       "changkun/plan-decompose-gh-wallfacer"
     ],
@@ -27966,6 +28122,9 @@
     ],
     "pexp13": [
       "pexp13/sentiment-analysis"
+    ],
+    "rico-favor": [
+      "rico-favor/implement-with-discernment"
     ],
     "ruvnet": [
       "ruvnet/agentdb-advanced",

@@ -1,0 +1,143 @@
+{
+  "id": "implement-with-discernment",
+  "name": "implement-with-discernment",
+  "type": "basic",
+  "description": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value, and stopping when the task is done.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [
+    {
+      "source": "https://github.com/rico-favor/gaia-skill-tree",
+      "evaluator": "unknown",
+      "date": "2026-07-09",
+      "type": "repo-own",
+      "trustNumber": 22.0,
+      "notes": "rico-favor's gaia-skill-tree fork — 96 commits. Active usage of gaia skill workflows and agent skill implementation practices, evidencing real applied judgment in software implementation contexts.",
+      "stars": 0,
+      "commits": 96,
+      "contributors": 1
+    },
+    {
+      "source": "https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems",
+      "evaluator": "unknown",
+      "date": "2026-07-09",
+      "type": "peer-review",
+      "trustNumber": 100.0,
+      "grade": "S",
+      "notes": "Landmark NeurIPS 2015 paper by Sculley et al. (~1,492 citations) showing that feature accumulation and unnecessary complexity create hidden long-term costs — foundational empirical case for deliberate, minimal implementation.",
+      "citations": 1492,
+      "reviewers": 3
+    },
+    {
+      "source": "https://martinfowler.com/bliki/Yagni.html",
+      "evaluator": "unknown",
+      "date": "2026-07-09",
+      "type": "social-signal",
+      "trustNumber": 80.0,
+      "grade": "B",
+      "notes": "Canonical YAGNI treatment by Martin Fowler (2015) — structures the four-part cost model of unnecessary features (build/delay/carry/repair) and cites research that 1/3 of shipped features fail to improve their target metrics. Most authoritative practitioner essay on when not to implement.",
+      "views": 500000
+    },
+    {
+      "source": "https://martinfowler.com/articles/designDead.html",
+      "evaluator": "unknown",
+      "date": "2026-07-09",
+      "type": "social-signal",
+      "trustNumber": 60.0,
+      "grade": "B",
+      "notes": "Foundational 2004 Fowler essay from XP 2000 conference integrating YAGNI into evolutionary design theory — argues that restraint from speculative implementation requires continuous refactoring, grounding 'when not to build' judgment in design practice.",
+      "views": 100000
+    },
+    {
+      "source": "https://arxiv.org/abs/2403.06484",
+      "evaluator": "unknown",
+      "date": "2026-07-09",
+      "type": "arxiv",
+      "trustNumber": 50.0,
+      "notes": "ICSE 2023 peer-reviewed paper by Avgeriou et al. surveying technical debt management — frames unnecessary complexity as a 'silent killer' of software projects, supporting the evidence base for deliberate minimal implementation.",
+      "citations": 5
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-09",
+  "updatedAt": "2026-07-09",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-08T20:52:53Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill implement-with-discernment"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:28Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/rico-favor/gaia-skill-tree (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:28Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://github.com/rico-favor/gaia-skill-tree as C (trustNumber: 22.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:39Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:39Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems as A (trustNumber: 110.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:40Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://martinfowler.com/bliki/Yagni.html (type: social-signal)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:40Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://martinfowler.com/bliki/Yagni.html as B (trustNumber: 80.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:48Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://martinfowler.com/articles/designDead.html (type: social-signal)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:48Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://martinfowler.com/articles/designDead.html as B (trustNumber: 60.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:49Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/2403.06484 (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-07-08T21:00:49Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://arxiv.org/abs/2403.06484 as B (trustNumber: 50.0)"
+    },
+    {
+      "timestamp": "2026-07-08T21:03:38Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #1 from https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems; changed trustNumber (trustNumber: 110.0 → 100.0)"
+    }
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-07-08T21:00:28Z"
+  }
+}

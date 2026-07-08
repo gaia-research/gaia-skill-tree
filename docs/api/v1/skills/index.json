@@ -109,6 +109,18 @@
       }
     },
     {
+      "id": "rico-favor/implement-with-discernment",
+      "name": "implement-with-discernment",
+      "level": "2★",
+      "trustMagnitude": 158.08,
+      "overallTrustGrade": "A",
+      "contributor": "rico-favor",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/rico-favor/implement-with-discernment.json"
+      }
+    },
+    {
       "id": "garrytan/garrytan",
       "name": "Autoplan",
       "level": "4★",
@@ -587,23 +599,11 @@
       "_links": {
         "self": "/api/v1/skills/garrytan/design-shotgun.json"
       }
-    },
-    {
-      "id": "garrytan/document-generate",
-      "name": "Document Generate",
-      "level": "3★",
-      "trustMagnitude": 63.73,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "basic",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/document-generate.json"
-      }
     }
   ],
   "page": 1,
   "totalPages": 4,
-  "totalSkills": 154,
+  "totalSkills": 156,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

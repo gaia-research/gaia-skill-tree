@@ -1440,6 +1440,31 @@
         }
       ]
     },
+    "caioribeiroclw-pixel": {
+      "repos": [
+        "caioribeiroclw-pixel/pluribus"
+      ],
+      "skillsByRepo": {
+        "caioribeiroclw-pixel/pluribus": [
+          "caioribeiroclw-pixel/evidence-attestation"
+        ]
+      },
+      "topSkill": "caioribeiroclw-pixel/evidence-attestation",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "caioribeiroclw-pixel/evidence-attestation",
+          "name": "evidence-attestation",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/evidence-attestation",
+          "file": "evidence-attestation.svg",
+          "fileSeal": "evidence-attestation-seal.svg"
+        }
+      ]
+    },
     "devin-ai": {
       "repos": [
         "cognition-labs/devin"
@@ -1853,6 +1878,31 @@
           "slash": "/self-consistency",
           "file": "self-consistency.svg",
           "fileSeal": "self-consistency-seal.svg"
+        }
+      ]
+    },
+    "rico-favor": {
+      "repos": [
+        "rico-favor/gaia-skill-tree"
+      ],
+      "skillsByRepo": {
+        "rico-favor/gaia-skill-tree": [
+          "rico-favor/implement-with-discernment"
+        ]
+      },
+      "topSkill": "rico-favor/implement-with-discernment",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "rico-favor/implement-with-discernment",
+          "name": "implement-with-discernment",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/implement-with-discernment",
+          "file": "implement-with-discernment.svg",
+          "fileSeal": "implement-with-discernment-seal.svg"
         }
       ]
     },

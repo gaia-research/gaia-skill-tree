@@ -105,6 +105,19 @@
       }
     },
     {
+      "handle": "rico-favor",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "rico-favor/implement-with-discernment",
+        "level": "2★",
+        "trustMagnitude": 158.08
+      },
+      "prestigeScore": 158.08,
+      "_links": {
+        "self": "/api/v1/contributors/rico-favor.json"
+      }
+    },
+    {
       "handle": "anthropic",
       "namedSkills": 2,
       "topSkill": {
@@ -376,9 +389,22 @@
       "_links": {
         "self": "/api/v1/contributors/devin-ai.json"
       }
+    },
+    {
+      "handle": "caioribeiroclw-pixel",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "caioribeiroclw-pixel/evidence-attestation",
+        "level": "2★",
+        "trustMagnitude": 6.47
+      },
+      "prestigeScore": 6.47,
+      "_links": {
+        "self": "/api/v1/contributors/caioribeiroclw-pixel.json"
+      }
     }
   ],
-  "totalContributors": 29,
+  "totalContributors": 31,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

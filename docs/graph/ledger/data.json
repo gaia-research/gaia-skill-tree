@@ -1,15 +1,15 @@
 {
   "version": "6.0.0",
-  "generatedAt": "2026-07-08T20:47:50Z",
+  "generatedAt": "2026-07-08T21:08:17Z",
   "summary": {
-    "total": 264,
+    "total": 266,
     "S": 5,
     "A": 44,
-    "B": 66,
+    "B": 67,
     "C": 79,
-    "ungraded": 70,
+    "ungraded": 71,
     "floor": 0,
-    "up": 1
+    "up": 2
   },
   "rows": [
     {
@@ -1919,6 +1919,24 @@
       "origin": false
     },
     {
+      "skillId": "rico-favor/implement-with-discernment",
+      "tm": 52.15,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.49,
+        "peer-review": 27.0,
+        "social-signal": 22.96,
+        "arxiv": 0.7
+      },
+      "origin": false
+    },
+    {
       "skillId": "mattpocock/improve-codebase-architecture",
       "tm": 45.0,
       "grade": "C",
@@ -3107,6 +3125,22 @@
       "apexResults": null,
       "typeBreakdown": {
         "peer-review": 30.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "caioribeiroclw-pixel/evidence-attestation",
+      "tm": 6.47,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 1.47
       },
       "origin": false
     },

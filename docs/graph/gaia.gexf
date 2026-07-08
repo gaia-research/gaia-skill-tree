@@ -466,6 +466,13 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="evidence-attestation" label="evidence-attestation">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="executing-plans" label="Executing Plans">
         <attvalues>
           <attvalue for="level" value="" />
@@ -698,6 +705,13 @@
         </attvalues>
       </node>
       <node id="image-generate" label="Image Generate">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="implement-with-discernment" label="implement-with-discernment">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />

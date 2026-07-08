@@ -1,0 +1,31 @@
+{
+  "handle": "rico-favor",
+  "namedSkills": [
+    {
+      "id": "rico-favor/implement-with-discernment",
+      "name": "implement-with-discernment",
+      "level": "2★",
+      "trustMagnitude": 158.08,
+      "overallTrustGrade": "A",
+      "contributor": "rico-favor",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/rico-favor/implement-with-discernment.json"
+      }
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "rico-favor/implement-with-discernment",
+    "level": "2★",
+    "trustMagnitude": 158.08
+  },
+  "prestigeScore": 158.08,
+  "gradeDistribution": {
+    "A": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/rico-favor.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "id": "evidence-attestation",
+  "name": "evidence-attestation",
+  "type": "basic",
+  "description": "Produces privacy-safe proof objects from agent claims by recording what evidence supports or contradicts each claim, what raw content was intentionally omitted, what verdict follows, and what would make the evidence stale; enables downstream registries, review gates, and scoreboards to verify agent work without accessing raw private context.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [
+    {
+      "source": "https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-07-09",
+      "type": "self-attestation",
+      "trustNumber": 25.0,
+      "grade": "C",
+      "notes": "SKILL.md defines the evidence-attestation procedure: privacy-safe JSON proof objects with verdict, omissions, and staleness fields. Canonical implementation spec for the skill."
+    },
+    {
+      "source": "https://github.com/caioribeiroclw-pixel/pluribus",
+      "evaluator": "unknown",
+      "date": "2026-07-09",
+      "type": "repo-own",
+      "trustNumber": 60.0,
+      "notes": "Host repo for the skill; 7 stars, 90 commits. Focused on privacy-safe context receipts for AI coding agents across Claude, Cursor, Copilot.",
+      "stars": 7,
+      "commits": 90,
+      "contributors": 1
+    },
+    {
+      "source": "https://arxiv.org/abs/2602.20214",
+      "evaluator": "unknown",
+      "date": "2026-07-09",
+      "type": "arxiv",
+      "trustNumber": 65.0,
+      "grade": "B",
+      "notes": "Right to History: A Sovereignty Kernel for Verifiable AI Agent Execution — formalizes tamper-evident, independently verifiable records of AI agent actions using Merkle tree audit logs. Directly supports the evidence-attestation proof-object design.",
+      "citations": 0
+    },
+    {
+      "source": "https://arxiv.org/abs/2603.06365",
+      "evaluator": "unknown",
+      "date": "2026-07-09",
+      "type": "arxiv",
+      "trustNumber": 60.0,
+      "grade": "B",
+      "notes": "ESAA-Security: An Event-Sourced, Verifiable Architecture for Agent-Assisted Security Audits — proposes structured agent outputs validated through deterministic protocols, directly paralleling the evidence-attestation proof-object pattern.",
+      "citations": 0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-09",
+  "updatedAt": "2026-07-09",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-08T20:54:04Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill evidence-attestation"
+    },
+    {
+      "timestamp": "2026-07-08T20:56:57Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md (type: self-attestation)"
+    },
+    {
+      "timestamp": "2026-07-08T20:56:57Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://github.com/caioribeiroclw-pixel/pluribus/blob/main/skills/evidence-attestation/SKILL.md as C (trustNumber: 25.0)"
+    },
+    {
+      "timestamp": "2026-07-08T20:56:57Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/caioribeiroclw-pixel/pluribus (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-07-08T20:56:57Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://github.com/caioribeiroclw-pixel/pluribus as B (trustNumber: 50.0)"
+    },
+    {
+      "timestamp": "2026-07-08T20:57:05Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #1 from https://github.com/caioribeiroclw-pixel/pluribus; changed notes, trustNumber (trustNumber: 50.0 → 55.0)"
+    },
+    {
+      "timestamp": "2026-07-08T20:57:12Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #1 from https://github.com/caioribeiroclw-pixel/pluribus; changed trustNumber (trustNumber: 55.0 → 60.0)"
+    },
+    {
+      "timestamp": "2026-07-08T20:58:25Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/2602.20214 (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-07-08T20:58:26Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://arxiv.org/abs/2602.20214 as B (trustNumber: 65.0)"
+    },
+    {
+      "timestamp": "2026-07-08T20:58:26Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/2603.06365 (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-07-08T20:58:26Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Graded evidence from https://arxiv.org/abs/2603.06365 as B (trustNumber: 60.0)"
+    }
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-07-08T20:56:57Z"
+  }
+}

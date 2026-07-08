@@ -104,3 +104,5 @@
 * [Web Search](/web-search.md) - Queries external search engines or APIs and retrieves relevant result sets.
 * [Worker Agent Dispatch](/worker-agent-dispatch.md) - Maps trigger events to optimal agent combinations for background task execution with performance tracking and continuous feedback.
 * [Write Report](/write-report.md) - Produces structured, multi-section written output with headings, citations, and coherent narrative.
+* [evidence-attestation](/evidence-attestation.md) - Produces privacy-safe proof objects from agent claims by recording what evidence supports or contradicts each claim, what raw content was intentionally omitted, what verdict follows, and what would make the evidence stale; enables downstream registries, review gates, and scoreboards to verify agent work without accessing raw private context.
+* [implement-with-discernment](/implement-with-discernment.md) - Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value, and stopping when the task is done.

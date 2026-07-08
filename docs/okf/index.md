@@ -143,7 +143,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [web-best-practices](/skills/extra/web-best-practices.md) - Web Best Practices
 * [web-quality-audit](/skills/extra/web-quality-audit.md) - Orchestrates a multi-axis web quality audit covering performance (Core Web Vitals), accessibility (WCAG), SEO, and best practices, producing actionable remediation plans from Lighthouse and real-user data.
 
-### Basic Skills (104)
+### Basic Skills (106)
 
 * [API Call](/skills/basic/api-call.md) - A fundamental skill that enables agents to interact with external services via HTTP API calls.
 * [Adaptive Pattern Learning](/skills/basic/adaptive-pattern-learning.md) - Implements adaptive learning through pattern recognition and strategy optimization.
@@ -249,4 +249,6 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Web Search](/skills/basic/web-search.md) - Queries external search engines or APIs and retrieves relevant result sets.
 * [Worker Agent Dispatch](/skills/basic/worker-agent-dispatch.md) - Maps trigger events to optimal agent combinations for background task execution with performance tracking and continuous feedback.
 * [Write Report](/skills/basic/write-report.md) - Produces structured, multi-section written output with headings, citations, and coherent narrative.
+* [evidence-attestation](/skills/basic/evidence-attestation.md) - Produces privacy-safe proof objects from agent claims by recording what evidence supports or contradicts each claim, what raw content was intentionally omitted, what verdict follows, and what would make the evidence stale; enables downstream registries, review gates, and scoreboards to verify agent work without accessing raw private context.
+* [implement-with-discernment](/skills/basic/implement-with-discernment.md) - Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value, and stopping when the task is done.
 

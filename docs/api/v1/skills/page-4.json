@@ -1,6 +1,18 @@
 {
   "skills": [
     {
+      "id": "vercel/find-skills",
+      "name": "Find Skills",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "vercel",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/vercel/find-skills.json"
+      }
+    },
+    {
       "id": "upsonic/unittest-generator",
       "name": "Unittest Generator",
       "level": "2★",
@@ -37,6 +49,18 @@
       }
     },
     {
+      "id": "caioribeiroclw-pixel/evidence-attestation",
+      "name": "evidence-attestation",
+      "level": "2★",
+      "trustMagnitude": 6.47,
+      "overallTrustGrade": null,
+      "contributor": "caioribeiroclw-pixel",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/caioribeiroclw-pixel/evidence-attestation.json"
+      }
+    },
+    {
       "id": "mattpocock/teach",
       "name": "Teach",
       "level": "2★",
@@ -51,7 +75,7 @@
   ],
   "page": 4,
   "totalPages": 4,
-  "totalSkills": 154,
+  "totalSkills": 156,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json"
