@@ -672,8 +672,9 @@ class DevCommand(Command):
             help="Named skill ID (e.g. mattpocock/skills)",
         )
         dev_sync_upstream.add_argument(
-            "--version",
+            "--tag",
             required=True,
+            dest="tag",
             help="Release tag (must match ^v?\\d+\\.\\d+\\.\\d+.*$, e.g. v1.2.3)",
         )
         dev_sync_upstream.add_argument(

@@ -113,7 +113,7 @@ def _make_registry(tmp_path: Path, skill_content: str = _SKILL_MD_2STAR) -> tupl
 def _sync_args(
     registry: str,
     skill_id: str = "testorg/my-skill",
-    version: str = "v1.1.0",
+    tag: str = "v1.1.0",
     source_url: str = "https://github.com/testorg/my-skill/releases/tag/v1.1.0",
     *,
     bootstrap: bool = False,
@@ -125,7 +125,7 @@ def _sync_args(
     return SimpleNamespace(
         registry=registry,
         skill_id=skill_id,
-        version=version,
+        tag=tag,
         source_url=source_url,
         bootstrap=bootstrap,
         released_at=released_at,
@@ -222,7 +222,7 @@ class TestSyncUpstreamHappyPath:
     def test_update_existing_upstream_block(self, tmp_path):
         """Updating from v1.0.0 to v1.1.0: version bumped, previousValue recorded."""
         registry, skill_file = _make_registry(tmp_path, _SKILL_MD_WITH_UPSTREAM)
-        args = _sync_args(registry, version="v1.1.0",
+        args = _sync_args(registry, tag="v1.1.0",
                           source_url="https://github.com/testorg/my-skill/releases/tag/v1.1.0",
                           released_at="2026-07-08T00:00:00Z")
 
@@ -302,7 +302,7 @@ class TestSyncUpstreamPreflightRejects:
 
     def test_bad_version_regex(self, tmp_path):
         registry, _ = _make_registry(tmp_path)
-        args = _sync_args(registry, version="not-a-version")
+        args = _sync_args(registry, tag="not-a-version")
 
         from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
         with pytest.raises(SystemExit):
@@ -332,7 +332,7 @@ class TestSyncUpstreamPreflightRejects:
         """Trying to sync the same version twice raises the already-synced error."""
         registry, _ = _make_registry(tmp_path, _SKILL_MD_WITH_UPSTREAM)
         # _SKILL_MD_WITH_UPSTREAM has version: v1.0.0
-        args = _sync_args(registry, version="v1.0.0",
+        args = _sync_args(registry, tag="v1.0.0",
                           source_url="https://github.com/testorg/my-skill/releases/tag/v1.0.0")
 
         from gaia_cli.commands.dev.sync_upstream import sync_upstream_command
@@ -352,7 +352,7 @@ class TestSyncUpstreamPreflightRejects:
     def test_bootstrap_refuses_if_upstream_block_exists(self, tmp_path):
         """--bootstrap is rejected when upstream: block is already present."""
         registry, _ = _make_registry(tmp_path, _SKILL_MD_WITH_UPSTREAM)
-        args = _sync_args(registry, version="v1.1.0",
+        args = _sync_args(registry, tag="v1.1.0",
                           source_url="https://github.com/testorg/my-skill/releases/tag/v1.1.0",
                           bootstrap=True,
                           released_at="2026-07-01T00:00:00Z")
@@ -378,7 +378,7 @@ class TestSyncUpstreamIdempotency:
         sync_upstream_command(args1)
 
         # Second sync of the same version raises
-        args2 = _sync_args(registry, version="v1.1.0",
+        args2 = _sync_args(registry, tag="v1.1.0",
                            source_url="https://github.com/testorg/my-skill/releases/tag/v1.1.0",
                            released_at="2026-07-01T00:00:00Z")
         with pytest.raises(SystemExit):
@@ -492,3 +492,105 @@ class TestFreezeThreeStarWarning:
         text = skill_file.read_text(encoding="utf-8")
         assert "installable: false" in text
         assert "upstream_deprecated" in text
+
+
+# ---------------------------------------------------------------------------
+# End-to-end subprocess regression test
+# ---------------------------------------------------------------------------
+
+
+class TestSyncUpstreamEndToEnd:
+    def test_sync_upstream_end_to_end_via_subprocess(self, tmp_path, monkeypatch):
+        """Regression: catch top-level argparse action stealing subcommand flags.
+
+        Before the fix, the CLI's top-level --version action silently consumed
+        `--version <tag>` from `gaia dev sync-upstream`, printing the CLI version
+        string (e.g. "6.3.9") and exiting 0.  The subcommand logic never ran.
+
+        This test invokes the CLI as a real subprocess to catch that class of bug.
+        See: cli/upstream-tag-rename PR — renamed --version to --tag.
+
+        NOTE: This test requires the package to be installed (pip install -e .).
+        If the CLI binary is not available in the current Python environment,
+        the test is skipped gracefully.
+        """
+        import shutil
+        import subprocess
+        import os
+
+        # Build a minimal fixture registry in tmp_path
+        named_dir = tmp_path / "registry" / "named" / "fixture"
+        named_dir.mkdir(parents=True)
+        skill_file = named_dir / "skill.md"
+        skill_file.write_text(
+            "---\n"
+            "id: fixture/skill\n"
+            "name: Fixture Skill\n"
+            "contributor: fixture\n"
+            "origin: true\n"
+            "title: The Fixture Skill Title\n"
+            "genericSkillRef: fixture-skill\n"
+            "status: named\n"
+            "level: 2\u2605\n"
+            "description: Subprocess regression fixture for argparse clash test.\n"
+            "installable: true\n"
+            "links:\n"
+            "  github: https://github.com/fixture/skill/blob/main/skills/SKILL.md\n"
+            "createdAt: '2026-01-01'\n"
+            "updatedAt: '2026-01-01'\n"
+            "timeline: []\n"
+            "---\n\n## Fixture Skill\n",
+            encoding="utf-8",
+        )
+        schema_dir = tmp_path / "registry" / "schema"
+        schema_dir.mkdir(parents=True)
+        (schema_dir / "meta.json").write_text("{}", encoding="utf-8")
+
+        env = {**os.environ, "GAIA_OPERATOR_OVERRIDE": "1"}
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "gaia_cli",
+                "--registry",
+                str(tmp_path),
+                "dev",
+                "sync-upstream",
+                "fixture/skill",
+                "--tag",
+                "v1.0.0",
+                "--source-url",
+                "https://github.com/fixture/skill/releases/tag/v1.0.0",
+                "--bootstrap",
+                "--dry-run",
+            ],
+            capture_output=True,
+            text=True,
+            env=env,
+        )
+
+        combined = result.stdout + result.stderr
+
+        # Regression guard: if the top-level --version action fires, we get
+        # the bare version string on stdout and exit 0 — catch it explicitly.
+        # The CLI version should NOT appear as the entire stdout.
+        # A real version string looks like "6.3.9" or "6.3.9\n".
+        import re as _re
+        version_only_pattern = _re.compile(r'^\d+\.\d+\.\d+\s*$')
+        assert not version_only_pattern.match(result.stdout.strip()), (
+            f"Top-level --version action fired: stdout was {result.stdout!r}. "
+            "The --tag rename did not take effect. "
+            "Check that __init__.py uses add_argument('--tag', ...) not add_argument('--version', ...)."
+        )
+
+        # The dry-run output should contain a recognisable marker
+        assert "DRY RUN" in result.stdout or "v1.0.0" in combined, (
+            f"Expected dry-run output; got stdout={result.stdout!r}, stderr={result.stderr!r}"
+        )
+
+        # Exit code must be 0 (dry-run succeeds)
+        assert result.returncode == 0, (
+            f"Unexpected non-zero exit: returncode={result.returncode}\n"
+            f"stdout={result.stdout}\nstderr={result.stderr}"
+        )
