@@ -37,20 +37,6 @@ import re
 import sys
 from datetime import datetime, timezone
 
-# ---------------------------------------------------------------------------
-# Dependency: PyYAML is a gaia_cli install-time dependency. If it is somehow
-# missing, give an explicit error rather than an ImportError traceback.
-# ---------------------------------------------------------------------------
-try:
-    import yaml as _yaml
-except ImportError:  # pragma: no cover
-    print(
-        "ERROR: PyYAML is required for `gaia push --from-file` but is not installed.\n"
-        "Fix: pip install pyyaml",
-        file=sys.stderr,
-    )
-    sys.exit(1)
-
 from gaia_cli.push import (
     SKILL_ID_RE,
     build_similarity,
@@ -263,6 +249,15 @@ def build_from_file_batch(skillsYaml, config, registryRoot, sourceRepo, now=None
 
 def _load_yaml_file(path):
     """Load and parse a YAML file; return (data, error_message)."""
+    # Import yaml lazily so the module can be imported without PyYAML installed.
+    # The ImportError only surfaces when --from-file is actually used.
+    try:
+        import yaml as _yaml
+    except ImportError:  # pragma: no cover
+        return None, (
+            "PyYAML is required for `gaia push --from-file` but is not installed.\n"
+            "Fix: pip install pyyaml"
+        )
     try:
         with open(path, encoding="utf-8") as f:
             raw = f.read()
