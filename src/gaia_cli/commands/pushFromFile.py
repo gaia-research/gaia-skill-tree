@@ -81,51 +81,63 @@ _VALID_EVIDENCE_TYPES = {
 _STAR_RE = re.compile(r"^[2-6][★\*]$")
 
 
-def _validate_skill(entry, index, canonical_ids):
+def _validate_skill(entry, index, canonicalIds):
     """Return a list of validation error strings for a single skill entry.
     An empty list means the entry is valid.
     """
     errors = []
     prefix = f"skills[{index}]"
 
-    skill_id = entry.get("id", "")
-    if not skill_id:
+    skillId = entry.get("id", "")
+    if not skillId:
         errors.append(f"{prefix}: 'id' is required")
-    elif not SKILL_ID_RE.match(skill_id):
+    elif not SKILL_ID_RE.match(skillId):
         errors.append(
-            f"{prefix}.id '{skill_id}': must match ^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+            f"{prefix}.id '{skillId}': must match ^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         )
 
     if not entry.get("name", "").strip():
         errors.append(f"{prefix}: 'name' is required")
 
-    sk_type = entry.get("type", "")
-    if sk_type not in _VALID_TYPES:
+    skType = entry.get("type", "")
+    if skType not in _VALID_TYPES:
         errors.append(
-            f"{prefix}.type '{sk_type}': must be 'basic' or 'fusion' (Yggdrasil II)"
+            f"{prefix}.type '{skType}': must be 'basic' or 'fusion' (Yggdrasil II)"
         )
 
     description = entry.get("description", "")
     if not isinstance(description, str) or len(description.strip()) < 10:
         errors.append(f"{prefix}.description: must be a string of at least 10 characters")
 
-    prereqs = entry.get("prerequisites", [])
-    if sk_type == "fusion" and not prereqs:
+    # prereqs: must be a list (not a string scalar, not null) when present
+    prereqsRaw = entry.get("prerequisites")
+    if prereqsRaw is None:
+        prereqs = []
+    elif not isinstance(prereqsRaw, list):
+        errors.append(
+            f"{prefix}.prerequisites: must be a list, got {type(prereqsRaw).__name__} "
+            f"— use [skill-a, skill-b] not a bare string"
+        )
+        prereqs = []  # skip further checks on malformed value
+    else:
+        prereqs = prereqsRaw
+
+    if skType == "fusion" and not prereqs:
         errors.append(f"{prefix}: type=fusion requires at least one prerequisite")
-    if sk_type == "basic" and prereqs:
+    if skType == "basic" and prereqs:
         errors.append(f"{prefix}: type=basic must have an empty prerequisites list")
-    for prereq in prereqs or []:
-        if prereq not in canonical_ids:
+    for prereq in prereqs:
+        if prereq not in canonicalIds:
             errors.append(
                 f"{prefix}.prerequisites: '{prereq}' does not exist in registry/gaia.json"
             )
 
     attribution = entry.get("attribution") or {}
     if attribution:
-        attr_type = attribution.get("type", "")
-        if attr_type and attr_type not in _VALID_ATTR_TYPES:
+        attrType = attribution.get("type", "")
+        if attrType and attrType not in _VALID_ATTR_TYPES:
             errors.append(
-                f"{prefix}.attribution.type '{attr_type}': must be one of "
+                f"{prefix}.attribution.type '{attrType}': must be one of "
                 f"{sorted(_VALID_ATTR_TYPES)}"
             )
 
@@ -135,37 +147,46 @@ def _validate_skill(entry, index, canonical_ids):
             f"{prefix}: at least one evidence entry is required (Grade B or above preferred)"
         )
     for ei, ev in enumerate(evidence):
-        ev_prefix = f"{prefix}.evidence[{ei}]"
+        evPrefix = f"{prefix}.evidence[{ei}]"
         grade = str(ev.get("grade", "")).upper()
         if grade not in _VALID_EVIDENCE_GRADES:
-            errors.append(f"{ev_prefix}.grade '{grade}': must be A, B, or C")
-        ev_type = ev.get("type", "")
-        if ev_type and ev_type not in _VALID_EVIDENCE_TYPES:
+            errors.append(f"{evPrefix}.grade '{grade}': must be A, B, or C")
+        evType = ev.get("type", "")
+        if evType and evType not in _VALID_EVIDENCE_TYPES:
             errors.append(
-                f"{ev_prefix}.type '{ev_type}': unrecognised evidence type "
+                f"{evPrefix}.type '{evType}': unrecognised evidence type "
                 f"(valid: {sorted(_VALID_EVIDENCE_TYPES)})"
             )
         url = ev.get("url", "")
         if not url:
-            errors.append(f"{ev_prefix}: 'url' is required")
+            errors.append(f"{evPrefix}: 'url' is required")
         elif url.startswith("https://github.com") and "/tree/" in url:
             errors.append(
-                f"{ev_prefix}.url: use blob/ URLs, not tree/ (got: {url})"
+                f"{evPrefix}.url: use blob/ URLs, not tree/ (got: {url})"
             )
 
     named = entry.get("named") or {}
     if named:
         if not named.get("contributor", "").strip():
             errors.append(f"{prefix}.named.contributor: required when named block present")
+        # level is required when the named block is present
         level = named.get("level", "")
-        if level and not _STAR_RE.match(str(level).strip()):
+        if not level:
+            errors.append(f"{prefix}.named.level: required when named block present (e.g. '2★')")
+        elif not _STAR_RE.match(str(level).strip()):
             errors.append(
                 f"{prefix}.named.level '{level}': must be a star rating like '2★' (2–6)"
             )
-        links_github = named.get("links_github", "")
-        if links_github and "/tree/" in links_github:
+        # links_github is required when the named block is present
+        linksGithub = named.get("links_github", "")
+        if not linksGithub:
             errors.append(
-                f"{prefix}.named.links_github: use blob/ URLs, not tree/ (got: {links_github})"
+                f"{prefix}.named.links_github: required when named block present "
+                f"(blob/ URL to SKILL.md or repo root)"
+            )
+        elif "/tree/" in linksGithub:
+            errors.append(
+                f"{prefix}.named.links_github: use blob/ URLs, not tree/ (got: {linksGithub})"
             )
 
     return errors
@@ -175,56 +196,64 @@ def _validate_skill(entry, index, canonical_ids):
 # Batch builder
 # ---------------------------------------------------------------------------
 
-def _skill_entry_to_proposed(entry, source_repo):
+def _skillEntryToProposed(entry, sourceRepo):
     """Convert a validated YAML skill entry to the proposedSkills batch format."""
-    # Preserve all fields; add sourceRepo and lifecycle.
     proposed = dict(entry)
-    proposed.setdefault("sourceRepo", source_repo)
+    proposed.setdefault("sourceRepo", sourceRepo)
     proposed.setdefault("lifecycle", "pending")
-    # Normalise: ensure name is set
     if not proposed.get("name"):
         proposed["name"] = skill_name_from_id(entry.get("id", ""))
     return proposed
 
 
-def build_from_file_batch(skills_yaml, config, registry_root, source_repo, now=None):
-    """Build a skill batch dict from a parsed YAML 'skills:' list."""
-    graph_path = registry_graph_path(registry_root)
-    canonical_map = load_canonical_skill_map(graph_path)
-    canonical_ids = set(canonical_map.keys())
+def build_from_file_batch(skillsYaml, config, registryRoot, sourceRepo, now=None):
+    """Build a skill batch dict from a parsed YAML 'skills:' list.
+
+    Returns (batch_dict, errors).  When errors is non-empty, batch_dict is None
+    and nothing has been written to disk.
+    """
+    graphPath = registry_graph_path(registryRoot)
+    canonicalMap = load_canonical_skill_map(graphPath)
+    if not canonicalMap:
+        print(
+            "Warning: registry/gaia.json not found or empty — "
+            "prerequisite validation will be skipped.",
+            file=sys.stderr,
+        )
+    canonicalIds = set(canonicalMap.keys())
 
     timestamp = now or datetime.now(timezone.utc)
-    generated_at = timestamp.replace(microsecond=0).isoformat().replace("+00:00", "Z")
-    batch_id = (
+    generatedAt = timestamp.replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    batchId = (
         f"{timestamp.strftime('%Y%m%d%H%M%S')}-"
         f"{config.get('gaiaUser', 'unknown')}-from-file"
     )
 
-    # ── validate all entries up front ──────────────────────────────────────
-    all_errors = []
-    for i, entry in enumerate(skills_yaml):
-        all_errors.extend(_validate_skill(entry, i, canonical_ids))
+    # ── validate all entries up front — nothing is written until this passes ──
+    allErrors = []
+    for i, entry in enumerate(skillsYaml):
+        allErrors.extend(_validate_skill(entry, i, canonicalIds))
 
-    if all_errors:
+    if allErrors:
         print("Validation errors in --from-file YAML:", file=sys.stderr)
-        for err in all_errors:
+        for err in allErrors:
             print(f"  • {err}", file=sys.stderr)
-        return None, all_errors
+        return None, allErrors
 
-    proposed_skills = [
-        _skill_entry_to_proposed(entry, source_repo) for entry in skills_yaml
+    proposedSkills = [
+        _skillEntryToProposed(entry, sourceRepo) for entry in skillsYaml
     ]
-    proposed_ids = [s["id"] for s in proposed_skills]
+    proposedIds = [s["id"] for s in proposedSkills]
 
     return {
-        "batchId": batch_id,
+        "batchId": batchId,
         "userId": config.get("gaiaUser", "unknown"),
-        "sourceRepo": source_repo,
-        "generatedAt": generated_at,
+        "sourceRepo": sourceRepo,
+        "generatedAt": generatedAt,
         "fromFile": True,  # signals prWriter to use rich rendering
         "knownSkills": [],
-        "proposedSkills": proposed_skills,
-        "similarity": build_similarity(proposed_ids, canonical_map),
+        "proposedSkills": proposedSkills,
+        "similarity": build_similarity(proposedIds, canonicalMap),
     }, []
 
 
@@ -262,31 +291,30 @@ def push_from_file_command(args):
     from gaia_cli.push import detect_source_repo, NonPublicRepoError, write_skill_batch
     from gaia_cli.prWriter import build_intake_issue_body, open_intake_issue
 
-    registry_root = "."
-    config = load_config(registry_root)
+    registryRoot = "."
+    config = load_config(registryRoot)
 
     # ── load and parse YAML ────────────────────────────────────────────────
-    file_path = args.fromFile
-    yaml_data, load_err = _load_yaml_file(file_path)
-    if load_err:
-        print(f"ERROR: {load_err}", file=sys.stderr)
+    filePath = args.fromFile
+    yamlData, loadErr = _load_yaml_file(filePath)
+    if loadErr:
+        print(f"ERROR: {loadErr}", file=sys.stderr)
         return 1
 
-    skills_yaml = yaml_data["skills"]
-    print(f"Loaded {len(skills_yaml)} skill(s) from '{file_path}'.")
+    skillsYaml = yamlData["skills"]
+    print(f"Loaded {len(skillsYaml)} skill(s) from '{filePath}'.")
 
     # ── resolve source repo ───────────────────────────────────────────────
     try:
-        source_repo = detect_source_repo(config)
+        sourceRepo = detect_source_repo(config)
     except NonPublicRepoError:
-        source_repo = f"manual/{config.get('gaiaUser', 'unknown')}"
+        sourceRepo = f"manual/{config.get('gaiaUser', 'unknown')}"
 
-    # ── build batch ───────────────────────────────────────────────────────
+    # ── build batch (validates first — nothing written on error) ─────────
     batch, errors = build_from_file_batch(
-        skills_yaml, config, registry_root, source_repo
+        skillsYaml, config, registryRoot, sourceRepo
     )
     if errors:
-        # errors already printed inside build_from_file_batch
         return 1
 
     n = len(batch["proposedSkills"])
@@ -310,21 +338,21 @@ def push_from_file_command(args):
             return 0
 
     # ── write batch file ──────────────────────────────────────────────────
-    batch_path = write_skill_batch(batch, registry_root)
-    print(f"Batch written → {batch_path}")
+    batchPath = write_skill_batch(batch, registryRoot)
+    print(f"Batch written → {batchPath}")
 
     # ── open issue (unless --no-issue) ────────────────────────────────────
     if getattr(args, "no_issue", False):
         print("Issue creation skipped (--no-issue).")
-        print(f"To open manually:  gh issue create --title '[intake] batch' --body-file <(cat {batch_path})")
+        print(f"To open manually:  gh issue create --title '[intake] batch' --body-file <(cat {batchPath})")
         return 0
 
-    issue_url = open_intake_issue(
+    issueUrl = open_intake_issue(
         config.get("gaiaUser", "unknown"),
         batch,
-        batch_path=batch_path,
-        repo_root=registry_root,
+        batch_path=batchPath,
+        repo_root=registryRoot,
     )
-    if issue_url:
-        print(f"Intake issue: {issue_url}")
+    if issueUrl:
+        print(f"Intake issue: {issueUrl}")
     return 0
