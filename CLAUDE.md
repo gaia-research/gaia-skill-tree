@@ -545,6 +545,11 @@ The following files are managed by an autonomous agent (Hermes) and should **not
 ### Skills Intake
 - All skills live in `.claude/skills/`. There is no `.agents/` directory.
 
+### Upstream Watcher (V1 design, phased implementation)
+- Design lives at [`docs/agents/upstream-watcher.md`](docs/agents/upstream-watcher.md). Read it before touching `scripts/upstream_watcher/`, `scripts/lib/`, `.github/workflows/upstream-*.yml`, or any `upstream:*` label.
+- The watcher opens **issues** for existing-skill version tracking; it does NOT create `bot/*` branches. That branch flow belongs to `scripts/crawlers/` (new-skill discovery, a different job).
+- Every registry mutation still goes through `gaia dev` verbs (`sync-upstream`, `freeze`, `relink`) on `review/meta/` branches. No hand-edits to `upstream:` frontmatter blocks; no direct writes from workflows to `main`.
+
 ### Token Spend Logging (Critical)
 - On EVERY GitHub Project, LOG how much input / output token spend you made on which model + date.
   - *Example format*: `<date> Opus 4.8 Extra High: 100k in, 200k out. ~$10`
