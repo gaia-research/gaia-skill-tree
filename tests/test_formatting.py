@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import os
+from unittest.mock import patch
+
 import pytest
 
 import gaia_cli.formatting as fmt_mod
@@ -443,3 +446,26 @@ class TestColorConstantsShape:
             assert len(color) == 3, f"HARNESS_COLORS[{name}] not a 3-tuple"
             assert all(isinstance(c, int) and 0 <= c <= 255 for c in color), \
                 f"HARNESS_COLORS[{name}] contains non-byte values"
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Relocated from test_pr540_review.py — force-color env handling
+# ═══════════════════════════════════════════════════════════════════════════
+
+
+@pytest.mark.integration
+def test_force_color_formatting():
+    from gaia_cli.formatting import _use_color
+
+    # Test FORCE_COLOR
+    with patch.dict(os.environ, {"FORCE_COLOR": "1"}):
+        with patch.dict(os.environ, {"NO_COLOR": ""}):
+            assert _use_color() is True
+
+    # Test CLICOLOR_FORCE
+    with patch.dict(os.environ, {"CLICOLOR_FORCE": "1", "NO_COLOR": ""}):
+        assert _use_color() is True
+
+    # Test NO_COLOR (should take precedence)
+    with patch.dict(os.environ, {"NO_COLOR": "1", "FORCE_COLOR": "1"}):
+        assert _use_color() is False

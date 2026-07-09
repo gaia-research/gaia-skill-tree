@@ -163,8 +163,8 @@ jobs:
                 ;;
               design)
                 case "$file" in
-                  docs/*|*.md|scripts/contentEngine/templates/*.j2) ;; # allowed
-                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (design/ branches may only touch docs/, scripts/contentEngine/templates/*.j2, or *.md files)" ;;
+                  docs/*|*.md|scripts/contentEngine/templates/*.j2|founder/handovers/*) ;; # allowed (founder/handovers/* covers vendor asset drops + design briefs, issue #991)
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (design/ branches may only touch docs/, scripts/contentEngine/templates/*.j2, founder/handovers/, or *.md files)" ;;
                 esac
                 ;;
               review-push)
