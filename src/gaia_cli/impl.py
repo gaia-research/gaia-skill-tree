@@ -2181,6 +2181,60 @@ def search_command(args):
         print(f"{rank:<5}  {r['id']:<{col_id}}  {r['score']:.4f}")
 
 
+def _apply_incremental_filter(batch, source_repo, registry_root):
+    """Filter ``batch['proposedSkills']`` in place for ``gaia push --update``.
+
+    Queries open intake issues for prior-pending skill identity, then drops
+    UNCHANGED skills while keeping NEW and CHANGED. Prints a loud summary so a
+    contributor is never left wondering whether detection "ate" a skill. On any
+    query failure it leaves the batch untouched and pushes the full set.
+
+    Only ``proposedSkills`` participate — known/starless and fusion entries are
+    a different intake path and are left as-is.
+    """
+    from gaia_cli.prWriter import fetch_pending_identity
+    from gaia_cli.push import classify_against_pending
+
+    proposed = batch.get("proposedSkills", [])
+    if not proposed:
+        return
+
+    pending, ok = fetch_pending_identity(source_repo, repo_root=registry_root)
+    if not ok:
+        print(
+            f"  --update: could not query pending intake issues for {source_repo}; "
+            "pushing the full set (intake will dedup).",
+            file=sys.stderr,
+        )
+        return
+    if not pending:
+        print(
+            f"  --update: no skills currently pending review for {source_repo}; "
+            "pushing all detected skills.",
+            file=sys.stderr,
+        )
+        return
+
+    new, changed, unchanged = classify_against_pending(proposed, pending)
+    batch["proposedSkills"] = new + changed
+    # Keep the similarity map coherent with the surviving proposals.
+    keep_ids = {s.get("id") for s in batch["proposedSkills"]}
+    batch["similarity"] = [
+        s for s in batch.get("similarity", [])
+        if s.get("sourceSkillId") in keep_ids
+    ]
+
+    print(
+        f"  --update: {len(new)} new, {len(changed)} changed, "
+        f"{len(unchanged)} unchanged (skipped).",
+        file=sys.stderr,
+    )
+    for s in unchanged:
+        print(f"    skip (already pending): {s.get('id')}", file=sys.stderr)
+    for s in changed:
+        print(f"    update (edited since last push): {s.get('id')}", file=sys.stderr)
+
+
 def push_command(args):
     config = load_config()
     if not config:
@@ -2197,6 +2251,26 @@ def push_command(args):
     except NonPublicRepoError:
         print("Error: `gaia push` is not supported in Workspace Mode (requires a public Git remote).", file=sys.stderr)
         sys.exit(1)
+
+    # --update (#611): incremental push. Drop skills already pending review for
+    # this repo, keep new + edited ones. Best-effort and stateless — the CLI
+    # never becomes the source of truth; the open intake issues are. When the
+    # query can't reach GitHub we push the full set and say so loudly, because
+    # intake dedups on identityKey+fingerprint anyway (fresh-clone safe).
+    if getattr(args, "update", False):
+        _apply_incremental_filter(batch, source_repo, args.registry)
+
+    # --update happy path: if the incremental filter emptied the batch, nothing
+    # has changed since the last push. That is success, not the Guard-1 error —
+    # exit 0 with a clear message instead of "No skills to be pushed".
+    if (
+        getattr(args, "update", False)
+        and not batch.get("proposedSkills")
+        and not batch.get("knownSkills")
+        and not batch.get("proposedCombinations")
+    ):
+        print(f"Nothing to push — all detected skills for {source_repo} are already pending review.")
+        return
 
     # Guard 1: check if empty initially
     if (

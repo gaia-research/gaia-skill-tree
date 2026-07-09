@@ -1,3 +1,4 @@
+import hashlib
 import json
 import os
 import re
@@ -87,6 +88,50 @@ def build_proposed_skill(skill_id, source_repo):
         "sourceRepo": source_repo,
         "lifecycle": "pending",
     }
+
+
+def skill_identity_key(skill, source_repo=None):
+    """Stable identity for a proposed skill, independent of its display name.
+
+    Keyed on ``sourceRepo`` + the skill's path/ref (``genericSkillRef`` when
+    present, else its ``id``) so a rename — which changes ``name`` but not the
+    ref — reads as a *change to an existing skill*, not a delete+add. This is
+    what lets the incremental-push diff (issue #611) survive renames.
+    """
+    repo = skill.get("sourceRepo") or source_repo or "unknown"
+    ref = skill.get("genericSkillRef") or skill.get("id") or ""
+    return f"{repo}::{ref.lstrip('/')}"
+
+
+def skill_fingerprint(skill):
+    """Content hash over the fields a reviewer actually evaluates.
+
+    ``sha256`` over canonical JSON of ``{description, type, level,
+    prerequisites}`` truncated to 16 hex chars, mirroring the house style at
+    ``sourceCuration.py:128``. An edit to any of these flips the fingerprint so
+    an already-pending skill rides along as an *update* rather than being
+    silently dropped as unchanged (the "diff-not-filter" trap in #611).
+    """
+    basis = {
+        "description": skill.get("description", ""),
+        "type": skill.get("type", ""),
+        "level": skill.get("level", ""),
+        "prerequisites": sorted(skill.get("prerequisites", []) or []),
+    }
+    canonical = json.dumps(basis, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()[:16]
+
+
+def attach_identity(skill, source_repo=None):
+    """Stamp ``identityKey`` + ``fingerprint`` onto a proposed-skill dict.
+
+    Called after any name/description/prereq overrides are applied so the
+    fingerprint reflects the skill's final reviewed content, not the synthetic
+    placeholder from ``build_proposed_skill``. Returns the same dict for chaining.
+    """
+    skill["identityKey"] = skill_identity_key(skill, source_repo)
+    skill["fingerprint"] = skill_fingerprint(skill)
+    return skill
 
 
 def similarity_score(candidate_id, canonical_skill):
@@ -207,6 +252,7 @@ def build_skill_batch(raw_tokens, config, registry_root, now=None, source_repo=N
                                 skill["description"] = sk["description"]
                             if "prerequisites" in sk and sk["prerequisites"]:
                                 skill["prerequisites"] = sk["prerequisites"]
+                            attach_identity(skill, source_repo)
                             proposed_skills.append(skill)
                 
                 # Extract Fusions
@@ -250,6 +296,32 @@ def write_skill_batch(batch, registry_root):
         json.dump(batch, f, indent=2)
         f.write("\n")
     return batch_path
+
+
+def classify_against_pending(proposed_skills, pending_identity):
+    """Split proposed skills into NEW / CHANGED / UNCHANGED vs. what's pending.
+
+    ``pending_identity`` maps ``identityKey`` → ``fingerprint`` for every skill
+    already awaiting review (parsed from open intake issues). Classification:
+
+    * ``identityKey`` unseen                    → **new**       (push)
+    * ``identityKey`` seen, fingerprint differs → **changed**   (push as update)
+    * ``identityKey`` seen, fingerprint matches → **unchanged**  (drop)
+
+    Returns ``(new, changed, unchanged)`` — three lists of skill dicts. Any
+    skill missing an ``identityKey`` (e.g. a batch built before the substrate
+    landed) is treated as **new** so it is never silently dropped.
+    """
+    new, changed, unchanged = [], [], []
+    for skill in proposed_skills:
+        key = skill.get("identityKey")
+        if not key or key not in pending_identity:
+            new.append(skill)
+        elif pending_identity.get(key) != skill.get("fingerprint"):
+            changed.append(skill)
+        else:
+            unchanged.append(skill)
+    return new, changed, unchanged
 
 
 def pushable_skill_ids(config, registry_root):
