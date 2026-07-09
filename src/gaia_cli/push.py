@@ -252,6 +252,34 @@ def write_skill_batch(batch, registry_root):
     return batch_path
 
 
+def pushable_skill_ids(config, registry_root):
+    """Return the set of graph node ids that `gaia push` would propose.
+
+    Reuses build_skill_batch so the local-graph highlight (issue #139) can never
+    drift from what actually gets pushed. Ids are bare (no leading slash) to match
+    build_render_graph node ids. Combines starless known skills (canonical id),
+    proposed custom skills, and fusion targets.
+    """
+    try:
+        batch = build_skill_batch([], config, registry_root)
+    except Exception:
+        return set()
+    ids: set[str] = set()
+    for entry in batch.get("knownSkills", []):
+        sid = (entry.get("skillId") or "").lstrip("/")
+        if sid:
+            ids.add(sid)
+    for entry in batch.get("proposedSkills", []):
+        sid = (entry.get("id") or "").lstrip("/")
+        if sid:
+            ids.add(sid)
+    for combo in batch.get("proposedCombinations", []):
+        sid = (combo.get("candidateResult") or "").lstrip("/")
+        if sid:
+            ids.add(sid)
+    return ids
+
+
 _SKILL_MD_CANDIDATES = ("skill.md", "SKILL.md", "README.md", "readme.md")
 
 
