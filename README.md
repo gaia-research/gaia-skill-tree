@@ -355,6 +355,14 @@ To help AI agents and automated clients discover and crawl the registry programm
 
 ---
 
+## Ecosystem
+
+Companion tools that build on Gaia but run independently:
+
+- **[skill-fuse](https://github.com/mbtiongson1/skill-fuse)** — a standalone skill that combines two AI agent skills into one fused skill. Powered by Gaia, works without it. Registered in the registry as [`gaia-research/skill-fuse`](https://gaiaskilltree.com/named/).
+
+---
+
 ## Repository Structure
 
 <!-- gaia:layout-start -->
