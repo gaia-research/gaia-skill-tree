@@ -797,16 +797,34 @@ def render_promotion_prompt(
     else:
         display_colored = f"{tc}{b}{display}{r}"
 
-    lines.extend(
-        [
-            f"  {gc}┌─ Promotion Available ─────────────────────────────────┐{r}",
-            f"  {gc}│{r}  {display_colored} can rank up to {b}Level {proposed_level}{r} ({level_name})",
-            f"  {gc}│{r}  Run: {b}gaia promote {skill_id}{r}",
-            f'  {gc}│{r}  Rename? {b}gaia promote {skill_id} --name "{display.lstrip("/")}"{r}',
-            f"  {gc}└───────────────────────────────────────────────────────┘{r}",
-            "",
-        ]
-    )
+    # Build each content row as a (plain, colored) pair. The plain twin drives
+    # the box width so the fixed-dash borders can no longer clip the longest
+    # line (issue #118: the Rename? hint overran the old hardcoded 55-dash box).
+    rename_name = display.lstrip("/")
+    rows = [
+        (
+            f"  {display} can rank up to Level {proposed_level} ({level_name})",
+            f"  {display_colored} can rank up to {b}Level {proposed_level}{r} ({level_name})",
+        ),
+        (
+            f"  Run: gaia promote {skill_id}",
+            f"  Run: {b}gaia promote {skill_id}{r}",
+        ),
+        (
+            f'  Rename? gaia promote {skill_id} --name "{rename_name}"',
+            f'  Rename? {b}gaia promote {skill_id} --name "{rename_name}"{r}',
+        ),
+    ]
+    title_seg = "─ Promotion Available "
+    # Inner width spans the space between the ┌ ┐ corners. Size to the widest
+    # content row (plus a trailing pad) but never narrower than the title.
+    inner = max(*(len(plain) for plain, _ in rows), len(title_seg)) + 1
+
+    lines.append(f"  {gc}┌{title_seg}{'─' * (inner - len(title_seg))}┐{r}")
+    for plain, colored in rows:
+        lines.append(f"  {gc}│{r}{colored}{' ' * (inner - len(plain))}{gc}│{r}")
+    lines.append(f"  {gc}└{'─' * inner}┘{r}")
+    lines.append("")
     return "\n".join(lines)
 
 

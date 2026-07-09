@@ -299,6 +299,12 @@ def rank_hex(rank: str) -> str:
     return f"#{r:02x}{g:02x}{b:02x}"
 
 
+def tier_hex(skill_type: str) -> str:
+    """Return '#rrggbb' for a skill type, sourced from TIER_COLORS (registry meta.typeColors)."""
+    r, g, b = TIER_COLORS.get(skill_type, TIER_COLORS.get("basic", (56, 189, 248)))
+    return f"#{r:02x}{g:02x}{b:02x}"
+
+
 def fusion_equation(prereqs: list[str], result: str, result_glyph: str = "◇") -> str:
     """Plain text fusion equation: /a + /b -> /result glyph"""
     parts = " + ".join(f"/{p}" for p in prereqs)
