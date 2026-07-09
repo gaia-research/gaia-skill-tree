@@ -19,6 +19,18 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-09/10 — v6.4.0 release cut + `release.yml` repair)
+
+Release session. Did NOT rebase and did NOT touch this branch's tree — all work landed on `main` via three short-lived branches; snapshotting here only because the operator asked to record it on `dev/*`.
+
+- **Two triage-sprint follow-ups landed to main as complete work** (no deferred follow-ups, per the new sprint-completeness rule in CLAUDE.md): **#1110** made trending drift warn-only in `gaia dev docs --check` (kills the UTC-day-rollover false positive that failed unrelated PRs; closes **#1108**), and **#1111** codified the "sprints ship complete — spillover is scoped during staging, not deferred" rule (carried **#611**, which had shipped in #1107).
+- **Root-caused + fixed the 100%-failing `Release` workflow (#1112, yml-only per operator constraint — Class P/S handling untouched).** `release.yml`'s `validate-graph` job ran `validate_redaction.py`/`validate_timelines.py` against the gitignored Class P `registry/named-skills.json` **without regenerating it first**, so the gate failed on every tagged release and no Release was ever created through that path since v5.0.0. Fix mirrors `validate.yml`: `pip install -e ".[dev]"` + a "Build intermediate registry artifacts" step (`assemble_gaia.py` + `generateNamedIndex.py` + `docs/graph/named/index.json` mirror). **Proof:** v6.4.0's release.yml run = ✅ success (first green through that path; v6.0.0 and v5.1.0 both ❌).
+- **Cut v6.4.0** — first Production/Latest since v6.0.0, a 139-commit consolidation of the v6.1.x–v6.3.x canary line. Promoted to Latest with curated notes (`generated-output/changelog_v6.4.0.md`); published to **PyPI** (live: `latest 6.4.0`, both wheel + sdist). Lockstep confirmed across the three tracked manifests.
+- **Unfixed CLI bug (noted, not fixed):** `gaia dev release` git-adds the gitignored `registry/gaia.json` — its `os.path.exists` filter doesn't exclude gitignored-but-present files — so the local release commit aborts. Worked around by hand (staged only the three tracked manifests). Candidate backlog item; not filed pending operator go-ahead.
+- Token spend logged as a comment on **#1112**.
+
+---
+
 ## State Snapshot (2026-07-06, session 36 — Sprint D EPIC #902 pre-merge sanity; KC2 dogfooded, sitemap determinism fix landed, #961 CLEAN)
 
 ### TLDR
