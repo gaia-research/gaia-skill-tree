@@ -1289,7 +1289,7 @@
         <div class="cmd-card" id="push">
           <div class="cmd-card-header">
             <span class="cmd-name">gaia push</span>
-            <span class="cmd-signature">[--dry-run] [--no-issue] [--yes]</span>
+            <span class="cmd-signature">[--dry-run] [--no-issue] [--update] [--yes]</span>
             <span class="gate-badge open">● open</span>
           </div>
           <div class="cmd-body">
@@ -1320,6 +1320,11 @@
                 <tr>
                   <td>--no-issue</td>
                   <td>Write the intake record to disk without creating the GitHub issue.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--update</td>
+                  <td>Incremental push: skip skills already pending review for this repo. Queries open <code>draft-skills</code> intake issues, drops unchanged skills, keeps new and edited ones. Best-effort — falls back to a full push (which intake dedups) when GitHub is unreachable, and prints what it filtered.</td>
                   <td>false</td>
                 </tr>
                 <tr>
