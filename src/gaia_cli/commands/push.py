@@ -95,6 +95,17 @@ class PushCommand(Command):
             "--no-pr", action="store_true", dest="no_issue", help=argparse.SUPPRESS
         )
         parser.add_argument(
+            "--update",
+            action="store_true",
+            dest="update",
+            help=(
+                "Incremental push: skip skills already pending review for this repo. "
+                "Queries open 'draft-skills' intake issues, drops unchanged skills, and "
+                "keeps new + edited ones. Best-effort — falls back to a full push (which "
+                "intake dedups) when it cannot reach GitHub. Prints what it filtered."
+            ),
+        )
+        parser.add_argument(
             "--yes", "-y", "--y", action="store_true", dest="yes", help="Skip confirmation prompts"
         )
         parser.add_argument(
