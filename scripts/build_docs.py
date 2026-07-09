@@ -1527,6 +1527,21 @@ def main(argv: list[str] | None = None) -> int:
             "not structural schema change).",
             file=sys.stderr,
         )
+    # Trending drift is warn-only. docs/api/v1/trending/{7d,30d}.json + feed.xml
+    # are *rolling time-window* artifacts: the 7d/30d windows and RSS timestamps
+    # recompute to different bytes the moment the UTC day advances past the last
+    # release regen, so an unrelated PR that merely triggers validate.yml (e.g.
+    # touches tests/** or scripts/**) trips `Schema + DAG + Integrity Checks` on
+    # drift it did not cause. This mirrors the ISO-week rollover skip already in
+    # build_content_engine and the okf/badges warn-only precedent above. The cron
+    # still regenerates the real windows in production; the drift stays visible in
+    # the diff output for inspection. See issue #1108.
+    if trending_changed and args.check:
+        print(
+            "::warning::docs/api/v1/trending/ is stale (warn-only — rolling "
+            "time-window artifact, recomputes on UTC-day rollover; see #1108).",
+            file=sys.stderr,
+        )
 
     changed = (
         assembly_changed
@@ -1542,7 +1557,7 @@ def main(argv: list[str] | None = None) -> int:
         or trust_ledger_changed
         or api_changed
         or benchmark_proj_changed
-        or trending_changed
+        # trending_changed: intentionally omitted — see warn-only block above (#1108).
         or content_engine_changed
         or profiles_changed
         # badges_changed: intentionally omitted — see warn-only block above.
