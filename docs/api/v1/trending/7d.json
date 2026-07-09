@@ -1,22 +1,8 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-09T21:37:41Z",
+  "generatedAt": "2026-07-09T21:57:13Z",
   "firstRun": false,
   "skills": [
-    {
-      "id": "addy-osmani/agent-skills",
-      "name": "Agent Skills",
-      "level": "5★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 293.14,
-      "overallTrustGrade": "S",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/agent-skills.json"
-      }
-    },
     {
       "id": "addy-osmani/performance-optimization",
       "name": "Performance Optimization",
@@ -116,7 +102,7 @@
       }
     }
   ],
-  "totalTrending": 8,
+  "totalTrending": 7,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
