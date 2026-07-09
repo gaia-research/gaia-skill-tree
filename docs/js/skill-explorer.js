@@ -19,7 +19,7 @@
   var REPO_SLUG = (function(){
     var m = location.hostname.match(/^(.+)\.github\.io$/);
     if (m) return m[1] + '/gaia-skill-tree';
-    return 'mbtiongson1/gaia-skill-tree';
+    return 'gaia-research/gaia-skill-tree';
   })();
 
   function esc(v) {
@@ -1197,7 +1197,7 @@
           '</a>' +
           ((!redacted && ns.contributor && ns.contributor !== 'generic')
             ? '<a id="seSubmitEvidenceInline" href="' +
-                'https://github.com/mbtiongson1/gaia-skill-tree/issues/new' +
+                'https://github.com/gaia-research/gaia-skill-tree/issues/new' +
                 '?labels=evidence' +
                 '&title=' + encodeURIComponent('Evidence for ' + (ns.id||'')) +
                 '&body=' + encodeURIComponent(

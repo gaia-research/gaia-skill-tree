@@ -1,0 +1,4 @@
+.gaia/
+.DS_Store
+*.swp
+generated-output/
