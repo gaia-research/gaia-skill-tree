@@ -8,6 +8,15 @@ Guidance for AI coding agents working in this repository.
 - Read key files BEFORE running exploratory bash commands.
 - When asked to monitor/loop CI checks, monitor — do not switch to debugging failures unless instructed.
 
+## Sprint Completeness — no follow-ups
+
+**Every sprint is expected to ship COMPLETE. A sprint does NOT generate follow-up issues.** If a sprint would leave loose ends, those loose ends are scoped during staging as their own extra PR within the sprint — not deferred as a "follow-up" to be picked up later.
+
+- Do **not** close out a sprint by filing `follow-up`/`tech-debt` issues that carry the sprint's own unfinished work. That work belongs in the sprint.
+- When staging a sprint, enumerate everything the sprint touches and pre-scope any spillover as an additional PR in the same sprint. Land it before declaring the sprint done.
+- A sprint is "done" only when there is nothing left that a reasonable reviewer would call a direct consequence of the sprint's changes. Rolling-window CI false positives, doc drift, deferred surface states, and CLI gaps introduced by the sprint all count as in-scope and must be resolved inside the sprint.
+- This does not forbid filing genuinely new, out-of-scope work discovered during a sprint — that's normal backlog hygiene. It forbids treating the sprint's own remainder as "future work."
+
 ## Graphify
 
 Graphify is an approved tool for codebase analysis and is used on an as-needed basis (deep architecture audits, dependency mapping, cross-cutting impact assessments). Running it costs real token spend — only invoke it when the task warrants a structural code graph. The valuable outputs (`graph.json`, `graph.html`, `manifest.json`, `GRAPH_REPORT.md`, `cost.json`) are tracked in git; the regenerable cache (`graphify-out/cache/`) is gitignored.
