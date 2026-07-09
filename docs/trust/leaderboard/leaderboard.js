@@ -125,7 +125,9 @@
     return 'background:oklch(0.55 0.18 ' + handleHue(handle) + ');';
   }
 
-  // Fallback for --rank-N-rgb (not all tokens.css emit them)
+  // --rank-N-rgb are emitted by scripts/generateCssTokens.py (issue #868).
+  // The triplet fallbacks stay as a defensive floor for the case where
+  // tokens.css hasn't loaded yet; they mirror the canonical token values.
   function rankRgb(level) {
     var n = parseInt(level) || 0;
     var map = {

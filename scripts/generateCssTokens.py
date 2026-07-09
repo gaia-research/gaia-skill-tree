@@ -20,6 +20,7 @@ Tier (one block per tier in ``typeColors``)::
 Rank (one block per ``"N★"`` key in ``levelColors``, where N ∈ 0..6)::
 
     --rank-<N>             /* hex */
+    --rank-<N>-rgb         /* "R, G, B" triplet */
     --rank-<N>-bg          /* rgba(..., .12-.22) */
     --rank-<N>-border      /* rgba(..., .35-.55) */
     --rank-<N>-edge        /* rgba(..., .55) — translucent stroke for arrows */
@@ -118,7 +119,7 @@ def _emit_tier_block(name: str, color: dict, symbol: str | None) -> list[str]:
 
 
 def _emit_rank_block(star: int, color: dict) -> list[str]:
-    """Emit four lines for a single rank star value (hex + bg + border + edge)."""
+    """Emit five lines for a single rank star value (hex + rgb + bg + border + edge)."""
     hex_val = color.get("hex")
     if not hex_val:
         raise ValueError(f"levelColors[{star}★] missing 'hex'")
@@ -129,6 +130,7 @@ def _emit_rank_block(star: int, color: dict) -> list[str]:
     edge = f"rgba({rgb_triplet}, {DEFAULT_EDGE_ALPHA})"
     return [
         f"  --rank-{star}: {hex_val}; /* var(--rank-{star}, {hex_val}) */",
+        f"  --rank-{star}-rgb: {rgb_triplet};",
         f"  --rank-{star}-bg: {bg};",
         f"  --rank-{star}-border: {border};",
         f"  --rank-{star}-edge: {edge};",
