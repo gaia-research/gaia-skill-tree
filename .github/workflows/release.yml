@@ -54,7 +54,20 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: python -m pip install jsonschema==4.26.0 PyYAML==6.0.1
+        run: python -m pip install -e ".[dev]"
+
+      # registry/named-skills.json (+ the docs/graph mirror) is a gitignored
+      # Class P artifact — absent on a fresh checkout. The validators below read
+      # it as their source of truth, so it MUST be regenerated first, exactly as
+      # validate.yml does on every PR. Without this step validate_redaction.py
+      # dies with "cannot find registry/named-skills.json" and the release job
+      # (needs: validate-graph) never runs — the 100%-failure root cause.
+      - name: Build intermediate registry artifacts
+        run: |
+          python scripts/assemble_gaia.py
+          python scripts/generateNamedIndex.py
+          mkdir -p docs/graph/named
+          cp registry/named-skills.json docs/graph/named/index.json
 
       - name: Validate schema + DAG + evidence
         run: python scripts/validate.py
