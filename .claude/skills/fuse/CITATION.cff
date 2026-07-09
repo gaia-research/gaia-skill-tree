@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you reference skill-fuse in a blog post, talk, or paper, cite it as follows."
+title: "skill-fuse: AI skill fusion for SKILL.md-based agents"
+abstract: >-
+  skill-fuse composes two AI agent skills (SKILL.md files) into a single fused
+  skill that any Claude Code / Codex / Cursor / Windsurf / Gemini CLI session
+  can invoke as a new /command. Zero-dependency: bash + markdown, no build
+  step, no config.
+type: software
+license: MIT
+repository-code: "https://github.com/gaia-research/skill-fuse"
+url: "https://github.com/gaia-research/skill-fuse#readme"
+keywords:
+  - ai-skill-fusion
+  - agent-skill-merge
+  - skill-md-compose
+  - claude-code
+  - anthropic
+  - agent-skills
+  - developer-tools
+  - open-source
+authors:
+  - name: "Gaia Research"
+    website: "https://gaiaskilltree.com"
