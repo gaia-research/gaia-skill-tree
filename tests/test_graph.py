@@ -367,3 +367,60 @@ class TestScrutiny_CustomGraphSchema:
 
         # Version should carry through
         assert render_graph["version"] == "local-custom"
+
+
+class TestPaletteFromRegistry:
+    """#332 — PALETTE fills must track the registry tokens, not a drifted copy."""
+
+    def test_palette_fills_match_tier_hex(self):
+        from gaia_cli.formatting import tier_hex
+
+        for skill_type in ("basic", "extra", "unique", "ultimate"):
+            assert graph_mod.PALETTE[skill_type]["fill"] == tier_hex(skill_type)
+
+    def test_extra_and_ultimate_no_longer_drifted(self):
+        # The old hardcoded values were extra=#a78bfa and ultimate=#fbbf24.
+        # After sourcing from the registry they must be the canonical tokens.
+        assert graph_mod.PALETTE["extra"]["fill"] == "#c084fc"
+        assert graph_mod.PALETTE["ultimate"]["fill"] == "#f59e0b"
+
+    def test_no_raw_push_green_hex(self):
+        from gaia_cli.formatting import COLOR_LOCAL_USER
+
+        assert graph_mod.PUSH_GREEN == "#%02x%02x%02x" % COLOR_LOCAL_USER
+
+
+class TestPushableHighlight:
+    """#139 — pushable local skills render green with a legend entry."""
+
+    def _graph(self):
+        return {
+            "version": "local-custom",
+            "skills": [
+                {"id": "alpha", "name": "Alpha", "type": "basic",
+                 "level": "0★", "prerequisites": []},
+                {"id": "beta", "name": "Beta", "type": "basic",
+                 "level": "0★", "prerequisites": []},
+            ],
+        }
+
+    def test_pushable_flag_set_on_nodes(self):
+        render_graph = graph_mod.build_render_graph(self._graph(), pushable={"alpha"})
+        by_id = {n["id"]: n for n in render_graph["nodes"]}
+        assert by_id["alpha"]["pushable"] is True
+        assert by_id["beta"]["pushable"] is False
+
+    def test_pushable_defaults_false(self):
+        render_graph = graph_mod.build_render_graph(self._graph())
+        assert all(n["pushable"] is False for n in render_graph["nodes"])
+
+    def test_svg_renders_pushable_green_and_legend(self):
+        render_graph = graph_mod.build_render_graph(self._graph(), pushable={"alpha"})
+        svg = graph_mod.render_svg(render_graph)
+        assert graph_mod.PUSH_GREEN in svg
+        assert "Pushable: 1" in svg
+
+    def test_svg_no_pushable_legend_when_none(self):
+        render_graph = graph_mod.build_render_graph(self._graph())
+        svg = graph_mod.render_svg(render_graph)
+        assert "Pushable:" not in svg
