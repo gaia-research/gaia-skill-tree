@@ -177,7 +177,7 @@ symlinked `.claude/skills → .agents/skills` from producing duplicate results.
 Warning: Using bundled registry snapshot from <DATE>. Run `gaia pull` for the latest.
 ```
 
-**`gaia pull` / `gaia fetch`:** Downloads `gaia-artifacts.tar.gz` from the latest GitHub Release (`https://api.github.com/repos/mbtiongson1/gaia-skill-tree/releases/latest`), verifies the SHA256 checksum if present, and unpacks into `.gaia/registry/`. This path takes priority over the bundled snapshot in subsequent invocations (resolution step 3 via `.gaia/config.toml`, or step 4 if CWD is the checkout).
+**`gaia pull` / `gaia fetch`:** Downloads `gaia-artifacts.tar.gz` from the latest GitHub Release (`https://api.github.com/repos/gaia-research/gaia-skill-tree/releases/latest`), verifies the SHA256 checksum if present, and unpacks into `.gaia/registry/`. This path takes priority over the bundled snapshot in subsequent invocations (resolution step 3 via `.gaia/config.toml`, or step 4 if CWD is the checkout).
 
 ---
 
