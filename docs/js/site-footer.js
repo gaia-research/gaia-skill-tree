@@ -82,8 +82,8 @@
             <span class="footer-col-heading">Contribute</span>
             <ul>
               <li><a href="${r}index.html#paths">Push a skill</a></li>
-              <li><a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener" class="footer-ext">GitHub</a></li>
-              <li><a href="https://github.com/mbtiongson1/gaia-skill-tree/issues" target="_blank" rel="noopener" class="footer-ext">Open Issues</a></li>
+              <li><a href="https://github.com/gaia-research/gaia-skill-tree" target="_blank" rel="noopener" class="footer-ext">GitHub</a></li>
+              <li><a href="https://github.com/gaia-research/gaia-skill-tree/issues" target="_blank" rel="noopener" class="footer-ext">Open Issues</a></li>
             </ul>
           </div>
 
@@ -111,7 +111,7 @@
         <span class="footer-bottom-sep">—</span>
         <span>Gaia Registry</span>
         <span class="footer-bottom-sep">·</span>
-        <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/gaia-research/gaia-skill-tree" target="_blank" rel="noopener">GitHub</a>
         <span class="footer-bottom-sep">·</span>
         <a href="${r}privacy.html">Privacy</a>
       </div>
