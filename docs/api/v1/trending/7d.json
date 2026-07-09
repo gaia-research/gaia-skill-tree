@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-09T09:22:19Z",
+  "generatedAt": "2026-07-09T21:01:58Z",
   "firstRun": false,
   "skills": [
     {
@@ -10,39 +10,11 @@
       "contributor": "addy-osmani",
       "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
-      "trendingScore": 90.0,
+      "trendingScore": 80.0,
       "tmDelta": 0.0,
       "new": false,
       "_links": {
         "self": "/api/v1/skills/addy-osmani/code-simplification.json"
-      }
-    },
-    {
-      "id": "addy-osmani/agent-skills",
-      "name": "Agent Skills",
-      "level": "5★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 293.14,
-      "overallTrustGrade": "S",
-      "trendingScore": 70.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/agent-skills.json"
-      }
-    },
-    {
-      "id": "gsd-build/get-shit-done",
-      "name": "Get Shit Done",
-      "level": "4★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 202.16,
-      "overallTrustGrade": "A",
-      "trendingScore": 70.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
       }
     },
     {
@@ -52,7 +24,7 @@
       "contributor": "addy-osmani",
       "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
-      "trendingScore": 70.0,
+      "trendingScore": 60.0,
       "tmDelta": 0.0,
       "new": false,
       "_links": {
@@ -66,7 +38,7 @@
       "contributor": "addy-osmani",
       "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
-      "trendingScore": 70.0,
+      "trendingScore": 60.0,
       "tmDelta": 0.0,
       "new": false,
       "_links": {
@@ -80,7 +52,7 @@
       "contributor": "addy-osmani",
       "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
-      "trendingScore": 70.0,
+      "trendingScore": 60.0,
       "tmDelta": 0.0,
       "new": false,
       "_links": {
@@ -94,7 +66,7 @@
       "contributor": "addy-osmani",
       "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
-      "trendingScore": 70.0,
+      "trendingScore": 60.0,
       "tmDelta": 0.0,
       "new": false,
       "_links": {
@@ -108,7 +80,7 @@
       "contributor": "addy-osmani",
       "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
-      "trendingScore": 70.0,
+      "trendingScore": 60.0,
       "tmDelta": 0.0,
       "new": false,
       "_links": {
@@ -122,7 +94,7 @@
       "contributor": "gsd-build",
       "trustMagnitude": 52.16,
       "overallTrustGrade": "B",
-      "trendingScore": 70.0,
+      "trendingScore": 60.0,
       "tmDelta": 0.0,
       "new": false,
       "_links": {
@@ -136,7 +108,7 @@
       "contributor": "gsd-build",
       "trustMagnitude": 52.16,
       "overallTrustGrade": "B",
-      "trendingScore": 70.0,
+      "trendingScore": 60.0,
       "tmDelta": 0.0,
       "new": false,
       "_links": {
@@ -150,7 +122,7 @@
       "contributor": "gsd-build",
       "trustMagnitude": 52.16,
       "overallTrustGrade": "B",
-      "trendingScore": 70.0,
+      "trendingScore": 60.0,
       "tmDelta": 0.0,
       "new": false,
       "_links": {
@@ -164,7 +136,7 @@
       "contributor": "gsd-build",
       "trustMagnitude": 52.16,
       "overallTrustGrade": "B",
-      "trendingScore": 70.0,
+      "trendingScore": 60.0,
       "tmDelta": 0.0,
       "new": false,
       "_links": {
@@ -178,11 +150,39 @@
       "contributor": "gsd-build",
       "trustMagnitude": 52.16,
       "overallTrustGrade": "B",
-      "trendingScore": 70.0,
+      "trendingScore": 60.0,
       "tmDelta": 0.0,
       "new": false,
       "_links": {
         "self": "/api/v1/skills/gsd-build/verify-work.json"
+      }
+    },
+    {
+      "id": "addy-osmani/agent-skills",
+      "name": "Agent Skills",
+      "level": "5★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 293.14,
+      "overallTrustGrade": "S",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/agent-skills.json"
+      }
+    },
+    {
+      "id": "gsd-build/get-shit-done",
+      "name": "Get Shit Done",
+      "level": "4★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 202.16,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
       }
     },
     {
