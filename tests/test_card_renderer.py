@@ -382,6 +382,35 @@ class TestRenderPromotionPrompt:
         )
         assert "──▶" in prompt
 
+    def test_box_closes_and_no_cutoff(self):
+        """Regression for #118: the promotion box must size to its content so the
+        Rename? hint is never clipped, and every content row must close with the
+        right border aligned to the top/bottom rules."""
+        import re
+
+        # A long skill id makes the Rename? line the widest row — the old fixed
+        # 55-dash border cut it off.
+        prompt = render_promotion_prompt(
+            {"id": "autonomous-research-and-synthesis-agent", "type": "extra", "prerequisites": []},
+            "4★",
+        )
+        ansi = re.compile(r"\x1b\[[0-9;]*m")
+        box_lines = [
+            ansi.sub("", ln)
+            for ln in prompt.split("\n")
+            if "│" in ln or "┌" in ln or "└" in ln
+        ]
+        # The full rename command must appear intact (not truncated with an ellipsis).
+        assert 'gaia promote autonomous-research-and-synthesis-agent --name' in prompt
+        assert "…" not in "".join(box_lines)
+        # Top, content, and bottom rows all share one right-edge column.
+        edge_cols = {ln.rstrip().index("┐") if "┐" in ln
+                     else ln.rstrip().index("┘") if "┘" in ln
+                     else ln.rstrip().rindex("│")
+                     for ln in box_lines}
+        assert len(edge_cols) == 1, f"ragged right edge: {edge_cols}"
+
+
 
 # ---------------------------------------------------------------------------
 # load_and_render tests

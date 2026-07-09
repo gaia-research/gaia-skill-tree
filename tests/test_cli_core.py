@@ -15,6 +15,7 @@ import sys
 from pathlib import Path
 from types import SimpleNamespace
 from typing import Any
+from unittest.mock import patch, MagicMock
 
 import pytest
 pytestmark = [pytest.mark.integration]
@@ -972,3 +973,140 @@ class TestPull:
 
         # Must not raise in a non-repo directory
         run_cli(monkeypatch, ["--registry", str(project), "pull"])
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Relocated from test_pr540_review.py — TUI flags, force-color, registry paths
+# (module-level pytestmark = [integration] applies to these too)
+# ═══════════════════════════════════════════════════════════════════════════
+
+
+def test_tui_flag_exists():
+    from gaia_cli.main import get_parser
+    parser, _ = get_parser()
+    args = parser.parse_args(['--tui'])
+    assert args.tui is True
+
+def test_tui_usage_mentions_gaia():
+    from gaia_cli.main import COMMAND_USAGE
+    from helpers import strip_ansi
+    plain = strip_ansi(COMMAND_USAGE)
+    assert "Open command selector" in plain
+
+def test_tui_flag_execs_skills():
+    """--tui flag causes main() to call os.execvp to replace process with 'gaia skills'."""
+    from gaia_cli.main import main
+
+    # Record the arguments passed to os.execvp
+    execvp_calls = []
+
+    def mock_execvp(program, args):
+        execvp_calls.append((program, args))
+        # Raise SystemExit to mimic process replacement
+        raise SystemExit(0)
+
+    with patch.object(sys, "argv", ["gaia", "--tui"]):
+        with patch("os.execvp", mock_execvp):
+            with pytest.raises(SystemExit) as exc_info:
+                main()
+
+    # Verify execvp was called
+    assert len(execvp_calls) == 1
+    program, args = execvp_calls[0]
+    # The final element of args should be 'skills'
+    assert args[-1] == "skills"
+    assert exc_info.value.code == 0
+
+def test_resolve_registry_path_usage_in_formatting():
+    from gaia_cli import formatting
+    with patch('gaia_cli.formatting.resolve_registry_path') as mock_resolve:
+        mock_resolve.return_value = os.getcwd()
+        try:
+            formatting._load_palette_from_registry()
+        except Exception:
+            pass
+        mock_resolve.assert_called()
+
+def test_resolve_registry_path_usage_in_tokens():
+    try:
+        from gaia_cli.tui import tokens
+        with patch('gaia_cli.tui.tokens.resolve_registry_path') as mock_resolve:
+            mock_resolve.return_value = os.getcwd()
+            try:
+                tokens._load_meta()
+            except Exception:
+                pass
+            mock_resolve.assert_called()
+    except ImportError:
+        pytest.skip("textual not installed")
+
+def test_scan_screen_ansi_passthrough():
+    try:
+        from gaia_cli.tui.screens.scan import ScanScreen
+        from rich.text import Text
+
+        screen = ScanScreen(registry_path=".")
+        test_line = "\x1b[31mRed Text\x1b[0m"
+        result = screen._style_line(test_line)
+
+        assert isinstance(result, Text)
+        assert len(result.spans) > 0
+        assert "Red Text" in result.plain
+    except ImportError:
+        pytest.skip("textual/rich not installed")
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Relocated from test_pr635_review.py — parser flag shadowing / --custom / --canon
+# ═══════════════════════════════════════════════════════════════════════════
+
+
+class TestScrutiny_AllFlagShadowing:
+    """Scrutiny #5: --all flag naming.
+
+    args.all shadows the Python builtin `all`. Verify the parser attribute
+    is properly accessible and doesn't cause runtime issues.
+    """
+
+    def test_all_flag_accessible_on_namespace(self):
+        """Verify that an argparse Namespace with 'all' attribute works correctly."""
+        ns = SimpleNamespace(all=True)
+        assert getattr(ns, "all", False) is True
+
+        ns2 = SimpleNamespace(all=False)
+        assert getattr(ns2, "all", False) is False
+
+    def test_parser_produces_all_attribute(self):
+        """Verify the actual parser produces args.all for the scan command."""
+        from gaia_cli.main import get_parser
+        parser, _ = get_parser()
+        args = parser.parse_args(["scan", "--all"])
+        assert getattr(args, "all", False) is True
+
+    def test_parser_custom_on_tree(self):
+        """Verify --custom flag on tree command."""
+        from gaia_cli.main import get_parser
+        parser, _ = get_parser()
+        args = parser.parse_args(["tree", "--custom"])
+        assert getattr(args, "custom", False) is True
+
+    def test_parser_custom_on_graph(self):
+        """Verify --custom flag on graph command."""
+        from gaia_cli.main import get_parser
+        parser, _ = get_parser()
+        args = parser.parse_args(["graph", "--custom"])
+        assert getattr(args, "custom", False) is True
+
+    def test_parser_canon_on_tree(self):
+        """Verify --canon flag on tree command."""
+        from gaia_cli.main import get_parser
+        parser, _ = get_parser()
+        args = parser.parse_args(["tree", "--canon"])
+        assert getattr(args, "canon", False) is True
+
+    def test_parser_canon_on_graph(self):
+        """Verify --canon flag on graph command."""
+        from gaia_cli.main import get_parser
+        parser, _ = get_parser()
+        args = parser.parse_args(["graph", "--canon"])
+        assert getattr(args, "canon", False) is True

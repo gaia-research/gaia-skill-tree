@@ -19,15 +19,32 @@ from html import escape
 from pathlib import Path
 from typing import Any
 
+from gaia_cli.formatting import COLOR_LOCAL_USER, tier_hex
 from gaia_cli.leveling import level_summary
 from gaia_cli.registry import named_skills_index_path, registry_graph_path, registry_nodes_dir
 
-PALETTE = {
-    "basic": {"fill": "#38bdf8", "stroke": "#7dd3fc", "label": "Basic"},
-    "extra": {"fill": "#a78bfa", "stroke": "#c4b5fd", "label": "Extra"},
-    "unique": {"fill": "#7c3aed", "stroke": "#a78bfa", "label": "Unique"},
-    "ultimate": {"fill": "#fbbf24", "stroke": "#fde68a", "label": "Ultimate"},
+# Node fills are sourced from the registry palette (meta.typeColors) via tier_hex so
+# the SVG never drifts from the canonical tokens. Stroke tints are lighter accents
+# with no registry equivalent, so they stay local (issue #332).
+_STROKE_TINTS = {
+    "basic": "#7dd3fc",
+    "extra": "#c4b5fd",
+    "unique": "#a78bfa",
+    "ultimate": "#fde68a",
 }
+_TYPE_LABELS = {
+    "basic": "Basic",
+    "extra": "Extra",
+    "unique": "Unique",
+    "ultimate": "Ultimate",
+}
+PALETTE = {
+    t: {"fill": tier_hex(t), "stroke": _STROKE_TINTS[t], "label": _TYPE_LABELS[t]}
+    for t in _TYPE_LABELS
+}
+# Green highlight for pushable local skills (issue #139), sourced from the shared
+# COLOR_LOCAL_USER token rather than a raw hex literal.
+PUSH_GREEN = "#%02x%02x%02x" % COLOR_LOCAL_USER
 TYPE_ORDER = {"basic": 0, "extra": 1, "unique": 2, "ultimate": 3}
 RADIUS_BY_TYPE = {"basic": 285, "extra": 170, "unique": 112, "ultimate": 54}
 NODE_RADIUS = {"basic": 6, "extra": 10, "unique": 13, "ultimate": 15}
@@ -78,8 +95,10 @@ def _named_max_levels(named_buckets: dict[str, Any]) -> dict[str, str]:
 def build_render_graph(
     graph: dict[str, Any], width: int = 1280, height: int = 880,
     named_buckets: dict[str, Any] | None = None,
+    pushable: set[str] | None = None,
 ) -> dict[str, Any]:
     skills = graph.get("skills", [])
+    pushable = pushable or set()
     named_max = _named_max_levels(named_buckets or {})
     groups: dict[str, list[dict[str, Any]]] = {
         "basic": [],
@@ -123,6 +142,7 @@ def build_render_graph(
                     "x": round(x, 3),
                     "y": round(y, 3),
                     "radius": NODE_RADIUS.get(skill_type, 7),
+                    "pushable": sid in pushable,
                 }
             )
 
@@ -327,8 +347,14 @@ def render_svg(render_graph: dict[str, Any], is_workspace_mode: bool = False) ->
     lines.append('<g class="nodes" filter="url(#glow)">')
     for node in nodes:
         color = PALETTE.get(str(node.get("type")), PALETTE["basic"])
+        # Pushable local skills (issue #139) are highlighted green so the operator
+        # can see at a glance what `gaia push` would propose.
+        if node.get("pushable"):
+            fill = stroke = PUSH_GREEN
+        else:
+            fill, stroke = color["fill"], color["stroke"]
         lines.append(
-            f'<circle cx="{node["x"]}" cy="{node["y"]}" r="{node["radius"]}" fill="{color["fill"]}" stroke="{color["stroke"]}" stroke-width="1.6"><title>{escape(str(node.get("label", "")))}</title></circle>'
+            f'<circle cx="{node["x"]}" cy="{node["y"]}" r="{node["radius"]}" fill="{fill}" stroke="{stroke}" stroke-width="1.6"><title>{escape(str(node.get("label", "")))}</title></circle>'
         )
     lines.append("</g>")
 
@@ -368,6 +394,17 @@ def render_svg(render_graph: dict[str, Any], is_workspace_mode: bool = False) ->
         )
         lines.append(
             f'<text x="{legend_x + 24}" y="{y}">{color["label"]}: {count}</text>'
+        )
+    # Pushable highlight legend (issue #139) — only shown when the local graph has
+    # skills that `gaia push` would propose.
+    pushable_count = sum(1 for node in nodes if node.get("pushable"))
+    if pushable_count:
+        y = legend_y + 4 * 28
+        lines.append(
+            f'<circle cx="{legend_x + 8}" cy="{y - 5}" r="6" fill="{PUSH_GREEN}"/>'
+        )
+        lines.append(
+            f'<text x="{legend_x + 24}" y="{y}">Pushable: {pushable_count}</text>'
         )
     lines.append("</g>")
     if is_workspace_mode:
@@ -615,7 +652,19 @@ def write_graph_artifact(
 
         graph["skills"] = [sk for sk in canon_skills.values() if sk["id"] in display_ids]
         graph["version"] = "local-custom"
-    render_graph = build_render_graph(graph, named_buckets=named_buckets)
+
+    # Highlight the skills that `gaia push` would propose (issue #139). Only the
+    # local/custom graph carries this — the canonical registry graph has no
+    # per-user push state.
+    pushable_ids: set[str] = set()
+    if custom:
+        try:
+            from gaia_cli import scanner
+            from gaia_cli.push import pushable_skill_ids
+            pushable_ids = pushable_skill_ids(scanner.load_config(), str(root))
+        except Exception:
+            pushable_ids = set()
+    render_graph = build_render_graph(graph, named_buckets=named_buckets, pushable=pushable_ids)
     fmt = fmt.lower()
     if output is None:
         if custom:

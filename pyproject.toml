@@ -62,6 +62,7 @@ dev = [
     "numpy>=1.21.0",
     "pytest>=8.0",
     "pytest-timeout>=2.1.0",
+    "pytest-xdist>=3.5.0",
     "scipy>=1.7.0",
     "setuptools>=77",
     "textual>=0.50.0",
@@ -95,7 +96,6 @@ gaia_cli = [
 [tool.pytest.ini_options]
 pythonpath = ["src", "."]
 testpaths = ["tests"]
-norecursedirs = ["tests/_archive"]
 timeout = 60
 timeout_method = "thread"
 addopts = "-ra --strict-markers"

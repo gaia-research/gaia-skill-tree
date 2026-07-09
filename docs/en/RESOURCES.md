@@ -13,5 +13,5 @@
 
 ## Wisdom (Communities)
 
-- [GitHub Issues & PRs](https://github.com/mbtiongson1/gaia-skill-tree)
+- [GitHub Issues & PRs](https://github.com/gaia-research/gaia-skill-tree)
   The primary community workspace for submitting skills, participating in reviews, and seeing examples of successful skill intakes.

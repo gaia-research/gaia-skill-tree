@@ -10326,13 +10326,34 @@ button.nav-graph-trigger:hover {
   z-index: 30;
 }
 
-/* The popover card is itself a .plaque, so the global .plaque:hover
-   lift (translateY(-2px)) competes with the translateX(-50%) centering
-   when the cursor crosses onto the card — the card shifts sideways, the
-   cursor leaves it, and the hover state thrashes. Pin the transform for
-   the card while it is open. */
+/* Root cause 2 — the rank rows (.ns-dag-rank / .se-flowchart-row /
+   .git-rank-row) each establish a stacking context at z-index: 2 (see the
+   rank-row rule below). A hovered node lifted to z-index: 30 is still trapped
+   *inside* its own row's context, so its downward popover was painted over by
+   the NEXT row's nodes. Lift the row that actually contains the hovered node
+   above its sibling rows. */
+.ns-dag-rank:has(.git-node:hover),
+.se-flowchart-row:has(.git-node:hover),
+.git-rank-row:has(.git-node:hover) {
+  z-index: 30;
+}
+
+/* Root cause 1 — the popover card is positioned with transform:
+   translateX(-50%). When the cursor crosses onto the card, the card's own
+   :hover transform fires and overrides the centering:
+     • .plaque--mini:hover { transform: none !important }  (mini/DAG cards)
+     • .flow-node:hover    { transform: translateY(-3px) } (upgrade-path cards)
+   Either one shifts the card sideways/up, the cursor leaves it, and the hover
+   state thrashes → flicker. Pin the centering transform for every popover card
+   type while it is open. !important + the descendant chain beat the
+   .plaque--mini:hover !important rule; the .git-node:hover scope leaves
+   standalone flow-nodes (skill-explorer upgrade path) with their lift intact. */
+.git-node:hover .ns-dag-card:hover,
+.git-node:hover .flow-node:hover,
+.git-node:hover .git-card:hover,
+.git-node:hover .se-stack-deck:hover,
 .git-node > .plaque:hover {
-  transform: translateX(-50%);
+  transform: translateX(-50%) !important;
 }
 
 .git-node:hover .ns-dag-card[data-ghost="true"],

@@ -1,5 +1,6 @@
 """Tests for gaia_cli.scanner — scan_skill_mds and match_skill_to_canonical."""
 
+import json
 import os
 import pytest
 
@@ -23,6 +24,22 @@ _CANONICAL_SKILLS = [
     {"id": "data-analysis", "name": "Data Analysis", "description": "Analyze and visualize data"},
     {"id": "python-basics", "name": "Python Basics", "description": "Write Python programs and scripts"},
 ]
+
+
+def _make_skill(tmp_path, rel_dir, skill_id, *, name=None, description="", prerequisites=None):
+    """Create a minimal skill dir with a SKILL.md under `tmp_path / rel_dir / skill_id`."""
+    skill_dir = tmp_path / rel_dir / skill_id
+    skill_dir.mkdir(parents=True, exist_ok=True)
+    fm_lines = ["---"]
+    fm_lines.append(f"name: {name or skill_id}")
+    if description:
+        fm_lines.append(f"description: {description}")
+    if prerequisites:
+        fm_lines.append(f"prerequisites: {json.dumps(prerequisites)}")
+    fm_lines.append("---")
+    fm_lines.append(f"# {name or skill_id}")
+    (skill_dir / "skill.md").write_text("\n".join(fm_lines), encoding="utf-8")
+    return skill_dir
 
 
 # ---------------------------------------------------------------------------
@@ -337,3 +354,188 @@ class TestMatchSkillToCanonical:
         assert exact_result is not None
         assert exact_result[0] == "pbakaus/impeccable"
         assert exact_result[2] == "origin"
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Relocated from test_pr635_review.py — scan scoping / prerequisites
+# ═══════════════════════════════════════════════════════════════════════════
+
+
+class TestRed_ScanScopeToProjectRoot:
+    """RED #1: scan_skill_mds scopes to project root by default.
+
+    On main: scan_skill_mds(root) walks root/.. (the parent), potentially
+    leaking across sibling project dirs.
+    On branch: walks only root itself when global_search=False (default).
+    """
+
+    def test_default_scan_does_not_walk_parent(self, tmp_path):
+        """A skill in a sibling directory should NOT be discovered by default scan."""
+        # Create a skill in a sibling directory (outside the project root)
+        sibling = tmp_path / "sibling-project"
+        _make_skill(tmp_path, os.path.join("sibling-project", ".agents", "skills"),
+                     "leaked-skill", name="Leaked Skill")
+
+        # Create our project root (no skills)
+        project_root = tmp_path / "my-project"
+        project_root.mkdir(parents=True)
+
+        # On main: scan_skill_mds(root=my-project) walked root/.. which IS tmp_path,
+        # so it would find sibling-project/.agents/skills/leaked-skill.
+        # On branch: scan_skill_mds(root=my-project) walks only my-project.
+        results = scan_skill_mds(root=str(project_root), global_search=False)
+        found_ids = {r["id"] for r in results}
+
+        # This MUST NOT find the sibling's skill (the RED condition on main).
+        assert "leaked-skill" not in found_ids, (
+            "Default scan should not walk the parent directory and find sibling skills"
+        )
+
+
+class TestRed_GlobalSearchDirsExcluded:
+    """RED #2: _skill_search_dirs excludes global dirs when global_search=False.
+
+    On main: ~/.agents/skills was always included.
+    On branch: only included when global_search=True.
+    """
+
+    def test_global_dirs_excluded_by_default(self, tmp_path, monkeypatch):
+        """When global_search=False, home-based dirs should NOT appear."""
+        home = tmp_path / "fake-home"
+        global_skills = home / ".agents" / "skills"
+        global_skills.mkdir(parents=True)
+
+        monkeypatch.setenv("HOME", str(home))
+
+        dirs = _skill_search_dirs(root=str(tmp_path), global_search=False)
+        real_dirs = [os.path.realpath(d) for d in dirs]
+        assert os.path.realpath(str(global_skills)) not in real_dirs, (
+            "Global dirs should be excluded when global_search=False"
+        )
+
+    def test_global_dirs_included_when_requested(self, tmp_path, monkeypatch):
+        """When global_search=True, home-based dirs should appear (if they exist)."""
+        home = tmp_path / "fake-home"
+        global_skills = home / ".agents" / "skills"
+        global_skills.mkdir(parents=True)
+
+        monkeypatch.setenv("HOME", str(home))
+
+        dirs = _skill_search_dirs(root=str(tmp_path), global_search=True)
+        real_dirs = [os.path.realpath(d) for d in dirs]
+        assert os.path.realpath(str(global_skills)) in real_dirs, (
+            "Global dirs should be included when global_search=True"
+        )
+
+
+class TestRed_PrerequisitesField:
+    """RED #3: scan_skill_mds result includes 'prerequisites' key.
+
+    On main: result dicts had no 'prerequisites' key.
+    On branch: 'prerequisites' key is present (defaults to [] when absent).
+    """
+
+    def test_result_has_prerequisites_key(self, tmp_path):
+        """Every scanned skill result must have a 'prerequisites' key."""
+        _make_skill(tmp_path, os.path.join(".agents", "skills"), "skill-a",
+                     name="Skill A", prerequisites=["skill-b"])
+        _make_skill(tmp_path, os.path.join(".agents", "skills"), "skill-b",
+                     name="Skill B")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert len(results) >= 2
+
+        for result in results:
+            assert "prerequisites" in result, (
+                f"Skill {result['id']} is missing the 'prerequisites' key"
+            )
+
+    def test_prerequisites_default_to_empty_list(self, tmp_path):
+        """Skills without frontmatter prerequisites get an empty list."""
+        _make_skill(tmp_path, os.path.join(".agents", "skills"), "no-prereqs",
+                     name="No Prereqs")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert len(results) == 1
+        assert results[0]["prerequisites"] == [], (
+            "Missing frontmatter prerequisites should default to []"
+        )
+
+
+class TestGreen_ScanGlobalSearch:
+    """GREEN #1-2: scan_skill_mds global_search parameter works correctly."""
+
+    def test_local_scan_finds_project_skills(self, tmp_path):
+        """global_search=False finds skills under the project root."""
+        _make_skill(tmp_path, os.path.join(".agents", "skills"), "project-skill",
+                     name="Project Skill")
+
+        results = scan_skill_mds(root=str(tmp_path), global_search=False)
+        found_ids = {sk["id"] for sk in results}
+        # scan_skill_mds returns slash-prefixed IDs
+        assert "/project-skill" in found_ids
+
+    def test_global_search_includes_global_dirs(self, tmp_path, monkeypatch):
+        """global_search=True includes global user skill directories."""
+        home = tmp_path / "fake-home"
+        global_skill = home / ".agents" / "skills" / "global-skill"
+        global_skill.mkdir(parents=True)
+        _write(str(global_skill / "skill.md"),
+               "---\nname: Global Skill\ndescription: Installed globally\n---\n")
+
+        monkeypatch.setenv("HOME", str(home))
+
+        dirs = _skill_search_dirs(root=str(tmp_path), global_search=True)
+        real_dirs = [os.path.realpath(d) for d in dirs]
+        global_path = os.path.realpath(str(home / ".agents" / "skills"))
+        assert global_path in real_dirs
+
+
+class TestGreen_PrerequisitesAlwaysPresent:
+    """GREEN #3: scan_skill_mds result always has 'prerequisites' key."""
+
+    def test_prerequisites_populated_from_frontmatter(self, tmp_path):
+        """Skills with frontmatter prerequisites have them in the result."""
+        _make_skill(tmp_path, os.path.join(".agents", "skills"), "advanced",
+                     name="Advanced", prerequisites=["basic-skill"])
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert len(results) == 1
+        # Prerequisites parsed from frontmatter are returned as a string
+        # (since _read_skill_md does simple line parsing, not full YAML)
+        prereqs = results[0]["prerequisites"]
+        assert prereqs is not None, "prerequisites key should be present"
+
+    def test_prerequisites_empty_when_absent(self, tmp_path):
+        """Skills without prerequisites frontmatter get empty list."""
+        _make_skill(tmp_path, os.path.join(".agents", "skills"), "basic",
+                     name="Basic Skill")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert len(results) == 1
+        assert results[0]["prerequisites"] == []
+
+
+class TestScrutiny_ScanRootVsParent:
+    """Scrutiny #4: scan root change — root vs root/..
+
+    The old behaviour walked the parent of root. The new behaviour (when
+    global_search=False) walks root directly. Verify edge case: skills one
+    level above the project root are not found.
+    """
+
+    def test_skills_above_project_root_not_found(self, tmp_path):
+        """Skills in the parent of root should NOT be found with default scan."""
+        parent_skills = tmp_path / ".agents" / "skills" / "parent-skill"
+        parent_skills.mkdir(parents=True)
+        _write(str(parent_skills / "skill.md"),
+               "---\nname: Parent Skill\ndescription: lives above project\n---\n")
+
+        project = tmp_path / "my-project"
+        project.mkdir()
+
+        results = scan_skill_mds(root=str(project), global_search=False)
+        found_ids = {r["id"] for r in results}
+        assert "parent-skill" not in found_ids, (
+            "Skills above the project root should not be found with global_search=False"
+        )
