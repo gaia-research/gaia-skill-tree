@@ -76,12 +76,9 @@ jobs:
           echo "Equivalent python command for local use: python scripts/build_docs.py --check"
           gaia dev docs --check
 
-      - name: Run tests
-        if: |
-          github.event_name == 'push' ||
-          github.event.pull_request.changed_files >= 10 ||
-          contains(github.event.pull_request.labels.*.name, 'run-full-ci')
-        run: gaia dev test all
+      # NOTE: the full pytest suite (`gaia dev test all`) is owned exclusively by
+      # python-package.yml to avoid running it twice per commit (issue #684 item 2).
+      # This job keeps only the schema/DAG/integrity gates below.
 
       - name: Check schema meta sync
         # Skip for branch types that cannot affect registry meta-sync:
