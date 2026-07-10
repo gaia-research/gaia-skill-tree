@@ -8,7 +8,7 @@
  *   3. .nav-primary              — desktop top-level + More dropdown
  *   4. .nav-menu-toggle (☰)      — opens the mobile drawer (≤700px)
  *   5. .nav-mobile-drawer        — flat list of EVERY destination (no nesting,
- *                                   no dropdown). One screen, 13 items, no scroll.
+ *                                   no dropdown). One screen, no scroll.
  *
  * The mobile drawer is a sibling of .nav-primary (not its mobile reflow) so
  * the long cascade war we kept losing — desktop dropdown rules vs. media
@@ -63,6 +63,22 @@
     { href: root + 'en/',    label: 'Docs',   color: 'var(--tier-basic)', i: 4 },
   ];
 
+  // A direct repository action, deliberately count-free until Gaia reaches
+  // its first public 1,000-star milestone. The action must remain useful even
+  // when the count is not part of the navigation's information hierarchy.
+  const starLink = {
+    href: 'https://github.com/gaia-research/gaia-skill-tree',
+    label: 'Star Gaia',
+    i: 6,
+    cls: 'nav-star-cta',
+    target: '_blank',
+    rel: 'noopener',
+    ariaLabel: 'Star Gaia Skill Tree on GitHub (opens in a new tab)',
+    icon: function() {
+      return '<span class="nav-star-cta-mark" aria-hidden="true">★</span>';
+    }
+  };
+
   const dropdown = [
     { type: 'btn',  id: 'treeNavBtn',  label: 'Skill Tree',          color: '#34d399', cls: 'nav-tree' },
     { type: 'btn',  id: 'navGraphBtn', label: 'Skill Graph',          color: 'var(--tier-basic)', cls: 'nav-graph-trigger', attr: 'data-graph-trigger' },
@@ -80,7 +96,12 @@
   function li(item) {
     const active = isActive(item.href) ? ' aria-current="page"' : '';
     const icon = typeof item.icon === 'function' ? item.icon() : '';
-    return '<li style="--nav-i:' + item.i + '"><a href="' + item.href + '" style="color:' + item.color + '"' + active + '>' + icon + item.label + '</a></li>';
+    const cls = item.cls ? ' class="' + item.cls + '"' : '';
+    const target = item.target ? ' target="' + item.target + '"' : '';
+    const rel = item.rel ? ' rel="' + item.rel + '"' : '';
+    const ariaLabel = item.ariaLabel ? ' aria-label="' + item.ariaLabel + '"' : '';
+    const color = item.color ? ' style="color:' + item.color + '"' : '';
+    return '<li style="--nav-i:' + item.i + '"><a href="' + item.href + '"' + cls + color + active + target + rel + ariaLabel + '>' + icon + item.label + '</a></li>';
   }
 
   function dropdownItem(d) {
@@ -163,6 +184,7 @@
           dropdown.map(dropdownItem).join('') +
         '</ul>' +
       '</li>' +
+      li(starLink) +
     '</ul>' +
     // Mobile drawer — completely separate element with its own class names.
     // Flat list of every destination, no nesting, fits one screen.
@@ -175,6 +197,7 @@
           const icon = typeof item.icon === 'function' ? item.icon() : '';
           return '<li><a href="' + item.href + '" style="color:' + item.color + '"' + active + '>' + icon + item.label + '</a></li>';
         }).join('') +
+        '<li><a href="https://github.com/gaia-research/gaia-skill-tree" class="nav-star-cta" target="_blank" rel="noopener" aria-label="Star Gaia Skill Tree on GitHub (opens in a new tab)"><span class="nav-star-cta-mark" aria-hidden="true">★</span>Star Gaia</a></li>' +
         // Dropdown items, flattened. Buttons (Skill Tree / Skill Graph) become
         // <a> links to home with the right query param so taps Just Work — the
         // dedicated handlers (skill-graph.js, hud-toggle.js) pick up the param.
