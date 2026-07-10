@@ -1,22 +1,8 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-10T08:49:34Z",
+  "generatedAt": "2026-07-10T23:24:08Z",
   "firstRun": false,
   "skills": [
-    {
-      "id": "addy-osmani/performance-optimization",
-      "name": "Performance Optimization",
-      "level": "4★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 83.2,
-      "overallTrustGrade": "B",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
-      }
-    },
     {
       "id": "gaia-research/skill-ci-churn",
       "name": "CI Churn",
@@ -102,7 +88,7 @@
       }
     }
   ],
-  "totalTrending": 7,
+  "totalTrending": 6,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
