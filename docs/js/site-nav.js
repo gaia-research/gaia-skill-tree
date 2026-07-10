@@ -68,12 +68,12 @@
   // when the count is not part of the navigation's information hierarchy.
   const starLink = {
     href: 'https://github.com/gaia-research/gaia-skill-tree',
-    label: 'Star Gaia',
+    label: 'Star on GitHub',
     i: 6,
     cls: 'nav-star-cta',
     target: '_blank',
     rel: 'noopener',
-    ariaLabel: 'Star Gaia Skill Tree on GitHub (opens in a new tab)',
+    ariaLabel: 'Star the Gaia Skill Tree repo on GitHub (opens in a new tab)',
     icon: function() {
       return '<span class="nav-star-cta-mark" aria-hidden="true">★</span>';
     }
@@ -93,7 +93,7 @@
     { type: 'link', href: root + 'skills/',        label: 'Skill Index',        color: 'var(--tier-basic)' },
   ];
 
-  function li(item) {
+  function anchorHtml(item) {
     const active = isActive(item.href) ? ' aria-current="page"' : '';
     const icon = typeof item.icon === 'function' ? item.icon() : '';
     const cls = item.cls ? ' class="' + item.cls + '"' : '';
@@ -101,7 +101,17 @@
     const rel = item.rel ? ' rel="' + item.rel + '"' : '';
     const ariaLabel = item.ariaLabel ? ' aria-label="' + item.ariaLabel + '"' : '';
     const color = item.color ? ' style="color:' + item.color + '"' : '';
-    return '<li style="--nav-i:' + item.i + '"><a href="' + item.href + '"' + cls + color + active + target + rel + ariaLabel + '>' + icon + item.label + '</a></li>';
+    return '<a href="' + item.href + '"' + cls + color + active + target + rel + ariaLabel + '>' + icon + item.label + '</a>';
+  }
+
+  function li(item) {
+    return '<li style="--nav-i:' + item.i + '">' + anchorHtml(item) + '</li>';
+  }
+
+  // Mobile drawer flavour of li(): no --nav-i stagger variable (the drawer
+  // doesn't animate off it) and no other structural changes. Same anchor.
+  function liMobile(item) {
+    return '<li>' + anchorHtml(item) + '</li>';
   }
 
   function dropdownItem(d) {
@@ -115,6 +125,36 @@
     const cls = d.cls ? ' class="' + d.cls + '"' : '';
     const id = d.id ? ' id="' + d.id + '"' : '';
     return '<li><a href="' + d.href + '"' + cls + id + ' style="color:' + (d.color || '') + '"' + active + '>' + d.label + '</a></li>';
+  }
+
+  // Mobile drawer flavour of dropdownItem(). Three deliberate deviations from
+  // the desktop renderer:
+  //   1. NO `id` attribute is emitted. The desktop dropdown already owns
+  //      those IDs (treeNavBtn, metaNavBtn, navGraphBtn); repeating them
+  //      inside the drawer would produce duplicate IDs — an a11y violation
+  //      and, more concretely, would break the querySelector('#…') wiring
+  //      further down this file (Skill Tree / Skill Graph click handlers).
+  //   2. NO `class` attribute is emitted. `nav-tree`, `nav-graph-trigger`,
+  //      and `nav-meta` all declare `color: X !important` which would
+  //      override the inline `style="color:…"` value from the data. On
+  //      desktop those classes are the source of truth for the button's
+  //      color; on mobile the drawer has always relied on the inline color
+  //      from the data object, and preserving that here keeps mobile visual
+  //      output byte-identical to the pre-refactor hardcoded strings.
+  //   3. `type: 'btn'` items resolve to <a> with the right query param
+  //      (?tree=1 / ?field=1) so a tap navigates home and the existing
+  //      skill-graph.js / hud-toggle.js listeners pick it up on arrival.
+  //      This matches the behavior of the pre-refactor hardcoded strings.
+  function dropdownItemMobile(d) {
+    const color = d.color ? ' style="color:' + d.color + '"' : '';
+    if (d.type === 'btn') {
+      const href = d.id === 'treeNavBtn'  ? root + 'index.html?tree=1'
+                : d.id === 'navGraphBtn' ? root + 'index.html?field=1'
+                : root + 'index.html';
+      return '<li><a href="' + href + '"' + color + '>' + d.label + '</a></li>';
+    }
+    const active = isActive(d.href) ? ' aria-current="page"' : '';
+    return '<li><a href="' + d.href + '"' + color + active + '>' + d.label + '</a></li>';
   }
 
   // ── docs/en breadcrumb ────────────────────────────────────────────────
@@ -187,31 +227,19 @@
       li(starLink) +
     '</ul>' +
     // Mobile drawer — completely separate element with its own class names.
-    // Flat list of every destination, no nesting, fits one screen.
+    // Flat list of every destination, no nesting, fits one screen. The body
+    // is rendered from the SAME data sources as the desktop nav (`links`,
+    // `starLink`, `dropdown`) via mobile-flavour renderers, so adding or
+    // editing a nav entry is a one-place change. Before this refactor the
+    // drawer had a hand-maintained shadow copy of every entry; when the
+    // 1,000-star milestone lands and the star CTA gains a stargazer count
+    // element, this seam is where the count integrates once instead of twice.
     '<div class="nav-mobile-drawer" aria-hidden="true">' +
       '<button class="nav-mobile-close" type="button" aria-label="Close navigation">×</button>' +
       '<ul class="nav-mobile-list">' +
-        // Top-level links (clone, not the same nodes).
-        links.map(function (item) {
-          const active = isActive(item.href) ? ' aria-current="page"' : '';
-          const icon = typeof item.icon === 'function' ? item.icon() : '';
-          return '<li><a href="' + item.href + '" style="color:' + item.color + '"' + active + '>' + icon + item.label + '</a></li>';
-        }).join('') +
-        '<li><a href="https://github.com/gaia-research/gaia-skill-tree" class="nav-star-cta" target="_blank" rel="noopener" aria-label="Star Gaia Skill Tree on GitHub (opens in a new tab)"><span class="nav-star-cta-mark" aria-hidden="true">★</span>Star Gaia</a></li>' +
-        // Dropdown items, flattened. Buttons (Skill Tree / Skill Graph) become
-        // <a> links to home with the right query param so taps Just Work — the
-        // dedicated handlers (skill-graph.js, hud-toggle.js) pick up the param.
-        '<li><a href="' + root + 'index.html?tree=1" style="color:#34d399">Skill Tree</a></li>' +
-        '<li><a href="' + root + 'index.html?field=1" style="color:var(--tier-basic)">Skill Graph</a></li>' +
-        '<li><a href="' + root + 'codex.html" style="color:var(--tier-basic)">The Codex</a></li>' +
-        '<li><a href="' + root + 'trust/ledger/" style="color:var(--evidence-gold)">Trust Ledger</a></li>' +
-        '<li><a href="' + root + 'starless.html" style="color:var(--muted)">Starless</a></li>' +
-        '<li><a href="' + root + 'u/" style="color:var(--honor-red)">Named Contributors</a></li>' +
-        '<li><a href="' + root + 'meta.html">Meta Reports</a></li>' +
-        '<li><a href="' + root + 'evidence/" style="color:var(--rank-3)">Evidence Library</a></li>' +
-        '<li><a href="' + root + 'reports/" style="color:var(--evidence-gold)">Weekly Reports</a></li>' +
-        '<li><a href="' + root + 'benchmarks/" style="color:var(--evidence-gold)">Benchmarks</a></li>' +
-        '<li><a href="' + root + 'skills/" style="color:var(--tier-basic)">Skill Index</a></li>' +
+        links.map(liMobile).join('') +
+        liMobile(starLink) +
+        dropdown.map(dropdownItemMobile).join('') +
       '</ul>' +
     '</div>';
 
