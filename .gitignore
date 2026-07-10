@@ -5,6 +5,14 @@
 .fp-handover.md
 feature-pipeline-workspace/
 
+# Vendor asset drops — raw sources are ignored; only the compressed
+# web-ready outputs at docs/assets/ascension-overdrive/ (and analogous
+# sibling folders) are tracked.  Compression pipeline lives at
+# scripts/compress-assets.py (see Issue #975).
+docs/assets/Asset */
+docs/assets/**/Variations/
+docs/assets/**/Individual/
+
 # Externally installed agent skills (managed by `gaia skills install`)
 .agents/skills/skill-creator
 
