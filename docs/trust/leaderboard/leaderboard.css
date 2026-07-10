@@ -693,11 +693,13 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
 }
 
 /* In-bar TM number — always pure white, full opacity. Higher specificity beats
-   the base .lb-axis-value muted color so the inline number stays readable. */
+   the base .lb-axis-value muted color so the inline number stays readable.
+   pointer-events:none keeps hover/click pass-through to the bar underneath. */
 .lb-axis-value.lb-axis-value--inbar {
   fill: rgb(255, 255, 255);
   opacity: 1;
   font-weight: 600;
+  pointer-events: none;
 }
 
 .lb-gridline {
