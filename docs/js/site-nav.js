@@ -224,6 +224,17 @@
     });
   }
 
+  // Skill Tree button: if there's no local treeDialog, redirect to home with ?tree=1
+  var treeBtn = el.querySelector('#treeNavBtn');
+  if (treeBtn) {
+    treeBtn.addEventListener('click', function (e) {
+      if (!document.getElementById('treeDialog')) {
+        e.preventDefault();
+        window.location.href = root + 'index.html?tree=1';
+      }
+    });
+  }
+
   // ── Mobile drawer wiring ──────────────────────────────────────────────
   // We own this here (not in ui.js) because the drawer is a sibling element,
   // not a reflow of .nav-primary, and the open/close behavior is local.
