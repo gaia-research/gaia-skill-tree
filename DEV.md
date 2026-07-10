@@ -107,6 +107,75 @@ pip install -e ".[docs]"
 
 ---
 
+## 2A. `gaia dev` → `python -m gaia_cli dev` (Blocked-Environment Fallback)
+
+**Use this when the `gaia` shim is unavailable** — e.g. enterprise Windows that blocks unknown executables on `PATH`, sandboxes that strip `~/.local/bin`, or a worktree where `gaia` resolves to the wrong (system-installed) copy.
+
+### The universal rule (1:1, mechanical)
+
+The console script `gaia` is defined in `pyproject.toml` as `gaia = "gaia_cli.main:main"`. The module entry `python -m gaia_cli` runs `src/gaia_cli/__main__.py`, which calls the **same** `gaia_cli.main:main`. They share one argv/dispatch path, so:
+
+```
+gaia <anything>   ≡   python -m gaia_cli <anything>
+```
+
+There is nothing to memorize per command — **prefix any `gaia …` invocation with `python -m gaia_cli` instead of `gaia`.** This holds for every top-level command (`scan`, `tree`, `promote`, `skills …`) and every `gaia dev` subcommand. Global flags (`--registry`, `--global/-g`, `--canon`, `--version/-v`) work identically because they live on the root parser.
+
+```bash
+# Blocked:            gaia dev validate
+python -m gaia_cli dev validate
+
+# Blocked:            gaia dev list --generic --named
+python -m gaia_cli dev list --generic --named
+```
+
+### Three environment knobs for enterprise/worktree runs
+
+| Situation | Knob | Why |
+|---|---|---|
+| Running inside a `.claude/worktrees/<branch>/` checkout, or testing branch-new flags | `PYTHONPATH="$(pwd)/src" python -m gaia_cli …` | Forces import from the branch source instead of the installed wheel (same fix as §4.D). Or `pip install -e .` from the worktree. |
+| Any **mutating** `dev` verb outside a Verifier context (CI, bots, non-4★ actors) | `GAIA_OPERATOR_OVERRIDE=1 python -m gaia_cli dev …` | Satisfies `authz.require_operator`. Not needed on a bootstrap (zero-verifier) registry, nor if the config user holds a 4★ named skill. **Exception:** `dev verify` has a second in-command `_is_verifier()` gate that *ignores* the override — it still requires a real 4★ verifier even in CI. |
+| Any command that triggers a **docs rebuild**, or running `build_docs.py` directly, on Windows | `PYTHONUTF8=1 PYTHONIOENCODING=utf-8 python -m gaia_cli dev …` | `main()` reconfigures the parent process's stdout/stderr to UTF-8 on win32, but the spawned `scripts/build_docs.py` subprocess does **not** inherit that and prints non-ASCII glyphs (`— • ★`). The CLI's own registry writes are already `encoding="utf-8"`, so this knob is about the child process's console output, not file integrity. |
+
+### Per-command mapping
+
+Every row's universal fallback is `python -m gaia_cli dev <cmd> …`. The **Direct script** column lists a `python scripts/*.py` alternative *only where one truly reproduces the effect* — most mutating registry verbs have **no** script equivalent and **must** route through the CLI (that's the Programmatic-First guarantee: they append timeline events the CLI owns). "Mut?" = mutates registry/timeline/git state → needs authorization.
+
+| `gaia dev` command | Mut? | Direct `scripts/*.py` alternative | Notes |
+|---|---|---|---|
+| `list` | – | — | Read-only, ungated. Default (no `--generic`/`--named`) lists generic only. |
+| `audit` | – | — | Read-only linter over `registry/nodes/`. Optional `--level N` threshold. |
+| `diff [ref]` | – | — | Read-only; shells out to **git** (needs git on PATH). `git fetch origin` first; bare `diff` on `main`/HEAD errors — pass a branch ref. |
+| `validate` | – | `python scripts/validate_intake.py` (for `--intake` only) | Default chains `validate.py` + `validate_redaction.py` + `validate_timelines.py` and OR's their exit codes — **prefer the CLI** to preserve the combined exit code; no single-script equivalent. |
+| `test <meta\|all>` | – | `meta`→`python -m pytest tests/test_meta_ops.py tests/test_authz.py` · `all`→`python -m pytest tests/` | Thin pytest wrapper (cwd = repo root). Needs a source checkout with `tests/` (absent from wheels). |
+| `docs [--check]` | – | `python scripts/build_docs.py [--check]` | Not authz-gated. On Windows set the UTF-8 knob for **both** paths (the `build_docs.py` child never inherits the parent's UTF-8 reconfigure). |
+| `hook [--event T]` | – | — | Internal Claude Code editor hook; fully in-process, not for manual runs. |
+| `mcp {start\|stop\|status}` | – | — | Shells out to **node** (`packages/mcp/dist/…`) — needs Node + a built MCP server (`npm run build` in `packages/mcp`). Not authz-gated. |
+| `build` | ✓ | `python scripts/build_docs.py` | Thin wrapper (`→ python -m gaia_cli docs build → build_docs.py`). The **direct script bypasses authz**. Regenerates Class P + Class S; no git commit/push (only a read-only `git log`). No `--no-build` flag. |
+| `add <name> …` | ✓ | — | Writes `registry/nodes/…` or `registry/named/…` + `add` timeline event, then rebuilds docs unless `--no-build`. `--description` ≥10 chars. |
+| `rm <id> [--yes]` | ✓ | — | Deletes node + strips it from all prereqs/derivatives. Non-TTY must pass `--yes`. Rebuilds unless `--no-build`. |
+| `merge <target> <src…>` | ✓ | — | Named-vs-generic chosen by whether target id contains `/` (the `--named` flag is a **no-op**). Prompts unless `--yes`. Always rebuilds docs (no `--no-build`). |
+| `split <src> <t1> <t2…>` | ✓ | — | Clones source into each target (evidence/timeline cleared); refs + `split` event go to the **first** target only. Prompts unless `--yes`. Always rebuilds docs. |
+| `rename <old> <new>` | ✓ | — | Renames node file + rewrites all refs and named `genericSkillRef` + `rename` event. Always rebuilds docs (no `--no-build`). |
+| `reclassify <id> <type>` | ✓ | — | Rewrites node into `nodes/<new_type>/`, `type_change` event. `type ∈ basic\|extra\|ultimate\|unique`. Rebuilds unless `--no-build`. |
+| `link <target> <a,b,c>` | ✓ | — | Merges (or `--reset` overwrites) prereqs. Rebuilds unless `--no-build`. |
+| `calibrate <id> <N★>` | ✓ | — | Named skills only (generics rejected); enforces a **3★+ `links.github` blob-URL** preflight; `rank_up`/`demote` event. Rebuilds unless `--no-build`. |
+| `calibrate-evidence-grades` | ✓ | — | Backfills per-row `grade` fields. `--dry-run` is read-only; prompts unless `--dry-run`/`--yes`. Rebuilds unless `--no-build`. |
+| `evidence <id> <url> …` | ✓ | — | Adds an evidence row + `evidence_added`/`evidence_graded` event. `--type benchmark-result` requires all 8 fingerprint flags (preflight-enforced). Rebuilds unless `--no-build`. |
+| `rm-evidence <id>` | ✓ | — | Requires `--index N` **or** `--source URL` (`--source` removes **all** rows at that exact URL). Prompts unless `--yes`. Rebuilds unless `--no-build`. |
+| `verify <id> --index N` | ✓ | — | `--index` **required**; `[--dispute]`. **Double-gated** — the in-command `_is_verifier()` check ignores `GAIA_OPERATOR_OVERRIDE` and requires a real 4★ verifier. Rebuilds unless `--no-build`. |
+| `verify-tier <id>` | ✓ | — | Recomputes + persists `verification.tier`. Positional only; no docs rebuild, no timeline event, no subprocess. Honors `GAIA_OPERATOR_OVERRIDE` (no extra verifier gate). |
+| `update-named <id> …` | ✓ | — | Rewrites named `.md` frontmatter + timeline. Preflights reject `status=named` without `--title`/`--catalog-ref`, and reject github links not in `/blob/` form. Rebuilds unless `--no-build`. |
+| `timeline <id> …` | ✓ | — | No `--user` → registry node timeline; `--user <name>` → `skill-trees/<name>/skill-tree.json`; `--timestamp` valid only with `--user`. Rebuilds unless `--no-build`. |
+| `fuse <generic_id> …` | ✓ | — | Upserts a generic fusion node + optional suite manifest (`registry/nodes\|named\|suites`) + timeline. No git. Rebuilds unless `--no-build`. |
+| `sync-upstream <id> --tag …` | ✓ | — | In-process frontmatter+timeline writer; **no** docs/git side effects. Flag is `--tag` (the module docstring's `--version` is stale). `--dry-run` needs `pyyaml`. |
+| `freeze <id> --reason …` | ✓ | — | Sets `installable:false` + `upstream_deprecated` event. `--reason` required, ≤500 chars; refuses if already frozen; **no** docs/git side effects. |
+| `release <patch\|minor\|major>` | ✓ | — | Bumps version in-process, then **git add/commit/tag** and (unless `--no-push`) **git push**. `[--sync]` aligns manifests first. Shells out to git. |
+
+> **Rule of thumb:** if a command has no Direct-script cell, its effect (registry mutation + owned timeline event) is only reproducible through `python -m gaia_cli dev <cmd>`. Do **not** hand-edit `registry/` frontmatter to work around a blocked `gaia` binary — use the module invocation, which is the identical code path.
+
+---
+
 ## 3. Running and Troubleshooting Tests
 
 We use `pytest` for the Python codebase and `npm test` for npm/MCP packages.
