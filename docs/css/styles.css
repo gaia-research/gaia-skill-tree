@@ -594,6 +594,60 @@ nav ul.nav-primary {
   gap: 2rem
 }
 
+/* Repository contribution is an explicit action, not a social metric. The
+   compact plate stays legible beside destination links without surfacing a
+   stargazer count before Gaia reaches its first 1,000-star milestone. */
+.nav-star-cta {
+  display: inline-flex !important;
+  align-items: center;
+  gap: .38rem;
+  padding: .32rem .58rem !important;
+  border: 1px solid rgba(var(--evidence-gold-rgb), .48);
+  border-radius: 999px;
+  color: var(--evidence-gold) !important;
+  background: rgba(var(--evidence-gold-rgb), .08);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.nav-star-cta-mark {
+  font-size: .82em;
+  line-height: 1;
+}
+
+/* This is a contained action plate, so it deliberately uses its border state
+   rather than the destination-link underline and leading-dot treatment. */
+.nav-star-cta::before,
+.nav-star-cta::after {
+  display: none;
+}
+
+.nav-star-cta:hover,
+.nav-star-cta:focus-visible {
+  color: var(--text) !important;
+  border-color: var(--evidence-gold);
+  background: rgba(var(--evidence-gold-rgb), .16);
+}
+
+@media (min-width: 701px) and (max-width: 900px) {
+  nav ul.nav-primary {
+    gap: 1rem;
+  }
+  .nav-star-cta {
+    padding-inline: .45rem !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .nav-mobile-list .nav-star-cta {
+    display: inline-flex !important;
+    width: auto;
+    margin-top: .3rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 /* More dropdown (desktop only) */
 .nav-more-dropdown {
   position: relative;
@@ -9275,6 +9329,8 @@ button.nav-graph-trigger:hover {
     radial-gradient(ellipse 40% 52% at 10% 80%, rgba(var(--honor-red-rgb), 0.06), transparent 70%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 34%),
     var(--bg);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
 }
 
 .hoh-section--mini::before {
