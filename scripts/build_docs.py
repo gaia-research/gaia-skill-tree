@@ -258,6 +258,33 @@ def build_readme(check: bool) -> bool:
     return changed
 
 
+def build_readme_version_only(check: bool) -> bool:
+    """Refresh ONLY the README version region (`gaia:version-start/end`).
+
+    Used by `gaia dev release --cache-bust-only` to fold the README version
+    string into the release commit without regenerating the registry-tree,
+    CLI-help, or layout regions — those depend on the gitignored
+    `registry/gaia.json` (Class P) and pulling a stale snapshot into README at
+    release time would either fail or manufacture drift. The version region
+    depends only on `pyproject.toml`, which is always present, so it is the one
+    region that is both version-derived and safe to refresh in a release
+    context. Mirrors the HTML `?v=` rewrite done by `build_html_cache_busting`.
+    """
+    path = ROOT / "README.md"
+    if not path.exists():
+        return False
+    text = path.read_text(encoding="utf-8")
+    start, end = "<!-- gaia:version-start -->", "<!-- gaia:version-end -->"
+    text, changed = _replace_region(text, start, end, _versions())
+    if changed:
+        if check:
+            print('diff', start, end, "(README version region stale)")
+        else:
+            path.write_text(text, encoding="utf-8")
+            print("cache-bust: updated README.md")
+    return changed
+
+
 def build_docs_index(check: bool) -> bool:
     path = ROOT / "docs" / "index.html"
     if not path.exists():
@@ -1441,7 +1468,15 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     if args.cache_bust_only:
-        changed = build_html_cache_busting(check=False)
+        # Refresh every version-derived surface that `gaia dev docs --check`
+        # validates on a release commit: the HTML `?v=`/GAIA_VERSION strings AND
+        # the README version region. Both derive solely from pyproject.toml, so
+        # neither touches the gitignored Class P registry snapshot. Anything
+        # else (badges, gaia.json, profiles) is intentionally left untouched to
+        # avoid the 2026-06-24 stale-snapshot badge-wipe class of failure.
+        html_changed = build_html_cache_busting(check=False)
+        readme_changed = build_readme_version_only(check=False)
+        changed = html_changed or readme_changed
         print("Cache-bust strings updated." if changed else "Cache-bust strings already current.")
         return 0
 

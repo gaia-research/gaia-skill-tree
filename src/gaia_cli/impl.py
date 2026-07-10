@@ -3252,19 +3252,24 @@ def release_command(args):
 
     root = args.registry or "."
 
-    # Refresh HTML cache-bust strings before committing. validate.yml fires on the
-    # release commit (packages/cli-npm/** is in its path filter) and runs
-    # `gaia dev docs --check`, which fails when the ?v=X.Y.Z strings in tracked
-    # Class S docs/*.html still reference the old version. Rewrite them here so the
-    # release commit is self-consistent.
+    # Refresh version-derived surfaces before committing. validate.yml fires on
+    # the release commit (packages/cli-npm/** is in its path filter) and runs
+    # `gaia dev docs --check`, which fails when version strings still reference
+    # the old version. Two surfaces are version-derived and validated:
+    #   1. the ?v=X.Y.Z / GAIA_VERSION strings in tracked Class S docs/*.html
+    #   2. the README version region (<!-- gaia:version-start --> … end)
+    # Both derive solely from pyproject.toml. Rewrite them here so the release
+    # commit is self-consistent (build_docs.py --cache-bust-only handles both
+    # and emits a "cache-bust: updated <path>" line per file it touches).
     #
     # IMPORTANT: run ONLY --cache-bust-only, never full `gaia dev docs`. A full
     # regen rebuilds docs/badges/ from local registry state and can re-trigger the
-    # stale-snapshot badge wipe (CLAUDE.md, 2026-06-24 outage).
+    # stale-snapshot badge wipe (CLAUDE.md, 2026-06-24 outage). --cache-bust-only
+    # never reads the gitignored Class P registry snapshot.
     cache_bust_files = []
     docs_script = os.path.join(root, "scripts", "build_docs.py")
     if os.path.exists(docs_script):
-        print("Refreshing HTML cache-bust strings…")
+        print("Refreshing version-derived surfaces (HTML cache-bust + README)…")
         proc = subprocess.run(
             [sys.executable, docs_script, "--cache-bust-only"],
             cwd=root, capture_output=True, text=True,
