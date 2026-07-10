@@ -283,9 +283,20 @@
   // throwing ReferenceError when its caller (renderDocs:619) reaches for it.
   // See CLAUDE.md § Known Skill Explorer Issues.
   function getRootPath() {
-    return (typeof window.gaiaIconBase === 'function')
-      ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
-      : '';
+    if (typeof window.gaiaIconBase === 'function') {
+      return window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '');
+    }
+    var mounts = ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes', 'reports', 'benchmarks', 'skills'];
+    var segs = window.location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
+    var dir = /\.html?$/i.test(segs[segs.length - 1]) ? segs.slice(0, -1) : segs;
+    var depth = 0;
+    for (var i = 0; i < dir.length; i++) {
+      if (mounts.indexOf(dir[i]) !== -1) {
+        depth = dir.length - i;
+        break;
+      }
+    }
+    return depth === 0 ? '' : '../'.repeat(depth);
   }
 
   // ── RENDER HERO ──────────────────────────────────────────────
@@ -2299,16 +2310,19 @@
 
   function openExplorer(id) {
     var explorerEl = document.getElementById('skillExplorer');
-    if (explorerEl && !explorerEl.classList.contains('open')) {
+    if (!explorerEl) {
+      var prefix = getRootPath();
+      window.location.href = prefix + 'named/#explorer/' + encodeURIComponent(id).replace(/%2F/g, '/');
+      return;
+    }
+    if (!explorerEl.classList.contains('open')) {
       lastActiveElement = document.activeElement;
     }
     // Immediately open modal with loading placeholder — no 6s silent wait.
-    if (explorerEl) {
-      explorerEl.classList.add('open');
-      explorerEl.scrollTop = 0;
-      document.body.style.overflow = 'hidden';
-      _showSeLoading(explorerEl, id);
-    }
+    explorerEl.classList.add('open');
+    explorerEl.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+    _showSeLoading(explorerEl, id);
     // Wrap waitForData to distinguish cold-cache timeout vs. success.
     function _waitWithTimeout(cb) {
       var tries = 0;
@@ -2681,6 +2695,21 @@
   var treeDialogTitle = document.getElementById('treeDialogTitle');
   var _treeContent = null;
 
+  function _tree_icon(id, size) {
+    if (typeof window.gaiaIcon === 'function') {
+      return window.gaiaIcon(id, { size: size || 13 });
+    }
+    var prefix = getRootPath();
+    return '<svg class="ico" width="' + (size || 13) + '" height="' + (size || 13) + '" aria-hidden="true"><use href="' + prefix + 'assets/icons.svg#' + id + '"/></svg>';
+  }
+
+  if (treeCopyBtn) {
+    treeCopyBtn.innerHTML = _tree_icon('copy', 13) + ' <span>Copy</span>';
+  }
+  if (treeDownloadBtn) {
+    treeDownloadBtn.innerHTML = _tree_icon('download', 13) + ' <span>Download</span>';
+  }
+
   var SKELETON = [
     'GAIA SKILL TREE  ─────────  ·  ───────────────────────',
     '══════════════════════════════════════════════════════',
@@ -2784,13 +2813,21 @@
     return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
-  // Phase 8d — wrap a contributor span in a profile-page anchor so the
-  // tree dialog renders handles as hover-underlined links. Mirrors the
-  // atlas-helpers handleLink() convention used everywhere else.
   function getRootPath() {
-    return (typeof window.gaiaIconBase === 'function')
-      ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
-      : '';
+    if (typeof window.gaiaIconBase === 'function') {
+      return window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '');
+    }
+    var mounts = ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes', 'reports', 'benchmarks', 'skills'];
+    var segs = window.location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
+    var dir = /\.html?$/i.test(segs[segs.length - 1]) ? segs.slice(0, -1) : segs;
+    var depth = 0;
+    for (var i = 0; i < dir.length; i++) {
+      if (mounts.indexOf(dir[i]) !== -1) {
+        depth = dir.length - i;
+        break;
+      }
+    }
+    return depth === 0 ? '' : '../'.repeat(depth);
   }
 
   function handleAnchor(handle, inner) {
@@ -3017,10 +3054,10 @@
   treeCopyBtn.addEventListener('click', function() {
     var text = _treeContent || treeDialogPre.textContent;
     navigator.clipboard.writeText(text).then(function() {
-      treeCopyBtn.textContent = 'Copied!';
+      treeCopyBtn.innerHTML = _tree_icon('copy-check', 13) + ' <span>Copied!</span>';
       treeCopyBtn.classList.add('copied');
       setTimeout(function() {
-        treeCopyBtn.textContent = 'Copy';
+        treeCopyBtn.innerHTML = _tree_icon('copy', 13) + ' <span>Copy</span>';
         treeCopyBtn.classList.remove('copied');
       }, 1800);
     });
