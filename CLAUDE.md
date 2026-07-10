@@ -4,22 +4,22 @@ Guidance for AI coding agents working in this repository.
 
 ## Workflow Discipline
 
-- When user asks for a specific task (merge, monitor, audit), stay focused on that task. Do NOT deviate into debugging or exploration unless explicitly asked.
+- Stay focused on the requested task (merge, monitor, audit). Do NOT deviate into debugging/exploration unless explicitly asked.
 - Read key files BEFORE running exploratory bash commands.
 - When asked to monitor/loop CI checks, monitor — do not switch to debugging failures unless instructed.
 
 ## Sprint Completeness — no follow-ups
 
-**Every sprint is expected to ship COMPLETE. A sprint does NOT generate follow-up issues.** If a sprint would leave loose ends, those loose ends are scoped during staging as their own extra PR within the sprint — not deferred as a "follow-up" to be picked up later.
+Every sprint ships COMPLETE; a sprint does NOT generate follow-up issues.
 
-- Do **not** close out a sprint by filing `follow-up`/`tech-debt` issues that carry the sprint's own unfinished work. That work belongs in the sprint.
-- When staging a sprint, enumerate everything the sprint touches and pre-scope any spillover as an additional PR in the same sprint. Land it before declaring the sprint done.
-- A sprint is "done" only when there is nothing left that a reasonable reviewer would call a direct consequence of the sprint's changes. Rolling-window CI false positives, doc drift, deferred surface states, and CLI gaps introduced by the sprint all count as in-scope and must be resolved inside the sprint.
-- This does not forbid filing genuinely new, out-of-scope work discovered during a sprint — that's normal backlog hygiene. It forbids treating the sprint's own remainder as "future work."
+- Do NOT close a sprint by filing `follow-up`/`tech-debt` issues carrying the sprint's own unfinished work. That work belongs in the sprint.
+- When staging, enumerate everything the sprint touches and pre-scope any spillover as an additional PR in the same sprint. Land it before declaring done.
+- "Done" = nothing left a reasonable reviewer would call a direct consequence of the sprint's changes. Rolling-window CI false positives, doc drift, deferred surface states, and CLI gaps the sprint introduced are all in-scope.
+- Genuinely new, out-of-scope work discovered during a sprint may still be filed (normal backlog hygiene). Only the sprint's own remainder is forbidden as "future work."
 
 ## Graphify
 
-Graphify is an approved tool for codebase analysis and is used on an as-needed basis (deep architecture audits, dependency mapping, cross-cutting impact assessments). Running it costs real token spend — only invoke it when the task warrants a structural code graph. The valuable outputs (`graph.json`, `graph.html`, `manifest.json`, `GRAPH_REPORT.md`, `cost.json`) are tracked in git; the regenerable cache (`graphify-out/cache/`) is gitignored.
+Approved codebase-analysis tool, used as-needed (deep architecture audits, dependency mapping, cross-cutting impact). Costs real token spend — invoke only when a structural code graph is warranted. Tracked outputs: `graph.json`, `graph.html`, `manifest.json`, `GRAPH_REPORT.md`, `cost.json`. Cache `graphify-out/cache/` is gitignored.
 
 ## Git Workflow
 
@@ -27,20 +27,20 @@ Never push directly to main.
 
 ### Branch & Worktree Conventions
 
-- Always confirm the target branch/worktree before editing. If user references a specific branch (e.g., `fix/links-3d-graph`), push there — do not create a new design branch.
-- When editing in a worktree, verify CWD matches the requested worktree before making edits.
+- Confirm the target branch/worktree before editing. If user references a specific branch (e.g. `fix/links-3d-graph`), push there — do not create a new design branch.
+- When editing in a worktree, verify CWD matches the requested worktree first.
 
 ## Branch Scope — infra/ allowlist
 
-`infra/` branches may touch `docs/badges/` (registry.json, _assets/) in addition to the standard `.github/`, `scripts/`, `*.md`, `docs/*.html`. This is codified in `.github/workflows/branch-scope.yml` and applies permanently — badge restore/guard commits belong on `infra/` branches and must not require `skip-scope-check` every time.
+`infra/` branches may touch `docs/badges/` (registry.json, _assets/) in addition to the standard `.github/`, `scripts/`, `*.md`, `docs/*.html`. Codified in `.github/workflows/branch-scope.yml` and applies permanently — badge restore/guard commits belong on `infra/` branches and must not require `skip-scope-check` every time.
 
 ## Branch Scope — schema/ allowlist
 
-`schema/` branches may touch `registry/schema/` **and** `src/gaia_cli/data/registry/schema/` (the bundled snapshot the pip-installed CLI reads) in addition to `*.md`. The two schema directories must move in lockstep — `scripts/validate.py` "Meta sync check" fails when they diverge — so a schema PR that only touches one side always trips CI. Codified in `.github/workflows/branch-scope.yml`; do not require `skip-scope-check` for routine schema bumps.
+`schema/` branches may touch `registry/schema/` **and** `src/gaia_cli/data/registry/schema/` (the bundled snapshot the pip-installed CLI reads) in addition to `*.md`. The two schema directories must move in lockstep — `scripts/validate.py` "Meta sync check" fails when they diverge — so a schema PR touching only one side always trips CI. Codified in `.github/workflows/branch-scope.yml`; do not require `skip-scope-check` for routine schema bumps.
 
 ## Branch Scope — review/meta/ allowlist
 
-`review/meta/` branches may touch `docs/` in addition to `registry/` (excluding `registry/schema/`) and `*.md`. This is required by Guard E: any change to `registry/nodes/` or `registry/named/` MUST include the regenerated Class S artifacts (`docs/graph/*`, `docs/api/v1/*`, per-user profile pages, badges) in the same PR. Codified in `.github/workflows/branch-scope.yml`; do not require `skip-scope-check` on every curation PR just to land the `gaia dev docs` output.
+`review/meta/` branches may touch `docs/` in addition to `registry/` (excluding `registry/schema/`) and `*.md`. Required by Guard E: any change to `registry/nodes/` or `registry/named/` MUST include the regenerated Class S artifacts (`docs/graph/*`, `docs/api/v1/*`, per-user profile pages, badges) in the same PR. Codified in `.github/workflows/branch-scope.yml`; do not require `skip-scope-check` on every curation PR just to land the `gaia dev docs` output.
 
 ## Redaction Exemptions — ordained, do not re-litigate
 
@@ -52,108 +52,31 @@ To add a new exemption: edit `REDACTION_BADGE_DIR_EXEMPTIONS` in **both** `scrip
 
 ## Edit Safety
 
-- After Edit/Write operations on JS/HTML, verify no duplication or merged lines were introduced (read the file back, run syntax check if available).
+- After Edit/Write on JS/HTML, read the file back to verify no duplication or merged lines; run syntax check if available.
 - Avoid hex color fallbacks; use design tokens only (CI guard rejects hex).
-- When bumping assets, also update cache-bust version strings across all referencing pages.
+- When bumping assets, update cache-bust version strings across all referencing pages.
 
 ## Design Entrypoints — plan before you ship
 
-**Every new user-facing page or section MUST plan its entrypoints as part of the design pass, not reactively.** Shipping `/benchmarks/`, `/named/`, `/graph/`, or any new section without a way for a homepage visitor to reach it is a broken feature — the page might as well not exist. This rule is codified after the 2026-07-06 Sprint D W4 review, where `/benchmarks/` shipped with no homepage link, no docs/index.html tile, and no nav-drawer entry, and the gap only surfaced when the operator noticed there was "literally no way to get there."
+**Load-bearing invariant:** every new user-facing page/section MUST plan its entrypoints during the design pass — main nav, footer, homepage, `window.GAIA_MOUNTS`, cross-page links, and cache-busting — and the PR body MUST include an "Entrypoints" section listing which were touched or explicitly waived (design-review agents bounce PRs missing it). Shipping a section with no way to reach it from the homepage is a broken feature. CI Guard D enforces the `mounts.js` registration.
 
-Before opening a PR that adds a new page (or a substantively new section on an existing page), the design must enumerate:
-
-1. **Main nav (`docs/js/site-nav.js`)** — does the section belong in the top-level nav? If yes, add it to the `MOUNTS` array AND the visible nav link list AND the mobile drawer. If no, justify it in the PR body.
-2. **Footer (`docs/js/site-footer.js`)** — is the section a peer of existing footer categories (product, docs, community)? Add it there or justify the exclusion.
-3. **Homepage (`docs/index.html`)** — does the section deserve a tile, CTA, or prose mention on the landing page? For anything that concerns Trust Magnitude, evidence, benchmarks, badges, or measurement, the answer is almost always yes.
-4. **`docs/js/mounts.js`** — every new `docs/<section>/` subdirectory that uses site-nav must be added to `window.GAIA_MOUNTS`. CI Guard D enforces this, but plan it upfront so you're not scrambling at PR time.
-5. **Cross-page references** — if the new content is discovered from a specific existing surface (e.g. skill explorer → benchmark evidence rows), wire the link at both ends in the same PR.
-6. **Cache-busting** — every new HTML page must be registered in `build_html_cache_busting()` in `scripts/build_docs.py`. Never manually patch `?v=` strings.
-
-The PR description must include an "Entrypoints" section listing which of the above were touched (or explicitly waived, with justification). Design-review agents check for this section; PRs without it get bounced regardless of code quality.
-
-**Rule of thumb:** if a user landing on `gaiaskilltree.com/` with fresh eyes cannot discover the new feature within 30 seconds of scanning, the entrypoints are broken.
+See `docs/agents/design-entrypoints.md` for the full 6-point checklist and rule of thumb.
 
 ## Deferred-surface convention — ship the bridge state, disclose the bridge state
 
-**When a surface ships to satisfy a kill criterion but its design register is explicitly slated for a later sprint, the interim state MUST be disclosed on the surface itself with a WIP banner linking to the tracking issue.** Codified after the v6.0.1 review, where the archive landing at `/reports/` was correctly redesigned but the per-report page at `/reports/YYYY-WW/` shipped as the L3-mechanical `<pre>{{ markdownBody }}</pre>` fallback and confused a reviewer into thinking the leaderboard rendering was missing (it wasn't; it was Sprint F scope).
+**Load-bearing invariant:** when a user-visible surface ships to satisfy a kill criterion but its design register is slated for a later sprint, the interim state MUST be disclosed on the surface with a `.wip-banner` linking to a tracking issue that carries the target sprint label — never silently ship a bridge state, and never add a banner without a tracking issue. Do NOT use it to hide unfinished work with no sprint home (that's a defect; file and fix).
 
-### When this applies
-
-Apply the pattern when **all three** conditions hold:
-
-1. The surface is user-visible and reachable from the homepage or main nav.
-2. Its current rendering satisfies its ratified kill criterion (URL exists, JSON contract shipped, cron produces output, etc.) but is visibly below the design bar of adjacent surfaces.
-3. `founder/GAIA_ROADMAP v*.md` explicitly slates the rendering-layer work for a named later sprint, OR a tracking issue exists with that sprint tag.
-
-Do **not** apply the pattern to hide unfinished work that has no sprint home. That's not a bridge state, that's a defect. File it and fix it.
-
-### What ships
-
-1. **A `.wip-banner` element** at the top of the surface (inside `<main>`, before content). Uses the shared class from the content-engine template pass, or an equivalent local styled element that matches:
-   - `--font-mono`, `0.78rem`, subtle `--evidence-gold` tint background + border
-   - Two spans: `<span class="wip-tag">◇ Interim rendering</span>` (or an equivalent short label) + `<span class="wip-body">` with one sentence of what's provisional, one sentence of what's frozen, and a link to the tracking issue.
-   - `role="note"` + `aria-label` describing the notice.
-2. **A tracking issue** with the target sprint label (e.g. `sprint-f`) and an explicit `## Non-goals` section noting the WIP banner is removed by the port. Reference sprint scope from `founder/GAIA_ROADMAP v*.md` by line number.
-3. **A note in the shipping PR body** under a `## Deferred surfaces` section listing which surfaces carry the banner and their tracking issues.
-
-### What NOT to do
-
-- Do not silently ship the bridge state and hope reviewers infer the sprint schedule. That was the v6.0.1 failure mode; the fix is disclosure.
-- Do not add a WIP banner without a tracking issue. The banner exists to point somewhere; without a link, it's decoration.
-- Do not use the banner to defer trivial polish (missing padding, wrong color, one label). Polish gets fixed in the same PR. The banner is for cross-sprint rendering-layer or infrastructure boundaries.
-- Do not stack multiple WIP banners on one surface. If a surface has more than one deferred concern, consolidate them into one tracking issue and one banner.
-
-### Reference implementation
-
-See `scripts/contentEngine/templates/report.html.j2` (added in PR #972, tracking issue #973 for Sprint F rendering-layer rewrite). The banner CSS is inline in the template `<style>` block; the markup sits between the `<nav>` and `<main>` elements.
+See `docs/agents/deferred-surface-convention.md` for the three preconditions, what ships, what NOT to do, and the reference implementation.
 
 ## Fixed-nav clearance — every top-level page container must clear ~58px
 
-**Every page-level container that sits directly under `<body>` MUST provide its own top clearance to sit below the fixed nav.** The site nav (`<nav>` in `docs/js/site-nav.js`, rule at `docs/css/styles.css` L299–315) is `position: fixed` with `padding: .9rem 2rem` + a 1px border, giving it an effective height of ~58px. Nothing in the layout compensates for that automatically. Every page-level container fixes this on its own, and every design pass on a new surface must apply the pattern from the start. Codified after the v6.1.1 review, where the `.wip-banner` on the per-report page and the `.trending-main` on `/trending/` both shipped with insufficient top padding and got cut off by the nav.
+**Load-bearing invariant:** every page-level container directly under `<body>` MUST provide its own top clearance below the fixed nav (~58px). Use the exact value ladder — base **5rem (80px)**, desktop **6rem (96px) for thin strips** or **8rem (128px) for full page shells**. There is no global `body { padding-top }` and there won't be. Do not invent other values.
 
-### The pattern (use this exact value ladder)
-
-```css
-.some-page-shell {
-  padding: 5rem 1.5rem 6rem;   /* top: 5rem (80px) clears the ~58px nav with 22px breathing room */
-  max-width: 62rem;
-  margin: 0 auto;
-}
-@media (min-width: 768px) {
-  .some-page-shell { padding: 8rem 2rem 7rem; }   /* or padding-top: 6rem for compact strips */
-}
-```
-
-Base clearance is **5rem (80px)**. Desktop clearance is **6rem (96px) for thin strips** (banners, notices) or **8rem (128px) for full page shells** (hero-carrying containers where a bit more breathing room is warranted). Do not invent other values; consistency across surfaces is the point.
-
-### Existing reference implementations
-
-Every current site surface uses this ladder. When adding a new page, copy one of these:
-
-- `.bench-shell` (`docs/benchmarks/index.html` inline `<style>`) — canonical full-page shell, `5rem`/`8rem`
-- `.reports-shell` (`scripts/contentEngine/templates/archive.html.j2` inline `<style>`) — full-page shell, `5rem`/`8rem`
-- `.trending-main` (`docs/trending/trending.css` L7–16) — full-page shell, `5rem`/`6rem` (added in PR #972 after cutoff regression)
-- `.wip-banner` (`scripts/contentEngine/templates/report.html.j2` inline `<style>`) — thin strip, `5rem`/`6rem`
-
-### Anti-patterns (refuse and rewrite)
-
-- **`padding-top: 0` on a body-child container.** The default. Will cut off content. Every page-level container needs an explicit top pad; there is no global `body { padding-top: ... }` and there won't be one (the fixed nav is a scroll-persistent surface, not a document flow element, and a global body offset would break the hero which is intentionally full-bleed under the nav).
-- **The `margin-top: -Npx` + `padding-top: calc(... + Npx)` trick** (as seen on `.profile-back-row` at `docs/css/styles.css` L1109–1122). Pulls the element into negative layout space to "pretend" the nav isn't there. Fragile: any preceding sibling with margin breaks the offset math, and the descendants inherit the compressed vertical origin. Legacy; do not extend to new surfaces.
-- **Inline `style="margin: 2rem auto"` or similar on `<main>`.** Was the pattern on the pre-Sprint-D bridge-state per-report page. `2rem` (32px) < nav height (58px), so the top of `<main>` sits under the nav. Same failure mode as the `.wip-banner` regression.
-- **Adding padding-top only to a nested child** (e.g. the hero inside a page shell). Works for that hero but breaks any subsequent design change that swaps or removes the hero. Put the clearance on the outermost body-child container so it's a property of the surface, not of one section.
-
-### Verification during design pass
-
-Before closing any PR that adds a new page or moves a top-level container:
-
-1. Load the page in a browser, scroll to absolute top (Ctrl+Home).
-2. The first content pixel below the nav should have visible breathing room, not touch the nav border.
-3. Confirm at both breakpoints (<768px and ≥768px).
-4. If a WIP-banner sits above the main content, verify the banner clears the nav AND the main content clears the banner.
+See `docs/agents/fixed-nav-clearance.md` for the CSS pattern, reference implementations, anti-patterns, and verification steps.
 
 ## Testing
 
-Always run the test suite after making changes and fix any regressions before reporting completion.
+Always run the test suite after changes and fix regressions before reporting completion.
 
 ## Data & Permissions
 
@@ -161,12 +84,11 @@ Never modify data files (skill levels, slot data, schema fixtures) without expli
 
 ## Project Architecture / Data Model
 
-Skill levels are stored in slots, not on skill objects—account for this when computing stats, trees, and breakdowns.
+Skill levels are stored in slots, not on skill objects — account for this when computing stats, trees, and breakdowns.
 
 ## Commands & Setup
 
-Refer to [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for local environment setup (virtualenv, pip, pipx), common commands, and testing instructions.
-
+See [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for local setup (virtualenv, pip, pipx), common commands, and testing.
 
 ## Current Layout
 
@@ -181,11 +103,11 @@ Refer to [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) 
 | Review intake | `registry-for-review/skill-batches/` | `gaia push` writes draft batches here |
 | User trees | `skill-trees/<username>/skill-tree.json` | User-owned progression state |
 | Local output | `generated-output/` | Gitignored scan/render artifacts |
-| Python CLI | `src/gaia_cli/` | Entry point: `main.py` with dynamic command discovery from `commands/`. Mutating ops live in `commands/dev/` (evidence, verify, merge, calibrate). `versioning.py` keeps pyproject.toml, package.json files, and registry/gaia.json in lockstep. |
-| Slash-naming helpers | `src/gaia_cli/formatting.py` | Centralized slash-naming formatters, RANK_COLORS, tier colors |
+| Python CLI | `src/gaia_cli/` | Entry `main.py`, dynamic command discovery from `commands/`. Mutating ops in `commands/dev/` (evidence, verify, merge, calibrate). `versioning.py` keeps pyproject.toml, package.json files, registry/gaia.json in lockstep. |
+| Slash-naming helpers | `src/gaia_cli/formatting.py` | Slash-naming formatters, RANK_COLORS, tier colors |
 | Local-first context | `src/gaia_cli/localContext.py` | Merges user tree + scan results + named skill map into `LocalContext` |
-| npm wrapper | `packages/cli-npm/` | `@gaia-registry/cli` — lightweight Node.js wrapper publishing the `gaia` command to npm, executing the local Python binary. |
-| MCP server | `packages/mcp/` | `@gaia-registry/mcp-server` — exposes the registry to AI agents via MCP. Key components: `src/config/merger.ts` (config merge), `src/daemon.ts` (start/stop/status), `src/index.ts` (tools: `gaia_lookup`, `gaia_suggest`, `gaia_scan_context`, `gaia_my_tree`). |
+| npm wrapper | `packages/cli-npm/` | `@gaia-registry/cli` — Node.js wrapper publishing `gaia` to npm, executing the local Python binary. |
+| MCP server | `packages/mcp/` | `@gaia-registry/mcp-server` — exposes registry via MCP. Key: `src/config/merger.ts`, `src/daemon.ts`, `src/index.ts` (tools `gaia_lookup`, `gaia_suggest`, `gaia_scan_context`, `gaia_my_tree`). |
 
 ```bash
 # Meta Review (CLI-ONLY)
@@ -200,7 +122,7 @@ gaia dev fuse generic-id --name "..." --type ultimate --prereqs a,b,c \
 
 ## Generated Artifacts — Class P vs Class S
 
-Two categorically different classes of generated files live in this repo. The distinction is load-bearing — confusing them once already took the site dark for 12 hours (PR #798 retro, 2026-06-22).
+Two categorically different classes of generated files. The distinction is load-bearing — confusing them once took the site dark for 12 hours (PR #798 retro, 2026-06-22).
 
 | Class | Members | Storage | Why |
 |---|---|---|---|
@@ -211,7 +133,7 @@ Two categorically different classes of generated files live in this repo. The di
 
 When you change `registry/nodes/` or `registry/named/`, run `gaia dev docs` and commit both the Class S artifacts (`docs/graph/*`) and the source change in the same PR. CI Guard E in `docs-cohesion.yml` enforces this.
 
-Pre-#798 footgun history: commit `de3e77f7e` untracked both classes in one move. Auto-sync workflow tried to regenerate-and-commit-back, but `gaia dev release --sync` had a hard-coded `git add registry/gaia.json` step that died once the path was gitignored. Site went dark for 12h across 4 successive merges. See `founder/handovers/EPIC780_OPTION_A_DECISION.md`.
+Footgun history: commit `de3e77f7e` untracked both classes; auto-sync's `gaia dev release --sync` had a hard-coded `git add registry/gaia.json` that died once the path was gitignored → site dark 12h. See `founder/handovers/EPIC780_OPTION_A_DECISION.md`.
 
 ## Programmatic-First Policy
 
@@ -219,18 +141,13 @@ Pre-#798 footgun history: commit `de3e77f7e` untracked both classes in one move.
 
 ### CLI Pre-Flight Rule (CRITICAL — added 2026-06-20)
 
-**Every mutating `gaia dev` subcommand MUST validate the schema invariant it would produce BEFORE writing.** A CLI that lets an agent ship a state that fails CI is a CLI that the next agent will work around — and around, and around. Each gap erodes the registry; the cumulative drift is irreversible.
+**Every mutating `gaia dev` subcommand MUST validate the schema invariant it would produce BEFORE writing.** A CLI that ships a state failing CI is one the next agent works around; each gap erodes the registry irreversibly. When adding/extending a `gaia dev` verb:
 
-When adding or extending a `gaia dev` verb, the implementation must:
+1. **Check the schema constraint** the proposed write would violate. Examples: `update-named --status named` requires `title` or `catalogRef` (frontmatter or flag) — reject with a clear error rather than write a state that fails `gaia validate`; `dev evidence` numeric flags must validate ranges; `dev calibrate` to 3★+ must check the skill has a verified `links.github` blob URL (META.md §2.4 "Star Bar").
+2. **Surface the gap, don't paper over it.** If the CLI can't satisfy the request without an invalid state, error out with the path to the right command. NEVER fall back to direct frontmatter edits — those skip timeline logging (META.md §5) and pollute the audit trail.
+3. **If the right command doesn't exist**, file an issue tagged `CLI` + `tech-debt`. Do not let an agent "work around it" — that's how 14 broken-state mattpocock skills got past local validate (PR #754 retro, 2026-06-20).
 
-1. **Check the schema constraint** that would be violated by the proposed write. Examples:
-   - `update-named --status named` requires `title` or `catalogRef` (frontmatter or via flag) — reject with a clear error if missing rather than writing a state that fails `gaia validate`.
-   - `dev evidence` numeric flags must validate ranges before writing.
-   - `dev calibrate` to a 3★+ level must check the skill has a verified `links.github` blob URL (META.md §2.4 "Star Bar").
-2. **Surface the gap, don't paper over it.** If the CLI cannot satisfy the request without producing an invalid state, error out with the path to the right command. NEVER fall back to direct frontmatter edits — those skip timeline logging (META.md §5 transparency mandate) and pollute the audit trail.
-3. **If the right command does not exist**, file an issue tagged `CLI` + `tech-debt` describing the gap. Do not let a coding agent "work around it" — that's how the registry got 14 broken-state mattpocock skills past local validate (PR #754 retro, 2026-06-20).
-
-This rule is non-negotiable. The CLI is the canonical mutation interface; if it lets bad states through, the gap is the bug, not the agent that hit it.
+Non-negotiable: the CLI is the canonical mutation interface; if it lets bad states through, the gap is the bug.
 
 ### Skill-Tree Timeline — Strict CLI-Only
 
@@ -243,35 +160,25 @@ Every change to a user's `skill-trees/<username>/skill-tree.json` **must** be ac
 | Append event at current time | `gaia dev timeline <skillId> --user <username> --action <action> --notes "..."` |
 | Backfill a historical event | `gaia dev timeline <skillId> --user <username> --action <action> --notes "..." --timestamp "YYYY-MM-DDTHH:MM:SSZ"` |
 
-The `--timestamp` flag accepts ISO 8601 (e.g. `2026-03-01T00:00:00Z`). Without it, the current UTC time is used. Backfilled events are automatically sorted chronologically.
+The `--timestamp` flag accepts ISO 8601 (e.g. `2026-03-01T00:00:00Z`); without it, current UTC is used. Backfilled events auto-sort chronologically.
 
-**Known CLI gaps (flag these in PRs, do not silently hand-edit):**
+**Known CLI gap (flag in PRs, do not silently hand-edit):** No `gaia remove-skill` / `gaia demote` command — skill removal from the user tree has no dedicated verb. Workaround: direct JSON edit to remove from `unlockedSkills`, then `gaia dev timeline <skillId> --user <username> --action demote --notes "..."` to log it.
 
-| Gap | Workaround |
-|---|---|
-| No `gaia remove-skill` / `gaia demote` command — skill removal from the user tree has no dedicated verb | Direct JSON edit to remove from `unlockedSkills`; then use `gaia dev timeline <skillId> --user <username> --action demote --notes "..."` to log it |
-| `gaia dev timeline` without `--user` writes to the **registry node**, not the user tree | Always pass `--user <username>` when targeting a skill tree |
-
-> **Closed CLI gaps (as of v5.0.11, 2026-06-23):** the v3.28.0 gaps table that used to live here listed `--timestamp`, `--user`, and `--action demote` as missing. They all ship now:
-> - `gaia dev timeline --user <username>` writes to `skill-trees/<username>/skill-tree.json` (the gaps row that said it always wrote to registry nodes is no longer true)
-> - `--timestamp YYYY-MM-DDTHH:MM:SSZ` accepts ISO 8601 for historical backfills
-> - `--action demote` is in the action enum
->
-> Skill removal still has no dedicated verb (`gaia remove-skill` / `gaia demote`); for that one case, direct JSON edit + `gaia dev timeline ... --action demote --user <user>` to log it. Everything else routes through the CLI.
+Closed as of v5.0.11 (2026-06-23): `gaia dev timeline --user <username>` writes to the user tree (not the registry node); `--timestamp` ISO 8601 backfills; `--action demote` is in the enum. Only skill removal still lacks a dedicated verb (workaround above).
 
 ## CLI Shape
 
-Top-level commands are lifecycle-oriented: `init`, `scan`, `pull`, `push`, `appraise`, `promote`, `release`, `version`, `whoami`, `mcp`, `tree`, `graph`, `docs`, `update`, `share`, and `help`.
+Top-level (lifecycle-oriented): `init`, `scan`, `pull`, `push`, `appraise`, `promote`, `release`, `version`, `whoami`, `mcp`, `tree`, `graph`, `docs`, `update`, `share`, `help`.
 
-Named skill actions live under `gaia skills`: `list`, `search`, `install`, `uninstall`, and `info`. The old flat verbs are intentionally removed.
+Named skill actions under `gaia skills`: `list`, `search`, `install`, `uninstall`, `info`. Old flat verbs are intentionally removed.
 
 ### Share bundles (`gaia share` / `gaia install <bundle>`)
 
-`gaia share` exports a self-contained **share bundle** JSON (`generated-output/share/<user>-share-bundle.json`, or `--stdout`) carrying a snapshot of the sharer's tree, a flat install manifest pointing each skill at its source repo via `links.github` (`blob/branch/subpath`, `tree/`→`blob/` normalized), and pre-resolved metadata to re-render the sharer's tree preview. A bundle can span multiple repos and still present as one tree.
+`gaia share` exports a self-contained **share bundle** JSON (`generated-output/share/<user>-share-bundle.json`, or `--stdout`): a snapshot of the sharer's tree, a flat install manifest pointing each skill at its source repo via `links.github` (`blob/branch/subpath`, `tree/`→`blob/` normalized), and pre-resolved metadata to re-render the preview. A bundle can span multiple repos and present as one tree.
 
-`gaia install` detects a bundle argument (a `.json` path or an http(s) URL) and walks a guided flow: render the sharer's tree → prompt `[A]ll / [P]ick / [V]iew only / [Q]uit` → resolve each chosen skill (reusing the `gaia skills install` resolution path when the consumer's registry knows it, else installing directly from the bundle's source URL) → print an installed / skipped / unresolved summary. Non-TTY defaults to view-only. Implemented in `src/gaia_cli/share.py`. The static `docs/share/` copy-link page is a deferred fast-follow (Issue #128).
+`gaia install` detects a bundle argument (`.json` path or http(s) URL) and walks a guided flow: render tree → prompt `[A]ll / [P]ick / [V]iew only / [Q]uit` → resolve each chosen skill (reusing the `gaia skills install` resolution path when the consumer's registry knows it, else installing directly from the bundle's source URL) → print installed/skipped/unresolved summary. Non-TTY defaults to view-only. Implemented in `src/gaia_cli/share.py`. Static `docs/share/` copy-link page is a deferred fast-follow (Issue #128).
 
-All commands default to **local-first** output — showing the user's own skill levels, detected skills, and named forms when available. Pass `--canon` to any command to view canonical registry data instead.
+All commands default to **local-first** output (user's own skill levels, detected skills, named forms). Pass `--canon` for canonical registry data.
 
 ## Authorization — Verifier Guardrail
 
@@ -319,11 +226,11 @@ Bot actors (`*[bot]`, `jules`, `codex`, `claude-bot`, `gemini-bot`) are always a
 | `dev/...`, `claude/...`, `codex/...`, `gemini/...` | Experimental (unrestricted) | any |
 | `infra/...` | CI/tooling changes | `.github/`, `scripts/`, `docs/*.html`, `*.md` |
 
-CI enforces scope via `.github/workflows/branch-scope.yml`. Schema changes (`registry/schema/`) MUST use a `schema/` branch. Add label `skip-scope-check` to bypass in emergencies.
+CI enforces scope via `.github/workflows/branch-scope.yml`. Schema changes (`registry/schema/`) MUST use a `schema/` branch. Label `skip-scope-check` to bypass in emergencies.
 
 ## Promotion Rule
 
-`gaia scan` writes `generated-output/promotion-candidates.json` and renders the user's tree. `gaia promote <skill> --label <level>` may only promote a pair listed in that file, and stale candidate files are rejected after 24 hours.
+`gaia scan` writes `generated-output/promotion-candidates.json` and renders the user's tree. `gaia promote <skill> --label <level>` may only promote a pair listed in that file; stale candidate files are rejected after 24 hours.
 
 ## Versioning
 
@@ -334,203 +241,86 @@ The pre-commit hook keeps these in lockstep:
 - `packages/mcp/package.json`
 - `registry/gaia.json`
 
-If they disagree before the bump, the hook fails loudly. Use `gaia dev release <type> --sync` to force align manifests to the highest version before bumping. Use `gaia dev release patch|minor|major` to bump all at once.
+If they disagree before the bump, the hook fails loudly. Use `gaia dev release <type> --sync` to force-align manifests to the highest version before bumping. Use `gaia dev release patch|minor|major` to bump all at once.
 
-> **Deprecation note:** `gaia release` is a shim that delegates to `gaia dev release` with a warning. Use `gaia dev release` directly; the shim will be removed in v7.0.0.
+> **Deprecation:** `gaia release` is a shim delegating to `gaia dev release` with a warning; removed in v7.0.0. Use `gaia dev release` directly.
 
 ### Decorative assets must NOT carry version metadata
 
 **Hard rule (codified after Issue #807):** Class S decorative artifacts — `docs/graph/gaia.json`, `docs/tree.md`, `docs/index.html` stats block, badges/cards/og — **must not** carry a `version` field, banner, or comment that tracks the manifest version. The lockstep verifier (`scripts/verify_lockstep.py`) checks only the four manifests above; no rendering surface should have a version string that needs to agree with them.
 
-Before #807 the version stamp on these files was the dominant source of cross-PR CI churn: any PR opened against an old `main` would inherit a stale stamp and trip lockstep before auto-sync could fix it, costing agents 2–4 round-trips of bump-and-push debugging on work that had nothing to do with versioning. Stripping the stamp from decoration ends that class of failure entirely.
-
-If you add a new generated artifact under `docs/`, do not stamp a version on it. If you genuinely need a version string at runtime (e.g. for a cache-bust query param), read it dynamically from a fetched manifest at request time — do not bake it into the file.
+Before #807 the version stamp on these files was the dominant source of cross-PR CI churn: a PR opened against an old `main` inherited a stale stamp and tripped lockstep. Stripping the stamp from decoration ends that class of failure. If you add a new generated artifact under `docs/`, do not stamp a version on it. If you need a version string at runtime (e.g. cache-bust query param), read it dynamically from a fetched manifest — do not bake it into the file.
 
 ### Adding a new versioned HTML page
 
-**Never manually patch `?v=` query strings.** Instead, add the page path to `build_html_cache_busting()` in `scripts/build_docs.py` — the function at line ~316 lists every HTML file that gets auto-versioned on `gaia dev docs` / CI release. New `docs/<section>/index.html` pages go here; the `_apply_cache_busting` regex handles all relative `.css` and `.js` src/href attributes automatically.
+**Never manually patch `?v=` query strings.** Add the page path to `build_html_cache_busting()` in `scripts/build_docs.py` (function at ~L316 lists every auto-versioned HTML file). New `docs/<section>/index.html` pages go here; the `_apply_cache_busting` regex handles all relative `.css`/`.js` src/href attributes automatically.
 
 ### Bundled registry snapshot — refresh cadence
 
-`src/gaia_cli/data/registry/gaia.json`, `named-skills.json`, and `named/` are **gitignored** (not tracked in the repo). They are injected into the PyPI wheel at build time by the "Bundle fresh registry snapshot" step in `.github/workflows/publish-pypi.yml`:
+`src/gaia_cli/data/registry/gaia.json`, `named-skills.json`, and `named/` are **gitignored**, injected into the PyPI wheel at build time by the "Bundle fresh registry snapshot" step in `.github/workflows/publish-pypi.yml`:
 
-- **vX.Y.0 releases** (minor or major, where patch = 0): the CI step downloads `gaia-artifacts.tar.gz` from the matching GitHub Release and copies the fresh snapshot into `src/gaia_cli/data/registry/` before `python -m build` runs.
-- **Patch releases** (vX.Y.Z where Z ≠ 0): the snapshot is NOT refreshed; the wheel inherits the snapshot from the most recent minor/major release.
-- `registry/schema/*.json` files are **tracked** (hand-authored JSON schemas) and are always present.
+- **vX.Y.0 releases** (minor/major, patch = 0): CI downloads `gaia-artifacts.tar.gz` from the matching GitHub Release and copies the fresh snapshot into `src/gaia_cli/data/registry/` before `python -m build`.
+- **Patch releases** (vX.Y.Z, Z ≠ 0): snapshot NOT refreshed; wheel inherits from the most recent minor/major release.
+- `registry/schema/*.json` are **tracked** (hand-authored) and always present.
 
-Users who need the latest registry between wheel releases should run `gaia pull`, which downloads `gaia-artifacts.tar.gz` from the latest GitHub Release. When the CLI falls back to the bundled snapshot, it prints a one-time warning to stderr:
-
-```
-Warning: Using bundled registry snapshot from <DATE>. Run `gaia pull` for the latest.
-```
+Users needing the latest registry between wheels run `gaia pull` (downloads `gaia-artifacts.tar.gz` from the latest Release). On fallback the CLI prints a one-time stderr warning: `Warning: Using bundled registry snapshot from <DATE>. Run \`gaia pull\` for the latest.`
 
 ## Vocabulary
 
 `CONTEXT.md` is the single source of truth for product nomenclature and the banned-synonym list (CI greps it). Read it before writing any user-facing copy, CLI output, or agent skill.
 
-The **rarity** axis (`common` / `uncommon` / `rare` / `epic` / `legendary`) is **deprecated** and on its way out of the schema — see `CONTEXT.md` § Rarity. Do not introduce new references to rarity in copy, skills, or curation workflows. `gaia add` writes the legacy default automatically; nobody should be asked to choose a value.
+The **rarity** axis (`common`/`uncommon`/`rare`/`epic`/`legendary`) is **deprecated** and on its way out of the schema — see `CONTEXT.md` § Rarity. Do not introduce new rarity references in copy, skills, or curation. `gaia add` writes the legacy default automatically; nobody should be asked to choose a value.
 
 ## Agent Skills
 
 All project skills live in `.claude/skills/`. There is no `.agents/` directory. Keep skills in sync with `CONTEXT.md` nomenclature.
 
-- `.claude/skills/gaia-curate/` — `/gaia-curate`: expand the registry with new skills and open a PR (single linear pass).
-- `.claude/skills/gaia-curate-chain/` — `/gaia-curate-chain`: the same curation work as a **prompt-chaining** workflow (six gated links, one sub-agent per link), per Anthropic's *Building Effective Agents*. Use when evidence quality and schema correctness matter more than latency.
-- `.claude/skills/gaia-curate-dynamic/` — `/gaia-curate-dynamic`: curation as a **dynamic workflow** (runtime-composed plan, massively parallel sub-agent fan-out, proposer⇄refuter convergent validation, resumable ledger), per *Introducing dynamic workflows in Claude Code*. Use for wide sweeps and high-stakes verification.
-- `.claude/skills/gaia-meta-audit/` — `/gaia-meta-audit`: prioritized queue of skills/catalog items needing review.
-- `.claude/skills/gaia-audit/` — `/gaia-audit`: focused source-level correction for one target.
-- `.claude/skills/gaia-trace-timeline/` — `/gaia-trace-timeline`: audit & repair user-tree timelines so every skill's current rank is explained by its Hero's Journey (backfills missing demote/rank_up events). Backed by `scripts/trace_timeline.py`; enforced by `scripts/validate_timelines.py` (run via `gaia dev validate` + release CI).
-- `.claude/skills/gaia-draft-curate/`, `gaia-docs-sync/`, `gaia-integrity/`, `gaia-triage/`, `graphify-triage/` — supporting curation, doc-sync, integrity, and triage workflows.
-- `.claude/skills/gaia-bot-curate/` — bot-driven curation pass.
-- `.claude/skills/gaia-fuse-full-suite/` — `/gaia-fuse-full-suite`: fuse one contributor's named skills into a single ultimate.
+- `gaia-curate/` — `/gaia-curate`: expand registry with new skills, open a PR (single linear pass).
+- `gaia-curate-chain/` — `/gaia-curate-chain`: same work as **prompt-chaining** (six gated links, one sub-agent per link). Use when evidence quality/schema correctness matter more than latency.
+- `gaia-curate-dynamic/` — `/gaia-curate-dynamic`: curation as a **dynamic workflow** (runtime-composed plan, parallel fan-out, proposer⇄refuter convergent validation, resumable ledger). Use for wide sweeps and high-stakes verification.
+- `gaia-meta-audit/` — `/gaia-meta-audit`: prioritized queue of skills/catalog items needing review.
+- `gaia-audit/` — `/gaia-audit`: focused source-level correction for one target.
+- `gaia-trace-timeline/` — `/gaia-trace-timeline`: audit & repair user-tree timelines so each skill's rank is explained by its Hero's Journey (backfills demote/rank_up events). Backed by `scripts/trace_timeline.py`; enforced by `scripts/validate_timelines.py` (via `gaia dev validate` + release CI).
+- `gaia-draft-curate/`, `gaia-docs-sync/`, `gaia-integrity/`, `gaia-triage/`, `graphify-triage/` — supporting curation, doc-sync, integrity, triage.
+- `gaia-bot-curate/` — bot-driven curation pass.
+- `gaia-fuse-full-suite/` — `/gaia-fuse-full-suite`: fuse one contributor's named skills into a single ultimate.
 
-When touching any of these, route registry mutations through `gaia dev add` / `gaia dev merge` / `gaia dev split` / `gaia dev evidence` (Programmatic-First Policy) rather than hand-edits.
+When touching any of these, route registry mutations through `gaia dev add`/`merge`/`split`/`evidence` (Programmatic-First Policy), not hand-edits.
 
 ## Agent skills
 
-### Issue tracker
-
-GitHub Issues (PRs as request surface: no). See `docs/agents/issue-tracker.md`.
-
-### Triage labels
-
-Canonical labels (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
-
-### Domain docs
-
-Multi-context layout using `CONTEXT-MAP.md` at the root. See `docs/agents/domain.md`.
+- **Issue tracker:** GitHub Issues (PRs as request surface: no). See `docs/agents/issue-tracker.md`.
+- **Triage labels:** canonical set `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+- **Domain docs:** multi-context layout using `CONTEXT-MAP.md` at the root. See `docs/agents/domain.md`.
 
 ## gstack
 
-gstack is installed at `~/.claude/skills/gstack`. Use the `/browse` skill from gstack for **all web browsing**. Never use `mcp__claude-in-chrome__*` tools.
+Installed at `~/.claude/skills/gstack`. Use the `/browse` skill from gstack for **all web browsing**. Never use `mcp__claude-in-chrome__*` tools.
 
-Available gstack skills:
+Available: `/office-hours`, `/plan-ceo-review`, `/plan-eng-review`, `/plan-design-review`, `/design-consultation`, `/design-shotgun`, `/design-html`, `/review`, `/ship`, `/land-and-deploy`, `/canary`, `/benchmark`, `/browse`, `/connect-chrome`, `/qa`, `/qa-only`, `/design-review`, `/setup-browser-cookies`, `/setup-deploy`, `/setup-gbrain`, `/retro`, `/investigate`, `/document-release`, `/document-generate`, `/codex`, `/cso`, `/autoplan`, `/plan-devex-review`, `/devex-review`, `/careful`, `/freeze`, `/guard`, `/unfreeze`, `/gstack-upgrade`, `/learn`
 
-`/office-hours`, `/plan-ceo-review`, `/plan-eng-review`, `/plan-design-review`, `/design-consultation`, `/design-shotgun`, `/design-html`, `/review`, `/ship`, `/land-and-deploy`, `/canary`, `/benchmark`, `/browse`, `/connect-chrome`, `/qa`, `/qa-only`, `/design-review`, `/setup-browser-cookies`, `/setup-deploy`, `/setup-gbrain`, `/retro`, `/investigate`, `/document-release`, `/document-generate`, `/codex`, `/cso`, `/autoplan`, `/plan-devex-review`, `/devex-review`, `/careful`, `/freeze`, `/guard`, `/unfreeze`, `/gstack-upgrade`, `/learn`
+## Known Frontend Issues — Badges, Graph, Skill Explorer, Nav/Footer
 
-## Known Badges Issues (Core Implementation)
+**Load-bearing invariants (full detail in `docs/agents/frontend-known-issues.md`):**
 
-`docs/badges/index.html` is a **core** page — badge generation is user-facing and must work at all times. Key invariants to maintain:
-
-**`renderRows()` currentState destructuring** (fixed in PR #675, issue #674): `renderRows()` (line ~1378) reads several fields from `currentState` via destructuring. Any new field used inside `renderRows()` **must** be added to that destructuring — or defined with `const <field> = currentState.<field> || <default>` — before use. Silent `ReferenceError`s from missing variables blank the entire badge output with no visible error. Pattern to follow: every other function (`updatePickerActions`, `buildSkillOptions`, `addSkillRow`, button handlers) defines `const namedSkills = currentState.namedSkills || []` at the top. Match this pattern whenever extending `renderRows()`.
-
-**Rule:** after any edit to `docs/badges/index.html`, manually verify `https://gaiaskilltree.com/badges/?u=mattpocock&s=grill-me` renders badge markdown before merging.
-
-**Redaction invariant — 1★ skills exist, 1★ badges do not** (lesson from PR #803/2026-06-22): a contributor whose every named skill is ≤1★ (Awakened / pre-named / demoted) is a legitimate registry citizen — their markdown files in `registry/named/<handle>/` are real, they appear in tree views, they accumulate evidence toward promotion. What they **do not** get is a public reward artifact: no `docs/badges/_assets/<handle>/` directory, no OG card, no entry in `docs/badges/registry.json`. The cutover is 2★ ("named"). `scripts/validate_redaction.py` proves this invariant across every static surface; `scripts/generateBadges.py` enforces it at generation time via `is_redacted()` from `src/gaia_cli/redaction.py` (single source of truth).
-
-When auditing a "stale dir" complaint, first ask: are the underlying skills actually stale, or are they legitimately 1★ entries whose **badge directory** is the only thing that shouldn't be on disk? Removing the directory does not remove the skill — they're orthogonal.
-
-**Generator semantics** (`scripts/generateBadges.py`): writes only — never deletes contributor directories already on disk. The outer caller `scripts/build_docs.py::build_badges()` does the `shutil.rmtree(committed) + shutil.copytree(out_dir, committed)` cycle, which is what actually removes stale dirs. If `build_docs.py` errors out mid-run (e.g. a profiles regen failure on the auto-sync runner), the badges step may not run, and the prior on-disk state survives. Treat `gaia dev docs` warnings as load-bearing.
-
-**Auto-sync NEVER touches `docs/badges/`** (codified 2026-06-24 after the 17:34 UTC wipe outage): the `Auto-Sync Registry Artifacts` workflow runs `git checkout HEAD -- docs/badges/_assets/ docs/badges/registry.json` after `gaia dev docs`, so any badge regen the runner produced is discarded before commit. Badges may ONLY be refreshed via human-reviewed `infra/badge-*` PRs where the operator ran `gaia pull` against a known-good snapshot locally. Root cause of the ban: the runner's `gaia pull` step can hydrate from a stale GitHub Release (older than committed `named-skills.json`), and `gaia dev docs` then regenerates a near-empty badge tree against that stale snapshot — wiping live contributor SVGs that the CDN serves. See `founder/MEMORY.md` session 22 retro.
-
-**Badge drift in `gaia dev docs --check` is warn-only** (codified 2026-06-24): the `badges_changed` signal is printed as a `::warning::` but does NOT count toward the `--check` exit code in `scripts/build_docs.py::main`. Unrelated PRs no longer trip the wire when named-skills.json on the CI runner happens to disagree with the committed badge tree. The opt-in escape `[skip-badge-check]` in the HEAD commit message skips the badges step entirely (quieter CI log; no behavior change since badges are already warn-only).
-
-## Known Graph Issues
-
-**`docs/js/skill-graph.js` bootstrap guard** (fixed in PR #365 `9fa66b8`): Any `querySelector(...).addEventListener(...)` call at module bootstrap level will silently abort the entire IIFE if the selector returns null, causing the canvas to fall back to the embedded `FALLBACK_SKILLS` (~18 legacy nodes) instead of fetching `docs/graph/gaia.json`. Always null-check overlay button selectors before wiring events. Grep for `_graphCloseOverlay.querySelector` if the 3D graph regresses to fallback mode.
-
-**Stale `skills/` root directory** (removed in PR #365 `96c44df`): a pre-merge snapshot (`gaia.json v2.1.4`, 2026-04-30) that carried the legacy id `autonomous-research-agent` at `[VI · Transcendent ★]` with double-misencoded star glyphs. Do not recreate it; canonical data lives under `registry/` and `docs/graph/gaia.json`.
-
-## Known Skill Explorer Issues
-
-`docs/js/skill-explorer.js` is split into **two IIFEs** (lines 1–1862 and 1864–end). They do **not** share lexical scope — bindings in IIFE #2 are invisible to IIFE #1 and vice versa. Anything that needs to be shared has to be re-declared in each IIFE or hung off `window`.
-
-**The cross-IIFE bugs caught in PR #714 (2026-06-17):**
-
-| Bug | Symptom | Fix |
-|---|---|---|
-| `renderDocs` (IIFE #1, line ~619) called `getRootPath()` defined only in IIFE #2 (line ~1982) | "Docs section unavailable" when the modal opened, or — worse — entire render chain dead because the throw cascaded into `renderFlowchart` and `renderTimeline` | Duplicated `function getRootPath()` inside IIFE #1 (right after `findGeneric`). Comment links back to this CLAUDE.md note. |
-| `openTreeDialog` (IIFE #2, line ~1949) referenced an **undeclared** `version` identifier | Skill Tree dialog opened blank or never opened (silent ReferenceError from the click handler) | Added `var version = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';` mirroring the helper at `docs/js/named-skills.js:468` |
-| Snapshot `_seBodyOriginalHTML` lazy-captured the live `.se-body` markup once, then restored it on every subsequent open | Subsequent modal opens missing `#se-docs` / `#se-upgrade` / `#se-changelog` mounts when the captured snapshot was already mid-mutation | Replaced with a constant `SE_BODY_SKELETON` template literal at IIFE #1 top |
-| Render call chain at `openExplorer:1601-1607` had no try/catch | One render throwing (e.g. ReferenceError above) silently aborted every subsequent section so only Hero + Install showed | Wrapped each call in `_safeRender(name, mountId, fn)`. On throw, the affected section shows a 1-line "Section unavailable" notice and DevTools console gets the underlying error. Sibling sections continue to render. |
-
-**Rules going forward:**
-
-1. **Before referencing a top-level function from inside `skill-explorer.js`, confirm it's in the same IIFE.** Grep for the function name and check it's declared above the use in the *same* `(function(){ … })()` block. If it isn't, either duplicate it or expose via `window`.
-2. **No undeclared identifiers — even on the right-hand side of fetch URLs.** A `version` or `prefix` typo throws ReferenceError at click time; the user sees an unresponsive button with no console hint unless they have DevTools open. Lint can't catch this when the file is two IIFEs in one script.
-3. **Render functions in `openExplorer` must remain wrapped in `_safeRender`.** A throw in any of `renderInstall` / `renderDocs` / `renderFlowchart` / `renderTimeline` must not cascade. If you add a sixth section, wrap it.
-4. **Don't snapshot live DOM into a module-level cache and assume it's the original.** Either rebuild from a constant template (preferred) or re-capture every modal open.
-
-**Verification rule:** after any edit to `docs/js/skill-explorer.js` or `docs/named/index.html`, manually open `https://gaiaskilltree.com/named/` (or local equivalent), click any 2★+ skill, and confirm all five sections render: **Hero, Installation, Documentation, Upgrade Path, Evolution Changelog**. Click the topbar **Skill.md**, **Repo**, **Report**, and **Skill Tree** (in nav) buttons — each must open. Watch the DevTools console for `[skill-explorer]` warnings.
-
----
-
-## Nav / Footer — Adding a New Section
-
-Site nav (`docs/js/site-nav.js`) and site footer (`docs/js/site-footer.js`) both detect URL depth by scanning for a known mount segment. The canonical list lives in **one place only**:
-
-```
-docs/js/mounts.js  →  window.GAIA_MOUNTS = [ ... ]
-```
-
-Both scripts fall back to an inline copy if `mounts.js` hasn't loaded yet, but the source of truth is `mounts.js`.
-
-**When you add a new `docs/<section>/` directory that uses site-nav or site-footer:**
-
-1. Add the directory name to `window.GAIA_MOUNTS` in `docs/js/mounts.js`.
-2. Load `mounts.js` before `site-nav.js` on every HTML page in that directory:
-   ```html
-   <script src="../js/mounts.js?v=X.Y.Z"></script>
-   <script src="../js/site-nav.js?v=X.Y.Z"></script>
-   ```
-   Adjust the `../` prefix for the page's depth (depth 1 → `../`, depth 2 → `../../`, root → `js/`).
-3. If the pages are generated by a Python script (e.g. `scripts/generateProfilePages.py`), update the NAV_HTML / NAV_DIR_HTML template strings there too.
-
-**CI guard:** `scripts/check_nav_mounts.py` (Guard D in `.github/workflows/docs-cohesion.yml`) fails the PR if any HTML file uses `site-nav.js` without loading `mounts.js` first, or if an active `docs/` subdirectory is missing from `window.GAIA_MOUNTS`.
-
-Run locally to verify: `python scripts/check_nav_mounts.py`
-
----
+- **Badges** (`docs/badges/index.html` is a **core** page): any new field used inside `renderRows()` (~L1378) MUST be added to its `currentState` destructuring or defined `const <field> = currentState.<field> || <default>` — a missing var silently blanks all badge output. After any edit, verify `https://gaiaskilltree.com/badges/?u=mattpocock&s=grill-me` renders. **1★ skills exist, 1★ badges do not** — cutover is 2★; `scripts/validate_redaction.py` + `scripts/generateBadges.py` (`is_redacted()` from `src/gaia_cli/redaction.py`) enforce it. **Auto-sync NEVER touches `docs/badges/`** (badges only via human-reviewed `infra/badge-*` PRs); badge drift in `gaia dev docs --check` is warn-only.
+- **Graph** (`docs/js/skill-graph.js`): null-check overlay button selectors before wiring events — a null `querySelector(...).addEventListener` at bootstrap silently aborts the IIFE and falls back to `FALLBACK_SKILLS`. Do not recreate the stale `skills/` root directory.
+- **Skill Explorer** (`docs/js/skill-explorer.js`): split into **two IIFEs** (L1–1862, L1864–end) that do NOT share scope — anything shared must be re-declared per IIFE or hung off `window`; render functions in `openExplorer` stay wrapped in `_safeRender`. After any edit to it or `docs/named/index.html`, open `https://gaiaskilltree.com/named/`, click a 2★+ skill, confirm all five sections render (Hero, Installation, Documentation, Upgrade Path, Evolution Changelog).
+- **Nav / Footer:** the canonical mount list lives in ONE place — `docs/js/mounts.js → window.GAIA_MOUNTS`. Every new `docs/<section>/` using site-nav must add its dir there AND load `mounts.js` before `site-nav.js`. CI Guard D (`scripts/check_nav_mounts.py` in `docs-cohesion.yml`) enforces this; run `python scripts/check_nav_mounts.py` locally.
 
 ## Curation Guidelines
 
-Refer to [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for local environment setup, testing, and CI troubleshooting. Keep these curation-specific rules in mind:
+**Load-bearing invariants (full detail in `docs/agents/curation-guidelines.md`):**
 
-### 1. `links.github` URL must use `blob/` not `tree/`
-`src/gaia_cli/install.py::_parse_github_url` only recognises `https://github.com/owner/repo/blob/branch/subpath`. A bare repo URL (`https://github.com/owner/repo`) installs to the repo root and makes the skill undiscoverable (symlink has no `SKILL.md` at top level). GitHub's directory-view URLs use `tree/` — convert them to `blob/` manually.
+- `links.github` MUST use `blob/branch/subpath`, not `tree/` (bare repo roots make skills undiscoverable). Only `links.github` is read by the installer — rename `links.repo`/`links.docs`/`origin` etc. accordingly.
+- Skills with `suiteComponents` need NO `links.github` of their own — do not flag them uninstallable; but each **component** needs its own `blob/branch/subpath`. Non-suite skills ≤2★ with no public repo → `installable: false` (see CONTRIBUTING.md §12).
+- Trust Magnitude evidence learnings (same-source dedup, mothership discount, peer-review being highest-impact for science skills, `benchmark-result` needing `percentile`, `rm-evidence --source` removing ALL entries at a URL, worktree `PYTHONPATH` run path, social-signal view floor, firecrawl fallback) — see the reference file before touching evidence.
 
-### 2. Only `links.github` is read by the installer
-The install pipeline reads `meta.get("links", {}).get("github")` and nothing else. Wrong keys seen in the wild and their fixes:
-| Wrong key | Fix |
-|---|---|
-| `links.repo:` | rename to `links.github:` |
-| `links.docs:` | rename to `links.github:` (strip any `#fragment`) |
-| `links.arxiv:` | add `links.github:` alongside (keep arxiv) |
-| `origin: https://...` | move URL to `links.github:`, set `origin: false` |
-
-### 3. Suites never need `links.github` — do not flag them as uninstallable
-Any skill with `suiteComponents` (e.g. `mattpocock/skills`, `garrytan/gstack`) installs by iterating its components. It has no installation directory of its own and does not need `links.github`. Only **non-suite** individual skills need `links.github`.
-For non-suite skills at 2★ or below with no known public repo: mark `installable: false` in frontmatter and do not re-research on repeated audit passes. See **CONTRIBUTING.md §12** for the full exempt list and the 3★+ demotion rule.
-
-### 4. Suite component links need subpaths
-A suite skill (has `suiteComponents`) whose `links.github` is a bare repo root will install symlinks pointing to the repo root. Every component must have a `blob/branch/subpath` URL pointing to its actual skill directory.
-
-### 5. Evidence pipeline — Trust Magnitude learnings (I11, 2026-06-20)
-
-Key facts for evidence curation that affect computed TM scores:
-
-**Same-source dedup**: When a skill already has `repo-own` evidence at URL `https://github.com/owner/repo`, adding a new `github-stars-own` entry at the SAME URL will be deduped — only the higher-scoring entry counts. Use the specific `SKILL.md` blob URL for `github-stars-own` to avoid dedup (e.g. `https://github.com/owner/repo/blob/main/skills/foo/SKILL.md`).
-
-**github-stars-own mothership discount formula**: `artifact_score = (stars/1000) / skill_count_in_repo * weight`. For large suites (34+ skills), per-skill contribution is tiny. Prefer `social-signal` or `peer-review` for high-impact additions.
-
-**peer-review is the highest-impact type for science skills**: `reviewers=3` gives magnitude=75, weight=1.2, so artifact_score≈90. One published NAR/Nature paper lifts a skill from TM=10 to TM=100+ (A grade) immediately.
-
-**benchmark-result requires `percentile` field**: The magnitude formula uses `row.get("percentile", 0)`. Without it, score=0. Without a percentile score, use `peer-review` type instead.
-
-**rm-evidence --source removes ALL entries at that URL**: If two entries share the same source URL (e.g. `repo` and `github-stars-own`), `--source URL` removes both. Inspect indices first.
-
-**CLI run path in worktrees**: In worktrees, `python3 -m gaia_cli` may resolve to the installed system version, not the worktree source. Use `PYTHONPATH=/path/to/worktree/src python3 -m gaia_cli` to ensure branch-local CLI (e.g. when testing a new flag from a pending branch).
-
-**social-signal view floor**: views < 1000 → score = 0. Formula: `log10(views) * 8.0`. 10K views ≈ 32 score; hard-capped at 80 per skill.
-
-**firecrawl-search as WebSearch fallback**: When WebSearch API is down, use `firecrawl search "<query>" -o .firecrawl/result.json --json`. Always write to `.firecrawl/` directory.
-
----
+See [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for setup, testing, and CI troubleshooting.
 
 ## Agent-Managed Files (Hermes Ownership)
 
-The following files are managed by an autonomous agent (Hermes) and should **not** be modified, staged, or deleted:
+Do **not** modify, stage, or delete these (managed by the Hermes agent):
 
 - `STEWARDSHIP_PLAN.md`
 - `scripts/marketing_engine.py`
@@ -545,22 +335,21 @@ The following files are managed by an autonomous agent (Hermes) and should **not
 
 ## Workspace Rules (Agent Directives)
 
-### Coding Style & Naming Conventions
-- Avoid using underscores (`_`) in functions and variables, unless they are explicitly provided in existing names or templates (except dunder functions like `__init__`, `__str__`, etc.).
+### Coding Style & Naming
+- Avoid underscores (`_`) in functions/variables unless explicitly provided in existing names/templates (except dunders like `__init__`, `__str__`).
 
 ### Branch Workflow
-- When starting fresh and indicating a PR, you are authorized to work on the PR branch right away. GO TO THE PR BRANCH, not the `claude/` branch.
+- When starting fresh and indicating a PR, work on the PR branch right away. GO TO THE PR BRANCH, not the `claude/` branch.
 
 ### Skills Intake
 - All skills live in `.claude/skills/`. There is no `.agents/` directory.
 
 ### Upstream Watcher (V1 design, phased implementation)
-- Design lives at [`docs/agents/upstream-watcher.md`](docs/agents/upstream-watcher.md). Read it before touching `scripts/upstream_watcher/`, `scripts/lib/`, `.github/workflows/upstream-*.yml`, or any `upstream:*` label.
-- The watcher opens **issues** for existing-skill version tracking; it does NOT create `bot/*` branches. That branch flow belongs to `scripts/crawlers/` (new-skill discovery, a different job).
-- Every registry mutation still goes through `gaia dev` verbs (`sync-upstream`, `freeze`, `relink`) on `review/meta/` branches. No hand-edits to `upstream:` frontmatter blocks; no direct writes from workflows to `main`.
+- Design at [`docs/agents/upstream-watcher.md`](docs/agents/upstream-watcher.md). Read before touching `scripts/upstream_watcher/`, `scripts/lib/`, `.github/workflows/upstream-*.yml`, or any `upstream:*` label.
+- The watcher opens **issues** for existing-skill version tracking; it does NOT create `bot/*` branches (that flow belongs to `scripts/crawlers/`, new-skill discovery).
+- Every registry mutation still goes through `gaia dev` verbs (`sync-upstream`, `freeze`, `relink`) on `review/meta/` branches. No hand-edits to `upstream:` frontmatter blocks; no direct workflow writes to `main`.
 
 ### Token Spend Logging (Critical)
-- On EVERY GitHub Project, LOG how much input / output token spend you made on which model + date.
-  - *Example format*: `<date> Opus 4.8 Extra High: 100k in, 200k out. ~$10`
-  - Simply report to the user the spend at the end of the session run EVERY commit push. Write this as a comment (when working on a PR, write on the PR. When working on an issue, write as part of the issue comment at the end).
-
+- On EVERY GitHub Project, LOG input/output token spend by model + date.
+  - *Format*: `<date> Opus 4.8 Extra High: 100k in, 200k out. ~$10`
+  - Report spend to the user at the end of the session run on EVERY commit push. Write it as a comment (on the PR when working a PR; as part of the issue comment when working an issue).
