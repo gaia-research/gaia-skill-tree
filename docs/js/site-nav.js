@@ -68,12 +68,12 @@
   // when the count is not part of the navigation's information hierarchy.
   const starLink = {
     href: 'https://github.com/gaia-research/gaia-skill-tree',
-    label: 'Star Gaia',
+    label: 'Star on GitHub',
     i: 6,
     cls: 'nav-star-cta',
     target: '_blank',
     rel: 'noopener',
-    ariaLabel: 'Star Gaia Skill Tree on GitHub (opens in a new tab)',
+    ariaLabel: 'Star the Gaia Skill Tree repo on GitHub (opens in a new tab)',
     icon: function() {
       return '<span class="nav-star-cta-mark" aria-hidden="true">★</span>';
     }
@@ -197,7 +197,7 @@
           const icon = typeof item.icon === 'function' ? item.icon() : '';
           return '<li><a href="' + item.href + '" style="color:' + item.color + '"' + active + '>' + icon + item.label + '</a></li>';
         }).join('') +
-        '<li><a href="https://github.com/gaia-research/gaia-skill-tree" class="nav-star-cta" target="_blank" rel="noopener" aria-label="Star Gaia Skill Tree on GitHub (opens in a new tab)"><span class="nav-star-cta-mark" aria-hidden="true">★</span>Star Gaia</a></li>' +
+        '<li><a href="https://github.com/gaia-research/gaia-skill-tree" class="nav-star-cta" target="_blank" rel="noopener" aria-label="Star the Gaia Skill Tree repo on GitHub (opens in a new tab)"><span class="nav-star-cta-mark" aria-hidden="true">★</span>Star on GitHub</a></li>' +
         // Dropdown items, flattened. Buttons (Skill Tree / Skill Graph) become
         // <a> links to home with the right query param so taps Just Work — the
         // dedicated handlers (skill-graph.js, hud-toggle.js) pick up the param.
