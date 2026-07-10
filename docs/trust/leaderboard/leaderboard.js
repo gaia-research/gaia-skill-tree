@@ -809,7 +809,8 @@
           'class': 'lb-axis-value lb-axis-value--inbar',
           'font-size': String(Math.max(10, ls.fontPx + 1)),
           fill: 'rgba(255, 255, 255, 0.95)',
-          'font-weight': '600'
+          'font-weight': '600',
+          style: 'pointer-events:none'
         });
         tmText.textContent = ult.trustMagnitude.toFixed(0);
         barGroup.appendChild(tmText);
@@ -946,7 +947,7 @@
       return;
     }
 
-    var SPAD = { top: 24, right: 24, bottom: 0, left: 54 }; // bottom computed below
+    var SPAD = { top: 40, right: 24, bottom: 0, left: 54 }; // top: extra room for rank stars above bars
     var SCHART_H = 400;
     var maxTM = TM_CEILING;
 
@@ -1006,6 +1007,26 @@
       // Grade accent cap (metallic stripe at top of bar)
       appendGradeCap(barGroup, suite.grade || 'A', x, y, SB);
 
+      // Rank stars — positioned ABOVE the bar top so they never obscure the
+      // bar body or block hover. Clamped to a minimum Y so they stay visible
+      // within the SVG viewport even for the tallest bars.
+      var rankN = parseInt(suite.level) || 2;
+      if (rankN > 0) {
+        var starFontPx = Math.max(9, ls.fontPx);
+        var starY = Math.max(-SPAD.top + starFontPx + 5, y - 6);
+        var rankPill = svgEl('text', {
+          x: x + SB / 2,
+          y: starY,
+          'text-anchor': 'middle',
+          'font-size': String(starFontPx),
+          'font-weight': '600',
+          fill: 'rgba(' + rankRgb(rankN) + ', 0.95)',
+          style: 'paint-order: stroke; stroke: rgba(0,0,0,0.55); stroke-width: 2px; stroke-linejoin: round; pointer-events: none'
+        });
+        rankPill.textContent = rankN + '\u2605';
+        barGroup.appendChild(rankPill);
+      }
+
       // Component count badge inside bar (near bottom)
       if (suite._componentCount > 0) {
         var badgeH = 18;
@@ -1034,7 +1055,8 @@
           'text-anchor': 'middle',
           'class': 'lb-axis-value lb-axis-value--inbar', 'font-size': String(Math.max(9, ls.fontPx + 1)),
           fill: 'rgba(255, 255, 255, 0.95)',
-          'font-weight': '600'
+          'font-weight': '600',
+          style: 'pointer-events:none'
         });
         tmText.textContent = suite.trustMagnitude.toFixed(0);
         barGroup.appendChild(tmText);
@@ -1288,7 +1310,7 @@
     var countEl = document.getElementById('lbNamedCount');
     if (!container) return;
 
-    var NPAD = { top: 24, right: 24, bottom: 0, left: 54 }; // bottom computed below
+    var NPAD = { top: 40, right: 24, bottom: 0, left: 54 }; // top: extra room for rank stars above bars
 
     var visible = applyFilter(skills);
     var collapsed = state.grouped ? collapseGroups(visible) : visible;
@@ -1460,25 +1482,22 @@
         barGroup.appendChild(badgeText);
       }
 
-      // Rank stars \u2014 always render at the BOTTOM INTERIOR of the bar so they
-      // never get truncated by the chart top edge. Stars sit just above the
-      // group-count badge (which lives at y+h-badgeH).
+      // Rank stars — positioned ABOVE the bar top so they never obscure the
+      // bar body or block hover. Clamped to a minimum Y so they stay visible
+      // within the SVG viewport even for the tallest bars.
       var rankN = parseInt(skill.level) || 2;
       if (rankN > 0) {
-        // Star Y: bottom-interior of bar. If the +N group badge is rendered
-        // (h>=20 case), tuck stars above it; otherwise sit at h-margin.
-        var starOffset = (skill._groupSize > 1 && h >= 20) ? 22 : 6;
-        var starY = y + h - starOffset;
-        // If bar is genuinely tiny, fall back to sitting just above the bar top.
-        if (h < 18) starY = Math.max(NPAD.top - 4, y - 6);
+        var starFontPx = Math.max(9, ls.fontPx);
+        // Place just above bar top; clamp so it doesn't leave the SVG viewport.
+        var starY = Math.max(-NPAD.top + starFontPx + 5, y - 6);
         var rankPill = svgEl('text', {
           x: x + NB / 2,
           y: starY,
           'text-anchor': 'middle',
-          'font-size': String(Math.max(9, ls.fontPx)),
+          'font-size': String(starFontPx),
           'font-weight': '600',
           fill: 'rgba(' + rankRgb(rankN) + ', 0.95)',
-          style: 'paint-order: stroke; stroke: rgba(0,0,0,0.55); stroke-width: 2px; stroke-linejoin: round'
+          style: 'paint-order: stroke; stroke: rgba(0,0,0,0.55); stroke-width: 2px; stroke-linejoin: round; pointer-events: none'
         });
         rankPill.textContent = rankN + '\u2605';
         barGroup.appendChild(rankPill);
@@ -1491,7 +1510,8 @@
           y: y + h / 2 + 4,
           'text-anchor': 'middle',
           'class': 'lb-axis-value lb-axis-value--inbar',
-          'font-size': String(Math.max(8, ls.fontPx - 1))
+          'font-size': String(Math.max(8, ls.fontPx - 1)),
+          style: 'pointer-events:none'
         });
         tmText.textContent = Math.round(tmVal);
         barGroup.appendChild(tmText);
