@@ -496,6 +496,7 @@ def build_html_cache_busting(check: bool) -> bool:
                 print(f"diff docs/{filename} (cache busting / version stale)")
             else:
                 path.write_text(updated_text, encoding="utf-8")
+                print(f"cache-bust: updated docs/{filename}")
     return changed
 
 
@@ -1430,7 +1431,19 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build generated Gaia docs regions.")
     parser.add_argument("--check", action="store_true", help="Fail if generated docs are stale")
     parser.add_argument("--auto-clean", action="store_true", help="(Opt-in) In write mode, remove left-only generated files in safe bundles (use cautiously)")
+    parser.add_argument(
+        "--cache-bust-only",
+        action="store_true",
+        help="Only rewrite HTML cache-bust/version strings (write mode). Used by "
+             "`gaia dev release` to fold version-string drift into the release commit "
+             "without regenerating badges or other Class S artifacts.",
+    )
     args = parser.parse_args(argv)
+
+    if args.cache_bust_only:
+        changed = build_html_cache_busting(check=False)
+        print("Cache-bust strings updated." if changed else "Cache-bust strings already current.")
+        return 0
 
     # Set the global AUTO_CLEAN flag for helper functions to consult.
     globals()["AUTO_CLEAN"] = bool(getattr(args, "auto_clean", False))
