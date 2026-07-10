@@ -595,24 +595,27 @@ nav ul.nav-primary {
 }
 
 /* Repository contribution is an explicit action, not a social metric. The
-   compact plate stays legible beside destination links without surfacing a
-   stargazer count before Gaia reaches its first 1,000-star milestone. */
+   filled plate reads as CTA-not-nav-link at rest — visual weight distinct
+   from the surrounding destination links — without surfacing a stargazer
+   count before Gaia reaches its first 1,000-star milestone. */
 .nav-star-cta {
   display: inline-flex !important;
   align-items: center;
   gap: .38rem;
-  padding: .32rem .58rem !important;
-  border: 1px solid rgba(var(--evidence-gold-rgb), .48);
+  padding: .34rem .68rem !important;
+  border: 1px solid var(--evidence-gold);
   border-radius: 999px;
-  color: var(--evidence-gold) !important;
-  background: rgba(var(--evidence-gold-rgb), .08);
+  color: var(--bg) !important;
+  background: var(--evidence-gold);
   font-weight: 600;
   line-height: 1.15;
+  transition: filter .18s ease-out, box-shadow .18s ease-out, transform .18s ease-out;
 }
 
 .nav-star-cta-mark {
   font-size: .82em;
   line-height: 1;
+  color: var(--bg);
 }
 
 /* This is a contained action plate, so it deliberately uses its border state
@@ -624,9 +627,18 @@ nav ul.nav-primary {
 
 .nav-star-cta:hover,
 .nav-star-cta:focus-visible {
-  color: var(--text) !important;
+  color: var(--bg) !important;
   border-color: var(--evidence-gold);
-  background: rgba(var(--evidence-gold-rgb), .16);
+  background: var(--evidence-gold);
+  filter: brightness(1.12);
+  box-shadow: 0 0 0 3px rgba(var(--evidence-gold-rgb), .22), 0 2px 6px rgba(var(--evidence-gold-rgb), .28);
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-star-cta { transition: none; }
+  .nav-star-cta:hover,
+  .nav-star-cta:focus-visible { transform: none; }
 }
 
 @media (min-width: 701px) and (max-width: 900px) {
