@@ -9329,6 +9329,8 @@ button.nav-graph-trigger:hover {
     radial-gradient(ellipse 40% 52% at 10% 80%, rgba(var(--honor-red-rgb), 0.06), transparent 70%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 34%),
     var(--bg);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
 }
 
 .hoh-section--mini::before {
