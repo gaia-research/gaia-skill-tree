@@ -1,0 +1,44 @@
+/**
+ * docs-en-shell.css — fixed site-nav clearance for /en pages only.
+ *
+ * Why this lives under docs/en/:
+ *   Global styles.css hides the legacy in-page <nav class="docs-nav"> when
+ *   <nav id="site-nav"> is present, but sets body padding-top: 0, so titles
+ *   start under the fixed bar (~58px). This sheet restores clearance without
+ *   editing docs/css/ or docs/js/.
+ *
+ * Values follow docs/agents/fixed-nav-clearance.md (base 5rem ladder).
+ * Load after ../css/styles.css on every docs/en HTML page.
+ */
+
+:root {
+  --docs-en-site-nav-height: 3.625rem; /* ~58px fixed site-nav */
+  --docs-en-nav-clearance: 5rem;       /* base ladder: 80px breathing room */
+}
+
+/* Outermost content shells after #site-nav (.docs-nav is display:none globally) */
+body:has(> nav#site-nav) > .page-layout,
+body:has(> nav#site-nav) > .docs-layout {
+  padding-top: var(--docs-en-nav-clearance);
+  box-sizing: border-box;
+}
+
+/* Index: hero is the first content block (not page-layout) */
+body:has(> nav#site-nav) > .docs-hero {
+  margin-top: var(--docs-en-nav-clearance);
+}
+
+/* Sticky side rails stick below site-nav, not the hidden 52px docs-nav */
+body:has(> nav#site-nav) .sidebar,
+body:has(> nav#site-nav) .docs-sidebar {
+  top: var(--docs-en-site-nav-height);
+}
+
+body:has(> nav#site-nav) .sidebar {
+  height: calc(100vh - var(--docs-en-site-nav-height));
+}
+
+/* In-page anchors clear the fixed bar */
+body:has(> nav#site-nav) :is(h1, h2, h3, [id]) {
+  scroll-margin-top: calc(var(--docs-en-site-nav-height) + 0.75rem);
+}
