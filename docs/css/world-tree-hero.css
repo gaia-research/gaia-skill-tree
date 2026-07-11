@@ -1,0 +1,771 @@
+/* Gaia World Tree hero
+   One live DAG and one canvas: an editorial gold projection in the hero,
+   expanding into the true-colour 3D Tree Explorer. */
+
+.home-page {
+  --hero-tree-ease: cubic-bezier(.22, 1, .36, 1);
+  --hero-tree-duration: 900ms;
+}
+
+#hero.hero-tree-shell {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  width: 100%;
+  max-width: none;
+  min-height: 100svh;
+  margin: 0;
+  padding: 8rem clamp(1.5rem, 5vw, 5.5rem) 5rem;
+  overflow: clip;
+  text-align: left;
+  background: var(--bg);
+}
+
+#hero.hero-tree-shell::before {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 74% 44%, rgba(var(--apex-gold-rgb), .11), transparent 34%),
+    radial-gradient(circle at 60% 86%, rgba(var(--apex-gold-rgb), .06), transparent 26%);
+}
+
+#hero.hero-tree-shell::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--bg) 0%, rgba(3, 7, 18, .94) 31%, rgba(3, 7, 18, .22) 58%, transparent 78%);
+}
+
+.hero-tree-atmosphere {
+  position: absolute;
+  z-index: 1;
+  right: 7%;
+  bottom: 7%;
+  width: min(48vw, 45rem);
+  height: 1px;
+  pointer-events: none;
+  background: rgba(var(--apex-gold-rgb), .3);
+  box-shadow: 0 0 3rem rgba(var(--apex-gold-rgb), .17);
+  transform-origin: center;
+  transition: opacity 400ms ease, transform var(--hero-tree-duration) var(--hero-tree-ease);
+}
+
+#hero.hero-tree-shell #canvas3d {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  pointer-events: none;
+  touch-action: none;
+  filter: drop-shadow(0 0 1.6rem rgba(var(--apex-gold-rgb), .2));
+  transform: translateZ(0);
+  transform-origin: 72% 50%;
+  transition:
+    filter var(--hero-tree-duration) var(--hero-tree-ease),
+    transform var(--hero-tree-duration) var(--hero-tree-ease),
+    opacity 280ms ease;
+}
+
+#hero.hero-tree-shell .hero-content {
+  position: relative;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: minmax(19rem, .76fr) minmax(25rem, 1.24fr);
+  align-items: center;
+  width: min(100%, 92rem);
+  min-height: calc(100svh - 13rem);
+  max-width: none;
+  margin: 0 auto;
+  pointer-events: none;
+}
+
+.hero-tree-copy {
+  position: relative;
+  grid-column: 1;
+  width: min(100%, 39rem);
+  pointer-events: auto;
+}
+
+.hero-tree-kicker {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  margin: 0 0 1.2rem;
+  color: rgba(var(--apex-gold-rgb), .82);
+  font-family: var(--font-mono);
+  font-size: clamp(.67rem, .8vw, .78rem);
+  letter-spacing: .16em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+#hero.hero-tree-shell h1.hero-title {
+  max-width: 8ch;
+  margin: 0;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: clamp(4.2rem, 7.4vw, 8rem);
+  font-weight: 500;
+  letter-spacing: -.045em;
+  line-height: .78;
+  text-wrap: balance;
+}
+
+#hero.hero-tree-shell h1.hero-title > span {
+  display: block;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  border: 0;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+}
+
+#hero.hero-tree-shell h1.hero-title > span:last-child {
+  margin-top: .16em;
+  color: var(--apex-gold);
+}
+
+.hero-tree-oath {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: .85rem;
+  align-items: baseline;
+  max-width: 35rem;
+  margin: 1.65rem 0 0;
+  padding: .85rem 0 .85rem 1rem;
+  border-left: 1px solid rgba(var(--apex-gold-rgb), .5);
+}
+
+.hero-tree-oath-label {
+  color: rgba(var(--apex-gold-rgb), .7);
+  font-family: var(--font-mono);
+  font-size: .64rem;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.hero-tree-oath p {
+  margin: 0;
+  color: rgba(226, 232, 240, .84);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  font-style: italic;
+  line-height: 1.45;
+}
+
+#hero.hero-tree-shell .hero-sub {
+  max-width: 34rem;
+  margin: 1.25rem 0 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.3vw, 1.16rem);
+  line-height: 1.65;
+}
+
+.hero-tree-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .7rem;
+  max-width: 35rem;
+  margin-top: 1.7rem;
+}
+
+.hero-tree-action {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.25rem minmax(0, 1fr);
+  gap: .7rem;
+  align-items: center;
+  min-height: 3.75rem;
+  padding: .75rem .9rem;
+  overflow: hidden;
+  color: var(--text);
+  text-decoration: none;
+  background: rgba(255, 255, 255, .025);
+  border: 1px solid var(--border);
+  border-radius: .4rem;
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.hero-tree-action--primary {
+  grid-column: 1 / -1;
+  min-height: 4.15rem;
+  color: var(--bg);
+  background: var(--apex-gold);
+  border-color: var(--apex-gold);
+  box-shadow: 0 0 2rem rgba(var(--apex-gold-rgb), .19);
+}
+
+.hero-tree-action-glyph {
+  color: rgba(var(--apex-gold-rgb), .86);
+  font-family: var(--font-mono);
+  text-align: center;
+}
+
+.hero-tree-action--primary .hero-tree-action-glyph {
+  color: var(--bg);
+}
+
+.hero-tree-action strong,
+.hero-tree-action small {
+  display: block;
+}
+
+.hero-tree-action strong {
+  font-family: var(--font-body);
+  font-size: .88rem;
+  line-height: 1.3;
+}
+
+.hero-tree-action small {
+  margin-top: .16rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: .59rem;
+  letter-spacing: .04em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.hero-tree-action--primary small {
+  color: rgba(3, 7, 18, .7);
+}
+
+.hero-tree-action:hover,
+.hero-tree-action:focus-visible {
+  color: var(--apex-gold);
+  border-color: rgba(var(--apex-gold-rgb), .62);
+  background: rgba(var(--apex-gold-rgb), .07);
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.hero-tree-action--primary:hover,
+.hero-tree-action--primary:focus-visible {
+  color: var(--bg);
+  background: var(--apex-gold);
+  border-color: var(--text);
+}
+
+.hero-tree-action:focus-visible,
+#hero.hero-tree-shell .field-trigger:focus-visible,
+#hero.hero-tree-shell .hero-audit-btn:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+#hero.hero-tree-shell .hero-tree-utilities {
+  position: absolute;
+  z-index: 8;
+  top: 5.5rem;
+  right: clamp(1rem, 3vw, 3rem);
+  display: flex;
+  justify-content: flex-end;
+  gap: .55rem;
+  margin: 0;
+  pointer-events: auto;
+}
+
+#hero.hero-tree-shell .field-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  min-height: 2.75rem;
+  padding: .65rem .85rem;
+  color: rgba(226, 232, 240, .78);
+  text-decoration: none;
+  background: rgba(3, 7, 18, .76);
+  border: 1px solid rgba(var(--apex-gold-rgb), .24);
+  border-radius: .3rem;
+  box-shadow: none;
+  backdrop-filter: none;
+  font-size: .66rem;
+  letter-spacing: .1em;
+  transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+#hero.hero-tree-shell .hero-tree-explore {
+  color: var(--apex-gold);
+  border-color: rgba(var(--apex-gold-rgb), .55);
+  background: rgba(var(--apex-gold-rgb), .055);
+}
+
+#hero.hero-tree-shell .field-trigger:hover,
+#hero.hero-tree-shell .field-trigger:focus-visible,
+#hero.hero-tree-shell .field-trigger[aria-pressed="true"] {
+  color: var(--text);
+  border-color: var(--apex-gold);
+  background: rgba(var(--apex-gold-rgb), .11);
+}
+
+#hero.hero-tree-shell .ledger-strip {
+  position: absolute;
+  z-index: 5;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(.65rem, 1.5vw, 1.4rem);
+  width: min(100%, 52rem);
+  margin: 0 auto;
+  padding: .85rem 1.25rem;
+  color: var(--muted);
+  background: rgba(3, 7, 18, .56);
+  border-top: 1px solid rgba(var(--apex-gold-rgb), .19);
+  font-size: .64rem;
+  backdrop-filter: none;
+}
+
+#hero.hero-tree-shell .ls-stat,
+#hero.hero-tree-shell .ls-updated {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .38rem;
+}
+
+#hero.hero-tree-shell .ls-num {
+  color: var(--text);
+  font-size: .88rem;
+}
+
+#hero.hero-tree-shell .ls-num-honor {
+  color: var(--honor-red);
+}
+
+#hero.hero-tree-shell .ls-num-apex {
+  color: var(--apex-gold);
+}
+
+#hero.hero-tree-shell .hero-audit-btn {
+  position: absolute;
+  z-index: 8;
+  top: auto;
+  right: clamp(1rem, 3vw, 3rem);
+  bottom: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  min-height: 2.75rem;
+  padding: .6rem .75rem;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: .3rem;
+  box-shadow: none;
+  opacity: .72;
+  animation: none;
+  backdrop-filter: none;
+  font-size: .66rem;
+}
+
+#hero.hero-tree-shell .hero-audit-btn:hover,
+#hero.hero-tree-shell .hero-audit-btn:focus-visible {
+  color: var(--text);
+  border-color: rgba(var(--apex-gold-rgb), .42);
+  background: var(--bg);
+  opacity: 1;
+  transform: none;
+}
+
+#hero.hero-tree-shell .scroll-hint {
+  z-index: 7;
+  color: rgba(var(--apex-gold-rgb), .5);
+}
+
+#install-cli,
+#push-for-review {
+  scroll-margin-top: 6rem;
+}
+
+/* The retired hover-peek classes must not fade or blur the editorial hero.
+   Legacy query aliases now enter the same tree explorer through JS. */
+#hero.hero-tree-shell.hero-hud-mode .hero-content,
+#hero.hero-tree-shell.hero-hud-mode .hero-pills,
+#hero.hero-tree-shell.hero-graph-peek .hero-content,
+#hero.hero-tree-shell.hero-graph-peek .hero-pills {
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+  transform: none;
+}
+
+/* One-canvas morph shell. JS owns the object-level camera, depth, and colour
+   interpolation; these classes own page geometry, focusable chrome, and lock. */
+body.hero-tree-explorer-open,
+body.tree-explorer-open,
+body:has(#hero.hero-tree-entering),
+body:has(#hero.hero-tree-explorer),
+body:has(#hero.hero-tree-exiting),
+body:has(#hero.hero-graph-fullscreen) {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+#hero.hero-tree-entering,
+#hero.hero-tree-explorer,
+#hero.hero-tree-exiting,
+#hero.hero-graph-fullscreen {
+  position: fixed;
+  z-index: 500;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh !important;
+  min-height: 100dvh;
+  max-height: none !important;
+  padding: 0;
+  overflow: hidden !important;
+  background: var(--bg);
+  clip-path: inset(
+    var(--hero-tree-shell-top, 0)
+    var(--hero-tree-shell-right, 0)
+    var(--hero-tree-shell-bottom, 0)
+    var(--hero-tree-shell-left, 0)
+    round var(--hero-tree-shell-radius, 0)
+  );
+  transition: clip-path var(--hero-tree-duration) var(--hero-tree-ease);
+}
+
+#hero.hero-tree-entering::after,
+#hero.hero-tree-explorer::after,
+#hero.hero-tree-exiting::after,
+#hero.hero-graph-fullscreen::after,
+#hero.hero-tree-entering .hero-tree-atmosphere,
+#hero.hero-tree-explorer .hero-tree-atmosphere,
+#hero.hero-tree-exiting .hero-tree-atmosphere,
+#hero.hero-graph-fullscreen .hero-tree-atmosphere {
+  opacity: 0;
+}
+
+#hero.hero-tree-entering .hero-content,
+#hero.hero-tree-entering .hero-pills,
+#hero.hero-tree-entering .hero-audit-btn,
+#hero.hero-tree-entering .scroll-hint,
+#hero.hero-tree-explorer .hero-content,
+#hero.hero-tree-explorer .hero-pills,
+#hero.hero-tree-explorer .hero-audit-btn,
+#hero.hero-tree-explorer .scroll-hint,
+#hero.hero-tree-exiting .hero-content,
+#hero.hero-tree-exiting .hero-pills,
+#hero.hero-tree-exiting .hero-audit-btn,
+#hero.hero-tree-exiting .scroll-hint,
+#hero.hero-graph-fullscreen .hero-content,
+#hero.hero-graph-fullscreen .hero-pills,
+#hero.hero-graph-fullscreen .hero-audit-btn,
+#hero.hero-graph-fullscreen .scroll-hint {
+  visibility: hidden;
+  opacity: 0 !important;
+  pointer-events: none;
+  transform: translateY(.65rem);
+}
+
+#hero.hero-tree-entering #canvas3d,
+#hero.hero-tree-explorer #canvas3d,
+#hero.hero-tree-exiting #canvas3d,
+#hero.hero-graph-fullscreen #canvas3d {
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  background: none;
+  filter: none;
+  transform: none;
+}
+
+#hero.hero-tree-entering #canvas3d,
+#hero.hero-tree-exiting #canvas3d {
+  pointer-events: none;
+  cursor: default;
+}
+
+#hero.hero-tree-explorer #canvas3d,
+#hero.hero-graph-fullscreen #canvas3d {
+  pointer-events: auto;
+  cursor: grab;
+}
+
+#hero.hero-tree-explorer #canvas3d:active,
+#hero.hero-graph-fullscreen #canvas3d:active {
+  cursor: grabbing;
+}
+
+#hero.hero-tree-explorer .graph-fullscreen-chrome,
+#hero.hero-tree-explorer .graph-fullscreen-status {
+  display: block;
+  pointer-events: auto;
+}
+
+#hero.hero-tree-explorer .graph-fullscreen-status {
+  display: flex;
+}
+
+#hero.hero-tree-explorer .graph-neighbor-cards,
+#hero.hero-tree-explorer .graph-legend,
+#hero.hero-tree-explorer .graph-bottom-bar {
+  display: flex !important;
+  visibility: visible;
+  opacity: 1;
+}
+
+#hero.hero-tree-explorer .graph-search-wrap,
+#hero.hero-tree-explorer .graph-scatter-strip,
+#hero.hero-tree-explorer .graph-redpill {
+  display: block !important;
+  visibility: visible;
+  opacity: 1;
+}
+
+#hero.hero-tree-explorer [data-interactive-chrome],
+#hero.hero-graph-fullscreen [data-interactive-chrome] {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+#hero.hero-tree-entering [data-interactive-chrome],
+#hero.hero-tree-exiting [data-interactive-chrome] {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#hero.hero-tree-explorer .graph-fullscreen-chrome,
+#hero.hero-graph-fullscreen .graph-fullscreen-chrome {
+  top: 0;
+}
+
+#hero.hero-tree-explorer .graph-fullscreen-header,
+#hero.hero-graph-fullscreen .graph-fullscreen-header {
+  min-height: 3.75rem;
+  padding: .6rem clamp(.75rem, 2vw, 1.5rem);
+  background: linear-gradient(180deg, rgba(3, 7, 18, .94), transparent);
+}
+
+#hero.hero-tree-explorer .graph-action-btn,
+#hero.hero-graph-fullscreen .graph-action-btn {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+}
+
+@media (max-width: 1000px) and (min-width: 701px) {
+  #hero.hero-tree-shell {
+    padding-inline: 2rem;
+  }
+
+  #hero.hero-tree-shell .hero-content {
+    grid-template-columns: minmax(19rem, .9fr) minmax(18rem, 1.1fr);
+  }
+
+  #hero.hero-tree-shell h1.hero-title {
+    font-size: clamp(4rem, 8vw, 6.1rem);
+  }
+
+  #hero.hero-tree-shell .hero-audit-btn {
+    right: 1rem;
+    bottom: 1rem;
+  }
+}
+
+@media (max-width: 700px) {
+  #hero.hero-tree-shell {
+    display: block;
+    min-height: 100svh;
+    padding: 5rem 1rem 2rem;
+    overflow: clip;
+    text-align: left;
+  }
+
+  #hero.hero-tree-shell::before {
+    background: radial-gradient(circle at 50% 26%, rgba(var(--apex-gold-rgb), .12), transparent 34%);
+  }
+
+  #hero.hero-tree-shell::after {
+    background: linear-gradient(180deg, transparent 8%, rgba(3, 7, 18, .06) 34%, var(--bg) 48%, var(--bg) 100%);
+  }
+
+  #hero.hero-tree-shell #canvas3d {
+    top: 7.6rem;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    width: 100%;
+    height: 36svh;
+    max-height: 21rem;
+    transform-origin: 50% 42%;
+  }
+
+  #hero.hero-tree-shell .hero-tree-utilities {
+    top: 4.65rem;
+    right: .75rem;
+    left: .75rem;
+    justify-content: center;
+    gap: .4rem;
+  }
+
+  #hero.hero-tree-shell .field-trigger {
+    min-height: 2.75rem;
+    padding-inline: .7rem;
+    font-size: .61rem;
+    letter-spacing: .07em;
+  }
+
+  #hero.hero-tree-shell .hero-content {
+    display: block;
+    width: 100%;
+    min-height: 0;
+    padding-top: clamp(18.5rem, 44svh, 24rem);
+  }
+
+  .hero-tree-copy {
+    width: 100%;
+    max-width: 34rem;
+    margin: 0 auto;
+  }
+
+  .hero-tree-kicker {
+    margin-bottom: .85rem;
+    font-size: .62rem;
+  }
+
+  #hero.hero-tree-shell h1.hero-title {
+    max-width: 9ch;
+    font-size: clamp(3.35rem, 17.5vw, 5.25rem);
+    line-height: .81;
+  }
+
+  .hero-tree-oath {
+    grid-template-columns: 1fr;
+    gap: .35rem;
+    margin-top: 1.25rem;
+    padding: .7rem 0 .7rem .8rem;
+  }
+
+  .hero-tree-oath p {
+    font-size: 1rem;
+  }
+
+  #hero.hero-tree-shell .hero-sub {
+    margin-top: .95rem;
+    font-size: .96rem;
+  }
+
+  .hero-tree-actions {
+    grid-template-columns: 1fr;
+    gap: .55rem;
+    margin-top: 1.25rem;
+  }
+
+  .hero-tree-action,
+  .hero-tree-action--primary {
+    grid-column: auto;
+    min-height: 3.5rem;
+  }
+
+  #hero.hero-tree-shell .ledger-strip {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: .65rem;
+    width: 100%;
+    margin-top: 1.4rem;
+    padding: .85rem .4rem;
+  }
+
+  #hero.hero-tree-shell .ls-stat,
+  #hero.hero-tree-shell .ls-updated {
+    flex-direction: column;
+    align-items: center;
+    gap: .2rem;
+    text-align: center;
+  }
+
+  #hero.hero-tree-shell .ls-updated {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  #hero.hero-tree-shell .ls-sep {
+    display: none;
+  }
+
+  #hero.hero-tree-shell .hero-audit-btn {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: max-content;
+    margin: .8rem auto 0;
+  }
+
+  #hero.hero-tree-shell .scroll-hint,
+  .hero-tree-atmosphere {
+    display: none;
+  }
+
+  #hero.hero-tree-entering,
+  #hero.hero-tree-explorer,
+  #hero.hero-tree-exiting,
+  #hero.hero-graph-fullscreen {
+    width: 100vw;
+    height: 100svh !important;
+    min-height: 100svh;
+  }
+
+  #hero.hero-tree-entering #canvas3d,
+  #hero.hero-tree-explorer #canvas3d,
+  #hero.hero-tree-exiting #canvas3d,
+  #hero.hero-graph-fullscreen #canvas3d {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+  }
+}
+
+@media (max-width: 360px) {
+  #hero.hero-tree-shell {
+    padding-inline: .75rem;
+  }
+
+  #hero.hero-tree-shell .field-trigger {
+    padding-inline: .55rem;
+    font-size: .57rem;
+  }
+
+  #hero.hero-tree-shell h1.hero-title {
+    font-size: clamp(3rem, 17vw, 3.7rem);
+  }
+
+  .hero-tree-action {
+    padding-inline: .75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #hero.hero-tree-shell,
+  #hero.hero-tree-shell #canvas3d,
+  #hero.hero-tree-shell .hero-content,
+  #hero.hero-tree-shell .hero-pills,
+  #hero.hero-tree-shell .hero-audit-btn,
+  #hero.hero-tree-shell .hero-tree-atmosphere,
+  #hero.hero-tree-shell .hero-tree-action {
+    transition: none !important;
+  }
+}
