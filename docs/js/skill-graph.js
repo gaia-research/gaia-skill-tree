@@ -2338,6 +2338,34 @@
     // inside the handler so they're live.
     canvas.addEventListener('mouseleave', () => { if (!state.dragging && !state.pinnedId) state.hoveredId = null; });
     canvas.addEventListener('contextmenu', e => { if (_opts.draggable) e.preventDefault(); });
+    canvas.addEventListener('focus', () => {
+      if (!_opts.draggable) return;
+      canvas.style.outline = '2px solid var(--apex-gold)';
+      canvas.style.outlineOffset = '-4px';
+    });
+    canvas.addEventListener('blur', () => {
+      canvas.style.outline = '';
+      canvas.style.outlineOffset = '';
+    });
+    canvas.addEventListener('keydown', e => {
+      if (!_opts.draggable) return;
+      let handled = true;
+      if (e.key === 'ArrowLeft') state.orbitY -= 0.09;
+      else if (e.key === 'ArrowRight') state.orbitY += 0.09;
+      else if (e.key === 'ArrowUp') state.orbitX -= 0.09;
+      else if (e.key === 'ArrowDown') state.orbitX += 0.09;
+      else if (e.key === '+' || e.key === '=' || e.code === 'NumpadAdd') state.zoom = Math.min(3, state.zoom * 1.12);
+      else if (e.key === '-' || e.key === '_' || e.code === 'NumpadSubtract') state.zoom = Math.max(0.3, state.zoom / 1.12);
+      else if (e.key === 'Enter' && state.hoveredId) {
+        state.pinnedId = state.hoveredId;
+        state.pinnedPos = null;
+        state.lastHoveredId = null;
+      } else handled = false;
+      if (!handled) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (state.zoomCounterEl) state.zoomCounterEl.textContent = state.zoom.toFixed(1) + '×';
+    });
     canvas.addEventListener('mousedown', e => {
       if (!_opts.draggable) return;
       if (e.button === 2) return;
@@ -2518,6 +2546,12 @@
       _opts.hoverable = on;
       canvas.style.pointerEvents = on ? 'auto' : 'none';
       canvas.style.cursor = on ? 'grab' : 'default';
+      if (on) canvas.setAttribute('tabindex', '0');
+      else {
+        canvas.removeAttribute('tabindex');
+        canvas.style.outline = '';
+        canvas.style.outlineOffset = '';
+      }
       // Toggle visibility of interactive chrome elements.
       // Skip elements that are controlled by user interaction
       // (tooltip, skill-panel, collection-panel) — they manage
@@ -2552,6 +2586,7 @@
         state.labelsToggleEl.setAttribute('aria-pressed', String(mode !== 'none'));
       }
     }
+    function getLabelMode() { return state.labelMode; }
     function getStatusEl() { return state.statusEl; }
     function setStatusEl(el) { state.statusEl = el; setSkills(state.skills); }
 
@@ -2644,7 +2679,7 @@
       };
     }
 
-    return { setSkills, setTreeLayout, setNamedMap, setTitleMap, setOriginMap, resize, start, stop, resetFilters, setInteractive, setLabelMode, getStatusEl, setStatusEl, setMeta, setLayoutMode, setAutoRotate, setColorMode, setDragMode, randomZoom, setPaused, isPaused, setViewMode, getViewState };
+    return { setSkills, setTreeLayout, setNamedMap, setTitleMap, setOriginMap, resize, start, stop, resetFilters, setInteractive, setLabelMode, getLabelMode, getStatusEl, setStatusEl, setMeta, setLayoutMode, setAutoRotate, setColorMode, setDragMode, randomZoom, setPaused, isPaused, setViewMode, getViewState };
   }
 
   const hero = document.getElementById('hero');
@@ -2894,11 +2929,10 @@
   _graphCloseOverlay.querySelector('[data-graph-labels]').addEventListener('click', (e) => {
     const btn = e.currentTarget;
     const modes = ['none', 'all'];
-    const current = modes.indexOf(heroGraph.labelMode || 'none');
+    const current = modes.indexOf(heroGraph.getLabelMode());
     const next = modes[(current + 1) % modes.length];
     heroGraph.setLabelMode(next);
     btn.classList.toggle('active', next !== 'none');
-    heroGraph.labelMode = next;
   });
 
   _graphCloseOverlay.querySelector('[data-graph-mouse]').addEventListener('click', (e) => {
