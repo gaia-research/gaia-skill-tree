@@ -2,6 +2,48 @@
 
 ---
 
+## 2026-07-11 — Routine 016
+
+**Branch:** `docs/routines/016`
+**Task chosen:** Version bump to v6.4.12, document upstream tracking commands (`sync-upstream`, `freeze`), and add python fallback execution notes.
+
+### Trigger
+Routine documentation agent triggered; observed new git tag `v6.4.12` / repository version bump to `6.4.12` from origin/main.
+
+### What I did
+1. **Synchronized version numbers**: Updated all 12 English documentation HTML files under `docs/en/` from `v6.1.8` to `v6.4.12`. This covers navigation chips, footer versions, script query parameters, and What's New tags.
+2. **Documented upstream tracking subcommands**: Added detailed command cards for <code>gaia dev sync-upstream</code> and <code>gaia dev freeze</code> in `docs/en/cli-reference.html`.
+3. **Python execution fallback note**: Added the <code>python -m gaia_cli &lt;command&gt;</code> fallback execution note in the "Verify the install" section of `docs/en/getting-started.html` for blocked environments.
+4. **Updated homepage banner**: Updated the "What's New" banner in `docs/en/index.html` to highlight upstream tracking (`gaia dev sync-upstream`/`freeze`), fallback map execution (`python -m gaia_cli`), and the `AGENTS.md` root-level discovery flow.
+
+### Design decisions
+- Mapped operator commands to <code>verifier</code> gate badges in command headers, matching style constraints in `DOCS.md`.
+- Maintained simple high-contrast callouts with clear accents for operator/deprecation checking requirements.
+
+### Issues informed
+- Resolves #1124
+
+### Files created / modified
+- `docs/en/MEMORY.md` (modified)
+- `docs/en/cli-reference.html` (modified)
+- `docs/en/getting-started.html` (modified)
+- `docs/en/index.html` (modified)
+- `docs/en/contributing.html` (modified)
+- `docs/en/evidence-classes.html` (modified)
+- `docs/en/faq.html` (modified)
+- `docs/en/fusion.html` (modified)
+- `docs/en/mcp-server.html` (modified)
+- `docs/en/named-skills.html` (modified)
+- `docs/en/share-bundles.html` (modified)
+- `docs/en/skill-hierarchy.html` (modified)
+- `docs/en/timeline-audit.html` (modified)
+
+### Planned next (Routine 017)
+- Research: Audit changes in upcoming Sprint F CLI commands.
+- Maintain: Sync documentation for any newly added named skill features or templates.
+
+---
+
 ## 2026-07-08 — Routine 015
 
 **Branch:** `docs/routines/015`
