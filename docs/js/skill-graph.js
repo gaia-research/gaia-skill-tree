@@ -278,6 +278,46 @@
     return Math.abs(h >>> 0);
   }
 
+  function clamp01(value) {
+    return Math.max(0, Math.min(1, value));
+  }
+
+  function easeWorldTree(value) {
+    // Smoothstep keeps the object morph reversible without a velocity snap.
+    const t = clamp01(value);
+    return t * t * (3 - 2 * t);
+  }
+
+  function lerp(a, b, amount) {
+    return a + (b - a) * amount;
+  }
+
+  function asIdObject(value) {
+    if (!value) return {};
+    if (value instanceof Map) return Object.fromEntries(value.entries());
+    return value;
+  }
+
+  function asIdSet(value) {
+    if (!value) return new Set();
+    if (value instanceof Set) return value;
+    if (Array.isArray(value)) return new Set(value);
+    return new Set(Object.keys(value).filter(key => value[key]));
+  }
+
+  function rgbFromHex(hex) {
+    const raw = String(hex || '').trim().replace(/^#/, '');
+    if (!/^[0-9a-f]{6}$/i.test(raw)) return '';
+    return `${parseInt(raw.slice(0, 2), 16)},${parseInt(raw.slice(2, 4), 16)},${parseInt(raw.slice(4, 6), 16)}`;
+  }
+
+  function mixRgb(from, to, amount) {
+    const a = String(from || '').split(',').map(Number);
+    const b = String(to || '').split(',').map(Number);
+    if (a.length !== 3 || b.length !== 3 || a.some(Number.isNaN) || b.some(Number.isNaN)) return to || from;
+    return [0, 1, 2].map(index => Math.round(lerp(a[index], b[index], amount))).join(',');
+  }
+
   function spherePoint(radius, seed, index, count) {
     const golden = Math.PI * (3 - Math.sqrt(5));
     const i = index + (seed % 17) / 17;
@@ -479,6 +519,22 @@
       namedMap: null,
       titleMap: null,
       originMap: null,
+      treeLayout: null,
+      heroPose: {},
+      fieldPose: {},
+      treeEdges: [],
+      ancestorsById: {},
+      descendantsById: {},
+      directNeighborsById: {},
+      treeBounds: null,
+      treeSpread: 1,
+      viewMix: 0,
+      viewFrom: 0,
+      viewTarget: 0,
+      viewStartedAt: null,
+      viewDuration: 900,
+      viewPhase: 'hero2d',
+      viewComplete: null,
       // graphMode: 'public' (default) or 'local'. In local mode the
       // collection panel becomes "Claimed skills", the nav title swaps
       // to "@<handle> · Atlas", and (TODO) the scatter strip pulls
@@ -521,9 +577,101 @@
       });
     }
 
-    function setSkills(skills) {
+    function _normalizePoseMap(value) {
+      const input = asIdObject(value);
+      const output = {};
+      Object.keys(input || {}).sort().forEach(id => {
+        const p = input[id];
+        if (!p || !Number.isFinite(Number(p.x)) || !Number.isFinite(Number(p.y))) return;
+        output[id] = {
+          x: Number(p.x),
+          y: Number(p.y),
+          z: Number.isFinite(Number(p.z)) ? Number(p.z) : 0,
+          w: Number.isFinite(Number(p.w)) ? Number(p.w) : 0,
+          phase: Number.isFinite(Number(p.phase)) ? Number(p.phase) : stableHash(id) % 628 / 100,
+          _satellite: p._satellite,
+        };
+      });
+      return output;
+    }
+
+    function _computeTreeBounds(heroPose, fieldPose) {
+      const ids = Object.keys(heroPose);
+      if (!ids.length) return null;
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity, maxZ = 0;
+      ids.forEach(id => {
+        const hp = heroPose[id];
+        const fp = fieldPose[id] || hp;
+        minX = Math.min(minX, hp.x, fp.x);
+        maxX = Math.max(maxX, hp.x, fp.x);
+        minY = Math.min(minY, hp.y, fp.y);
+        maxY = Math.max(maxY, hp.y, fp.y);
+        maxZ = Math.max(maxZ, Math.abs(fp.z || 0));
+      });
+      return {
+        minX, maxX, minY, maxY, maxZ,
+        width: Math.max(1, maxX - minX),
+        height: Math.max(1, maxY - minY),
+        centerX: (minX + maxX) / 2,
+        centerY: (minY + maxY) / 2,
+      };
+    }
+
+    function setTreeLayout(layout) {
+      const heroPose = _normalizePoseMap(layout && layout.heroPose);
+      const fieldPose = _normalizePoseMap(layout && layout.fieldPose);
+      const requiredIds = state.skills.map(skill => skill.id);
+      const complete = requiredIds.length > 0 && requiredIds.every(id => heroPose[id] && fieldPose[id]);
+      const unavailable = !layout || layout.available === false || layout.status === 'unavailable' || !complete;
+      if (unavailable) {
+        state.treeLayout = null;
+        state.heroPose = {};
+        state.fieldPose = {};
+        state.treeEdges = [];
+        state.ancestorsById = {};
+        state.descendantsById = {};
+        state.directNeighborsById = {};
+        state.treeBounds = null;
+        state.positions = buildPositions(state.skills, state.scale, state.layoutMode);
+        return false;
+      }
+
+      state.treeLayout = layout;
+      state.heroPose = heroPose;
+      state.fieldPose = fieldPose;
+      state.positions = heroPose;
+      state.treeBounds = _computeTreeBounds(heroPose, fieldPose);
+      state.ancestorsById = asIdObject(layout.ancestorsById || layout.ancestors);
+      state.descendantsById = asIdObject(layout.descendantsById || layout.descendants);
+
+      const byId = Object.fromEntries(state.skills.map(skill => [skill.id, skill]));
+      const inputEdges = Array.isArray(layout.edges) ? layout.edges : [];
+      state.treeEdges = inputEdges.map(edge => {
+        const from = edge.source || edge.sourceSkillId || edge.from;
+        const to = edge.target || edge.targetSkillId || edge.to;
+        if (!from || !to || !byId[from] || !byId[to]) return null;
+        return { from, to, type: byId[to].type };
+      }).filter(Boolean);
+      if (!state.treeEdges.length) {
+        state.skills.forEach(skill => skill.prerequisites.forEach(parent => {
+          if (byId[parent]) state.treeEdges.push({ from: parent, to: skill.id, type: skill.type });
+        }));
+      }
+
+      const direct = {};
+      state.skills.forEach(skill => { direct[skill.id] = new Set(); });
+      state.treeEdges.forEach(edge => {
+        direct[edge.from].add(edge.to);
+        direct[edge.to].add(edge.from);
+      });
+      state.directNeighborsById = direct;
+      return true;
+    }
+
+    function setSkills(skills, treeLayout) {
       state.skills = skills;
-      state.positions = buildPositions(skills, state.scale, state.layoutMode);
+      if (treeLayout) setTreeLayout(treeLayout);
+      else if (!state.treeLayout) state.positions = buildPositions(skills, state.scale, state.layoutMode);
       const newAlphas = {};
       skills.forEach(s => { newAlphas[s.id] = state.nodeAlphas[s.id] !== undefined ? state.nodeAlphas[s.id] : 1.0; });
       state.nodeAlphas = newAlphas;
@@ -570,6 +718,40 @@
       return { x: p.x, y: c * p.y - s * p.w, z: p.z, w: s * p.y + c * p.w, phase: p.phase };
     }
     function project(p) {
+      if (state.treeLayout && state.treeBounds) {
+        const mix = easeWorldTree(state.viewMix);
+        const bounds = state.treeBounds;
+        const heroCenterValue = parseFloat(getComputedStyle(canvas.parentElement).getPropertyValue('--hero-tree-center-x'));
+        const heroCenterRatio = Number.isFinite(heroCenterValue)
+          ? heroCenterValue
+          : (window.matchMedia('(max-width:700px)').matches ? 0.5 : 0.72);
+        const heroFit = Math.max(0.05, Math.min(
+          state.width * (window.matchMedia('(max-width:700px)').matches ? 0.88 : 0.52) / bounds.width,
+          state.height * 0.78 / bounds.height
+        ));
+        const fieldFit = Math.max(0.05, Math.min(
+          state.width * 0.84 / bounds.width,
+          state.height * 0.82 / bounds.height
+        ));
+        const spread = state.treeSpread || 1;
+        const px = (p.x - bounds.centerX) * spread;
+        const py = (p.y - bounds.centerY) * spread;
+        const pz = (p.z || 0) * spread;
+        const heroX = state.width * heroCenterRatio + px * heroFit;
+        const heroY = state.height * 0.50 + py * heroFit;
+        const cameraDistance = Math.max(bounds.width, bounds.height, bounds.maxZ * 2, 1) * 2.35;
+        const perspective = Math.max(0.12, cameraDistance / (cameraDistance + pz));
+        const fieldZoom = lerp(1, state.zoom, mix);
+        const fieldX = state.width * 0.5 + px * fieldFit * perspective * fieldZoom + state.panX * mix;
+        const fieldY = state.height * 0.5 + py * fieldFit * perspective * fieldZoom + state.panY * mix;
+        return {
+          sx: lerp(heroX, fieldX, mix),
+          sy: lerp(heroY, fieldY, mix),
+          scale: lerp(heroFit, fieldFit * perspective * fieldZoom, mix),
+          z: pz,
+          w: 0,
+        };
+      }
       // 4D -> 3D Perspective Projection
       const fov4 = 2.0;
       const wCoeff = (p.w || 0) / (700 * state.scale); // Pushed back W-scale
@@ -828,33 +1010,87 @@
       if (state.labelMode === 'modal') return skill.type !== 'basic' || stableHash(skill.id) % 7 === 0;
       return skill.type === 'ultimate' || skill.type === 'unique';
     }
+
+    function _canonicalSkillColor(skill) {
+      if (state.colorMode === 'cluster' && skill.cluster !== undefined) {
+        const hex = _readVar('--cluster-' + (Number(skill.cluster) % 8));
+        const rgb = rgbFromHex(hex);
+        if (rgb) return { rgb, hex };
+      }
+      const metaColor = state.meta && state.meta.typeColors && state.meta.typeColors[skill.type];
+      if (metaColor) {
+        const rgb = metaColor.rgb || rgbFromHex(metaColor.hex);
+        if (rgb) return { rgb: _rgbOnly(String(rgb)), hex: metaColor.hex || '' };
+      }
+      return PALETTE[skill.type] || PALETTE.basic;
+    }
+
+    function _displaySkillColor(skill) {
+      const canonical = _canonicalSkillColor(skill);
+      if (!state.treeLayout) return canonical;
+      const gold = getCanvasTokens().apexGoldRgb;
+      const amount = easeWorldTree(state.viewMix);
+      return { rgb: mixRgb(gold, canonical.rgb, amount), hex: canonical.hex };
+    }
     // Phase 5: check reduced-motion once per draw frame (cached per graph instance)
     const _reducedMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    function _updateViewMorph(now) {
+      if (state.viewStartedAt === null) return;
+      const duration = Math.max(1, state.viewDuration);
+      const progress = clamp01((now - state.viewStartedAt) / duration);
+      state.viewMix = lerp(state.viewFrom, state.viewTarget, easeWorldTree(progress));
+      if (progress < 1) return;
+      state.viewMix = state.viewTarget;
+      state.viewStartedAt = null;
+      state.viewPhase = state.viewTarget === 1 ? 'explorer3d' : 'hero2d';
+      const done = state.viewComplete;
+      state.viewComplete = null;
+      if (typeof done === 'function') done(state.viewPhase);
+    }
+
     function draw() {
       if (!state.running) return;
+      _updateViewMorph(performance.now());
       const targetSlowdown = ((state.hoveredId || state.pinnedId) && !state.paused) ? 1 : 0;
       state.hoverSlowdown += (targetSlowdown - state.hoverSlowdown) * 0.035;
       // Always advance state.t so Level VI shimmer (hard lock) keeps running.
       // Under reduced-motion, freeze the idle AUTO-ROTATION angles for the hero
       // graph (non-draggable). The modal graph (draggable) can still be spun
       // manually by the user, so we don't suppress it there.
-      if (!state.paused && state.autoRotate) state.t += 0.006 * state.rotSpeed * (1 - state.hoverSlowdown);
+      if (!state.paused && state.autoRotate && !_reducedMotion()) state.t += 0.006 * state.rotSpeed * (1 - state.hoverSlowdown);
       ctx.clearRect(0, 0, state.width, state.height);
       state.projectedNodes = {};
-      // Under reduced motion, lock the idle pan angle to 0 for the hero graph.
-      const rmFreeze = _reducedMotion() && !_opts.draggable;
-      const ry = _opts.draggable
-        ? state.t * 0.16 + state.orbitY
-        : (rmFreeze ? state.orbitY : state.t * 0.16 + state.mx * 0.10);
-      const rx = _opts.draggable
-        ? Math.sin(state.t * 0.055) * 0.20 + state.orbitX
-        : (rmFreeze ? state.orbitX : Math.sin(state.t * 0.055) * 0.20 + state.my * 0.055);
+      // Under reduced motion, lock idle rotation but retain user-controlled orbit.
+      const rmFreeze = _reducedMotion();
+      const treeMix = state.treeLayout ? easeWorldTree(state.viewMix) : 1;
+      const idleRy = rmFreeze ? 0 : state.t * 0.16;
+      const idleRx = rmFreeze ? 0 : Math.sin(state.t * 0.055) * 0.20;
+      const ry = state.treeLayout
+        ? treeMix * (idleRy + state.orbitY)
+        : (_opts.draggable ? idleRy + state.orbitY : (rmFreeze ? state.orbitY : idleRy + state.mx * 0.10));
+      const rx = state.treeLayout
+        ? treeMix * (idleRx + state.orbitX)
+        : (_opts.draggable ? idleRx + state.orbitX : (rmFreeze ? state.orbitX : idleRx + state.my * 0.055));
       const rw = state.t * 0.12;
 
       const xf = {};
-      Object.keys(state.positions).forEach(id => {
-        let p = state.positions[id];
+      const positionIds = state.treeLayout ? Object.keys(state.heroPose) : Object.keys(state.positions);
+      positionIds.forEach(id => {
+        let p;
+        if (state.treeLayout) {
+          const heroPoint = state.heroPose[id];
+          const fieldPoint = state.fieldPose[id] || heroPoint;
+          p = {
+            x: lerp(heroPoint.x, fieldPoint.x, treeMix),
+            y: lerp(heroPoint.y, fieldPoint.y, treeMix),
+            z: lerp(heroPoint.z || 0, fieldPoint.z || 0, treeMix),
+            w: 0,
+            phase: heroPoint.phase,
+          };
+        } else {
+          p = state.positions[id];
+        }
         if (p._satellite === 'orphan') {
           const s = p._orbitSpeed, amp = p._orbitAmp;
           p = {
@@ -865,7 +1101,10 @@
             phase: p.phase,
           };
         }
-        if (state.layoutMode === 'semantic' || state.layoutMode === 'spectral') {
+        if (state.treeLayout) {
+          // Yggdrasil is spatially 3D, not a fourth-dimensional semantic cloud.
+          p = rotX(rotY(p, ry), rx);
+        } else if (state.layoutMode === 'semantic' || state.layoutMode === 'spectral') {
           // 4D Rotation Planes
           p = rotY(rotX(p, rx), ry);
           p = rotXW(p, rw);
@@ -878,12 +1117,22 @@
       });
 
       const neighborSet = new Set();
+      const directNeighborSet = new Set();
       const focusId = state.pinnedId || state.hoveredId;
       if (focusId) {
         neighborSet.add(focusId);
-        const focusSkill = state.skills.find(s => s.id === focusId);
-        if (focusSkill) focusSkill.prerequisites.forEach(pid => neighborSet.add(pid));
-        state.skills.forEach(s => { if (s.prerequisites.includes(focusId)) neighborSet.add(s.id); });
+        directNeighborSet.add(focusId);
+        if (state.treeLayout) {
+          asIdSet(state.ancestorsById[focusId]).forEach(id => neighborSet.add(id));
+          asIdSet(state.descendantsById[focusId]).forEach(id => neighborSet.add(id));
+          asIdSet(state.directNeighborsById[focusId]).forEach(id => directNeighborSet.add(id));
+        } else {
+          const focusSkill = state.skills.find(s => s.id === focusId);
+          if (focusSkill) focusSkill.prerequisites.forEach(pid => { neighborSet.add(pid); directNeighborSet.add(pid); });
+          state.skills.forEach(s => {
+            if (s.prerequisites.includes(focusId)) { neighborSet.add(s.id); directNeighborSet.add(s.id); }
+          });
+        }
       }
       const hovering = Boolean(focusId);
       const isSearchActive = Boolean(state.searchText);
@@ -958,18 +1207,27 @@
         ctx.fillStyle = `rgba(255,255,255,${(star.alpha * Math.min(pr.scale * 2, 1)).toFixed(2)})`;
         ctx.fill();
       });
+      const skillById = Object.fromEntries(state.skills.map(skill => [skill.id, skill]));
       const edges = [];
-      state.skills.forEach(skill => {
-        if (!xf[skill.id]) return;
-        skill.prerequisites.forEach(pid => {
-          if (!xf[pid]) return;
-          edges.push({ from: pid, to: skill.id, type: skill.type, avgZ: (xf[skill.id].z + xf[pid].z) / 2 });
+      if (state.treeLayout) {
+        state.treeEdges.forEach(edge => {
+          if (!xf[edge.from] || !xf[edge.to]) return;
+          edges.push({ ...edge, avgZ: (xf[edge.to].z + xf[edge.from].z) / 2 });
         });
-      });
+      } else {
+        state.skills.forEach(skill => {
+          if (!xf[skill.id]) return;
+          skill.prerequisites.forEach(pid => {
+            if (!xf[pid]) return;
+            edges.push({ from: pid, to: skill.id, type: skill.type, avgZ: (xf[skill.id].z + xf[pid].z) / 2 });
+          });
+        });
+      }
       edges.sort((a, b) => a.avgZ - b.avgZ);
       edges.forEach(edge => {
         const pa = project(xf[edge.from]), pb = project(xf[edge.to]);
-        const col = PALETTE[edge.type] || PALETTE.basic;
+        const targetSkill = skillById[edge.to] || { type: edge.type || 'basic' };
+        const col = _displaySkillColor(targetSkill);
         const depthAlpha = Math.min(Math.max((xf[edge.to].z + 430 * state.scale) / (860 * state.scale), 0.08), 1);
         const isNeighborEdge = hovering && neighborSet.has(edge.from) && neighborSet.has(edge.to);
         const fromVis = state.nodeAlphas[edge.from] !== undefined ? state.nodeAlphas[edge.from] : 1.0;
@@ -998,28 +1256,25 @@
         // Hyperspace Perspective: Two-stage projection with W-depth fog
         const depthAlpha = Math.min(1, Math.max(0.18, (pr.z / 650 + 1) * (pr.w / 600 + 1)));
 
-        let col;
-        if (state.colorMode === 'cluster' && skill.cluster !== undefined) {
-          const hex = _readVar('--cluster-' + (skill.cluster % 8)) || '#888888';
-          const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
-          col = { rgb: `${r},${g},${b}`, hex };
-        } else {
-          col = PALETTE[skill.type] || PALETTE.basic;
-        }
+        const col = _displaySkillColor(skill);
 
         const isPinned = state.pinnedId === skill.id;
         const isHovered = state.hoveredId === skill.id;
         const baseR = NODE_RADII.get(skill.level, skill.type);
         const pulse = 0.84 + 0.16 * Math.sin(state.t * 2.2 + p.phase);
 
-        if (skill.level === '6★') {
-          drawNodeVI(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis, state.t, p);
-        } else if (skill.type === 'unique') {
-          drawNodeUnique(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis, state.t, p);
-        } else if (state.redPillActive && state.namedMap && state.namedMap[skill.id]) {
+        const specialMix = state.treeLayout ? easeWorldTree(state.viewMix) : 1;
+        const nodeRadius = baseR * state.scale * pr.scale * pulse;
+        if (skill.level === '6★' && specialMix > 0) {
+          if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: getCanvasTokens().apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
+          drawNodeVI(pr.sx, pr.sy, nodeRadius, depthAlpha * vis * specialMix, state.t, p);
+        } else if (skill.type === 'unique' && specialMix > 0) {
+          if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: getCanvasTokens().apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
+          drawNodeUnique(pr.sx, pr.sy, nodeRadius, depthAlpha * vis * specialMix, state.t, p);
+        } else if (state.redPillActive && state.namedMap && state.namedMap[skill.id] && specialMix > 0.98) {
           drawNodeNamed(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis);
         } else {
-          drawNode(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, col, depthAlpha * vis);
+          drawNode(pr.sx, pr.sy, nodeRadius, col, depthAlpha * vis);
         }
 
         const rankVal = parseInt(skill.level, 10) || 0;
@@ -1130,18 +1385,23 @@
       // Final pass: redraw unique void cores on top of everything (labels, other effects)
       nodes.forEach(({ skill }) => {
         if (skill.type !== 'unique') return;
+        const specialMix = state.treeLayout ? easeWorldTree(state.viewMix) : 1;
+        if (specialMix <= 0) return;
         const p = xf[skill.id]; if (!p) return;
         const pr = project(p);
         if (pr.scale <= 0) return;
         const pulse = 0.84 + 0.16 * Math.sin(state.t * 2.2 + p.phase);
         const baseR = NODE_RADII.unique;
         const r = baseR * state.scale * pr.scale * pulse;
+        ctx.save();
+        ctx.globalAlpha = specialMix;
         ctx.beginPath(); ctx.arc(pr.sx, pr.sy, r * 1.05, 0, Math.PI * 2);
         ctx.fillStyle = '#000';
         ctx.fill();
         ctx.beginPath(); ctx.arc(pr.sx, pr.sy, r * 1.05, 0, Math.PI * 2);
         ctx.strokeStyle = `rgba(${getCanvasTokens().tier.unique.rgb},0.5)`;
         ctx.lineWidth = r * 0.15; ctx.stroke();
+        ctx.restore();
       });
       if (_opts.hoverable && state.tooltipEl) {
         const displayId = state.pinnedId || state.hoveredId;
@@ -1274,8 +1534,8 @@
       }
       // ── Neighbor mini-cards when pinned ──
       if (_opts.hoverable && state.neighborCardsEl) {
-        if (state.pinnedId && neighborSet.size > 1) {
-          const neighbors = [...neighborSet].filter(id => id !== state.pinnedId);
+        if (state.pinnedId && directNeighborSet.size > 1) {
+          const neighbors = [...directNeighborSet].filter(id => id !== state.pinnedId);
           if (state._neighborIds !== neighbors.join(',')) {
             state._neighborIds = neighbors.join(',');
             state.neighborCardsEl.textContent = '';
@@ -1364,7 +1624,7 @@
       skillPanel.addEventListener('mousedown', e => e.stopPropagation());
 
       const collectionPanel = document.createElement('div');
-      collectionPanel.className = 'graph-collection-panel';
+      collectionPanel.className = 'graph-collection-panel graph-collection-panel--responsive';
       collectionPanel.setAttribute('data-interactive-chrome', '');
       collectionPanel.style.display = 'none';
       // Floating window: position it at top left by default
@@ -1404,6 +1664,7 @@
       const collHeader = collectionPanel.querySelector('.graph-collection-header');
       let collDragging = false, collOffsetX = 0, collOffsetY = 0;
       collHeader.addEventListener('mousedown', e => {
+        if (window.matchMedia('(max-width:700px)').matches) return;
         collDragging = true;
         const rect = collectionPanel.getBoundingClientRect();
         collOffsetX = e.clientX - rect.left;
@@ -1478,11 +1739,9 @@
             `Your collection is empty.<br>Add skills via tooltips.` +
             `</div>` +
             `</div>`;
-          if (window.matchMedia('(max-width:700px)').matches) return;
           collectionPanel.style.display = 'flex';
           return;
         }
-        if (window.matchMedia('(max-width:700px)').matches) return;
         collectionPanel.style.display = 'flex';
         let html = '';
         // Collection cards render as .plaque--mini per Stage 3. Each
@@ -1812,7 +2071,7 @@
       scatterBot.textContent = '−';
       const scatterTitle = document.createElement('div');
       scatterTitle.className = 'graph-scatter-title';
-      scatterTitle.textContent = Math.round(state.scale / (options.scale || GRAPH_SCALE) * 100) + '%';
+      scatterTitle.textContent = Math.round((state.treeLayout ? state.treeSpread : state.scale / (options.scale || GRAPH_SCALE)) * 100) + '%';
       scatterStrip.appendChild(scatterTop);
       scatterStrip.appendChild(scatterTrackWrap);
       scatterStrip.appendChild(scatterBot);
@@ -1825,9 +2084,10 @@
       scatterStrip.appendChild(scatterCaption);
 
       function redrawScatterRuler() {
-        const logVal = Math.log(state.scale);
+        const density = state.treeLayout ? state.treeSpread : state.scale;
+        const logVal = Math.log(density);
         drawRuler(scatterRulerCanvas, logVal, { vertical: true, pxPerUnit: 42, minorStep: 0.1, majorEvery: 5 });
-        const pct = Math.round(state.scale / (options.scale || GRAPH_SCALE) * 100);
+        const pct = Math.round((state.treeLayout ? state.treeSpread : state.scale / (options.scale || GRAPH_SCALE)) * 100);
         scatterTitle.textContent = pct + '%';
         scatterStrip.setAttribute('aria-valuetext', 'Density ' + pct + ' percent');
       }
@@ -1844,8 +2104,12 @@
         if (!scatterDragging) return;
         const dy = scatterLastY - e.clientY;
         scatterLastY = e.clientY;
-        state.scale = Math.max(0.05, Math.min((options.scale || GRAPH_SCALE) * 10, state.scale * Math.exp(dy * 0.007)));
-        state.positions = buildPositions(state.skills, state.scale);
+        if (state.treeLayout) {
+          state.treeSpread = Math.max(0.35, Math.min(2.4, state.treeSpread * Math.exp(dy * 0.007)));
+        } else {
+          state.scale = Math.max(0.05, Math.min((options.scale || GRAPH_SCALE) * 10, state.scale * Math.exp(dy * 0.007)));
+          state.positions = buildPositions(state.skills, state.scale, state.layoutMode);
+        }
         redrawScatterRuler();
       });
       scatterStrip.addEventListener('pointerup', e => {
@@ -1865,8 +2129,12 @@
         else if (e.key === 'PageDown') factor = Math.exp(-0.20);
         if (!factor) return;
         e.preventDefault();
-        state.scale = Math.max(0.05, Math.min((options.scale || GRAPH_SCALE) * 10, state.scale * factor));
-        state.positions = buildPositions(state.skills, state.scale);
+        if (state.treeLayout) {
+          state.treeSpread = Math.max(0.35, Math.min(2.4, state.treeSpread * factor));
+        } else {
+          state.scale = Math.max(0.05, Math.min((options.scale || GRAPH_SCALE) * 10, state.scale * factor));
+          state.positions = buildPositions(state.skills, state.scale, state.layoutMode);
+        }
         redrawScatterRuler();
       });
       canvas.parentElement.appendChild(scatterStrip);
@@ -2029,6 +2297,17 @@
     let _lastRect = null;
     window.addEventListener('resize', () => { _lastRect = null; });
     window.addEventListener('scroll', () => { _lastRect = null; }, { passive: true });
+    function _pickNode(clientX, clientY) {
+      if (!_lastRect) _lastRect = canvas.getBoundingClientRect();
+      const mx = clientX - _lastRect.left;
+      const my = clientY - _lastRect.top;
+      let closest = null, closestDist = 24;
+      Object.entries(state.projectedNodes).forEach(([id, pr]) => {
+        const d = Math.hypot(pr.sx - mx, pr.sy - my);
+        if (d < closestDist) { closestDist = d; closest = id; }
+      });
+      return closest;
+    }
     pointerTarget.addEventListener('mousemove', event => {
       if (!_lastRect) _lastRect = canvas.getBoundingClientRect();
       const rect = _lastRect;
@@ -2048,13 +2327,7 @@
         state.mx = ((event.clientX - rect.left) / Math.max(rect.width, 1) - 0.5) * 2;
         state.my = ((event.clientY - rect.top) / Math.max(rect.height, 1) - 0.5) * 2;
         if (_opts.hoverable) {
-          const mx = event.clientX - rect.left;
-          const my = event.clientY - rect.top;
-          let closest = null, closestDist = 22;
-          Object.entries(state.projectedNodes).forEach(([id, pr]) => {
-            const d = Math.hypot(pr.sx - mx, pr.sy - my);
-            if (d < closestDist) { closestDist = d; closest = id; }
-          });
+          const closest = _pickNode(event.clientX, event.clientY);
           state.hoveredId = closest;
           canvas.style.cursor = closest ? 'pointer' : (_opts.draggable ? 'grab' : 'default');
         }
@@ -2120,7 +2393,7 @@
       if (!_opts.draggable) return;
       if (e.touches.length === 1) {
         state.dragging = true;
-        state.dragMode = 'pan';
+        state._activeDragMode = state.dragMode || 'orbit';
         state.dragMoved = false;
         state.dragStartX = e.touches[0].clientX;
         state.dragStartY = e.touches[0].clientY;
@@ -2142,8 +2415,13 @@
         if (Math.abs(clientX - state.dragStartX) > 3 || Math.abs(clientY - state.dragStartY) > 3) {
           state.dragMoved = true;
         }
-        state.panX += (clientX - state.dragLastX) / state.scale;
-        state.panY += (clientY - state.dragLastY) / state.scale;
+        if (state._activeDragMode === 'orbit') {
+          state.orbitY += (clientX - state.dragLastX) * 0.007;
+          state.orbitX += (clientY - state.dragLastY) * 0.007;
+        } else {
+          state.panX += clientX - state.dragLastX;
+          state.panY += clientY - state.dragLastY;
+        }
         state.dragLastX = clientX;
         state.dragLastY = clientY;
       } else if (e.touches.length === 2 && _opts.zoomable && _initialPinchDist) {
@@ -2160,6 +2438,18 @@
     }, { passive: false });
     canvas.addEventListener('touchend', e => {
       if (e.touches.length < 2) _initialPinchDist = null;
+      if (e.touches.length === 0 && state.dragging) {
+        const touch = e.changedTouches && e.changedTouches[0];
+        if (!state.dragMoved && touch && _opts.hoverable) {
+          const picked = _pickNode(touch.clientX, touch.clientY);
+          state.hoveredId = picked;
+          state.pinnedId = picked;
+          state.pinnedPos = null;
+          state.lastHoveredId = null;
+        }
+        state.dragging = false;
+        state.dragMoved = false;
+      }
     });
     function resetFilters() {
       state.legendFilterType = null;
@@ -2174,7 +2464,8 @@
       state.paused = false; state.rotSpeed = 1;
       state.zoom = 1;
       state.scale = options.scale || GRAPH_SCALE;
-      state.positions = buildPositions(state.skills, state.scale);
+      state.treeSpread = 1;
+      if (!state.treeLayout) state.positions = buildPositions(state.skills, state.scale, state.layoutMode);
       state.nebula = true;
       state.hoverSlowdown = 0;
       state.pinnedId = null; state.pinnedPos = null;
@@ -2206,7 +2497,7 @@
         state.nebulaToggleEl.setAttribute('aria-pressed', 'true');
       }
       if (state.scatterRulerCanvas) {
-        drawRuler(state.scatterRulerCanvas, Math.log(state.scale), { vertical: true, pxPerUnit: 42, minorStep: 0.1, majorEvery: 5 });
+        drawRuler(state.scatterRulerCanvas, Math.log(state.treeLayout ? state.treeSpread : state.scale), { vertical: true, pxPerUnit: 42, minorStep: 0.1, majorEvery: 5 });
       }
       if (state.speedRulerCanvas) {
         drawRuler(state.speedRulerCanvas, 0, { vertical: false, pxPerUnit: 42, minorStep: 0.1, majorEvery: 5 });
@@ -2269,6 +2560,10 @@
     }
 
     function setLayoutMode(mode) {
+      if (state.treeLayout) {
+        state.layoutMode = 'yggdrasil';
+        return;
+      }
       state.layoutMode = mode;
       state.positions = buildPositions(state.skills, state.scale, mode);
     }
@@ -2318,7 +2613,38 @@
       return state.paused;
     }
 
-    return { setSkills, setNamedMap, setTitleMap, setOriginMap, resize, start, stop, resetFilters, setInteractive, setLabelMode, getStatusEl, setStatusEl, setMeta, setLayoutMode, setAutoRotate, setColorMode, setDragMode, randomZoom, setPaused, isPaused };
+    function setViewMode(mode, viewOptions) {
+      const target = mode === 'explorer3d' ? 1 : 0;
+      const opts = viewOptions || {};
+      state.viewFrom = state.viewMix;
+      state.viewTarget = target;
+      state.viewPhase = target === 1 ? 'entering3d' : 'exiting3d';
+      state.viewComplete = typeof opts.onComplete === 'function' ? opts.onComplete : null;
+      const immediate = opts.immediate === true || _reducedMotion();
+      if (immediate || Math.abs(state.viewFrom - target) < 0.001) {
+        state.viewMix = target;
+        state.viewStartedAt = null;
+        state.viewPhase = target === 1 ? 'explorer3d' : 'hero2d';
+        const done = state.viewComplete;
+        state.viewComplete = null;
+        if (done) done(state.viewPhase);
+        return;
+      }
+      state.viewDuration = Math.max(120, (Number(opts.duration) || 900) * Math.abs(target - state.viewFrom));
+      state.viewStartedAt = performance.now();
+    }
+
+    function getViewState() {
+      return {
+        phase: state.viewPhase,
+        mix: state.viewMix,
+        target: state.viewTarget,
+        available: Boolean(state.treeLayout),
+        diagnostics: state.treeLayout && state.treeLayout.diagnostics ? state.treeLayout.diagnostics : null,
+      };
+    }
+
+    return { setSkills, setTreeLayout, setNamedMap, setTitleMap, setOriginMap, resize, start, stop, resetFilters, setInteractive, setLabelMode, getStatusEl, setStatusEl, setMeta, setLayoutMode, setAutoRotate, setColorMode, setDragMode, randomZoom, setPaused, isPaused, setViewMode, getViewState };
   }
 
   const hero = document.getElementById('hero');
@@ -2374,6 +2700,9 @@
   // #hero into a fixed fullscreen state and enable interactivity
   // on the existing canvas.
   let _graphFullscreen = false;
+  let _graphClosing = false;
+  let _pendingOpen = false;
+  let _heroOriginRect = null;
 
   // Build status bar for fullscreen mode
   const _graphStatusBar = document.createElement('div');
@@ -2389,7 +2718,6 @@
   _graphCloseOverlay.innerHTML =
     '<div class="graph-fullscreen-header">' +
     '<div class="graph-atlas-controls">' +
-    '<button type="button" class="graph-action-btn" data-graph-layout title="Layout: Semantic/Deterministic"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#switch"/></svg><span>Semantic</span></button>' +
     '<button type="button" class="graph-action-btn" data-graph-labels title="Labels: None/Priority"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#view-list"/></svg><span>Labels</span></button>' +
     '<button type="button" class="graph-action-btn" data-graph-mouse title="Interaction: Orbit/Pan"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#rotate"/></svg><span>Orbit</span></button>' +
     '</div>' +
@@ -2441,10 +2769,40 @@
     }
   }
 
+  function _setTreeClip(rect) {
+    const top = rect ? Math.max(0, rect.top) : 0;
+    const left = rect ? Math.max(0, rect.left) : 0;
+    const right = rect ? Math.max(0, window.innerWidth - rect.right) : 0;
+    const bottom = rect ? Math.max(0, window.innerHeight - rect.bottom) : 0;
+    hero.style.setProperty('--hero-tree-shell-top', top + 'px');
+    hero.style.setProperty('--hero-tree-shell-right', right + 'px');
+    hero.style.setProperty('--hero-tree-shell-bottom', bottom + 'px');
+    hero.style.setProperty('--hero-tree-shell-left', left + 'px');
+  }
+
+  function _updateExploreButton(pressed) {
+    const exploreBtn = document.getElementById('hudToggleBtn');
+    if (exploreBtn) exploreBtn.setAttribute('aria-pressed', String(pressed));
+  }
+
   function openGraphFullscreen() {
-    if (_graphFullscreen) return;
+    if (_graphFullscreen && !_graphClosing) return true;
+    if (!heroGraph.getViewState().available) {
+      _pendingOpen = true;
+      hero.dataset.treeState = 'loading';
+      if (_graphStatusBar) _graphStatusBar.textContent = 'Preparing the Gaia World Tree…';
+      return false;
+    }
+    _pendingOpen = false;
     _graphFullscreen = true;
-    hero.classList.add('hero-graph-fullscreen');
+    _graphClosing = false;
+    _heroOriginRect = hero.getBoundingClientRect();
+    _setTreeClip(_heroOriginRect);
+    hero.classList.remove('hero-tree-explorer', 'hero-tree-exiting', 'hero-graph-fullscreen');
+    hero.classList.add('hero-tree-entering');
+    hero.dataset.treeState = 'entering3d';
+    document.body.classList.add('hero-tree-explorer-open');
+    _updateExploreButton(true);
 
     // Always start with HUD visible — mobile users were complaining
     // they had to discover the "Show Controls" button before seeing
@@ -2452,85 +2810,86 @@
     hero.classList.remove('hud-hidden');
     hudToggleBtn.querySelector('span').textContent = 'Hide Controls';
 
-    heroGraph.setInteractive(true);
+    heroGraph.setInteractive(false);
     heroGraph.setLabelMode('none');
     heroGraph.setStatusEl(_graphStatusBar);
 
     // Sync header button states
-    const layoutBtn = _graphCloseOverlay.querySelector('[data-graph-layout]');
-    if (layoutBtn) layoutBtn.querySelector('span').textContent = 'Semantic';
     const labelsBtn = _graphCloseOverlay.querySelector('[data-graph-labels]');
     if (labelsBtn) labelsBtn.classList.remove('active');
     const mouseBtn = _graphCloseOverlay.querySelector('[data-graph-mouse]');
     if (mouseBtn) mouseBtn.querySelector('span').textContent = 'Orbit';
 
     heroGraph.resize();
-
-    const colPanel = hero.querySelector('.graph-collection-panel');
-    if (colPanel) {
-      colPanel.style.display = 'flex';
-    }
+    requestAnimationFrame(() => _setTreeClip(null));
+    heroGraph.setViewMode('explorer3d', {
+      duration: 900,
+      onComplete: () => {
+        if (_graphClosing) return;
+        hero.classList.remove('hero-tree-entering');
+        hero.classList.add('hero-tree-explorer');
+        hero.dataset.treeState = 'explorer3d';
+        heroGraph.setInteractive(true);
+        const colPanel = hero.querySelector('.graph-collection-panel');
+        if (colPanel) colPanel.style.display = 'flex';
+        const closeBtn = _graphCloseOverlay.querySelector('[data-graph-fullscreen-close]');
+        if (closeBtn && typeof closeBtn.focus === 'function') closeBtn.focus();
+      },
+    });
 
     // ── A11y: promote #hero into a modal dialog ─────────────────
     _prevFocus = document.activeElement;
     hero.setAttribute('aria-modal', 'true');
     hero.setAttribute('role', 'dialog');
-    hero.setAttribute('aria-label', 'Skill graph atlas');
-    const closeBtn = _graphCloseOverlay.querySelector('[data-graph-fullscreen-close]');
-    if (closeBtn && typeof closeBtn.focus === 'function') closeBtn.focus();
+    hero.setAttribute('aria-label', 'Gaia World Tree explorer');
+    hero.setAttribute('tabindex', '-1');
+    if (typeof hero.focus === 'function') hero.focus();
     document.addEventListener('keydown', _trapTabKey);
+    return true;
   }
 
   function closeGraphFullscreen() {
-    if (!_graphFullscreen) return;
-    _graphFullscreen = false;
-    hero.classList.remove('hero-graph-fullscreen');
+    if (!_graphFullscreen || _graphClosing) return false;
+    _pendingOpen = false;
+    _graphClosing = true;
+    hero.classList.remove('hero-tree-entering', 'hero-tree-explorer', 'hero-graph-fullscreen');
+    hero.classList.add('hero-tree-exiting');
+    hero.dataset.treeState = 'exiting3d';
     heroGraph.setInteractive(false);
     heroGraph.setLabelMode('none');
     document.querySelectorAll('.graph-skill-panel, .graph-collection-panel').forEach(el => el.style.display = 'none');
-    // Do NOT resetFilters() — preserve user's speed, zoom, orbit, etc.
-    heroGraph.resize();
-
-    // ── A11y: tear down dialog semantics + restore focus ────────
-    hero.removeAttribute('aria-modal');
-    hero.removeAttribute('role');
-    hero.removeAttribute('aria-label');
-    document.removeEventListener('keydown', _trapTabKey);
-    if (_prevFocus && typeof _prevFocus.focus === 'function') {
-      try { _prevFocus.focus(); } catch (_) { /* element may be detached */ }
-    }
-    _prevFocus = null;
-  }
-
-  function peek(on) {
-    if (_graphFullscreen) return;
-    hero.classList.toggle('hero-graph-peek', Boolean(on));
+    requestAnimationFrame(() => _setTreeClip(_heroOriginRect));
+    heroGraph.setViewMode('hero2d', {
+      duration: 900,
+      onComplete: () => {
+        hero.classList.remove('hero-tree-exiting', 'hero-graph-fullscreen');
+        hero.dataset.treeState = 'hero2d';
+        document.body.classList.remove('hero-tree-explorer-open');
+        ['--hero-tree-shell-top', '--hero-tree-shell-right', '--hero-tree-shell-bottom', '--hero-tree-shell-left'].forEach(name => hero.style.removeProperty(name));
+        hero.removeAttribute('aria-modal');
+        hero.removeAttribute('role');
+        hero.removeAttribute('aria-label');
+        hero.removeAttribute('tabindex');
+        document.removeEventListener('keydown', _trapTabKey);
+        _graphFullscreen = false;
+        _graphClosing = false;
+        _updateExploreButton(false);
+        heroGraph.resize();
+        if (_prevFocus && typeof _prevFocus.focus === 'function') {
+          try { _prevFocus.focus(); } catch (_) { /* element may be detached */ }
+        }
+        _prevFocus = null;
+      },
+    });
+    return true;
   }
 
   if (trigger) {
-    trigger.addEventListener('mouseenter', () => peek(true));
-    trigger.addEventListener('mouseleave', () => peek(false));
-    trigger.addEventListener('focus', () => peek(true));
-    trigger.addEventListener('blur', () => peek(false));
-    trigger.addEventListener('click', () => {
-      peek(false);
-      openGraphFullscreen();
-    });
+    trigger.addEventListener('click', openGraphFullscreen);
   }
 
   // Close button inside the fullscreen chrome
   _graphCloseOverlay.querySelector('[data-graph-fullscreen-close]').addEventListener('click', closeGraphFullscreen);
-
-  // 4D Atlas Toggles
-  _graphCloseOverlay.querySelector('[data-graph-layout]').addEventListener('click', (e) => {
-    const btn = e.currentTarget;
-    const modes = ['semantic', 'deterministic'];
-    const current = modes.indexOf(heroGraph.layoutMode || 'semantic');
-    const next = modes[(current + 1) % modes.length];
-    heroGraph.setLayoutMode(next);
-    btn.querySelector('span').textContent = next.charAt(0).toUpperCase() + next.slice(1);
-    heroGraph.layoutMode = next;
-  });
 
   _graphCloseOverlay.querySelector('[data-graph-labels]').addEventListener('click', (e) => {
     const btn = e.currentTarget;
@@ -2566,6 +2925,25 @@
       closeGraphFullscreen();
     }
   });
+
+  window.gaiaWorldTree = {
+    open: openGraphFullscreen,
+    close: closeGraphFullscreen,
+    toggle: function () {
+      return (_graphFullscreen && !_graphClosing) ? closeGraphFullscreen() : openGraphFullscreen();
+    },
+    state: function () {
+      const view = heroGraph.getViewState();
+      return {
+        phase: hero.dataset.treeState || view.phase,
+        mix: view.mix,
+        available: view.available,
+        open: _graphFullscreen,
+        closing: _graphClosing,
+        diagnostics: view.diagnostics,
+      };
+    },
+  };
 
   // ── Canvas a11y semantics ─────────────────────────────────────
   // The 3D canvas is a visual representation of the registry graph.
@@ -2619,15 +2997,28 @@
     .then(graph => {
       _initMetaGraph(graph.meta);
       if (heroGraph) heroGraph.setMeta(graph.meta);
-      return normalizeSkills(graph);
+      const skills = normalizeSkills(graph);
+      let treeLayout = null;
+      const layoutApi = window.GaiaWorldTreeLayout;
+      const buildLayout = layoutApi && (layoutApi.buildWorldTreeLayout || layoutApi.compute);
+      if (typeof buildLayout === 'function') {
+        try {
+          treeLayout = buildLayout(graph, { width: 760, height: 680 });
+        } catch (error) {
+          console.warn('World Tree layout unavailable:', error);
+        }
+      }
+      return { skills, treeLayout };
     })
 
-    .then(skills => {
-      if (heroGraph) heroGraph.setSkills(skills);
+    .then(result => {
+      const skills = result.skills;
+      if (heroGraph) heroGraph.setSkills(skills, result.treeLayout);
       _ariaSkillsCount = skills.length;
       _ariaEdgesCount = skills.reduce((acc, s) => acc + (Array.isArray(s.prerequisites) ? s.prerequisites.length : 0), 0);
       _ariaApexCount = skills.reduce((acc, s) => acc + (s.level === '6★' ? 1 : 0), 0);
       _refreshCanvasAria();
+      if (_pendingOpen && heroGraph.getViewState().available) openGraphFullscreen();
     })
     .catch(error => {
       console.warn('Using embedded fallback skill graph:', error);
