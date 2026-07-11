@@ -36,7 +36,20 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 ## Design System
 
 Inherits from `docs/css/tokens.css` and `docs/css/styles.css`.
-All pages link `../css/tokens.css`, `../css/styles.css`.
+All pages link `../css/tokens.css`, `../css/styles.css`, then **`docs-en-shell.css`** (same directory).
+
+### Fixed-nav clearance (`docs-en-shell.css`)
+
+The site-wide nav is `position: fixed` (~58px). Global `styles.css` hides the legacy in-page `.docs-nav` when `#site-nav` is present but does not offset content, so titles would sit under the bar.
+
+`docs-en-shell.css` is the modular fix for `/en` only (no edits outside this folder):
+
+| Token | Default | Role |
+|---|---|---|
+| `--docs-en-site-nav-height` | `3.625rem` | Sticky sidebar / scroll-margin baseline |
+| `--docs-en-nav-clearance` | `5rem` | Top clearance for content shells (fixed-nav ladder base) |
+
+Rules target body-child shells: `.page-layout`, `.docs-layout`, and index `.docs-hero`. New pages under `docs/en/` must load this sheet after `styles.css`.
 
 Fonts: EB Garamond (display headings), Bricolage Grotesque (body), JetBrains Mono (code).
 Background: `#030712` (`--bg`). Surface: `#0f172a` (`--surface`). Border: `#1e293b`.
