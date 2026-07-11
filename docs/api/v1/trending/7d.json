@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-11T11:33:50Z",
+  "generatedAt": "2026-07-11T22:50:41Z",
   "firstRun": false,
   "skills": [
     {
@@ -38,57 +38,15 @@
       "contributor": "addy-osmani",
       "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
-      "trendingScore": 20.0,
+      "trendingScore": 10.0,
       "tmDelta": 0.0,
       "new": false,
       "_links": {
         "self": "/api/v1/skills/addy-osmani/code-simplification.json"
       }
-    },
-    {
-      "id": "openai/few-shot-learning",
-      "name": "Few-Shot Learning",
-      "level": "4★",
-      "contributor": "openai",
-      "trustMagnitude": 100.0,
-      "overallTrustGrade": "A",
-      "trendingScore": 10.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/openai/few-shot-learning.json"
-      }
-    },
-    {
-      "id": "anthropic/skill-creator",
-      "name": "Skill Creator",
-      "level": "3★",
-      "contributor": "anthropic",
-      "trustMagnitude": 90.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 10.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/anthropic/skill-creator.json"
-      }
-    },
-    {
-      "id": "huggingface/semantic-cache",
-      "name": "Semantic Cache",
-      "level": "2★",
-      "contributor": "huggingface",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 10.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/huggingface/semantic-cache.json"
-      }
     }
   ],
-  "totalTrending": 6,
+  "totalTrending": 3,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
