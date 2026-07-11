@@ -40,6 +40,8 @@
   <link rel="stylesheet" href="css/plaque.css?v=6.3.17">
   <!-- Universal AlphaRail (page-wide section + explorer index). -->
   <link rel="stylesheet" href="css/alpha-rail.css?v=6.3.17">
+  <!-- Homepage-only World Tree composition and 2D ↔ 3D explorer shell. -->
+  <link rel="stylesheet" href="css/world-tree-hero.css?v=6.3.17">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
   <script src="js/icons.js?v=6.3.17"></script>
   <!-- Stage 2 — shared rank-badge primitive, loaded after icons. -->
@@ -302,37 +304,56 @@
   <script src="js/site-nav.js?v=6.3.17"></script>
 
   <!-- ─── HERO ─── -->
-  <section id="hero">
-    <canvas id="canvas3d" aria-label="4D semantic skill graph of 200 skills across tier and cluster dimensions"></canvas>
-    <div class="hero-mobile-graph" aria-hidden="true">
-      <img src="graph/gaia.svg" alt="" width="600" height="600">
+  <section id="hero" class="hero-tree-shell" data-tree-state="hero2d" aria-labelledby="heroTreeTitle">
+    <canvas id="canvas3d" aria-label="Gaia Skill Tree, rendered as a golden Yggdrasil from the live skill graph"></canvas>
+    <div class="hero-tree-atmosphere" aria-hidden="true"></div>
+    <div class="hero-pills hero-tree-utilities" aria-label="Registry utilities">
+      <button class="field-trigger hero-tree-explore" type="button" id="hudToggleBtn" aria-pressed="false" aria-label="Explore the Gaia Skill Tree in 3D">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#view-tree"/></svg>
+        <span>Explore in 3D</span>
+      </button>
+      <a class="field-trigger hero-tree-ledger-link" href="trust/ledger/" aria-label="Open the Trust Ledger">
+        <span aria-hidden="true">◆</span>
+        <span>Trust Ledger</span>
+      </a>
     </div>
-    <div class="hero-glass-blur"></div>
-    <div class="hero-glass-noise"></div>
     <div class="hero-content">
-      <div class="hero-pills">
-        <button class="field-trigger" type="button" id="hudToggleBtn" aria-pressed="false" aria-label="Toggle field view"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#hud-toggle"/></svg> Field view</button>
-        <a class="field-trigger" href="trust/ledger/" aria-label="Trust Ledger" style="text-decoration:none;">◆ Trust Ledger</a>
+      <div class="hero-tree-copy">
+        <p class="hero-tree-kicker"><span aria-hidden="true">◇</span> The living capability registry</p>
+        <h1 class="hero-title" id="heroTreeTitle">
+          <span>Gaia</span>
+          <span>Skill Tree</span>
+        </h1>
+        <div class="hero-tree-oath" aria-label="Registry oath">
+          <span class="hero-tree-oath-label">Registry oath</span>
+          <p>Skills are catalogued. Names are earned. Apex is rare.</p>
+        </div>
+        <p class="hero-sub">An evidence-backed registry of agent capabilities, grown from public provenance.</p>
+        <div class="hero-tree-actions" aria-label="Get started with Gaia">
+          <a href="#install-cli" class="hero-tree-action hero-tree-action--primary">
+            <span class="hero-tree-action-glyph" aria-hidden="true">◆</span>
+            <span>
+              <strong>Install Gaia CLI</strong>
+              <small>Start your local skill tree</small>
+            </span>
+          </a>
+          <a href="#push-for-review" class="hero-tree-action">
+            <span class="hero-tree-action-glyph" aria-hidden="true">↑</span>
+            <span>
+              <strong>Push your repo</strong>
+              <small>Submit public evidence</small>
+            </span>
+          </a>
+          <a href="badges/" class="hero-tree-action">
+            <span class="hero-tree-action-glyph" aria-hidden="true">◇</span>
+            <span>
+              <strong>Claim badges</strong>
+              <small>Carry earned rank</small>
+            </span>
+          </a>
+        </div>
       </div>
-      <h1 class="hero-title">
-        Skills are catalogued.<br>
-        Names are <em>earned</em>.<br>
-        Apex is <span>rare</span>.
-      </h1>
-      <p class="hero-sub">An evidence-backed Registry of agent capabilities, catalogued with public provenance. Bring your repo, claim your name.</p>
-      <div class="two-doors">
-        <a href="#paths" class="door door-a door--primary">
-          <span class="door-icon">◆</span>
-          <span class="door-label">Push your repo</span>
-          <span class="door-caption">4 steps to register</span>
-        </a>
-        <a href="#ultimates" class="door door-b">
-          <span class="door-icon">◈</span>
-          <span class="door-label">Claim an Ultimate</span>
-          <span class="door-caption" id="doorBCaption">Browse all</span>
-        </a>
-      </div>
-      <div class="ledger-strip">
+      <div class="ledger-strip" aria-label="Live registry totals">
         <span class="ls-stat">
           <span class="ls-num" id="ledgerSkills">—</span>
           <span class="ls-label">skills</span>
@@ -348,7 +369,10 @@
           <span class="ls-label">ultimates</span>
         </span>
         <span class="ls-sep">/</span>
-        <span class="ls-updated" id="ledgerDate"></span>
+        <span class="ls-updated">
+          <span class="ls-label">updated</span>
+          <span id="ledgerDate"></span>
+        </span>
       </div>
     </div>
     <!-- gaia-hero-post-start -->
@@ -557,7 +581,7 @@
         <h2>Register Your Repo</h2>
         <p class="section-sub mt-sm">Four evidence-backed steps from a public repo to a catalogued entry in the canonical Registry.</p>
         <ol class="rite-steps">
-          <li class="rite-step">
+          <li class="rite-step" id="install-cli">
             <div class="rite-meta">
               <span class="rite-numeral" aria-hidden="true">I.</span>
               <div class="rite-desc">
@@ -627,7 +651,7 @@
               </div>
             </div>
           </li>
-          <li class="rite-step">
+          <li class="rite-step" id="push-for-review">
             <div class="rite-meta">
               <span class="rite-numeral" aria-hidden="true">IV.</span>
               <div class="rite-desc">
@@ -1501,6 +1525,7 @@
   <!-- ─── SCRIPTS ─── -->
   <!-- icons.js already loaded in <head> so gaiaIcon() is available before any of these. -->
   <script src="js/atlas-helpers.js?v=6.3.17"></script>
+  <script src="js/world-tree-layout.js?v=6.3.17"></script>
   <script src="js/skill-graph.js?v=6.3.17"></script>
   <script src="js/hud-toggle.js?v=6.3.17"></script>
   <script src="js/scroll-reveal.js?v=6.3.17"></script>

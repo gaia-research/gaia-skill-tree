@@ -176,13 +176,15 @@ Syntax highlighting in `<pre>` blocks:
 
 **Nav** — sits on a 1px hairline divider in `var(--border)` over `var(--bg)`. No glassmorphism on the main nav (the previous frosted-glass treatment is retired here). Diamond Seal mark + wordmark on the left, destination links on the right.
 
-**Hero titles** — solid `var(--text)` in EB Garamond at weight 600 (`var(--font-display)`). No gradient text. Emphasis words (e.g., "rare", "earned") may carry a single hairline gold underline using `border-bottom: 1px solid var(--apex-gold)` or an equivalent inline `<span>` underline accent. The previous three-stop tier-gradient sweep on titles is retired.
+**Hero titles** — solid `var(--text)` in EB Garamond at weight 600 (`var(--font-display)`). No gradient text. Emphasis words (e.g., "rare", "earned") may carry a single hairline gold underline using `border-bottom: 1px solid var(--apex-gold)` or an equivalent inline `<span>` underline accent. The homepage's exact `Gaia Skill Tree` title may set `Skill Tree` in solid Apex Gold as part of the World Tree brand lock-up. The previous three-stop tier-gradient sweep on titles is retired.
+
+**World Tree brand-mark exception** — the homepage World Tree is Gaia's living brand mark, generated from the canonical DAG rather than added as decoration. In its front-facing hero pose, every real node and edge may use one tonal gold family built from low-alpha `--apex-gold` / `--apex-gold-rgb` values. Root, trunk, ordinary branches, and buds stay antique or muted; full-strength `--apex-gold`, larger diamond geometry, and rings remain reserved for Ultimate/Apex emphasis. This exception applies only to the complete World Tree silhouette and does not license gold paragraph copy, generic gold UI, or removal of non-colour rank signals. When the same objects enter **Tree Explorer**, they recover the current canonical tier/rank colours through the visual-role adapter while Ultimate and Apex identities remain explicit by label and geometry.
 
 **Hero tier gradient (retained, scoped)** — the three-stop sweep
 ```
 linear-gradient(135deg, #38bdf8 0%, #c084fc 50%, #f59e0b 100%)
 ```
-is retained ONLY as the background fill for the floating hero CTA pills (`◆ Open full graph`, `⇄ Field view`). It is no longer used on titles or body copy.
+is retained only on legacy graph surfaces that already use it. The homepage World Tree, its `Explore in 3D` control, titles, and body copy do not use this sweep.
 
 **Buttons**
 - Primary: solid `var(--apex-gold)` background on a midnight (`var(--bg)`) border, white-on-midnight text (`color: var(--text)`), `box-shadow: 0 0 24px rgba(var(--apex-gold-rgb), .3)`. Used only for Apex affordances.
@@ -323,7 +325,7 @@ These role tokens layer on top of the locked tier and rank colour tables. They d
 |---|---|---|
 | `--honor-red` | `#ef4444` | Contributor handle colour. Used wherever a real contributor name appears (graph labels, plaques, named-skills cards, nav `Named` link). Never decorative. |
 | `--honor-red-rgb` | `239, 68, 68` | RGB triplet for composing `rgba(var(--honor-red-rgb), α)` overlays and shadows. |
-| `--apex-gold` | `#fbbf24` | 6★ / Ultimate / Diamond Seal mark accent. Used for Apex affordances only — the seal mark, the apex CTA pill, the Hall of Heroes apex glyph. Never decorative; never as a paragraph-level accent. |
+| `--apex-gold` | `#fbbf24` | 6★ / Ultimate / Diamond Seal mark accent. Used at full strength for Apex affordances only — the seal mark, apex CTA, Hall glyph, and Ultimate/Apex marks inside the World Tree. Lower World Tree structure may use alpha-derived values under the narrow brand-mark exception above. Never decorative; never as a paragraph-level accent. |
 | `--apex-gold-rgb` | `251, 191, 36` | RGB triplet for composing `rgba(var(--apex-gold-rgb), α)` glows, button shadows, ledger-strip highlights. |
 | `--font-display` | `'EB Garamond', Georgia, serif` | Display face. Hero titles, plate headings, section h2 only. |
 | `--font-body` | `'Bricolage Grotesque', Inter, system-ui, sans-serif` | Body face. All paragraph and UI text. |
@@ -340,7 +342,7 @@ Gaia's public surface (`gaiaskilltree.com`) is the **Hunter's Atlas**: a Sacred-
 
 On top of the locked tier and rank colour tokens, two brand-voice tokens do the carry-everything work: **Honor Red (`--honor-red`)** is reserved for contributor handles; **Apex Gold (`--apex-gold`)** is reserved for 6★/Ultimate/Diamond-Seal moments and Apex-only affordances. Tier and rank colour tokens, 6★ Apex shimmer, the graph canvas geometry, the Skill Explorer glow tokens, and the Ultimate/Extra cycling animations are all hard-locked and survive unchanged into this lane.
 
-The 3D canvas (`canvas3d`) is **preserved** as a secondary view — repurposed as an ambient parallax background behind the 2D graph hero, and reachable as the primary view via a `⇄ Field view` toggle. The 2D skill graph is the primary hero. The Diamond Seal mark (`◇G` lock-up) is the brand mark; the apex `◆` glyph remains free for its tier role. Per `CONTEXT.md:137-139`, "HUD" is internal-only nomenclature (used in code class names like `.hud-trigger` and file names like `hud-toggle.js`); user-facing copy uses **Field view** for the toggle and **Registry** for any view of the public skill graph.
+The World Tree uses one `canvas3d` and one stable set of graph objects. Its default hero pose is front-facing, visually 2D, and gold. **Explore in 3D** expands that same canvas to fullscreen while the objects gain depth, canonical tier/rank colour, orbit controls, hover states, and collection tools; exit reverses the morph to the exact hero pose. **Field view is deprecated**: `?tree=1` is canonical, while `?field=1` and `?hud=1` may remain compatibility aliases to Tree Explorer. The explorer is tree-only—no semantic/spectral constellation mode or crossfade to a second renderer. The Diamond Seal mark (`◇G` lock-up) remains the brand mark; the apex `◆` glyph remains free for its tier role. "HUD" may survive only as internal legacy nomenclature in class and file names.
 
 ## Anti-references & accessibility (see PRODUCT.md)
 
