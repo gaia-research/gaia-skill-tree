@@ -2650,6 +2650,17 @@
     function setViewMode(mode, viewOptions) {
       const target = mode === 'explorer3d' ? 1 : 0;
       const opts = viewOptions || {};
+      if (target === 1 && state.viewMix < 0.001) {
+        // The ambient clock keeps node shimmer alive in the flat hero. Reset
+        // camera motion at entry so the morph begins from that exact frontal
+        // silhouette instead of resolving at an arbitrary accumulated angle.
+        state.t = 0;
+        state.orbitX = 0;
+        state.orbitY = 0;
+        state.panX = 0;
+        state.panY = 0;
+        state.zoom = 1;
+      }
       state.viewFrom = state.viewMix;
       state.viewTarget = target;
       state.viewPhase = target === 1 ? 'entering3d' : 'exiting3d';
