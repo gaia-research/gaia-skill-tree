@@ -405,6 +405,29 @@
   transform: none;
 }
 
+#hero.hero-tree-shell.hero-hud-mode .hero-title,
+#hero.hero-tree-shell.hero-hud-mode .hero-sub,
+#hero.hero-tree-shell.hero-hud-mode .hero-tree-actions,
+#hero.hero-tree-shell.hero-hud-mode .ledger-strip,
+#hero.hero-tree-shell.hero-hud-mode .scroll-hint,
+#hero.hero-tree-shell.hero-hud-mode .hero-audit-btn,
+#hero.hero-tree-shell.hero-graph-peek .hero-title,
+#hero.hero-tree-shell.hero-graph-peek .hero-sub,
+#hero.hero-tree-shell.hero-graph-peek .hero-tree-actions,
+#hero.hero-tree-shell.hero-graph-peek .ledger-strip,
+#hero.hero-tree-shell.hero-graph-peek .scroll-hint,
+#hero.hero-tree-shell.hero-graph-peek .hero-audit-btn {
+  opacity: 1 !important;
+  filter: none;
+  pointer-events: auto;
+  transform: none;
+}
+
+#hero.hero-tree-shell.hero-hud-mode .hero-audit-btn,
+#hero.hero-tree-shell.hero-graph-peek .hero-audit-btn {
+  opacity: .72 !important;
+}
+
 /* One-canvas morph shell. JS owns the object-level camera, depth, and colour
    interpolation; these classes own page geometry, focusable chrome, and lock. */
 body.hero-tree-explorer-open,
