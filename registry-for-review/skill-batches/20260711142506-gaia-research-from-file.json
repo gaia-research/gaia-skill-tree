@@ -1,0 +1,336 @@
+{
+  "batchId": "20260711142506-gaia-research-from-file",
+  "userId": "gaia-research",
+  "sourceRepo": "gaia-research/gaia-skill-tree",
+  "generatedAt": "2026-07-11T14:25:06Z",
+  "fromFile": true,
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "web-scrape-integration",
+      "name": "Web Scrape Integration",
+      "type": "basic",
+      "prerequisites": [],
+      "description": "Integrate programmatic web scraping APIs to convert dynamic page URLs into clean, LLM-ready markdown or structured JSON schemas in application code.",
+      "attribution": {
+        "upstream_author": "firecrawl",
+        "skill_file_url": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-scrape/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-scrape/SKILL.md",
+          "notes": "Official Firecrawl application scrape integration skill"
+        },
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/firecrawl/firecrawl",
+          "notes": "149k stars, open-source API-first scraper engine"
+        },
+        {
+          "grade": "A",
+          "type": "benchmark-result",
+          "url": "https://spider.cloud/blog/firecrawl-vs-crawl4ai-vs-spider-honest-benchmark/",
+          "notes": "Scrape Content Dataset V1 (1000 URLs): >95% dynamic page success, P95 latency ~3.4s"
+        },
+        {
+          "grade": "C",
+          "type": "social-signal",
+          "url": "https://www.youtube.com/watch?v=kY0hN5-xK8U",
+          "notes": "Tyler AI YouTube guide on scraping EVERYTHING with Firecrawl"
+        }
+      ],
+      "named": {
+        "contributor": "firecrawl",
+        "level": "4\u2605",
+        "links_github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-scrape/SKILL.md"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "web-search-integration",
+      "name": "Web Search Integration",
+      "type": "basic",
+      "prerequisites": [],
+      "description": "Integrate programmable search endpoints to discover relevant pages and extract content based on natural language queries inside product codebase.",
+      "attribution": {
+        "upstream_author": "firecrawl",
+        "skill_file_url": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md",
+          "notes": "Official Firecrawl application search integration skill"
+        },
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/firecrawl/firecrawl",
+          "notes": "149k stars, search API support"
+        }
+      ],
+      "named": {
+        "contributor": "firecrawl",
+        "level": "4\u2605",
+        "links_github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "browser-interaction-integration",
+      "name": "Browser Interaction Integration",
+      "type": "basic",
+      "prerequisites": [],
+      "description": "Integrate headless browser control (clicks, form inputs, dynamic navigation) to scrape dynamic or authenticated web pages programmatically in product code.",
+      "attribution": {
+        "upstream_author": "firecrawl",
+        "skill_file_url": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md",
+          "notes": "Official Firecrawl application interact integration skill"
+        },
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/firecrawl/firecrawl",
+          "notes": "149k stars, dynamic interact API support"
+        }
+      ],
+      "named": {
+        "contributor": "firecrawl",
+        "level": "4\u2605",
+        "links_github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "agent-environment-auth",
+      "name": "Agent Environment Authentication",
+      "type": "basic",
+      "prerequisites": [],
+      "description": "Programmatically handle API key retrieval, browser-based OAuth flow setup, and SDK initialization for AI agent tools.",
+      "attribution": {
+        "upstream_author": "firecrawl",
+        "skill_file_url": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md",
+          "notes": "Official Firecrawl application onboarding integration skill"
+        },
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/firecrawl/skills",
+          "notes": "CLI and browser credential setup integration"
+        }
+      ],
+      "named": {
+        "contributor": "firecrawl",
+        "level": "4\u2605",
+        "links_github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "api-call-orchestration",
+      "name": "API Call Orchestration",
+      "type": "basic",
+      "prerequisites": [],
+      "description": "Orchestrate multiple web endpoints (such as search, scrape, and interact) via unified client wrappers, handling failures, token counting, and caching.",
+      "attribution": {
+        "upstream_author": "firecrawl",
+        "skill_file_url": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build/SKILL.md",
+          "notes": "Official Firecrawl application build/umbrella skill"
+        },
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/firecrawl/skills",
+          "notes": "42 stars, official Firecrawl skills repository"
+        }
+      ],
+      "named": {
+        "contributor": "firecrawl",
+        "level": "4\u2605",
+        "links_github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build/SKILL.md"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "academic-literature-retrieval",
+      "name": "Academic Literature Retrieval",
+      "type": "basic",
+      "prerequisites": [],
+      "description": "Retrieve, index, and query scientific literature papers (such as arXiv publications) alongside code repositories to support deep research loops.",
+      "attribution": {
+        "upstream_author": "firecrawl",
+        "skill_file_url": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-research-index/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "B",
+          "type": "repo",
+          "url": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-research-index/SKILL.md",
+          "notes": "Official Firecrawl research index query skill"
+        },
+        {
+          "grade": "A",
+          "type": "benchmark-result",
+          "url": "https://www.firecrawl.dev/blog/research-index-launch",
+          "notes": "arXivQA paper-retrieval benchmark: 53.3% recall, 0.750 MRR at $0.32/task"
+        },
+        {
+          "grade": "A",
+          "type": "arxiv",
+          "url": "https://arxiv.org/abs/2508.10152",
+          "notes": "Evaluating Open Deep Research Agents using advanced context retrieval (August 2025)"
+        }
+      ],
+      "named": {
+        "contributor": "firecrawl",
+        "level": "4\u2605",
+        "links_github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-research-index/SKILL.md"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    }
+  ],
+  "similarity": [
+    {
+      "sourceSkillId": "web-scrape-integration",
+      "targetSkillId": "mcp-integration",
+      "score": 0.757,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "web-scrape-integration",
+      "targetSkillId": "system-integration",
+      "score": 0.65,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "web-scrape-integration",
+      "targetSkillId": "git-integration",
+      "score": 0.649,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "web-search-integration",
+      "targetSkillId": "mcp-integration",
+      "score": 0.703,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "web-search-integration",
+      "targetSkillId": "system-integration",
+      "score": 0.65,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "web-search-integration",
+      "targetSkillId": "git-integration",
+      "score": 0.649,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "browser-interaction-integration",
+      "targetSkillId": "stealth-browser-interaction",
+      "score": 0.655,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "browser-interaction-integration",
+      "targetSkillId": "system-integration",
+      "score": 0.612,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "browser-interaction-integration",
+      "targetSkillId": "browser-automation",
+      "score": 0.612,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "agent-environment-auth",
+      "targetSkillId": "agent-environment-setup",
+      "score": 0.844,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "agent-environment-auth",
+      "targetSkillId": "agent-eval",
+      "score": 0.579,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "agent-environment-auth",
+      "targetSkillId": "subagent-driven-development",
+      "score": 0.571,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "api-call-orchestration",
+      "targetSkillId": "multi-node-orchestration",
+      "score": 0.696,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "api-call-orchestration",
+      "targetSkillId": "multi-agent-orchestration-v",
+      "score": 0.694,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "api-call-orchestration",
+      "targetSkillId": "multi-topology-orchestration",
+      "score": 0.68,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "academic-literature-retrieval",
+      "targetSkillId": "genomic-data-retrieval",
+      "score": 0.667,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "academic-literature-retrieval",
+      "targetSkillId": "literature-review",
+      "score": 0.652,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "academic-literature-retrieval",
+      "targetSkillId": "proteomic-data-retrieval",
+      "score": 0.642,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ]
+}
