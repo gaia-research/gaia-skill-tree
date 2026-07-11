@@ -6,15 +6,20 @@ If you are an agent that landed in this repo and needs to know **the fastest cor
 
 ## The two things agents actually do here
 
-### 1. Submit a skill I discovered → `gaia push`
+### 1. Submit a skill I discovered
 
-You have found a real capability in a real repo and want to nominate it for the registry. Do not open a bare issue. Do not hand-write JSON into `registry/`. Do this:
+You have found a real capability in a real repo and want to nominate it for the registry. There is **one destination** — a *new skill intake issue* — and **two synonymous ways to reach it**:
+
+- **CLI (fastest, if installed):** `gaia push --from-file skills.yml` writes the batch and opens that same intake issue for you.
+- **Issue form (no CLI needed):** paste the same YAML straight into the new skill intake issue form.
+
+Both paths use the identical YAML schema and land in the same triage queue. Do not open a bare issue and do not hand-write JSON into `registry/`.
 
     gaia push --from-file skills.yml               # writes batch + opens intake issue
-    gaia push --from-file skills.yml --dry-run     # preview
-    gaia push --from-file skills.yml --no-issue    # write batch, no issue
+    gaia push --from-file skills.yml --dry-run     # preview, writes nothing
+    gaia push --from-file skills.yml --no-issue    # write batch, skip opening the issue
 
-The `skills.yml` schema is documented in the issue template. Minimum viable content:
+The YAML schema **is** the new skill intake issue template — that template is the canonical source of truth, and the CLI is just a convenience wrapper around it. Minimum viable content:
 
     skills:
       - id: kebab-case-id
@@ -35,7 +40,7 @@ The `skills.yml` schema is documented in the issue template. Minimum viable cont
 
 Canonical worked examples: intake #1020 (mixed basic/fusion) and intake #1123 (named implementation on existing provisional generic).
 
-If the CLI is unavailable: paste the same YAML into the new skill intake issue form.
+> **CLI vs. no CLI:** submitting a skill never requires the CLI — the intake issue form is self-sufficient. You only need `gaia` installed when you want to *fully interact with the tree* (scan, promote, fuse, share). For a one-off submission, the form alone is enough.
 
 ### 2. Modify the registry as a reviewer / maintainer
 
