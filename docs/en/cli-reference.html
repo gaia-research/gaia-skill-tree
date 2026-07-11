@@ -811,9 +811,9 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=6.1.8"></script>
-  <script src="../js/site-nav.js?v=6.1.8"></script>
-  <script src="../js/ui.js?v=6.1.8"></script>
+  <script src="../js/mounts.js?v=6.4.12"></script>
+  <script src="../js/site-nav.js?v=6.4.12"></script>
+  <script src="../js/ui.js?v=6.4.12"></script>
 
 
 
@@ -825,7 +825,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">CLI Reference</span>
     <div class="nav-spacer"></div>
-    <span class="nav-version">v6.1.8</span>
+    <span class="nav-version">v6.4.12</span>
   </nav>
 
   <div class="page-layout">
@@ -886,6 +886,8 @@
           <li><a href="#dev-timeline"><code>dev timeline</code></a></li>
           <li><a href="#dev-list"><code>dev list</code></a></li>
           <li><a href="#dev-audit"><code>dev audit</code></a></li>
+          <li><a href="#dev-sync-upstream"><code>dev sync-upstream</code></a></li>
+          <li><a href="#dev-freeze"><code>dev freeze</code></a></li>
         </ul>
       </div>
       <div class="sidebar-group">
@@ -973,6 +975,8 @@
             <li><a href="#dev-timeline"><code>dev timeline</code> — Add timeline log</a></li>
             <li><a href="#dev-list"><code>dev list</code> — Query registry</a></li>
             <li><a href="#dev-audit"><code>dev audit</code> — Run registry linter</a></li>
+            <li><a href="#dev-sync-upstream"><code>dev sync-upstream</code> — Upstream tracking</a></li>
+            <li><a href="#dev-freeze"><code>dev freeze</code> — Freeze skill</a></li>
             <li><a href="#global-flags">Global Flags</a></li>
           </ul>
         </div>
@@ -2243,6 +2247,145 @@
             </div>
           </div>
         </div>
+
+        <!-- dev sync-upstream -->
+        <div class="cmd-card" id="dev-sync-upstream">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev sync-upstream</span>
+            <span class="cmd-signature">&lt;skill-id&gt; --tag &lt;tag&gt; --source-url &lt;url&gt; [--bootstrap] [--released-at &lt;timestamp&gt;] [--mode {components,version-only}] [--dry-run] [--user &lt;user&gt;]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Writes or updates the <code>upstream:</code> frontmatter block in a named skill file.</li>
+              <li>Appends an <code>upstream_synced</code> event atomically to the skill's timeline log.</li>
+              <li>Validates release tag formats and checks that the release repository matches the skill's GitHub link.</li>
+            </ul>
+
+            <div class="callout info" style="margin-top:0.85rem; margin-bottom:0.85rem;">
+              <strong>❖ Upstream watch.</strong> Enforces strict pre-flight checks: the skill must exist under <code>registry/named/</code>, must be rated 2★ or higher, and the <code>--tag</code> and <code>--source-url</code> formats must be valid.
+            </div>
+
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>&lt;skill-id&gt;</td>
+                  <td style="max-width: 420px;">The unique ID of the named skill (e.g. <code>mattpocock/skills</code>).</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--tag &lt;tag&gt;</td>
+                  <td style="max-width: 420px;">The release tag to sync (must match a version pattern like <code>v1.2.3</code>).</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--source-url &lt;url&gt;</td>
+                  <td style="max-width: 420px;">GitHub releases URL: <code>https://github.com/&lt;owner&gt;/&lt;repo&gt;/releases/tag/&lt;tag&gt;</code>.</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--bootstrap</td>
+                  <td style="max-width: 420px;">First-time write. Refuses if the <code>upstream:</code> block already exists.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--released-at &lt;timestamp&gt;</td>
+                  <td style="max-width: 420px;">ISO 8601 release timestamp. If omitted, uses the current UTC time.</td>
+                  <td>now</td>
+                </tr>
+                <tr>
+                  <td>--mode {components,version-only}</td>
+                  <td style="max-width: 420px;">Upstream tracking mode (tracks components or version only).</td>
+                  <td>components</td>
+                </tr>
+                <tr>
+                  <td>--dry-run</td>
+                  <td style="max-width: 420px;">Prints intended changes without writing.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--user &lt;user&gt;</td>
+                  <td style="max-width: 420px;">Contributor handle attributed to the timeline event. Defaults to whoami actor.</td>
+                  <td>whoami</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Bootstrap an upstream tracking block for a 2★+ named skill</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev sync-upstream</span> <span class="arg">mattpocock/skills --tag v1.0.0 --source-url https://github.com/mattpocock/skills/releases/tag/v1.0.0 --bootstrap</span>
+
+<span class="c"># Update a skill to a new upstream version</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev sync-upstream</span> <span class="arg">mattpocock/skills --tag v1.1.0 --source-url https://github.com/mattpocock/skills/releases/tag/v1.1.0</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev freeze -->
+        <div class="cmd-card" id="dev-freeze">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev freeze</span>
+            <span class="cmd-signature">&lt;skill-id&gt; --reason &lt;text&gt; [--dry-run] [--user &lt;user&gt;]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Sets <code>installable: false</code> in a named skill's frontmatter.</li>
+              <li>Appends an <code>upstream_deprecated</code> event atomically to the skill's timeline log.</li>
+              <li>Provides a safe, structured way to deprecate unmaintained or broken named skills.</li>
+            </ul>
+
+            <div class="callout warn" style="margin-top:0.85rem; margin-bottom:0.85rem;">
+              <strong>⚠️ Deprecation Check.</strong> Enforces strict pre-flight checks: the skill must exist under <code>registry/named/</code>, the <code>--reason</code> must be non-empty and &le;500 characters, and refuses if the skill is already frozen. Warns (does not refuse) if the skill is 3★+ since the Star Bar rules may fail.
+            </div>
+
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>&lt;skill-id&gt;</td>
+                  <td style="max-width: 420px;">The named skill ID to freeze (e.g. <code>mattpocock/old-skill</code>).</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--reason &lt;text&gt;</td>
+                  <td style="max-width: 420px;">Human-readable explanation of why the skill is being frozen (&le;500 chars).</td>
+                  <td>required</td>
+                </tr>
+                <tr>
+                  <td>--dry-run</td>
+                  <td style="max-width: 420px;">Prints intended changes without writing.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--user &lt;user&gt;</td>
+                  <td style="max-width: 420px;">Contributor handle attributed to the timeline event. Defaults to whoami actor.</td>
+                  <td>whoami</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Freeze an unmaintained named skill with a reason</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev freeze</span> <span class="arg">mattpocock/old-skill --reason "unmaintained, repository archived by owner"</span></pre>
+            </div>
+          </div>
+        </div>
       </section>
 
       <hr class="section-hr">
@@ -2301,7 +2444,7 @@
 
   <!-- footer -->
   <footer class="docs-footer">
-    <span class="docs-footer-left">Gaia Registry v6.1.8 — open, evidence-backed skill graph for AI agents.</span>
+    <span class="docs-footer-left">Gaia Registry v6.4.12 — open, evidence-backed skill graph for AI agents.</span>
     <div class="docs-footer-right">
       <a href="index.html" style="color:var(--muted,#64748b);">Docs</a>
       <a href="../index.html" style="color:var(--muted,#64748b);">Atlas</a>
