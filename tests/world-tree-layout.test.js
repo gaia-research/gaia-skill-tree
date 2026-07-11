@@ -3,6 +3,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { buildWorldTreeLayout } = require('../docs/js/world-tree-layout.js');
+const canonicalGraph = require('../docs/graph/gaia.json');
 
 function fixture() {
   return {
@@ -48,6 +49,24 @@ test('preserves nodes and every real edge with no invented links', () => {
   assert.deepEqual(result.isolates, ['seed']);
   assert.equal(result.components[0].length, 4);
   assert.equal(result.components[1].length, 2);
+});
+
+test('projects every canonical gaia.json edge into both World Tree poses', () => {
+  const result = buildWorldTreeLayout(canonicalGraph);
+  const expectedEdges = canonicalGraph.skills.flatMap((skill) =>
+    (skill.prerequisites || []).map((source) => ({ source, target: skill.id })))
+    .sort((a, b) => a.source.localeCompare(b.source) || a.target.localeCompare(b.target));
+
+  assert.equal(result.status, 'ok');
+  assert.equal(result.nodes.length, canonicalGraph.skills.length);
+  assert.equal(result.edges.length, expectedEdges.length);
+  assert.deepEqual(result.edges, expectedEdges);
+  assert.equal(result.diagnostics.unknownReferences.length, 0);
+  assert.equal(result.diagnostics.duplicateEdges.length, 0);
+  assert.equal(result.diagnostics.cycleNodes.length, 0);
+  assert.equal(result.edges.every(({ source, target }) =>
+    result.heroPose[source] && result.heroPose[target]
+      && result.fieldPose[source] && result.fieldPose[target]), true);
 });
 
 test('supports multi-parent ancestry, intake nodes, new clusters, and deeper edges', () => {

@@ -1233,7 +1233,22 @@
         const toVis = state.nodeAlphas[edge.to] !== undefined ? state.nodeAlphas[edge.to] : 1.0;
         const edgeVis = (fromVis + toVis) / 2;
         const baseEdgeAlpha = isNeighborEdge ? 0.72 : 0.31;
-        ctx.beginPath(); ctx.moveTo(pa.sx, pa.sy); ctx.lineTo(pb.sx, pb.sy);
+        const branchCurve = Math.max(0, 1 - state.viewMix);
+        const middleY = (pa.sy + pb.sy) / 2;
+        ctx.beginPath();
+        ctx.moveTo(pa.sx, pa.sy);
+        if (branchCurve > 0.001) {
+          ctx.bezierCurveTo(
+            pa.sx,
+            pa.sy + (middleY - pa.sy) * branchCurve,
+            pb.sx,
+            pb.sy + (middleY - pb.sy) * branchCurve,
+            pb.sx,
+            pb.sy
+          );
+        } else {
+          ctx.lineTo(pb.sx, pb.sy);
+        }
         ctx.strokeStyle = `rgba(${col.rgb},${(depthAlpha * baseEdgeAlpha * edgeVis).toFixed(2)})`;
         // Line weights locked per DESIGN.md ▸ Graph Canvas. See
         // LINE_WEIGHTS at the top of this file.
@@ -2685,6 +2700,8 @@
         mix: state.viewMix,
         target: state.viewTarget,
         available: Boolean(state.treeLayout),
+        nodeCount: state.skills.length,
+        edgeCount: state.treeEdges.length,
         diagnostics: state.treeLayout && state.treeLayout.diagnostics ? state.treeLayout.diagnostics : null,
       };
     }
@@ -2982,6 +2999,8 @@
         phase: hero.dataset.treeState || view.phase,
         mix: view.mix,
         available: view.available,
+        nodeCount: view.nodeCount,
+        edgeCount: view.edgeCount,
         open: _graphFullscreen,
         closing: _graphClosing,
         diagnostics: view.diagnostics,
