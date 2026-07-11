@@ -560,6 +560,19 @@ body:has(#hero.hero-graph-fullscreen) {
   pointer-events: auto;
 }
 
+/* The neighbor-card layer spans the whole viewport. Keep the layer itself
+   transparent to hit-testing so it cannot cover the explorer toolbar; only
+   the cards it contains are interactive. */
+#hero.hero-tree-explorer .graph-neighbor-cards,
+#hero.hero-graph-fullscreen .graph-neighbor-cards {
+  pointer-events: none !important;
+}
+
+#hero.hero-tree-explorer .graph-neighbor-card,
+#hero.hero-graph-fullscreen .graph-neighbor-card {
+  pointer-events: auto;
+}
+
 #hero.hero-tree-entering [data-interactive-chrome],
 #hero.hero-tree-exiting [data-interactive-chrome] {
   visibility: hidden;
