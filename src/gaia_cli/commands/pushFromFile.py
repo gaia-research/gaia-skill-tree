@@ -303,12 +303,12 @@ def _load_yaml_file(path):
 
 def push_from_file_command(args):
     """Entry point called by PushCommand.execute() when --from-file is set."""
-    from gaia_cli.config import load_config
+    from gaia_cli.scanner import load_config
     from gaia_cli.push import detect_source_repo, NonPublicRepoError, write_skill_batch
     from gaia_cli.prWriter import build_intake_issue_body, open_intake_issue
 
     registryRoot = "."
-    config = load_config(registryRoot)
+    config = load_config()
 
     # ── load and parse YAML ────────────────────────────────────────────────
     filePath = args.fromFile
