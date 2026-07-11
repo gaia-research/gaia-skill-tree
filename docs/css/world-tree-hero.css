@@ -204,9 +204,9 @@
   grid-column: 1 / -1;
   min-height: 4.15rem;
   color: var(--bg);
-  background: var(--apex-gold);
-  border-color: var(--apex-gold);
-  box-shadow: 0 0 2rem rgba(var(--apex-gold-rgb), .19);
+  background: var(--text);
+  border-color: var(--text);
+  box-shadow: none;
 }
 
 .hero-tree-action-glyph {
@@ -241,7 +241,8 @@
 }
 
 .hero-tree-action--primary small {
-  color: rgba(3, 7, 18, .7);
+  color: var(--bg);
+  opacity: .72;
 }
 
 .hero-tree-action:hover,
@@ -256,7 +257,7 @@
 .hero-tree-action--primary:hover,
 .hero-tree-action--primary:focus-visible {
   color: var(--bg);
-  background: var(--apex-gold);
+  background: var(--text);
   border-color: var(--text);
 }
 
