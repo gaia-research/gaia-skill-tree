@@ -546,12 +546,11 @@
 
     function resize() {
       const parent = canvas.parentElement;
-      state.width = parent.clientWidth;
-      state.height = parent.clientHeight;
+      const rect = canvas.getBoundingClientRect();
+      state.width = Math.max(1, Math.round(rect.width || parent.clientWidth));
+      state.height = Math.max(1, Math.round(rect.height || parent.clientHeight));
       canvas.width = state.width * DPR;
       canvas.height = state.height * DPR;
-      canvas.style.width = state.width + 'px';
-      canvas.style.height = state.height + 'px';
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
       state.stars = Array.from({ length: options.stars || 260 }, (_, i) => {
         const seed = i * 7919 + 97;
