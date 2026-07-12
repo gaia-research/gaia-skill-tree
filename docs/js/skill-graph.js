@@ -730,6 +730,7 @@
       const newAlphas = {};
       skills.forEach(s => { newAlphas[s.id] = state.nodeAlphas[s.id] !== undefined ? state.nodeAlphas[s.id] : 1.0; });
       state.nodeAlphas = newAlphas;
+      _refreshSearchDatalist();
       if (state.statusEl) {
         const edgeCount = skills.reduce((sum, skill) => sum + skill.prerequisites.length, 0);
         const uniqueCount = skills.filter(s => s.type === 'unique').length;
@@ -1268,6 +1269,11 @@
         if (searchQuery.startsWith('/')) { searchMode = 'slash'; searchTerm = searchQuery.slice(1); }
         else if (searchQuery.startsWith('@')) { searchMode = 'handle'; searchTerm = searchQuery.slice(1); }
       }
+      // Token-based fuzzy: all space-separated tokens must appear in at least one field.
+      const searchTokens = searchTerm ? searchTerm.split(/\s+/).filter(Boolean) : [];
+      function _tokenMatch(haystack) {
+        return searchTokens.every(tok => haystack.includes(tok));
+      }
       function _searchMatches(skill) {
         if (!isSearchActive) return true;
         if (!searchTerm) return true;
@@ -1279,13 +1285,13 @@
         const desc = (skill.description || '').toLowerCase();
         const title = (state.titleMap && state.titleMap[skill.id] || '').toLowerCase();
         if (searchMode === 'slash') {
-          return id.includes(searchTerm) || name.includes(searchTerm) || (slugSlash || '').toLowerCase().includes(searchTerm);
+          return _tokenMatch(id) || _tokenMatch(name) || _tokenMatch((slugSlash || '').toLowerCase());
         }
         if (searchMode === 'handle') {
-          return (handle || '').toLowerCase().includes(searchTerm);
+          return _tokenMatch((handle || '').toLowerCase());
         }
-        return id.includes(searchTerm) || name.includes(searchTerm) || desc.includes(searchTerm) ||
-          title.includes(searchTerm) || namedId.toLowerCase().includes(searchTerm);
+        const combined = id + ' ' + name + ' ' + desc + ' ' + title + ' ' + namedId.toLowerCase();
+        return _tokenMatch(combined);
       }
       const legendHovering = Boolean(state.legendHoverType || state.legendHoverRank);
       const legendFiltering = Boolean(state.legendFilterType || state.legendFilterRank);
@@ -2254,6 +2260,17 @@
       searchInput.placeholder = '/skill · @handle · text';
       searchInput.title = 'Type /name to filter skills, @handle for contributors, or any text to search names + descriptions.';
       searchInput.setAttribute('aria-label', 'Filter skill graph: prefix with / for skill, @ for handle');
+      searchInput.setAttribute('autocomplete', 'off');
+      searchInput.setAttribute('autocorrect', 'off');
+      searchInput.setAttribute('autocapitalize', 'off');
+      searchInput.setAttribute('spellcheck', 'false');
+      // datalist for name autocomplete — populated once skills load
+      const searchDatalist = document.createElement('datalist');
+      const searchDatalistId = 'graph-search-datalist-' + Math.random().toString(36).slice(2);
+      searchDatalist.id = searchDatalistId;
+      document.body.appendChild(searchDatalist);
+      searchInput.setAttribute('list', searchDatalistId);
+      state.searchDatalist = searchDatalist;
       searchInput.addEventListener('input', () => { state.searchText = searchInput.value.trim(); });
       searchInput.addEventListener('mousedown', e => e.stopPropagation());
       searchWrap.appendChild(searchInput);
@@ -2885,8 +2902,29 @@
       }
     }
     if (state.running) draw();
-    function setNamedMap(map) { state.namedMap = map || {}; }
-    function setTitleMap(map) { state.titleMap = map || {}; }
+    function _refreshSearchDatalist() {
+      if (!state.searchDatalist || !state.skills) return;
+      const seen = new Set();
+      const opts = [];
+      state.skills.forEach(skill => {
+        const name = skill.name || skill.id;
+        if (name && !seen.has(name)) { seen.add(name); opts.push(name); }
+        const namedId = state.namedMap && state.namedMap[skill.id];
+        if (namedId && !seen.has(namedId)) { seen.add(namedId); opts.push(namedId); }
+        const title = state.titleMap && state.titleMap[skill.id];
+        if (title && !seen.has(title)) { seen.add(title); opts.push(title); }
+      });
+      opts.sort((a, b) => a.localeCompare(b));
+      state.searchDatalist.innerHTML = opts.map(v => `<option value="${v.replace(/"/g, '&quot;')}"></option>`).join('');
+    }
+    function setNamedMap(map) {
+      state.namedMap = map || {};
+      _refreshSearchDatalist();
+    }
+    function setTitleMap(map) {
+      state.titleMap = map || {};
+      _refreshSearchDatalist();
+    }
     function setOriginMap(map) { state.originMap = map || {}; }
 
     // ── RUNTIME MODE SWITCHING ──────────────────────────────────
