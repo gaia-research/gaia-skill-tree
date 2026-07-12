@@ -105,3 +105,4 @@ raw/graphify-out/cache/
 
 # Content Engine draft output (never leaves the runner unless GAIA_CONTENT_ENGINE_PUBLISH=1)
 docs/reports/DRAFT/
+assets/workbench/
