@@ -733,6 +733,11 @@
             <button type="button" class="os-tab" data-os="standalone" onclick="switchOsTab(this)" role="tab" aria-selected="false">Standalone Skills</button>
           </div>
 
+          <div class="agent-repo-field" aria-label="Optional target repository">
+            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#github"/></svg>
+            <input type="url" id="agentRepoInput" placeholder="https://github.com/owner/repo (optional)" autocomplete="off" spellcheck="false">
+          </div>
+
           <div class="agent-panels">
             <div class="os-panel active" data-os="full-repo" role="tabpanel">
               <section class="agent-prompt" aria-labelledby="agentRepoTitle">
@@ -749,6 +754,13 @@
             </div>
 
             <div class="os-panel" data-os="standalone" role="tabpanel">
+              <div id="agentSkillFetcher" class="agent-skill-fetcher" hidden>
+                <div class="agent-skill-fetcher-header">
+                  <span class="agent-skill-fetcher-title">Found GitHub URL. Select skills to include?</span>
+                  <button type="button" id="fetchSkillsBtn" class="btn btn-ghost" style="padding:.2rem .6rem;font-size:.7rem;min-height:auto">Fetch SKILL.md files</button>
+                </div>
+                <div id="agentSkillCheckboxes" class="agent-skill-checkboxes"></div>
+              </div>
               <section class="agent-prompt" aria-labelledby="agentStandaloneTitle">
                 <pre id="agentStandalonePrompt" class="agent-prompt-body">Prepare one standalone skill for Gaia Intake on my behalf.
 
