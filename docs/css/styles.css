@@ -8992,20 +8992,60 @@ button.nav-graph-trigger:hover {
 }
 
 .rite-entry {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
   max-width: 1060px;
   margin: 0 auto clamp(3rem, 6vw, 5rem);
-  padding: clamp(1.5rem, 4vw, 2.5rem);
+  padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2.5rem);
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface);
   text-align: center;
+  overflow: hidden;
+}
+
+.rite-entry-bg {
+  position: absolute;
+  inset: -15% 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+}
+
+.rite-entry-tree {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  mix-blend-mode: color-dodge;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
+}
+
+.rite-entry-logo {
+  position: absolute;
+  left: -5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 500px;
+  height: 500px;
+  opacity: 0.05;
+  color: var(--apex-gold);
 }
 
 .rite-entry-copy {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9029,6 +9069,8 @@ button.nav-graph-trigger:hover {
 }
 
 .rite-entry-terminal {
+  position: relative;
+  z-index: 1;
   width: min(100%, 39rem);
 }
 

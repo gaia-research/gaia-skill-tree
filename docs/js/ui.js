@@ -220,13 +220,29 @@ window.switchOsTab = function(btn) {
   function initScrollToTop() {
     var btn = document.getElementById('scrollToTop');
     if (!btn) return;
+
+    // We can also bind the CLI installation modal parallax here on scroll.
+    var riteBg = document.querySelector('.rite-entry-bg');
+
     window.addEventListener('scroll', function() {
       if (window.scrollY > 300) {
         btn.classList.add('visible');
       } else {
         btn.classList.remove('visible');
       }
+
+      if (riteBg && !prefersReducedMotion()) {
+        // Parallax for the Install CLI modal bg
+        var rect = riteBg.parentElement.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          // Visible in viewport
+          var progress = 1 - (rect.bottom / (window.innerHeight + rect.height));
+          var shift = progress * 40 - 20; // -20px to +20px
+          riteBg.style.transform = 'translate3d(0, ' + shift + 'px, 0)';
+        }
+      }
     }, { passive: true });
+
     btn.addEventListener('click', function() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
