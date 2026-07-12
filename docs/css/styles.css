@@ -9037,8 +9037,11 @@ button.nav-graph-trigger:hover {
   100% { transform: translate(-50%, -50%) scale(2); opacity: 0; border-width: 0px; }
 }
 
-.copy-delight {
+.copy-delight:not(.copy-btn) {
   position: relative;
+}
+
+.copy-delight {
   color: var(--apex-gold) !important;
   border-color: var(--apex-gold) !important;
 }
