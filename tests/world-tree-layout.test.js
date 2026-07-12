@@ -45,12 +45,16 @@ function silhouetteBands(points) {
   const minY = Math.min(...points.map(({ y }) => y));
   const maxY = Math.max(...points.map(({ y }) => y));
   const normalizedY = ({ y }) => (y - minY) / Math.max(1, maxY - minY);
+  // Band windows track the lifted + shortened root fan (Fix #1: roots lifted to
+  // ROOT_BOTTOM_RATIO 0.38 / widened to ROOT_BOUGH_REACH 0.58). The collar/waist
+  // now sits higher in the normalized silhouette, so the trunk sampling window
+  // moved up accordingly; the crown/roots-flare/centered-waist invariants hold.
   return {
     minY,
     maxY,
     crown: points.filter((point) => normalizedY(point) >= 0.12 && normalizedY(point) <= 0.55),
-    trunk: points.filter((point) => normalizedY(point) >= 0.58 && normalizedY(point) <= 0.84),
-    roots: points.filter((point) => normalizedY(point) >= 0.84),
+    trunk: points.filter((point) => normalizedY(point) >= 0.78 && normalizedY(point) <= 0.88),
+    roots: points.filter((point) => normalizedY(point) >= 0.88),
   };
 }
 
