@@ -836,6 +836,30 @@
         w: p.w || 0
       };
     }
+    // §2/§5 ghost armature + structural re-routing render helpers.
+    // ghostPose points live in the SAME layout frame as heroPose/fieldPose, so
+    // they transform through the identical rotate(ry,rx)+project() pipeline. We
+    // hero-morph the depth: at viewMix->0 the spine reads flat (z folded out),
+    // at viewMix->1 the boughs open into depth. Ghosts carry NO data — never
+    // hover, label, click, or register in projectedNodes (§5.1 invariant).
+    function _projectGhost(pose, ry, rx, treeMix) {
+      if (!pose) return null;
+      const p = rotX(rotY({
+        x: pose.x, y: pose.y, z: (pose.z || 0) * treeMix, w: 0, phase: 0,
+      }, ry), rx);
+      return project(p);
+    }
+    // Resolve a structural-route waypoint (either a real node's transformed
+    // point via xf, or a ghost anchor via ghostPose) to a projected screen point.
+    function _routeStop(stop, xf, ghostPose, ry, rx, treeMix) {
+      if (!stop) return null;
+      if (stop.kind === 'node') {
+        const tp = xf[stop.id];
+        return tp ? project(tp) : null;
+      }
+      return _projectGhost(ghostPose[stop.key], ry, rx, treeMix);
+    }
+
     function drawNode(sx, sy, r, color, alpha) {
       const grad = ctx.createRadialGradient(sx, sy, 0, sx, sy, r * 3.9);
       grad.addColorStop(0, `rgba(${color.rgb},${Math.min(alpha * 0.68, 1).toFixed(2)})`);
@@ -1354,6 +1378,124 @@
         : (window.matchMedia('(max-width:700px)').matches ? 0.5 : 0.72);
       const axisX = lerp(state.width * heroCenterRatio, state.width * 0.5, treeAmount);
       const nodeMeta = state.treeLayout && state.treeLayout.nodeMeta ? state.treeLayout.nodeMeta : {};
+
+      // §2 ghost armature render + §3 structural-edge re-routing. Drawn BEFORE
+      // the real edges/nodes so the synthetic skeleton drapes behind the wood.
+      // Only under the World Tree layout; ghosts are faint and data-free.
+      if (state.treeLayout && state.treeLayout.armature) {
+        const armature = state.treeLayout.armature;
+        const ghostPose = state.treeLayout.ghostPose || {};
+        const structuralRoutes = state.treeLayout.structuralRoutes || {};
+        const gTokens = getCanvasTokens();
+        // Armature reads GOLD in the hero (part of the monochrome silhouette),
+        // fading to a neutral muted mesh as the explorer takes over so the rank
+        // ramp owns the color channel. treeAmount: 0 hero -> 1 explorer.
+        const meshRgb = mixRgb(gTokens.apexGoldRgb, gTokens.mutedRgb, treeAmount);
+        const meshAlpha = lerp(0.22, 0.10, treeAmount);
+
+        // (a) trunk spine — connect consecutive spine waypoints into one column.
+        ctx.lineCap = 'round';
+        const spine = armature.spine || [];
+        if (spine.length > 1) {
+          ctx.beginPath();
+          let started = false;
+          spine.forEach(wp => {
+            const pr = _projectGhost(ghostPose[wp.key], ry, rx, treeMix);
+            if (!pr) return;
+            if (!started) { ctx.moveTo(pr.sx, pr.sy); started = true; }
+            else ctx.lineTo(pr.sx, pr.sy);
+          });
+          ctx.strokeStyle = `rgba(${meshRgb},${(meshAlpha * 1.15).toFixed(2)})`;
+          ctx.lineWidth = lerp(3.2, 2.0, treeAmount) * state.scale;
+          ctx.stroke();
+        }
+        // (b) boughs + roots — each anchor drapes back to its parent waypoint.
+        const limbs = (armature.boughAnchors || []).concat(armature.rootAnchors || []);
+        limbs.forEach(wp => {
+          const parent = wp.parentKey ? ghostPose[wp.parentKey] : null;
+          const pa = _projectGhost(parent, ry, rx, treeMix);
+          const pb = _projectGhost(ghostPose[wp.key], ry, rx, treeMix);
+          if (!pa || !pb) return;
+          ctx.beginPath();
+          ctx.moveTo(pa.sx, pa.sy);
+          ctx.lineTo(pb.sx, pb.sy);
+          ctx.strokeStyle = `rgba(${meshRgb},${(meshAlpha * (wp.level ? 0.6 : 0.85)).toFixed(2)})`;
+          ctx.lineWidth = lerp(2.0, 1.2, treeAmount) * (wp.level ? 0.7 : 1) * state.scale;
+          ctx.stroke();
+        });
+        // (c) reserved taproot stub below the collar (faint — no 6★ today).
+        if (armature.taproot && armature.collarKey) {
+          const pa = _projectGhost(ghostPose[armature.collarKey], ry, rx, treeMix);
+          const pb = _projectGhost(ghostPose[armature.taprootKey], ry, rx, treeMix);
+          if (pa && pb) {
+            ctx.beginPath();
+            ctx.moveTo(pa.sx, pa.sy);
+            ctx.lineTo(pb.sx, pb.sy);
+            ctx.strokeStyle = `rgba(${meshRgb},${(meshAlpha * 0.5).toFixed(2)})`;
+            ctx.lineWidth = lerp(2.6, 1.6, treeAmount) * state.scale;
+            ctx.stroke();
+          }
+        }
+        // (d) unique dark-constellation stems — single-side ghost spires the
+        // unique nodes stand on. Painted from the dark Unique palette, never the
+        // rank ramp (§2.2). Only visible once the explorer opens (treeAmount>0).
+        if (treeAmount > 0.02) {
+          const uniqueRgb = gTokens.tier.unique.rgb;
+          (armature.outsideAnchors || []).forEach(wp => {
+            const pb = _projectGhost(ghostPose[wp.key], ry, rx, treeMix);
+            if (!pb) return;
+            // stem drops from the anchor toward the ground line for a "standing
+            // stone" footing; use the collar y at the same x as a faint base.
+            const base = _projectGhost({ x: wp.x, y: armature.groundY, z: wp.z }, ry, rx, treeMix);
+            if (base) {
+              ctx.beginPath();
+              ctx.moveTo(base.sx, base.sy);
+              ctx.lineTo(pb.sx, pb.sy);
+              ctx.strokeStyle = `rgba(${uniqueRgb},${(0.18 * treeAmount).toFixed(2)})`;
+              ctx.lineWidth = 1.1 * state.scale;
+              ctx.stroke();
+            }
+          });
+        }
+
+        // (e) structural-edge re-routing — draw each structural route as a curve
+        // draping through its ghost waypoints instead of a straight arc. Keyed by
+        // the same edgeKey('src','tgt') form the layout emits. Non-structural
+        // grafts are NOT here; they stay as the faint direct arcs below.
+        Object.keys(structuralRoutes).forEach(key => {
+          const route = structuralRoutes[key];
+          if (!Array.isArray(route) || route.length < 2) return;
+          const pts = route
+            .map(stop => _routeStop(stop, xf, ghostPose, ry, rx, treeMix))
+            .filter(Boolean);
+          if (pts.length < 2) return;
+          // endpoints are real nodes; color by the route target's rank so the
+          // draped wood inherits the rank ramp (matches the node it feeds).
+          const tgtId = route[0] && route[0].kind === 'node' ? route[0].id : null;
+          const tgtSkill = tgtId ? skillById[tgtId] : null;
+          const col = tgtSkill ? _displaySkillColor(tgtSkill) : { rgb: meshRgb };
+          const fromVis = tgtId && state.nodeAlphas[tgtId] !== undefined ? state.nodeAlphas[tgtId] : 1.0;
+          ctx.beginPath();
+          ctx.moveTo(pts[0].sx, pts[0].sy);
+          for (let i = 1; i < pts.length; i += 1) {
+            const prev = pts[i - 1];
+            const cur = pts[i];
+            const midx = (prev.sx + cur.sx) / 2;
+            const midy = (prev.sy + cur.sy) / 2;
+            ctx.quadraticCurveTo(prev.sx, prev.sy, midx, midy);
+            if (i === pts.length - 1) ctx.lineTo(cur.sx, cur.sy);
+          }
+          ctx.strokeStyle = `rgba(${col.rgb},${(lerp(0.30, 0.42, treeAmount) * fromVis).toFixed(2)})`;
+          ctx.lineWidth = lerp(1.5, 1.15, treeAmount) * state.scale;
+          ctx.stroke();
+        });
+      }
+      // Structural edges already drawn as draped routes above are still redrawn
+      // by the direct-arc pass below for hover emphasis; the route is the resting
+      // silhouette, the arc carries neighbor-highlight state.
+      const structuralRouteKeys = (state.treeLayout && state.treeLayout.structuralRoutes)
+        ? new Set(Object.keys(state.treeLayout.structuralRoutes))
+        : null;
       edges.forEach(edge => {
         const pa = project(xf[edge.from]), pb = project(xf[edge.to]);
         const targetSkill = skillById[edge.to] || { type: edge.type || 'basic' };
@@ -1364,9 +1506,15 @@
         const toVis = state.nodeAlphas[edge.to] !== undefined ? state.nodeAlphas[edge.to] : 1.0;
         const edgeVis = (fromVis + toVis) / 2;
         const structural = edge.structural !== false;
-        const baseEdgeAlpha = isNeighborEdge
+        // A structural edge already draped as a ghost route (drawn above) only
+        // needs a faint direct-arc echo at rest — the route is the resting
+        // silhouette. On neighbor-highlight it flares to full weight.
+        const drapedRoute = structural && structuralRouteKeys
+          && structuralRouteKeys.has(edge.from + ' ' + edge.to);
+        const structuralArcScale = (drapedRoute && !isNeighborEdge) ? 0.35 : 1;
+        const baseEdgeAlpha = (isNeighborEdge
           ? 0.78
-          : (structural ? lerp(0.62, 0.40, treeAmount) : lerp(0.07, 0.12, treeAmount));
+          : (structural ? lerp(0.62, 0.40, treeAmount) : lerp(0.07, 0.12, treeAmount))) * structuralArcScale;
         const branchCurve = lerp(1, 0.62, treeAmount);
         const middleY = (pa.sy + pb.sy) / 2;
         const fromZone = nodeMeta[edge.from] && nodeMeta[edge.from].zone;
