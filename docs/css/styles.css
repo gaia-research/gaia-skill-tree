@@ -9327,74 +9327,13 @@ button.nav-graph-trigger:hover {
 }
 
 .agent-prompt {
-  margin-top: 1.5rem;
-  padding-top: 1.15rem;
-  border-top: 1px solid var(--border);
-}
-
-.agent-prompt-heading {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: start;
-  gap: .75rem;
-  margin-bottom: .8rem;
-}
-
-.agent-prompt-mark {
-  padding-top: .15rem;
-  font-family: var(--font-mono);
-  font-size: .7rem;
-  color: var(--apex-gold);
-}
-
-.agent-prompt-heading h3 {
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: .95rem;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.agent-prompt-heading p {
-  margin: .2rem 0 0;
-  font-size: .78rem;
-  line-height: 1.45;
-  color: var(--muted);
-}
-
-.agent-prompt-copy {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: .4rem;
-  width: 40px;
-  min-height: 40px;
-  padding: .45rem;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: transparent;
-  color: var(--text);
-  font-family: var(--font-mono);
-  font-size: .68rem;
-  cursor: pointer;
-  transition: border-color 160ms ease-out, color 160ms ease-out, background 160ms ease-out;
-}
-
-.agent-prompt-copy:hover,
-.agent-prompt-copy:focus-visible,
-.agent-prompt-copy.copied {
-  border-color: var(--tier-basic);
-  color: var(--tier-basic);
-  background: var(--tier-basic-bg);
-}
-
-.agent-prompt-copy:focus-visible {
-  outline: 2px solid var(--tier-extra);
-  outline-offset: 2px;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
 }
 
 .agent-prompt-body {
-  max-height: 18rem;
+  height: 252px;
   margin: 0;
   padding: .9rem;
   overflow: auto;
@@ -9414,28 +9353,19 @@ button.nav-graph-trigger:hover {
   display: flex;
   align-items: center;
   gap: .35rem;
-  margin: 1.75rem 0 1rem;
-  padding-bottom: .75rem;
+  margin: 1.5rem 0 0;
+  padding: .4rem 0 .75rem;
   border-bottom: 1px solid var(--border);
   overflow-x: auto;
 }
 
 .agent-tabs .os-tab {
-  min-height: 36px;
+  min-height: 32px;
   margin: 0;
   white-space: nowrap;
 }
 
 @media (max-width: 480px) {
-  .agent-prompt-heading {
-    grid-template-columns: auto minmax(0, 1fr);
-  }
-
-  .agent-prompt-copy {
-    grid-column: 1 / -1;
-    width: 100%;
-  }
-
   .agent-prompt-body {
     margin-right: -1.5rem;
     margin-left: -1.5rem;
