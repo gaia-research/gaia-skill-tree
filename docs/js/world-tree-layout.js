@@ -1062,5 +1062,12 @@
     compute: buildWorldTreeLayout,
     normalizeGraph: normalizeGraph,
     stableHash: stableHash,
+    // §3 compatibility seam, exposed so the renderer (Agent 2) and tests can
+    // resolve semantics without re-deriving the read table. detectMetaIsYggI
+    // must be fed the SOURCE skill objects (with .type), not normalized nodes.
+    resolveSemantics: resolveSemantics,
+    detectMetaIsYggI: detectMetaIsYggI,
+    corenessFromRank: corenessFromRank,
+    GHOST_PREFIX: GHOST_PREFIX,
   };
 });
