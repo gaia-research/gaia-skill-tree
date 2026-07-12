@@ -1520,20 +1520,20 @@
         const baseEdgeAlpha = (isNeighborEdge
           ? 0.78
           : (structural ? lerp(0.62, 0.40, treeAmount) : lerp(0.07, 0.12, treeAmount))) * structuralArcScale;
-        const branchCurve = lerp(1, 0.62, treeAmount);
+        const branchCurve = lerp(1, 0.42, treeAmount);
         const middleY = (pa.sy + pb.sy) / 2;
         const fromZone = nodeMeta[edge.from] && nodeMeta[edge.from].zone;
         const toZone = nodeMeta[edge.to] && nodeMeta[edge.to].zone;
         const trunkEdge = fromZone === 'root' && toZone === 'crown';
-        const axisPull = structural ? (trunkEdge ? 0.48 : 0.15) : 0.02;
+        const axisPull = structural ? (trunkEdge ? 0.34 : 0.15) : 0.02;
         ctx.beginPath();
         ctx.moveTo(pa.sx, pa.sy);
         if (branchCurve > 0.001) {
           ctx.bezierCurveTo(
             lerp(pa.sx, axisX, axisPull * branchCurve),
-            pa.sy + (middleY - pa.sy) * branchCurve * 0.76,
+            pa.sy + (middleY - pa.sy) * branchCurve * 0.68,
             lerp(pb.sx, axisX, axisPull * branchCurve * 0.34),
-            pb.sy + (middleY - pb.sy) * branchCurve * 0.68,
+            pb.sy + (middleY - pb.sy) * branchCurve * 0.60,
             pb.sx,
             pb.sy
           );
