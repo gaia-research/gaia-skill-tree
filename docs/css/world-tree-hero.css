@@ -1003,18 +1003,31 @@ body:has(#hero.hero-graph-fullscreen) {
   }
 
   #hero.hero-tree-shell .hero-tree-raster {
-    /* Fill the hero as a backdrop instead of a top-band thumbnail. */
+    /* Fill the hero as a backdrop instead of a top-band thumbnail. A radial
+       vignette mask fades the scattered edge starfield into darkness so the
+       periphery stops competing for attention and the crown stays the focus —
+       depth-of-field, not a flat dim. */
     inset: 0;
     top: 0;
     height: 100%;
     min-height: 0;
     max-height: none;
-    opacity: .72;
+    opacity: .68;
+    -webkit-mask: radial-gradient(ellipse 80% 64% at 50% 32%, rgba(0, 0, 0, 1) 38%, rgba(0, 0, 0, 0) 90%);
+    mask: radial-gradient(ellipse 80% 64% at 50% 32%, rgba(0, 0, 0, 1) 38%, rgba(0, 0, 0, 0) 90%);
   }
 
   #hero.hero-tree-shell .hero-tree-raster img {
     object-fit: contain;
     object-position: 50% 30%;
+    /* Slight blur + reduced saturation calm the dense midfield tangle so it
+       reads as atmosphere rather than a busy diagram. */
+    filter:
+      contrast(1.05)
+      saturate(.78)
+      brightness(.8)
+      blur(.4px)
+      drop-shadow(0 0 1.8rem rgba(var(--apex-gold-rgb), .18));
     transform: translate3d(
       var(--hero-tree-parallax-x, 0px),
       calc(-3% + var(--hero-tree-parallax-y, 0px)),
@@ -1031,14 +1044,30 @@ body:has(#hero.hero-graph-fullscreen) {
     height: 100%;
     max-height: none;
     transform-origin: 50% 30%;
+    -webkit-mask: radial-gradient(ellipse 80% 64% at 50% 32%, rgba(0, 0, 0, 1) 42%, rgba(0, 0, 0, 0) 92%);
+    mask: radial-gradient(ellipse 80% 64% at 50% 32%, rgba(0, 0, 0, 1) 42%, rgba(0, 0, 0, 0) 92%);
   }
 
+  /* Top utility strip: "Explore in 3D" on the right, the automated latest-report
+     notification (hero-audit-btn) promoted to the left as its peer. */
   #hero.hero-tree-shell .hero-tree-utilities {
     top: 4.65rem;
     right: .75rem;
-    left: .75rem;
-    justify-content: center;
+    left: auto;
+    justify-content: flex-end;
     gap: .4rem;
+  }
+
+  #hero.hero-tree-shell .hero-audit-btn {
+    position: absolute;
+    z-index: 8;
+    top: 4.65rem;
+    right: auto;
+    bottom: auto;
+    left: .75rem;
+    width: max-content;
+    max-width: calc(100% - 12rem);
+    margin: 0;
   }
 
   #hero.hero-tree-shell .field-trigger {
@@ -1147,16 +1176,6 @@ body:has(#hero.hero-graph-fullscreen) {
 
   #hero.hero-tree-shell .ls-sep {
     display: none;
-  }
-
-  #hero.hero-tree-shell .hero-audit-btn {
-    position: relative;
-    top: auto;
-    right: auto;
-    bottom: auto;
-    left: auto;
-    width: max-content;
-    margin: .8rem auto 0;
   }
 
   #hero.hero-tree-shell .scroll-hint,
