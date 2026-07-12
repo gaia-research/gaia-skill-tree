@@ -5,7 +5,7 @@
 
 ## Outcome
 
-The homepage opens on an unmistakable **Gaia Skill Tree**: a full-viewport, gold Yggdrasil/sakura silhouette generated from the complete live skill DAG. It is one graph and one topology in two states—not a decorative tree beside the old constellation.
+The homepage opens on an unmistakable **Gaia Skill Tree**: a full-viewport, gold Yggdrasil/sakura silhouette generated from the complete live skill DAG. Approved Yggdrasil artwork provides fine bark and root atmosphere behind the graph; the live nodes and all canonical edges remain the semantic tree and the only interactive layer. It is one graph and one topology in two states—not a decorative tree beside the old constellation.
 
 - **Hero:** front-facing, visually 2D, pure gold, editorial, non-interactive except for its entry control.
 - **Tree Explorer:** the same nodes and edges smoothly gain depth, true rank colors, orbit controls, hover behavior, and collection tools in fullscreen.
@@ -30,12 +30,14 @@ Create a pure layout layer consumed by the existing single-canvas graph controll
 
 1. Normalize IDs and canonical prerequisite edges; reject missing references individually and never invent links.
 2. Find weak components and topologically rank each DAG using actual depth—no hardcoded node, edge, layer, cluster, or tier counts.
-3. Shape the largest component into roots → narrow trunk → broad crown. Cluster lanes become boughs; stable ID hashes break ties; bounded barycentric sweeps reduce crossings.
+3. Shape the largest component into root flare → narrow trunk → rounded crown → high tip. Stable golden-angle branch bases and three deterministic sub-bough slots distribute any cluster count without a hand-authored branch ceiling.
 4. Place smaller connected components as deterministic side groves and isolates as visibly disconnected golden seeds. Never draw fake trunk connections.
 5. Produce a canonical 3D coordinate per node. Its `x/y` front projection forms the 2D tree; deterministic `z` separates bough volume and collisions.
 6. Keep surviving nodes stable across `setGraph()` calls, interpolate added/moved nodes from their parent/child barycenter, and recompute only affected components/closures where practical.
 
-Every canonical edge renders as a curved branch. Terminal nodes may resolve as restrained five-petal sakura buds. Decorative roots, bark, and blossoms must never be mistaken for graph nodes or edges.
+Choose one real structural parent edge per non-root node to form readable wood; render all other real edges as quieter grafts. Every canonical edge still renders exactly once as a curved branch. Terminal nodes may resolve as restrained five-petal sakura buds. Decorative roots, bark, and blossoms must never be mistaken for graph nodes or edges.
+
+The approved backdrop is delivered as responsive WebP sources rather than the full PNG. It aligns with the front projection in `hero2d`, accepts subtle pointer parallax on fine-pointer devices, and becomes a low-opacity, front-facing reference plane in `explorer3d`; it never rotates or substitutes for the live graph.
 
 ## Morph and interaction state machine
 
@@ -74,3 +76,4 @@ The old semantic/spectral constellation layouts, star cloud, and “HUD” langu
 - Interaction tests cover orbit/pan/zoom, desktop hover, touch pinning, search/filter/labels, and add/remove/copy/clear collection behavior.
 - Visual browser checks at 1440×900, 1024×768, 390×844, and 320×568 verify title/CTA hierarchy, full-gold silhouette, true-color 3D state, reversible object-level morph, 44px touch targets, and zero horizontal overflow.
 - Render the current complete DAG from the Class S asset and verify every normalized node/edge appears, live Ultimates remain distinct, and no second graph instance or duplicate fetch is created.
+- Profile a two-second idle Explorer window at mobile width. Cache projection inputs per frame and permit a 30fps mobile idle cadence while preserving 60fps morph, drag, hover, and pinned interaction.
