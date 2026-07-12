@@ -45,7 +45,7 @@ Qualifying bar: stars > 50, last commit < 1 year, has README + license. Prefer r
 
 ```bash
 gh api repos/{owner}/{repo}/contents/skills --jq '.[].name'
-gh api repos/{owner}/{repo}/contents/.claude/skills --jq '.[].name'
+gh api repos/{owner}/{repo}/contents/.Codex/skills --jq '.[].name'
 gh api repos/{owner}/{repo}/contents/codex/skills --jq '.[].name'
 gh api repos/{owner}/{repo}/contents/.codex/skills --jq '.[].name'
 gh api repos/{owner}/{repo}/contents/cursor/skills --jq '.[].name'
@@ -91,21 +91,39 @@ Upgrading weak existing skills delivers more value than pure breadth expansion.
 
 ## Step 2 — Design the batch
 
+### Registry terminology and generic-ref gate
+
+- An **upstream skill** is a `SKILL.md` found in another repository (for example, Anthropic's `mcp-builder`). It is evidence, not automatically a Gaia entry.
+- A **starless (generic) skill** is a reusable, vendor-neutral capability. Its Gaia ID must be generic enough to cover multiple implementations and must not be copied from an upstream slash skill name merely because that name is convenient.
+- A **named skill** is a specific implementation attributed to a contributor or repository. It is represented by a slash-style skill setup such as `/mcp-builder`, while its `--generic-ref` must point to an existing starless (generic) Gaia ID such as `mcp-server-development`.
+- Before proposing a named skill, verify that its generic ref already exists and is the correct generic skill type. Use `gaia dev list --generic --description` (or `gaia dev list --generic --json`) as the source of truth. If it does not exist, decide whether to create the starless (generic) parent; do not use the implementation's name as a substitute generic ref.
+- Never use an upstream repository name, slash skill name, or `SKILL.md` filename as a generic ref unless it independently satisfies the vendor-neutral generic taxonomy.
+
+#### Generic-parent decision tree
+
+1. **Exact generic exists** — reuse its ID; do not create a duplicate.
+2. **Equivalent generic exists under a broader name** — reuse it when the implementation is a valid specialization; propose a named entry mapped to that parent.
+3. **Only a vendor-specific or implementation-specific node exists** — do not reuse it as a generic parent; propose a vendor-neutral starless parent first.
+4. **No suitable generic exists** — create a starless parent only when the capability is reusable across multiple implementations, has a precise falsifiable definition, and is not merely a product, repository, or slash skill name.
+5. **Capability is too narrow or has only one inseparable implementation** — do not create a generic; hold or reject the named proposal pending evidence of broader applicability.
+
+The normal curation path is therefore: list generics programmatically → map each upstream implementation to an existing parent where possible → create a new starless parent only when the decision tree requires it → propose the named implementation with that parent's `generic-ref`.
+
 For each candidate, decide:
 
 **Taxonomy tier** (what type of skill is it?):
 - `basic` — primitive capability, no prerequisites
 - `extra` — emerges from ≥2 prerequisite basics
-- `ultimate` — high-complexity emergent, ≥3 prerequisites, ≥3 Evidence Grade A/B entries
+- `ultimate` — high-complexity emergent, ≥3 prerequisites, and multiple independent evidence artifacts
 - `unique` — graph-isolated basic that reached 4★+ through depth alone
 
 **Fusion-first design** — Resist the temptation to create one generic skill per vendor API. Multiple named implementations of the same concept (e.g. `pubmed`, `arxiv`, `biorxiv`) should map to a single elegant generic (e.g. `literature-search`). This keeps the global graph readable and prevents registry bloat.
 
 **Composite extras** — When multiple distinct skills combine into a multi-step workflow, design a composite Extra that names them as prerequisites. Calibrate the named implementations at 3★–4★ max, referencing the composite.
 
-**Generic skill levels** — Generic (starless) skills have no star level. Only named implementations receive stars (2★–6★). Omit `--level` from `gaia dev add` for generics.
+**Generic skill levels** — Starless (generic) skills have no star level. Only named implementations receive stars (2★–6★). Omit `--level` from `gaia dev add` for starless (generic) skills.
 
-**Named promotion** — If a specific implementation warrants its own entry in `registry/named/`, mark it for named promotion and submit with `status: awakened`. Never hand-set `title` or `catalogRef` during curation — those are set by a reviewer at Named promotion time.
+**Named promotion** — If a specific implementation warrants its own entry in `registry/named/`, mark it for named promotion and show its slash skill setup (for example, `/mcp-builder`) separately from its generic ref. Submit with `status: awakened`. Never hand-set `title` or `catalogRef` during curation — those are set by a reviewer at Named promotion time.
 
 **Demerit checks** — Only apply `heavyweight-dependency`, `niche-integration`, or `experimental-feature` demerits to skills at 3★+. Cross-platform universal skills at high levels should omit demerits.
 
@@ -117,15 +135,19 @@ For each candidate, decide:
 
 Before writing anything to disk, show the full proposed batch:
 
-| ID | Name | Type | Stars | Prereqs | Demerits | Named? |
-|---|---|---|---|---|---|---|
+| Name | Starless (generic) | Named (`/slash-skill`) | Type | Stars | Prereqs | Generic ref | Action |
+|---|---|---|---|---:|---|---|---|
+| Example Capability | Example Capability | — | starless (generic) | — | — | — | accept |
+| Example Implementation | Example Capability | `/example-implementation` | named | 2★–6★ | — | `example-capability` | accept |
 | … | … | … | … | … | … | … |
 
 For each row, ask the user to mark one of:
 - `accept` — proceed as designed
+- For every `named` row, confirm that the listed generic ref already exists and is the correct generic skill type.
+- For every `starless (generic)` row, confirm that the name is vendor-neutral and broad enough to support multiple named implementations.
 - `rename <new-id>` — change the ID before generating
 - `duplicate` — already covered; drop it
-- `needs-evidence` — hold until an Evidence Grade A/B source is supplied
+- `needs-evidence` — hold until a valid, resolvable evidence artifact is supplied
 - `reject` — remove entirely
 
 Do not proceed to Step 4 until the user has reviewed and at least one skill is marked `accept`. Apply all `rename` decisions before writing. Drop everything not `accept`/`rename`.
@@ -164,8 +186,7 @@ Commit message format: `[type] Title — brief description`
 
 ## Step 6 — Open the PR
 
-Push the branch and open a PR via the GitHub API. The auto-triage CI classifies it:
-- Evidence Grade A/B score ≥ 60 from a bot actor → eligible for auto-merge
+Push the branch and open a PR via the GitHub API. The auto-triage CI classifies it using computed evidence artifact scores and provenance; do not manually assign a class, trust grade, or aggregate trust value.
 - `draft-skills` or `needs-review` labels → routed to a human reviewer
 - Ultimate skill proposals → always require maintainer approval
 
@@ -203,7 +224,7 @@ gaia validate --intake
 ## Hard constraints
 
 - Never hand-edit `registry/nodes/` or `registry/gaia.json`. Use `gaia dev add`, `gaia dev merge`, `gaia dev split`, `gaia dev evidence`.
-- All evidence `source` values must be real, resolvable URLs (arXiv abs pages or GitHub repos). SkillsMP URLs are acceptable only as supplementary Evidence Grade C.
+- All evidence source URLs must be real and resolvable. Record the evidence type, source URL, provenance, and concise notes; artifact scores and per-row grades are computed by the registry tooling. Never hand-author deprecated `class` values or aggregate trust fields.
 - Ultimate skills must land as `provisional` — the maintainer sets `validated` after review.
 - No cycles in the DAG. No orphaned composite nodes.
 - Skill IDs: `lowercase-dash` format (`^[a-z][a-z0-9]*(-[a-z0-9]+)*$`). No camelCase, no vendor names, no unexplained abbreviations.
@@ -212,13 +233,37 @@ gaia validate --intake
 
 ---
 
-## Evidence grade reference
+## Evidence recording reference
 
-| Grade | Standard | Typical source |
+| Artifact type | Typical source | Curation treatment |
 |---|---|---|
-| A (Gold) | Peer-reviewed, benchmarked | `https://arxiv.org/abs/<id>` |
-| B (Silver) | Reproducible open-source demo | GitHub repo or skill file URL |
-| C (Bronze) | Credible vendor/community demo | Sufficient only for Level ≤ II |
+| `arxiv` | `https://arxiv.org/abs/<id>` | Record as a directly relevant paper artifact |
+| `repo` | GitHub repository or specific `blob/` skill file | Record as a reproducible implementation artifact |
+| `registryCuration` | Curation batch or documented demonstration | Record only when the curation work produced new evidence |
+| community/vendor artifact | SkillsMP or vendor documentation | Supplementary evidence only |
+
+The registry computes artifact scores, freshness, provenance weighting, per-row grades, and overall trust grades. Curation proposes evidence artifacts and their raw source measurements; it does not assign `class`, `trustNumber`, `trustMagnitude`, `artifact_score`, or manual A/B/C grades.
+
+### Repository-owned source measurements
+
+For a named implementation backed by its own upstream repository, record the raw measurements that the scoring formulas consume:
+
+- `repo-own`: `commits` and `contributors`
+- `github-stars-own`: `stars` and, when applicable, `skillCountInRepo`
+
+Use the specific implementation `blob/` URL as the source where available. These are source facts, not trust grades. Capture them with `gaia dev evidence`:
+
+```bash
+gaia dev evidence <skill-id> <source-url> \\
+  --type repo-own --commits <n> --contributors <n> \\
+  --notes "source measurements captured <date>"
+
+gaia dev evidence <skill-id> <repo-url> \\
+  --type github-stars-own --stars <n> --skill-count-in-repo <n> \\
+  --notes "GitHub source measurements captured <date>"
+```
+
+Do not pass `--trust`; the CLI computes derived values. If the implementation is submitted through intake, preserve these raw measurements in its evidence entries or named evidence payload so maintainers can reproduce the calculation.
 
 ---
 
