@@ -403,7 +403,7 @@ Use for background image layers on signature sections only. The primary use case
 - Implementation: `requestAnimationFrame` + `translateY` — never `background-attachment: fixed` (breaks on iOS Safari)
 - Background element: absolutely positioned, `inset: -30% 0` to allow vertical travel without white-edge gaps, `will-change: transform`
 - Overlay: `rgba(3,7,18, 0.82)` minimum for text readability; `0.88` on mobile
-- Disable below 768px: use `window.matchMedia('(min-width: 768px) and (prefers-reduced-motion: no-preference)')` guard
+- Disable below 768px: use `window.matchMedia('(min-width: 768px) and (prefers-reduced-motion: no-preference)')` guard. **Exception:** the World Tree hero's vertical scroll parallax runs at all widths (it is guarded on `prefers-reduced-motion` only, not on width) because on mobile the tree is a full-bleed backdrop, not a sidebar decoration — see the World Tree hero parallax subsection.
 - `prefers-reduced-motion`: skip the scroll listener entirely when reduced motion is preferred
 
 ### Scroll-triggered entrance (one-shot)
@@ -416,9 +416,22 @@ Use for card grids and tile lists where items appear on first scroll into view. 
 - Default state: `opacity: 0` in CSS so items are invisible before animation fires
 - `prefers-reduced-motion`: reset to `opacity: 1; animation: none`
 
+### World Tree hero — sticky vertical scroll parallax (exception)
+
+The homepage World Tree hero is the **one** hero that carries parallax, because the tree is Gaia's living brand mark, not read-copy competing for attention. The raster plate and the live `#canvas3d` are two layers of one silhouette and must travel together as the page scrolls.
+
+**Spec** (`docs/js/hud-toggle.js` + `docs/css/world-tree-hero.css`):
+- **Vertical only, scroll-linked.** Never pointer/hover parallax — a mouse-reactive parallax decoupled the plate from the canvas and was explicitly rejected.
+- Both layers read one shared custom property, `--hero-tree-parallax-y`, composed with the base offset `--hero-tree-shift-y` (default `-4%`) so raster + canvas move as a single object. The raster also carries a static `translate(22%)` in X (its projection origin differs from the canvas at `72% 50%`); there is no X parallax term.
+- Depth factor `-0.08` (tree lags the page at ~8% of scroll travel), clamped to ±64px so it never drifts off-frame. One `requestAnimationFrame` write per scroll frame.
+- Only active while `hero.dataset.treeState === 'hero2d'`; zeroed when the 3D Explorer is open.
+- `prefers-reduced-motion: reduce` skips the scroll listener entirely (no fallback motion needed — the static shifted pose is the reduced state).
+
+This exception is scoped to the World Tree hero silhouette only; it does not license parallax on any other hero or on read-copy sections (see *What does NOT get parallax* below).
+
 ### What does NOT get parallax
 
-- Hero sections (the text IS the content; parallax would compete)
+- Hero **copy** sections where the text is the content (parallax would compete). The World Tree hero is exempt because its parallax layer is the brand-mark tree, not text — see the subsection above.
 - Navigation and footer
 - Form elements or interactive controls
 - Any element the user is actively scrolling to read
@@ -441,7 +454,18 @@ All new CSS is written from the 320px baseline upward. `min-width` breakpoints o
 ### Mobile-specific rules
 
 - Cards and panels with `border-radius` become full-bleed on `< 480px` (no radius, negative margin to escape padding, no left/right border)
-- Parallax disabled on mobile (static background, overlay lifted)
+- Parallax disabled on mobile (static background, overlay lifted) — **except** the World Tree hero, whose vertical scroll parallax is width-independent (see the parallax section).
 - Font sizes use `clamp()` with a floor that works at 320px
 - Touch targets minimum 44×44px
 - No `position: fixed` for decorative elements on mobile (performance)
+
+### World Tree hero — mobile full-bleed backdrop pattern
+
+On mobile (`max-width: 700px`) the World Tree hero is **not** the desktop split-grid scaled down; the tree becomes a full-bleed atmospheric backdrop with the copy overlaid, per the brand register's image-led move ("let the photograph be the design"). Rebuilt after the v6.4.x mobile review, where the tree had been boxed into a cramped ~44svh top band with the copy pushed beneath it.
+
+**Pattern** (`docs/css/world-tree-hero.css` `@media (max-width: 700px)`):
+- The shell is `display: flex; flex-direction: column; justify-content: flex-end` so the copy anchors to the lower third and rises out of the tree's base. No large `padding-top` offset on `.hero-content`.
+- Both tree layers (`.hero-tree-raster` and `#canvas3d`) are `inset: 0`, full height, `object-position` / `transform-origin` at `50% 30%` so the crown breathes in the upper third.
+- **Noise control (depth-of-field, not a flat dim):** a radial vignette `mask` fades the scattered edge starfield into darkness so the periphery stops competing; a slight `blur(.4px)` + `saturate(.78)` on the raster calms the dense midfield tangle so it reads as atmosphere, not a busy diagram. This was the fix for the critique's weak axis (aesthetic/minimalist 2/4).
+- A top→bottom `::after` scrim keeps the crown airy, darkens the lower half into a legibility bed for the headline, and resolves to `var(--bg)` at ~97% so the roots dissolve into the page.
+- **Top utility strip:** `Explore in 3D` sits top-right; the automated latest-report notification (`.hero-audit-btn`, DOM-managed by `scripts/add_post.py` between the `gaia-hero-post` markers) is promoted to top-left as its peer. The desktop floating-bottom-chip placement is overridden in the mobile block only; `add_post.py` is never edited from a `design/` branch.
