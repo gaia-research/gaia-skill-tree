@@ -1,5 +1,5 @@
 window.switchOsTab = function(btn) {
-  var scope = btn.closest('#paths, .rite-step, .step');
+  var scope = btn.closest('.path-a, .path-b, .rite-step, .step');
   if (!scope) return;
   scope.querySelectorAll('.os-tab').forEach(function(button) {
     var active = button === btn;

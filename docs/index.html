@@ -727,18 +727,25 @@
         <h2>Prompt Your Agent</h2>
         <p class="path-intro mt-sm">Your agent handles the mechanics and asks before submitting.</p>
 
-        <section class="agent-prompt" aria-labelledby="agentRepoTitle">
-          <div class="agent-prompt-heading">
-            <span class="agent-prompt-mark" aria-hidden="true">01</span>
-            <div>
-              <h3 id="agentRepoTitle">Register this repository</h3>
-              <p>Install, initialise, scan, and push.</p>
-            </div>
-            <button class="agent-prompt-copy" type="button" data-prompt-copy="agentRepoPrompt" aria-label="Copy the repository registration prompt" title="Copy prompt">
-              <svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg>
-            </button>
-          </div>
-          <pre id="agentRepoPrompt" class="agent-prompt-body">Work in my current repository and register it with Gaia.
+        <div class="agent-tabs" role="tablist" aria-label="Prompt options">
+          <button type="button" class="os-tab active" data-os="full-repo" onclick="switchOsTab(this)" role="tab" aria-selected="true">Full Repo</button>
+          <button type="button" class="os-tab" data-os="standalone" onclick="switchOsTab(this)" role="tab" aria-selected="false">Standalone Skills</button>
+        </div>
+
+        <div class="rite-term mt-md">
+          <div class="os-panel active" data-os="full-repo" role="tabpanel">
+            <section class="agent-prompt" aria-labelledby="agentRepoTitle">
+              <div class="agent-prompt-heading">
+                <span class="agent-prompt-mark" aria-hidden="true">01</span>
+                <div>
+                  <h3 id="agentRepoTitle">Register this repository</h3>
+                  <p>Install, initialise, scan, and push.</p>
+                </div>
+                <button class="agent-prompt-copy" type="button" data-prompt-copy="agentRepoPrompt" aria-label="Copy the repository registration prompt" title="Copy prompt">
+                  <svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg>
+                </button>
+              </div>
+              <pre id="agentRepoPrompt" class="agent-prompt-body">Work in my current repository and register it with Gaia.
 
 1. Read the current instructions at https://github.com/gaia-research/gaia-skill-tree. Install Gaia if missing; if it already exists, upgrade `gaia-cli` with its package manager before continuing. Print `gaia version` and report the install method used.
 2. Run `gaia init --yes`. If `.gaia/config.toml` already exists, inspect it first and ask before replacing it; only then use `gaia init --force --yes`.
@@ -747,25 +754,22 @@
 5. Summarise detected skills, proposed evidence, attribution, warnings, and exactly what the real push will submit.
 6. Ask: “Submit this Gaia Intake now? [Y/n]”
 7. Only after I confirm, run `gaia push --yes` and return the resulting Intake issue or pull-request URL. Do not edit Registry data by hand.</pre>
-        </section>
-
-        <details class="agent-prompt agent-prompt--standalone">
-          <summary>
-            <span>Submit one standalone skill</span>
-            <span class="agent-prompt-optional">Optional</span>
-          </summary>
-          <div class="agent-prompt-optional-body">
-            <div class="agent-prompt-heading">
-              <span class="agent-prompt-mark" aria-hidden="true">02</span>
-              <div>
-                <h3 id="agentStandaloneTitle">Prepare a Skill Intake</h3>
-                <p>Research, attribute, and open an Intake issue.</p>
-              </div>
-              <button class="agent-prompt-copy" type="button" data-prompt-copy="agentStandalonePrompt" aria-label="Copy the standalone skill intake prompt" title="Copy prompt">
-                <svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg>
-              </button>
+            </section>
           </div>
-          <pre id="agentStandalonePrompt" class="agent-prompt-body">Prepare one standalone skill for Gaia Intake on my behalf.
+
+          <div class="os-panel" data-os="standalone" role="tabpanel">
+            <section class="agent-prompt" aria-labelledby="agentStandaloneTitle">
+              <div class="agent-prompt-heading">
+                <span class="agent-prompt-mark" aria-hidden="true">02</span>
+                <div>
+                  <h3 id="agentStandaloneTitle">Prepare a Skill Intake</h3>
+                  <p>Research, attribute, and open an Intake issue.</p>
+                </div>
+                <button class="agent-prompt-copy" type="button" data-prompt-copy="agentStandalonePrompt" aria-label="Copy the standalone skill intake prompt" title="Copy prompt">
+                  <svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg>
+                </button>
+              </div>
+              <pre id="agentStandalonePrompt" class="agent-prompt-body">Prepare one standalone skill for Gaia Intake on my behalf.
 
 Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and follow `.github/ISSUE_TEMPLATE/new_skill_intake.yml` exactly.
 
@@ -777,8 +781,9 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 6. Draft the complete Yggdrasil II Intake YAML, including `basic` or `fusion`, prerequisites, attribution, Grade B-or-better evidence, and the optional named block when valid. Validate it against the issue template; if Gaia is installed, also run `gaia push --from-file skills.yml --dry-run` and treat any failure as blocking.
 7. Before opening anything, summarise the proposed skill, attribution, evidence, exact issue title, and the validated YAML. Ask: “Open this skill Intake as @&lt;my-handle&gt;? [Y/n]”
 8. Only after I confirm, submit through the Skill Intake issue template—or run `gaia push --from-file skills.yml --yes`—and return the issue URL. Never use both routes, and do not modify canonical Registry files directly.</pre>
+            </section>
           </div>
-        </details>
+        </div>
       </div>
 
     </div>
