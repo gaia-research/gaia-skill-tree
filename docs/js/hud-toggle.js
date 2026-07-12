@@ -34,6 +34,39 @@
       openWorldTree();
     });
 
+    // The supplied gold-tree plate is a flat reference surface. Give it a
+    // restrained pointer parallax in the editorial hero only; the live canvas
+    // stays independently projected and becomes the sole interactive object
+    // in Tree Explorer. One rAF write per frame avoids pointer-event churn.
+    var finePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (finePointer && !reduceMotion) {
+      var parallaxFrame = 0;
+      var parallaxX = 0;
+      var parallaxY = 0;
+      var paintParallax = function () {
+        parallaxFrame = 0;
+        hero.style.setProperty('--hero-tree-parallax-x', parallaxX.toFixed(2) + 'px');
+        hero.style.setProperty('--hero-tree-parallax-y', parallaxY.toFixed(2) + 'px');
+      };
+      hero.addEventListener('pointerenter', function () {
+        if (hero.dataset.treeState === 'hero2d') hero.dataset.treeParallax = 'active';
+      }, { passive: true });
+      hero.addEventListener('pointermove', function (event) {
+        if (hero.dataset.treeState !== 'hero2d') return;
+        var rect = hero.getBoundingClientRect();
+        parallaxX = ((event.clientX - rect.left) / Math.max(1, rect.width) - 0.5) * 12;
+        parallaxY = ((event.clientY - rect.top) / Math.max(1, rect.height) - 0.5) * 8;
+        if (!parallaxFrame) parallaxFrame = window.requestAnimationFrame(paintParallax);
+      }, { passive: true });
+      hero.addEventListener('pointerleave', function () {
+        delete hero.dataset.treeParallax;
+        parallaxX = 0;
+        parallaxY = 0;
+        if (!parallaxFrame) parallaxFrame = window.requestAnimationFrame(paintParallax);
+      }, { passive: true });
+    }
+
     // Canonical and legacy URL parameters all enter the same tree explorer.
     try {
       var params = new URLSearchParams(window.location.search);
