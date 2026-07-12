@@ -153,28 +153,59 @@ def test_ghost_armature_excluded_and_uniques_outside() -> None:
 
 def test_coreness_pulls_high_rank_toward_heartwood_core() -> None:
     """§4 Fix #3: effective rank pulls a node's POSITION toward the heartwood
-    core (spine axis + vertical centre), monotone in rank, deterministic."""
+    core (a CYLINDER radial target + vertical centre), monotone in rank,
+    deterministic."""
     result = _runlayout(
         """
         // Hold the graph shape fixed and vary ONLY the crown node's rank so the
-        // DAG-depth base pose is identical across variants; any |y-coreY|/|x|
-        // change is purely the coreness-pull. coreY = treeHeight * CORE_Y_RATIO
-        // (0.13) with the default height 680.
+        // DAG-depth base pose is identical across variants; any |y-coreY| /
+        // |pose-cylinderTarget| change is purely the coreness-pull. coreY =
+        // treeHeight * CORE_Y_RATIO (0.13). The radial target is a point on a
+        // cylinder of radius CORE_MIN_RADIUS * width (0.10 * 760) at a
+        // deterministic per-node angle θ; holding the id fixed keeps θ fixed.
         const coreY = 680 * 0.13;
+        const coreRadius = 0.10 * 760;
+        const theta = (L.stableHash('crown:core-theta') / 4294967295) * Math.PI * 2;
+        const targetX = coreRadius * Math.cos(theta);
+        const targetZ = coreRadius * Math.sin(theta);
         const variant = (rank) => L.buildWorldTreeLayout({ skills: [
           { id: 'seed', type: 'basic', cluster: 'a', prerequisites: [] },
           { id: 'crown', type: 'extra', cluster: 'a', prerequisites: ['seed'], effectiveRank: rank },
         ] });
         const rows = [0, 2, 4, 6].map((rank) => {
-          const p = variant(rank).heroPose['crown'];
-          return { rank, dy: Math.abs(p.y - coreY), dx: Math.abs(p.x) };
+          const p = variant(rank).fieldPose['crown'];
+          return {
+            rank,
+            dy: Math.abs(p.y - coreY),
+            dTarget: Math.hypot(p.x - targetX, (p.z || 0) - targetZ),
+          };
         });
-        return { rows };
+        // Distinct 6★ nodes spread AROUND the axis on the cylinder barrel rather
+        // than collapsing to one identical point — that spread IS the un-pinch.
+        const spread = L.buildWorldTreeLayout({ skills: [
+          { id: 'core-seed', type: 'basic', cluster: 'a', prerequisites: [] },
+          { id: 'apex-one', type: 'extra', cluster: 'a', prerequisites: ['core-seed'], effectiveRank: 6 },
+          { id: 'apex-two', type: 'extra', cluster: 'a', prerequisites: ['core-seed'], effectiveRank: 6 },
+          { id: 'apex-three', type: 'extra', cluster: 'a', prerequisites: ['core-seed'], effectiveRank: 6 },
+        ] });
+        const apexes = ['apex-one', 'apex-two', 'apex-three'].map((id) => spread.fieldPose[id]);
+        let maxSeparation = 0;
+        for (let i = 0; i < apexes.length; i += 1) {
+          for (let j = i + 1; j < apexes.length; j += 1) {
+            maxSeparation = Math.max(maxSeparation,
+              Math.hypot(apexes[i].x - apexes[j].x, (apexes[i].z || 0) - (apexes[j].z || 0)));
+          }
+        }
+        return { rows, coreRadius, maxSeparation };
         """
     )
     rows = result["rows"]
     dys = [r["dy"] for r in rows]
-    dxs = [r["dx"] for r in rows]
+    dtargets = [r["dTarget"] for r in rows]
     assert all(b < a for a, b in zip(dys, dys[1:])), "higher rank sits closer to coreY"
-    assert all(b < a for a, b in zip(dxs, dxs[1:])), "higher rank sits closer to the spine"
+    assert all(
+        b < a for a, b in zip(dtargets, dtargets[1:])
+    ), "higher rank sits closer to the core cylinder"
+    # distinct 6★ nodes occupy distinct barrel positions, not a collapsed point.
+    assert result["maxSeparation"] > result["coreRadius"] * 0.5, "6★ spread around the cylinder"
 

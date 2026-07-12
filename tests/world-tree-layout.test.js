@@ -7,6 +7,7 @@ const {
   resolveSemantics,
   detectMetaIsYggI,
   corenessFromRank,
+  stableHash,
   GHOST_PREFIX,
 } = require('../docs/js/world-tree-layout.js');
 const canonicalGraph = require('../docs/graph/gaia.json');
@@ -523,29 +524,59 @@ function rankVariant(rank) {
   };
 }
 
-test('coreness pulls a crown node toward the heartwood core (vertical + radial), monotone in rank', () => {
+test('coreness pulls a crown node toward the heartwood cylinder (vertical + radial), monotone in rank', () => {
   // coreY = treeHeight * CORE_Y_RATIO (0.13) with the default height 680.
   const coreY = 680 * 0.13;
+  // Fix #3: the radial target is a point on a cylinder of radius
+  // CORE_MIN_RADIUS * width (0.10 * 760 = 76) around the heartwood axis, at a
+  // deterministic per-node angle θ = stableHash(id+':core-theta')/UINT32 * τ.
+  // Holding the id fixed ('core-crown') keeps θ fixed, so the target point is
+  // identical across rank variants and the pull is a pure linear blend — the
+  // pose's distance to that target shrinks monotonically as rank (=pull) rises.
+  const coreRadius = 0.10 * 760;
+  const theta = (stableHash('core-crown:core-theta') / 4294967295) * Math.PI * 2;
+  const targetX = coreRadius * Math.cos(theta);
+  const targetZ = coreRadius * Math.sin(theta);
   const results = [0, 2, 4, 6].map((rank) => {
     const r = buildWorldTreeLayout(rankVariant(rank));
-    const pose = r.heroPose['core-crown'];
+    const pose = r.fieldPose['core-crown'];
     return {
       rank,
       coreness: r.nodeMeta['core-crown'].coreness,
       dy: Math.abs(pose.y - coreY),
-      dx: Math.abs(pose.x),
+      // radial distance to the cylinder target (x/z plane).
+      dTarget: Math.hypot(pose.x - targetX, (pose.z || 0) - targetZ),
+      radial: Math.hypot(pose.x, pose.z || 0),
     };
   });
   // 0-1★ sits at coreness 0 (no pull); 2..6★ ramp inward.
   assert.equal(results[0].coreness, 0);
   assert.ok(results[3].coreness === 1, '6★ is full coreness');
-  // strictly monotone: higher rank => closer to coreY AND closer to the spine.
+  // strictly monotone: higher rank => closer to coreY AND closer to the cylinder target.
   for (let i = 1; i < results.length; i += 1) {
     assert.ok(results[i].dy < results[i - 1].dy,
       `rank ${results[i].rank} must sit closer to coreY than rank ${results[i - 1].rank}`);
-    assert.ok(results[i].dx < results[i - 1].dx,
-      `rank ${results[i].rank} must sit closer to the spine than rank ${results[i - 1].rank}`);
+    assert.ok(results[i].dTarget < results[i - 1].dTarget,
+      `rank ${results[i].rank} must sit closer to the core cylinder than rank ${results[i - 1].rank}`);
   }
+  // the 6★ nodes distribute AROUND the heartwood axis on the cylinder barrel
+  // instead of collapsing to one identical point. Without CORE_MIN_RADIUS every
+  // 6★ would land on exactly (spineX, coreY, 0); with it, distinct ids get
+  // distinct θ and occupy distinct positions — that spread IS the un-pinch.
+  const spreadGraph = {
+    skills: [
+      { id: 'core-seed', type: 'basic', cluster: 'a', prerequisites: [] },
+      { id: 'apex-one', type: 'extra', cluster: 'a', prerequisites: ['core-seed'], effectiveRank: 6 },
+      { id: 'apex-two', type: 'extra', cluster: 'a', prerequisites: ['core-seed'], effectiveRank: 6 },
+      { id: 'apex-three', type: 'extra', cluster: 'a', prerequisites: ['core-seed'], effectiveRank: 6 },
+    ],
+  };
+  const spread = buildWorldTreeLayout(spreadGraph);
+  const apexes = ['apex-one', 'apex-two', 'apex-three'].map((id) => spread.fieldPose[id]);
+  const maxSeparation = Math.max(...apexes.flatMap((a, i) =>
+    apexes.slice(i + 1).map((b) => Math.hypot(a.x - b.x, (a.z || 0) - (b.z || 0)))));
+  assert.ok(maxSeparation > 0.10 * 760 * 0.5,
+    '6★ nodes must spread around the cylinder, not collapse to one point');
   // a 5★ node is closer to coreY than a 2★ node (spec acceptance check).
   const five = buildWorldTreeLayout(rankVariant(5)).heroPose['core-crown'];
   const two = buildWorldTreeLayout(rankVariant(2)).heroPose['core-crown'];
@@ -563,14 +594,24 @@ test('core-pull applies to root nodes too, and 0-1★ nodes keep their base tip 
   });
   const pulled = buildWorldTreeLayout(rootVariant(6));
   const parked = buildWorldTreeLayout(rootVariant(0));
-  // same id, same graph shape: rank 6 must sit strictly closer to the spine + core.
+  // same id, same graph shape: rank 6 must sit strictly closer to the heartwood
+  // (cylinder radial target + vertical core) than the unpulled rank-0 pose.
   assert.equal(parked.nodeMeta['r'].hemisphere, 'root');
   assert.equal(pulled.nodeMeta['r'].hemisphere, 'root');
   assert.equal(parked.nodeMeta['r'].coreness, 0);
   assert.equal(pulled.nodeMeta['r'].coreness, 1);
-  assert.ok(Math.abs(pulled.heroPose['r'].x) < Math.abs(parked.heroPose['r'].x),
-    '6★ root pulled toward the spine');
-  assert.ok(Math.abs(pulled.heroPose['r'].y) < Math.abs(parked.heroPose['r'].y),
+  // Fix #3: the radial target is the heartwood cylinder (radius CORE_MIN_RADIUS
+  // * width), not the spine axis — so we assert the distance to that cylinder
+  // target shrinks, not that |x| shrinks (a root starting near the spine moves
+  // slightly OUTWARD onto the barrel, which is the intended un-pinch).
+  const coreRadius = 0.10 * 760;
+  const theta = (stableHash('r:core-theta') / 4294967295) * Math.PI * 2;
+  const targetX = coreRadius * Math.cos(theta);
+  const targetZ = coreRadius * Math.sin(theta);
+  const dTarget = (pose) => Math.hypot(pose.x - targetX, (pose.z || 0) - targetZ);
+  assert.ok(dTarget(pulled.fieldPose['r']) < dTarget(parked.fieldPose['r']),
+    '6★ root pulled toward the core cylinder');
+  assert.ok(Math.abs(pulled.heroPose['r'].y - 680 * 0.13) < Math.abs(parked.heroPose['r'].y - 680 * 0.13),
     '6★ root pulled toward the vertical core');
   // 0-1★ pose is untouched by the core-pull branch (coreness 0 short-circuits).
   const bark = buildWorldTreeLayout(rootVariant(1));
