@@ -69,6 +69,46 @@ A starless ref's *effective rank* (the top star among its named variants) may be
 
 ---
 
+## World Tree Color and Glyph Re-axis
+
+The World Tree (hero 2D + 3D Explorer) re-axes color and glyph away from the four-type identity used elsewhere in the graph canvas, for two reasons: only two types (`basic` / `fusion`) will exist at Yggdrasil II cutover, making type-color redundant; and rank is meta-invariant — stars are stars in both Ygg I and Ygg II.
+
+### Color = effective rank
+
+Node color encodes **effective rank** (the highest star among a node's named-skill children, joined at runtime from `docs/graph/named/index.json`). Use the existing rank tokens — no hex fallbacks.
+
+| Rank | Stars | Token |
+|---|---|---|
+| Unranked / Awakened | 0–1★ | `--rank-0` (grey, starless/redacted) |
+| Named | 2★ | `--rank-2` |
+| Evolved | 3★ | `--rank-3` |
+| Hardened | 4★ | `--rank-4` |
+| Transcendent | 5★ | `--rank-5` |
+| Apex | 6★ | `--rank-6` |
+
+Tokens `--rank-N`, `--rank-N-bg`, `--rank-N-border`, and `--rank-N-edge` follow the same pattern as in `docs/css/tokens.css` (sourced from `src/gaia_cli/formatting.py::RANK_COLORS`). Colored ramp starts at 2★ Named — 0–1★ nodes render grey and land at outer coreness automatically. Unique constellation uses a distinct dark palette separate from the rank ramp (see `docs/architecture/world-tree-model.md` §Y-Fork).
+
+In the **hero (2D editorial)** pose, rank is positional only — all nodes use the single-gold editorial palette (`--apex-gold` / `--apex-gold-rgb` alpha values); color-by-rank is suppressed so the silhouette stays monochrome. Color-by-rank activates only in the **3D Explorer** view.
+
+### Glyph = structural class
+
+Node glyph encodes **structural class** (independent of type vocabulary, stable across the Ygg I → II migration):
+
+| Structural class | Glyph | Type source |
+|---|---|---|
+| Basic primitive | ○ | `type === 'basic'` (not Unique) |
+| Fusion / Extra | ◇ | `type === 'extra'` (Ygg I) or `type === 'fusion'` (Ygg II) |
+| Unique | ◉ | Ygg I: `type === 'unique'` · Ygg II: `type === 'basic' && effRank ≥ 4★ && !suiteComponents` |
+| Suite / Ultimate | ◆ | Ygg I: `type === 'ultimate'` · II: `suiteComponents` present |
+
+These glyphs match `META.md §1.2`. All meta-aware detection lives in `resolveSemantics` in `docs/js/world-tree-layout.js`; the render layer consumes the output contract's `glyph` field only.
+
+### Node radius
+
+Node radius also keys to rank (bigger = more proven), extending the existing `NODE_RADII` convention in `docs/js/skill-graph.js`. The exact tuning is an Agent 2 implementation detail; the design constraint is that radius must increase monotonically with effective rank.
+
+---
+
 ## Evidence Grades
 
 Evidence items are evaluated and assigned quality grades. The grade palette now exposes semantic token labels in `docs/css/tokens.css` (`--evidence-platinum`, `--evidence-gold`, `--evidence-silver`, `--evidence-bronze`) while preserving the legacy `--grade-S` / `--grade-A` / `--grade-B` / `--grade-C` aliases for existing UI hooks.
