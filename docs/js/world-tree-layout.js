@@ -51,8 +51,8 @@
   // deep in the core while 2★ sit near their DAG-depth tip. Applied to crown and
   // root real nodes in the attachment pass; uniques ('outside') keep their
   // constellation relocation. Deterministic — no random, purely coreness-driven.
-  var CORE_Y_RATIO = 0.0;           // coreY = treeHeight * CORE_Y_RATIO (heartwood centre, just above the collar)
-  var CORE_PULL_STRENGTH = 0.55;    // blend fraction at coreness 1 (6★ = full pull); scales linearly with coreness
+  var CORE_Y_RATIO = 0.13;          // coreY = treeHeight * CORE_Y_RATIO (heartwood, just above the collar at 0.20)
+  var CORE_PULL_STRENGTH = 0.72;    // blend fraction at coreness 1 (6★ = full pull); scales linearly with coreness
 
   // Radial reach used when a real node attaches to its armature anchor (§5.2).
   var CROWN_BOUGH_REACH = 0.50;     // * width

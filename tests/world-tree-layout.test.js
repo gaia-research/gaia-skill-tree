@@ -524,8 +524,8 @@ function rankVariant(rank) {
 }
 
 test('coreness pulls a crown node toward the heartwood core (vertical + radial), monotone in rank', () => {
-  // coreY = treeHeight * CORE_Y_RATIO (0) with the default height 680 => 0.
-  const coreY = 0;
+  // coreY = treeHeight * CORE_Y_RATIO (0.13) with the default height 680.
+  const coreY = 680 * 0.13;
   const results = [0, 2, 4, 6].map((rank) => {
     const r = buildWorldTreeLayout(rankVariant(rank));
     const pose = r.heroPose['core-crown'];

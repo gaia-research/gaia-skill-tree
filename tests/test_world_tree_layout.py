@@ -157,15 +157,17 @@ def test_coreness_pulls_high_rank_toward_heartwood_core() -> None:
     result = _runlayout(
         """
         // Hold the graph shape fixed and vary ONLY the crown node's rank so the
-        // DAG-depth base pose is identical across variants; any |y|/|x| change is
-        // purely the coreness-pull. coreY = treeHeight * CORE_Y_RATIO (0) => 0.
+        // DAG-depth base pose is identical across variants; any |y-coreY|/|x|
+        // change is purely the coreness-pull. coreY = treeHeight * CORE_Y_RATIO
+        // (0.13) with the default height 680.
+        const coreY = 680 * 0.13;
         const variant = (rank) => L.buildWorldTreeLayout({ skills: [
           { id: 'seed', type: 'basic', cluster: 'a', prerequisites: [] },
           { id: 'crown', type: 'extra', cluster: 'a', prerequisites: ['seed'], effectiveRank: rank },
         ] });
         const rows = [0, 2, 4, 6].map((rank) => {
           const p = variant(rank).heroPose['crown'];
-          return { rank, dy: Math.abs(p.y), dx: Math.abs(p.x) };
+          return { rank, dy: Math.abs(p.y - coreY), dx: Math.abs(p.x) };
         });
         return { rows };
         """
