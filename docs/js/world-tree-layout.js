@@ -44,6 +44,16 @@
   var CORENESS_RANK_FLOOR = 2;      // 0-1★ (incl. redacted Awakened) land at coreness 0 (bark)
   var MAX_STAR_RANK = 6;            // 6★ = heartwood centre (coreness 1)
 
+  // --- §4 Heartwood core-pull -------------------------------------------------
+  // Coreness (effective rank) does not just color a node — it pulls its POSITION
+  // toward the heartwood core. High-rank crown/root nodes migrate inward (toward
+  // the trunk spine) AND toward the vertical heartwood centre, so 5-6★ read as
+  // deep in the core while 2★ sit near their DAG-depth tip. Applied to crown and
+  // root real nodes in the attachment pass; uniques ('outside') keep their
+  // constellation relocation. Deterministic — no random, purely coreness-driven.
+  var CORE_Y_RATIO = 0.0;           // coreY = treeHeight * CORE_Y_RATIO (heartwood centre, just above the collar)
+  var CORE_PULL_STRENGTH = 0.55;    // blend fraction at coreness 1 (6★ = full pull); scales linearly with coreness
+
   // Radial reach used when a real node attaches to its armature anchor (§5.2).
   var CROWN_BOUGH_REACH = 0.50;     // * width
   var ROOT_BOUGH_REACH = 0.58;      // * width
@@ -992,6 +1002,28 @@
             phase: phase, outside: true,
           };
           meta.zone = 'outside';
+        } else if (sem.coreness > 0) {
+          // §4 heartwood core-pull. Crown/root nodes with effective rank ≥ 2★ are
+          // blended toward the heartwood core point (spine axis x=z=0, vertical
+          // centre coreY) by coreness * CORE_PULL_STRENGTH. 6★ (coreness 1) pulls
+          // the hardest → deep in the core; 2★ barely moves off its DAG-depth tip.
+          // Both radial (x/z → spine) and vertical (y → coreY) so high rank reads
+          // as inward AND toward the middle, never merely "high up". Determinism
+          // preserved (coreness is a pure function of rank). Coreness 0 (0-1★)
+          // skips this branch entirely and keeps the base tip pose.
+          var coreY = treeHeight * CORE_Y_RATIO;
+          var pull = sem.coreness * CORE_PULL_STRENGTH;
+          var hx = basePose.x + (armature.spineX - basePose.x) * pull;
+          var hy = basePose.y + (coreY - basePose.y) * pull;
+          var hz = (basePose.z || 0) + (0 - (basePose.z || 0)) * pull;
+          result.heroPose[id] = {
+            x: hx, y: hy, z: 0, w: 0,
+            phase: basePose.phase, coreness: sem.coreness,
+          };
+          result.fieldPose[id] = {
+            x: hx, y: hy, z: hz, w: 0,
+            phase: basePose.phase, coreness: sem.coreness,
+          };
         }
       }
     });
