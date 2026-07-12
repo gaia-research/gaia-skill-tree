@@ -596,11 +596,16 @@
 }
 
 #hero.hero-tree-shell .hero-audit-btn {
+  /* Latest-report notification pinned top-left across ALL breakpoints — peer to
+     the top-right "Explore in 3D" utility. It was previously bottom-anchored on
+     desktop/tablet, which read as a stray footnote; promoting it to the top
+     strip makes the automated report notice a first-class banner everywhere. */
   position: absolute;
   z-index: 8;
-  top: auto;
-  right: clamp(1rem, 3vw, 3rem);
-  bottom: 1.4rem;
+  top: 4.4rem;
+  right: auto;
+  bottom: auto;
+  left: clamp(1rem, 3vw, 3rem);
   display: inline-flex;
   align-items: center;
   gap: .35rem;
@@ -969,8 +974,8 @@ body:has(#hero.hero-graph-fullscreen) {
   }
 
   #hero.hero-tree-shell .hero-audit-btn {
-    right: 1rem;
-    bottom: 1rem;
+    top: 4.4rem;
+    left: 1rem;
   }
 }
 
@@ -1093,9 +1098,30 @@ body:has(#hero.hero-graph-fullscreen) {
   }
 
   .hero-tree-copy {
+    position: relative;
     width: 100%;
     max-width: 34rem;
     margin: 0 auto;
+  }
+
+  .hero-tree-copy::before {
+    /* Localized legibility bed. The gold crown stays vivid above; this soft dark
+       pool sits behind the copy block ONLY, feathered on every edge so it reads
+       as depth rather than a box. It gives the gold "Skill Tree" headline and the
+       slate sub-copy a calm dark substrate exactly where the tree's bloom would
+       otherwise punch through and wash them out. */
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: -1.5rem -1.75rem -2.25rem;
+    background: radial-gradient(
+      ellipse 88% 82% at 42% 46%,
+      rgba(3, 7, 18, .82) 0%,
+      rgba(3, 7, 18, .72) 34%,
+      rgba(3, 7, 18, .42) 62%,
+      rgba(3, 7, 18, 0) 100%
+    );
+    pointer-events: none;
   }
 
   .hero-tree-kicker {
