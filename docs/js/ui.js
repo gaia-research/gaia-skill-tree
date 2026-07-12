@@ -1,7 +1,14 @@
 window.switchOsTab = function(btn) {
-  var step = btn.closest('.rite-step, .step');
-  step.querySelectorAll('.os-tab').forEach(function(b){ b.classList.toggle('active', b === btn); });
-  step.querySelectorAll('.os-panel').forEach(function(p){ p.classList.toggle('active', p.dataset.os === btn.dataset.os); });
+  var scope = btn.closest('#paths, .rite-step, .step');
+  if (!scope) return;
+  scope.querySelectorAll('.os-tab').forEach(function(button) {
+    var active = button === btn;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+  scope.querySelectorAll('.os-panel').forEach(function(panel) {
+    panel.classList.toggle('active', panel.dataset.os === btn.dataset.os);
+  });
 };
 
 (function(){
@@ -289,6 +296,32 @@ window.switchOsTab = function(btn) {
     }
   }
 
+  function initAgentPrompts() {
+    document.querySelectorAll('[data-prompt-copy]').forEach(function(button) {
+      var label = button.querySelector('span');
+      var iconUse = button.querySelector('use');
+      var originalLabel = label ? label.textContent : '';
+      var originalIcon = iconUse ? iconUse.getAttribute('href') : '';
+
+      button.addEventListener('click', function() {
+        var prompt = document.getElementById(button.dataset.promptCopy);
+        if (!prompt) return;
+        copyToClipboard(prompt.textContent.trim()).then(function() {
+          button.classList.add('copied');
+          if (label) label.textContent = 'Copied';
+          if (iconUse) iconUse.setAttribute('href', originalIcon.replace('#copy', '#copy-check'));
+          setTimeout(function() {
+            button.classList.remove('copied');
+            if (label) label.textContent = originalLabel;
+            if (iconUse) iconUse.setAttribute('href', originalIcon);
+          }, 1600);
+        }).catch(function() {
+          button.title = 'Copy failed — select and copy the prompt manually';
+        });
+      });
+    });
+  }
+
   /* ─────────────────────────────────────────
      INIT
      ───────────────────────────────────────── */
@@ -299,6 +332,7 @@ window.switchOsTab = function(btn) {
     initFirstLoadReveal();
     initScrollToTop();
     initAgentCopyBtn();
+    initAgentPrompts();
   }
 
   if(document.readyState === 'loading'){

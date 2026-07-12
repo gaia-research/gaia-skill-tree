@@ -8925,9 +8925,53 @@ button.nav-graph-trigger:hover {
   padding: 5rem 1.5rem;
 }
 
+.rite-entry {
+  display: grid;
+  grid-template-columns: minmax(14rem, .7fr) minmax(0, 1.3fr);
+  align-items: end;
+  gap: clamp(1.5rem, 5vw, 4rem);
+  max-width: 1060px;
+  margin: 0 auto clamp(3rem, 6vw, 5rem);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.rite-entry-copy .path-plate-num {
+  margin-bottom: .45rem;
+}
+
+.rite-entry-copy h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+  text-wrap: balance;
+}
+
+.rite-entry-copy p {
+  margin: .45rem 0 0;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.rite-entry-terminal {
+  min-width: 0;
+}
+
+.rite-entry-terminal .rite-platform {
+  justify-content: flex-end;
+  margin: 0 0 .65rem;
+  padding: 0;
+  border: 0;
+}
+
+.rite-entry-terminal .rite-install-command {
+  width: 100%;
+}
+
 .paths-wrap {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 3rem;
   max-width: 900px;
   margin: 0 auto;
@@ -8943,18 +8987,150 @@ button.nav-graph-trigger:hover {
   margin-bottom: .75rem;
 }
 
+.path-a,
+.path-b {
+  min-width: 0;
+}
+
+.path-a > h2,
+.path-b > h2 {
+  margin-bottom: 0;
+  text-wrap: balance;
+}
+
+.path-a > .section-sub,
+.path-b > .path-intro {
+  min-height: 2.9rem;
+  max-width: 38rem;
+  margin: .5rem 0 0;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.rite-platform {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  margin: 1.75rem 0 1rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.rite-platform-label {
+  margin-right: .35rem;
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.rite-platform .os-tab {
+  min-height: 36px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.rite-install-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  text-align: center;
+  overflow: hidden;
+}
+
+.rite-install-stage::before,
+.rite-install-stage::after {
+  content: '';
+  position: absolute;
+  top: 1rem;
+  width: clamp(2rem, 8vw, 5rem);
+  height: 1px;
+  background: var(--border);
+}
+
+.rite-install-stage::before { left: 1rem; }
+.rite-install-stage::after { right: 1rem; }
+
+.rite-install-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: .6rem;
+  max-width: 34rem;
+}
+
+.rite-install-heading .rite-numeral {
+  width: auto;
+  padding: 0;
+}
+
+.rite-install-heading h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+.rite-install-heading p {
+  margin: .3rem 0 0;
+  color: var(--muted);
+  font-size: .875rem;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.rite-install-command {
+  width: min(100%, 39rem);
+}
+
+.rite-install-command pre {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: clamp(.72rem, 1.5vw, .84rem);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.rite-sequence-label {
+  margin-top: 2rem;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  color: var(--muted);
+}
+
 .rite-steps {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  margin: 1.5rem 0
+  gap: 0;
+  margin: 1.5rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .rite-step {
+  position: relative;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  gap: 1.5rem
+  align-items: center;
+  gap: 1.5rem;
+  padding: .95rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.rite-step:last-child {
+  border-bottom: 0;
 }
 
 .rite-meta {
@@ -9013,10 +9189,14 @@ button.nav-graph-trigger:hover {
 }
 
 .rite-term pre {
-  margin: .5rem 0 0;
+  margin: 0;
+  padding: .7rem .85rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
   font-size: .78rem;
   white-space: pre-wrap;
-  word-break: break-all
+  overflow-wrap: anywhere;
 }
 
 /* Post-register subgroup — IV (MCP bond) and V (TUI) live here so the
@@ -9028,6 +9208,10 @@ button.nav-graph-trigger:hover {
   border-top: 1px dashed var(--border);
 }
 .rite-steps-after > summary {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  min-height: 44px;
   font-family: var(--font-display);
   font-size: 1rem;
   color: var(--text);
@@ -9048,11 +9232,11 @@ button.nav-graph-trigger:hover {
   content: '▾ ';
 }
 .rite-steps-after .rite-after-hint {
-  font-family: var(--font-body);
-  font-size: .8125rem;
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: .6875rem;
   color: var(--muted);
   font-weight: 400;
-  font-style: italic;
 }
 .rite-steps--after {
   margin: .75rem 0 0;
@@ -9066,6 +9250,155 @@ button.nav-graph-trigger:hover {
   font-size: .9rem;
   color: var(--muted);
   margin-bottom: .25rem
+}
+
+.path-b--prompts {
+  min-width: 0;
+}
+
+.agent-prompt {
+  margin-top: 1.5rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--border);
+}
+
+.agent-prompt-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: .75rem;
+  margin-bottom: .8rem;
+}
+
+.agent-prompt-mark {
+  padding-top: .15rem;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  color: var(--apex-gold);
+}
+
+.agent-prompt-heading h3 {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.agent-prompt-heading p {
+  margin: .2rem 0 0;
+  font-size: .78rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.agent-prompt-copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  width: 40px;
+  min-height: 40px;
+  padding: .45rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  cursor: pointer;
+  transition: border-color 160ms ease-out, color 160ms ease-out, background 160ms ease-out;
+}
+
+.agent-prompt-copy:hover,
+.agent-prompt-copy:focus-visible,
+.agent-prompt-copy.copied {
+  border-color: var(--tier-basic);
+  color: var(--tier-basic);
+  background: var(--tier-basic-bg);
+}
+
+.agent-prompt-copy:focus-visible {
+  outline: 2px solid var(--tier-extra);
+  outline-offset: 2px;
+}
+
+.agent-prompt-body {
+  max-height: 18rem;
+  margin: 0;
+  padding: .9rem;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  user-select: text;
+}
+
+.agent-prompt--standalone > summary {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  min-height: 44px;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.agent-prompt--standalone > summary::-webkit-details-marker {
+  display: none;
+}
+
+.agent-prompt--standalone > summary::before {
+  content: '▸';
+  width: 1rem;
+  color: var(--apex-gold);
+  font-family: var(--font-mono);
+}
+
+.agent-prompt--standalone[open] > summary::before {
+  content: '▾';
+}
+
+.agent-prompt-optional {
+  margin-left: auto;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+}
+
+.agent-prompt-optional-body {
+  padding-top: .75rem;
+}
+
+.agent-prompt--standalone .agent-prompt-body {
+  max-height: 22rem;
+}
+
+@media (max-width: 480px) {
+  .agent-prompt-heading {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .agent-prompt-copy {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .agent-prompt-body {
+    margin-right: -1.5rem;
+    margin-left: -1.5rem;
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
 }
 
 /* ── ULTIMATES LIST ── */
@@ -9800,7 +10133,19 @@ button.nav-graph-trigger:hover {
 
   .paths-wrap {
     grid-template-columns: 1fr;
-    gap: 2rem
+    gap: 3rem
+  }
+
+  .rite-entry {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    padding: 1.5rem 1rem;
+  }
+
+  .rite-entry-terminal .rite-platform {
+    justify-content: flex-start;
+    margin-right: -1rem;
+    padding-right: 1rem;
   }
 
   .ascension-track {
