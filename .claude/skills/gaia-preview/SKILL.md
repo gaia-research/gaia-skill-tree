@@ -28,12 +28,20 @@ Dispatches a remote docs regeneration and Cloudflare preview deployment for the 
 
 2. **Dispatch the preview workflow.** Run:
    ```bash
-   gh workflow run sync-artifacts.yml --ref <current_branch> -f deploy=true
+   gh workflow run cf-pr-preview.yml -f branch=<current_branch>
    ```
-   Replace `<current_branch>` with the actual branch name (get it with `git rev-parse --abbrev-ref HEAD`).
+   Replace `<current_branch>` with the actual branch name (get it with `git rev-parse --abbrev-ref HEAD`). This deploys a Cloudflare Worker preview for the branch. Do **not** use `sync-artifacts.yml` — its job is gated to `main` (`if: github.ref_name == default_branch`), so dispatching it on a feature branch silently skips.
 
 3. **Share the run link.** After dispatching, retrieve the run URL and give it to the user:
    ```bash
-   gh run list --workflow=sync-artifacts.yml --limit 1
+   gh run list --workflow=cf-pr-preview.yml --limit 1
    ```
    The Cloudflare preview URL is posted as a workflow output once the build completes (typically 2–4 minutes).
+
+## Local inspection (fastest path)
+
+For a quick local look without waiting on the remote build, serve `docs/` directly:
+```bash
+python -m http.server 8080 --directory docs
+```
+Then open `http://localhost:8080/`. This serves the static site exactly as GitHub Pages would, minus the Cloudflare Worker badge-validation layer.
