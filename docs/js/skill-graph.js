@@ -31,11 +31,20 @@
   const GRAPH_SCALE = 1.625;
 
   // ── Locked canvas geometry (DESIGN.md ▸ Graph Canvas) ──────────
+  // §6 node-radius re-axis: radius is keyed to EFFECTIVE RANK (bigger = more
+  // proven), not type. NODE_RADII.get(rankOrLabel, type) accepts either an
+  // integer effective rank or an "N★" glyph string and returns the rank-curve
+  // radius. The per-type numeric constants below (ultimate/unique/extra/basic)
+  // are LEGACY — retained only for the unique-void redraw pass (NODE_RADII.unique)
+  // and any host still reading them; new call sites pass effectiveRank.
   const NODE_RADII = {
-    ultimate: 12.5, unique: 9.5, extra: 6.9, basic: 3.5,
+    ultimate: 12.5, unique: 9.5, extra: 6.9, basic: 3.5,  // legacy type-keyed
     get: function (rank, type) {
-      if (type === 'unique') rank = '5★';
-      const n = parseInt(rank, 10) || 0;
+      if (type === 'unique') rank = 5;
+      // Accept an int effective rank directly, else parse a leading "N★" int.
+      const n = (typeof rank === 'number' && Number.isFinite(rank))
+        ? Math.max(0, Math.round(rank))
+        : (parseInt(rank, 10) || 0);
       // Boosted exponential curve for visibility: r = a * e^(b * n)
       // r(1) = 3.0, r(6) = 10.0
       if (n === 0) return 2.5;
@@ -78,11 +87,13 @@
       };
     }
     function rank(n) {
-      // Rank tokens don't have an explicit -rgb form yet; derive it
-      // from the hex when we need an rgba() with custom alpha. For
-      // now we only need bg/border/edge which are precomputed.
+      // §6 color-by-rank re-axis. tokens.css DOES emit --rank-N-rgb (grey
+      // 148,163,184 at 0★ … apex-gold 251,191,36 at 6★); read it so the canvas
+      // can build rgba() with a custom alpha for the rank ramp. bg/border/edge
+      // are precomputed convenience forms.
       return {
         hex: _readVar('--rank-' + n),
+        rgb: _rgbOnly(_readVar('--rank-' + n + '-rgb')),
         bg: _readVar('--rank-' + n + '-bg'),
         border: _readVar('--rank-' + n + '-border'),
         edge: _readVar('--rank-' + n + '-edge'),
@@ -253,6 +264,9 @@
       // named-variant star (namedMaxLevel) supplied by syncDocsGraphAssets.py.
       level: skill.namedMaxLevel || skill.level || '',
       effectiveLevel: skill.namedMaxLevel || skill.effectiveLevel || skill.level || '',
+      // §4 effective rank as a small integer (0-6). Parsed from namedMaxLevel;
+      // 0 for starless/≤1★. Color-by-rank + radius-by-rank read this (§6).
+      effectiveRank: starsFromLabel(skill.namedMaxLevel != null ? skill.namedMaxLevel : skill.effectiveRank),
       demerits: Array.isArray(skill.demerits) ? skill.demerits : [],
       description: skill.description || '',
       prerequisites: Array.isArray(skill.prerequisites) ? skill.prerequisites : [],
@@ -276,6 +290,20 @@
       h = Math.imul(h, 16777619);
     }
     return Math.abs(h >>> 0);
+  }
+
+  // §4 runtime effective-rank join. gaia.json ships STARLESS (level: null on
+  // every node — stars live on named skills only, per META.md §1). Each source
+  // skill already carries `namedMaxLevel` — the max star among its named
+  // children, pre-joined by syncDocsGraphAssets.py — as an "N★" glyph string.
+  // We ONLY parse that leading integer; no new fetch, no walking of
+  // named/index.json buckets (namedMaxLevel already encodes that join). 0-1★ or
+  // absent → 0 (outer bark; the colored ramp begins at 2★ Named per the
+  // redaction cutline). The parsed int is attached as `effectiveRank` on the
+  // source skill BEFORE world-tree-layout.js runs (it reads node.effectiveRank).
+  function starsFromLabel(label) {
+    const n = parseInt(String(label == null ? '' : label), 10);
+    return Number.isFinite(n) && n > 0 ? n : 0;
   }
 
   function clamp01(value) {
@@ -316,6 +344,20 @@
     const b = String(to || '').split(',').map(Number);
     if (a.length !== 3 || b.length !== 3 || a.some(Number.isNaN) || b.some(Number.isNaN)) return to || from;
     return [0, 1, 2].map(index => Math.round(lerp(a[index], b[index], amount))).join(',');
+  }
+
+  // §6 color-by-rank ramp. Maps an effective star rank (0-6 int) to a rank-token
+  // rgb triplet. The redaction cutline (§4) collapses 0-1★ to grey (--rank-0);
+  // the colored ramp begins at 2★ and climbs to apex-gold at 6★. No hex
+  // fallbacks — the triplets come straight from tokens.css via getCanvasTokens.
+  function _rankColorRgb(effRank) {
+    const t = getCanvasTokens();
+    let n = Math.round(Number(effRank));
+    if (!Number.isFinite(n) || n < 0) n = 0;
+    if (n > 6) n = 6;
+    const key = n <= 1 ? 0 : n;   // 0-1★ share the grey bark swatch
+    const entry = t.rank[key] || t.rank[0];
+    return (entry && entry.rgb) ? entry.rgb : t.rank[0].rgb;
   }
 
   function spherePoint(radius, seed, index, count) {
@@ -625,6 +667,7 @@
       const unavailable = !layout || layout.available === false || layout.status === 'unavailable' || !complete;
       if (unavailable) {
         state.treeLayout = null;
+        state.structuralRouteKeys = null;
         state.heroPose = {};
         state.fieldPose = {};
         state.treeEdges = [];
@@ -637,6 +680,11 @@
       }
 
       state.treeLayout = layout;
+      // §8 perf: the structural-route key lookup set is derived once here from
+      // the frozen layout, not rebuilt every draw() frame.
+      state.structuralRouteKeys = layout.structuralRoutes
+        ? new Set(Object.keys(layout.structuralRoutes))
+        : null;
       state.heroPose = heroPose;
       state.fieldPose = fieldPose;
       state.positions = heroPose;
@@ -794,6 +842,30 @@
         w: p.w || 0
       };
     }
+    // §2/§5 ghost armature + structural re-routing render helpers.
+    // ghostPose points live in the SAME layout frame as heroPose/fieldPose, so
+    // they transform through the identical rotate(ry,rx)+project() pipeline. We
+    // hero-morph the depth: at viewMix->0 the spine reads flat (z folded out),
+    // at viewMix->1 the boughs open into depth. Ghosts carry NO data — never
+    // hover, label, click, or register in projectedNodes (§5.1 invariant).
+    function _projectGhost(pose, ry, rx, treeMix) {
+      if (!pose) return null;
+      const p = rotX(rotY({
+        x: pose.x, y: pose.y, z: (pose.z || 0) * treeMix, w: 0, phase: 0,
+      }, ry), rx);
+      return project(p);
+    }
+    // Resolve a structural-route waypoint (either a real node's transformed
+    // point via xf, or a ghost anchor via ghostPose) to a projected screen point.
+    function _routeStop(stop, xf, ghostPose, ry, rx, treeMix) {
+      if (!stop) return null;
+      if (stop.kind === 'node') {
+        const tp = xf[stop.id];
+        return tp ? project(tp) : null;
+      }
+      return _projectGhost(ghostPose[stop.key], ry, rx, treeMix);
+    }
+
     function drawNode(sx, sy, r, color, alpha) {
       const grad = ctx.createRadialGradient(sx, sy, 0, sx, sy, r * 3.9);
       grad.addColorStop(0, `rgba(${color.rgb},${Math.min(alpha * 0.68, 1).toFixed(2)})`);
@@ -1049,10 +1121,24 @@
 
     function _displaySkillColor(skill) {
       const canonical = _canonicalSkillColor(skill);
+      // Legacy 3D graph (no World Tree layout): keep the canonical tier/cluster
+      // color unchanged.
       if (!state.treeLayout) return canonical;
-      const gold = getCanvasTokens().apexGoldRgb;
+      // §6/§7 hero-vs-explorer split. Under the World Tree layout, color is
+      // re-axed onto RANK, not type. viewMix drives the morph:
+      //   hero (viewMix→0)     → single monochrome apex-gold (starless tips are
+      //                          faint GOLD, never grey — grey muddies the mono
+      //                          hero silhouette);
+      //   explorer (viewMix→1) → the full rank ramp (grey 0-1★ bark → 2★ ramp →
+      //                          apex-gold 6★). Cluster mode overrides both ends
+      //                          with its per-cluster hue for the analytical view.
+      const tokens = getCanvasTokens();
+      const gold = tokens.apexGoldRgb;
       const amount = easeWorldTree(state.viewMix);
-      return { rgb: mixRgb(gold, canonical.rgb, amount), hex: canonical.hex };
+      const explorerRgb = state.colorMode === 'cluster'
+        ? canonical.rgb
+        : _rankColorRgb(skill.effectiveRank);
+      return { rgb: mixRgb(gold, explorerRgb, amount), hex: canonical.hex };
     }
     // Phase 5: check reduced-motion once per draw frame (cached per graph instance)
     const _reducedMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1298,6 +1384,123 @@
         : (window.matchMedia('(max-width:700px)').matches ? 0.5 : 0.72);
       const axisX = lerp(state.width * heroCenterRatio, state.width * 0.5, treeAmount);
       const nodeMeta = state.treeLayout && state.treeLayout.nodeMeta ? state.treeLayout.nodeMeta : {};
+
+      // §2 ghost armature render + §3 structural-edge re-routing. Drawn BEFORE
+      // the real edges/nodes so the synthetic skeleton drapes behind the wood.
+      // Only under the World Tree layout; ghosts are faint and data-free.
+      if (state.treeLayout && state.treeLayout.armature) {
+        const armature = state.treeLayout.armature;
+        const ghostPose = state.treeLayout.ghostPose || {};
+        const structuralRoutes = state.treeLayout.structuralRoutes || {};
+        const gTokens = getCanvasTokens();
+        // Armature reads GOLD in the hero (part of the monochrome silhouette),
+        // fading to a neutral muted mesh as the explorer takes over so the rank
+        // ramp owns the color channel. treeAmount: 0 hero -> 1 explorer.
+        const meshRgb = mixRgb(gTokens.apexGoldRgb, gTokens.mutedRgb, treeAmount);
+        const meshAlpha = lerp(0.22, 0.10, treeAmount);
+
+        // (a) trunk spine — connect consecutive spine waypoints into one column.
+        ctx.lineCap = 'round';
+        const spine = armature.spine || [];
+        if (spine.length > 1) {
+          ctx.beginPath();
+          let started = false;
+          spine.forEach(wp => {
+            const pr = _projectGhost(ghostPose[wp.key], ry, rx, treeMix);
+            if (!pr) return;
+            if (!started) { ctx.moveTo(pr.sx, pr.sy); started = true; }
+            else ctx.lineTo(pr.sx, pr.sy);
+          });
+          ctx.strokeStyle = `rgba(${meshRgb},${(meshAlpha * 1.15).toFixed(2)})`;
+          ctx.lineWidth = lerp(3.2, 2.0, treeAmount) * state.scale;
+          ctx.stroke();
+        }
+        // (b) boughs + roots — each anchor drapes back to its parent waypoint.
+        const limbs = (armature.boughAnchors || []).concat(armature.rootAnchors || []);
+        limbs.forEach(wp => {
+          const parent = wp.parentKey ? ghostPose[wp.parentKey] : null;
+          const pa = _projectGhost(parent, ry, rx, treeMix);
+          const pb = _projectGhost(ghostPose[wp.key], ry, rx, treeMix);
+          if (!pa || !pb) return;
+          ctx.beginPath();
+          ctx.moveTo(pa.sx, pa.sy);
+          ctx.lineTo(pb.sx, pb.sy);
+          ctx.strokeStyle = `rgba(${meshRgb},${(meshAlpha * (wp.level ? 0.6 : 0.85)).toFixed(2)})`;
+          ctx.lineWidth = lerp(2.0, 1.2, treeAmount) * (wp.level ? 0.7 : 1) * state.scale;
+          ctx.stroke();
+        });
+        // (c) reserved taproot stub below the collar (faint — no 6★ today).
+        if (armature.taproot && armature.collarKey) {
+          const pa = _projectGhost(ghostPose[armature.collarKey], ry, rx, treeMix);
+          const pb = _projectGhost(ghostPose[armature.taprootKey], ry, rx, treeMix);
+          if (pa && pb) {
+            ctx.beginPath();
+            ctx.moveTo(pa.sx, pa.sy);
+            ctx.lineTo(pb.sx, pb.sy);
+            ctx.strokeStyle = `rgba(${meshRgb},${(meshAlpha * 0.5).toFixed(2)})`;
+            ctx.lineWidth = lerp(2.6, 1.6, treeAmount) * state.scale;
+            ctx.stroke();
+          }
+        }
+        // (d) unique dark-constellation stems — single-side ghost spires the
+        // unique nodes stand on. Painted from the dark Unique palette, never the
+        // rank ramp (§2.2). Only visible once the explorer opens (treeAmount>0).
+        if (treeAmount > 0.02) {
+          const uniqueRgb = gTokens.tier.unique.rgb;
+          (armature.outsideAnchors || []).forEach(wp => {
+            const pb = _projectGhost(ghostPose[wp.key], ry, rx, treeMix);
+            if (!pb) return;
+            // stem drops from the anchor toward the ground line for a "standing
+            // stone" footing; use the collar y at the same x as a faint base.
+            const base = _projectGhost({ x: wp.x, y: armature.groundY, z: wp.z }, ry, rx, treeMix);
+            if (base) {
+              ctx.beginPath();
+              ctx.moveTo(base.sx, base.sy);
+              ctx.lineTo(pb.sx, pb.sy);
+              ctx.strokeStyle = `rgba(${uniqueRgb},${(0.18 * treeAmount).toFixed(2)})`;
+              ctx.lineWidth = 1.1 * state.scale;
+              ctx.stroke();
+            }
+          });
+        }
+
+        // (e) structural-edge re-routing — draw each structural route as a curve
+        // draping through its ghost waypoints instead of a straight arc. Keyed by
+        // the same edgeKey('src','tgt') form the layout emits. Non-structural
+        // grafts are NOT here; they stay as the faint direct arcs below.
+        Object.keys(structuralRoutes).forEach(key => {
+          const route = structuralRoutes[key];
+          if (!Array.isArray(route) || route.length < 2) return;
+          const pts = route
+            .map(stop => _routeStop(stop, xf, ghostPose, ry, rx, treeMix))
+            .filter(Boolean);
+          if (pts.length < 2) return;
+          // endpoints are real nodes; color by the route target's rank so the
+          // draped wood inherits the rank ramp (matches the node it feeds).
+          const tgtId = route[0] && route[0].kind === 'node' ? route[0].id : null;
+          const tgtSkill = tgtId ? skillById[tgtId] : null;
+          const col = tgtSkill ? _displaySkillColor(tgtSkill) : { rgb: meshRgb };
+          const fromVis = tgtId && state.nodeAlphas[tgtId] !== undefined ? state.nodeAlphas[tgtId] : 1.0;
+          ctx.beginPath();
+          ctx.moveTo(pts[0].sx, pts[0].sy);
+          for (let i = 1; i < pts.length; i += 1) {
+            const prev = pts[i - 1];
+            const cur = pts[i];
+            const midx = (prev.sx + cur.sx) / 2;
+            const midy = (prev.sy + cur.sy) / 2;
+            ctx.quadraticCurveTo(prev.sx, prev.sy, midx, midy);
+            if (i === pts.length - 1) ctx.lineTo(cur.sx, cur.sy);
+          }
+          ctx.strokeStyle = `rgba(${col.rgb},${(lerp(0.30, 0.42, treeAmount) * fromVis).toFixed(2)})`;
+          ctx.lineWidth = lerp(1.5, 1.15, treeAmount) * state.scale;
+          ctx.stroke();
+        });
+      }
+      // Structural edges already drawn as draped routes above are still redrawn
+      // by the direct-arc pass below for hover emphasis; the route is the resting
+      // silhouette, the arc carries neighbor-highlight state.
+      // §8 perf: key set precomputed in setTreeLayout, not rebuilt per frame.
+      const structuralRouteKeys = state.structuralRouteKeys || null;
       edges.forEach(edge => {
         const pa = project(xf[edge.from]), pb = project(xf[edge.to]);
         const targetSkill = skillById[edge.to] || { type: edge.type || 'basic' };
@@ -1308,9 +1511,15 @@
         const toVis = state.nodeAlphas[edge.to] !== undefined ? state.nodeAlphas[edge.to] : 1.0;
         const edgeVis = (fromVis + toVis) / 2;
         const structural = edge.structural !== false;
-        const baseEdgeAlpha = isNeighborEdge
+        // A structural edge already draped as a ghost route (drawn above) only
+        // needs a faint direct-arc echo at rest — the route is the resting
+        // silhouette. On neighbor-highlight it flares to full weight.
+        const drapedRoute = structural && structuralRouteKeys
+          && structuralRouteKeys.has(edge.from + ' ' + edge.to);
+        const structuralArcScale = (drapedRoute && !isNeighborEdge) ? 0.35 : 1;
+        const baseEdgeAlpha = (isNeighborEdge
           ? 0.78
-          : (structural ? lerp(0.62, 0.40, treeAmount) : lerp(0.07, 0.12, treeAmount));
+          : (structural ? lerp(0.62, 0.40, treeAmount) : lerp(0.07, 0.12, treeAmount))) * structuralArcScale;
         const branchCurve = lerp(1, 0.62, treeAmount);
         const middleY = (pa.sy + pb.sy) / 2;
         const fromZone = nodeMeta[edge.from] && nodeMeta[edge.from].zone;
@@ -1358,7 +1567,11 @@
 
         const isPinned = state.pinnedId === skill.id;
         const isHovered = state.hoveredId === skill.id;
-        const baseR = NODE_RADII.get(skill.level, skill.type);
+        // §6 radius-by-rank: under the World Tree layout, size reads from the
+        // joined effective rank; the legacy 3D graph keeps the level-glyph path.
+        const baseR = state.treeLayout
+          ? NODE_RADII.get(skill.effectiveRank, skill.type)
+          : NODE_RADII.get(skill.level, skill.type);
         const pulse = 0.84 + 0.16 * Math.sin(state.t * 2.2 + p.phase);
 
         const specialMix = state.treeLayout ? easeWorldTree(state.viewMix) : 1;
@@ -1510,12 +1723,22 @@
             const col = PALETTE[skill.type] || PALETTE.basic;
             const typeClass = `skill-tooltip-type-${skill.type}`;
             const rm = skill.level ? RANK_META[skill.level] : null;
-            
+            // §6.1 hover card two channels under the World Tree layout: rank
+            // (color) + structural class (glyph). glyph comes from the frozen
+            // resolveSemantics contract (nodeMeta[id].glyph); fall back to a
+            // type→glyph map for the legacy 3D graph. Name color reads the rank
+            // ramp under the tree so color = rank end-to-end.
+            const _tlMeta = (state.treeLayout && state.treeLayout.nodeMeta
+              && state.treeLayout.nodeMeta[skill.id]) || null;
+            const _glyphMap = { basic: '○', extra: '◇', ultimate: '◆', unique: '◉' };
+            const structGlyph = (_tlMeta && _tlMeta.glyph) || _glyphMap[skill.type] || '○';
+            const nameRgb = state.treeLayout ? _rankColorRgb(skill.effectiveRank) : col.rgb;
+
             state.tooltipEl.textContent = '';
-            
+
             const nameDiv = document.createElement('div');
             nameDiv.className = 'skill-tooltip-name';
-            nameDiv.style.color = `rgba(${col.rgb},1)`;
+            nameDiv.style.color = `rgba(${nameRgb},1)`;
             nameDiv.textContent = skill.name;
             state.tooltipEl.appendChild(nameDiv);
 
@@ -1563,8 +1786,23 @@
             
             const badgeSpan = document.createElement('span');
             badgeSpan.className = `skill-tooltip-badge ${typeClass}`;
-            badgeSpan.textContent = skill.type.toUpperCase();
+            // Lead with the structural-class glyph (§6 glyph channel), then the
+            // type label. Suite reads "SUITE", fusion covers extra/fusion.
+            const _typeLabel = { basic: 'BASIC', extra: 'FUSION', ultimate: 'SUITE', unique: 'UNIQUE' }[skill.type] || skill.type.toUpperCase();
+            badgeSpan.textContent = structGlyph + ' ' + _typeLabel;
             rowDiv.appendChild(badgeSpan);
+
+            // Rank color channel: a pill tinted from the rank ramp so the hover
+            // card echoes the node's color = rank encoding, even for starless
+            // nodes (0–1★ → grey bark).
+            if (state.treeLayout) {
+              const rankPill = document.createElement('span');
+              const _rr = _rankColorRgb(skill.effectiveRank);
+              const _rn = Math.max(0, Math.round(Number(skill.effectiveRank) || 0));
+              rankPill.style.cssText = `display:inline-block;padding:.12rem .42rem;border-radius:999px;font-size:.62rem;font-weight:700;background:rgba(${_rr},.16);color:rgb(${_rr})`;
+              rankPill.textContent = _rn >= 2 ? _rn + '★' : '0–1★';
+              rowDiv.appendChild(rankPill);
+            }
 
             if (rm) {
               const rankSpan = document.createElement('span');
@@ -2083,6 +2321,13 @@
       // so all four tier hues and six rank hues come from --tier-* /
       // --rank-*. Sizes (7/10/12/14 px) still drive node-size hierarchy
       // and stay inline for clarity.
+      // §6.1 legend flip. Under the World Tree re-axis, COLOR = rank and GLYPH =
+      // structural class. The legend leads with the rank ramp (the color key) and
+      // demotes type to a small glyph key (○ basic · ◇ fusion · ◉ unique · ◆
+      // suite). The rank pills still carry their --rank-N swatch via data-rank;
+      // the structure items still filter by skill.type via data-legend-type but
+      // now show the glyph instead of a color swatch. Grey 0-1★ bark is shown as
+      // a non-interactive ramp anchor (no clean per-node level string to filter).
       const legend = document.createElement('div');
       legend.className = 'graph-legend minimized';
       legend.setAttribute('data-interactive-chrome', '');
@@ -2094,20 +2339,21 @@
         '</button>' +
         '<div class="graph-legend-content">' +
         '<div class="graph-legend-body">' +
-        '<div class="graph-legend-section"><div class="graph-legend-heading">Type</div>' +
-        '<div class="graph-legend-item" data-legend-type="basic"><span class="graph-legend-swatch" data-tier="basic" style="width:7px;height:7px"></span>Basic</div>' +
-        '<div class="graph-legend-item" data-legend-type="extra"><span class="graph-legend-swatch" data-tier="extra" style="width:10px;height:10px"></span>Extra</div>' +
-        '<div class="graph-legend-item" data-legend-type="unique"><span class="graph-legend-swatch" data-tier="unique" style="width:12px;height:12px"></span>Unique</div>' +
-        '<div class="graph-legend-item" data-legend-type="ultimate"><span class="graph-legend-swatch" data-tier="ultimate" style="width:14px;height:14px"></span>Ultimate</div>' +
-        '</div><div class="graph-legend-section"><div class="graph-legend-heading">Rank</div>' +
+        '<div class="graph-legend-section"><div class="graph-legend-heading">Rank <span class="graph-legend-subhead">= color</span></div>' +
         '<div class="graph-legend-ranks">' +
-        '<span class="graph-legend-rank-pill" data-legend-rank="1★" data-rank="1">1★</span>' +
+        '<span class="graph-legend-rank-pill graph-legend-rank-anchor" data-rank="0" title="0–1★ / unranked — outer bark, grey">0–1★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="2★" data-rank="2">2★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="3★" data-rank="3">3★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="4★" data-rank="4">4★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="5★" data-rank="5">5★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="6★" data-rank="6">6★</span>' +
         '</div></div>' +
+        '<div class="graph-legend-section"><div class="graph-legend-heading">Structure <span class="graph-legend-subhead">= glyph</span></div>' +
+        '<div class="graph-legend-item" data-legend-type="basic"><span class="graph-legend-glyph" aria-hidden="true">○</span>Basic</div>' +
+        '<div class="graph-legend-item" data-legend-type="extra"><span class="graph-legend-glyph" aria-hidden="true">◇</span>Fusion</div>' +
+        '<div class="graph-legend-item" data-legend-type="unique"><span class="graph-legend-glyph" aria-hidden="true">◉</span>Unique</div>' +
+        '<div class="graph-legend-item" data-legend-type="ultimate"><span class="graph-legend-glyph" aria-hidden="true">◆</span>Suite</div>' +
+        '</div>' +
         '<div class="graph-legend-section"><div class="graph-legend-heading">View</div>' +
         '<div class="graph-legend-item" data-legend-clusters><span class="graph-legend-swatch" style="width:12px;height:12px;background:var(--honor-red);border-radius:2px"></span>Clusters</div>' +
 
@@ -2135,6 +2381,9 @@
         });
       });
       legend.querySelectorAll('.graph-legend-rank-pill').forEach(pill => {
+        // The 0–1★ ramp anchor is a legend key only (no clean per-node level
+        // string to filter on), so skip wiring hover/click for it.
+        if (!pill.dataset.legendRank) return;
         pill.addEventListener('mouseenter', () => { state.legendHoverRank = pill.dataset.legendRank; });
         pill.addEventListener('mouseleave', () => { state.legendHoverRank = null; });
         pill.addEventListener('click', () => {
@@ -3153,6 +3402,18 @@
     .then(graph => {
       _initMetaGraph(graph.meta);
       if (heroGraph) heroGraph.setMeta(graph.meta);
+      // §4 runtime effective-rank join — attach `effectiveRank` (parsed from the
+      // pre-joined `namedMaxLevel` glyph string) onto each SOURCE skill object
+      // BEFORE the layout engine runs. world-tree-layout.js reads
+      // node.effectiveRank via readEffectiveRank; it never re-derives the join.
+      // Computed ONCE here, not per-frame (§8 performance).
+      if (graph && Array.isArray(graph.skills)) {
+        graph.skills.forEach(skill => {
+          if (skill && typeof skill === 'object') {
+            skill.effectiveRank = starsFromLabel(skill.namedMaxLevel);
+          }
+        });
+      }
       const skills = normalizeSkills(graph);
       let treeLayout = null;
       const layoutApi = window.GaiaWorldTreeLayout;
