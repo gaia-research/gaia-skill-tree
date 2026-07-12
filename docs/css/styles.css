@@ -8992,16 +8992,24 @@ button.nav-graph-trigger:hover {
 }
 
 .rite-entry {
-  display: grid;
-  grid-template-columns: minmax(14rem, .7fr) minmax(0, 1.3fr);
-  align-items: end;
-  gap: clamp(1.5rem, 5vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
   max-width: 1060px;
   margin: 0 auto clamp(3rem, 6vw, 5rem);
   padding: clamp(1.5rem, 4vw, 2.5rem);
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface);
+  text-align: center;
+}
+
+.rite-entry-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 36rem;
 }
 
 .rite-entry-copy .path-plate-num {
@@ -9021,18 +9029,14 @@ button.nav-graph-trigger:hover {
 }
 
 .rite-entry-terminal {
-  min-width: 0;
+  width: min(100%, 39rem);
 }
 
 .rite-entry-terminal .rite-platform {
-  justify-content: flex-end;
+  justify-content: center;
   margin: 0 0 .65rem;
   padding: 0;
   border: 0;
-}
-
-.rite-entry-terminal .rite-install-command {
-  width: 100%;
 }
 
 .paths-wrap {
@@ -10205,8 +10209,6 @@ button.nav-graph-trigger:hover {
   }
 
   .rite-entry {
-    grid-template-columns: 1fr;
-    align-items: stretch;
     padding: 1.5rem 1rem;
   }
 
