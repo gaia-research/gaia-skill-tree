@@ -9032,15 +9032,45 @@ button.nav-graph-trigger:hover {
   -webkit-mask-image: radial-gradient(ellipse at right center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%);
 }
 
+@keyframes copy-ring-pop {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; border-width: 2px; }
+  100% { transform: translate(-50%, -50%) scale(2); opacity: 0; border-width: 0px; }
+}
+
+.copy-delight {
+  position: relative;
+  color: var(--apex-gold) !important;
+  border-color: var(--apex-gold) !important;
+}
+
+.copy-delight::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  border: 2px solid var(--apex-gold);
+  transform: translate(-50%, -50%) scale(0.5);
+  opacity: 1;
+  pointer-events: none;
+  animation: copy-ring-pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 .rite-entry-logo {
   position: absolute;
-  left: -10%;
+  left: -8%;
   top: 50%;
   transform: translateY(-50%);
   width: 500px;
   height: 500px;
-  opacity: 0.15;
+  opacity: 0.85;
   color: var(--apex-gold);
+  filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.15));
+  mix-blend-mode: color-dodge;
+  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 70%);
 }
 
 .rite-entry-copy {

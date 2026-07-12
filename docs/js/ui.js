@@ -131,7 +131,12 @@ window.switchOsTab = function(btn) {
   function flashCopied(btn){
     btn.innerHTML = CHECK();
     btn.classList.add('copied');
-    setTimeout(function(){ btn.innerHTML = CLIP(); btn.classList.remove('copied'); }, 1600);
+    btn.classList.add('copy-delight');
+    setTimeout(function(){
+      btn.innerHTML = CLIP();
+      btn.classList.remove('copied');
+      btn.classList.remove('copy-delight');
+    }, 1600);
   }
   // Stage 1 — expose the flash-to-check helper so other call sites (the
   // skill explorer install button, for example) can share the animation.
@@ -199,10 +204,12 @@ window.switchOsTab = function(btn) {
     copy.addEventListener('click', function() {
       copyToClipboard(copy.dataset.heroInstallCopy).then(function() {
         copy.classList.add('copied');
+        copy.classList.add('copy-delight');
         copy.setAttribute('aria-label', 'Install command copied');
         if (icon) icon.setAttribute('href', copiedIcon);
         setTimeout(function() {
           copy.classList.remove('copied');
+          copy.classList.remove('copy-delight');
           if (icon) icon.setAttribute('href', copyIcon);
           copy.setAttribute('aria-label', copy.dataset.heroInstallCopy === commands.windows.value
             ? commands.windows.label
@@ -324,10 +331,12 @@ window.switchOsTab = function(btn) {
         if (!prompt) return;
         copyToClipboard(prompt.textContent.trim()).then(function() {
           button.classList.add('copied');
+          button.classList.add('copy-delight');
           if (label) label.textContent = 'Copied';
           if (iconUse) iconUse.setAttribute('href', originalIcon.replace('#copy', '#copy-check'));
           setTimeout(function() {
             button.classList.remove('copied');
+            button.classList.remove('copy-delight');
             if (label) label.textContent = originalLabel;
             if (iconUse) iconUse.setAttribute('href', originalIcon);
           }, 1600);
