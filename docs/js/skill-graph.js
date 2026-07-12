@@ -1804,7 +1804,7 @@
               rowDiv.appendChild(rankPill);
             }
 
-            if (rm) {
+            if (rm && !state.treeLayout) {
               const rankSpan = document.createElement('span');
               rankSpan.style.cssText = `display:inline-block;padding:.12rem .42rem;border-radius:999px;font-size:.62rem;font-weight:700;background:${rm.bg};color:${rm.hex}`;
               rankSpan.textContent = skill.level;
