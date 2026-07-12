@@ -733,9 +733,9 @@
       const mobileTree = window.matchMedia('(max-width:700px)').matches;
       const heroCenterValue = parseFloat(getComputedStyle(canvas.parentElement).getPropertyValue('--hero-tree-center-x'));
       const heroCenterRatio = Number.isFinite(heroCenterValue) ? heroCenterValue : (mobileTree ? 0.5 : 0.72);
-      const heroHeightFactor = mobileTree ? 0.84 : 0.64;
+      const heroHeightFactor = mobileTree ? 0.84 : 0.71;
       const heroFit = Math.max(0.05, Math.min(
-        state.width * (mobileTree ? 0.90 : 0.54) / bounds.width,
+        state.width * (mobileTree ? 0.90 : 0.60) / bounds.width,
         state.height * heroHeightFactor / bounds.height
       ));
       const fieldFit = Math.max(0.05, Math.min(
@@ -1230,16 +1230,46 @@
         state.nodeAlphas[skill.id] += (targetVis - state.nodeAlphas[skill.id]) * 0.15;
       });
       state.stars.forEach(star => {
-        let p = rotX(rotY(star, ry), rx);
-        if (state.layoutMode === 'semantic' || state.layoutMode === 'spectral') {
-          p = rotXW(p, rw);
-          p = rotYW(p, rw * 0.5);
+        const treeStars = Boolean(state.treeLayout);
+        let p;
+        if (treeStars) {
+          // Keep the hero DAG front-facing, but let the surrounding starfield
+          // orbit on its own depth axis so the atlas reads as a place, not a
+          // flat rotating texture.
+          const heroStarRy = rmFreeze ? 0 : state.t * 0.42;
+          const heroStarRx = rmFreeze ? 0 : Math.sin(state.t * 0.14) * 0.16;
+          p = rotX(rotY(star, lerp(heroStarRy, ry, treeMix)), lerp(heroStarRx, rx, treeMix));
+        } else {
+          p = rotX(rotY(star, ry), rx);
+          if (state.layoutMode === 'semantic' || state.layoutMode === 'spectral') {
+            p = rotXW(p, rw);
+            p = rotYW(p, rw * 0.5);
+          }
         }
-        const pr = project(p);
+
+        let pr = project(p);
+        let depth = 1;
+        if (treeStars && treeMix < 0.999 && treeProjectionFrame) {
+          const config = treeProjectionFrame;
+          const depthRange = 1400 * state.scale;
+          depth = Math.max(0.45, Math.min(1.65, 1 - p.z / depthRange));
+          const px = (p.x - config.bounds.centerX) * config.spread;
+          const py = (p.y - config.bounds.centerY) * config.spread;
+          const heroSx = state.width * config.heroCenterRatio + px * config.heroFit * depth;
+          const heroSy = state.height * 0.5 + py * config.heroFit * depth;
+          const heroScale = config.heroFit * depth;
+          pr = {
+            sx: lerp(heroSx, pr.sx, treeMix),
+            sy: lerp(heroSy, pr.sy, treeMix),
+            scale: lerp(heroScale, pr.scale, treeMix),
+          };
+        }
         if (pr.scale < 0.01) return;
+        const twinkle = rmFreeze ? 1 : 0.86 + 0.14 * Math.sin(state.t * 1.3 + star.phase * 1.7);
+        const depthAlpha = treeStars ? Math.max(0.72, Math.min(1.12, depth)) : 1;
         ctx.beginPath();
         ctx.arc(pr.sx, pr.sy, star.size * pr.scale * 1.55, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${(star.alpha * Math.min(pr.scale * 2, 1)).toFixed(2)})`;
+        ctx.fillStyle = `rgba(255,255,255,${(star.alpha * Math.min(pr.scale * 2, 1) * twinkle * depthAlpha).toFixed(2)})`;
         ctx.fill();
       });
       const skillById = Object.fromEntries(state.skills.map(skill => [skill.id, skill]));

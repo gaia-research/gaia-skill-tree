@@ -8,6 +8,9 @@
 }
 
 #hero.hero-tree-shell {
+  --hero-content-gap: clamp(2rem, 5vw, 7rem);
+  --hero-ledger-gap: clamp(1.25rem, 2.5vw, 2.5rem);
+  --hero-tree-backdrop-scale: 1.2;
   position: relative;
   isolation: isolate;
   display: grid;
@@ -50,7 +53,8 @@
   pointer-events: none;
   opacity: .76;
   contain: paint;
-  mix-blend-mode: screen;
+  /* The source is alpha-keyed; it can sit directly over the atlas instead
+     of using screen blend to hide an opaque black rectangle. */
   transition:
     opacity var(--hero-tree-duration) var(--hero-tree-ease),
     filter var(--hero-tree-duration) var(--hero-tree-ease);
@@ -71,7 +75,7 @@
     calc(22% + var(--hero-tree-parallax-x, 0px)),
     var(--hero-tree-parallax-y, 0px),
     0
-  ) scale(1.08);
+  ) scale(var(--hero-tree-backdrop-scale));
   transform-origin: center;
   transition:
     transform var(--hero-tree-duration) var(--hero-tree-ease),
@@ -119,9 +123,16 @@
   position: relative;
   z-index: 4;
   display: grid;
+  grid-template-areas:
+    "copy vista"
+    "ledger ledger";
   grid-template-columns: minmax(19rem, .76fr) minmax(25rem, 1.24fr);
-  align-items: center;
+  grid-template-rows: minmax(0, 1fr) auto;
+  column-gap: var(--hero-content-gap);
+  row-gap: var(--hero-ledger-gap);
+  align-items: stretch;
   width: min(100%, 92rem);
+  height: calc(100svh - 13rem);
   min-height: calc(100svh - 13rem);
   max-width: none;
   margin: 0 auto;
@@ -130,7 +141,8 @@
 
 .hero-tree-copy {
   position: relative;
-  grid-column: 1;
+  grid-area: copy;
+  align-self: center;
   width: min(100%, 39rem);
   pointer-events: auto;
 }
@@ -304,11 +316,29 @@
 
 .hero-tree-action--primary {
   grid-column: 1 / -1;
-  min-height: 4.15rem;
+  justify-self: start;
+  width: min(34rem, calc(100% + clamp(3rem, 6vw, 7rem)));
+  min-height: 5.25rem;
+  padding: .75rem .9rem;
   color: var(--bg);
   background: var(--text);
   border-color: var(--text);
   box-shadow: none;
+}
+
+.hero-tree-action:not(.hero-tree-action--primary) {
+  min-height: 3.25rem;
+  padding: .62rem .75rem;
+  background: transparent;
+}
+
+.hero-tree-action:not(.hero-tree-action--primary) strong {
+  font-size: .76rem;
+  font-weight: 600;
+}
+
+.hero-tree-action:not(.hero-tree-action--primary) small {
+  font-size: .54rem;
 }
 
 .hero-tree-action-glyph {
@@ -318,6 +348,102 @@
 }
 
 .hero-tree-action--primary .hero-tree-action-glyph {
+  align-self: start;
+  padding-top: .25rem;
+  color: var(--bg);
+}
+
+.hero-tree-install-copy {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: .5rem .7rem;
+  min-width: 0;
+}
+
+.hero-tree-action--primary .hero-tree-install-copy > strong {
+  align-self: center;
+  font-size: clamp(1rem, 1.2vw, 1.16rem);
+  line-height: 1.05;
+}
+
+.hero-tree-install-platforms {
+  display: inline-flex;
+  gap: .25rem;
+}
+
+.hero-tree-install-platform {
+  min-height: 1.6rem;
+  padding: .2rem .45rem;
+  color: var(--bg);
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--bg) 28%, transparent);
+  border-radius: .22rem;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: .54rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  line-height: 1;
+}
+
+.hero-tree-install-platform.is-active {
+  color: var(--text);
+  background: var(--bg);
+  border-color: var(--bg);
+}
+
+.hero-tree-install-platform:focus-visible,
+.hero-tree-install-copy-button:focus-visible {
+  outline: 2px solid var(--bg);
+  outline-offset: 2px;
+}
+
+.hero-tree-install-command {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .35rem;
+  width: 100%;
+  min-width: 0;
+  min-height: 2.35rem;
+  padding: .48rem .32rem .48rem .58rem;
+  color: var(--bg);
+  background: color-mix(in srgb, var(--bg) 7%, transparent);
+  border: 1px solid color-mix(in srgb, var(--bg) 26%, transparent);
+  border-radius: .24rem;
+}
+
+.hero-tree-install-command code {
+  overflow: hidden;
+  color: currentColor;
+  font-family: var(--font-mono);
+  font-size: clamp(.56rem, .72vw, .7rem);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hero-tree-install-copy-button {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  min-height: 2rem;
+  padding: 0;
+  color: var(--bg);
+  background: transparent;
+  border: 0;
+  border-radius: .2rem;
+  cursor: pointer;
+}
+
+.hero-tree-install-copy-button:hover {
+  background: color-mix(in srgb, var(--bg) 10%, transparent);
+}
+
+.hero-tree-install-copy-button.copied {
   color: var(--bg);
 }
 
@@ -416,17 +542,15 @@
 }
 
 #hero.hero-tree-shell .ledger-strip {
-  position: absolute;
+  position: relative;
   z-index: 5;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  grid-area: ledger;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: clamp(.65rem, 1.5vw, 1.4rem);
-  width: min(100%, 52rem);
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   padding: .85rem 1.25rem;
   color: var(--muted);
   background: rgba(3, 7, 18, .56);
@@ -742,6 +866,7 @@ body:has(#hero.hero-graph-fullscreen) {
   }
 
   #hero.hero-tree-shell .hero-content {
+    height: calc(100svh - 10rem);
     min-height: calc(100svh - 10rem);
   }
 
@@ -777,7 +902,8 @@ body:has(#hero.hero-graph-fullscreen) {
   }
 
   #hero.hero-tree-shell .hero-tree-action--primary {
-    min-height: 3.55rem;
+    min-height: 5rem;
+    padding-block: .6rem;
   }
 }
 
@@ -822,7 +948,8 @@ body:has(#hero.hero-graph-fullscreen) {
   }
 
   #hero.hero-tree-shell .hero-tree-action--primary {
-    min-height: 3.7rem;
+    width: 100%;
+    min-height: 5.2rem;
   }
 
   #hero.hero-tree-shell .hero-audit-btn {
@@ -863,7 +990,7 @@ body:has(#hero.hero-graph-fullscreen) {
       var(--hero-tree-parallax-x, 0px),
       calc(-2% + var(--hero-tree-parallax-y, 0px)),
       0
-    ) scale(1.18);
+    ) scale(var(--hero-tree-backdrop-scale));
   }
 
   #hero.hero-tree-shell #canvas3d {
@@ -895,6 +1022,7 @@ body:has(#hero.hero-graph-fullscreen) {
   #hero.hero-tree-shell .hero-content {
     display: block;
     width: 100%;
+    height: auto;
     min-height: 0;
     padding-top: clamp(19.5rem, 46svh, 24.5rem);
   }
@@ -948,6 +1076,16 @@ body:has(#hero.hero-graph-fullscreen) {
   .hero-tree-action--primary {
     grid-column: auto;
     min-height: 3.5rem;
+  }
+
+  .hero-tree-action--primary {
+    width: 100%;
+    min-height: auto;
+    padding: .9rem;
+  }
+
+  .hero-tree-install-copy {
+    gap: .45rem .55rem;
   }
 
   #hero.hero-tree-shell .ledger-strip {
