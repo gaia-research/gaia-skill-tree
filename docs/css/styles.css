@@ -9344,46 +9344,20 @@ button.nav-graph-trigger:hover {
   user-select: text;
 }
 
-.agent-prompt--standalone > summary {
+.agent-tabs {
   display: flex;
   align-items: center;
-  gap: .55rem;
-  min-height: 44px;
-  color: var(--text);
-  font-family: var(--font-display);
-  font-size: 1rem;
-  cursor: pointer;
-  list-style: none;
+  gap: .35rem;
+  margin: 1.75rem 0 1rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
 }
 
-.agent-prompt--standalone > summary::-webkit-details-marker {
-  display: none;
-}
-
-.agent-prompt--standalone > summary::before {
-  content: '▸';
-  width: 1rem;
-  color: var(--apex-gold);
-  font-family: var(--font-mono);
-}
-
-.agent-prompt--standalone[open] > summary::before {
-  content: '▾';
-}
-
-.agent-prompt-optional {
-  margin-left: auto;
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: .6875rem;
-}
-
-.agent-prompt-optional-body {
-  padding-top: .75rem;
-}
-
-.agent-prompt--standalone .agent-prompt-body {
-  max-height: 22rem;
+.agent-tabs .os-tab {
+  min-height: 36px;
+  margin: 0;
+  white-space: nowrap;
 }
 
 @media (max-width: 480px) {
