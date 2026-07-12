@@ -1718,12 +1718,22 @@
             const col = PALETTE[skill.type] || PALETTE.basic;
             const typeClass = `skill-tooltip-type-${skill.type}`;
             const rm = skill.level ? RANK_META[skill.level] : null;
-            
+            // §6.1 hover card two channels under the World Tree layout: rank
+            // (color) + structural class (glyph). glyph comes from the frozen
+            // resolveSemantics contract (nodeMeta[id].glyph); fall back to a
+            // type→glyph map for the legacy 3D graph. Name color reads the rank
+            // ramp under the tree so color = rank end-to-end.
+            const _tlMeta = (state.treeLayout && state.treeLayout.nodeMeta
+              && state.treeLayout.nodeMeta[skill.id]) || null;
+            const _glyphMap = { basic: '○', extra: '◇', ultimate: '◆', unique: '◉' };
+            const structGlyph = (_tlMeta && _tlMeta.glyph) || _glyphMap[skill.type] || '○';
+            const nameRgb = state.treeLayout ? _rankColorRgb(skill.effectiveRank) : col.rgb;
+
             state.tooltipEl.textContent = '';
-            
+
             const nameDiv = document.createElement('div');
             nameDiv.className = 'skill-tooltip-name';
-            nameDiv.style.color = `rgba(${col.rgb},1)`;
+            nameDiv.style.color = `rgba(${nameRgb},1)`;
             nameDiv.textContent = skill.name;
             state.tooltipEl.appendChild(nameDiv);
 
@@ -1771,8 +1781,23 @@
             
             const badgeSpan = document.createElement('span');
             badgeSpan.className = `skill-tooltip-badge ${typeClass}`;
-            badgeSpan.textContent = skill.type.toUpperCase();
+            // Lead with the structural-class glyph (§6 glyph channel), then the
+            // type label. Suite reads "SUITE", fusion covers extra/fusion.
+            const _typeLabel = { basic: 'BASIC', extra: 'FUSION', ultimate: 'SUITE', unique: 'UNIQUE' }[skill.type] || skill.type.toUpperCase();
+            badgeSpan.textContent = structGlyph + ' ' + _typeLabel;
             rowDiv.appendChild(badgeSpan);
+
+            // Rank color channel: a pill tinted from the rank ramp so the hover
+            // card echoes the node's color = rank encoding, even for starless
+            // nodes (0–1★ → grey bark).
+            if (state.treeLayout) {
+              const rankPill = document.createElement('span');
+              const _rr = _rankColorRgb(skill.effectiveRank);
+              const _rn = Math.max(0, Math.round(Number(skill.effectiveRank) || 0));
+              rankPill.style.cssText = `display:inline-block;padding:.12rem .42rem;border-radius:999px;font-size:.62rem;font-weight:700;background:rgba(${_rr},.16);color:rgb(${_rr})`;
+              rankPill.textContent = _rn >= 2 ? _rn + '★' : '0–1★';
+              rowDiv.appendChild(rankPill);
+            }
 
             if (rm) {
               const rankSpan = document.createElement('span');
@@ -2291,6 +2316,13 @@
       // so all four tier hues and six rank hues come from --tier-* /
       // --rank-*. Sizes (7/10/12/14 px) still drive node-size hierarchy
       // and stay inline for clarity.
+      // §6.1 legend flip. Under the World Tree re-axis, COLOR = rank and GLYPH =
+      // structural class. The legend leads with the rank ramp (the color key) and
+      // demotes type to a small glyph key (○ basic · ◇ fusion · ◉ unique · ◆
+      // suite). The rank pills still carry their --rank-N swatch via data-rank;
+      // the structure items still filter by skill.type via data-legend-type but
+      // now show the glyph instead of a color swatch. Grey 0-1★ bark is shown as
+      // a non-interactive ramp anchor (no clean per-node level string to filter).
       const legend = document.createElement('div');
       legend.className = 'graph-legend minimized';
       legend.setAttribute('data-interactive-chrome', '');
@@ -2302,20 +2334,21 @@
         '</button>' +
         '<div class="graph-legend-content">' +
         '<div class="graph-legend-body">' +
-        '<div class="graph-legend-section"><div class="graph-legend-heading">Type</div>' +
-        '<div class="graph-legend-item" data-legend-type="basic"><span class="graph-legend-swatch" data-tier="basic" style="width:7px;height:7px"></span>Basic</div>' +
-        '<div class="graph-legend-item" data-legend-type="extra"><span class="graph-legend-swatch" data-tier="extra" style="width:10px;height:10px"></span>Extra</div>' +
-        '<div class="graph-legend-item" data-legend-type="unique"><span class="graph-legend-swatch" data-tier="unique" style="width:12px;height:12px"></span>Unique</div>' +
-        '<div class="graph-legend-item" data-legend-type="ultimate"><span class="graph-legend-swatch" data-tier="ultimate" style="width:14px;height:14px"></span>Ultimate</div>' +
-        '</div><div class="graph-legend-section"><div class="graph-legend-heading">Rank</div>' +
+        '<div class="graph-legend-section"><div class="graph-legend-heading">Rank <span class="graph-legend-subhead">= color</span></div>' +
         '<div class="graph-legend-ranks">' +
-        '<span class="graph-legend-rank-pill" data-legend-rank="1★" data-rank="1">1★</span>' +
+        '<span class="graph-legend-rank-pill graph-legend-rank-anchor" data-rank="0" title="0–1★ / unranked — outer bark, grey">0–1★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="2★" data-rank="2">2★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="3★" data-rank="3">3★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="4★" data-rank="4">4★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="5★" data-rank="5">5★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="6★" data-rank="6">6★</span>' +
         '</div></div>' +
+        '<div class="graph-legend-section"><div class="graph-legend-heading">Structure <span class="graph-legend-subhead">= glyph</span></div>' +
+        '<div class="graph-legend-item" data-legend-type="basic"><span class="graph-legend-glyph" aria-hidden="true">○</span>Basic</div>' +
+        '<div class="graph-legend-item" data-legend-type="extra"><span class="graph-legend-glyph" aria-hidden="true">◇</span>Fusion</div>' +
+        '<div class="graph-legend-item" data-legend-type="unique"><span class="graph-legend-glyph" aria-hidden="true">◉</span>Unique</div>' +
+        '<div class="graph-legend-item" data-legend-type="ultimate"><span class="graph-legend-glyph" aria-hidden="true">◆</span>Suite</div>' +
+        '</div>' +
         '<div class="graph-legend-section"><div class="graph-legend-heading">View</div>' +
         '<div class="graph-legend-item" data-legend-clusters><span class="graph-legend-swatch" style="width:12px;height:12px;background:var(--honor-red);border-radius:2px"></span>Clusters</div>' +
 
@@ -2343,6 +2376,9 @@
         });
       });
       legend.querySelectorAll('.graph-legend-rank-pill').forEach(pill => {
+        // The 0–1★ ramp anchor is a legend key only (no clean per-node level
+        // string to filter on), so skip wiring hover/click for it.
+        if (!pill.dataset.legendRank) return;
         pill.addEventListener('mouseenter', () => { state.legendHoverRank = pill.dataset.legendRank; });
         pill.addEventListener('mouseleave', () => { state.legendHoverRank = null; });
         pill.addEventListener('click', () => {
