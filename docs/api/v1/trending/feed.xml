@@ -5,28 +5,28 @@
     <link>https://gaiaskilltree.com/trending/</link>
     <description>Skills gaining trust this week — ranked by evidence velocity, not hype.</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 11 Jul 2026 22:50:41 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 12 Jul 2026 00:38:10 +0000</lastBuildDate>
     <atom:link href="https://gaiaskilltree.com/api/v1/trending/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>CI Churn (+41.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/gaia-research/skill-ci-churn</link>
       <description>Trust Magnitude: 41.0 · Grade C</description>
-      <pubDate>Sat, 11 Jul 2026 22:50:41 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-gaia-research/skill-ci-churn-2026-07-11</guid>
+      <pubDate>Sun, 12 Jul 2026 00:38:10 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-gaia-research/skill-ci-churn-2026-07-12</guid>
     </item>
     <item>
       <title>Skill Fuse (+41.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/gaia-research/skill-fuse</link>
       <description>Trust Magnitude: 41.0 · Grade C</description>
-      <pubDate>Sat, 11 Jul 2026 22:50:41 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-gaia-research/skill-fuse-2026-07-11</guid>
+      <pubDate>Sun, 12 Jul 2026 00:38:10 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-gaia-research/skill-fuse-2026-07-12</guid>
     </item>
     <item>
       <title>Code Simplification</title>
       <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/code-simplification</link>
       <description>Trust Magnitude: 53.1 · Grade B</description>
-      <pubDate>Sat, 11 Jul 2026 22:50:41 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-addy-osmani/code-simplification-2026-07-11</guid>
+      <pubDate>Sun, 12 Jul 2026 00:38:10 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/code-simplification-2026-07-12</guid>
     </item>
   </channel>
 </rss>
