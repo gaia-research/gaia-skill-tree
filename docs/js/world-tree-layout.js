@@ -413,21 +413,51 @@
   }
 
   function distributeBoughs(ids, byId) {
-    // Branch identity never depends on graph size. Stable golden-angle bases
-    // keep existing boughs fixed as intake PRs add skills or entirely new
-    // branch keys; there is no hardcoded branch count.
+    // Bough SECTORS are balanced by cluster size so the crown mass is even
+    // left/right instead of lopsided (three of the biggest clusters used to all
+    // point +x, producing a right-swept tendril). Clusters are ranked by size
+    // and dealt into interleaved slots around the circle (0, n/2, 1, n/2+1, …)
+    // so the largest clusters land opposite one another and their mass cancels
+    // (weighted centroid ≈ 0). Node positions WITHIN a bough remain stableHash-
+    // deterministic; only the per-cluster base angle is size-aware. NOTE: this
+    // trades the old size-independent golden-angle base (which kept sectors fixed
+    // as intake PRs grew clusters) for balance — sectors are recomputed when
+    // cluster membership changes. Ygg II swaps resolveBoughKey here.
     var subBoughCount = 3;
     var byNode = {};
     var angleByBough = {};
     var tau = Math.PI * 2;
-    var goldenAngle = 2.399963229728653;
+
+    // Rank clusters present in THIS component by size (ties broken by key for
+    // determinism), then assign each an interleaved sector slot.
+    var sizeByGroup = {};
+    ids.forEach(function (id) {
+      var gk = resolveBoughKey(byId[id]);
+      sizeByGroup[gk] = (sizeByGroup[gk] || 0) + 1;
+    });
+    var rankedGroups = Object.keys(sizeByGroup).sort(function (a, b) {
+      return sizeByGroup[b] - sizeByGroup[a] || (a < b ? -1 : a > b ? 1 : 0);
+    });
+    var groupCount = rankedGroups.length;
+    var slotByGroup = {};
+    var lo = 0;
+    var hi = Math.ceil(groupCount / 2);
+    rankedGroups.forEach(function (gk, rank) {
+      slotByGroup[gk] = (rank % 2 === 0) ? lo++ : hi++;
+    });
+    function baseAngleFor(groupKey) {
+      var slot = slotByGroup[groupKey];
+      if (slot == null) {
+        // Unseen key (defensive): fall back to a stable hashed sector.
+        return stableHash(groupKey + ':bough-sector') / UINT32_MAX * tau;
+      }
+      var span = groupCount > 0 ? tau / groupCount : tau;
+      return ((slot * span + GOLDEN_ANGLE * 0.5) % tau + tau) % tau;
+    }
 
     ids.slice().sort(compareIds).forEach(function (id) {
       var groupKey = resolveBoughKey(byId[id]);
-      var numericGroup = Number(groupKey);
-      var baseAngle = Number.isFinite(numericGroup) && Math.floor(numericGroup) === numericGroup
-        ? ((numericGroup * goldenAngle * 3 + goldenAngle * 0.5) % tau + tau) % tau
-        : stableHash(groupKey + ':bough-sector') / UINT32_MAX * tau;
+      var baseAngle = baseAngleFor(groupKey);
       var shard = stableHash(id + ':bough-shard') % subBoughCount;
       var key = groupKey + ':' + shard;
       var shardOffset = (shard - (subBoughCount - 1) / 2) * 0.16;
@@ -496,11 +526,11 @@
         // fans across a spread of depths instead of piling onto one shelf,
         // keeping a visible root spread while the tail merges up into the fan.
         rootProgress = clamp(
-          0.18 + 0.66 * (1 - reach) + signedHash(id + ':root-y') * 0.075,
+          0.18 + 0.80 * (1 - reach) + signedHash(id + ':root-y') * 0.075,
           0.16,
           1
         );
-        y = groundY + rootDepth * Math.pow(rootProgress, 1.25);
+        y = groundY + rootDepth * Math.pow(rootProgress, 1.02);
         var rootEnvelope = width * ROOT_BOUGH_REACH * Math.pow(rootProgress, 1.20);
         var rootFan = clamp(
           0.24 + 0.72 * (1 - reach) + signedHash(id + ':root-fan') * 0.06,
@@ -915,7 +945,10 @@
       var radius = 12 + 7 * Math.sqrt(index + 1);
       var x = radius * Math.cos(angle);
       var z = radius * Math.sin(angle);
-      var y = seedGroundY + seedDepth * 0.79 + z * 0.36;
+      // Seat the honest-unconnected seeds INSIDE the root fan (the connected roots
+      // fill down to ~rootBottom); a detached bulb hanging below the fan reads as
+      // "out of bounds". 0.48 depth ≈ mid-root-zone so they blend into the roots.
+      var y = seedGroundY + seedDepth * 0.48 + z * 0.20;
       var phase = (stableHash(id) % 628) / 100;
       result.componentById[id] = groves.length + index;
       result.heroPose[id] = { x: x, y: y, z: 0, w: 0, phase: phase, seed: true };
