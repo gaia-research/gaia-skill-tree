@@ -8956,14 +8956,14 @@ button.nav-graph-trigger:hover {
 .rite-entry-tree {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  right: -5%;
+  width: 65%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: right center;
   mix-blend-mode: color-dodge;
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+  mask-image: radial-gradient(ellipse at right center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%);
+  -webkit-mask-image: radial-gradient(ellipse at right center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%);
 }
 
 .rite-entry-logo {
