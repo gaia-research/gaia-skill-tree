@@ -9361,6 +9361,53 @@ button.nav-graph-trigger:hover {
   gap: .5rem;
 }
 
+.agent-skill-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  margin-top: .6rem;
+  padding-top: .6rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.agent-skill-search {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: .25rem .45rem;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: .75rem;
+  outline: none;
+}
+
+.agent-skill-search:focus {
+  border-color: var(--tier-basic);
+}
+
+.agent-skill-bulk {
+  display: flex;
+  gap: .3rem;
+}
+
+.agent-skill-bulk button {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: .2rem .4rem;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: .65rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.agent-skill-bulk button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .agent-skill-fetcher-title {
   font-family: var(--font-body);
   font-size: .8rem;
