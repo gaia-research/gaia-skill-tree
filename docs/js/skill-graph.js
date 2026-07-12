@@ -253,6 +253,9 @@
       // named-variant star (namedMaxLevel) supplied by syncDocsGraphAssets.py.
       level: skill.namedMaxLevel || skill.level || '',
       effectiveLevel: skill.namedMaxLevel || skill.effectiveLevel || skill.level || '',
+      // §4 effective rank as a small integer (0-6). Parsed from namedMaxLevel;
+      // 0 for starless/≤1★. Color-by-rank + radius-by-rank read this (§6).
+      effectiveRank: starsFromLabel(skill.namedMaxLevel != null ? skill.namedMaxLevel : skill.effectiveRank),
       demerits: Array.isArray(skill.demerits) ? skill.demerits : [],
       description: skill.description || '',
       prerequisites: Array.isArray(skill.prerequisites) ? skill.prerequisites : [],
@@ -276,6 +279,20 @@
       h = Math.imul(h, 16777619);
     }
     return Math.abs(h >>> 0);
+  }
+
+  // §4 runtime effective-rank join. gaia.json ships STARLESS (level: null on
+  // every node — stars live on named skills only, per META.md §1). Each source
+  // skill already carries `namedMaxLevel` — the max star among its named
+  // children, pre-joined by syncDocsGraphAssets.py — as an "N★" glyph string.
+  // We ONLY parse that leading integer; no new fetch, no walking of
+  // named/index.json buckets (namedMaxLevel already encodes that join). 0-1★ or
+  // absent → 0 (outer bark; the colored ramp begins at 2★ Named per the
+  // redaction cutline). The parsed int is attached as `effectiveRank` on the
+  // source skill BEFORE world-tree-layout.js runs (it reads node.effectiveRank).
+  function starsFromLabel(label) {
+    const n = parseInt(String(label == null ? '' : label), 10);
+    return Number.isFinite(n) && n > 0 ? n : 0;
   }
 
   function clamp01(value) {
@@ -3153,6 +3170,18 @@
     .then(graph => {
       _initMetaGraph(graph.meta);
       if (heroGraph) heroGraph.setMeta(graph.meta);
+      // §4 runtime effective-rank join — attach `effectiveRank` (parsed from the
+      // pre-joined `namedMaxLevel` glyph string) onto each SOURCE skill object
+      // BEFORE the layout engine runs. world-tree-layout.js reads
+      // node.effectiveRank via readEffectiveRank; it never re-derives the join.
+      // Computed ONCE here, not per-frame (§8 performance).
+      if (graph && Array.isArray(graph.skills)) {
+        graph.skills.forEach(skill => {
+          if (skill && typeof skill === 'object') {
+            skill.effectiveRank = starsFromLabel(skill.namedMaxLevel);
+          }
+        });
+      }
       const skills = normalizeSkills(graph);
       let treeLayout = null;
       const layoutApi = window.GaiaWorldTreeLayout;
