@@ -329,12 +329,17 @@ window.switchOsTab = function(btn) {
     var fetcherContainer = document.getElementById('agentSkillFetcher');
     var fetchBtn = document.getElementById('fetchSkillsBtn');
     var checkboxesContainer = document.getElementById('agentSkillCheckboxes');
+    var skillTools = document.getElementById('agentSkillTools');
+    var skillSearch = document.getElementById('agentSkillSearch');
+    var selectAllBtn = document.getElementById('agentSkillSelectAll');
+    var selectNoneBtn = document.getElementById('agentSkillSelectNone');
 
     if (!repoInput || !repoPrompt || !standalonePrompt) return;
 
     var repoBaseText = repoPrompt.textContent;
     var standaloneBaseText = standalonePrompt.textContent;
     var currentSkills = [];
+    var allDetectedSkills = [];
 
     function parseGithubUrl(url) {
       var m = url.match(/github\.com\/([^\/]+)\/([^\/]+)/);
@@ -371,6 +376,8 @@ window.switchOsTab = function(btn) {
         fetcherContainer.setAttribute('hidden', '');
         checkboxesContainer.innerHTML = '';
         currentSkills = [];
+        allDetectedSkills = [];
+        if (skillTools) skillTools.setAttribute('hidden', '');
         if (fetchBtn) {
           fetchBtn.textContent = 'Fetch SKILL.md files';
           fetchBtn.disabled = false;
@@ -379,6 +386,52 @@ window.switchOsTab = function(btn) {
     }
 
     repoInput.addEventListener('input', renderPrompts);
+
+    function filterCheckboxes() {
+      var term = skillSearch.value.toLowerCase();
+      var labels = checkboxesContainer.querySelectorAll('.agent-skill-label');
+      labels.forEach(function(lbl) {
+        var val = lbl.querySelector('input').value.toLowerCase();
+        if (val.indexOf(term) > -1) {
+          lbl.style.display = '';
+        } else {
+          lbl.style.display = 'none';
+        }
+      });
+    }
+
+    if (skillSearch) {
+      skillSearch.addEventListener('input', filterCheckboxes);
+    }
+
+    if (selectAllBtn) {
+      selectAllBtn.addEventListener('click', function() {
+        var term = skillSearch.value.toLowerCase();
+        checkboxesContainer.querySelectorAll('.agent-skill-label input[type="checkbox"]').forEach(function(cb) {
+          // Only select visible ones if filtered
+          var isVisible = cb.value.toLowerCase().indexOf(term) > -1;
+          if (isVisible && !cb.checked) {
+            cb.checked = true;
+            currentSkills.push(cb.value);
+          }
+        });
+        renderPrompts();
+      });
+    }
+
+    if (selectNoneBtn) {
+      selectNoneBtn.addEventListener('click', function() {
+        var term = skillSearch.value.toLowerCase();
+        checkboxesContainer.querySelectorAll('.agent-skill-label input[type="checkbox"]').forEach(function(cb) {
+          var isVisible = cb.value.toLowerCase().indexOf(term) > -1;
+          if (isVisible && cb.checked) {
+            cb.checked = false;
+            currentSkills = currentSkills.filter(function(cs) { return cs !== cb.value; });
+          }
+        });
+        renderPrompts();
+      });
+    }
 
     if (fetchBtn) {
       fetchBtn.addEventListener('click', function() {
@@ -395,10 +448,12 @@ window.switchOsTab = function(btn) {
             fetchBtn.disabled = false;
             checkboxesContainer.innerHTML = '';
             currentSkills = [];
+            allDetectedSkills = [];
             renderPrompts();
 
             if (!data.tree) {
               fetchBtn.textContent = 'Failed to fetch';
+              if (skillTools) skillTools.setAttribute('hidden', '');
               return;
             }
 
@@ -416,8 +471,13 @@ window.switchOsTab = function(btn) {
 
             if (skills.length === 0) {
               checkboxesContainer.innerHTML = '<span style="font-size:.7rem;color:var(--muted)">No SKILL.md files found.</span>';
+              if (skillTools) skillTools.setAttribute('hidden', '');
               return;
             }
+
+            allDetectedSkills = skills;
+            if (skillTools) skillTools.removeAttribute('hidden');
+            if (skillSearch) skillSearch.value = '';
 
             skills.forEach(function(s) {
               var lbl = document.createElement('label');
@@ -441,6 +501,7 @@ window.switchOsTab = function(btn) {
           .catch(function() {
             fetchBtn.textContent = 'Error fetching skills';
             fetchBtn.disabled = false;
+            if (skillTools) skillTools.setAttribute('hidden', '');
           });
       });
     }

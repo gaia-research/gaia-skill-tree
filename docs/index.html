@@ -759,6 +759,13 @@
                   <span class="agent-skill-fetcher-title">Found GitHub URL. Select skills to include?</span>
                   <button type="button" id="fetchSkillsBtn" class="btn btn-ghost" style="padding:.2rem .6rem;font-size:.7rem;min-height:auto">Fetch SKILL.md files</button>
                 </div>
+                <div id="agentSkillTools" class="agent-skill-tools" hidden>
+                  <input type="text" id="agentSkillSearch" class="agent-skill-search" placeholder="Filter skills..." autocomplete="off">
+                  <div class="agent-skill-bulk">
+                    <button type="button" id="agentSkillSelectAll">All</button>
+                    <button type="button" id="agentSkillSelectNone">None</button>
+                  </div>
+                </div>
                 <div id="agentSkillCheckboxes" class="agent-skill-checkboxes"></div>
               </div>
               <section class="agent-prompt" aria-labelledby="agentStandaloneTitle">
