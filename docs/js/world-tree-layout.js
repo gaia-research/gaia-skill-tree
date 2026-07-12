@@ -479,12 +479,22 @@
 
       if (indexes.parents[id].length === 0) {
         zone = 'root';
+        // Fix #1: gather the deepest-root stragglers back into the fan. The
+        // deepest roots (reach 0, no children) mapped rootProgress→~1 and, being
+        // 0-1★ (coreness 0), skip the core-pull — so they dangled BELOW the
+        // visible root fan, out of bounds. Two coordinated tweaks pull the tail
+        // up: (a) the deep-band coefficient 0.82→0.66 shrinks the depth reached
+        // by the deepest roots (1-reach≈1 now maps to rootProgress≈0.9 not 1.0);
+        // (b) the depth exponent 0.95→1.25 further maps high rootProgress to a
+        // shallower y. The y-jitter is widened (0.035→0.075) so the deepest band
+        // fans across a spread of depths instead of piling onto one shelf,
+        // keeping a visible root spread while the tail merges up into the fan.
         rootProgress = clamp(
-          0.18 + 0.82 * (1 - reach) + signedHash(id + ':root-y') * 0.035,
+          0.18 + 0.66 * (1 - reach) + signedHash(id + ':root-y') * 0.075,
           0.16,
           1
         );
-        y = groundY + rootDepth * Math.pow(rootProgress, 0.95);
+        y = groundY + rootDepth * Math.pow(rootProgress, 1.25);
         var rootEnvelope = width * ROOT_BOUGH_REACH * Math.pow(rootProgress, 1.20);
         var rootFan = clamp(
           0.24 + 0.72 * (1 - reach) + signedHash(id + ':root-fan') * 0.06,
