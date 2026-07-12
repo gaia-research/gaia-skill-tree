@@ -3782,7 +3782,7 @@ tr:hover td {
   font-size: .74rem;
   color: var(--honor-red);
   outline: none;
-  width: 130px;
+  width: 180px;
   font-family: var(--font-mono);
   transition: background .2s, border-color .2s, width .2s;
 }
@@ -3795,7 +3795,7 @@ tr:hover td {
 .graph-search:focus {
   background: rgba(3, 7, 18, .72);
   border-color: rgba(148, 163, 184, .5);
-  width: 175px;
+  width: 240px;
 }
 
 .graph-legend {
@@ -3806,7 +3806,7 @@ tr:hover td {
   z-index: 100;
   display: none;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   transition: transform .38s cubic-bezier(0.16, 1, 0.3, 1);
   background: transparent;
   border: none;
@@ -3893,6 +3893,8 @@ tr:hover td {
   flex-direction: column;
   gap: .55rem;
   z-index: 1;
+  overflow-y: auto;
+  max-height: inherit;
 }
 
 .graph-legend-body {
@@ -4834,7 +4836,7 @@ tr:hover td {
     transform: translate(0, -50%) !important;
     display: flex !important;
     flex-direction: row !important;
-    align-items: center !important;
+    align-items: flex-start !important;
   }
 
   #hero.hero-graph-fullscreen .graph-legend-content {
@@ -4910,7 +4912,7 @@ tr:hover td {
   }
 
   #hero.hero-graph-fullscreen .graph-search {
-    width: 130px;
+    width: min(200px, calc(100vw - 80px - 2rem));
     font-size: .68rem;
   }
 
