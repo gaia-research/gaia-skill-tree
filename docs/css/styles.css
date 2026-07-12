@@ -9260,6 +9260,14 @@ button.nav-graph-trigger:hover {
   min-width: 0;
 }
 
+.agent-container {
+  display: flex;
+  flex-direction: column;
+  margin: 1.5rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
 .agent-prompt {
   margin-top: 0;
   padding-top: 0;
@@ -9267,7 +9275,7 @@ button.nav-graph-trigger:hover {
 }
 
 .agent-prompt-body {
-  height: 252px;
+  height: 172px;
   margin: 0;
   padding: .9rem;
   overflow: auto;
@@ -9287,8 +9295,8 @@ button.nav-graph-trigger:hover {
   display: flex;
   align-items: center;
   gap: .35rem;
-  margin: 1.5rem 0 0;
-  padding: .4rem 0 .75rem;
+  margin: 0;
+  padding: .95rem 0;
   border-bottom: 1px solid var(--border);
   overflow-x: auto;
 }
@@ -9297,6 +9305,10 @@ button.nav-graph-trigger:hover {
   min-height: 32px;
   margin: 0;
   white-space: nowrap;
+}
+
+.agent-panels {
+  padding: .95rem 0;
 }
 
 @media (max-width: 480px) {
