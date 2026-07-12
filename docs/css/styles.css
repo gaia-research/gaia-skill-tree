@@ -9311,6 +9311,99 @@ button.nav-graph-trigger:hover {
   padding: .95rem 0;
 }
 
+.agent-repo-field {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-top: .95rem;
+  padding: .45rem .65rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.2);
+  transition: border-color 0.2s;
+}
+
+.agent-repo-field:focus-within {
+  border-color: var(--tier-basic);
+}
+
+.agent-repo-field .ico {
+  color: var(--muted);
+}
+
+.agent-repo-field input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  outline: none;
+}
+
+.agent-repo-field input::placeholder {
+  color: var(--muted);
+}
+
+.agent-skill-fetcher {
+  margin-bottom: .85rem;
+  padding: .75rem;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.02);
+  text-align: left;
+}
+
+.agent-skill-fetcher-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+}
+
+.agent-skill-fetcher-title {
+  font-family: var(--font-body);
+  font-size: .8rem;
+  color: var(--muted);
+}
+
+.agent-skill-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin-top: .6rem;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.agent-skill-checkboxes:empty {
+  display: none;
+}
+
+.agent-skill-label {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .25rem .5rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.agent-skill-label:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.agent-skill-label input[type="checkbox"] {
+  margin: 0;
+  accent-color: var(--tier-extra);
+}
+
 @media (max-width: 480px) {
   .agent-prompt-body {
     margin-right: -1.5rem;

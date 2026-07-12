@@ -322,6 +322,130 @@ window.switchOsTab = function(btn) {
     });
   }
 
+  function initAgentPromptBuilder() {
+    var repoInput = document.getElementById('agentRepoInput');
+    var repoPrompt = document.getElementById('agentRepoPrompt');
+    var standalonePrompt = document.getElementById('agentStandalonePrompt');
+    var fetcherContainer = document.getElementById('agentSkillFetcher');
+    var fetchBtn = document.getElementById('fetchSkillsBtn');
+    var checkboxesContainer = document.getElementById('agentSkillCheckboxes');
+
+    if (!repoInput || !repoPrompt || !standalonePrompt) return;
+
+    var repoBaseText = repoPrompt.textContent;
+    var standaloneBaseText = standalonePrompt.textContent;
+    var currentSkills = [];
+
+    function parseGithubUrl(url) {
+      var m = url.match(/github\.com\/([^\/]+)\/([^\/]+)/);
+      return m ? { owner: m[1], repo: m[2].replace(/\.git$/, '') } : null;
+    }
+
+    function renderPrompts() {
+      var url = repoInput.value.trim();
+      var isGh = parseGithubUrl(url);
+
+      // Update Repo Prompt
+      if (url) {
+        repoPrompt.textContent = repoBaseText.replace('my current repository', 'the repository at ' + url);
+      } else {
+        repoPrompt.textContent = repoBaseText;
+      }
+
+      // Update Standalone Prompt
+      var sText = standaloneBaseText;
+      if (url) {
+        var qty = currentSkills.length > 0 ? currentSkills.length : 'standalone';
+        sText = sText.replace('Prepare one standalone skill for Gaia Intake on my behalf.',
+          'Prepare ' + qty + ' skill(s) for Gaia Intake on my behalf from ' + url + '.');
+      }
+      if (currentSkills.length > 0) {
+        var list = '\n\nSpecifically target these skills:\n' + currentSkills.map(function(s){ return '- ' + s; }).join('\n');
+        sText = sText.replace('\n\nUse https://github.com', list + '\n\nUse https://github.com');
+      }
+      standalonePrompt.textContent = sText;
+
+      if (isGh) {
+        fetcherContainer.removeAttribute('hidden');
+      } else {
+        fetcherContainer.setAttribute('hidden', '');
+        checkboxesContainer.innerHTML = '';
+        currentSkills = [];
+        if (fetchBtn) {
+          fetchBtn.textContent = 'Fetch SKILL.md files';
+          fetchBtn.disabled = false;
+        }
+      }
+    }
+
+    repoInput.addEventListener('input', renderPrompts);
+
+    if (fetchBtn) {
+      fetchBtn.addEventListener('click', function() {
+        var isGh = parseGithubUrl(repoInput.value.trim());
+        if (!isGh) return;
+
+        fetchBtn.disabled = true;
+        fetchBtn.textContent = 'Fetching...';
+
+        fetch('https://api.github.com/repos/' + isGh.owner + '/' + isGh.repo + '/git/trees/HEAD?recursive=1')
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            fetchBtn.textContent = 'Fetch SKILL.md files';
+            fetchBtn.disabled = false;
+            checkboxesContainer.innerHTML = '';
+            currentSkills = [];
+            renderPrompts();
+
+            if (!data.tree) {
+              fetchBtn.textContent = 'Failed to fetch';
+              return;
+            }
+
+            var skills = [];
+            data.tree.forEach(function(item) {
+              if (item.path.endsWith('SKILL.md') || item.path.endsWith('skill.md')) {
+                var parts = item.path.split('/');
+                if (parts.length > 1) {
+                  skills.push(parts[parts.length - 2]);
+                } else {
+                  skills.push('root');
+                }
+              }
+            });
+
+            if (skills.length === 0) {
+              checkboxesContainer.innerHTML = '<span style="font-size:.7rem;color:var(--muted)">No SKILL.md files found.</span>';
+              return;
+            }
+
+            skills.forEach(function(s) {
+              var lbl = document.createElement('label');
+              lbl.className = 'agent-skill-label';
+              var cb = document.createElement('input');
+              cb.type = 'checkbox';
+              cb.value = s;
+              cb.addEventListener('change', function() {
+                if (cb.checked) {
+                  currentSkills.push(s);
+                } else {
+                  currentSkills = currentSkills.filter(function(cs) { return cs !== s; });
+                }
+                renderPrompts();
+              });
+              lbl.appendChild(cb);
+              lbl.appendChild(document.createTextNode(s));
+              checkboxesContainer.appendChild(lbl);
+            });
+          })
+          .catch(function() {
+            fetchBtn.textContent = 'Error fetching skills';
+            fetchBtn.disabled = false;
+          });
+      });
+    }
+  }
+
   /* ─────────────────────────────────────────
      INIT
      ───────────────────────────────────────── */
@@ -333,6 +457,7 @@ window.switchOsTab = function(btn) {
     initScrollToTop();
     initAgentCopyBtn();
     initAgentPrompts();
+    initAgentPromptBuilder();
   }
 
   if(document.readyState === 'loading'){
