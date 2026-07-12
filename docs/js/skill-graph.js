@@ -667,6 +667,7 @@
       const unavailable = !layout || layout.available === false || layout.status === 'unavailable' || !complete;
       if (unavailable) {
         state.treeLayout = null;
+        state.structuralRouteKeys = null;
         state.heroPose = {};
         state.fieldPose = {};
         state.treeEdges = [];
@@ -679,6 +680,11 @@
       }
 
       state.treeLayout = layout;
+      // §8 perf: the structural-route key lookup set is derived once here from
+      // the frozen layout, not rebuilt every draw() frame.
+      state.structuralRouteKeys = layout.structuralRoutes
+        ? new Set(Object.keys(layout.structuralRoutes))
+        : null;
       state.heroPose = heroPose;
       state.fieldPose = fieldPose;
       state.positions = heroPose;
@@ -1493,9 +1499,8 @@
       // Structural edges already drawn as draped routes above are still redrawn
       // by the direct-arc pass below for hover emphasis; the route is the resting
       // silhouette, the arc carries neighbor-highlight state.
-      const structuralRouteKeys = (state.treeLayout && state.treeLayout.structuralRoutes)
-        ? new Set(Object.keys(state.treeLayout.structuralRoutes))
-        : null;
+      // §8 perf: key set precomputed in setTreeLayout, not rebuilt per frame.
+      const structuralRouteKeys = state.structuralRouteKeys || null;
       edges.forEach(edge => {
         const pa = project(xf[edge.from]), pb = project(xf[edge.to]);
         const targetSkill = skillById[edge.to] || { type: edge.type || 'basic' };
