@@ -152,6 +152,61 @@ window.switchOsTab = function(btn) {
     });
   }
 
+  function initHeroInstallCopy() {
+    var copy = document.querySelector('[data-hero-install-copy]');
+    if (!copy) return;
+
+    var output = document.querySelector('[data-hero-install-output]');
+    var icon = copy.querySelector('use');
+    var platformButtons = Array.prototype.slice.call(document.querySelectorAll('[data-hero-install-platform]'));
+    var commands = {
+      curl: {
+        value: 'curl -fsSL https://gaiaskilltree.com/install.sh | sh',
+        label: 'Copy the macOS and Linux install command'
+      },
+      windows: {
+        value: 'iex (irm https://gaiaskilltree.com/install.ps1)',
+        label: 'Copy the Windows install command'
+      }
+    };
+    var activePlatform = 'curl';
+    var copyIcon = icon ? icon.getAttribute('href') : '';
+    var copiedIcon = copyIcon.replace('#copy', '#copy-check');
+
+    function selectPlatform(platform) {
+      var command = commands[platform];
+      if (!command) return;
+      activePlatform = platform;
+      copy.dataset.heroInstallCopy = command.value;
+      copy.setAttribute('aria-label', command.label);
+      if (output) output.textContent = command.value;
+      platformButtons.forEach(function(button) {
+        var active = button.dataset.heroInstallPlatform === platform;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    }
+
+    window.gaiaSetHeroInstallPlatform = selectPlatform;
+
+    copy.addEventListener('click', function() {
+      copyToClipboard(copy.dataset.heroInstallCopy).then(function() {
+        copy.classList.add('copied');
+        copy.setAttribute('aria-label', 'Install command copied');
+        if (icon) icon.setAttribute('href', copiedIcon);
+        setTimeout(function() {
+          copy.classList.remove('copied');
+          if (icon) icon.setAttribute('href', copyIcon);
+          copy.setAttribute('aria-label', copy.dataset.heroInstallCopy === commands.windows.value
+            ? commands.windows.label
+            : commands.curl.label);
+        }, 1600);
+      }).catch(function() {
+        copy.title = 'Copy failed — select and copy manually';
+      });
+    });
+  }
+
   /* ─────────────────────────────────────────
      SCROLL TO TOP
      ───────────────────────────────────────── */
@@ -239,6 +294,7 @@ window.switchOsTab = function(btn) {
      ───────────────────────────────────────── */
   function init() {
     initCopyButtons();
+    initHeroInstallCopy();
     initNavSheet();
     initFirstLoadReveal();
     initScrollToTop();

@@ -362,26 +362,35 @@
           <p>Skills are catalogued. Names are earned. Apex is rare.</p>
         </div>
         <p class="hero-sub">An evidence-backed registry of agent capabilities, grown from public provenance.</p>
-        <div class="hero-tree-actions" aria-label="Get started with Gaia">
-          <a href="#install-cli" class="hero-tree-action hero-tree-action--primary">
+        <div class="hero-tree-actions" aria-label="Choose a Gaia action">
+          <div class="hero-tree-action hero-tree-action--primary hero-tree-install" aria-label="Install Gaia">
             <span class="hero-tree-action-glyph" aria-hidden="true">◆</span>
-            <span>
-              <strong>Install Gaia CLI</strong>
-              <small>Start your local skill tree</small>
+            <span class="hero-tree-install-copy">
+              <strong>Install the Gaia CLI</strong>
+              <span class="hero-tree-install-platforms" role="group" aria-label="Choose an install command">
+                <button class="hero-tree-install-platform is-active" type="button" data-hero-install-platform="curl" aria-pressed="true" onclick="var command='curl -fsSL https://gaiaskilltree.com/install.sh | sh';var copy=document.querySelector('[data-hero-install-copy]');copy.dataset.heroInstallCopy=command;copy.setAttribute('aria-label','Copy the macOS and Linux install command');document.querySelector('[data-hero-install-output]').textContent=command;document.querySelectorAll('[data-hero-install-platform]').forEach(function(button){var active=button===this;button.classList.toggle('is-active',active);button.setAttribute('aria-pressed',active?'true':'false');},this)">curl</button>
+                <button class="hero-tree-install-platform" type="button" data-hero-install-platform="windows" aria-pressed="false" onclick="var command='iex (irm https://gaiaskilltree.com/install.ps1)';var copy=document.querySelector('[data-hero-install-copy]');copy.dataset.heroInstallCopy=command;copy.setAttribute('aria-label','Copy the Windows install command');document.querySelector('[data-hero-install-output]').textContent=command;document.querySelectorAll('[data-hero-install-platform]').forEach(function(button){var active=button===this;button.classList.toggle('is-active',active);button.setAttribute('aria-pressed',active?'true':'false');},this)">iex (Windows)</button>
+              </span>
+              <span class="hero-tree-install-command">
+                <code data-hero-install-output>curl -fsSL https://gaiaskilltree.com/install.sh | sh</code>
+                <button class="hero-tree-install-copy-button" type="button" data-hero-install-copy="curl -fsSL https://gaiaskilltree.com/install.sh | sh" aria-label="Copy the macOS and Linux install command" title="Copy install command">
+                  <svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg>
+                </button>
+              </span>
             </span>
-          </a>
+          </div>
           <a href="#push-for-review" class="hero-tree-action">
             <span class="hero-tree-action-glyph" aria-hidden="true">↑</span>
             <span>
-              <strong>Push your repo</strong>
-              <small>Submit public evidence</small>
+              <strong>Submit a skill for review</strong>
+              <small>Send your public repo and evidence to the Registry</small>
             </span>
           </a>
           <a href="badges/" class="hero-tree-action">
             <span class="hero-tree-action-glyph" aria-hidden="true">◇</span>
             <span>
-              <strong>Claim badges</strong>
-              <small>Carry earned rank</small>
+              <strong>Get a README badge</strong>
+              <small>Show your named skill and earned stars</small>
             </span>
           </a>
         </div>
