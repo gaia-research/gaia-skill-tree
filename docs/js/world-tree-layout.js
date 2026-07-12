@@ -53,6 +53,12 @@
   // constellation relocation. Deterministic — no random, purely coreness-driven.
   var CORE_Y_RATIO = 0.13;          // coreY = treeHeight * CORE_Y_RATIO (heartwood, just above the collar at 0.20)
   var CORE_PULL_STRENGTH = 0.72;    // blend fraction at coreness 1 (6★ = full pull); scales linearly with coreness
+  // Fix #3: the core-pull aims high-rank nodes at a CYLINDER around the heartwood
+  // axis, not a single point. Without a radius floor every 5-6★ node collapses
+  // onto x=z=0 and all structural routes pinch through one narrow collar. A
+  // per-node deterministic angle spreads them AROUND the axis, giving the
+  // heartwood a barrel of volume and un-pinching the convergence.
+  var CORE_MIN_RADIUS = 0.10;       // * width — radius of the heartwood cylinder the pull targets
 
   // Radial reach used when a real node attaches to its armature anchor (§5.2).
   var CROWN_BOUGH_REACH = 0.50;     // * width
@@ -1014,18 +1020,25 @@
           meta.zone = 'outside';
         } else if (sem.coreness > 0) {
           // §4 heartwood core-pull. Crown/root nodes with effective rank ≥ 2★ are
-          // blended toward the heartwood core point (spine axis x=z=0, vertical
-          // centre coreY) by coreness * CORE_PULL_STRENGTH. 6★ (coreness 1) pulls
-          // the hardest → deep in the core; 2★ barely moves off its DAG-depth tip.
-          // Both radial (x/z → spine) and vertical (y → coreY) so high rank reads
-          // as inward AND toward the middle, never merely "high up". Determinism
-          // preserved (coreness is a pure function of rank). Coreness 0 (0-1★)
-          // skips this branch entirely and keeps the base tip pose.
+          // blended toward the heartwood by coreness * CORE_PULL_STRENGTH. 6★
+          // (coreness 1) pulls the hardest → deep in the core; 2★ barely moves
+          // off its DAG-depth tip. The vertical pull (y → coreY) is unchanged.
+          // Fix #3: the RADIAL target is a point on a CYLINDER of radius
+          // CORE_MIN_RADIUS*width around the heartwood axis, NOT the axis itself
+          // — so high-rank nodes distribute AROUND the core (θ deterministic per
+          // node) instead of collapsing onto x=z=0 and pinching every structural
+          // route through one collar. This gives the heartwood a barrel of
+          // volume. Determinism preserved (coreness + θ are pure functions of
+          // rank + id). Coreness 0 (0-1★) skips this branch and keeps the tip.
           var coreY = treeHeight * CORE_Y_RATIO;
           var pull = sem.coreness * CORE_PULL_STRENGTH;
-          var hx = basePose.x + (armature.spineX - basePose.x) * pull;
+          var coreRadius = CORE_MIN_RADIUS * width;
+          var theta = (stableHash(id + ':core-theta') / UINT32_MAX) * TAU;
+          var targetX = armature.spineX + coreRadius * Math.cos(theta);
+          var targetZ = coreRadius * Math.sin(theta);
+          var hx = basePose.x + (targetX - basePose.x) * pull;
           var hy = basePose.y + (coreY - basePose.y) * pull;
-          var hz = (basePose.z || 0) + (0 - (basePose.z || 0)) * pull;
+          var hz = (basePose.z || 0) + (targetZ - (basePose.z || 0)) * pull;
           result.heroPose[id] = {
             x: hx, y: hy, z: 0, w: 0,
             phase: basePose.phase, coreness: sem.coreness,
