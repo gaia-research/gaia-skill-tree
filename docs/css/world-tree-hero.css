@@ -973,9 +973,11 @@ body:has(#hero.hero-graph-fullscreen) {
 
 @media (max-width: 700px) {
   #hero.hero-tree-shell {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     min-height: 100svh;
-    padding: 5rem 1rem 2rem;
+    padding: 5rem 1rem 2.5rem;
     overflow: clip;
     text-align: left;
   }
@@ -985,36 +987,50 @@ body:has(#hero.hero-graph-fullscreen) {
   }
 
   #hero.hero-tree-shell::after {
-    background: linear-gradient(180deg, transparent 7%, rgba(3, 7, 18, .02) 34%, rgba(3, 7, 18, .82) 47%, var(--bg) 59%, var(--bg) 100%);
+    /* Full-bleed backdrop scrim. The crown breathes in the top third, the lower
+       half darkens into a legibility bed for the headline, and the roots
+       dissolve into the page at the very bottom. The tree stays present behind
+       the whole fold rather than being boxed into a top band. */
+    background: linear-gradient(
+      180deg,
+      rgba(3, 7, 18, .22) 0%,
+      rgba(3, 7, 18, .04) 24%,
+      rgba(3, 7, 18, .10) 40%,
+      rgba(3, 7, 18, .55) 58%,
+      rgba(3, 7, 18, .88) 78%,
+      var(--bg) 97%
+    );
   }
 
   #hero.hero-tree-shell .hero-tree-raster {
-    top: 5.5rem;
-    bottom: auto;
-    height: 44svh;
-    min-height: 19rem;
-    max-height: 27rem;
-    opacity: .8;
+    /* Fill the hero as a backdrop instead of a top-band thumbnail. */
+    inset: 0;
+    top: 0;
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    opacity: .72;
   }
 
   #hero.hero-tree-shell .hero-tree-raster img {
-    object-position: 50% 50%;
+    object-fit: contain;
+    object-position: 50% 30%;
     transform: translate3d(
       var(--hero-tree-parallax-x, 0px),
-      calc(-2% + var(--hero-tree-parallax-y, 0px)),
+      calc(-3% + var(--hero-tree-parallax-y, 0px)),
       0
-    ) scale(var(--hero-tree-backdrop-scale));
+    ) scale(1.5);
   }
 
   #hero.hero-tree-shell #canvas3d {
-    top: 6.3rem;
+    inset: 0;
+    top: 0;
     right: 0;
-    bottom: auto;
     left: 0;
     width: 100%;
-    height: 40svh;
-    max-height: 25rem;
-    transform-origin: 50% 42%;
+    height: 100%;
+    max-height: none;
+    transform-origin: 50% 30%;
   }
 
   #hero.hero-tree-shell .hero-tree-utilities {
@@ -1033,11 +1049,15 @@ body:has(#hero.hero-graph-fullscreen) {
   }
 
   #hero.hero-tree-shell .hero-content {
+    /* Copy sits over the darkened lower bed of the full-bleed tree, rising out
+       of its base. No top-band offset — the flex column already anchors it low. */
+    position: relative;
+    z-index: 4;
     display: block;
     width: 100%;
     height: auto;
     min-height: 0;
-    padding-top: clamp(19.5rem, 46svh, 24.5rem);
+    padding-top: 0;
   }
 
   .hero-tree-copy {
