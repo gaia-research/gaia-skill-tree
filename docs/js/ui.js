@@ -459,8 +459,9 @@ window.switchOsTab = function(btn) {
 
             var skills = [];
             data.tree.forEach(function(item) {
-              if (item.path.endsWith('SKILL.md') || item.path.endsWith('skill.md')) {
-                var parts = item.path.split('/');
+              var p = item.path;
+              if (p === 'SKILL.md' || p === 'skill.md' || p.endsWith('/SKILL.md') || p.endsWith('/skill.md')) {
+                var parts = p.split('/');
                 if (parts.length > 1) {
                   skills.push(parts[parts.length - 2]);
                 } else {
