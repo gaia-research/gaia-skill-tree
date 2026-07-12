@@ -18,9 +18,9 @@ These slash-commands are available to AI agents (and maintainers) working in thi
 
 | Skill | When to use |
 |---|---|
-| `/gaia-curate-chain` | Expanding the registry with new skills — six gated links (scope → research → design → L4 review → mutate → ship). Use when evidence quality and schema correctness matter. Default for maintainer curation. |
-| `/gaia-curate` | Quick single-pass curation for small, trusted, low-stakes batches. Less gated than the chain. |
-| `/gaia-curate-dynamic` | Wide sweeps with parallel sub-agent fan-out and proposer↔refuter validation. Use for large batches or high-stakes verification. |
+| `/gaia-curate` | Canonical preliminary curation: source loading, generic lookup, generic/named mapping, evidence capture, review, and mutation plan. |
+| `/gaia-curate-chain` | Extends `/gaia-curate` with fixed links, deterministic gates, bounded retries, and audit state. |
+| `/gaia-curate-dynamic` | Extends `/gaia-curate` with source sharding, proposer↔refuter convergence, and a resumable ledger. |
 | `/gaia-meta-audit` | Prioritized queue of skills needing review — overlap checks, missing evidence, stale status. |
 | `/gaia-audit` | Focused source-level correction for one target skill. |
 | `/gaia-intake-close` | Post-merge intake closing — posts standardized pipeline findings, /trust-appraise TM output, decisions rationale, path-to-promotion, and badge status on the PR and each linked issue. Run after L4 review is complete. |
@@ -40,7 +40,7 @@ These slash-commands are available to AI agents (and maintainers) working in thi
 Pick by what you're doing:
 
 - **Submitting a skill you discovered?** Use `gaia push` (A).
-- **A reviewer expanding or restructuring the registry?** Use the gated curation pipeline `/gaia-curate-chain` (B) — the recommended path for maintainer-run curation.
+- **A reviewer expanding or restructuring the registry?** Start with `/gaia-curate`; choose `/gaia-curate-chain` or `/gaia-curate-dynamic` when additional gates or convergence are needed.
 - **Making a one-off correction** (a single merge, split, reclassify, or evidence add)? Use the direct CLI meta shifts (C).
 
 ### A) Submit discovered skills
@@ -59,15 +59,16 @@ python3 scripts/validate_intake.py
 
 Use this when proposing skills via `registry-for-review/skill-batches/*.json`.
 
-### B) Curate with gates — `/gaia-curate-chain` (recommended for reviewers)
+### B) Curate using the canonical core
 
-```
-/gaia-curate-chain <topic-or-source>
-```
+Begin with `/gaia-curate <topic-or-source>`. It produces the preliminary packet: source and registry loading, existing-generic lookup, generic/named mapping, raw evidence measurements, and the review table. See `.agents/skills/gaia-curate/CURATION-CORE.md`.
 
-Runs curation as six gated links — scope → research → design → human review → mutate → ship — one sub-agent per link, with a programmatic check between each. Source URLs are verified resolvable, schema shapes and the prerequisite DAG are checked **before** any mutation touches the registry, and `gaia dev validate` must pass before the branch ships. Prefer this whenever evidence quality and schema correctness matter; it is the default for maintainer-run registry expansion. See `.agents/skills/gaia-curate-chain/SKILL.md`.
+| Extension | Adds to the core |
+|---|---|
+| `/gaia-curate-chain` | Fixed topology, deterministic gates, bounded retries, and audit state. |
+| `/gaia-curate-dynamic` | Runtime source sharding, proposer/refuter convergence, and a resumable ledger. |
 
-The flat **`/gaia-curate`** (single linear pass, `.agents/skills/gaia-curate/`) still works and is quicker, but is **less gated** — reserve it for small, trusted, low-stakes batches. Both skills route every change through the same `gaia dev` commands documented in (C), so the underlying mutations are identical — the chain just checks them at each step.
+Extensions consume the core packet; they do not redefine preliminary curation.
 
 ### C) Update the canonical graph directly (Meta Shifts)
 
@@ -94,8 +95,9 @@ gaia dev add "New Skill Name" --type basic --description "..." [--status awakene
 # Reclassify a generic skill (change type)
 gaia dev reclassify skill-id ultimate
 
-# Add evidence
-gaia dev evidence skill-id "https://example.com/demo" --class B --notes "..."
+# Add evidence with raw source measurements; Gaia computes derived scores
+gaia dev evidence skill-id "https://example.com/demo" \
+  --type repo-own --commits 43 --contributors 14 --notes "source measurements"
 
 # Add evidence with G7 dual-axis fields (Evidence Type + Grade) and numeric payload
 gaia dev evidence skill-id "https://example.com/paper" \
