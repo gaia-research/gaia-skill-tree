@@ -29,8 +29,8 @@
   var TRUNK_SPINE_X = 0;            // trunk column x in layout space
   var GROUND_LINE_RATIO = 0.20;     // groundY = treeHeight * GROUND_LINE_RATIO
   var CROWN_APEX_RATIO = -0.50;     // crown apex y = treeHeight * CROWN_APEX_RATIO
-  var ROOT_BOTTOM_RATIO = 0.50;     // deepest root anchor  = treeHeight * ROOT_BOTTOM_RATIO
-  var TAPROOT_RATIO = 0.66;         // reserved 6★ taproot (below the root fan)
+  var ROOT_BOTTOM_RATIO = 0.38;     // deepest root anchor  = treeHeight * ROOT_BOTTOM_RATIO
+  var TAPROOT_RATIO = 0.52;         // reserved 6★ taproot (below the root fan)
 
   // Synthetic armature resolution (data-INDEPENDENT — always present).
   var SPINE_SEGMENTS = 6;           // ghost spine waypoints from collar up to (not incl.) apex
@@ -46,7 +46,7 @@
 
   // Radial reach used when a real node attaches to its armature anchor (§5.2).
   var CROWN_BOUGH_REACH = 0.50;     // * width
-  var ROOT_BOUGH_REACH = 0.47;      // * width
+  var ROOT_BOUGH_REACH = 0.58;      // * width
   var OUTSIDE_BOUGH_REACH = 0.22;   // * width (dark constellation spire stems)
   var OUTSIDE_SIDE = 1;             // single side of the trunk (positive x); NOT mirrored
   var OUTSIDE_X_RATIO = 0.86;       // * width, constellation column base offset
@@ -447,9 +447,9 @@
       return Math.max(value, indexes.parents[id].length);
     }, 0));
     var boughs = distributeBoughs(ids, byId);
-    var groundY = treeHeight * 0.20;
-    var crownTopY = -treeHeight * 0.50;
-    var rootBottomY = treeHeight * 0.50;
+    var groundY = treeHeight * GROUND_LINE_RATIO;
+    var crownTopY = treeHeight * CROWN_APEX_RATIO;
+    var rootBottomY = treeHeight * ROOT_BOTTOM_RATIO;
     var crownHeight = groundY - crownTopY;
     var rootDepth = rootBottomY - groundY;
     var hero = {};
@@ -475,7 +475,7 @@
           1
         );
         y = groundY + rootDepth * Math.pow(rootProgress, 0.95);
-        var rootEnvelope = width * 0.47 * Math.pow(rootProgress, 1.20);
+        var rootEnvelope = width * ROOT_BOUGH_REACH * Math.pow(rootProgress, 1.20);
         var rootFan = clamp(
           0.24 + 0.72 * (1 - reach) + signedHash(id + ':root-fan') * 0.06,
           0.16,
