@@ -4,6 +4,32 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-12, session — world-tree semantic topology ratified, sub-agents dispatched)
+
+### TLDR
+- PR **#1125** hero-tree reshape entering a new phase: from "living DAG over a raster" to a **semantically-placed tree**. Nodes will read as a tree because *position means something* — not just curve-bundling.
+- Ratified model: **two orthogonal axes** — hemisphere (type → crown for fusion/extra/ultimate, root for basic) and **coreness** (effective rank → radius; 6★ heartwood center → 0★ outer twigs). Bough angle = cluster group. Promotion = motion inward toward the core.
+- **Y-fork:** Uniques are NOT graph-isolated (corrected from first draft) but render **outside** the tree as a **dark single-side constellation** ("standing stones"). Suites converge to crown-core.
+- **Compatibility:** ONE function `resolveSemantics()` maps both Ygg I (`basic/extra/ultimate/unique`) and Ygg II (`basic/fusion`+branch) onto a frozen output contract. Meta detected by feature-check, no version flag. Cutover = edit one function.
+- **Effective rank** joined at RUNTIME from `docs/graph/named/index.json` buckets (starless graph has `level:null`); no artifact/pipeline change (design-branch scope). **Color→rank, glyph→type** in explorer; hero stays positional-only monochrome gold.
+- Spec: `founder/handovers/design-v6.1.1-world-tree-semantic-topology.md` (committed `f0b9c2b84`). Also fixed the `gaia-preview` skill (was pointing at main-gated `sync-artifacts.yml`; now `cf-pr-preview.yml`, `9832bce55`).
+
+### DoD (operator-ratified)
+1. Hero 2D reads as a tree (trunk, forks, roots aligned to backdrop) · 2. 3D graph shapes as tree with correct layering + color-by-rank/glyph-by-type · 3. Ygg I compat works today · 4. Performance optimized (no per-frame regressions).
+
+### Dispatch (3 sub-agents, all → `design/homepage-gaia-tree-hero`)
+- Agent 1: `world-tree-layout.js` resolver + synthetic armature + coreness + unique-outside + edge re-routing + tests. Freezes the contract.
+- Agent 2: `skill-graph.js` runtime rank-join + armature/spire render + color/glyph re-axis + legend/hover + perf. Consumes Agent 1.
+- Agent 3: `docs/` mechanics note + `DESIGN.md` token notes.
+- No merging this session — post PR comment when done. Additional PRs (if any) merge INTO this design branch.
+
+### Branch at start of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `design/homepage-gaia-tree-hero` | `f0b9c2b84` | topology handover + preview-skill fix pushed; PR #1125 into `dev/yggdrasil-ii-staging`, MERGEABLE |
+
+---
+
 ## State Snapshot (2026-07-12, Yggdrasil hero final — raster-backed living DAG ready for preview)
 
 ### TLDR
