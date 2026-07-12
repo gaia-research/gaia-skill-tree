@@ -8936,7 +8936,7 @@ button.nav-graph-trigger:hover {
   padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2.5rem);
   border: 1px solid var(--border);
   border-radius: 12px;
-  background: var(--surface);
+  background: rgba(3, 7, 18, 0.95);
   text-align: center;
   overflow: hidden;
 }
@@ -8946,7 +8946,7 @@ button.nav-graph-trigger:hover {
   inset: -15% 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.12;
+  opacity: 0.15;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8962,18 +8962,18 @@ button.nav-graph-trigger:hover {
   object-fit: cover;
   object-position: center;
   mix-blend-mode: color-dodge;
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
 }
 
 .rite-entry-logo {
   position: absolute;
-  left: -5%;
+  left: -10%;
   top: 50%;
   transform: translateY(-50%);
   width: 500px;
   height: 500px;
-  opacity: 0.05;
+  opacity: 0.15;
   color: var(--apex-gold);
 }
 
