@@ -25,6 +25,29 @@ function poses(result) {
   }]));
 }
 
+function percentile(values, p) {
+  const sorted = values.slice().sort((a, b) => a - b);
+  return sorted[Math.floor((sorted.length - 1) * p)];
+}
+
+function robustWidth(points) {
+  if (points.length < 2) return 0;
+  return percentile(points.map(({ x }) => x), 0.95) - percentile(points.map(({ x }) => x), 0.05);
+}
+
+function silhouetteBands(points) {
+  const minY = Math.min(...points.map(({ y }) => y));
+  const maxY = Math.max(...points.map(({ y }) => y));
+  const normalizedY = ({ y }) => (y - minY) / Math.max(1, maxY - minY);
+  return {
+    minY,
+    maxY,
+    crown: points.filter((point) => normalizedY(point) >= 0.12 && normalizedY(point) <= 0.55),
+    trunk: points.filter((point) => normalizedY(point) >= 0.58 && normalizedY(point) <= 0.84),
+    roots: points.filter((point) => normalizedY(point) >= 0.84),
+  };
+}
+
 test('layout is deterministic under input shuffles', () => {
   const graph = fixture();
   const shuffled = { skills: graph.skills.slice().reverse().map((skill) => ({
@@ -33,6 +56,7 @@ test('layout is deterministic under input shuffles', () => {
   const a = buildWorldTreeLayout(graph);
   const b = buildWorldTreeLayout(shuffled);
   assert.deepEqual(a.edges, b.edges);
+  assert.deepEqual(a.structuralEdgeKeys, b.structuralEdgeKeys);
   assert.deepEqual(poses(a), poses(b));
 });
 
@@ -67,6 +91,67 @@ test('projects every canonical gaia.json edge into both World Tree poses', () =>
   assert.equal(result.edges.every(({ source, target }) =>
     result.heroPose[source] && result.heroPose[target]
       && result.fieldPose[source] && result.fieldPose[target]), true);
+});
+
+test('canonical World Tree has roots, a centered waist, a rounded crown, and real volume', () => {
+  const result = buildWorldTreeLayout(canonicalGraph);
+  const primaryIds = result.components[0];
+  const heroPoints = primaryIds.map((id) => result.heroPose[id]);
+  const bands = silhouetteBands(heroPoints);
+  const crownWidth = robustWidth(bands.crown);
+  const trunkWidth = robustWidth(bands.trunk);
+  const rootWidth = robustWidth(bands.roots);
+  const trunkMedian = percentile(bands.trunk.map(({ x }) => x), 0.5);
+
+  assert.ok(crownWidth / trunkWidth >= 1.8, 'crown must be decisively wider than the trunk');
+  assert.ok(rootWidth / trunkWidth >= 1.25, 'roots must visibly flare beyond the trunk');
+  assert.ok(Math.abs(trunkMedian) <= crownWidth * 0.08, 'trunk must remain centered');
+
+  const yBins = new Map();
+  heroPoints.forEach(({ y }) => {
+    const bin = Math.round((y - bands.minY) / Math.max(1, bands.maxY - bands.minY) * 100);
+    yBins.set(bin, (yBins.get(bin) || 0) + 1);
+  });
+  assert.ok(Math.max(...yBins.values()) / primaryIds.length <= 0.10, 'layout must not collapse into shelves');
+  assert.ok(yBins.size >= Math.min(45, Math.ceil(primaryIds.length * 0.25)), 'tree must occupy continuous vertical growth');
+
+  const fieldPoints = primaryIds.map((id) => result.fieldPose[id]);
+  const xSpan = Math.max(...fieldPoints.map(({ x }) => x)) - Math.min(...fieldPoints.map(({ x }) => x));
+  const zMin = Math.min(...fieldPoints.map(({ z }) => z));
+  const zMax = Math.max(...fieldPoints.map(({ z }) => z));
+  const depthRatio = (zMax - zMin) / xSpan;
+  assert.ok(zMin < 0 && zMax > 0, 'field depth must straddle the trunk axis');
+  assert.ok(depthRatio >= 0.55 && depthRatio <= 1.45, 'field pose must be cylindrical rather than a slab');
+
+  const crownWidths = [];
+  for (const degrees of [0, 45, 90, 135]) {
+    const angle = degrees * Math.PI / 180;
+    const yawed = primaryIds.map((id) => {
+      const point = result.fieldPose[id];
+      return { x: point.x * Math.cos(angle) + point.z * Math.sin(angle), y: point.y };
+    });
+    const yawBands = silhouetteBands(yawed);
+    const yawCrownWidth = robustWidth(yawBands.crown);
+    const yawTrunkWidth = robustWidth(yawBands.trunk);
+    crownWidths.push(yawCrownWidth);
+    assert.ok(yawCrownWidth / yawTrunkWidth >= 1.6, `tree must retain its waist at ${degrees} degrees`);
+  }
+  assert.ok(Math.min(...crownWidths) / Math.max(...crownWidths) >= 0.55, 'crown must not collapse at side angles');
+});
+
+test('structural wood is a deterministic subset while all canonical graft edges remain', () => {
+  const result = buildWorldTreeLayout(canonicalGraph);
+  const edgeKeys = new Set(result.edges.map(({ source, target }) => `${source}\u0000${target}`));
+  const targetsWithParents = result.nodes.filter(({ id }) => result.parents[id].length > 0).length;
+
+  assert.equal(result.structuralEdgeKeys.length, targetsWithParents);
+  assert.equal(new Set(result.structuralEdgeKeys).size, result.structuralEdgeKeys.length);
+  result.structuralEdgeKeys.forEach((key) => assert.equal(edgeKeys.has(key), true, key));
+  assert.equal(result.edges.every(({ source, target }) => result.heroPose[target].y < result.heroPose[source].y), true);
+
+  const seedPoints = result.isolates.map((id) => result.heroPose[id]);
+  const primaryCrownWidth = robustWidth(silhouetteBands(result.components[0].map((id) => result.heroPose[id])).crown);
+  assert.ok(robustWidth(seedPoints) < primaryCrownWidth * 0.25, 'isolates must remain a compact seed bulb');
 });
 
 test('supports multi-parent ancestry, intake nodes, new clusters, and deeper edges', () => {
@@ -112,5 +197,61 @@ test('all available poses are finite and hero coordinates are flat', () => {
       for (const axis of ['x', 'y', 'z']) assert.equal(Number.isFinite(pose[axis]), true, `${id} ${axis}`);
     }
     assert.equal(result.heroPose[id].z, 0);
+  });
+});
+
+test('deep intake chains remain strictly upward beyond the current registry depth', () => {
+  const skills = Array.from({ length: 120 }, (_, index) => ({
+    id: `chain-${String(index).padStart(3, '0')}`,
+    cluster: 0,
+    prerequisites: index ? [`chain-${String(index - 1).padStart(3, '0')}`] : [],
+  }));
+  const result = buildWorldTreeLayout({ skills });
+
+  result.edges.forEach(({ source, target }) => {
+    assert.ok(result.heroPose[target].y < result.heroPose[source].y, `${source} -> ${target}`);
+  });
+});
+
+test('bough slots do not rotate existing skills when a cluster crosses an intake threshold', () => {
+  const star = (leafCount) => ({ skills: [
+    { id: 'root', cluster: 0, prerequisites: [] },
+    ...Array.from({ length: leafCount }, (_, index) => ({
+      id: `leaf-${String(index).padStart(2, '0')}`,
+      cluster: 0,
+      prerequisites: ['root'],
+    })),
+  ] });
+  const before = buildWorldTreeLayout(star(32));
+  const after = buildWorldTreeLayout(star(33));
+
+  Object.keys(before.nodeMeta).forEach((id) => {
+    assert.equal(after.nodeMeta[id].bough, before.nodeMeta[id].bough, id);
+    assert.equal(after.nodeMeta[id].angle, before.nodeMeta[id].angle, id);
+  });
+});
+
+test('structural wood chooses the closest real parent within the preferred branch group', () => {
+  const result = buildWorldTreeLayout(canonicalGraph);
+  const structuralByTarget = new Map(result.structuralEdgeKeys.map((key) => {
+    const [source, target] = key.split('\u0000');
+    return [target, source];
+  }));
+  const circularDistance = (a, b) => {
+    const tau = Math.PI * 2;
+    const diff = Math.abs((a - b) % tau);
+    return Math.min(diff, tau - diff);
+  };
+
+  structuralByTarget.forEach((selected, target) => {
+    const targetMeta = result.nodeMeta[target];
+    const parents = result.parents[target];
+    const sameGroup = parents.filter((parent) =>
+      result.nodeMeta[parent].boughGroup === targetMeta.boughGroup);
+    const candidates = sameGroup.length ? sameGroup : parents;
+    const selectedDistance = circularDistance(result.nodeMeta[selected].angle, targetMeta.angle);
+    const closestDistance = Math.min(...candidates.map((parent) =>
+      circularDistance(result.nodeMeta[parent].angle, targetMeta.angle)));
+    assert.ok(Math.abs(selectedDistance - closestDistance) < 1e-12, `${selected} -> ${target}`);
   });
 });

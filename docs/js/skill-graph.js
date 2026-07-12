@@ -535,6 +535,7 @@
       viewDuration: 900,
       viewPhase: 'hero2d',
       viewComplete: null,
+      lastDrawAt: 0,
       // graphMode: 'public' (default) or 'local'. In local mode the
       // collection panel becomes "Claimed skills", the nav title swaps
       // to "@<handle> · Atlas", and (TODO) the scatter strip pulls
@@ -645,11 +646,18 @@
 
       const byId = Object.fromEntries(state.skills.map(skill => [skill.id, skill]));
       const inputEdges = Array.isArray(layout.edges) ? layout.edges : [];
+      const structuralKeys = new Set(Array.isArray(layout.structuralEdgeKeys) ? layout.structuralEdgeKeys : []);
+      const hasStructuralHierarchy = structuralKeys.size > 0;
       state.treeEdges = inputEdges.map(edge => {
         const from = edge.source || edge.sourceSkillId || edge.from;
         const to = edge.target || edge.targetSkillId || edge.to;
         if (!from || !to || !byId[from] || !byId[to]) return null;
-        return { from, to, type: byId[to].type };
+        return {
+          from,
+          to,
+          type: byId[to].type,
+          structural: !hasStructuralHierarchy || structuralKeys.has(from + '\u0000' + to),
+        };
       }).filter(Boolean);
       if (!state.treeEdges.length) {
         state.skills.forEach(skill => skill.prerequisites.forEach(parent => {
@@ -716,33 +724,48 @@
       const c = Math.cos(a), s = Math.sin(a);
       return { x: p.x, y: c * p.y - s * p.w, z: p.z, w: s * p.y + c * p.w, phase: p.phase };
     }
+
+    let treeProjectionFrame = null;
+    function computeTreeProjection() {
+      if (!state.treeLayout || !state.treeBounds) return null;
+      const mix = easeWorldTree(state.viewMix);
+      const bounds = state.treeBounds;
+      const mobileTree = window.matchMedia('(max-width:700px)').matches;
+      const heroCenterValue = parseFloat(getComputedStyle(canvas.parentElement).getPropertyValue('--hero-tree-center-x'));
+      const heroCenterRatio = Number.isFinite(heroCenterValue) ? heroCenterValue : (mobileTree ? 0.5 : 0.72);
+      const heroHeightFactor = mobileTree ? 0.84 : 0.64;
+      const heroFit = Math.max(0.05, Math.min(
+        state.width * (mobileTree ? 0.90 : 0.54) / bounds.width,
+        state.height * heroHeightFactor / bounds.height
+      ));
+      const fieldFit = Math.max(0.05, Math.min(
+        state.width * 0.84 / bounds.width,
+        state.height * 0.72 / bounds.height
+      ));
+      return {
+        mix,
+        bounds,
+        heroCenterRatio,
+        heroFit,
+        fieldFit,
+        spread: state.treeSpread || 1,
+        cameraDistance: Math.max(bounds.width, bounds.height, bounds.maxZ * 2, 1) * 2.35,
+        fieldZoom: lerp(1, state.zoom, mix),
+      };
+    }
+
     function project(p) {
       if (state.treeLayout && state.treeBounds) {
-        const mix = easeWorldTree(state.viewMix);
-        const bounds = state.treeBounds;
-        const heroCenterValue = parseFloat(getComputedStyle(canvas.parentElement).getPropertyValue('--hero-tree-center-x'));
-        const heroCenterRatio = Number.isFinite(heroCenterValue)
-          ? heroCenterValue
-          : (window.matchMedia('(max-width:700px)').matches ? 0.5 : 0.72);
-        const heroFit = Math.max(0.05, Math.min(
-          state.width * (window.matchMedia('(max-width:700px)').matches ? 0.88 : 0.52) / bounds.width,
-          state.height * 0.78 / bounds.height
-        ));
-        const fieldFit = Math.max(0.05, Math.min(
-          state.width * 0.84 / bounds.width,
-          state.height * 0.82 / bounds.height
-        ));
-        const spread = state.treeSpread || 1;
+        const config = treeProjectionFrame || computeTreeProjection();
+        const { mix, bounds, heroCenterRatio, heroFit, fieldFit, spread, cameraDistance, fieldZoom } = config;
         const px = (p.x - bounds.centerX) * spread;
         const py = (p.y - bounds.centerY) * spread;
         const pz = (p.z || 0) * spread;
         const heroX = state.width * heroCenterRatio + px * heroFit;
         const heroY = state.height * 0.50 + py * heroFit;
-        const cameraDistance = Math.max(bounds.width, bounds.height, bounds.maxZ * 2, 1) * 2.35;
         const perspective = Math.max(0.12, cameraDistance / (cameraDistance + pz));
-        const fieldZoom = lerp(1, state.zoom, mix);
         const fieldX = state.width * 0.5 + px * fieldFit * perspective * fieldZoom + state.panX * mix;
-        const fieldY = state.height * 0.5 + py * fieldFit * perspective * fieldZoom + state.panY * mix;
+        const fieldY = state.height * 0.47 + py * fieldFit * perspective * fieldZoom + state.panY * mix;
         return {
           sx: lerp(heroX, fieldX, mix),
           sy: lerp(heroY, fieldY, mix),
@@ -1048,20 +1071,33 @@
       if (typeof done === 'function') done(state.viewPhase);
     }
 
-    function draw() {
+    function draw(frameNow) {
       if (!state.running) return;
-      _updateViewMorph(performance.now());
+      const now = Number.isFinite(frameNow) ? frameNow : performance.now();
+      const mobileIdleTree = state.treeLayout
+        && window.matchMedia('(max-width:700px)').matches
+        && state.viewStartedAt === null
+        && !state.dragging
+        && !state.hoveredId
+        && !state.pinnedId;
+      if (mobileIdleTree && state.lastDrawAt && now - state.lastDrawAt < 32) {
+        state.frame = requestAnimationFrame(draw);
+        return;
+      }
+      state.lastDrawAt = now;
+      _updateViewMorph(now);
+      treeProjectionFrame = computeTreeProjection();
       const targetSlowdown = ((state.hoveredId || state.pinnedId) && !state.paused) ? 1 : 0;
       state.hoverSlowdown += (targetSlowdown - state.hoverSlowdown) * 0.035;
       // Always advance state.t so Level VI shimmer (hard lock) keeps running.
       // Under reduced-motion, freeze the idle AUTO-ROTATION angles for the hero
       // graph (non-draggable). The modal graph (draggable) can still be spun
       // manually by the user, so we don't suppress it there.
-      if (!state.paused && state.autoRotate && !_reducedMotion()) state.t += 0.006 * state.rotSpeed * (1 - state.hoverSlowdown);
+      const rmFreeze = _reducedMotion();
+      if (!state.paused && state.autoRotate && !rmFreeze) state.t += 0.006 * state.rotSpeed * (1 - state.hoverSlowdown);
       ctx.clearRect(0, 0, state.width, state.height);
       state.projectedNodes = {};
       // Under reduced motion, lock idle rotation but retain user-controlled orbit.
-      const rmFreeze = _reducedMotion();
       const treeMix = state.treeLayout ? easeWorldTree(state.viewMix) : 1;
       const idleRy = rmFreeze ? 0 : state.t * 0.16;
       const idleRx = rmFreeze ? 0 : Math.sin(state.t * 0.055) * 0.20;
@@ -1223,6 +1259,15 @@
         });
       }
       edges.sort((a, b) => a.avgZ - b.avgZ);
+      const treeAmount = state.treeLayout ? easeWorldTree(state.viewMix) : 1;
+      const heroCenterValue = state.treeLayout
+        ? parseFloat(getComputedStyle(canvas.parentElement).getPropertyValue('--hero-tree-center-x'))
+        : NaN;
+      const heroCenterRatio = Number.isFinite(heroCenterValue)
+        ? heroCenterValue
+        : (window.matchMedia('(max-width:700px)').matches ? 0.5 : 0.72);
+      const axisX = lerp(state.width * heroCenterRatio, state.width * 0.5, treeAmount);
+      const nodeMeta = state.treeLayout && state.treeLayout.nodeMeta ? state.treeLayout.nodeMeta : {};
       edges.forEach(edge => {
         const pa = project(xf[edge.from]), pb = project(xf[edge.to]);
         const targetSkill = skillById[edge.to] || { type: edge.type || 'basic' };
@@ -1232,17 +1277,24 @@
         const fromVis = state.nodeAlphas[edge.from] !== undefined ? state.nodeAlphas[edge.from] : 1.0;
         const toVis = state.nodeAlphas[edge.to] !== undefined ? state.nodeAlphas[edge.to] : 1.0;
         const edgeVis = (fromVis + toVis) / 2;
-        const baseEdgeAlpha = isNeighborEdge ? 0.72 : 0.31;
-        const branchCurve = Math.max(0, 1 - state.viewMix);
+        const structural = edge.structural !== false;
+        const baseEdgeAlpha = isNeighborEdge
+          ? 0.78
+          : (structural ? lerp(0.62, 0.40, treeAmount) : lerp(0.07, 0.12, treeAmount));
+        const branchCurve = lerp(1, 0.62, treeAmount);
         const middleY = (pa.sy + pb.sy) / 2;
+        const fromZone = nodeMeta[edge.from] && nodeMeta[edge.from].zone;
+        const toZone = nodeMeta[edge.to] && nodeMeta[edge.to].zone;
+        const trunkEdge = fromZone === 'root' && toZone === 'crown';
+        const axisPull = structural ? (trunkEdge ? 0.48 : 0.15) : 0.02;
         ctx.beginPath();
         ctx.moveTo(pa.sx, pa.sy);
         if (branchCurve > 0.001) {
           ctx.bezierCurveTo(
-            pa.sx,
-            pa.sy + (middleY - pa.sy) * branchCurve,
-            pb.sx,
-            pb.sy + (middleY - pb.sy) * branchCurve,
+            lerp(pa.sx, axisX, axisPull * branchCurve),
+            pa.sy + (middleY - pa.sy) * branchCurve * 0.76,
+            lerp(pb.sx, axisX, axisPull * branchCurve * 0.34),
+            pb.sy + (middleY - pb.sy) * branchCurve * 0.68,
             pb.sx,
             pb.sy
           );
@@ -1253,7 +1305,9 @@
         // Line weights locked per DESIGN.md ▸ Graph Canvas. See
         // LINE_WEIGHTS at the top of this file.
         const lw = isNeighborEdge ? LINE_WEIGHTS.highlighted : LINE_WEIGHTS.default;
-        ctx.lineWidth = edge.type === 'ultimate' ? lw.ultimate : lw.other;
+        const edgeWidth = edge.type === 'ultimate' ? lw.ultimate : lw.other;
+        const structuralWidth = trunkEdge ? 1.34 : 1.16;
+        ctx.lineWidth = isNeighborEdge ? edgeWidth : edgeWidth * (structural ? structuralWidth : 0.58);
         ctx.stroke();
       });
       const nodes = state.skills.map(skill => ({ skill, z: xf[skill.id] ? xf[skill.id].z : -9999 })).sort((a, b) => a.z - b.z);
@@ -1705,16 +1759,22 @@
 
       const minimizeBtn = collectionPanel.querySelector('.graph-collection-minimize');
       if (minimizeBtn) {
+        const syncCollectionMinimize = () => {
+          const minimized = collectionPanel.classList.contains('minimized');
+          minimizeBtn.innerHTML = minimized
+            ? `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="3" x2="8" y2="13" /><line x1="3" y1="8" x2="13" y2="8" /></svg>`
+            : `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="8" x2="13" y2="8" /></svg>`;
+          minimizeBtn.title = minimized ? 'Maximize panel' : 'Minimize panel';
+          minimizeBtn.setAttribute('aria-label', minimizeBtn.title);
+        };
         minimizeBtn.addEventListener('click', () => {
           collectionPanel.classList.toggle('minimized');
-          if (collectionPanel.classList.contains('minimized')) {
-            minimizeBtn.innerHTML = `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="3" x2="8" y2="13" /><line x1="3" y1="8" x2="13" y2="8" /></svg>`;
-            minimizeBtn.title = 'Maximize panel';
-          } else {
-            minimizeBtn.innerHTML = `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="8" x2="13" y2="8" /></svg>`;
-            minimizeBtn.title = 'Minimize panel';
-          }
+          syncCollectionMinimize();
         });
+        if (window.matchMedia('(max-width:700px)').matches) {
+          collectionPanel.classList.add('minimized');
+          syncCollectionMinimize();
+        }
       }
 
       const clearBtn = collectionPanel.querySelector('.graph-collection-clear-all');

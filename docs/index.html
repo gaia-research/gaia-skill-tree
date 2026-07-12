@@ -305,6 +305,19 @@
 
   <!-- ─── HERO ─── -->
   <section id="hero" class="hero-tree-shell" data-tree-state="hero2d" aria-labelledby="heroTreeTitle">
+    <picture class="hero-tree-raster" aria-hidden="true">
+      <source
+        type="image/webp"
+        srcset="assets/world-tree/yggdrasil-backdrop-480.webp 480w, assets/world-tree/yggdrasil-backdrop-941.webp 941w"
+        sizes="(max-width: 700px) 100vw, 56vw">
+      <img
+        src="assets/world-tree/yggdrasil-backdrop-941.webp"
+        width="941"
+        height="1672"
+        alt=""
+        decoding="async"
+        fetchpriority="high">
+    </picture>
     <canvas id="canvas3d" aria-label="Gaia Skill Tree, rendered as a golden Yggdrasil from the live skill graph"></canvas>
     <div class="hero-tree-atmosphere" aria-hidden="true"></div>
     <div class="hero-pills hero-tree-utilities" aria-label="Registry utilities">

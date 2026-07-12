@@ -36,10 +36,50 @@
 #hero.hero-tree-shell::after {
   content: "";
   position: absolute;
-  z-index: 1;
+  z-index: 3;
   inset: 0;
   pointer-events: none;
   background: linear-gradient(90deg, var(--bg) 0%, rgba(3, 7, 18, .94) 31%, rgba(3, 7, 18, .22) 58%, transparent 78%);
+}
+
+.hero-tree-raster {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: .76;
+  contain: paint;
+  mix-blend-mode: screen;
+  transition:
+    opacity var(--hero-tree-duration) var(--hero-tree-ease),
+    filter var(--hero-tree-duration) var(--hero-tree-ease);
+}
+
+.hero-tree-raster img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 50%;
+  filter:
+    contrast(1.08)
+    saturate(.88)
+    brightness(.82)
+    drop-shadow(0 0 1.8rem rgba(var(--apex-gold-rgb), .2));
+  transform: translate3d(
+    calc(22% + var(--hero-tree-parallax-x, 0px)),
+    var(--hero-tree-parallax-y, 0px),
+    0
+  ) scale(1.08);
+  transform-origin: center;
+  transition:
+    transform var(--hero-tree-duration) var(--hero-tree-ease),
+    filter var(--hero-tree-duration) var(--hero-tree-ease);
+}
+
+#hero[data-tree-parallax="active"] .hero-tree-raster img {
+  will-change: transform;
 }
 
 .hero-tree-atmosphere {
@@ -58,7 +98,7 @@
 
 #hero.hero-tree-shell #canvas3d {
   position: absolute;
-  z-index: 0;
+  z-index: 2;
   inset: 0;
   width: 100%;
   height: 100%;
@@ -66,6 +106,7 @@
   pointer-events: none;
   touch-action: none;
   filter: drop-shadow(0 0 1.6rem rgba(var(--apex-gold-rgb), .2));
+  mix-blend-mode: screen;
   transform: translateZ(0);
   transform-origin: 72% 50%;
   transition:
@@ -332,7 +373,7 @@
 #hero.hero-tree-shell .hero-tree-utilities {
   position: absolute;
   z-index: 8;
-  top: 5.5rem;
+  top: 4.4rem;
   right: clamp(1rem, 3vw, 3rem);
   display: flex;
   justify-content: flex-end;
@@ -514,7 +555,7 @@ body:has(#hero.hero-graph-fullscreen) {
   min-height: 100dvh;
   max-height: none !important;
   padding: 0;
-  overflow: hidden !important;
+  overflow: clip !important;
   background: var(--bg);
   clip-path: inset(
     var(--hero-tree-shell-top, 0)
@@ -535,6 +576,27 @@ body:has(#hero.hero-graph-fullscreen) {
 #hero.hero-tree-exiting .hero-tree-atmosphere,
 #hero.hero-graph-fullscreen .hero-tree-atmosphere {
   opacity: 0;
+}
+
+#hero.hero-tree-entering .hero-tree-raster {
+  opacity: .13;
+}
+
+#hero.hero-tree-explorer .hero-tree-raster,
+#hero.hero-graph-fullscreen .hero-tree-raster {
+  opacity: .085;
+  filter: grayscale(.22) brightness(.7);
+}
+
+#hero.hero-tree-entering .hero-tree-raster img,
+#hero.hero-tree-explorer .hero-tree-raster img,
+#hero.hero-graph-fullscreen .hero-tree-raster img {
+  filter: contrast(1.02) saturate(.72) brightness(.65);
+  transform: translate3d(0, 0, 0) scale(.84);
+}
+
+#hero.hero-tree-exiting .hero-tree-raster {
+  opacity: .76;
 }
 
 #hero.hero-tree-entering .hero-content,
@@ -559,6 +621,18 @@ body:has(#hero.hero-graph-fullscreen) {
   transform: translateY(.65rem);
 }
 
+#hero.hero-tree-entering .hero-content,
+#hero.hero-tree-explorer .hero-content,
+#hero.hero-tree-exiting .hero-content,
+#hero.hero-graph-fullscreen .hero-content {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
 #hero.hero-tree-entering #canvas3d,
 #hero.hero-tree-explorer #canvas3d,
 #hero.hero-tree-exiting #canvas3d,
@@ -570,6 +644,7 @@ body:has(#hero.hero-graph-fullscreen) {
   opacity: 1;
   background: none;
   filter: none;
+  mix-blend-mode: normal;
   transform: none;
 }
 
@@ -770,17 +845,35 @@ body:has(#hero.hero-graph-fullscreen) {
   }
 
   #hero.hero-tree-shell::after {
-    background: linear-gradient(180deg, transparent 8%, rgba(3, 7, 18, .06) 34%, var(--bg) 48%, var(--bg) 100%);
+    background: linear-gradient(180deg, transparent 7%, rgba(3, 7, 18, .02) 34%, rgba(3, 7, 18, .82) 47%, var(--bg) 59%, var(--bg) 100%);
+  }
+
+  #hero.hero-tree-shell .hero-tree-raster {
+    top: 5.5rem;
+    bottom: auto;
+    height: 44svh;
+    min-height: 19rem;
+    max-height: 27rem;
+    opacity: .8;
+  }
+
+  #hero.hero-tree-shell .hero-tree-raster img {
+    object-position: 50% 50%;
+    transform: translate3d(
+      var(--hero-tree-parallax-x, 0px),
+      calc(-2% + var(--hero-tree-parallax-y, 0px)),
+      0
+    ) scale(1.18);
   }
 
   #hero.hero-tree-shell #canvas3d {
-    top: 7.6rem;
+    top: 6.3rem;
     right: 0;
     bottom: auto;
     left: 0;
     width: 100%;
-    height: 36svh;
-    max-height: 21rem;
+    height: 40svh;
+    max-height: 25rem;
     transform-origin: 50% 42%;
   }
 
@@ -803,7 +896,7 @@ body:has(#hero.hero-graph-fullscreen) {
     display: block;
     width: 100%;
     min-height: 0;
-    padding-top: clamp(18.5rem, 44svh, 24rem);
+    padding-top: clamp(19.5rem, 46svh, 24.5rem);
   }
 
   .hero-tree-copy {
@@ -919,11 +1012,28 @@ body:has(#hero.hero-graph-fullscreen) {
     max-height: none;
   }
 
+  #hero.hero-tree-entering .hero-tree-raster,
+  #hero.hero-tree-explorer .hero-tree-raster,
+  #hero.hero-tree-exiting .hero-tree-raster,
+  #hero.hero-graph-fullscreen .hero-tree-raster {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+  }
+
+  #hero.hero-tree-entering .hero-tree-raster img,
+  #hero.hero-tree-explorer .hero-tree-raster img,
+  #hero.hero-graph-fullscreen .hero-tree-raster img {
+    transform: translate3d(0, 0, 0) scale(.84);
+  }
+
   #hero.hero-tree-explorer .graph-collection-panel--responsive {
     position: absolute !important;
     top: auto !important;
     right: max(.75rem, env(safe-area-inset-right)) !important;
-    bottom: max(.75rem, env(safe-area-inset-bottom)) !important;
+    bottom: calc(52px + max(.75rem, env(safe-area-inset-bottom))) !important;
     left: max(.75rem, env(safe-area-inset-left)) !important;
     z-index: 45;
     width: auto !important;
@@ -932,6 +1042,14 @@ body:has(#hero.hero-graph-fullscreen) {
     margin-inline: auto;
     border-radius: .75rem;
     overscroll-behavior: contain;
+  }
+
+  #hero.hero-tree-explorer .graph-fullscreen-status,
+  #hero.hero-graph-fullscreen .graph-fullscreen-status {
+    top: 4.2rem !important;
+    right: auto !important;
+    left: max(.75rem, env(safe-area-inset-left)) !important;
+    max-width: calc(100vw - 12rem);
   }
 
   #hero.hero-tree-explorer .graph-collection-panel--responsive.minimized {
@@ -977,6 +1095,21 @@ body:has(#hero.hero-graph-fullscreen) {
   .hero-tree-action {
     padding-inline: .75rem;
   }
+
+  #hero.hero-tree-explorer .graph-dialog-actions,
+  #hero.hero-graph-fullscreen .graph-dialog-actions {
+    flex-wrap: nowrap !important;
+    gap: .35rem !important;
+  }
+
+  #hero.hero-tree-explorer .graph-dialog-actions a[aria-label="Download GEXF"],
+  #hero.hero-graph-fullscreen .graph-dialog-actions a[aria-label="Download GEXF"] {
+    width: 2.75rem;
+    min-width: 2.75rem;
+    padding-inline: 0;
+    overflow: hidden;
+    font-size: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -986,6 +1119,7 @@ body:has(#hero.hero-graph-fullscreen) {
   #hero.hero-tree-shell .hero-pills,
   #hero.hero-tree-shell .hero-audit-btn,
   #hero.hero-tree-shell .hero-tree-atmosphere,
+  #hero.hero-tree-shell .hero-tree-raster,
   #hero.hero-tree-shell .hero-tree-action {
     transition: none !important;
   }
