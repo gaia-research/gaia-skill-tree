@@ -504,3 +504,90 @@ test('canonical graph gains ghost armature + routes without disturbing real pose
     assert.ok(['○', '◇', '◉', '◆'].includes(m.glyph), id);
   });
 });
+
+// ---------------------------------------------------------------------------
+// §4 heartwood core-pull (Fix #3): effective rank does not just color a node,
+// it pulls its POSITION toward the heartwood core (spine axis + vertical
+// centre). Higher rank => deeper in the core, both radially and vertically.
+// ---------------------------------------------------------------------------
+
+// Isolate the rank effect on ONE node by holding graph shape fixed and varying
+// only that node's effectiveRank; the DAG-depth base pose is then identical
+// across variants, so any change in |y| / |x| is purely the coreness-pull.
+function rankVariant(rank) {
+  return {
+    skills: [
+      { id: 'core-seed', type: 'basic', cluster: 'a', prerequisites: [] },
+      { id: 'core-crown', type: 'extra', cluster: 'a', prerequisites: ['core-seed'], effectiveRank: rank },
+    ],
+  };
+}
+
+test('coreness pulls a crown node toward the heartwood core (vertical + radial), monotone in rank', () => {
+  // coreY = treeHeight * CORE_Y_RATIO (0) with the default height 680 => 0.
+  const coreY = 0;
+  const results = [0, 2, 4, 6].map((rank) => {
+    const r = buildWorldTreeLayout(rankVariant(rank));
+    const pose = r.heroPose['core-crown'];
+    return {
+      rank,
+      coreness: r.nodeMeta['core-crown'].coreness,
+      dy: Math.abs(pose.y - coreY),
+      dx: Math.abs(pose.x),
+    };
+  });
+  // 0-1★ sits at coreness 0 (no pull); 2..6★ ramp inward.
+  assert.equal(results[0].coreness, 0);
+  assert.ok(results[3].coreness === 1, '6★ is full coreness');
+  // strictly monotone: higher rank => closer to coreY AND closer to the spine.
+  for (let i = 1; i < results.length; i += 1) {
+    assert.ok(results[i].dy < results[i - 1].dy,
+      `rank ${results[i].rank} must sit closer to coreY than rank ${results[i - 1].rank}`);
+    assert.ok(results[i].dx < results[i - 1].dx,
+      `rank ${results[i].rank} must sit closer to the spine than rank ${results[i - 1].rank}`);
+  }
+  // a 5★ node is closer to coreY than a 2★ node (spec acceptance check).
+  const five = buildWorldTreeLayout(rankVariant(5)).heroPose['core-crown'];
+  const two = buildWorldTreeLayout(rankVariant(2)).heroPose['core-crown'];
+  assert.ok(Math.abs(five.y - coreY) < Math.abs(two.y - coreY), '5★ |y| closer to core than 2★');
+});
+
+test('core-pull applies to root nodes too, and 0-1★ nodes keep their base tip pose', () => {
+  // Ygg I meta (the graph carries an 'extra' type) so a high-rank basic stays a
+  // ROOT rather than short-circuiting to the unique 'outside' hemisphere.
+  const rootVariant = (rank) => ({
+    skills: [
+      { id: 'anchor', type: 'extra', cluster: 'a', prerequisites: [], effectiveRank: 3 },
+      { id: 'r', type: 'basic', cluster: 'a', prerequisites: [], effectiveRank: rank },
+    ],
+  });
+  const pulled = buildWorldTreeLayout(rootVariant(6));
+  const parked = buildWorldTreeLayout(rootVariant(0));
+  // same id, same graph shape: rank 6 must sit strictly closer to the spine + core.
+  assert.equal(parked.nodeMeta['r'].hemisphere, 'root');
+  assert.equal(pulled.nodeMeta['r'].hemisphere, 'root');
+  assert.equal(parked.nodeMeta['r'].coreness, 0);
+  assert.equal(pulled.nodeMeta['r'].coreness, 1);
+  assert.ok(Math.abs(pulled.heroPose['r'].x) < Math.abs(parked.heroPose['r'].x),
+    '6★ root pulled toward the spine');
+  assert.ok(Math.abs(pulled.heroPose['r'].y) < Math.abs(parked.heroPose['r'].y),
+    '6★ root pulled toward the vertical core');
+  // 0-1★ pose is untouched by the core-pull branch (coreness 0 short-circuits).
+  const bark = buildWorldTreeLayout(rootVariant(1));
+  assert.equal(bark.nodeMeta['r'].coreness, 0);
+  assert.equal(bark.heroPose['r'].coreness, undefined, '0-1★ keeps its base pose (no core-pull tag)');
+});
+
+test('core-pull is deterministic under input shuffles', () => {
+  const graph = {
+    skills: [
+      { id: 'a', type: 'basic', cluster: 'x', prerequisites: [], effectiveRank: 4 },
+      { id: 'b', type: 'extra', cluster: 'x', prerequisites: ['a'], effectiveRank: 6 },
+      { id: 'c', type: 'extra', cluster: 'y', prerequisites: ['a'], effectiveRank: 3 },
+    ],
+  };
+  const a = buildWorldTreeLayout(graph);
+  const b = buildWorldTreeLayout({ skills: graph.skills.slice().reverse() });
+  assert.deepEqual(a.heroPose, b.heroPose);
+  assert.deepEqual(a.fieldPose, b.fieldPose);
+});

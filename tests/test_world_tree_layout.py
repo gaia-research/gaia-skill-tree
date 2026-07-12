@@ -150,3 +150,29 @@ def test_ghost_armature_excluded_and_uniques_outside() -> None:
     assert result["outsideAllPositive"] is True
     assert result["deterministic"] is True
 
+
+def test_coreness_pulls_high_rank_toward_heartwood_core() -> None:
+    """§4 Fix #3: effective rank pulls a node's POSITION toward the heartwood
+    core (spine axis + vertical centre), monotone in rank, deterministic."""
+    result = _runlayout(
+        """
+        // Hold the graph shape fixed and vary ONLY the crown node's rank so the
+        // DAG-depth base pose is identical across variants; any |y|/|x| change is
+        // purely the coreness-pull. coreY = treeHeight * CORE_Y_RATIO (0) => 0.
+        const variant = (rank) => L.buildWorldTreeLayout({ skills: [
+          { id: 'seed', type: 'basic', cluster: 'a', prerequisites: [] },
+          { id: 'crown', type: 'extra', cluster: 'a', prerequisites: ['seed'], effectiveRank: rank },
+        ] });
+        const rows = [0, 2, 4, 6].map((rank) => {
+          const p = variant(rank).heroPose['crown'];
+          return { rank, dy: Math.abs(p.y), dx: Math.abs(p.x) };
+        });
+        return { rows };
+        """
+    )
+    rows = result["rows"]
+    dys = [r["dy"] for r in rows]
+    dxs = [r["dx"] for r in rows]
+    assert all(b < a for a, b in zip(dys, dys[1:])), "higher rank sits closer to coreY"
+    assert all(b < a for a, b in zip(dxs, dxs[1:])), "higher rank sits closer to the spine"
+
