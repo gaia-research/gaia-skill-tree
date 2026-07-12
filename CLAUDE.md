@@ -115,7 +115,7 @@ gaia dev list --generic --named
 gaia dev add "Skill Name" --type basic --description "At least 10 chars description"
 gaia dev merge target-id source-ids...
 gaia dev split source-id target-ids...
-gaia dev evidence skill-id "url" --class B
+gaia dev evidence skill-id "url" --type repo-own --commits N --contributors N
 gaia dev fuse generic-id --name "..." --type ultimate --prereqs a,b,c \
               --named-capstone contributor/slug --suite-components a,b,c
 ```
@@ -273,11 +273,11 @@ The **rarity** axis (`common`/`uncommon`/`rare`/`epic`/`legendary`) is **depreca
 
 ## Agent Skills
 
-All project skills live in `.claude/skills/`. There is no `.agents/` directory. Keep skills in sync with `CONTEXT.md` nomenclature.
+Project skills are delivered in both `.claude/skills/` and `.agents/skills/`; keep mirrored copies synchronized. Shared curation contracts live beside the canonical skill in both trees.
 
-- `gaia-curate/` — `/gaia-curate`: expand registry with new skills, open a PR (single linear pass).
-- `gaia-curate-chain/` — `/gaia-curate-chain`: same work as **prompt-chaining** (six gated links, one sub-agent per link). Use when evidence quality/schema correctness matter more than latency.
-- `gaia-curate-dynamic/` — `/gaia-curate-dynamic`: curation as a **dynamic workflow** (runtime-composed plan, parallel fan-out, proposer⇄refuter convergent validation, resumable ledger). Use for wide sweeps and high-stakes verification.
+- `gaia-curate/` — `/gaia-curate`: canonical preliminary curation; read its `CURATION-CORE.md` contract.
+- `gaia-curate-chain/` — `/gaia-curate-chain`: extends `/gaia-curate` with fixed topology, deterministic gates, bounded retries, and audit state.
+- `gaia-curate-dynamic/` — `/gaia-curate-dynamic`: extends `/gaia-curate` with dynamic sharding, proposer⇄refuter convergence, and a resumable ledger.
 - `gaia-meta-audit/` — `/gaia-meta-audit`: prioritized queue of skills/catalog items needing review.
 - `gaia-audit/` — `/gaia-audit`: focused source-level correction for one target.
 - `gaia-trace-timeline/` — `/gaia-trace-timeline`: audit & repair user-tree timelines so each skill's rank is explained by its Hero's Journey (backfills demote/rank_up events). Backed by `scripts/trace_timeline.py`; enforced by `scripts/validate_timelines.py` (via `gaia dev validate` + release CI).
