@@ -293,7 +293,10 @@
 #hero.hero-tree-shell .hero-sub {
   max-width: 34rem;
   margin: 1.25rem 0 0;
-  color: var(--muted);
+  /* Was var(--muted) (#64748b, ~4.2:1 on --bg) which failed AA and worsened
+     over tree filaments. --rank-0 slate (#94a3b8) clears 4.5:1 while staying
+     clearly secondary to the headline. */
+  color: var(--rank-0);
   font-size: clamp(1rem, 1.3vw, 1.16rem);
   line-height: 1.65;
 }
