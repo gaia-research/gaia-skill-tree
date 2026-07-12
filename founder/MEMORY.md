@@ -4,6 +4,74 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-12, Yggdrasil hero final — raster-backed living DAG ready for preview)
+
+### TLDR
+- Draft PR **#1125** now presents the homepage as an unmistakable gold Gaia Skill Tree: the approved Yggdrasil backdrop supplies fine bark/root atmosphere and the complete canonical DAG supplies the brighter semantic ray-tracing layer.
+- The same singleton graph morphs into the fullscreen Tree Explorer, recovers true tier colors, retains orbit/hover/filter/collection behavior, and reverses to the exact 2D hero pose. Field View remains deprecated.
+- Browser-verified at 1280x720, 390x844, and 320x568. The tree remains tree-shaped from frontal and side orbits; mobile chrome no longer overlaps and expanded Collection stays above the bottom rail.
+- Performance pass reduced the 320px Explorer two-second idle window from about **999ms task / 706ms script** to **323ms task / 150ms script**. The source 1.2MB PNG is delivered as responsive **48KB / 153KB WebP** assets.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| Approved gold Yggdrasil backdrop | ✅ Responsive raster composite, fine-pointer parallax, roots visible beneath the live hero projection |
+| Dynamic DAG shape | ✅ Root flare, narrow trunk, rounded crown, high tip, stable golden-angle bough placement |
+| Edge fidelity | ✅ All 235 nodes and all 401 canonical edges retained; 129 structural wood edges and 272 quieter grafts; no invented edges |
+| 2D → 3D state | ✅ Raster recedes to a faint front reference plane; live nodes gain cylindrical depth and canonical tier colors |
+| Mobile Explorer layout | ✅ One-row controls at 320px, status below toolbar, Collection above rail, zero document overflow |
+| Performance | ✅ Per-frame projection inputs cached; mobile idle rendering capped near 30fps while morph/drag/hover/pin stay responsive |
+| Accessibility | ✅ 44px hero targets, modal semantics, Escape reversal, normal and reduced-motion focus restoration |
+| Design contract | ✅ `DESIGN.md` and the approved World Tree implementation brief document raster/semantic-layer and structural/graft rules |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `design/homepage-gaia-tree-hero` | `d4bf636a9` | Pushed; draft PR #1125 into `dev/yggdrasil-ii-staging` |
+| `dev/yggdrasil-ii-staging` | PR base | Intentionally unchanged |
+
+### Commits shipped this final pass
+| SHA | Message |
+|---|---|
+| `1a89dd685` | `feat(home): layer the living DAG over Yggdrasil` |
+| `d4bf636a9` | `docs(home): codify the Yggdrasil graph contract` |
+
+### Issues + PRs touched
+- **PR #1125** — `design(home): grow the Gaia Skill Tree hero` (draft), related to Yggdrasil II masterplan #1002.
+- No registry/schema, Fusion/Unique, Hall, nav, Ascension, or generated artifact mutation was performed.
+
+### Routing — where things live now
+- Hero/raster composition and mobile Explorer rules: `docs/css/world-tree-hero.css`.
+- Canonical adaptive tree layout and structural/graft classification: `docs/js/world-tree-layout.js`.
+- Singleton projection, morph, interaction, performance cache, and modal lifecycle: `docs/js/skill-graph.js`.
+- Responsive approved backdrop: `docs/assets/world-tree/yggdrasil-backdrop-480.webp` and `yggdrasil-backdrop-941.webp`.
+- Shape contract: `docs/superpowers/plans/2026-07-11-gaia-world-tree-hero.md`; brand exception: `DESIGN.md`.
+- Final local browser captures: `~/.codex/visualizations/2026/07/12/yggdrasil-final/`.
+
+### Verification
+- `node --test tests/world-tree-layout.test.js`: **12 passing** including canonical edge fidelity, deep 120-node intake chains, stable bough slots, and structural-parent selection.
+- `pytest tests/test_world_tree_layout.py`: **1 passing**; `pytest tests/test_graph.py`: **18 passing**.
+- JavaScript syntax, `scripts/check_nav_mounts.py`, and `git diff --check`: passing.
+- Chromium interaction replay: normal/reduced motion, open/close, Escape, focus restoration, Collection expand, front/side orbit, desktop and two mobile widths.
+- Local generated skill-detail requests still return known 404s because artifacts were intentionally not regenerated for this design pass; staging docs sync remains the correct later step.
+
+### Lessons / hazards preserved
+- The backdrop is atmospheric only. Never replace the live graph with a raster or infer prerequisite edges from the artwork.
+- Use one deterministic real parent edge per non-root as structural wood and retain every other real edge as a graft; this preserves all-edge truth while keeping arbitrary intake growth readable.
+- Reduced-motion transitions can complete synchronously. Capture opener focus and set modal semantics before calling `setViewMode()`, not afterward.
+- Avoid per-node/per-edge `getComputedStyle()` and `matchMedia()` inside projection; cache those inputs once per frame.
+- Existing unrelated `.gitignore`, `.claude/skills/gaia-image-production/`, `.claude/skills/mockup-iteration/`, and `founder/yggdrasil-commission.md` worktree changes were deliberately left untouched and uncommitted.
+
+### Open questions for next orchestrator
+- Dispatch and visually inspect the Gaia preview for PR #1125; keep the PR draft while the new meta is staged.
+- Later staging work may regenerate Class S artifacts and resolve the known local skill-detail 404s; do not fold that into this design commit.
+- Yggdrasil II's future schema adapter may add ratified Suite/Unique semantics, but the layout, edge-preservation contract, and interaction model should remain unchanged.
+
+### Token cost (this session)
+Estimated only; `/pi-cost` intentionally skipped per operator instruction. Across the long design/iteration chain and continuations: roughly **180k–260k input tokens** and **25k–40k output tokens**.
+
+---
+
 ## ⚡ Ready-to-dispatch — W4 design approved, PR #958 ready for merge (READ THIS FIRST NEXT SESSION)
 
 **W4 frontend design approved.** Marcus reviewed and approved the `/benchmarks/` redesign in session 35. PR #958 (`dev/sprint-d-benchmark-leaderboard → dev/sprint-d`) is ready to merge — no outstanding blockers.
