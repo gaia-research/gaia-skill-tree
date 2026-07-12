@@ -2942,6 +2942,17 @@
     const mouseBtn = _graphCloseOverlay.querySelector('[data-graph-mouse]');
     if (mouseBtn) mouseBtn.querySelector('span').textContent = 'Orbit';
 
+    // Capture focus and establish modal semantics before setViewMode(). Under
+    // reduced motion its completion callback is synchronous, so doing this
+    // afterward would lose the opener and break focus restoration on exit.
+    _prevFocus = document.activeElement;
+    hero.setAttribute('aria-modal', 'true');
+    hero.setAttribute('role', 'dialog');
+    hero.setAttribute('aria-label', 'Gaia World Tree explorer');
+    hero.setAttribute('tabindex', '-1');
+    if (typeof hero.focus === 'function') hero.focus();
+    document.addEventListener('keydown', _trapTabKey);
+
     heroGraph.resize();
     requestAnimationFrame(() => _setTreeClip(null));
     heroGraph.setViewMode('explorer3d', {
@@ -2959,14 +2970,6 @@
       },
     });
 
-    // ── A11y: promote #hero into a modal dialog ─────────────────
-    _prevFocus = document.activeElement;
-    hero.setAttribute('aria-modal', 'true');
-    hero.setAttribute('role', 'dialog');
-    hero.setAttribute('aria-label', 'Gaia World Tree explorer');
-    hero.setAttribute('tabindex', '-1');
-    if (typeof hero.focus === 'function') hero.focus();
-    document.addEventListener('keydown', _trapTabKey);
     return true;
   }
 
