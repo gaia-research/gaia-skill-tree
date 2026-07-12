@@ -34,37 +34,43 @@
       openWorldTree();
     });
 
-    // The supplied gold-tree plate is a flat reference surface. Give it a
-    // restrained pointer parallax in the editorial hero only; the live canvas
-    // stays independently projected and becomes the sole interactive object
-    // in Tree Explorer. One rAF write per frame avoids pointer-event churn.
-    var finePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+    // The supplied gold-tree plate and the live canvas are two layers of one
+    // tree. Give them a shared VERTICAL scroll parallax so the whole tree
+    // sticks together and drifts as the page scrolls — never a pointer/hover
+    // parallax (that decoupled the plate from the canvas and reacted to the
+    // mouse, which the design explicitly rejects). Both layers read the same
+    // --hero-tree-parallax-y var (see world-tree-hero.css), so they move as one.
+    // One rAF write per scroll frame; disabled under reduced-motion.
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (finePointer && !reduceMotion) {
+    if (!reduceMotion) {
+      // Depth factor: the tree travels a fraction of the scroll distance, so it
+      // lags the page and reads as behind-glass parallax. Negative sign lifts
+      // the tree as you scroll down (crown rises out of view last).
+      var PARALLAX_DEPTH = -0.08;
+      var PARALLAX_MAX = 64; // px clamp so the tree never drifts off its frame
       var parallaxFrame = 0;
-      var parallaxX = 0;
-      var parallaxY = 0;
       var paintParallax = function () {
         parallaxFrame = 0;
-        hero.style.setProperty('--hero-tree-parallax-x', parallaxX.toFixed(2) + 'px');
-        hero.style.setProperty('--hero-tree-parallax-y', parallaxY.toFixed(2) + 'px');
-      };
-      hero.addEventListener('pointerenter', function () {
-        if (hero.dataset.treeState === 'hero2d') hero.dataset.treeParallax = 'active';
-      }, { passive: true });
-      hero.addEventListener('pointermove', function (event) {
-        if (hero.dataset.treeState !== 'hero2d') return;
+        if (hero.dataset.treeState !== 'hero2d') {
+          hero.style.setProperty('--hero-tree-parallax-y', '0px');
+          return;
+        }
         var rect = hero.getBoundingClientRect();
-        parallaxX = ((event.clientX - rect.left) / Math.max(1, rect.width) - 0.5) * 12;
-        parallaxY = ((event.clientY - rect.top) / Math.max(1, rect.height) - 0.5) * 8;
+        // Progress of the hero through the viewport: 0 when its top is at the
+        // top of the screen, growing as it scrolls up and out.
+        var travel = -rect.top * PARALLAX_DEPTH;
+        if (travel > PARALLAX_MAX) travel = PARALLAX_MAX;
+        else if (travel < -PARALLAX_MAX) travel = -PARALLAX_MAX;
+        hero.dataset.treeParallax = 'active';
+        hero.style.setProperty('--hero-tree-parallax-y', travel.toFixed(2) + 'px');
+      };
+      var onScroll = function () {
         if (!parallaxFrame) parallaxFrame = window.requestAnimationFrame(paintParallax);
-      }, { passive: true });
-      hero.addEventListener('pointerleave', function () {
-        delete hero.dataset.treeParallax;
-        parallaxX = 0;
-        parallaxY = 0;
-        if (!parallaxFrame) parallaxFrame = window.requestAnimationFrame(paintParallax);
-      }, { passive: true });
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      // Prime once so the shift is applied before the first scroll.
+      onScroll();
     }
 
     // Canonical and legacy URL parameters all enter the same tree explorer.

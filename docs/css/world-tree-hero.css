@@ -11,6 +11,10 @@
   --hero-content-gap: clamp(2rem, 5vw, 7rem);
   --hero-ledger-gap: clamp(1.25rem, 2.5vw, 2.5rem);
   --hero-tree-backdrop-scale: 1.2;
+  /* Nudge the whole tree (raster + live canvas) up so the crown sits higher in
+     the viewport and the roots clear the stats strip. Scroll parallax adds to
+     this base via --hero-tree-parallax-y (see hud-toggle.js). */
+  --hero-tree-shift-y: -4%;
   position: relative;
   isolation: isolate;
   display: grid;
@@ -73,7 +77,7 @@
     drop-shadow(0 0 1.8rem rgba(var(--apex-gold-rgb), .2));
   transform: translate3d(
     calc(22% + var(--hero-tree-parallax-x, 0px)),
-    var(--hero-tree-parallax-y, 0px),
+    calc(var(--hero-tree-shift-y, 0%) + var(--hero-tree-parallax-y, 0px)),
     0
   ) scale(var(--hero-tree-backdrop-scale));
   transform-origin: center;
@@ -82,7 +86,8 @@
     filter var(--hero-tree-duration) var(--hero-tree-ease);
 }
 
-#hero[data-tree-parallax="active"] .hero-tree-raster img {
+#hero[data-tree-parallax="active"] .hero-tree-raster img,
+#hero[data-tree-parallax="active"] #canvas3d {
   will-change: transform;
 }
 
@@ -111,7 +116,15 @@
   touch-action: none;
   filter: drop-shadow(0 0 1.6rem rgba(var(--apex-gold-rgb), .2));
   mix-blend-mode: screen;
-  transform: translateZ(0);
+  /* Match the raster's vertical shift + scroll parallax so the live projection
+     sticks to the painted plate and travels with it (vertical only). No X term
+     here: the canvas is projected at 72% origin, not translated 22% like the
+     raster, so only the shared Y makes them move as one. */
+  transform: translate3d(
+    0,
+    calc(var(--hero-tree-shift-y, 0%) + var(--hero-tree-parallax-y, 0px)),
+    0
+  );
   transform-origin: 72% 50%;
   transition:
     filter var(--hero-tree-duration) var(--hero-tree-ease),
