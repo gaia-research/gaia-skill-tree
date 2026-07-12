@@ -1242,6 +1242,21 @@ body:has(#hero.hero-graph-fullscreen) {
     max-height: none;
   }
 
+  /* Kill the mobile backdrop raster while the explorer is open, matching
+     desktop. The mobile base rule sets opacity:.68 + a radial mask and sits
+     later in the file, so it overrode the desktop explorer dim (opacity:.085)
+     and the webp plate stuck behind the live canvas. Hide it fully here so the
+     live 3D tree is the only layer once the explorer opens. `exiting` is
+     excluded on purpose — it keeps the mobile base opacity so the plate fades
+     back into the hero on close instead of popping. */
+  #hero.hero-tree-entering .hero-tree-raster,
+  #hero.hero-tree-explorer .hero-tree-raster,
+  #hero.hero-graph-fullscreen .hero-tree-raster {
+    opacity: 0;
+    -webkit-mask: none;
+    mask: none;
+  }
+
   #hero.hero-tree-entering .hero-tree-raster img,
   #hero.hero-tree-explorer .hero-tree-raster img,
   #hero.hero-graph-fullscreen .hero-tree-raster img {
