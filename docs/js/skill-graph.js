@@ -31,11 +31,20 @@
   const GRAPH_SCALE = 1.625;
 
   // ── Locked canvas geometry (DESIGN.md ▸ Graph Canvas) ──────────
+  // §6 node-radius re-axis: radius is keyed to EFFECTIVE RANK (bigger = more
+  // proven), not type. NODE_RADII.get(rankOrLabel, type) accepts either an
+  // integer effective rank or an "N★" glyph string and returns the rank-curve
+  // radius. The per-type numeric constants below (ultimate/unique/extra/basic)
+  // are LEGACY — retained only for the unique-void redraw pass (NODE_RADII.unique)
+  // and any host still reading them; new call sites pass effectiveRank.
   const NODE_RADII = {
-    ultimate: 12.5, unique: 9.5, extra: 6.9, basic: 3.5,
+    ultimate: 12.5, unique: 9.5, extra: 6.9, basic: 3.5,  // legacy type-keyed
     get: function (rank, type) {
-      if (type === 'unique') rank = '5★';
-      const n = parseInt(rank, 10) || 0;
+      if (type === 'unique') rank = 5;
+      // Accept an int effective rank directly, else parse a leading "N★" int.
+      const n = (typeof rank === 'number' && Number.isFinite(rank))
+        ? Math.max(0, Math.round(rank))
+        : (parseInt(rank, 10) || 0);
       // Boosted exponential curve for visibility: r = a * e^(b * n)
       // r(1) = 3.0, r(6) = 10.0
       if (n === 0) return 2.5;
@@ -78,11 +87,13 @@
       };
     }
     function rank(n) {
-      // Rank tokens don't have an explicit -rgb form yet; derive it
-      // from the hex when we need an rgba() with custom alpha. For
-      // now we only need bg/border/edge which are precomputed.
+      // §6 color-by-rank re-axis. tokens.css DOES emit --rank-N-rgb (grey
+      // 148,163,184 at 0★ … apex-gold 251,191,36 at 6★); read it so the canvas
+      // can build rgba() with a custom alpha for the rank ramp. bg/border/edge
+      // are precomputed convenience forms.
       return {
         hex: _readVar('--rank-' + n),
+        rgb: _rgbOnly(_readVar('--rank-' + n + '-rgb')),
         bg: _readVar('--rank-' + n + '-bg'),
         border: _readVar('--rank-' + n + '-border'),
         edge: _readVar('--rank-' + n + '-edge'),
@@ -333,6 +344,20 @@
     const b = String(to || '').split(',').map(Number);
     if (a.length !== 3 || b.length !== 3 || a.some(Number.isNaN) || b.some(Number.isNaN)) return to || from;
     return [0, 1, 2].map(index => Math.round(lerp(a[index], b[index], amount))).join(',');
+  }
+
+  // §6 color-by-rank ramp. Maps an effective star rank (0-6 int) to a rank-token
+  // rgb triplet. The redaction cutline (§4) collapses 0-1★ to grey (--rank-0);
+  // the colored ramp begins at 2★ and climbs to apex-gold at 6★. No hex
+  // fallbacks — the triplets come straight from tokens.css via getCanvasTokens.
+  function _rankColorRgb(effRank) {
+    const t = getCanvasTokens();
+    let n = Math.round(Number(effRank));
+    if (!Number.isFinite(n) || n < 0) n = 0;
+    if (n > 6) n = 6;
+    const key = n <= 1 ? 0 : n;   // 0-1★ share the grey bark swatch
+    const entry = t.rank[key] || t.rank[0];
+    return (entry && entry.rgb) ? entry.rgb : t.rank[0].rgb;
   }
 
   function spherePoint(radius, seed, index, count) {
@@ -1066,10 +1091,24 @@
 
     function _displaySkillColor(skill) {
       const canonical = _canonicalSkillColor(skill);
+      // Legacy 3D graph (no World Tree layout): keep the canonical tier/cluster
+      // color unchanged.
       if (!state.treeLayout) return canonical;
-      const gold = getCanvasTokens().apexGoldRgb;
+      // §6/§7 hero-vs-explorer split. Under the World Tree layout, color is
+      // re-axed onto RANK, not type. viewMix drives the morph:
+      //   hero (viewMix→0)     → single monochrome apex-gold (starless tips are
+      //                          faint GOLD, never grey — grey muddies the mono
+      //                          hero silhouette);
+      //   explorer (viewMix→1) → the full rank ramp (grey 0-1★ bark → 2★ ramp →
+      //                          apex-gold 6★). Cluster mode overrides both ends
+      //                          with its per-cluster hue for the analytical view.
+      const tokens = getCanvasTokens();
+      const gold = tokens.apexGoldRgb;
       const amount = easeWorldTree(state.viewMix);
-      return { rgb: mixRgb(gold, canonical.rgb, amount), hex: canonical.hex };
+      const explorerRgb = state.colorMode === 'cluster'
+        ? canonical.rgb
+        : _rankColorRgb(skill.effectiveRank);
+      return { rgb: mixRgb(gold, explorerRgb, amount), hex: canonical.hex };
     }
     // Phase 5: check reduced-motion once per draw frame (cached per graph instance)
     const _reducedMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1375,7 +1414,11 @@
 
         const isPinned = state.pinnedId === skill.id;
         const isHovered = state.hoveredId === skill.id;
-        const baseR = NODE_RADII.get(skill.level, skill.type);
+        // §6 radius-by-rank: under the World Tree layout, size reads from the
+        // joined effective rank; the legacy 3D graph keeps the level-glyph path.
+        const baseR = state.treeLayout
+          ? NODE_RADII.get(skill.effectiveRank, skill.type)
+          : NODE_RADII.get(skill.level, skill.type);
         const pulse = 0.84 + 0.16 * Math.sin(state.t * 2.2 + p.phase);
 
         const specialMix = state.treeLayout ? easeWorldTree(state.viewMix) : 1;
