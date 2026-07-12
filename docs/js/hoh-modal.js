@@ -31,6 +31,21 @@
     modal.addEventListener('mousedown', wake);
     modal.addEventListener('keydown', wake);
     modal.addEventListener('touchstart', wake, { passive: true });
+
+    // Premium parallax backdrop logic — translates background based on cursor offsets
+    var bg = modal.querySelector('.hoh-fs-parallax-bg');
+    if (bg) {
+      modal.addEventListener('mousemove', function (e) {
+        if (prefersReducedMotion()) return;
+        var cx = window.innerWidth / 2;
+        var cy = window.innerHeight / 2;
+        var dx = (e.clientX - cx) / cx;
+        var dy = (e.clientY - cy) / cy;
+        // Shift up to 25px max based on cursor offset
+        bg.style.transform = 'translate3d(' + (dx * 25) + 'px, ' + (dy * 25) + 'px, 0)';
+      });
+    }
+
     // Keep chrome visible while pointer is over an actionable region.
     modal.querySelectorAll('.hoh-fs-header, .hoh-fs-confirm, .hoh-fs-overlay').forEach(function (region) {
       region.addEventListener('mouseenter', wake);

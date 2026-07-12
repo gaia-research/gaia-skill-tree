@@ -3090,9 +3090,9 @@ button.plaque__slug:focus-visible {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(3, 7, 18, 0.85);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background: rgba(3, 7, 18, 0.76);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -3101,6 +3101,28 @@ button.plaque__slug:focus-visible {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.hoh-fs-parallax-bg {
+  position: absolute;
+  inset: -15% 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  transition: transform 0.1s ease-out;
+}
+
+.hoh-fs-parallax-bg img {
+  width: 100%;
+  height: 120%;
+  object-fit: cover;
+  object-position: center;
+  mix-blend-mode: color-dodge;
 }
 
 .hoh-fs-modal.is-active {
@@ -3167,6 +3189,8 @@ button.plaque__slug:focus-visible {
 
 /* Modal Center Stage (large card container) */
 .hoh-fs-stage {
+  position: relative;
+  z-index: 2;
   flex: 1;
   width: 100%;
   display: flex;
