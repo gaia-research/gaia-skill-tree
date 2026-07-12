@@ -1,14 +1,30 @@
 window.switchOsTab = function(btn) {
   var scope = btn.closest('.rite-entry, .path-a, .path-b, .rite-step, .step');
   if (!scope) return;
+
+  var targetOs = btn.dataset.os;
+
+  // 1. Toggle the tabs inside the immediate scope
   scope.querySelectorAll('.os-tab').forEach(function(button) {
     var active = button === btn;
     button.classList.toggle('active', active);
     button.setAttribute('aria-selected', active ? 'true' : 'false');
   });
+
+  // 2. Toggle the panels inside the immediate scope
   scope.querySelectorAll('.os-panel').forEach(function(panel) {
-    panel.classList.toggle('active', panel.dataset.os === btn.dataset.os);
+    panel.classList.toggle('active', panel.dataset.os === targetOs);
   });
+
+  // 3. Global synchronization: if changing the primary CLI tabs, push that choice down to Path A
+  if (scope.classList.contains('rite-entry')) {
+    var pathA = document.querySelector('.path-a');
+    if (pathA) {
+      pathA.querySelectorAll('.os-panel').forEach(function(panel) {
+        panel.classList.toggle('active', panel.dataset.os === targetOs);
+      });
+    }
+  }
 };
 
 (function(){
