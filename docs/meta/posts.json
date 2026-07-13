@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "id": "2026-07-13-firecrawl-suite-curation-and-origin-recalibration",
+      "type": "report",
+      "date": "2026-07-13",
+      "title": "Firecrawl Suite Curation and Origin Recalibration",
+      "summary": "Five named Firecrawl components plus a capstone enter the registry; five buckets recalibrate to a single origin each; gaia dev fuse timeline bug fixed.",
+      "label": "Suite Curation",
+      "url": "meta/reports/2026-07-13-firecrawl-suite-curation-and-origin-recalibration.html",
+      "author": "Marcus Rafael Tiongson, Curator",
+      "source": "docs/meta/2026-07-firecrawl-suite-curation.md"
+    },
+    {
       "id": "2026-07-03-curation-report-addy-osmani-7-skill-suite-integration",
       "type": "report",
       "date": "2026-07-03",
