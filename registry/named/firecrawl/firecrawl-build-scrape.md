@@ -1,5 +1,5 @@
 ---
-id: firecrawl/web-scrape-integration
+id: firecrawl/firecrawl-build-scrape
 name: Firecrawl Scrape
 contributor: firecrawl
 origin: true
@@ -35,6 +35,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-07-13T09:08:42Z'
+  action: note
+  contributor: mbtiongson1
+  details: Renamed from firecrawl/web-scrape-integration to firecrawl/firecrawl-build-scrape
+    — aligned to official firecrawl/skills repo naming
 evidence:
 - source: https://www.youtube.com/watch?v=tBtPSV_gU6o
   evaluator: unknown
@@ -74,6 +79,7 @@ evidence:
 verification:
   firstEvidenceAt: '2026-07-13T06:22:24Z'
 suiteRef: firecrawl/firecrawl
+catalogRef: firecrawl-firecrawl-build-scrape
 ---
 
 ## Installation

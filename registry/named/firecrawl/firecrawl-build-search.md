@@ -1,5 +1,5 @@
 ---
-id: firecrawl/web-search-integration
+id: firecrawl/firecrawl-build-search
 name: Firecrawl Search
 contributor: firecrawl
 origin: true
@@ -26,6 +26,11 @@ timeline:
   action: suite_ref_set
   contributor: unknown
   details: Set suiteRef to firecrawl/firecrawl
+- timestamp: '2026-07-13T09:08:44Z'
+  action: note
+  contributor: mbtiongson1
+  details: Renamed from firecrawl/web-search-integration to firecrawl/firecrawl-build-search
+    — aligned to official firecrawl/skills repo naming
 evidence:
 - source: https://www.youtube.com/watch?v=tBtPSV_gU6o
   evaluator: unknown
@@ -55,6 +60,7 @@ evidence:
 verification:
   firstEvidenceAt: '2026-07-13T06:22:25Z'
 suiteRef: firecrawl/firecrawl
+catalogRef: firecrawl-firecrawl-build-search
 ---
 
 ## Installation
