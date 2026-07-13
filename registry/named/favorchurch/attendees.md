@@ -5,7 +5,7 @@ contributor: favorchurch
 origin: false
 genericSkillRef: event-attendance-metrics
 status: named
-level: 2★
+level: 1★
 description: Count attendees for any event by checking Favor Event Tickets first,
   then Fluro as a fallback.
 createdAt: '2026-07-14'
@@ -23,6 +23,14 @@ timeline:
   contributor: mbtiongson1
   details: 'Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/attendees/SKILL.md
     (type: self-attestation)'
+- timestamp: '2026-07-13T16:47:30Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 1★
+- timestamp: '2026-07-13T16:47:46Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 1★ to 1★
 evidence:
 - source: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/attendees/SKILL.md
   evaluator: favorchurch

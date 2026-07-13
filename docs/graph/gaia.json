@@ -1,6 +1,6 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "generatedAt": "2026-07-13T16:34:54Z",
+  "generatedAt": "2026-07-13T16:49:03Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -3427,8 +3427,7 @@
           0.6779978987278524,
           -0.0009256784354264055
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "cultural-localization",
@@ -5075,8 +5074,7 @@
           0.4717488117868448,
           0.00030965676153390446
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "event-attendee-management",
@@ -5119,8 +5117,7 @@
           0.4631550998309695,
           0.00040708358535965916
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "event-support-triage",
@@ -5163,8 +5160,7 @@
           0.45456138787509415,
           0.0005002867468867423
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "event-ticket-transfer",
@@ -5207,8 +5203,7 @@
           0.4459676759192189,
           0.0005883349909340424
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "evidence-attestation",
@@ -7185,8 +7180,7 @@
           0.23112487702233583,
           1.0234121274933676e-05
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "graph-driven-issue-triage",
@@ -7717,8 +7711,7 @@
           0.1818460185538785,
           -0.07148039983353449
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "hybrid-workflow-coordination",
@@ -16831,8 +16824,7 @@
           -0.8259016935503287,
           0.0002840872154826027
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "translate",

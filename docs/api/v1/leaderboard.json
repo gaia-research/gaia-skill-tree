@@ -2266,7 +2266,7 @@
       "id": "favorchurch/attendees",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
       "typeBreakdown": {
         "self-attestation": 5.0
       },
@@ -2276,7 +2276,7 @@
       "id": "favorchurch/count-checkin-by-church",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
       "typeBreakdown": {
         "self-attestation": 5.0
       },
@@ -2286,7 +2286,7 @@
       "id": "favorchurch/export-attendees",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
       "typeBreakdown": {
         "self-attestation": 5.0
       },
@@ -2296,7 +2296,7 @@
       "id": "favorchurch/financial-assistance",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
       "typeBreakdown": {
         "self-attestation": 5.0
       },
@@ -2306,7 +2306,7 @@
       "id": "favorchurch/resend-conference-emails-carefully-with-smtp",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
       "typeBreakdown": {
         "self-attestation": 5.0
       },
@@ -2316,7 +2316,7 @@
       "id": "favorchurch/speak-like-favor",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
       "typeBreakdown": {
         "self-attestation": 5.0
       },
@@ -2326,7 +2326,7 @@
       "id": "favorchurch/ticket-transfer",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
       "typeBreakdown": {
         "self-attestation": 5.0
       },
@@ -2336,7 +2336,7 @@
       "id": "favorchurch/triage-conference",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
       "typeBreakdown": {
         "self-attestation": 5.0
       },
@@ -2346,7 +2346,7 @@
       "id": "favorchurch/update-unique-churches",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
-      "level": "2★",
+      "level": "1★",
       "typeBreakdown": {
         "self-attestation": 5.0
       },

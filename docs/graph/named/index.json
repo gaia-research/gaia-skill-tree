@@ -5559,7 +5559,7 @@
         "origin": false,
         "genericSkillRef": "event-attendance-metrics",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "Count attendees for any event by checking Favor Event Tickets first, then Fluro as a fallback.",
         "title": "Attendees",
         "links": {
@@ -5590,6 +5590,18 @@
             "action": "evidence_added",
             "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/attendees/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-13T16:47:30Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
+          },
+          {
+            "timestamp": "2026-07-13T16:47:46Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 1★"
           }
         ],
         "type": "basic",
@@ -5613,7 +5625,7 @@
         "origin": false,
         "genericSkillRef": "event-attendance-metrics",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "Build or refresh a NORMALIZED per-church check-in count.",
         "title": "Count Check-in by Church",
         "links": {
@@ -5644,6 +5656,12 @@
             "action": "evidence_added",
             "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/count-checkin-by-church/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-13T16:47:43Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "type": "basic",
@@ -5669,7 +5687,7 @@
         "origin": false,
         "genericSkillRef": "event-attendee-management",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "Sync and export attendee data from Favor Event Tickets into a Google Sheets masterlist.",
         "title": "Export Attendees",
         "links": {
@@ -5700,6 +5718,12 @@
             "action": "evidence_added",
             "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/export-attendees/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-13T16:47:52Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "type": "basic",
@@ -5725,7 +5749,7 @@
         "origin": false,
         "genericSkillRef": "grant-application-processing",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "Process financial assistance applications - coupon assignment, request tracking, and updates.",
         "title": "Financial Assistance",
         "links": {
@@ -5756,6 +5780,12 @@
             "action": "evidence_added",
             "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/financial-assistance/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-13T16:48:01Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "type": "basic",
@@ -5781,7 +5811,7 @@
         "origin": false,
         "genericSkillRef": "transactional-email-resend",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "Safely re-send or bulk-bump QR ticket emails to many attendees via SMTP relay.",
         "title": "Resend Conference Emails Carefully with SMTP",
         "links": {
@@ -5812,6 +5842,12 @@
             "action": "evidence_added",
             "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/resend-conference-emails-carefully-with-smtp/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-13T16:47:58Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "type": "basic",
@@ -5837,7 +5873,7 @@
         "origin": false,
         "genericSkillRef": "humanize-prose",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "Draft, edit, or QA Favor Church Manila communication so it feels warm, clear, and authentic.",
         "title": "Speak Like Favor",
         "links": {
@@ -5868,6 +5904,12 @@
             "action": "evidence_added",
             "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/speak-like-favor/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-13T16:48:07Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "type": "extra",
@@ -5893,7 +5935,7 @@
         "origin": false,
         "genericSkillRef": "event-ticket-transfer",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "End-to-end workflow for processing ticket transfer requests, updates, and confirmation emails.",
         "title": "Ticket Transfer",
         "links": {
@@ -5924,6 +5966,12 @@
             "action": "evidence_added",
             "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/ticket-transfer/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-13T16:48:04Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "type": "basic",
@@ -5949,7 +5997,7 @@
         "origin": false,
         "genericSkillRef": "event-support-triage",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "Triage incoming emails, search registrations, match against knowledge base, and draft/send replies.",
         "title": "Triage Conference",
         "links": {
@@ -5980,6 +6028,12 @@
             "action": "evidence_added",
             "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/triage-conference/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-13T16:47:54Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "type": "basic",
@@ -6005,7 +6059,7 @@
         "origin": false,
         "genericSkillRef": "crm-data-cleanup",
         "status": "named",
-        "level": "2★",
+        "level": "1★",
         "description": "Recount and update the unique churches represented in the conference attendance Google Sheet.",
         "title": "Update Unique Churches",
         "links": {
@@ -6036,6 +6090,12 @@
             "action": "evidence_added",
             "contributor": "mbtiongson1",
             "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/update-unique-churches/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-13T16:47:49Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
           }
         ],
         "type": "basic",

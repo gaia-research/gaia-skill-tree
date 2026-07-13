@@ -209,19 +209,6 @@
       }
     },
     {
-      "handle": "favorchurch",
-      "namedSkills": 9,
-      "topSkill": {
-        "id": "favorchurch/attendees",
-        "level": "2★",
-        "trustMagnitude": 5.0
-      },
-      "prestigeScore": 45.0,
-      "_links": {
-        "self": "/api/v1/contributors/favorchurch.json"
-      }
-    },
-    {
       "handle": "bradautomates",
       "namedSkills": 1,
       "topSkill": {
@@ -391,7 +378,7 @@
       }
     }
   ],
-  "totalContributors": 30,
+  "totalContributors": 29,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

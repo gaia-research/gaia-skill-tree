@@ -603,7 +603,7 @@
   ],
   "page": 2,
   "totalPages": 4,
-  "totalSkills": 168,
+  "totalSkills": 159,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",

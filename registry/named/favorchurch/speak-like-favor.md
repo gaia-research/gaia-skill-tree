@@ -5,7 +5,7 @@ contributor: favorchurch
 origin: false
 genericSkillRef: humanize-prose
 status: named
-level: 2★
+level: 1★
 description: Draft, edit, or QA Favor Church Manila communication so it feels warm,
   clear, and authentic.
 createdAt: '2026-07-14'
@@ -23,6 +23,10 @@ timeline:
   contributor: mbtiongson1
   details: 'Added evidence from https://github.com/favorchurch/favor-skills/blob/main/speak-like-favor/SKILL.md
     (type: self-attestation)'
+- timestamp: '2026-07-13T16:48:07Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 1★
 evidence:
 - source: https://github.com/favorchurch/favor-skills/blob/main/speak-like-favor/SKILL.md
   evaluator: favorchurch

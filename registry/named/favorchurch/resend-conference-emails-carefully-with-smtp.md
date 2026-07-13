@@ -5,7 +5,7 @@ contributor: favorchurch
 origin: false
 genericSkillRef: transactional-email-resend
 status: named
-level: 2★
+level: 1★
 description: Safely re-send or bulk-bump QR ticket emails to many attendees via SMTP
   relay.
 createdAt: '2026-07-14'
@@ -23,6 +23,10 @@ timeline:
   contributor: mbtiongson1
   details: 'Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/resend-conference-emails-carefully-with-smtp/SKILL.md
     (type: self-attestation)'
+- timestamp: '2026-07-13T16:47:58Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 1★
 evidence:
 - source: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/resend-conference-emails-carefully-with-smtp/SKILL.md
   evaluator: favorchurch
