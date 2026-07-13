@@ -57,7 +57,7 @@
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | Grill Me, Ubiquitous Language, Document Editing | 3★ | Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill. |
 | ◇ /grounding | Extra Skill | Retrieve, Cite Sources, Evaluate Output | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/careful | Extra Skill | Evaluate Output, Classify, Structured Output Generation | 3★ | Requires a defined policy schema and an evaluation loop. |
-| ◇ /humanize-prose | Extra Skill | Document Editing, Audience Model, Format Output | — | Requires explicit user permission to revise voice, tone, and stylistic markers without changing factual claims. |
+| ◇ ████████/speak-like-favor | Extra Skill | Document Editing, Audience Model, Format Output | — | Requires explicit user permission to revise voice, tone, and stylistic markers without changing factual claims. |
 | ◇ [safishamsi](../docs/u/safishamsi/)/graphify | Extra Skill | Extract Entities, Logical Inference | 4★ |  |
 | ◇ /knowledge-harvest | Extra Skill | Web Scrape, Extract Entities, Embed Text | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/setup-gbrain | Extra Skill | API Call, Retrieve | 2★ |  |

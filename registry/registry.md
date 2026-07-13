@@ -91,7 +91,7 @@
 | ◇ [garrytan](../docs/u/garrytan/)/careful | Extra Skill | 3★ | `/guardrails` |
 | ○ [ruvnet](../docs/u/ruvnet/)/dual-collect | Basic Skill | 2★ | `/headless-worker-collect` |
 | ○ [ruvnet](../docs/u/ruvnet/)/dual-spawn | Basic Skill | 2★ | `/headless-worker-spawn` |
-| ◇ /humanize-prose | Extra Skill | — | `/humanize-prose` |
+| ◇ ████████/speak-like-favor | Extra Skill | — | `/humanize-prose` |
 | ○ [ruvnet](../docs/u/ruvnet/)/dual-coordinate | Basic Skill | 2★ | `/hybrid-workflow-coordination` |
 | ○ /hypothesis-generate | Basic Skill | — | `/hypothesis-generate` |
 | ○ /image-caption | Basic Skill | — | `/image-caption` |
@@ -227,12 +227,18 @@
 | ○ Autonomous Engineering Platform | Intrinsic Skill | — | `/autonomous-engineering-platform` |
 | ○ CI Churn Analysis | Intrinsic Skill | 2★ | `/ci-churn-analysis` |
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
+| ○ CRM Data Cleanup | Intrinsic Skill | — | `/crm-data-cleanup` |
 | ○ Cultural Localization | Intrinsic Skill | — | `/cultural-localization` |
 | ○ Domain Modeling | Intrinsic Skill | — | `/domain-modeling` |
+| ○ Event Attendance Metrics | Intrinsic Skill | — | `/event-attendance-metrics` |
+| ○ Event Attendee Management | Intrinsic Skill | — | `/event-attendee-management` |
+| ○ Event Support Triage | Intrinsic Skill | — | `/event-support-triage` |
+| ○ Event Ticket Transfer | Intrinsic Skill | — | `/event-ticket-transfer` |
 | ○ evidence-attestation | Intrinsic Skill | — | `/evidence-attestation` |
 | ○ Few-Shot Learning | Intrinsic Skill | 4★ | `/few-shot-learning` |
 | ○ Framework Upgrade | Intrinsic Skill | 2★ | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
+| ○ Grant Application Processing | Intrinsic Skill | — | `/grant-application-processing` |
 | ○ Image Generate | Intrinsic Skill | — | `/image-generate` |
 | ○ implement-with-discernment | Intrinsic Skill | — | `/implement-with-discernment` |
 | ○ Object Detection | Intrinsic Skill | — | `/object-detection` |
@@ -247,4 +253,5 @@
 | ○ Test-Driven Development | Intrinsic Skill | 2★ | `/test-driven-development` |
 | ○ Time Series Forecasting | Intrinsic Skill | — | `/time-series-forecasting` |
 | ○ Token Observability | Intrinsic Skill | 2★ | `/token-observability` |
+| ○ Transactional Email Resend | Intrinsic Skill | — | `/transactional-email-resend` |
 

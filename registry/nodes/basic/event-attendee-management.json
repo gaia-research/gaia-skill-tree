@@ -1,0 +1,22 @@
+{
+  "id": "event-attendee-management",
+  "name": "Event Attendee Management",
+  "type": "basic",
+  "description": "Manage, export, sync, and format event attendee data between registration platforms, CRM databases, and spreadsheet records.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-14",
+  "updatedAt": "2026-07-14",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-13T16:26:00Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill event-attendee-management"
+    }
+  ]
+}
