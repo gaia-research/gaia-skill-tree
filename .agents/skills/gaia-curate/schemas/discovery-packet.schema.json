@@ -8,9 +8,21 @@
     "candidateId": {"type": "string", "minLength": 1},
     "lifecycle": {
       "type": "array",
-      "minItems": 2,
-      "items": {"enum": ["discovered", "fetched", "parsed", "normalized", "deduped", "mapped", "review-ready", "deferred", "rejected"]},
-      "uniqueItems": true
+      "oneOf": [
+        {"const": ["discovered", "deferred"]},
+        {"const": ["discovered", "rejected"]},
+        {"const": ["discovered", "fetched", "deferred"]},
+        {"const": ["discovered", "fetched", "rejected"]},
+        {"const": ["discovered", "fetched", "parsed", "deferred"]},
+        {"const": ["discovered", "fetched", "parsed", "rejected"]},
+        {"const": ["discovered", "fetched", "parsed", "normalized", "deferred"]},
+        {"const": ["discovered", "fetched", "parsed", "normalized", "rejected"]},
+        {"const": ["discovered", "fetched", "parsed", "normalized", "deduped", "deferred"]},
+        {"const": ["discovered", "fetched", "parsed", "normalized", "deduped", "rejected"]},
+        {"const": ["discovered", "fetched", "parsed", "normalized", "deduped", "mapped", "deferred"]},
+        {"const": ["discovered", "fetched", "parsed", "normalized", "deduped", "mapped", "rejected"]},
+        {"const": ["discovered", "fetched", "parsed", "normalized", "deduped", "mapped", "review-ready"]}
+      ]
     },
     "source": {
       "type": "object",
@@ -103,7 +115,20 @@
   "allOf": [
     {
       "if": {"properties": {"lifecycle": {"contains": {"const": "review-ready"}}}},
-      "then": {"properties": {"lifecycle": {"const": ["discovered", "fetched", "parsed", "normalized", "deduped", "mapped", "review-ready"]}}}
+      "then": {
+        "properties": {
+          "lifecycle": {"const": ["discovered", "fetched", "parsed", "normalized", "deduped", "mapped", "review-ready"]},
+          "decision": {"properties": {"value": {"enum": ["MAP", "NEW_GENERIC"]}}}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"lifecycle": {"contains": {"const": "deferred"}}}},
+      "then": {"properties": {"decision": {"properties": {"value": {"const": "DEFER"}}}}}
+    },
+    {
+      "if": {"properties": {"lifecycle": {"contains": {"const": "rejected"}}}},
+      "then": {"properties": {"decision": {"properties": {"value": {"enum": ["DUPLICATE", "NOT_A_SKILL"]}}}}}
     },
     {
       "if": {"properties": {"lifecycle": {"contains": {"const": "normalized"}}}},

@@ -1,0 +1,7 @@
+[
+  {
+    "id": "example-capability",
+    "kind": "generic",
+    "name": "Example Capability"
+  }
+]
