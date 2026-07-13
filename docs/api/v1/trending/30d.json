@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-07-13T16:35:14Z",
+  "generatedAt": "2026-07-13T16:48:31Z",
   "firstRun": false,
   "skills": [
     {
@@ -2214,135 +2214,9 @@
       "_links": {
         "self": "/api/v1/skills/mattpocock/caveman.json"
       }
-    },
-    {
-      "id": "favorchurch/attendees",
-      "name": "Attendees",
-      "level": "2★",
-      "contributor": "favorchurch",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": null,
-      "trendingScore": 2.5,
-      "tmDelta": 5.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/favorchurch/attendees.json"
-      }
-    },
-    {
-      "id": "favorchurch/count-checkin-by-church",
-      "name": "Count Check-in by Church",
-      "level": "2★",
-      "contributor": "favorchurch",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": null,
-      "trendingScore": 2.5,
-      "tmDelta": 5.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/favorchurch/count-checkin-by-church.json"
-      }
-    },
-    {
-      "id": "favorchurch/export-attendees",
-      "name": "Export Attendees",
-      "level": "2★",
-      "contributor": "favorchurch",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": null,
-      "trendingScore": 2.5,
-      "tmDelta": 5.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/favorchurch/export-attendees.json"
-      }
-    },
-    {
-      "id": "favorchurch/financial-assistance",
-      "name": "Financial Assistance",
-      "level": "2★",
-      "contributor": "favorchurch",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": null,
-      "trendingScore": 2.5,
-      "tmDelta": 5.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/favorchurch/financial-assistance.json"
-      }
-    },
-    {
-      "id": "favorchurch/resend-conference-emails-carefully-with-smtp",
-      "name": "Resend Conference Emails Carefully with SMTP",
-      "level": "2★",
-      "contributor": "favorchurch",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": null,
-      "trendingScore": 2.5,
-      "tmDelta": 5.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/favorchurch/resend-conference-emails-carefully-with-smtp.json"
-      }
-    },
-    {
-      "id": "favorchurch/speak-like-favor",
-      "name": "Speak Like Favor",
-      "level": "2★",
-      "contributor": "favorchurch",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": null,
-      "trendingScore": 2.5,
-      "tmDelta": 5.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/favorchurch/speak-like-favor.json"
-      }
-    },
-    {
-      "id": "favorchurch/ticket-transfer",
-      "name": "Ticket Transfer",
-      "level": "2★",
-      "contributor": "favorchurch",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": null,
-      "trendingScore": 2.5,
-      "tmDelta": 5.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/favorchurch/ticket-transfer.json"
-      }
-    },
-    {
-      "id": "favorchurch/triage-conference",
-      "name": "Triage Conference",
-      "level": "2★",
-      "contributor": "favorchurch",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": null,
-      "trendingScore": 2.5,
-      "tmDelta": 5.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/favorchurch/triage-conference.json"
-      }
-    },
-    {
-      "id": "favorchurch/update-unique-churches",
-      "name": "Update Unique Churches",
-      "level": "2★",
-      "contributor": "favorchurch",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": null,
-      "trendingScore": 2.5,
-      "tmDelta": 5.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/favorchurch/update-unique-churches.json"
-      }
     }
   ],
-  "totalTrending": 167,
+  "totalTrending": 158,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

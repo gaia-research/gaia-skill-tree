@@ -5,7 +5,7 @@ contributor: favorchurch
 origin: false
 genericSkillRef: crm-data-cleanup
 status: named
-level: 2★
+level: 1★
 description: Recount and update the unique churches represented in the conference
   attendance Google Sheet.
 createdAt: '2026-07-14'
@@ -23,6 +23,10 @@ timeline:
   contributor: mbtiongson1
   details: 'Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/update-unique-churches/SKILL.md
     (type: self-attestation)'
+- timestamp: '2026-07-13T16:47:49Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 1★
 evidence:
 - source: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/update-unique-churches/SKILL.md
   evaluator: favorchurch

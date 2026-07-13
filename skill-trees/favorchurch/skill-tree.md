@@ -10,15 +10,15 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ favorchurch/attendees | Basic Skill | 2★ | Named | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
-| ○ favorchurch/count-checkin-by-church | Basic Skill | 2★ | Named | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
-| ○ favorchurch/export-attendees | Basic Skill | 2★ | Named | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
-| ○ favorchurch/financial-assistance | Basic Skill | 2★ | Named | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
-| ○ favorchurch/resend-conference-emails-carefully-with-smtp | Basic Skill | 2★ | Named | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
-| ○ favorchurch/speak-like-favor | Basic Skill | 2★ | Named | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
-| ○ favorchurch/ticket-transfer | Basic Skill | 2★ | Named | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
-| ○ favorchurch/triage-conference | Basic Skill | 2★ | Named | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
-| ○ favorchurch/update-unique-churches | Basic Skill | 2★ | Named | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
+| ○ favorchurch/attendees | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
+| ○ favorchurch/count-checkin-by-church | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
+| ○ favorchurch/export-attendees | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
+| ○ favorchurch/financial-assistance | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
+| ○ favorchurch/resend-conference-emails-carefully-with-smtp | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
+| ○ favorchurch/speak-like-favor | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
+| ○ favorchurch/ticket-transfer | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
+| ○ favorchurch/triage-conference | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
+| ○ favorchurch/update-unique-churches | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
 
 ---
 
@@ -303,18 +303,18 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ /autonomous-engineering-platform
   · ○ gaia-research/skill-ci-churn  [2★]
   · ○ /clinical-data-retrieval
-  · ○ favorchurch/update-unique-churches  [2★]
+  · ○ ████████/update-unique-churches
   · ○ /cultural-localization
   · ○ ████████/domain-modeling
-  · ○ favorchurch/attendees  [2★]
-  · ○ favorchurch/export-attendees  [2★]
-  · ○ favorchurch/triage-conference  [2★]
-  · ○ favorchurch/ticket-transfer  [2★]
+  · ○ ████████/attendees
+  · ○ ████████/export-attendees
+  · ○ ████████/triage-conference
+  · ○ ████████/ticket-transfer
   · ○ ████████/evidence-attestation
   · ○ openai/few-shot-learning  [4★]
   · ○ laravel/upgrade-laravel-v13  [2★]
   · ○ ruvnet/agentic-jujutsu  [2★]
-  · ○ favorchurch/financial-assistance  [2★]
+  · ○ ████████/financial-assistance
   · ○ /image-generate
   · ○ ████████/implement-with-discernment
   · ○ ████████/huggingface-vision-trainer
@@ -329,7 +329,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
-  · ○ favorchurch/resend-conference-emails-carefully-with-smtp  [2★]
+  · ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 
 ## Pending Combinations

@@ -5,7 +5,7 @@ contributor: favorchurch
 origin: false
 genericSkillRef: event-ticket-transfer
 status: named
-level: 2★
+level: 1★
 description: End-to-end workflow for processing ticket transfer requests, updates,
   and confirmation emails.
 createdAt: '2026-07-14'
@@ -23,6 +23,10 @@ timeline:
   contributor: mbtiongson1
   details: 'Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/ticket-transfer/SKILL.md
     (type: self-attestation)'
+- timestamp: '2026-07-13T16:48:04Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 2★ to 1★
 evidence:
 - source: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/ticket-transfer/SKILL.md
   evaluator: favorchurch
