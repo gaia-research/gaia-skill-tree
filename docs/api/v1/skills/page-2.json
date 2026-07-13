@@ -1,6 +1,18 @@
 {
   "skills": [
     {
+      "id": "garrytan/canary",
+      "name": "Canary",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/canary.json"
+      }
+    },
+    {
       "id": "garrytan/cso",
       "name": "CSO",
       "level": "3★",
@@ -490,18 +502,6 @@
       "type": "basic",
       "_links": {
         "self": "/api/v1/skills/anthropic/pptx.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-skills",
-      "name": "Firecrawl Skills",
-      "level": "4★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "firecrawl",
-      "type": "extra",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
       }
     },
     {
