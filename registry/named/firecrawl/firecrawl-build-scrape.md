@@ -78,8 +78,8 @@ evidence:
   sourceStartedAt: '2023-08-01'
 verification:
   firstEvidenceAt: '2026-07-13T06:22:24Z'
-suiteRef: firecrawl/firecrawl
 catalogRef: firecrawl-firecrawl-build-scrape
+suiteRef: "firecrawl/firecrawl-skills"
 ---
 
 ## Installation

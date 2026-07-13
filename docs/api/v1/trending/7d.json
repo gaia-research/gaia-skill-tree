@@ -1,34 +1,76 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-13T06:23:01Z",
+  "generatedAt": "2026-07-13T09:51:33Z",
   "firstRun": false,
   "skills": [
     {
-      "id": "firecrawl/firecrawl",
-      "name": "Firecrawl",
+      "id": "firecrawl/firecrawl-build-scrape",
+      "name": "Firecrawl Scrape",
       "level": "4★",
       "contributor": "firecrawl",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
+      "trustMagnitude": 133.54,
+      "overallTrustGrade": "A",
+      "trendingScore": 66.77,
+      "tmDelta": 133.54,
+      "new": true,
       "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl.json"
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
       }
     },
     {
-      "id": "firecrawl/web-scrape-integration",
-      "name": "Firecrawl Scrape",
-      "level": "3★",
+      "id": "firecrawl/firecrawl-build-search",
+      "name": "Firecrawl Search",
+      "level": "4★",
       "contributor": "firecrawl",
-      "trustMagnitude": 45.84,
-      "overallTrustGrade": "C",
-      "trendingScore": 22.92,
-      "tmDelta": 45.84,
+      "trustMagnitude": 107.14,
+      "overallTrustGrade": "A",
+      "trendingScore": 53.57,
+      "tmDelta": 107.14,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/firecrawl/web-scrape-integration.json"
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-interact",
+      "name": "Firecrawl Interact",
+      "level": "2★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 73.52,
+      "overallTrustGrade": "B",
+      "trendingScore": 36.76,
+      "tmDelta": 73.52,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-onboarding",
+      "name": "Firecrawl Onboarding",
+      "level": "2★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 73.52,
+      "overallTrustGrade": "B",
+      "trendingScore": 36.76,
+      "tmDelta": 73.52,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "name": "Firecrawl Research Index",
+      "level": "2★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 73.52,
+      "overallTrustGrade": "B",
+      "trendingScore": 36.76,
+      "tmDelta": 73.52,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
       }
     },
     {
@@ -60,17 +102,17 @@
       }
     },
     {
-      "id": "firecrawl/web-search-integration",
-      "name": "Firecrawl Search",
-      "level": "2★",
+      "id": "firecrawl/firecrawl-skills",
+      "name": "Firecrawl Skills",
+      "level": "4★",
       "contributor": "firecrawl",
-      "trustMagnitude": 31.44,
+      "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
-      "trendingScore": 15.72,
-      "tmDelta": 31.44,
+      "trendingScore": 18.0,
+      "tmDelta": 36.0,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/firecrawl/web-search-integration.json"
+        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
       }
     },
     {
@@ -88,7 +130,7 @@
       }
     }
   ],
-  "totalTrending": 6,
+  "totalTrending": 9,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

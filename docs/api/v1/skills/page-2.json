@@ -1,6 +1,66 @@
 {
   "skills": [
     {
+      "id": "garrytan/cso",
+      "name": "CSO",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/cso.json"
+      }
+    },
+    {
+      "id": "garrytan/design-consultation",
+      "name": "Design Consultation",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/design-consultation.json"
+      }
+    },
+    {
+      "id": "garrytan/design-html",
+      "name": "Design HTML",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/design-html.json"
+      }
+    },
+    {
+      "id": "garrytan/design-shotgun",
+      "name": "Design Shotgun",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/design-shotgun.json"
+      }
+    },
+    {
+      "id": "garrytan/document-generate",
+      "name": "Document Generate",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/document-generate.json"
+      }
+    },
+    {
       "id": "garrytan/investigate",
       "name": "Investigate",
       "level": "3★",
@@ -325,18 +385,6 @@
       }
     },
     {
-      "id": "firecrawl/web-scrape-integration",
-      "name": "Firecrawl Scrape",
-      "level": "3★",
-      "trustMagnitude": 45.84,
-      "overallTrustGrade": "C",
-      "contributor": "firecrawl",
-      "type": "extra",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/web-scrape-integration.json"
-      }
-    },
-    {
       "id": "mattpocock/improve-codebase-architecture",
       "name": "Improve Codebase Architecture",
       "level": "2★",
@@ -445,15 +493,15 @@
       }
     },
     {
-      "id": "firecrawl/firecrawl",
-      "name": "Firecrawl",
+      "id": "firecrawl/firecrawl-skills",
+      "name": "Firecrawl Skills",
       "level": "4★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "firecrawl",
-      "type": "ultimate",
+      "type": "extra",
       "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl.json"
+        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
       }
     },
     {
@@ -550,54 +598,6 @@
       "type": "extra",
       "_links": {
         "self": "/api/v1/skills/garrytan/freeze.json"
-      }
-    },
-    {
-      "id": "garrytan/gstack-upgrade",
-      "name": "GStack Upgrade",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "extra",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/gstack-upgrade.json"
-      }
-    },
-    {
-      "id": "garrytan/guard",
-      "name": "Guard",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "extra",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/guard.json"
-      }
-    },
-    {
-      "id": "garrytan/health",
-      "name": "Health",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "extra",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/health.json"
-      }
-    },
-    {
-      "id": "garrytan/landing-report",
-      "name": "Landing Report",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "extra",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/landing-report.json"
       }
     }
   ],

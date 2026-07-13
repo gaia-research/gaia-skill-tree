@@ -2,12 +2,12 @@
   "distribution": {
     "total": 271,
     "S": 5,
-    "A": 44,
-    "B": 67,
-    "C": 80,
-    "ungraded": 75,
+    "A": 47,
+    "B": 69,
+    "C": 78,
+    "ungraded": 72,
     "floor": 0,
-    "up": 1
+    "up": 4
   },
   "rows": [
     {
@@ -86,6 +86,18 @@
       "origin": true
     },
     {
+      "id": "firecrawl/firecrawl-skills",
+      "trustMagnitude": 223.52,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 37.52,
+        "fusion-recipe": 150.0
+      },
+      "origin": false
+    },
+    {
       "id": "gsd-build/get-shit-done",
       "trustMagnitude": 202.16,
       "grade": "A",
@@ -128,6 +140,18 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "fusion-recipe": 120.0
+      },
+      "origin": true
+    },
+    {
+      "id": "firecrawl/firecrawl-build-scrape",
+      "trustMagnitude": 133.54,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "social-signal": 60.02,
+        "github-stars-own": 37.52,
+        "repo-own": 36.0
       },
       "origin": true
     },
@@ -232,6 +256,18 @@
         "repo-own": 36.0,
         "peer-review": 45.0,
         "social-signal": 29.15
+      },
+      "origin": true
+    },
+    {
+      "id": "firecrawl/firecrawl-build-search",
+      "trustMagnitude": 107.14,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "social-signal": 33.62,
+        "github-stars-own": 37.52,
+        "repo-own": 36.0
       },
       "origin": true
     },
@@ -387,7 +423,7 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": true
     },
     {
       "id": "google-deepmind/ncbi_sequence_fetch",
@@ -575,17 +611,6 @@
       "origin": true
     },
     {
-      "id": "firecrawl/firecrawl",
-      "trustMagnitude": 96.0,
-      "grade": "B",
-      "level": "4★",
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "fusion-recipe": 60.0
-      },
-      "origin": false
-    },
-    {
       "id": "ruvnet/flow-nexus",
       "trustMagnitude": 96.0,
       "grade": "B",
@@ -723,7 +748,7 @@
         "repo-own": 36.0,
         "peer-review": 52.5
       },
-      "origin": true
+      "origin": false
     },
     {
       "id": "obra/dispatching-parallel-agents",
@@ -751,10 +776,43 @@
       "id": "browser-use/browser-harness",
       "trustMagnitude": 73.59,
       "grade": "B",
-      "level": "3★",
+      "level": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "social-signal": 37.59
+      },
+      "origin": true
+    },
+    {
+      "id": "firecrawl/firecrawl-build-interact",
+      "trustMagnitude": 73.52,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 37.52,
+        "repo-own": 36.0
+      },
+      "origin": false
+    },
+    {
+      "id": "firecrawl/firecrawl-build-onboarding",
+      "trustMagnitude": 73.52,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 37.52,
+        "repo-own": 36.0
+      },
+      "origin": true
+    },
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "trustMagnitude": 73.52,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 37.52,
+        "repo-own": 36.0
       },
       "origin": false
     },
@@ -1308,16 +1366,6 @@
       "origin": false
     },
     {
-      "id": "firecrawl/web-scrape-integration",
-      "trustMagnitude": 45.84,
-      "grade": "C",
-      "level": "3★",
-      "typeBreakdown": {
-        "social-signal": 45.84
-      },
-      "origin": false
-    },
-    {
       "id": "mattpocock/improve-codebase-architecture",
       "trustMagnitude": 45.0,
       "grade": "C",
@@ -1631,7 +1679,7 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": false
     },
     {
       "id": "garrytan/setup-browser-cookies",
@@ -2085,16 +2133,6 @@
       "origin": true
     },
     {
-      "id": "firecrawl/web-search-integration",
-      "trustMagnitude": 31.44,
-      "grade": "C",
-      "level": "2★",
-      "typeBreakdown": {
-        "social-signal": 31.44
-      },
-      "origin": false
-    },
-    {
       "id": "devin-ai/autonomous-swe",
       "trustMagnitude": 30.0,
       "grade": "C",
@@ -2394,30 +2432,6 @@
       "trustMagnitude": 0.0,
       "grade": "ungraded",
       "level": "1★",
-      "typeBreakdown": {},
-      "origin": false
-    },
-    {
-      "id": "firecrawl/academic-literature-retrieval",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "2★",
-      "typeBreakdown": {},
-      "origin": false
-    },
-    {
-      "id": "firecrawl/agent-environment-auth",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "2★",
-      "typeBreakdown": {},
-      "origin": false
-    },
-    {
-      "id": "firecrawl/browser-interaction-integration",
-      "trustMagnitude": 0.0,
-      "grade": "ungraded",
-      "level": "2★",
       "typeBreakdown": {},
       "origin": false
     },

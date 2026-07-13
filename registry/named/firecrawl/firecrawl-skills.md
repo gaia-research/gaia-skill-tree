@@ -119,11 +119,11 @@ verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
 trustMagnitudeInputHash: 884be262d5d5ab382aed51e452e0ce7498fb4667d542b11adfd4d9cbd2063a2a
 suiteComponents:
-- firecrawl/firecrawl-build-scrape
-- firecrawl/firecrawl-build-search
-- firecrawl/firecrawl-build-interact
-- firecrawl/firecrawl-build-onboarding
-- firecrawl/firecrawl-research-index
+  - firecrawl/firecrawl-build-interact
+  - firecrawl/firecrawl-build-onboarding
+  - firecrawl/firecrawl-build-scrape
+  - firecrawl/firecrawl-build-search
+  - firecrawl/firecrawl-research-index
 ---
 
 ## Overview

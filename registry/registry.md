@@ -7,7 +7,7 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/reasoningbank-intelligence | Basic Skill | 2★ | `/adaptive-pattern-learning` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/swarm-advanced | Extra Skill | 2★ | `/advanced-swarm-coordination` |
 | ◇ /adversarial-robustness-testing | Extra Skill | — | `/adversarial-robustness-testing` |
-| ◇ [mattpocock](../docs/u/mattpocock/)/setup-matt-pocock-skills | Extra Skill | 3★ | `/agent-environment-setup` |
+| ◇ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-onboarding | Extra Skill | 3★ | `/agent-environment-setup` |
 | ◇ /agent-eval | Extra Skill | — | `/agent-eval` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/handoff | Extra Skill | 3★ | `/agent-handoff` |
 | ◇ ████████/agentdb-learning | Extra Skill | — | `/agent-memory-learning` |
@@ -23,7 +23,7 @@
 | ○ /bioinformatic-sequence-analysis | Basic Skill | — | `/bioinformatic-sequence-analysis` |
 | ◇ [obra](../docs/u/obra/)/brainstorming | Extra Skill | 3★ | `/brainstorming` |
 | ◇ ████████/stagehand | Extra Skill | — | `/browser-automation` |
-| ○ [garrytan](../docs/u/garrytan/)/browse | Basic Skill | 3★ | `/browser-control` |
+| ○ [browser-use](../docs/u/browser-use/)/browser-harness | Basic Skill | 4★ | `/browser-control` |
 | ◇ [santifer](../docs/u/santifer/)/career-ops | Extra Skill | 2★ | `/career-operations` |
 | ◇ /causal-inference | Extra Skill | — | `/causal-inference` |
 | ○ /chain-of-thought | Basic Skill | — | `/chain-of-thought` |
@@ -71,7 +71,7 @@
 | ◇ /financial-modeling | Extra Skill | — | `/financial-modeling` |
 | ○ ████████/huggingface-llm-trainer | Basic Skill | — | `/fine-tune` |
 | ◇ [garrytan](../docs/u/garrytan/)/ship | Extra Skill | 3★ | `/finishing-a-development-branch` |
-| ◆ [firecrawl](../docs/u/firecrawl/)/firecrawl | Ultimate Skill | 4★ | `/firecrawl` |
+| ◇ [firecrawl](../docs/u/firecrawl/)/firecrawl-skills | Extra Skill | 4★ | `/firecrawl` |
 | ○ [garrytan](../docs/u/garrytan/)/make-pdf | Basic Skill | 2★ | `/format-output` |
 | ◆ [garrytan](../docs/u/garrytan/)/gstack | Ultimate Skill | 5★ | `/founder-mode-orchestration` |
 | ◇ /full-stack-developer | Extra Skill | — | `/full-stack-developer` |
@@ -100,7 +100,7 @@
 | ◇ /knowledge-harvest | Extra Skill | — | `/knowledge-harvest` |
 | ◇ [garrytan](../docs/u/garrytan/)/setup-gbrain | Extra Skill | 2★ | `/knowledge-management` |
 | ◇ ████████/huggingface-papers | Extra Skill | — | `/literature-review` |
-| ○ [firecrawl](../docs/u/firecrawl/)/academic-literature-retrieval | Basic Skill | 2★ | `/literature-search` |
+| ○ [firecrawl](../docs/u/firecrawl/)/firecrawl-research-index | Basic Skill | 2★ | `/literature-search` |
 | ○ /logical-inference | Basic Skill | — | `/logical-inference` |
 | ○ /math-reason | Basic Skill | — | `/math-reason` |
 | ◇ /mathematical-animation | Extra Skill | — | `/mathematical-animation` |
@@ -208,8 +208,8 @@
 | ◇ /web-accessibility | Extra Skill | — | `/web-accessibility` |
 | ◇ /web-best-practices | Extra Skill | — | `/web-best-practices` |
 | ◇ /web-quality-audit | Extra Skill | — | `/web-quality-audit` |
-| ◇ [garrytan](../docs/u/garrytan/)/scrape | Extra Skill | 3★ | `/web-scrape` |
-| ○ [firecrawl](../docs/u/firecrawl/)/web-search-integration | Basic Skill | 2★ | `/web-search` |
+| ◇ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-scrape | Extra Skill | 4★ | `/web-scrape` |
+| ○ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-search | Basic Skill | 4★ | `/web-search` |
 | ◇ /wiki-search | Extra Skill | — | `/wiki-search` |
 | ○ [ruvnet](../docs/u/ruvnet/)/worker-integration | Basic Skill | 2★ | `/worker-agent-dispatch` |
 | ◇ ████████/github-workflow-automation | Extra Skill | — | `/workflow-automation` |

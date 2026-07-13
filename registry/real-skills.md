@@ -243,5 +243,10 @@ Curated named skills from live SKILL.md ecosystems.
 - [ruvnet/verification-quality](https://github.com/ruvnet/ruflo) - Implements structured pre-completion verification checklists ensuring quality gates are met before task finalization. Maps to: `verification-before-completion`.
 - [ruvnet/worker-benchmarks](https://github.com/ruvnet/ruflo) - Benchmarks Ruflo background worker performance across latency, throughput, memory usage, and quality score dimensions. Maps to: `skill-performance-benchmarking`.
 - [ruvnet/worker-integration](https://github.com/ruvnet/ruflo) - Maps trigger events to optimal agent combinations for background task execution with performance tracking and adaptive feedback. Maps to: `worker-agent-dispatch`.
+- [firecrawl/firecrawl-build-interact]() - Integrate Firecrawl browser interaction into product code. Maps to: .
+- [firecrawl/firecrawl-build-onboarding]() - Configure Firecrawl credentials and client setup for agent tools. Maps to: .
+- [firecrawl/firecrawl-build-scrape]() - Integrate Firecrawl page extraction into product code. Maps to: .
+- [firecrawl/firecrawl-build-search]() - Integrate Firecrawl web search into product code. Maps to: .
+- [firecrawl/firecrawl-research-index]() - Retrieve and query academic literature through Firecrawl Research. Maps to: .
 
 *Generated from registry/real-skills.json on 2026-05-19T00:00:00Z.*

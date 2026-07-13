@@ -2,88 +2,89 @@
   "handle": "firecrawl",
   "namedSkills": [
     {
-      "id": "firecrawl/web-scrape-integration",
+      "id": "firecrawl/firecrawl-build-scrape",
       "name": "Firecrawl Scrape",
-      "level": "3★",
-      "trustMagnitude": 45.84,
-      "overallTrustGrade": "C",
+      "level": "4★",
+      "trustMagnitude": 133.54,
+      "overallTrustGrade": "A",
       "contributor": "firecrawl",
       "type": "extra",
       "_links": {
-        "self": "/api/v1/skills/firecrawl/web-scrape-integration.json"
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
       }
     },
     {
-      "id": "firecrawl/firecrawl",
-      "name": "Firecrawl",
+      "id": "firecrawl/firecrawl-build-search",
+      "name": "Firecrawl Search",
+      "level": "4★",
+      "trustMagnitude": 107.14,
+      "overallTrustGrade": "A",
+      "contributor": "firecrawl",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-interact",
+      "name": "Firecrawl Interact",
+      "level": "2★",
+      "trustMagnitude": 73.52,
+      "overallTrustGrade": "B",
+      "contributor": "firecrawl",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-onboarding",
+      "name": "Firecrawl Onboarding",
+      "level": "2★",
+      "trustMagnitude": 73.52,
+      "overallTrustGrade": "B",
+      "contributor": "firecrawl",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "name": "Firecrawl Research Index",
+      "level": "2★",
+      "trustMagnitude": 73.52,
+      "overallTrustGrade": "B",
+      "contributor": "firecrawl",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-skills",
+      "name": "Firecrawl Skills",
       "level": "4★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "firecrawl",
-      "type": "ultimate",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl.json"
-      }
-    },
-    {
-      "id": "firecrawl/web-search-integration",
-      "name": "Firecrawl Search",
-      "level": "2★",
-      "trustMagnitude": 31.44,
-      "overallTrustGrade": "C",
-      "contributor": "firecrawl",
-      "type": "basic",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/web-search-integration.json"
-      }
-    },
-    {
-      "id": "firecrawl/academic-literature-retrieval",
-      "name": "Firecrawl Research Index",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
-      "contributor": "firecrawl",
-      "type": "basic",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/academic-literature-retrieval.json"
-      }
-    },
-    {
-      "id": "firecrawl/agent-environment-auth",
-      "name": "Firecrawl Onboarding",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
-      "contributor": "firecrawl",
       "type": "extra",
       "_links": {
-        "self": "/api/v1/skills/firecrawl/agent-environment-auth.json"
-      }
-    },
-    {
-      "id": "firecrawl/browser-interaction-integration",
-      "name": "Firecrawl Interact",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
-      "contributor": "firecrawl",
-      "type": "basic",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/browser-interaction-integration.json"
+        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
       }
     }
   ],
   "namedSkillsCount": 6,
   "topSkill": {
-    "id": "firecrawl/web-scrape-integration",
-    "level": "3★",
-    "trustMagnitude": 45.84
+    "id": "firecrawl/firecrawl-build-scrape",
+    "level": "4★",
+    "trustMagnitude": 133.54
   },
-  "prestigeScore": 113.28,
+  "prestigeScore": 497.24,
   "gradeDistribution": {
-    "C": 3,
-    "ungraded": 3
+    "A": 2,
+    "B": 3,
+    "C": 1
   },
   "_links": {
     "self": "/api/v1/contributors/firecrawl.json",

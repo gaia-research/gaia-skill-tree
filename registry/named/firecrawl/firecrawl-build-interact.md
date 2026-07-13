@@ -26,7 +26,6 @@ timeline:
   contributor: mbtiongson1
   details: Renamed from firecrawl/browser-interaction-integration to firecrawl/firecrawl-build-interact
     — aligned to official firecrawl/skills repo naming
-suiteRef: firecrawl/firecrawl
 evidence:
 - type: github-stars-own
   source: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md
@@ -44,6 +43,7 @@ evidence:
   date: '2026-07-13'
   sourceStartedAt: '2023-08-01'
 catalogRef: firecrawl-firecrawl-build-interact
+suiteRef: "firecrawl/firecrawl-skills"
 ---
 
 ## Installation

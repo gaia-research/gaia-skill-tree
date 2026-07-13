@@ -1,29 +1,29 @@
 {
-  "generatedAt": "2026-07-13T06:23:01Z",
+  "generatedAt": "2026-07-13T09:51:33Z",
   "skills": [
     {
-      "id": "firecrawl/web-scrape-integration",
+      "id": "firecrawl/firecrawl-build-scrape",
       "name": "Firecrawl Scrape",
-      "level": "3★",
+      "level": "4★",
       "contributor": "firecrawl",
-      "trustMagnitude": 45.84,
-      "overallTrustGrade": "C",
+      "trustMagnitude": 133.54,
+      "overallTrustGrade": "A",
       "ascendedAt": "2026-07-13T06:22:38Z",
       "_links": {
-        "self": "/api/v1/skills/firecrawl/web-scrape-integration.json"
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
       },
       "previousLevel": "2★"
     },
     {
-      "id": "firecrawl/firecrawl",
-      "name": "Firecrawl",
+      "id": "firecrawl/firecrawl-skills",
+      "name": "Firecrawl Skills",
       "level": "4★",
       "contributor": "firecrawl",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "ascendedAt": "2026-07-13T06:22:38Z",
       "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl.json"
+        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
       },
       "previousLevel": "2★"
     },

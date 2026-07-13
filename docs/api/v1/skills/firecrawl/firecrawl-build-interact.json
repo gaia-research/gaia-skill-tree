@@ -1,14 +1,14 @@
 {
-  "id": "firecrawl/browser-interaction-integration",
+  "id": "firecrawl/firecrawl-build-interact",
   "name": "Firecrawl Interact",
   "contributor": "firecrawl",
   "level": "2★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 0.0,
-  "overallTrustGrade": null,
+  "trustMagnitude": 73.52,
+  "overallTrustGrade": "B",
   "_links": {
-    "self": "/api/v1/skills/firecrawl/browser-interaction-integration.json",
+    "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json",
     "contributor": "/api/v1/contributors/firecrawl.json",
     "list": "/api/v1/skills/index.json"
   },
@@ -26,6 +26,27 @@
     "crossOrgVerifier": null,
     "systemWideCap": null
   },
+  "evidence": [
+    {
+      "type": "github-stars-own",
+      "source": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md",
+      "stars": 150087,
+      "skillCountInRepo": 6,
+      "grade": "B",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-13"
+    },
+    {
+      "type": "repo-own",
+      "source": "https://github.com/firecrawl/firecrawl",
+      "commits": 5714,
+      "contributors": 155,
+      "grade": "B",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-13",
+      "sourceStartedAt": "2023-08-01"
+    }
+  ],
   "timeline": [
     {
       "timestamp": "2026-07-13T06:22:17Z",
@@ -38,6 +59,12 @@
       "action": "suite_ref_set",
       "contributor": "unknown",
       "details": "Set suiteRef to firecrawl/firecrawl"
+    },
+    {
+      "timestamp": "2026-07-13T09:08:45Z",
+      "action": "note",
+      "contributor": "mbtiongson1",
+      "details": "Renamed from firecrawl/browser-interaction-integration to firecrawl/firecrawl-build-interact — aligned to official firecrawl/skills repo naming"
     }
   ],
   "links": {
