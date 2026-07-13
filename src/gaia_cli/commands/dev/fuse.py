@@ -283,6 +283,14 @@ def meta_dev_fuse_command(args) -> None:
         if p not in existing_prereqs:
             existing_prereqs.append(p)
     node_data["prerequisites"] = existing_prereqs
+    # Repair the invalid legacy action emitted by earlier versions of this
+    # command. Timeline actions are schema-constrained; `note` is not valid.
+    for event in node_data.get("timeline") or []:
+        if (
+            event.get("action") == "note"
+            and "via `gaia dev fuse`" in str(event.get("details", ""))
+        ):
+            event["action"] = "fuse"
     if name:
         node_data["name"] = name
     if description:
@@ -303,7 +311,7 @@ def meta_dev_fuse_command(args) -> None:
         print(f"Updated generic fusion node: {node_file}")
     if prereqs:
         append_skill_event(
-            generic_id, "note", _get_contributor(),
+            generic_id, "fuse", _get_contributor(),
             f"Set prerequisites via `gaia dev fuse`: {', '.join(prereqs)}.",
             registry_path=registry_path,
         )
