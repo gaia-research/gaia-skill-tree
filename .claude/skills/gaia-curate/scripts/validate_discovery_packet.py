@@ -133,13 +133,37 @@ def validate_packet(packet: Any) -> list[str]:
             separators=(",", ":"),
         ).encode("utf-8")
         options_digest = hashlib.sha256(canonical_options).hexdigest()
+        generics = snapshot.get("generics") if isinstance(snapshot, dict) else None
+        canonical_generics = json.dumps(
+            generics if isinstance(generics, list) else [],
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+        generics_digest = hashlib.sha256(canonical_generics).hexdigest()
+        generic_ids = {
+            generic.get("id")
+            for generic in generics
+            if isinstance(generic, dict)
+            and isinstance(generic.get("id"), str)
+            and generic["id"].strip()
+            and generic.get("kind") == "generic"
+        } if isinstance(generics, list) else set()
+        option_ids = {
+            option.get("genericId")
+            for option in options
+            if isinstance(option, dict)
+        } if isinstance(options, list) else set()
         if (
             not isinstance(snapshot, dict)
             or not isinstance(snapshot.get("capturedAt"), str)
             or not snapshot["capturedAt"].strip()
+            or snapshot.get("command") != "gaia dev list --generic --json"
+            or not isinstance(generics, list)
             or not SHA256.fullmatch(str(snapshot.get("contentSha256", "")))
+            or snapshot.get("contentSha256") != generics_digest
             or not SHA256.fullmatch(str(snapshot.get("mappingOptionsSha256", "")))
             or snapshot.get("mappingOptionsSha256") != options_digest
+            or not option_ids <= generic_ids
         ):
             errors.append("INVALID_GENERIC_SNAPSHOT")
 
