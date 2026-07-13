@@ -8,16 +8,15 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 
 ## Registry Index
 
-### Ultimate Skills (6)
+### Ultimate Skills (5)
 
-* [Firecrawl](/skills/ultimate/firecrawl.md) - A suite for integrating Firecrawl search, scraping, browser interaction, environment setup, and academic literature retrieval into applications.
 * [Founder Mode](/skills/ultimate/founder-mode-orchestration.md) - Garry Tan's complete autonomous agent discipline suite spanning 19 named skills: browser QA, security auditing, design system creation, HTML generation, plan reviews (CEO/eng/design/DX), code review, root-cause debugging, E2E testing, ship/deploy automation, post-deploy canary monitoring, documentation, and founder-mode orchestration.
 * [Git Ship Done Pipeline](/skills/ultimate/git-ship-done-pipeline.md) - Fuses decision capture, planning, parallel execution, verification, and shipping into a repeatable agentic software delivery pipeline.
 * [Ruflo](/skills/ultimate/multi-topology-orchestration.md) - The complete Ruflo AI orchestration platform: multi-topology swarm deployment, cloud platform management, GitHub automation, hive-mind consensus, reasoning memory bank, and full v3 architecture modernization.
 * [Superpowers](/skills/ultimate/superpowers.md) - A complete software development methodology for coding agents: combines brainstorming, planning, parallel execution, systematic debugging, code review loops, and branch discipline into a unified agentic workflow.
 * [mattpocock-skills](/skills/ultimate/skill-mastery.md) - Ultimate capstone suite for Matt Pocock's skills.
 
-### Extra Skills (124)
+### Extra Skills (125)
 
 * [Advanced Swarm Coordination](/skills/extra/advanced-swarm-coordination.md) - Domain-specific swarm patterns for research, development, testing, and analysis workflows with neural learning and cross-session state persistence.
 * [Adversarial Robustness Testing](/skills/extra/adversarial-robustness-testing.md) - Systematically red-teams models with adversarial and multi-turn jailbreak prompts, input perturbations, and semantic-preserving transformations to measure resilience at scale.
@@ -58,6 +57,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Explainability Audit](/skills/extra/explainability-audit.md) - Audits model transparency by computing feature-importance attributions (SHAP, LIME) and intrinsic-interpretability metrics, surfacing them as governance evidence.
 * [Financial Modeling](/skills/extra/financial-modeling.md) - Builds financial projections, DCF and LBO valuation models, Monte Carlo simulations, and portfolio optimization by querying data, computing statistics, and running sensitivity analysis.
 * [Finishing a Development Branch](/skills/extra/finishing-a-development-branch.md) - Guides completion of development work by presenting structured options for merge, PR, or cleanup, verifying tests first.
+* [Firecrawl](/skills/extra/firecrawl.md) - A suite for integrating Firecrawl search, scraping, browser interaction, environment setup, and academic literature retrieval into applications.
 * [Flow Nexus Orchestration](/skills/extra/multi-node-orchestration.md) - Complete Flow Nexus platform: multi-topology swarm deployment, cloud platform management, and distributed neural training unified into one orchestration layer.
 * [Full-Stack Developer](/skills/extra/full-stack-developer.md) - Autonomously implements, reviews, tests, and refactors complete software features across the full development lifecycle from specification to merged PR.
 * [Function Calling](/skills/extra/function-calling.md) - Selects an external callable, emits schema-valid arguments, invokes the function or API, and integrates the returned result into the agent loop.
