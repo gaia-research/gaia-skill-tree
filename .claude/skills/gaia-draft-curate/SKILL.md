@@ -99,7 +99,7 @@ The packet may be saved as `/tmp/gaia-draft-curate-<batchId>.md`. Write a reposi
 
 ### 7. Hand off only with confirmation
 
-Ask whether to continue. By default, hand accepted items to `/gaia-curate-chain` so research, schema checks, mutation, and docs sync remain gated. Use `/gaia-curate` only when the user explicitly chooses the lower-overhead path for a low-risk batch.
+Ask whether to continue. By default, hand accepted items to `/gaia-curate-chain` for discovery-packet validation and L4 review only. After L4, preserve the batch and issue/PR links, route unresolved evidence to `/ev-pipeline`, and hand verified rows to a maintainer for the CLI-only meta shift. The chain does not mutate the registry or sync docs. Use `/gaia-curate` only when the user explicitly chooses the lower-overhead path for a low-risk batch.
 
 The handoff must preserve the originating batch and issue/PR links. This skill itself does not run `gaia dev add`, `gaia dev evidence`, or any other mutating command.
 
