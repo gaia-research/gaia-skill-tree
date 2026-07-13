@@ -1,13 +1,13 @@
 {
-  "version": "6.7.1",
-  "generatedAt": "2026-07-13T12:34:11Z",
+  "version": "6.4.0",
+  "generatedAt": "2026-07-13T16:49:20Z",
   "summary": {
-    "total": 271,
+    "total": 280,
     "S": 5,
     "A": 47,
     "B": 69,
     "C": 78,
-    "ungraded": 72,
+    "ungraded": 81,
     "floor": 0,
     "up": 4
   },
@@ -3355,6 +3355,141 @@
       "origin": false
     },
     {
+      "skillId": "favorchurch/attendees",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "mayStars": "1★",
+      "juneStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "favorchurch/count-checkin-by-church",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "mayStars": "1★",
+      "juneStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "favorchurch/export-attendees",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "mayStars": "1★",
+      "juneStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "favorchurch/financial-assistance",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "mayStars": "1★",
+      "juneStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "favorchurch/resend-conference-emails-carefully-with-smtp",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "mayStars": "1★",
+      "juneStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "favorchurch/speak-like-favor",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "mayStars": "1★",
+      "juneStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "favorchurch/ticket-transfer",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "mayStars": "1★",
+      "juneStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "favorchurch/triage-conference",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "mayStars": "1★",
+      "juneStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "favorchurch/update-unique-churches",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "1★",
+      "mayStars": "1★",
+      "juneStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
       "skillId": "mattpocock/ask-matt",
       "tm": 5.0,
       "grade": "ungraded",
@@ -3726,7 +3861,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
@@ -3739,7 +3874,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
@@ -3752,7 +3887,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
@@ -3765,7 +3900,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
@@ -3778,7 +3913,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
@@ -4129,7 +4264,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
@@ -4142,7 +4277,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
@@ -4155,7 +4290,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
@@ -4181,7 +4316,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",

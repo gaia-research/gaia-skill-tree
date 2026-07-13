@@ -1,0 +1,22 @@
+{
+  "id": "event-attendance-metrics",
+  "name": "Event Attendance Metrics",
+  "type": "basic",
+  "description": "Collect, process, and query attendee RSVP and check-in records for events, normalizing data to produce clean, unique attendance counts and metrics.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-14",
+  "updatedAt": "2026-07-14",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-13T16:25:46Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill event-attendance-metrics"
+    }
+  ]
+}
