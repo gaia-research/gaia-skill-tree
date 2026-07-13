@@ -5,8 +5,8 @@
   "level": "4★",
   "type": "extra",
   "status": "named",
-  "trustMagnitude": 36.0,
-  "overallTrustGrade": "C",
+  "trustMagnitude": 223.52,
+  "overallTrustGrade": "A",
   "_links": {
     "self": "/api/v1/skills/firecrawl/firecrawl-skills.json",
     "contributor": "/api/v1/contributors/firecrawl.json",
@@ -142,6 +142,11 @@
       "action": "suite_ref_set",
       "contributor": "unknown",
       "details": "Set suiteRef=firecrawl/firecrawl, genericSkillRef=firecrawl via `gaia dev fuse`."
+    },
+    {
+      "action": "migrate_trust_magnitude",
+      "timestamp": "2026-07-13T11:46:14Z",
+      "details": "TM 36.0 -> 223.52, grade C -> A (direct edit -- CLI gap)"
     }
   ],
   "links": {

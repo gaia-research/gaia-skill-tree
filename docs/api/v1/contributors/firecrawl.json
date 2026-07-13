@@ -2,6 +2,18 @@
   "handle": "firecrawl",
   "namedSkills": [
     {
+      "id": "firecrawl/firecrawl-skills",
+      "name": "Firecrawl Skills",
+      "level": "4★",
+      "trustMagnitude": 223.52,
+      "overallTrustGrade": "A",
+      "contributor": "firecrawl",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
+      }
+    },
+    {
       "id": "firecrawl/firecrawl-build-scrape",
       "name": "Firecrawl Scrape",
       "level": "4★",
@@ -60,31 +72,18 @@
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
       }
-    },
-    {
-      "id": "firecrawl/firecrawl-skills",
-      "name": "Firecrawl Skills",
-      "level": "4★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "firecrawl",
-      "type": "extra",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
-      }
     }
   ],
   "namedSkillsCount": 6,
   "topSkill": {
-    "id": "firecrawl/firecrawl-build-scrape",
+    "id": "firecrawl/firecrawl-skills",
     "level": "4★",
-    "trustMagnitude": 133.54
+    "trustMagnitude": 223.52
   },
-  "prestigeScore": 497.24,
+  "prestigeScore": 684.76,
   "gradeDistribution": {
-    "A": 2,
-    "B": 3,
-    "C": 1
+    "A": 3,
+    "B": 3
   },
   "_links": {
     "self": "/api/v1/contributors/firecrawl.json",

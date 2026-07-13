@@ -77,6 +77,9 @@ timeline:
   contributor: unknown
   details: Set suiteRef=firecrawl/firecrawl, genericSkillRef=firecrawl via `gaia dev
     fuse`.
+- action: migrate_trust_magnitude
+  timestamp: '2026-07-13T11:46:14Z'
+  details: TM 36.0 -> 223.52, grade C -> A (direct edit -- CLI gap)
 evidence:
 - class: B
   source: https://github.com/firecrawl/firecrawl
@@ -104,8 +107,8 @@ evidence:
   grade: B
   evaluator: mbtiongson1
   date: '2026-07-13'
-trustMagnitude: 36.0
-overallTrustGrade: C
+trustMagnitude: 223.52
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -117,13 +120,13 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
-trustMagnitudeInputHash: 884be262d5d5ab382aed51e452e0ce7498fb4667d542b11adfd4d9cbd2063a2a
+trustMagnitudeInputHash: bc865a773c50df9fe80e056b41575039c7bf61f6b8ce2122a55da282b280e464
 suiteComponents:
-  - firecrawl/firecrawl-build-interact
-  - firecrawl/firecrawl-build-onboarding
-  - firecrawl/firecrawl-build-scrape
-  - firecrawl/firecrawl-build-search
-  - firecrawl/firecrawl-research-index
+- firecrawl/firecrawl-build-interact
+- firecrawl/firecrawl-build-onboarding
+- firecrawl/firecrawl-build-scrape
+- firecrawl/firecrawl-build-search
+- firecrawl/firecrawl-research-index
 ---
 
 ## Overview

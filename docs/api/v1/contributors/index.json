@@ -69,11 +69,11 @@
       "handle": "firecrawl",
       "namedSkills": 6,
       "topSkill": {
-        "id": "firecrawl/firecrawl-build-scrape",
+        "id": "firecrawl/firecrawl-skills",
         "level": "4★",
-        "trustMagnitude": 133.54
+        "trustMagnitude": 223.52
       },
-      "prestigeScore": 497.24,
+      "prestigeScore": 684.76,
       "_links": {
         "self": "/api/v1/contributors/firecrawl.json"
       }
