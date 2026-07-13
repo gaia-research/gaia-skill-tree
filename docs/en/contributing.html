@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contributing — Gaia Docs</title>
-  <meta name="description" content="Three contributor paths: submitting skills via gaia push, curating with /gaia-curate-chain, or direct CLI meta shifts. Covers branch naming, PR checklist, and automated maintenance.">
+  <meta name="description" content="Three contributor paths: YAML intake, discovery-only curation, or maintainer CLI meta shifts. Includes model guidance and validation commands.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -512,27 +512,27 @@
     <!-- Main -->
     <main class="main-content">
       <h1 class="page-title">Contributing</h1>
-      <p class="page-lead">Three paths to expand the registry — choose by role. Every mutation goes through the same <code>gaia dev</code> verbs; the paths differ in how much gating they add.</p>
+      <p class="page-lead">Three paths to help Gaia: submit a known skill, review external candidates, or apply a maintainer-approved graph change.</p>
 
       <!-- Pick workflow -->
       <section class="section" id="pick-workflow">
         <h2 class="section-title">Pick your workflow</h2>
         <div class="section-body">
-          <p>Choose the path that matches what you're doing. All three routes land in the same registry — the difference is gating and scale.</p>
+          <p>Choose the smallest path that matches the work. Discovery and intake do not mutate the registry.</p>
         </div>
 
         <div class="path-grid">
           <div class="path-card">
             <div class="path-label">Path A</div>
             <div class="path-name">Submit discovered skills</div>
-            <div class="path-desc">You found a SKILL.md in the wild and want to propose it for the registry. Runs the scanner and opens a draft intake batch for reviewer approval.</div>
-            <div class="path-cmd">gaia push</div>
+            <div class="path-desc">You already understand the skill and can describe it with the canonical intake YAML.</div>
+            <div class="path-cmd">gaia push --from-file skills.yml</div>
           </div>
           <div class="path-card recommended">
             <div class="path-label">Path B <span class="badge">recommended</span></div>
-            <div class="path-name">Curate with gates</div>
-            <div class="path-desc">Reviewer-run pipeline with six gated links — scope, research, design, human review, mutate, ship. Schema and DAG are checked before any mutation touches the registry.</div>
-            <div class="path-cmd">/gaia-curate-chain &lt;topic&gt;</div>
+            <div class="path-name">Review external candidates</div>
+            <div class="path-desc">Fetch real SKILL.md artifacts, normalize and dedupe them, make bounded decisions, then stop at L4 human review.</div>
+            <div class="path-cmd">/gaia-curate &lt;source&gt;</div>
           </div>
           <div class="path-card">
             <div class="path-label">Path C</div>
@@ -545,56 +545,58 @@
 
       <!-- Path A -->
       <section class="section" id="path-a">
-        <h2 class="section-title">Path A — <code>gaia push</code></h2>
+        <h2 class="section-title">Path A — <code>gaia push --from-file</code></h2>
         <div class="section-body">
-          <p>Use this when you've found or built a skill and want to propose it. The command scans your repository, writes a draft intake batch to <code>registry-for-review/skill-batches/</code>, and opens a GitHub issue for reviewer sign-off.</p>
-          <p>Proposed skills are not in the registry until a maintainer promotes them. The intake batch is a review artifact only.</p>
+          <p>Create <code>skills.yml</code> using <code>.github/ISSUE_TEMPLATE/new_skill_intake.yml</code>, then preview it. The CLI and issue form feed the same review queue.</p>
+          <p>Proposed skills are not in the registry until a maintainer promotes them.</p>
         </div>
 
         <div class="code-fence">
           <div class="code-fence-label">bash</div>
-          <pre><span class="c"># Standard push — opens a GitHub issue with proposed skills</span>
-gaia push
+          <pre><span class="c"># Preview; writes nothing</span>
+gaia push --from-file skills.yml --dry-run
 
-<span class="c"># Dry run — shows the batch without creating anything</span>
-gaia push --dry-run
-
-<span class="c"># Skip creating a GitHub issue (useful in CI or draft review)</span>
-gaia push --no-issue
-
-<span class="c"># Validate the intake batch after pushing</span>
-python3 scripts/validate_intake.py</pre>
+<span class="c"># Submit the reviewed YAML</span>
+gaia push --from-file skills.yml</pre>
         </div>
 
         <div class="callout warn">
-          <strong>Always dry-run first.</strong> <code>gaia push</code> opens a public GitHub issue. Use <code>--dry-run</code> to review the proposed skill list before committing.
+          <strong>Do not hand-edit the registry.</strong> Do not open an unstructured “add my skill” issue or invent evidence rows.
         </div>
       </section>
 
       <!-- Path B -->
       <section class="section" id="path-b">
-        <h2 class="section-title">Path B — <code>/gaia-curate-chain</code></h2>
+        <h2 class="section-title">Path B — discovery-only curation</h2>
         <div class="section-body">
-          <p>The recommended path for maintainer-run registry expansion. Runs as six gated links with one sub-agent per link. A programmatic check runs between each link — schema shapes and the prerequisite DAG are verified before any mutation touches the registry, and <code>gaia dev validate</code> must pass before the branch ships.</p>
+          <p>Start with one source page and at most five candidates. Fetch a real upstream <code>SKILL.md</code>, normalize it, exact-dedupe it, offer at most three existing generic IDs, make one bounded decision, and stop at L4 review.</p>
         </div>
 
         <div class="code-fence">
           <div class="code-fence-label">claude code</div>
-          <pre>/gaia-curate-chain &lt;topic-or-source-url&gt;</pre>
+          <pre>/gaia-curate &lt;source-page-url&gt;</pre>
         </div>
 
-        <h3>Six links</h3>
-        <ol class="step-list">
-          <li><strong>Scope</strong> — define the skill domain and boundaries, reject off-scope candidates early.</li>
-          <li><strong>Research</strong> — verify source URLs are resolvable, collect evidence, check for existing canonical coverage.</li>
-          <li><strong>Design</strong> — shape the skill graph: IDs, prerequisites, tier assignment, evidence class.</li>
-          <li><strong>Human review</strong> — gated pause for maintainer sign-off before mutations begin.</li>
-          <li><strong>Mutate</strong> — run <code>gaia dev add</code> / <code>evidence</code> / <code>link</code> commands to write to the registry.</li>
-          <li><strong>Ship</strong> — run <code>gaia dev validate</code>, open the PR, verify CI.</li>
-        </ol>
+        <h3>Choose the smallest extension</h3>
+        <table class="data-table">
+          <thead><tr><th>Need</th><th>Skill</th><th>Model</th></tr></thead>
+          <tbody>
+            <tr><td>One bounded page</td><td><code>/gaia-curate</code></td><td>GPT-5.6 Luna at minimal reasoning, or equivalent</td></tr>
+            <tr><td>External snapshots</td><td><code>/gaia-curate-trending</code></td><td>Luna for rows; deterministic code for ranking</td></tr>
+            <tr><td>Stop and resume</td><td><code>/gaia-curate-chain</code></td><td>Luna workers with deterministic validation</td></tr>
+            <tr><td>Parallel sweep</td><td><code>/gaia-curate-dynamic</code></td><td>Sol preferred or Terra as orchestrator; Luna workers; Luna High for disputes</td></tr>
+          </tbody>
+        </table>
+
+        <div class="code-fence">
+          <div class="code-fence-label">bash — validate</div>
+          <pre>pytest -q tests/test_gaia_curate_discovery_packet.py
+python3 .agents/skills/gaia-curate/scripts/validate_discovery_packet.py \
+  .agents/skills/gaia-curate/fixtures/review-ready-packet.json</pre>
+        </div>
 
         <div class="callout info">
-          The flat <code>/gaia-curate</code> skill (single linear pass) is available for small, trusted, low-stakes batches — but it is less gated. Prefer <code>/gaia-curate-chain</code> when evidence quality and schema correctness matter.
+          A shortlist is not acceptance. Discovery does not collect evidence, calculate Trust Magnitude, calibrate stars, mutate the registry, create intake, commit, push, or open a PR. New external discoveries go to <code>gaia push --from-file</code>; rows already in intake go to <code>/ev-pipeline</code> and then a maintainer-only CLI change.
         </div>
       </section>
 
