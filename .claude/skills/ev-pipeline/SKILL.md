@@ -79,4 +79,13 @@ After all four phases complete, save these artifacts:
 2. **Master source report** — document the audit log, star updates, and adversarial findings in `evidence/source_report_YYYY_MM_DD.md`
 3. **Visual dashboard** — update statistics and pipeline statuses in `evidence/verification_process.html`
 
+## Ingestion Handoff
+
+For L4-approved intake rows, successful Phase 4 is the boundary between the
+raw evidence lake and canonical registry mutation. Create a reviewed evidence
+manifest from only live, correctly scoped rows, then hand it to
+`/gaia-ingest-batch`. That wrapper uses `/gaia-ingest` for every CLI-only
+`gaia dev evidence` write, appraises TM, and presents calibration proposals.
+Do not import evidence by hand or treat requested intake stars as evidence.
+
 Use today's date (`currentDate` from memory) for all `YYYY_MM_DD` placeholders.

@@ -1,6 +1,18 @@
 {
   "skills": [
     {
+      "id": "vercel/find-skills",
+      "name": "Find Skills",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "vercel",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/vercel/find-skills.json"
+      }
+    },
+    {
       "id": "upsonic/unittest-generator",
       "name": "Unittest Generator",
       "level": "2★",
@@ -10,6 +22,18 @@
       "type": "basic",
       "_links": {
         "self": "/api/v1/skills/upsonic/unittest-generator.json"
+      }
+    },
+    {
+      "id": "firecrawl/web-search-integration",
+      "name": "Firecrawl Search",
+      "level": "2★",
+      "trustMagnitude": 31.44,
+      "overallTrustGrade": "C",
+      "contributor": "firecrawl",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/web-search-integration.json"
       }
     },
     {
@@ -37,6 +61,42 @@
       }
     },
     {
+      "id": "firecrawl/academic-literature-retrieval",
+      "name": "Firecrawl Research Index",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "contributor": "firecrawl",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/academic-literature-retrieval.json"
+      }
+    },
+    {
+      "id": "firecrawl/agent-environment-auth",
+      "name": "Firecrawl Onboarding",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "contributor": "firecrawl",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/agent-environment-auth.json"
+      }
+    },
+    {
+      "id": "firecrawl/browser-interaction-integration",
+      "name": "Firecrawl Interact",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "contributor": "firecrawl",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/browser-interaction-integration.json"
+      }
+    },
+    {
       "id": "mattpocock/teach",
       "name": "Teach",
       "level": "2★",
@@ -51,7 +111,7 @@
   ],
   "page": 4,
   "totalPages": 4,
-  "totalSkills": 154,
+  "totalSkills": 159,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json"

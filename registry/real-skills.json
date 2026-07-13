@@ -3658,6 +3658,51 @@
         "event-driven",
         "performance-tracking"
       ]
+    },
+    {
+      "id": "firecrawl-firecrawl-build-interact",
+      "name": "firecrawl/firecrawl-build-interact",
+      "contributor": "firecrawl",
+      "title": "Firecrawl Interact",
+      "description": "Integrate Firecrawl browser interaction into product code.",
+      "level": "2★",
+      "status": "named"
+    },
+    {
+      "id": "firecrawl-firecrawl-build-onboarding",
+      "name": "firecrawl/firecrawl-build-onboarding",
+      "contributor": "firecrawl",
+      "title": "Firecrawl Onboarding",
+      "description": "Configure Firecrawl credentials and client setup for agent tools.",
+      "level": "2★",
+      "status": "named"
+    },
+    {
+      "id": "firecrawl-firecrawl-build-scrape",
+      "name": "firecrawl/firecrawl-build-scrape",
+      "contributor": "firecrawl",
+      "title": "Firecrawl Scrape",
+      "description": "Integrate Firecrawl page extraction into product code.",
+      "level": "4★",
+      "status": "named"
+    },
+    {
+      "id": "firecrawl-firecrawl-build-search",
+      "name": "firecrawl/firecrawl-build-search",
+      "contributor": "firecrawl",
+      "title": "Firecrawl Search",
+      "description": "Integrate Firecrawl web search into product code.",
+      "level": "4★",
+      "status": "named"
+    },
+    {
+      "id": "firecrawl-firecrawl-research-index",
+      "name": "firecrawl/firecrawl-research-index",
+      "contributor": "firecrawl",
+      "title": "Firecrawl Research Index",
+      "description": "Retrieve and query academic literature through Firecrawl Research.",
+      "level": "2★",
+      "status": "named"
     }
   ]
 }

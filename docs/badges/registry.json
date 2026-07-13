@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-08",
+  "generatedAt": "2026-07-13",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -1440,6 +1440,84 @@
         }
       ]
     },
+    "firecrawl": {
+      "repos": [
+        "firecrawl/firecrawl",
+        "firecrawl/skills"
+      ],
+      "skillsByRepo": {
+        "firecrawl/skills": [
+          "firecrawl/academic-literature-retrieval",
+          "firecrawl/agent-environment-auth",
+          "firecrawl/browser-interaction-integration",
+          "firecrawl/web-scrape-integration",
+          "firecrawl/web-search-integration"
+        ],
+        "firecrawl/firecrawl": [
+          "firecrawl/firecrawl"
+        ]
+      },
+      "topSkill": "firecrawl/firecrawl",
+      "topRank": 4,
+      "topIsUnique": false,
+      "count": 6,
+      "namedSkills": [
+        {
+          "id": "firecrawl/firecrawl",
+          "name": "Firecrawl",
+          "rank": 4,
+          "type": "ultimate",
+          "slash": "/firecrawl",
+          "file": "firecrawl.svg",
+          "fileSeal": "firecrawl-seal.svg"
+        },
+        {
+          "id": "firecrawl/web-scrape-integration",
+          "name": "Firecrawl Scrape",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/web-scrape-integration",
+          "file": "web-scrape-integration.svg",
+          "fileSeal": "web-scrape-integration-seal.svg"
+        },
+        {
+          "id": "firecrawl/academic-literature-retrieval",
+          "name": "Firecrawl Research Index",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/academic-literature-retrieval",
+          "file": "academic-literature-retrieval.svg",
+          "fileSeal": "academic-literature-retrieval-seal.svg"
+        },
+        {
+          "id": "firecrawl/agent-environment-auth",
+          "name": "Firecrawl Onboarding",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/agent-environment-auth",
+          "file": "agent-environment-auth.svg",
+          "fileSeal": "agent-environment-auth-seal.svg"
+        },
+        {
+          "id": "firecrawl/browser-interaction-integration",
+          "name": "Firecrawl Interact",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/browser-interaction-integration",
+          "file": "browser-interaction-integration.svg",
+          "fileSeal": "browser-interaction-integration-seal.svg"
+        },
+        {
+          "id": "firecrawl/web-search-integration",
+          "name": "Firecrawl Search",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/web-search-integration",
+          "file": "web-search-integration.svg",
+          "fileSeal": "web-search-integration-seal.svg"
+        }
+      ]
+    },
     "devin-ai": {
       "repos": [
         "cognition-labs/devin"
@@ -1462,31 +1540,6 @@
           "slash": "/autonomous-swe",
           "file": "autonomous-swe.svg",
           "fileSeal": "autonomous-swe-seal.svg"
-        }
-      ]
-    },
-    "firecrawl": {
-      "repos": [
-        "firecrawl/firecrawl"
-      ],
-      "skillsByRepo": {
-        "firecrawl/firecrawl": [
-          "firecrawl/firecrawl"
-        ]
-      },
-      "topSkill": "firecrawl/firecrawl",
-      "topRank": 2,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "firecrawl/firecrawl",
-          "name": "Firecrawl",
-          "rank": 2,
-          "type": "extra",
-          "slash": "/firecrawl",
-          "file": "firecrawl.svg",
-          "fileSeal": "firecrawl-seal.svg"
         }
       ]
     },

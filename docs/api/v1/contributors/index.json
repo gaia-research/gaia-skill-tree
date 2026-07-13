@@ -144,6 +144,19 @@
       }
     },
     {
+      "handle": "firecrawl",
+      "namedSkills": 6,
+      "topSkill": {
+        "id": "firecrawl/web-scrape-integration",
+        "level": "3★",
+        "trustMagnitude": 45.84
+      },
+      "prestigeScore": 113.28,
+      "_links": {
+        "self": "/api/v1/contributors/firecrawl.json"
+      }
+    },
+    {
       "handle": "stanfordnlp",
       "namedSkills": 1,
       "topSkill": {
@@ -219,19 +232,6 @@
       "prestigeScore": 36.0,
       "_links": {
         "self": "/api/v1/contributors/Manavarya09.json"
-      }
-    },
-    {
-      "handle": "firecrawl",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "firecrawl/firecrawl",
-        "level": "2★",
-        "trustMagnitude": 36.0
-      },
-      "prestigeScore": 36.0,
-      "_links": {
-        "self": "/api/v1/contributors/firecrawl.json"
       }
     },
     {
