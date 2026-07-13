@@ -302,12 +302,18 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ /autonomous-engineering-platform
   · ○ gaia-research/skill-ci-churn  [2★]
   · ○ /clinical-data-retrieval
+  · ○ favorchurch/update-unique-churches  [2★]
   · ○ /cultural-localization
   · ○ ████████/domain-modeling
+  · ○ favorchurch/attendees  [2★]
+  · ○ favorchurch/export-attendees  [2★]
+  · ○ favorchurch/triage-conference  [2★]
+  · ○ favorchurch/ticket-transfer  [2★]
   · ○ ████████/evidence-attestation
   · ○ openai/few-shot-learning  [4★]
   · ○ laravel/upgrade-laravel-v13  [2★]
   · ○ ruvnet/agentic-jujutsu  [2★]
+  · ○ favorchurch/financial-assistance  [2★]
   · ○ /image-generate
   · ○ ████████/implement-with-discernment
   · ○ ████████/huggingface-vision-trainer
@@ -322,6 +328,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
+  · ○ favorchurch/resend-conference-emails-carefully-with-smtp  [2★]
 ```
 
 ## Pending Combinations

@@ -5551,6 +5551,355 @@
         "role": "origin"
       }
     ],
+    "event-attendance-metrics": [
+      {
+        "id": "favorchurch/attendees",
+        "name": "Attendees",
+        "contributor": "favorchurch",
+        "origin": false,
+        "genericSkillRef": "event-attendance-metrics",
+        "status": "named",
+        "level": "2★",
+        "description": "Count attendees for any event by checking Favor Event Tickets first, then Fluro as a fallback.",
+        "title": "Attendees",
+        "links": {
+          "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/attendees/SKILL.md"
+        },
+        "createdAt": "2026-07-14",
+        "updatedAt": "2026-07-14",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T16:26:02Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill favorchurch/attendees"
+          }
+        ],
+        "type": "basic",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      },
+      {
+        "id": "favorchurch/count-checkin-by-church",
+        "name": "Count Check-in by Church",
+        "contributor": "favorchurch",
+        "origin": false,
+        "genericSkillRef": "event-attendance-metrics",
+        "status": "named",
+        "level": "2★",
+        "description": "Build or refresh a NORMALIZED per-church check-in count.",
+        "title": "Count Check-in by Church",
+        "links": {
+          "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/count-checkin-by-church/SKILL.md"
+        },
+        "createdAt": "2026-07-14",
+        "updatedAt": "2026-07-14",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T16:25:47Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill favorchurch/count-checkin-by-church"
+          }
+        ],
+        "type": "basic",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      }
+    ],
+    "event-attendee-management": [
+      {
+        "id": "favorchurch/export-attendees",
+        "name": "Export Attendees",
+        "contributor": "favorchurch",
+        "origin": false,
+        "genericSkillRef": "event-attendee-management",
+        "status": "named",
+        "level": "2★",
+        "description": "Sync and export attendee data from Favor Event Tickets into a Google Sheets masterlist.",
+        "title": "Export Attendees",
+        "links": {
+          "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/export-attendees/SKILL.md"
+        },
+        "createdAt": "2026-07-14",
+        "updatedAt": "2026-07-14",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T16:26:02Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill favorchurch/export-attendees"
+          }
+        ],
+        "type": "basic",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      }
+    ],
+    "grant-application-processing": [
+      {
+        "id": "favorchurch/financial-assistance",
+        "name": "Financial Assistance",
+        "contributor": "favorchurch",
+        "origin": false,
+        "genericSkillRef": "grant-application-processing",
+        "status": "named",
+        "level": "2★",
+        "description": "Process financial assistance applications - coupon assignment, request tracking, and updates.",
+        "title": "Financial Assistance",
+        "links": {
+          "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/financial-assistance/SKILL.md"
+        },
+        "createdAt": "2026-07-14",
+        "updatedAt": "2026-07-14",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T16:26:04Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill favorchurch/financial-assistance"
+          }
+        ],
+        "type": "basic",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      }
+    ],
+    "transactional-email-resend": [
+      {
+        "id": "favorchurch/resend-conference-emails-carefully-with-smtp",
+        "name": "Resend Conference Emails Carefully with SMTP",
+        "contributor": "favorchurch",
+        "origin": false,
+        "genericSkillRef": "transactional-email-resend",
+        "status": "named",
+        "level": "2★",
+        "description": "Safely re-send or bulk-bump QR ticket emails to many attendees via SMTP relay.",
+        "title": "Resend Conference Emails Carefully with SMTP",
+        "links": {
+          "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/resend-conference-emails-carefully-with-smtp/SKILL.md"
+        },
+        "createdAt": "2026-07-14",
+        "updatedAt": "2026-07-14",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T16:26:03Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill favorchurch/resend-conference-emails-carefully-with-smtp"
+          }
+        ],
+        "type": "basic",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      }
+    ],
+    "humanize-prose": [
+      {
+        "id": "favorchurch/speak-like-favor",
+        "name": "Speak Like Favor",
+        "contributor": "favorchurch",
+        "origin": false,
+        "genericSkillRef": "humanize-prose",
+        "status": "named",
+        "level": "2★",
+        "description": "Draft, edit, or QA Favor Church Manila communication so it feels warm, clear, and authentic.",
+        "title": "Speak Like Favor",
+        "links": {
+          "github": "https://github.com/favorchurch/favor-skills/blob/main/speak-like-favor/SKILL.md"
+        },
+        "createdAt": "2026-07-14",
+        "updatedAt": "2026-07-14",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T16:26:04Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill favorchurch/speak-like-favor"
+          }
+        ],
+        "type": "extra",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      }
+    ],
+    "event-ticket-transfer": [
+      {
+        "id": "favorchurch/ticket-transfer",
+        "name": "Ticket Transfer",
+        "contributor": "favorchurch",
+        "origin": false,
+        "genericSkillRef": "event-ticket-transfer",
+        "status": "named",
+        "level": "2★",
+        "description": "End-to-end workflow for processing ticket transfer requests, updates, and confirmation emails.",
+        "title": "Ticket Transfer",
+        "links": {
+          "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/ticket-transfer/SKILL.md"
+        },
+        "createdAt": "2026-07-14",
+        "updatedAt": "2026-07-14",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T16:26:04Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill favorchurch/ticket-transfer"
+          }
+        ],
+        "type": "basic",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      }
+    ],
+    "event-support-triage": [
+      {
+        "id": "favorchurch/triage-conference",
+        "name": "Triage Conference",
+        "contributor": "favorchurch",
+        "origin": false,
+        "genericSkillRef": "event-support-triage",
+        "status": "named",
+        "level": "2★",
+        "description": "Triage incoming emails, search registrations, match against knowledge base, and draft/send replies.",
+        "title": "Triage Conference",
+        "links": {
+          "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/triage-conference/SKILL.md"
+        },
+        "createdAt": "2026-07-14",
+        "updatedAt": "2026-07-14",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T16:26:03Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill favorchurch/triage-conference"
+          }
+        ],
+        "type": "basic",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      }
+    ],
+    "crm-data-cleanup": [
+      {
+        "id": "favorchurch/update-unique-churches",
+        "name": "Update Unique Churches",
+        "contributor": "favorchurch",
+        "origin": false,
+        "genericSkillRef": "crm-data-cleanup",
+        "status": "named",
+        "level": "2★",
+        "description": "Recount and update the unique churches represented in the conference attendance Google Sheet.",
+        "title": "Update Unique Churches",
+        "links": {
+          "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/update-unique-churches/SKILL.md"
+        },
+        "createdAt": "2026-07-14",
+        "updatedAt": "2026-07-14",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T16:26:02Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill favorchurch/update-unique-churches"
+          }
+        ],
+        "type": "basic",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      }
+    ],
     "agent-environment-setup": [
       {
         "id": "mattpocock/setup-matt-pocock-skills",
@@ -28376,6 +28725,17 @@
     ],
     "devin-ai": [
       "devin-ai/autonomous-swe"
+    ],
+    "favorchurch": [
+      "favorchurch/attendees",
+      "favorchurch/count-checkin-by-church",
+      "favorchurch/export-attendees",
+      "favorchurch/financial-assistance",
+      "favorchurch/resend-conference-emails-carefully-with-smtp",
+      "favorchurch/speak-like-favor",
+      "favorchurch/ticket-transfer",
+      "favorchurch/triage-conference",
+      "favorchurch/update-unique-churches"
     ],
     "firecrawl": [
       "firecrawl/firecrawl-build-interact",

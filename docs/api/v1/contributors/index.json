@@ -376,9 +376,22 @@
       "_links": {
         "self": "/api/v1/contributors/devin-ai.json"
       }
+    },
+    {
+      "handle": "favorchurch",
+      "namedSkills": 9,
+      "topSkill": {
+        "id": "favorchurch/attendees",
+        "level": "2★",
+        "trustMagnitude": 0.0
+      },
+      "prestigeScore": 0.0,
+      "_links": {
+        "self": "/api/v1/contributors/favorchurch.json"
+      }
     }
   ],
-  "totalContributors": 29,
+  "totalContributors": 30,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

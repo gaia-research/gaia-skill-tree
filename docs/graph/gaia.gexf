@@ -305,6 +305,13 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="crm-data-cleanup" label="CRM Data Cleanup">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="cultural-localization" label="Cultural Localization">
         <attvalues>
           <attvalue for="level" value="" />
@@ -460,6 +467,34 @@
         </attvalues>
       </node>
       <node id="evaluate-output" label="Evaluate Output">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="event-attendance-metrics" label="Event Attendance Metrics">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="event-attendee-management" label="Event Attendee Management">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="event-support-triage" label="Event Support Triage">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="event-ticket-transfer" label="Event Ticket Transfer">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
@@ -632,6 +667,13 @@
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="ultimate" />
+        </attvalues>
+      </node>
+      <node id="grant-application-processing" label="Grant Application Processing">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
         </attvalues>
       </node>
       <node id="graph-driven-issue-triage" label="Graph-Driven Issue Triage">
@@ -1482,6 +1524,13 @@
         </attvalues>
       </node>
       <node id="tool-use" label="Tool Use">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="transactional-email-resend" label="Transactional Email Resend">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />

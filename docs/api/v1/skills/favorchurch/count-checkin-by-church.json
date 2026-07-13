@@ -1,0 +1,40 @@
+{
+  "id": "favorchurch/count-checkin-by-church",
+  "name": "Count Check-in by Church",
+  "contributor": "favorchurch",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 0.0,
+  "overallTrustGrade": null,
+  "_links": {
+    "self": "/api/v1/skills/favorchurch/count-checkin-by-church.json",
+    "contributor": "/api/v1/contributors/favorchurch.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "Count Check-in by Church",
+  "genericSkillRef": "event-attendance-metrics",
+  "origin": false,
+  "description": "Build or refresh a NORMALIZED per-church check-in count.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "timeline": [
+    {
+      "timestamp": "2026-07-13T16:25:47Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill favorchurch/count-checkin-by-church"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/count-checkin-by-church/SKILL.md"
+  }
+}

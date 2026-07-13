@@ -1,0 +1,40 @@
+{
+  "id": "favorchurch/resend-conference-emails-carefully-with-smtp",
+  "name": "Resend Conference Emails Carefully with SMTP",
+  "contributor": "favorchurch",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 0.0,
+  "overallTrustGrade": null,
+  "_links": {
+    "self": "/api/v1/skills/favorchurch/resend-conference-emails-carefully-with-smtp.json",
+    "contributor": "/api/v1/contributors/favorchurch.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "Resend Conference Emails Carefully with SMTP",
+  "genericSkillRef": "transactional-email-resend",
+  "origin": false,
+  "description": "Safely re-send or bulk-bump QR ticket emails to many attendees via SMTP relay.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "timeline": [
+    {
+      "timestamp": "2026-07-13T16:26:03Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill favorchurch/resend-conference-emails-carefully-with-smtp"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/resend-conference-emails-carefully-with-smtp/SKILL.md"
+  }
+}

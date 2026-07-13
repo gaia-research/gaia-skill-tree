@@ -144,7 +144,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [web-best-practices](/skills/extra/web-best-practices.md) - Web Best Practices
 * [web-quality-audit](/skills/extra/web-quality-audit.md) - Orchestrates a multi-axis web quality audit covering performance (Core Web Vitals), accessibility (WCAG), SEO, and best practices, producing actionable remediation plans from Lighthouse and real-user data.
 
-### Basic Skills (106)
+### Basic Skills (113)
 
 * [API Call](/skills/basic/api-call.md) - A fundamental skill that enables agents to interact with external services via HTTP API calls.
 * [Adaptive Pattern Learning](/skills/basic/adaptive-pattern-learning.md) - Implements adaptive learning through pattern recognition and strategy optimization.
@@ -154,6 +154,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Browser Control](/skills/basic/browser-control.md) - A foundational skill for interacting directly with the web browser using Chrome DevTools Protocol (CDP).
 * [CI Churn Analysis](/skills/basic/ci-churn-analysis.md) - Measures avoidable CI iteration cost for a pull request by classifying commits as feature work versus fix-the-CI rework, summing CI compute time burned on avoidable push rounds, and surfacing pre-push checks that would have prevented them.
 * [CLI Modernization](/skills/basic/cli-modernization.md) - Refactors command-line interfaces for improved UX, plugin architecture, and extensibility.
+* [CRM Data Cleanup](/skills/basic/crm-data-cleanup.md) - Perform data hygiene, normalization, and deduplication of contact, event, or organization records in CRM and tracking databases.
 * [Chain-of-Thought Reasoning](/skills/basic/chain-of-thought.md) - Produces explicit intermediate reasoning steps before arriving at a final answer, dramatically improving accuracy on multi-step problems.
 * [Chunk Document](/skills/basic/chunk-document.md) - Splits a document into semantically meaningful segments optimized for embedding and retrieval.
 * [Cite Sources](/skills/basic/cite-sources.md) - Attributes claims to specific sources with proper references, URLs, or bibliographic entries.
@@ -173,6 +174,10 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Embed Text](/skills/basic/embed-text.md) - Converts text into dense vector representations suitable for similarity search and clustering.
 * [Error Interpretation](/skills/basic/error-interpretation.md) - Diagnoses error messages, stack traces, and failure modes to identify root causes and suggest fixes.
 * [Evaluate Output](/skills/basic/evaluate-output.md) - Assesses the quality, correctness, or safety of generated output against defined criteria.
+* [Event Attendance Metrics](/skills/basic/event-attendance-metrics.md) - Collect, process, and query attendee RSVP and check-in records for events, normalizing data to produce clean, unique attendance counts and metrics.
+* [Event Attendee Management](/skills/basic/event-attendee-management.md) - Manage, export, sync, and format event attendee data between registration platforms, CRM databases, and spreadsheet records.
+* [Event Support Triage](/skills/basic/event-support-triage.md) - Triage customer support emails or issues related to events, query attendee records to address ticketing problems, and draft responses using dynamic templates.
+* [Event Ticket Transfer](/skills/basic/event-ticket-transfer.md) - Process requests to transfer event tickets between attendees, validating tickets, updating registration metadata, and resending confirmation passes.
 * [Extract Entities](/skills/basic/extract-entities.md) - Identifies and extracts named entities such as people, organizations, dates, and locations from text.
 * [Feed Monitoring](/skills/basic/feed-monitoring.md) - Monitors RSS, Atom, blog, or other recurring content feeds, discovers updates, tracks read state, and surfaces new signals for downstream agent workflows.
 * [Few-Shot Learning](/skills/basic/few-shot-learning.md) - Conditions a language model on a small number of input-output demonstrations within the prompt, enabling task adaptation without weight updates.
@@ -184,6 +189,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Generate Text](/skills/basic/generate-text.md) - Produces coherent natural language output given a prompt, instruction, or context window.
 * [Genomic Data Retrieval](/skills/basic/genomic-data-retrieval.md) - Queries and retrieves DNA sequence data, transcription factor binding models, cis-regulatory elements, and genetic annotations from genomic repositories (e.g. Ensembl, GTEx, JASPAR, UniBind, ENCODE, UCSC, dbSNP).
 * [Git Diff Risk Analysis](/skills/basic/git-diff-risk-analysis.md) - Analyzes git diffs for complexity, churn, and risk scores to prioritize review attention and flag dangerous changes.
+* [Grant Application Processing](/skills/basic/grant-application-processing.md) - Process financial aid, grant, or assistance applications by calculating discounts, assigning discount codes, updating tracker logs, and sending status updates.
 * [Headless Worker Collect](/skills/basic/headless-worker-collect.md) - Aggregates and formats results from distributed headless workers stored in shared memory with filtering and status reporting.
 * [Headless Worker Spawn](/skills/basic/headless-worker-spawn.md) - Launches headless AI worker processes for parallel background task execution with configurable worker types and shared memory coordination.
 * [Hybrid Workflow Coordination](/skills/basic/hybrid-workflow-coordination.md) - Routes tasks between interactive reasoning phases and parallel background execution with configurable workflow templates.
@@ -242,6 +248,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Tokenize](/skills/basic/tokenize.md) - Splits input text into discrete tokens suitable for downstream processing by language models.
 * [Tool Select](/skills/basic/tool-select.md) - Chooses the most appropriate tool or API from a set of available options given a task description.
 * [Tool Use](/skills/basic/tool-use.md) - Invokes external functions or APIs by generating well-formed call signatures, parsing results, and incorporating them into reasoning.
+* [Transactional Email Resend](/skills/basic/transactional-email-resend.md) - Manage and resend transactional ticket or confirmation emails, verifying recipient addresses and utilizing rate-limited or alternative relays to ensure delivery.
 * [Translate](/skills/basic/translate.md) - Converts text from one natural language to another while preserving meaning, tone, and formatting.
 * [UX Audit](/skills/basic/ux-audit.md) - Systematically evaluates a user interface against established usability heuristics or accessibility standards, producing a scored finding report with remediation recommendations.
 * [Vector DB Optimization](/skills/basic/vector-db-optimization.md) - Tunes vector database indices, sharding strategies, and multi-database coordination for production-scale retrieval.

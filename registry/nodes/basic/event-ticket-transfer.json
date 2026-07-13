@@ -1,0 +1,22 @@
+{
+  "id": "event-ticket-transfer",
+  "name": "Event Ticket Transfer",
+  "type": "basic",
+  "description": "Process requests to transfer event tickets between attendees, validating tickets, updating registration metadata, and resending confirmation passes.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-14",
+  "updatedAt": "2026-07-14",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-13T16:26:01Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill event-ticket-transfer"
+    }
+  ]
+}

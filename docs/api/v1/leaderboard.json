@@ -1,11 +1,11 @@
 {
   "distribution": {
-    "total": 271,
+    "total": 280,
     "S": 5,
     "A": 47,
     "B": 69,
     "C": 78,
-    "ungraded": 72,
+    "ungraded": 81,
     "floor": 0,
     "up": 4
   },
@@ -2432,6 +2432,78 @@
       "trustMagnitude": 0.0,
       "grade": "ungraded",
       "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
+    },
+    {
+      "id": "favorchurch/attendees",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false
+    },
+    {
+      "id": "favorchurch/count-checkin-by-church",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false
+    },
+    {
+      "id": "favorchurch/export-attendees",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false
+    },
+    {
+      "id": "favorchurch/financial-assistance",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false
+    },
+    {
+      "id": "favorchurch/resend-conference-emails-carefully-with-smtp",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false
+    },
+    {
+      "id": "favorchurch/speak-like-favor",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false
+    },
+    {
+      "id": "favorchurch/ticket-transfer",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false
+    },
+    {
+      "id": "favorchurch/triage-conference",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false
+    },
+    {
+      "id": "favorchurch/update-unique-churches",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
       "typeBreakdown": {},
       "origin": false
     },

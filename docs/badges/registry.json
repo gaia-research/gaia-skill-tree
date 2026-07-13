@@ -1543,6 +1543,111 @@
         }
       ]
     },
+    "favorchurch": {
+      "repos": [
+        "favorchurch/favor-skills"
+      ],
+      "skillsByRepo": {
+        "favorchurch/favor-skills": [
+          "favorchurch/attendees",
+          "favorchurch/count-checkin-by-church",
+          "favorchurch/export-attendees",
+          "favorchurch/financial-assistance",
+          "favorchurch/resend-conference-emails-carefully-with-smtp",
+          "favorchurch/speak-like-favor",
+          "favorchurch/ticket-transfer",
+          "favorchurch/triage-conference",
+          "favorchurch/update-unique-churches"
+        ]
+      },
+      "topSkill": "favorchurch/attendees",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 9,
+      "namedSkills": [
+        {
+          "id": "favorchurch/attendees",
+          "name": "Attendees",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/attendees",
+          "file": "attendees.svg",
+          "fileSeal": "attendees-seal.svg"
+        },
+        {
+          "id": "favorchurch/count-checkin-by-church",
+          "name": "Count Check-in by Church",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/count-checkin-by-church",
+          "file": "count-checkin-by-church.svg",
+          "fileSeal": "count-checkin-by-church-seal.svg"
+        },
+        {
+          "id": "favorchurch/export-attendees",
+          "name": "Export Attendees",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/export-attendees",
+          "file": "export-attendees.svg",
+          "fileSeal": "export-attendees-seal.svg"
+        },
+        {
+          "id": "favorchurch/financial-assistance",
+          "name": "Financial Assistance",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/financial-assistance",
+          "file": "financial-assistance.svg",
+          "fileSeal": "financial-assistance-seal.svg"
+        },
+        {
+          "id": "favorchurch/resend-conference-emails-carefully-with-smtp",
+          "name": "Resend Conference Emails Carefully with SMTP",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/resend-conference-emails-carefully-with-smtp",
+          "file": "resend-conference-emails-carefully-with-smtp.svg",
+          "fileSeal": "resend-conference-emails-carefully-with-smtp-seal.svg"
+        },
+        {
+          "id": "favorchurch/speak-like-favor",
+          "name": "Speak Like Favor",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/speak-like-favor",
+          "file": "speak-like-favor.svg",
+          "fileSeal": "speak-like-favor-seal.svg"
+        },
+        {
+          "id": "favorchurch/ticket-transfer",
+          "name": "Ticket Transfer",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/ticket-transfer",
+          "file": "ticket-transfer.svg",
+          "fileSeal": "ticket-transfer-seal.svg"
+        },
+        {
+          "id": "favorchurch/triage-conference",
+          "name": "Triage Conference",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/triage-conference",
+          "file": "triage-conference.svg",
+          "fileSeal": "triage-conference-seal.svg"
+        },
+        {
+          "id": "favorchurch/update-unique-churches",
+          "name": "Update Unique Churches",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/update-unique-churches",
+          "file": "update-unique-churches.svg",
+          "fileSeal": "update-unique-churches-seal.svg"
+        }
+      ]
+    },
     "gaia-research": {
       "repos": [
         "gaia-research/gaia-skill-tree"
