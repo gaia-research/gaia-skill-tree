@@ -4906,7 +4906,7 @@
     "contributor": "favorchurch",
     "level": "2★",
     "grade": null,
-    "trustMagnitude": 0.0,
+    "trustMagnitude": 5.0,
     "tokens": [
       "any",
       "attendance",
@@ -4929,7 +4929,7 @@
     "contributor": "favorchurch",
     "level": "2★",
     "grade": null,
-    "trustMagnitude": 0.0,
+    "trustMagnitude": 5.0,
     "tokens": [
       "attendance",
       "build",
@@ -4949,7 +4949,7 @@
     "contributor": "favorchurch",
     "level": "2★",
     "grade": null,
-    "trustMagnitude": 0.0,
+    "trustMagnitude": 5.0,
     "tokens": [
       "attendee",
       "attendees",
@@ -4972,7 +4972,7 @@
     "contributor": "favorchurch",
     "level": "2★",
     "grade": null,
-    "trustMagnitude": 0.0,
+    "trustMagnitude": 5.0,
     "tokens": [
       "application",
       "applications",
@@ -4994,7 +4994,7 @@
     "contributor": "favorchurch",
     "level": "2★",
     "grade": null,
-    "trustMagnitude": 0.0,
+    "trustMagnitude": 5.0,
     "tokens": [
       "attendees",
       "bulk",
@@ -5022,7 +5022,7 @@
     "contributor": "favorchurch",
     "level": "2★",
     "grade": null,
-    "trustMagnitude": 0.0,
+    "trustMagnitude": 5.0,
     "tokens": [
       "authentic",
       "church",
@@ -5048,7 +5048,7 @@
     "contributor": "favorchurch",
     "level": "2★",
     "grade": null,
-    "trustMagnitude": 0.0,
+    "trustMagnitude": 5.0,
     "tokens": [
       "confirmation",
       "emails",
@@ -5068,7 +5068,7 @@
     "contributor": "favorchurch",
     "level": "2★",
     "grade": null,
-    "trustMagnitude": 0.0,
+    "trustMagnitude": 5.0,
     "tokens": [
       "against",
       "base",
@@ -5093,7 +5093,7 @@
     "contributor": "favorchurch",
     "level": "2★",
     "grade": null,
-    "trustMagnitude": 0.0,
+    "trustMagnitude": 5.0,
     "tokens": [
       "attendance",
       "churches",

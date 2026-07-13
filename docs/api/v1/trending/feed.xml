@@ -5,63 +5,126 @@
     <link>https://gaiaskilltree.com/trending/</link>
     <description>Skills gaining trust this week — ranked by evidence velocity, not hype.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Jul 2026 16:26:25 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 13 Jul 2026 16:35:14 +0000</lastBuildDate>
     <atom:link href="https://gaiaskilltree.com/api/v1/trending/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>Firecrawl Skills (+223.5 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/firecrawl/firecrawl-skills</link>
       <description>Trust Magnitude: 223.5 · Grade A</description>
-      <pubDate>Mon, 13 Jul 2026 16:26:25 +0000</pubDate>
+      <pubDate>Mon, 13 Jul 2026 16:35:14 +0000</pubDate>
       <guid isPermaLink="false">gaia-trending-firecrawl/firecrawl-skills-2026-07-13</guid>
     </item>
     <item>
       <title>Firecrawl Scrape (+133.5 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/firecrawl/firecrawl-build-scrape</link>
       <description>Trust Magnitude: 133.5 · Grade A</description>
-      <pubDate>Mon, 13 Jul 2026 16:26:25 +0000</pubDate>
+      <pubDate>Mon, 13 Jul 2026 16:35:14 +0000</pubDate>
       <guid isPermaLink="false">gaia-trending-firecrawl/firecrawl-build-scrape-2026-07-13</guid>
     </item>
     <item>
       <title>Firecrawl Search (+107.1 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/firecrawl/firecrawl-build-search</link>
       <description>Trust Magnitude: 107.1 · Grade A</description>
-      <pubDate>Mon, 13 Jul 2026 16:26:25 +0000</pubDate>
+      <pubDate>Mon, 13 Jul 2026 16:35:14 +0000</pubDate>
       <guid isPermaLink="false">gaia-trending-firecrawl/firecrawl-build-search-2026-07-13</guid>
     </item>
     <item>
       <title>Firecrawl Interact (+73.5 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/firecrawl/firecrawl-build-interact</link>
       <description>Trust Magnitude: 73.5 · Grade B</description>
-      <pubDate>Mon, 13 Jul 2026 16:26:25 +0000</pubDate>
+      <pubDate>Mon, 13 Jul 2026 16:35:14 +0000</pubDate>
       <guid isPermaLink="false">gaia-trending-firecrawl/firecrawl-build-interact-2026-07-13</guid>
     </item>
     <item>
       <title>Firecrawl Onboarding (+73.5 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/firecrawl/firecrawl-build-onboarding</link>
       <description>Trust Magnitude: 73.5 · Grade B</description>
-      <pubDate>Mon, 13 Jul 2026 16:26:25 +0000</pubDate>
+      <pubDate>Mon, 13 Jul 2026 16:35:14 +0000</pubDate>
       <guid isPermaLink="false">gaia-trending-firecrawl/firecrawl-build-onboarding-2026-07-13</guid>
     </item>
     <item>
       <title>Firecrawl Research Index (+73.5 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/firecrawl/firecrawl-research-index</link>
       <description>Trust Magnitude: 73.5 · Grade B</description>
-      <pubDate>Mon, 13 Jul 2026 16:26:25 +0000</pubDate>
+      <pubDate>Mon, 13 Jul 2026 16:35:14 +0000</pubDate>
       <guid isPermaLink="false">gaia-trending-firecrawl/firecrawl-research-index-2026-07-13</guid>
     </item>
     <item>
       <title>CI Churn (+41.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/gaia-research/skill-ci-churn</link>
       <description>Trust Magnitude: 41.0 · Grade C</description>
-      <pubDate>Mon, 13 Jul 2026 16:26:25 +0000</pubDate>
+      <pubDate>Mon, 13 Jul 2026 16:35:14 +0000</pubDate>
       <guid isPermaLink="false">gaia-trending-gaia-research/skill-ci-churn-2026-07-13</guid>
     </item>
     <item>
       <title>Skill Fuse (+41.0 TM)</title>
       <link>https://gaiaskilltree.com/named/#explorer/gaia-research/skill-fuse</link>
       <description>Trust Magnitude: 41.0 · Grade C</description>
-      <pubDate>Mon, 13 Jul 2026 16:26:25 +0000</pubDate>
+      <pubDate>Mon, 13 Jul 2026 16:35:14 +0000</pubDate>
       <guid isPermaLink="false">gaia-trending-gaia-research/skill-fuse-2026-07-13</guid>
+    </item>
+    <item>
+      <title>Attendees (+5.0 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/favorchurch/attendees</link>
+      <description>Trust Magnitude: 5.0</description>
+      <pubDate>Mon, 13 Jul 2026 16:35:14 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-favorchurch/attendees-2026-07-13</guid>
+    </item>
+    <item>
+      <title>Count Check-in by Church (+5.0 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/favorchurch/count-checkin-by-church</link>
+      <description>Trust Magnitude: 5.0</description>
+      <pubDate>Mon, 13 Jul 2026 16:35:14 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-favorchurch/count-checkin-by-church-2026-07-13</guid>
+    </item>
+    <item>
+      <title>Export Attendees (+5.0 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/favorchurch/export-attendees</link>
+      <description>Trust Magnitude: 5.0</description>
+      <pubDate>Mon, 13 Jul 2026 16:35:14 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-favorchurch/export-attendees-2026-07-13</guid>
+    </item>
+    <item>
+      <title>Financial Assistance (+5.0 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/favorchurch/financial-assistance</link>
+      <description>Trust Magnitude: 5.0</description>
+      <pubDate>Mon, 13 Jul 2026 16:35:14 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-favorchurch/financial-assistance-2026-07-13</guid>
+    </item>
+    <item>
+      <title>Resend Conference Emails Carefully with SMTP (+5.0 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/favorchurch/resend-conference-emails-carefully-with-smtp</link>
+      <description>Trust Magnitude: 5.0</description>
+      <pubDate>Mon, 13 Jul 2026 16:35:14 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-favorchurch/resend-conference-emails-carefully-with-smtp-2026-07-13</guid>
+    </item>
+    <item>
+      <title>Speak Like Favor (+5.0 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/favorchurch/speak-like-favor</link>
+      <description>Trust Magnitude: 5.0</description>
+      <pubDate>Mon, 13 Jul 2026 16:35:14 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-favorchurch/speak-like-favor-2026-07-13</guid>
+    </item>
+    <item>
+      <title>Ticket Transfer (+5.0 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/favorchurch/ticket-transfer</link>
+      <description>Trust Magnitude: 5.0</description>
+      <pubDate>Mon, 13 Jul 2026 16:35:14 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-favorchurch/ticket-transfer-2026-07-13</guid>
+    </item>
+    <item>
+      <title>Triage Conference (+5.0 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/favorchurch/triage-conference</link>
+      <description>Trust Magnitude: 5.0</description>
+      <pubDate>Mon, 13 Jul 2026 16:35:14 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-favorchurch/triage-conference-2026-07-13</guid>
+    </item>
+    <item>
+      <title>Update Unique Churches (+5.0 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/favorchurch/update-unique-churches</link>
+      <description>Trust Magnitude: 5.0</description>
+      <pubDate>Mon, 13 Jul 2026 16:35:14 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-favorchurch/update-unique-churches-2026-07-13</guid>
     </item>
   </channel>
 </rss>

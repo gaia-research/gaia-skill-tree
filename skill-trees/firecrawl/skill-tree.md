@@ -1,6 +1,6 @@
 # Skill Tree — firecrawl
 **Last Updated:** 2026-05-25
-**Total Skills Unlocked:** 1
+**Total Skills Unlocked:** 7
 **Highest Tier:** —
 **Deepest Lineage:** 1
 
@@ -11,6 +11,12 @@
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
 | ○ firecrawl/firecrawl | Basic Skill | 4★ | Hardened | firecrawl/gaia-skill-tree | 2026-05-17T00:00:00Z |
+| ○ firecrawl/firecrawl-build-interact | Basic Skill | 2★ | Named | firecrawl/gaia-skill-tree | 2026-07-13T00:00:00Z |
+| ○ firecrawl/firecrawl-build-onboarding | Basic Skill | 2★ | Named | firecrawl/gaia-skill-tree | 2026-07-13T00:00:00Z |
+| ○ firecrawl/firecrawl-build-scrape | Basic Skill | 4★ | Hardened | firecrawl/gaia-skill-tree | 2026-07-13T00:00:00Z |
+| ○ firecrawl/firecrawl-build-search | Basic Skill | 4★ | Hardened | firecrawl/gaia-skill-tree | 2026-07-13T00:00:00Z |
+| ○ firecrawl/firecrawl-research-index | Basic Skill | 2★ | Named | firecrawl/gaia-skill-tree | 2026-07-13T00:00:00Z |
+| ○ firecrawl/firecrawl-skills | Basic Skill | 4★ | Hardened | firecrawl/gaia-skill-tree | 2026-05-17T00:00:00Z |
 
 ---
 

@@ -1,0 +1,35 @@
+{
+  "userId": "rico-favor",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "rico-favor/implement-with-discernment",
+      "level": "1★",
+      "unlockedAt": "2026-07-09T00:00:00Z",
+      "unlockedIn": "rico-favor/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-09T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-07-09T00:00:00Z",
+      "action": "register",
+      "skillId": "rico-favor/implement-with-discernment",
+      "details": "Registered named skill rico-favor/implement-with-discernment",
+      "previousValue": null,
+      "newValue": "1★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

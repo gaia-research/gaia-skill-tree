@@ -18,6 +18,21 @@ timeline:
   action: add
   contributor: mbtiongson1
   details: Added named skill favorchurch/resend-conference-emails-carefully-with-smtp
+- timestamp: '2026-07-13T16:34:41Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/resend-conference-emails-carefully-with-smtp/SKILL.md
+    (type: self-attestation)'
+evidence:
+- source: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/resend-conference-emails-carefully-with-smtp/SKILL.md
+  evaluator: favorchurch
+  date: '2026-07-14'
+  type: self-attestation
+  trustNumber: 10.0
+  notes: Self-attestation of resend-conference-emails-carefully-with-smtp skill implementation
+  grade: C
+verification:
+  firstEvidenceAt: '2026-07-13T16:34:41Z'
 ---
 
 # Resend Conference Emails Carefully (SMTP)

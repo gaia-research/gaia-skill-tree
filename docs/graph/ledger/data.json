@@ -1,6 +1,6 @@
 {
   "version": "6.4.0",
-  "generatedAt": "2026-07-13T16:27:34Z",
+  "generatedAt": "2026-07-13T16:35:11Z",
   "summary": {
     "total": 280,
     "S": 5,
@@ -3355,6 +3355,141 @@
       "origin": false
     },
     {
+      "skillId": "favorchurch/attendees",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "favorchurch/count-checkin-by-church",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "favorchurch/export-attendees",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "favorchurch/financial-assistance",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "favorchurch/resend-conference-emails-carefully-with-smtp",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "favorchurch/speak-like-favor",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "favorchurch/ticket-transfer",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "favorchurch/triage-conference",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "favorchurch/update-unique-churches",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
       "skillId": "mattpocock/ask-matt",
       "tm": 5.0,
       "grade": "ungraded",
@@ -3618,123 +3753,6 @@
       "origin": false
     },
     {
-      "skillId": "favorchurch/attendees",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false
-    },
-    {
-      "skillId": "favorchurch/count-checkin-by-church",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false
-    },
-    {
-      "skillId": "favorchurch/export-attendees",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false
-    },
-    {
-      "skillId": "favorchurch/financial-assistance",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false
-    },
-    {
-      "skillId": "favorchurch/resend-conference-emails-carefully-with-smtp",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false
-    },
-    {
-      "skillId": "favorchurch/speak-like-favor",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false
-    },
-    {
-      "skillId": "favorchurch/ticket-transfer",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false
-    },
-    {
-      "skillId": "favorchurch/triage-conference",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false
-    },
-    {
-      "skillId": "favorchurch/update-unique-churches",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false
-    },
-    {
       "skillId": "gaiabot/gaia-triage",
       "tm": 0.0,
       "grade": "ungraded",
@@ -3843,7 +3861,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
@@ -3856,7 +3874,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
@@ -3869,7 +3887,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
@@ -3882,7 +3900,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
@@ -3895,7 +3913,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
@@ -4246,7 +4264,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
@@ -4259,7 +4277,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
@@ -4272,7 +4290,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
@@ -4298,7 +4316,7 @@
       "tm": 0.0,
       "grade": "ungraded",
       "currentStars": "1★",
-      "mayStars": "1★",
+      "mayStars": "2★",
       "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
