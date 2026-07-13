@@ -295,7 +295,7 @@
   position: absolute;
   inset: clamp(4rem, 7vh, 6rem) 0 0;
   z-index: -1;
-  opacity: 0.46;
+  opacity: 0.68;
 }
 
 .aov-fork-art::after {
@@ -316,7 +316,7 @@
   padding: clamp(1.5rem, 4vw, 3rem);
   border-block: 1px solid color-mix(in oklab, var(--aov-suite-gold) 45%, transparent);
   text-align: center;
-  background: color-mix(in oklab, var(--aov-substrate-ground) 88%, transparent);
+  background: color-mix(in oklab, var(--aov-substrate-ground) 72%, transparent);
 }
 
 .aov-fork-copy h3 {
@@ -549,6 +549,12 @@
   aspect-ratio: 1.5;
 }
 
+@media (min-width: 900px) {
+  .aov-rail--suite.aov-rail--terminal .aov-terminal-art {
+    width: min(18vw, 18rem);
+  }
+}
+
 .aov-terminal-seal {
   position: absolute;
   z-index: 2;
@@ -760,7 +766,7 @@
   }
 
   .aov-title {
-    font-size: clamp(5.2rem, 26vw, 8.5rem);
+    font-size: clamp(4.4rem, 21vw, 7rem);
   }
 
   .aov-stage--rank,
@@ -798,6 +804,10 @@
   .aov-fork-copy {
     width: 100%;
     padding-inline: 0.75rem;
+  }
+
+  .aov-fork-art {
+    opacity: 0.3;
   }
 
   .aov-fork-copy h3 {
