@@ -2,7 +2,7 @@
 id: firecrawl/web-search-integration
 name: Firecrawl Search
 contributor: firecrawl
-origin: false
+origin: true
 genericSkillRef: web-search
 status: named
 level: 2★
