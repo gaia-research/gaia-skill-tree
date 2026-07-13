@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-07-13T09:51:33Z",
+  "generatedAt": "2026-07-13T11:46:40Z",
   "firstRun": false,
   "skills": [
     {
@@ -85,6 +85,20 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/mattpocock/engineering.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-skills",
+      "name": "Firecrawl Skills",
+      "level": "4★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 223.52,
+      "overallTrustGrade": "A",
+      "trendingScore": 111.76,
+      "tmDelta": 223.52,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
       }
     },
     {
@@ -1275,20 +1289,6 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/anthropic/pptx.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-skills",
-      "name": "Firecrawl Skills",
-      "level": "4★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 18.0,
-      "tmDelta": 36.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
       }
     },
     {

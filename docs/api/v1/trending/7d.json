@@ -1,8 +1,22 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-13T09:51:33Z",
+  "generatedAt": "2026-07-13T11:46:40Z",
   "firstRun": false,
   "skills": [
+    {
+      "id": "firecrawl/firecrawl-skills",
+      "name": "Firecrawl Skills",
+      "level": "4★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 223.52,
+      "overallTrustGrade": "A",
+      "trendingScore": 111.76,
+      "tmDelta": 223.52,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
+      }
+    },
     {
       "id": "firecrawl/firecrawl-build-scrape",
       "name": "Firecrawl Scrape",
@@ -100,37 +114,9 @@
       "_links": {
         "self": "/api/v1/skills/gaia-research/skill-fuse.json"
       }
-    },
-    {
-      "id": "firecrawl/firecrawl-skills",
-      "name": "Firecrawl Skills",
-      "level": "4★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 18.0,
-      "tmDelta": 36.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
-      }
-    },
-    {
-      "id": "addy-osmani/code-simplification",
-      "name": "Code Simplification",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 53.14,
-      "overallTrustGrade": "B",
-      "trendingScore": 10.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/code-simplification.json"
-      }
     }
   ],
-  "totalTrending": 9,
+  "totalTrending": 8,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

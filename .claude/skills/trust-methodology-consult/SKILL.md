@@ -127,6 +127,27 @@ only steps 4-ish (extend the schema), 6 (regen docs), and 7 (rerun the
 calibration if any stored grade shifted) matter. Small schema changes still
 belong on a `schema/*` branch per the branch-scope rules.
 
+## Helper: recompute a single node's stored TM (`scripts/recompute_one_tm.py`)
+
+A recurring flavour of CLI gap: the live CLI does **not** recompute and persist
+a named skill's `trustMagnitude`/`overallTrustGrade` when evidence is added, a
+suite is fused, or a level is calibrated. The leaderboard recomputes at build
+time (`computeTrustMagnitude`) and looks correct, but consumers that trust the
+**stored** frontmatter field — the contributors API, badges, and the
+Hall-of-Heroes `topSkill` selection — keep showing the stale value.
+
+Until that write-back is closed in `gaia dev`, use the vendored helper for a
+surgical, idempotent, single-node fix (it reuses the canonical write-back logic
+from `scripts/archive/migrateTrustMagnitude.py`, so no unrelated node is swept
+into the diff):
+
+    python3 .claude/skills/trust-methodology-consult/scripts/recompute_one_tm.py <owner/skill-id> --dry-run
+    python3 .claude/skills/trust-methodology-consult/scripts/recompute_one_tm.py <owner/skill-id>
+    gaia dev docs   # propagate the new value into docs/ artifacts
+
+This is a *remediation*, not a design — the durable fix is to make the mutation
+commands recompute+persist. Do not hand-edit the stored fields.
+
 ## What NOT to do
 
 - Do not "just remove the field" from the CLI when the TM engine still reads
