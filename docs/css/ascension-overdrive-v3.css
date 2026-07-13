@@ -673,7 +673,9 @@
 }
 
 .aov-predicate-component {
+  display: block;
   width: clamp(2.4rem, 3vw, 3.4rem);
+  height: clamp(2.4rem, 3vw, 3.4rem);
   aspect-ratio: 1;
   object-fit: contain;
 }
@@ -939,6 +941,8 @@
     grid-column: 1;
     grid-row: 1 / span 2;
     align-self: center;
+    width: 3rem;
+    height: 3rem;
   }
 
   .aov-rail--suite .aov-gate code,
