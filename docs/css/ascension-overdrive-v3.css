@@ -294,7 +294,7 @@
 .aov-fork-art {
   position: absolute;
   inset: clamp(4rem, 7vh, 6rem) 0 0;
-  z-index: -1;
+  z-index: 0;
   opacity: 0.68;
 }
 
@@ -312,6 +312,8 @@
 }
 
 .aov-fork-copy {
+  position: relative;
+  z-index: 1;
   width: min(58rem, 88vw);
   padding: clamp(1.5rem, 4vw, 3rem);
   border-block: 1px solid color-mix(in oklab, var(--aov-suite-gold) 45%, transparent);
