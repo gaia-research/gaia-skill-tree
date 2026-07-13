@@ -533,7 +533,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="ultimate" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="format-output" label="Format Output">

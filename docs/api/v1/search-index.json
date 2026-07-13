@@ -325,6 +325,25 @@
     ]
   },
   {
+    "id": "firecrawl/firecrawl-build-scrape",
+    "name": "Firecrawl Scrape",
+    "contributor": "firecrawl",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 133.54,
+    "tokens": [
+      "code",
+      "extraction",
+      "firecrawl",
+      "integrate",
+      "into",
+      "page",
+      "product",
+      "scrape",
+      "web"
+    ]
+  },
+  {
     "id": "ruvnet/dual-mode",
     "name": "Dual Mode",
     "contributor": "ruvnet",
@@ -559,6 +578,23 @@
       "touched",
       "writes",
       "writing"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-build-search",
+    "name": "Firecrawl Search",
+    "contributor": "firecrawl",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 107.14,
+    "tokens": [
+      "code",
+      "firecrawl",
+      "integrate",
+      "into",
+      "product",
+      "search",
+      "web"
     ]
   },
   {
@@ -1195,7 +1231,7 @@
     "id": "browser-use/browser-harness",
     "name": "Browser Harness",
     "contributor": "browser-use",
-    "level": "3★",
+    "level": "4★",
     "grade": "B",
     "trustMagnitude": 73.59,
     "tokens": [
@@ -1214,6 +1250,63 @@
       "self",
       "via",
       "write"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-build-interact",
+    "name": "Firecrawl Interact",
+    "contributor": "firecrawl",
+    "level": "2★",
+    "grade": "B",
+    "trustMagnitude": 73.52,
+    "tokens": [
+      "browser",
+      "code",
+      "control",
+      "firecrawl",
+      "integrate",
+      "interact",
+      "interaction",
+      "into",
+      "product"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-build-onboarding",
+    "name": "Firecrawl Onboarding",
+    "contributor": "firecrawl",
+    "level": "2★",
+    "grade": "B",
+    "trustMagnitude": 73.52,
+    "tokens": [
+      "agent",
+      "client",
+      "configure",
+      "credentials",
+      "environment",
+      "firecrawl",
+      "onboarding",
+      "setup",
+      "tools"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-research-index",
+    "name": "Firecrawl Research Index",
+    "contributor": "firecrawl",
+    "level": "2★",
+    "grade": "B",
+    "trustMagnitude": 73.52,
+    "tokens": [
+      "academic",
+      "firecrawl",
+      "index",
+      "literature",
+      "query",
+      "research",
+      "retrieve",
+      "search",
+      "through"
     ]
   },
   {
@@ -2449,25 +2542,6 @@
     ]
   },
   {
-    "id": "firecrawl/web-scrape-integration",
-    "name": "Firecrawl Scrape",
-    "contributor": "firecrawl",
-    "level": "3★",
-    "grade": "C",
-    "trustMagnitude": 45.84,
-    "tokens": [
-      "code",
-      "extraction",
-      "firecrawl",
-      "integrate",
-      "into",
-      "page",
-      "product",
-      "scrape",
-      "web"
-    ]
-  },
-  {
     "id": "mattpocock/improve-codebase-architecture",
     "name": "Improve Codebase Architecture",
     "contributor": "mattpocock",
@@ -2774,28 +2848,34 @@
     ]
   },
   {
-    "id": "firecrawl/firecrawl",
-    "name": "Firecrawl",
+    "id": "firecrawl/firecrawl-skills",
+    "name": "Firecrawl Skills",
     "contributor": "firecrawl",
     "level": "4★",
     "grade": "C",
     "trustMagnitude": 36.0,
     "tokens": [
-      "ai",
-      "api",
+      "`npx",
+      "all",
+      "browser",
+      "browser`",
+      "cli@latest",
       "crawler",
-      "crawling",
+      "environment",
       "extraction",
       "firecrawl",
-      "open",
-      "oriented",
+      "init",
+      "install",
+      "interaction",
+      "research",
       "scrape",
       "scraping",
       "search",
-      "source",
-      "structured",
+      "setup",
+      "skills",
+      "suite",
       "web",
-      "websites"
+      "y"
     ]
   },
   {
@@ -4762,23 +4842,6 @@
     ]
   },
   {
-    "id": "firecrawl/web-search-integration",
-    "name": "Firecrawl Search",
-    "contributor": "firecrawl",
-    "level": "2★",
-    "grade": "C",
-    "trustMagnitude": 31.44,
-    "tokens": [
-      "code",
-      "firecrawl",
-      "integrate",
-      "into",
-      "product",
-      "search",
-      "web"
-    ]
-  },
-  {
     "id": "devin-ai/autonomous-swe",
     "name": "Autonomous SWE",
     "contributor": "devin-ai",
@@ -4835,63 +4898,6 @@
       "ultra",
       "v1",
       "words"
-    ]
-  },
-  {
-    "id": "firecrawl/academic-literature-retrieval",
-    "name": "Firecrawl Research Index",
-    "contributor": "firecrawl",
-    "level": "2★",
-    "grade": null,
-    "trustMagnitude": 0.0,
-    "tokens": [
-      "academic",
-      "firecrawl",
-      "index",
-      "literature",
-      "query",
-      "research",
-      "retrieve",
-      "search",
-      "through"
-    ]
-  },
-  {
-    "id": "firecrawl/agent-environment-auth",
-    "name": "Firecrawl Onboarding",
-    "contributor": "firecrawl",
-    "level": "2★",
-    "grade": null,
-    "trustMagnitude": 0.0,
-    "tokens": [
-      "agent",
-      "client",
-      "configure",
-      "credentials",
-      "environment",
-      "firecrawl",
-      "onboarding",
-      "setup",
-      "tools"
-    ]
-  },
-  {
-    "id": "firecrawl/browser-interaction-integration",
-    "name": "Firecrawl Interact",
-    "contributor": "firecrawl",
-    "level": "2★",
-    "grade": null,
-    "trustMagnitude": 0.0,
-    "tokens": [
-      "browser",
-      "code",
-      "control",
-      "firecrawl",
-      "integrate",
-      "interact",
-      "interaction",
-      "into",
-      "product"
     ]
   },
   {

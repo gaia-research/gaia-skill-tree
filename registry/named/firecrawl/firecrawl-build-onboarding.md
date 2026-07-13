@@ -26,7 +26,6 @@ timeline:
   contributor: mbtiongson1
   details: Renamed from firecrawl/agent-environment-auth to firecrawl/firecrawl-build-onboarding
     — aligned to official firecrawl/skills repo naming
-suiteRef: firecrawl/firecrawl
 evidence:
 - type: github-stars-own
   source: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md
@@ -44,6 +43,7 @@ evidence:
   date: '2026-07-13'
   sourceStartedAt: '2023-08-01'
 catalogRef: firecrawl-firecrawl-build-onboarding
+suiteRef: "firecrawl/firecrawl-skills"
 ---
 
 ## Installation

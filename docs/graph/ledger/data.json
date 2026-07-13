@@ -1,15 +1,15 @@
 {
-  "version": "6.6.1",
-  "generatedAt": "2026-07-13T06:24:43Z",
+  "version": "6.4.0",
+  "generatedAt": "2026-07-13T09:51:25Z",
   "summary": {
     "total": 271,
     "S": 5,
-    "A": 44,
-    "B": 67,
-    "C": 80,
-    "ungraded": 75,
+    "A": 47,
+    "B": 69,
+    "C": 78,
+    "ungraded": 72,
     "floor": 0,
-    "up": 1
+    "up": 4
   },
   "rows": [
     {
@@ -163,6 +163,23 @@
       "origin": true
     },
     {
+      "skillId": "firecrawl/firecrawl-skills",
+      "tm": 223.52,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 37.52,
+        "fusion-recipe": 150.0
+      },
+      "origin": false
+    },
+    {
       "skillId": "gsd-build/get-shit-done",
       "tm": 202.16,
       "grade": "A",
@@ -225,6 +242,23 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "fusion-recipe": 120.0
+      },
+      "origin": true
+    },
+    {
+      "skillId": "firecrawl/firecrawl-build-scrape",
+      "tm": 133.54,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "social-signal": 60.02,
+        "github-stars-own": 37.52,
+        "repo-own": 36.0
       },
       "origin": true
     },
@@ -374,6 +408,23 @@
         "repo-own": 36.0,
         "peer-review": 45.0,
         "social-signal": 29.15
+      },
+      "origin": true
+    },
+    {
+      "skillId": "firecrawl/firecrawl-build-search",
+      "tm": 107.14,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "social-signal": 33.62,
+        "github-stars-own": 37.52,
+        "repo-own": 36.0
       },
       "origin": true
     },
@@ -599,7 +650,7 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": true
     },
     {
       "skillId": "google-deepmind/ncbi_sequence_fetch",
@@ -872,22 +923,6 @@
       "origin": true
     },
     {
-      "skillId": "firecrawl/firecrawl",
-      "tm": 96.0,
-      "grade": "B",
-      "currentStars": "4★",
-      "mayStars": "2★",
-      "juneStars": "4★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "fusion-recipe": 60.0
-      },
-      "origin": false
-    },
-    {
       "skillId": "ruvnet/flow-nexus",
       "tm": 96.0,
       "grade": "B",
@@ -1085,7 +1120,7 @@
         "repo-own": 36.0,
         "peer-review": 52.5
       },
-      "origin": true
+      "origin": false
     },
     {
       "skillId": "obra/dispatching-parallel-agents",
@@ -1123,15 +1158,63 @@
       "skillId": "browser-use/browser-harness",
       "tm": 73.59,
       "grade": "B",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "2★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 36.0,
         "social-signal": 37.59
+      },
+      "origin": true
+    },
+    {
+      "skillId": "firecrawl/firecrawl-build-interact",
+      "tm": 73.52,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 37.52,
+        "repo-own": 36.0
+      },
+      "origin": false
+    },
+    {
+      "skillId": "firecrawl/firecrawl-build-onboarding",
+      "tm": 73.52,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 37.52,
+        "repo-own": 36.0
+      },
+      "origin": true
+    },
+    {
+      "skillId": "firecrawl/firecrawl-research-index",
+      "tm": 73.52,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 37.52,
+        "repo-own": 36.0
       },
       "origin": false
     },
@@ -1935,21 +2018,6 @@
       "origin": false
     },
     {
-      "skillId": "firecrawl/web-scrape-integration",
-      "tm": 45.84,
-      "grade": "C",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "2★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "social-signal": 45.84
-      },
-      "origin": false
-    },
-    {
       "skillId": "mattpocock/improve-codebase-architecture",
       "tm": 45.0,
       "grade": "C",
@@ -2418,7 +2486,7 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": false
     },
     {
       "skillId": "garrytan/setup-browser-cookies",
@@ -3097,21 +3165,6 @@
       "origin": true
     },
     {
-      "skillId": "firecrawl/web-search-integration",
-      "tm": 31.44,
-      "grade": "C",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "2★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "social-signal": 31.44
-      },
-      "origin": false
-    },
-    {
       "skillId": "devin-ai/autonomous-swe",
       "tm": 30.0,
       "grade": "C",
@@ -3558,45 +3611,6 @@
       "currentStars": "1★",
       "mayStars": "2★",
       "juneStars": "1★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false
-    },
-    {
-      "skillId": "firecrawl/academic-literature-retrieval",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false
-    },
-    {
-      "skillId": "firecrawl/agent-environment-auth",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "1★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {},
-      "origin": false
-    },
-    {
-      "skillId": "firecrawl/browser-interaction-integration",
-      "tm": 0.0,
-      "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
       "g7Stars": "1★",
       "flag": "",
       "apexResults": null,

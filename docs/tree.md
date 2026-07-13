@@ -8,19 +8,6 @@ GAIA SKILL TREE  ·  generated 2026-07-13
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
 
-◆ firecrawl/firecrawl  [4★]
-─────────────────────────────────────────────────────────────────
-  ├─ ◇ garrytan/scrape  [3★]
-  │  ├─ ○ firecrawl/web-search-integration  [2★]
-  │  ├─ ○ /parse-html
-  │  └─ ○ /extract-entities
-  ├─ ○ firecrawl/web-search-integration  [2★]  (↑ see above)
-  ├─ ○ garrytan/browse  [3★]
-  ├─ ◇ mattpocock/setup-matt-pocock-skills  [3★]
-  │  ├─ ○ garrytan/document-generate  [3★]
-  │  └─ ○ /tool-use
-  └─ ○ firecrawl/academic-literature-retrieval  [2★]
-
 ◆ garrytan/gstack  [5★]
 ─────────────────────────────────────────────────────────────────
   ├─ ○ garrytan/office-hours  [3★]
@@ -35,7 +22,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ ○ ████████/ask-matt
   ├─ ◇ garrytan/design-consultation  [3★]
   │  ├─ ◇ ████████/stagehand
-  │  │  ├─ ○ firecrawl/web-search-integration  [2★]
+  │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ ○ /computer-use
   │  └─ ○ /parse-html
   ├─ ◇ garrytan/design-shotgun  [3★]
@@ -68,9 +55,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ◇ garrytan/cso  [3★]
   │  ├─ ◇ addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
-  ├─ ○ garrytan/browse  [3★]
-  ├─ ◇ garrytan/scrape  [3★]
-  │  ├─ ○ firecrawl/web-search-integration  [2★]  (↑ see above)
+  ├─ ○ browser-use/browser-harness  [4★]
+  ├─ ◇ firecrawl/firecrawl-build-scrape  [4★]
+  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
   │  ├─ ○ /parse-html  (↑ see above)
   │  └─ ○ /extract-entities
   ├─ ◇ garrytan/skillify  [3★]
@@ -270,7 +257,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ◇ mattpocock/prototype  [2★]
   │  │  ├─ ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ ○ /code-execution  (↑ see above)
-  │  └─ ◇ mattpocock/setup-matt-pocock-skills  [3★]
+  │  └─ ◇ firecrawl/firecrawl-build-onboarding  [3★]
   │     ├─ ○ garrytan/document-generate  [3★]  (↑ see above)
   │     └─ ○ /tool-use
   ├─ ◇ mattpocock/productivity  [4★]

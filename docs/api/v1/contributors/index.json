@@ -66,6 +66,19 @@
       }
     },
     {
+      "handle": "firecrawl",
+      "namedSkills": 6,
+      "topSkill": {
+        "id": "firecrawl/firecrawl-build-scrape",
+        "level": "4★",
+        "trustMagnitude": 133.54
+      },
+      "prestigeScore": 497.24,
+      "_links": {
+        "self": "/api/v1/contributors/firecrawl.json"
+      }
+    },
+    {
       "handle": "gsd-build",
       "namedSkills": 6,
       "topSkill": {
@@ -144,19 +157,6 @@
       }
     },
     {
-      "handle": "firecrawl",
-      "namedSkills": 6,
-      "topSkill": {
-        "id": "firecrawl/web-scrape-integration",
-        "level": "3★",
-        "trustMagnitude": 45.84
-      },
-      "prestigeScore": 113.28,
-      "_links": {
-        "self": "/api/v1/contributors/firecrawl.json"
-      }
-    },
-    {
       "handle": "stanfordnlp",
       "namedSkills": 1,
       "topSkill": {
@@ -200,7 +200,7 @@
       "namedSkills": 1,
       "topSkill": {
         "id": "browser-use/browser-harness",
-        "level": "3★",
+        "level": "4★",
         "trustMagnitude": 73.59
       },
       "prestigeScore": 73.59,

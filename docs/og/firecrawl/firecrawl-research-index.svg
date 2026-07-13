@@ -18,12 +18,12 @@
 
   <!-- Slash-skill slug (no celestial subject for sub-4★ skills) -->
   <text x="60" y="290" font-family="'EB Garamond',Georgia,serif" font-weight="600"
-    font-size="72" fill="#ebe5d4" dominant-baseline="middle">/browser-interaction-integration</text>
+    font-size="72" fill="#ebe5d4" dominant-baseline="middle">/firecrawl-research-index</text>
 
   <text x="60" y="336" font-family="'EB Garamond',Georgia,serif" font-style="italic"
-    font-size="24" fill="#ebe5d4" fill-opacity="0.6" dominant-baseline="middle">'Firecrawl Interact'</text>
+    font-size="24" fill="#ebe5d4" fill-opacity="0.6" dominant-baseline="middle">'Firecrawl Research Index'</text>
 
   <text x="48" y="538" font-family="'EB Garamond',Georgia,serif" font-size="22" font-style="italic" fill="#ef4444" dominant-baseline="middle"><tspan font-style="normal" fill-opacity="0.82">Cataloged by </tspan><tspan font-weight="600">@firecrawl</tspan> <tspan font-style="normal" fill-opacity="0.5">·</tspan> <tspan font-style="normal" fill-opacity="0.7"> 2026</tspan></text>
 
-  <text x="48" y="586" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="13" letter-spacing="1.5" fill="#ebe5d4" fill-opacity="0.7"><tspan>MAG 2.0</tspan><tspan fill-opacity="0.35"> · · · </tspan><tspan>★★</tspan><tspan fill-opacity="0.35"> · · · </tspan><tspan>GAIA · 2026</tspan></text>
+  <text x="48" y="586" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="13" letter-spacing="1.5" fill="#ebe5d4" fill-opacity="0.7"><tspan>MAG 73.5</tspan><tspan fill-opacity="0.35"> · · · </tspan><tspan>GRADE B</tspan><tspan fill-opacity="0.35"> · · · </tspan><tspan>★★</tspan><tspan fill-opacity="0.35"> · · · </tspan><tspan>GAIA · 2026</tspan></text>
 </svg>

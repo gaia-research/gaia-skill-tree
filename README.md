@@ -74,7 +74,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
   │  └─ ○ ████████/ask-matt
   ├─ ◇ garrytan/design-consultation  [3★]
   │  ├─ ◇ ████████/stagehand
-  │  │  ├─ ○ firecrawl/web-search-integration  [2★]
+  │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ ○ /computer-use
 
 (236 skills total — see docs/tree.md)

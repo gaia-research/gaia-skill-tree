@@ -1425,14 +1425,14 @@
         ]
       },
       "topSkill": "browser-use/browser-harness",
-      "topRank": 3,
+      "topRank": 4,
       "topIsUnique": false,
       "count": 1,
       "namedSkills": [
         {
           "id": "browser-use/browser-harness",
           "name": "Browser Harness",
-          "rank": 3,
+          "rank": 4,
           "type": "basic",
           "slash": "/browser-harness",
           "file": "browser-harness.svg",
@@ -1447,74 +1447,74 @@
       ],
       "skillsByRepo": {
         "firecrawl/skills": [
-          "firecrawl/academic-literature-retrieval",
-          "firecrawl/agent-environment-auth",
-          "firecrawl/browser-interaction-integration",
-          "firecrawl/web-scrape-integration",
-          "firecrawl/web-search-integration"
+          "firecrawl/firecrawl-build-interact",
+          "firecrawl/firecrawl-build-onboarding",
+          "firecrawl/firecrawl-build-scrape",
+          "firecrawl/firecrawl-build-search",
+          "firecrawl/firecrawl-research-index"
         ],
         "firecrawl/firecrawl": [
-          "firecrawl/firecrawl"
+          "firecrawl/firecrawl-skills"
         ]
       },
-      "topSkill": "firecrawl/firecrawl",
+      "topSkill": "firecrawl/firecrawl-build-scrape",
       "topRank": 4,
       "topIsUnique": false,
       "count": 6,
       "namedSkills": [
         {
-          "id": "firecrawl/firecrawl",
-          "name": "Firecrawl",
-          "rank": 4,
-          "type": "ultimate",
-          "slash": "/firecrawl",
-          "file": "firecrawl.svg",
-          "fileSeal": "firecrawl-seal.svg"
-        },
-        {
-          "id": "firecrawl/web-scrape-integration",
+          "id": "firecrawl/firecrawl-build-scrape",
           "name": "Firecrawl Scrape",
-          "rank": 3,
+          "rank": 4,
           "type": "extra",
-          "slash": "/web-scrape-integration",
-          "file": "web-scrape-integration.svg",
-          "fileSeal": "web-scrape-integration-seal.svg"
+          "slash": "/firecrawl-build-scrape",
+          "file": "firecrawl-build-scrape.svg",
+          "fileSeal": "firecrawl-build-scrape-seal.svg"
         },
         {
-          "id": "firecrawl/academic-literature-retrieval",
-          "name": "Firecrawl Research Index",
-          "rank": 2,
+          "id": "firecrawl/firecrawl-build-search",
+          "name": "Firecrawl Search",
+          "rank": 4,
           "type": "basic",
-          "slash": "/academic-literature-retrieval",
-          "file": "academic-literature-retrieval.svg",
-          "fileSeal": "academic-literature-retrieval-seal.svg"
+          "slash": "/firecrawl-build-search",
+          "file": "firecrawl-build-search.svg",
+          "fileSeal": "firecrawl-build-search-seal.svg"
         },
         {
-          "id": "firecrawl/agent-environment-auth",
-          "name": "Firecrawl Onboarding",
-          "rank": 2,
+          "id": "firecrawl/firecrawl-skills",
+          "name": "Firecrawl Skills",
+          "rank": 4,
           "type": "extra",
-          "slash": "/agent-environment-auth",
-          "file": "agent-environment-auth.svg",
-          "fileSeal": "agent-environment-auth-seal.svg"
+          "slash": "/firecrawl-skills",
+          "file": "firecrawl-skills.svg",
+          "fileSeal": "firecrawl-skills-seal.svg"
         },
         {
-          "id": "firecrawl/browser-interaction-integration",
+          "id": "firecrawl/firecrawl-build-interact",
           "name": "Firecrawl Interact",
           "rank": 2,
           "type": "basic",
-          "slash": "/browser-interaction-integration",
-          "file": "browser-interaction-integration.svg",
-          "fileSeal": "browser-interaction-integration-seal.svg"
+          "slash": "/firecrawl-build-interact",
+          "file": "firecrawl-build-interact.svg",
+          "fileSeal": "firecrawl-build-interact-seal.svg"
         },
         {
-          "id": "firecrawl/web-search-integration",
-          "name": "Firecrawl Search",
+          "id": "firecrawl/firecrawl-build-onboarding",
+          "name": "Firecrawl Onboarding",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/firecrawl-build-onboarding",
+          "file": "firecrawl-build-onboarding.svg",
+          "fileSeal": "firecrawl-build-onboarding-seal.svg"
+        },
+        {
+          "id": "firecrawl/firecrawl-research-index",
+          "name": "Firecrawl Research Index",
           "rank": 2,
           "type": "basic",
-          "slash": "/web-search-integration",
-          "file": "web-search-integration.svg",
-          "fileSeal": "web-search-integration-seal.svg"
+          "slash": "/firecrawl-research-index",
+          "file": "firecrawl-research-index.svg",
+          "fileSeal": "firecrawl-research-index-seal.svg"
         }
       ]
     },
