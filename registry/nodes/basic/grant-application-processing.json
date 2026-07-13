@@ -1,0 +1,22 @@
+{
+  "id": "grant-application-processing",
+  "name": "Grant Application Processing",
+  "type": "basic",
+  "description": "Process financial aid, grant, or assistance applications by calculating discounts, assigning discount codes, updating tracker logs, and sending status updates.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-14",
+  "updatedAt": "2026-07-14",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-13T16:26:01Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill grant-application-processing"
+    }
+  ]
+}

@@ -8,6 +8,7 @@
 * [Browser Control](/browser-control.md) - A foundational skill for interacting directly with the web browser using Chrome DevTools Protocol (CDP).
 * [CI Churn Analysis](/ci-churn-analysis.md) - Measures avoidable CI iteration cost for a pull request by classifying commits as feature work versus fix-the-CI rework, summing CI compute time burned on avoidable push rounds, and surfacing pre-push checks that would have prevented them.
 * [CLI Modernization](/cli-modernization.md) - Refactors command-line interfaces for improved UX, plugin architecture, and extensibility.
+* [CRM Data Cleanup](/crm-data-cleanup.md) - Perform data hygiene, normalization, and deduplication of contact, event, or organization records in CRM and tracking databases.
 * [Chain-of-Thought Reasoning](/chain-of-thought.md) - Produces explicit intermediate reasoning steps before arriving at a final answer, dramatically improving accuracy on multi-step problems.
 * [Chunk Document](/chunk-document.md) - Splits a document into semantically meaningful segments optimized for embedding and retrieval.
 * [Cite Sources](/cite-sources.md) - Attributes claims to specific sources with proper references, URLs, or bibliographic entries.
@@ -27,6 +28,10 @@
 * [Embed Text](/embed-text.md) - Converts text into dense vector representations suitable for similarity search and clustering.
 * [Error Interpretation](/error-interpretation.md) - Diagnoses error messages, stack traces, and failure modes to identify root causes and suggest fixes.
 * [Evaluate Output](/evaluate-output.md) - Assesses the quality, correctness, or safety of generated output against defined criteria.
+* [Event Attendance Metrics](/event-attendance-metrics.md) - Collect, process, and query attendee RSVP and check-in records for events, normalizing data to produce clean, unique attendance counts and metrics.
+* [Event Attendee Management](/event-attendee-management.md) - Manage, export, sync, and format event attendee data between registration platforms, CRM databases, and spreadsheet records.
+* [Event Support Triage](/event-support-triage.md) - Triage customer support emails or issues related to events, query attendee records to address ticketing problems, and draft responses using dynamic templates.
+* [Event Ticket Transfer](/event-ticket-transfer.md) - Process requests to transfer event tickets between attendees, validating tickets, updating registration metadata, and resending confirmation passes.
 * [Extract Entities](/extract-entities.md) - Identifies and extracts named entities such as people, organizations, dates, and locations from text.
 * [Feed Monitoring](/feed-monitoring.md) - Monitors RSS, Atom, blog, or other recurring content feeds, discovers updates, tracks read state, and surfaces new signals for downstream agent workflows.
 * [Few-Shot Learning](/few-shot-learning.md) - Conditions a language model on a small number of input-output demonstrations within the prompt, enabling task adaptation without weight updates.
@@ -38,6 +43,7 @@
 * [Generate Text](/generate-text.md) - Produces coherent natural language output given a prompt, instruction, or context window.
 * [Genomic Data Retrieval](/genomic-data-retrieval.md) - Queries and retrieves DNA sequence data, transcription factor binding models, cis-regulatory elements, and genetic annotations from genomic repositories (e.g. Ensembl, GTEx, JASPAR, UniBind, ENCODE, UCSC, dbSNP).
 * [Git Diff Risk Analysis](/git-diff-risk-analysis.md) - Analyzes git diffs for complexity, churn, and risk scores to prioritize review attention and flag dangerous changes.
+* [Grant Application Processing](/grant-application-processing.md) - Process financial aid, grant, or assistance applications by calculating discounts, assigning discount codes, updating tracker logs, and sending status updates.
 * [Headless Worker Collect](/headless-worker-collect.md) - Aggregates and formats results from distributed headless workers stored in shared memory with filtering and status reporting.
 * [Headless Worker Spawn](/headless-worker-spawn.md) - Launches headless AI worker processes for parallel background task execution with configurable worker types and shared memory coordination.
 * [Hybrid Workflow Coordination](/hybrid-workflow-coordination.md) - Routes tasks between interactive reasoning phases and parallel background execution with configurable workflow templates.
@@ -96,6 +102,7 @@
 * [Tokenize](/tokenize.md) - Splits input text into discrete tokens suitable for downstream processing by language models.
 * [Tool Select](/tool-select.md) - Chooses the most appropriate tool or API from a set of available options given a task description.
 * [Tool Use](/tool-use.md) - Invokes external functions or APIs by generating well-formed call signatures, parsing results, and incorporating them into reasoning.
+* [Transactional Email Resend](/transactional-email-resend.md) - Manage and resend transactional ticket or confirmation emails, verifying recipient addresses and utilizing rate-limited or alternative relays to ensure delivery.
 * [Translate](/translate.md) - Converts text from one natural language to another while preserving meaning, tone, and formatting.
 * [UX Audit](/ux-audit.md) - Systematically evaluates a user interface against established usability heuristics or accessibility standards, producing a scored finding report with remediation recommendations.
 * [Vector DB Optimization](/vector-db-optimization.md) - Tunes vector database indices, sharding strategies, and multi-database coordination for production-scale retrieval.

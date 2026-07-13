@@ -1,0 +1,40 @@
+{
+  "id": "favorchurch/triage-conference",
+  "name": "Triage Conference",
+  "contributor": "favorchurch",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 0.0,
+  "overallTrustGrade": null,
+  "_links": {
+    "self": "/api/v1/skills/favorchurch/triage-conference.json",
+    "contributor": "/api/v1/contributors/favorchurch.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "Triage Conference",
+  "genericSkillRef": "event-support-triage",
+  "origin": false,
+  "description": "Triage incoming emails, search registrations, match against knowledge base, and draft/send replies.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "timeline": [
+    {
+      "timestamp": "2026-07-13T16:26:03Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill favorchurch/triage-conference"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/triage-conference/SKILL.md"
+  }
+}

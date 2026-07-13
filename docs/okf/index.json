@@ -4,7 +4,7 @@
   "families": [
     {
       "id": "basic",
-      "count": 106,
+      "count": 113,
       "skills": [
         {
           "id": "adaptive-pattern-learning",
@@ -102,6 +102,11 @@
           "summary": "Implements foundational platform architecture including plugin discovery, server lifecycle management, and API contracts."
         },
         {
+          "id": "crm-data-cleanup",
+          "name": "CRM Data Cleanup",
+          "summary": "Perform data hygiene, normalization, and deduplication of contact, event, or organization records in CRM and tracking databases."
+        },
+        {
           "id": "cultural-localization",
           "name": "Cultural Localization",
           "summary": "Adapts content for regional audiences beyond translation: idioms, cultural nuance, tone, trust conventions, and regional compliance for culturally faithful output."
@@ -140,6 +145,26 @@
           "id": "evaluate-output",
           "name": "Evaluate Output",
           "summary": "Assesses the quality, correctness, or safety of generated output against defined criteria."
+        },
+        {
+          "id": "event-attendance-metrics",
+          "name": "Event Attendance Metrics",
+          "summary": "Collect, process, and query attendee RSVP and check-in records for events, normalizing data to produce clean, unique attendance counts and metrics."
+        },
+        {
+          "id": "event-attendee-management",
+          "name": "Event Attendee Management",
+          "summary": "Manage, export, sync, and format event attendee data between registration platforms, CRM databases, and spreadsheet records."
+        },
+        {
+          "id": "event-support-triage",
+          "name": "Event Support Triage",
+          "summary": "Triage customer support emails or issues related to events, query attendee records to address ticketing problems, and draft responses using dynamic templates."
+        },
+        {
+          "id": "event-ticket-transfer",
+          "name": "Event Ticket Transfer",
+          "summary": "Process requests to transfer event tickets between attendees, validating tickets, updating registration metadata, and resending confirmation passes."
         },
         {
           "id": "evidence-attestation",
@@ -200,6 +225,11 @@
           "id": "git-diff-risk-analysis",
           "name": "Git Diff Risk Analysis",
           "summary": "Analyzes git diffs for complexity, churn, and risk scores to prioritize review attention and flag dangerous changes."
+        },
+        {
+          "id": "grant-application-processing",
+          "name": "Grant Application Processing",
+          "summary": "Process financial aid, grant, or assistance applications by calculating discounts, assigning discount codes, updating tracker logs, and sending status updates."
         },
         {
           "id": "headless-worker-collect",
@@ -495,6 +525,11 @@
           "id": "tool-use",
           "name": "Tool Use",
           "summary": "Invokes external functions or APIs by generating well-formed call signatures, parsing results, and incorporating them into reasoning."
+        },
+        {
+          "id": "transactional-email-resend",
+          "name": "Transactional Email Resend",
+          "summary": "Manage and resend transactional ticket or confirmation emails, verifying recipient addresses and utilizing rate-limited or alternative relays to ensure delivery."
         },
         {
           "id": "translate",

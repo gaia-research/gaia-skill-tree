@@ -1,0 +1,40 @@
+{
+  "id": "favorchurch/export-attendees",
+  "name": "Export Attendees",
+  "contributor": "favorchurch",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 0.0,
+  "overallTrustGrade": null,
+  "_links": {
+    "self": "/api/v1/skills/favorchurch/export-attendees.json",
+    "contributor": "/api/v1/contributors/favorchurch.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "Export Attendees",
+  "genericSkillRef": "event-attendee-management",
+  "origin": false,
+  "description": "Sync and export attendee data from Favor Event Tickets into a Google Sheets masterlist.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "timeline": [
+    {
+      "timestamp": "2026-07-13T16:26:02Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill favorchurch/export-attendees"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/export-attendees/SKILL.md"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "id": "favorchurch/attendees",
+  "name": "Attendees",
+  "contributor": "favorchurch",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 0.0,
+  "overallTrustGrade": null,
+  "_links": {
+    "self": "/api/v1/skills/favorchurch/attendees.json",
+    "contributor": "/api/v1/contributors/favorchurch.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "Attendees",
+  "genericSkillRef": "event-attendance-metrics",
+  "origin": false,
+  "description": "Count attendees for any event by checking Favor Event Tickets first, then Fluro as a fallback.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "timeline": [
+    {
+      "timestamp": "2026-07-13T16:26:02Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill favorchurch/attendees"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/attendees/SKILL.md"
+  }
+}

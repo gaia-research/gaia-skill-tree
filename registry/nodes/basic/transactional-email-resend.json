@@ -1,0 +1,22 @@
+{
+  "id": "transactional-email-resend",
+  "name": "Transactional Email Resend",
+  "type": "basic",
+  "description": "Manage and resend transactional ticket or confirmation emails, verifying recipient addresses and utilizing rate-limited or alternative relays to ensure delivery.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-14",
+  "updatedAt": "2026-07-14",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-13T16:26:00Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill transactional-email-resend"
+    }
+  ]
+}
