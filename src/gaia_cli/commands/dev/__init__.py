@@ -63,6 +63,7 @@ Registry development commands (requires Verifier authorization):
   gaia dev merge <target> <source1> [source2...] [--named] [--yes]
   gaia dev split <source> <target1> <target2>... [--yes]
   gaia dev rename <old_id> <new_id>
+  gaia dev rename-named <old_id> <new_id>
   gaia dev calibrate <skill_id> <level>
   gaia dev rm <skill_id> [--yes]
   gaia dev link <target> <prereqs> [--reset]
@@ -145,6 +146,12 @@ class DevCommand(Command):
         )
         dev_rename.add_argument("old_id", help="Original skill ID")
         dev_rename.add_argument("new_id", help="New skill ID")
+
+        dev_rename_named = dev_sub.add_parser(
+            "rename-named", help="Rename a named skill (contributor/slug) and update all references"
+        )
+        dev_rename_named.add_argument("old_id", help="Original skill ID")
+        dev_rename_named.add_argument("new_id", help="New skill ID")
 
         dev_verify = dev_sub.add_parser(
             "verify", help="Verify or dispute a skill's evidence"
@@ -747,6 +754,7 @@ class DevCommand(Command):
             "merge",
             "split",
             "rename",
+            "rename-named",
             "calibrate",
             "calibrate-evidence-grades",
             "evidence",
@@ -780,6 +788,9 @@ class DevCommand(Command):
         elif dev_cmd == "rename":
             from gaia_cli.commands.dev.rename import meta_rename_command
             meta_rename_command(args)
+        elif dev_cmd == "rename-named":
+            from gaia_cli.commands.dev.rename_named import meta_rename_named_command
+            meta_rename_named_command(args)
         elif dev_cmd == "verify":
             from gaia_cli.commands.dev.verify import meta_verify_command
             meta_verify_command(args)
