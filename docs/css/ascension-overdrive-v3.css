@@ -295,7 +295,8 @@
   position: absolute;
   inset: clamp(4rem, 7vh, 6rem) 0 0;
   z-index: 0;
-  opacity: 0.68;
+  opacity: 0.9;
+  mix-blend-mode: screen;
 }
 
 .aov-fork-art::after {
@@ -318,7 +319,7 @@
   padding: clamp(1.5rem, 4vw, 3rem);
   border-block: 1px solid color-mix(in oklab, var(--aov-suite-gold) 45%, transparent);
   text-align: center;
-  background: color-mix(in oklab, var(--aov-substrate-ground) 72%, transparent);
+  background: color-mix(in oklab, var(--aov-substrate-ground) 52%, transparent);
 }
 
 .aov-fork-copy h3 {
@@ -806,10 +807,11 @@
   .aov-fork-copy {
     width: 100%;
     padding-inline: 0.75rem;
+    background: color-mix(in oklab, var(--aov-substrate-ground) 60%, transparent);
   }
 
   .aov-fork-art {
-    opacity: 0.3;
+    opacity: 0.55;
   }
 
   .aov-fork-copy h3 {
