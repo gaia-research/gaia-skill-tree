@@ -343,7 +343,7 @@ Do **not** modify, stage, or delete these (managed by the Hermes agent):
 - When starting fresh and indicating a PR, work on the PR branch right away. GO TO THE PR BRANCH, not the `claude/` branch.
 
 ### Skills Intake
-- All skills live in `.claude/skills/`. There is no `.agents/` directory.
+- Skills are mirrored in `.claude/skills/` and `.agents/skills/`; keep both copies byte-identical.
 
 ### Upstream Watcher (V1 design, phased implementation)
 - Design at [`docs/agents/upstream-watcher.md`](docs/agents/upstream-watcher.md). Read before touching `scripts/upstream_watcher/`, `scripts/lib/`, `.github/workflows/upstream-*.yml`, or any `upstream:*` label.

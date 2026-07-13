@@ -8,12 +8,17 @@ import importlib.util
 import json
 from pathlib import Path
 
+import jsonschema
 import pytest
 
 
 ROOT = Path(__file__).resolve().parents[1]
 CORE = ROOT / ".claude/skills/gaia-curate"
 VALIDATOR = CORE / "scripts/validate_discovery_packet.py"
+SCHEMA = CORE / "schemas/discovery-packet.schema.json"
+TRUSTED_GENERICS = [
+    {"id": "example-capability", "kind": "generic", "name": "Example Capability"}
+]
 
 
 def load_validator():
@@ -26,9 +31,7 @@ def load_validator():
 
 @pytest.fixture
 def review_ready_packet() -> dict:
-    generic_snapshot = [
-        {"id": "example-capability", "kind": "generic", "name": "Example Capability"}
-    ]
+    generic_snapshot = copy.deepcopy(TRUSTED_GENERICS)
     return {
         "contractVersion": "discovery-packet-v1",
         "candidateId": "candidate-example-001",
@@ -76,8 +79,15 @@ def review_ready_packet() -> dict:
     }
 
 
-def errors(packet: dict) -> list[str]:
-    return load_validator().validate_packet(packet)
+def errors(packet: dict, trusted_generics: list[dict] | None = None) -> list[str]:
+    return load_validator().validate_packet(
+        packet,
+        TRUSTED_GENERICS if trusted_generics is None else trusted_generics,
+    )
+
+
+def validate_schema(packet: dict) -> None:
+    jsonschema.validate(packet, json.loads(SCHEMA.read_text(encoding="utf-8")))
 
 
 def test_accepts_review_ready_packet(review_ready_packet):
@@ -206,13 +216,24 @@ def test_rejects_mapping_options_missing_from_generic_snapshot(review_ready_pack
     assert "INVALID_GENERIC_SNAPSHOT" in errors(packet)
 
 
+def test_requires_a_trusted_generic_snapshot(review_ready_packet):
+    assert "UNTRUSTED_GENERIC_SNAPSHOT" in load_validator().validate_packet(review_ready_packet)
+
+
+def test_rejects_a_packet_snapshot_that_differs_from_the_trusted_snapshot(review_ready_packet):
+    packet = copy.deepcopy(review_ready_packet)
+    packet["genericSnapshot"]["generics"] = []
+    packet["genericSnapshot"]["contentSha256"] = hashlib.sha256(b"[]").hexdigest()
+    assert "INVALID_GENERIC_SNAPSHOT" in errors(packet)
+
+
 def test_accepts_duplicate_with_canonical_url_proof(review_ready_packet):
     packet = copy.deepcopy(review_ready_packet)
     packet["lifecycle"][-1] = "rejected"
     packet["exactDedupe"] = {
         "matched": True,
         "matchedCandidateId": "candidate-existing-001",
-        "matchedCanonicalUrl": "https://github.com/example/existing/blob/main/SKILL.md",
+        "matchedCanonicalUrl": packet["source"]["canonicalUrl"],
     }
     packet["decision"] = {
         "value": "DUPLICATE",
@@ -230,6 +251,55 @@ def test_rejects_duplicate_without_deduplication_proof(review_ready_packet):
         "reasonCode": "DUPLICATE_UNPROVEN",
     }
     assert "INVALID_DUPLICATE_PROOF" in errors(packet)
+
+
+def test_rejects_duplicate_proof_that_does_not_match_the_candidate(review_ready_packet):
+    packet = copy.deepcopy(review_ready_packet)
+    packet["lifecycle"][-1] = "rejected"
+    packet["exactDedupe"] = {
+        "matched": True,
+        "matchedContentSha256": "b" * 64,
+    }
+    packet["decision"] = {
+        "value": "DUPLICATE",
+        "reasonCode": "DUPLICATE_MISMATCHED_CONTENT",
+    }
+    assert "INVALID_DUPLICATE_PROOF" in errors(packet)
+
+
+def test_schema_rejects_out_of_order_lifecycle(review_ready_packet):
+    packet = copy.deepcopy(review_ready_packet)
+    packet["lifecycle"] = ["discovered", "mapped", "deferred"]
+    packet["decision"] = {"value": "DEFER", "reasonCode": "OUT_OF_ORDER"}
+    with pytest.raises(jsonschema.ValidationError):
+        validate_schema(packet)
+
+
+def test_schema_requires_a_terminal_decision_that_matches_the_lifecycle(review_ready_packet):
+    packet = copy.deepcopy(review_ready_packet)
+    packet["lifecycle"][-1] = "deferred"
+    with pytest.raises(jsonschema.ValidationError):
+        validate_schema(packet)
+
+
+def test_schema_rejects_a_non_object_decision(review_ready_packet):
+    packet = copy.deepcopy(review_ready_packet)
+    packet["decision"] = "MAP"
+    with pytest.raises(jsonschema.ValidationError):
+        validate_schema(packet)
+
+
+def test_validator_cli_requires_the_persisted_generic_snapshot(capsys):
+    fixture_dir = CORE / "fixtures"
+    assert load_validator().main(
+        [
+            "validate_discovery_packet.py",
+            "--generic-snapshot",
+            str(fixture_dir / "generic-snapshot.json"),
+            str(fixture_dir / "review-ready-packet.json"),
+        ]
+    ) == 0
+    assert "VALID discovery-packet-v1" in capsys.readouterr().out
 
 
 @pytest.mark.parametrize("field", ["evidence", "trustMagnitude", "tmScore", "stars", "grade", "class"])

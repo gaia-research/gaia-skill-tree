@@ -35,7 +35,7 @@ def _valid_url(value: Any) -> bool:
     return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
 
 
-def validate_packet(packet: Any) -> list[str]:
+def validate_packet(packet: Any, trusted_generics: Any = None) -> list[str]:
     """Return stable error codes for a single, discovery-only candidate packet."""
     errors: list[str] = []
     if not isinstance(packet, dict):
@@ -140,6 +140,13 @@ def validate_packet(packet: Any) -> list[str]:
             separators=(",", ":"),
         ).encode("utf-8")
         generics_digest = hashlib.sha256(canonical_generics).hexdigest()
+        trusted_digest = hashlib.sha256(
+            json.dumps(
+                trusted_generics if isinstance(trusted_generics, list) else [],
+                sort_keys=True,
+                separators=(",", ":"),
+            ).encode("utf-8")
+        ).hexdigest()
         generic_ids = {
             generic.get("id")
             for generic in generics
@@ -153,7 +160,9 @@ def validate_packet(packet: Any) -> list[str]:
             for option in options
             if isinstance(option, dict)
         } if isinstance(options, list) else set()
-        if (
+        if not isinstance(trusted_generics, list):
+            errors.append("UNTRUSTED_GENERIC_SNAPSHOT")
+        elif (
             not isinstance(snapshot, dict)
             or not isinstance(snapshot.get("capturedAt"), str)
             or not snapshot["capturedAt"].strip()
@@ -161,6 +170,8 @@ def validate_packet(packet: Any) -> list[str]:
             or not isinstance(generics, list)
             or not SHA256.fullmatch(str(snapshot.get("contentSha256", "")))
             or snapshot.get("contentSha256") != generics_digest
+            or snapshot.get("contentSha256") != trusted_digest
+            or generics != trusted_generics
             or not SHA256.fullmatch(str(snapshot.get("mappingOptionsSha256", "")))
             or snapshot.get("mappingOptionsSha256") != options_digest
             or not option_ids <= generic_ids
@@ -182,9 +193,11 @@ def validate_packet(packet: Any) -> list[str]:
 
     if decision_value == "DUPLICATE":
         exact = packet.get("exactDedupe")
+        source_url = source.get("canonicalUrl") if isinstance(source, dict) else None
+        source_hash = source.get("contentSha256") if isinstance(source, dict) else None
         has_proof = isinstance(exact, dict) and (
-            _valid_url(exact.get("matchedCanonicalUrl"))
-            or SHA256.fullmatch(str(exact.get("matchedContentSha256", ""))) is not None
+            exact.get("matchedCanonicalUrl") == source_url
+            or exact.get("matchedContentSha256") == source_hash
         )
         if (
             not isinstance(lifecycle, list)
@@ -223,15 +236,19 @@ def validate_packet(packet: Any) -> list[str]:
 
 
 def main(argv: list[str]) -> int:
-    if len(argv) != 2:
-        print("usage: validate_discovery_packet.py PACKET.json", file=sys.stderr)
+    if len(argv) != 4 or argv[1] != "--generic-snapshot":
+        print(
+            "usage: validate_discovery_packet.py --generic-snapshot GENERICS.json PACKET.json",
+            file=sys.stderr,
+        )
         return 2
     try:
-        packet = json.loads(Path(argv[1]).read_text(encoding="utf-8"))
+        trusted_generics = json.loads(Path(argv[2]).read_text(encoding="utf-8"))
+        packet = json.loads(Path(argv[3]).read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         print(f"MALFORMED_PACKET: {exc}", file=sys.stderr)
         return 1
-    errors = validate_packet(packet)
+    errors = validate_packet(packet, trusted_generics)
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
