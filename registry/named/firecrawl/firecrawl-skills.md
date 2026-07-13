@@ -1,6 +1,6 @@
 ---
-id: firecrawl/firecrawl
-name: Firecrawl
+id: firecrawl/firecrawl-skills
+name: Firecrawl Skills
 contributor: firecrawl
 origin: false
 genericSkillRef: firecrawl
@@ -8,10 +8,12 @@ status: named
 title: The Web Infuser
 catalogRef: firecrawl-firecrawl
 level: 4★
-description: Open-source API for AI-oriented web search, scraping, crawling, and structured
-  extraction from websites.
+description: 'Suite of Firecrawl skills for web scraping, search, browser interaction,
+  environment setup, and research. Install all skills: `npx -y firecrawl-cli@latest
+  init --all --browser`'
 links:
-  github: https://github.com/firecrawl/firecrawl/blob/main/README.md
+  github: https://github.com/firecrawl/firecrawl
+  docs: https://docs.firecrawl.dev/sdks/cli
 tags:
 - web-scrape
 - search
@@ -95,13 +97,13 @@ evidence:
   class: A
   notes: 'scrape-content-dataset-v1 (1000 URLs): >95% dynamic page scrape success,
     P95 latency ~3.4s. JS-heavy SPAs and anti-bot protected sites (May 2026).'
-- source: https://www.youtube.com/watch?v=kY0hN5-xK8U
+- type: github-stars-own
+  source: https://github.com/firecrawl/firecrawl/stargazers
+  stars: 150087
+  skillCountInRepo: 6
+  grade: B
   evaluator: mbtiongson1
-  date: '2026-06-19'
-  type: social-signal
-  class: A
-  notes: 'Tyler AI YouTube: "Firecrawl Full Beginner Course | Let''s Scrape EVERYTHING."
-    Comprehensive tutorial. Third-party validated.'
+  date: '2026-07-13'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -117,11 +119,11 @@ verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
 trustMagnitudeInputHash: 884be262d5d5ab382aed51e452e0ce7498fb4667d542b11adfd4d9cbd2063a2a
 suiteComponents:
-- firecrawl/academic-literature-retrieval
-- firecrawl/agent-environment-auth
-- firecrawl/browser-interaction-integration
-- firecrawl/web-scrape-integration
-- firecrawl/web-search-integration
+- firecrawl/firecrawl-build-scrape
+- firecrawl/firecrawl-build-search
+- firecrawl/firecrawl-build-interact
+- firecrawl/firecrawl-build-onboarding
+- firecrawl/firecrawl-research-index
 ---
 
 ## Overview

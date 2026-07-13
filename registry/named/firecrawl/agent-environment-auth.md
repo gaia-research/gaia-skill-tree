@@ -2,7 +2,7 @@
 id: firecrawl/agent-environment-auth
 name: Firecrawl Onboarding
 contributor: firecrawl
-origin: false
+origin: true
 genericSkillRef: agent-environment-setup
 status: named
 level: 2★
@@ -22,6 +22,22 @@ timeline:
   contributor: unknown
   details: Set suiteRef to firecrawl/firecrawl
 suiteRef: firecrawl/firecrawl
+evidence:
+- type: github-stars-own
+  source: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md
+  stars: 150087
+  skillCountInRepo: 6
+  grade: B
+  evaluator: mbtiongson1
+  date: '2026-07-13'
+- type: repo-own
+  source: https://github.com/firecrawl/firecrawl
+  commits: 5714
+  contributors: 155
+  grade: B
+  evaluator: mbtiongson1
+  date: '2026-07-13'
+  sourceStartedAt: '2023-08-01'
 ---
 
 ## Installation
