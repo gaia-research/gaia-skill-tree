@@ -14,13 +14,14 @@ This page is now a **contributor guide**. Detailed policy, reviewer playbooks, a
 
 ## Agent Skills — Quick Reference
 
-These slash-commands are available to AI agents (and maintainers) working in this repo. Invoke via `/skill-name` in Claude Code.
+These skills are available under both `.claude/skills/` and `.agents/skills/`. Claude Code uses `/skill-name`; Codex and Hermes load the matching skill file.
 
 | Skill | When to use |
 |---|---|
-| `/gaia-curate` | Canonical preliminary curation: source loading, generic lookup, generic/named mapping, evidence capture, review, and mutation plan. |
-| `/gaia-curate-chain` | Extends `/gaia-curate` with fixed links, deterministic gates, bounded retries, and audit state. |
-| `/gaia-curate-dynamic` | Extends `/gaia-curate` with source sharding, proposer↔refuter convergence, and a resumable ledger. |
+| `/gaia-curate` | Review up to five fetched `SKILL.md` candidates and produce a discovery shortlist. Stops before evidence or mutation. |
+| `/gaia-curate-trending` | Snapshot configured external sources and rank bounded pages for review. This is not Gaia's internal Trending API. |
+| `/gaia-curate-chain` | Add atomic checkpoints, resume state, and bounded repair to the discovery pass. |
+| `/gaia-curate-dynamic` | Use a strong orchestrator with bounded parallel workers across Claude Code, Codex, or Hermes. |
 | `/gaia-meta-audit` | Prioritized queue of skills needing review — overlap checks, missing evidence, stale status. |
 | `/gaia-audit` | Focused source-level correction for one target skill. |
 | `/gaia-intake-close` | Post-merge intake closing — posts standardized pipeline findings, /trust-appraise TM output, decisions rationale, path-to-promotion, and badge status on the PR and each linked issue. Run after L4 review is complete. |
@@ -39,36 +40,62 @@ These slash-commands are available to AI agents (and maintainers) working in thi
 
 Pick by what you're doing:
 
-- **Submitting a skill you discovered?** Use `gaia push` (A).
-- **A reviewer expanding or restructuring the registry?** Start with `/gaia-curate`; choose `/gaia-curate-chain` or `/gaia-curate-dynamic` when additional gates or convergence are needed.
+- **Submitting a skill you already understand?** Use `gaia push --from-file skills.yml` or the new-skill intake issue form (A).
+- **Reviewing external candidates first?** Start with `/gaia-curate`; add trending, checkpoints, or dynamic workers only when needed (B).
 - **Making a one-off correction** (a single merge, split, reclassify, or evidence add)? Use the direct CLI meta shifts (C).
 
 ### A) Submit discovered skills
 
-```bash
-gaia push
-```
-
-Useful variants:
+Create `skills.yml` using the schema in `.github/ISSUE_TEMPLATE/new_skill_intake.yml`, then preview it:
 
 ```bash
-gaia push --dry-run
-gaia push --no-issue
-python3 scripts/validate_intake.py
+gaia push --from-file skills.yml --dry-run
+gaia push --from-file skills.yml
 ```
 
-Use this when proposing skills via `registry-for-review/skill-batches/*.json`.
+The CLI and issue form are two ways to reach the same intake queue. Do not hand-edit `registry/` or open an unstructured “add my skill” issue.
 
-### B) Curate using the canonical core
+### B) Run a discovery-only curate pass
 
-Begin with `/gaia-curate <topic-or-source>`. It produces the preliminary packet: source and registry loading, existing-generic lookup, generic/named mapping, raw evidence measurements, and the review table. See `.agents/skills/gaia-curate/CURATION-CORE.md`.
+Start with one source page and at most five candidates. The core does this:
 
-| Extension | Adds to the core |
-|---|---|
-| `/gaia-curate-chain` | Fixed topology, deterministic gates, bounded retries, and audit state. |
-| `/gaia-curate-dynamic` | Runtime source sharding, proposer/refuter convergence, and a resumable ledger. |
+```text
+fetch real SKILL.md → parse → normalize → exact-dedupe →
+offer ≤3 existing generic matches → bounded decision → L4 review → stop
+```
 
-Extensions consume the core packet; they do not redefine preliminary curation.
+Use exactly one decision per candidate: `MAP`, `NEW_GENERIC`, `DUPLICATE`, `NOT_A_SKILL`, or `DEFER`. Models may select only supplied generic IDs; they may not invent one.
+
+| Need | Skill | Suggested model |
+|---|---|---|
+| One small/manual page | `/gaia-curate` | GPT-5.6 Luna at minimal reasoning, or an equivalent small model |
+| External source snapshots | `/gaia-curate-trending` | Luna for bounded rows; deterministic code for ranking |
+| Reliable stop/resume | `/gaia-curate-chain` | Luna workers with deterministic validation |
+| Broad parallel sweep | `/gaia-curate-dynamic` | GPT-5.6 Sol preferred, Terra acceptable, as orchestrator; Luna Light workers; Luna High for disputed rows |
+
+Harness entry points:
+
+```bash
+# Claude Code
+/gaia-curate <source-page-url>
+
+# Hermes Agent
+# First link this repo's skill into $HERMES_HOME/skills/gaia-curate.
+hermes -s gaia-curate -m gpt-5.6-luna --provider openai-codex
+
+# Codex
+# Ask Codex to follow .agents/skills/gaia-curate/SKILL.md for <source-page-url>.
+```
+
+Validate packets and mirrors before review:
+
+```bash
+pytest -q tests/test_gaia_curate_discovery_packet.py
+python3 .agents/skills/gaia-curate/scripts/validate_discovery_packet.py \
+  .agents/skills/gaia-curate/fixtures/review-ready-packet.json
+```
+
+The shortlist is not acceptance. Discovery must not collect evidence, calculate Trust Magnitude, calibrate stars, mutate the registry, generate intake, commit, push, or open a PR. After L4 approval, send new external discoveries through `gaia push --from-file`; send rows already in intake through `/ev-pipeline` and then the maintainer-only CLI path in §1C. Never submit the same intake twice.
 
 ### C) Update the canonical graph directly (Meta Shifts)
 
@@ -358,7 +385,7 @@ Use `gaia dev` commands — do not edit files manually or invoke build scripts d
 ## 11) Automated Maintenance
 
 The registry is supported by several automated workflows:
-- **Gated curation (`/gaia-curate-chain`):** The recommended pipeline for reviewer-run registry expansion (see §1B). Six gated links with a programmatic check between each; the flat `/gaia-curate` remains available for low-stakes batches but is less gated.
+- **Discovery curation:** `/gaia-curate` creates a read-only L4 shortlist. `/gaia-curate-trending` adds external snapshots, `/gaia-curate-chain` adds resumable checkpoints, and `/gaia-curate-dynamic` adds harness-neutral worker orchestration. All stop before intake, evidence, and mutation (see §1B).
 - **Auto-Sync:** On every push to a branch, a GitHub Action automatically runs the versioning and regeneration scripts. You no longer need to run these manually before pushing.
 - **Validation:** Every PR is automatically validated for schema correctness, DAG integrity, and evidence quality.
 - **Transparency Gate (`scripts/validate_timelines.py`):** Enforces the Transparency Mandate (§8) — every named skill a contributor owns must be charted at its *current* registry rank, with a timeline event explaining it. A silent demotion/promotion (a rank change with no `demote`/`rank_up` event on the user tree) fails the build. Runs in `gaia dev validate` and the release workflow; reconcile drift with `/gaia-trace-timeline` (or `scripts/trace_timeline.py --all --apply`). A sibling **Redaction Gate** (`scripts/validate_redaction.py`) likewise proves ≤1★ handles stay withheld (see META.md §1.3).

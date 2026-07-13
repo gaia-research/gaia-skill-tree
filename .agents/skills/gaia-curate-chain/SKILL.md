@@ -1,65 +1,36 @@
 ---
 name: gaia-curate-chain
 description: >-
-  Gated curation extension. Runs the canonical Gaia curation core first, then
-  adds fixed-topology subagents, deterministic gates, and bounded retries.
-  Use for small batches where schema correctness and auditability matter.
-version: 2.0.0
-argument-hint: "<topic-or-source-to-curate>"
+  Fixed-topology, discovery-only extension for Gaia curation. Atomically
+  checkpoints each candidate transition, retries only the failed field, and
+  stops at human L4 review.
+version: 3.0.0
+argument-hint: "<source-or-small-batch>"
 ---
 
 # Gaia Curate Chain
 
-This is an extension of `/gaia-curate`, not a second curation methodology.
-Read and execute `.agents/skills/gaia-curate/CURATION-CORE.md` first. The core
-owns source loading, discovery, generic lookup, generic/named mapping, evidence
-capture, proposal design, human review, and mutation boundaries. Keep the core
-packet intact; do not reimplement those steps with alternate taxonomy or
- evidence rules.
+Read `../gaia-curate/CURATION-CORE.md`; it owns the lifecycle and packet. Use this extension when recoverability matters more than throughput.
 
-## Extension workflow
+## Checkpoint contract
 
-After the core produces an approved preliminary packet:
+Persist a run ledger under `generated-output/curate-discovery/<run-id>/run.json` containing the core contract digest, generic snapshot digest, source cursor, active candidate ID, completed candidate IDs, deferred rows, and next instruction. Write to a temporary file, validate it, then atomically rename it; never leave a partially written checkpoint.
 
-1. Persist state to `generated-output/curate-chain-state.json` (gitignored).
-2. Dispatch fresh subagents for the approved research/design units when
-   independent context is valuable.
-3. Run deterministic gates between links: packet shape, generic ref resolution,
-   evidence URL presence, DAG validity, and `gaia validate`.
-4. On failure, route back one link with the concrete failure; allow at most two
-   retries per gate.
-5. Record the contract version/digest in state. If the core contract changes,
-   revalidate mappings and mutation plans before resuming.
-6. Perform the approved CLI mutations, regenerate docs, validate, and ship one
-   PR.
+Process exactly one candidate at a time. Validate its `discovery-packet-v1` after every transition. Advance only when the current transition validates and its input digest matches the checkpoint. On resume, revalidate contract and generic snapshot digests; preserve raw source records but move stale mappings to `DEFER`.
 
-## State minimum
+## Bounded repair
 
-```json
-{
-  "contractVersion": "core-v1",
-  "corePacket": "generated-output/curation-core-packet.json",
-  "link": 1,
-  "gates": [],
-  "mutations": [],
-  "prUrl": null
-}
-```
+Route only the failing candidate and field back to its worker. Allow at most two retries for transient fetch failure and one Luna High/equivalent repair for invalid structured output. A deterministic schema, hash, or generic-reference failure is not blindly retried.
 
-## Required gates
+If retries are exhausted or output remains invalid/ambiguous, emit `DEFER` with the stable core reason code and exact resume instruction: candidate ID, failed field, validator code, source cursor, and required operator action. Never synthesize or infer a decision.
 
-```bash
-test -s generated-output/curation-core-packet.json
-gaia validate
-gaia dev docs --check
-```
+The chain ends at L4 human review. It does not collect evidence, calculate trust, mutate the registry, regenerate docs, create intake batches, commit, push, or open a PR.
 
-Validate named IDs in preferred `contributor/skill-name` form and resolve
-`genericSkillRef` (CLI: `--generic-ref`) against `gaia dev list --generic
---json`. Do not use deprecated `--class`, manual trust values, or duplicate the
-core's evidence scoring logic.
+## Explicit downstream handoff
 
-## Ship boundary
+After an L4 decision, write a handoff record; do not silently end the caller:
 
-Use only `gaia dev` mutations. Regenerate with `gaia dev docs`, run
-`gaia validate` and `gaia dev docs --check`, then push a single review PR.
+- New external discoveries: serialize only approved rows to the canonical `skills.yml` intake schema, then require the operator to run `gaia push --from-file skills.yml` or use the issue form.
+- Rows that already came from `/gaia-draft-curate`: preserve `batchId` and issue/PR links, return them as `needs-evidence` to `/ev-pipeline`, then hand verified rows to a maintainer on `review/meta/*` for the CLI-only meta-shift in `CONTRIBUTING.md` §1C. Do not submit the same intake twice.
+
+Record the route, artifact path, remaining gate, and exact next command. This compatibility handoff is data only; the chain remains discovery-only.
