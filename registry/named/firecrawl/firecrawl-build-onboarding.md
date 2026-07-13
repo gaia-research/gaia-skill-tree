@@ -1,5 +1,5 @@
 ---
-id: firecrawl/agent-environment-auth
+id: firecrawl/firecrawl-build-onboarding
 name: Firecrawl Onboarding
 contributor: firecrawl
 origin: true
@@ -21,6 +21,11 @@ timeline:
   action: suite_ref_set
   contributor: unknown
   details: Set suiteRef to firecrawl/firecrawl
+- timestamp: '2026-07-13T09:08:46Z'
+  action: note
+  contributor: mbtiongson1
+  details: Renamed from firecrawl/agent-environment-auth to firecrawl/firecrawl-build-onboarding
+    — aligned to official firecrawl/skills repo naming
 suiteRef: firecrawl/firecrawl
 evidence:
 - type: github-stars-own
@@ -38,6 +43,7 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-07-13'
   sourceStartedAt: '2023-08-01'
+catalogRef: firecrawl-firecrawl-build-onboarding
 ---
 
 ## Installation
