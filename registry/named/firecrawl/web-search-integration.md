@@ -5,7 +5,7 @@ contributor: firecrawl
 origin: true
 genericSkillRef: web-search
 status: named
-level: 2★
+level: 4★
 description: Integrate Firecrawl web search into product code.
 createdAt: '2026-07-13'
 updatedAt: '2026-07-13'
@@ -32,9 +32,26 @@ evidence:
   date: '2026-07-13'
   type: social-signal
   notes: Third-party Tyler AI course explicitly covers Firecrawl search.
-  views: 8510
+  views: 8511
   sourceStartedAt: '2025-07-20'
   grade: B
+  likes: 157
+  comments: 5
+- type: github-stars-own
+  source: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md
+  stars: 150087
+  skillCountInRepo: 6
+  grade: B
+  evaluator: mbtiongson1
+  date: '2026-07-13'
+- type: repo-own
+  source: https://github.com/firecrawl/firecrawl
+  commits: 5714
+  contributors: 155
+  grade: B
+  evaluator: mbtiongson1
+  date: '2026-07-13'
+  sourceStartedAt: '2023-08-01'
 verification:
   firstEvidenceAt: '2026-07-13T06:22:25Z'
 suiteRef: firecrawl/firecrawl

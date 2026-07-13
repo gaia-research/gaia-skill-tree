@@ -5,7 +5,7 @@ contributor: firecrawl
 origin: true
 genericSkillRef: web-scrape
 status: named
-level: 3★
+level: 4★
 description: Integrate Firecrawl page extraction into product code.
 createdAt: '2026-07-13'
 updatedAt: '2026-07-13'
@@ -41,9 +41,11 @@ evidence:
   date: '2026-07-13'
   type: social-signal
   notes: Third-party Tyler AI course explicitly covers Firecrawl scraping and search.
-  views: 8510
+  views: 8511
   sourceStartedAt: '2025-07-20'
   grade: B
+  likes: 157
+  comments: 5
 - source: https://www.youtube.com/watch?v=7GeFt8suV8E
   evaluator: unknown
   date: '2026-07-13'
@@ -52,6 +54,23 @@ evidence:
   views: 3988
   sourceStartedAt: '2025-04-28'
   grade: B
+  likes: 144
+  comments: 6
+- type: github-stars-own
+  source: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-scrape/SKILL.md
+  stars: 150087
+  skillCountInRepo: 6
+  grade: B
+  evaluator: mbtiongson1
+  date: '2026-07-13'
+- type: repo-own
+  source: https://github.com/firecrawl/firecrawl
+  commits: 5714
+  contributors: 155
+  grade: B
+  evaluator: mbtiongson1
+  date: '2026-07-13'
+  sourceStartedAt: '2023-08-01'
 verification:
   firstEvidenceAt: '2026-07-13T06:22:24Z'
 suiteRef: firecrawl/firecrawl
