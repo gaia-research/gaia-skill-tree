@@ -1,75 +1,37 @@
-# Gaia Curation Core
+# Gaia Discovery Curation Core
 
-This is the canonical preliminary curation contract. `/gaia-curate`, `/gaia-curate-chain`, and `/gaia-curate-dynamic` all begin here. Extension workflows must not restate or override these rules; they may add orchestration, gates, or adversarial review after the core packet is produced.
+This is the canonical read-only contract for `/gaia-curate`, `/gaia-curate-chain`, and `/gaia-curate-dynamic`. It is a discovery compiler, not a registry mutation workflow. Extensions may orchestrate packets but may not change this lifecycle or cross the L4 stop.
 
-## Core sequence
+## Lifecycle and boundary
 
-1. Read `registry/skill-sources.md` and the canonical registry.
-2. Search and inspect candidate upstream implementations. Use specific `blob/<branch>/.../SKILL.md` URLs when available.
-3. Run the generic lookup before designing entries:
+Process exactly one candidate at a time:
 
-   ```bash
-   gaia dev list --generic --description
-   # machine-readable form:
-   gaia dev list --generic --json
-   ```
+`discovered → fetched → parsed → normalized → deduped → mapped → review-ready | deferred | rejected`
 
-4. Map each implementation to an existing generic parent whenever possible.
-5. Create a new starless generic only when no suitable vendor-neutral, reusable, falsifiable parent exists.
-6. Propose named implementations separately, using preferred IDs in `contributor/skill-name` form and a resolving `genericSkillRef` (CLI spelling: `--generic-ref`).
-7. Capture evidence sources and raw source measurements. Do not assign derived trust values or deprecated classes.
-8. Present the review table and stop for explicit decisions before mutation.
+`fetched` requires an actually fetched upstream `SKILL.md`; `parsed` requires non-empty `name` and `description` frontmatter. Preserve source facts only: canonical URL, host repository, cited origin, available commit SHA/content hash, and source-native trend signals. Do not collect evidence, score evidence, assign grades/classes, calculate Trust Magnitude, calibrate stars, mutate the registry, regenerate docs, commit, push, or create a PR.
 
-## Proposal model
+## Bounded mapping
 
-| Name | Starless (generic) | Named (`/slash-skill`) | Type | Generic ref | Action |
-|---|---|---|---|---|---|
-| Capability | existing or proposed generic | — | basic/fusion | — | accept/rename/etc. |
-| Implementation | existing generic parent | `/implementation` | named | `contributor/generic-id` | accept/rename/etc. |
-
-A generic row must be vendor-neutral and starless. A named row is a specific implementation and must resolve to an existing generic parent. An upstream slash skill is evidence/attribution, not automatically a new generic.
-
-## Evidence contract
-
-Record source facts, not computed scores:
-
-- `repo-own`: `commits`, `contributors`;
-- `github-stars-own`: `stars`, and `skillCountInRepo` when applicable;
-- use the specific implementation `blob/` URL where available;
-- record evidence type, source URL, provenance, and notes.
-
-Never author `class`, `trustNumber`, `trustMagnitude`, `artifact_score`, or manual A/B/C grades. Gaia computes derived scores and grades.
-
-Example:
+Query generics programmatically before mapping:
 
 ```bash
-gaia dev evidence contributor/skill-name <blob-url> \
-  --type repo-own --commits N --contributors N
-
-gaia dev evidence contributor/skill-name <repo-url> \
-  --type github-stars-own --stars N --skill-count-in-repo N
+gaia dev list --generic --json
 ```
 
-Do not pass `--trust` or the deprecated `--class` option.
+Perform exact dedupe on canonical URL and content hash before proposing at most three existing-generic options. Capture the complete JSON array returned by `gaia dev list --generic --json` in `genericSnapshot.generics`, record that exact command, and SHA-256 the canonical JSON (`sort_keys=True`, compact separators) into `contentSha256`. The validator re-hashes the receipt and rejects mapping options whose IDs are absent from it. A worker may emit exactly one decision:
 
-## Core packet
+`MAP`, `NEW_GENERIC`, `DUPLICATE`, `NOT_A_SKILL`, or `DEFER`.
 
-Extensions should persist or pass a packet containing at least:
+It may not invent generic IDs, assign type beyond an L4-reviewable Yggdrasil II `basic|fusion` proposal, or use free-form acceptance language. `MAP` must select one supplied ID. `NEW_GENERIC` carries only a proposed name, falsifiable description, and `basic|fusion` type; deterministic downstream intake assigns or validates the canonical ID. Invalid or ambiguous worker output is recorded as `DEFER` with `DEFER_INVALID_PACKET` or `DEFER_AMBIGUOUS_OUTPUT`; it never becomes an inferred mapping.
 
-```json
-{
-  "existingIds": [],
-  "genericMappings": [],
-  "candidates": [],
-  "batch": [],
-  "decisions": [],
-  "evidence": [],
-  "contractVersion": "core-v1"
-}
-```
+## Packet contract
 
-The packet is preliminary work, not approval. Extensions must preserve its evidence and decisions, then add their own state without silently remapping candidates.
+Every candidate uses `discovery-packet-v1`, specified by [schemas/discovery-packet.schema.json](schemas/discovery-packet.schema.json) and executable via [scripts/validate_discovery_packet.py](scripts/validate_discovery_packet.py). The packet includes source provenance, hash, source-native trend signals, normalized candidate, exact-dedupe result, up to three mapping options, one bounded decision, stable reason code, and flags. The valid example is [fixtures/review-ready-packet.json](fixtures/review-ready-packet.json).
 
-## Mutation boundary
+The bounded Luna viability input is [fixtures/luna-viability-page.json](fixtures/luna-viability-page.json), with the separate oracle at [fixtures/luna-viability-expected.json](fixtures/luna-viability-expected.json): existing-generic implementation, exact duplicate, malformed artifact, ambiguous capability, and copied/cited-origin skill. Give the worker only the input page, then compare against the oracle after the run. The verified Hermes/Luna result and usage receipt are recorded in [LUNA-VIABILITY.md](LUNA-VIABILITY.md). These fixtures are not registry inputs.
 
-After explicit approval, mutate only through `gaia dev` commands. Validate with `gaia validate`; regenerate with `gaia dev docs` and check with `gaia dev docs --check`. Never hand-edit canonical or generated registry files.
+Stable validator codes include `MALFORMED_PACKET`, `MISSING_REQUIRED_FIELD`, `INVALID_CANDIDATE_ID`, `INVALID_LIFECYCLE_TRANSITION`, `MISSING_SOURCE_PROVENANCE`, `MISSING_FETCHED_PROVENANCE`, `INVALID_SOURCE_LANE`, `INVALID_SOURCE_URL`, `MISSING_FETCHED_FRONTMATTER`, `INVALID_CONTENT_HASH`, `INVALID_MAPPING_OPTIONS`, `TOO_MANY_MAPPING_OPTIONS`, `INVALID_GENERIC_SNAPSHOT`, `INVALID_DUPLICATE_PROOF`, `UNKNOWN_DECISION`, `INVALID_DECISION_STATE`, `INVALID_GENERIC_SELECTION`, `INVALID_NEW_GENERIC_PROPOSAL`, and `DOWNSTREAM_FIELD_FORBIDDEN`.
+
+## Human checkpoint
+
+An L4 human reviews every `review-ready` row, all deferrals, and every proposed new generic. Shortlist acceptance is not registry acceptance. Stop after producing the L4 review artifact. Only after L4 may a separate intake/evidence workflow collect evidence or request registry changes.

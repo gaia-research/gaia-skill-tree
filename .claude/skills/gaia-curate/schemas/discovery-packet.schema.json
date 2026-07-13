@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Gaia discovery packet v1",
+  "type": "object",
+  "required": ["contractVersion", "candidateId", "lifecycle", "source", "normalized", "exactDedupe", "mappingOptions", "decision", "flags"],
+  "properties": {
+    "contractVersion": {"const": "discovery-packet-v1"},
+    "candidateId": {"type": "string", "minLength": 1},
+    "lifecycle": {
+      "type": "array",
+      "minItems": 2,
+      "items": {"enum": ["discovered", "fetched", "parsed", "normalized", "deduped", "mapped", "review-ready", "deferred", "rejected"]},
+      "uniqueItems": true
+    },
+    "source": {
+      "type": "object",
+      "required": ["canonicalUrl", "sourceLane"],
+      "properties": {
+        "canonicalUrl": {"type": "string", "format": "uri"},
+        "hostRepository": {"type": "string", "format": "uri"},
+        "sourceLane": {"enum": ["marketplace", "source-repository", "github-topic"]},
+        "fetchedAt": {"type": "string", "minLength": 1},
+        "contentSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "frontmatter": {
+          "type": "object",
+          "required": ["name", "description"],
+          "properties": {
+            "name": {"type": "string", "minLength": 1},
+            "description": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "normalized": {
+      "type": "object",
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "description": {"type": "string", "minLength": 1}
+      }
+    },
+    "exactDedupe": {
+      "type": "object",
+      "properties": {
+        "matched": {"type": "boolean"},
+        "matchedCandidateId": {"type": ["string", "null"]},
+        "matchedCanonicalUrl": {"type": ["string", "null"], "format": "uri"},
+        "matchedContentSha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "mappingOptions": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["genericId", "rationale"],
+        "properties": {
+          "genericId": {"type": "string", "minLength": 1},
+          "rationale": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "genericSnapshot": {
+      "type": "object",
+      "required": ["capturedAt", "command", "generics", "contentSha256", "mappingOptionsSha256"],
+      "properties": {
+        "capturedAt": {"type": "string", "minLength": 1},
+        "command": {"const": "gaia dev list --generic --json"},
+        "generics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "kind"],
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "kind": {"const": "generic"}
+            }
+          }
+        },
+        "contentSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "mappingOptionsSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "required": ["value", "reasonCode"],
+      "properties": {
+        "value": {"enum": ["MAP", "NEW_GENERIC", "DUPLICATE", "NOT_A_SKILL", "DEFER"]},
+        "reasonCode": {"type": "string", "minLength": 1},
+        "genericId": {"type": "string", "minLength": 1},
+        "proposal": {
+          "type": "object",
+          "required": ["name", "description", "type"],
+          "properties": {
+            "name": {"type": "string", "minLength": 1},
+            "description": {"type": "string", "minLength": 1},
+            "type": {"enum": ["basic", "fusion"]}
+          }
+        }
+      }
+    },
+    "flags": {"type": "array"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"lifecycle": {"contains": {"const": "review-ready"}}}},
+      "then": {"properties": {"lifecycle": {"const": ["discovered", "fetched", "parsed", "normalized", "deduped", "mapped", "review-ready"]}}}
+    },
+    {
+      "if": {"properties": {"lifecycle": {"contains": {"const": "normalized"}}}},
+      "then": {"properties": {"normalized": {"required": ["name", "description"]}}}
+    },
+    {
+      "if": {"properties": {"lifecycle": {"contains": {"const": "fetched"}}}},
+      "then": {"properties": {"source": {"required": ["hostRepository", "fetchedAt", "contentSha256"]}}}
+    },
+    {
+      "if": {"properties": {"lifecycle": {"contains": {"const": "parsed"}}}},
+      "then": {"properties": {"source": {"required": ["frontmatter"]}}}
+    },
+    {
+      "if": {"properties": {"lifecycle": {"contains": {"const": "mapped"}}}},
+      "then": {"required": ["genericSnapshot"]}
+    },
+    {
+      "if": {"properties": {"decision": {"properties": {"value": {"const": "DUPLICATE"}}}}},
+      "then": {
+        "properties": {
+          "lifecycle": {"contains": {"const": "deduped"}},
+          "exactDedupe": {
+            "required": ["matched"],
+            "properties": {"matched": {"const": true}},
+            "anyOf": [
+              {"required": ["matchedCanonicalUrl"], "properties": {"matchedCanonicalUrl": {"type": "string", "minLength": 1, "format": "uri"}}},
+              {"required": ["matchedContentSha256"], "properties": {"matchedContentSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"decision": {"properties": {"value": {"const": "MAP"}}}}},
+      "then": {"properties": {"decision": {"required": ["genericId"]}}},
+      "else": {"properties": {"decision": {"not": {"required": ["genericId"]}}}}
+    },
+    {
+      "if": {"properties": {"decision": {"properties": {"value": {"const": "NEW_GENERIC"}}}}},
+      "then": {"properties": {"decision": {"required": ["proposal"]}}}
+    }
+  ]
+}
