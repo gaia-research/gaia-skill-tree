@@ -61,9 +61,21 @@
     },
     "genericSnapshot": {
       "type": "object",
-      "required": ["capturedAt", "contentSha256", "mappingOptionsSha256"],
+      "required": ["capturedAt", "command", "generics", "contentSha256", "mappingOptionsSha256"],
       "properties": {
         "capturedAt": {"type": "string", "minLength": 1},
+        "command": {"const": "gaia dev list --generic --json"},
+        "generics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "kind"],
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "kind": {"const": "generic"}
+            }
+          }
+        },
         "contentSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
         "mappingOptionsSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
       }

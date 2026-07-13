@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -25,6 +26,9 @@ def load_validator():
 
 @pytest.fixture
 def review_ready_packet() -> dict:
+    generic_snapshot = [
+        {"id": "example-capability", "kind": "generic", "name": "Example Capability"}
+    ]
     return {
         "contractVersion": "discovery-packet-v1",
         "candidateId": "candidate-example-001",
@@ -56,7 +60,11 @@ def review_ready_packet() -> dict:
         ],
         "genericSnapshot": {
             "capturedAt": "2026-07-13T00:00:00Z",
-            "contentSha256": "b" * 64,
+            "command": "gaia dev list --generic --json",
+            "generics": generic_snapshot,
+            "contentSha256": hashlib.sha256(
+                json.dumps(generic_snapshot, sort_keys=True, separators=(",", ":")).encode("utf-8")
+            ).hexdigest(),
             "mappingOptionsSha256": "79c7341ef802e0e5cfb5cae84b0054f7977d3b5ed7be4297bc910cee41ccade1",
         },
         "decision": {
@@ -184,6 +192,44 @@ def test_rejects_more_than_three_mapping_options(review_ready_packet):
     packet = copy.deepcopy(review_ready_packet)
     packet["mappingOptions"] *= 4
     assert "TOO_MANY_MAPPING_OPTIONS" in errors(packet)
+
+
+def test_rejects_tampered_mapping_options_digest(review_ready_packet):
+    packet = copy.deepcopy(review_ready_packet)
+    packet["genericSnapshot"]["mappingOptionsSha256"] = "f" * 64
+    assert "INVALID_GENERIC_SNAPSHOT" in errors(packet)
+
+
+def test_rejects_mapping_options_missing_from_generic_snapshot(review_ready_packet):
+    packet = copy.deepcopy(review_ready_packet)
+    packet["genericSnapshot"]["generics"] = []
+    assert "INVALID_GENERIC_SNAPSHOT" in errors(packet)
+
+
+def test_accepts_duplicate_with_canonical_url_proof(review_ready_packet):
+    packet = copy.deepcopy(review_ready_packet)
+    packet["lifecycle"][-1] = "rejected"
+    packet["exactDedupe"] = {
+        "matched": True,
+        "matchedCandidateId": "candidate-existing-001",
+        "matchedCanonicalUrl": "https://github.com/example/existing/blob/main/SKILL.md",
+    }
+    packet["decision"] = {
+        "value": "DUPLICATE",
+        "reasonCode": "DUPLICATE_CANONICAL_URL",
+    }
+    assert errors(packet) == []
+
+
+def test_rejects_duplicate_without_deduplication_proof(review_ready_packet):
+    packet = copy.deepcopy(review_ready_packet)
+    packet["lifecycle"][-1] = "rejected"
+    packet["exactDedupe"] = {"matched": True}
+    packet["decision"] = {
+        "value": "DUPLICATE",
+        "reasonCode": "DUPLICATE_UNPROVEN",
+    }
+    assert "INVALID_DUPLICATE_PROOF" in errors(packet)
 
 
 @pytest.mark.parametrize("field", ["evidence", "trustMagnitude", "tmScore", "stars", "grade", "class"])

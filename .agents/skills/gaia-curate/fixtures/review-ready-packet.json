@@ -17,7 +17,9 @@
   "mappingOptions": [{"genericId": "example-capability", "rationale": "Exact capability match."}],
   "genericSnapshot": {
     "capturedAt": "2026-07-13T00:00:00Z",
-    "contentSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "command": "gaia dev list --generic --json",
+    "generics": [{"id": "example-capability", "kind": "generic", "name": "Example Capability"}],
+    "contentSha256": "3ca2f577b07efc603eae26adbc5b712fa11d79e2f70989a5d044d3c5a16352cf",
     "mappingOptionsSha256": "79c7341ef802e0e5cfb5cae84b0054f7977d3b5ed7be4297bc910cee41ccade1"
   },
   "decision": {"value": "MAP", "reasonCode": "MAP_EXISTING_GENERIC", "genericId": "example-capability"},
