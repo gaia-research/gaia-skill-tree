@@ -1,6 +1,6 @@
 # Skill Tree — addy-osmani
 **Last Updated:** 2026-05-25
-**Total Skills Unlocked:** 1
+**Total Skills Unlocked:** 9
 **Highest Tier:** —
 **Deepest Lineage:** 1
 
@@ -11,6 +11,14 @@
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
 | ○ addy-osmani/test-driven-development | Basic Skill | 2★ | Named | addy-osmani/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ addy-osmani/agent-skills | Basic Skill | 5★ | Transcendent | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/code-review-and-quality | Basic Skill | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/code-simplification | Basic Skill | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/incremental-implementation | Basic Skill | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/performance-optimization | Basic Skill | 4★ | Hardened | addy-osmani/gaia-skill-tree | 2026-05-31T00:00:00Z |
+| ○ addy-osmani/planning-and-task-breakdown | Basic Skill | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/shipping-and-launch | Basic Skill | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/spec-driven-development | Basic Skill | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
 
 ---
 
@@ -295,12 +303,18 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ /autonomous-engineering-platform
   · ○ gaia-research/skill-ci-churn  [2★]
   · ○ /clinical-data-retrieval
+  · ○ ████████/update-unique-churches
   · ○ /cultural-localization
   · ○ ████████/domain-modeling
+  · ○ ████████/attendees
+  · ○ ████████/export-attendees
+  · ○ ████████/triage-conference
+  · ○ ████████/ticket-transfer
   · ○ ████████/evidence-attestation
   · ○ openai/few-shot-learning  [4★]
   · ○ laravel/upgrade-laravel-v13  [2★]
   · ○ ruvnet/agentic-jujutsu  [2★]
+  · ○ ████████/financial-assistance
   · ○ /image-generate
   · ○ ████████/implement-with-discernment
   · ○ ████████/huggingface-vision-trainer
@@ -315,6 +329,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
+  · ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 
 ## Pending Combinations

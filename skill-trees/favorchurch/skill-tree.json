@@ -1,0 +1,458 @@
+{
+  "userId": "favorchurch",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "favorchurch/attendees",
+      "level": "1★",
+      "unlockedAt": "2026-07-14T00:00:00Z",
+      "unlockedIn": "favorchurch/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-13T16:47:30Z",
+          "source": "demote"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-13T16:47:46Z",
+          "source": "demote"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-07-14T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-14T00:00:01Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "favorchurch/count-checkin-by-church",
+      "level": "1★",
+      "unlockedAt": "2026-07-14T00:00:00Z",
+      "unlockedIn": "favorchurch/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-13T16:47:43Z",
+          "source": "demote"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-07-14T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-14T00:00:01Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "favorchurch/export-attendees",
+      "level": "1★",
+      "unlockedAt": "2026-07-14T00:00:00Z",
+      "unlockedIn": "favorchurch/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-13T16:47:52Z",
+          "source": "demote"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-07-14T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-14T00:00:01Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "favorchurch/financial-assistance",
+      "level": "1★",
+      "unlockedAt": "2026-07-14T00:00:00Z",
+      "unlockedIn": "favorchurch/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-13T16:48:01Z",
+          "source": "demote"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-07-14T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-14T00:00:01Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "favorchurch/resend-conference-emails-carefully-with-smtp",
+      "level": "1★",
+      "unlockedAt": "2026-07-14T00:00:00Z",
+      "unlockedIn": "favorchurch/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-13T16:47:58Z",
+          "source": "demote"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-07-14T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-14T00:00:01Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "favorchurch/speak-like-favor",
+      "level": "1★",
+      "unlockedAt": "2026-07-14T00:00:00Z",
+      "unlockedIn": "favorchurch/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-13T16:48:07Z",
+          "source": "demote"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-07-14T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-14T00:00:01Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "favorchurch/ticket-transfer",
+      "level": "1★",
+      "unlockedAt": "2026-07-14T00:00:00Z",
+      "unlockedIn": "favorchurch/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-13T16:48:04Z",
+          "source": "demote"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-07-14T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-14T00:00:01Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "favorchurch/triage-conference",
+      "level": "1★",
+      "unlockedAt": "2026-07-14T00:00:00Z",
+      "unlockedIn": "favorchurch/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-13T16:47:54Z",
+          "source": "demote"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-07-14T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-14T00:00:01Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "favorchurch/update-unique-churches",
+      "level": "1★",
+      "unlockedAt": "2026-07-14T00:00:00Z",
+      "unlockedIn": "favorchurch/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-13T16:47:49Z",
+          "source": "demote"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-07-14T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-14T00:00:01Z",
+          "source": "demote"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-07-13T16:47:30Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Calibrated level from 2★ to 1★",
+      "skillId": "favorchurch/attendees"
+    },
+    {
+      "timestamp": "2026-07-13T16:47:43Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Calibrated level from 2★ to 1★",
+      "skillId": "favorchurch/count-checkin-by-church"
+    },
+    {
+      "timestamp": "2026-07-13T16:47:46Z",
+      "action": "demote",
+      "previousValue": "1★",
+      "newValue": "1★",
+      "details": "Calibrated level from 1★ to 1★",
+      "skillId": "favorchurch/attendees"
+    },
+    {
+      "timestamp": "2026-07-13T16:47:49Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Calibrated level from 2★ to 1★",
+      "skillId": "favorchurch/update-unique-churches"
+    },
+    {
+      "timestamp": "2026-07-13T16:47:52Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Calibrated level from 2★ to 1★",
+      "skillId": "favorchurch/export-attendees"
+    },
+    {
+      "timestamp": "2026-07-13T16:47:54Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Calibrated level from 2★ to 1★",
+      "skillId": "favorchurch/triage-conference"
+    },
+    {
+      "timestamp": "2026-07-13T16:47:58Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Calibrated level from 2★ to 1★",
+      "skillId": "favorchurch/resend-conference-emails-carefully-with-smtp"
+    },
+    {
+      "timestamp": "2026-07-13T16:48:01Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Calibrated level from 2★ to 1★",
+      "skillId": "favorchurch/financial-assistance"
+    },
+    {
+      "timestamp": "2026-07-13T16:48:04Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Calibrated level from 2★ to 1★",
+      "skillId": "favorchurch/ticket-transfer"
+    },
+    {
+      "timestamp": "2026-07-13T16:48:07Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Calibrated level from 2★ to 1★",
+      "skillId": "favorchurch/speak-like-favor"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:00Z",
+      "action": "register",
+      "skillId": "favorchurch/attendees",
+      "details": "Registered named skill favorchurch/attendees",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:00Z",
+      "action": "register",
+      "skillId": "favorchurch/count-checkin-by-church",
+      "details": "Registered named skill favorchurch/count-checkin-by-church",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:00Z",
+      "action": "register",
+      "skillId": "favorchurch/export-attendees",
+      "details": "Registered named skill favorchurch/export-attendees",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:00Z",
+      "action": "register",
+      "skillId": "favorchurch/financial-assistance",
+      "details": "Registered named skill favorchurch/financial-assistance",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:00Z",
+      "action": "register",
+      "skillId": "favorchurch/resend-conference-emails-carefully-with-smtp",
+      "details": "Registered named skill favorchurch/resend-conference-emails-carefully-with-smtp",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:00Z",
+      "action": "register",
+      "skillId": "favorchurch/speak-like-favor",
+      "details": "Registered named skill favorchurch/speak-like-favor",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:00Z",
+      "action": "register",
+      "skillId": "favorchurch/ticket-transfer",
+      "details": "Registered named skill favorchurch/ticket-transfer",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:00Z",
+      "action": "register",
+      "skillId": "favorchurch/triage-conference",
+      "details": "Registered named skill favorchurch/triage-conference",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:00Z",
+      "action": "register",
+      "skillId": "favorchurch/update-unique-churches",
+      "details": "Registered named skill favorchurch/update-unique-churches",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:01Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
+      "skillId": "favorchurch/attendees"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:01Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
+      "skillId": "favorchurch/count-checkin-by-church"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:01Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
+      "skillId": "favorchurch/export-attendees"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:01Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
+      "skillId": "favorchurch/financial-assistance"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:01Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
+      "skillId": "favorchurch/resend-conference-emails-carefully-with-smtp"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:01Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
+      "skillId": "favorchurch/speak-like-favor"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:01Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
+      "skillId": "favorchurch/ticket-transfer"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:01Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
+      "skillId": "favorchurch/triage-conference"
+    },
+    {
+      "timestamp": "2026-07-14T00:00:01Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
+      "skillId": "favorchurch/update-unique-churches"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 9,
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

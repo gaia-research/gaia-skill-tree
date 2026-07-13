@@ -1,0 +1,22 @@
+{
+  "id": "crm-data-cleanup",
+  "name": "CRM Data Cleanup",
+  "type": "basic",
+  "description": "Perform data hygiene, normalization, and deduplication of contact, event, or organization records in CRM and tracking databases.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-14",
+  "updatedAt": "2026-07-14",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-13T16:25:59Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill crm-data-cleanup"
+    }
+  ]
+}

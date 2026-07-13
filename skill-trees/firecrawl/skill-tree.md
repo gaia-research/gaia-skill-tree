@@ -1,6 +1,6 @@
 # Skill Tree — firecrawl
 **Last Updated:** 2026-05-25
-**Total Skills Unlocked:** 1
+**Total Skills Unlocked:** 7
 **Highest Tier:** —
 **Deepest Lineage:** 1
 
@@ -11,6 +11,12 @@
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
 | ○ firecrawl/firecrawl | Basic Skill | 4★ | Hardened | firecrawl/gaia-skill-tree | 2026-05-17T00:00:00Z |
+| ○ firecrawl/firecrawl-build-interact | Basic Skill | 2★ | Named | firecrawl/gaia-skill-tree | 2026-07-13T00:00:00Z |
+| ○ firecrawl/firecrawl-build-onboarding | Basic Skill | 2★ | Named | firecrawl/gaia-skill-tree | 2026-07-13T00:00:00Z |
+| ○ firecrawl/firecrawl-build-scrape | Basic Skill | 4★ | Hardened | firecrawl/gaia-skill-tree | 2026-07-13T00:00:00Z |
+| ○ firecrawl/firecrawl-build-search | Basic Skill | 4★ | Hardened | firecrawl/gaia-skill-tree | 2026-07-13T00:00:00Z |
+| ○ firecrawl/firecrawl-research-index | Basic Skill | 2★ | Named | firecrawl/gaia-skill-tree | 2026-07-13T00:00:00Z |
+| ○ firecrawl/firecrawl-skills | Basic Skill | 4★ | Hardened | firecrawl/gaia-skill-tree | 2026-05-17T00:00:00Z |
 
 ---
 
@@ -295,12 +301,18 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ /autonomous-engineering-platform
   · ○ gaia-research/skill-ci-churn  [2★]
   · ○ /clinical-data-retrieval
+  · ○ ████████/update-unique-churches
   · ○ /cultural-localization
   · ○ ████████/domain-modeling
+  · ○ ████████/attendees
+  · ○ ████████/export-attendees
+  · ○ ████████/triage-conference
+  · ○ ████████/ticket-transfer
   · ○ ████████/evidence-attestation
   · ○ openai/few-shot-learning  [4★]
   · ○ laravel/upgrade-laravel-v13  [2★]
   · ○ ruvnet/agentic-jujutsu  [2★]
+  · ○ ████████/financial-assistance
   · ○ /image-generate
   · ○ ████████/implement-with-discernment
   · ○ ████████/huggingface-vision-trainer
@@ -315,6 +327,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
+  · ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 
 ## Pending Combinations
