@@ -39,6 +39,7 @@
 * [Explainability Audit](/explainability-audit.md) - Audits model transparency by computing feature-importance attributions (SHAP, LIME) and intrinsic-interpretability metrics, surfacing them as governance evidence.
 * [Financial Modeling](/financial-modeling.md) - Builds financial projections, DCF and LBO valuation models, Monte Carlo simulations, and portfolio optimization by querying data, computing statistics, and running sensitivity analysis.
 * [Finishing a Development Branch](/finishing-a-development-branch.md) - Guides completion of development work by presenting structured options for merge, PR, or cleanup, verifying tests first.
+* [Firecrawl](/firecrawl.md) - A suite for integrating Firecrawl search, scraping, browser interaction, environment setup, and academic literature retrieval into applications.
 * [Flow Nexus Orchestration](/multi-node-orchestration.md) - Complete Flow Nexus platform: multi-topology swarm deployment, cloud platform management, and distributed neural training unified into one orchestration layer.
 * [Full-Stack Developer](/full-stack-developer.md) - Autonomously implements, reviews, tests, and refactors complete software features across the full development lifecycle from specification to merged PR.
 * [Function Calling](/function-calling.md) - Selects an external callable, emits schema-valid arguments, invokes the function or API, and integrates the returned result into the agent loop.
