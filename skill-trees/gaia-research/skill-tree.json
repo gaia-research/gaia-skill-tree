@@ -1,0 +1,57 @@
+{
+  "userId": "gaia-research",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "gaia-research/skill-ci-churn",
+      "level": "2★",
+      "unlockedAt": "2026-07-08T00:00:00Z",
+      "unlockedIn": "gaia-research/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-07-08T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "gaia-research/skill-fuse",
+      "level": "2★",
+      "unlockedAt": "2026-07-08T00:00:00Z",
+      "unlockedIn": "gaia-research/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-07-08T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-07-08T00:00:00Z",
+      "action": "register",
+      "skillId": "gaia-research/skill-ci-churn",
+      "details": "Registered named skill gaia-research/skill-ci-churn",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-07-08T00:00:00Z",
+      "action": "register",
+      "skillId": "gaia-research/skill-fuse",
+      "details": "Registered named skill gaia-research/skill-fuse",
+      "previousValue": null,
+      "newValue": "2★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 2,
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

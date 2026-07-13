@@ -18,6 +18,21 @@ timeline:
   action: add
   contributor: mbtiongson1
   details: Added named skill favorchurch/attendees
+- timestamp: '2026-07-13T16:34:22Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/attendees/SKILL.md
+    (type: self-attestation)'
+evidence:
+- source: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/attendees/SKILL.md
+  evaluator: favorchurch
+  date: '2026-07-14'
+  type: self-attestation
+  trustNumber: 10.0
+  notes: Self-attestation of Attendees skill implementation
+  grade: C
+verification:
+  firstEvidenceAt: '2026-07-13T16:34:22Z'
 ---
 
 # Attendees Skill

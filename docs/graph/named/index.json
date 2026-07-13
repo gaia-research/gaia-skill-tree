@@ -5565,6 +5565,17 @@
         "links": {
           "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/attendees/SKILL.md"
         },
+        "evidence": [
+          {
+            "source": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/attendees/SKILL.md",
+            "evaluator": "favorchurch",
+            "date": "2026-07-14",
+            "type": "self-attestation",
+            "trustNumber": 10.0,
+            "notes": "Self-attestation of Attendees skill implementation",
+            "grade": "C"
+          }
+        ],
         "createdAt": "2026-07-14",
         "updatedAt": "2026-07-14",
         "timeline": [
@@ -5573,11 +5584,17 @@
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill favorchurch/attendees"
+          },
+          {
+            "timestamp": "2026-07-13T16:34:22Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/attendees/SKILL.md (type: self-attestation)"
           }
         ],
         "type": "basic",
         "role": "variant",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5602,6 +5619,17 @@
         "links": {
           "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/count-checkin-by-church/SKILL.md"
         },
+        "evidence": [
+          {
+            "source": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/count-checkin-by-church/SKILL.md",
+            "evaluator": "favorchurch",
+            "date": "2026-07-14",
+            "type": "self-attestation",
+            "trustNumber": 10.0,
+            "notes": "Self-attestation of count-checkin-by-church skill implementation",
+            "grade": "C"
+          }
+        ],
         "createdAt": "2026-07-14",
         "updatedAt": "2026-07-14",
         "timeline": [
@@ -5610,11 +5638,17 @@
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill favorchurch/count-checkin-by-church"
+          },
+          {
+            "timestamp": "2026-07-13T16:34:29Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/count-checkin-by-church/SKILL.md (type: self-attestation)"
           }
         ],
         "type": "basic",
         "role": "variant",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5641,6 +5675,17 @@
         "links": {
           "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/export-attendees/SKILL.md"
         },
+        "evidence": [
+          {
+            "source": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/export-attendees/SKILL.md",
+            "evaluator": "favorchurch",
+            "date": "2026-07-14",
+            "type": "self-attestation",
+            "trustNumber": 10.0,
+            "notes": "Self-attestation of export-attendees skill implementation",
+            "grade": "C"
+          }
+        ],
         "createdAt": "2026-07-14",
         "updatedAt": "2026-07-14",
         "timeline": [
@@ -5649,11 +5694,17 @@
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill favorchurch/export-attendees"
+          },
+          {
+            "timestamp": "2026-07-13T16:34:35Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/export-attendees/SKILL.md (type: self-attestation)"
           }
         ],
         "type": "basic",
         "role": "variant",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5680,6 +5731,17 @@
         "links": {
           "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/financial-assistance/SKILL.md"
         },
+        "evidence": [
+          {
+            "source": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/financial-assistance/SKILL.md",
+            "evaluator": "favorchurch",
+            "date": "2026-07-14",
+            "type": "self-attestation",
+            "trustNumber": 10.0,
+            "notes": "Self-attestation of financial-assistance skill implementation",
+            "grade": "C"
+          }
+        ],
         "createdAt": "2026-07-14",
         "updatedAt": "2026-07-14",
         "timeline": [
@@ -5688,11 +5750,17 @@
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill favorchurch/financial-assistance"
+          },
+          {
+            "timestamp": "2026-07-13T16:34:45Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/financial-assistance/SKILL.md (type: self-attestation)"
           }
         ],
         "type": "basic",
         "role": "variant",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5719,6 +5787,17 @@
         "links": {
           "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/resend-conference-emails-carefully-with-smtp/SKILL.md"
         },
+        "evidence": [
+          {
+            "source": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/resend-conference-emails-carefully-with-smtp/SKILL.md",
+            "evaluator": "favorchurch",
+            "date": "2026-07-14",
+            "type": "self-attestation",
+            "trustNumber": 10.0,
+            "notes": "Self-attestation of resend-conference-emails-carefully-with-smtp skill implementation",
+            "grade": "C"
+          }
+        ],
         "createdAt": "2026-07-14",
         "updatedAt": "2026-07-14",
         "timeline": [
@@ -5727,11 +5806,17 @@
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill favorchurch/resend-conference-emails-carefully-with-smtp"
+          },
+          {
+            "timestamp": "2026-07-13T16:34:41Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/resend-conference-emails-carefully-with-smtp/SKILL.md (type: self-attestation)"
           }
         ],
         "type": "basic",
         "role": "variant",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5758,6 +5843,17 @@
         "links": {
           "github": "https://github.com/favorchurch/favor-skills/blob/main/speak-like-favor/SKILL.md"
         },
+        "evidence": [
+          {
+            "source": "https://github.com/favorchurch/favor-skills/blob/main/speak-like-favor/SKILL.md",
+            "evaluator": "favorchurch",
+            "date": "2026-07-14",
+            "type": "self-attestation",
+            "trustNumber": 10.0,
+            "notes": "Self-attestation of speak-like-favor skill implementation",
+            "grade": "C"
+          }
+        ],
         "createdAt": "2026-07-14",
         "updatedAt": "2026-07-14",
         "timeline": [
@@ -5766,11 +5862,17 @@
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill favorchurch/speak-like-favor"
+          },
+          {
+            "timestamp": "2026-07-13T16:34:51Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/speak-like-favor/SKILL.md (type: self-attestation)"
           }
         ],
         "type": "extra",
         "role": "variant",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5797,6 +5899,17 @@
         "links": {
           "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/ticket-transfer/SKILL.md"
         },
+        "evidence": [
+          {
+            "source": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/ticket-transfer/SKILL.md",
+            "evaluator": "favorchurch",
+            "date": "2026-07-14",
+            "type": "self-attestation",
+            "trustNumber": 10.0,
+            "notes": "Self-attestation of ticket-transfer skill implementation",
+            "grade": "C"
+          }
+        ],
         "createdAt": "2026-07-14",
         "updatedAt": "2026-07-14",
         "timeline": [
@@ -5805,11 +5918,17 @@
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill favorchurch/ticket-transfer"
+          },
+          {
+            "timestamp": "2026-07-13T16:34:48Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/ticket-transfer/SKILL.md (type: self-attestation)"
           }
         ],
         "type": "basic",
         "role": "variant",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5836,6 +5955,17 @@
         "links": {
           "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/triage-conference/SKILL.md"
         },
+        "evidence": [
+          {
+            "source": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/triage-conference/SKILL.md",
+            "evaluator": "favorchurch",
+            "date": "2026-07-14",
+            "type": "self-attestation",
+            "trustNumber": 10.0,
+            "notes": "Self-attestation of triage-conference skill implementation",
+            "grade": "C"
+          }
+        ],
         "createdAt": "2026-07-14",
         "updatedAt": "2026-07-14",
         "timeline": [
@@ -5844,11 +5974,17 @@
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill favorchurch/triage-conference"
+          },
+          {
+            "timestamp": "2026-07-13T16:34:38Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/triage-conference/SKILL.md (type: self-attestation)"
           }
         ],
         "type": "basic",
         "role": "variant",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5875,6 +6011,17 @@
         "links": {
           "github": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/update-unique-churches/SKILL.md"
         },
+        "evidence": [
+          {
+            "source": "https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/update-unique-churches/SKILL.md",
+            "evaluator": "favorchurch",
+            "date": "2026-07-14",
+            "type": "self-attestation",
+            "trustNumber": 10.0,
+            "notes": "Self-attestation of update-unique-churches skill implementation",
+            "grade": "C"
+          }
+        ],
         "createdAt": "2026-07-14",
         "updatedAt": "2026-07-14",
         "timeline": [
@@ -5883,11 +6030,17 @@
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill favorchurch/update-unique-churches"
+          },
+          {
+            "timestamp": "2026-07-13T16:34:32Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/update-unique-churches/SKILL.md (type: self-attestation)"
           }
         ],
         "type": "basic",
         "role": "variant",
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,

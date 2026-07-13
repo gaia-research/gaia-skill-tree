@@ -17,6 +17,21 @@ timeline:
   action: add
   contributor: mbtiongson1
   details: Added named skill favorchurch/count-checkin-by-church
+- timestamp: '2026-07-13T16:34:29Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/count-checkin-by-church/SKILL.md
+    (type: self-attestation)'
+evidence:
+- source: https://github.com/favorchurch/favor-skills/blob/main/CONFERENCE-2026/count-checkin-by-church/SKILL.md
+  evaluator: favorchurch
+  date: '2026-07-14'
+  type: self-attestation
+  trustNumber: 10.0
+  notes: Self-attestation of count-checkin-by-church skill implementation
+  grade: C
+verification:
+  firstEvidenceAt: '2026-07-13T16:34:29Z'
 ---
 
 # Count Check-in by Church (live, normalized)

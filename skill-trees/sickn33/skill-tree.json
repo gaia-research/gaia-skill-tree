@@ -1,0 +1,118 @@
+{
+  "userId": "sickn33",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "sickn33/ai-dev-jobs-mcp",
+      "level": "1★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "sickn33/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:38Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "sickn33/mcp-builder",
+      "level": "1★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "sickn33/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:38Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "sickn33/n8n-mcp-tools-expert",
+      "level": "1★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "sickn33/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:38Z",
+          "source": "demote"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "sickn33/ai-dev-jobs-mcp",
+      "details": "Registered named skill sickn33/ai-dev-jobs-mcp",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "sickn33/mcp-builder",
+      "details": "Registered named skill sickn33/mcp-builder",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "sickn33/n8n-mcp-tools-expert",
+      "details": "Registered named skill sickn33/n8n-mcp-tools-expert",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:38Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "sickn33/ai-dev-jobs-mcp"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:38Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "1★",
+      "details": "Level updated from 3★ to 1★ per G7 final rankings calibration.",
+      "skillId": "sickn33/mcp-builder"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:38Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "sickn33/n8n-mcp-tools-expert"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 3,
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}
