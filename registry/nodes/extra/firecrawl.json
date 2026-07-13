@@ -1,0 +1,46 @@
+{
+  "id": "firecrawl",
+  "name": "Firecrawl",
+  "type": "extra",
+  "description": "A suite for integrating Firecrawl search, scraping, browser interaction, environment setup, and academic literature retrieval into applications.",
+  "prerequisites": [
+    "web-scrape",
+    "web-search",
+    "browser-control",
+    "agent-environment-setup",
+    "literature-search"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-13",
+  "updatedAt": "2026-07-13",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-13T06:22:34Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Created generic fusion node 'firecrawl' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-07-13T06:22:34Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Set prerequisites via `gaia dev fuse`: web-scrape, web-search, browser-control, agent-environment-setup, literature-search."
+    },
+    {
+      "timestamp": "2026-07-13T06:24:28Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Set prerequisites via `gaia dev fuse`: web-scrape, web-search, browser-control, agent-environment-setup, literature-search."
+    },
+    {
+      "timestamp": "2026-07-13T09:05:59Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from ultimate to extra"
+    }
+  ]
+}

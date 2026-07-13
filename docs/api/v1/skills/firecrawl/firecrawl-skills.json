@@ -1,21 +1,21 @@
 {
-  "id": "firecrawl/firecrawl",
-  "name": "Firecrawl",
+  "id": "firecrawl/firecrawl-skills",
+  "name": "Firecrawl Skills",
   "contributor": "firecrawl",
-  "level": "2★",
+  "level": "4★",
   "type": "extra",
   "status": "named",
   "trustMagnitude": 36.0,
   "overallTrustGrade": "C",
   "_links": {
-    "self": "/api/v1/skills/firecrawl/firecrawl.json",
+    "self": "/api/v1/skills/firecrawl/firecrawl-skills.json",
     "contributor": "/api/v1/contributors/firecrawl.json",
     "list": "/api/v1/skills/index.json"
   },
   "title": "The Web Infuser",
-  "genericSkillRef": "web-scrape",
+  "genericSkillRef": "firecrawl",
   "origin": false,
-  "description": "Open-source API for AI-oriented web search, scraping, crawling, and structured extraction from websites.",
+  "description": "Suite of Firecrawl skills for web scraping, search, browser interaction, environment setup, and research. Install all skills: `npx -y firecrawl-cli@latest init --all --browser`",
   "tags": [
     "web-scrape",
     "search",
@@ -54,12 +54,13 @@
       "notes": "scrape-content-dataset-v1 (1000 URLs): >95% dynamic page scrape success, P95 latency ~3.4s. JS-heavy SPAs and anti-bot protected sites (May 2026)."
     },
     {
-      "source": "https://www.youtube.com/watch?v=kY0hN5-xK8U",
+      "type": "github-stars-own",
+      "source": "https://github.com/firecrawl/firecrawl/stargazers",
+      "stars": 150087,
+      "skillCountInRepo": 6,
+      "grade": "B",
       "evaluator": "mbtiongson1",
-      "date": "2026-06-19",
-      "type": "social-signal",
-      "class": "A",
-      "notes": "Tyler AI YouTube: \"Firecrawl Full Beginner Course | Let's Scrape EVERYTHING.\" Comprehensive tutorial. Third-party validated."
+      "date": "2026-07-13"
     }
   ],
   "timeline": [
@@ -117,9 +118,41 @@
       "action": "migrate_trust_magnitude",
       "timestamp": "2026-06-19T13:26:36Z",
       "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-07-13T06:22:34Z",
+      "action": "suite_ref_set",
+      "contributor": "unknown",
+      "details": "Set suiteRef=firecrawl/firecrawl, genericSkillRef=firecrawl via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-07-13T06:22:37Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Updated GitHub link to https://github.com/firecrawl/firecrawl/blob/main/README.md"
+    },
+    {
+      "timestamp": "2026-07-13T06:22:38Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 2★ to 4★"
+    },
+    {
+      "timestamp": "2026-07-13T06:24:28Z",
+      "action": "suite_ref_set",
+      "contributor": "unknown",
+      "details": "Set suiteRef=firecrawl/firecrawl, genericSkillRef=firecrawl via `gaia dev fuse`."
     }
   ],
   "links": {
-    "github": "https://github.com/firecrawl/firecrawl"
-  }
+    "github": "https://github.com/firecrawl/firecrawl",
+    "docs": "https://docs.firecrawl.dev/sdks/cli"
+  },
+  "suiteComponents": [
+    "firecrawl/firecrawl-build-interact",
+    "firecrawl/firecrawl-build-onboarding",
+    "firecrawl/firecrawl-build-scrape",
+    "firecrawl/firecrawl-build-search",
+    "firecrawl/firecrawl-research-index"
+  ]
 }

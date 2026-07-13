@@ -14,7 +14,7 @@
   },
   "title": "Gstack Scrape — Structured Web Extraction",
   "genericSkillRef": "web-scrape",
-  "origin": true,
+  "origin": false,
   "description": "Fetches target URLs with a headless browser, parses structured data from rendered HTML, and returns clean JSON or markdown ready for downstream analysis or ingestion.",
   "tags": [
     "web-scrape",

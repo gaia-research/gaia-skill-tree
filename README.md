@@ -74,10 +74,10 @@ So that means, its the developers who make skills maintaining this. I have a tho
   │  └─ ○ ████████/ask-matt
   ├─ ◇ garrytan/design-consultation  [3★]
   │  ├─ ◇ ████████/stagehand
-  │  │  ├─ ○ /web-search
+  │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ ○ /computer-use
 
-(235 skills total — see docs/tree.md)
+(236 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 

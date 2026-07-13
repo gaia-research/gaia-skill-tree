@@ -2,7 +2,7 @@
   "id": "browser-use/browser-harness",
   "name": "Browser Harness",
   "contributor": "browser-use",
-  "level": "3★",
+  "level": "4★",
   "type": "basic",
   "status": "named",
   "trustMagnitude": 73.59,
@@ -14,7 +14,7 @@
   },
   "title": "The Dom Whispering",
   "genericSkillRef": "browser-control",
-  "origin": false,
+  "origin": true,
   "description": "Self-healing harness for direct browser control via CDP, enabling agents to write custom helpers at runtime.",
   "tags": [
     "browser",

@@ -1,6 +1,66 @@
 {
   "skills": [
     {
+      "id": "garrytan/gstack-upgrade",
+      "name": "GStack Upgrade",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/gstack-upgrade.json"
+      }
+    },
+    {
+      "id": "garrytan/guard",
+      "name": "Guard",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/guard.json"
+      }
+    },
+    {
+      "id": "garrytan/health",
+      "name": "Health",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/health.json"
+      }
+    },
+    {
+      "id": "garrytan/landing-report",
+      "name": "Landing Report",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/landing-report.json"
+      }
+    },
+    {
+      "id": "garrytan/learn",
+      "name": "Learn",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/learn.json"
+      }
+    },
+    {
       "id": "garrytan/make-pdf",
       "name": "Make PDF",
       "level": "2★",
@@ -539,71 +599,11 @@
       "_links": {
         "self": "/api/v1/skills/ruvnet/v3-integration-deep.json"
       }
-    },
-    {
-      "id": "ruvnet/verification-quality",
-      "name": "Verification Quality",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "extra",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/verification-quality.json"
-      }
-    },
-    {
-      "id": "ruvnet/worker-integration",
-      "name": "Worker Integration",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/worker-integration.json"
-      }
-    },
-    {
-      "id": "santifer/career-ops",
-      "name": "Career-Ops",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "santifer",
-      "type": "extra",
-      "_links": {
-        "self": "/api/v1/skills/santifer/career-ops.json"
-      }
-    },
-    {
-      "id": "spring-ai/readme-generate",
-      "name": "REST API README Generator",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "spring-ai",
-      "type": "basic",
-      "_links": {
-        "self": "/api/v1/skills/spring-ai/readme-generate.json"
-      }
-    },
-    {
-      "id": "vercel/find-skills",
-      "name": "Find Skills",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "vercel",
-      "type": "basic",
-      "_links": {
-        "self": "/api/v1/skills/vercel/find-skills.json"
-      }
     }
   ],
   "page": 3,
   "totalPages": 4,
-  "totalSkills": 154,
+  "totalSkills": 159,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
     "prev": "/api/v1/skills/page-2.json",

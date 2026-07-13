@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-13T02:52:44Z",
+  "generatedAt": "2026-07-13T09:51:33Z",
   "buckets": [
     {
       "genericSkillRef": "git-ship-done-pipeline",
@@ -46,6 +46,27 @@
           "trustMagnitude": 53.14,
           "level": "3★",
           "overallTrustGrade": "B",
+          "origin": false
+        }
+      ]
+    },
+    {
+      "genericSkillRef": "web-scrape",
+      "implementations": 2,
+      "topTM": 133.54,
+      "skills": [
+        {
+          "id": "firecrawl/firecrawl-build-scrape",
+          "trustMagnitude": 133.54,
+          "level": "4★",
+          "overallTrustGrade": "A",
+          "origin": true
+        },
+        {
+          "id": "garrytan/scrape",
+          "trustMagnitude": 36.0,
+          "level": "2★",
+          "overallTrustGrade": "C",
           "origin": false
         }
       ]
@@ -339,7 +360,7 @@
     },
     {
       "genericSkillRef": "browser-control",
-      "implementations": 4,
+      "implementations": 5,
       "topTM": 88.5,
       "skills": [
         {
@@ -352,7 +373,14 @@
         {
           "id": "browser-use/browser-harness",
           "trustMagnitude": 73.59,
-          "level": "3★",
+          "level": "4★",
+          "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "firecrawl/firecrawl-build-interact",
+          "trustMagnitude": 73.52,
+          "level": "2★",
           "overallTrustGrade": "B",
           "origin": false
         },
@@ -389,6 +417,27 @@
           "trustMagnitude": 36.0,
           "level": "2★",
           "overallTrustGrade": "C",
+          "origin": false
+        }
+      ]
+    },
+    {
+      "genericSkillRef": "agent-environment-setup",
+      "implementations": 2,
+      "topTM": 73.52,
+      "skills": [
+        {
+          "id": "firecrawl/firecrawl-build-onboarding",
+          "trustMagnitude": 73.52,
+          "level": "2★",
+          "overallTrustGrade": "B",
+          "origin": true
+        },
+        {
+          "id": "mattpocock/setup-matt-pocock-skills",
+          "trustMagnitude": 56.21,
+          "level": "3★",
+          "overallTrustGrade": "B",
           "origin": false
         }
       ]
@@ -473,48 +522,6 @@
           "trustMagnitude": 63.73,
           "level": "3★",
           "overallTrustGrade": "B",
-          "origin": false
-        }
-      ]
-    },
-    {
-      "genericSkillRef": "evaluate-output",
-      "implementations": 2,
-      "topTM": 63.73,
-      "skills": [
-        {
-          "id": "garrytan/benchmark",
-          "trustMagnitude": 63.73,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": true
-        },
-        {
-          "id": "garrytan/plan-ceo-review",
-          "trustMagnitude": 63.73,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": false
-        }
-      ]
-    },
-    {
-      "genericSkillRef": "design-system-extraction",
-      "implementations": 2,
-      "topTM": 63.73,
-      "skills": [
-        {
-          "id": "garrytan/design-consultation",
-          "trustMagnitude": 63.73,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": true
-        },
-        {
-          "id": "Manavarya09/design-extract",
-          "trustMagnitude": 36.0,
-          "level": "2★",
-          "overallTrustGrade": "C",
           "origin": false
         }
       ]
