@@ -1,6 +1,32 @@
 {
-  "generatedAt": "2026-07-13T02:52:44Z",
+  "generatedAt": "2026-07-13T09:51:33Z",
   "skills": [
+    {
+      "id": "firecrawl/firecrawl-build-scrape",
+      "name": "Firecrawl Scrape",
+      "level": "4★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 133.54,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-13T06:22:38Z",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "firecrawl/firecrawl-skills",
+      "name": "Firecrawl Skills",
+      "level": "4★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-07-13T06:22:38Z",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
+      },
+      "previousLevel": "2★"
+    },
     {
       "id": "addy-osmani/performance-optimization",
       "name": "Performance Optimization",
@@ -363,32 +389,6 @@
         "self": "/api/v1/skills/ruvnet/agentdb-advanced.json"
       },
       "previousLevel": "1★"
-    },
-    {
-      "id": "obra/using-git-worktrees",
-      "name": "Using Git Worktrees",
-      "level": "4★",
-      "contributor": "obra",
-      "trustMagnitude": 117.65,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-06-20T06:31:34Z",
-      "_links": {
-        "self": "/api/v1/skills/obra/using-git-worktrees.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "obra/brainstorming",
-      "name": "Brainstorming",
-      "level": "3★",
-      "contributor": "obra",
-      "trustMagnitude": 95.15,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-06-20T06:31:34Z",
-      "_links": {
-        "self": "/api/v1/skills/obra/brainstorming.json"
-      },
-      "previousLevel": "2★"
     }
   ],
   "_links": {

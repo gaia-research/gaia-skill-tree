@@ -1166,8 +1166,13 @@
     },
     {
       "id": "ultimate",
-      "count": 5,
+      "count": 6,
       "skills": [
+        {
+          "id": "firecrawl",
+          "name": "Firecrawl",
+          "summary": "A suite for integrating Firecrawl search, scraping, browser interaction, environment setup, and academic literature retrieval into applications."
+        },
         {
           "id": "founder-mode-orchestration",
           "name": "Founder Mode",

@@ -1,24 +1,26 @@
 ---
-id: firecrawl/firecrawl
-name: Firecrawl
+id: firecrawl/firecrawl-skills
+name: Firecrawl Skills
 contributor: firecrawl
 origin: false
-genericSkillRef: web-scrape
+genericSkillRef: firecrawl
 status: named
 title: The Web Infuser
 catalogRef: firecrawl-firecrawl
-level: 2★
-description: Open-source API for AI-oriented web search, scraping, crawling, and structured
-  extraction from websites.
+level: 4★
+description: 'Suite of Firecrawl skills for web scraping, search, browser interaction,
+  environment setup, and research. Install all skills: `npx -y firecrawl-cli@latest
+  init --all --browser`'
 links:
   github: https://github.com/firecrawl/firecrawl
+  docs: https://docs.firecrawl.dev/sdks/cli
 tags:
 - web-scrape
 - search
 - extraction
 - crawler
 createdAt: '2026-05-17'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-13'
 timeline:
 - timestamp: '2026-06-02T23:33:01Z'
   action: demote
@@ -57,6 +59,24 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:36Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-07-13T06:22:34Z'
+  action: suite_ref_set
+  contributor: unknown
+  details: Set suiteRef=firecrawl/firecrawl, genericSkillRef=firecrawl via `gaia dev
+    fuse`.
+- timestamp: '2026-07-13T06:22:37Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/firecrawl/firecrawl/blob/main/README.md
+- timestamp: '2026-07-13T06:22:38Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 2★ to 4★
+- timestamp: '2026-07-13T06:24:28Z'
+  action: suite_ref_set
+  contributor: unknown
+  details: Set suiteRef=firecrawl/firecrawl, genericSkillRef=firecrawl via `gaia dev
+    fuse`.
 evidence:
 - class: B
   source: https://github.com/firecrawl/firecrawl
@@ -77,13 +97,13 @@ evidence:
   class: A
   notes: 'scrape-content-dataset-v1 (1000 URLs): >95% dynamic page scrape success,
     P95 latency ~3.4s. JS-heavy SPAs and anti-bot protected sites (May 2026).'
-- source: https://www.youtube.com/watch?v=kY0hN5-xK8U
+- type: github-stars-own
+  source: https://github.com/firecrawl/firecrawl/stargazers
+  stars: 150087
+  skillCountInRepo: 6
+  grade: B
   evaluator: mbtiongson1
-  date: '2026-06-19'
-  type: social-signal
-  class: A
-  notes: 'Tyler AI YouTube: "Firecrawl Full Beginner Course | Let''s Scrape EVERYTHING."
-    Comprehensive tutorial. Third-party validated.'
+  date: '2026-07-13'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -98,6 +118,12 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
 trustMagnitudeInputHash: 884be262d5d5ab382aed51e452e0ce7498fb4667d542b11adfd4d9cbd2063a2a
+suiteComponents:
+  - firecrawl/firecrawl-build-interact
+  - firecrawl/firecrawl-build-onboarding
+  - firecrawl/firecrawl-build-scrape
+  - firecrawl/firecrawl-build-search
+  - firecrawl/firecrawl-research-index
 ---
 
 ## Overview
