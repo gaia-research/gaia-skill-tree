@@ -352,6 +352,7 @@
         <li><a href="#evidence-types">Evidence types table</a></li>
         <li><a href="#inheritance-contract">Evidence Inheritance — Generic and Named Layers</a></li>
         <li><a href="#grade-thresholds">Overall Trust Grade thresholds</a></li>
+        <li><a href="#branches">Suite or Unique branch derivation</a></li>
         <li><a href="#suite-vs-fusion">Suite vs Fusion</a></li>
         <li><a href="#apex-gate">The Apex Gate (6 predicates)</a></li>
         <li><a href="#worked-example">Worked example — mattpocock/skills</a></li>
@@ -872,6 +873,36 @@
         </tbody>
       </table>
       <p style="font-size: 0.78rem; color: var(--muted); margin-top: 0.5rem;">Floors are against <code>artifact_score</code> (magnitude × weight × freshness × multipliers). A "—" means that grade is not achievable for this type regardless of score.</p>
+    </section>
+
+    <!-- ─── YGGDRASIL II BRANCH DERIVATION ─── -->
+    <section class="process-section" id="branches">
+      <h2>Suite or Unique Branch</h2>
+      <p class="section-sub">
+        Branch is a read-time property of a named skill, derived from its rank and the structure
+        of its generic parent. It is never declared as a field on the named skill.
+      </p>
+
+      <div class="tm-callout">
+        <div class="tm-callout-label">Yggdrasil II derivation</div>
+        <p>
+          Ranks 1★ through 3★ are the shared Standard branch. At 4★ and above, a named skill
+          enters the Suite branch when its generic parent lists <code>suiteComponents</code>.
+          Otherwise it enters the Unique branch. The parent may be Basic or Fusion; the absence
+          of <code>suiteComponents</code>, not the type label, is the decisive structural fact.
+        </p>
+      </div>
+
+      <table class="tm-table" aria-label="Derived branch rank names">
+        <thead>
+          <tr><th scope="col">Stars</th><th scope="col">Suite branch</th><th scope="col">Unique branch</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>4★</td><td>Extra</td><td>Unique</td></tr>
+          <tr><td>5★</td><td>Ultimate</td><td>Unique Ultimate</td></tr>
+          <tr><td>6★</td><td>Apex</td><td>Unique Impossible <span class="grade-pill">◇ Provisional</span></td></tr>
+        </tbody>
+      </table>
     </section>
 
     <!-- ─── §4 SUITE VS FUSION ─── -->
