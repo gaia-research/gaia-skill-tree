@@ -2,7 +2,7 @@
 id: garrytan/scrape
 name: Scrape
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: web-scrape
 status: named
 title: Gstack Scrape — Structured Web Extraction

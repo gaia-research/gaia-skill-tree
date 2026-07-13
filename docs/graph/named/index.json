@@ -4746,6 +4746,51 @@
         "role": "variant"
       },
       {
+        "id": "firecrawl/browser-interaction-integration",
+        "name": "Firecrawl Interact",
+        "contributor": "firecrawl",
+        "origin": false,
+        "genericSkillRef": "browser-control",
+        "status": "named",
+        "level": "2★",
+        "description": "Integrate Firecrawl browser interaction into product code.",
+        "title": "Firecrawl Interact",
+        "links": {
+          "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md"
+        },
+        "createdAt": "2026-07-13",
+        "updatedAt": "2026-07-13",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T06:22:17Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill firecrawl/browser-interaction-integration"
+          },
+          {
+            "timestamp": "2026-07-13T06:22:36Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef to firecrawl/firecrawl"
+          }
+        ],
+        "suiteRef": "firecrawl/firecrawl",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      },
+      {
         "id": "garrytan/open-gstack-browser",
         "name": "Open GStack Browser",
         "contributor": "garrytan",
@@ -5477,7 +5522,459 @@
         "role": "origin"
       }
     ],
+    "literature-search": [
+      {
+        "id": "firecrawl/academic-literature-retrieval",
+        "name": "Firecrawl Research Index",
+        "contributor": "firecrawl",
+        "origin": false,
+        "genericSkillRef": "literature-search",
+        "status": "named",
+        "level": "2★",
+        "description": "Retrieve and query academic literature through Firecrawl Research.",
+        "title": "Firecrawl Research Index",
+        "links": {
+          "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-research-index/SKILL.md"
+        },
+        "createdAt": "2026-07-13",
+        "updatedAt": "2026-07-13",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T06:22:18Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill firecrawl/academic-literature-retrieval"
+          },
+          {
+            "timestamp": "2026-07-13T06:22:37Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef to firecrawl/firecrawl"
+          }
+        ],
+        "suiteRef": "firecrawl/firecrawl",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      }
+    ],
+    "agent-environment-setup": [
+      {
+        "id": "mattpocock/setup-matt-pocock-skills",
+        "name": "Setup Matt Pocock Skills",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "agent-environment-setup",
+        "status": "named",
+        "level": "3★",
+        "description": "Scaffolds per-repo configuration for other engineering skills (like triage, tdd, diagnose).",
+        "title": "The Environment Scaffolder",
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-22",
+            "notes": "Scaffolding skill for Matt Pocock's engineering workspace. (backfilled —\" class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+            "type": "repo",
+            "trustNumber": 70.0,
+            "commits": 137,
+            "contributors": 3,
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/issues/177",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue about setup-matt-pocock-skills skill feature request.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/issues/220",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "GitHub issue about setup-matt-pocock-skills skill feature request.",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-06-21",
+        "timeline": [
+          {
+            "timestamp": "2026-06-14T12:32:43Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:18Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:52:12Z",
+            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:36:01Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/177 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:36:18Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/issues/220 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:50Z",
+            "details": "TM 11.21 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
+            "details": "TM 0.0 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)"
+          }
+        ],
+        "suiteRef": "mattpocock/engineering",
+        "trustMagnitude": 56.21,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "d14882b30c3e0aec412382b0c795b53273ab6f661f1024260471839e7a460482",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "extra",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
+        "role": "variant"
+      },
+      {
+        "id": "firecrawl/agent-environment-auth",
+        "name": "Firecrawl Onboarding",
+        "contributor": "firecrawl",
+        "origin": false,
+        "genericSkillRef": "agent-environment-setup",
+        "status": "named",
+        "level": "2★",
+        "description": "Configure Firecrawl credentials and client setup for agent tools.",
+        "title": "Firecrawl Onboarding",
+        "links": {
+          "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md"
+        },
+        "createdAt": "2026-07-13",
+        "updatedAt": "2026-07-13",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T06:22:18Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill firecrawl/agent-environment-auth"
+          },
+          {
+            "timestamp": "2026-07-13T06:22:36Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef to firecrawl/firecrawl"
+          }
+        ],
+        "suiteRef": "firecrawl/firecrawl",
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      }
+    ],
+    "firecrawl": [
+      {
+        "id": "firecrawl/firecrawl",
+        "name": "Firecrawl",
+        "contributor": "firecrawl",
+        "origin": false,
+        "genericSkillRef": "firecrawl",
+        "status": "named",
+        "level": "4★",
+        "description": "Open-source API for AI-oriented web search, scraping, crawling, and structured extraction from websites.",
+        "title": "The Web Infuser",
+        "catalogRef": "firecrawl-firecrawl",
+        "tags": [
+          "web-scrape",
+          "search",
+          "extraction",
+          "crawler"
+        ],
+        "links": {
+          "github": "https://github.com/firecrawl/firecrawl/blob/main/README.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/firecrawl/firecrawl",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-10",
+            "notes": "Origin repository — open-source web search/scrape/crawl API for LLM agents; reproducible public implementation with documented usage. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
+            "type": "repo",
+            "commits": 5679,
+            "contributors": 150,
+            "trustNumber": 70.0,
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/firecrawl/firecrawl",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "benchmark-result",
+            "class": "A",
+            "notes": "scrape-content-dataset-v1 (1000 URLs): >95% dynamic page scrape success, P95 latency ~3.4s. JS-heavy SPAs and anti-bot protected sites (May 2026)."
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=kY0hN5-xK8U",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Tyler AI YouTube: \"Firecrawl Full Beginner Course | Let's Scrape EVERYTHING.\" Comprehensive tutorial. Third-party validated."
+          }
+        ],
+        "createdAt": "2026-05-17",
+        "updatedAt": "2026-07-13",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:33:01Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to garrytan/scrape."
+          },
+          {
+            "timestamp": "2026-06-10T05:38:16Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/firecrawl/firecrawl"
+          },
+          {
+            "timestamp": "2026-06-14T12:32:18Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/firecrawl/firecrawl as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:14Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T10:40:05Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/firecrawl/firecrawl (type: benchmark-result)"
+          },
+          {
+            "timestamp": "2026-06-19T10:42:24Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=kY0hN5-xK8U (type: social-signal)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:52:24Z",
+            "details": "TM 36.0 -> 36.0, grade C -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:36Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-07-13T06:22:34Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef=firecrawl/firecrawl, genericSkillRef=firecrawl via `gaia dev fuse`."
+          },
+          {
+            "timestamp": "2026-07-13T06:22:37Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/firecrawl/firecrawl/blob/main/README.md"
+          },
+          {
+            "timestamp": "2026-07-13T06:22:38Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 4★"
+          },
+          {
+            "timestamp": "2026-07-13T06:24:28Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef=firecrawl/firecrawl, genericSkillRef=firecrawl via `gaia dev fuse`."
+          }
+        ],
+        "suiteComponents": [
+          "firecrawl/academic-literature-retrieval",
+          "firecrawl/agent-environment-auth",
+          "firecrawl/browser-interaction-integration",
+          "firecrawl/web-scrape-integration",
+          "firecrawl/web-search-integration"
+        ],
+        "trustMagnitude": 36.0,
+        "overallTrustGrade": "C",
+        "trustMagnitudeInputHash": "884be262d5d5ab382aed51e452e0ce7498fb4667d542b11adfd4d9cbd2063a2a",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "ultimate",
+        "role": "variant",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 2/3 components carry graded evidence"
+        }
+      }
+    ],
     "web-scrape": [
+      {
+        "id": "firecrawl/web-scrape-integration",
+        "name": "Firecrawl Scrape",
+        "contributor": "firecrawl",
+        "origin": false,
+        "genericSkillRef": "web-scrape",
+        "status": "named",
+        "level": "3★",
+        "description": "Integrate Firecrawl page extraction into product code.",
+        "title": "Firecrawl Scrape",
+        "links": {
+          "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-scrape/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://www.youtube.com/watch?v=tBtPSV_gU6o",
+            "evaluator": "unknown",
+            "date": "2026-07-13",
+            "type": "social-signal",
+            "notes": "Third-party Tyler AI course explicitly covers Firecrawl scraping and search.",
+            "views": 8510,
+            "sourceStartedAt": "2025-07-20",
+            "grade": "B"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=7GeFt8suV8E",
+            "evaluator": "unknown",
+            "date": "2026-07-13",
+            "type": "social-signal",
+            "notes": "Third-party Hustling Labs tutorial demonstrates Firecrawl web scraping.",
+            "views": 3988,
+            "sourceStartedAt": "2025-04-28",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-07-13",
+        "updatedAt": "2026-07-13",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T06:22:17Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill firecrawl/web-scrape-integration"
+          },
+          {
+            "timestamp": "2026-07-13T06:22:24Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=tBtPSV_gU6o (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-13T06:22:25Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=7GeFt8suV8E (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-13T06:22:35Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef to firecrawl/firecrawl"
+          },
+          {
+            "timestamp": "2026-07-13T06:22:38Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          }
+        ],
+        "suiteRef": "firecrawl/firecrawl",
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 45.84,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        }
+      },
       {
         "id": "garrytan/scrape",
         "name": "Scrape",
@@ -5575,119 +6072,62 @@
         },
         "type": "extra",
         "role": "origin"
-      },
+      }
+    ],
+    "web-search": [
       {
-        "id": "firecrawl/firecrawl",
-        "name": "Firecrawl",
+        "id": "firecrawl/web-search-integration",
+        "name": "Firecrawl Search",
         "contributor": "firecrawl",
         "origin": false,
-        "genericSkillRef": "web-scrape",
+        "genericSkillRef": "web-search",
         "status": "named",
         "level": "2★",
-        "description": "Open-source API for AI-oriented web search, scraping, crawling, and structured extraction from websites.",
-        "title": "The Web Infuser",
-        "catalogRef": "firecrawl-firecrawl",
-        "tags": [
-          "web-scrape",
-          "search",
-          "extraction",
-          "crawler"
-        ],
+        "description": "Integrate Firecrawl web search into product code.",
+        "title": "Firecrawl Search",
         "links": {
-          "github": "https://github.com/firecrawl/firecrawl"
+          "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md"
         },
         "evidence": [
           {
-            "class": "B",
-            "source": "https://github.com/firecrawl/firecrawl",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-10",
-            "notes": "Origin repository — open-source web search/scrape/crawl API for LLM agents; reproducible public implementation with documented usage. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
-            "type": "repo",
-            "commits": 5679,
-            "contributors": 150,
-            "trustNumber": 70.0,
-            "grade": "B"
-          },
-          {
-            "source": "https://github.com/firecrawl/firecrawl",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "benchmark-result",
-            "class": "A",
-            "notes": "scrape-content-dataset-v1 (1000 URLs): >95% dynamic page scrape success, P95 latency ~3.4s. JS-heavy SPAs and anti-bot protected sites (May 2026)."
-          },
-          {
-            "source": "https://www.youtube.com/watch?v=kY0hN5-xK8U",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
+            "source": "https://www.youtube.com/watch?v=tBtPSV_gU6o",
+            "evaluator": "unknown",
+            "date": "2026-07-13",
             "type": "social-signal",
-            "class": "A",
-            "notes": "Tyler AI YouTube: \"Firecrawl Full Beginner Course | Let's Scrape EVERYTHING.\" Comprehensive tutorial. Third-party validated."
+            "notes": "Third-party Tyler AI course explicitly covers Firecrawl search.",
+            "views": 8510,
+            "sourceStartedAt": "2025-07-20",
+            "grade": "B"
           }
         ],
-        "createdAt": "2026-05-17",
-        "updatedAt": "2026-06-21",
+        "createdAt": "2026-07-13",
+        "updatedAt": "2026-07-13",
         "timeline": [
           {
-            "timestamp": "2026-06-02T23:33:01Z",
-            "action": "demote",
+            "timestamp": "2026-07-13T06:22:17Z",
+            "action": "add",
             "contributor": "unknown",
-            "details": "Origin status removed. Transferred to garrytan/scrape."
+            "details": "Added named skill firecrawl/web-search-integration"
           },
           {
-            "timestamp": "2026-06-10T05:38:16Z",
+            "timestamp": "2026-07-13T06:22:25Z",
             "action": "evidence_added",
             "contributor": "unknown",
-            "details": "Added B evidence from https://github.com/firecrawl/firecrawl"
+            "details": "Added evidence from https://www.youtube.com/watch?v=tBtPSV_gU6o (type: social-signal)"
           },
           {
-            "timestamp": "2026-06-14T12:32:18Z",
-            "action": "evidence_graded",
+            "timestamp": "2026-07-13T06:22:35Z",
+            "action": "suite_ref_set",
             "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/firecrawl/firecrawl as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:14Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T10:36:26Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-19T10:40:05Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/firecrawl/firecrawl (type: benchmark-result)"
-          },
-          {
-            "timestamp": "2026-06-19T10:42:24Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://www.youtube.com/watch?v=kY0hN5-xK8U (type: social-signal)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T10:52:24Z",
-            "details": "TM 36.0 -> 36.0, grade C -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:37Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:36Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+            "details": "Set suiteRef to firecrawl/firecrawl"
           }
         ],
-        "trustMagnitude": 36.0,
+        "suiteRef": "firecrawl/firecrawl",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 31.44,
         "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "884be262d5d5ab382aed51e452e0ce7498fb4667d542b11adfd4d9cbd2063a2a",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -5697,9 +6137,7 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        },
-        "type": "extra",
-        "role": "variant"
+        }
       }
     ],
     "ci-churn-analysis": [
@@ -16546,118 +16984,6 @@
         "trustMagnitude": 0.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "d31d6dd3c0c78cbe391add61a21cff15dc0ac02eba367cebb5a1ad96eced2419",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "extra",
-        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
-      }
-    ],
-    "agent-environment-setup": [
-      {
-        "id": "mattpocock/setup-matt-pocock-skills",
-        "name": "Setup Matt Pocock Skills",
-        "contributor": "mattpocock",
-        "origin": false,
-        "genericSkillRef": "agent-environment-setup",
-        "status": "named",
-        "level": "3★",
-        "description": "Scaffolds per-repo configuration for other engineering skills (like triage, tdd, diagnose).",
-        "title": "The Environment Scaffolder",
-        "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-05-22",
-            "notes": "Scaffolding skill for Matt Pocock's engineering workspace. (backfilled —\" class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
-            "type": "repo",
-            "trustNumber": 70.0,
-            "commits": 137,
-            "contributors": 3,
-            "grade": "C"
-          },
-          {
-            "source": "https://github.com/mattpocock/skills/issues/177",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "peer-review",
-            "class": "A",
-            "notes": "GitHub issue about setup-matt-pocock-skills skill feature request.",
-            "grade": "C"
-          },
-          {
-            "source": "https://github.com/mattpocock/skills/issues/220",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "peer-review",
-            "class": "A",
-            "notes": "GitHub issue about setup-matt-pocock-skills skill feature request.",
-            "grade": "C"
-          }
-        ],
-        "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-21",
-        "timeline": [
-          {
-            "timestamp": "2026-06-14T12:32:43Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:18Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T11:52:12Z",
-            "details": "TM 0.0 -> 11.21, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-19T12:36:01Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/mattpocock/skills/issues/177 (type: peer-review)"
-          },
-          {
-            "timestamp": "2026-06-19T12:36:18Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/mattpocock/skills/issues/220 (type: peer-review)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T12:53:50Z",
-            "details": "TM 11.21 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:38Z",
-            "details": "TM 0.0 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:41Z",
-            "details": "TM 0.0 -> 56.21, grade ungraded -> B (direct edit -- CLI gap)"
-          }
-        ],
-        "suiteRef": "mattpocock/engineering",
-        "trustMagnitude": 56.21,
-        "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "d14882b30c3e0aec412382b0c795b53273ab6f661f1024260471839e7a460482",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -27904,7 +28230,12 @@
       "devin-ai/autonomous-swe"
     ],
     "firecrawl": [
-      "firecrawl/firecrawl"
+      "firecrawl/academic-literature-retrieval",
+      "firecrawl/agent-environment-auth",
+      "firecrawl/browser-interaction-integration",
+      "firecrawl/firecrawl",
+      "firecrawl/web-scrape-integration",
+      "firecrawl/web-search-integration"
     ],
     "gaia-research": [
       "gaia-research/skill-ci-churn",

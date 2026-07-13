@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-07-13T02:52:44Z",
+  "generatedAt": "2026-07-13T06:23:01Z",
   "firstRun": false,
   "skills": [
     {
@@ -1082,6 +1082,20 @@
       }
     },
     {
+      "id": "firecrawl/web-scrape-integration",
+      "name": "Firecrawl Scrape",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 45.84,
+      "overallTrustGrade": "C",
+      "trendingScore": 22.92,
+      "tmDelta": 45.84,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/web-scrape-integration.json"
+      }
+    },
+    {
       "id": "mattpocock/improve-codebase-architecture",
       "name": "Improve Codebase Architecture",
       "level": "2★",
@@ -1210,7 +1224,7 @@
     {
       "id": "firecrawl/firecrawl",
       "name": "Firecrawl",
-      "level": "2★",
+      "level": "4★",
       "contributor": "firecrawl",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
@@ -2118,6 +2132,20 @@
       }
     },
     {
+      "id": "firecrawl/web-search-integration",
+      "name": "Firecrawl Search",
+      "level": "2★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 31.44,
+      "overallTrustGrade": "C",
+      "trendingScore": 15.72,
+      "tmDelta": 31.44,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/web-search-integration.json"
+      }
+    },
+    {
       "id": "devin-ai/autonomous-swe",
       "name": "Autonomous SWE",
       "level": "2★",
@@ -2146,7 +2174,7 @@
       }
     }
   ],
-  "totalTrending": 153,
+  "totalTrending": 155,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

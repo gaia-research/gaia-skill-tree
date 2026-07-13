@@ -73,3 +73,12 @@ After all four phases complete, save the outputs so future pipeline runs and reg
 1. **Validation report:** Write to `evidence/collectors/verification/firecrawl_validation_report_YYYY_MM_DD.md`.
 2. **Master source report:** Write audit log, star updates, and adversarial findings to `evidence/source_report_YYYY_MM_DD.md`.
 3. **Visual dashboard:** Update statistics and pipeline statuses in `evidence/verification_process.html`.
+
+## Ingestion Handoff
+
+For L4-approved intake rows, successful Phase 4 is the boundary between the
+raw evidence lake and canonical registry mutation. Create a reviewed evidence
+manifest from only live, correctly scoped rows, then hand it to
+`/gaia-ingest-batch`. That wrapper uses `/gaia-ingest` for every CLI-only
+`gaia dev evidence` write, appraises TM, and presents calibration proposals.
+Do not import evidence by hand or treat requested intake stars as evidence.

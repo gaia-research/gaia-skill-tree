@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ firecrawl/firecrawl | Basic Skill | 2★ | Named | firecrawl/gaia-skill-tree | 2026-05-17T00:00:00Z |
+| ○ firecrawl/firecrawl | Basic Skill | 4★ | Hardened | firecrawl/gaia-skill-tree | 2026-05-17T00:00:00Z |
 
 ---
 
@@ -22,6 +22,18 @@ GAIA SKILL TREE — firecrawl  ·  generated 2026-07-13
 ✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
+
+· ◆ firecrawl/firecrawl  [4★]
+  ├─ · ◇ garrytan/scrape  [3★]
+  │  ├─ · ○ firecrawl/web-search-integration  [2★]
+  │  ├─ · ○ /parse-html
+  │  └─ · ○ /extract-entities
+  ├─ · ○ firecrawl/web-search-integration  [2★]  (↑ see above)
+  ├─ · ○ garrytan/browse  [3★]
+  ├─ · ◇ mattpocock/setup-matt-pocock-skills  [3★]
+  │  ├─ · ○ garrytan/document-generate  [3★]
+  │  └─ · ○ /tool-use
+  └─ · ○ firecrawl/academic-literature-retrieval  [2★]
 
 · ◆ garrytan/gstack  [5★]
   ├─ · ○ garrytan/office-hours  [3★]
@@ -36,7 +48,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ ████████/ask-matt
   ├─ · ◇ garrytan/design-consultation  [3★]
   │  ├─ · ◇ ████████/stagehand
-  │  │  ├─ · ○ /web-search
+  │  │  ├─ · ○ firecrawl/web-search-integration  [2★]
   │  │  └─ · ○ /computer-use
   │  └─ · ○ /parse-html
   ├─ · ◇ garrytan/design-shotgun  [3★]
@@ -70,8 +82,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ◇ addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ · ○ garrytan/browse  [3★]
-  ├─ · ◇ garrytan/scrape  [2★]
-  │  ├─ · ○ /web-search  (↑ see above)
+  ├─ · ◇ garrytan/scrape  [3★]
+  │  ├─ · ○ firecrawl/web-search-integration  [2★]  (↑ see above)
   │  ├─ · ○ /parse-html  (↑ see above)
   │  └─ · ○ /extract-entities
   ├─ · ◇ garrytan/skillify  [3★]

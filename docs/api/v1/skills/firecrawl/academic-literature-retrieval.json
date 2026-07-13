@@ -1,0 +1,46 @@
+{
+  "id": "firecrawl/academic-literature-retrieval",
+  "name": "Firecrawl Research Index",
+  "contributor": "firecrawl",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 0.0,
+  "overallTrustGrade": null,
+  "_links": {
+    "self": "/api/v1/skills/firecrawl/academic-literature-retrieval.json",
+    "contributor": "/api/v1/contributors/firecrawl.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "Firecrawl Research Index",
+  "genericSkillRef": "literature-search",
+  "origin": false,
+  "description": "Retrieve and query academic literature through Firecrawl Research.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "timeline": [
+    {
+      "timestamp": "2026-07-13T06:22:18Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added named skill firecrawl/academic-literature-retrieval"
+    },
+    {
+      "timestamp": "2026-07-13T06:22:37Z",
+      "action": "suite_ref_set",
+      "contributor": "unknown",
+      "details": "Set suiteRef to firecrawl/firecrawl"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-research-index/SKILL.md"
+  }
+}
