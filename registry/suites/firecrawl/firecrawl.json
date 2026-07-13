@@ -1,0 +1,18 @@
+{
+  "id": "firecrawl/firecrawl",
+  "name": "Firecrawl",
+  "contributor": "firecrawl",
+  "description": "A suite for integrating Firecrawl search, scraping, browser interaction, environment setup, and academic literature retrieval into applications.",
+  "version": "1.0.0",
+  "capstone": "firecrawl/firecrawl",
+  "suites": [],
+  "standalones": [
+    "firecrawl/academic-literature-retrieval",
+    "firecrawl/agent-environment-auth",
+    "firecrawl/browser-interaction-integration",
+    "firecrawl/web-scrape-integration",
+    "firecrawl/web-search-integration"
+  ],
+  "createdAt": "2026-07-13",
+  "updatedAt": "2026-07-13"
+}

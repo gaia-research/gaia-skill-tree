@@ -44,6 +44,7 @@
 | ◇ /explainability-audit | Extra Skill | Data Visualize, Evaluate Output, Statistical Analysis | — |  |
 | ◇ /financial-modeling | Extra Skill | Data Analysis, Generate SQL, Statistical Analysis | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/ship | Extra Skill | Code Review Pipeline, Diff Content | 3★ |  |
+| ◆ [firecrawl](../docs/u/firecrawl/)/firecrawl | Ultimate Skill | Web Scrape, Web Search, Browser Control, agent-environment-setup, Literature Search | 4★ |  |
 | ◆ [garrytan](../docs/u/garrytan/)/gstack | Ultimate Skill | Question Answer, Evaluate Output, Code Review Pipeline, UX Audit, Vertical Slice Planning, Design System Extraction, Design Review, Code Generation, Systematic Debugging, End-to-End Testing, Finishing a Development Branch, Deployment Automation, Detect Anomaly, Document Editing, Browser Automation, Security Audit, Browser Control, Web Scrape, Skill Authoring, Write Report, Multi-Agent Debate, Skill Performance Benchmarking, Automated Testing, MCP Integration, Memory Manage, Guardrails, Knowledge Management, Format Output, Workspace Automation, Project Management, Prompt Optimization | 5★ | Requires demonstrating all 31 garrytan discipline skills together in a real multi-step context. |
 | ◇ /full-stack-developer | Extra Skill | Code Review Pipeline, Automated Testing, Refactor Code | — | Requires access to repository, execution environment, and test runner. Minimum 3 Class A/B evidence sources. |
 | ◇ /function-calling | Extra Skill | Structured Output Generation, API Call, Tool Select | — | Requires an available function or tool catalog with machine-readable argument schemas and result contracts. |
@@ -125,7 +126,7 @@
 | ◇ /web-accessibility | Extra Skill | Browser Control, UX Audit | — |  |
 | ◇ /web-best-practices | Extra Skill | Code Review Pipeline, Performance Tuning | — |  |
 | ◇ /web-quality-audit | Extra Skill | Gaia Meta Audit, Performance Tuning, search-engine-optimization, web-accessibility, web-best-practices | — |  |
-| ◇ [garrytan](../docs/u/garrytan/)/scrape | Extra Skill | Web Search, Parse HTML, Extract Entities | 2★ | Structured output mode required. |
+| ◇ [garrytan](../docs/u/garrytan/)/scrape | Extra Skill | Web Search, Parse HTML, Extract Entities | 3★ | Structured output mode required. |
 | ◇ /wiki-search | Extra Skill | Retrieve, Embed Text, Summarize | — | Requires an accessible local wiki or markdown knowledge-base directory and a consistent linking or indexing convention. |
 | ◇ ████████/github-workflow-automation | Extra Skill | Plan and Decompose, Tool Use, API Call | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/gstack-upgrade | Extra Skill | API Call, Document Editing | 2★ |  |

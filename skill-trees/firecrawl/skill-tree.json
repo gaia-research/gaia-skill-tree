@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "firecrawl/firecrawl",
-      "level": "2★",
+      "level": "4★",
       "unlockedAt": "2026-05-17T00:00:00Z",
       "unlockedIn": "firecrawl/gaia-skill-tree",
       "combinedFrom": [],
@@ -12,6 +12,11 @@
         {
           "level": "2★",
           "achievedAt": "2026-05-17T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-13T06:22:38Z",
           "source": "promotion"
         }
       ]
@@ -25,6 +30,14 @@
       "details": "Registered named skill firecrawl/firecrawl",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-07-13T06:22:38Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Calibrated level from 2★ to 4★",
+      "skillId": "firecrawl/firecrawl"
     }
   ],
   "stats": {

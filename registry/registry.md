@@ -71,6 +71,7 @@
 | ◇ /financial-modeling | Extra Skill | — | `/financial-modeling` |
 | ○ ████████/huggingface-llm-trainer | Basic Skill | — | `/fine-tune` |
 | ◇ [garrytan](../docs/u/garrytan/)/ship | Extra Skill | 3★ | `/finishing-a-development-branch` |
+| ◆ [firecrawl](../docs/u/firecrawl/)/firecrawl | Ultimate Skill | 4★ | `/firecrawl` |
 | ○ [garrytan](../docs/u/garrytan/)/make-pdf | Basic Skill | 2★ | `/format-output` |
 | ◆ [garrytan](../docs/u/garrytan/)/gstack | Ultimate Skill | 5★ | `/founder-mode-orchestration` |
 | ◇ /full-stack-developer | Extra Skill | — | `/full-stack-developer` |
@@ -99,7 +100,7 @@
 | ◇ /knowledge-harvest | Extra Skill | — | `/knowledge-harvest` |
 | ◇ [garrytan](../docs/u/garrytan/)/setup-gbrain | Extra Skill | 2★ | `/knowledge-management` |
 | ◇ ████████/huggingface-papers | Extra Skill | — | `/literature-review` |
-| ○ /literature-search | Basic Skill | — | `/literature-search` |
+| ○ [firecrawl](../docs/u/firecrawl/)/academic-literature-retrieval | Basic Skill | 2★ | `/literature-search` |
 | ○ /logical-inference | Basic Skill | — | `/logical-inference` |
 | ○ /math-reason | Basic Skill | — | `/math-reason` |
 | ◇ /mathematical-animation | Extra Skill | — | `/mathematical-animation` |
@@ -207,8 +208,8 @@
 | ◇ /web-accessibility | Extra Skill | — | `/web-accessibility` |
 | ◇ /web-best-practices | Extra Skill | — | `/web-best-practices` |
 | ◇ /web-quality-audit | Extra Skill | — | `/web-quality-audit` |
-| ◇ [garrytan](../docs/u/garrytan/)/scrape | Extra Skill | 2★ | `/web-scrape` |
-| ○ /web-search | Basic Skill | — | `/web-search` |
+| ◇ [garrytan](../docs/u/garrytan/)/scrape | Extra Skill | 3★ | `/web-scrape` |
+| ○ [firecrawl](../docs/u/firecrawl/)/web-search-integration | Basic Skill | 2★ | `/web-search` |
 | ◇ /wiki-search | Extra Skill | — | `/wiki-search` |
 | ○ [ruvnet](../docs/u/ruvnet/)/worker-integration | Basic Skill | 2★ | `/worker-agent-dispatch` |
 | ◇ ████████/github-workflow-automation | Extra Skill | — | `/workflow-automation` |

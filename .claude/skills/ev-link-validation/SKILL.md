@@ -69,3 +69,11 @@ Dead links should not be imported into the registry. Flag them in the source rep
 ### 4. Update the visual pipeline tracker
 
 Open `evidence/verification_process.html` and update the link-validation stats block to reflect the latest pass/fail counts. This keeps the visual dashboard current for anyone reviewing pipeline health at a glance.
+
+### 5. Handoff verified intake evidence
+
+For an L4-approved intake, link validation is the final evidence-pipeline gate.
+Do not hand-edit registry evidence. Hand each live, correctly scoped collector row
+to `/gaia-ingest` (or `/gaia-ingest-batch` for a reviewed manifest), which
+performs the CLI-only `gaia dev evidence` mutation, TM appraisal, and any
+separately approved calibration.

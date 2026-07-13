@@ -325,6 +325,18 @@
       }
     },
     {
+      "id": "firecrawl/web-scrape-integration",
+      "name": "Firecrawl Scrape",
+      "level": "3★",
+      "trustMagnitude": 45.84,
+      "overallTrustGrade": "C",
+      "contributor": "firecrawl",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/web-scrape-integration.json"
+      }
+    },
+    {
       "id": "mattpocock/improve-codebase-architecture",
       "name": "Improve Codebase Architecture",
       "level": "2★",
@@ -435,11 +447,11 @@
     {
       "id": "firecrawl/firecrawl",
       "name": "Firecrawl",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "firecrawl",
-      "type": "extra",
+      "type": "ultimate",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl.json"
       }
@@ -587,23 +599,11 @@
       "_links": {
         "self": "/api/v1/skills/garrytan/landing-report.json"
       }
-    },
-    {
-      "id": "garrytan/learn",
-      "name": "Learn",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "extra",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/learn.json"
-      }
     }
   ],
   "page": 2,
   "totalPages": 4,
-  "totalSkills": 154,
+  "totalSkills": 159,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",
