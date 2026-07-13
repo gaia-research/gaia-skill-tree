@@ -1,11 +1,11 @@
 {
   "distribution": {
-    "total": 266,
+    "total": 271,
     "S": 5,
     "A": 44,
-    "B": 66,
-    "C": 79,
-    "ungraded": 72,
+    "B": 67,
+    "C": 80,
+    "ungraded": 75,
     "floor": 0,
     "up": 1
   },
@@ -573,6 +573,17 @@
         "social-signal": 45.02
       },
       "origin": true
+    },
+    {
+      "id": "firecrawl/firecrawl",
+      "trustMagnitude": 96.0,
+      "grade": "B",
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "fusion-recipe": 60.0
+      },
+      "origin": false
     },
     {
       "id": "ruvnet/flow-nexus",
@@ -1297,6 +1308,16 @@
       "origin": false
     },
     {
+      "id": "firecrawl/web-scrape-integration",
+      "trustMagnitude": 45.84,
+      "grade": "C",
+      "level": "3★",
+      "typeBreakdown": {
+        "social-signal": 45.84
+      },
+      "origin": false
+    },
+    {
       "id": "mattpocock/improve-codebase-architecture",
       "trustMagnitude": 45.0,
       "grade": "C",
@@ -1404,16 +1425,6 @@
     },
     {
       "id": "anthropic/pptx",
-      "trustMagnitude": 36.0,
-      "grade": "C",
-      "level": "2★",
-      "typeBreakdown": {
-        "repo-own": 36.0
-      },
-      "origin": false
-    },
-    {
-      "id": "firecrawl/firecrawl",
       "trustMagnitude": 36.0,
       "grade": "C",
       "level": "2★",
@@ -2074,6 +2085,16 @@
       "origin": true
     },
     {
+      "id": "firecrawl/web-search-integration",
+      "trustMagnitude": 31.44,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "social-signal": 31.44
+      },
+      "origin": false
+    },
+    {
       "id": "devin-ai/autonomous-swe",
       "trustMagnitude": 30.0,
       "grade": "C",
@@ -2373,6 +2394,30 @@
       "trustMagnitude": 0.0,
       "grade": "ungraded",
       "level": "1★",
+      "typeBreakdown": {},
+      "origin": false
+    },
+    {
+      "id": "firecrawl/academic-literature-retrieval",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false
+    },
+    {
+      "id": "firecrawl/agent-environment-auth",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {},
+      "origin": false
+    },
+    {
+      "id": "firecrawl/browser-interaction-integration",
+      "trustMagnitude": 0.0,
+      "grade": "ungraded",
+      "level": "2★",
       "typeBreakdown": {},
       "origin": false
     },

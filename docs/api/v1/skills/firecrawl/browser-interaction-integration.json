@@ -1,0 +1,46 @@
+{
+  "id": "firecrawl/browser-interaction-integration",
+  "name": "Firecrawl Interact",
+  "contributor": "firecrawl",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 0.0,
+  "overallTrustGrade": null,
+  "_links": {
+    "self": "/api/v1/skills/firecrawl/browser-interaction-integration.json",
+    "contributor": "/api/v1/contributors/firecrawl.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "Firecrawl Interact",
+  "genericSkillRef": "browser-control",
+  "origin": false,
+  "description": "Integrate Firecrawl browser interaction into product code.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "timeline": [
+    {
+      "timestamp": "2026-07-13T06:22:17Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added named skill firecrawl/browser-interaction-integration"
+    },
+    {
+      "timestamp": "2026-07-13T06:22:36Z",
+      "action": "suite_ref_set",
+      "contributor": "unknown",
+      "details": "Set suiteRef to firecrawl/firecrawl"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md"
+  }
+}

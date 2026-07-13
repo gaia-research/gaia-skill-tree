@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-13T02:52:44Z",
+  "generatedAt": "2026-07-13T06:23:01Z",
   "buckets": [
     {
       "genericSkillRef": "git-ship-done-pipeline",
@@ -339,7 +339,7 @@
     },
     {
       "genericSkillRef": "browser-control",
-      "implementations": 4,
+      "implementations": 5,
       "topTM": 88.5,
       "skills": [
         {
@@ -368,6 +368,13 @@
           "trustMagnitude": 36.0,
           "level": "2★",
           "overallTrustGrade": "C",
+          "origin": false
+        },
+        {
+          "id": "firecrawl/browser-interaction-integration",
+          "trustMagnitude": 0.0,
+          "level": "2★",
+          "overallTrustGrade": null,
           "origin": false
         }
       ]

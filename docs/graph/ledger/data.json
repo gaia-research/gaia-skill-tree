@@ -1,13 +1,13 @@
 {
   "version": "6.6.1",
-  "generatedAt": "2026-07-13T04:08:25Z",
+  "generatedAt": "2026-07-13T06:24:43Z",
   "summary": {
-    "total": 266,
+    "total": 271,
     "S": 5,
     "A": 44,
-    "B": 66,
-    "C": 79,
-    "ungraded": 72,
+    "B": 67,
+    "C": 80,
+    "ungraded": 75,
     "floor": 0,
     "up": 1
   },
@@ -870,6 +870,22 @@
         "social-signal": 45.02
       },
       "origin": true
+    },
+    {
+      "skillId": "firecrawl/firecrawl",
+      "tm": 96.0,
+      "grade": "B",
+      "currentStars": "4★",
+      "mayStars": "2★",
+      "juneStars": "4★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "fusion-recipe": 60.0
+      },
+      "origin": false
     },
     {
       "skillId": "ruvnet/flow-nexus",
@@ -1919,6 +1935,21 @@
       "origin": false
     },
     {
+      "skillId": "firecrawl/web-scrape-integration",
+      "tm": 45.84,
+      "grade": "C",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "social-signal": 45.84
+      },
+      "origin": false
+    },
+    {
       "skillId": "mattpocock/improve-codebase-architecture",
       "tm": 45.0,
       "grade": "C",
@@ -2076,21 +2107,6 @@
     },
     {
       "skillId": "anthropic/pptx",
-      "tm": 36.0,
-      "grade": "C",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "2★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0
-      },
-      "origin": false
-    },
-    {
-      "skillId": "firecrawl/firecrawl",
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
@@ -3081,6 +3097,21 @@
       "origin": true
     },
     {
+      "skillId": "firecrawl/web-search-integration",
+      "tm": 31.44,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "social-signal": 31.44
+      },
+      "origin": false
+    },
+    {
       "skillId": "devin-ai/autonomous-swe",
       "tm": 30.0,
       "grade": "C",
@@ -3527,6 +3558,45 @@
       "currentStars": "1★",
       "mayStars": "2★",
       "juneStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
+    },
+    {
+      "skillId": "firecrawl/academic-literature-retrieval",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
+    },
+    {
+      "skillId": "firecrawl/agent-environment-auth",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {},
+      "origin": false
+    },
+    {
+      "skillId": "firecrawl/browser-interaction-integration",
+      "tm": 0.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
       "g7Stars": "1★",
       "flag": "",
       "apexResults": null,

@@ -2449,6 +2449,25 @@
     ]
   },
   {
+    "id": "firecrawl/web-scrape-integration",
+    "name": "Firecrawl Scrape",
+    "contributor": "firecrawl",
+    "level": "3★",
+    "grade": "C",
+    "trustMagnitude": 45.84,
+    "tokens": [
+      "code",
+      "extraction",
+      "firecrawl",
+      "integrate",
+      "into",
+      "page",
+      "product",
+      "scrape",
+      "web"
+    ]
+  },
+  {
     "id": "mattpocock/improve-codebase-architecture",
     "name": "Improve Codebase Architecture",
     "contributor": "mattpocock",
@@ -2758,7 +2777,7 @@
     "id": "firecrawl/firecrawl",
     "name": "Firecrawl",
     "contributor": "firecrawl",
-    "level": "2★",
+    "level": "4★",
     "grade": "C",
     "trustMagnitude": 36.0,
     "tokens": [
@@ -4743,6 +4762,23 @@
     ]
   },
   {
+    "id": "firecrawl/web-search-integration",
+    "name": "Firecrawl Search",
+    "contributor": "firecrawl",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 31.44,
+    "tokens": [
+      "code",
+      "firecrawl",
+      "integrate",
+      "into",
+      "product",
+      "search",
+      "web"
+    ]
+  },
+  {
     "id": "devin-ai/autonomous-swe",
     "name": "Autonomous SWE",
     "contributor": "devin-ai",
@@ -4799,6 +4835,63 @@
       "ultra",
       "v1",
       "words"
+    ]
+  },
+  {
+    "id": "firecrawl/academic-literature-retrieval",
+    "name": "Firecrawl Research Index",
+    "contributor": "firecrawl",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 0.0,
+    "tokens": [
+      "academic",
+      "firecrawl",
+      "index",
+      "literature",
+      "query",
+      "research",
+      "retrieve",
+      "search",
+      "through"
+    ]
+  },
+  {
+    "id": "firecrawl/agent-environment-auth",
+    "name": "Firecrawl Onboarding",
+    "contributor": "firecrawl",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 0.0,
+    "tokens": [
+      "agent",
+      "client",
+      "configure",
+      "credentials",
+      "environment",
+      "firecrawl",
+      "onboarding",
+      "setup",
+      "tools"
+    ]
+  },
+  {
+    "id": "firecrawl/browser-interaction-integration",
+    "name": "Firecrawl Interact",
+    "contributor": "firecrawl",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 0.0,
+    "tokens": [
+      "browser",
+      "code",
+      "control",
+      "firecrawl",
+      "integrate",
+      "interact",
+      "interaction",
+      "into",
+      "product"
     ]
   },
   {

@@ -3,22 +3,22 @@ id: firecrawl/firecrawl
 name: Firecrawl
 contributor: firecrawl
 origin: false
-genericSkillRef: web-scrape
+genericSkillRef: firecrawl
 status: named
 title: The Web Infuser
 catalogRef: firecrawl-firecrawl
-level: 2★
+level: 4★
 description: Open-source API for AI-oriented web search, scraping, crawling, and structured
   extraction from websites.
 links:
-  github: https://github.com/firecrawl/firecrawl
+  github: https://github.com/firecrawl/firecrawl/blob/main/README.md
 tags:
 - web-scrape
 - search
 - extraction
 - crawler
 createdAt: '2026-05-17'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-13'
 timeline:
 - timestamp: '2026-06-02T23:33:01Z'
   action: demote
@@ -57,6 +57,24 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:36Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-07-13T06:22:34Z'
+  action: suite_ref_set
+  contributor: unknown
+  details: Set suiteRef=firecrawl/firecrawl, genericSkillRef=firecrawl via `gaia dev
+    fuse`.
+- timestamp: '2026-07-13T06:22:37Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/firecrawl/firecrawl/blob/main/README.md
+- timestamp: '2026-07-13T06:22:38Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 2★ to 4★
+- timestamp: '2026-07-13T06:24:28Z'
+  action: suite_ref_set
+  contributor: unknown
+  details: Set suiteRef=firecrawl/firecrawl, genericSkillRef=firecrawl via `gaia dev
+    fuse`.
 evidence:
 - class: B
   source: https://github.com/firecrawl/firecrawl
@@ -98,6 +116,12 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
 trustMagnitudeInputHash: 884be262d5d5ab382aed51e452e0ce7498fb4667d542b11adfd4d9cbd2063a2a
+suiteComponents:
+- firecrawl/academic-literature-retrieval
+- firecrawl/agent-environment-auth
+- firecrawl/browser-interaction-integration
+- firecrawl/web-scrape-integration
+- firecrawl/web-search-integration
 ---
 
 ## Overview
