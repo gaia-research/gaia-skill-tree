@@ -22,8 +22,12 @@
   var uniqueHaze = section.querySelector('.aov-haze--unique');
   var scenes = Array.prototype.slice.call(section.querySelectorAll('[data-aov-scene]'));
   var terminalScene = section.querySelector('[data-aov-scene="paired-6"]');
+  var parallaxLayers = [substrate, suiteHaze, uniqueHaze].filter(Boolean);
   var sectionMetrics = { top: 0, height: 1 };
   var frame = 0;
+  var motionAttached = false;
+  var sectionIsNear = false;
+  var sectionObserver = null;
 
   function clamp(value, min, max) {
     return Math.max(min, Math.min(max, value));
@@ -54,6 +58,13 @@
     });
   }
 
+  function setLayerHints(active) {
+    var shouldHint = active && !reduceQuery.matches;
+    parallaxLayers.forEach(function (layer) {
+      layer.style.willChange = shouldHint ? 'transform' : 'auto';
+    });
+  }
+
   function draw() {
     frame = 0;
     var viewportHeight = Math.max(1, window.innerHeight);
@@ -70,6 +81,8 @@
       if (substrate) substrate.style.transform = 'translate3d(0, 0, 0)';
       if (suiteHaze) suiteHaze.style.transform = 'translate3d(0, 0, 0)';
       if (uniqueHaze) uniqueHaze.style.transform = 'translate3d(0, 0, 0)';
+      if (suiteHaze) suiteHaze.style.opacity = '0.18';
+      if (uniqueHaze) uniqueHaze.style.opacity = '0.18';
       return;
     }
 
@@ -107,6 +120,37 @@
     frame = window.requestAnimationFrame(draw);
   }
 
+  function attachMotion() {
+    if (motionAttached || reduceQuery.matches) return;
+    window.addEventListener('scroll', requestFrame, { passive: true });
+    motionAttached = true;
+    requestFrame();
+  }
+
+  function detachMotion() {
+    if (motionAttached) {
+      window.removeEventListener('scroll', requestFrame);
+      motionAttached = false;
+    }
+    if (frame) {
+      window.cancelAnimationFrame(frame);
+      frame = 0;
+    }
+  }
+
+  function handleReduceChange() {
+    if (reduceQuery.matches) {
+      detachMotion();
+      setLayerHints(false);
+      draw();
+      return;
+    }
+
+    attachMotion();
+    setLayerHints(sectionIsNear);
+    measure();
+  }
+
   if ('IntersectionObserver' in window) {
     section.classList.add('aov--motion-ready');
     var sceneObserver = new IntersectionObserver(function (entries) {
@@ -118,15 +162,23 @@
     scenes.forEach(function (scene) {
       sceneObserver.observe(scene);
     });
+
+    sectionObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        sectionIsNear = entry.isIntersecting;
+        setLayerHints(sectionIsNear);
+        if (sectionIsNear) requestFrame();
+      });
+    }, { rootMargin: '100% 0px', threshold: 0 });
+    sectionObserver.observe(section);
   } else {
     scenes.forEach(function (scene) {
       scene.classList.add('is-active');
     });
   }
 
-  window.addEventListener('scroll', requestFrame, { passive: true });
   window.addEventListener('resize', measure, { passive: true });
-  reduceQuery.addEventListener('change', requestFrame);
+  reduceQuery.addEventListener('change', handleReduceChange);
   mobileQuery.addEventListener('change', measure);
 
   document.addEventListener('visibilitychange', function () {
@@ -135,5 +187,10 @@
     }
   });
 
+  if (reduceQuery.matches) {
+    draw();
+  } else {
+    attachMotion();
+  }
   measure();
 })();

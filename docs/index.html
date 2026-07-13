@@ -959,7 +959,7 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 
     <div class="aov-scene aov-scene--paired" data-aov-scene="paired-4" data-rank="4">
       <div class="aov-stage aov-stage--paired">
-        <p class="aov-mobile-branch-tag">Suite ↔ Unique</p>
+        <p class="aov-mobile-branch-tag" aria-label="Unique branch follows Suite">→ Unique</p>
         <div class="aov-pair-grid">
           <article class="aov-rail aov-rail--suite" aria-labelledby="aov-extra-title">
             <picture class="aov-rail-plate" aria-hidden="true">
@@ -967,6 +967,7 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
               <img src="assets/ascension-overdrive/aov3-suite-plate-4-extra.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
             </picture>
             <picture class="aov-rail-stamp">
+              <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-4-extra-badge.webp">
               <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-4-extra-card.webp">
               <img src="assets/ascension-overdrive/aov3-suite-stamp-4-extra.webp" alt="Extra rank medallion" width="2048" height="2048" loading="lazy" decoding="async">
             </picture>
@@ -997,7 +998,7 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 
     <div class="aov-scene aov-scene--paired" data-aov-scene="paired-5" data-rank="5">
       <div class="aov-stage aov-stage--paired">
-        <p class="aov-mobile-branch-tag">Suite ↔ Unique</p>
+        <p class="aov-mobile-branch-tag" aria-label="Unique branch follows Suite">→ Unique</p>
         <div class="aov-pair-grid">
           <article class="aov-rail aov-rail--suite" aria-labelledby="aov-ultimate-title">
             <picture class="aov-rail-plate" aria-hidden="true">
@@ -1005,6 +1006,7 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
               <img src="assets/ascension-overdrive/aov3-suite-plate-5-ultimate.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
             </picture>
             <picture class="aov-rail-stamp">
+              <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-5-ultimate-badge.webp">
               <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-5-ultimate-card.webp">
               <img src="assets/ascension-overdrive/aov3-suite-stamp-5-ultimate.webp" alt="Ultimate rank medallion" width="2048" height="2048" loading="lazy" decoding="async">
             </picture>
@@ -1036,16 +1038,23 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 
     <div class="aov-scene aov-scene--paired aov-scene--terminal" data-aov-scene="paired-6" data-rank="6">
       <div class="aov-stage aov-stage--paired aov-stage--terminal">
-        <p class="aov-mobile-branch-tag">Suite ↔ Unique</p>
+        <p class="aov-mobile-branch-tag" aria-label="Unique branch follows Suite">→ Unique</p>
         <div class="aov-pair-grid">
           <article class="aov-rail aov-rail--suite aov-rail--terminal" aria-labelledby="aov-apex-title">
             <picture class="aov-terminal-plate" aria-hidden="true">
               <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-suite-plate-6-apex-mobile.webp">
               <img src="assets/ascension-overdrive/aov3-suite-plate-6-apex.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
             </picture>
-            <picture class="aov-terminal-art">
-              <img src="assets/ascension-overdrive/apex-arch.webp" alt="Ceremonial Apex arch" width="1536" height="1024" loading="lazy" decoding="async">
-            </picture>
+            <div class="aov-terminal-visual aov-terminal-visual--suite">
+              <picture class="aov-terminal-art">
+                <img src="assets/ascension-overdrive/apex-arch.webp" alt="Ceremonial Apex arch" width="1536" height="1024" loading="lazy" decoding="async">
+              </picture>
+              <picture class="aov-terminal-rank-stamp">
+                <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-6-apex-badge.webp">
+                <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-6-apex-card.webp">
+                <img src="assets/ascension-overdrive/aov3-suite-stamp-6-apex.webp" alt="Apex rank medallion" width="2048" height="2048" loading="lazy" decoding="async">
+              </picture>
+            </div>
             <div class="aov-rail-copy aov-terminal-copy">
               <p class="aov-rail-label">Suite terminal · six predicates</p>
               <p class="aov-stars" role="img" aria-label="Six out of six stars"><span aria-hidden="true">★★★★★★</span></p>
@@ -1053,12 +1062,12 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
               <p>The Suite terminal. Six predicates, all required. The Suite Apex Gate is unchanged from Yggdrasil I.</p>
             </div>
             <ol class="aov-gate" aria-label="Suite Apex Gate predicates">
-              <li><code>aGradedOriginsGte5</code><span>Five A-graded origins</span></li>
-              <li><code>directNestedSuiteGte1</code><span>One directly nested Suite</span></li>
-              <li><code>depth2OnlyReachableGte1</code><span>One depth-two-only origin</span></li>
-              <li><code>overallGradeS</code><span>Overall Trust Grade S</span></li>
-              <li><code>sourceTenureDaysGte180AorS</code><span>A or S source held for 180 days</span></li>
-              <li><code>apexPromotionPrSigned</code><span>Promotion pull request signed</span></li>
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/apex-component-classical-stele.webp" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" decoding="async"><code>aGradedOriginsGte5</code><span>Five A-graded origins</span></li>
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/apex-component-column-crowned.webp" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" decoding="async"><code>directNestedSuiteGte1</code><span>One directly nested Suite</span></li>
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/apex-component-column-finial.webp" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" decoding="async"><code>depth2OnlyReachableGte1</code><span>One depth-two-only origin</span></li>
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/apex-component-grand-arch.webp" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" decoding="async"><code>overallGradeS</code><span>Overall Trust Grade S</span></li>
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/apex-component-pillar-with-plant.webp" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" decoding="async"><code>sourceTenureDaysGte180AorS</code><span>A or S source held for 180 days</span></li>
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/apex-component-stele-with-foliage.webp" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" decoding="async"><code>apexPromotionPrSigned</code><span>Promotion pull request signed</span></li>
             </ol>
           </article>
           <article class="aov-rail aov-rail--unique aov-rail--terminal" aria-labelledby="aov-impossible-title">
