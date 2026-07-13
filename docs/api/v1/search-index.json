@@ -196,6 +196,37 @@
     ]
   },
   {
+    "id": "firecrawl/firecrawl-skills",
+    "name": "Firecrawl Skills",
+    "contributor": "firecrawl",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 223.52,
+    "tokens": [
+      "`npx",
+      "all",
+      "browser",
+      "browser`",
+      "cli@latest",
+      "crawler",
+      "environment",
+      "extraction",
+      "firecrawl",
+      "init",
+      "install",
+      "interaction",
+      "research",
+      "scrape",
+      "scraping",
+      "search",
+      "setup",
+      "skills",
+      "suite",
+      "web",
+      "y"
+    ]
+  },
+  {
     "id": "gsd-build/get-shit-done",
     "name": "Get Shit Done",
     "contributor": "gsd-build",
@@ -2845,37 +2876,6 @@
       "using",
       "write",
       "—"
-    ]
-  },
-  {
-    "id": "firecrawl/firecrawl-skills",
-    "name": "Firecrawl Skills",
-    "contributor": "firecrawl",
-    "level": "4★",
-    "grade": "C",
-    "trustMagnitude": 36.0,
-    "tokens": [
-      "`npx",
-      "all",
-      "browser",
-      "browser`",
-      "cli@latest",
-      "crawler",
-      "environment",
-      "extraction",
-      "firecrawl",
-      "init",
-      "install",
-      "interaction",
-      "research",
-      "scrape",
-      "scraping",
-      "search",
-      "setup",
-      "skills",
-      "suite",
-      "web",
-      "y"
     ]
   },
   {
