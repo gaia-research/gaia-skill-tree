@@ -48,7 +48,9 @@
       "timestamp": "2026-07-13T09:21:06Z",
       "action": "rank_up",
       "skillId": "browser-use/browser-harness",
-      "details": "Level calibrated from 3★ to 4★ — grade A (TM 103.59); origin set as top browser-control bucket holder."
+      "details": "Level calibrated from 3★ to 4★ — grade A (TM 103.59); origin set as top browser-control bucket holder.",
+      "previousValue": "3★",
+      "newValue": "4★"
     }
   ],
   "stats": {
