@@ -7,6 +7,7 @@
   "required": ["batchId", "userId", "sourceRepo", "generatedAt", "knownSkills", "proposedSkills", "similarity"],
   "additionalProperties": false,
   "properties": {
+    "fromFile": { "type": "boolean" },
     "batchId": { "type": "string", "minLength": 1 },
     "userId": { "type": "string", "minLength": 1 },
     "sourceRepo": { "type": "string", "minLength": 1 },
