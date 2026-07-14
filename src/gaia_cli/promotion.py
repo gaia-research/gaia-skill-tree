@@ -33,7 +33,7 @@ def _load_meta():
 _META = _load_meta()
 LEVEL_ORDER = _META["levels"]["order"]
 LEVEL_NAMES = _META["levels"]["labels"]
-EVIDENCE_FLOOR = {k: set(v) if v else None for k, v in _META["levels"]["evidenceFloors"].items()}
+EVIDENCE_FLOOR = {k: set(v) if v else None for k, v in _META["levels"].get("evidenceFloors", {}).items()}
 
 
 def next_level(current: str) -> str | None:

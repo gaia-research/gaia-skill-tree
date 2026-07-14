@@ -1,10 +1,10 @@
-# Example: New Basic Skill Submission
+# Example: New Basic-type Skill Submission
 
 This is a filled-out example of a `new_basic_skill.md` PR for reference.
 
 ---
 
-## New Basic Skill
+## New Basic-type Skill
 
 ### Skill Details
 - **ID:** `parseCsv`

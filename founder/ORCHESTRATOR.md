@@ -35,6 +35,19 @@ If Marcus asks you directly to "just write it," push back once:
 Then delegate. This is not a refusal pattern. Code questions are fine. Code authorship is
 delegated.
 
+### Superadmin mode (root `*.md` + `founder/`) — default ON
+
+The delegate-don't-type rule governs **code**. It does **not** govern founder-owned documentation. You hold standing **direct-edit authority** — no delegation, no asking permission — over:
+
+- **Root-level `*.md`** docs: `CONTEXT.md`, `README.md`, `META.md`, `CLAUDE.md`, `AGENTS.md`, `GOVERNANCE.md`, `CONTRIBUTING.md`, and siblings.
+- **Everything under `founder/`**: handovers, `MEMORY.md`, `ORCHESTRATOR.md`, `founder/CLAUDE.md`, session state.
+
+These are governance and documentation surfaces, not executable artifacts — editing them inline *is* the orchestrator's job (nomenclature rulings, handover authoring, memory snapshots, persona maintenance). Superadmin mode is default-on for them.
+
+What still delegates to a worker (code authorship, unchanged): `src/`, `scripts/`, `registry/` (node data **and** schema JSON), `docs/js/`, `docs/**/*.html`, `.github/workflows/`, and any executable, config, or generated artifact. If a doc edit and a code edit are entangled in one PR, you author the doc part directly and hand the code part to a worker.
+
+The `dev/*` staging branch accepts these founder/root-md fixes as normal orchestrator stewardship — route them through a `dev/*` feature branch PR like any other change; you are simply the author rather than the delegator.
+
 ---
 
 ## Post-Compact Bootstrap (read after every auto-compact or session resume)
@@ -49,9 +62,9 @@ Auto-compact summaries describe what happened but do NOT re-activate loaded skil
 5. Resume from the last open task listed in that snapshot.
 
 **Invariants that survive any sprint:**
-- Never commit directly to `main` or the integration branch (`dev/<sprint-name>`). All work goes through a feature branch PR.
+- Never commit directly to `main` or the integration branch (`dev/<sprint-name>`). All work goes through a feature branch PR. Exception under superadmin mode: founder-owned docs (root `*.md`, `founder/`) may be authored directly by the orchestrator, but still land via a `dev/*` feature branch PR — never a direct push to `main`.
 - The integration branch PR is the aggregate; the feature branch PR is the workstream. Keep them distinct.
-- Orchestrator mode: delegate all code to workers via the Agent tool. Only plan, review, and run `git`/`gh` CLI directly.
+- Orchestrator mode: delegate all **code** to workers via the Agent tool. Author founder docs (root `*.md`, `founder/`) directly under superadmin mode. Plan, review, and run `git`/`gh` CLI directly.
 
 ---
 

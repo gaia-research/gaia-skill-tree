@@ -37,11 +37,9 @@
       "type": "string",
       "enum": [
         "basic",
-        "extra",
-        "unique",
-        "ultimate"
+        "fusion"
       ],
-      "description": "Skill classification type."
+      "description": "Skill classification type: basic (no prerequisites) or fusion (≥1 prerequisite)."
     },
     "summary": {
       "type": "string",
@@ -260,7 +258,7 @@
         "type": {
           "type": "string",
           "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
-          "description": "Evidence Type — the provenance of the demonstration (where it came from, not how strong it is). Kebab-case, validated against meta.json evidence.types (initially arxiv, repo, github-stars); list-driven so new types can be added in meta.json without a schema change. Carries the provenance meaning that the deprecated `class` field used to conflate. Distinct from the skill `type` taxonomy (basic/extra/unique/ultimate)."
+          "description": "Evidence Type — the provenance of the demonstration (where it came from, not how strong it is). Kebab-case, validated against meta.json evidence.types (initially arxiv, repo, github-stars); list-driven so new types can be added in meta.json without a schema change. Carries the provenance meaning that the deprecated `class` field used to conflate. Distinct from the skill `type` taxonomy (basic/fusion)."
         },
         "grade": {
           "type": "string",
@@ -578,54 +576,6 @@
         "properties": {
           "type": {
             "const": "basic"
-          }
-        }
-      },
-      "then": {
-        "properties": {
-          "prerequisites": {
-            "maxItems": 0
-          }
-        }
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "type": {
-            "const": "extra"
-          }
-        }
-      },
-      "then": {
-        "properties": {
-          "prerequisites": {
-            "minItems": 2
-          }
-        }
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "type": {
-            "const": "ultimate"
-          }
-        }
-      },
-      "then": {
-        "properties": {
-          "prerequisites": {
-            "minItems": 3
-          }
-        }
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "type": {
-            "const": "unique"
           }
         }
       },

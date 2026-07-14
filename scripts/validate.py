@@ -62,7 +62,7 @@ def _load_meta():
 
 
 _META = _load_meta()
-EVIDENCE_FLOOR = {k: set(v) if v else None for k, v in _META["levels"]["evidenceFloors"].items()}
+EVIDENCE_FLOOR = {k: set(v) if v else None for k, v in _META["levels"].get("evidenceFloors", {}).items()}
 MIN_PREREQS = _META["types"]["minPrereqs"]
 DEMERIT_IDS = set(_META.get("demerits", {}).get("order", []))
 DEMERIT_ELIGIBLE_LEVELS = set(_META.get("demerits", {}).get("eligibleLevels", []))

@@ -1,5 +1,6 @@
-# World Tree — Semantic Topology (Hero 2D + 3D Explorer)
+# World Tree — Semantic Topology (Hero 2D + 3D Explorer) — v2
 
+> **Version:** v2 · **Changelog:** 2026-07-14 — v2: branch derivation decoupled from `type`; driven by `suiteComponents` + rank; fork at 4★+; Transcendent dropped.
 > **Status:** ratified in session (2026-07-12), implementation handover.
 > **Target branch:** `design/homepage-gaia-tree-hero` (PR #1125 → `dev/yggdrasil-ii-staging`).
 > **Scope:** `docs/` + `*.md` only (design branch scope). No `src/`, no schema, no build-pipeline changes.
@@ -80,11 +81,13 @@ resolveSemantics(node, effectiveRank) → {
 | `basic` | `basic` | **root** | ○ basic | — |
 | `extra` | `fusion` | **crown** | ◇ fusion | — |
 | `ultimate` | `fusion` | **crown** | ◆ suite | I: `type==='ultimate'` · II: `suiteComponents` present |
-| `unique` | `basic` | **outside** | ◉ unique | I: `type==='unique'` · II: `type==='basic' && effRank≥4★ && !suiteComponents` |
+| `unique` | `basic` | **outside** | ◉ unique | I: `type==='unique'` · II: `effRank≥4★ && !suiteComponents` |
+
+> **Orthogonality (v2):** Type and Branch are orthogonal. `type` (basic|fusion) is pure structural metadata — a starless/generic node is `fusion` iff it has prerequisites — and is NEVER consulted for branch. Branch is driven solely by `suiteComponents` presence and rank. In practice fusion and suiteComponents usually coincide, but they are independent fields: a `fusion` node with no `suiteComponents` is Unique branch, and a `basic` node carrying `suiteComponents` is Suite branch. `suiteComponents` remains an input to downstream Trust Magnitude computation as well.
 
 ### 3.2 Read order (critical)
 
-1. **Detect `isUnique` first → hemisphere `outside`.** (This is why a Ygg II Unique being `type=basic` does NOT fall into roots — short-circuit before the hemisphere-by-type step.)
+1. **Detect `isUnique` first → hemisphere `outside`.** (This is why a Ygg II Unique — identified by `effRank≥4★ && !suiteComponents`, not `type` — does NOT fall into roots; the short-circuit fires before the hemisphere-by-type step.)
 2. Detect `isSuite`.
 3. Hemisphere by type (`basic`→root, `fusion`/`extra`/`ultimate`→crown).
 4. `coreness` = normalized effective rank (see §4).
