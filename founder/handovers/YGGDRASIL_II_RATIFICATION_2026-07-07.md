@@ -1,5 +1,44 @@
 # Yggdrasil II — Meta Schema Ratification (2026-07-07)
 
+---
+
+## v2 Amendment — 2026-07-14 (Branch decoupled from Type)
+
+> This amendment supersedes **Q2** and the **Unique branch**, **Suite branch**, and **`computeBranch`** entries in the Ubiquitous Language section below. Original text for each is preserved with an inline `[SUPERSEDED]` marker.
+
+### Changes from v1
+
+1. **Branch is derived from `suiteComponents` + rank — NOT from `type`.** `type` is removed from every branch-derivation formula and from the definition of Unique.
+2. **The unique↔suite fork is recognised ONLY at 4★+.** At 1★–3★ there is NO branch distinction — all skills share the ladder: 1★ Awakened, 2★ Named, 3★ Evolved.
+3. **"Transcendent" is DROPPED.** The two 4★+ ladders are:
+   - **Suite** (generic parent HAS `suiteComponents`): 4★ **Extra**, 5★ **Ultimate**, 6★ **Apex**
+   - **Unique** (generic parent has NO `suiteComponents`): 4★ **Unique**, 5★ **Unique Ultimate**, 6★ **Unique Impossible**
+
+### Branch-derivation rule (canonical)
+
+`branch = f(suiteComponents present?, rank)`
+
+- rank 1–3 → shared ladder (Awakened / Named / Evolved), no branch
+- rank ≥ 4 AND suiteComponents present → Suite ladder (Extra / Ultimate / Apex)
+- rank ≥ 4 AND no suiteComponents → Unique ladder (Unique / Unique Ultimate / Unique Impossible)
+
+### Rank ladder
+
+| Stars | Shared (no branch) | Suite branch | Unique branch |
+|---|---|---|---|
+| 1★ | **Awakened** | — | — |
+| 2★ | **Named** | — | — |
+| 3★ | **Evolved** | — | — |
+| 4★ | — | **Extra** | **Unique** |
+| 5★ | — | **Ultimate** | **Unique Ultimate** |
+| 6★ | — | **Apex** | **Unique Impossible** |
+
+### Orthogonality assertion
+
+> Type and Branch are orthogonal. `type` (basic|fusion) is pure structural metadata — a starless/generic node is `fusion` iff it has prerequisites — and is NEVER consulted for branch. Branch is driven solely by `suiteComponents` presence and rank. In practice fusion and suiteComponents usually coincide, but they are independent fields: a `fusion` node with no `suiteComponents` is Unique branch, and a `basic` node carrying `suiteComponents` is Suite branch. `suiteComponents` remains an input to downstream Trust Magnitude computation as well.
+
+---
+
 > **This document is a ratification handover, not an implementation plan.** It records the decisions, names the Meta Shift, defines the staging-branch protocol, and scopes the follow-up (TM Index 2026 Q3). Implementation PRs are staged separately after ratification lands and all target the same staging branch.
 
 ---
@@ -91,13 +130,16 @@ The following terms are the shared vocabulary of Yggdrasil II. They live authori
 - **Branch axis** — progression, on named skills only. Values: `standard` (1★–3★), `unique` (4★–6★ non-suite), `suite` (4★–6★ suite-based). Always derived, never declared.
 - **Standard branch** — 1★ Awakened → 2★ Named → 3★ Evolved. The default; every named skill starts here.
 - **Unique branch** — 4★ Unique → 5★ Unique Ultimate → 6★ Unique Impossible. For skills that reach 4★+ *without* being a suite (their generic parent has no `suiteComponents`). Standalone prestige track. Impeccable is the archetype.
+  > **[SUPERSEDED by v2 Amendment 2026-07-14]** Branch no longer reads `type`; derived from `(suiteComponents present?, rank)`, fork at 4★+.
 - **Suite branch** — 4★ Extra → 5★ Ultimate → 6★ Apex. For skills whose generic parent carries `suiteComponents` (structural fusion of grouped components). Group prestige track.
+  > **[SUPERSEDED by v2 Amendment 2026-07-14]** Branch no longer reads `type`; derived from `(suiteComponents present?, rank)`, fork at 4★+.
 - **Ultimate** — the 5★ rank name. Universal across branches (Suite: **Ultimate**, Unique: **Unique Ultimate**). Intentional gacha-anchor collision — every 5★ skill is "Ultimate". Deprecates the legacy `type=ultimate` taxonomy usage.
 - **Apex** — the 6★ Suite-branch rank name (preserved from Yggdrasil I).
 - **Unique Impossible** — the 6★ Unique-branch rank name (new). Provisional 5-predicate gate (Apex minus `directNestedSuiteGte1`); formal ratification deferred.
 - **Fusion structure** — the `prerequisites` graph of a starless node (fusion-recipe origin edges). Contrasted with `suiteComponents` (co-located sibling components of a Suite). Unique gates count origins in fusion structure; Suite gates count origins in `suiteComponents`.
 - **Fusion Skill** — the new taxonomy label for what was previously "Extra" / "Ultimate" (starless side). Retires "Extra Skill" and the taxonomy usage of "Ultimate Skill".
 - **`computeBranch(named)`** — read-time helper that walks `named → genericSkillRef → generic.{type, suiteComponents}` and returns the branch label given the named skill's current level.
+  > **[SUPERSEDED by v2 Amendment 2026-07-14]** Branch no longer reads `type`; derived from `(suiteComponents present?, rank)`, fork at 4★+.
 - **Option D** — the named-skill-type-by-inheritance rule. Starless nodes carry `type`; named skills do not. Simplifies both axes: starless is purely structural, named is purely progression.
 - **Meta Schema RFC** — Series A (Yggdrasil I, II, III, …). Schema-type Meta Shifts that reshape the tree's structure or vocabulary.
 - **TM Index** — Series B (TM Index (2026 Q2) = G7; TM Index (2026 Q3) = planned). Trust Magnitude scoring engine, versioned by quarter.
@@ -110,7 +152,7 @@ The following terms are the shared vocabulary of Yggdrasil II. They live authori
 | # | Branch | Decision |
 |---|---|---|
 | Q1 | 5★ naming collision | "Ultimate" = 5★ rank universally (Suite: **Ultimate**, Unique: **Unique Ultimate**). Intentional gacha-anchor. The old taxonomy usage retires. |
-| Q2 | Branch declaration | Branch is completely derived from `(generic.type, generic.suiteComponents present?, named.level)`. Never declared on nodes; always computed at read-time. |
+| Q2 | Branch declaration | Branch is completely derived from `(generic.type, generic.suiteComponents present?, named.level)`. Never declared on nodes; always computed at read-time.<br>**[SUPERSEDED by v2 Amendment 2026-07-14]** Branch no longer reads `type`; derived from `(suiteComponents present?, rank)`, fork at 4★+. |
 | Q3 | Unique gates | **4★ Unique**: Origin + TM ≥ 100 (A). **5★ Unique Ultimate**: Origin + TM ≥ 250 (S). Origin counted in **fusion structure** (`prerequisites`), not `suiteComponents`. `suiteRef` membership does NOT disqualify from Unique — a "world-renowned handoff skill" that happens to live inside a suite is still Unique. |
 | Q4 | Type field on named skills | **Option D**: type lives on starless only, named inherits via `genericSkillRef` walk. Bulk rewrite: `extra`→`fusion`, `ultimate`→`fusion`, `unique`→`basic`. |
 | Q5 | Suite 5★ gate | **Preserved per #935** (Origin in suiteComponents + 5 A-graded origins in suiteComponents + TM ≥ 250). Asymmetric-by-design — Unique counts fusion-structure origins; Suite counts suiteComponents origins. The 5 existing 5★ Suites keep rank. |
