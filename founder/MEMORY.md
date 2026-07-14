@@ -4,6 +4,62 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-14, session — Yggdrasil II **v2** taxonomy ratified; branch decoupled from type; #1170/#1169/#1172 merged to staging)
+
+### TLDR
+- **Ratified Yggdrasil II v2.** Branch is now derived from `(suiteComponents present?, rank)` — **NOT `type`**. `type` is pure structural metadata (`basic`|`fusion`; fusion iff has prerequisites) and is never consulted for branch. Fork recognised only at **4★+**; 1–3★ share **Awakened / Named / Evolved**. Suite ladder: **Extra / Ultimate / Apex**. Unique ladder: **Unique / Unique Ultimate / Unique Impossible**. "Transcendent" and "Hardened" are **banned**. Type ⟂ Branch (a `fusion` w/o suiteComponents is Unique; a `basic` w/ them is Suite). `suiteComponents` also feeds Trust Magnitude.
+- **Source of truth (read these, don't re-derive):** `founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md` (v2 Amendment block at top supersedes Q2 + Unique/Suite/computeBranch language) and `founder/handovers/design-v6.1.1-world-tree-semantic-topology.md` (v2). **EPIC #1002 now POINTS to these instead of declaring the model** — do not re-duplicate the taxonomy into the issue.
+- **Merged to staging:** #1170 (#994 docs consolidation — META/CONTEXT/trust-methodology to v2), #1169 (#999 rank-vocabulary CI guard), #1172 (MEMORY baseline refresh).
+- **HELD:** #1168 (the two v2 source-of-truth handover docs) — design assets still flowing on `design/yggdrasil-ii-aov-v3` (#1156); merge once assets settle. **Open:** #1171 (design-branch alignment handover).
+
+### What changed this session
+| Layer | State |
+|---|---|
+| v2 model ratification (2 handover docs) | ⏳ PR #1168 OPEN — **HELD** (design assets in flight) |
+| EPIC #1002 body | ✅ De-duplicated → points to ratification doc (no more model restatement) |
+| Canonical prose docs (META, CONTEXT, trust-methodology) → v2 | ✅ Merged #1170 → staging (full hand-rewrite; main had *reverted* the model, so no cherry-pick) |
+| CI rank-vocabulary guard (bans Transcendent/Hardened, "Extra Skill"/"Ultimate Skill") | ✅ Merged #1169 → staging; META + trust-methodology **un-allowlisted** (now enforced); CONTEXT.md stays allowlisted (lexicon) |
+| Design-branch alignment handover (`founder/handovers/YGGDRASIL_II_DESIGN_ALIGNMENT.md`) | ✅ PR #1171 OPEN — action **after** #995/#996/#997 land |
+| MEMORY baseline | ✅ Refreshed with 7/14 AOV V4 block (#1172) |
+| Code path (#995 schema → #996 CLI → #997 migration → #998 frontend) | ⏳ NOT started — model now locked; unblocked |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/yggdrasil-ii-staging` | `dc86630ee` | #1170 / #1169 / #1172 merged in |
+| `design/yggdrasil-ii-taxonomy-v2` | `2eb7ab68c` | PR #1168 OPEN — HELD (v2 source-of-truth docs) |
+| `docs/yggdrasil-ii-design-alignment` | `1c4c8b8e2` | PR #1171 OPEN (design alignment handover) |
+| `design/yggdrasil-ii-aov-v3` | `12247f8ac` | #1156 — design assets in flight; leave chilling |
+
+### Issues + PRs touched
+- **EPIC #1002** — body rewritten to POINT to source-of-truth handover (de-dupe).
+- **#994** → PR #1170 **MERGED**. Residual deferred: `registry/combinations.md` + `registry/registry.md` (129 "Extra Skill" hits each — regenerate via migration/docs), `DESIGN.md` (deferred to design branch per #1171).
+- **#999** → PR #1169 **MERGED** (guard + allowlist of 33 pre-existing-violation files pending #994 cleanup).
+- **#1168** (v2 docs) OPEN/HELD · **#1171** (alignment handover) OPEN · **#1172** (memory baseline) MERGED.
+
+### Routing — where things live now
+- **v2 model:** the two handover docs above (v2). Everything downstream mirrors them.
+- **Rank-vocab guard:** `scripts/check_rank_vocabulary.py` + `.github/workflows/rank-vocabulary-guard.yml`. Word-boundary regex: bare `Extra`/`Ultimate` (ranks) pass; `Extra Skill`/`Ultimate Skill` (old type labels), `Transcendent`, `Hardened` fail. Blocked scripts (generateBadges.py, generateOgCards.py, inspectTrustMagnitude.py, generate_ruflo_curation.py) + `registry/schema/**` hard-excluded (need #996 branch-aware naming).
+- **Design alignment checklist:** `founder/handovers/YGGDRASIL_II_DESIGN_ALIGNMENT.md` (#1171) — file:line anchors for DESIGN.md, skill-graph.js legacy reads, `--tier-fusion`, HTML branch copy, AOV medallion labels.
+
+### Lessons / hazards preserved
+- **Frontend raced ahead of schema.** `docs/js/world-tree-layout.js` already reads Ygg II fields (`type`, `suiteComponents`, `effectiveRank`) and derives branch; but `docs/js/skill-graph.js` still has legacy `type==='unique'` (~L409) and `type==='ultimate'` (~L1106) reads that BREAK the instant the enum collapses. **#995 (schema) and #998 (frontend) are HARD-COUPLED; #995 + #997 must land in the same merge window.**
+- **`main` has REVERTED the Yggdrasil II model** in CONTEXT.md (restored Transcendent, dropped Fusion Skill). Confirm `dev/yggdrasil-ii-staging` is the SOLE merge base for the whole sprint before closure, or that revert will fight us.
+- **CLI `computeBranch` (#996) must be byte-identical to the JS twin** or site and CLI disagree on Unique vs Suite.
+- **Guard allowlist merge-ordering rule:** whichever of a docs-cleanup PR / guard PR merges *second* must drop now-clean files from the allowlist (applied for #1170→#1169).
+- **Staging is UNPROTECTED** (no required checks) — merges land even with red non-blocking checks. Known pre-existing red: Design-lint Guard A hardcoded-color hit at `docs/css/world-tree-hero.css:297` (a CSS comment; design-side, not taxonomy).
+
+### Open questions for next orchestrator
+- Green-light **#1168** (v2 source-of-truth) merge once AOV assets settle.
+- Open the code path with **#995 schema** — needs a `schema/` branch; mutating `gaia dev` requires a 4★ named skill or `GAIA_OPERATOR_OVERRIDE=1` (verifier guard).
+- Confirm the registry data model for **`suiteComponents`** — ratified as independent of `prerequisites`/fusion parents; presence drives branch fork + feeds TM.
+- #994 residual: `registry/combinations.md` + `registry.md` clean up via migration/docs regen; `DESIGN.md` via the design branch (#1171).
+
+### Token cost (this session)
+- ~**19.31 CU / €10.43** · 284 requests · cache W/R ≈ 1.04M / 16.87M · out ≈ 280k tokens. Heavy multi-subagent session: scouts (frontend/doc survey), parallel doc + CI-guard workers, opus review + design-alignment handover, forensic object-DB sweep.
+
+---
+
 ## 2026-07-14 — Ascension Cycle Overdrive V4 shape approved and production handoff
 
 ### TLDR
