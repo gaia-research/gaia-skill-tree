@@ -8,11 +8,11 @@ _See also: `PRODUCT.md` for audience, product purpose, and the design-principle 
 
 ### Skill taxonomy (the categories)
 
-**Basic Skill (○)**:
+**Basic (○)**:
 A primitive, indivisible capability — the genome of every agent. In catalog section headers, write **Basics** verbatim.
 _Avoid_: primitive, atomic skill, Atomic Basics, Unwired Basics, Pure / Undeveloped (as a section label — conflates the tier and stars axes).
 
-**Extra Skill (◇)** _(legacy — Yggdrasil I taxonomy word; superseded under Yggdrasil II by **Fusion Skill**)_:
+**Extra Skill (◇)** _(legacy — Yggdrasil I taxonomy word; superseded under Yggdrasil II by **Fusion**)_:
 A capability that emerged when two or more lower-tier skills fused. Under **Yggdrasil II** (2026-07-07), `Extra` retires as a taxonomy word; the structural role collapses into `type=fusion`. The 4★ Suite-branch rank is also named **Extra** (rank sense only, not taxonomy). In legacy catalog section headers, **Extras** verbatim.
 _Avoid_: using "Extra Skill" as a taxonomy category (post-Yggdrasil II); composite skill, compound skill.
 
@@ -28,7 +28,7 @@ _Avoid_: legendary skill, top-tier skill, mythic, "Ultimate skill" in the taxono
 The act of combining two or more skills into a single higher-complexity skill, formalised in the registry via `gaia fuse`. Under Yggdrasil II, every non-Basic starless node carries `type=fusion`; a fusion is any skill with ≥1 prerequisite.
 _Avoid_: combination, merge, composition.
 
-**Fusion Skill (◇)** _(Yggdrasil II canonical — replaces Extra Skill and taxonomy-Ultimate)_:
+**Fusion (◇)** _(Yggdrasil II canonical — replaces Extra Skill and taxonomy-Ultimate)_:
 The unified taxonomy label for starless nodes with `type=fusion` (any skill with ≥1 prerequisite). Replaces the Yggdrasil I trio `Extra` + `Ultimate` (taxonomy sense) + `Unique` (structural sense) with a single structural category. Ranks and branches live on named skills, not on the starless taxonomy. In catalog section headers, write **Fusions** verbatim (Yggdrasil II) or **Extras** verbatim (legacy Yggdrasil I copy).
 _Avoid_: composite skill, compound skill, extra skill (post-Yggdrasil II).
 
@@ -39,6 +39,8 @@ Ratified 2026-07-07 (`founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md`
 **Type axis** (structural — starless only):
 Values: `basic` (0 prerequisites) or `fusion` (≥1 prerequisite). Lives on starless nodes only. **Named skills have no `type` field** — they inherit via `genericSkillRef` walk (**Option D**). Simplifies both axes: starless is purely structural, named is purely progression.
 _Avoid_: writing `type` on a named-skill frontmatter; using the legacy values `extra`, `ultimate`, `unique` on new nodes (bulk rewrite: `extra`→`fusion`, `ultimate`→`fusion`, `unique`→`basic`).
+
+**Nomenclature — the "Skill" suffix** (Yggdrasil II): the proper-noun suffix "Skill" attaches to **rank** names only — **Extra Skill**, **Unique Skill**, **Ultimate Skill**, **Apex Skill** (e.g. "Ultimate Skill: garrytan/gsstack"). **Type** words stand bare: **Basic** and **Fusion** — never "Basic Skill" or "Fusion Skill". Types are structural categories, not ranks.
 
 **Branch axis** (progression — named only):
 Values: `standard`, `unique`, `suite`. Derived at read-time by `computeBranch(named)` from `(generic.suiteComponents present?, named.level)`. **Never declared on nodes; always computed.**
@@ -226,8 +228,8 @@ current rank, or the build fails.
 
 _Yggdrasil II (2026-07-07) updates these relationships. Legacy Yggdrasil I copy retained where still accurate._
 
-- A **Basic Skill** (`type=basic`, 0 prerequisites) fuses with other Basic Skills to produce a **Fusion Skill** (`type=fusion`, ≥1 prerequisite). Legacy Yggdrasil I called these "Extras".
-- A **Fusion Skill** can fuse with other Fusion Skills to produce a more complex Fusion Skill.
+- A **Basic** (`type=basic`, 0 prerequisites) fuses with other Basics to produce a **Fusion** (`type=fusion`, ≥1 prerequisite). Legacy Yggdrasil I called these "Extras".
+- A **Fusion** can fuse with other Fusions to produce a more complex Fusion.
 - A named skill lives on one of three **branches** (derived, never declared): **Standard** (1★–3★), **Unique** (4★+ non-suite; the Yggdrasil I "Unique" tier now lives here as a *progression path*), or **Suite** (4★+ suite-based; the Yggdrasil I "Extra 4★" + "Ultimate 5★+" ranks now live here).
 - A skill becomes a **Named Skill** at 2★, attaching it to its **Origin Contributor**.
 - Every star above 1★ requires graded evidence — an **Evidence Grade** (the deprecated **Evidence Class** axis it replaces). Ranking up gates on **Trust Magnitude** (TM Index (2026 Q2)); the legacy per-star **Evidence Floor** column is retired under Yggdrasil II.
@@ -444,18 +446,20 @@ Single source of truth for CI grep. Any term below appearing in user-facing copy
 
 - `apex tier` (as taxonomy-Ultimate synonym) — the old "Apex is stars-axis, Ultimate is taxonomy-axis" rule retires under Yggdrasil II. **Ultimate is now the 5★ rank name; Apex is the 6★ Suite-branch rank name.** Never use "apex tier" as a taxonomy synonym.
 - `Atomic Basics` — section label; use **Basics**
-- `Atomic skill` / `atomic skill` — tier synonym; use **Basic Skill**
+- `Atomic skill` / `atomic skill` — tier synonym; use **Basic**
+- `Basic Skill` (as a type term) — the "Skill" suffix is a rank-word convention; the `type=basic` label stands bare. Use **Basic**.
 - `card` — for plaque; use **Plaque**
 - `claimers` — collective noun for contributors; use **Named Contributors**
 - `claimed skill` — use **Named Skill**
 - `common` — never a **tier** or **rank** name (it was a rarity-axis value; see Rarity section above — never surfaced in user-facing copy)
-- `composite skill` / `compound skill` — for Fusion Skill; use **Fusion Skill** (Yggdrasil II) or **Extra Skill** (legacy)
+- `composite skill` / `compound skill` — for Fusion; use **Fusion** (Yggdrasil II) or **Extra Skill** (legacy)
 - `Connect MCP` / `Add Gaia to your agent` — MCP install copy; use **Bond your agent**
 - `dashboard` / `profile` (as skill-tree synonym) — use **Skill Tree** or **Your Tree**
 - `database` / `catalog` / `index` — for Registry; use **Registry**
 - `Documentation` / `How we do things` / `How We Work` — page name; use **The Codex**
-- `Extra skill` / `type=extra` — legacy Yggdrasil I taxonomy word; use **Fusion Skill** / `type=fusion` (Yggdrasil II)
+- `Extra skill` / `type=extra` — legacy Yggdrasil I taxonomy word; use **Fusion** / `type=fusion` (Yggdrasil II)
 - `Field view` is the **only** user-facing label for the immersive canvas toggle — banned alternatives: `View as HUD`, `HUD mode`, `Heads-up display`, `Open HUD`, `Constellation view`
+- `Fusion Skill` (as a type term) — the "Skill" suffix is a rank-word convention; the `type=fusion` label stands bare. Use **Fusion**.
 - `G7` / `G8` (in external / public docs) — use **TM Index (2026 Q2)** / **TM Index (2026 Q3)**; the G-series is internal engineering codename only
 - `Get started` / `Quickstart` / `Onboarding` — setup copy; use **The Initiate's Rite**
 - `graph-isolated singularities` — for Unique section; use **Uniques**
@@ -467,7 +471,7 @@ Single source of truth for CI grep. Any term below appearing in user-facing copy
 - `owners list` — collective; use **Named Contributors**
 - `owner` / `author` / `creator` — for Origin Contributor; use **Origin Contributor**
 - `Pokédex` / `RPG site` / `game UI` / `anime UI` — brand-stance violations
-- `primitive` — for Basic Skill; use **Basic Skill**
+- `primitive` — for Basic; use **Basic**
 - `Pure / Undeveloped` — section label that conflates tier and stars axes; section header is **Basics**, and a 0★ skill can carry the **Pure** pill inline
 - `Pure skill` — as tier synonym; "Pure" is only a 0★ stars-axis descriptor
 - `rank` / `level` / `tier` — when used alone to mean the **stars axis** (these are reserved for the rank-name label, the verbs, and the tier taxonomy respectively)
@@ -480,7 +484,7 @@ Single source of truth for CI grep. Any term below appearing in user-facing copy
 - `Transcendent` (as rank name) — deprecated under Yggdrasil II; use **Ultimate** (5★ Suite) / **Unique Ultimate** (5★ Unique)
 - `Transcendent ★` (as rank name) — deprecated under Yggdrasil II; use **Apex** (6★ Suite) / **Unique Impossible** (6★ Unique)
 - `trophy` (as plaque synonym in copy) — use **Plaque**
-- `Ultimate skill` (in the taxonomy sense — post-Yggdrasil II) — "Ultimate" is now a 5★ rank name only; the taxonomy word retires. Use **Fusion Skill** for the structural role.
+- `Ultimate skill` (in the taxonomy sense — post-Yggdrasil II) — "Ultimate" is now a 5★ rank name only; the taxonomy word retires. Use **Fusion** for the structural role.
 - `Undeveloped` — pejorative; not in vocabulary
 - `Unwired Basics` — section label; use **Basics**
 - `upgrade` / `promote-up` — for rank-up verb; use **Rank up** or **Level up**
