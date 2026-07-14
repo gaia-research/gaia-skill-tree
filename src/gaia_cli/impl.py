@@ -734,7 +734,13 @@ def scan_command(args):
     scanned_ids = set(paths.get("detectedIds", [])) | set(paths.get("novelIds", []))
 
     # 2. Scan filesystem for custom skill metadata (SKILL.md)
-    all_installed_skills = scan_skill_mds(global_search=global_search)
+    import sys
+    extra = getattr(args, "dir", None)
+    for d in (extra or []):
+        if not os.path.isdir(os.path.expanduser(d)):
+            print(f"warning: --dir path not found: {d}", file=sys.stderr)
+
+    all_installed_skills = scan_skill_mds(global_search=global_search, extra_dirs=extra)
 
     # 3. Filter: Only keep skills that are actually referenced in the code
     installed_skills = []

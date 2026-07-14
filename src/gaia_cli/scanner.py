@@ -174,7 +174,7 @@ def _read_skill_md(filepath):
     return fm
 
 
-def _skill_search_dirs(root: str = ".", global_search: bool = False) -> list[str]:
+def _skill_search_dirs(root: str = ".", global_search: bool = False, extra_dirs: list[str] = None) -> list[str]:
     """Return all directories to search for skill subdirectories, deduplicated by real path.
 
     Priority order:
@@ -209,6 +209,13 @@ def _skill_search_dirs(root: str = ".", global_search: bool = False) -> list[str
     config = load_config()
     if config:
         for d in config.get("skillDirs", []):
+            expanded = os.path.expanduser(d)
+            if not os.path.isabs(expanded):
+                expanded = os.path.join(root, expanded)
+            candidates.append(expanded)
+
+    if extra_dirs:
+        for d in extra_dirs:
             expanded = os.path.expanduser(d)
             if not os.path.isabs(expanded):
                 expanded = os.path.join(root, expanded)
@@ -249,7 +256,7 @@ def _should_prune_dir(d: str) -> bool:
     return False
 
 
-def scan_skill_mds(root: str = ".", global_search: bool = False) -> list:
+def scan_skill_mds(root: str = ".", global_search: bool = False, extra_dirs: list = None) -> list:
     """Detect installed custom skills recursively from all known search paths.
 
     Checks project's parent directory (..) and all standard/configured skill search directories.
@@ -264,7 +271,7 @@ def scan_skill_mds(root: str = ".", global_search: bool = False) -> list:
     visited_real_paths = set()
 
     # Determine standard skill directories
-    standard_dirs = [os.path.realpath(d) for d in _skill_search_dirs(root, global_search)]
+    standard_dirs = [os.path.realpath(d) for d in _skill_search_dirs(root, global_search, extra_dirs=extra_dirs)]
     # The repo root itself is a mixed container, not a standard depth-1 skill container
     root_real = os.path.realpath(root)
     standard_containers = [d for d in standard_dirs if d != root_real]
@@ -278,7 +285,7 @@ def scan_skill_mds(root: str = ".", global_search: bool = False) -> list:
         else:
             search_roots = [os.path.abspath(root)]
     
-    for d in _skill_search_dirs(root, global_search):
+    for d in _skill_search_dirs(root, global_search, extra_dirs=extra_dirs):
         if "PYTEST_CURRENT_TEST" in os.environ:
             # Containment check: use the realpath of d's *parent* joined with
             # d's basename so that a symlink *located* under root (but pointing
