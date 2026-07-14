@@ -1240,6 +1240,74 @@ def checkSystemWideCap(registryState: Optional[dict] = None) -> Optional[bool]:
 
 
 # ---------------------------------------------------------------------------
+# Public API: computeBranch (Yggdrasil II v2 — branch axis)
+# ---------------------------------------------------------------------------
+
+
+def _starRank(level: Any) -> int:
+    """Parse the integer star count from a level like '4★' (0 if unparseable)."""
+    if isinstance(level, int):
+        return level
+    if not level:
+        return 0
+    digits = ""
+    for ch in str(level):
+        if ch.isdigit():
+            digits += ch
+        elif digits:
+            break
+    return int(digits) if digits else 0
+
+
+def _suiteComponentsPresent(
+    named: dict,
+    genericSkillMap: Optional[dict] = None,
+) -> bool:
+    """True iff suiteComponents are present on the named skill or its generic parent.
+
+    suiteComponents live on named-skill frontmatter today; the generic-parent
+    read keeps this forward-compatible should a migration relocate them. This
+    predicate NEVER consults `type` — branch is driven by suiteComponents + rank
+    only (Yggdrasil II v2 amendment 2026-07-14).
+    """
+    if named.get("suiteComponents"):
+        return True
+    if genericSkillMap is not None:
+        ref = named.get("genericSkillRef")
+        generic = genericSkillMap.get(ref) if ref else None
+        if generic and generic.get("suiteComponents"):
+            return True
+    return False
+
+
+def computeBranch(
+    named: dict,
+    genericSkillMap: Optional[dict] = None,
+) -> str:
+    """Derive the progression branch for a named skill (Yggdrasil II v2).
+
+    ``branch = f(suiteComponents present?, rank)`` — ``type`` is NEVER consulted.
+
+      - rank 1-3★                          -> ``'standard'`` (shared ladder:
+        Awakened / Named / Evolved; no branch distinction below 4★)
+      - rank >=4★ AND suiteComponents present -> ``'suite'``
+        (Extra / Ultimate / Apex)
+      - rank >=4★ AND no suiteComponents      -> ``'unique'``
+        (Unique / Unique Ultimate / Unique Impossible)
+
+    Orthogonality: a ``fusion`` node without ``suiteComponents`` is Unique; a
+    ``basic`` node carrying ``suiteComponents`` is Suite. The rank is read from
+    ``named['level']``; suiteComponents from the named skill (and,
+    forward-compatibly, its resolved generic parent via ``genericSkillMap``).
+    """
+    if _starRank(named.get("level")) < 4:
+        return "standard"
+    if _suiteComponentsPresent(named, genericSkillMap):
+        return "suite"
+    return "unique"
+
+
+# ---------------------------------------------------------------------------
 # Public API: passesApexGate
 # ---------------------------------------------------------------------------
 
@@ -1450,6 +1518,7 @@ __all__ = [
     "computeArtifactScore",
     "computeArtifactScoreOrNone",
     "computeTrustMagnitude",
+    "computeBranch",
     "computeOverallTrustGrade",
     "computeOverallTrustGradeFromSkill",
     "explainTrustMagnitude",
