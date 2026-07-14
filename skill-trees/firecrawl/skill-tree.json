@@ -1,111 +1,7 @@
 {
   "userId": "firecrawl",
   "updatedAt": "2026-05-25",
-  "unlockedSkills": [
-    {
-      "skillId": "firecrawl/firecrawl",
-      "level": "4★",
-      "unlockedAt": "2026-05-17T00:00:00Z",
-      "unlockedIn": "firecrawl/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "2★",
-          "achievedAt": "2026-05-17T00:00:00Z",
-          "source": "promotion"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-13T06:22:38Z",
-          "source": "promotion"
-        }
-      ]
-    },
-    {
-      "skillId": "firecrawl/firecrawl-build-interact",
-      "level": "2★",
-      "unlockedAt": "2026-07-13T00:00:00Z",
-      "unlockedIn": "firecrawl/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "2★",
-          "achievedAt": "2026-07-13T00:00:00Z",
-          "source": "promotion"
-        }
-      ]
-    },
-    {
-      "skillId": "firecrawl/firecrawl-build-onboarding",
-      "level": "2★",
-      "unlockedAt": "2026-07-13T00:00:00Z",
-      "unlockedIn": "firecrawl/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "2★",
-          "achievedAt": "2026-07-13T00:00:00Z",
-          "source": "promotion"
-        }
-      ]
-    },
-    {
-      "skillId": "firecrawl/firecrawl-build-scrape",
-      "level": "4★",
-      "unlockedAt": "2026-07-13T00:00:00Z",
-      "unlockedIn": "firecrawl/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-13T00:00:00Z",
-          "source": "promotion"
-        }
-      ]
-    },
-    {
-      "skillId": "firecrawl/firecrawl-build-search",
-      "level": "4★",
-      "unlockedAt": "2026-07-13T00:00:00Z",
-      "unlockedIn": "firecrawl/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-13T00:00:00Z",
-          "source": "promotion"
-        }
-      ]
-    },
-    {
-      "skillId": "firecrawl/firecrawl-research-index",
-      "level": "2★",
-      "unlockedAt": "2026-07-13T00:00:00Z",
-      "unlockedIn": "firecrawl/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "2★",
-          "achievedAt": "2026-07-13T00:00:00Z",
-          "source": "promotion"
-        }
-      ]
-    },
-    {
-      "skillId": "firecrawl/firecrawl-skills",
-      "level": "4★",
-      "unlockedAt": "2026-05-17T00:00:00Z",
-      "unlockedIn": "firecrawl/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "4★",
-          "achievedAt": "2026-05-17T00:00:00Z",
-          "source": "promotion"
-        }
-      ]
-    }
-  ],
+  "unlockedSkills": [],
   "timeline": [
     {
       "timestamp": "2026-05-17T00:00:00Z",
@@ -113,7 +9,7 @@
       "skillId": "firecrawl/firecrawl",
       "details": "Registered named skill firecrawl/firecrawl",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-05-17T00:00:00Z",
@@ -121,7 +17,7 @@
       "skillId": "firecrawl/firecrawl-skills",
       "details": "Registered named skill firecrawl/firecrawl-skills",
       "previousValue": null,
-      "newValue": "4★"
+      "newValue": "4\u2605"
     },
     {
       "timestamp": "2026-07-13T00:00:00Z",
@@ -129,7 +25,7 @@
       "skillId": "firecrawl/firecrawl-build-interact",
       "details": "Registered named skill firecrawl/firecrawl-build-interact",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-07-13T00:00:00Z",
@@ -137,7 +33,7 @@
       "skillId": "firecrawl/firecrawl-build-onboarding",
       "details": "Registered named skill firecrawl/firecrawl-build-onboarding",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-07-13T00:00:00Z",
@@ -145,7 +41,7 @@
       "skillId": "firecrawl/firecrawl-build-scrape",
       "details": "Registered named skill firecrawl/firecrawl-build-scrape",
       "previousValue": null,
-      "newValue": "4★"
+      "newValue": "4\u2605"
     },
     {
       "timestamp": "2026-07-13T00:00:00Z",
@@ -153,7 +49,7 @@
       "skillId": "firecrawl/firecrawl-build-search",
       "details": "Registered named skill firecrawl/firecrawl-build-search",
       "previousValue": null,
-      "newValue": "4★"
+      "newValue": "4\u2605"
     },
     {
       "timestamp": "2026-07-13T00:00:00Z",
@@ -161,19 +57,19 @@
       "skillId": "firecrawl/firecrawl-research-index",
       "details": "Registered named skill firecrawl/firecrawl-research-index",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-07-13T06:22:38Z",
       "action": "rank_up",
-      "previousValue": "2★",
-      "newValue": "4★",
-      "details": "Calibrated level from 2★ to 4★",
+      "previousValue": "2\u2605",
+      "newValue": "4\u2605",
+      "details": "Calibrated level from 2\u2605 to 4\u2605",
       "skillId": "firecrawl/firecrawl"
     }
   ],
   "stats": {
-    "totalUnlocked": 7,
+    "totalUnlocked": 0,
     "deepestLineage": 1
   },
   "pendingCombinations": []
