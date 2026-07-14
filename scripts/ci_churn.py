@@ -41,6 +41,10 @@ import sys
 from datetime import datetime, timezone
 from typing import Optional
 
+# Runs whose created_at timestamps fall within this window are treated as
+# part of the same push-triggered "round" (parallel workflows).
+_ROUND_CLUSTER_WINDOW_S = 30
+
 # ---------------------------------------------------------------------------
 # Commit classification
 # ---------------------------------------------------------------------------
@@ -290,8 +294,45 @@ def get_runs_for_sha(sha: str, owner: str, repo: str) -> list[dict]:
             "duration_s": duration_s,
             "run_id": r.get("id"),
             "html_url": r.get("html_url", ""),
+            "created_at": r.get("created_at", ""),
         })
     return result
+
+
+def cluster_runs_by_round(
+    runs: list[dict], window_s: int = _ROUND_CLUSTER_WINDOW_S
+) -> list[list[dict]]:
+    """Group workflow runs triggered by the same push into parallel rounds.
+
+    Runs within window_s seconds of each other share a round.
+    max(duration_s) per round = true wall-clock for that round.
+    sum(max per round) = true wall-clock for the commit.
+    """
+    if not runs:
+        return []
+
+    def _ts(run: dict):
+        raw = run.get("created_at", "")
+        try:
+            return datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        except Exception:
+            return None
+
+    tagged = sorted(
+        [(_ts(r), r) for r in runs],
+        key=lambda x: (x[0] is None, x[0]),
+    )
+
+    rounds: list[list[dict]] = []
+    anchor = None
+    for ts, run in tagged:
+        if not rounds or anchor is None or ts is None or (ts - anchor).total_seconds() > window_s:
+            rounds.append([run])
+            anchor = ts
+        else:
+            rounds[-1].append(run)
+
+    return rounds
 
 
 # ---------------------------------------------------------------------------
@@ -356,6 +397,10 @@ def calculate_churn(
     for c in commits:
         label = classify_commit(c["message"], replaced=c.get("replaced", False))
         runs = runs_by_sha.get(c["sha"], [])
+        rounds = cluster_runs_by_round(runs)
+        wall_s = sum(
+            max((r["duration_s"] for r in rnd), default=0) for rnd in rounds
+        )
         # Total CI compute this commit consumed (all workflows, pass or fail)
         total_s = sum(r["duration_s"] for r in runs)
         # Count how many workflows failed for this commit
@@ -367,6 +412,8 @@ def calculate_churn(
             "total_ci_s": total_s,
             "failure_count": len(failures),
             "failure_s": sum(r["duration_s"] for r in failures),
+            "wall_ci_s": wall_s,
+            "rounds": rounds,
         })
 
     total_commits = len(classified)
@@ -380,6 +427,7 @@ def calculate_churn(
 
     # CI compute burned on avoidable commits
     avoidable_ci_s = sum(c["total_ci_s"] for c in avoidable_commits)
+    avoidable_wall_s = sum(c["wall_ci_s"] for c in avoidable_commits)
     # CI compute that failed (the "we had to wait for this to fail" cost)
     failed_ci_s = sum(c["failure_s"] for c in classified)
     # Churn ratio — uses ALL commits (current + replaced) as denominator
@@ -388,9 +436,9 @@ def calculate_churn(
     # Agent time estimate: each avoidable commit required at least one
     # wait-for-CI-to-fail cycle before the fix was written.
     # Minimum estimate = sum of all *failed* run durations (blocked wait time).
-    # Full estimate = avoidable CI compute (because the fix run also consumed agent wait time).
+    # Full estimate = avoidable wall-clock CI time (true agent blocked-wait).
     agent_wait_min_s = failed_ci_s
-    agent_wait_full_s = avoidable_ci_s
+    agent_wait_full_s = avoidable_wall_s
 
     # Session log: total agent milliseconds in the session
     session_total_ms = sum(t["duration_ms"] for t in session_turns)
@@ -408,6 +456,7 @@ def calculate_churn(
         "churn_ratio": round(churn_ratio, 3),
         "churn_pct": round(churn_ratio * 100, 1),
         "avoidable_ci_s": avoidable_ci_s,
+        "avoidable_wall_s": avoidable_wall_s,
         "failed_ci_s": failed_ci_s,
         "agent_wait_min_s": agent_wait_min_s,
         "agent_wait_full_s": agent_wait_full_s,
@@ -461,6 +510,42 @@ def _root_cause_hints(
 # Output formatters
 # ---------------------------------------------------------------------------
 
+
+def format_concurrency_plot(commit_entry: dict, max_bar_width: int = 50) -> str:
+    """Plain-text (ASCII) concurrency plot for one commit's push rounds.
+
+    Shows each round's parallel workflows as proportional bar charts so the
+    reader can see wall-clock time vs. summed compute at a glance.
+    Safe for GitHub comments — no ANSI codes.
+    """
+    rounds = commit_entry.get("rounds", [])
+    if not rounds:
+        return ""
+
+    plot_lines: list[str] = []
+    for i, rnd in enumerate(rounds, 1):
+        wall = max((r["duration_s"] for r in rnd), default=0)
+        count = len(rnd)
+        plot_lines.append(
+            f"  Round {i}  [{commit_entry['short']}]"
+            f"  wall-clock: {_fmt_duration(wall)}"
+            f"  ({count} workflow(s) in parallel)"
+        )
+        sorted_rnd = sorted(rnd, key=lambda r: r["duration_s"], reverse=True)
+        for r in sorted_rnd:
+            if wall > 0:
+                bar_len = max(1, round(r["duration_s"] / wall * max_bar_width))
+            else:
+                bar_len = 0
+            bar = ("█" * bar_len).ljust(max_bar_width)
+            name = r.get("name", "unknown")[:24].ljust(24)
+            dur = f"{r['duration_s']:>4}s"
+            fail = " ❌" if r["conclusion"] in ("failure", "timed_out", "error") else ""
+            plot_lines.append(f"  {bar}  {name}  {dur}{fail}")
+
+    return "\n".join(plot_lines)
+
+
 def format_text(pr: int, owner: str, repo: str, metrics: dict) -> str:
     c = metrics
     replaced_count = c.get("replaced_count", 0)
@@ -497,10 +582,9 @@ def format_text(pr: int, owner: str, repo: str, metrics: dict) -> str:
         ]
     else:
         lines += [
-            f"CI compute burned on avoidable commits : {_fmt_duration(c['avoidable_ci_s'])}",
+            f"Agent blocked-wait (wall-clock)        : {_fmt_duration(c.get('avoidable_wall_s', c['avoidable_ci_s']))}",
+            f"CI compute (all runners, summed)       : {_fmt_duration(c['avoidable_ci_s'])}",
             f"CI compute on failed runs (all commits): {_fmt_duration(c['failed_ci_s'])}",
-            f"Agent blocked-wait estimate (min / max): "
-            f"{_fmt_duration(c['agent_wait_min_s'])} / {_fmt_duration(c['agent_wait_full_s'])}",
         ]
         if c["session_total_ms"]:
             session_s = c["session_total_ms"] // 1000
@@ -530,6 +614,19 @@ def format_text(pr: int, owner: str, repo: str, metrics: dict) -> str:
             f"{commit['short']:>9}  {label_badge}  "
             f"{commit['total_ci_s']:>8}  {commit['failure_count']:>5}  {msg}"
         )
+
+    if c["avoidable_count"] > 0:
+        plotted = False
+        for commit in c["commits"]:
+            if commit["label"] == "feature":
+                continue
+            plot = format_concurrency_plot(commit)
+            if not plot:
+                continue
+            if not plotted:
+                lines += ["", "Concurrency (wall-clock vs summed compute)", "─" * 56]
+                plotted = True
+            lines += ["", f"  {commit['short']}  {commit['message'][:50]}", plot]
 
     if c["avoidable_count"] > 0:
         lines += [
