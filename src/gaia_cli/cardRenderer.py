@@ -12,7 +12,13 @@ import sys
 
 from gaia_cli.leveling import level_summary
 from gaia_cli.registry import registry_graph_path
-from gaia_cli.formatting import TIER_COLORS, RANK_COLORS, TYPE_SYMBOLS, TYPE_LABELS  # single source of truth
+from gaia_cli.formatting import (  # single source of truth
+    TIER_COLORS,
+    RANK_COLORS,
+    TYPE_SYMBOLS,
+    TYPE_LABELS,
+    format_rank_label,
+)
 import textwrap
 from typing import Optional
 
@@ -118,17 +124,13 @@ RT = "┤"
 # default glyph until the taxonomy migration (#997) rewrites node types.
 TIER_GLYPHS = TYPE_SYMBOLS
 
-# 6★ label uses the brand-voice shorthand "Apex" per CONTEXT.md (Maturity > Apex).
-# Long-form surfaces use "Transcendent ★" in full; CLI plaques use the shorthand.
-# Level display
+# Level display — routed through formatting.format_rank_label (single source).
+# Yggdrasil II: the Suite/shared ladder (0★ Basic · 1★ Awakened · 2★ Named ·
+# 3★ Evolved · 4★ Extra · 5★ Ultimate · 6★ Apex). Unique-branch alternates are
+# rendered by passing branch="unique" to format_rank_label at the call site.
 LEVEL_LABELS = {
-    "0★": "0★ Basic",
-    "1★": "1★ Awakened",
-    "2★": "2★ Named",
-    "3★": "3★ Evolved",
-    "4★": "4★ Hardened",
-    "5★": "5★ Transcendent",
-    "6★": "6★ Apex",
+    lv: format_rank_label(lv, "suite")
+    for lv in ("0★", "1★", "2★", "3★", "4★", "5★", "6★")
 }
 
 

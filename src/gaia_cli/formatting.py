@@ -177,6 +177,57 @@ def _load_types_from_meta() -> tuple[dict, dict]:
 # convention — see check_rank_vocabulary.py).
 TYPE_SYMBOLS, TYPE_LABELS = _load_types_from_meta()
 
+
+def _load_level_labels_from_meta() -> dict:
+    """Load the Suite/shared rank labels from registry/schema/meta.json.
+
+    meta.json `levels.labels` holds the Suite-branch (and 1-3★ shared) defaults:
+    0★ Basic · 1★ Awakened · 2★ Named · 3★ Evolved · 4★ Extra · 5★ Ultimate ·
+    6★ Apex. The Unique-branch alternates are rendered in code (below), not stored
+    in meta.
+    """
+    _fallback = {
+        "0★": "Basic", "1★": "Awakened", "2★": "Named", "3★": "Evolved",
+        "4★": "Extra", "5★": "Ultimate", "6★": "Apex",
+    }
+    candidates = [
+        os.path.join(os.path.dirname(__file__), "..", "..", "registry", "schema", "meta.json"),
+        os.path.join(os.path.dirname(__file__), "data", "registry", "schema", "meta.json"),
+    ]
+    for p in candidates:
+        resolved = os.path.normpath(p)
+        if not os.path.isfile(resolved):
+            continue
+        try:
+            with open(resolved, "r", encoding="utf-8") as f:
+                labels = json.load(f).get("levels", {}).get("labels") or {}
+            return dict(labels) or _fallback
+        except Exception:
+            break
+    return _fallback
+
+
+# Suite / shared rank labels (meta.json defaults) and the Unique-branch alternates.
+# Yggdrasil II v2 ladders (fork at 4★+):
+#   Suite : 4★ Extra  · 5★ Ultimate         · 6★ Apex
+#   Unique: 4★ Unique · 5★ Unique Ultimate  · 6★ Unique Impossible
+# 1★-3★ are the shared ladder (no branch distinction).
+LEVEL_LABELS_SUITE = _load_level_labels_from_meta()
+LEVEL_LABELS_UNIQUE = {
+    "4★": "Unique",
+    "5★": "Unique Ultimate",
+    "6★": "Unique Impossible",
+}
+
+# Distinct dark-violet accent for the Unique branch ("standing stones beside the
+# tree" — design-v6.1.1 §2.2). Only the 4★-6★ fork carries a distinct color;
+# 1★-3★ share the standard rank ramp.
+RANK_COLORS_UNIQUE = {
+    "4★": (139, 92, 246),   # #8b5cf6 violet
+    "5★": (124, 58, 237),   # #7c3aed deep violet
+    "6★": (109, 40, 217),   # #6d28d9 darkest violet (Impossible)
+}
+
 # Evidence Grade colors — single source of truth for grade design tokens.
 # Platinum (S) / Gold (A) / Silver (B) / Bronze (C)
 GRADE_COLORS: dict[str, tuple[int, int, int]] = {
@@ -328,6 +379,47 @@ def format_level_colored(level: str) -> str:
     """Return level badge colored by rank."""
     rank_color = RANK_COLORS.get(level, RANK_COLORS["0★"])
     return f"{_fg(*rank_color)}{level}{_reset()}"
+
+
+def rank_word(level: str, branch: str = "suite") -> str:
+    """Return the bare rank word for a (level, branch) pair (Yggdrasil II v2).
+
+    ``branch`` must be resolved by :func:`gaia_cli.trustMagnitude.computeBranch`
+    at the call site and passed IN as a string ('standard' | 'suite' | 'unique').
+    This keeps formatting.py free of registry-map threading.
+
+      - 1★-3★: shared ladder (Awakened / Named / Evolved) — branch-independent.
+      - 4★ : Extra   (suite) / Unique            (unique)
+      - 5★ : Ultimate(suite) / Unique Ultimate   (unique)
+      - 6★ : Apex    (suite) / Unique Impossible  (unique)
+
+    Suite/shared words come from meta.json (LEVEL_LABELS_SUITE); the Unique-branch
+    alternates are rendered here in code.
+    """
+    if branch == "unique" and level in LEVEL_LABELS_UNIQUE:
+        return LEVEL_LABELS_UNIQUE[level]
+    return LEVEL_LABELS_SUITE.get(level, level)
+
+
+def format_rank_label(level: str, branch: str = "suite") -> str:
+    """Return the full branch-aware rank label, e.g. '4★ Extra' or '4★ Unique'.
+
+    ``branch`` is a resolved string (see :func:`rank_word`). Defaults to 'suite'
+    (the meta.json labels) so branch-agnostic callers keep the historical labels.
+    """
+    word = rank_word(level, branch)
+    return f"{level} {word}" if word else level
+
+
+def rank_color_for(level: str, branch: str = "suite") -> tuple[int, int, int]:
+    """Return the RGB for a (level, branch) pair.
+
+    The Unique branch (4★+) uses the distinct dark-violet accent; every other
+    case falls back to the standard rank ramp (RANK_COLORS).
+    """
+    if branch == "unique" and level in RANK_COLORS_UNIQUE:
+        return RANK_COLORS_UNIQUE[level]
+    return RANK_COLORS.get(level, RANK_COLORS["0★"])
 
 
 def rank_hex(rank: str) -> str:
