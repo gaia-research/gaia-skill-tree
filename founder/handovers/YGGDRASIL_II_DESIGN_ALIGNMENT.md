@@ -24,16 +24,16 @@ Acting before these land = churn against data/assets still in flight. See §5.
 ### The v2 model (yardstick)
 
 - **TYPE axis** (starless/generic nodes only): `basic` | `fusion`. Pure structure — `fusion` iff the node has prerequisites. **Never consulted for branch.**
-- **`suiteComponents`**: presence on the generic parent drives the branch fork; also feeds Trust Magnitude. Independent of `type`.
-- **BRANCH axis** (named skills only, *derived at read-time, never declared*): `branch = f(suiteComponents present?, rank)`.
+- **`suiteComponents`**: presence on the **Named Skill** drives the branch fork; also feeds Trust Magnitude. Independent of `type`. **`suiteComponents` is a Named-Skill-only field — it never lives on the starless/generic parent.**
+- **BRANCH axis** (named skills only, *derived at read-time, never declared*): `branch = f(the Named Skill's suiteComponents present?, rank)`.
   - rank 1–3 → **standard** (no branch fork)
-  - rank ≥ 4 AND parent has `suiteComponents` → **suite**
-  - rank ≥ 4 AND parent has **no** `suiteComponents` → **unique**
+  - rank ≥ 4 AND the Named Skill has `suiteComponents` → **suite**
+  - rank ≥ 4 AND the Named Skill has **no** `suiteComponents` → **unique**
 - **Ladders:**
   - standard: 1★ **Awakened** · 2★ **Named** · 3★ **Evolved**
   - suite: 4★ **Extra** · 5★ **Ultimate** · 6★ **Apex**
   - unique: 4★ **Unique** · 5★ **Unique Ultimate** · 6★ **Unique Impossible**
-- **`Transcendent` and `Hardened` are BANNED.** `Ultimate` is the universal 5★ word. `Extra`/`Ultimate` as bare **rank words** are fine; `Extra Skill`/`Ultimate Skill` as **type labels** are banned.
+- **`Transcendent` and `Hardened` are BANNED.** `Ultimate` is the universal 5★ word. **The "Skill" suffix attaches to RANK words** — `Extra Skill` / `Unique Skill` / `Ultimate Skill` / `Apex Skill` are valid rank phrasings. **Type words stand bare** (`Basic`, `Fusion`) — `Basic Skill` / `Fusion Skill` are BANNED (guard-enforced). 1★–3★ ladder words (Awakened/Named/Evolved) are always star-qualified.
 - Type & branch are orthogonal. Evidence Floor is removed; **TM is the sole gate.**
 
 ---
@@ -47,7 +47,7 @@ Acting before these land = churn against data/assets still in flight. See §5.
 | `docs/css/tokens.css` | defines `--tier-basic/extra/unique/ultimate` (L10/17/24/31); **no `--tier-fusion`** | add `--tier-fusion` token (+ `-rgb`/`-bg`/`-border`); keep old tokens as aliases during migration | #995 |
 | `docs/css/plaque.css` | `--tier-extra`/`--tier-ultimate`/`--tier-unique` refs; L260-261 "Transcendent ★"/"Transcendent" glow comments; L568 "rank IV (Hardened)" comment | map to branch tokens; scrub Transcendent/Hardened from comments | #995/#996 |
 | `docs/css/ascension-overdrive-v2.css` | `[data-tier="hardened"]` selectors (L1248/L1252/L1607); "Hardened..Awakened" comment (L1091) | rename `hardened`→`extra` (or branch-aware `data-branch`); scrub comments | #995/#996 |
-| `docs/samples/tree.html` | legend "Extra Skill"/"Ultimate Skill" (L184/L190); tree lines "4★ Hardened"/"5★ Transcendent"/"6★ Transcendent ★" (L253-255) | Fusion Skill legend; branch-correct rank labels | #995/#996 |
+| `docs/samples/tree.html` | legend "Extra Skill"/"Ultimate Skill" (L184/L190); tree lines "4★ Hardened"/"5★ Transcendent"/"6★ Transcendent ★" (L253-255) | **Fusion** legend (bare type word); branch-correct rank labels | #995/#996 |
 | `docs/samples/foundation.html` | medallion `<span class="name">Hardened</span>`/`Transcendent` (L362/L371) | Extra/Ultimate (suite) or branch-aware labels | #996 |
 | `docs/badges/index.html` | rank table "Hardened" (L1124), "Transcendent" (L1138, L1148 "Origin 5★ Transcendent"), JS labels `4:"Hardened · 4★"`/`5:"Transcendent · 5★"` (L1283-1284); `s.type==="unique"` (L1598) | branch-aware rank labels; drop Transcendent/Hardened; replace `type==="unique"` read | #996 |
 | `docs/audits/ruflo-curation.html` | badges "4★ Hardened"/"5★ Transcendent" (L127/159/193/227/308) | Extra/Ultimate per branch | #996 |
@@ -71,7 +71,7 @@ Acting before these land = churn against data/assets still in flight. See §5.
 
 ### 3.1 DESIGN.md — the big one
 - **L25**: legacy short tokens `--extra`/`--ultimate` + canonical `--tier-extra`/`--tier-ultimate`. Add `--tier-fusion`; decide whether Unique-branch keeps its own violet token or reuses `--tier-basic` (v2: unique-branch skills sit on `basic` generics).
-- **L36/L38**: tier color table rows `extra ◇ Extra Skill` / `ultimate ◆ Ultimate Skill` — collapse to a single `fusion ◇ Fusion Skill` row.
+- **L36/L38**: tier color table rows `extra ◇ Extra Skill` / `ultimate ◆ Ultimate Skill` — collapse to a single `fusion ◇ Fusion` row (type word stands bare — no "Skill" suffix).
 - **L54**: rank sequence still reads `… → Hardened (4★) → Transcendent (5★) → Apex (6★)`. Replace with the branch-forked ladder.
 - **L85-86**: rank→token table maps `Hardened → --rank-4`, `Transcendent → --rank-5`. Rename rank labels; tokens can stay numeric (`--rank-4/5/6`).
 - **L100-102**: glyph mapping already carries dual Ygg I/II notes but still leads with `type === 'extra'`/`'unique'`/`'ultimate'`. Post-migration, drop the Ygg I clauses entirely.
@@ -82,7 +82,7 @@ Acting before these land = churn against data/assets still in flight. See §5.
 ### 3.2 `docs/js/skill-graph.js` — legacy `type` reads
 - **L43**: `if (type === 'unique') rank = 5;` — a rank *inference* from type. Under v2, rank is data-driven, not type-derived. Remove or re-base on `computeBranch`.
 - **L409**: `if (skill.type === 'unique') { satellite.unique.push(skill); }` — the classic Ygg I bucket. Replace with `computeBranch(skill) === 'unique'`.
-- **L410**: `skill.type === 'basic' && !prereqs && !allPrereqRefs.has(id)` — graph-isolation heuristic; under v2, unique-branch *is* a `basic` generic with 4★+ and no `suiteComponents`, so fold this into the branch resolver.
+- **L410**: `skill.type === 'basic' && !prereqs && !allPrereqRefs.has(id)` — graph-isolation heuristic; under v2, unique-branch is a **Named Skill** at 4★+ whose own `suiteComponents` is absent (independent of the generic's `type`), so fold this into the branch resolver.
 - **L736**: `skills.filter(s => s.type === 'unique')` count — same fix.
 - **L1106**: `return skill.type === 'ultimate' || skill.type === 'unique';` — neither value exists post-migration. Rewrite against `suiteComponents`/branch.
 
@@ -90,7 +90,7 @@ Acting before these land = churn against data/assets still in flight. See §5.
 `git grep -- '--tier-fusion'` returns **nothing** today. `docs/css/tokens.css` only defines `basic/extra/unique/ultimate`. Add `--tier-fusion` (+ `-rgb/-bg/-border`) so any `type=fusion` render path has a canonical color. Keep the old tokens as back-compat aliases until every consumer is migrated.
 
 ### 3.4 HTML branch-definition copy
-`docs/samples/tree.html` (L184/190 legend, L253-255 tree lines), `docs/en/faq.html`, `docs/en/skill-hierarchy.html`, `docs/badges/index.html`, `docs/samples/foundation.html` all still print `Extra Skill`/`Ultimate Skill` type labels and `Hardened`/`Transcendent` rank words. Where copy explains the *taxonomy*, say **Fusion Skill** (`type=fusion`). Where copy explains *ranks*, use the branch-forked names. (`faq.html`/`fusion.html` at the repo root had no hits — the localized `docs/en/faq.html` is the one that needs work.)
+`docs/samples/tree.html` (L184/190 legend, L253-255 tree lines), `docs/en/faq.html`, `docs/en/skill-hierarchy.html`, `docs/badges/index.html`, `docs/samples/foundation.html` all still print `Extra Skill`/`Ultimate Skill` type labels and `Hardened`/`Transcendent` rank words. Where copy explains the *taxonomy*, say **Fusion** (bare type word, `type=fusion`). Where copy explains *ranks*, use the branch-forked names. (`faq.html`/`fusion.html` at the repo root had no hits — the localized `docs/en/faq.html` is the one that needs work.)
 
 ### 3.5 AOV medallion rank labels
 The Ascension-Overdrive medallion must use **Extra / Ultimate / Apex** (suite) and **Unique / Unique Ultimate / Unique Impossible** (unique) and **drop Transcendent** entirely. Touch points: `docs/css/ascension-overdrive-v2.css` `[data-tier="hardened"]` selectors (L1248/L1252/L1607 — rename to `extra` or a `data-branch` scheme), `docs/samples/foundation.html` medallion names (L362/L371), and the AOV surface in `docs/u/index.html`. The AOV scene JS (`docs/js/ascension-overdrive-v2.js`) already speaks `apex`/`unique` scene names — align the medallion *labels* to match.
