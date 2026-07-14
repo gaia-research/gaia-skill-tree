@@ -200,6 +200,108 @@ def top_named_level(named_buckets: dict, skill_id: str) -> str | None:
     return max(levels, key=level_index)
 
 
+# Unique-branch grade gates (Yggdrasil II Q3): 4★ Unique needs A (TM >= 100),
+# 5★ Unique Ultimate needs S (TM >= 250). Origin is counted in the fusion
+# structure (the generic's `prerequisites`), NOT in suiteComponents.
+_UNIQUE_GATE_BY_LEVEL = {
+    "4★": {"grade": "A", "tmFloor": 100.0},
+    "5★": {"grade": "S", "tmFloor": 250.0},
+}
+
+
+def _contributor_holds_origin_in(
+    contributor: str | None,
+    node_ids,
+    named_skill_map: dict | None,
+) -> bool:
+    """True iff ``contributor`` holds Origin status on >=1 of ``node_ids``.
+
+    Mirrors the Suite-gate origin predicate ("proposer holds Origin on >=1
+    suiteComponent") but points at the fusion structure: a node in ``node_ids``
+    (generic skill ids drawn from the generic parent's ``prerequisites``) counts
+    when the contributor owns a named skill with ``origin: true`` whose
+    ``genericSkillRef`` (or ``targetSkillId``) resolves to that node.
+    """
+    if not contributor or not node_ids or not named_skill_map:
+        return False
+    targets = set(node_ids)
+    for entry in named_skill_map.values():
+        if not isinstance(entry, dict):
+            continue
+        if entry.get("contributor") != contributor:
+            continue
+        if entry.get("origin") is not True:
+            continue
+        ref = entry.get("genericSkillRef") or entry.get("targetSkillId")
+        if ref in targets:
+            return True
+    return False
+
+
+def checkUniqueBranchGate(
+    named: dict,
+    level: str,
+    genericSkillMap: dict | None = None,
+    namedSkillMap: dict | None = None,
+) -> dict:
+    """Evaluate the Unique-branch promotion gate for a named skill (Yggdrasil II).
+
+    Gate (Q3 decision log):
+      - 4★ **Unique**          = Origin present + TM >= 100 (A-grade)
+      - 5★ **Unique Ultimate** = Origin present + TM >= 250 (S-grade)
+
+    ``Origin present`` means the contributor holds Origin status on >=1 node in
+    the generic parent's ``prerequisites`` (the *fusion structure*), NOT in
+    ``suiteComponents``. ``suiteRef`` membership does NOT disqualify — a
+    world-renowned standalone skill that happens to live inside a suite is still
+    Unique. Branch membership is confirmed via :func:`computeBranch` evaluated at
+    the target ``level``. Trust Magnitude is recomputed live via
+    :func:`computeTrustMagnitude` (never a stale precomputed value).
+
+    Returns a predicate-shaped dict::
+
+        {
+          "originPresent":  bool,
+          "tmThresholdMet": bool,
+          "tm":             float,
+          "grade":          str | None,   # required grade for this level (A/S)
+          "passed":         bool,
+        }
+    """
+    from gaia_cli.trustMagnitude import computeTrustMagnitude, computeBranch
+
+    spec = _UNIQUE_GATE_BY_LEVEL.get(level)
+    grade = spec["grade"] if spec else None
+
+    # Recompute Trust Magnitude live (effective pool handled internally when a
+    # genericSkillMap is supplied). Never trust a precomputed frontmatter value.
+    tm = float(computeTrustMagnitude(named, genericSkillMap, namedSkillMap))
+
+    # Confirm the skill sits on the Unique branch AT the target level.
+    branch = computeBranch({**named, "level": level}, genericSkillMap)
+
+    # Origin counted in the fusion structure = the generic parent's prerequisites.
+    prereqs: list[str] = []
+    if genericSkillMap is not None:
+        generic = genericSkillMap.get(named.get("genericSkillRef"))
+        if generic:
+            prereqs = list(generic.get("prerequisites") or [])
+    origin_present = _contributor_holds_origin_in(
+        named.get("contributor"), prereqs, namedSkillMap
+    )
+
+    tm_threshold_met = bool(spec) and tm >= spec["tmFloor"]
+    passed = bool(spec) and branch == "unique" and origin_present and tm_threshold_met
+
+    return {
+        "originPresent": origin_present,
+        "tmThresholdMet": tm_threshold_met,
+        "tm": round(tm, 2),
+        "grade": grade,
+        "passed": passed,
+    }
+
+
 def detect_unique_candidates(graph_data: dict, named_index: dict) -> list[dict]:
     """Detect basic skills eligible for promotion to 'unique' type.
 
