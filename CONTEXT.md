@@ -12,13 +12,13 @@ _See also: `PRODUCT.md` for audience, product purpose, and the design-principle 
 A primitive, indivisible capability — the genome of every agent. In catalog section headers, write **Basics** verbatim.
 _Avoid_: primitive, atomic skill, Atomic Basics, Unwired Basics, Pure / Undeveloped (as a section label — conflates the tier and stars axes).
 
-**Extra Skill (◇)**:
-A capability that emerges when two or more lower-tier skills fuse; can itself fuse with other **Extra Skills** to produce more complex Extras. In catalog section headers, write **Extras** verbatim.
-_Avoid_: composite skill, compound skill.
+**Extra Skill (◇)** _(legacy — Yggdrasil I taxonomy word; superseded under Yggdrasil II by **Fusion Skill**)_:
+A capability that emerged when two or more lower-tier skills fused. Under **Yggdrasil II** (2026-07-07), `Extra` retires as a taxonomy word; the structural role collapses into `type=fusion`. The 4★ Suite-branch rank is also named **Extra** (rank sense only, not taxonomy). In legacy catalog section headers, **Extras** verbatim.
+_Avoid_: using "Extra Skill" as a taxonomy category (post-Yggdrasil II); composite skill, compound skill.
 
 **Unique Skill (◉)**:
-A graph-isolated **Basic Skill** that reached elite mastery through depth alone, with no fusion path forward. In catalog section headers, write **Uniques** verbatim.
-_Avoid_: standalone skill, solo skill, graph-isolated singularities.
+A 4★+ named skill on the **Unique branch** — a skill whose generic parent has no `suiteComponents`, reaching high mastery through depth alone. Under **Yggdrasil II**, "Unique" is a valid **branch** word (progression path) rather than a `type` value; the Yggdrasil I structural meaning (`type=unique`) is retired. In catalog section headers, write **Uniques** verbatim.
+_Avoid_: standalone skill, solo skill, graph-isolated singularities; treating "Unique" as a `type` value (post-Yggdrasil II).
 
 **Ultimate Skill (◆)** _(legacy — Yggdrasil I taxonomy word; retiring under Yggdrasil II)_:
 A high-complexity emergent capability. Historically the taxonomy word for `type=ultimate` starless nodes (0.5-prereq structural rule). Under **Yggdrasil II** (2026-07-07), `Ultimate` retires as a taxonomy word and becomes the **5★ rank name**; the structural role collapses into `type=fusion`. See § Taxonomy v6 (Yggdrasil II) below.
@@ -41,7 +41,7 @@ Values: `basic` (0 prerequisites) or `fusion` (≥1 prerequisite). Lives on star
 _Avoid_: writing `type` on a named-skill frontmatter; using the legacy values `extra`, `ultimate`, `unique` on new nodes (bulk rewrite: `extra`→`fusion`, `ultimate`→`fusion`, `unique`→`basic`).
 
 **Branch axis** (progression — named only):
-Values: `standard`, `unique`, `suite`. Derived at read-time by `computeBranch(named)` from `(generic.type, generic.suiteComponents present?, named.level)`. **Never declared on nodes; always computed.**
+Values: `standard`, `unique`, `suite`. Derived at read-time by `computeBranch(named)` from `(generic.suiteComponents present?, named.level)`. **Never declared on nodes; always computed.**
 _Avoid_: writing a `branch` field to a node; treating branch as user-editable.
 
 **Standard branch**:
@@ -71,11 +71,11 @@ The `prerequisites` graph of a starless node — the fusion-recipe origin edges 
 _Avoid_: conflating fusion structure with suite components.
 
 **`computeBranch(named)`**:
-The read-time helper that walks `named → genericSkillRef → generic.{type, suiteComponents}` and returns the branch label given the named skill's current level. Lives in `src/gaia_cli/trustMagnitude.py` (post-implementation).
+The read-time helper that walks `named → genericSkillRef → generic.suiteComponents` and returns the branch label given the named skill's current level. (`generic.type` is accessed by the separate type-inheritance walk — **Option D** — not by branch derivation.) Lives in `src/gaia_cli/trustMagnitude.py` (post-implementation).
 _Avoid_: reading `branch` from a node; caching the result across level changes.
 
 **Option D** _(Yggdrasil II design choice)_:
-The named-skill-type-by-inheritance rule: starless nodes carry `type`, named skills do not. Named skills inherit type via `genericSkillRef` walk. Named `suiteRef` does not affect branch derivation — only the parent generic's `type` + `suiteComponents` shape branch.
+The named-skill-type-by-inheritance rule: starless nodes carry `type`, named skills do not. Named skills inherit type via `genericSkillRef` walk. Named `suiteRef` does not affect branch derivation — branch is shaped by `generic.suiteComponents` + the named skill's rank/level. (`type` governs type-inheritance: named skills inherit the generic's `type` via this walk; it does not feed into branch computation.)
 _Avoid_: adding a `type` field to `namedSkill.schema.json`.
 
 **Meta Schema RFC** _(Series A — Yggdrasil)_:
