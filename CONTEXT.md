@@ -97,10 +97,10 @@ A skill's verified maturity on a 0★ to 6★ axis, derived from evidence — ne
 _Avoid_: rank (the axis), level (the axis), tier (tier means the taxonomy above).
 
 **Rank**:
-The named label for a specific star value, valid only when paired with the name. Examples: "the Hardened rank", "Transcendent rank". Never used as the axis name.
+The named label for a specific star value, valid only when paired with the name. Examples: "the Evolved rank", "the Apex rank". Never used as the axis name.
 _Avoid_: using "rank" alone to mean stars; using "rank" as a verb (the verb is rank up).
 
-The rank names, in order (Yggdrasil II, 2026-07-07): **Unawakened** (0★), **Awakened** (1★), **Named** (2★), **Evolved** (3★), **Hardened** (4★, Suite: **Extra**, Unique: **Unique**), **Ultimate** (5★ Suite) / **Unique Ultimate** (5★ Unique), **Apex** (6★ Suite) / **Unique Impossible** (6★ Unique). The Yggdrasil I labels "Transcendent" (5★) and "Transcendent ★" (6★) are deprecated — Ultimate replaces Transcendent as the canonical 5★ word; Apex remains for 6★ Suite; Unique Impossible is the new 6★ Unique label. See § Taxonomy v6 (Yggdrasil II).
+The rank names, in order (Yggdrasil II, 2026-07-07): **Unawakened** (0★), **Awakened** (1★), **Named** (2★), **Evolved** (3★), **Extra** (4★ Suite) / **Unique** (4★ Unique branch), **Ultimate** (5★ Suite) / **Unique Ultimate** (5★ Unique branch), **Apex** (6★ Suite) / **Unique Impossible** (6★ Unique branch). The Yggdrasil I labels "Hardened" (4★), "Transcendent" (5★), and "Transcendent ★" (6★) are deprecated — Extra/Unique replace Hardened at 4★; Ultimate replaces Transcendent at 5★; Apex remains for 6★ Suite; Unique Impossible is the new 6★ Unique label. See § Taxonomy v6 (Yggdrasil II).
 
 **Apex**:
 Brand-voice shorthand for the **6★ Suite-branch** rank (post-Yggdrasil II, 2026-07-07). Pair with the rank symbol on first mention on a surface (e.g. `6★ Apex`); the bare word is reserved for hero / ceremonial copy and section endpoints (e.g. the Ascension Cycle terminus). Long-form documentation uses **Apex** in full. Under Yggdrasil II, Apex is Suite-branch-only — the 6★ Unique-branch rank is **Unique Impossible**.
@@ -143,7 +143,7 @@ A skill's *aggregate* standing — the accumulation of its individual **Evidence
 _Avoid_: storing it on a node; conflating it with one entry's Evidence Grade; "trust rating".
 
 **rank tenure**:
-How long a skill has held its current stars, derived from its timeline `rank_up` / `demote` events and rendered as "held the *[rank name]* rank since *[date]*." Computed, never stored. In copy always pair the word "rank" with the rank name (e.g. "the Hardened rank since 2026-03-01"); never write "rank" alone to mean the stars axis.
+How long a skill has held its current stars, derived from its timeline `rank_up` / `demote` events and rendered as "held the *[rank name]* rank since *[date]*." Computed, never stored. In copy always pair the word "rank" with the rank name (e.g. "the Evolved rank since 2026-03-01"); never write "rank" alone to mean the stars axis.
 _Avoid_: "rank since" with no rank name; storing tenure on a node; "rank age".
 
 **Verification levels**:
@@ -244,8 +244,8 @@ _Yggdrasil II (2026-07-07) updates these relationships. Legacy Yggdrasil I copy 
 
 ## Flagged ambiguities
 
-- "Rank" was used loosely as both the axis name and the label name. Resolved: **stars** is the axis (0★–6★); **rank** is only valid as a noun paired with the rank name (e.g. "the Hardened rank").
-- "Level" was used loosely for both stars and the taxonomic categories (Basic/Extra/Unique/Ultimate). Resolved: stars is the maturity axis; **tier** or the specific category name (Basic/Extra/Unique/Ultimate) is the taxonomy axis. "Level up" as a verb is fine and is synonymous with **rank up**.
+- "Rank" was used loosely as both the axis name and the label name. Resolved: **stars** is the axis (0★–6★); **rank** is only valid as a noun paired with the rank name (e.g. "the Apex rank").
+- "Level" was used loosely for both stars and the taxonomic categories (Basic/Extra/Unique/Ultimate). Resolved: stars is the maturity axis; **type** (`basic` / `fusion`) is the structural taxonomy (Yggdrasil II); named-skill progression is captured by the derived **branch** axis (`standard` / `suite` / `unique`). "Level up" as a verb is fine and is synonymous with **rank up**.
 - "Claim" is the brand-voice verb a visitor sees; **Propose** is the canonical CLI command beneath it. The two refer to the same action against an unclaimed Ultimate.
 
 ---
@@ -273,7 +273,7 @@ The role token for contributor handles wherever they appear (`#ef4444`). The sin
 _Avoid_: contributor red, name red.
 
 **Apex Gold**:
-The role token for the 6★ Transcendent ★ tier, Ultimate accent moments, the Diamond Seal mark, and other apex affordances (`#fbbf24`, deepening to `hsl(45,100%,45%)` at fringes per `drawNodeVI`). Never used as a decorative accent on lower tiers.
+The role token for the 6★ Apex tier, Ultimate accent moments, the Diamond Seal mark, and other apex affordances (`#fbbf24`, deepening to `hsl(45,100%,45%)` at fringes per `drawNodeVI`). Never used as a decorative accent on lower tiers.
 _Avoid_: Ultimate gold, accent gold.
 
 ### Nomenclature decisions
@@ -356,7 +356,7 @@ _Avoid_: Dual CTA, A/B paths.
 | **Name · Be named** | The 2★ moment a skill claims its Origin Contributor; uses honor red | `gaia push` (when accepted) |
 | **Fuse** | Combine two or more skills into a higher-complexity skill | `gaia fuse` |
 | **Claim · Propose** | Take an unclaimed Ultimate (Claim = brand voice; Propose = CLI) | `gaia propose` |
-| **Ascend** | Reach Apex (6★ Transcendent ★) | (no CLI verb — emerges from `gaia promote` reaching 6★) |
+| **Ascend** | Reach Apex (6★, Suite branch) or Unique Impossible (6★, Unique branch) | (no CLI verb — emerges from `gaia promote` reaching 6★) |
 | **Bond** | Link an AI agent to Gaia via MCP | `gaia mcp` install flow |
 | **Register** | First connect a repo to Gaia | `gaia init` |
 | **Scan** | Detect demonstrated skills in a repo | `gaia scan` |
