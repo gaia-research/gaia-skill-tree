@@ -1,0 +1,62 @@
+name: Rank Vocabulary Guard (Yggdrasil II)
+
+on:
+  pull_request:
+    paths:
+      # Trigger on any change to the content surface or the guard itself
+      - 'registry/**'
+      - '*.md'
+      - 'docs/**/*.md'
+      - 'founder/handovers/**/*.md'
+      - 'scripts/check_rank_vocabulary.py'
+      - '.github/workflows/rank-vocabulary-guard.yml'
+  push:
+    branches:
+      - 'main'
+      - 'dev/**'
+      - 'infra/**'
+    paths:
+      - 'registry/**'
+      - '*.md'
+      - 'docs/**/*.md'
+      - 'founder/handovers/**/*.md'
+      - 'scripts/check_rank_vocabulary.py'
+      - '.github/workflows/rank-vocabulary-guard.yml'
+  # Allow manual runs for debugging
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rank-vocabulary-guard:
+    name: Yggdrasil II Banned-Synonym Check (Refs #999)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Full history not needed; shallow clone is fine
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run banned-synonym guard
+        run: |
+          python scripts/check_rank_vocabulary.py
+        # Exit code 0  → pass (no hard violations)
+        # Exit code 1  → fail (new banned synonyms found outside allowlist)
+
+      # Optional: upload the full output as an artifact on failure so reviewers
+      # can download it without re-running the job
+      - name: Upload guard output on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rank-vocabulary-guard-output
+          path: /tmp/rank-vocab-output.txt
+          if-no-files-found: ignore
