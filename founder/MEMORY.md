@@ -4,6 +4,111 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## 2026-07-14 — Ascension Cycle Overdrive V4 shape approved and production handoff
+
+### TLDR
+- Founder approved the V4 shape for Ascension Cycle Overdrive. The source of truth for the next orchestrator is `founder/handovers/design-v6.1.1-ascension-overdrive-shape-v4.md`; read it in full, including its production-handoff appendix, before modifying commissions, assets, or runtime.
+- The governing idea is **one antique medallion chassis, two paired stellar cosmologies**. Suite emits outward through stellar ascension; Unique collapses inward through gravitational failure. Rank color establishes identity, while material and cosmological behavior establish class.
+- Suite 4★ Extra is a fuchsia young-tree dwarf star; 5★ Ultimate is a burning-gold mature tree-star; 6★ Apex is a white-hot supernova Yggdrasil using the canonical `DESIGN.md` Level VI light language. Unique 4★–6★ use the same rank-paired chassis but progress inward from rooted void to accretion to impossible singularity.
+- This session completed shaping and handoff documentation only. V3 remains the implemented and remotely published state. No V4 images, runtime changes, commit, push, or PR comment were made during brainstorming.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| V4 visual thesis | ✅ Founder-approved: shared antique chassis, outward Suite stellar ladder, inward Unique collapse ladder |
+| Tier color | ✅ Promoted from faint trim to primary rank identity; branch cosmology/material carries class identity |
+| Suite 4★–6★ | ✅ Reframed from weak botanical plates to dwarf-star → mature tree-star → supernova Yggdrasil |
+| Unique 4★–6★ | ✅ Rejoined to the Suite family through matched rank chassis, crop, optical weight, and shared tree lineage |
+| Asset B | ✅ Direction fixed: keep the astrolabe/copperplate idea but reduce wallpaper dominance and preserve content legibility |
+| Asset F | ✅ Ranks 1★–3★ must lose candle/signet/compass subjects while preserving the blue/teal/violet atmospheric fields |
+| Asset H | ✅ Geometry fix specified: restore symmetry after the Y-fork and keep Unique inside the stage margin |
+| Apex micro-seals | ✅ Replace opaque white-ground miniatures with simplified transparent brass seals legible at rendered size |
+| Asset E motion | ⏳ Explicitly deferred to last priority; static D remains the approved fallback |
+| V4 production | ⏳ Not started; no generated or edited V4 asset should precede the V4 commission/harness update |
+
+### Branches at end of brainstorming
+| Branch / worktree | Head SHA | Status |
+|---|---|---|
+| `design/yggdrasil-ii-aov-v3` | `1175d8ef2567115ce56f1309578afad44a2ba1d4` | Local HEAD equals `origin/design/yggdrasil-ii-aov-v3`; V4 shape brief and this snapshot are local documentation changes only |
+| `/Users/marcotiongson/Documents/gaia-skill-tree/.worktrees/ascension-overdrive-v3-assets` | same | Dedicated Ascension worktree; continue here |
+| `dev/yggdrasil-ii-staging` | `6d06ad488a17516eead108ddfd2dede0d56efd7a` at verification | PR base; do not retarget without founder direction |
+
+### Issues + PRs touched
+- **PR #1156** — `design: ship Ascension Overdrive V3`: OPEN, ready (`isDraft: false`), merge state CLEAN at verification; head `design/yggdrasil-ii-aov-v3`, base `dev/yggdrasil-ii-staging`.
+- URL: `https://github.com/gaia-research/gaia-skill-tree/pull/1156`.
+- The remote PR still ends at `1175d8ef2`. No commit, push, force-push, PR-body mutation, or PR comment was performed in the V4 brainstorming session.
+
+### Founder decisions — preserve exactly
+- **Shared chassis:** C and D ranks 4★–6★ use the same silhouette, diameter, crop, camera, apparent depth, lighting direction, visual center, registration points, ring occupancy, tree occupancy, relief depth, and hero/card/badge optical sizing.
+- **Suite emits outward:** 1★ stellar seed → 2★ structured sapling → 3★ Y-crowned young tree → 4★ fuchsia young-tree dwarf star → 5★ burning-gold mature tree-star → 6★ white-hot supernova Yggdrasil.
+- **Unique collapses inward:** retain the conceptual power of the older Asset D art, but route the same stellar-tree lineage through rooted void → accretion/gravity → impossible singularity rather than unrelated gates or geometric posters.
+- **Color semantics:** tier/rank color is the first identity signal and must occupy a meaningful continuous area, not a faint rim. Antique brass is the shared family material. Cosmology distinguishes Suite from Unique.
+- **Apex behavior:** Suite 6★ may breach the medallion through restrained ejecta, corona, and orbit sparks. Its white-hot core and cyan/violet/amber-fuchsia spectral cycle come from the existing Level VI recipe in `DESIGN.md`.
+- **Backdrop and layout:** B can be reprocessed rather than automatically regenerated. F1–3 keep their atmospheric fields but lose foreground subjects. H is a deterministic geometry/layout repair. Small Apex seals must work without white rectangles.
+- **Motion:** E remains last priority. If motion production is unavailable or unjustified, D is the intended static fallback; do not block the V4 static suite on E.
+
+### Routing — read and work from these sources
+- **Approved V4 brief / first read:** `founder/handovers/design-v6.1.1-ascension-overdrive-shape-v4.md`. Its production appendix is the operational manifest for skills, source assets, required generations, naming, output sizes, and QA.
+- **Prior briefs retained as evidence:** `founder/handovers/design-v6.1.1-ascension-overdrive-shape-v3.md` and `founder/handovers/design-v6.1.1-ascension-overdrive-commissions-v3.md`. V4 overrides either wherever they conflict; preserve them as history.
+- **Design tokens and product context:** `DESIGN.md`, `PRODUCT.md`, and `docs/css/tokens.css`.
+- **Current V3 runtime:** `docs/index.html`, `docs/css/ascension-overdrive-v3.css`, `docs/js/ascension-overdrive-v3.js`, and `docs/assets/ascension-overdrive/aov3-*`. These remain unchanged until V4 craft is approved.
+- **V2 trunk-field sources:** `docs/assets/ascension-overdrive/f-rank-1-hero.webp`, `f-rank-2-hero.webp`, and `f-rank-3-hero.webp`.
+- **Older Unique concept sources:** `founder/handovers/design-v6.1.1-assets/Asset D/ascension-overdrive-unique-{4star-structural,5star-gravitational,6star-impossible}-v1.png` plus the neighboring variations folder.
+- **Apex reference sources:** `founder/handovers/design-v6.1.1-assets/Asset A/ascension-overdrive-apex-arch-v1.png` and `founder/handovers/design-v6.1.1-assets/Asset A/Individual/*.png`; current served derivatives are `docs/assets/ascension-overdrive/apex-arch.webp` and `apex-component-*.webp`.
+- **Immutable V3 masters and reviews:** `/Users/marcotiongson/Documents/gaia-asset-masters/ascension-overdrive-v3/` (`incoming/`, `approved/`, `review/`, `workbench/`, `tools/`). Preserve it. Start V4 in `/Users/marcotiongson/Documents/gaia-asset-masters/ascension-overdrive-v4/` and hash any selected V3 references copied into its immutable incoming archive.
+- **Useful V3 deterministic helpers:** `/Users/marcotiongson/Documents/gaia-asset-masters/ascension-overdrive-v3/tools/produce_b_c_g.py`, `workbench/generate_h_d.py`, and `workbench/asset-fi-production.py`. Treat them as starting points, not as V4 truth.
+
+### Skills + tools the next orchestrator must load or route through
+- Orchestration: `.agents/skills/gaia-orchestrator/SKILL.md` plus `founder/ORCHESTRATOR.md`; cache with `CLAUDE.md` as required by the repo instructions.
+- Visual shaping/craft: `/Users/marcotiongson/Documents/gaia-research/.claude/skills/impeccable/SKILL.md`, especially `reference/shape.md` and `reference/brand.md`.
+- Local production harness: `.agents/skills/gaia-image-production/SKILL.md` in this dedicated worktree. **Hazard:** it is V3-specific and hardcodes the V3 brief, `aov3-` naming, and reuse of F1–3 unchanged. Adapt it for V4 or explicitly subordinate those clauses to the approved V4 brief before running it.
+- Built-in generation/editing: `/Users/marcotiongson/.codex/skills/.system/imagegen/SKILL.md` and the `image_gen` tool. Use GPT Image 2 by default; inspect every local edit target first. For chroma-key alpha cleanup, use `/Users/marcotiongson/.codex/skills/.system/imagegen/scripts/remove_chroma_key.py`. Do not silently switch to a separate native-transparency model path.
+- Adjacent original reference only: `/Users/marcotiongson/Documents/gaia-research/.agents/skills/gaia-image-production/SKILL.md`. It documents an older Sharp/TypeScript ledger workflow for a different repo; do not run it directly against gaia-skill-tree.
+- Deterministic stack: Pillow, `cwebp`, `ffmpeg`/`ffprobe`, `sips`, and `shasum` for crop, resize, grade, alpha cleanup, encode, contact sheets, validation, and immutable-source hashes.
+- QA/publishing: local dev server plus desktop/mobile browser inspection first; `.agents/skills/gaia-preview/SKILL.md` only after a useful commit is pushed. Use `git`/`gh` for the same-PR flow.
+
+### Required V4 production shape
+- **B:** desktop and mobile outputs. Reprocess the existing master first; regenerate only if a proof cannot achieve the quieter copperplate/astrolabe role.
+- **C:** align 1★–3★ to seed/sapling/Y-crown and strengthen rank ownership as needed; structurally replace 4★–6★. If the full ladder refreshes, produce hero 2048², card/mobile 800², and badge 240² variants for each rank.
+- **D:** structurally replace ranks 4★–6★ on the exact paired C chassis; produce hero 2048², card/mobile 800², and badge 240² variants for each rank.
+- **F:** subject-remove/inpaint ranks 1★–3★ while preserving their existing tier-colored fields; produce desktop and mobile derivatives. Retain/regrade F4–6 unless the architecture still competes with the stellar medallion.
+- **H:** repair as deterministic vector/layout work, with a new V4 master outside Git and optimized WebP fallback(s) in the repo. Suite and Unique paths must share a geometry source.
+- **Apex micro-seals:** derive six simplified transparent brass seals from Asset A first; regenerate only if tracing/simplification fails at final size.
+- **I:** derive desktop/mobile terminal art directly from approved D6 so the endpoint cannot drift.
+- **G:** reuse or regrade existing haze; generate only if compositing fails.
+- **E:** defer. A later motion pass, if authorized, follows the V3 delivery matrix and uses D as poster/fallback.
+- Lossless masters remain outside Git. Repo raster delivery is optimized WebP with an `aov4-` prefix. Preserve V3 files rather than overwriting them.
+
+### Next implementation sequence
+1. Load the Gaia orchestrator, Impeccable, and image-production instructions; read the approved V4 brief and appendix in full.
+2. Create a V4 commission/handoff from the V3 commission, resolving every conflicting V3 prompt and filename before image generation.
+3. Make the local image-production harness V4-aware: `aov4-` outputs, new V4 master root, revised F1–3 policy, current source hashes, and V4 validation/contact-sheet rules.
+4. Establish the V4 archive and deterministic baseline; then prove B, F, H, Apex micro-seals, and rank-color treatment without unnecessary regeneration.
+5. Generate/edit the paired C/D ladder rank-by-rank, comparing equal-size pairs and hero/card/badge reductions before accepting a rank. Derive I from accepted D6.
+6. After asset approval, add V4 runtime files (`docs/css/ascension-overdrive-v4.css`, `docs/js/ascension-overdrive-v4.js`) and wire `docs/index.html`; keep V3 as an archive.
+7. QA at 1440, 900, 768, 390, and 375px in normal and reduced motion. Check pair-family resemblance, rank-color ownership, optical scale, alpha halos, margin containment, and small-size seal legibility.
+8. Commit and push milestones to PR #1156. Comment on the PR only when the V4 deliverable is genuinely complete.
+
+### Lessons / hazards preserved
+- The worktree-local `gaia-image-production` skill is a useful harness but not a current brief. Its V3 hardcodes can quietly recreate the rejected V3 decisions unless corrected first.
+- Preserve immutable originals and V3 approvals. Never edit `incoming/` or overwrite V3 masters; create versioned V4 workbench and approved outputs.
+- Do not treat added ornament as progression. Suite advances by mass, heat, radiance, and scale; Unique advances by gravity, occlusion, structural interruption, and collapse.
+- Do not let white transparency proxies survive into repo derivatives. Inspect alpha at card/badge size on actual Suite and Unique backgrounds.
+- C/D pairing must be reviewed with labels and stars hidden. If the chassis, crop, tree axis, or optical weight diverges, the pair fails even when each image is attractive alone.
+- B should remain atmospheric, F should remain a field, H should remain contained, and I must be a derivative of D6. These roles prevent background assets from competing with medallions.
+- Do not let E motion delay the static V4 pass.
+
+### Open questions for next orchestrator
+- Decide by visual proof, not assumption, whether C1–3 need deterministic edits or full regeneration; the approved concept is fixed, but the minimum-change production method remains open.
+- Test whether F4–6 survive a regrade after the new C4–6 medallions exist. Regenerate only if the existing architecture remains the dominant subject.
+- Confirm exact V4 encode budgets and any native SVG exception in the V4 commission before export; the repo default remains WebP-only raster delivery.
+- Reverify branch/base/PR state and remote head at the start of implementation because those facts can drift after this snapshot.
+
+### Token cost (this brainstorming + shaping session)
+Exact token and dollar telemetry was unavailable in this harness. Approximate only: the root orchestrator plus delegated brief/visual scouts and V4 document writers likely used **150k–250k input tokens** and **20k–35k output tokens**. No exact dollar cost is claimed.
+
+---
+
 ## State Snapshot (2026-07-12, session — world-tree semantic topology ratified, sub-agents dispatched)
 
 ### TLDR
