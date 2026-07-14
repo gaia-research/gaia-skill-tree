@@ -17,7 +17,7 @@ A capability that emerged when two or more lower-tier skills fused. Under **Yggd
 _Avoid_: using "Extra Skill" as a taxonomy category (post-Yggdrasil II); composite skill, compound skill.
 
 **Unique Skill (◉)**:
-A 4★+ named skill on the **Unique branch** — a skill whose generic parent has no `suiteComponents`, reaching high mastery through depth alone. Under **Yggdrasil II**, "Unique" is a valid **branch** word (progression path) rather than a `type` value; the Yggdrasil I structural meaning (`type=unique`) is retired. In catalog section headers, write **Uniques** verbatim.
+A 4★+ named skill on the **Unique branch** — a Named Skill that carries no `suiteComponents`, reaching high mastery through depth alone. Under **Yggdrasil II**, "Unique" is a valid **branch** word (progression path) rather than a `type` value; the Yggdrasil I structural meaning (`type=unique`) is retired. In catalog section headers, write **Uniques** verbatim.
 _Avoid_: standalone skill, solo skill, graph-isolated singularities; treating "Unique" as a `type` value (post-Yggdrasil II).
 
 **Ultimate Skill (◆)** _(legacy — Yggdrasil I taxonomy word; retiring under Yggdrasil II)_:
@@ -40,21 +40,21 @@ Ratified 2026-07-07 (`founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md`
 Values: `basic` (0 prerequisites) or `fusion` (≥1 prerequisite). Lives on starless nodes only. **Named skills have no `type` field** — they inherit via `genericSkillRef` walk (**Option D**). Simplifies both axes: starless is purely structural, named is purely progression.
 _Avoid_: writing `type` on a named-skill frontmatter; using the legacy values `extra`, `ultimate`, `unique` on new nodes (bulk rewrite: `extra`→`fusion`, `ultimate`→`fusion`, `unique`→`basic`).
 
-**Nomenclature — the "Skill" suffix** (Yggdrasil II): the proper-noun suffix "Skill" attaches to **rank** names only — **Extra Skill**, **Unique Skill**, **Ultimate Skill**, **Apex Skill** (e.g. "Ultimate Skill: garrytan/gsstack"). **Type** words stand bare: **Basic** and **Fusion** — never "Basic Skill" or "Fusion Skill". Types are structural categories, not ranks.
+**Nomenclature — the "Skill" suffix** (Yggdrasil II): the proper-noun suffix "Skill" attaches to **rank** names only — **Extra Skill**, **Unique Skill**, **Ultimate Skill**, **Apex Skill** (e.g. "Ultimate Skill: garrytan/gsstack"). **Type** words stand bare: **Basic** and **Fusion** — never "Basic Skill" or "Fusion Skill". Types are structural categories, not ranks. The 1★–3★ shared-ladder rank words (**Awakened** 1★, **Named** 2★, **Evolved** 3★) are always written **star-qualified** as ranks ("2★ Named", "the Named rank") and never take a bare "X Skill" form — so **Named Skill** unambiguously denotes the claimed-skill entity (a contributor's implementation), never "a 2★ skill". Only the 4★+ branch ranks take the "Skill" suffix as rank phrasings.
 
 **Branch axis** (progression — named only):
-Values: `standard`, `unique`, `suite`. Derived at read-time by `computeBranch(named)` from `(generic.suiteComponents present?, named.level)`. **Never declared on nodes; always computed.**
+Values: `standard`, `unique`, `suite`. Derived at read-time by `computeBranch(named)` from `(the Named Skill's own suiteComponents present?, named.level)` — `suiteComponents` is a **Named-Skill-only field, never present on the starless generic parent**. **Never declared on nodes; always computed.**
 _Avoid_: writing a `branch` field to a node; treating branch as user-editable.
 
 **Standard branch**:
 1★ Awakened → 2★ Named → 3★ Evolved. Default; every named skill starts here.
 
 **Unique branch**:
-4★ Unique → 5★ Unique Ultimate → 6★ Unique Impossible. For skills that reach 4★+ **without** being a suite (their generic parent has no `suiteComponents`). `suiteRef` membership does NOT disqualify — a "world-renowned handoff skill" that happens to live inside a suite is still Unique. Standalone-prestige track. Impeccable is the archetype. Gates: 4★ = Origin + TM ≥ 100 (A); 5★ = Origin + TM ≥ 250 (S); origins counted in **fusion structure** (`prerequisites`), not `suiteComponents`. 6★ Unique Impossible = provisional 5-predicate gate (Apex minus `directNestedSuiteGte1`).
+4★ Unique → 5★ Unique Ultimate → 6★ Unique Impossible. For skills that reach 4★+ **without** being a suite (the Named Skill carries no `suiteComponents`). `suiteRef` membership does NOT disqualify — a "world-renowned handoff skill" that happens to live inside a suite is still Unique. Standalone-prestige track. Impeccable is the archetype. Gates: 4★ = Origin + TM ≥ 100 (A); 5★ = Origin + TM ≥ 250 (S); origins counted in **fusion structure** (`prerequisites`), not `suiteComponents`. 6★ Unique Impossible = provisional 5-predicate gate (Apex minus `directNestedSuiteGte1`).
 _Avoid_: treating suite membership as automatically disqualifying from Unique.
 
 **Suite branch**:
-4★ Extra → 5★ Ultimate → 6★ Apex. For skills whose generic parent carries `suiteComponents` (structural fusion of grouped components). Group-prestige track. 5★ gate preserved per #935 (Origin in `suiteComponents` + 5 A-graded origins in `suiteComponents` + TM ≥ 250). 6★ Apex Gate = the 6-predicate G7 set (preserved).
+4★ Extra → 5★ Ultimate → 6★ Apex. For Named Skills that carry `suiteComponents` (structural fusion of grouped components). Group-prestige track. 5★ gate preserved per #935 (Origin in `suiteComponents` + 5 A-graded origins in `suiteComponents` + TM ≥ 250). 6★ Apex Gate = the 6-predicate G7 set (preserved).
 
 **Ultimate** _(5★ rank name — Yggdrasil II)_:
 The rank name for **every 5★ skill** across branches. Suite branch: **Ultimate**. Unique branch: **Unique Ultimate**. Intentional gacha-anchor collision — devs should associate "Ultimate" with "5★" universally. Replaces the Yggdrasil I rank name "Transcendent". Deprecates the Yggdrasil I taxonomy usage of "Ultimate" (see `Ultimate Skill` entry above).
@@ -73,11 +73,11 @@ The `prerequisites` graph of a starless node — the fusion-recipe origin edges 
 _Avoid_: conflating fusion structure with suite components.
 
 **`computeBranch(named)`**:
-The read-time helper that walks `named → genericSkillRef → generic.suiteComponents` and returns the branch label given the named skill's current level. (`generic.type` is accessed by the separate type-inheritance walk — **Option D** — not by branch derivation.) Lives in `src/gaia_cli/trustMagnitude.py` (post-implementation).
+The read-time helper that reads the Named Skill's own `suiteComponents` (a **Named-Skill-only field**) and returns the branch label given the named skill's current level. It does **not** walk to the generic parent for branch — `suiteComponents` never lives on the starless node. (`generic.type` is accessed by the separate type-inheritance walk — **Option D** — not by branch derivation.) Lives in `src/gaia_cli/trustMagnitude.py`.
 _Avoid_: reading `branch` from a node; caching the result across level changes.
 
 **Option D** _(Yggdrasil II design choice)_:
-The named-skill-type-by-inheritance rule: starless nodes carry `type`, named skills do not. Named skills inherit type via `genericSkillRef` walk. Named `suiteRef` does not affect branch derivation — branch is shaped by `generic.suiteComponents` + the named skill's rank/level. (`type` governs type-inheritance: named skills inherit the generic's `type` via this walk; it does not feed into branch computation.)
+The named-skill-type-by-inheritance rule: starless nodes carry `type`, named skills do not. Named skills inherit type via `genericSkillRef` walk. Named `suiteRef` does not affect branch derivation — branch is shaped by the Named Skill's own `suiteComponents` + rank/level. (`type` governs type-inheritance: named skills inherit the generic's `type` via this walk; it does not feed into branch computation.)
 _Avoid_: adding a `type` field to `namedSkill.schema.json`.
 
 **Meta Schema RFC** _(Series A — Yggdrasil)_:
