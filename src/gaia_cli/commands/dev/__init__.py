@@ -282,8 +282,9 @@ class DevCommand(Command):
         dev_reclassify.add_argument("skill_id", help="Generic skill ID to reclassify")
         dev_reclassify.add_argument(
             "new_type",
-            choices=("basic", "extra", "ultimate", "unique"),
-            help="New skill type",
+            choices=("basic", "fusion"),
+            help="New structural type: 'basic' (0 prerequisites) or 'fusion' "
+                 "(>=1 prerequisite). (Yggdrasil II)",
         )
         dev_reclassify.add_argument(
             "--no-build",
