@@ -215,9 +215,10 @@ class DevCommand(Command):
         )
         dev_add.add_argument(
             "--type",
-            choices=("basic", "extra", "ultimate", "unique"),
+            choices=("basic", "fusion"),
             default="basic",
-            help="Skill type (default: basic)",
+            help="Structural type of the starless node: 'basic' (0 prerequisites) "
+                 "or 'fusion' (>=1 prerequisite). Default: basic. (Yggdrasil II)",
         )
         dev_add.add_argument("--description", help="Skill description")
         dev_add.add_argument(
