@@ -196,6 +196,37 @@
     ]
   },
   {
+    "id": "firecrawl/firecrawl-skills",
+    "name": "Firecrawl Skills",
+    "contributor": "firecrawl",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 223.52,
+    "tokens": [
+      "`npx",
+      "all",
+      "browser",
+      "browser`",
+      "cli@latest",
+      "crawler",
+      "environment",
+      "extraction",
+      "firecrawl",
+      "init",
+      "install",
+      "interaction",
+      "research",
+      "scrape",
+      "scraping",
+      "search",
+      "setup",
+      "skills",
+      "suite",
+      "web",
+      "y"
+    ]
+  },
+  {
     "id": "gsd-build/get-shit-done",
     "name": "Get Shit Done",
     "contributor": "gsd-build",
@@ -322,6 +353,25 @@
       "that",
       "them",
       "vertical"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-build-scrape",
+    "name": "Firecrawl Scrape",
+    "contributor": "firecrawl",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 133.54,
+    "tokens": [
+      "code",
+      "extraction",
+      "firecrawl",
+      "integrate",
+      "into",
+      "page",
+      "product",
+      "scrape",
+      "web"
     ]
   },
   {
@@ -559,6 +609,23 @@
       "touched",
       "writes",
       "writing"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-build-search",
+    "name": "Firecrawl Search",
+    "contributor": "firecrawl",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 107.14,
+    "tokens": [
+      "code",
+      "firecrawl",
+      "integrate",
+      "into",
+      "product",
+      "search",
+      "web"
     ]
   },
   {
@@ -1195,7 +1262,7 @@
     "id": "browser-use/browser-harness",
     "name": "Browser Harness",
     "contributor": "browser-use",
-    "level": "3★",
+    "level": "4★",
     "grade": "B",
     "trustMagnitude": 73.59,
     "tokens": [
@@ -1214,6 +1281,63 @@
       "self",
       "via",
       "write"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-build-interact",
+    "name": "Firecrawl Interact",
+    "contributor": "firecrawl",
+    "level": "2★",
+    "grade": "B",
+    "trustMagnitude": 73.52,
+    "tokens": [
+      "browser",
+      "code",
+      "control",
+      "firecrawl",
+      "integrate",
+      "interact",
+      "interaction",
+      "into",
+      "product"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-build-onboarding",
+    "name": "Firecrawl Onboarding",
+    "contributor": "firecrawl",
+    "level": "2★",
+    "grade": "B",
+    "trustMagnitude": 73.52,
+    "tokens": [
+      "agent",
+      "client",
+      "configure",
+      "credentials",
+      "environment",
+      "firecrawl",
+      "onboarding",
+      "setup",
+      "tools"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-research-index",
+    "name": "Firecrawl Research Index",
+    "contributor": "firecrawl",
+    "level": "2★",
+    "grade": "B",
+    "trustMagnitude": 73.52,
+    "tokens": [
+      "academic",
+      "firecrawl",
+      "index",
+      "literature",
+      "query",
+      "research",
+      "retrieve",
+      "search",
+      "through"
     ]
   },
   {
@@ -2752,31 +2876,6 @@
       "using",
       "write",
       "—"
-    ]
-  },
-  {
-    "id": "firecrawl/firecrawl",
-    "name": "Firecrawl",
-    "contributor": "firecrawl",
-    "level": "2★",
-    "grade": "C",
-    "trustMagnitude": 36.0,
-    "tokens": [
-      "ai",
-      "api",
-      "crawler",
-      "crawling",
-      "extraction",
-      "firecrawl",
-      "open",
-      "oriented",
-      "scrape",
-      "scraping",
-      "search",
-      "source",
-      "structured",
-      "web",
-      "websites"
     ]
   },
   {

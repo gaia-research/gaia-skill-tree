@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-08",
+  "generatedAt": "2026-07-13",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -1425,18 +1425,96 @@
         ]
       },
       "topSkill": "browser-use/browser-harness",
-      "topRank": 3,
+      "topRank": 4,
       "topIsUnique": false,
       "count": 1,
       "namedSkills": [
         {
           "id": "browser-use/browser-harness",
           "name": "Browser Harness",
-          "rank": 3,
+          "rank": 4,
           "type": "basic",
           "slash": "/browser-harness",
           "file": "browser-harness.svg",
           "fileSeal": "browser-harness-seal.svg"
+        }
+      ]
+    },
+    "firecrawl": {
+      "repos": [
+        "firecrawl/firecrawl",
+        "firecrawl/skills"
+      ],
+      "skillsByRepo": {
+        "firecrawl/skills": [
+          "firecrawl/firecrawl-build-interact",
+          "firecrawl/firecrawl-build-onboarding",
+          "firecrawl/firecrawl-build-scrape",
+          "firecrawl/firecrawl-build-search",
+          "firecrawl/firecrawl-research-index"
+        ],
+        "firecrawl/firecrawl": [
+          "firecrawl/firecrawl-skills"
+        ]
+      },
+      "topSkill": "firecrawl/firecrawl-build-scrape",
+      "topRank": 4,
+      "topIsUnique": false,
+      "count": 6,
+      "namedSkills": [
+        {
+          "id": "firecrawl/firecrawl-build-scrape",
+          "name": "Firecrawl Scrape",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/firecrawl-build-scrape",
+          "file": "firecrawl-build-scrape.svg",
+          "fileSeal": "firecrawl-build-scrape-seal.svg"
+        },
+        {
+          "id": "firecrawl/firecrawl-build-search",
+          "name": "Firecrawl Search",
+          "rank": 4,
+          "type": "basic",
+          "slash": "/firecrawl-build-search",
+          "file": "firecrawl-build-search.svg",
+          "fileSeal": "firecrawl-build-search-seal.svg"
+        },
+        {
+          "id": "firecrawl/firecrawl-skills",
+          "name": "Firecrawl Skills",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/firecrawl-skills",
+          "file": "firecrawl-skills.svg",
+          "fileSeal": "firecrawl-skills-seal.svg"
+        },
+        {
+          "id": "firecrawl/firecrawl-build-interact",
+          "name": "Firecrawl Interact",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/firecrawl-build-interact",
+          "file": "firecrawl-build-interact.svg",
+          "fileSeal": "firecrawl-build-interact-seal.svg"
+        },
+        {
+          "id": "firecrawl/firecrawl-build-onboarding",
+          "name": "Firecrawl Onboarding",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/firecrawl-build-onboarding",
+          "file": "firecrawl-build-onboarding.svg",
+          "fileSeal": "firecrawl-build-onboarding-seal.svg"
+        },
+        {
+          "id": "firecrawl/firecrawl-research-index",
+          "name": "Firecrawl Research Index",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/firecrawl-research-index",
+          "file": "firecrawl-research-index.svg",
+          "fileSeal": "firecrawl-research-index-seal.svg"
         }
       ]
     },
@@ -1462,31 +1540,6 @@
           "slash": "/autonomous-swe",
           "file": "autonomous-swe.svg",
           "fileSeal": "autonomous-swe-seal.svg"
-        }
-      ]
-    },
-    "firecrawl": {
-      "repos": [
-        "firecrawl/firecrawl"
-      ],
-      "skillsByRepo": {
-        "firecrawl/firecrawl": [
-          "firecrawl/firecrawl"
-        ]
-      },
-      "topSkill": "firecrawl/firecrawl",
-      "topRank": 2,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "firecrawl/firecrawl",
-          "name": "Firecrawl",
-          "rank": 2,
-          "type": "extra",
-          "slash": "/firecrawl",
-          "file": "firecrawl.svg",
-          "fileSeal": "firecrawl-seal.svg"
         }
       ]
     },

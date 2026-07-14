@@ -1,8 +1,22 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-12T00:38:10Z",
+  "generatedAt": "2026-07-14T17:33:24Z",
   "firstRun": false,
   "skills": [
+    {
+      "id": "firecrawl/firecrawl-skills",
+      "name": "Firecrawl Skills",
+      "level": "4★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 223.52,
+      "overallTrustGrade": "A",
+      "trendingScore": 111.76,
+      "tmDelta": 223.52,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
+      }
+    },
     {
       "id": "gaia-research/skill-ci-churn",
       "name": "CI Churn",
@@ -10,9 +24,9 @@
       "contributor": "gaia-research",
       "trustMagnitude": 41.0,
       "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
-      "new": true,
+      "trendingScore": 70.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
         "self": "/api/v1/skills/gaia-research/skill-ci-churn.json"
       }
@@ -24,29 +38,85 @@
       "contributor": "gaia-research",
       "trustMagnitude": 41.0,
       "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
-      "new": true,
+      "trendingScore": 70.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
         "self": "/api/v1/skills/gaia-research/skill-fuse.json"
       }
     },
     {
-      "id": "addy-osmani/code-simplification",
-      "name": "Code Simplification",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 53.14,
-      "overallTrustGrade": "B",
-      "trendingScore": 10.0,
-      "tmDelta": 0.0,
-      "new": false,
+      "id": "firecrawl/firecrawl-build-scrape",
+      "name": "Firecrawl Scrape",
+      "level": "4★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 133.54,
+      "overallTrustGrade": "A",
+      "trendingScore": 66.77,
+      "tmDelta": 133.54,
+      "new": true,
       "_links": {
-        "self": "/api/v1/skills/addy-osmani/code-simplification.json"
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-search",
+      "name": "Firecrawl Search",
+      "level": "4★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 107.14,
+      "overallTrustGrade": "A",
+      "trendingScore": 53.57,
+      "tmDelta": 107.14,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-interact",
+      "name": "Firecrawl Interact",
+      "level": "2★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 73.52,
+      "overallTrustGrade": "B",
+      "trendingScore": 36.76,
+      "tmDelta": 73.52,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-onboarding",
+      "name": "Firecrawl Onboarding",
+      "level": "2★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 73.52,
+      "overallTrustGrade": "B",
+      "trendingScore": 36.76,
+      "tmDelta": 73.52,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "name": "Firecrawl Research Index",
+      "level": "2★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 73.52,
+      "overallTrustGrade": "B",
+      "trendingScore": 36.76,
+      "tmDelta": 73.52,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
       }
     }
   ],
-  "totalTrending": 3,
+  "totalTrending": 8,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

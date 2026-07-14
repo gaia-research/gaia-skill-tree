@@ -19,6 +19,10 @@ class ScanCommand(Command):
             action="store_true",
             help="Scan globally installed skills in addition to the local repository",
         )
+        parser.add_argument(
+            "--dir", action="append", dest="dir", metavar="DIR",
+            help="Extra skill root to scan (repeatable). Sticky equivalent: .gaia/config.toml skillDirs=[...]"
+        )
 
     def execute(self, args: argparse.Namespace) -> int | None:
         from gaia_cli.main import scan_command

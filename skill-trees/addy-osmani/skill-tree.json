@@ -20,6 +20,118 @@
           "source": "demote"
         }
       ]
+    },
+    {
+      "skillId": "addy-osmani/agent-skills",
+      "level": "5★",
+      "unlockedAt": "2026-07-03T00:00:00Z",
+      "unlockedIn": "addy-osmani/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "5★",
+          "achievedAt": "2026-07-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "addy-osmani/code-review-and-quality",
+      "level": "3★",
+      "unlockedAt": "2026-07-03T00:00:00Z",
+      "unlockedIn": "addy-osmani/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "addy-osmani/code-simplification",
+      "level": "3★",
+      "unlockedAt": "2026-07-03T00:00:00Z",
+      "unlockedIn": "addy-osmani/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "addy-osmani/incremental-implementation",
+      "level": "3★",
+      "unlockedAt": "2026-07-03T00:00:00Z",
+      "unlockedIn": "addy-osmani/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "addy-osmani/performance-optimization",
+      "level": "4★",
+      "unlockedAt": "2026-05-31T00:00:00Z",
+      "unlockedIn": "addy-osmani/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-31T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "addy-osmani/planning-and-task-breakdown",
+      "level": "3★",
+      "unlockedAt": "2026-07-03T00:00:00Z",
+      "unlockedIn": "addy-osmani/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "addy-osmani/shipping-and-launch",
+      "level": "3★",
+      "unlockedAt": "2026-07-03T00:00:00Z",
+      "unlockedIn": "addy-osmani/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "addy-osmani/spec-driven-development",
+      "level": "3★",
+      "unlockedAt": "2026-07-03T00:00:00Z",
+      "unlockedIn": "addy-osmani/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
     }
   ],
   "timeline": [
@@ -32,16 +144,80 @@
       "newValue": "3★"
     },
     {
+      "timestamp": "2026-05-31T00:00:00Z",
+      "action": "register",
+      "skillId": "addy-osmani/performance-optimization",
+      "details": "Registered named skill addy-osmani/performance-optimization",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
       "timestamp": "2026-06-20T06:31:20Z",
       "action": "demote",
       "previousValue": "3★",
       "newValue": "2★",
       "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
       "skillId": "addy-osmani/test-driven-development"
+    },
+    {
+      "timestamp": "2026-07-03T00:00:00Z",
+      "action": "register",
+      "skillId": "addy-osmani/agent-skills",
+      "details": "Registered named skill addy-osmani/agent-skills",
+      "previousValue": null,
+      "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-07-03T00:00:00Z",
+      "action": "register",
+      "skillId": "addy-osmani/code-review-and-quality",
+      "details": "Registered named skill addy-osmani/code-review-and-quality",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-07-03T00:00:00Z",
+      "action": "register",
+      "skillId": "addy-osmani/code-simplification",
+      "details": "Registered named skill addy-osmani/code-simplification",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-07-03T00:00:00Z",
+      "action": "register",
+      "skillId": "addy-osmani/incremental-implementation",
+      "details": "Registered named skill addy-osmani/incremental-implementation",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-07-03T00:00:00Z",
+      "action": "register",
+      "skillId": "addy-osmani/planning-and-task-breakdown",
+      "details": "Registered named skill addy-osmani/planning-and-task-breakdown",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-07-03T00:00:00Z",
+      "action": "register",
+      "skillId": "addy-osmani/shipping-and-launch",
+      "details": "Registered named skill addy-osmani/shipping-and-launch",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-07-03T00:00:00Z",
+      "action": "register",
+      "skillId": "addy-osmani/spec-driven-development",
+      "details": "Registered named skill addy-osmani/spec-driven-development",
+      "previousValue": null,
+      "newValue": "3★"
     }
   ],
   "stats": {
-    "totalUnlocked": 1,
+    "totalUnlocked": 9,
     "deepestLineage": 1
   },
   "pendingCombinations": []

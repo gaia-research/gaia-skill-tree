@@ -74,10 +74,10 @@ So that means, its the developers who make skills maintaining this. I have a tho
   │  └─ ○ ████████/ask-matt
   ├─ ◇ garrytan/design-consultation  [3★]
   │  ├─ ◇ ████████/stagehand
-  │  │  ├─ ○ /web-search
+  │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ ○ /computer-use
 
-(235 skills total — see docs/tree.md)
+(243 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 
@@ -168,7 +168,7 @@ curl https://gaiaskilltree.com/api/v1/leaderboard.json
 **1. CLI
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `6.5.3`.
+Current Gaia CLI version: `6.8.5`.
 
 ```bash
 curl -fsSL https://gaiaskilltree.com/install.sh | sh

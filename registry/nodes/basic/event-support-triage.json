@@ -1,0 +1,22 @@
+{
+  "id": "event-support-triage",
+  "name": "Event Support Triage",
+  "type": "basic",
+  "description": "Triage customer support emails or issues related to events, query attendee records to address ticketing problems, and draft responses using dynamic templates.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-14",
+  "updatedAt": "2026-07-14",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-13T16:26:00Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill event-support-triage"
+    }
+  ]
+}

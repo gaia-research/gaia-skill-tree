@@ -1,6 +1,66 @@
 {
   "skills": [
     {
+      "id": "ruvnet/verification-quality",
+      "name": "Verification Quality",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/verification-quality.json"
+      }
+    },
+    {
+      "id": "ruvnet/worker-integration",
+      "name": "Worker Integration",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/worker-integration.json"
+      }
+    },
+    {
+      "id": "santifer/career-ops",
+      "name": "Career-Ops",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "santifer",
+      "type": "extra",
+      "_links": {
+        "self": "/api/v1/skills/santifer/career-ops.json"
+      }
+    },
+    {
+      "id": "spring-ai/readme-generate",
+      "name": "REST API README Generator",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "spring-ai",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/spring-ai/readme-generate.json"
+      }
+    },
+    {
+      "id": "vercel/find-skills",
+      "name": "Find Skills",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "vercel",
+      "type": "basic",
+      "_links": {
+        "self": "/api/v1/skills/vercel/find-skills.json"
+      }
+    },
+    {
       "id": "upsonic/unittest-generator",
       "name": "Unittest Generator",
       "level": "2★",
@@ -51,7 +111,7 @@
   ],
   "page": 4,
   "totalPages": 4,
-  "totalSkills": 154,
+  "totalSkills": 159,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json"

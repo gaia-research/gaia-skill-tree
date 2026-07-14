@@ -278,6 +278,7 @@ Project skills are delivered in both `.claude/skills/` and `.agents/skills/`; ke
 - `gaia-curate/` — `/gaia-curate`: canonical preliminary curation; read its `CURATION-CORE.md` contract.
 - `gaia-curate-chain/` — `/gaia-curate-chain`: extends `/gaia-curate` with fixed topology, deterministic gates, bounded retries, and audit state.
 - `gaia-curate-dynamic/` — `/gaia-curate-dynamic`: extends `/gaia-curate` with dynamic sharding, proposer⇄refuter convergence, and a resumable ledger.
+- `gaia-curate-trending/` — `/gaia-curate-trending`: discovery-only curation of configured external-source snapshots; it produces L4 shortlists and never mutates the registry.
 - `gaia-meta-audit/` — `/gaia-meta-audit`: prioritized queue of skills/catalog items needing review.
 - `gaia-audit/` — `/gaia-audit`: focused source-level correction for one target.
 - `gaia-trace-timeline/` — `/gaia-trace-timeline`: audit & repair user-tree timelines so each skill's rank is explained by its Hero's Journey (backfills demote/rank_up events). Backed by `scripts/trace_timeline.py`; enforced by `scripts/validate_timelines.py` (via `gaia dev validate` + release CI).
@@ -342,7 +343,7 @@ Do **not** modify, stage, or delete these (managed by the Hermes agent):
 - When starting fresh and indicating a PR, work on the PR branch right away. GO TO THE PR BRANCH, not the `claude/` branch.
 
 ### Skills Intake
-- All skills live in `.claude/skills/`. There is no `.agents/` directory.
+- Skills are mirrored in `.claude/skills/` and `.agents/skills/`; keep both copies byte-identical.
 
 ### Upstream Watcher (V1 design, phased implementation)
 - Design at [`docs/agents/upstream-watcher.md`](docs/agents/upstream-watcher.md). Read before touching `scripts/upstream_watcher/`, `scripts/lib/`, `.github/workflows/upstream-*.yml`, or any `upstream:*` label.
