@@ -2476,25 +2476,6 @@
       ]
     },
     {
-      "skillId": "skill-mastery",
-      "level": "6★",
-      "unlockedAt": "2026-05-21T16:25:28Z",
-      "unlockedIn": "mbtiongson1/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "1★",
-          "achievedAt": "2026-05-21T16:31:25Z",
-          "source": "promotion"
-        },
-        {
-          "level": "6★",
-          "achievedAt": "2026-05-21T17:19:20Z",
-          "source": "promotion"
-        }
-      ]
-    },
-    {
       "skillId": "skill-performance-benchmarking",
       "level": "4★",
       "unlockedAt": "2026-05-13T21:50:25Z",
