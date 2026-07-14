@@ -109,7 +109,7 @@ ALLOWLIST_PATHS = {
     'CONTEXT.md',           # Lexicon entries explicitly documenting deprecated terms
     'DESIGN.md',            # Legacy rank colour/animation table; refs old rank names
     'GOVERNANCE.md',        # Old "4★ Hardened" threshold + Ultimate/Extra Skill tier names
-    'META.md',              # Old rank table (§1.1) + taxonomy table (§1.2)
+    # META.md — REMOVED from allowlist: cleaned to v2 by #994 (PR #1170); guard now enforces it
     'PRODUCT.md',           # Product copy referencing old 6★ "Transcendent ★" label
 
     # ── Registry data (cannot modify schema/data; tracked under #994) ────────
@@ -133,7 +133,7 @@ ALLOWLIST_PATHS = {
     'docs/examples/example_extra_skill.md',                   # Legacy example doc
     'docs/meta/2026-05-31-starless-skills-update.md',         # Pre-Yggdrasil-II meta post
     'docs/meta/2026-06-curate-chain-starless.md',             # Pre-Yggdrasil-II curate post
-    'docs/meta/2026-06-trust-methodology.md',                 # Historical methodology
+    # docs/meta/2026-06-trust-methodology.md — REMOVED from allowlist: cleaned to v2 by #994 (PR #1170)
     'docs/okf/index.md',                                      # OKF index: old tier section headers
     'docs/okf/skills/extra/index.md',                         # OKF "Extra Skills" index
     'docs/okf/skills/ultimate/index.md',                      # OKF "Ultimate Skills" index

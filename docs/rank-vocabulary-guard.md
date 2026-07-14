@@ -78,8 +78,8 @@ and from the table below.
 | `CONTEXT.md` | 17 | Lexicon entries explicitly documenting deprecated terms as deprecated |
 | `DESIGN.md` | 15 | Legacy rank colour/animation table; old rank name column |
 | `GOVERNANCE.md` | 3 | Old "4★ Hardened" threshold and Ultimate/Extra Skill tier names |
-| `META.md` | 7 | Old rank table (§1.1) and taxonomy table (§1.2) |
 | `PRODUCT.md` | 1 | Product copy referencing old 6★ "Transcendent ★" label |
+| ~~`META.md`~~ | 0 | **Removed from allowlist** — cleaned to v2 by #994 (PR #1170); guard now enforces it |
 | `registry/combinations.md` | 129 | 124 rows with "Extra Skill" taxonomy label (registry data, cannot modify without #994) |
 | `registry/registry.md` | 129 | Mirror of combinations.md |
 | `docs/agent.md` | 3 | Old taxonomy definitions |
@@ -92,7 +92,7 @@ and from the table below.
 | `docs/en/ROUTINE_PROMPT.md` | 2 | Prompt using old vocabulary |
 | `docs/examples/example_extra_skill.md` | 2 | Legacy example doc |
 | `docs/meta/2026-05-31-starless-skills-update.md` | 1 | Pre-Yggdrasil II meta post |
-| `docs/meta/2026-06-trust-methodology.md` | 1 | Historical methodology doc |
+| ~~`docs/meta/2026-06-trust-methodology.md`~~ | 0 | **Removed from allowlist** — cleaned to v2 by #994 (PR #1170) |
 | `docs/okf/index.md` | — | OKF index: old tier section headers (plural form, not caught by singular regex) |
 | `docs/okf/skills/extra/index.md` | — | OKF "Extra Skills" index |
 | `docs/okf/skills/ultimate/index.md` | — | OKF "Ultimate Skills" index |
