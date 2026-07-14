@@ -34,6 +34,14 @@ import sys
 import urllib.request
 import urllib.error
 from pathlib import Path
+from urllib.parse import urlparse
+
+def is_github_remote(url: str) -> bool:
+    if url.startswith("git@"):
+        host = url.split("@", 1)[1].split(":", 1)[0]
+    else:
+        host = urlparse(url).hostname or ""
+    return host == "github.com" or host.endswith(".github.com")
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 _NAMED_SKILLS_INDEX = _REPO_ROOT / "registry" / "named-skills.json"
@@ -236,7 +244,7 @@ def detectRepository() -> str:
         )
         url = result.stdout.strip()
         # https://github.com/owner/repo.git  or  git@github.com:owner/repo.git
-        if "github.com" in url:
+        if is_github_remote(url):
             if url.startswith("git@"):
                 path = url.split(":", 1)[-1]
             else:
