@@ -1,6 +1,6 @@
 # Skill Tree — favorchurch
 **Last Updated:** 2026-05-25
-**Total Skills Unlocked:** 9
+**Total Skills Unlocked:** 0
 **Highest Tier:** —
 **Deepest Lineage:** 1
 
@@ -8,17 +8,7 @@
 
 ## Unlocked Skills
 
-| Skill | Type | Rank | Tier name | Source | Date |
-|---|---|---|---|---|---|
-| ○ favorchurch/attendees | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
-| ○ favorchurch/count-checkin-by-church | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
-| ○ favorchurch/export-attendees | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
-| ○ favorchurch/financial-assistance | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
-| ○ favorchurch/resend-conference-emails-carefully-with-smtp | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
-| ○ favorchurch/speak-like-favor | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
-| ○ favorchurch/ticket-transfer | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
-| ○ favorchurch/triage-conference | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
-| ○ favorchurch/update-unique-churches | Basic Skill | 1★ | Awakened | favorchurch/gaia-skill-tree | 2026-07-14T00:00:00Z |
+_No skills unlocked yet._
 
 ---
 
