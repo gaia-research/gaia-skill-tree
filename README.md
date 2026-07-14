@@ -402,7 +402,7 @@ Thank you to everyone who has expanded the Gaia registry <3 You are the best!
 | Contributor | Role |
 |---|---|
 | [@mbtiongson1](https://github.com/mbtiongson1) | Creator and maintainer: graph design, CLI, MCP server, curation pipeline |
-| [@rico-favor](https://github.com/rico-favor) | Co-founder and twin brother: authored the Gaia Skill Bench proposal (#960) — the pillar model, task-generation pipeline, and anti-gaming spec that Gaia's benchmark methodology is built on. Ongoing pair programming across the registry. Gifted `tiongson.co` — the domain this project runs under. |
+| [@rico-favor](https://github.com/rico-favor) | Co-founder and twin brother: authored the Gaia Skill Bench proposal (#960) — the pillar model, task-generation pipeline, and anti-gaming spec that Gaia's benchmark methodology is built on. Ongoing pair programming across the registry. Gifted `tiongson.co` — the domain this project runs under. Direct engineering contributions (July 2026): CI security hardening (#1162), ReDoS fix in api-client (#1163), GitHub host validation fix (#1164), intake batch schema fix (#1165), `--dir` flag for nonstandard skill roots (#1166). |
 | [@MariTiongson](https://github.com/MariTiongson) | Collaborator: English localization (`docs/en/`) translation and layout updates |
 | [@Juno](https://github.com/Juno) | Key contributor: graph browser expansion, function-calling skill, RAG pipeline evidence, and CLI DX improvements |
 | [@milim-gaia](https://github.com/milim-gaia) | Core marketing agent: SEO optimization, copywriting, and agentic discovery alignment |
@@ -421,7 +421,7 @@ Thank you to everyone who has expanded the Gaia registry <3 You are the best!
 | [@intelligentcode-ai](https://github.com/intelligentcode-ai) | 8 — database-engineer, devops-engineer, security-engineer, and 5 others |
 | @[anonymous] | 7 — hf-cli, llm-trainer, datasets, transformers-js, and 3 others |
 
-Community contributors (1–2 skills each): [@karpathy](https://github.com/karpathy), [@anthropic](https://github.com/anthropic), [@openai](https://github.com/openai), @[anonymous], [@glincker](https://github.com/GLINCKER), [@spring-ai-alibaba](https://github.com/spring-ai-alibaba), [@pexp13](https://github.com/pexp13)
+Community contributors (1–2 skills each): [@karpathy](https://github.com/karpathy), [@anthropic](https://github.com/anthropic), [@openai](https://github.com/openai), @[anonymous], [@glincker](https://github.com/GLINCKER), [@spring-ai-alibaba](https://github.com/spring-ai-alibaba), [@pexp13](https://github.com/pexp13), [@caioribeiroclw-pixel](https://github.com/caioribeiroclw-pixel)
 
 ### Evidence & Curation
 
