@@ -29,8 +29,8 @@ from gaia_cli.trustMagnitude import (
     computeOverallTrustGradeFromSkill,
     computeTrustMagnitude,
     enforceAntiAutoMint,
-    isApex,
-    passesApexGate,
+    isSuiteApex,
+    passesSuiteApexGate,
 )
 from gaia_cli.promotion import _passes_rank_floor
 
@@ -361,11 +361,11 @@ def _apexReadyGenericMap():
 
 
 def test_apex_gate_passes_with_full_setup():
-    """Six active predicates all True => isApex returns True."""
+    """Six active predicates all True => isSuiteApex returns True."""
     skill = _apexReadySkill()
     genericSkillMap = _apexReadyGenericMap()
     state = {"genericSkillMap": genericSkillMap}
-    result = passesApexGate(skill, state)
+    result = passesSuiteApexGate(skill, state)
     # Inactive scaffolds -> None
     assert result["crossOrgVerifier"] is None
     assert result["systemWideCap"] is None
@@ -376,7 +376,7 @@ def test_apex_gate_passes_with_full_setup():
     assert result["depth2OnlyReachableGte1"] is True
     assert result["overallGradeS"] is True
     assert result["apexPromotionPrSigned"] is True
-    assert isApex(result) is True
+    assert isSuiteApex(result) is True
 
 
 def test_apex_gate_fails_when_only_4_a_graded_origins():
@@ -385,9 +385,9 @@ def test_apex_gate_fails_when_only_4_a_graded_origins():
     genericSkillMap = _apexReadyGenericMap()
     # Downgrade origin5 to B so only 4 origins are A-graded
     genericSkillMap["origin5"] = {"id": "origin5", "overallTrustGrade": "B"}
-    result = passesApexGate(skill, {"genericSkillMap": genericSkillMap})
+    result = passesSuiteApexGate(skill, {"genericSkillMap": genericSkillMap})
     assert result["aGradedOriginsGte5"] is False
-    assert isApex(result) is False
+    assert isSuiteApex(result) is False
 
 
 def test_apex_gate_fails_when_tenure_under_180_days():
@@ -398,9 +398,9 @@ def test_apex_gate_fails_when_tenure_under_180_days():
         if "sourceStartedAt" in row:
             row["sourceStartedAt"] = recent
     genericSkillMap = _apexReadyGenericMap()
-    result = passesApexGate(skill, {"genericSkillMap": genericSkillMap})
+    result = passesSuiteApexGate(skill, {"genericSkillMap": genericSkillMap})
     assert result["sourceTenureDaysGte180AorS"] is False
-    assert isApex(result) is False
+    assert isSuiteApex(result) is False
 
 
 def test_apex_gate_fails_without_signed_promotion_pr():
@@ -512,8 +512,8 @@ def test_apex_gate_source_tenure_absent_treats_as_age_zero():
     # max([0, 0]) = 0 < 180, so result is False.
     result = checkSourceTenureDaysGte180AorS(skill)
     assert result is False
-    # Also confirm via passesApexGate
-    gate = passesApexGate(skill, {})
+    # Also confirm via passesSuiteApexGate
+    gate = passesSuiteApexGate(skill, {})
     assert gate["sourceTenureDaysGte180AorS"] is False
 
 
@@ -547,7 +547,7 @@ def test_apex_gate_depth2_suite_inclusion():
     # depth1 = {"suiteChild"}; depth2 reaches "grandchild" via suiteComponents.
     result = checkDepth2OnlyReachableGte1(skill, state)
     assert result is True
-    gate = passesApexGate(skill, state)
+    gate = passesSuiteApexGate(skill, state)
     assert gate["depth2OnlyReachableGte1"] is True
 
 

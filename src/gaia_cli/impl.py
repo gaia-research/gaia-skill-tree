@@ -648,7 +648,7 @@ def init_command(args):
                 try:
                     if _use_color():
                         prompt = (
-                            f"\n{_bold()}{_fg(*TIER_COLORS['extra'])}⚡ {_fg(255, 255, 255)}Detected repo: {_fg(*RANK_COLORS['2★'])}{source}{_reset()}\n"
+                            f"\n{_bold()}{_fg(*(TIER_COLORS.get('extra') or TIER_COLORS.get('fusion') or (192, 132, 252)))}⚡ {_fg(255, 255, 255)}Detected repo: {_fg(*RANK_COLORS['2★'])}{source}{_reset()}\n"
                             f"{_bold()}{_fg(*TIER_COLORS['ultimate'])}? {_fg(255, 255, 255)}Initialize Gaia on this repository? "
                             f"{_fg(*RANK_COLORS['0★'])}[{_fg(*COLOR_LOCAL_USER)}Y{_fg(*RANK_COLORS['0★'])}/n]: {_reset()}"
                         )
@@ -1783,7 +1783,9 @@ def fuse_command(args):
             pass
 
     # Handle --delete
-    fuse_color = TIER_COLORS["extra"]
+    # Yggdrasil II collapsed the type palette to {basic, fusion}; the retired
+    # 'extra' key no longer exists. Fall back to fusion, then the fuse purple.
+    fuse_color = TIER_COLORS.get("extra") or TIER_COLORS.get("fusion") or (192, 132, 252)
     if getattr(args, "delete", False):
         target = getattr(args, "skillId", None)
         fusions = custom_state.get("customFusions", {})

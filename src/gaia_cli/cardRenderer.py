@@ -829,12 +829,18 @@ def render_promotion_prompt(
 def render_fusion_diagram(
     prereqs: list[str],
     result: str,
-    result_type: str = "extra",
+    result_type: str = "fusion",
     canon: bool = False,
     ctx: Optional["LocalContext"] = None,
 ) -> str:
     """Render a Unicode fusion flow diagram showing skill combination."""
-    tier_color = TIER_COLORS.get(result_type, TIER_COLORS["extra"])
+    # Defensive default: the retired 'extra' palette key no longer exists after
+    # the Yggdrasil II type collapse, so fall back to fusion then a slate grey.
+    tier_color = (
+        TIER_COLORS.get(result_type)
+        or TIER_COLORS.get("fusion")
+        or (192, 132, 252)
+    )
     glyph = TIER_GLYPHS.get(result_type, "◇")
 
     mc = fg(*COLOR_MUTED)
