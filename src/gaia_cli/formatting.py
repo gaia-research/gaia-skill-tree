@@ -141,7 +141,41 @@ def _load_palette_from_registry() -> tuple[dict, dict]:
 
 TIER_COLORS, RANK_COLORS = _load_palette_from_registry()
 
-TYPE_SYMBOLS = {"basic": "○", "extra": "◇", "unique": "◉", "ultimate": "◆"}
+
+def _load_types_from_meta() -> tuple[dict, dict]:
+    """Load the canonical type labels + symbols from registry/schema/meta.json.
+
+    Single source of truth for the Yggdrasil II {basic, fusion} type axis. The
+    schema meta block (`types.labels`, `types.symbols`) is authoritative; the
+    hard-coded fallback mirrors it so the CLI still renders if meta.json is
+    unreadable in a stripped install.
+    """
+    _fallback_symbols = {"basic": "○", "fusion": "◆"}
+    _fallback_labels = {"basic": "Basic", "fusion": "Fusion"}
+    candidates = [
+        os.path.join(os.path.dirname(__file__), "..", "..", "registry", "schema", "meta.json"),
+        os.path.join(os.path.dirname(__file__), "data", "registry", "schema", "meta.json"),
+    ]
+    for p in candidates:
+        resolved = os.path.normpath(p)
+        if not os.path.isfile(resolved):
+            continue
+        try:
+            with open(resolved, "r", encoding="utf-8") as f:
+                types = json.load(f).get("types", {})
+            symbols = dict(types.get("symbols") or {}) or _fallback_symbols
+            labels = dict(types.get("labels") or {}) or _fallback_labels
+            return symbols, labels
+        except Exception:
+            break
+    return _fallback_symbols, _fallback_labels
+
+
+# Type glyphs + labels — single source of truth: meta.json `types` block.
+# Yggdrasil II collapsed the type axis to {basic, fusion}; type words stand
+# bare ("Basic", "Fusion") with NO "Skill" suffix (that suffix is a rank-word
+# convention — see check_rank_vocabulary.py).
+TYPE_SYMBOLS, TYPE_LABELS = _load_types_from_meta()
 
 # Evidence Grade colors — single source of truth for grade design tokens.
 # Platinum (S) / Gold (A) / Silver (B) / Bronze (C)
@@ -273,10 +307,13 @@ def format_skill_colored(skill_id: str, level: str = "0★", *,
 
 
 def format_type_label(skill_type: str) -> str:
-    """Return type glyph + label like '○ Basic Skill'."""
-    labels = {"basic": "Basic Skill", "extra": "Extra Skill", "unique": "Unique Skill", "ultimate": "Ultimate Skill"}
+    """Return type glyph + label like '○ Basic'.
+
+    Yggdrasil II: type words stand bare (no "Skill" suffix). Labels + glyphs are
+    sourced from meta.json via TYPE_LABELS / TYPE_SYMBOLS (single source).
+    """
     symbol = TYPE_SYMBOLS.get(skill_type, "?")
-    label = labels.get(skill_type, skill_type)
+    label = TYPE_LABELS.get(skill_type, skill_type.capitalize())
     return f"{symbol} {label}"
 
 

@@ -12,7 +12,7 @@ import sys
 
 from gaia_cli.leveling import level_summary
 from gaia_cli.registry import registry_graph_path
-from gaia_cli.formatting import TIER_COLORS, RANK_COLORS  # single source of truth
+from gaia_cli.formatting import TIER_COLORS, RANK_COLORS, TYPE_SYMBOLS, TYPE_LABELS  # single source of truth
 import textwrap
 from typing import Optional
 
@@ -113,12 +113,10 @@ V = "│"
 LT = "├"
 RT = "┤"
 
-# Tier glyphs
-TIER_GLYPHS = {
-    "basic": "○",  # ○
-    "extra": "◇",  # ◇
-    "ultimate": "◆",  # ◆
-}
+# Tier glyphs — single source of truth: TYPE_SYMBOLS (meta.json `types.symbols`).
+# Yggdrasil II type axis is {basic, fusion}; legacy tiers fall back to the
+# default glyph until the taxonomy migration (#997) rewrites node types.
+TIER_GLYPHS = TYPE_SYMBOLS
 
 # 6★ label uses the brand-voice shorthand "Apex" per CONTEXT.md (Maturity > Apex).
 # Long-form surfaces use "Transcendent ★" in full; CLI plaques use the shorthand.
@@ -538,13 +536,8 @@ def render_appraise_card(
     # Thin divider
     lines.append(f"{bc}{V}{r} {fg(*COLOR_MUTED)}{H * inner}{r} {bc}{V}{r}")
 
-    # Type (using proper type labels)
-    type_labels = {
-        "basic": "Basic Skill",
-        "extra": "Extra Skill",
-        "ultimate": "Ultimate Skill",
-    }
-    meta = f"Type: {type_labels.get(tier, tier.capitalize())}"
+    # Type (labels sourced from the single meta-backed source)
+    meta = f"Type: {TYPE_LABELS.get(tier, tier.capitalize())}"
     lines.append(f"{bc}{V}{r} {fg(*COLOR_MUTED)}{_pad(meta, inner)}{r} {bc}{V}{r}")
 
     # Blank
