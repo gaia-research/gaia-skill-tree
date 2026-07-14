@@ -1308,11 +1308,11 @@ def computeBranch(
 
 
 # ---------------------------------------------------------------------------
-# Public API: passesApexGate
+# Public API: passesSuiteApexGate
 # ---------------------------------------------------------------------------
 
 
-def passesApexGate(
+def passesSuiteApexGate(
     skill: dict,
     registryState: Optional[dict] = None,
 ) -> dict[str, Optional[bool]]:
@@ -1339,7 +1339,7 @@ def passesApexGate(
     }
 
 
-def isApex(passResult: dict[str, Optional[bool]]) -> bool:
+def isSuiteApex(passResult: dict[str, Optional[bool]]) -> bool:
     """True iff every active (non-None) predicate passes."""
     return all(v is True for v in passResult.values() if v is not None)
 
@@ -1522,8 +1522,8 @@ __all__ = [
     "computeOverallTrustGrade",
     "computeOverallTrustGradeFromSkill",
     "explainTrustMagnitude",
-    "passesApexGate",
-    "isApex",
+    "passesSuiteApexGate",
+    "isSuiteApex",
     "enforceAntiAutoMint",
     "checkAGradedOriginsGte5",
     "checkSourceTenureDaysGte180AorS",

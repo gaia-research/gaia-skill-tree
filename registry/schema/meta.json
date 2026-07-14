@@ -362,7 +362,7 @@
     ],
     "systemWideCap": 5,
     "featureFlaggedOffReviewDate": "2026-Q4",
-    "notes": "crossOrgVerifierGte2 and systemWideCapRespected are implemented in passesApexGate() but return null (skipped) until re-enabled. System-wide cap enforcement lives in CI (meta-guard.yml I4), not in per-skill predicate evaluation. gaia promote rejects target_level==6★ at CLI layer; apex requires a manually-opened PR labeled apex-promotion with >=2 verifier approvals from >=2 distinct GitHub orgs."
+    "notes": "crossOrgVerifierGte2 and systemWideCapRespected are implemented in passesSuiteApexGate() but return null (skipped) until re-enabled. System-wide cap enforcement lives in CI (meta-guard.yml I4), not in per-skill predicate evaluation. gaia promote rejects target_level==6★ at CLI layer; apex requires a manually-opened PR labeled apex-promotion with >=2 verifier approvals from >=2 distinct GitHub orgs."
   },
   "demerits": {
     "order": [

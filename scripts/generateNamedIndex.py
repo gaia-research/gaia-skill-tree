@@ -433,7 +433,7 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
     """
     from gaia_cli.grading import overall_trust_grade, check_ultimate_gate
     from gaia_cli.evidence import inherited_evidence
-    from gaia_cli.trustMagnitude import computeTrustMagnitude, passesApexGate
+    from gaia_cli.trustMagnitude import computeTrustMagnitude, passesSuiteApexGate
 
     def _effective(entry):
         generic_node = generic_skills_map.get(entry.get("genericSkillRef"))
@@ -492,7 +492,7 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
                 "genericSkillMap": generic_skills_map,
                 "namedSkillMap": named_skill_map,
             }
-            apex_status = passesApexGate(skill_with_effective, registry_state)
+            apex_status = passesSuiteApexGate(skill_with_effective, registry_state)
             entry["apexGateStatus"] = apex_status
 
             if entry.get("type") == "ultimate":

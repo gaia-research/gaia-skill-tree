@@ -38,7 +38,7 @@ from gaia_cli.trustMagnitude import (  # noqa: E402
     computeOverallTrustGradeFromSkill,
     computeTrustMagnitude,
     enforceAntiAutoMint,
-    passesApexGate,
+    passesSuiteApexGate,
 )
 
 NAMED_DIR = REPO_ROOT / "registry" / "named"
@@ -226,7 +226,7 @@ def migrateSkill(
     tmRaw = computeTrustMagnitude(fm, mergedMap)
     tm = round(float(tmRaw), 2) if tmRaw is not None else 0.0
     grade = computeOverallTrustGradeFromSkill(fm, mergedMap) or "ungraded"
-    gateResult = passesApexGate(fm, {"genericSkillMap": mergedMap})
+    gateResult = passesSuiteApexGate(fm, {"genericSkillMap": mergedMap})
 
     # Provisional check — A/S rows missing sourceStartedAt
     provisional = hasMissingSourceStartedAt(fm)

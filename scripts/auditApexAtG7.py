@@ -32,8 +32,8 @@ from gaia_cli.trustMagnitude import (  # noqa: E402
     APEX_TENURE_DAYS_MIN,
     GRADE_S_FLOOR,
     computeTrustMagnitude,
-    isApex,
-    passesApexGate,
+    isSuiteApex,
+    passesSuiteApexGate,
 )
 
 
@@ -428,7 +428,7 @@ def printReport(skillId: str, skill: dict, predicates: dict, registryState: dict
             line += f"  {detail}"
         print(line)
 
-    overallPassed = isApex(predicates)
+    overallPassed = isSuiteApex(predicates)
     resultStr = "PASS" if overallPassed else "FAIL"
     print(f"\n  RESULT: {resultStr} ({activePassed}/{activeTotal} active predicates passed)")
 
@@ -463,9 +463,9 @@ def main() -> int:
                 print(f"\nWARNING: Could not load skill '{sid}' — skipping.")
                 anyFail = True
                 continue
-            predicates = passesApexGate(skill, registryState)
+            predicates = passesSuiteApexGate(skill, registryState)
             printReport(sid, skill, predicates, registryState)
-            if not isApex(predicates):
+            if not isSuiteApex(predicates):
                 anyFail = True
         return 1 if anyFail else 0
 
@@ -476,9 +476,9 @@ def main() -> int:
         print(f"ERROR: Could not find skill '{skillId}' in registry/named/ or registry/nodes/.", file=sys.stderr)
         return 1
 
-    predicates = passesApexGate(skill, registryState)
+    predicates = passesSuiteApexGate(skill, registryState)
     printReport(skillId, skill, predicates, registryState)
-    return 0 if isApex(predicates) else 1
+    return 0 if isSuiteApex(predicates) else 1
 
 
 if __name__ == "__main__":
