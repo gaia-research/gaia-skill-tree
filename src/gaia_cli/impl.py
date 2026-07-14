@@ -3877,7 +3877,7 @@ def get_parser():
     )
     dev_add.add_argument(
         "--type",
-        choices=("basic", "extra", "ultimate", "unique"),
+        choices=("basic", "fusion"),
         default="basic",
         help="Skill type (default: basic)",
     )
@@ -3943,7 +3943,7 @@ def get_parser():
     dev_reclassify.add_argument("skill_id", help="Generic skill ID to reclassify")
     dev_reclassify.add_argument(
         "new_type",
-        choices=("basic", "extra", "ultimate", "unique"),
+        choices=("basic", "fusion"),
         help="New skill type",
     )
     dev_reclassify.add_argument(

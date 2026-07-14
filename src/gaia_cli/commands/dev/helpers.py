@@ -986,7 +986,7 @@ def preflightAddCommand(args) -> None:
         typeVal = getattr(args, "type", "basic")
         if typeVal is None:
             typeVal = "basic"
-        validTypes = {"basic", "extra", "ultimate", "unique"}
+        validTypes = {"basic", "fusion"}
         if typeVal not in validTypes:
             _fail_dev_preflight(
                 f"Type '{typeVal}' is invalid.",
