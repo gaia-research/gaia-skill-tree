@@ -11,14 +11,15 @@ EXIT CODES
   1  — one or more hard violations found in non-allowlisted files
 
 BANNED PATTERNS
-  \\bTranscendent\\b      — old 5★ rank name; now "Ultimate" (Suite) / "Unique Ultimate" (Unique)
-  \\bHardened\\b          — old 4★ rank name; now "Extra" (Suite) / "Unique" (Unique branch)
-  \\bExtra\\s+Skill\\b    — old taxonomy type label; now "Fusion Skill" / type=fusion
-  \\bUltimate\\s+Skill\\b — old taxonomy type label; same replacement
+  \\bTranscendent\\b    — old 5★ rank name; now "Ultimate" (Suite) / "Unique Ultimate" (Unique)
+  \\bHardened\\b        — old 4★ rank name; now "Extra" (Suite) / "Unique" (Unique branch)
+  \\bFusion\\s+Skill\\b — type words stand bare; the "Skill" suffix is a rank-word convention. Use "Fusion".
+  \\bBasic\\s+Skill\\b  — type words stand bare; the "Skill" suffix is a rank-word convention. Use "Basic".
 
-  NOTE: "Extra" alone and "Ultimate" alone are VALID Yggdrasil II rank words and
-  are NOT banned.  The regexes above use word-boundary matching so a bare "Ultimate"
-  in "5★ Ultimate" passes, while "Ultimate Skill" fails.
+  NOTE: The "Skill" suffix attaches to RANK words only — "Extra Skill", "Unique Skill",
+  "Ultimate Skill", "Apex Skill" are all VALID rank phrasings. TYPE words stand bare:
+  "Basic" and "Fusion" (never "Basic Skill" / "Fusion Skill"). Bare "Extra"/"Ultimate"
+  as rank names are valid too (word-boundary matching).
 
 ALLOWED (v2 vocabulary — never flagged)
   1★ Awakened · 2★ Named · 3★ Evolved
@@ -69,8 +70,8 @@ BANNED_PATTERNS = [
     # Pattern,  human label,  rationale
     (re.compile(r'\bTranscendent\b'),     'Transcendent',    'old 5★ rank name — use Ultimate / Unique Ultimate'),
     (re.compile(r'\bHardened\b'),         'Hardened',        'old 4★ rank name — use Extra (Suite) / Unique (Unique branch)'),
-    (re.compile(r'\bExtra\s+Skill\b'),    'Extra Skill',     'old taxonomy type label — use Fusion Skill / type=fusion'),
-    (re.compile(r'\bUltimate\s+Skill\b'), 'Ultimate Skill',  'old taxonomy type label — use Fusion Skill / type=fusion'),
+    (re.compile(r'\bFusion\s+Skill\b'), 'Fusion Skill',  'type words stand bare — the "Skill" suffix is reserved for rank words; use "Fusion"'),
+    (re.compile(r'\bBasic\s+Skill\b'),  'Basic Skill',   'type words stand bare — the "Skill" suffix is reserved for rank words; use "Basic"'),
 ]
 
 # ---------------------------------------------------------------------------
@@ -149,6 +150,7 @@ ALLOWLIST_PATHS = {
     'founder/handovers/design-v6.1.1-ascension-overdrive-shape-v2.md',
     'founder/handovers/design-v6.1.1-ascension-overdrive-shape-v3.md',
     'founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md',  # Ratification doc references both old and new terms
+    'founder/handovers/design-v6.1.1-world-tree-semantic-topology.md',  # v2 topology; changelog names the dropped "Transcendent" term
     'founder/handovers/done/TRUST_METHODOLOGY_REPORT.md',         # Historical report
     'founder/handovers/done/g7-mattpocock-audit/_workflow_notes.md',  # Historical workflow notes
     'founder/handovers/phase-1.5/issues/I8.md',                   # Historical issue doc
@@ -258,8 +260,8 @@ def main():
 
     print('=== Yggdrasil II Rank Vocabulary Guard  (Refs #999) ===')
     print(f'Repo root : {repo_root}')
-    print(f'Banned    : Transcendent, Hardened, "Extra Skill", "Ultimate Skill"')
-    print(f'Allowed   : Extra, Ultimate, (all other Yggdrasil II rank words)')
+    print(f'Banned    : Transcendent, Hardened, "Basic Skill", "Fusion Skill"')
+    print(f'Allowed   : Extra/Ultimate + rank+Skill phrasings ("Extra Skill" etc.); Basic, Fusion (bare types)')
     print()
 
     hard, soft = scan(repo_root)
