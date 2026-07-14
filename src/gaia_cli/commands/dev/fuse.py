@@ -10,7 +10,6 @@ Usage
 
     gaia dev fuse <generic-id> \\
       --name "Get Shit Done" \\
-      --type ultimate \\
       --prereqs a,b,c,d \\
       --named-capstone gsd-build/get-shit-done \\
       --suite-components gsd-build/discuss-phase,gsd-build/plan-phase,...
@@ -43,7 +42,12 @@ from gaia_cli.commands.dev.helpers import (
 )
 
 
-VALID_TYPES = ("basic", "extra", "ultimate", "unique")
+# Yggdrasil II: the starless type enum is {basic, fusion} only. A node created
+# via `gaia dev fuse` carries prerequisites, so it is structurally a fusion.
+VALID_TYPES = ("basic", "fusion")
+
+# `gaia dev fuse` always produces a fusion node — type is no longer a flag.
+FUSE_NODE_TYPE = "fusion"
 
 
 def _preflight_generic_id(generic_id: str) -> None:
@@ -57,8 +61,8 @@ def _preflight_generic_id(generic_id: str) -> None:
 def _preflight_type(skill_type: str) -> None:
     if skill_type not in VALID_TYPES:
         _fail_dev_preflight(
-            f"--type must be one of {', '.join(VALID_TYPES)}; got {skill_type!r}.",
-            fix="Choose ultimate/extra/unique/basic to fit the taxonomy of the fusion.",
+            f"fusion node type must be one of {', '.join(VALID_TYPES)}; got {skill_type!r}.",
+            fix="`gaia dev fuse` always creates a 'fusion' node (Yggdrasil II).",
         )
 
 
@@ -255,7 +259,9 @@ def meta_dev_fuse_command(args) -> None:
     """Registry-level fusion / suite command. See module docstring."""
     registry_path = args.registry
     generic_id = args.generic_id.lstrip("/")
-    skill_type = getattr(args, "type", None) or "ultimate"
+    # Yggdrasil II: `gaia dev fuse` always produces a fusion node. Type is
+    # derived structurally (it carries prerequisites), not passed as a flag.
+    skill_type = FUSE_NODE_TYPE
     name = getattr(args, "name", None)
     description = getattr(args, "description", None)
 
@@ -287,9 +293,9 @@ def meta_dev_fuse_command(args) -> None:
         node_data["name"] = name
     if description:
         node_data["description"] = description.strip()
-    # Re-type if this invocation overrides.
-    if getattr(args, "type", None):
-        node_data["type"] = skill_type
+    # Yggdrasil II: a fused node is structurally a fusion. Normalize the type
+    # so pre-existing nodes touched by `gaia dev fuse` land on the collapsed enum.
+    node_data["type"] = FUSE_NODE_TYPE
     node_data["updatedAt"] = datetime.date.today().isoformat()
     _write_json(node_file, node_data)
     if created_new_node:

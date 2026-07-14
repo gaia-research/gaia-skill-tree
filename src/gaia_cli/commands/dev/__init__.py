@@ -71,7 +71,7 @@ Registry development commands (requires Verifier authorization):
   gaia dev evidence <skillId> <source> [--trust <0-100>] [--type <type>] [--evaluator <user>]
   gaia dev rm-evidence <skill_id> (--index N | --source URL) [--yes]
   gaia dev timeline <skill_id> --action <action> --notes <notes> [--user <username>]
-  gaia dev fuse <generic_id> [--name ...] [--type ultimate|extra|unique|basic] [--prereqs a,b,c] \\
+  gaia dev fuse <generic_id> [--name ...] [--prereqs a,b,c] \\
                 [--named-capstone contributor/slug] [--suite-components a,b,c]
   gaia dev build
   gaia dev verify <skill_id>
@@ -626,11 +626,6 @@ class DevCommand(Command):
         dev_fuse.add_argument(
             "--description",
             help="Description for the generic fusion node (>=10 chars; required if creating).",
-        )
-        dev_fuse.add_argument(
-            "--type",
-            choices=("basic", "extra", "ultimate", "unique"),
-            help="Skill type for the generic fusion node (default: ultimate).",
         )
         dev_fuse.add_argument(
             "--prereqs",
