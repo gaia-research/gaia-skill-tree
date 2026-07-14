@@ -1344,6 +1344,44 @@ def isSuiteApex(passResult: dict[str, Optional[bool]]) -> bool:
     return all(v is True for v in passResult.values() if v is not None)
 
 
+def checkUniqueImpossibleGate(
+    skill: dict,
+    registryState: Optional[dict] = None,
+) -> dict[str, Optional[bool]]:
+    """PROVISIONAL 6★ Unique Impossible gate (Yggdrasil II decision log Q9).
+
+    The Unique-branch analogue of the Suite Apex gate. It is the Apex active-6
+    predicate set **MINUS** ``directNestedSuiteGte1`` — a Unique skill is
+    standalone, so the nested-suite structural requirement does not apply. That
+    leaves five active predicates. For shape parity with
+    :func:`passesSuiteApexGate`, the two feature-flagged-OFF scaffolds
+    (``crossOrgVerifier``, ``systemWideCap``) are still included as ``None``.
+
+    ◇ PROVISIONAL — formal ratification is deferred to a follow-up RFC
+    (Yggdrasil III candidate, per decision log Q9). A passing result is NOT yet
+    a canonical promotion authorization; treat it as advisory only.
+
+    Returns a dict mapping predicate name -> True/False/None (None = skipped).
+    The public boolean "is unique-impossible" mirrors :func:`isSuiteApex`::
+
+        all(v is True for v in d.values() if v is not None)
+    """
+    state = registryState or {}
+    genericSkillMap = state.get("genericSkillMap")
+    namedSkillMap = state.get("namedSkillMap")
+    return {
+        "aGradedOriginsGte5": checkAGradedOriginsGte5(skill, genericSkillMap, namedSkillMap),
+        "sourceTenureDaysGte180AorS": checkSourceTenureDaysGte180AorS(skill),
+        # directNestedSuiteGte1 intentionally omitted — the defining difference
+        # between Unique Impossible and Suite Apex (no nested-suite requirement).
+        "depth2OnlyReachableGte1": checkDepth2OnlyReachableGte1(skill, state),
+        "overallGradeS": checkOverallGradeS(skill, genericSkillMap),
+        "apexPromotionPrSigned": checkApexPromotionPrSigned(skill),
+        "crossOrgVerifier": checkCrossOrgVerifier(skill, state),
+        "systemWideCap": checkSystemWideCap(state),
+    }
+
+
 
 # ---------------------------------------------------------------------------
 # Public API: explainTrustMagnitude
@@ -1524,6 +1562,7 @@ __all__ = [
     "explainTrustMagnitude",
     "passesSuiteApexGate",
     "isSuiteApex",
+    "checkUniqueImpossibleGate",
     "enforceAntiAutoMint",
     "checkAGradedOriginsGte5",
     "checkSourceTenureDaysGte180AorS",
