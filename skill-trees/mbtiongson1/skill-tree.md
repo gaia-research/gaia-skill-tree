@@ -175,7 +175,6 @@
 | ○ Sentiment Analysis | Basic Skill | 3★ | Evolved | mbtiongson1/gaia-skill-tree | 2026-05-13T21:50:25Z |
 | ◇ Skill Authoring | Extra Skill | 4★ | Hardened | mbtiongson1/gaia-skill-tree | 2026-05-13T21:50:25Z |
 | ○ Skill Discovery | Basic Skill | 3★ | Evolved | mbtiongson1/gaia-skill-tree | 2026-05-13T21:50:25Z |
-| ◆ mattpocock-skills | Ultimate Skill | 6★ | Apex | mbtiongson1/gaia-skill-tree | 2026-05-21T16:25:28Z |
 | ◇ Skill Performance Benchmarking | Extra Skill | 4★ | Hardened | mbtiongson1/gaia-skill-tree | 2026-05-13T21:50:25Z |
 | ◇ Skill Security Analysis | Extra Skill | 2★ | Named | mbtiongson1/gaia-skill-tree | 2026-05-13T21:50:25Z |
 | ○ Speech to Text | Basic Skill | 2★ | Named | mbtiongson1/gaia-skill-tree | 2026-05-13T21:50:25Z |
@@ -442,7 +441,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ✓ ◇ obra/verification-before-completion  [3★]  (↑ see above)
   └─ ✓ ◇ obra/writing-plans  [4★]  (↑ see above)
 
-✓ ◆ mattpocock/skills  [5★]
+· ◆ mattpocock/skills  [5★]
   ├─ ✓ ◇ mattpocock/engineering  [4★]
   │  ├─ ✓ ◇ devin-ai/autonomous-swe  [3★]
   │  │  ├─ ✓ ○ garrytan/design-html  [3★]
