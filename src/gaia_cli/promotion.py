@@ -302,49 +302,6 @@ def checkUniqueBranchGate(
     }
 
 
-def detect_unique_candidates(graph_data: dict, named_index: dict) -> list[dict]:
-    """Detect basic skills eligible for promotion to 'unique' type.
-
-    Criteria:
-      1. type == "basic"
-      2. top named-variant star >= 4★ (generic refs are rank-less)
-      3. prerequisites == [] (orphan)
-      4. Not referenced as a prerequisite by any other skill (graph-isolated)
-      5. Has at least one named implementation in named_index
-    """
-    all_prereq_refs = set()
-    for skill in graph_data.get("skills", []):
-        for pid in skill.get("prerequisites", []):
-            all_prereq_refs.add(pid)
-
-    named_buckets = named_index.get("buckets", {})
-    candidates = []
-
-    for skill in graph_data.get("skills", []):
-        if skill.get("type") != "basic":
-            continue
-        if skill.get("prerequisites", []):
-            continue
-        if skill["id"] in all_prereq_refs:
-            continue
-        if skill["id"] not in named_buckets or not named_buckets[skill["id"]]:
-            continue
-        star = top_named_level(named_buckets, skill["id"])
-        if star is None or level_index(star) < 4:
-            continue
-
-        candidates.append({
-            "skillId": skill["id"],
-            "name": skill.get("name", skill["id"]),
-            "currentLevel": star,
-            "currentType": "basic",
-            "promotionType": "unique",
-            "namedImplementations": [ns.get("id", "") for ns in named_buckets[skill["id"]]],
-        })
-
-    return candidates
-
-
 def _utc_now() -> datetime:
     return datetime.now(timezone.utc)
 
@@ -358,8 +315,7 @@ def _parse_scanned_at(value: str) -> datetime | None:
         return None
 
 
-def write_promotion_candidates(registry_path: str, username: str, candidates: list[dict],
-                               unique_candidates: list[dict] | None = None) -> str:
+def write_promotion_candidates(registry_path: str, username: str, candidates: list[dict]) -> str:
     path = promotion_candidates_path(registry_path)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     normalized = []
@@ -375,7 +331,6 @@ def write_promotion_candidates(registry_path: str, username: str, candidates: li
         "scannedAt": _utc_now().replace(microsecond=0).isoformat().replace("+00:00", "Z"),
         "username": username,
         "candidates": normalized,
-        "uniqueCandidates": unique_candidates or [],
     }
     with open(path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2)
@@ -540,69 +495,6 @@ def promote_skill(
         "previousLevel": current,
         "newLevel": target,
         "displayName": display_name,
-    }
-
-
-def promote_to_unique(skill_id: str, registry_path: str) -> dict:
-    """Promote a basic skill to 'unique' type in gaia.json.
-
-    Validates the skill meets all unique eligibility criteria before modifying
-    the registry graph file. Returns a result dict on success.
-
-    Raises:
-        ValueError: If the skill is not eligible for unique promotion.
-    """
-    graph_path = registry_graph_path(registry_path)
-    with open(graph_path, "r", encoding="utf-8") as f:
-        graph_data = json.load(f)
-
-    graph_skill = _get_skill_from_graph(graph_data, skill_id)
-    if graph_skill is None:
-        raise ValueError(f"Skill '{skill_id}' not found in registry graph.")
-    if graph_skill.get("type") != "basic":
-        raise ValueError(f"Skill '{skill_id}' is type '{graph_skill.get('type')}', not 'basic'.")
-    if graph_skill.get("prerequisites", []):
-        raise ValueError(f"Skill '{skill_id}' has prerequisites — must be graph-isolated.")
-
-    all_prereq_refs = set()
-    for skill in graph_data.get("skills", []):
-        for pid in skill.get("prerequisites", []):
-            all_prereq_refs.add(pid)
-    if skill_id in all_prereq_refs:
-        raise ValueError(f"Skill '{skill_id}' is referenced as a prerequisite — must be graph-isolated.")
-
-    from .graph import load_named_skills
-    named_index = load_named_skills(registry_path)
-    named_buckets = named_index.get("buckets", {})
-    if skill_id not in named_buckets or not named_buckets[skill_id]:
-        raise ValueError(f"Skill '{skill_id}' has no named implementation — required for unique promotion.")
-
-    star = top_named_level(named_buckets, skill_id)
-    if star is None or level_index(star) < 4:
-        raise ValueError(f"Skill '{skill_id}' needs a 4★+ named implementation for unique promotion.")
-
-    graph_skill["type"] = "unique"
-    graph_skill["updatedAt"] = date.today().isoformat()
-
-    with open(graph_path, "w", encoding="utf-8") as f:
-        json.dump(graph_data, f, indent=2, ensure_ascii=False)
-        f.write("\n")
-
-    from gaia_cli.timeline import append_skill_event
-    append_skill_event(
-        skill_id,
-        "rank_up",
-        None,
-        "Promoted to unique skill",
-        registry_path
-    )
-
-    return {
-        "skillId": skill_id,
-        "previousType": "basic",
-        "newType": "unique",
-        "level": star,
-        "displayName": graph_skill.get("name", skill_id),
     }
 
 

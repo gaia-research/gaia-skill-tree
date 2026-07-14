@@ -1459,20 +1459,6 @@ def promote_command(args):
     display_name = getattr(args, "name", None)
 
     try:
-        if getattr(args, "unique", False):
-            if not skill_id:
-                print("Usage: gaia promote <skill> --unique", file=sys.stderr)
-                sys.exit(2)
-            from .promotion import promote_to_unique
-
-            result = promote_to_unique(skill_id, args.registry)
-            print(
-                f"\n◉ {result['displayName']} promoted to Unique Skill (type: unique)!"
-            )
-            print(f"  Level: {result['level']}")
-            print()
-            return
-
         if getattr(args, "all", False):
             results = promote_all_candidates(username, args.registry)
             if not results:
@@ -3712,11 +3698,6 @@ def get_parser():
     )
     promote_parser.add_argument(
         "--all", action="store_true", help="Promote every candidate from the last scan"
-    )
-    promote_parser.add_argument(
-        "--unique",
-        action="store_true",
-        help="Promote a basic skill to unique type (4★+ graph-isolated with named impl)",
     )
     promote_parser.add_argument(
         "--name", help="Optional display name for the promoted skill"
