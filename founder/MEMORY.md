@@ -4,6 +4,53 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-15, session — Yggdrasil II code path: #995 schema + #996 CLI branch-axis merged to staging; nomenclature reconciled)
+
+### TLDR
+- **#995 (schema) + #996 (CLI) are MERGED to `dev/yggdrasil-ii-staging`** as a stacked pair (PRs #1173, #1175). Type enum collapsed to `{basic,fusion}`; Evidence Floor removed (TM sole gate, readers guarded); `computeBranch`/Unique gates/Suite-Apex rename/branch-aware labels shipped.
+- **`suiteComponents` is NAMED-SKILL-ONLY** — never on the starless/generic parent. Branch = `f(the Named Skill's suiteComponents present?, rank)`; `type` never consulted. Corrected in CONTEXT.md, the v2 ratification handover, and #1171.
+- **"Skill"-suffix convention ratified:** the suffix attaches to **rank** words (Extra/Unique/Ultimate/Apex Skill are valid); **type words stand bare** (Basic, Fusion). `Basic Skill`/`Fusion Skill` are now guard-banned; `Extra Skill`/`Ultimate Skill` un-banned. 1★–3★ ladder words (Awakened/Named/Evolved) are always star-qualified — so **Named Skill** = the claimed-skill entity, never "a 2★ skill". `scripts/check_rank_vocabulary.py` reconciled to match.
+- **Orchestrator superadmin mode codified** in `founder/ORCHESTRATOR.md`: direct-edit authority over root `*.md` + `founder/`; all code still delegated to workers.
+- **Option C in effect:** staging `validate.py` is red with **129 legacy-enum node errors** (124 `extra` + 5 `ultimate`) — EXPECTED until #997 migration rewrites node types. Guard is green. CI reconciled at sprint close.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| #995 schema (enum collapse, evidenceFloors removal+guard, meta labels, v2 docs fetched, 4★→Extra, guard reconcile) | ✅ Merged → staging (PR #1173) |
+| #996 CLI (computeBranch named-only, Unique/UniqueImpossible gates, Suite-Apex rename, branch-aware labels, --type/--unique removal) | ✅ Merged → staging (PR #1175) |
+| CONTEXT.md nomenclature (Skill-suffix carve-out + suiteComponents named-only) | ✅ on staging |
+| founder/ORCHESTRATOR.md superadmin mode | ✅ on staging |
+| reclassify deprecation | ✅ filed #1174 (in-sprint, compat-hold — keep verb, deprecate later) |
+| #1171 design-alignment handover | ✅ spot-fixed (suiteComponents named-only + Skill-suffix); ⏳ OPEN, needs rebase onto staging when actioned post-#997 |
+| #1168 v2 taxonomy PR | ⚠ RECOMMEND CLOSE — superseded (its v2 handover docs are now on staging via #995); stale branch would REVERT the #1169 guard if merged |
+| Code path #997 migration → #998 frontend | ⏳ NOT started — #996 gates now available; unblocked |
+
+### Branches at end of session
+| Branch | Head | Status |
+|---|---|---|
+| dev/yggdrasil-ii-staging | a6236c829 | integration — #995+#996 merged |
+| dev/yggdrasil-ii-995-schema | 397b717e5 | merged to staging |
+| dev/yggdrasil-ii-996-cli | ad3226605 | merged to staging |
+| docs/yggdrasil-ii-design-alignment | 6da4f11aa | #1171 OPEN, spot-fixed, behind staging |
+| docs/contributors-update-rico-caio | f0d6e84f2 | NOT ours — concurrent process (Caio/rico README ack); restored, untouched |
+
+### Lessons / hazards preserved
+- **CONCURRENCY HAZARD:** a second process operates in THIS working copy under the `mbtiongson1` identity (created `docs/contributors-update-rico-caio`; a `fix/pr-1162-author` linked worktree exists). It switched branches mid-operation and my reconcile commit landed on the wrong branch. Recovered cleanly (cherry-picked to #996, reset the other branch). **Recommend: isolate concurrent sessions to their own worktree/clone.** Always `git branch --show-current` before commit/push.
+- **computeBranch has a dead generic-fallback** (reads named-first, then generic — but generic never has suiteComponents). Functionally correct (named-first always resolves); the fallback is dead code that contradicts the doc. Trivial cleanup follow-up.
+- **#1168 is a stale-branch trap:** diffed against staging it shows the #1169 guard as "deleted". Never merge it wholesale.
+- Verify-before-mutate paid off repeatedly (caught pre-v2 stale handover, evidenceFloors crash, 4★ Hardened, CRLF risk, guard-vs-convention conflict, the branch mishap).
+
+### Open questions for next orchestrator
+1. **Close #1168?** (superseded + stale-branch hazard) — needs founder call.
+2. **#997 migration is next** — hard cutover: rewrites 129 node types (extra/ultimate→fusion) + re-evaluates 43 4★s + 5 5★s against new gates, emitting `type_change`+`demote` events. ≥1 5★ demotes by design. This clears the 129 validate errors.
+3. Remove the dead generic-fallback in `computeBranch` to match the doc.
+4. Rebase #1171 onto staging when actioned (post-#997).
+
+### Token cost (this session)
+- Raw meter (concurrent-contaminated): Cache W/R 964,750 | 51,381,901 · Cost 39.39 CU | €21.27 · Requests 584 · Tokens Out/In 393,145 | 1,421.
+- **Interpolated (−~$5 concurrent work):** effective session cost ≈ **~€16.7 / ~31 CU**. Requests/tokens raw are inflated by the concurrent process; treat as upper bound.
+- Note: exceptionally efficient run — full 2-PR stack (schema + CLI) plus a mid-sprint nomenclature reconciliation, all landed, at ~€17.
+
 ## State Snapshot (2026-07-14, session — Yggdrasil II **v2** taxonomy ratified; branch decoupled from type; #1170/#1169/#1172 merged to staging)
 
 ### TLDR
