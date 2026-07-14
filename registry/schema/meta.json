@@ -17,7 +17,7 @@
       "2★": "Named",
       "3★": "Evolved",
       "4★": "Hardened",
-      "5★": "Transcendent",
+      "5★": "Ultimate",
       "6★": "Apex"
     },
     "colors": {
@@ -56,74 +56,34 @@
         "bg": "rgba(251,191,36,.22)",
         "border": "rgba(251,191,36,.55)"
       }
-    },
-    "evidenceFloors": {
-      "0★": null,
-      "1★": null,
-      "2★": [
-        "C",
-        "B",
-        "A"
-      ],
-      "3★": [
-        "B",
-        "A"
-      ],
-      "4★": [
-        "B",
-        "A"
-      ],
-      "5★": [
-        "B",
-        "A"
-      ],
-      "6★": [
-        "A"
-      ]
     }
   },
   "types": {
     "order": [
       "basic",
-      "extra",
-      "unique",
-      "ultimate"
+      "fusion"
     ],
     "labels": {
-      "basic": "Basic Skill",
-      "extra": "Extra Skill",
-      "unique": "Unique Skill",
-      "ultimate": "Ultimate Skill"
+      "basic": "Basic",
+      "fusion": "Fusion"
     },
     "symbols": {
       "basic": "○",
-      "extra": "◇",
-      "unique": "◉",
-      "ultimate": "◆"
+      "fusion": "◆"
     },
     "colors": {
       "basic": {
         "hex": "#38bdf8",
         "rgb": "56,189,248"
       },
-      "extra": {
-        "hex": "#c084fc",
-        "rgb": "192,132,252"
-      },
-      "unique": {
-        "hex": "#7c3aed",
-        "rgb": "124,58,237"
-      },
-      "ultimate": {
+      "fusion": {
         "hex": "#f59e0b",
         "rgb": "245,158,11"
       }
     },
     "minPrereqs": {
       "basic": 0,
-      "extra": 2,
-      "unique": 0,
-      "ultimate": 5
+      "fusion": 1
     },
     "ultimateFusionCriteria": {
       "description": "All prerequisites must be named skills. The proposer must hold origin status on at least 1 of them.",
