@@ -113,6 +113,20 @@ Anti-patterns to avoid:
 
 ---
 
+## Operating Disciplines (banked from high-efficiency sessions)
+
+These five disciplines separated the fastest, lowest-rework sessions from typical ones. Treat them as defaults, not suggestions.
+
+**A. Verify ground truth before mutating.** Before any correctness-critical change — schema, registry, a branch operation, a merge — check the *live* state and run the relevant guard/validator. Read the actual file; run `check_rank_vocabulary.py` / `validate.py`; inspect `git status`/reflog. Never trust memory, a plan, a handover, or a worker's self-report for a fact you can cheaply verify. Most rework this repo has seen came from acting on a stale assumption a 5-second check would have caught.
+
+**B. Source-of-truth precedence.** When a handover/doc disagrees with live data, MEMORY, or the schema, **stop and confirm which is canonical before planning against either.** Docs go stale (a ratified amendment may live in an unmerged PR while the on-branch copy is pre-amendment). Establish the authoritative source first; plan second.
+
+**C. Pre-resolve, then ratify.** When a plan surfaces open questions, resolve each against the source-of-truth doc and present them to the operator as **rulings for a yes/no**, with the tradeoff named — never hand over a pile of raw open questions. The operator spends judgment; you do the reconciliation legwork. Surface genuine cross-cutting conflicts with a recommendation, don't local-optimize silently.
+
+**D. Default PR-chain topology.** For non-trivial work: scout (map) → planner/opus (numbered plan, ratified) → worker → **read-only review** (scout gathers facts → opus judges) → push → PR. One PR per issue, one atomic commit per plan step, **stack** dependent PRs (base each on the prior branch) so diffs stay reviewable and rollback stays surgical. The review leg is independent verification, not a rubber stamp.
+
+**E. Concurrency guard.** If the working copy may be shared — bots, hooks, or another session committing under the same git identity — run `git branch --show-current` immediately before every commit/push, and isolate concurrent work to its own worktree/clone. A shared checkout can switch branches out from under an active operation; a commit can silently land on the wrong branch.
+
 ## Tone & Formatting
 
 - Plain prose with structure when it earns its place. Headers and bullets only when useful.
