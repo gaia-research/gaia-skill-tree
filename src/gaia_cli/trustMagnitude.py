@@ -1240,11 +1240,79 @@ def checkSystemWideCap(registryState: Optional[dict] = None) -> Optional[bool]:
 
 
 # ---------------------------------------------------------------------------
-# Public API: passesApexGate
+# Public API: computeBranch (Yggdrasil II v2 — branch axis)
 # ---------------------------------------------------------------------------
 
 
-def passesApexGate(
+def _starRank(level: Any) -> int:
+    """Parse the integer star count from a level like '4★' (0 if unparseable)."""
+    if isinstance(level, int):
+        return level
+    if not level:
+        return 0
+    digits = ""
+    for ch in str(level):
+        if ch.isdigit():
+            digits += ch
+        elif digits:
+            break
+    return int(digits) if digits else 0
+
+
+def _suiteComponentsPresent(
+    named: dict,
+    genericSkillMap: Optional[dict] = None,
+) -> bool:
+    """True iff suiteComponents are present on the named skill or its generic parent.
+
+    suiteComponents live on named-skill frontmatter today; the generic-parent
+    read keeps this forward-compatible should a migration relocate them. This
+    predicate NEVER consults `type` — branch is driven by suiteComponents + rank
+    only (Yggdrasil II v2 amendment 2026-07-14).
+    """
+    if named.get("suiteComponents"):
+        return True
+    if genericSkillMap is not None:
+        ref = named.get("genericSkillRef")
+        generic = genericSkillMap.get(ref) if ref else None
+        if generic and generic.get("suiteComponents"):
+            return True
+    return False
+
+
+def computeBranch(
+    named: dict,
+    genericSkillMap: Optional[dict] = None,
+) -> str:
+    """Derive the progression branch for a named skill (Yggdrasil II v2).
+
+    ``branch = f(suiteComponents present?, rank)`` — ``type`` is NEVER consulted.
+
+      - rank 1-3★                          -> ``'standard'`` (shared ladder:
+        Awakened / Named / Evolved; no branch distinction below 4★)
+      - rank >=4★ AND suiteComponents present -> ``'suite'``
+        (Extra / Ultimate / Apex)
+      - rank >=4★ AND no suiteComponents      -> ``'unique'``
+        (Unique / Unique Ultimate / Unique Impossible)
+
+    Orthogonality: a ``fusion`` node without ``suiteComponents`` is Unique; a
+    ``basic`` node carrying ``suiteComponents`` is Suite. The rank is read from
+    ``named['level']``; suiteComponents from the named skill (and,
+    forward-compatibly, its resolved generic parent via ``genericSkillMap``).
+    """
+    if _starRank(named.get("level")) < 4:
+        return "standard"
+    if _suiteComponentsPresent(named, genericSkillMap):
+        return "suite"
+    return "unique"
+
+
+# ---------------------------------------------------------------------------
+# Public API: passesSuiteApexGate
+# ---------------------------------------------------------------------------
+
+
+def passesSuiteApexGate(
     skill: dict,
     registryState: Optional[dict] = None,
 ) -> dict[str, Optional[bool]]:
@@ -1271,9 +1339,47 @@ def passesApexGate(
     }
 
 
-def isApex(passResult: dict[str, Optional[bool]]) -> bool:
+def isSuiteApex(passResult: dict[str, Optional[bool]]) -> bool:
     """True iff every active (non-None) predicate passes."""
     return all(v is True for v in passResult.values() if v is not None)
+
+
+def checkUniqueImpossibleGate(
+    skill: dict,
+    registryState: Optional[dict] = None,
+) -> dict[str, Optional[bool]]:
+    """PROVISIONAL 6★ Unique Impossible gate (Yggdrasil II decision log Q9).
+
+    The Unique-branch analogue of the Suite Apex gate. It is the Apex active-6
+    predicate set **MINUS** ``directNestedSuiteGte1`` — a Unique skill is
+    standalone, so the nested-suite structural requirement does not apply. That
+    leaves five active predicates. For shape parity with
+    :func:`passesSuiteApexGate`, the two feature-flagged-OFF scaffolds
+    (``crossOrgVerifier``, ``systemWideCap``) are still included as ``None``.
+
+    ◇ PROVISIONAL — formal ratification is deferred to a follow-up RFC
+    (Yggdrasil III candidate, per decision log Q9). A passing result is NOT yet
+    a canonical promotion authorization; treat it as advisory only.
+
+    Returns a dict mapping predicate name -> True/False/None (None = skipped).
+    The public boolean "is unique-impossible" mirrors :func:`isSuiteApex`::
+
+        all(v is True for v in d.values() if v is not None)
+    """
+    state = registryState or {}
+    genericSkillMap = state.get("genericSkillMap")
+    namedSkillMap = state.get("namedSkillMap")
+    return {
+        "aGradedOriginsGte5": checkAGradedOriginsGte5(skill, genericSkillMap, namedSkillMap),
+        "sourceTenureDaysGte180AorS": checkSourceTenureDaysGte180AorS(skill),
+        # directNestedSuiteGte1 intentionally omitted — the defining difference
+        # between Unique Impossible and Suite Apex (no nested-suite requirement).
+        "depth2OnlyReachableGte1": checkDepth2OnlyReachableGte1(skill, state),
+        "overallGradeS": checkOverallGradeS(skill, genericSkillMap),
+        "apexPromotionPrSigned": checkApexPromotionPrSigned(skill),
+        "crossOrgVerifier": checkCrossOrgVerifier(skill, state),
+        "systemWideCap": checkSystemWideCap(state),
+    }
 
 
 
@@ -1450,11 +1556,13 @@ __all__ = [
     "computeArtifactScore",
     "computeArtifactScoreOrNone",
     "computeTrustMagnitude",
+    "computeBranch",
     "computeOverallTrustGrade",
     "computeOverallTrustGradeFromSkill",
     "explainTrustMagnitude",
-    "passesApexGate",
-    "isApex",
+    "passesSuiteApexGate",
+    "isSuiteApex",
+    "checkUniqueImpossibleGate",
     "enforceAntiAutoMint",
     "checkAGradedOriginsGte5",
     "checkSourceTenureDaysGte180AorS",

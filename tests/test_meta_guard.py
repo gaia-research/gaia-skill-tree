@@ -129,11 +129,11 @@ class TestAuditApexAtG7Passing:
             "systemWideApexCount": 0,
         }
 
-        from gaia_cli.trustMagnitude import passesApexGate, isApex
-        predicates = passesApexGate(skill, registryState)
+        from gaia_cli.trustMagnitude import passesSuiteApexGate, isSuiteApex
+        predicates = passesSuiteApexGate(skill, registryState)
 
         # Verify that the test data we set up actually passes apex gate
-        assert isApex(predicates), (
+        assert isSuiteApex(predicates), (
             f"Expected apex-ready skill to pass all predicates; got: {predicates}"
         )
 
@@ -148,8 +148,8 @@ class TestAuditApexAtG7Passing:
             "systemWideApexCount": 0,
         }
 
-        from gaia_cli.trustMagnitude import passesApexGate
-        predicates = passesApexGate(skill, registryState)
+        from gaia_cli.trustMagnitude import passesSuiteApexGate
+        predicates = passesSuiteApexGate(skill, registryState)
         auditMod.printReport("apex-skill", skill, predicates, registryState)
 
         captured = capsys.readouterr()
@@ -166,8 +166,8 @@ class TestAuditApexAtG7Passing:
             "systemWideApexCount": 0,
         }
 
-        from gaia_cli.trustMagnitude import passesApexGate
-        predicates = passesApexGate(skill, registryState)
+        from gaia_cli.trustMagnitude import passesSuiteApexGate
+        predicates = passesSuiteApexGate(skill, registryState)
         auditMod.printReport("apex-skill", skill, predicates, registryState)
 
         captured = capsys.readouterr()
@@ -188,8 +188,8 @@ class TestAuditApexAtG7Passing:
             "systemWideApexCount": 0,
         }
 
-        from gaia_cli.trustMagnitude import passesApexGate
-        predicates = passesApexGate(skill, registryState)
+        from gaia_cli.trustMagnitude import passesSuiteApexGate
+        predicates = passesSuiteApexGate(skill, registryState)
         auditMod.printReport("apex-skill", skill, predicates, registryState)
 
         captured = capsys.readouterr()
@@ -209,7 +209,7 @@ class TestAuditApexAtG7Failing:
 
     def test_missing_apex_promotion_pr_signed_fails_gate(self):
         """Skill without apexPromotionPrSigned fails the apex gate."""
-        from gaia_cli.trustMagnitude import passesApexGate, isApex
+        from gaia_cli.trustMagnitude import passesSuiteApexGate, isSuiteApex
 
         skill = _apexReadySkill()
         # Remove the apexGateStatus annotation
@@ -222,9 +222,9 @@ class TestAuditApexAtG7Failing:
             "systemWideApexCount": 0,
         }
 
-        predicates = passesApexGate(skill, registryState)
+        predicates = passesSuiteApexGate(skill, registryState)
         assert predicates["apexPromotionPrSigned"] is False
-        assert not isApex(predicates)
+        assert not isSuiteApex(predicates)
 
     def test_print_report_shows_fail_for_unsigned_skill(self, capsys):
         """printReport outputs FAIL line when apexPromotionPrSigned is False."""
@@ -239,8 +239,8 @@ class TestAuditApexAtG7Failing:
             "systemWideApexCount": 0,
         }
 
-        from gaia_cli.trustMagnitude import passesApexGate
-        predicates = passesApexGate(skill, registryState)
+        from gaia_cli.trustMagnitude import passesSuiteApexGate
+        predicates = passesSuiteApexGate(skill, registryState)
         auditMod.printReport("test-skill", skill, predicates, registryState)
 
         captured = capsys.readouterr()
@@ -249,7 +249,7 @@ class TestAuditApexAtG7Failing:
 
     def test_fail_count_reflects_active_failures(self):
         """Failed active predicates are counted correctly in the result."""
-        from gaia_cli.trustMagnitude import passesApexGate, isApex
+        from gaia_cli.trustMagnitude import passesSuiteApexGate, isSuiteApex
 
         # Skill with no evidence at all — should fail most predicates
         skill = {
@@ -257,8 +257,8 @@ class TestAuditApexAtG7Failing:
             "evidence": [],
             "apexGateStatus": {"apexPromotionPrSigned": False},
         }
-        predicates = passesApexGate(skill, {})
-        assert not isApex(predicates)
+        predicates = passesSuiteApexGate(skill, {})
+        assert not isSuiteApex(predicates)
         # Count active (non-None) failures
         failures = [k for k, v in predicates.items() if v is False]
         assert len(failures) >= 1

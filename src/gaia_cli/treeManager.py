@@ -730,9 +730,7 @@ def show_color_check():
     from gaia_cli.cardRenderer import fg, reset, _use_color, TIER_COLORS, RANK_COLORS
 
     TIER_GLYPHS = {
-        "ultimate": "◆",
-        "unique":   "◉",
-        "extra":    "◇",
+        "fusion":   "◆",
         "basic":    "○",
     }
     RANK_LABELS = ["0★", "1★", "2★", "3★", "4★", "5★", "6★"]

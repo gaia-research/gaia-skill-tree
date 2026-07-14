@@ -40,7 +40,7 @@ from gaia_cli.trustMagnitude import (  # noqa: E402
     computeOverallTrustGradeFromSkill,
     computeTrustMagnitude,
     computeTrustMagnitudeByType,
-    passesApexGate,
+    passesSuiteApexGate,
 )
 
 DEFAULT_OUT = REPO_ROOT / "docs" / "graph" / "ledger" / "data.json"
@@ -120,7 +120,7 @@ def buildRows() -> list[dict]:
 
         apexResults = None
         if grade == "S":
-            apexResults = passesApexGate(fm, apexState)
+            apexResults = passesSuiteApexGate(fm, apexState)
 
         rows.append({
             "skillId":      skillId,

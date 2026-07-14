@@ -200,47 +200,106 @@ def top_named_level(named_buckets: dict, skill_id: str) -> str | None:
     return max(levels, key=level_index)
 
 
-def detect_unique_candidates(graph_data: dict, named_index: dict) -> list[dict]:
-    """Detect basic skills eligible for promotion to 'unique' type.
+# Unique-branch grade gates (Yggdrasil II Q3): 4★ Unique needs A (TM >= 100),
+# 5★ Unique Ultimate needs S (TM >= 250). Origin is counted in the fusion
+# structure (the generic's `prerequisites`), NOT in suiteComponents.
+_UNIQUE_GATE_BY_LEVEL = {
+    "4★": {"grade": "A", "tmFloor": 100.0},
+    "5★": {"grade": "S", "tmFloor": 250.0},
+}
 
-    Criteria:
-      1. type == "basic"
-      2. top named-variant star >= 4★ (generic refs are rank-less)
-      3. prerequisites == [] (orphan)
-      4. Not referenced as a prerequisite by any other skill (graph-isolated)
-      5. Has at least one named implementation in named_index
+
+def _contributor_holds_origin_in(
+    contributor: str | None,
+    node_ids,
+    named_skill_map: dict | None,
+) -> bool:
+    """True iff ``contributor`` holds Origin status on >=1 of ``node_ids``.
+
+    Mirrors the Suite-gate origin predicate ("proposer holds Origin on >=1
+    suiteComponent") but points at the fusion structure: a node in ``node_ids``
+    (generic skill ids drawn from the generic parent's ``prerequisites``) counts
+    when the contributor owns a named skill with ``origin: true`` whose
+    ``genericSkillRef`` (or ``targetSkillId``) resolves to that node.
     """
-    all_prereq_refs = set()
-    for skill in graph_data.get("skills", []):
-        for pid in skill.get("prerequisites", []):
-            all_prereq_refs.add(pid)
+    if not contributor or not node_ids or not named_skill_map:
+        return False
+    targets = set(node_ids)
+    for entry in named_skill_map.values():
+        if not isinstance(entry, dict):
+            continue
+        if entry.get("contributor") != contributor:
+            continue
+        if entry.get("origin") is not True:
+            continue
+        ref = entry.get("genericSkillRef") or entry.get("targetSkillId")
+        if ref in targets:
+            return True
+    return False
 
-    named_buckets = named_index.get("buckets", {})
-    candidates = []
 
-    for skill in graph_data.get("skills", []):
-        if skill.get("type") != "basic":
-            continue
-        if skill.get("prerequisites", []):
-            continue
-        if skill["id"] in all_prereq_refs:
-            continue
-        if skill["id"] not in named_buckets or not named_buckets[skill["id"]]:
-            continue
-        star = top_named_level(named_buckets, skill["id"])
-        if star is None or level_index(star) < 4:
-            continue
+def checkUniqueBranchGate(
+    named: dict,
+    level: str,
+    genericSkillMap: dict | None = None,
+    namedSkillMap: dict | None = None,
+) -> dict:
+    """Evaluate the Unique-branch promotion gate for a named skill (Yggdrasil II).
 
-        candidates.append({
-            "skillId": skill["id"],
-            "name": skill.get("name", skill["id"]),
-            "currentLevel": star,
-            "currentType": "basic",
-            "promotionType": "unique",
-            "namedImplementations": [ns.get("id", "") for ns in named_buckets[skill["id"]]],
-        })
+    Gate (Q3 decision log):
+      - 4★ **Unique**          = Origin present + TM >= 100 (A-grade)
+      - 5★ **Unique Ultimate** = Origin present + TM >= 250 (S-grade)
 
-    return candidates
+    ``Origin present`` means the contributor holds Origin status on >=1 node in
+    the generic parent's ``prerequisites`` (the *fusion structure*), NOT in
+    ``suiteComponents``. ``suiteRef`` membership does NOT disqualify — a
+    world-renowned standalone skill that happens to live inside a suite is still
+    Unique. Branch membership is confirmed via :func:`computeBranch` evaluated at
+    the target ``level``. Trust Magnitude is recomputed live via
+    :func:`computeTrustMagnitude` (never a stale precomputed value).
+
+    Returns a predicate-shaped dict::
+
+        {
+          "originPresent":  bool,
+          "tmThresholdMet": bool,
+          "tm":             float,
+          "grade":          str | None,   # required grade for this level (A/S)
+          "passed":         bool,
+        }
+    """
+    from gaia_cli.trustMagnitude import computeTrustMagnitude, computeBranch
+
+    spec = _UNIQUE_GATE_BY_LEVEL.get(level)
+    grade = spec["grade"] if spec else None
+
+    # Recompute Trust Magnitude live (effective pool handled internally when a
+    # genericSkillMap is supplied). Never trust a precomputed frontmatter value.
+    tm = float(computeTrustMagnitude(named, genericSkillMap, namedSkillMap))
+
+    # Confirm the skill sits on the Unique branch AT the target level.
+    branch = computeBranch({**named, "level": level}, genericSkillMap)
+
+    # Origin counted in the fusion structure = the generic parent's prerequisites.
+    prereqs: list[str] = []
+    if genericSkillMap is not None:
+        generic = genericSkillMap.get(named.get("genericSkillRef"))
+        if generic:
+            prereqs = list(generic.get("prerequisites") or [])
+    origin_present = _contributor_holds_origin_in(
+        named.get("contributor"), prereqs, namedSkillMap
+    )
+
+    tm_threshold_met = bool(spec) and tm >= spec["tmFloor"]
+    passed = bool(spec) and branch == "unique" and origin_present and tm_threshold_met
+
+    return {
+        "originPresent": origin_present,
+        "tmThresholdMet": tm_threshold_met,
+        "tm": round(tm, 2),
+        "grade": grade,
+        "passed": passed,
+    }
 
 
 def _utc_now() -> datetime:
@@ -256,8 +315,7 @@ def _parse_scanned_at(value: str) -> datetime | None:
         return None
 
 
-def write_promotion_candidates(registry_path: str, username: str, candidates: list[dict],
-                               unique_candidates: list[dict] | None = None) -> str:
+def write_promotion_candidates(registry_path: str, username: str, candidates: list[dict]) -> str:
     path = promotion_candidates_path(registry_path)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     normalized = []
@@ -273,7 +331,6 @@ def write_promotion_candidates(registry_path: str, username: str, candidates: li
         "scannedAt": _utc_now().replace(microsecond=0).isoformat().replace("+00:00", "Z"),
         "username": username,
         "candidates": normalized,
-        "uniqueCandidates": unique_candidates or [],
     }
     with open(path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2)
@@ -438,69 +495,6 @@ def promote_skill(
         "previousLevel": current,
         "newLevel": target,
         "displayName": display_name,
-    }
-
-
-def promote_to_unique(skill_id: str, registry_path: str) -> dict:
-    """Promote a basic skill to 'unique' type in gaia.json.
-
-    Validates the skill meets all unique eligibility criteria before modifying
-    the registry graph file. Returns a result dict on success.
-
-    Raises:
-        ValueError: If the skill is not eligible for unique promotion.
-    """
-    graph_path = registry_graph_path(registry_path)
-    with open(graph_path, "r", encoding="utf-8") as f:
-        graph_data = json.load(f)
-
-    graph_skill = _get_skill_from_graph(graph_data, skill_id)
-    if graph_skill is None:
-        raise ValueError(f"Skill '{skill_id}' not found in registry graph.")
-    if graph_skill.get("type") != "basic":
-        raise ValueError(f"Skill '{skill_id}' is type '{graph_skill.get('type')}', not 'basic'.")
-    if graph_skill.get("prerequisites", []):
-        raise ValueError(f"Skill '{skill_id}' has prerequisites — must be graph-isolated.")
-
-    all_prereq_refs = set()
-    for skill in graph_data.get("skills", []):
-        for pid in skill.get("prerequisites", []):
-            all_prereq_refs.add(pid)
-    if skill_id in all_prereq_refs:
-        raise ValueError(f"Skill '{skill_id}' is referenced as a prerequisite — must be graph-isolated.")
-
-    from .graph import load_named_skills
-    named_index = load_named_skills(registry_path)
-    named_buckets = named_index.get("buckets", {})
-    if skill_id not in named_buckets or not named_buckets[skill_id]:
-        raise ValueError(f"Skill '{skill_id}' has no named implementation — required for unique promotion.")
-
-    star = top_named_level(named_buckets, skill_id)
-    if star is None or level_index(star) < 4:
-        raise ValueError(f"Skill '{skill_id}' needs a 4★+ named implementation for unique promotion.")
-
-    graph_skill["type"] = "unique"
-    graph_skill["updatedAt"] = date.today().isoformat()
-
-    with open(graph_path, "w", encoding="utf-8") as f:
-        json.dump(graph_data, f, indent=2, ensure_ascii=False)
-        f.write("\n")
-
-    from gaia_cli.timeline import append_skill_event
-    append_skill_event(
-        skill_id,
-        "rank_up",
-        None,
-        "Promoted to unique skill",
-        registry_path
-    )
-
-    return {
-        "skillId": skill_id,
-        "previousType": "basic",
-        "newType": "unique",
-        "level": star,
-        "displayName": graph_skill.get("name", skill_id),
     }
 
 

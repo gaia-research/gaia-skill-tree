@@ -792,7 +792,7 @@ def preflightReclassifyCommand(args) -> None:
     registryPath = args.registry
     skillId = args.skill_id.lstrip("/")
     newType = args.new_type
-    validTypes = {"basic", "extra", "ultimate", "unique"}
+    validTypes = {"basic", "fusion"}
     if newType not in validTypes:
         _fail_dev_preflight(
             f"Type '{newType}' is invalid.",
@@ -986,7 +986,7 @@ def preflightAddCommand(args) -> None:
         typeVal = getattr(args, "type", "basic")
         if typeVal is None:
             typeVal = "basic"
-        validTypes = {"basic", "extra", "ultimate", "unique"}
+        validTypes = {"basic", "fusion"}
         if typeVal not in validTypes:
             _fail_dev_preflight(
                 f"Type '{typeVal}' is invalid.",

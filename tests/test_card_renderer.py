@@ -50,7 +50,7 @@ def extra_skill():
     return {
         "id": "rag-pipeline",
         "name": "RAG Pipeline",
-        "type": "extra",
+        "type": "fusion",
         "level": "2★",
         "demerits": ["experimental-feature"],
         "description": "Retrieval-augmented generation pipeline combining retrieval, ranking, and synthesis.",
@@ -70,7 +70,7 @@ def ultimate_skill():
     return {
         "id": "autonomous-research-agent",
         "name": "Autonomous Research Agent",
-        "type": "ultimate",
+        "type": "fusion",
         "level": "3★",
         "description": "Fully autonomous agent that formulates hypotheses, designs experiments, collects evidence, and synthesizes findings.",
         "prerequisites": ["rag-pipeline", "code-generation", "tool-use", "planning"],
@@ -210,15 +210,15 @@ class TestRenderCard:
 
     def test_extra_skill_shows_diamond(self, extra_skill):
         card = render_card(extra_skill)
-        assert TIER_GLYPHS["extra"] in card
+        assert TIER_GLYPHS["fusion"] in card
 
     def test_ultimate_skill_shows_filled_diamond(self, ultimate_skill):
         card = render_card(ultimate_skill)
-        assert TIER_GLYPHS["ultimate"] in card
+        assert TIER_GLYPHS["fusion"] in card
 
     def test_ultimate_skill_shows_tier_label(self, ultimate_skill):
         card = render_card(ultimate_skill)
-        assert "Ultimate Skill" in card
+        assert "Fusion" in card
 
     def test_long_description_truncated(self):
         skill = {
@@ -275,7 +275,7 @@ class TestRenderCard:
     def test_compact_card_omits_effective_arrow(self, extra_skill):
         compact = render_card_compact(extra_skill)
         assert "2★→1★" not in compact
-        assert TIER_GLYPHS["extra"] in compact
+        assert TIER_GLYPHS["fusion"] in compact
         assert "/rag-pipeline" in compact
         assert " — " in compact
         assert "Retrieval-augmented generation" in compact
@@ -497,7 +497,7 @@ class TestRenderFusionDiagram:
         assert "────▶" in output
         assert "/web-search" in output
         assert "/research" in output
-        assert "◇" in output  # default extra glyph
+        assert "◆" in output  # default fusion glyph
 
     def test_two_prereqs_bracket_and_connector(self):
         """Two prereqs render top bracket, connector row, bottom bracket."""
@@ -508,7 +508,7 @@ class TestRenderFusionDiagram:
         assert "├──▶" in lines[1]
         assert "─┘" in lines[2]
         assert "/pair-program" in output
-        assert "◇" in output
+        assert "◆" in output
 
     def test_three_prereqs_midpoint_arrow(self):
         """Three prereqs: first ─┐, middle ─┼──▶, last ─┘."""
@@ -521,14 +521,14 @@ class TestRenderFusionDiagram:
         assert "─┼──▶" in lines[1]
         assert "─┘" in lines[2]
         assert "/research" in output
-        assert "◇" in output
+        assert "◆" in output
 
     def test_four_prereqs_structure(self):
         """Four prereqs: first ─┐, middle ─┤ and ─┼──▶, last ─┘."""
         output = render_fusion_diagram(
             ["web-search", "summarize", "cite-sources", "knowledge"],
             "autonomous-research",
-            result_type="ultimate",
+            result_type="fusion",
         )
         lines = output.split("\n")
         assert len(lines) == 4
@@ -537,7 +537,7 @@ class TestRenderFusionDiagram:
         # Arrow is on the midpoint row (index 2 for 4 items)
         assert "──▶" in output
         assert "/autonomous-research" in output
-        assert "◆" in output  # ultimate glyph
+        assert "◆" in output  # fusion glyph
 
     def test_basic_tier_glyph(self):
         """Basic tier uses the circle glyph."""

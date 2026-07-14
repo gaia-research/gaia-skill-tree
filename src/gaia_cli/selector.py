@@ -84,7 +84,6 @@ def _build_catalogue() -> list[tuple[str, list[MenuItem]]]:
         argv=["promote"],
         flags=[
             ("--all", "Promote all candidates"),
-            ("--unique", "Unique skills only"),
         ],
     )
 

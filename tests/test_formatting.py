@@ -165,17 +165,19 @@ class TestFormatSkillColored256:
 
 class TestFormatTypeLabel:
     def test_basic(self):
-        assert format_type_label("basic") == "○ Basic Skill"
+        assert format_type_label("basic") == "○ Basic"
 
-    def test_extra(self):
-        assert format_type_label("extra") == "◇ Extra Skill"
+    def test_fusion(self):
+        assert format_type_label("fusion") == "◆ Fusion"
 
-    def test_ultimate(self):
-        assert format_type_label("ultimate") == "◆ Ultimate Skill"
+    def test_legacy_type_fallback(self):
+        # Yggdrasil II retired extra/ultimate/unique; they degrade to the
+        # unknown-glyph + capitalized label until data migration (#997).
+        assert format_type_label("ultimate") == "? Ultimate"
 
     def test_unknown_type(self):
         result = format_type_label("legendary")
-        assert result == "? legendary"
+        assert result == "? Legendary"
 
 
 # ---------------------------------------------------------------------------
@@ -193,10 +195,10 @@ class TestFormatTypeColored:
         monkeypatch.setenv("COLORTERM", "truecolor")
         monkeypatch.setattr(fmt_mod, "_use_color", lambda: True)
 
-        result = format_type_colored("extra")
-        r, g, b = TIER_COLORS["extra"]
+        result = format_type_colored("basic")
+        r, g, b = TIER_COLORS["basic"]
         assert f"\033[38;2;{r};{g};{b}m" in result
-        assert "◇ Extra Skill" in result
+        assert "○ Basic" in result
         assert "\033[0m" in result
 
 
@@ -256,13 +258,13 @@ class TestFusionEquation:
 
 class TestConstants:
     def test_tier_colors_keys(self):
-        assert set(TIER_COLORS.keys()) == {"basic", "extra", "unique", "ultimate"}
+        assert set(TIER_COLORS.keys()) == {"basic", "fusion"}
 
     def test_rank_colors_keys(self):
         assert set(RANK_COLORS.keys()) == {"0★", "1★", "2★", "3★", "4★", "5★", "6★"}
 
     def test_type_symbols_keys(self):
-        assert set(TYPE_SYMBOLS.keys()) == {"basic", "extra", "unique", "ultimate"}
+        assert set(TYPE_SYMBOLS.keys()) == {"basic", "fusion"}
 
     def test_all_colors_are_rgb_tuples(self):
         for name, color in RANK_COLORS.items():

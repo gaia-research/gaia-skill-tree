@@ -648,7 +648,7 @@ def init_command(args):
                 try:
                     if _use_color():
                         prompt = (
-                            f"\n{_bold()}{_fg(*TIER_COLORS['extra'])}⚡ {_fg(255, 255, 255)}Detected repo: {_fg(*RANK_COLORS['2★'])}{source}{_reset()}\n"
+                            f"\n{_bold()}{_fg(*(TIER_COLORS.get('extra') or TIER_COLORS.get('fusion') or (192, 132, 252)))}⚡ {_fg(255, 255, 255)}Detected repo: {_fg(*RANK_COLORS['2★'])}{source}{_reset()}\n"
                             f"{_bold()}{_fg(*TIER_COLORS['ultimate'])}? {_fg(255, 255, 255)}Initialize Gaia on this repository? "
                             f"{_fg(*RANK_COLORS['0★'])}[{_fg(*COLOR_LOCAL_USER)}Y{_fg(*RANK_COLORS['0★'])}/n]: {_reset()}"
                         )
@@ -1459,20 +1459,6 @@ def promote_command(args):
     display_name = getattr(args, "name", None)
 
     try:
-        if getattr(args, "unique", False):
-            if not skill_id:
-                print("Usage: gaia promote <skill> --unique", file=sys.stderr)
-                sys.exit(2)
-            from .promotion import promote_to_unique
-
-            result = promote_to_unique(skill_id, args.registry)
-            print(
-                f"\n◉ {result['displayName']} promoted to Unique Skill (type: unique)!"
-            )
-            print(f"  Level: {result['level']}")
-            print()
-            return
-
         if getattr(args, "all", False):
             results = promote_all_candidates(username, args.registry)
             if not results:
@@ -1797,7 +1783,9 @@ def fuse_command(args):
             pass
 
     # Handle --delete
-    fuse_color = TIER_COLORS["extra"]
+    # Yggdrasil II collapsed the type palette to {basic, fusion}; the retired
+    # 'extra' key no longer exists. Fall back to fusion, then the fuse purple.
+    fuse_color = TIER_COLORS.get("extra") or TIER_COLORS.get("fusion") or (192, 132, 252)
     if getattr(args, "delete", False):
         target = getattr(args, "skillId", None)
         fusions = custom_state.get("customFusions", {})
@@ -3714,11 +3702,6 @@ def get_parser():
         "--all", action="store_true", help="Promote every candidate from the last scan"
     )
     promote_parser.add_argument(
-        "--unique",
-        action="store_true",
-        help="Promote a basic skill to unique type (4★+ graph-isolated with named impl)",
-    )
-    promote_parser.add_argument(
         "--name", help="Optional display name for the promoted skill"
     )
     fuse_parser = subparsers.add_parser(
@@ -3896,7 +3879,7 @@ def get_parser():
     )
     dev_add.add_argument(
         "--type",
-        choices=("basic", "extra", "ultimate", "unique"),
+        choices=("basic", "fusion"),
         default="basic",
         help="Skill type (default: basic)",
     )
@@ -3962,7 +3945,7 @@ def get_parser():
     dev_reclassify.add_argument("skill_id", help="Generic skill ID to reclassify")
     dev_reclassify.add_argument(
         "new_type",
-        choices=("basic", "extra", "ultimate", "unique"),
+        choices=("basic", "fusion"),
         help="New skill type",
     )
     dev_reclassify.add_argument(

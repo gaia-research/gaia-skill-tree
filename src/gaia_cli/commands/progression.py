@@ -30,11 +30,6 @@ class PromoteCommand(Command):
             "--all", action="store_true", help="Promote every candidate from the last scan"
         )
         parser.add_argument(
-            "--unique",
-            action="store_true",
-            help="Promote a basic skill to unique type (4★+ graph-isolated with named impl)",
-        )
-        parser.add_argument(
             "--name", help="Optional display name for the promoted skill"
         )
 

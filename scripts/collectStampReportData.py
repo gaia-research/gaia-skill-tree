@@ -23,7 +23,7 @@ from migrateTrustMagnitude import (  # noqa: E402
 from gaia_cli.trustMagnitude import (  # noqa: E402
     computeOverallTrustGradeFromSkill,
     computeTrustMagnitude,
-    passesApexGate,
+    passesSuiteApexGate,
 )
 
 

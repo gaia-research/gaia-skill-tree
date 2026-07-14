@@ -12,7 +12,13 @@ import sys
 
 from gaia_cli.leveling import level_summary
 from gaia_cli.registry import registry_graph_path
-from gaia_cli.formatting import TIER_COLORS, RANK_COLORS  # single source of truth
+from gaia_cli.formatting import (  # single source of truth
+    TIER_COLORS,
+    RANK_COLORS,
+    TYPE_SYMBOLS,
+    TYPE_LABELS,
+    format_rank_label,
+)
 import textwrap
 from typing import Optional
 
@@ -113,24 +119,18 @@ V = "│"
 LT = "├"
 RT = "┤"
 
-# Tier glyphs
-TIER_GLYPHS = {
-    "basic": "○",  # ○
-    "extra": "◇",  # ◇
-    "ultimate": "◆",  # ◆
-}
+# Tier glyphs — single source of truth: TYPE_SYMBOLS (meta.json `types.symbols`).
+# Yggdrasil II type axis is {basic, fusion}; legacy tiers fall back to the
+# default glyph until the taxonomy migration (#997) rewrites node types.
+TIER_GLYPHS = TYPE_SYMBOLS
 
-# 6★ label uses the brand-voice shorthand "Apex" per CONTEXT.md (Maturity > Apex).
-# Long-form surfaces use "Transcendent ★" in full; CLI plaques use the shorthand.
-# Level display
+# Level display — routed through formatting.format_rank_label (single source).
+# Yggdrasil II: the Suite/shared ladder (0★ Basic · 1★ Awakened · 2★ Named ·
+# 3★ Evolved · 4★ Extra · 5★ Ultimate · 6★ Apex). Unique-branch alternates are
+# rendered by passing branch="unique" to format_rank_label at the call site.
 LEVEL_LABELS = {
-    "0★": "0★ Basic",
-    "1★": "1★ Awakened",
-    "2★": "2★ Named",
-    "3★": "3★ Evolved",
-    "4★": "4★ Hardened",
-    "5★": "5★ Transcendent",
-    "6★": "6★ Apex",
+    lv: format_rank_label(lv, "suite")
+    for lv in ("0★", "1★", "2★", "3★", "4★", "5★", "6★")
 }
 
 
@@ -538,13 +538,8 @@ def render_appraise_card(
     # Thin divider
     lines.append(f"{bc}{V}{r} {fg(*COLOR_MUTED)}{H * inner}{r} {bc}{V}{r}")
 
-    # Type (using proper type labels)
-    type_labels = {
-        "basic": "Basic Skill",
-        "extra": "Extra Skill",
-        "ultimate": "Ultimate Skill",
-    }
-    meta = f"Type: {type_labels.get(tier, tier.capitalize())}"
+    # Type (labels sourced from the single meta-backed source)
+    meta = f"Type: {TYPE_LABELS.get(tier, tier.capitalize())}"
     lines.append(f"{bc}{V}{r} {fg(*COLOR_MUTED)}{_pad(meta, inner)}{r} {bc}{V}{r}")
 
     # Blank
@@ -834,12 +829,18 @@ def render_promotion_prompt(
 def render_fusion_diagram(
     prereqs: list[str],
     result: str,
-    result_type: str = "extra",
+    result_type: str = "fusion",
     canon: bool = False,
     ctx: Optional["LocalContext"] = None,
 ) -> str:
     """Render a Unicode fusion flow diagram showing skill combination."""
-    tier_color = TIER_COLORS.get(result_type, TIER_COLORS["extra"])
+    # Defensive default: the retired 'extra' palette key no longer exists after
+    # the Yggdrasil II type collapse, so fall back to fusion then a slate grey.
+    tier_color = (
+        TIER_COLORS.get(result_type)
+        or TIER_COLORS.get("fusion")
+        or (192, 132, 252)
+    )
     glyph = TIER_GLYPHS.get(result_type, "◇")
 
     mc = fg(*COLOR_MUTED)
