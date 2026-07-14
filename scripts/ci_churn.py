@@ -79,8 +79,15 @@ _REVIEW_FIX_PATTERNS = [
 ]
 
 
-def classify_commit(message: str) -> str:
-    """Return 'ci-fix', 'review-fix', or 'feature'."""
+def classify_commit(message: str, replaced: bool = False) -> str:
+    """Return 'replaced', 'ci-fix', 'review-fix', or 'feature'.
+
+    'replaced' is returned for commits that were force-pushed away — they are
+    churn by definition regardless of their message content, since the entire
+    push round was discarded.
+    """
+    if replaced:
+        return "replaced"
     msg = message.lower()
     for pat in _CI_FIX_PATTERNS:
         if re.search(pat, msg):
@@ -104,7 +111,10 @@ def _gh(*args: str) -> dict | list:
     gh api accepts both forms; omitting the slash avoids the rewrite.
     """
     cmd = ["gh", "api", "--paginate"] + list(args)
-    result = subprocess.run(cmd, capture_output=True, text=True, check=False)
+    result = subprocess.run(
+        cmd, capture_output=True, text=True, check=False,
+        encoding="utf-8", errors="replace",
+    )
     if result.returncode != 0:
         raise RuntimeError(
             f"gh api failed ({result.returncode}): {result.stderr.strip()}"
@@ -144,16 +154,114 @@ def detect_repo(owner: Optional[str], repo: Optional[str]) -> tuple[str, str]:
 
 
 def get_pr_commits(pr: int, owner: str, repo: str) -> list[dict]:
-    """Return list of {sha, message} for all commits in the PR."""
+    """Return list of {sha, message} for all commits currently on the PR branch."""
     data = _gh(f"repos/{owner}/{repo}/pulls/{pr}/commits")
     return [
         {
             "sha": c["sha"],
             "short": c["sha"][:9],
             "message": c["commit"]["message"].split("\n")[0],  # subject line only
+            "replaced": False,
         }
         for c in (data if isinstance(data, list) else [])
     ]
+
+
+def get_force_pushed_shas(
+    pr: int,
+    owner: str,
+    repo: str,
+    current_shas: set[str],
+) -> list[dict]:
+    """Return commits whose CI runs are invisible because they were force-pushed away.
+
+    Strategy — fork push-event ``before`` SHAs:
+
+    1. Fetch the PR's ``head.ref`` (branch name) and ``head.repo.full_name``
+       (the fork that owns the branch).
+    2. Query push events on the fork repo:
+       ``GET /repos/{fork_owner}/{fork_repo}/events?per_page=100``
+    3. For each ``PushEvent`` whose ``payload.ref`` matches the PR branch,
+       collect ``payload.before`` — the SHA that was on the branch *before*
+       the push.  This is the replaced commit.
+    4. Fetch CI runs for each replaced SHA from the *base* repo (where CI runs).
+    5. Fetch commit messages for display; fall back gracefully if unavailable.
+
+    Why not the timeline API?
+    The PR timeline's ``committed`` events only record the current branch tip
+    for fork PRs — replaced commits were never observed on the upstream side.
+    ``head_ref_force_pushed`` carries only the *new* SHA, not the old one.
+
+    Why not ``actions/runs?head_branch=...``?
+    GitHub's API does not reliably filter by branch names containing slashes;
+    the query returns thousands of unrelated runs.
+
+    GitHub Events retention: ~90 days.  Adequate for measuring recent PR churn.
+
+    Returns a list of {sha, short, message, replaced=True} dicts.
+    """
+    try:
+        pr_info = _gh(f"repos/{owner}/{repo}/pulls/{pr}")
+        if not isinstance(pr_info, dict):
+            return []
+
+        branch = pr_info.get("head", {}).get("ref", "")
+        head_repo = (pr_info.get("head", {}).get("repo") or {}).get("full_name", "")
+        if not branch or not head_repo:
+            return []
+
+        ref_full = f"refs/heads/{branch}"
+
+        # Query push events on the fork.  Each PushEvent carries:
+        #   payload.before = SHA that was on the branch before the push
+        #   payload.after  = SHA on the branch after the push
+        #   payload.ref    = full ref name (refs/heads/...)
+        try:
+            events = _gh(f"repos/{head_repo}/events?per_page=100")
+        except RuntimeError:
+            return []  # fork inaccessible (private, deleted, etc.)
+
+        if not isinstance(events, list):
+            return []
+
+        _ZERO = "0000000000000000000000000000000000000000"
+        replaced: dict[str, str] = {}  # sha -> message
+
+        for evt in events:
+            if evt.get("type") != "PushEvent":
+                continue
+            payload = evt.get("payload", {})
+            if payload.get("ref") != ref_full:
+                continue
+            before = payload.get("before", "")
+            if not before or before == _ZERO or before in current_shas:
+                continue
+            if before in replaced:
+                continue
+
+            # `before` is exactly the branch HEAD that had CI run on it before
+            # being replaced.  We only need this SHA — no parent walk needed.
+            # (CI only runs on the branch tip; parent commits in the chain don't
+            # get their own CI runs, so walking back into history just collects
+            # unrelated main-branch commits.)
+            try:
+                commit = _gh(f"repos/{owner}/{repo}/git/commits/{before}")
+                msg = (
+                    commit.get("message", "").split("\n")[0]
+                    if isinstance(commit, dict) else ""
+                )
+            except Exception:
+                msg = "(commit on fork — message unavailable)"
+            replaced[before] = msg
+
+        return [
+            {"sha": sha, "short": sha[:9], "message": msg, "replaced": True}
+            for sha, msg in replaced.items()
+        ]
+
+    except Exception:
+        # Never crash the caller — force-push history is best-effort
+        return []
 
 
 def get_runs_for_sha(sha: str, owner: str, repo: str) -> list[dict]:
@@ -237,11 +345,16 @@ def calculate_churn(
     runs_by_sha: dict[str, list[dict]],
     session_turns: list[dict],
 ) -> dict:
-    """Compute churn metrics from commits + CI runs + optional session data."""
+    """Compute churn metrics from commits + CI runs + optional session data.
+
+    ``commits`` must include both the current-branch commits AND any
+    force-pushed (replaced) commits returned by ``get_force_pushed_shas``.
+    Each entry must have a ``replaced`` boolean field.
+    """
 
     classified = []
     for c in commits:
-        label = classify_commit(c["message"])
+        label = classify_commit(c["message"], replaced=c.get("replaced", False))
         runs = runs_by_sha.get(c["sha"], [])
         # Total CI compute this commit consumed (all workflows, pass or fail)
         total_s = sum(r["duration_s"] for r in runs)
@@ -260,13 +373,16 @@ def calculate_churn(
     feature_commits = [c for c in classified if c["label"] == "feature"]
     review_fix_commits = [c for c in classified if c["label"] == "review-fix"]
     ci_fix_commits = [c for c in classified if c["label"] == "ci-fix"]
-    avoidable_commits = review_fix_commits + ci_fix_commits
+    # Replaced commits: entire push rounds discarded by force-push — 100% waste
+    replaced_commits = [c for c in classified if c["label"] == "replaced"]
+
+    avoidable_commits = review_fix_commits + ci_fix_commits + replaced_commits
 
     # CI compute burned on avoidable commits
     avoidable_ci_s = sum(c["total_ci_s"] for c in avoidable_commits)
     # CI compute that failed (the "we had to wait for this to fail" cost)
     failed_ci_s = sum(c["failure_s"] for c in classified)
-    # Churn ratio
+    # Churn ratio — uses ALL commits (current + replaced) as denominator
     churn_ratio = len(avoidable_commits) / total_commits if total_commits else 0
 
     # Agent time estimate: each avoidable commit required at least one
@@ -279,14 +395,15 @@ def calculate_churn(
     # Session log: total agent milliseconds in the session
     session_total_ms = sum(t["duration_ms"] for t in session_turns)
 
-    # Root cause hints based on what kinds of ci-fix commits appeared
-    hints = _root_cause_hints(ci_fix_commits)
+    # Root cause hints
+    hints = _root_cause_hints(ci_fix_commits, replaced_commits)
 
     return {
         "total_commits": total_commits,
         "feature_count": len(feature_commits),
         "review_fix_count": len(review_fix_commits),
         "ci_fix_count": len(ci_fix_commits),
+        "replaced_count": len(replaced_commits),
         "avoidable_count": len(avoidable_commits),
         "churn_ratio": round(churn_ratio, 3),
         "churn_pct": round(churn_ratio * 100, 1),
@@ -300,12 +417,15 @@ def calculate_churn(
     }
 
 
-def _root_cause_hints(ci_fix_commits: list[dict]) -> list[str]:
-    """Infer preventable local checks from ci-fix commit messages."""
+def _root_cause_hints(
+    ci_fix_commits: list[dict],
+    replaced_commits: list[dict] | None = None,
+) -> list[str]:
+    """Infer preventable local checks from ci-fix and replaced commit messages."""
     hints = []
-    seen = set()
+    seen: set[str] = set()
 
-    def add(hint):
+    def add(hint: str) -> None:
         if hint not in seen:
             seen.add(hint)
             hints.append(hint)
@@ -323,6 +443,14 @@ def _root_cause_hints(ci_fix_commits: list[dict]) -> list[str]:
         if any(k in msg for k in ["rebase", "conflict", "merge"]):
             add("git fetch origin main && git rebase origin/main --dry-run   # rebase sanity")
 
+    # When force-push rounds are present, surface the identity check hint.
+    # The most common cause is author email not linked to a GitHub account.
+    if replaced_commits:
+        add(
+            "git config user.email  # verify this matches a verified email at "
+            "github.com/settings/emails"
+        )
+
     if not hints:
         hints.append("python3 -m pytest tests/ -x -q  # general regression gate")
 
@@ -335,18 +463,32 @@ def _root_cause_hints(ci_fix_commits: list[dict]) -> list[str]:
 
 def format_text(pr: int, owner: str, repo: str, metrics: dict) -> str:
     c = metrics
+    replaced_count = c.get("replaced_count", 0)
+
+    commit_breakdown = (
+        f"({c['feature_count']} feature · "
+        f"{c['review_fix_count']} review-fix · "
+        f"{c['ci_fix_count']} ci-fix"
+        + (f" · {replaced_count} force-push-round" if replaced_count else "")
+        + ")"
+    )
+
     lines = [
         f"CI Churn Report — PR #{pr}  ({owner}/{repo})",
         "═" * 56,
         "",
-        f"Commits: {c['total_commits']} total  "
-        f"({c['feature_count']} feature · "
-        f"{c['review_fix_count']} review-fix · "
-        f"{c['ci_fix_count']} ci-fix)",
+        f"Commits: {c['total_commits']} total  {commit_breakdown}",
         f"Churn ratio: {c['churn_pct']}%  "
         f"({c['avoidable_count']} of {c['total_commits']} commits were avoidable)",
         "",
     ]
+
+    if replaced_count:
+        lines += [
+            f"  ⚠  {replaced_count} force-push round(s) detected — CI runs on replaced",
+            f"     commits are included in churn totals below.",
+            "",
+        ]
 
     if c["avoidable_count"] == 0:
         lines += [
@@ -373,16 +515,17 @@ def format_text(pr: int, owner: str, repo: str, metrics: dict) -> str:
     lines += [
         "Commit breakdown",
         "─" * 56,
-        f"{'SHA':>9}  {'Label':12}  {'CI (s)':>8}  {'Fails':>5}  Message",
-        f"{'─'*9}  {'─'*12}  {'─'*8}  {'─'*5}  {'─'*30}",
+        f"{'SHA':>9}  {'Label':14}  {'CI (s)':>8}  {'Fails':>5}  Message",
+        f"{'─'*9}  {'─'*14}  {'─'*8}  {'─'*5}  {'─'*30}",
     ]
     for commit in c["commits"]:
         label_badge = {
-            "feature": "feature     ",
-            "ci-fix":  "⚠ ci-fix    ",
-            "review-fix": "△ review-fix",
-        }.get(commit["label"], commit["label"])
-        msg = commit["message"][:48]
+            "feature":    "feature       ",
+            "ci-fix":     "⚠ ci-fix      ",
+            "review-fix": "△ review-fix  ",
+            "replaced":   "✕ replaced    ",
+        }.get(commit["label"], commit["label"].ljust(14))
+        msg = commit["message"][:46]
         lines.append(
             f"{commit['short']:>9}  {label_badge}  "
             f"{commit['total_ci_s']:>8}  {commit['failure_count']:>5}  {msg}"
@@ -440,9 +583,23 @@ def main() -> None:
         print(f"ERROR: {exc}", file=sys.stderr)
         sys.exit(2)
 
+    # Recover force-pushed commits invisible to /pulls/{pr}/commits
+    current_shas = {c["sha"] for c in commits}
+    print("Checking force-push history…", file=sys.stderr)
+    replaced = get_force_pushed_shas(args.pr, owner, repo, current_shas)
+    if replaced:
+        print(
+            f"  Found {len(replaced)} replaced commit(s) from "
+            f"{sum(1 for c in replaced if c['replaced'])} force-push round(s).",
+            file=sys.stderr,
+        )
+
+    all_commits = commits + replaced
+
     runs_by_sha: dict[str, list[dict]] = {}
-    for i, c in enumerate(commits, 1):
-        print(f"  [{i}/{len(commits)}] runs for {c['short']}…", file=sys.stderr)
+    for i, c in enumerate(all_commits, 1):
+        label = "(replaced)" if c.get("replaced") else ""
+        print(f"  [{i}/{len(all_commits)}] runs for {c['short']} {label}…", file=sys.stderr)
         try:
             runs_by_sha[c["sha"]] = get_runs_for_sha(c["sha"], owner, repo)
         except RuntimeError:
@@ -450,7 +607,7 @@ def main() -> None:
 
     session_turns = parse_session_log(args.session_log) if args.session_log else []
 
-    metrics = calculate_churn(commits, runs_by_sha, session_turns)
+    metrics = calculate_churn(all_commits, runs_by_sha, session_turns)
 
     if args.as_json:
         print(json.dumps(metrics, indent=2, ensure_ascii=False))
