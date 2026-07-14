@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-13T16:48:31Z",
+  "generatedAt": "2026-07-14T17:33:24Z",
   "firstRun": false,
   "skills": [
     {
@@ -15,6 +15,34 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
+      }
+    },
+    {
+      "id": "gaia-research/skill-ci-churn",
+      "name": "CI Churn",
+      "level": "2★",
+      "contributor": "gaia-research",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 70.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/gaia-research/skill-ci-churn.json"
+      }
+    },
+    {
+      "id": "gaia-research/skill-fuse",
+      "name": "Skill Fuse",
+      "level": "2★",
+      "contributor": "gaia-research",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 70.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
       }
     },
     {
@@ -85,34 +113,6 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
-      }
-    },
-    {
-      "id": "gaia-research/skill-ci-churn",
-      "name": "CI Churn",
-      "level": "2★",
-      "contributor": "gaia-research",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/gaia-research/skill-ci-churn.json"
-      }
-    },
-    {
-      "id": "gaia-research/skill-fuse",
-      "name": "Skill Fuse",
-      "level": "2★",
-      "contributor": "gaia-research",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
       }
     }
   ],
