@@ -258,7 +258,7 @@ class TestFusionEquation:
 
 class TestConstants:
     def test_tier_colors_keys(self):
-        assert set(TIER_COLORS.keys()) == {"basic", "extra", "unique", "ultimate"}
+        assert set(TIER_COLORS.keys()) == {"basic", "fusion"}
 
     def test_rank_colors_keys(self):
         assert set(RANK_COLORS.keys()) == {"0★", "1★", "2★", "3★", "4★", "5★", "6★"}

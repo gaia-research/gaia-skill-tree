@@ -104,10 +104,10 @@ def _hex_to_rgb(hex_str: str) -> tuple[int, int, int]:
 def _load_palette_from_registry() -> tuple[dict, dict]:
     """Parse TIER_COLORS and RANK_COLORS from gaia.json at module load."""
     _fallback_tier = {
+        # Yggdrasil II collapsed the type axis to {basic, fusion}. Mirrors
+        # meta.json types.colors so the fallback matches the registry palette.
         "basic": (56, 189, 248),
-        "extra": (192, 132, 252),
-        "unique": (124, 58, 237),
-        "ultimate": (245, 158, 11),
+        "fusion": (245, 158, 11),
     }
     _fallback_rank = {
         "0★": (148, 163, 184),
