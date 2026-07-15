@@ -7,6 +7,8 @@
 
 # Gaia: The Evidence-Backed AI Agent Skill Graph 🌲
 
+[![Gaia](https://gaiaskilltree.com/badges/_assets/gaia-research/skill-ci-churn.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaiaskilltree.com/named/#explorer/gaia-research/skill-ci-churn)
+
 **Stop guessing if your agent works. Prove it.**
 
 Gaia is the open-source registry where AI agent capabilities aren't just claimed—they're verified through a public ledger of code-execution runs, license checks, and security audits.
