@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="assets/marks/diamond-seal.svg">
   <link rel="stylesheet" href="css/styles.css?v=6.5.3">
-  <link rel="stylesheet" href="css/ascension-overdrive-v3.css?v=6.5.3">
+  <link rel="stylesheet" href="css/ascension-overdrive-v4.css?v=6.5.3">
   <link rel="stylesheet" href="css/plaque.css?v=6.5.3">
   <!-- Universal AlphaRail (page-wide section + explorer index). -->
   <link rel="stylesheet" href="css/alpha-rail.css?v=6.5.3">
@@ -847,12 +847,12 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 
   <div class="section-divider"></div>
 
-  <!-- ─── ASCENSION CYCLE · OVERDRIVE v3 (Y-Fork Edition, Issue #998) ─── -->
+  <!-- ─── ASCENSION CYCLE · OVERDRIVE v4 (Cosmic Y-Fork Edition, Issue #998) ─── -->
   <section id="ascension" class="aov" data-section="ascension" aria-labelledby="aov-title">
     <div class="aov-atmosphere" aria-hidden="true">
       <picture class="aov-substrate" data-aov-parallax="0.15">
-        <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-astrolabe-substrate-mobile.webp">
-        <img src="assets/ascension-overdrive/aov3-astrolabe-substrate.webp" alt="" width="3840" height="2160" decoding="async">
+        <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-astrolabe-substrate-mobile.webp">
+        <img src="assets/ascension-overdrive/aov4-astrolabe-substrate.webp" alt="" width="3840" height="2160" decoding="async">
       </picture>
       <picture class="aov-haze aov-haze--suite" data-aov-parallax="0.25">
         <img src="assets/ascension-overdrive/aov3-haze-suite.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
@@ -861,15 +861,6 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
         <img src="assets/ascension-overdrive/aov3-haze-unique.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
       </picture>
     </div>
-
-    <svg class="aov-thread" viewBox="0 0 1000 8000" preserveAspectRatio="none" aria-hidden="true">
-      <path id="aov3-fork-trunk" class="aov-thread__path aov-thread__path--trunk" pathLength="1" stroke-width="6"
-            d="M500 0 C500 850 475 1450 500 2250 C525 3100 500 3750 500 4400"/>
-      <path id="aov3-fork-branch-suite" class="aov-thread__path aov-thread__path--suite" pathLength="1" stroke-width="6"
-            d="M500 4400 C475 4800 360 5050 305 5480 C255 6000 285 6750 280 8000"/>
-      <path id="aov3-fork-branch-unique" class="aov-thread__path aov-thread__path--unique" pathLength="1" stroke-width="6"
-            d="M500 4400 C525 4800 640 5050 695 5480 C745 6000 715 6750 720 8000"/>
-    </svg>
 
     <div class="aov-scene aov-scene--opening" data-aov-scene="opening">
       <div class="aov-stage aov-stage--opening">
@@ -882,12 +873,13 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
     <div class="aov-scene aov-scene--trunk" data-aov-scene="rank-1" data-rank="1">
       <div class="aov-stage aov-stage--rank">
         <picture class="aov-rank-plate" aria-hidden="true">
-          <img src="assets/ascension-overdrive/f-rank-1-hero.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
+          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-rank-1-field-mobile.webp">
+          <img src="assets/ascension-overdrive/aov4-rank-1-field.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
         </picture>
         <picture class="aov-stamp">
-          <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-1-awakened-badge.webp">
-          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-1-awakened-card.webp">
-          <img src="assets/ascension-overdrive/aov3-suite-stamp-1-awakened.webp" alt="Awakened rank medallion" width="2048" height="2048" loading="lazy" decoding="async">
+          <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-c1-suite-awakened-badge.webp">
+          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-c1-suite-awakened-card.webp">
+          <img src="assets/ascension-overdrive/aov4-c1-suite-awakened-hero.webp" alt="Awakened rank medallion" width="2048" height="2048" loading="lazy" decoding="async">
         </picture>
         <div class="aov-rank-copy">
           <p class="aov-act">Act I · The trunk</p>
@@ -902,12 +894,13 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
     <div class="aov-scene aov-scene--trunk" data-aov-scene="rank-2" data-rank="2">
       <div class="aov-stage aov-stage--rank aov-stage--reverse">
         <picture class="aov-rank-plate" aria-hidden="true">
-          <img src="assets/ascension-overdrive/f-rank-2-hero.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
+          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-rank-2-field-mobile.webp">
+          <img src="assets/ascension-overdrive/aov4-rank-2-field.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
         </picture>
         <picture class="aov-stamp">
-          <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-2-named-badge.webp">
-          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-2-named-card.webp">
-          <img src="assets/ascension-overdrive/aov3-suite-stamp-2-named.webp" alt="Named rank medallion" width="2048" height="2048" loading="lazy" decoding="async">
+          <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-c2-suite-named-badge.webp">
+          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-c2-suite-named-card.webp">
+          <img src="assets/ascension-overdrive/aov4-c2-suite-named-hero.webp" alt="Named rank medallion" width="2048" height="2048" loading="lazy" decoding="async">
         </picture>
         <div class="aov-rank-copy">
           <p class="aov-act">Act I · The trunk</p>
@@ -922,12 +915,13 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
     <div class="aov-scene aov-scene--trunk" data-aov-scene="rank-3" data-rank="3">
       <div class="aov-stage aov-stage--rank">
         <picture class="aov-rank-plate" aria-hidden="true">
-          <img src="assets/ascension-overdrive/f-rank-3-hero.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
+          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-rank-3-field-mobile.webp">
+          <img src="assets/ascension-overdrive/aov4-rank-3-field.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
         </picture>
         <picture class="aov-stamp">
-          <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-3-evolved-badge.webp">
-          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-3-evolved-card.webp">
-          <img src="assets/ascension-overdrive/aov3-suite-stamp-3-evolved.webp" alt="Evolved rank medallion" width="2048" height="2048" loading="lazy" decoding="async">
+          <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-c3-suite-evolved-badge.webp">
+          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-c3-suite-evolved-card.webp">
+          <img src="assets/ascension-overdrive/aov4-c3-suite-evolved-hero.webp" alt="Evolved rank medallion" width="2048" height="2048" loading="lazy" decoding="async">
         </picture>
         <div class="aov-rank-copy">
           <p class="aov-act">Act I · The trunk</p>
@@ -942,13 +936,18 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
     <div class="aov-scene aov-scene--fork" data-aov-scene="fork">
       <div class="aov-stage aov-stage--fork">
         <picture class="aov-fork-art" aria-hidden="true">
-          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-y-fork-mobile.webp">
-          <img src="assets/ascension-overdrive/aov3-y-fork.webp" alt="" width="3840" height="2160" loading="lazy" decoding="async">
+          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-y-fork-mobile.webp">
+          <img src="assets/ascension-overdrive/aov4-y-fork.webp" alt="" width="3840" height="2160" loading="lazy" decoding="async">
         </picture>
+        <svg class="aov-thread" viewBox="0 0 3840 2160" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <path id="aov4-fork-trunk" class="aov-thread__path aov-thread__path--trunk" pathLength="1" stroke-width="6" d="M1920 2030 L1920 1253"/>
+          <path id="aov4-fork-branch-suite" class="aov-thread__path aov-thread__path--suite" pathLength="1" stroke-width="6" d="M1920 1253 C1805 1080 1306 691 1018 389"/>
+          <path id="aov4-fork-branch-unique" class="aov-thread__path aov-thread__path--unique" pathLength="1" stroke-width="6" d="M1920 1253 C2035 1080 2534 691 2822 389"/>
+        </svg>
         <div class="aov-fork-copy">
           <p class="aov-act">Act II · The fork</p>
           <h3>One trunk. Two branches.</h3>
-          <p>At three stars, every named skill has walked the same trunk. Awakened, Named, Evolved. The fourth star is where the tree forks. A skill whose generic parent lists <strong>suiteComponents</strong> ascends the Suite branch. A skill whose generic parent is Basic or Fusion, without suiteComponents, ascends the Unique branch. The choice is not made at promotion time; it is derived from the structure the skill already has. Read the derivation in the <a href="codex/trust-methodology.html#branches">Suite or Unique branch</a> reference in the Codex.</p>
+          <p>At three stars, every named skill has walked the same trunk. Awakened, Named, Evolved. The fourth star is where the tree forks. A named skill with <strong>suiteComponents</strong> ascends the Suite branch. A named skill without suiteComponents ascends the Unique branch. The choice is not made at promotion time; it is derived from the named skill's structure at read time. Read the derivation in the <a href="codex/trust-methodology.html#branches">Suite or Unique branch</a> reference in the Codex.</p>
           <div class="aov-fork-labels" aria-label="The two ascension branches">
             <span>Suite · ordered structure</span>
             <span>Unique · standalone distinction</span>
@@ -967,9 +966,9 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
               <img src="assets/ascension-overdrive/aov3-suite-plate-4-extra.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
             </picture>
             <picture class="aov-rail-stamp">
-              <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-4-extra-badge.webp">
-              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-4-extra-card.webp">
-              <img src="assets/ascension-overdrive/aov3-suite-stamp-4-extra.webp" alt="Extra rank medallion" width="2048" height="2048" loading="lazy" decoding="async">
+              <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-c4-suite-extra-badge.webp">
+              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-c4-suite-extra-card.webp">
+              <img src="assets/ascension-overdrive/aov4-c4-suite-extra-hero.webp" alt="Extra rank medallion" width="2048" height="2048" loading="lazy" decoding="async">
             </picture>
             <div class="aov-rail-copy">
               <p class="aov-rail-label">Suite branch · ceremonial</p>
@@ -981,15 +980,16 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
           </article>
           <article class="aov-rail aov-rail--unique" aria-labelledby="aov-unique-title">
             <picture class="aov-rail-stamp">
-              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-unique-stamp-4-mobile.webp">
-              <img src="assets/ascension-overdrive/aov3-unique-stamp-4.webp" alt="Unique rank impossible seal" width="2048" height="2048" loading="lazy" decoding="async">
+              <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-d4-unique-badge.webp">
+              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-d4-unique-card.webp">
+              <img src="assets/ascension-overdrive/aov4-d4-unique-hero.webp" alt="Unique rank stellar medallion" width="2048" height="2048" loading="lazy" decoding="async">
             </picture>
             <div class="aov-rail-copy">
               <p class="aov-rail-label">Unique branch · void</p>
               <p class="aov-stars" role="img" aria-label="Four out of six stars"><span aria-hidden="true">★★★★☆☆</span></p>
               <h3 id="aov-unique-title">Unique</h3>
               <p>The path bends. The standard structural rule does not apply.</p>
-              <ul class="aov-tags" role="list"><li>Basic or Fusion</li><li>no suiteComponents</li></ul>
+              <ul class="aov-tags" role="list"><li>named skill</li><li>no suiteComponents</li></ul>
             </div>
           </article>
         </div>
@@ -1006,9 +1006,9 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
               <img src="assets/ascension-overdrive/aov3-suite-plate-5-ultimate.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
             </picture>
             <picture class="aov-rail-stamp">
-              <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-5-ultimate-badge.webp">
-              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-5-ultimate-card.webp">
-              <img src="assets/ascension-overdrive/aov3-suite-stamp-5-ultimate.webp" alt="Ultimate rank medallion" width="2048" height="2048" loading="lazy" decoding="async">
+              <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-c5-suite-ultimate-badge.webp">
+              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-c5-suite-ultimate-card.webp">
+              <img src="assets/ascension-overdrive/aov4-c5-suite-ultimate-hero.webp" alt="Ultimate rank stellar medallion" width="2048" height="2048" loading="lazy" decoding="async">
             </picture>
             <div class="aov-rail-copy">
               <p class="aov-rail-label">Suite branch · ceremonial</p>
@@ -1020,8 +1020,9 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
           </article>
           <article class="aov-rail aov-rail--unique" aria-labelledby="aov-unique-ultimate-title">
             <picture class="aov-rail-stamp">
-              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-unique-stamp-5-ultimate-mobile.webp">
-              <img src="assets/ascension-overdrive/aov3-unique-stamp-5-ultimate.webp" alt="Unique Ultimate impossible seal" width="2048" height="2048" loading="lazy" decoding="async">
+              <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-d5-unique-ultimate-badge.webp">
+              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-d5-unique-ultimate-card.webp">
+              <img src="assets/ascension-overdrive/aov4-d5-unique-ultimate-hero.webp" alt="Unique Ultimate black-hole medallion" width="2048" height="2048" loading="lazy" decoding="async">
             </picture>
             <div class="aov-rail-copy">
               <p class="aov-rail-label">Unique branch · void</p>
@@ -1046,13 +1047,14 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
               <img src="assets/ascension-overdrive/aov3-suite-plate-6-apex.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
             </picture>
             <div class="aov-terminal-visual aov-terminal-visual--suite">
+              <span class="aov-apex-effect aov-apex-effect--suite" aria-hidden="true"></span>
               <picture class="aov-terminal-art">
                 <img src="assets/ascension-overdrive/apex-arch.webp" alt="Ceremonial Apex arch" width="1536" height="1024" loading="lazy" decoding="async">
               </picture>
               <picture class="aov-terminal-rank-stamp">
-                <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-6-apex-badge.webp">
-                <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-suite-stamp-6-apex-card.webp">
-                <img src="assets/ascension-overdrive/aov3-suite-stamp-6-apex.webp" alt="Apex rank medallion" width="2048" height="2048" loading="lazy" decoding="async">
+                <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-c6-suite-apex-badge.webp">
+                <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-c6-suite-apex-card.webp">
+                <img src="assets/ascension-overdrive/aov4-c6-suite-apex-hero.webp" alt="Apex white-hot supernova medallion" width="2048" height="2048" loading="lazy" decoding="async">
               </picture>
             </div>
             <div class="aov-rail-copy aov-terminal-copy">
@@ -1062,22 +1064,24 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
               <p>The Suite terminal. Six predicates, all required. The Suite Apex Gate is unchanged from Yggdrasil I.</p>
             </div>
             <ol class="aov-gate" aria-label="Suite Apex Gate predicates">
-              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/apex-component-classical-stele.webp" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" decoding="async"><code>aGradedOriginsGte5</code><span>Five A-graded origins</span></li>
-              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/apex-component-column-crowned.webp" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" decoding="async"><code>directNestedSuiteGte1</code><span>One directly nested Suite</span></li>
-              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/apex-component-column-finial.webp" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" decoding="async"><code>depth2OnlyReachableGte1</code><span>One depth-two-only origin</span></li>
-              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/apex-component-grand-arch.webp" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" decoding="async"><code>overallGradeS</code><span>Overall Trust Grade S</span></li>
-              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/apex-component-pillar-with-plant.webp" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" decoding="async"><code>sourceTenureDaysGte180AorS</code><span>A or S source held for 180 days</span></li>
-              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/apex-component-stele-with-foliage.webp" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" decoding="async"><code>apexPromotionPrSigned</code><span>Promotion pull request signed</span></li>
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/aov4-apex-seal-classical-stele.webp" alt="" aria-hidden="true" width="240" height="240" loading="lazy" decoding="async"><code>aGradedOriginsGte5</code><span>Five A-graded origins</span></li>
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/aov4-apex-seal-column-crowned.webp" alt="" aria-hidden="true" width="240" height="240" loading="lazy" decoding="async"><code>directNestedSuiteGte1</code><span>One directly nested Suite</span></li>
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/aov4-apex-seal-column-finial.webp" alt="" aria-hidden="true" width="240" height="240" loading="lazy" decoding="async"><code>depth2OnlyReachableGte1</code><span>One depth-two-only origin</span></li>
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/aov4-apex-seal-grand-arch.webp" alt="" aria-hidden="true" width="240" height="240" loading="lazy" decoding="async"><code>overallGradeS</code><span>Overall Trust Grade S</span></li>
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/aov4-apex-seal-pillar-with-plant.webp" alt="" aria-hidden="true" width="240" height="240" loading="lazy" decoding="async"><code>sourceTenureDaysGte180AorS</code><span>A or S source held for 180 days</span></li>
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/aov4-apex-seal-stele-with-foliage.webp" alt="" aria-hidden="true" width="240" height="240" loading="lazy" decoding="async"><code>apexPromotionPrSigned</code><span>Promotion pull request signed</span></li>
             </ol>
           </article>
           <article class="aov-rail aov-rail--unique aov-rail--terminal" aria-labelledby="aov-impossible-title">
+            <span class="aov-apex-effect aov-apex-effect--unique" aria-hidden="true"></span>
             <picture class="aov-terminal-art aov-terminal-art--impossible">
-              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-unique-impossible-terminal-mobile.webp">
-              <img src="assets/ascension-overdrive/aov3-unique-impossible-terminal.webp" alt="Unique Impossible terminal, a singularity held in impossible geometry" width="3840" height="2160" loading="lazy" decoding="async">
+              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-unique-impossible-terminal-mobile.webp">
+              <img src="assets/ascension-overdrive/aov4-unique-impossible-terminal.webp" alt="Unique Impossible terminal, a void singularity held in white inverted light" width="3840" height="2160" loading="lazy" decoding="async">
             </picture>
             <picture class="aov-terminal-seal" aria-hidden="true">
-              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-unique-stamp-6-impossible-mobile.webp">
-              <img src="assets/ascension-overdrive/aov3-unique-stamp-6-impossible.webp" alt="" width="2048" height="2048" loading="lazy" decoding="async">
+              <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-d6-unique-impossible-badge.webp">
+              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-d6-unique-impossible-card.webp">
+              <img src="assets/ascension-overdrive/aov4-d6-unique-impossible-hero.webp" alt="" width="2048" height="2048" loading="lazy" decoding="async">
             </picture>
             <div class="aov-rail-copy aov-terminal-copy">
               <p class="aov-rail-label">Unique terminal · five predicates</p>
@@ -1312,7 +1316,7 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
   <script src="js/ui.js?v=6.5.3"></script>
   <script src="js/page-ia.js?v=6.5.3"></script>
   <script src="js/plaque-reveal.js?v=6.5.3" defer></script>
-  <script src="js/ascension-overdrive-v3.js?v=6.5.3" defer></script>
+  <script src="js/ascension-overdrive-v4.js?v=6.5.3" defer></script>
 
   <!-- ── Share modal (single instance) — opened from plaque__share-btn ── -->
   <div class="share-modal" hidden role="dialog" aria-modal="true" aria-labelledby="share-modal-title" id="shareModal">

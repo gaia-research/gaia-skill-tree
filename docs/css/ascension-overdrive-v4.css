@@ -1,6 +1,6 @@
 /* ============================================================
-   Ascension Overdrive v3, Y-Fork Edition (Issue #998)
-   Component-local tokens and motion only. The v2 stylesheet stays
+   Ascension Overdrive v4, Cosmic Y-Fork Edition (Issue #998)
+   Component-local tokens and motion only. The v3 stylesheet stays
    on disk as an archival implementation reference.
    ============================================================ */
 
@@ -724,6 +724,148 @@
   transform: translateY(1rem);
 }
 
+/* V4 freezes one equal-rail geometry source for raster H and inline H. */
+.aov-stage--fork > .aov-fork-art,
+.aov-stage--fork > .aov-thread {
+  position: absolute;
+  inset: auto;
+  z-index: 0;
+  display: block;
+  width: 92vw;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+.aov-stage--fork > .aov-fork-art img {
+  object-fit: contain;
+}
+
+.aov-pair-grid {
+  grid-template-columns: minmax(0, 45vw) minmax(0, 45vw);
+  gap: 2vw;
+  width: 92vw;
+}
+
+/* Rank six leaves the inherited cards and becomes its own cosmic event. */
+.aov-scene[data-rank="6"] .aov-rail {
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  clip-path: none;
+  color: var(--aov-suite-cream);
+  background:
+    radial-gradient(circle at 50% 38%, color-mix(in oklab, var(--rank-6) 11%, transparent), transparent 42%),
+    linear-gradient(180deg, color-mix(in oklab, var(--aov-unique-void) 72%, transparent), color-mix(in oklab, var(--aov-substrate-ground) 88%, transparent));
+  box-shadow: none;
+}
+
+.aov-scene[data-rank="6"] .aov-rail--unique {
+  background:
+    radial-gradient(circle at 50% 35%, color-mix(in oklab, var(--aov-unique-singularity) 9%, transparent), transparent 38%),
+    linear-gradient(180deg, color-mix(in oklab, var(--aov-unique-void) 96%, transparent), color-mix(in oklab, var(--aov-substrate-ground) 92%, transparent));
+}
+
+.aov-scene[data-rank="6"] .aov-rail--suite .aov-rail-label,
+.aov-scene[data-rank="6"] .aov-rail--suite .aov-stars {
+  color: var(--aov-unique-singularity);
+}
+
+.aov-scene[data-rank="6"] .aov-terminal-plate {
+  opacity: 0.18;
+}
+
+.aov-scene[data-rank="6"] .aov-terminal-visual--suite {
+  width: min(30vw, 29rem);
+}
+
+.aov-scene[data-rank="6"] .aov-terminal-rank-stamp {
+  inset: 50% auto auto 50%;
+  width: 74%;
+  transform: translate(-50%, -50%);
+}
+
+.aov-apex-effect {
+  position: absolute;
+  z-index: 0;
+  display: block;
+  overflow: hidden;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.aov-apex-effect::before,
+.aov-apex-effect::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  animation-play-state: paused;
+}
+
+.aov-apex-effect--suite {
+  inset: -13%;
+  background: radial-gradient(circle, color-mix(in oklab, var(--aov-unique-singularity) 45%, transparent), transparent 64%);
+  opacity: 0.92;
+}
+
+.aov-apex-effect--suite::before {
+  inset: 8%;
+  background: radial-gradient(circle at center, var(--aov-unique-singularity), color-mix(in oklab, var(--rank-6) 35%, transparent) 34%, transparent 68%);
+  animation: aov4-apex-bloom 6.4s ease-in-out infinite;
+}
+
+.aov-apex-effect--suite::after {
+  inset: 3%;
+  background: conic-gradient(from 30deg, transparent, color-mix(in oklab, var(--rank-1) 42%, transparent), color-mix(in oklab, var(--rank-3) 46%, transparent), color-mix(in oklab, var(--rank-4) 42%, transparent), color-mix(in oklab, var(--rank-5) 38%, transparent), transparent 70%);
+  opacity: 0.46;
+  animation: aov4-apex-diffraction 16s linear infinite;
+}
+
+.aov-rail--unique > .aov-apex-effect--unique {
+  inset: 4%;
+  border-radius: 3rem;
+  background:
+    radial-gradient(circle at 42% 34%, transparent 0 12%, color-mix(in oklab, var(--aov-unique-singularity) 72%, transparent) 13%, transparent 25%),
+    radial-gradient(circle at center, var(--aov-unique-void) 0 28%, color-mix(in oklab, var(--aov-unique-singularity) 22%, transparent) 45%, transparent 72%);
+  opacity: 0.94;
+}
+
+.aov-apex-effect--unique::before {
+  inset: 9%;
+  background: radial-gradient(circle, var(--aov-unique-void) 0 38%, color-mix(in oklab, var(--aov-unique-singularity) 68%, transparent) 41% 46%, transparent 64%);
+  animation: aov4-void-lens 7.2s ease-in-out infinite;
+}
+
+.aov-apex-effect--unique::after {
+  inset: 2%;
+  background: conic-gradient(from 210deg, transparent 0 18%, color-mix(in oklab, var(--aov-unique-singularity) 55%, transparent), color-mix(in oklab, var(--rank-3) 48%, transparent), transparent 46% 72%, color-mix(in oklab, var(--rank-1) 32%, transparent), transparent);
+  opacity: 0.54;
+  animation: aov4-void-inversion 20s linear infinite reverse;
+}
+
+.aov-scene.is-active .aov-apex-effect::before,
+.aov-scene.is-active .aov-apex-effect::after {
+  animation-play-state: running;
+}
+
+@keyframes aov4-apex-bloom {
+  0%, 100% { opacity: 0.76; transform: scale(0.94); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes aov4-apex-diffraction {
+  to { transform: rotate(1turn); }
+}
+
+@keyframes aov4-void-lens {
+  0%, 100% { opacity: 0.78; transform: scale(1); }
+  50% { opacity: 1; transform: scale(0.92); }
+}
+
+@keyframes aov4-void-inversion {
+  to { transform: rotate(1turn); }
+}
+
 @media (max-width: 1180px) {
   .aov-rail {
     grid-template-columns: 1fr;
@@ -764,8 +906,11 @@
     background: color-mix(in oklab, var(--aov-suite-gold) 42%, transparent);
   }
 
-  .aov-thread {
-    display: none;
+  .aov-stage--fork > .aov-fork-art,
+  .aov-stage--fork > .aov-thread {
+    display: block;
+    width: calc(100% - 2rem);
+    aspect-ratio: 3 / 4;
   }
 
   .aov-substrate,
@@ -863,6 +1008,14 @@
     grid-template-columns: 1fr;
     width: 100%;
     gap: 1rem;
+  }
+
+  .aov-scene[data-rank="6"] .aov-terminal-visual--suite {
+    width: min(82vw, 25rem);
+  }
+
+  .aov-rail--unique > .aov-apex-effect--unique {
+    inset: 2%;
   }
 
   .aov-rail {

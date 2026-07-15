@@ -1,5 +1,5 @@
 /* ============================================================
-   Ascension Overdrive v3, Y-Fork Edition (Issue #998)
+   Ascension Overdrive v4, Cosmic Y-Fork Edition (Issue #998)
 
    Scroll drives the atmosphere, the three named SVG paths, scene
    reveals, and both terminal gate ladders. There is deliberately no
@@ -14,9 +14,10 @@
 
   var reduceQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   var mobileQuery = window.matchMedia('(max-width: 899px)');
-  var trunkPath = section.querySelector('#aov3-fork-trunk');
-  var suitePath = section.querySelector('#aov3-fork-branch-suite');
-  var uniquePath = section.querySelector('#aov3-fork-branch-unique');
+  var thread = section.querySelector('.aov-thread');
+  var trunkPath = section.querySelector('#aov4-fork-trunk');
+  var suitePath = section.querySelector('#aov4-fork-branch-suite');
+  var uniquePath = section.querySelector('#aov4-fork-branch-unique');
   var substrate = section.querySelector('.aov-substrate');
   var suiteHaze = section.querySelector('.aov-haze--suite');
   var uniqueHaze = section.querySelector('.aov-haze--unique');
@@ -28,9 +29,31 @@
   var motionAttached = false;
   var sectionIsNear = false;
   var sectionObserver = null;
+  var forkGeometry = {
+    desktop: {
+      viewBox: '0 0 3840 2160',
+      trunk: 'M1920 2030 L1920 1253',
+      suite: 'M1920 1253 C1805 1080 1306 691 1018 389',
+      unique: 'M1920 1253 C2035 1080 2534 691 2822 389'
+    },
+    mobile: {
+      viewBox: '0 0 1500 2000',
+      trunk: 'M750 1840 L750 1140',
+      suite: 'M750 1140 C690 980 480 680 375 400',
+      unique: 'M750 1140 C810 980 1020 680 1125 400'
+    }
+  };
 
   function clamp(value, min, max) {
     return Math.max(min, Math.min(max, value));
+  }
+
+  function applyForkGeometry() {
+    var geometry = mobileQuery.matches ? forkGeometry.mobile : forkGeometry.desktop;
+    if (thread) thread.setAttribute('viewBox', geometry.viewBox);
+    if (trunkPath) trunkPath.setAttribute('d', geometry.trunk);
+    if (suitePath) suitePath.setAttribute('d', geometry.suite);
+    if (uniquePath) uniquePath.setAttribute('d', geometry.unique);
   }
 
   function measure() {
@@ -146,8 +169,13 @@
       return;
     }
 
-    attachMotion();
+    if (sectionIsNear) attachMotion();
     setLayerHints(sectionIsNear);
+    measure();
+  }
+
+  function handleViewportChange() {
+    applyForkGeometry();
     measure();
   }
 
@@ -166,30 +194,43 @@
     sectionObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         sectionIsNear = entry.isIntersecting;
+        section.classList.toggle('aov--active', sectionIsNear);
         setLayerHints(sectionIsNear);
-        if (sectionIsNear) requestFrame();
+        if (sectionIsNear) {
+          attachMotion();
+          requestFrame();
+        } else {
+          detachMotion();
+        }
       });
     }, { rootMargin: '100% 0px', threshold: 0 });
     sectionObserver.observe(section);
   } else {
+    sectionIsNear = true;
+    section.classList.add('aov--active');
     scenes.forEach(function (scene) {
       scene.classList.add('is-active');
     });
+    attachMotion();
   }
 
   window.addEventListener('resize', measure, { passive: true });
   reduceQuery.addEventListener('change', handleReduceChange);
-  mobileQuery.addEventListener('change', measure);
+  mobileQuery.addEventListener('change', handleViewportChange);
 
   document.addEventListener('visibilitychange', function () {
-    if (!document.hidden) {
+    if (document.hidden) {
+      detachMotion();
+    } else if (sectionIsNear) {
+      attachMotion();
       measure();
     }
   });
 
+  applyForkGeometry();
   if (reduceQuery.matches) {
     draw();
-  } else {
+  } else if (!sectionObserver) {
     attachMotion();
   }
   measure();
