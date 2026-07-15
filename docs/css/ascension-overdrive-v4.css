@@ -761,8 +761,15 @@
   color: var(--aov-unique-singularity);
 }
 
+.aov-scene[data-rank="6"] .aov-rail--suite.aov-rail--terminal {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(15rem, 0.9fr) auto 1fr;
+  row-gap: clamp(0.75rem, 1.5vh, 1.25rem);
+}
+
 .aov-scene[data-rank="6"] .aov-terminal-visual--suite {
-  width: min(30vw, 29rem);
+  width: min(25vw, 25rem);
+  max-width: 100%;
 }
 
 .aov-apex-effect {
