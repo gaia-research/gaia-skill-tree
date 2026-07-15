@@ -1,0 +1,48 @@
+{
+  "userId": "yundu-ai",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "yundu-ai/mcp-tool-developer",
+      "level": "1★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "yundu-ai/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:38Z",
+          "source": "demote"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "yundu-ai/mcp-tool-developer",
+      "details": "Registered named skill yundu-ai/mcp-tool-developer",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:38Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "yundu-ai/mcp-tool-developer"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

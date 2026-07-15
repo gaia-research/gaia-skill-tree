@@ -14,7 +14,7 @@
   },
   "title": "Gstack Browse — Directed Browser Navigation",
   "genericSkillRef": "browser-control",
-  "origin": true,
+  "origin": false,
   "description": "Drives a browser to a target URL, navigates multi-step user journeys, and captures screenshots or structured observations for downstream verification or reporting.",
   "tags": [
     "browser-control",

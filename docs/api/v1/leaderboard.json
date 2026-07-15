@@ -1,13 +1,13 @@
 {
   "distribution": {
-    "total": 266,
+    "total": 280,
     "S": 5,
-    "A": 44,
-    "B": 66,
-    "C": 79,
-    "ungraded": 72,
+    "A": 47,
+    "B": 69,
+    "C": 78,
+    "ungraded": 81,
     "floor": 0,
-    "up": 1
+    "up": 4
   },
   "rows": [
     {
@@ -86,6 +86,18 @@
       "origin": true
     },
     {
+      "id": "firecrawl/firecrawl-skills",
+      "trustMagnitude": 223.52,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 37.52,
+        "fusion-recipe": 150.0
+      },
+      "origin": false
+    },
+    {
       "id": "gsd-build/get-shit-done",
       "trustMagnitude": 202.16,
       "grade": "A",
@@ -128,6 +140,18 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "fusion-recipe": 120.0
+      },
+      "origin": true
+    },
+    {
+      "id": "firecrawl/firecrawl-build-scrape",
+      "trustMagnitude": 133.54,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "social-signal": 60.02,
+        "github-stars-own": 37.52,
+        "repo-own": 36.0
       },
       "origin": true
     },
@@ -232,6 +256,18 @@
         "repo-own": 36.0,
         "peer-review": 45.0,
         "social-signal": 29.15
+      },
+      "origin": true
+    },
+    {
+      "id": "firecrawl/firecrawl-build-search",
+      "trustMagnitude": 107.14,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "social-signal": 33.62,
+        "github-stars-own": 37.52,
+        "repo-own": 36.0
       },
       "origin": true
     },
@@ -387,7 +423,7 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": true
     },
     {
       "id": "google-deepmind/ncbi_sequence_fetch",
@@ -712,7 +748,7 @@
         "repo-own": 36.0,
         "peer-review": 52.5
       },
-      "origin": true
+      "origin": false
     },
     {
       "id": "obra/dispatching-parallel-agents",
@@ -740,10 +776,43 @@
       "id": "browser-use/browser-harness",
       "trustMagnitude": 73.59,
       "grade": "B",
-      "level": "3★",
+      "level": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "social-signal": 37.59
+      },
+      "origin": true
+    },
+    {
+      "id": "firecrawl/firecrawl-build-interact",
+      "trustMagnitude": 73.52,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 37.52,
+        "repo-own": 36.0
+      },
+      "origin": false
+    },
+    {
+      "id": "firecrawl/firecrawl-build-onboarding",
+      "trustMagnitude": 73.52,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 37.52,
+        "repo-own": 36.0
+      },
+      "origin": true
+    },
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "trustMagnitude": 73.52,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "github-stars-own": 37.52,
+        "repo-own": 36.0
       },
       "origin": false
     },
@@ -1413,16 +1482,6 @@
       "origin": false
     },
     {
-      "id": "firecrawl/firecrawl",
-      "trustMagnitude": 36.0,
-      "grade": "C",
-      "level": "2★",
-      "typeBreakdown": {
-        "repo-own": 36.0
-      },
-      "origin": false
-    },
-    {
       "id": "gaiabot/repo-docs-before-pr",
       "trustMagnitude": 36.0,
       "grade": "C",
@@ -1620,7 +1679,7 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": false
     },
     {
       "id": "garrytan/setup-browser-cookies",
@@ -2199,6 +2258,96 @@
       "level": "1★",
       "typeBreakdown": {
         "repo-own": 1.22,
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "id": "favorchurch/attendees",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "id": "favorchurch/count-checkin-by-church",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "id": "favorchurch/export-attendees",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "id": "favorchurch/financial-assistance",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "id": "favorchurch/resend-conference-emails-carefully-with-smtp",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "id": "favorchurch/speak-like-favor",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "id": "favorchurch/ticket-transfer",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "id": "favorchurch/triage-conference",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false
+    },
+    {
+      "id": "favorchurch/update-unique-churches",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★",
+      "typeBreakdown": {
         "self-attestation": 5.0
       },
       "origin": false

@@ -1,6 +1,6 @@
 # Skill Tree — addy-osmani
 **Last Updated:** 2026-05-25
-**Total Skills Unlocked:** 1
+**Total Skills Unlocked:** 9
 **Highest Tier:** —
 **Deepest Lineage:** 1
 
@@ -11,13 +11,21 @@
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
 | ○ addy-osmani/test-driven-development | Basic Skill | 2★ | Named | addy-osmani/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ addy-osmani/agent-skills | Basic Skill | 5★ | Transcendent | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/code-review-and-quality | Basic Skill | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/code-simplification | Basic Skill | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/incremental-implementation | Basic Skill | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/performance-optimization | Basic Skill | 4★ | Hardened | addy-osmani/gaia-skill-tree | 2026-05-31T00:00:00Z |
+| ○ addy-osmani/planning-and-task-breakdown | Basic Skill | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/shipping-and-launch | Basic Skill | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ addy-osmani/spec-driven-development | Basic Skill | 3★ | Evolved | addy-osmani/gaia-skill-tree | 2026-07-03T00:00:00Z |
 
 ---
 
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — addy-osmani  ·  generated 2026-07-12
+GAIA SKILL TREE — addy-osmani  ·  generated 2026-07-14
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -36,7 +44,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ ████████/ask-matt
   ├─ · ◇ garrytan/design-consultation  [3★]
   │  ├─ · ◇ ████████/stagehand
-  │  │  ├─ · ○ /web-search
+  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ · ○ /computer-use
   │  └─ · ○ /parse-html
   ├─ · ◇ garrytan/design-shotgun  [3★]
@@ -69,9 +77,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ◇ garrytan/cso  [3★]
   │  ├─ · ◇ addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
-  ├─ · ○ garrytan/browse  [3★]
-  ├─ · ◇ garrytan/scrape  [2★]
-  │  ├─ · ○ /web-search  (↑ see above)
+  ├─ · ○ browser-use/browser-harness  [4★]
+  ├─ · ◇ firecrawl/firecrawl-build-scrape  [4★]
+  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
   │  ├─ · ○ /parse-html  (↑ see above)
   │  └─ · ○ /extract-entities
   ├─ · ◇ garrytan/skillify  [3★]
@@ -267,7 +275,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ◇ mattpocock/prototype  [2★]
   │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ · ○ /code-execution  (↑ see above)
-  │  └─ · ◇ mattpocock/setup-matt-pocock-skills  [3★]
+  │  └─ · ◇ firecrawl/firecrawl-build-onboarding  [3★]
   │     ├─ · ○ garrytan/document-generate  [3★]  (↑ see above)
   │     └─ · ○ /tool-use
   ├─ · ◇ mattpocock/productivity  [4★]
@@ -295,12 +303,18 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ /autonomous-engineering-platform
   · ○ gaia-research/skill-ci-churn  [2★]
   · ○ /clinical-data-retrieval
+  · ○ ████████/update-unique-churches
   · ○ /cultural-localization
   · ○ ████████/domain-modeling
+  · ○ ████████/attendees
+  · ○ ████████/export-attendees
+  · ○ ████████/triage-conference
+  · ○ ████████/ticket-transfer
   · ○ ████████/evidence-attestation
   · ○ openai/few-shot-learning  [4★]
   · ○ laravel/upgrade-laravel-v13  [2★]
   · ○ ruvnet/agentic-jujutsu  [2★]
+  · ○ ████████/financial-assistance
   · ○ /image-generate
   · ○ ████████/implement-with-discernment
   · ○ ████████/huggingface-vision-trainer
@@ -315,6 +329,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
+  · ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 
 ## Pending Combinations

@@ -1,0 +1,188 @@
+{
+  "userId": "langgenius",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "langgenius/backend-code-review",
+      "level": "1★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "langgenius/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:29Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "langgenius/component-refactoring",
+      "level": "1★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "langgenius/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:29Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "langgenius/e2e-cucumber-playwright",
+      "level": "1★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "langgenius/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:30Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "langgenius/frontend-code-review",
+      "level": "1★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "langgenius/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:30Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "langgenius/frontend-testing",
+      "level": "1★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "langgenius/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-20T06:31:30Z",
+          "source": "demote"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "langgenius/backend-code-review",
+      "details": "Registered named skill langgenius/backend-code-review",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "langgenius/component-refactoring",
+      "details": "Registered named skill langgenius/component-refactoring",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "langgenius/e2e-cucumber-playwright",
+      "details": "Registered named skill langgenius/e2e-cucumber-playwright",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "langgenius/frontend-code-review",
+      "details": "Registered named skill langgenius/frontend-code-review",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "langgenius/frontend-testing",
+      "details": "Registered named skill langgenius/frontend-testing",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:29Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "langgenius/backend-code-review"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:29Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "langgenius/component-refactoring"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:30Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "langgenius/e2e-cucumber-playwright"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:30Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "langgenius/frontend-code-review"
+    },
+    {
+      "timestamp": "2026-06-20T06:31:30Z",
+      "action": "demote",
+      "previousValue": "2★",
+      "newValue": "1★",
+      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "skillId": "langgenius/frontend-testing"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 5,
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

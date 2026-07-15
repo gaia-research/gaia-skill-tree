@@ -1,0 +1,35 @@
+{
+  "userId": "caioribeiroclw-pixel",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "caioribeiroclw-pixel/evidence-attestation",
+      "level": "1★",
+      "unlockedAt": "2026-07-09T00:00:00Z",
+      "unlockedIn": "caioribeiroclw-pixel/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-09T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-07-09T00:00:00Z",
+      "action": "register",
+      "skillId": "caioribeiroclw-pixel/evidence-attestation",
+      "details": "Registered named skill caioribeiroclw-pixel/evidence-attestation",
+      "previousValue": null,
+      "newValue": "1★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

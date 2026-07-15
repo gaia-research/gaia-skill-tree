@@ -4,7 +4,7 @@
 |---|---|---|---|---|
 | ◇ [ruvnet](../docs/u/ruvnet/)/swarm-advanced | Extra Skill | Swarm Topology Management, Multi-Agent Debate | 2★ |  |
 | ◇ /adversarial-robustness-testing | Extra Skill | Agent Evaluation, Guardrails, Prompt Injection Defense | — |  |
-| ◇ [mattpocock](../docs/u/mattpocock/)/setup-matt-pocock-skills | Extra Skill | Document Editing, Tool Use | 3★ |  |
+| ◇ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-onboarding | Extra Skill | Document Editing, Tool Use | 3★ |  |
 | ◇ /agent-eval | Extra Skill | Evaluate Output, Score Relevance | — |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/handoff | Extra Skill | Summarize, Document Editing, Context Compression | 3★ |  |
 | ◇ ████████/agentdb-learning | Extra Skill | Adaptive Pattern Learning, Memory Manage | — |  |
@@ -44,6 +44,7 @@
 | ◇ /explainability-audit | Extra Skill | Data Visualize, Evaluate Output, Statistical Analysis | — |  |
 | ◇ /financial-modeling | Extra Skill | Data Analysis, Generate SQL, Statistical Analysis | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/ship | Extra Skill | Code Review Pipeline, Diff Content | 3★ |  |
+| ◇ [firecrawl](../docs/u/firecrawl/)/firecrawl-skills | Extra Skill | Web Scrape, Web Search, Browser Control, agent-environment-setup, Literature Search | 4★ |  |
 | ◆ [garrytan](../docs/u/garrytan/)/gstack | Ultimate Skill | Question Answer, Evaluate Output, Code Review Pipeline, UX Audit, Vertical Slice Planning, Design System Extraction, Design Review, Code Generation, Systematic Debugging, End-to-End Testing, Finishing a Development Branch, Deployment Automation, Detect Anomaly, Document Editing, Browser Automation, Security Audit, Browser Control, Web Scrape, Skill Authoring, Write Report, Multi-Agent Debate, Skill Performance Benchmarking, Automated Testing, MCP Integration, Memory Manage, Guardrails, Knowledge Management, Format Output, Workspace Automation, Project Management, Prompt Optimization | 5★ | Requires demonstrating all 31 garrytan discipline skills together in a real multi-step context. |
 | ◇ /full-stack-developer | Extra Skill | Code Review Pipeline, Automated Testing, Refactor Code | — | Requires access to repository, execution environment, and test runner. Minimum 3 Class A/B evidence sources. |
 | ◇ /function-calling | Extra Skill | Structured Output Generation, API Call, Tool Select | — | Requires an available function or tool catalog with machine-readable argument schemas and result contracts. |
@@ -56,7 +57,7 @@
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | Grill Me, Ubiquitous Language, Document Editing | 3★ | Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill. |
 | ◇ /grounding | Extra Skill | Retrieve, Cite Sources, Evaluate Output | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/careful | Extra Skill | Evaluate Output, Classify, Structured Output Generation | 3★ | Requires a defined policy schema and an evaluation loop. |
-| ◇ /humanize-prose | Extra Skill | Document Editing, Audience Model, Format Output | — | Requires explicit user permission to revise voice, tone, and stylistic markers without changing factual claims. |
+| ◇ ████████/speak-like-favor | Extra Skill | Document Editing, Audience Model, Format Output | — | Requires explicit user permission to revise voice, tone, and stylistic markers without changing factual claims. |
 | ◇ [safishamsi](../docs/u/safishamsi/)/graphify | Extra Skill | Extract Entities, Logical Inference | 4★ |  |
 | ◇ /knowledge-harvest | Extra Skill | Web Scrape, Extract Entities, Embed Text | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/setup-gbrain | Extra Skill | API Call, Retrieve | 2★ |  |
@@ -125,7 +126,7 @@
 | ◇ /web-accessibility | Extra Skill | Browser Control, UX Audit | — |  |
 | ◇ /web-best-practices | Extra Skill | Code Review Pipeline, Performance Tuning | — |  |
 | ◇ /web-quality-audit | Extra Skill | Gaia Meta Audit, Performance Tuning, search-engine-optimization, web-accessibility, web-best-practices | — |  |
-| ◇ [garrytan](../docs/u/garrytan/)/scrape | Extra Skill | Web Search, Parse HTML, Extract Entities | 2★ | Structured output mode required. |
+| ◇ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-scrape | Extra Skill | Web Search, Parse HTML, Extract Entities | 4★ | Structured output mode required. |
 | ◇ /wiki-search | Extra Skill | Retrieve, Embed Text, Summarize | — | Requires an accessible local wiki or markdown knowledge-base directory and a consistent linking or indexing convention. |
 | ◇ ████████/github-workflow-automation | Extra Skill | Plan and Decompose, Tool Use, API Call | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/gstack-upgrade | Extra Skill | API Call, Document Editing | 2★ |  |

@@ -35,7 +35,9 @@ export class GaiaClient {
   private readonly fetchFn: typeof globalThis.fetch;
 
   constructor(options?: GaiaClientOptions) {
-    this.baseUrl = (options?.baseUrl ?? DEFAULT_BASE_URL).replace(/\/+$/, "");
+    let url = options?.baseUrl ?? DEFAULT_BASE_URL;
+    while (url.endsWith("/")) { url = url.slice(0, -1); }
+    this.baseUrl = url;
     this.fetchFn = options?.fetch ?? globalThis.fetch;
   }
 

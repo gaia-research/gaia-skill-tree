@@ -2,18 +2,17 @@
 name: trust-methodology-consult
 description: >
   Consult this skill BEFORE proposing a fix to any CLI gap or schema gap that
-  touches evidence, trust magnitude, evidence types, evidence grades, or the
-  TM formula. Also read it whenever an issue mentions citations, stars,
-  commits, contributors, views, reviewers, percentile, arxiv, github-stars-own,
-  repo-own, social-signal, benchmark-result, peer-review, self-attestation,
-  fusion-recipe, verifier-attestation, or proxy-containment — those are the
-  10 canonical evidence types and the raw inputs that feed their formulas.
-  The trust methodology page at `docs/codex/trust-methodology.html` is the
-  documented source of truth for how trust is computed. It says explicitly:
-  "TM is computed at build time from a skill's evidence inventory, never
-  stored on a node." Reading it prevents proposing changes that would strip
-  the raw inputs the methodology depends on, or add fields the CLI already
-  writes and the TM engine already reads.
+  touches evidence, trust magnitude, evidence types, evidence grades, the TM
+  formula, or star-level promotion gates. Also read it whenever an issue
+  mentions citations, stars, commits, contributors, views, reviewers,
+  percentile, arxiv, github-stars-own, repo-own, social-signal,
+  benchmark-result, peer-review, self-attestation, fusion-recipe,
+  verifier-attestation, or proxy-containment — those are the 10 canonical
+  evidence types and the raw inputs that feed their formulas. Also read it
+  when asked whether a skill qualifies for a given star level (0★–6★): the
+  Star Bar and promotion gates live in `META.md`, not in the TM methodology
+  page. Reading both prevents proposing a calibration that satisfies the TM
+  grade threshold but violates a Star Bar installability or link requirement.
 ---
 
 # Consult the trust methodology before touching CLI/schema evidence surface
@@ -26,9 +25,32 @@ proposing a fix guarantees you either widen or narrow it incorrectly:
 | **Concept** — what the numbers mean and why they exist | `docs/codex/trust-methodology.html` (also mirrored in `docs/meta/2026-06-trust-methodology.md` and the G7 supersession note at `docs/meta/2026-06-17-g7-trust-magnitude-supersession.md`) |
 | **Compute** — how the numbers are actually produced | `src/gaia_cli/trustMagnitude.py` (backend); `docs/js/tm-config.js` (frontend SoT) |
 | **Persistence** — what shape the CLI writes and the schema bounds | `src/gaia_cli/commands/dev/evidence.py` (writer) + `registry/schema/skill.schema.json` + `registry/schema/namedSkill.schema.json` (bounds) |
+| **Star level gates** — what a skill must satisfy to hold 0★–6★ | `META.md` §2 (Star Bar, installability, blob-link requirement, 4★+ live evidence rule, Specialist Path rubric, Apex 6-predicate gate) |
 
 When an issue lands as "CLI gap" or "schema gap" on this surface, ONE of those
 layers is out of step with the other two. Your first job is to identify which.
+
+## Star Bar — read META.md before calibrating any 3★+
+
+The TM methodology page covers *how scores are computed*. It does **not** cover
+*what a skill must have to hold a given star level*. Those gates live in
+`META.md` §2 and must be checked independently:
+
+| Level | Gate |
+|---|---|
+| 0★–2★ | No link requirement; `installable: false` permitted |
+| 3★+ | `links.github` **must** be a verified blob URL (`.../blob/<branch>/...`). Bare repo root → hard-demote to 1★. |
+| 4★+ | Live, verifiable usage evidence required. Seed/placeholder evidence is insufficient. |
+| 4★+ Specialist | Vendor-locked skills: Depth-of-Integration rubric (META.md §2.3) |
+| 6★ Apex | Grade S + 6 active predicates from G7 Trust Taxonomy RFC |
+
+When asked "should this skill be 4★?", run this check **before** computing TM:
+1. Does `links.github` point to a concrete file via `/blob/`?
+2. Is every scoring evidence row live and non-seed?
+3. Does `overallTrustGrade` ≥ B (TM ≥ 50)? Grade A (TM ≥ 100) is the norm for 4★ in practice.
+
+If any gate fails, the correct action is to fix the gate or demote — not to
+add more evidence rows to compensate.
 
 ## The read pass — do this before writing code
 
@@ -104,6 +126,27 @@ written, only the schema disagrees), most of that list does not apply —
 only steps 4-ish (extend the schema), 6 (regen docs), and 7 (rerun the
 calibration if any stored grade shifted) matter. Small schema changes still
 belong on a `schema/*` branch per the branch-scope rules.
+
+## Helper: recompute a single node's stored TM (`scripts/recompute_one_tm.py`)
+
+A recurring flavour of CLI gap: the live CLI does **not** recompute and persist
+a named skill's `trustMagnitude`/`overallTrustGrade` when evidence is added, a
+suite is fused, or a level is calibrated. The leaderboard recomputes at build
+time (`computeTrustMagnitude`) and looks correct, but consumers that trust the
+**stored** frontmatter field — the contributors API, badges, and the
+Hall-of-Heroes `topSkill` selection — keep showing the stale value.
+
+Until that write-back is closed in `gaia dev`, use the vendored helper for a
+surgical, idempotent, single-node fix (it reuses the canonical write-back logic
+from `scripts/archive/migrateTrustMagnitude.py`, so no unrelated node is swept
+into the diff):
+
+    python3 .claude/skills/trust-methodology-consult/scripts/recompute_one_tm.py <owner/skill-id> --dry-run
+    python3 .claude/skills/trust-methodology-consult/scripts/recompute_one_tm.py <owner/skill-id>
+    gaia dev docs   # propagate the new value into docs/ artifacts
+
+This is a *remediation*, not a design — the durable fix is to make the mutation
+commands recompute+persist. Do not hand-edit the stored fields.
 
 ## What NOT to do
 

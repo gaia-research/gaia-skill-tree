@@ -453,8 +453,7 @@ class TokenStore:
             except Exception:
                 pass
         file_data = self._read_file()
-        if "github.com" in file_data:
-            del file_data["github.com"]
+        if file_data.pop("github.com", None) is not None:
             self._write_file(file_data)
             cleared = True
         return cleared

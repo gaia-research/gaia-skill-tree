@@ -1,0 +1,11 @@
+{
+  "contractVersion": "luna-viability-expected-v1",
+  "pageId": "deterministic-luna-page-v1",
+  "decisions": [
+    {"candidateId": "existing-browser-implementation", "decision": "MAP", "genericId": "browser-automation"},
+    {"candidateId": "exact-duplicate", "decision": "DUPLICATE", "genericId": null},
+    {"candidateId": "malformed-non-skill", "decision": "NOT_A_SKILL", "genericId": null},
+    {"candidateId": "ambiguous-bundle", "decision": "DEFER", "genericId": null},
+    {"candidateId": "copied-with-cited-origin", "decision": "DUPLICATE", "genericId": null}
+  ]
+}

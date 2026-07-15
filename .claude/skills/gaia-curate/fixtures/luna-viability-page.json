@@ -1,0 +1,70 @@
+{
+  "contractVersion": "luna-viability-page-v1",
+  "pageId": "deterministic-luna-page-v1",
+  "decisionVocabulary": ["MAP", "NEW_GENERIC", "DUPLICATE", "NOT_A_SKILL", "DEFER"],
+  "candidates": [
+    {
+      "candidateId": "existing-browser-implementation",
+      "artifactGate": "valid-skill",
+      "frontmatter": {
+        "name": "Browser Pilot",
+        "description": "Automates browser navigation, form entry, and page extraction."
+      },
+      "exactDedupe": null,
+      "mappingOptions": [
+        {"genericId": "browser-automation", "description": "Automate browser navigation and interaction."}
+      ],
+      "ambiguity": null,
+      "citedOrigin": null
+    },
+    {
+      "candidateId": "exact-duplicate",
+      "artifactGate": "valid-skill",
+      "frontmatter": {
+        "name": "Browser Pilot Copy",
+        "description": "Automates browser navigation, form entry, and page extraction."
+      },
+      "exactDedupe": {"matchedCandidateId": "existing-browser-implementation", "basis": "content-sha256"},
+      "mappingOptions": [],
+      "ambiguity": null,
+      "citedOrigin": null
+    },
+    {
+      "candidateId": "malformed-non-skill",
+      "artifactGate": "rejected-missing-description-frontmatter",
+      "frontmatter": {"name": "README fragment"},
+      "exactDedupe": null,
+      "mappingOptions": [],
+      "ambiguity": null,
+      "citedOrigin": null
+    },
+    {
+      "candidateId": "ambiguous-bundle",
+      "artifactGate": "valid-skill",
+      "frontmatter": {
+        "name": "Everything Operator",
+        "description": "Researches companies, deploys applications, and manages email campaigns."
+      },
+      "exactDedupe": null,
+      "mappingOptions": [
+        {"genericId": "company-research", "description": "Research organizations."},
+        {"genericId": "application-deployment", "description": "Deploy applications."},
+        {"genericId": "email-campaign-management", "description": "Manage email campaigns."}
+      ],
+      "ambiguity": "Three independent capabilities are bundled with no dominant operating boundary.",
+      "citedOrigin": null
+    },
+    {
+      "candidateId": "copied-with-cited-origin",
+      "artifactGate": "valid-skill",
+      "frontmatter": {
+        "name": "Upstream Browser Pilot",
+        "description": "Automates browser navigation, form entry, and page extraction."
+      },
+      "exactDedupe": {"matchedCandidateId": "existing-browser-implementation", "basis": "cited-origin-content-sha256"},
+      "mappingOptions": [],
+      "ambiguity": null,
+      "citedOrigin": "https://github.com/example/origin/blob/main/SKILL.md"
+    }
+  ]
+}

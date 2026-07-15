@@ -106,3 +106,10 @@ raw/graphify-out/cache/
 # Content Engine draft output (never leaves the runner unless GAIA_CONTENT_ENGINE_PUBLISH=1)
 docs/reports/DRAFT/
 assets/workbench/
+
+# Purged ascension/design masters — only .webp derivatives are tracked [skip-gen]
+docs/assets/ascension-overdrive/*.png
+docs/assets/Asset*/*.png
+docs/assets/Asset*/**/*.png
+founder/handovers/design-v6.1.1-assets/**/*.png
+founder/handovers/design-v6.1.1-assets/**/*.mp4

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-icon-base="../../assets/icons.svg">
 <head>
-  <script>window.GAIA_VERSION = "6.3.12";</script>
+  <script>window.GAIA_VERSION = "6.8.8";</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@gaiabot — Gaia Skill Registry</title>
@@ -16,18 +16,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="../../css/tokens.css?v=6.3.12">
-  <link rel="stylesheet" href="../../css/styles.css?v=6.3.12">
-  <link rel="stylesheet" href="../../css/plaque.css?v=6.3.12">
+  <link rel="stylesheet" href="../../css/tokens.css?v=6.8.8">
+  <link rel="stylesheet" href="../../css/styles.css?v=6.8.8">
+  <link rel="stylesheet" href="../../css/plaque.css?v=6.8.8">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
-  <script src="../../js/icons.js?v=6.3.12"></script>
+  <script src="../../js/icons.js?v=6.8.8"></script>
   <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
-  <script src="../../js/rank-badge.js?v=6.3.12"></script>
+  <script src="../../js/rank-badge.js?v=6.8.8"></script>
   <!-- Stage 3 — TM config (single source of truth for formulas/RFC), before plaque. -->
-  <script src="../../js/tm-config.js?v=6.3.12"></script>
+  <script src="../../js/tm-config.js?v=6.8.8"></script>
   <!-- Stage 4 — plaque component family, loaded after tm-config.js. -->
-  <script src="../../js/plaque.js?v=6.3.12"></script>
-  <script src="../../js/ui.js?v=6.3.12" defer></script>
+  <script src="../../js/plaque.js?v=6.8.8"></script>
+  <script src="../../js/ui.js?v=6.8.8" defer></script>
 <script type="application/ld+json" data-injector="gaia-json-ld">
 {
   "@context": "https://schema.org",
@@ -41,8 +41,8 @@
 <body class="profile-page">
 
   <nav id="site-nav"></nav>
-<script src="../../js/mounts.js?v=6.3.12"></script>
-<script src="../../js/site-nav.js?v=6.3.12"></script>
+<script src="../../js/mounts.js?v=6.8.8"></script>
+<script src="../../js/site-nav.js?v=6.8.8"></script>
 
   <div class="profile-grid-container">
     <main class="profile-main">
@@ -80,7 +80,7 @@
   </div>
   <div id="profile-timeline" class="profile-timeline" role="img" aria-label="Skill progression timeline"></div>
 </section>
-<script>window.PROFILE_TIMELINE = JSON.parse("{\"skills\": [{\"id\": \"route-intent\", \"name\": \"route-intent\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}, {\"id\": \"plan-decompose\", \"name\": \"plan-decompose\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}, {\"id\": \"tool-select\", \"name\": \"tool-select\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}, {\"id\": \"plan-and-execute\", \"name\": \"plan-and-execute\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}, {\"id\": \"gaiabot/gaia-triage\", \"name\": \"Gaia Triage (Internal)\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": [{\"level\": \"2\\u2605\", \"achievedAt\": \"2026-05-25T00:00:00Z\", \"source\": \"promotion\"}, {\"level\": \"1\\u2605\", \"achievedAt\": \"2026-06-20T06:31:20Z\", \"source\": \"demote\"}]}, {\"id\": \"gaiabot/repo-docs-before-pr\", \"name\": \"Repo Docs Before PR\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": [{\"level\": \"2\\u2605\", \"achievedAt\": \"2026-05-25T00:00:00Z\", \"source\": \"promotion\"}]}, {\"id\": \"dify-agent-suite\", \"name\": \"dify-agent-suite\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}], \"events\": [{\"timestamp\": \"2026-04-20\", \"action\": \"register\", \"skillId\": \"route-intent\", \"details\": \"Registered named skill route-intent\", \"previousValue\": null, \"newValue\": \"2\\u2605\"}, {\"timestamp\": \"2026-04-21\", \"action\": \"register\", \"skillId\": \"plan-decompose\", \"details\": \"Registered named skill plan-decompose\", \"previousValue\": null, \"newValue\": \"2\\u2605\"}, {\"timestamp\": \"2026-04-22\", \"action\": \"register\", \"skillId\": \"tool-select\", \"details\": \"Registered named skill tool-select\", \"previousValue\": null, \"newValue\": \"2\\u2605\"}, {\"timestamp\": \"2026-04-26\", \"action\": \"register\", \"skillId\": \"plan-and-execute\", \"details\": \"Registered named skill plan-and-execute\", \"previousValue\": null, \"newValue\": \"3\\u2605\"}, {\"timestamp\": \"2026-05-20T23:14:03Z\", \"action\": \"add\", \"details\": \"Added generic skill dify-agent-suite\", \"skillId\": \"dify-agent-suite\"}, {\"timestamp\": \"2026-05-20T23:14:48Z\", \"action\": \"evidence_added\", \"details\": \"Added B evidence from https://github.com/langgenius/dify\", \"skillId\": \"dify-agent-suite\"}, {\"timestamp\": \"2026-05-25T00:00:00Z\", \"action\": \"register\", \"skillId\": \"gaiabot/gaia-triage\", \"details\": \"Registered named skill gaiabot/gaia-triage\", \"previousValue\": null, \"newValue\": \"2\\u2605\"}, {\"timestamp\": \"2026-05-25T00:00:00Z\", \"action\": \"register\", \"skillId\": \"gaiabot/repo-docs-before-pr\", \"details\": \"Registered named skill gaiabot/repo-docs-before-pr\", \"previousValue\": null, \"newValue\": \"2\\u2605\"}, {\"timestamp\": \"2026-06-20T06:31:20Z\", \"action\": \"demote\", \"previousValue\": \"2\\u2605\", \"newValue\": \"1\\u2605\", \"details\": \"Level updated from 2\\u2605 to 1\\u2605 per G7 final rankings calibration.\", \"skillId\": \"gaiabot/gaia-triage\"}]}");</script>
+<script>window.PROFILE_TIMELINE = JSON.parse("{\"skills\": [{\"id\": \"route-intent\", \"name\": \"route-intent\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}, {\"id\": \"plan-decompose\", \"name\": \"plan-decompose\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}, {\"id\": \"tool-select\", \"name\": \"tool-select\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}, {\"id\": \"plan-and-execute\", \"name\": \"plan-and-execute\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}, {\"id\": \"gaiabot/gaia-triage\", \"name\": \"Gaia Triage (Internal)\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": [{\"level\": \"2\\u2605\", \"achievedAt\": \"2026-05-25T00:00:00Z\", \"source\": \"promotion\"}, {\"level\": \"1\\u2605\", \"achievedAt\": \"2026-06-20T06:31:20Z\", \"source\": \"demote\"}]}, {\"id\": \"gaiabot/repo-docs-before-pr\", \"name\": \"Repo Docs Before PR\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": [{\"level\": \"2\\u2605\", \"achievedAt\": \"2026-05-25T00:00:00Z\", \"source\": \"promotion\"}]}], \"events\": [{\"timestamp\": \"2026-04-20\", \"action\": \"register\", \"skillId\": \"route-intent\", \"details\": \"Registered named skill route-intent\", \"previousValue\": null, \"newValue\": \"2\\u2605\"}, {\"timestamp\": \"2026-04-21\", \"action\": \"register\", \"skillId\": \"plan-decompose\", \"details\": \"Registered named skill plan-decompose\", \"previousValue\": null, \"newValue\": \"2\\u2605\"}, {\"timestamp\": \"2026-04-22\", \"action\": \"register\", \"skillId\": \"tool-select\", \"details\": \"Registered named skill tool-select\", \"previousValue\": null, \"newValue\": \"2\\u2605\"}, {\"timestamp\": \"2026-04-26\", \"action\": \"register\", \"skillId\": \"plan-and-execute\", \"details\": \"Registered named skill plan-and-execute\", \"previousValue\": null, \"newValue\": \"3\\u2605\"}, {\"timestamp\": \"2026-05-20T23:14:03Z\", \"action\": \"add\", \"details\": \"Added generic skill dify-agent-suite\", \"skillId\": \"dify-agent-suite\"}, {\"timestamp\": \"2026-05-20T23:14:48Z\", \"action\": \"evidence_added\", \"details\": \"Added B evidence from https://github.com/langgenius/dify\", \"skillId\": \"dify-agent-suite\"}, {\"timestamp\": \"2026-05-25T00:00:00Z\", \"action\": \"register\", \"skillId\": \"gaiabot/gaia-triage\", \"details\": \"Registered named skill gaiabot/gaia-triage\", \"previousValue\": null, \"newValue\": \"2\\u2605\"}, {\"timestamp\": \"2026-05-25T00:00:00Z\", \"action\": \"register\", \"skillId\": \"gaiabot/repo-docs-before-pr\", \"details\": \"Registered named skill gaiabot/repo-docs-before-pr\", \"previousValue\": null, \"newValue\": \"2\\u2605\"}, {\"timestamp\": \"2026-06-20T06:31:20Z\", \"action\": \"demote\", \"previousValue\": \"2\\u2605\", \"newValue\": \"1\\u2605\", \"details\": \"Level updated from 2\\u2605 to 1\\u2605 per G7 final rankings calibration.\", \"skillId\": \"gaiabot/gaia-triage\"}]}");</script>
 
       <!-- ─── SKILL PLAQUES ─── -->
       <section class="profile-section">
@@ -168,14 +168,14 @@
 
   <!-- ─── FOOTER ─── -->
 <div id="site-footer-mount"></div>
-<script src="../../js/site-footer.js?v=6.3.12"></script>
+<script src="../../js/site-footer.js?v=6.8.8"></script>
 
-  <script src="../../js/plaque-reveal.js?v=6.3.12" defer></script>
-  <script src="../../js/profile-timeline.js?v=6.3.12" defer></script>
-  <script src="../../js/profile-filter.js?v=6.3.12" defer></script>
-  <script src="../../js/named-skills.js?v=6.3.12" defer></script>
-  <script src="../../js/skill-explorer.js?v=6.3.12" defer></script>
-  <script src="../../js/hoh-modal.js?v=6.3.12" defer></script>
+  <script src="../../js/plaque-reveal.js?v=6.8.8" defer></script>
+  <script src="../../js/profile-timeline.js?v=6.8.8" defer></script>
+  <script src="../../js/profile-filter.js?v=6.8.8" defer></script>
+  <script src="../../js/named-skills.js?v=6.8.8" defer></script>
+  <script src="../../js/skill-explorer.js?v=6.8.8" defer></script>
+  <script src="../../js/hoh-modal.js?v=6.8.8" defer></script>
 
   <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
     <svg class="ico" width="20" height="20" aria-hidden="true"><use href="../../assets/icons.svg#arrow-up"/></svg>

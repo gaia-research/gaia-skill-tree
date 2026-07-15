@@ -78,13 +78,31 @@ This will prompt you for:
 - **Assignees** — optional
 - **Labels** — optional
 
-Or specify details inline:
+For multiline descriptions, use a body file with real newlines. Do **not** pass literal `\\n` sequences or rely on shell `$'...'` quoting; malformed quoting can make GitHub display `\\n` (and sometimes a stray `$`).
+
+```bash
+cat > /tmp/pr-body.md <<'EOF'
+## Summary
+
+Describe the change here.
+EOF
+gh pr create --draft --title "Your PR Title" --body-file /tmp/pr-body.md
+```
+
+After creating or editing the PR, verify the stored body:
+
+```bash
+gh pr view <number> --json body --jq .body
+```
+
+Or specify details inline for a one-line body:
 ```bash
 gh pr create --draft --title "Your PR Title" --body "Description here"
 ```
 
 ## Tips
 
+- **Accidental staging leakage:** if a PR contains unrelated staging changes, do not force-push blindly. Start a clean branch from current `origin/main`, apply only the intended files, verify `git diff --stat origin/main...HEAD`, then push and create a replacement draft PR. Close the contaminated PR and cross-reference the replacement in a comment.
 - **Draft PRs** show as "Draft" and won't trigger auto-merge workflows
 - **Rebase before final PR** — `git rebase -i origin/main` to clean up commits
 - **Ready to review?** — Use `gh pr ready` to convert from draft to ready-for-review

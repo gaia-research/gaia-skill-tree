@@ -175,13 +175,13 @@ jobs:
                 ;;
               review-meta)
                 case "$file" in
-                  registry/*|docs/*|*.md) # allowed, but not schema
+                  registry/*|docs/*|skill-trees/*|*.md) # allowed, but not schema
                     case "$file" in
                       registry/schema/*) VIOLATIONS="$VIOLATIONS\n  ❌ $file (review/meta branches may not touch registry/schema/)" ;;
                       *) ;; # allowed
                     esac
                     ;;
-                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (review/meta branches may only touch registry/ (excluding registry/schema/), docs/, or *.md files)" ;;
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (review/meta branches may only touch registry/ (excluding registry/schema/), skill-trees/, docs/, or *.md files)" ;;
                 esac
                 ;;
               jules)

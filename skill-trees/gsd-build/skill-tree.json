@@ -1,0 +1,145 @@
+{
+  "userId": "gsd-build",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "gsd-build/discuss-phase",
+      "level": "3★",
+      "unlockedAt": "2026-07-03T00:00:00Z",
+      "unlockedIn": "gsd-build/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "gsd-build/execute-phase",
+      "level": "3★",
+      "unlockedAt": "2026-07-03T00:00:00Z",
+      "unlockedIn": "gsd-build/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "gsd-build/get-shit-done",
+      "level": "4★",
+      "unlockedAt": "2026-07-03T00:00:00Z",
+      "unlockedIn": "gsd-build/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "gsd-build/plan-phase",
+      "level": "3★",
+      "unlockedAt": "2026-07-03T00:00:00Z",
+      "unlockedIn": "gsd-build/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "gsd-build/ship",
+      "level": "3★",
+      "unlockedAt": "2026-07-03T00:00:00Z",
+      "unlockedIn": "gsd-build/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "gsd-build/verify-work",
+      "level": "3★",
+      "unlockedAt": "2026-07-03T00:00:00Z",
+      "unlockedIn": "gsd-build/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-07-03T00:00:00Z",
+      "action": "register",
+      "skillId": "gsd-build/discuss-phase",
+      "details": "Registered named skill gsd-build/discuss-phase",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-07-03T00:00:00Z",
+      "action": "register",
+      "skillId": "gsd-build/execute-phase",
+      "details": "Registered named skill gsd-build/execute-phase",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-07-03T00:00:00Z",
+      "action": "register",
+      "skillId": "gsd-build/get-shit-done",
+      "details": "Registered named skill gsd-build/get-shit-done",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-07-03T00:00:00Z",
+      "action": "register",
+      "skillId": "gsd-build/plan-phase",
+      "details": "Registered named skill gsd-build/plan-phase",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-07-03T00:00:00Z",
+      "action": "register",
+      "skillId": "gsd-build/ship",
+      "details": "Registered named skill gsd-build/ship",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-07-03T00:00:00Z",
+      "action": "register",
+      "skillId": "gsd-build/verify-work",
+      "details": "Registered named skill gsd-build/verify-work",
+      "previousValue": null,
+      "newValue": "3★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 6,
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

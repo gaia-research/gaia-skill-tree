@@ -88,7 +88,8 @@ def main() -> int:
             if "/" not in sid or sid.split("/", 1)[0] != owner:
                 continue  # only the owner's own named skills
             if sid not in reg:
-                continue  # not a current registry skill (removed/fused) — skip
+                violations.append(f"[{tree_path.parent.name}] '{sid}' does not exist in registry (phantom skill)")
+                continue
             skills_checked += 1
             current = reg[sid]
             tree_level = _norm(entry.get("level"))
