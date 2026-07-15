@@ -1,0 +1,1034 @@
+/* ============================================================
+   Ascension Overdrive v3, Y-Fork Edition (Issue #998)
+   Component-local tokens and motion only. The v2 stylesheet stays
+   on disk as an archival implementation reference.
+   ============================================================ */
+
+.aov {
+  --aov-suite-cream: oklch(0.92 0.025 85);
+  --aov-suite-gold: oklch(0.78 0.14 82);
+  --aov-suite-brass: oklch(0.65 0.10 72);
+  --aov-suite-ink: oklch(0.25 0.02 75);
+  --aov-unique-void: oklch(0.13 0.015 260);
+  --aov-unique-singularity: oklch(0.96 0.01 240);
+  --aov-unique-fracture: oklch(0.55 0.03 245);
+  --aov-unique-glitch: oklch(0.72 0.16 12);
+  --aov-substrate-ground: oklch(0.22 0.015 85);
+  --aov-substrate-ink: oklch(0.55 0.03 75);
+  position: relative;
+  width: 100vw;
+  max-width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  padding: 0;
+  overflow: clip;
+  isolation: isolate;
+  scroll-margin-top: 5rem;
+  color: var(--text);
+  background: var(--aov-substrate-ground);
+}
+
+.home-page #ascension.aov {
+  max-width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
+.aov-atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aov-substrate,
+.aov-haze {
+  position: sticky;
+  top: 0;
+  display: block;
+  width: 100%;
+  height: 100vh;
+  transform: translate3d(0, 0, 0);
+}
+
+.aov-substrate img,
+.aov-haze img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.aov-substrate {
+  opacity: 0.92;
+}
+
+.aov-haze {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  margin-top: -100vh;
+  opacity: 0.18;
+}
+
+.aov-haze--suite {
+  width: 58%;
+  inset-inline-start: 0;
+}
+
+.aov-haze--unique {
+  width: 58%;
+  inset-inline: auto 0;
+  opacity: 0;
+}
+
+.aov-thread {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.aov-thread__path {
+  fill: none;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 7px color-mix(in oklab, currentColor 42%, transparent));
+}
+
+.aov-thread__path--trunk,
+.aov-thread__path--suite {
+  color: var(--aov-suite-gold);
+  stroke: currentColor;
+}
+
+.aov-thread__path--unique {
+  color: var(--aov-unique-singularity);
+  stroke: currentColor;
+}
+
+.aov-scene {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+.aov-scene--fork {
+  min-height: 150vh;
+}
+
+.aov-scene--paired {
+  min-height: 120vh;
+}
+
+.aov-scene--terminal {
+  min-height: 250vh;
+}
+
+.aov-stage {
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  padding: clamp(5rem, 8vh, 7rem) clamp(1.25rem, 4vw, 5rem) clamp(2rem, 5vh, 4rem);
+}
+
+.aov-stage--opening {
+  display: grid;
+  place-content: center;
+  text-align: center;
+}
+
+.aov-eyebrow,
+.aov-act,
+.aov-rail-label {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: clamp(0.68rem, 0.9vw, 0.86rem);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--aov-suite-gold);
+}
+
+.aov-title {
+  margin: 0.05em 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(6rem, 22vw, 20rem);
+  font-weight: 500;
+  line-height: 0.82;
+  letter-spacing: -0.045em;
+  color: var(--aov-suite-cream);
+  text-wrap: balance;
+  text-shadow: 0 8px 40px color-mix(in oklab, var(--aov-suite-ink) 70%, transparent);
+}
+
+.aov-title-sub {
+  margin: clamp(1.5rem, 4vh, 3rem) 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.4vw, 2.25rem);
+  font-style: italic;
+  color: color-mix(in oklab, var(--aov-suite-cream) 82%, var(--muted));
+}
+
+.aov-stage--rank {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.85fr) minmax(20rem, 1fr);
+  align-items: center;
+  gap: clamp(2rem, 6vw, 8rem);
+  max-width: 94rem;
+  margin-inline: auto;
+}
+
+.aov-stage--reverse .aov-stamp {
+  grid-column: 2;
+}
+
+.aov-stage--reverse .aov-rank-copy {
+  grid-column: 1;
+  grid-row: 1;
+  text-align: end;
+  align-items: end;
+}
+
+.aov-rank-plate {
+  position: absolute;
+  inset: clamp(4rem, 9vh, 7rem) 3vw 3rem;
+  z-index: -2;
+  opacity: 0.2;
+  overflow: hidden;
+}
+
+.aov-rank-plate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--aov-substrate-ground), transparent 35% 65%, var(--aov-substrate-ground));
+}
+
+.aov-rank-plate img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.aov-stamp {
+  display: block;
+  width: min(43vw, 37rem);
+  aspect-ratio: 1;
+  justify-self: center;
+  transition: opacity 550ms ease-out, transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.aov-stamp img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.aov-rank-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 48rem;
+  transition: opacity 450ms ease-out, transform 600ms ease-out;
+}
+
+.aov-stars {
+  margin: 0.75rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.6vw, 1.35rem);
+  line-height: 1;
+  letter-spacing: 0.12em;
+  color: var(--aov-suite-gold);
+}
+
+.aov-rank-name {
+  margin: 0.08em 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 12vw, 10rem);
+  font-weight: 500;
+  line-height: 0.84;
+  letter-spacing: -0.04em;
+  color: var(--aov-suite-cream);
+}
+
+.aov-rank-caption {
+  max-width: 38rem;
+  margin: 1rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2vw, 1.75rem);
+  font-style: italic;
+  line-height: 1.35;
+  color: color-mix(in oklab, var(--text) 82%, transparent);
+}
+
+.aov-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aov-tags li {
+  padding: 0.42rem 0.7rem;
+  border: 1px solid color-mix(in oklab, var(--aov-suite-gold) 40%, transparent);
+  font-family: var(--font-mono);
+  font-size: clamp(0.66rem, 0.78vw, 0.78rem);
+  letter-spacing: 0.04em;
+  color: color-mix(in oklab, var(--aov-suite-cream) 78%, var(--muted));
+  background: color-mix(in oklab, var(--aov-suite-ink) 78%, transparent);
+}
+
+.aov-stage--fork {
+  display: grid;
+  place-items: center;
+}
+
+.aov-fork-art {
+  position: absolute;
+  inset: clamp(4rem, 7vh, 6rem) 0 0;
+  z-index: 0;
+  opacity: 1;
+}
+
+.aov-fork-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 25%, var(--aov-substrate-ground) 78%);
+}
+
+.aov-fork-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.aov-fork-copy {
+  position: relative;
+  z-index: 1;
+  width: min(58rem, 88vw);
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border-block: 1px solid color-mix(in oklab, var(--aov-suite-gold) 45%, transparent);
+  text-align: center;
+  background: color-mix(in oklab, var(--aov-substrate-ground) 38%, transparent);
+}
+
+.aov-fork-copy h3 {
+  margin: 0.15em 0 0.3em;
+  font-family: var(--font-display);
+  font-size: clamp(3.8rem, 9vw, 8rem);
+  font-weight: 500;
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+  color: var(--aov-suite-cream);
+}
+
+.aov-fork-copy > p:not(.aov-act) {
+  margin: 0 auto;
+  max-width: 52rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-style: italic;
+  line-height: 1.45;
+  color: color-mix(in oklab, var(--text) 85%, transparent);
+}
+
+.aov-fork-copy a {
+  color: var(--evidence-gold);
+  text-decoration: none;
+}
+
+.aov-fork-copy a:hover,
+.aov-fork-copy a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.aov-fork-labels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1rem, 5vw, 6rem);
+  margin-top: 2rem;
+  font-family: var(--font-mono);
+  font-size: clamp(0.7rem, 1vw, 0.9rem);
+  letter-spacing: 0.06em;
+}
+
+.aov-fork-labels span:first-child {
+  color: var(--aov-suite-gold);
+  text-align: end;
+}
+
+.aov-fork-labels span:last-child {
+  color: var(--aov-unique-singularity);
+  text-align: start;
+}
+
+.aov-stage--paired {
+  display: grid;
+  align-content: center;
+  gap: 1.2rem;
+}
+
+.aov-pair-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(0.75rem, 1.4vw, 1.5rem);
+  width: min(112rem, 96vw);
+  margin-inline: auto;
+}
+
+.aov-rail {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(11rem, 0.8fr) minmax(13rem, 1fr);
+  align-items: center;
+  min-height: min(68vh, 45rem);
+  padding: clamp(1.25rem, 2.6vw, 3rem);
+  overflow: hidden;
+}
+
+.aov-rail--suite {
+  border: 1px solid color-mix(in oklab, var(--aov-suite-brass) 70%, transparent);
+  border-radius: 50% 50% 0 0 / 12% 12% 0 0;
+  color: var(--aov-suite-ink);
+  background: color-mix(in oklab, var(--aov-suite-cream) 90%, var(--aov-suite-brass));
+  box-shadow: inset 0 0 0 0.35rem color-mix(in oklab, var(--aov-suite-brass) 20%, transparent);
+}
+
+.aov-rail--unique {
+  border: 1px solid color-mix(in oklab, var(--aov-unique-fracture) 60%, transparent);
+  color: var(--aov-unique-singularity);
+  background: var(--aov-unique-void);
+  clip-path: polygon(0 0, 92% 0, 100% 8%, 100% 100%, 6% 100%, 0 94%);
+}
+
+.aov-rail--unique::before,
+.aov-rail--unique::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  width: 42%;
+  height: 1px;
+  background: var(--aov-unique-glitch);
+  opacity: 0.36;
+  transform: rotate(-8deg);
+}
+
+.aov-rail--unique::before {
+  inset: 16% -6% auto auto;
+}
+
+.aov-rail--unique::after {
+  inset: auto auto 13% -5%;
+}
+
+.aov-rail-plate,
+.aov-terminal-plate {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.28;
+}
+
+.aov-rail-plate img,
+.aov-terminal-plate img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.aov-rail-stamp {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: min(23vw, 24rem);
+  aspect-ratio: 1;
+  justify-self: center;
+}
+
+.aov-rail-stamp img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.aov-rail-copy {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+}
+
+.aov-rail--suite .aov-rail-label,
+.aov-rail--suite .aov-stars {
+  color: var(--aov-suite-brass);
+}
+
+.aov-rail--unique .aov-rail-label,
+.aov-rail--unique .aov-stars {
+  color: var(--aov-unique-fracture);
+}
+
+.aov-rail h3 {
+  margin: 0.12em 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 7rem);
+  font-weight: 500;
+  line-height: 0.86;
+  letter-spacing: -0.035em;
+}
+
+.aov-rail--unique h3 {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.aov-rail-copy > p:not(.aov-rail-label):not(.aov-stars) {
+  margin: 0.8rem 0 0;
+  max-width: 34rem;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.55vw, 1.35rem);
+  line-height: 1.35;
+}
+
+.aov-rail--unique .aov-tags li {
+  border-color: color-mix(in oklab, var(--aov-unique-fracture) 55%, transparent);
+  color: var(--aov-unique-singularity);
+  background: transparent;
+}
+
+.aov-shared-caption {
+  margin: 0 auto;
+  max-width: 70rem;
+  padding-inline: 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+  font-style: italic;
+  text-align: center;
+  color: var(--muted);
+}
+
+.aov-mobile-branch-tag {
+  display: none;
+}
+
+.aov-stage--terminal {
+  align-content: start;
+}
+
+.aov-rail--terminal {
+  grid-template-columns: minmax(10rem, 0.72fr) minmax(15rem, 1fr);
+  grid-template-rows: auto 1fr;
+  min-height: min(80vh, 54rem);
+  padding-block: clamp(1rem, 2vh, 1.75rem);
+}
+
+.aov-terminal-art {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: min(24vw, 25rem);
+  aspect-ratio: 1.2;
+  align-self: center;
+}
+
+.aov-terminal-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.aov-terminal-art--impossible {
+  width: min(27vw, 28rem);
+  aspect-ratio: 1.5;
+}
+
+.aov-terminal-visual {
+  position: relative;
+  z-index: 1;
+  width: min(18vw, 18rem);
+  aspect-ratio: 1;
+  align-self: center;
+  justify-self: center;
+}
+
+.aov-terminal-visual--suite .aov-terminal-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.aov-terminal-rank-stamp {
+  position: absolute;
+  z-index: 2;
+  inset: auto 12% -5%;
+  display: block;
+  width: 54%;
+  aspect-ratio: 1;
+}
+
+.aov-terminal-rank-stamp img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.aov-terminal-seal {
+  position: absolute;
+  z-index: 2;
+  inset: 1rem 1rem auto auto;
+  width: clamp(4rem, 7vw, 7rem);
+  aspect-ratio: 1;
+  opacity: 0.82;
+}
+
+.aov-terminal-seal img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.aov-terminal-copy h3 {
+  font-size: clamp(2.8rem, 4.8vw, 5.8rem);
+}
+
+.aov-provisional {
+  position: relative;
+  border: 0;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: clamp(0.68rem, 0.9vw, 0.9rem);
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  background: transparent;
+  cursor: help;
+}
+
+.aov-provisional:focus-visible {
+  outline: 2px solid var(--aov-unique-singularity);
+  outline-offset: 0.2rem;
+}
+
+.aov-tooltip {
+  position: absolute;
+  z-index: 8;
+  inset: auto 1rem 1rem;
+  max-width: 30rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--aov-unique-fracture);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--aov-unique-singularity);
+  background: var(--aov-unique-void);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(0.5rem);
+  transition: opacity 160ms ease-out, transform 160ms ease-out;
+}
+
+.aov-provisional:hover + .aov-tooltip,
+.aov-provisional:focus + .aov-tooltip,
+.aov-provisional:focus-visible + .aov-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.aov-gate {
+  position: relative;
+  z-index: 3;
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 0.32rem;
+  width: 100%;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aov-gate li {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(10rem, 1.2fr) minmax(8rem, 1fr);
+  gap: 0.65rem;
+  align-items: center;
+  min-height: 2.3rem;
+  padding: 0.42rem 0.6rem 0.42rem 1.8rem;
+  border-inline-start: 2px solid color-mix(in oklab, currentColor 28%, transparent);
+  opacity: 0.43;
+  transition: opacity 220ms ease-out, border-color 220ms ease-out, transform 220ms ease-out;
+}
+
+.aov-rail--suite .aov-gate li {
+  grid-template-columns: clamp(2.4rem, 3vw, 3.4rem) minmax(9rem, 1.2fr) minmax(8rem, 1fr);
+}
+
+.aov-predicate-component {
+  display: block;
+  width: clamp(2.4rem, 3vw, 3.4rem);
+  height: clamp(2.4rem, 3vw, 3.4rem);
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.aov-gate li::before {
+  content: "◇";
+  position: absolute;
+  margin-inline-start: -1.32rem;
+  font-family: var(--font-mono);
+}
+
+.aov-gate li.is-open {
+  border-color: currentColor;
+  opacity: 1;
+  transform: translateX(0.2rem);
+}
+
+.aov-gate li.is-open::before {
+  content: "◆";
+}
+
+.aov-gate code {
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono);
+  font-size: clamp(0.58rem, 0.68vw, 0.7rem);
+  color: inherit;
+  background: transparent;
+}
+
+.aov-gate span {
+  font-family: var(--font-body);
+  font-size: clamp(0.65rem, 0.72vw, 0.76rem);
+  line-height: 1.25;
+}
+
+.aov--motion-ready .aov-scene:not(.is-active) .aov-stamp,
+.aov--motion-ready .aov-scene:not(.is-active) .aov-rail-stamp,
+.aov--motion-ready .aov-scene:not(.is-active) .aov-terminal-art {
+  opacity: 0.32;
+  transform: translateY(1.5rem) scale(0.96);
+}
+
+.aov--motion-ready .aov-scene:not(.is-active) .aov-rank-copy,
+.aov--motion-ready .aov-scene:not(.is-active) .aov-rail-copy {
+  opacity: 0.38;
+  transform: translateY(1rem);
+}
+
+@media (max-width: 1180px) {
+  .aov-rail {
+    grid-template-columns: 1fr;
+    align-content: center;
+    text-align: center;
+  }
+
+  .aov-rail-stamp,
+  .aov-terminal-art,
+  .aov-terminal-art--impossible {
+    width: min(32vw, 17rem);
+  }
+
+  .aov-rail-copy {
+    justify-self: center;
+  }
+
+  .aov-rail-copy .aov-tags {
+    justify-content: center;
+  }
+
+  .aov-rail--terminal {
+    grid-template-rows: minmax(8rem, 0.8fr) auto 1fr;
+  }
+}
+
+@media (max-width: 899px) {
+  .aov {
+    overflow: hidden;
+  }
+
+  .aov::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 0 auto 0 1.1rem;
+    width: 1px;
+    background: color-mix(in oklab, var(--aov-suite-gold) 42%, transparent);
+  }
+
+  .aov-thread {
+    display: none;
+  }
+
+  .aov-substrate,
+  .aov-haze {
+    position: sticky;
+    transform: none !important;
+  }
+
+  .aov-haze {
+    opacity: 0.24;
+  }
+
+  .aov-haze--suite,
+  .aov-haze--unique {
+    inset-inline: 0;
+    width: 100%;
+  }
+
+  .aov-haze--unique {
+    opacity: 0.18;
+  }
+
+  .aov-scene,
+  .aov-scene--fork,
+  .aov-scene--paired,
+  .aov-scene--terminal {
+    min-height: auto;
+  }
+
+  .aov-stage {
+    position: static;
+    min-height: auto;
+    padding: 5rem 1.5rem 3.5rem 2.25rem;
+  }
+
+  .aov-stage--opening {
+    min-height: 82vh;
+  }
+
+  .aov-title {
+    font-size: clamp(4.4rem, 21vw, 7rem);
+  }
+
+  .aov-stage--rank,
+  .aov-stage--reverse {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    min-height: 78vh;
+  }
+
+  .aov-stage--reverse .aov-stamp,
+  .aov-stage--reverse .aov-rank-copy {
+    grid-column: 1;
+    grid-row: auto;
+    text-align: start;
+    align-items: flex-start;
+  }
+
+  .aov-stamp {
+    width: min(78vw, 25rem);
+  }
+
+  .aov-rank-name {
+    font-size: clamp(4rem, 19vw, 7rem);
+  }
+
+  .aov-rank-plate {
+    inset: 3rem 0;
+    opacity: 0.15;
+  }
+
+  .aov-stage--fork {
+    min-height: 92vh;
+  }
+
+  .aov-fork-copy {
+    width: 100%;
+    padding-inline: 0.75rem;
+    background: color-mix(in oklab, var(--aov-substrate-ground) 50%, transparent);
+  }
+
+  .aov-fork-art {
+    opacity: 0.75;
+  }
+
+  .aov-fork-copy h3 {
+    font-size: clamp(3.5rem, 17vw, 6rem);
+  }
+
+  .aov-fork-labels {
+    gap: 1rem;
+  }
+
+  .aov-pair-grid {
+    grid-template-columns: 1fr;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .aov-rail {
+    grid-template-columns: minmax(8rem, 0.7fr) minmax(11rem, 1fr);
+    min-height: 66vh;
+    padding: 1.25rem;
+    text-align: start;
+  }
+
+  .aov-rail-stamp,
+  .aov-terminal-art,
+  .aov-terminal-art--impossible {
+    width: min(38vw, 17rem);
+  }
+
+  .aov-rail-copy {
+    justify-self: start;
+  }
+
+  .aov-rail-copy .aov-tags {
+    justify-content: flex-start;
+  }
+
+  .aov-rail h3 {
+    font-size: clamp(3rem, 14vw, 5.5rem);
+  }
+
+  .aov-rail-plate,
+  .aov-terminal-plate {
+    opacity: 0.6;
+  }
+
+  .aov-mobile-branch-tag {
+    display: block;
+    margin: 0;
+    padding-inline-start: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--aov-unique-singularity);
+  }
+
+  .aov-shared-caption {
+    margin-top: 1rem;
+  }
+
+  .aov-rail--terminal {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    min-height: auto;
+    padding-block: 2rem;
+  }
+
+  .aov-terminal-visual {
+    width: min(64vw, 18rem);
+  }
+
+  .aov-terminal-copy {
+    margin-top: 1rem;
+  }
+
+  .aov-gate {
+    margin-top: 1rem;
+  }
+
+  .aov-gate li {
+    grid-template-columns: 1fr;
+    gap: 0.12rem;
+  }
+
+  .aov-rail--suite .aov-gate li {
+    grid-template-columns: 3rem minmax(0, 1fr);
+  }
+
+  .aov-rail--suite .aov-gate .aov-predicate-component {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: center;
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .aov-rail--suite .aov-gate code,
+  .aov-rail--suite .aov-gate span {
+    grid-column: 2;
+  }
+
+  .aov-tooltip {
+    position: static;
+    display: none;
+    margin-top: 0.75rem;
+    opacity: 1;
+    transform: none;
+  }
+
+  .aov-provisional:hover + .aov-tooltip,
+  .aov-provisional:focus + .aov-tooltip,
+  .aov-provisional:focus-visible + .aov-tooltip {
+    display: block;
+  }
+
+  .aov--motion-ready .aov-scene:not(.is-active) .aov-stamp,
+  .aov--motion-ready .aov-scene:not(.is-active) .aov-rail-stamp,
+  .aov--motion-ready .aov-scene:not(.is-active) .aov-terminal-art,
+  .aov--motion-ready .aov-scene:not(.is-active) .aov-rank-copy,
+  .aov--motion-ready .aov-scene:not(.is-active) .aov-rail-copy {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .aov-stage {
+    padding-inline-end: 1rem;
+  }
+
+  .aov-rail {
+    grid-template-columns: 1fr;
+    align-content: center;
+    text-align: center;
+  }
+
+  .aov-rail-stamp,
+  .aov-terminal-art,
+  .aov-terminal-art--impossible {
+    width: min(70vw, 19rem);
+  }
+
+  .aov-rail-copy {
+    justify-self: center;
+  }
+
+  .aov-rail-copy .aov-tags {
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aov *,
+  .aov *::before,
+  .aov *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .aov-substrate,
+  .aov-haze {
+    transform: none !important;
+  }
+
+  .aov-thread__path {
+    stroke-dashoffset: 0 !important;
+  }
+
+  .aov-stamp,
+  .aov-rail-stamp,
+  .aov-terminal-art,
+  .aov-rank-copy,
+  .aov-rail-copy {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .aov-gate li {
+    opacity: 1;
+    transform: none;
+  }
+}
