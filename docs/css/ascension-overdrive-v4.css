@@ -431,16 +431,14 @@
   inset: auto auto 13% -5%;
 }
 
-.aov-rail-plate,
-.aov-terminal-plate {
+.aov-rail-plate {
   position: absolute;
   inset: 0;
   z-index: 0;
   opacity: 0.28;
 }
 
-.aov-rail-plate img,
-.aov-terminal-plate img {
+.aov-rail-plate img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -560,23 +558,15 @@
   justify-self: center;
 }
 
-.aov-terminal-visual--suite .aov-terminal-art {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.aov-terminal-rank-stamp {
-  position: absolute;
+.aov-terminal-aperture {
+  position: relative;
   z-index: 2;
-  inset: auto 12% -5%;
   display: block;
-  width: 54%;
+  width: 100%;
   aspect-ratio: 1;
 }
 
-.aov-terminal-rank-stamp img {
+.aov-terminal-aperture img {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -713,6 +703,7 @@
 
 .aov--motion-ready .aov-scene:not(.is-active) .aov-stamp,
 .aov--motion-ready .aov-scene:not(.is-active) .aov-rail-stamp,
+.aov--motion-ready .aov-scene:not(.is-active) .aov-terminal-aperture,
 .aov--motion-ready .aov-scene:not(.is-active) .aov-terminal-art {
   opacity: 0.32;
   transform: translateY(1.5rem) scale(0.96);
@@ -770,18 +761,8 @@
   color: var(--aov-unique-singularity);
 }
 
-.aov-scene[data-rank="6"] .aov-terminal-plate {
-  opacity: 0.18;
-}
-
 .aov-scene[data-rank="6"] .aov-terminal-visual--suite {
   width: min(30vw, 29rem);
-}
-
-.aov-scene[data-rank="6"] .aov-terminal-rank-stamp {
-  inset: 50% auto auto 50%;
-  width: 74%;
-  transform: translate(-50%, -50%);
 }
 
 .aov-apex-effect {
@@ -1043,8 +1024,7 @@
     font-size: clamp(3rem, 14vw, 5.5rem);
   }
 
-  .aov-rail-plate,
-  .aov-terminal-plate {
+  .aov-rail-plate {
     opacity: 0.6;
   }
 
