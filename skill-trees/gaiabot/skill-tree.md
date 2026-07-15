@@ -1,6 +1,6 @@
 # Skill Tree — gaiabot
 **Last Updated:** 2026-04-26
-**Total Skills Unlocked:** 7
+**Total Skills Unlocked:** 6
 **Highest Tier:** —
 **Deepest Lineage:** 1
 
@@ -16,7 +16,6 @@
 | ◇ Plan and Execute | Extra Skill | 3★ | Evolved | local-repo | 2026-04-26 |
 | ○ gaiabot/gaia-triage | Basic Skill | 1★ | Awakened | gaiabot/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ gaiabot/repo-docs-before-pr | Basic Skill | 2★ | Named | gaiabot/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ dify-agent-suite | Basic Skill | 2★ | Named | gaiabot/gaia-skill-tree | 2026-05-20T23:14:03Z |
 
 ---
 

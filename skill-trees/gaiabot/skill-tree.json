@@ -4,28 +4,28 @@
   "unlockedSkills": [
     {
       "skillId": "route-intent",
-      "level": "2★",
+      "level": "2\u2605",
       "unlockedAt": "2026-04-20",
       "unlockedIn": "gaia-registry/gaiabot-core",
       "combinedFrom": []
     },
     {
       "skillId": "plan-decompose",
-      "level": "2★",
+      "level": "2\u2605",
       "unlockedAt": "2026-04-21",
       "unlockedIn": "gaia-registry/gaiabot-core",
       "combinedFrom": []
     },
     {
       "skillId": "tool-select",
-      "level": "2★",
+      "level": "2\u2605",
       "unlockedAt": "2026-04-22",
       "unlockedIn": "gaia-registry/gaiabot-core",
       "combinedFrom": []
     },
     {
       "skillId": "plan-and-execute",
-      "level": "3★",
+      "level": "3\u2605",
       "unlockedAt": "2026-04-26",
       "unlockedIn": "local-repo",
       "combinedFrom": [
@@ -36,18 +36,18 @@
     },
     {
       "skillId": "gaiabot/gaia-triage",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "gaiabot/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:20Z",
           "source": "demote"
         }
@@ -55,30 +55,22 @@
     },
     {
       "skillId": "gaiabot/repo-docs-before-pr",
-      "level": "2★",
+      "level": "2\u2605",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "gaiabot/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
         }
       ]
-    },
-    {
-      "skillId": "dify-agent-suite",
-      "level": "2★",
-      "unlockedAt": "2026-05-20T23:14:03Z",
-      "unlockedIn": "gaiabot/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": []
     }
   ],
   "pendingCombinations": [],
   "stats": {
-    "totalUnlocked": 7,
+    "totalUnlocked": 6,
     "deepestLineage": 1
   },
   "timeline": [
@@ -88,7 +80,7 @@
       "skillId": "route-intent",
       "details": "Registered named skill route-intent",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-04-21",
@@ -96,7 +88,7 @@
       "skillId": "plan-decompose",
       "details": "Registered named skill plan-decompose",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-04-22",
@@ -104,7 +96,7 @@
       "skillId": "tool-select",
       "details": "Registered named skill tool-select",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-04-26",
@@ -112,7 +104,7 @@
       "skillId": "plan-and-execute",
       "details": "Registered named skill plan-and-execute",
       "previousValue": null,
-      "newValue": "3★"
+      "newValue": "3\u2605"
     },
     {
       "timestamp": "2026-05-20T23:14:03Z",
@@ -132,7 +124,7 @@
       "skillId": "gaiabot/gaia-triage",
       "details": "Registered named skill gaiabot/gaia-triage",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -140,14 +132,14 @@
       "skillId": "gaiabot/repo-docs-before-pr",
       "details": "Registered named skill gaiabot/repo-docs-before-pr",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-06-20T06:31:20Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "gaiabot/gaia-triage"
     }
   ]

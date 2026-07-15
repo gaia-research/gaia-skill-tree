@@ -1,6 +1,6 @@
 # Skill Tree — jules
 **Last Updated:** 2026-05-25
-**Total Skills Unlocked:** 11
+**Total Skills Unlocked:** 6
 **Highest Tier:** —
 **Deepest Lineage:** 1
 
@@ -10,11 +10,6 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ jules/langgenius/backend-code-review | Basic Skill | 2★ | Named | jules/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ jules/langgenius/component-refactoring | Basic Skill | 2★ | Named | jules/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ jules/langgenius/e2e-cucumber-playwright | Basic Skill | 2★ | Named | jules/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ jules/langgenius/frontend-code-review | Basic Skill | 2★ | Named | jules/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ jules/langgenius/frontend-testing | Basic Skill | 2★ | Named | jules/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ◇ Autonomous Debug | Extra Skill | 2★ | Named | jules/gaia-skill-tree | 2026-05-18T09:04:22Z |
 | ◇ Ghostwrite | Extra Skill | 1★ | Awakened | jules/gaia-skill-tree | 2026-05-18T09:04:22Z |
 | ◇ Knowledge Harvest | Extra Skill | 1★ | Awakened | jules/gaia-skill-tree | 2026-05-18T09:04:22Z |

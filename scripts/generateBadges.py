@@ -35,7 +35,6 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 NAMED_JSON = REPO_ROOT / "registry" / "named-skills.json"
-TREES_DIR = REPO_ROOT / "skill-trees"
 TOKENS_CSS = REPO_ROOT / "docs" / "css" / "tokens.css"
 OUT_DIR = REPO_ROOT / "docs" / "badges"
 
@@ -584,34 +583,9 @@ def prenamed_contributor_handles() -> set[str]:
     return {h for h, r in top_rank.items() if is_redacted(r)}
 
 
-def collect_scan_users() -> dict[str, dict]:
-    """Build {handle: {top_rank, count}} from skill-trees/<user>/skill-tree.json."""
-    result: dict[str, dict] = {}
-    if not TREES_DIR.exists():
-        return result
-    for tree_dir in sorted(TREES_DIR.iterdir()):
-        if not tree_dir.is_dir():
-            continue
-        tree_file = tree_dir / "skill-tree.json"
-        if not tree_file.exists():
-            continue
-        try:
-            data = json.loads(tree_file.read_text(encoding="utf-8"))
-        except json.JSONDecodeError:
-            continue
-        unlocked = data.get("unlockedSkills", [])
-        if not unlocked:
-            continue
-        levels = [level_num(s.get("level", "")) for s in unlocked]
-        result[tree_dir.name] = {
-            "top_rank": max(levels) if levels else 0,
-            "count": data.get("stats", {}).get("totalUnlocked", len(unlocked)),
-        }
-    return result
-
 
 # ─── Output ──────────────────────────────────────────────────────────────────
-def write_user_badges(handle: str, info: dict, scan: dict | None,
+def write_user_badges(handle: str, info: dict,
                        rank_colors: dict[int, str], out_dir: Path) -> None:
     """Write rank.svg + skills.svg + handle.svg (+ per-skill variants) for one handle.
 
@@ -635,12 +609,6 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
 
     top_rank = named_top_rank
     count = info["count"] if info else 0
-
-    # Scan-only data can supplement a named contributor (e.g., higher rank
-    # from generic-skill scans). Take the max.
-    if scan:
-        top_rank = max(top_rank, scan["top_rank"])
-        count = max(count, scan["count"])
 
     user_dir = out_dir / "_assets" / handle
     user_dir.mkdir(parents=True, exist_ok=True)
@@ -890,26 +858,15 @@ def main(argv: list[str] | None = None) -> int:
     _UNIQUE_COLOR = load_tier_color("unique")
 
     contributors = collect_contributors()
-    scan_users = collect_scan_users()
-    # Scan-only path must also honor the redaction invariant: a handle whose
-    # registry presence is entirely ≤1★ does not become "scan-only" — it stays
-    # redacted. Without this, generateBadges would re-create the directories on
-    # every `gaia dev docs` run (regen-loop tracked in PR #800 / #802).
-    prenamed = prenamed_contributor_handles()
-    for handle in list(scan_users):
-        if handle in prenamed:
-            scan_users.pop(handle, None)
-
     # Union of all handles known to either source.
-    handles = sorted(set(contributors) | set(scan_users))
+    handles = sorted(contributors.keys())
 
     written = 0
     for handle in handles:
         info = contributors.get(handle)
-        scan = scan_users.get(handle)
-        if not info and not scan:
+        if not info:
             continue
-        write_user_badges(handle, info, scan, rank_colors, out_dir)
+        write_user_badges(handle, info, rank_colors, out_dir)
         written += 1
 
     write_static_badges(out_dir)

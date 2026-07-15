@@ -3,78 +3,8 @@
   "updatedAt": "2026-05-25",
   "unlockedSkills": [
     {
-      "skillId": "jules/langgenius/backend-code-review",
-      "level": "2★",
-      "unlockedAt": "2026-05-25T00:00:00Z",
-      "unlockedIn": "jules/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "2★",
-          "achievedAt": "2026-05-25T00:00:00Z",
-          "source": "promotion"
-        }
-      ]
-    },
-    {
-      "skillId": "jules/langgenius/component-refactoring",
-      "level": "2★",
-      "unlockedAt": "2026-05-25T00:00:00Z",
-      "unlockedIn": "jules/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "2★",
-          "achievedAt": "2026-05-25T00:00:00Z",
-          "source": "promotion"
-        }
-      ]
-    },
-    {
-      "skillId": "jules/langgenius/e2e-cucumber-playwright",
-      "level": "2★",
-      "unlockedAt": "2026-05-25T00:00:00Z",
-      "unlockedIn": "jules/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "2★",
-          "achievedAt": "2026-05-25T00:00:00Z",
-          "source": "promotion"
-        }
-      ]
-    },
-    {
-      "skillId": "jules/langgenius/frontend-code-review",
-      "level": "2★",
-      "unlockedAt": "2026-05-25T00:00:00Z",
-      "unlockedIn": "jules/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "2★",
-          "achievedAt": "2026-05-25T00:00:00Z",
-          "source": "promotion"
-        }
-      ]
-    },
-    {
-      "skillId": "jules/langgenius/frontend-testing",
-      "level": "2★",
-      "unlockedAt": "2026-05-25T00:00:00Z",
-      "unlockedIn": "jules/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "2★",
-          "achievedAt": "2026-05-25T00:00:00Z",
-          "source": "promotion"
-        }
-      ]
-    },
-    {
       "skillId": "autonomous-debug",
-      "level": "2★",
+      "level": "2\u2605",
       "unlockedAt": "2026-05-18T09:04:22Z",
       "unlockedIn": "jules/gaia-skill-tree",
       "combinedFrom": [],
@@ -82,13 +12,13 @@
     },
     {
       "skillId": "ghostwrite",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-05-18T09:04:22Z",
       "unlockedIn": "jules/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-05-18T09:04:22Z",
           "source": "promotion"
         }
@@ -96,13 +26,13 @@
     },
     {
       "skillId": "knowledge-harvest",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-05-18T09:04:22Z",
       "unlockedIn": "jules/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-05-18T09:04:22Z",
           "source": "promotion"
         }
@@ -110,7 +40,7 @@
     },
     {
       "skillId": "multi-agent-orchestration-v",
-      "level": "2★",
+      "level": "2\u2605",
       "unlockedAt": "2026-05-18T09:04:22Z",
       "unlockedIn": "jules/gaia-skill-tree",
       "combinedFrom": [],
@@ -118,7 +48,7 @@
     },
     {
       "skillId": "plan-and-execute",
-      "level": "2★",
+      "level": "2\u2605",
       "unlockedAt": "2026-05-18T09:04:22Z",
       "unlockedIn": "jules/gaia-skill-tree",
       "combinedFrom": [],
@@ -126,13 +56,13 @@
     },
     {
       "skillId": "recursive-self-improvement",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-05-18T09:04:22Z",
       "unlockedIn": "jules/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-05-18T09:04:22Z",
           "source": "promotion"
         }
@@ -145,23 +75,23 @@
       "action": "evidence_added",
       "details": "Added evidence: https://github.com/cognition-labs/devin",
       "previousValue": null,
-      "newValue": "4★",
+      "newValue": "4\u2605",
       "skillId": "autonomous-debug"
     },
     {
       "timestamp": "2026-05-18T09:04:22Z",
       "action": "demote",
-      "details": "Calibrated/demoted rank from 4★ to 1★",
-      "previousValue": "4★",
-      "newValue": "1★",
+      "details": "Calibrated/demoted rank from 4\u2605 to 1\u2605",
+      "previousValue": "4\u2605",
+      "newValue": "1\u2605",
       "skillId": "ghostwrite"
     },
     {
       "timestamp": "2026-05-18T09:04:22Z",
       "action": "demote",
-      "details": "Calibrated/demoted rank from 4★ to 1★",
-      "previousValue": "4★",
-      "newValue": "1★",
+      "details": "Calibrated/demoted rank from 4\u2605 to 1\u2605",
+      "previousValue": "4\u2605",
+      "newValue": "1\u2605",
       "skillId": "knowledge-harvest"
     },
     {
@@ -169,7 +99,7 @@
       "action": "evidence_added",
       "details": "Added evidence: https://github.com/ruvnet/ruflo",
       "previousValue": null,
-      "newValue": "5★",
+      "newValue": "5\u2605",
       "skillId": "multi-agent-orchestration-v"
     },
     {
@@ -177,15 +107,15 @@
       "action": "evidence_added",
       "details": "Added evidence: https://github.com/Skyvern-AI/skyvern",
       "previousValue": null,
-      "newValue": "4★",
+      "newValue": "4\u2605",
       "skillId": "plan-and-execute"
     },
     {
       "timestamp": "2026-05-18T09:04:22Z",
       "action": "demote",
-      "details": "Calibrated/demoted rank from 5★ to 1★",
-      "previousValue": "5★",
-      "newValue": "1★",
+      "details": "Calibrated/demoted rank from 5\u2605 to 1\u2605",
+      "previousValue": "5\u2605",
+      "newValue": "1\u2605",
       "skillId": "recursive-self-improvement"
     },
     {
@@ -194,7 +124,7 @@
       "skillId": "jules/langgenius/backend-code-review",
       "details": "Registered named skill jules/langgenius/backend-code-review",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -202,7 +132,7 @@
       "skillId": "jules/langgenius/component-refactoring",
       "details": "Registered named skill jules/langgenius/component-refactoring",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -210,7 +140,7 @@
       "skillId": "jules/langgenius/e2e-cucumber-playwright",
       "details": "Registered named skill jules/langgenius/e2e-cucumber-playwright",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -218,7 +148,7 @@
       "skillId": "jules/langgenius/frontend-code-review",
       "details": "Registered named skill jules/langgenius/frontend-code-review",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-05-25T00:00:00Z",
@@ -226,11 +156,11 @@
       "skillId": "jules/langgenius/frontend-testing",
       "details": "Registered named skill jules/langgenius/frontend-testing",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     }
   ],
   "stats": {
-    "totalUnlocked": 11,
+    "totalUnlocked": 6,
     "deepestLineage": 1
   },
   "pendingCombinations": []
