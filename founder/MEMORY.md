@@ -4,6 +4,87 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-15, session — Ascension Overdrive V4 commission and merge closeout)
+
+### TLDR
+- Ascension Overdrive V4 is complete on the dedicated `design/yggdrasil-ii-aov-v3` worktree: the full 45-reference WebP set, V4 runtime, responsive/reduced-motion QA, and final copy/design corrections are in place.
+- PR #1156 was rebased onto current `dev/yggdrasil-ii-staging`; the rebased local head is ready to push, and the founder explicitly requested merge after push without waiting for green checks. PR #1171 remains unmerged and is alignment context only.
+- Issue #1002 and issue #975 progress comments are the next hygiene pass after the push/merge operation.
+
+### What changed this session
+| Step | State |
+|---|---|
+| V4 source-of-truth read | ✅ Read the founder-approved V4 brief and production appendix, then read PR #1171's design-alignment considerations and consolidated the relevant terminology/shape guidance without merging #1171 |
+| Immutable V4 production archive | ✅ Created and populated `/Users/marcotiongson/Documents/gaia-asset-masters/ascension-overdrive-v4/` with incoming, workbench, approved, review, and tools surfaces; preserved immutable source hashes and manifest |
+| Geometry/chassis | ✅ Froze the shared medallion geometry contract and exact mirrored Y-fork control points; validated neutral chassis, ring occupancy, endpoint alignment, and equal rails |
+| Substrate and supporting art | ✅ Produced and validated B astrolabe substrate, H fork, six Apex micro-seals, F1–F3 subjectless fields, and the external contact/validation sheets; V3 masters remain preserved |
+| Suite/Unique ladder | ✅ Produced and validated C1–C3, exact paired C4/D4, revised C5/D5, and revised C6/D6 hero/card/badge derivatives; C5 was whitened and its branches restrained, while D5 retained its stronger cosmic collapse |
+| Apex/terminal direction | ✅ Broke the legacy Apex frame, shifted C6/D6 to custom frameless cosmic designs with stronger white bloom, void black, hazy aura, and inverted spectral hue, and derived I directly from approved D6 |
+| V4 runtime | ✅ Added `docs/css/ascension-overdrive-v4.css` and `docs/js/ascension-overdrive-v4.js`; wired `docs/index.html` to the complete V4 set with exact geometry, preserved V3 archive, removed the legacy Apex frame, and retained mobile copy cues |
+| Runtime polish | ✅ Fixed Apex copy legibility, kept effects bounded and reduced-motion static, and preserved the exact geometry as a single runtime source |
+| QA and refs | ✅ Confirmed 45 V4 asset references, dimensions/alpha/metadata, responsive widths 1440/900/768/390/375, reduced-motion behavior, no horizontal overflow, and no console/asset errors |
+| PR closeout | ✅ Updated PR #1156 title/body and pushed the V4 work; then rebased the branch onto the current staging tip. Merge is explicitly requested after push without waiting for green checks |
+
+### Branches at end of session
+| Branch / ref | Head SHA | Status |
+|---|---|---|
+| `design/yggdrasil-ii-aov-v3` (local rebased worktree) | `54c8c1b2f5ee5507bb7f1f239c3a1450d82a5fc2` | Clean; rebased onto current staging, ready for the next push |
+| `origin/dev/yggdrasil-ii-staging` | `96c4184f55c9a44c66856505bd8c853bab1263cf` | Current PR base at snapshot time; staging may move independently |
+| PR #1156 `design: ship Ascension Overdrive V4` | remote head `70b02444eb003e60ff042b7b0edcb0ca2cb67f4d` at inspection | OPEN; local rebased head supersedes this remote head pending push; merge requested without waiting for green |
+| PR #1171 `docs(yggdrasil-ii): design-branch alignment handover` | `6da4f11aa1f8d30f9d02b4d9a1ba7057d7090db5` | OPEN and unmerged; use as alignment context, do not merge as part of this closeout |
+
+### Issues + PRs touched
+- **PR #1156** — Ascension Overdrive V4 asset/runtime delivery; title/body updated, pushed previously, then rebased onto current staging. Push the rebased head and merge per founder direction without waiting for green checks.
+- **PR #1171** — read and consolidated for terminology/design alignment only; remains OPEN and unmerged.
+- **Issue #1002** — Yggdrasil II epic; add a closeout/progress comment after the PR push/merge.
+- **Issue #975** — Ascension Cycle Overdrive tracking issue; add a closeout/progress comment after the PR push/merge.
+
+### Routing — where things live now
+- **Approved brief and appendix:** `founder/handovers/design-v6.1.1-ascension-overdrive-shape-v4.md`.
+- **Immutable V4 archive:** `/Users/marcotiongson/Documents/gaia-asset-masters/ascension-overdrive-v4/`; manifest at `incoming/MANIFEST.json` and TSV at `incoming/MANIFEST.tsv`.
+- **Geometry contract:** `approved/AOV4-GEOMETRY-CONTRACT.md`, `approved/asset-h/aov4-geometry-contract.json`, and generator `tools/generate_geometry_contract.py`.
+- **Geometry validation/contact:** `review/neutral-chassis/aov4-neutral-chassis-validation.md` and `review/neutral-chassis/aov4-neutral-chassis-contact-sheet.png`.
+- **Rank-pair contacts:** `review/asset-cd/rank-5/aov4-c5-d5-hero-contact-sheet-v2.png`, `review/asset-cd/rank-6/aov4-c6-d6-cosmic-hero-contact-sheet-v2.png`, and the final derivative contact sheets under their rank directories.
+- **Terminal lineage contact:** `review/asset-i/aov4-d6-i-terminal-lineage-contact-sheet-v1.png`; approved I WebPs are under `approved/asset-i/`.
+- **Served runtime:** `docs/index.html`, `docs/css/ascension-overdrive-v4.css`, `docs/js/ascension-overdrive-v4.js`, and the `docs/assets/ascension-overdrive/aov4-*` WebPs.
+
+### Lessons / hazards preserved
+- Preserve the V3 archive and all immutable masters; do not overwrite V3 assets or silently mix V3 and V4 imagery on the review surface.
+- Do not merge PR #1171 as part of the AOV closeout; it is alignment context and remains unmerged.
+- Staging can move after this snapshot; verify the base and remote head before force-pushing the rebased branch.
+- Keep the 45 V4 WebP references complete, with lossless masters outside Git; no docs regeneration or full build was required for this design sprint.
+- C5 may retain a regular tree, but branches must remain restrained and the star brighter/whiter; C6/D6 must remain more intense than D5, frameless, custom, cosmic, white/bloom-heavy, and void/inverted-hue rather than botanical.
+- Keep exact shared geometry, alpha-safe derivatives, bounded effect layers, reduced-motion static behavior, and mobile copy legibility intact.
+
+### Open questions for next orchestrator
+1. Push the rebased `design/yggdrasil-ii-aov-v3` head to PR #1156 and merge without waiting for green checks, as explicitly requested.
+2. Add progress/closeout comments to issues #1002 and #975 and bring the progress tracker in line with the delivered V4 design branch.
+3. Reconcile any staging movement after the merge; do not pull PR #1171 into this branch unless separately authorized.
+
+### Token cost (this session)
+Operator-supplied commission statistics for `design/*` Overdrive work; exact values preserved below and no additional telemetry inferred.
+
+#### Daily rollup (operator supplied)
+| Date | Spend | Requests |
+|---|---:|---:|
+| 07-11 | $123.46 | 1463 |
+| 07-12 | $85.04 | 970 |
+| 07-13 | $145.65 | 1271 |
+| 07-14 | $144.76 | 1578 |
+| 07-15 | $29.52 | 347 |
+| **Derived subtotal** | **$528.43** | **5,629** |
+
+#### Model rollup (operator supplied)
+| Model | Spend | Quality | Requests | Quality |
+|---|---:|---:|---:|---:|
+| gpt-5.6-sol | $467.72 | 95.1% | 4018 | 97.0% |
+| gpt-5.6-terra | $42.52 | 93.7% | 704 | 97.4% |
+| Gemini 3.5 Fla | $16.93 | 89.6% | 546 | 100.0% |
+| Gemini 3.1 Pro | $15.56 | 94.8% | 390 | 100.0% |
+| **Derived subtotal** | **$542.73** | — | **5,658** | — |
+
+The model-rollup request total is the arithmetic sum of the supplied rows; no token/cost telemetry beyond these operator-supplied commission statistics was inferred.
+
 ## State Snapshot (2026-07-15, session — Yggdrasil II code path: #995 schema + #996 CLI branch-axis merged to staging; nomenclature reconciled)
 
 ### TLDR

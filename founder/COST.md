@@ -10,6 +10,31 @@ Cumulative token spend across the GAIA project, broken down by session and agent
 | Sonnet 4.6 | $3 | $15 |
 | Haiku 4.5 | $0.80 | $4 |
 
+## Design/* Ascension Overdrive commission rollup — operator supplied — 2026-07-15
+
+These figures are the exact commission statistics supplied by the operator for the `design/*` Overdrive work. No additional telemetry is inferred.
+
+### Daily rollup (operator supplied)
+| Date | Spend | Requests |
+|---|---:|---:|
+| 07-11 | $123.46 | 1463 |
+| 07-12 | $85.04 | 970 |
+| 07-13 | $145.65 | 1271 |
+| 07-14 | $144.76 | 1578 |
+| 07-15 | $29.52 | 347 |
+| **Derived subtotal** | **$528.43** | **5,629** |
+
+### Model rollup (operator supplied)
+| Model | Spend | Quality | Requests | Quality |
+|---|---:|---:|---:|---:|
+| gpt-5.6-sol | $467.72 | 95.1% | 4018 | 97.0% |
+| gpt-5.6-terra | $42.52 | 93.7% | 704 | 97.4% |
+| Gemini 3.5 Fla | $16.93 | 89.6% | 546 | 100.0% |
+| Gemini 3.1 Pro | $15.56 | 94.8% | 390 | 100.0% |
+| **Derived subtotal** | **$542.73** | — | **5,658** | — |
+
+The model request subtotal is a derived arithmetic sum of the supplied rows. The daily and model subtotals are explicitly derived; all row values above are operator supplied.
+
 ---
 
 ## Session 15 — Phase 1.5 consolidation (I10 + I11 + I12 + meta-post) — 2026-06-20
