@@ -25,6 +25,10 @@ Approved codebase-analysis tool, used as-needed (deep architecture audits, depen
 
 Never push directly to main.
 
+### PR description safety
+
+Use `--body-file` with real newlines for multiline PR text, then verify with `gh pr view --json body --jq .body`; avoid escaped `\\n`/shell quoting. If staging leaks into a PR, rebuild from `origin/main`, keep only intended files, and check `git diff --stat origin/main...HEAD` before pushing.
+
 ### Branch & Worktree Conventions
 
 - Confirm the target branch/worktree before editing. If user references a specific branch (e.g. `fix/links-3d-graph`), push there — do not create a new design branch.
