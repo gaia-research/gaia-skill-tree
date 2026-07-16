@@ -4,6 +4,65 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-16, session — Structured migration provenance + #999 guards + user-tree drift fix; 3 PRs MERGED to staging; next session = DESIGN)
+
+### TLDR
+- **Three PRs merged to `dev/yggdrasil-ii-staging`** (merge head `58bc0468d`); staging is GREEN on everything touched (`validate_timelines` exit 0, `check_rank_vocabulary` PASS, `validate.py` PASS, schema lockstep PASS).
+- **#1190 — Structured migration provenance (#1189):** replaced the fragile prose-marker/time-window timeline pairing with a **schema-backed, meta-agnostic** scheme. Added `metaEpochs` enum + optional `metaEpoch`/`migrationBatch` fields on timeline events (canonical + bundled, lockstep). Reworked `migrate_taxonomy_v6.py` to stamp both `type_change` and paired `demote`, with a `--backfill-only` in-place upgrade path. Backfilled the Ygg II batch (130 node + 52 named `type_change`, 40 named `demote`). Validator invariant: *any `demote` carrying `migrationBatch` MUST have a same-skill `type_change` sharing that batch* — no epoch hardcoded, no time window; Ygg I exempt by field-absence. Generalizes to all future metas (Ygg III, Sequoia I) with ZERO validator edits.
+- **#1192 — #999 guard cleanup:** case-sensitive `Extra skill`/`Ultimate skill` bans (capital-S rank phrasing stays valid) + `type=extra`/`type=ultimate`; path-scoped `G7`/`G8` ban (docs-only, `founder/handovers/**` exempt); `apex tier` taxonomy-synonym ban (case-insensitive; `scripts/**` hard-excluded so product usage safe); new `docs/guard-topology.md`.
+- **#1193 — user-tree drift backfill:** `trace_timeline.py --all --apply` synthesized 41 `(reconciled)` demote events across 39 skills / 10 contributors, fixing 78→0 drift and regenerating 10 profile pages. This corrected VISIBLE stale ranks on live profile Progression Timelines.
+- Also: Class S regen committed directly to staging (`e0c68ab0f`); TM-timeline backlog filed (**#1194**, next sprint).
+
+### Decisions locked this session
+| # | Decision |
+|---|---|
+| Provenance design | **Path A — structured, backfilled.** Chose schema-backed `metaEpoch`/`migrationBatch` over prose marker + ≤60s window. Backfilled Ygg II now (only legacy batch in existence) → zero legacy debt, no validator special-cases ever |
+| Field names | `metaEpoch` (kebab slug, `yggdrasil-ii`), `migrationBatch` (`slug@YYYY-MM-DD`); events only, NO node-level field; **registry named-skills only** (user-trees excluded — their action enum has no `type_change`) |
+| Guard E is mechanical | Guard E (docs-cohesion) is a **co-presence tripwire** (registry changed ⇒ `docs/graph/` must be in same PR diff), NOT a content validator. The real result-checker is `gaia dev docs --check`. Nothing Yggdrasil-II-specific to "ratify" into Guard E |
+| Banned-synonym home | Yggdrasil II terms live in `check_rank_vocabulary.py` (hard-fail) ONLY; docs-cohesion "Guard B" is a separate comment-only rarity-axis guard (#999 issue text mislabeled A/B — fixed via `docs/guard-topology.md`) |
+| **skill-trees/ RETAINED** | **We are keeping `skill-trees/` — for TIMELINE PURPOSES ONLY.** It is NOT dead noise: it powers the live profile "Progression Timeline" (`generateProfilePages.py` → `window.PROFILE_TIMELINE` → `profile-timeline.js`) plus leaderboard/badges/projections. The "migrate to separate repo" idea in prior MEMORY was NEVER officially ratified. Because it renders live, its drift must be FIXED (trace), not decoupled/hidden |
+| apex tier retirement | Mechanical — already ratified in CONTEXT.md §447 (Ultimate=5★ rank, Apex=6★ Suite rank); no separate sign-off |
+
+### Branches at end of session
+| Branch | Head | Status |
+|---|---|---|
+| `dev/yggdrasil-ii-staging` | `58bc0468d` | Integration branch; +3 merges this session; GREEN on all touched guards. PR #1185 (draft → main) is still the aggregate collector |
+| `dev/provenance-foundation`, `dev/999-guard-cleanup`, `dev/trace-usertree-drift` | merged + deleted (local + remote) | — |
+
+### Issues + PRs touched
+- **PR #1190 / #1192 / #1193** — all MERGED to staging. **Issue #1189** (provenance foundation) created + resolved by #1190. **Issue #1194** — TM-timeline, filed for NEXT sprint.
+- **EPIC #1002** — proof-of-work comment posted (what we did + key decisions, incl. skill-trees retention). Still 5/7+; remaining sub-issues: **#998 Frontend**, **#1000 Agent skills**.
+
+### Routing — where things live now
+- Provenance scheme: `metaEpochs` in `registry/schema/meta.json` (+ bundled mirror); fields in `namedSkill.schema.json` AND `skill.schema.json`; invariant in `scripts/validate_timelines.py::check_migration_provenance()`; migration in `scripts/migrate_taxonomy_v6.py` (`--backfill-only`, `META_EPOCH`/`MIGRATION_BATCH` consts).
+- Guard topology reference: `docs/guard-topology.md` (records which guard owns which invariant; kills the #999 Guard A/B mislabel).
+- `gaia dev docs` works on this Windows box via `PYTHONPATH=./src python -m gaia_cli dev docs` (not "broken", just needs the module invocation in the strict env).
+- `validate_timelines.py` prints a `✗`/`●` glyph that crashes Windows cp1252 — prefix with `PYTHONIOENCODING=utf-8` (Linux CI unaffected).
+
+### Lessons / hazards preserved
+- **Verify ground truth beats plan/self-report — twice this session:** (1) a *partial* Class S regen was sitting on staging (missing `docs/graph/`); re-running the canonical generator caught it before commit. (2) "skill-trees/ is disposable noise" was FALSE — tracing where it's consumed showed it renders live profiles, so "decouple the gate" would have shipped a visible bug. Always trace consumers before deciding data is dead.
+- **Reconcile disputed counts, don't average them:** a review scout's buckets-only count (15/26) disagreed with the validator (40/280); resolved by discovering `_named_registry_entries()` = buckets + `awaitingClassification`. A clean-source rebuild proved the invariant is NOT vacuously green.
+- **Structured provenance > prose/heuristics for versioned data:** correlation-id pairing (`migrationBatch`) needs no epoch names or time windows and survives arbitrarily many future metas.
+- **Worktrees for parallel workers:** ran Branch 2 + drift fix concurrently in isolated checkouts (`../gaia-drift-usertree`) to respect the concurrency guard; both sonnet, disjoint trees, zero collision.
+- **Cross-PR merge conflicts are almost always regenerated artifacts** — only `docs/graph/ledger/data.json` conflicted; resolved by one full `gaia dev docs` regen on the merged state.
+
+### NEXT SESSION = DESIGN — quick handoff
+- Focus: **EPIC #1002 #998 Frontend** (heavy; expect double PRs with new assets across many surfaces; website is locked in monorepo-style, no blockers).
+- **Ascension Overdrive V4 assets MUST be incorporated into the new skill plaques — specifically Asset C and Asset D.** (V4 45-reference WebP set already landed on `design/yggdrasil-ii-aov-v3`; see prior 2026-07-15 AOV snapshots for asset routing.) Plaque redesign should pull C + D in.
+- `skill-trees/` stays (timeline-only) — do NOT plan its removal; profile Progression Timeline depends on it.
+- Backlog to slot: **TM-timeline (#1194)** — TM-over-time chart alongside the rank timeline; needs a TM history series (currently TM is computed live, not historized).
+
+### Token cost (this session)
+| Field | Value |
+|---|---|
+| Cache (Write / Read) | 818,815 / 28,750,600 |
+| Est. cost (CU / €) | ~22.14 / €11.95 |
+| Total requests | 400 |
+| Tokens (Out / In) | 328,660 / 1,044 |
+| Context used | ~21.5% — subagent-heavy, high cache-hit; one of the most efficient sessions |
+
+---
+
 ## State Snapshot (2026-07-16, session — Yggdrasil II #997 migration + #994 docs MERGED to staging; Extra=Unique gate ratified; 40 4★→3★ recalibration)
 
 ### TLDR

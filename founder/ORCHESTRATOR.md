@@ -86,6 +86,20 @@ Long sessions are the point. To keep them healthy:
 
 ---
 
+## Session Close Ritual (snapshot → proof-of-work → cleanup)
+
+When a work session closes, run these three steps in order. They are not optional polish — they are how the next orchestrator picks up cleanly and how the registry keeps an auditable trail of *why* things changed.
+
+1. **Memory snapshot.** Invoke `/memory-snapshot` (or write directly) to prepend a dated, newest-first entry to `founder/MEMORY.md`. Preserve every prior entry verbatim. Include: headline, decisions locked, branches/PRs/issues, routing, lessons, and a **quick handoff for the next session** (what it's picking up, plus any hard dependencies or assets it must carry forward).
+
+2. **Proof-of-work (its own step — do this AFTER the snapshot).** Post a concise proof-of-work comment on the **governing issue/EPIC** for the work just landed: what was delivered, the key decisions made (especially any that change registry semantics or product policy), and the PR/commit references. This is the public, durable record that complements the private MEMORY snapshot — reviewers and contributors read the EPIC, not `founder/`. One comment per session per EPIC; link the merged PRs. If a decision changes how a whole class of data is treated (e.g. "we retain `skill-trees/` for timeline purposes only"), state it explicitly so it isn't rediscovered the hard way.
+
+3. **Cleanup.** Remove merged worktrees (`git worktree remove`), delete merged feature branches (local + remote), and confirm the integration branch is green on the guards the session touched. Leave the tree clean.
+
+The ordering matters: the snapshot captures full private context first (nothing lost if interrupted), then proof-of-work distills the public-facing subset, then cleanup happens once both records exist.
+
+---
+
 ## When to Fan Out vs Stay Inline
 
 **Spawn a subagent when:**
