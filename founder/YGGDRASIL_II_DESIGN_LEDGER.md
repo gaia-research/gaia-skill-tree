@@ -40,6 +40,8 @@
 |---|---|---|---|---|
 | W0 | design/ygg2-w0-foundation | #1204 | abe32a4bb | PASS (adversarial, Playwright: 153 plaques, 119 avatars=119 wreaths, 0 broken, 0 banned words, desktop+mobile clean) |
 
+**Wave 1 IN FLIGHT** — workflow `wf_d12fde93-4a3`, script `founder/workflows/ygg2-wave1.mjs` (resume via `resumeFromRunId`). Launched 2026-07-17. Run order (concurrency: opus-solo, then sonnet pairs): W1e (opus, Python scripts) → W1a+W1b (heroes, leaderboard) → W1c+W1d (named, explorer+N-11 CTA) → W1f (MCP sweep+N-1/N-2). `skip-scope-check` pre-authorized by founder for all lanes. N-11 URLs verified: repo `github.com/gaia-research/skill-fuse` PUBLIC; live product `research.gaiaskilltree.com/labs/infinite-skill-craft` (README-confirmed).
+
 **Carried to Wave 1 (from W0 blockers):**
 - **W1e MUST teach `scripts/generateCssTokens.py` to emit the `--tier-unique` family** (currently hand-authored in tokens.css; a `gaia dev docs` regen would drop it + re-expose hex fallbacks). May need `registry/schema/meta.json` + a `meta.typeColors.unique` entry — that's a `schema/`-scope change, so W1e (or a sibling schema PR) owns it.
 - **W1 CSS cleanup:** prune orphaned `.plaque-orb--extra/--ultimate` dead classes in plaque.css (~L665-680) referencing nonexistent tokens.
