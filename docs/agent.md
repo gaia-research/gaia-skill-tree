@@ -73,7 +73,7 @@ Connect Gaia natively to MCP-compatible agents (Claude Code, Cursor, VS Code, et
 
 ### Claude Code Integration
 ```bash
-claude mcp add gaia -- npx @gaia-registry/mcp-server
+claude mcp add gaia -- npx @gaia-registry/mcp@0.1.0
 ```
 
 ### Environment Variables
