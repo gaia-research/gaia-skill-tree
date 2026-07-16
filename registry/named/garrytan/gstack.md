@@ -150,6 +150,8 @@ timeline:
   contributor: mbtiongson1
   details: 'Generic parent ''founder-mode-orchestration'' type: extra/ultimate → fusion
     (Yggdrasil II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-16
 trustMagnitude: 589.32
 overallTrustGrade: S
 apexGateStatus:

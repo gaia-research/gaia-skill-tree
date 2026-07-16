@@ -118,6 +118,8 @@ timeline:
   contributor: mbtiongson1
   details: 'Generic parent ''browser-control'' type: basic (unchanged; Yggdrasil II
     taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-16
 - timestamp: '2026-07-16T08:36:42Z'
   action: demote
   contributor: mbtiongson1
@@ -125,6 +127,8 @@ timeline:
   newValue: 3★
   details: 'Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch
     origin=True TM=73.6 (< 100.0)) — demoted to 3★ Evolved'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-16
 trustMagnitude: 73.59
 overallTrustGrade: B
 apexGateStatus:

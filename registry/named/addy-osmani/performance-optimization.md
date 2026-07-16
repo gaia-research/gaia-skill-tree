@@ -71,6 +71,8 @@ timeline:
   contributor: mbtiongson1
   details: 'Generic parent ''performance-tuning'' type: basic (unchanged; Yggdrasil
     II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-16
 evidence:
 - class: A
   source: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md

@@ -102,6 +102,8 @@ timeline:
   contributor: mbtiongson1
   details: 'Generic parent ''agent-memory-platform'' type: extra/ultimate → fusion
     (Yggdrasil II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-16
 - timestamp: '2026-07-16T08:36:44Z'
   action: demote
   contributor: mbtiongson1
@@ -109,6 +111,8 @@ timeline:
   newValue: 3★
   details: 'Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch
     TM=81.0 (< 100.0)) — demoted to 3★ Evolved'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-16
 trustMagnitude: 201.0
 overallTrustGrade: A
 apexGateStatus:

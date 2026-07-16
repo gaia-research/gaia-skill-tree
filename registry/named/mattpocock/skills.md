@@ -104,6 +104,8 @@ timeline:
   contributor: mbtiongson1
   details: 'Generic parent ''skill-mastery'' type: extra/ultimate → fusion (Yggdrasil
     II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-16
 evidence:
 - source: https://github.com/mattpocock/skills/stargazers
   evaluator: mbtiongson1

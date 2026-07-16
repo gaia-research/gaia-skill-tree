@@ -75,6 +75,8 @@ timeline:
   contributor: mbtiongson1
   details: 'Generic parent ''literature-search'' type: basic (unchanged; Yggdrasil
     II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-16
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

@@ -29,7 +29,9 @@
       "timestamp": "2026-07-16T08:31:17Z",
       "action": "type_change",
       "contributor": "mbtiongson1",
-      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+      "metaEpoch": "yggdrasil-ii",
+      "migrationBatch": "yggdrasil-ii@2026-07-16"
     }
   ]
 }
