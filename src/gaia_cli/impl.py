@@ -752,6 +752,8 @@ def scan_command(args):
 
     resolved = []
 
+    custom_state_skills = []
+
     if installed_skills:
         with open(graph_path, "r", encoding="utf-8") as _gf:
             _gdata_for_match = json.load(_gf)
@@ -773,8 +775,6 @@ def scan_command(args):
                             origin_skills.append(item)
                         else:
                             named_skills.append(item)
-
-        custom_state_skills = []
 
         for sk in installed_skills:
             cid = sk["id"]
