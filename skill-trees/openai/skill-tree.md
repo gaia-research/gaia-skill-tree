@@ -11,7 +11,7 @@
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
 | ○ openai/few-shot-learning | Basic | 4★ | Extra | openai/gaia-skill-tree | 2026-05-15T00:00:00Z |
-| ○ openai/self-consistency | Basic | 4★ | Extra | openai/gaia-skill-tree | 2026-05-15T00:00:00Z |
+| ○ openai/self-consistency | Basic | 3★ | Evolved | openai/gaia-skill-tree | 2026-05-15T00:00:00Z |
 
 ---
 

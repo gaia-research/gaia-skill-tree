@@ -12,7 +12,7 @@
 |---|---|---|---|---|---|
 | ○ gsd-build/discuss-phase | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
 | ○ gsd-build/execute-phase | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
-| ○ gsd-build/get-shit-done | Basic | 4★ | Extra | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ gsd-build/get-shit-done | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
 | ○ gsd-build/plan-phase | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
 | ○ gsd-build/ship | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
 | ○ gsd-build/verify-work | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |

@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "stanfordnlp/dspy",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "stanfordnlp/gaia-skill-tree",
       "combinedFrom": [],
@@ -23,6 +23,11 @@
           "level": "4★",
           "achievedAt": "2026-06-20T06:31:38Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-16T00:00:01Z",
+          "source": "demote"
         }
       ]
     }
@@ -50,6 +55,14 @@
       "previousValue": "1★",
       "newValue": "4★",
       "details": "Level updated from 1★ to 4★ per G7 final rankings calibration.",
+      "skillId": "stanfordnlp/dspy"
+    },
+    {
+      "timestamp": "2026-07-16T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "stanfordnlp/dspy"
     }
   ],

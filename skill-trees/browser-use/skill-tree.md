@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ browser-use/browser-harness | Basic | 4★ | Extra | browser-use/gaia-skill-tree | 2026-05-14T00:00:00Z |
+| ○ browser-use/browser-harness | Basic | 3★ | Evolved | browser-use/gaia-skill-tree | 2026-05-14T00:00:00Z |
 
 ---
 

@@ -89,7 +89,7 @@
     },
     {
       "skillId": "ruvnet/agentdb",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -102,6 +102,11 @@
         {
           "level": "4★",
           "achievedAt": "2026-06-20T06:31:35Z",
+          "source": "demote"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         }
       ]
@@ -169,7 +174,7 @@
     },
     {
       "skillId": "ruvnet/dual-mode",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -183,6 +188,11 @@
           "level": "4★",
           "achievedAt": "2026-06-20T06:31:36Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-16T00:00:01Z",
+          "source": "demote"
         }
       ]
     },
@@ -521,7 +531,7 @@
     },
     {
       "skillId": "ruvnet/reasoningbank",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -535,12 +545,17 @@
           "level": "4★",
           "achievedAt": "2026-06-20T06:31:36Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-16T00:00:01Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "ruvnet/ruflo-v3",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -549,6 +564,11 @@
           "level": "4★",
           "achievedAt": "2026-05-19T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-16T00:00:01Z",
+          "source": "demote"
         }
       ]
     },
@@ -1567,6 +1587,38 @@
       "newValue": "1★",
       "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
       "skillId": "ruvnet/worker-benchmarks"
+    },
+    {
+      "timestamp": "2026-07-16T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "ruvnet/agentdb"
+    },
+    {
+      "timestamp": "2026-07-16T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "ruvnet/dual-mode"
+    },
+    {
+      "timestamp": "2026-07-16T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "ruvnet/reasoningbank"
+    },
+    {
+      "timestamp": "2026-07-16T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "ruvnet/ruflo-v3"
     }
   ],
   "stats": {

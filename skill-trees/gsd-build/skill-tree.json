@@ -32,15 +32,30 @@
     },
     {
       "skillId": "gsd-build/get-shit-done",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-07-03T00:00:00Z",
       "unlockedIn": "gsd-build/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
+          "level": "2★",
+          "achievedAt": "2026-07-02T20:53:12Z",
+          "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-02T21:34:10Z",
+          "source": "promotion"
+        },
+        {
           "level": "4★",
           "achievedAt": "2026-07-03T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-16T00:00:01Z",
+          "source": "demote"
         }
       ]
     },
@@ -89,6 +104,22 @@
   ],
   "timeline": [
     {
+      "timestamp": "2026-07-02T20:53:12Z",
+      "action": "rank_up",
+      "previousValue": "1★",
+      "newValue": "2★",
+      "details": "Calibrated level from 1★ to 2★",
+      "skillId": "gsd-build/get-shit-done"
+    },
+    {
+      "timestamp": "2026-07-02T21:34:10Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Calibrated level from 2★ to 4★",
+      "skillId": "gsd-build/get-shit-done"
+    },
+    {
       "timestamp": "2026-07-03T00:00:00Z",
       "action": "register",
       "skillId": "gsd-build/discuss-phase",
@@ -135,6 +166,14 @@
       "details": "Registered named skill gsd-build/verify-work",
       "previousValue": null,
       "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-07-16T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "gsd-build/get-shit-done"
     }
   ],
   "stats": {

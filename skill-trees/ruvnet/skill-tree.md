@@ -15,12 +15,12 @@
 | ○ ruvnet/agentdb-memory-patterns | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/agentdb-optimization | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/agentdb-vector-search | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/agentdb | Basic | 4★ | Extra | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/agentdb | Basic | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/agentic-jujutsu | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/browser | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/dual-collect | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/dual-coordinate | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/dual-mode | Basic | 4★ | Extra | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/dual-mode | Basic | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/dual-spawn | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/flow-nexus-neural | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/flow-nexus-platform | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
@@ -38,8 +38,8 @@
 | ○ ruvnet/performance-analysis | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/reasoningbank-agentdb | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/reasoningbank-intelligence | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/reasoningbank | Basic | 4★ | Extra | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/ruflo-v3 | Basic | 4★ | Extra | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/reasoningbank | Basic | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/ruflo-v3 | Basic | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/ruflo | Basic | 5★ | Ultimate | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/skill-builder | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/sparc-methodology | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
