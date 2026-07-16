@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ stanfordnlp/dspy | Basic | 4★ | Extra | stanfordnlp/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ stanfordnlp/dspy | Basic | 3★ | Evolved | stanfordnlp/gaia-skill-tree | 2026-05-25T00:00:00Z |
 
 ---
 

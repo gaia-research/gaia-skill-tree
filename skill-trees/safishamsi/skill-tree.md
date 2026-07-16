@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ safishamsi/graphify | Basic | 4★ | Extra | safishamsi/gaia-skill-tree | 2026-05-14T00:00:00Z |
+| ○ safishamsi/graphify | Basic | 3★ | Evolved | safishamsi/gaia-skill-tree | 2026-05-14T00:00:00Z |
 
 ---
 

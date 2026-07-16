@@ -4,25 +4,30 @@
   "unlockedSkills": [
     {
       "skillId": "browser-use/browser-harness",
-      "level": "4\u2605",
+      "level": "3★",
       "unlockedAt": "2026-05-14T00:00:00Z",
       "unlockedIn": "browser-use/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2\u2605",
+          "level": "2★",
           "achievedAt": "2026-05-14T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3\u2605",
+          "level": "3★",
           "achievedAt": "2026-06-20T06:31:20Z",
           "source": "promotion"
         },
         {
-          "level": "4\u2605",
+          "level": "4★",
           "achievedAt": "2026-07-13T09:21:06Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-16T00:00:01Z",
+          "source": "demote"
         }
       ]
     }
@@ -34,23 +39,31 @@
       "skillId": "browser-use/browser-harness",
       "details": "Registered named skill browser-use/browser-harness",
       "previousValue": null,
-      "newValue": "2\u2605"
+      "newValue": "2★"
     },
     {
       "timestamp": "2026-06-20T06:31:20Z",
       "action": "rank_up",
-      "previousValue": "2\u2605",
-      "newValue": "3\u2605",
-      "details": "Level updated from 2\u2605 to 3\u2605 per G7 final rankings calibration.",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
       "skillId": "browser-use/browser-harness"
     },
     {
       "timestamp": "2026-07-13T09:21:06Z",
       "action": "rank_up",
       "skillId": "browser-use/browser-harness",
-      "details": "Level calibrated from 3\u2605 to 4\u2605 \u2014 grade A (TM 103.59); origin set as top browser-control bucket holder.",
-      "previousValue": "3\u2605",
-      "newValue": "4\u2605"
+      "details": "Level calibrated from 3★ to 4★ — grade A (TM 103.59); origin set as top browser-control bucket holder.",
+      "previousValue": "3★",
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-07-16T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "browser-use/browser-harness"
     }
   ],
   "stats": {
