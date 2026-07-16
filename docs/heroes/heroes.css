@@ -1254,6 +1254,54 @@
 }
 
 
+/* ── Gold-wreath avatar inside hero crest (E3/E4) ──────────────
+   hero-card__crest-square-front now contains a .hero-card__crest-avatar
+   (emitted by heroAvatarHtml / plaque._fields.avatar). The wreath overlays
+   the avatar photo exactly as in plaque.css .plaque__avatar-wreath.
+   The red origin mark (E4) is removed — gold wreath IS the origin signal.
+   ============================================================ */
+.hero-card__crest-square-front {
+  /* Allow the wreath to spill slightly outside the square. */
+  overflow: visible;
+}
+
+/* Avatar wrapper (either plaque__avatar or hero-card__crest-avatar) */
+.hero-card__crest-square-front .plaque__avatar,
+.hero-card__crest-avatar {
+  --avatar-size: clamp(110px, 16vw, 140px);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 0;
+}
+
+/* Photo inside the avatar wrapper */
+.hero-card__crest-square-front .plaque__avatar-img,
+.hero-card__crest-avatar-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  filter: saturate(0.86) contrast(1.08);
+}
+
+/* Gold wreath overlay (E4: replaces red origin mark) */
+.hero-card__crest-square-front .plaque__avatar-wreath,
+.hero-card__crest-avatar-wreath {
+  position: absolute;
+  /* Wreath is 112% of the avatar so it frames the photo. */
+  inset: -6%;
+  width: 112%;
+  height: 112%;
+  pointer-events: none;
+  display: block;
+}
+
+
 /* ── Reduced motion ──────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .heroes-header__title,
