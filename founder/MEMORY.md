@@ -4,6 +4,64 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-16, session — Yggdrasil II #997 migration + #994 docs MERGED to staging; Extra=Unique gate ratified; 40 4★→3★ recalibration)
+
+### TLDR
+- **#997 taxonomy migration MERGED to `dev/yggdrasil-ii-staging`** (merge commit `428ea9b9`, PR #1186). `scripts/migrate_taxonomy_v6.py` (dry-run default, `--apply`, idempotent) collapsed `registry/nodes/{extra,ultimate}/` → `fusion/` via `git mv` (113 basic stay, 130 fusion), rewrote `type`, appended `type_change` events. Named recalibration: all 4★/5★ got `type_change`; **40 of 47 4★s demoted to 3★** with paired `type_change`+`demote` events; all **5 5★ Suites retained**.
+- **#994 docs ratification MERGED** (merge commit `3f1943e9`, PR #1187). DESIGN.md, docs/agent.md, docs/codex/trust-methodology.html migrated to Yggdrasil II vocabulary; DESIGN.md + docs/agent.md de-allowlisted in `check_rank_vocabulary.py` (guard now enforces them, PASS). META.md/CONTEXT.md already compliant; archival audits deferred.
+- **EPIC #1002 now 4/7 on staging:** #994 ✅ #995 ✅ #996 ✅ #997 ✅. Remaining: #998 Frontend, #999 CI guards, #1000 Agent skills (+ follow-on #1174).
+- **Root-cause settled:** the 130 legacy-typed nodes were **#995's incomplete follow-through** (schema enum collapsed, data never migrated), NOT the main→staging merge (merge only added +1 `firecrawl` extra node). Confirmed via git forensics.
+
+### Decisions locked this session
+| # | Decision |
+|---|---|
+| Node dir layout | **Complete rewrite** to `basic/` + `fusion/`; legacy `extra/`/`ultimate/` dirs removed |
+| Extra 4★ gate | **= Unique 4★ gate (Origin + TM≥100)** — both branches share 4★ gate semantics; only the label differs. Ratified live; F-1 code fix folded into #1186 |
+| 5★ Suites | **All 5 retained** (halt rule + #935): addy-osmani/agent-skills, garrytan/gstack, mattpocock/skills, obra/superpowers, ruvnet/ruflo. Impeccable = 4★ Unique archetype, out of scope |
+| 40 demotions | **Accepted** as intended spec outcome — Evidence-Floor removal + TM/Origin gating working as designed |
+| skill-trees/ | **Out of scope NOISE** — migrates wholesale to a separate `your-skill-tree` repo; README notice placed; scripts to be pointed away in a later infra pass. Never officially ratified as a feature |
+| CI on staging | **Not gated** on staging PRs — batch-fixed under #999 before staging→main |
+| Next task | **#999 CI guards** (NOT #998) — Frontend is very heavy, likely double PRs w/ new assets everywhere; website locked in monorepo-style, no blockers |
+
+### Branches at end of session
+| Branch | Head | Status |
+|---|---|---|
+| `dev/yggdrasil-ii-staging` | post #1186 + #1187 merges | PR #1185 (draft → main) is the aggregate collector; CI intentionally red until #999 |
+| `dev/997-migrate-taxonomy-v6` | merged + deleted | — |
+| `dev/994-docs-ratification` | merged + deleted | — |
+
+### Issues + PRs touched
+- **PR #1186** — #997 migration → staging (MERGED). Proof-of-work comment on #1002.
+- **PR #1187** — #994 docs → staging (MERGED).
+- **EPIC #1002** — checkboxes updated (#994–#997 checked); proof-of-work comment posted.
+- #994/#997 will NOT auto-close (resolve to *main*, not staging — correct per single-merge-at-closure protocol).
+
+### Routing — where things live now
+- Migration tool: `scripts/migrate_taxonomy_v6.py` (idempotent; re-run = no-op; report to gitignored `generated-output/`).
+- `gaia dev docs` shim broken on this Windows box — use `PYTHONPATH=./src python -m gaia_cli dev docs`.
+- Spec source of truth: `founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md` (v2 Amendment + Q1–Q10). Extra-gate resolution now recorded on #1002.
+
+### Lessons / hazards preserved
+- **Guard E (`validate_timelines.py`) checks USER TREES vs registry level, not node-timeline pairs.** Since skill-trees/ is deliberately untouched, expect Guard E red on staging — fix under #999.
+- **`_origin_ok_for_unique` on basic-type parents** falls back to `named.origin is True` (0-prereq generics have no fusion structure to hold origin). Drove 25 google-deepmind `origin:false` demotions — spec-faithful.
+- A few skills carry **stale stored `trustMagnitude`** (e.g. addy-osmani/performance-optimization 83.2 vs live 104.29); migration used live values. Fold into next TM recompute.
+- **Opus (claude-4.8-opus) is platform-rate-limited (429)** even at concurrency 1 — fell back to sonnet-worker for both #997 and #994; both clean via worker→reviewer.
+
+### Open questions for next orchestrator
+1. **#999 CI guards is NEXT** — batch-fix staging to green: Guard E/timeline (decouple from skill-trees), branch-scope, node-pair `type_change`+`demote` verification. Then #998 Frontend (heavy, double PRs), then #1000.
+2. EPIC #1002 closes at the single `dev/yggdrasil-ii-staging` → `main` merge (PR #1185) once all 7 sub-issues land + CI batch-fixed.
+3. Clear the `gaia-purge/` scratch dir after remote health confirmed.
+
+### Token cost (this session)
+| Field | Value |
+|---|---|
+| Cache (Write / Read) | 1,016,472 / 28,016,040 |
+| Est. cost (USD / €) | ~$20.32 / €10.97 |
+| Total requests | 590 |
+| Tokens (Out / In) | 303,181 / 1,324 |
+
+---
+
 ## State Snapshot (2026-07-15, session — Binary-master history purge + main→staging merge integration; fresh aggregate PR)
 
 ### TLDR
