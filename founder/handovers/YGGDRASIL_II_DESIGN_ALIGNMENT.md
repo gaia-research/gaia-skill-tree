@@ -259,16 +259,52 @@ Add a `<picture>` inside `.plaque__header` (or replace `.plaque-orb`'s gradient 
 
 ---
 
-## 7. Worker fan-out plan (concurrency 2 sonnet / 1 opus)
+## 7. Worker fan-out plan — RATIFIED EXECUTION ARCHITECTURE (2026-07-17, "Full Gas")
 
-Populated as the plan ratifies. Working shape:
+**Mode:** end-to-end autonomous implementation via recoverable dynamic `/workflows`. Goal: design fully integrated into `dev/yggdrasil-ii-staging`, **no follow-ups**, no Ygg-I legacy design surviving (new plaques + avatars everywhere, zero red-origin icons, zero `extra`/`ultimate`/`unique` type-enum reads).
 
-- **Lane A — JS enum readers** (`skill-graph.js`, `skill-explorer.js` [two-IIFE!], `named-skills.js`): functional; one worker, own worktree.
-- **Lane B — docs copy sweep** (all `docs/**/*.html` + DESIGN.md): copy-only; one worker, own worktree.
-- **Lane C — script rank maps** (4 scripts → shared resolver): functional; sequences after scout #3 names the canonical source.
-- **Lane D — CSS/plaque/AOV + Asset C/D + homepage nitpicks** (§8): design; one worker, own worktree.
+### Global execution invariants
+- **Commit identity:** `mbtiongson1` — every worker sets `git -c user.name="Marcus Rafael B. Tiongson" -c user.email="153011150+mbtiongson1@users.noreply.github.com"`. Verify `git log --format='%ae'` before every push. **Nothing else.**
+- **Concurrency:** MAX 2 concurrent workers; MAX 1 if opus. Enforced in-script by batching `parallel([a,b])` pairs and running every opus stage solo (never two opus in one `parallel`).
+- **Worktrees:** every implementation agent runs `isolation: "worktree"`, branches from `origin/dev/yggdrasil-ii-staging`, commits+pushes its feature branch per logical unit, reports SHAs. Never batches pushes.
+- **Review-gate:** every lane is followed by an **adversarial reviewer agent** (reject-by-default, grades against `DESIGN.md` §"Yggdrasil II Enforcement Rubric"). Fail → ONE bounded remediation retry → re-review. Structured verdict returned.
+- **PR lifecycle stays in orchestrator hands (recoverable):** workflows implement + push + review-gate + return a manifest. **The orchestrator opens each PR → `dev/yggdrasil-ii-staging` and merges** between waves (idempotent GitHub mutations; a crashed workflow never leaves a half-merged PR). Merge order = dependency order (foundation first).
+- **Recoverability:** one workflow per WAVE. Each is resumable via `resumeFromRunId` (same script+args → cache hit on completed agents). Anticipate a lane dying mid-run; the worktree + pushed commits survive, and the workflow journal (`journal.jsonl`) records every agent return. On failure: resume the wave workflow, or re-dispatch a continuation agent pinned to the surviving worktree.
+- **Inspect always:** Playwright 1.61.1 is available. Reviewer agents serve `docs/` locally (`python -m http.server`) and screenshot the target surface at desktop (1280) + mobile (390) before returning a verdict.
+- **Assets:** use existing AOV4 (C1–C6 suite, D4–D6 unique, ×badge/card/hero — COMPLETE). Author the missing **gold-wreath frame SVG** in W0. Every created/modified asset + every decision logged to `founder/YGGDRASIL_II_DESIGN_LEDGER.md`.
+- **Regen policy:** prefer the Python design scripts (`generateBadges.py`, `generateOgCards.py`, `generateProfilePages.py`, `build_docs.py`) over hand-editing generated output. Revert Class-P timestamp noise before committing.
 
-Lanes A/B/D are file-disjoint → safe to run 2-at-a-time. Each worker: isolated worktree, branch from `origin/dev/yggdrasil-ii-staging`, commit+push per logical unit, report SHAs. Since it's one pass to staging, lanes may also collapse into a single sequenced worker if Marcus prefers fewer branches.
+### Wave sequence (dependency-ordered)
+
+**WAVE 0 — Foundation (opus, effort high, SOLO). Keystone; everything imports it.**
+- Promote `--tier-unique` (#7c3aed) to a full token family in `docs/css/tokens.css` (+`-rgb/-bg/-border/-edge/-symbol`), via `generateCssTokens.py` if it sources the value, else direct. Kill hex fallbacks at usage sites.
+- Extract shared client resolver `computeBranch(node, effRank)` + `rankWord(level, branch)` into a new `docs/js/skill-semantics.js` (source: `world-tree-layout.js resolveSemantics` L356-413). Load it before all consumers.
+- Author gold-wreath frame SVG (`docs/assets/origin-wreath-gold.svg`) — replaces the honor-red `#origin-badge`.
+- Rewrite `docs/js/plaque.js`: stamp derived `data-branch`; `_fieldOrb`→AOV `<picture>` (C/D by branch, rank→index, size→badge/card/hero); add avatar + gold-wreath + medallion with **GitHub-blank identicon fallback**; dark(unique)/gold(suite) split re-keyed to `data-branch`; drop the standalone GitHub button (avatar links to repo); remove red origin mark. Fixes 8 of 16 surfaces.
+- Reviewer (opus, adversarial) → orchestrator merges PR-0 to dev.
+
+**WAVE 1 — Surface fixes (import foundation; sonnet 2-at-a-time, Python lane opus-solo). Each own PR, review-gated.**
+- **W1a (sonnet, med):** `docs/heroes/heroes.js` — kill live `Transcendent`/`Hardened` (`getTierMarkLabel`/`classifyTier`/`TIER_LABEL` L44-118); branch-fork 4-6★ ladder via shared resolver; avatar GitHub-blank fallback; HoH `/heroes` shows correct 4-6★.
+- **W1b (sonnet, med):** `docs/trust/leaderboard/leaderboard.js` — `RANK_NAMES` L47-49 + tooltip L2350 banned words; `TYPE_COLORS` L153-157; origin laurel glyph L326/1091/1548/1751 → gold.
+- **W1c (sonnet, med):** `docs/named/index.html` filter tabs L96-99 → Fusion/Basic; `docs/js/named-skills.js` rank-grouping (buckets L141/151/256/530 → rank integers; branch = C/D visual variant within group).
+- **W1d (sonnet, med):** `docs/js/skill-explorer.js` — N-5 flow suite/ultimate tabs (reuse existing tab affordance) + plaque z-index overlap; SE-3 install-flag fix (L827 `level==='5★'` conflation); **N-11** shared "Research product CTA" (skill-fuse page + `github.com/gaia-research/skill-fuse` repo, Rimuru-Blue bridge) on every fuse/suite section.
+- **W1e (opus, high, SOLO):** Python design scripts branch-aware — `generateBadges.py` (`RANK_NAMES` L54-57 + honor-red→gold), `generateOgCards.py` (dispatch L157-170 on computeBranch+rank, banned words L652-658, all-rank×2-branch plates), `generateProfilePages.py` (kills N-3 frozen `data-type`/`data-level` + branch aria). Regenerate outputs. **Badge `_assets/` regen is a SEPARATE `infra/badge-*` PR** per invariant.
+- **W1f (sonnet, low):** copy/CSS — **N-9** MCP sweep (`@gaia-registry/mcp-server`→`@gaia-registry/mcp@0.1.0` + `research.gaiaskilltree.com/mcp` across `docs/index.html`×2, `docs/en/index.html`, `docs/en/mcp-server.html`, `docs/agent.md`, README); **N-1** shared `.aov-terminal-art` edge treatment (both terminals); **N-2** hero install-card grid alignment.
+
+**WAVE 2 — /impeccable design items (opus solo each, reviewer-gated, no founder gate per R4). Sequence after their W1 dependency.**
+- **W2a (opus, high):** N-8 OG card `/impeccable` composition on top of W1e's fixed dispatch — embed AOV `-hero` art, reshape, all-rank. Reviewer picks shape.
+- **W2b (opus, high):** N-10 footer redesign + Gaia Research CTA cross-brand ("one house, two rooms," Rimuru-Blue #38bdf8 bridge) in `docs/js/site-footer.js` + `styles.css`.
+- **W2c (opus, high):** N-7 `docs/reports/` + `docs/named/report.html` shared report design system. **NOT `docs/meta/reports/`.**
+
+**WAVE 3 — Capstone N-12 (mixed; critique sonnet-parallel, remediation, DESIGN.md opus-solo).**
+- Critique scout inventories mobile/responsive state of all non-homepage surfaces.
+- Adversarial critique agents grade each non-homepage surface vs DESIGN.md rubric (2 sonnet at a time).
+- Remediation agents make flagged surfaces mobile-first (homepage FROZEN except N-1/N-2).
+- Finalize `DESIGN.md` as the solidified impeccable-init standard; complete `founder/YGGDRASIL_II_DESIGN_LEDGER.md`.
+
+### Workflow files
+- Per-wave scripts persisted under the session dir; `scriptPath` recorded in the ledger for resume.
+- Args carry the base branch + commit identity so scripts stay `Date.now()`-free and resumable.
 
 ---
 

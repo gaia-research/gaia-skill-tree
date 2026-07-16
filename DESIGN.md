@@ -483,3 +483,43 @@ On mobile (`max-width: 700px`) the World Tree hero is **not** the desktop split-
 - **Noise control (depth-of-field, not a flat dim):** a radial vignette `mask` fades the scattered edge starfield into darkness so the periphery stops competing; a slight `blur(.4px)` + `saturate(.78)` on the raster calms the dense midfield tangle so it reads as atmosphere, not a busy diagram. This was the fix for the critique's weak axis (aesthetic/minimalist 2/4).
 - A top→bottom `::after` scrim keeps the crown airy, darkens the lower half into a legibility bed for the headline, and resolves to `var(--bg)` at ~97% so the roots dissolve into the page.
 - **Top utility strip:** `Explore in 3D` sits top-right; the automated latest-report notification (`.hero-audit-btn`, DOM-managed by `scripts/add_post.py` between the `gaia-hero-post` markers) is promoted to top-left as its peer. The desktop floating-bottom-chip placement is overridden in the mobile block only; `add_post.py` is never edited from a `design/` branch.
+
+---
+
+## Yggdrasil II Enforcement Rubric (impeccable-init standard — solidified 2026-07-17)
+
+This section is the **canonical grading rubric** for the Yggdrasil II design run (#998). Every review/critique agent grades each surface against these clauses, reject-by-default. A surface PASSES only when it satisfies every applicable clause. "Legacy design" (Ygg I) is a hard fail — the site must not render old plaques, red origin icons, or dead type-enum vocabulary anywhere.
+
+### E1 — Schema-read correctness (no dead enum)
+- Branch MUST be derived at read-time via the shared resolver (`docs/js/skill-semantics.js` `computeBranch`, mirroring `world-tree-layout.js resolveSemantics`) — never from `skill.type === 'ultimate'|'unique'|'extra'` and never from a stored `branch`/`tier` field.
+- The only valid `type` values are `basic` and `fusion`. Any code path that switches on `ultimate`/`unique`/`extra` as a *type* is a FAIL.
+- Rank star glyphs come from `rank-badge.js` (the clean authority); rank WORDS come from the shared `rankWord(level, branch)`. No inline rank-name maps.
+
+### E2 — Rank vocabulary (branch-forked, no banned words)
+- BANNED, hard fail anywhere user-visible or in generators: `Transcendent`, `Hardened`.
+- Correct ladder: shared {1 Awakened, 2 Named, 3 Evolved}; suite {4 Extra, 5 Ultimate, 6 Apex}; unique {4 Unique, 5 Unique Ultimate, 6 Unique Impossible}.
+- Type words stand BARE (`Basic`/`Fusion`; never `Basic Skill`/`Fusion Skill`). `Ultimate` is the universal 5★ suite word.
+- A 4★ Unique reads "Unique" (never "Extra"); a 5★ unique reads "Unique Ultimate". Flat rank→name swaps that ignore branch are a FAIL.
+
+### E3 — Plaque / medallion / avatar (the new visual identity)
+- Every skill surface renders a **contributor GitHub avatar** (`https://github.com/<handle>.png`), framed by the **gold origin wreath** (`docs/assets/origin-wreath-gold.svg`). Missing avatar → GitHub-blank/identicon fallback, NEVER an empty hole (no bare `onerror`-hides).
+- The medallion is the AOV4 stamp (`aov4-c{1..6}` suite / `aov4-d{4..6}` unique) at the size tier for the surface (`-badge`/`-card`/`-hero`), selected by `computeBranch` + rank. No CSS-gradient orb stand-ins on named skills.
+- **Unique = DARKER plaque** (violet `--tier-unique` register); **Suite = GOLD-leaning** plaque. The distinction MUST be keyed on derived `data-branch`, not `data-type`.
+- The standalone "GitHub" button is removed; the avatar links to the repo.
+
+### E4 — Origin mark deprecation (red → gold)
+- The honor-red `#ef4444` origin mark / `#origin-badge` laurel is DEPRECATED. Origin is rendered in GOLD (the wreath). No red origin icons survive.
+- `--honor-red` may remain for unrelated link/emphasis use; the FAIL is specifically a red *origin* mark.
+
+### E5 — Cross-brand Research bridge
+- Links out to Gaia Research products (MCP `@gaia-registry/mcp@0.1.0` + `research.gaiaskilltree.com/mcp`; skill-fuse `github.com/gaia-research/skill-fuse`) use the shared "Research product" affordance in the Rimuru-Blue (`#38bdf8`) bridge language — "one house, two rooms." Content/schema never imported cross-repo; hyperlinks are fine.
+
+### E6 — Mobile-first (non-homepage surfaces)
+- Built 320px-up, `min-width` breakpoints (scale: sm 480 / md 768 / lg 1024 / xl 1280). Touch targets ≥44×44px. Font sizes `clamp()` with a 320px-safe floor. No `position:fixed` decoration on mobile.
+- Homepage is FROZEN except N-1 (terminal art) and N-2 (hero install card). Critique agents must NOT propose homepage layout changes.
+
+### E7 — Tokens & regen hygiene
+- No hardcoded hex in CSS/JS — design tokens only. Prefer the Python design scripts for generated surfaces (badges, OG, profile pages). Revert Class-P timestamp noise before committing. Class-S artifacts (`docs/graph/*`) commit with their source change.
+
+### Reviewer procedure
+Serve `docs/` locally (`python -m http.server`), load the target surface with Playwright at 1280 (desktop) and 390 (mobile), screenshot, and grade against E1–E7. Return a structured verdict: `{pass: bool, failures: [{clause, surface, evidence}], severity}`. Reject-by-default: absence of evidence of compliance is a fail, not a pass.
