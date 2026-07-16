@@ -1,0 +1,319 @@
+# Yggdrasil II — Design-Pass Alignment Handover (#998)
+
+**For:** the Yggdrasil II frontend design pass (EPIC #1002 · sub-issue #998)
+**Author:** Founder Orchestrator (restored from closed PR #1171 + extended for the live design pass)
+**Original date:** 2026-07-14 · **Restored + refreshed:** 2026-07-17
+**Scope:** frontend / asset / design surface only (DESIGN.md, `docs/**/*.html`, `docs/js/**`, `docs/css/**`, AOV, plus the rank-name script maps). The prose docs (META.md, CONTEXT.md, trust-methodology) are handled separately by #994 (LANDED). The CI guard by #999.
+
+> **Provenance note.** This file is the content of PR #1171, which was **closed unmerged** on 2026-07-15 when the aggregate PR was rebuilt during the binary-master history purge. The doc itself never landed on the branch. Its dependency gate (#995 + #996 + #997) has since **fully landed**, so the work it describes — which IS #998 — is now unblocked. Restored here as the living spine for the design pass.
+
+---
+
+## 0. Design-pass operating contract (2026-07-17 session)
+
+This design pass runs under an explicit workflow ratified with Marcus:
+
+1. **Target `dev/yggdrasil-ii-staging`. One pass. CI-green is NOT required** — the sprint batches to green under #999 before staging → main.
+2. **Catch the PATTERN, not the surgical fix.** Every reported nitpick is first checked for recurrence: does the same language / layout / logic live elsewhere? If so, the fix sweeps all instances, not the one screenshot.
+3. **Commit + push frequently.** Small, logical commits.
+4. **Worker concurrency: 2 (sonnet) / 1 (opus).** Fan-out planned per §7 below.
+5. **Plan first, execute on ratification.** Scouts map; orchestrator plans; Marcus drips images/policies; nothing is written until the plan is ratified.
+
+The **live nitpick log is §8** — every reported issue lands there with its pattern generalization and planned fix.
+
+---
+
+## 1. Purpose + when to act
+
+The ratified **Yggdrasil II v2** model splits the old single `type`/rank taxonomy into two orthogonal axes and renames the 4★–6★ ladder. This doc tells you *exactly* what to change on the design surface so the site renders the v2 model correctly.
+
+**Dependency gate — ALL THREE HAVE LANDED on `dev/yggdrasil-ii-staging` (gate open):**
+
+| Blocked-by | What it lands | Status |
+|---|---|---|
+| **#995** | schema: `type ∈ {basic, fusion}`, `suiteComponents`, no `branch` field on nodes | ✅ MERGED |
+| **#996** | CLI `computeBranch(named)` → `standard`/`suite`/`unique` | ✅ MERGED |
+| **#997** | registry migration (`extra`→`fusion`, `ultimate`→`fusion`, `unique`→`basic`; backfill `suiteComponents`) | ✅ MERGED |
+
+### The v2 model (yardstick)
+
+- **TYPE axis** (starless/generic nodes only): `basic` | `fusion`. Pure structure — `fusion` iff the node has prerequisites. **Never consulted for branch.**
+- **`suiteComponents`**: presence on the **Named Skill** drives the branch fork; also feeds Trust Magnitude. Independent of `type`. **`suiteComponents` is a Named-Skill-only field — it never lives on the starless/generic parent.**
+- **BRANCH axis** (named skills only, *derived at read-time, never declared*): `branch = f(the Named Skill's suiteComponents present?, rank)`.
+  - rank 1–3 → **standard** (no branch fork)
+  - rank ≥ 4 AND the Named Skill has `suiteComponents` → **suite**
+  - rank ≥ 4 AND the Named Skill has **no** `suiteComponents` → **unique**
+- **Ladders:**
+  - standard: 1★ **Awakened** · 2★ **Named** · 3★ **Evolved**
+  - suite: 4★ **Extra** · 5★ **Ultimate** · 6★ **Apex**
+  - unique: 4★ **Unique** · 5★ **Unique Ultimate** · 6★ **Unique Impossible**
+- **`Transcendent` and `Hardened` are BANNED.** `Ultimate` is the universal 5★ word. **The "Skill" suffix attaches to RANK words** — `Extra Skill` / `Unique Skill` / `Ultimate Skill` / `Apex Skill` are valid rank phrasings. **Type words stand bare** (`Basic`, `Fusion`) — `Basic Skill` / `Fusion Skill` are BANNED (guard-enforced). 1★–3★ ladder words (Awakened/Named/Evolved) are always star-qualified.
+- Type & branch are orthogonal. Evidence Floor is removed; **TM is the sole gate.**
+
+---
+
+## 2. File-by-file checklist (taxonomy alignment)
+
+| File | What's stale | Required v2 change | Blocked-by |
+|---|---|---|---|
+| `DESIGN.md` | `Hardened`/`Transcendent` rank words; `type === 'extra'\|'unique'\|'ultimate'` glyph rules; `Extra Skill`/`Ultimate Skill` type labels; glow/animation tokens named for old ranks | Retitle rank sequence to Awakened→Named→Evolved→(Extra/Unique)→(Ultimate/Unique Ultimate)→(Apex/Unique Impossible); rewrite glyph mapping to branch-derived; rename `Ultimate Skill Cycle`/`Extra Skill Cycle` sections | ✅ unblocked |
+| `docs/js/skill-graph.js` | reads `type==='unique'`, `type==='ultimate'`; `type==='basic'` isolation heuristic | replace `type`-based branch/rank inference with `suiteComponents`+rank branch logic mirroring `computeBranch` | ✅ unblocked |
+| `docs/css/tokens.css` | ~~no `--tier-fusion` token~~ | **✅ DONE — `--tier-fusion` + `-rgb`/`-bg`/`-border`/`-edge`/`-symbol` already added (L17-22).** Remaining: decide retirement of legacy `--tier-extra/unique/ultimate` aliases | ✅ unblocked |
+| `docs/css/plaque.css` | `--tier-extra`/`--tier-ultimate`/`--tier-unique` refs; "Transcendent"/"Hardened" glow comments; "rank IV (Hardened)" comment | map to branch tokens; scrub Transcendent/Hardened from comments | ✅ unblocked |
+| `docs/css/ascension-overdrive-v2.css` | `[data-tier="hardened"]` selectors; "Hardened..Awakened" comment | rename `hardened`→`extra` (or branch-aware `data-branch`); scrub comments | ✅ unblocked |
+| `docs/samples/tree.html` | legend "Extra Skill"/"Ultimate Skill"; tree lines "4★ Hardened"/"5★ Transcendent"/"6★ Transcendent ★" | **Fusion** legend (bare type word); branch-correct rank labels | ✅ unblocked |
+| `docs/samples/foundation.html` | medallion `Hardened`/`Transcendent` | Extra/Ultimate (suite) or branch-aware labels | ✅ unblocked |
+| `docs/badges/index.html` | rank table "Hardened", "Transcendent", "Origin 5★ Transcendent"; JS labels `4:"Hardened · 4★"`/`5:"Transcendent · 5★"`; `s.type==="unique"` | branch-aware rank labels; drop Transcendent/Hardened; replace `type==="unique"` read | ✅ unblocked |
+| `docs/audits/ruflo-curation.html` | badges "4★ Hardened"/"5★ Transcendent" | Extra/Ultimate per branch | ✅ unblocked |
+| `docs/codex/trust-methodology.html` | "6★ Transcendent ★ (Apex)"; `--tier-extra/ultimate` refs | "6★ Apex"; branch tokens | ✅ unblocked |
+| `docs/en/faq.html` | rank table "Hardened"/"Transcendent" | Extra/Ultimate | ✅ unblocked |
+| `docs/en/skill-hierarchy.html` | "Hardened"/"Transcendent" (10 hits) | Extra/Ultimate | ✅ unblocked |
+| `docs/samples/ranks.html` | "Transcendent ★ · 6★" | "Apex · 6★" (or Unique Impossible if unique-branch sample) | ✅ unblocked |
+| `docs/samples/index.html` | SVG text "Hardened" | Extra | ✅ unblocked |
+| `docs/index.html` | Ascension asset-planning comment referencing `rank-5-transcendent.png` etc. | rename asset stems to `-ultimate`; regenerate rank-5/6 art | ✅ unblocked |
+| `docs/u/index.html` | AOV medallion surface | ensure medallion rank labels use v2 names | ✅ unblocked |
+| `docs/agent.md` | `◇ Extra Skills`/`◆ Ultimate Skills` defs; `4★+ (Hardened/Transcendent)`; `6★ (Transcendent ★ / Apex)` | Fusion type; branch-aware rank names — **⚠ Hermes-managed; coordinate before editing** | prose track |
+| `DEV.md` | `reclassify` doc: `type ∈ basic\|extra\|ultimate\|unique` | `type ∈ basic\|fusion` | prose track |
+| `CONTRIBUTING.md` | "Skill types in graph: `basic`, `extra`, `ultimate`" | `basic`, `fusion` | prose track |
+| `GOVERNANCE.md` | "4★ (Hardened)"; "Basic/Extra Skills"/"Ultimate Skills" approval rules; "reclassified to `extra` tier" | branch/type-correct wording | prose track |
+
+> `DEV.md`, `CONTRIBUTING.md`, `GOVERNANCE.md`, `docs/agent.md` are prose and were on #994's radar. Only touch them from this pass if #994 explicitly left them; otherwise leave to the prose track to avoid double-editing.
+
+> **Scout-verified line numbers supersede this table.** The anchors above are pre-migration exemplars from PR #1171. The four scouts dispatched 2026-07-17 (JS enum readers, docs copy, script maps, CSS/AOV) re-verify every line and find ADDITIONAL occurrences the pre-migration doc missed. Their inventories become the authoritative fix list — merged into §2.1 below on return.
+
+### 2.1 Scout-verified inventory (populated on scout return)
+
+**SCOUT #2 — docs copy sweep, VERIFIED 2026-07-17.**
+
+**Guard status is the organizing principle (from `docs/guard-topology.md`):**
+- **HARD-FAIL** (Rank Vocabulary Guard exits 1): `registry/**`, root `*.md`, `docs/**/*.md`, `founder/handovers/**/*.md`.
+- **WARN-only allowlist (tracked #994):** `GOVERNANCE.md`, `CONTEXT.md`, `PRODUCT.md`.
+- **HARD-EXCLUDED (CI never scans):** `scripts/**`, `docs/assets/**`, `docs/badges/**`, `**/*.html`, `registry/schema/**`.
+- **Consequence:** every `docs/**/*.html` hit below is **copy-quality only** — no CI gate. The guard-enforced surfaces that MUST be clean are `DESIGN.md` and (post-#994-allowlist-removal) `GOVERNANCE.md`.
+
+**Sweep patterns (fix by pattern, not file):**
+
+| # | Pattern | Files | Priority |
+|---|---|---|---|
+| **F** | **JS label-map objects** — `'4':'Hardened','5':'Transcendent'` render at RUNTIME | `docs/named/report.html` L631; `docs/badges/index.html` L1283-84 (SAMPLER_RANKS) | **1 — highest (runtime, not just copy)** |
+| **A** | **6-row rank-ladder table/list** — identical structure repeated | skill-hierarchy.html (8), getting-started.html (3), faq.html (3), badges/index.html (5), samples/foundation.html (3), samples/tree.html (3), named/report.html (1) | 2 (one template fix sweeps 7 files) |
+| **J** | **Root-MD guard-enforced** | `DESIGN.md` L38-40/313/330/348 (`Extra/Ultimate Skill` type words + `…Cycle` section names); `GOVERNANCE.md` L28/37/38/64/66 | 3 (only hard-fail surfaces) |
+| **D** | **Prose in docs/en/** — functional copy (Verifier threshold) | evidence-classes.html L576, named-skills.html L787, skill-hierarchy.html L690/733/844/927, getting-started.html L847/876 | 4 |
+| **H** | **"Evidence floor" column header** — retired concept (TM is sole gate) | badges/index.html L1089 `<th>Evidence floor</th>` | 5 |
+| **B/C** | **Tier-card / legend TYPE-WORD** + fusion.html type prose | skill-hierarchy.html L659-698, samples/tree.html L181-190, samples/index.html L530-532, **fusion.html ~16 hits** L7/639-700/848/860 | 6 |
+| **E** | **OG-card mock medallion** | samples/ranks.html L342 `Transcendent ★ · 6★` | 7 |
+| **G** | **SVG/TUI compact strip** (script-generated) | samples/index.html L247-258, samples/tui-preview.html L102 (← from `render_tui_preview.py`, fix at script) | 7 |
+| **I** | **ARCHIVAL reports** — historical record | `docs/audits/ruflo-curation.html` (5), `docs/meta/reports/2026-*.html` (several) | **8 — FLAG, do not blindly change** |
+
+**Critical distinctions:**
+- **TYPE-WORD vs RANK-PHRASING:** `Basic Skill` / `Fusion Skill` are ALWAYS banned (type words stand bare). But `Extra Skill` / `Unique Skill` / `Ultimate Skill` / `Apex Skill` are VALID **rank** phrasings (per `docs/rank-vocabulary-guard.md` L40-48). The violation is using Extra/Ultimate as *type/tier section labels* (e.g. `<div class="tier-card-name">Extra Skill</div>` naming the taxonomy), not as rank names. Don't over-correct valid rank phrasings.
+- **Pattern F is functional, not cosmetic** — those JS maps render the wrong rank name live. Highest fix priority alongside the JS enum work (Lane A).
+- **Archival (Pattern I):** dated reports/audits describe ranks *as they were at the time*. A 2026-05 report saying "5★ Transcendent" is historically accurate. Options: leave as-is, or add a one-line archival banner. Do NOT rewrite history silently — surface as a ratification micro-decision.
+- **`tui-preview.html` (Pattern G) is generated** by `scripts/render_tui_preview.py` — fixing the HTML directly gets overwritten; fix the script (Lane C). Same for any `SAMPLER_RANKS`/`LEVEL_LABELS` that turn out to be generated.
+
+**Scout #1 (JS enum readers) — RETURNED 2026-07-17. VERDICT: browser data carries NO `branch` field.** `docs/graph/gaia.json` + `named/index.json` ship `type: "basic"|"fusion"` and `suiteComponents`/`level` only. JS MUST derive branch client-side. Canonical implementation already exists in `docs/js/world-tree-layout.js` `resolveSemantics()` (L356-413) — extract as shared helper; **no other JS file has a `computeBranch` equivalent.** Client formula:
+```js
+function computeBranch(ns){var r=parseInt((ns.level||'').replace(/\D/g,''),10)||0;var s=Array.isArray(ns.suiteComponents)&&ns.suiteComponents.length>0;if(r>=4&&!s)return'unique';if(s)return'suite';return'standard';}
+```
+
+**Four dead/broken patterns across 7 JS files (full table in Scout #1 return — recap):**
+1. **TYPE-BASED BUCKET ASSIGNMENT** — dicts keyed `{basic,extra,ultimate,unique}` bucketed via `skill.type`; `extra/ultimate/unique` buckets now ALWAYS empty. Files: skill-graph.js L404-414, named-skills.js L141-152/L694, page-ia.js.
+2. **DEAD TYPE-EQUALITY CHECKS** — `x.type==='unique'|'ultimate'|'extra'` always `false`. Files: skill-graph.js L43/1106/1553/1588/1704, skill-explorer.js L1368/1445/1482/2149/2398-2424, named-skills.js L185, page-ia.js L102/107/299.
+3. **FLAT TYPE→DISPLAY MAP** — 4-entry glyph/label/sort dicts, partly dead + missing `fusion` key. Files: skill-graph.js L1739/1797/2370-2372, skill-explorer.js L16/2133, named-skills.js L530, page-ia.js L400, plaque.js L642/L715, profile-filter.js L266.
+4. **CSS-VAR / DOM-ATTR TIER NAMES** — `var(--tier-unique|ultimate|extra)` + `data-type="unique"` reads return empty (tokens undefined — see §3.3). Files: skill-graph.js L105-107/167-169/1719, skill-explorer.js L2143/2398-2399, named-skills.js L214, plaque.js L659/785, profile-timeline.js L153-155/274-276.
+
+**Single-point fix:** add `branch: computeBranch(skill)` in `skill-graph.js` `normalizeSkills()` (L256-276, the central normalization) and propagate. `skill-explorer.js` two-IIFE gotcha: IIFE 1 (L1-2679) holds ALL stale reads; **IIFE 2 (L2682-3110) has ZERO** (parses tree.md glyph chars, not `type`) — helper needed only in IIFE 1. Structural note SE-3: `isUlt = ns.level==='5★'` (L819) conflates suite-5★ with unique-5★ ("Unique Ultimate") → `--ultimate` install flag mis-applies to Unique; guard with `suiteComponents.length>0`. **No `Transcendent`/`Hardened` in any JS file; `levelLabels["5★"]="Ultimate"` in gaia.json is CORRECT (universal 5★ word).**
+
+---
+
+## 3. Specific call-outs
+
+### 3.1 DESIGN.md — the big one
+- legacy short tokens `--extra`/`--ultimate` + canonical `--tier-extra`/`--tier-ultimate`: `--tier-fusion` now exists; decide whether Unique-branch keeps its own violet token or reuses `--tier-basic` (v2: unique-branch skills sit on `basic` generics).
+- tier color table rows `extra ◇ Extra Skill` / `ultimate ◆ Ultimate Skill` — collapse to a single `fusion ◇ Fusion` row (type word stands bare — no "Skill" suffix).
+- rank sequence still reads `… → Hardened (4★) → Transcendent (5★) → Apex (6★)`. Replace with the branch-forked ladder.
+- rank→token table maps `Hardened → --rank-4`, `Transcendent → --rank-5`. Rename rank labels; tokens can stay numeric (`--rank-4/5/6`).
+- glyph mapping still leads with `type === 'extra'`/`'unique'`/`'ultimate'`. Post-migration, drop the Ygg I clauses entirely.
+- evidence-tint mapping uses `--tier-ultimate/unique/extra`. Re-key to fusion + branch tokens.
+- glow tokens `--glow-IV`/`--glow-V` labelled "Hardened"/"Transcendent"; scrub the labels (keep the numeric tier meaning).
+- animation-cycle section titles `Ultimate Skill Cycle` / `Extra Skill Cycle` and tree dialog labels `◆ Ultimate Skill:` / `◇ Extra Skill:` — rename to Fusion / branch-rank wording.
+
+### 3.2 `docs/js/skill-graph.js` — legacy `type` reads
+Rank-inference-from-type (`if (type === 'unique') rank = 5;`), type-based bucket assignment (`if (skill.type === 'unique') satellite.unique.push`), graph-isolation heuristic (`type === 'basic' && !prereqs`), count filters (`s.type === 'unique'`), and dead value checks (`type === 'ultimate' || type === 'unique'`) all read enum values that no longer exist. Replace with a client-side branch resolver mirroring `computeBranch` (branch from `suiteComponents` + rank). **Scout #1 confirms whether the browser's data (`docs/graph/*.json`) carries `suiteComponents`/`branch` — determines if JS can derive locally or needs a data change.**
+
+### 3.3 `--tier-fusion` CSS token — ✅ DONE (+ scout #4 correction)
+`docs/css/tokens.css` L17-22 defines `--tier-fusion` + all six variants (`-rgb/-bg/-border/-edge/-symbol`) — complete, no `-border` gap. L72 aliases `--fusion`.
+
+**SCOUT #4 CORRECTION to #1171's assumption:** `--tier-extra`, `--tier-unique`, `--tier-ultimate` are **NOT defined in `tokens.css` at all** (tokens.css is auto-generated from `registry/gaia.json`, which no longer emits them). They are consumed **site-wide** (plaque.css, styles.css 70+ refs, ascension-overdrive-v2.css, 6 JS files, most `docs/**/*.html`) purely via **inline fallback hex** — `var(--tier-extra, #c084fc)`. Two consequences:
+1. The "retire the aliases" task from #1171 §3.3 is moot — there are no alias *definitions* to retire; the work is migrating **consumers** off the undefined token names onto `--tier-fusion` / branch tokens.
+2. **CI-guard hazard:** CLAUDE.md bans hex-color fallbacks (`Avoid hex color fallbacks; use design tokens only`). Every `var(--tier-extra, #hex)` is technically a latent guard trip. The migration should replace these with defined tokens, not perpetuate the fallback pattern.
+3. `data-tier="hardened"` selectors live in `docs/css/ascension-overdrive-v2.css` L1248/L1252/L1607 (no `transcendent` selector exists). Comments carrying banned words: plaque.css L260-261/L568, ascension-overdrive-v2.css L1091.
+
+> **Decision needed (for the plan):** define `--tier-unique` (violet) as a real token in the pipeline, OR fold unique-branch onto `--tier-basic`/a new branch token, OR keep a curated set of design tokens for the branch ramp. This is a token-architecture call, not a mechanical swap — surface as a ratification item.
+
+### 3.4 HTML branch-definition copy
+Where copy explains the *taxonomy*, say **Fusion** (bare type word). Where copy explains *ranks*, use the branch-forked names. Recurring structures (scout #2 confirms count): the 6-row rank-ladder table, medallion name spans, legend labels.
+
+### 3.5 AOV medallion rank labels
+The Ascension-Overdrive medallion must use **Extra / Ultimate / Apex** (suite) and **Unique / Unique Ultimate / Unique Impossible** (unique) and **drop Transcendent** entirely. Touch points map via scout #4.
+
+---
+
+## 4. Script rank-name maps — BRANCH-AWARE (all unblocked, #996 landed)
+
+These scripts hard-code a `rank → name` map. That mapping is **no longer valid** at 4★+ because the name forks by branch (Suite vs Unique). They need `computeBranch(named)` from #996 to pick the right ladder per skill — **do NOT do a flat string swap** (`Hardened→Extra`), which silently mislabels every Unique-branch skill.
+
+| Script | Stale map |
+|---|---|
+| `scripts/generateBadges.py` | rank map `4:"Hardened", 5:"Transcendent", 6:"Apex"` (+ glow colors) |
+| `scripts/generateOgCards.py` | `4:"HARDENED", 5:"TRANSCENDENT", 6:"TRANSCENDENT ★"`; plate copy `type=ultimate` |
+| `scripts/inspectTrustMagnitude.py` | `4★:Hardened, 5★:Transcendent, 6★:Transcendent ★` |
+| `scripts/generate_ruflo_curation.py` | `4★:Hardened, 5★:Transcendent` |
+
+The correct pattern: resolve the skill's branch, then index into the branch-specific ladder — a single shared source everything imports, not a flat per-script dict.
+
+### 4.1 Canonical source (scout #3 — VERIFIED 2026-07-17)
+
+**All rank/branch resolution converges on `gaia_cli`. Scripts must import, never re-declare:**
+
+```python
+from gaia_cli.trustMagnitude import computeBranch   # trustMagnitude.py L1283; 'standard'|'suite'|'unique'
+from gaia_cli.formatting import rank_word, format_rank_label, rank_color_for, RANK_COLORS
+```
+
+- `computeBranch(named, genericSkillMap)` — `<4★`→standard; `≥4★`+suiteComponents→suite; `≥4★` no suiteComponents→unique. **Never consults `type`.**
+- `formatting.py`: `LEVEL_LABELS_SUITE` (L215, from meta.json), `LEVEL_LABELS_UNIQUE` (L216 `{4:Unique,5:Unique Ultimate,6:Unique Impossible}`), `rank_word(level, branch)` (L384), `format_rank_label` (L404), `rank_color_for` (L414, Unique gets violet ramp `RANK_COLORS_UNIQUE`).
+- **`branch` MUST flow from `computeBranch` — never from `skill["type"]`.** For call sites holding only a level string (no named dict), thread branch from the data source or default `"suite"` (safe for non-Unique).
+
+### 4.2 Full script inventory (scout #3 — supersedes #1171's 4-script list)
+
+**FLAT-RANK-MAP + BANNED-WORD (4 scripts duplicate the same dict — the core sweep):**
+| Script | Class | Offender |
+|---|---|---|
+| `scripts/generateBadges.py` | **Class S (badges)** | L53-57 `RANK_NAMES` (Hardened/Transcendent); + `type=="unique"` reads L641/664/777/780; glow `load_rank_colors` L109 misses Unique violet |
+| `scripts/generateOgCards.py` | **Class S (OG cards)** | L652-658 `rank_words` (HARDENED/TRANSCENDENT ★ into SVG text); plate dispatch on `type` L731/788-792 → should use `computeBranch` |
+| `scripts/inspectTrustMagnitude.py` | dev inspector | L49-57 `STARS_TO_RANK_NAME`; inline banned L205/L327 |
+| `scripts/generate_ruflo_curation.py` | dev audit HTML | L28-34 `LEVEL_LABEL`; `TYPE_SYMBOL` 4-value enum L36-41 |
+
+**BANNED-WORD in strings/symbols (lower severity, dev-only):**
+- `scripts/render_tui_preview.py` L94-96 (label comments)
+- `scripts/compress-assets.py` L164-194 (`rank-4-hardened` asset stem — vendor filename map)
+- `src/gaia_cli/tui/tokens.py` L94-117 (`RANK_HARDENED`/`RANK_TRANSCENDENT` **symbol names** + `RANK_BY_STAR` — renaming is a breaking change for TUI importers; treat carefully)
+- `src/gaia_cli/formatting.py` L8 stale comment `6★ Transcendent ★ accent` — **inside the CLI, may be guard-enforced; scrub**
+
+**TYPE-ENUM-READ only (no banned words; fix if touched):**
+- `scripts/generateProjections.py` L109/158-172/492-523 (4-value `type` glyph + section dispatch)
+- `scripts/generateNamedIndex.py` L498 (`type=="ultimate"` gate)
+- `scripts/build_docs.py` L295 (`type=="unique"` count → feeds `uniqueSkills` stat on homepage)
+- `scripts/validate.py` L242 (`type=="unique"` prerequisite rule — legitimate schema read, likely leave)
+
+> **Note the guard tension:** `src/gaia_cli/tui/tokens.py` and `formatting.py` L8 are inside `src/` — NOT in the `scripts/**` guard exclusion. A banned-word scrub there may be needed for the #999 guard AND may collide with the CLI lane. Flag for the plan: decide whether TUI symbol renames belong in this design pass or defer to a CLI-scoped follow-up (symbol renames are breaking).
+
+---
+
+## 5. AOV V4 — Asset C + Asset D into the new skill plaques (FOUNDER DIRECTIVE)
+
+**Standing directive carried from the 2026-07-16 session handoff:** *"Ascension Overdrive V4 assets MUST be incorporated into the new skill plaques — specifically Asset C and Asset D."*
+
+**SCOUT #4 — VERIFIED 2026-07-17:**
+
+- The branch `design/yggdrasil-ii-aov-v3` **does NOT exist** (local or remote). The V4 45-reference WebP set is **already on `dev/yggdrasil-ii-staging`** under `docs/assets/ascension-overdrive/` (110 files). No branch merge needed — the assets are in hand.
+- **Asset C = Suite rank stamps** (`aov4-c*`), 6 ranks × 3 sizes (badge/card/hero):
+  - `aov4-c1-suite-awakened`, `-c2-suite-named`, `-c3-suite-evolved`, `-c4-suite-extra`, `-c5-suite-ultimate`, `-c6-suite-apex` — each `{-badge,-card,-hero}.webp`.
+- **Asset D = Unique branch stamps** (`aov4-d*`), 3 ranks × 3 sizes:
+  - `aov4-d4-unique`, `-d5-unique-ultimate`, `-d6-unique-impossible` — each `{-badge,-card,-hero}.webp` (portrait ~916×1072).
+- **Commission intent (`founder/handovers/design-v6.1.1-ascension-overdrive-commissions-v3.md` L56):** *"Asset C v3 doubles as the foundation for skill plaques used elsewhere on the site (skill-explorer plaques, badge OG cards, contributor-profile rank marks, potentially README badges)."* — This is the ratified basis for the directive.
+
+**Current plaque reality (blocks naive integration):** `docs/css/plaque.css` plaques carry **ZERO `<img>` rank/type art** — identity is CSS gradient orbs only (`.plaque-orb--basic/extra/unique/ultimate`, radial-gradient off `--tier-*` tokens, L617-656). The only raster in a plaque today is the `.plaque--hall` blurred OG-art backdrop (8% opacity) + contributor avatar. So slotting Asset C/D in is **net-new markup**, not a swap.
+
+**Integration plan (candidate, unratified):** the three sizes map to plaque scales —
+- `*-hero.webp` (2048²) → `.plaque--detail` / `.plaque--og` / full-surface;
+- `*-card.webp` (~800²) → `.plaque--tile` / `.plaque--settled` / `.plaque--hall`;
+- `*-badge.webp` (~240²) → `.plaque--mini` / rank chip / `.plaque-orb` context.
+
+Add a `<picture>` inside `.plaque__header` (or replace `.plaque-orb`'s gradient with a `background-image`) keyed by `data-level` + branch. **Branch selection MUST use `computeBranch` semantics** — Suite ranks → C series, Unique ranks → D series. `object-fit: contain` handles the portrait D aspect (precedent: `.aov-ucard__plate img`, v2.css L686). This is a distinct **design workstream (Lane D)** layered on top of taxonomy alignment.
+
+> **Homepage AOV note:** the `#ascension` section in `index.html` already wires the full C/D set via `<picture>` (three breakpoints/scene). One inconsistency scout #4 flagged: paired-4/5 suite scenes still pull **v3** field plates (`aov3-suite-plate-*`) and haze (`aov3-haze-*.webp`) while everything else is v4 — candidate cleanup. The plaque work is the *skill-explorer/badge/profile* surfaces, which have none yet.
+
+---
+
+## 6. Do NOT do
+
+- **Do not do a flat rank-map swap** (`Hardened→Extra`) in the four scripts — mislabels every Unique-branch skill. Use `computeBranch`.
+- **Do not retire the legacy `--tier-extra/unique/ultimate` tokens** until every consumer migrates; add/keep aliases, migrate, then retire in a follow-up commit.
+- **Do not edit META.md, CONTEXT.md, or `docs/meta/2026-06-trust-methodology.md`** — prose track (#994, landed). Editing re-triggers the #999 guard.
+- **Do not touch Hermes-managed files** (`docs/agent.md` and siblings per CLAUDE.md) without coordinating.
+- **Do not delete/rename banned words inside deprecation notices** on guard-enforced surfaces — keep migration references in guard-excluded surfaces (`docs/**/*.html`, `scripts/**`) or coordinate an allowlist entry.
+- **Archival reports** under `docs/meta/reports/` and dated `docs/audits/` are historical record — flag before changing; a dated report describing the old taxonomy at the time is not necessarily wrong.
+
+---
+
+## 7. Worker fan-out plan (concurrency 2 sonnet / 1 opus)
+
+Populated as the plan ratifies. Working shape:
+
+- **Lane A — JS enum readers** (`skill-graph.js`, `skill-explorer.js` [two-IIFE!], `named-skills.js`): functional; one worker, own worktree.
+- **Lane B — docs copy sweep** (all `docs/**/*.html` + DESIGN.md): copy-only; one worker, own worktree.
+- **Lane C — script rank maps** (4 scripts → shared resolver): functional; sequences after scout #3 names the canonical source.
+- **Lane D — CSS/plaque/AOV + Asset C/D + homepage nitpicks** (§8): design; one worker, own worktree.
+
+Lanes A/B/D are file-disjoint → safe to run 2-at-a-time. Each worker: isolated worktree, branch from `origin/dev/yggdrasil-ii-staging`, commit+push per logical unit, report SHAs. Since it's one pass to staging, lanes may also collapse into a single sequenced worker if Marcus prefers fewer branches.
+
+---
+
+## 8. LIVE NITPICK LOG (2026-07-17 design pass)
+
+Every reported issue lands here with: source anchor, pattern check, planned fix. **No fix is written until the plan is ratified.**
+
+### N-1 · Homepage — "Unique Impossible" AOV terminal renders a hard black rectangle
+- **Source:** `docs/index.html` L1069-1093 (the `aov-rail--unique aov-rail--terminal` article); CSS `docs/css/ascension-overdrive-v4.css` `.aov-terminal-art--impossible` (L547-550), `.aov-terminal-art` (L532-545).
+- **Diagnosis:** the terminal art is a full-bleed raster webp (`aov4-unique-impossible-terminal.webp`, 3840×2160 = 16:9) of light nebula on a **black canvas**, forced into an `aspect-ratio:1.5` box with `object-fit:contain`. On the dark section the webp's own black background reads as a hard-edged rectangle/seam — the screenshot's "black rectangle."
+- **PATTERN (confirmed):** this is NOT a one-off. The **sibling Suite Apex terminal** (`docs/index.html` L1045, `aov-rail--suite aov-rail--terminal`) uses the same `.aov-terminal-art` mechanism with its own raster art. Any fix (edge mask / radial-gradient fade / `mix-blend-mode: screen` to drop the black onto the dark bg / crop via `object-fit: cover`) MUST be applied to the shared `.aov-terminal-art` rule so both terminals resolve, not just the impossible card. Also verify the responsive dupes at v4.css L865-878, L1017-1052, L1129-1163.
+- **Planned fix (candidate, unratified):** apply a soft edge treatment on the shared `.aov-terminal-art` (radial/linear alpha mask feathering the raster into the section bg) so no card shows a hard rectangle; if the art is truly black-backed, `mix-blend-mode: screen` or `lighten` may be the cleaner kill since the section is dark. Decide against both terminals together. Marcus said "you decide how" → orchestrator to recommend one approach in the ratified plan.
+
+### N-2 · Homepage — Hero "Install the Gaia CLI" card mis-aligned
+- **Source:** `docs/index.html` L359-374 (`.hero-tree-action--primary .hero-tree-install`); CSS `docs/css/world-tree-hero.css` `.hero-tree-install-copy` (L372-377: `grid-template-columns: minmax(0,1fr) auto`), `.hero-tree-action--primary` (L333-343), `.hero-tree-install-platforms` (L385-388).
+- **Diagnosis (to confirm in plan):** `.hero-tree-install-copy` is a 2-col grid but holds THREE children (`<strong>` title, `.hero-tree-install-platforms` toggle, `.hero-tree-install-command`). The title and the curl/iex toggle land on the same row via auto-placement, and the toggle (right-aligned `auto` col) sits at a different baseline than the title — the screenshot shows the title and toggle not sharing a clean baseline / the toggle floating high-right. Needs explicit grid-area placement or an aligned flex row for title+toggle.
+- **PATTERN check:** the primary action card is unique (only one `--primary`), but the sibling action cards (`Submit a skill`, `Get a README badge`, L375-388) share `.hero-tree-action` grid DNA. Confirm the fix is scoped to the primary card's internal grid and does NOT regress the two ghost cards' glyph/label alignment. Also check the mobile breakpoints (world-tree-hero.css L916+, L962+, L1160+).
+- **Planned fix (candidate, unratified):** give `.hero-tree-install-copy` explicit rows (title+toggle on row 1 sharing a baseline via `align-items:center`, command on row 2 spanning both cols) OR restructure title+toggle into their own flex row. Ratify exact approach after reading the responsive rules.
+
+_Further nitpicks appended below as Marcus sends them._
+
+### N-3 · About page — stale star counts + missing Unique branch styling
+- **Source:** `docs/about.html` — three `.rank-slot` spans with hardcoded `data-level`: L1054 pbakaus/Impeccable `data-level="4"`, L1069 mattpocock `data-level="6"` (`data-aria="Apex, rank 6 of 6"`), L1084 garrytan/gstack `data-level="5"` (`data-aria="Ultimate Skill, rank 5 of 6"`).
+- **Ground truth (verified against canonical badge assets):** `docs/badges/_assets/mattpocock/rank.svg` renders **"Transcendent · 5★"** → mattpocock is canonically **5★**, so L1069 `data-level="6"` is a **stale hardcode**, not a data question. Fix: `6→5`. Impeccable (pbakaus) is already `data-level="4"` — the ask is it must read as **4★ Unique** (branch label + violet styling), the number is already right. garrytan/gstack at 5★ suite is correct.
+- **PATTERN (confirmed):** the About cards are hand-authored static HTML with `data-level` + `data-aria` frozen at authoring time — they do NOT read the registry, so any canon rank change silently drifts. Same frozen-HTML pattern likely on other narrative pages (`docs/heroes/index.html`, `docs/u/*/index.html` profile pages). Fix scope: correct the numbers on About, AND grep every hand-authored `data-level`/`data-aria="…rank…"` across `docs/**/*.html` for other frozen values that disagree with canon. Also: `data-aria="Apex, rank 6 of 6"` / `"Ultimate Skill, rank 5 of 6"` embed the RANK WORD in the aria label — those must match the branch-forked ladder (a 4★ Unique's aria must say "Unique", not "Extra").
+- **Data-file caution (CLAUDE.md):** star levels live in slots, not skill objects; About's numbers are display copy, NOT a data file — safe to edit directly. Do NOT touch `skill-trees/` or registry data to "fix" this.
+- **Planned fix (candidate, unratified):** (1) `docs/about.html` L1069 `data-level="6"→"5"` + aria "Apex, rank 6 of 6"→"Ultimate, rank 5 of 6"; (2) pbakaus card gets Unique-branch treatment (violet token + "Unique" aria) — depends on §3.3 token decision; (3) sweep other frozen `data-level` pages for drift. Lane B (copy) + coordinates with Lane D (branch tokens).
+
+### N-4 · Named Skills (`docs/named/`) — deprecated filters, branch-grouping, plaque redesign
+- **Source:** `docs/named/index.html` L96-99 filter tabs `data-type="ultimate|unique|extra|basic"` (glyphs ◆◉◇○); `docs/js/skill-explorer.js` + `docs/js/named-skills.js` grouping (Scout #1 NS-2/NS-4/NS-9); `docs/css/plaque.css` `.plaque-orb--*` gradient orbs (L617-656); plaque header markup.
+- **Four sub-directives (all confirmed patterns, not one-offs):**
+  1. **Filter chips → new schema.** L96-99 expose deprecated `ultimate/unique/extra` as filter facets. New TYPE axis is **Fusion / Basic** only. Replace the four `data-type` tabs with two (Fusion, Basic). NOTE: this conflicts with a pure rank-grouping (see #2) — if we group by rank, the *type* filter and the *rank* grouping are orthogonal; likely keep All + Fusion + Basic as type filters, and rank as the grouping axis.
+  2. **Group by RANK not branch.** Currently `named-skills.js` buckets by `type` into `{apex,ultimate,unique,extra,basic}` (NS-2 L141, NS-4 L151, NS-9 L694). New grouping is **by rank tier: 6★ / 5★ / 4★ … regardless of branch** (a 6★ Apex suite and a 6★ Unique Impossible sit in the same "6★" group). Re-key buckets to rank integers; within a rank group, branch is a visual variant (Asset C vs D), not a separate bucket.
+  3. **Plaque orb → Asset C/D image.** Replace `.plaque-orb--basic/extra/unique/ultimate` CSS gradient (plaque.css L617-656) with the actual `aov4-c*` (suite) / `aov4-d*` (unique) WebP stamps — this is the **§5 Lane D integration**, now with an explicit surface. Branch picks C vs D via `computeBranch`; rank picks the `-cN`/`-dN` index; size picks `-badge/-card/-hero`.
+  4. **GitHub avatar + GOLD origin wreath, avatar links to repo, REMOVE GitHub button.** Add a fetched GitHub avatar image for the contributor; wrap it in an "origin wreath" ornament rendered in **GOLD** (honor-red `#ef4444` is DEPRECATED for origin — see N-6, same deprecation). Clicking the avatar navigates to the repo (`links.github`). Delete the standalone "GitHub" button from the plaque.
+- **PATTERN (explicit founder directive):** *"find patterns that use the plaque in every area — these should acquire the same language."* The plaque is rendered/referenced across **40+ surfaces** (grep: `docs/about.html`, `docs/badges/`, `docs/codex.html`, `docs/evidence/`, `docs/heroes/`, `docs/index.html`, `docs/js/{plaque,named-skills,skill-explorer,skill-graph,profile-*,atlas-helpers,hoh-modal,page-ia}.js`, `docs/named/`, `docs/samples/*`, `docs/trust/leaderboard/`, `docs/u/*/`, `docs/starless.html`). The canonical renderer is **`docs/js/plaque.js`** (`renderMiniStack` L621, `renderHall` L693) — fixing the plaque there propagates to most surfaces. Orb→asset, avatar-wreath, and button-removal must land in the shared renderer, then audit each consuming surface.
+- **Planned fix (candidate, unratified):** central `plaque.js` rewrite (orb→`<picture>` Asset C/D, add avatar+gold-wreath, drop GitHub button) + `named-skills.js` rank-grouping + `named/index.html` two-facet filter. Largest single workstream — its own Lane (D-plaque), sequenced after the §3.3 token decision + §5 asset-size mapping ratify. Avatar fetch: decide static-cache vs runtime `https://github.com/<handle>.png` (runtime is simplest; static avoids GitHub rate-limit and works offline).
+
+### N-5 · Skill Flowcharts (skill-explorer flow view) — suite/ultimate tabs + plaque overlap
+- **Source:** `docs/js/skill-explorer.js` flow renderer (suite synthesis L393-397, rank-row logic L1445-1500, SVG edge coloring L1819); `docs/js/named-skills.js` DAG layout (`TIER_ORDER` L151, rank rows L185+).
+- **Two nitpicks:**
+  1. **Suites & ultimates shown all-at-once → use TABS.** The flow view currently renders suite components and ultimate/fusion rows in one composite. Founder wants a **tab switcher** ("suites" vs "ultimates") so only one is shown at a time. Net-new UI control on the flow panel.
+  2. **Plaque covers the flowchart (overlap).** High z-index / absolute-positioned plaque overlaps the DAG. Fix the stacking/layout so the plaque and flowchart don't collide.
+- **PATTERN check:** overlap is a layout/z-index issue in the flow container — verify it's not the same plaque-positioning bug on other embedded-plaque surfaces (`docs/samples/skill-flowchart.html`, `docs/samples/flowchart.html`, `docs/named/report.html`). The tab-switcher is flow-view-specific but should reuse the existing tab component pattern already in skill-explorer (the About/Install/Docs tabs, `isHostTab` L479) rather than a new bespoke control.
+- **Planned fix (candidate, unratified):** (1) add suite/ultimate tab toggle to the flow panel reusing the existing tab affordance; (2) resolve plaque z-index/positioning so it docks beside (not over) the DAG; check the sample flowchart pages for the same overlap. Lane A (skill-explorer JS) + coordinates with Lane D-plaque.
+
+### N-6 · Badges — deprecated rank names (Hardened/Transcendent) + honor-red origin
+- **Source:** `scripts/generateBadges.py` L54-57 `RANK_NAMES = {4:"Hardened", 5:"Transcendent", 6:"Apex"}`; L47 `HONOR_RED = "#ef4444"`. Generated output: `docs/badges/index.html` L1124/1138/1148/1283-1284 (rank-sampler table + JS `label` array), and **every** `docs/badges/_assets/<handle>/rank.svg` + `rank-seal.svg` + `docs/badges/samples/rank-{4,5}*.svg` with "Hardened · 4★" / "Transcendent · 5★" baked into SVG `<text>`.
+- **Founder directive:** Hardened, Transcendent are DEPRECATED → **Extra (4★), Ultimate (5★)**. Align to new schema + new design tokens + honor-red deprecation.
+- **PATTERN (major — this is the SAME banned-word pattern as the scripts sweep §4, now on the badge surface):** `generateBadges.py`'s `RANK_NAMES` is a **flat rank→name dict identical to the four §4.2 scripts** — and it has the **same branch-blindness bug**: a flat `4:"Extra"` swap would mislabel every **Unique-branch** contributor's badge (a 4★ Unique's badge must read "Unique", not "Extra"). Must use `computeBranch` + the branch-forked ladder (§4.1 canonical source), NOT a string swap. This badge script is **guard-excluded** (`scripts/**` + `docs/badges/**` both hard-excluded from Rank Vocabulary Guard), which is exactly why the banned words survived here — the guard never scanned it. Regenerating badges also re-emits all `_assets/*/` SVGs.
+- **Honor-red deprecation ties to N-4.4:** `HONOR_RED = "#ef4444"` on badge handles is the same honor-red the plaque avatar-wreath directive deprecates in favor of GOLD. Treat as one deprecation across badges + plaques.
+- **Badge invariants (CLAUDE.md — do not break):** 1★ badges do not exist (2★ cutover, `is_redacted()` enforces); auto-sync NEVER touches `docs/badges/` (badge regen lands only via human-reviewed `infra/badge-*` PRs). So the *script fix* (Lane C) and the *badge asset regen* are **separate PRs on separate branches** — the design pass fixes `generateBadges.py` + `badges/index.html` copy; the `_assets/*/` SVG regeneration is an `infra/badge-*` follow-up. FLAG this branch-scope split in the plan.
+- **Planned fix (candidate, unratified):** (1) `generateBadges.py` `RANK_NAMES` → branch-aware resolver (import `computeBranch`+`format_rank_label` per §4.1); recolor honor-red→gold token; (2) `docs/badges/index.html` L1124/1138/1148/1283-1284 rank-sampler copy → Extra/Ultimate + branch note; (3) regenerate `_assets/*/` + `samples/` SVGs on an `infra/badge-*` branch (separate PR per badge invariant). Lanes C + B, with an infra follow-up.
+
+### N-7 · Reports (`docs/meta/reports/` + `docs/named/report.html`) — impeccable presentation
+- **Source:** `docs/named/report.html` (46KB); `docs/meta/reports/*.html` (10+ dated curation/audit reports, e.g. `2026-07-03-gsd-suite-curation.html`, `2026-06-20-gaia-trust-infrastructure-*.html`).
+- **Founder directive:** *"Impeccable design for reports/ to show the actual report in a nice way."* Presentation/design upgrade for the report surfaces — render the report content beautifully.
+- **PATTERN check:** there are two distinct report surfaces — `docs/named/report.html` (single named-skill report template) and `docs/meta/reports/*.html` (dated meta/curation reports). Determine if they share a stylesheet/layout or each rolls its own; an "impeccable" pass should establish ONE report design language applied across both, not style one page. Cross-check: `docs/audits/*.html` (ruflo-curation) is a third report-like surface. **Guard/archival tension (§ Pattern I):** the dated `docs/meta/reports/2026-*.html` are ARCHIVAL historical record — a *visual* redesign (typography, layout, cards) is fine, but do NOT rewrite their banned-word *content* (a 2026-05 report saying "Transcendent" is historically accurate). Design-only, content-frozen for the dated archives.
+- **Planned fix (candidate, unratified):** scope a shared report design system (typography scale, section cards, metadata header, evidence tables) applied to `named/report.html` + a wrapper/stylesheet for `meta/reports/*`. Needs a design-consultation pass to define the language before implementation. Its own Lane (D-reports) — largest open-ended design item; recommend a `/design-consultation` or sample mock before coding. FLAG: is this in-scope for #998 or a sibling design issue? (It's a genuine new surface, arguably its own issue rather than taxonomy-alignment remainder.)
