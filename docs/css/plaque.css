@@ -738,6 +738,29 @@ button.plaque__slug:focus-visible {
     color-mix(in srgb, var(--tier-unique) 70%, #000) 100%);
   box-shadow: 0 0 14px rgba(var(--tier-unique-rgb), 0.5), inset 0 0 6px rgba(var(--tier-unique-rgb), 0.3);
 }
+/* Yggdrasil II branch-keyed orbs (rubric E1). Server-rendered profile plaques
+   (scripts/generateProfilePages.py _field_orb) emit a plain <div> keyed on the
+   DERIVED branch (standard|suite|unique) — matching docs/js/plaque.js
+   _fieldOrb's class contract — rather than the retired type enum. plaque.js's
+   own orbs carry the AOV4 medallion <img>; the Python div relies on these
+   gradient stops. standard ≈ the shared blue foundation (--tier-basic); suite ≈
+   the gold fusion ladder (--tier-fusion). unique reuses the rule above. Without
+   these two rules a standard/suite orb would render as an empty circle (the old
+   plaque-orb--fusion emission had no rule — a live blank-orb bug this closes). */
+.plaque-orb--standard {
+  background: radial-gradient(circle at 35% 35%,
+    color-mix(in srgb, var(--tier-basic) 35%, #fff) 0%,
+    var(--tier-basic) 60%,
+    color-mix(in srgb, var(--tier-basic) 75%, #000) 100%);
+  box-shadow: 0 0 12px rgba(var(--tier-basic-rgb), 0.4);
+}
+.plaque-orb--suite {
+  background: radial-gradient(circle at 35% 35%,
+    color-mix(in srgb, var(--tier-fusion) 35%, #fff) 0%,
+    var(--tier-fusion) 60%,
+    color-mix(in srgb, var(--tier-fusion) 70%, #000) 100%);
+  box-shadow: 0 0 12px rgba(var(--tier-fusion-rgb), 0.4);
+}
 .plaque-orb--vi,
 .se-node-orb--vi {
   background: radial-gradient(circle at 35% 35%,

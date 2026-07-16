@@ -39,6 +39,29 @@ sys.path.insert(0, str(REPO_ROOT / "scripts"))
 sys.path.insert(0, str(REPO_ROOT / "src"))
 from _atlas_helpers import handle_link, named_slug  # noqa: E402
 from gaia_cli.redaction import is_redacted  # noqa: E402  single source of truth
+from gaia_cli.trustMagnitude import computeBranch as _compute_branch  # noqa: E402  Ygg-II read-time branch
+from gaia_cli.formatting import rank_word as _rank_word  # noqa: E402  branch-forked rank vocabulary
+
+
+def skill_branch(entry: dict) -> str:
+    """Derive the Yggdrasil II progression branch for a named-skill entry.
+
+    Delegates to gaia_cli.trustMagnitude.computeBranch (rubric E1) — the single
+    source of truth. Branch is a READ-TIME function of (suiteComponents present?,
+    rank); the retired `type` enum is NEVER consulted. Returns one of
+    ``'standard'`` (1-3★), ``'suite'`` (4★+ with suiteComponents), or
+    ``'unique'`` (4★+ standalone mastery).
+    """
+    return _compute_branch(entry)
+
+
+def branch_rank_label(level: str, branch: str) -> str:
+    """Human rank word for aria labels, forked by branch (no banned vocabulary).
+
+    e.g. ('3★','standard') -> 'Evolved'; ('5★','suite') -> 'Ultimate';
+    ('4★','unique') -> 'Unique'. Below 2★ the shared ladder still applies.
+    """
+    return _rank_word(level, branch)
 
 
 def _read_version() -> str:
@@ -92,31 +115,6 @@ def _apply_cache_busting(text: str, version: str) -> str:
         text
     )
     return text
-
-
-def load_type_lookup(gaia_path: Path) -> dict:
-    """Return a dict mapping canonical skill id → type (ultimate/unique/extra/basic)."""
-    if not gaia_path.exists():
-        return {}
-    with open(gaia_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-    return {s.get("id"): s.get("type", "basic") for s in data.get("skills", [])}
-
-
-TYPE_LOOKUP: dict = {}
-
-
-def resolve_type(entry: dict) -> str:
-    """Resolve the canonical type for a named-skill entry, with slug fallback."""
-    ref = entry.get("genericSkillRef")
-    if ref and ref in TYPE_LOOKUP:
-        return TYPE_LOOKUP[ref]
-    raw_id = entry.get("id", "")
-    if "/" in raw_id:
-        slug = raw_id.split("/", 1)[1]
-        if slug in TYPE_LOOKUP:
-            return TYPE_LOOKUP[slug]
-    return "basic"
 
 
 def level_num(level: str) -> int:
@@ -225,11 +223,20 @@ DIAMOND_SEAL_SVG = (
 # exactly. The dict below names every slot and the lambda that
 # emits it; the variant functions below assemble them.
 def _field_orb(ns: dict, size_modifier: str = "") -> str:
-    type_str = resolve_type(ns)
+    # Rubric E1: the orb tint keys on the DERIVED branch (standard|suite|unique),
+    # never on the taxonomy/progression type. Mirrors docs/js/plaque.js _fieldOrb,
+    # which stamps plaque-orb--<branch> + data-branch so the token-driven CSS
+    # (plaque.css) resolves the correct tier colour.
+    branch = skill_branch(ns)
     n = level_num(ns.get("level", ""))
     mod = f" plaque-orb--{size_modifier}" if size_modifier else ""
     apex = " plaque-orb--vi" if n >= 6 else ""
-    return f'<div class="plaque-orb plaque-orb--{type_str}{mod}{apex}" aria-hidden="true"></div>'
+    rank_name = branch_rank_label(ns.get("level", ""), branch)
+    aria = f"{rank_name} medallion" if rank_name else "rank medallion"
+    return (
+        f'<div class="plaque-orb plaque-orb--{branch}{mod}{apex}" '
+        f'data-branch="{branch}" role="img" aria-label="{html.escape(aria)}"></div>'
+    )
 
 
 def _field_slug(ns: dict) -> str:
@@ -366,13 +373,20 @@ def _plaque_shell(variant: str, ns: dict, inner: str, extra_class: str = "", ski
     """Wrap a field-set string in the canonical .plaque shell."""
     n = level_num(ns.get("level", ""))
     apex = " plaque--apex-vi" if n >= 6 else ""
-    type_str = resolve_type(ns)
+    # Rubric E1/E3: stamp the DERIVED data-branch (standard|suite|unique) — every
+    # downstream visual selector (dark unique / gold suite) keys on data-branch,
+    # NOT data-type. Legacy data-type (basic|fusion, the raw taxonomy type) is
+    # retained only for old hooks; it is NEVER the dead progression enum. Mirrors
+    # docs/js/plaque.js _shell().
+    legacy_type = html.escape(str(ns.get("type") or "basic"))
+    branch = skill_branch(ns)
     extra = f" {extra_class}" if extra_class else ""
     skill_id = html.escape(ns.get("id", ""))
     name_attr = f' data-skill-name="{html.escape(skill_name)}"' if skill_name else ""
     return (
         f'<article class="plaque plaque--{variant}{apex}{extra}" '
-        f'data-skill-id="{skill_id}" data-type="{type_str}" data-level="{n}"{name_attr}>'
+        f'data-skill-id="{skill_id}" data-type="{legacy_type}" '
+        f'data-branch="{branch}" data-level="{n}"{name_attr}>'
         f"{inner}"
         f"</article>"
     )
@@ -637,14 +651,13 @@ SIDEBAR_HTML = """<aside class="profile-sidebar" id="profileSidebar" aria-label=
     <input type="search" id="profileSearch" class="sidebar-search-input" placeholder="Search implementations…" autocomplete="off" aria-label="Search skills">
   </div>
 
-  <!-- Type -->
-  <fieldset class="profile-filter-group" data-filter-type="type">
-    <legend class="profile-filter-legend">Type</legend>
+  <!-- Branch (Yggdrasil II read-time progression fork; rubric E1) -->
+  <fieldset class="profile-filter-group" data-filter-type="branch">
+    <legend class="profile-filter-legend">Branch</legend>
     <div style="display:flex; flex-wrap:wrap; gap:0.4rem; width:100%;">
-      <button class="profile-filter-chip" type="button" data-value="basic" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-basic"/></svg>Basic</button>
-      <button class="profile-filter-chip" type="button" data-value="extra" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-extra"/></svg>Extra</button>
-      <button class="profile-filter-chip" type="button" data-value="unique" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-unique"/></svg>Unique</button>
-      <button class="profile-filter-chip" type="button" data-value="ultimate" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-ultimate"/></svg>Ultimate</button>
+      <button class="profile-filter-chip" type="button" data-value="standard" aria-pressed="false"><span class="tier-glyph" data-branch="standard" aria-hidden="true" style="margin-right:3px">○</span>Standard</button>
+      <button class="profile-filter-chip" type="button" data-value="suite" aria-pressed="false"><span class="tier-glyph" data-branch="suite" aria-hidden="true" style="margin-right:3px">◆</span>Suite</button>
+      <button class="profile-filter-chip" type="button" data-value="unique" aria-pressed="false"><span class="tier-glyph" data-branch="unique" aria-hidden="true" style="margin-right:3px">◉</span>Unique</button>
     </div>
   </fieldset>
 
@@ -684,7 +697,7 @@ SIDEBAR_HTML = """<aside class="profile-sidebar" id="profileSidebar" aria-label=
       <select id="profileSort" class="ns-sort-sel" aria-label="Sort skills" style="width:100%; padding-left:30px; font-family:var(--font-mono); font-size:0.72rem;">
         <option value="rank" selected>Rank · high → low</option>
         <option value="alpha">A → Z</option>
-        <option value="type">Type</option>
+        <option value="branch">Branch</option>
       </select>
     </div>
   </div>
@@ -1307,8 +1320,6 @@ def build_directory_page(by_contributor: dict) -> str:
 
 def generate_pages(named_path: Path, out_dir: Path) -> int:
     """Generate all profile pages. Returns number of pages written."""
-    global TYPE_LOOKUP
-    TYPE_LOOKUP = load_type_lookup(GAIA_JSON)
     data = load_named_data(named_path)
     by_contributor = collect_by_contributor(data)
 
