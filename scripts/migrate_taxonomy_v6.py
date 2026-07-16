@@ -90,6 +90,18 @@ TM_FLOOR_5STAR = 250.0
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n?(.*)", re.DOTALL)
 
 # ---------------------------------------------------------------------------
+# Yggdrasil II structured provenance (#1189)
+# ---------------------------------------------------------------------------
+# metaEpoch is the schema-generation slug; migrationBatch pairs a type_change with
+# its resulting demote inside one dated batch, so the provenance invariant
+# (scripts/validate_timelines.py::check_migration_provenance) can verify them
+# structurally instead of parsing prose.
+META_EPOCH = "yggdrasil-ii"
+# Prose marker written by the original #997 migration. Used to detect legacy events
+# that predate structured provenance and must be UPGRADED in place (never duplicated).
+LEGACY_PROSE_MARKER = "Yggdrasil II"
+
+# ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
@@ -99,6 +111,55 @@ def _now_iso() -> str:
 
 def _today_iso() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+
+def _default_migration_batch() -> str:
+    """Default batch id in '<epoch>@YYYY-MM-DD' form (e.g. yggdrasil-ii@2026-07-16)."""
+    return f"{META_EPOCH}@{_today_iso()}"
+
+
+def _is_migration_event(e: Any) -> bool:
+    """True for a legacy Yggdrasil II type_change/demote event (prose-marked)."""
+    return (
+        isinstance(e, dict)
+        and e.get("action") in ("type_change", "demote")
+        and LEGACY_PROSE_MARKER in (e.get("details") or "")
+    )
+
+
+def _already_batched(timeline: list, migration_batch: str) -> bool:
+    """True if any event already carries this migrationBatch (already migrated)."""
+    return any(
+        isinstance(e, dict) and e.get("migrationBatch") == migration_batch
+        for e in timeline
+    )
+
+
+def _has_upgradable_events(timeline: list) -> bool:
+    """True if the timeline holds legacy Ygg II events that lack a migrationBatch."""
+    return any(
+        _is_migration_event(e) and not e.get("migrationBatch") for e in timeline
+    )
+
+
+def _stamp(event: dict, migration_batch: str) -> dict:
+    """Attach structured provenance to a freshly-built migration event, in place."""
+    event["metaEpoch"] = META_EPOCH
+    event["migrationBatch"] = migration_batch
+    return event
+
+
+def _upgrade_legacy_events(timeline: list, migration_batch: str) -> int:
+    """In-place upgrade: stamp metaEpoch/migrationBatch on legacy Yggdrasil II
+    type_change/demote events that lack a migrationBatch. Returns the number of
+    events upgraded. Never appends, removes, reorders, or rewrites `details`."""
+    upgraded = 0
+    for e in timeline:
+        if _is_migration_event(e) and not e.get("migrationBatch"):
+            e["metaEpoch"] = META_EPOCH
+            e["migrationBatch"] = migration_batch
+            upgraded += 1
+    return upgraded
 
 
 def _load_node(path: Path) -> dict:
@@ -210,6 +271,7 @@ def _derive_v6_type(data: dict, path: Path) -> tuple[str, str | None]:
 def migrate_starless_nodes(
     dry_run: bool,
     stats: dict[str, Any],
+    migration_batch: str,
 ) -> dict[str, str]:
     """Phase A wrapper — returns a mapping of nodeId -> legacyType for Phase B."""
     """Phase A: rewrite type fields and reorganise directories."""
@@ -306,17 +368,24 @@ def migrate_starless_nodes(
             if not isinstance(timeline, list):
                 timeline = []
 
-            # Idempotency: skip if already has a type_change for this migration
-            already_changed = any(
-                isinstance(e, dict) and e.get("action") == "type_change" and "Yggdrasil II" in (e.get("details") or "")
-                for e in timeline
-            )
-            if already_changed:
+            # Idempotency: skip if already stamped with this migration batch
+            if _already_batched(timeline, migration_batch):
+                already_done += 1
+                continue
+            # Upgrade path: legacy #997 events (prose-marked) that lack structured
+            # provenance — stamp them in place, never append a duplicate, never
+            # re-run gate math or re-git mv.
+            if _has_upgradable_events(timeline):
+                _upgrade_legacy_events(timeline, migration_batch)
+                data["timeline"] = timeline
+                data["updatedAt"] = _today_iso()
+                if not dry_run:
+                    _save_node(active_path, data)
                 already_done += 1
                 continue
 
             ts = _now_iso()
-            timeline.append({
+            timeline.append(_stamp({
                 "timestamp": ts,
                 "action": "type_change",
                 "contributor": "mbtiongson1",
@@ -324,7 +393,7 @@ def migrate_starless_nodes(
                     f"Reclassified from {legacy_type} to {v6_type} "
                     f"(Yggdrasil II taxonomy migration #997)"
                 ),
-            })
+            }, migration_batch))
             data["type"] = v6_type
             data["updatedAt"] = _today_iso()
             data["timeline"] = timeline
@@ -401,6 +470,7 @@ def migrate_named_skills(
     namedSkillMap: dict,
     legacy_type_map: dict[str, str],
     stats: dict[str, Any],
+    migration_batch: str,
 ) -> None:
     """Phase B: append type_change events + evaluate 4★ branch gates."""
     print("\n=== Phase B: Named-skill recalibration ===")
@@ -442,13 +512,18 @@ def migrate_named_skills(
         timeline = fm.get("timeline")
         if not isinstance(timeline, list):
             timeline = []
-        already_changed = any(
-            isinstance(e, dict)
-            and e.get("action") == "type_change"
-            and "Yggdrasil II" in (e.get("details") or "")
-            for e in timeline
-        )
-        if already_changed:
+        # Idempotency: skip if already stamped with this migration batch
+        if _already_batched(timeline, migration_batch):
+            skipped += 1
+            continue
+        # Upgrade path: legacy #997 events (prose-marked) lacking structured
+        # provenance — stamp them in place, never append a duplicate, never re-gate.
+        if _has_upgradable_events(timeline):
+            _upgrade_legacy_events(timeline, migration_batch)
+            fm["timeline"] = timeline
+            fm["updatedAt"] = _today_iso()
+            if not dry_run:
+                _save_named_skill(path, fm, body)
             skipped += 1
             continue
 
@@ -468,12 +543,12 @@ def migrate_named_skills(
                 f"Generic parent '{ref}' type: basic (unchanged; "
                 f"Yggdrasil II taxonomy migration #997)"
             )
-        type_change_event: dict = {
+        type_change_event: dict = _stamp({
             "timestamp": ts,
             "action": "type_change",
             "contributor": "mbtiongson1",
             "details": type_change_details,
-        }
+        }, migration_batch)
         timeline.append(type_change_event)
         type_changes.append({"skillId": skill_id, "level": level, "details": type_change_details})
 
@@ -515,7 +590,7 @@ def migrate_named_skills(
 
             if allow_5star_demote and gate_would_fail and not suite_preserved:
                 # Only demote 5★ when explicitly requested AND it's not a Suite
-                demote_event: dict = {
+                demote_event: dict = _stamp({
                     "timestamp": ts,
                     "action": "demote",
                     "contributor": "mbtiongson1",
@@ -526,7 +601,7 @@ def migrate_named_skills(
                         f"(TM={tm:.1f} < {TM_FLOOR_5STAR}); "
                         "demoted via --allow-5star-demote"
                     ),
-                }
+                }, migration_batch)
                 timeline.append(demote_event)
                 fm["level"] = "3★"
                 demoted = True
@@ -556,7 +631,7 @@ def migrate_named_skills(
                 print(f"  [PASS] {skill_id}: {level} {gate_detail}")
             else:
                 # Demote to 3★ Evolved
-                demote_event = {
+                demote_event = _stamp({
                     "timestamp": ts,
                     "action": "demote",
                     "contributor": "mbtiongson1",
@@ -566,7 +641,7 @@ def migrate_named_skills(
                         f"Yggdrasil II recalibration: 4★ {branch}-branch gate failed "
                         f"({gate_detail}) — demoted to 3★ Evolved"
                     ),
-                }
+                }, migration_batch)
                 timeline.append(demote_event)
                 fm["level"] = "3★"
                 demoted = True
@@ -603,6 +678,90 @@ def migrate_named_skills(
     print(f"  5★ demoted to 3★:            {len([d for d in demotions if d['previousLevel'] == '5★'])}")
     print(f"  5★ FOUNDER_CHECKPOINTs:      {len(founder_checkpoints)}")
     print(f"  Already done (skipped):      {skipped}")
+
+
+# ---------------------------------------------------------------------------
+# Backfill-only: in-place structured-provenance upgrade (no gate math, no moves)
+# ---------------------------------------------------------------------------
+
+def backfill_provenance(
+    dry_run: bool,
+    migration_batch: str,
+    stats: dict[str, Any],
+) -> None:
+    """Upgrade legacy #997 events to structured provenance across ALL registry
+    generic nodes and named skills.
+
+    Idempotent and safe to re-run on already-migrated staging data. Performs ONLY
+    in-place field stamping (metaEpoch/migrationBatch) on existing prose-marked
+    Yggdrasil II type_change/demote events. It does NOT evaluate gates, create new
+    demotions, move files, or append duplicate events. `details` prose is left
+    byte-for-byte intact so downstream regex parsers keep working.
+    """
+    print("\n=== Backfill-only: in-place structured-provenance upgrade ===")
+    print(f"  Batch: {migration_batch}")
+
+    node_upgraded = node_events = node_skipped = 0
+    for p in sorted(NODES_DIR.rglob("*.json")):
+        try:
+            data = _load_node(p)
+        except Exception:
+            continue
+        timeline = data.get("timeline")
+        if not isinstance(timeline, list):
+            continue
+        if _already_batched(timeline, migration_batch):
+            if any(_is_migration_event(e) for e in timeline):
+                node_skipped += 1
+            continue
+        n = _upgrade_legacy_events(timeline, migration_batch)
+        if n:
+            data["timeline"] = timeline
+            data["updatedAt"] = _today_iso()
+            if not dry_run:
+                _save_node(p, data)
+            node_upgraded += 1
+            node_events += n
+            print(f"  [{'dry' if dry_run else 'ok'}] node {data.get('id', p.stem)}: +{n} event(s)")
+
+    named_upgraded = named_events = named_skipped = 0
+    for p in sorted(NAMED_DIR.rglob("*.md")):
+        fm, body = _load_named_skill(p)
+        if fm is None:
+            continue
+        timeline = fm.get("timeline")
+        if not isinstance(timeline, list):
+            continue
+        if _already_batched(timeline, migration_batch):
+            if any(_is_migration_event(e) for e in timeline):
+                named_skipped += 1
+            continue
+        n = _upgrade_legacy_events(timeline, migration_batch)
+        if n:
+            fm["timeline"] = timeline
+            fm["updatedAt"] = _today_iso()
+            if not dry_run:
+                _save_named_skill(p, fm, body)
+            named_upgraded += 1
+            named_events += n
+            print(f"  [{'dry' if dry_run else 'ok'}] named {fm.get('id', p.stem)}: +{n} event(s)")
+
+    stats["backfill"] = {
+        "migrationBatch": migration_batch,
+        "nodesUpgraded": node_upgraded,
+        "nodeEventsStamped": node_events,
+        "nodesAlreadyBatched": node_skipped,
+        "namedUpgraded": named_upgraded,
+        "namedEventsStamped": named_events,
+        "namedAlreadyBatched": named_skipped,
+        "newMoves": 0,
+    }
+
+    print(f"\n  Nodes upgraded:   {node_upgraded} ({node_events} events stamped)")
+    print(f"  Nodes already batched (skipped): {node_skipped}")
+    print(f"  Named upgraded:   {named_upgraded} ({named_events} events stamped)")
+    print(f"  Named already batched (skipped): {named_skipped}")
+    print(f"  New moves:        0")
 
 
 # ---------------------------------------------------------------------------
@@ -731,8 +890,30 @@ def main() -> int:
             "NOT passed in normal Yggdrasil II migration — founder reviews first."
         ),
     )
+    parser.add_argument(
+        "--batch",
+        dest="batch",
+        default=None,
+        help=(
+            "Migration batch id ('<epoch>@YYYY-MM-DD'). "
+            f"Defaults to '{META_EPOCH}@<today>'. Stamped as migrationBatch on "
+            "every migration event (paired type_change/demote)."
+        ),
+    )
+    parser.add_argument(
+        "--backfill-only",
+        dest="backfillOnly",
+        action="store_true",
+        default=False,
+        help=(
+            "Perform ONLY the in-place structured-provenance upgrade of legacy "
+            "#997 events (no gate evaluation, no new demotions, no directory "
+            "moves). Safe to re-run on already-migrated staging data."
+        ),
+    )
     args = parser.parse_args()
     dry_run = not args.apply
+    migration_batch = args.batch or _default_migration_batch()
 
     mode = "DRY-RUN" if dry_run else "APPLY"
     print(f"=== Yggdrasil II taxonomy v6 migration ({mode}) ===")
@@ -744,8 +925,27 @@ def main() -> int:
     stats: dict[str, Any] = {
         "startedAt": _now_iso(),
         "mode": mode,
+        "migrationBatch": migration_batch,
         "allow5starDemote": args.allow5starDemote,
+        "backfillOnly": args.backfillOnly,
     }
+    print(f"  Migration batch: {migration_batch}")
+
+    # ------------------------------------------------------------------
+    # Backfill-only path: in-place structured-provenance upgrade, nothing else.
+    # ------------------------------------------------------------------
+    if args.backfillOnly:
+        backfill_provenance(dry_run=dry_run, migration_batch=migration_batch, stats=stats)
+        stats["finishedAt"] = _now_iso()
+        write_report(stats)
+        bf = stats.get("backfill", {})
+        print("\n=== SUMMARY (backfill-only) ===")
+        print(f"  Batch:              {migration_batch}")
+        print(f"  Nodes upgraded:     {bf.get('nodesUpgraded', 0)} ({bf.get('nodeEventsStamped', 0)} events)")
+        print(f"  Named upgraded:     {bf.get('namedUpgraded', 0)} ({bf.get('namedEventsStamped', 0)} events)")
+        print(f"  Already batched:    nodes={bf.get('nodesAlreadyBatched', 0)} named={bf.get('namedAlreadyBatched', 0)}")
+        print(f"  New moves:          0")
+        return 0
 
     # Build maps using nodes as they currently exist on disk.
     # For Phase B we need genericSkillMap to reflect v6 types — but since Phase A
@@ -758,7 +958,9 @@ def main() -> int:
     print(f"Building namedSkillMap: {len(namedSkillMap)} named skills")
 
     # Phase A
-    legacy_type_map = migrate_starless_nodes(dry_run=dry_run, stats=stats)
+    legacy_type_map = migrate_starless_nodes(
+        dry_run=dry_run, stats=stats, migration_batch=migration_batch
+    )
 
     # Reload genericSkillMap after phase A writes (types may have changed on disk)
     if not dry_run:
@@ -782,6 +984,7 @@ def main() -> int:
         namedSkillMap=namedSkillMap,
         legacy_type_map=legacy_type_map,
         stats=stats,
+        migration_batch=migration_batch,
     )
 
     stats["finishedAt"] = _now_iso()
