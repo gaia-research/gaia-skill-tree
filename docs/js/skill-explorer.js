@@ -50,6 +50,35 @@
   };
   function _missingDriversHint(t) { return _DRIVER_HINTS[t] || 'metric fields'; }
 
+  // ── N-11 Research-product CTA (shared helper, Rimuru-Blue bridge) ─────────
+  // Renders a compact two-link "Research product" affordance for every
+  // fuse/suite section.  Uses var(--tier-basic) which is the Rimuru-Blue
+  // cross-brand bridge token (E5).  No hex literals here — uses CSS token vars.
+  // ctaLabel: optional override for the primary CTA text.
+  function _researchProductCta(ctaLabel) {
+    var label = ctaLabel || 'Fuse skills on Gaia Research →';
+    return '<div class="se-research-cta" style="' +
+        'margin-top:1rem;padding:.65rem .9rem;' +
+        'border:1px solid rgba(var(--tier-basic-rgb,56,189,248),.25);' +
+        'border-radius:8px;' +
+        'background:rgba(var(--tier-basic-rgb,56,189,248),.06);' +
+        'display:flex;flex-direction:column;gap:.35rem;' +
+      '">' +
+      '<a href="https://research.gaiaskilltree.com/labs/infinite-skill-craft"' +
+          ' target="_blank" rel="noopener"' +
+          ' style="color:var(--tier-basic);font-size:.8rem;font-weight:600;text-decoration:none;"' +
+          ' title="Try the live Gaia Research fusion product">' +
+        esc(label) +
+      '</a>' +
+      '<a href="https://github.com/gaia-research/skill-fuse"' +
+          ' target="_blank" rel="noopener"' +
+          ' style="color:var(--tier-basic);opacity:.75;font-size:.75rem;font-family:var(--font-mono);text-decoration:none;"' +
+          ' title="Open-source skill-fuse repository on GitHub">' +
+        'gaia-research/skill-fuse' +
+      '</a>' +
+    '</div>';
+  }
+
   // Derive the pre-weight artifact magnitude (for tooltip chain display only).
   // Returns the capped base magnitude — used as input to _deriveWeightedScore.
   // ALWAYS prefers the live formula over stored ev.trustNumber (which may be stale).
@@ -434,6 +463,13 @@
           notch.appendChild(infoBtn);
         }
       }
+      // N-11 Site 1: Research CTA below the plaque for suite/fusion skills.
+      // Append after the trust notch so it follows the hero without disrupting layout.
+      if (Array.isArray(ns.suiteComponents) && ns.suiteComponents.length) {
+        var ctaDiv = document.createElement('div');
+        ctaDiv.innerHTML = _researchProductCta();
+        heroEl.appendChild(ctaDiv);
+      }
     }
   }
 
@@ -816,7 +852,10 @@
       '</div>';
     }
 
-    var isUlt = ns.level === '5★';
+    // SE-3 fix: do NOT tie suite-install label to a hard-coded star string.
+    // A skill is a suite (install --ultimate) if it has suiteComponents, not
+    // purely by rank-level string comparison.
+    var isUlt = !!(ns.suiteComponents && ns.suiteComponents.length);
     // Pre-named/demoted (≤1★): withhold the handle in the install id, and hide
     // the npx/git-clone methods (their repo URLs expose the contributor). This
     // is lifted once the skill is named (2★+).
@@ -825,14 +864,17 @@
       ? ((window.REDACTED_BLOCK || '████████') + '/' + id.split('/').slice(1).join('/'))
       : id;
     var gaiaCmd = isUlt ? 'gaia install --ultimate ' + installId : 'gaia install ' + installId;
-    var gaiaLabel = isUlt ? '◆ ultimate suite' : '★ recommended';
-    var showGaia = ns.installable !== false;
+    var gaiaLabel = isUlt ? '◆ suite install' : '★ recommended';
+    // showGaia: a suite skill is always gaia-installable; non-suite requires installable flag or a github link.
+    var showGaia = isUlt ? true : (ns.installable !== false);
     var gaiaBlock = showGaia ? installBlock('Gaia', gaiaLabel, gaiaCmd, true) : '';
 
     if (ns.suiteComponents && ns.suiteComponents.length > 0 && ns.installBody) {
+      // N-11 Site 3: Research CTA in the suite install block.
       el.innerHTML = '<div class="se-flow-h">' + COPY_ICON() + ' Installation</div>' +
         gaiaBlock +
-        (redacted ? '' : _renderTabbedInstall(ns));
+        (redacted ? '' : _renderTabbedInstall(ns)) +
+        _researchProductCta();
     } else if (redacted) {
       el.innerHTML = '<div class="se-flow-h">' + COPY_ICON() + ' Installation</div>' +
         gaiaBlock +
@@ -1107,6 +1149,8 @@
               notesHtml +
               metricsHtml +
               originsHtml +
+              // N-11 Site 4: Research CTA on every fusion-recipe evidence tile.
+              (rawType === 'fusion-recipe' ? _researchProductCta() : '') +
             '</div>' +
             magBarHtml +
           '</div>';
@@ -1266,7 +1310,12 @@
 
     var genericId = generic ? generic.id : ns.genericSkillRef || ns.id;
     var genericObj = sm[genericId] || generic || { id: genericId, type: ns.type, level: ns.level, name: ns.name };
-    var currentType = (ns && ns.type) || genericObj.type || 'basic';
+    // E1: derive branch via GaiaSemantics, never read old type enum for branch logic.
+    var _fcRank = parseInt(String((ns && ns.level) || '').replace(/\D+/g, ''), 10) || 0;
+    var _fcNs = Object.assign({}, ns, { type: (generic && generic.type) || (ns && ns.type) || 'basic' });
+    var _fcBranch = (window.GaiaSemantics && window.GaiaSemantics.computeBranch)
+      ? window.GaiaSemantics.computeBranch(_fcNs, _fcRank)
+      : 'standard';
     var suiteCapstoneId = ns.suiteRef || null;
     var suiteCapstone = suiteCapstoneId ? namedEntryById(suiteCapstoneId) : ns;
     var suiteComponents = [];
@@ -1306,17 +1355,34 @@
     }
 
     // Action-buttons header (Show Fusion / Show Suite).
+    // E2: use GaiaSemantics.rankWord for branch-forked rank labels, no banned words.
     function buildFlowActions() {
+      var fusionLabel = 'Show Fusion';
+      var suiteLabel  = 'Show Suite';
+      if (window.GaiaSemantics && window.GaiaSemantics.rankWord) {
+        // suiteComponents present → suite branch; otherwise standard fusion
+        var _faBranch = suiteComponents.length ? 'suite' : 'standard';
+        var _faRankWord = window.GaiaSemantics.rankWord(_fcRank, _faBranch);
+        if (_faRankWord) fusionLabel = 'Show ' + _faRankWord + ' Path';
+        if (suiteComponents.length) {
+          var _sRankWord = window.GaiaSemantics.rankWord(_fcRank, 'suite');
+          suiteLabel = 'Show ' + (_sRankWord || 'Suite') + ' Path';
+        }
+      }
+      // N-11 Site 2: Research CTA in the flow action area for fuse/suite skills.
+      var ctaHtml = (suiteComponents.length || (_fcBranch === 'suite'))
+        ? _researchProductCta('Fuse skills on Gaia Research →')
+        : '';
       return '<div class="se-flow-actions">' +
         '<button type="button" class="se-flow-btn" id="seFlowShowFusion" title="Highlight the fusion graph">' +
-          _se_icon('sparkle') + 'Show Fusion' +
+          _se_icon('sparkle') + fusionLabel +
         '</button>' +
         (suiteComponents.length
           ? '<button type="button" class="se-flow-btn" id="seFlowShowSuite" title="Highlight the suite structure">' +
-              _se_icon('sparkle') + 'Show Suite' +
+              _se_icon('sparkle') + suiteLabel +
             '</button>'
           : '') +
-      '</div>';
+      '</div>' + ctaHtml;
     }
 
     // Wire flow action button handlers. Called after innerHTML set.
@@ -1349,9 +1415,16 @@
       var nodeType = entry.type || 'basic';
       var nodeLevel = entry.level || '';
       var isApex = nodeLevel && String(nodeLevel).indexOf('6') !== -1;
+      // E1: derive dot color from computeBranch, not raw type field.
+      var _fNodeRank = parseInt(String(nodeLevel).replace(/\D+/g, ''), 10) || 0;
+      var _fNodeBranch = (window.GaiaSemantics && window.GaiaSemantics.computeBranch)
+        ? window.GaiaSemantics.computeBranch(entry, _fNodeRank)
+        : 'standard';
       var dotColor = isApex
         ? '#ffffff'
-        : 'var(--tier-' + nodeType + ', var(--muted))';
+        : (_fNodeBranch === 'unique' ? 'var(--tier-unique)' :
+           _fNodeBranch === 'suite'  ? 'var(--apex-gold)'   :
+           'var(--tier-basic)');
       var extraMainClass = isMain ? ' git-node--main' : '';
       return '<div class="git-node' + extraMainClass + '"' +
           ' data-id="' + esc(syntheticId) + '"' +
@@ -1365,10 +1438,11 @@
 
     // Short-circuit for Unique-tier current skills: render the current
     // skill alone inside the void zone, with nothing else around it.
-    if (currentType === 'unique') {
+    // E1: use _fcBranch from computeBranch, not dead type field.
+    if (_fcBranch === 'unique') {
       var uColor = (ns && ns.level && String(ns.level).indexOf('6') !== -1)
         ? '#ffffff'
-        : 'var(--tier-unique, var(--muted))';
+        : 'var(--tier-unique)';
       var labelId = (ns && ns.id) ? ns.id : genericId;
       var uniqueNodeHtml = '<div class="git-node git-node--main" data-id="' + esc(genericId) +
           '" data-type="unique" data-level="' + esc((ns && ns.level) || '') + '" data-ghost="false">' +
@@ -1442,10 +1516,17 @@
         var s = relatedNodes[id];
         if (s.level && String(s.level).indexOf('6') !== -1) {
           apexNodes.push(id);
-        } else if (s.type === 'unique') {
-          uniqueNodes.push(id);
         } else {
-          ranks[depth[id]].push(id);
+          // E1: derive unique placement via computeBranch, not dead type field.
+          var _sRank = parseInt(String(s.level || '').replace(/\D+/g, ''), 10) || 0;
+          var _sBranch = (window.GaiaSemantics && window.GaiaSemantics.computeBranch)
+            ? window.GaiaSemantics.computeBranch(s, _sRank)
+            : 'standard';
+          if (_sBranch === 'unique') {
+            uniqueNodes.push(id);
+          } else {
+            ranks[depth[id]].push(id);
+          }
         }
       }
     });
@@ -1479,8 +1560,15 @@
       var rank = ranks[ri];
       if (!rank || !rank.length) continue;
       
-      var isUniqueRow = rank.every(function(id) { return relatedNodes[id].type === 'unique'; });
-      
+      // E1: derive via computeBranch — never read relatedNodes[id].type directly for branch logic.
+      var isUniqueRow = rank.every(function(id) {
+        var s = relatedNodes[id];
+        var _nr = parseInt(String(s.level || '').replace(/\D+/g, ''), 10) || 0;
+        var _b = (window.GaiaSemantics && window.GaiaSemantics.computeBranch)
+          ? window.GaiaSemantics.computeBranch(s, _nr) : 'standard';
+        return _b === 'unique';
+      });
+
       var rowHtml = rank.map(function(id, idx) {
         var s = relatedNodes[id];
         var staggerY = (ri === 0 || isUniqueRow) ? 0 : (hashString(id) % 80);
@@ -1492,12 +1580,19 @@
         var namedBucket = buckets[id];
         var hasNamed = !!(namedBucket && namedBucket.length);
         var nb = hasNamed ? namedBucket[0] : null;
+        // E1: use computeBranch for dot color; nodeType only for data-type attr (schema 'basic'|'fusion').
         var nodeType = (nb && nb.type) || s.type || 'basic';
         var nodeLevel = (nb && nb.level) || s.level || '';
         var isApex = nodeLevel && String(nodeLevel).indexOf('6') !== -1;
+        var _nodeRank = parseInt(String(nodeLevel).replace(/\D+/g, ''), 10) || 0;
+        var _nodeBranch = (window.GaiaSemantics && window.GaiaSemantics.computeBranch)
+          ? window.GaiaSemantics.computeBranch(nb || s, _nodeRank)
+          : 'standard';
         var dotColor = isApex
           ? '#ffffff'
-          : 'var(--tier-' + nodeType + ', var(--muted))';
+          : (_nodeBranch === 'unique' ? 'var(--tier-unique)' :
+             _nodeBranch === 'suite'  ? 'var(--apex-gold)'   :
+             'var(--tier-basic)');
 
         // Label source: slash-form for named, raw id for ghost.
         var labelSource = hasNamed ? nb.id : id;
@@ -2130,13 +2225,27 @@
   }
 
   // ── MAIN OPEN / CLOSE ────────────────────────────────────────
-  var TYPE_GLYPH = { ultimate: '◆', extra: '◇', basic: '○' };
+  // E1: glyph is now branch-derived; TYPE_GLYPH kept only for the 'basic'/'fusion'
+  // schema types (the only valid values). Rank-derived branches (suite, unique)
+  // override the glyph via GaiaSemantics.
+  var TYPE_GLYPH = { basic: '○', fusion: '◆' };
+
+  // Return the correct rank glyph for a skill using computeBranch.
+  function skillGlyph(skill) {
+    var rank = parseInt(String(skill.level || '').replace(/\D+/g, ''), 10) || 0;
+    var branch = (window.GaiaSemantics && window.GaiaSemantics.computeBranch)
+      ? window.GaiaSemantics.computeBranch(skill, rank)
+      : 'standard';
+    if (branch === 'unique') return '◉';
+    if (branch === 'suite')  return '◆';
+    return TYPE_GLYPH[skill.type] || '○';
+  }
 
   window.openUnnamedPopup = function(skill) {
     var pop = document.getElementById('unnamedSkillPopup');
     if (!pop) return;
-    var glyph = TYPE_GLYPH[skill.type] || '◇';
-    // Stage 4 — pull tier colour from the canonical tokens (--tier-<name>)
+    var glyph = skillGlyph(skill);
+    // Pull tier colour from the canonical tokens (--tier-<name>)
     // rather than hardcoding per-tier hex codes. Falls back to --tier-basic
     // for any unrecognised tier.
     var rootStyle = getComputedStyle(document.documentElement);
@@ -2146,7 +2255,7 @@
     document.getElementById('uspGlyph').style.color = glyphColor;
     document.getElementById('uspName').textContent = skill.name || skill.id;
     document.getElementById('uspId').textContent = skill.id;
-    var cmd = 'gaia propose /' + skill.id + (skill.type === 'ultimate' ? ' --ultimate' : '');
+    var cmd = 'gaia propose /' + skill.id + (skill.suiteComponents && skill.suiteComponents.length ? ' --ultimate' : '');
     document.getElementById('uspCmd').textContent = cmd;
     document.getElementById('uspCmd').dataset.cmd = cmd;
     var bodyEl = pop.querySelector('.usp-body');
@@ -2164,7 +2273,7 @@
     // Stage 4 — fall back to --tier-basic via the token system (no hardcoded hex).
     var _rootStyle = getComputedStyle(document.documentElement);
     var _fallbackTier = _rootStyle.getPropertyValue('--tier-basic').trim();
-    document.getElementById('uspGlyph').textContent = TYPE_GLYPH[ns.type] || '◇';
+    document.getElementById('uspGlyph').textContent = skillGlyph(ns);
     document.getElementById('uspGlyph').style.color = lmEntry.color || _fallbackTier;
     // Phase 8c — wrap contributor mentions in handleLink so they route to
     // the profile page. uspName retains the slug + handle layout but the
@@ -2385,18 +2494,22 @@
       var skillName = parts[1] || handle;
       var hasSlash = parts.length > 1;
 
-      var type = (generic && generic.type) || ns.type || 'basic';
       var handleRedacted = window.isRedacted && window.isRedacted(ns.level);
       var color = (LEVEL_META_SE && LEVEL_META_SE[ns.level]) ? LEVEL_META_SE[ns.level].color : 'inherit';
       // LEVEL_META_SE only carries 2★+; a pre-named/demoted (≤1★) skill keeps
       // its plain rank color (--rank-N) — never type rainbow/glow, never the
       // inherited honor-red.
+      // E1/E2: derive branch via GaiaSemantics.computeBranch — never read old type enum.
+      var _effRank = parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) || 0;
+      var _nsForBranch = Object.assign({}, ns, { type: (generic && generic.type) || ns.type || 'basic' });
+      var _branch = (window.GaiaSemantics && window.GaiaSemantics.computeBranch)
+        ? window.GaiaSemantics.computeBranch(_nsForBranch, _effRank)
+        : 'standard';
       if (handleRedacted) {
-        var _lvlN = parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) || 0;
-        color = 'var(--rank-' + _lvlN + ', #38bdf8)';
+        color = 'var(--rank-' + _effRank + ', var(--tier-basic))';
       } else {
-        if (type === 'unique') { color = 'var(--tier-unique, #7c3aed)'; }
-        else if (type === 'ultimate') { color = 'var(--apex-gold, #fbbf24)'; }
+        if (_branch === 'unique') { color = 'var(--tier-unique)'; }
+        else if (_branch === 'suite') { color = 'var(--apex-gold)'; }
       }
 
       var bHtml = '';
@@ -2417,12 +2530,11 @@
       }
       var slugStyle = 'font-size: inherit; color: ' + color + ';';
       if (!handleRedacted) {
-        if (type === 'ultimate') {
+        // E1: derive animation/glow from branch, not dead type enum.
+        if (_branch === 'suite') {
           slugStyle += ' animation: tree-rainbow-glow 4s linear infinite;';
-        } else if (type === 'extra') {
-          slugStyle += ' animation: tree-extra-glow 4s linear infinite;';
-        } else if (type === 'unique') {
-          slugStyle += ' text-shadow: 0 0 12px rgba(124,58,237,0.6), 0 0 4px rgba(124,58,237,0.3);';
+        } else if (_branch === 'unique') {
+          slugStyle += ' text-shadow: 0 0 12px rgba(var(--tier-unique-rgb,124,58,237),0.6), 0 0 4px rgba(var(--tier-unique-rgb,124,58,237),0.3);';
         }
       }
       bHtml += '<span class="plaque__slug" style="' + slugStyle + '">' + esc(skillName) + '</span>';

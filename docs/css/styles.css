@@ -7083,6 +7083,19 @@ footer.footer-v2::before {
   }
 }
 
+/* Plaque z-index overlap fix — W1d Yggdrasil II.
+   The .se-hero grid cell (#se-upgrade) and its flowchart rows must not
+   establish an overflow clip that traps popover cards. Popover cards render
+   below their .git-node dot (top:100%); without overflow:visible on every
+   ancestor up to the scroll root the card is clipped or covered by the
+   sibling hero column. */
+.se-hero #se-upgrade,
+.se-hero #se-upgrade .se-flowchart-wrap,
+.se-hero #se-upgrade .se-flowchart-rows,
+.se-hero #se-upgrade .se-flowchart-row {
+  overflow: visible;
+}
+
 .se-flow-h {
   font-size: .72rem;
   font-weight: 700;
