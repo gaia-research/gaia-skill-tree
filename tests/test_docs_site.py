@@ -68,6 +68,10 @@ def test_build_docs_check_message_uses_copyable_python_command(monkeypatch, caps
     assert build_docs.main(["--check"]) == 1
 
     output = capsys.readouterr().out
-    assert "gaia dev docs --check" in output
+    # On drift, the message must point to the FIX command (`gaia dev docs`,
+    # write mode) and the Class S artifacts to commit — not the circular
+    # "run --check again". `--check` is not read-only; it already regenerated.
+    assert "gaia dev docs" in output
+    assert "docs/graph" in output
 
 
