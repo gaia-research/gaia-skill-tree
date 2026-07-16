@@ -89,14 +89,13 @@
       <input type="search" id="nsSearch" class="ns-search" aria-label="Search skills, tags, contributors" placeholder="Search skills, tags, contributors…"
         autocomplete="off">
       <div class="ns-filter-row">
-        <!-- Stage 4 — Direction rule: tier tabs read Ultimate→Unique→Extra→Basic
-             so the first tab after "All" targets the most-prestigious tier.
+        <!-- Yggdrasil II — Type tabs key on the CANONICAL type axis: Fusion / Basic.
+             Dead enum values (ultimate/unique/extra) are removed — branch (unique/suite/standard)
+             is derived at read-time from rank+suiteComponents via GaiaSemantics.computeBranch.
              Glyph colour comes from .tier-glyph[data-type] (tokens.css). -->
-        <div class="ns-type-tabs" id="nsTypeTabs" role="tablist" aria-label="Skill tier selection">
+        <div class="ns-type-tabs" id="nsTypeTabs" role="tablist" aria-label="Skill type selection">
           <button class="ns-tab active" type="button" data-type="all" role="tab" aria-selected="true">All</button>
-          <button class="ns-tab" type="button" data-type="ultimate" role="tab" aria-selected="false"><span class="tier-glyph" data-type="ultimate">◆</span> Ultimate</button>
-          <button class="ns-tab" type="button" data-type="unique" role="tab" aria-selected="false"><span class="tier-glyph" data-type="unique">◉</span> Unique</button>
-          <button class="ns-tab" type="button" data-type="extra" role="tab" aria-selected="false"><span class="tier-glyph" data-type="extra">◇</span> Extra</button>
+          <button class="ns-tab" type="button" data-type="fusion" role="tab" aria-selected="false"><span class="tier-glyph" data-type="fusion">◆</span> Fusion</button>
           <button class="ns-tab" type="button" data-type="basic" role="tab" aria-selected="false"><span class="tier-glyph" data-type="basic">○</span> Basic</button>
         </div>
         <!-- Stage 4 — view-toggle SVGs sourced from the shared sprite. -->
