@@ -193,7 +193,7 @@
       var voidClass = isUniqueTier ? ' void-zone' : '';
       html += '<div class="ns-dag-rank' + voidClass + '" data-depth="' + ri + '" data-rank="' + esc(String(rankNum)) + '" id="ns-rank-' + esc(String(rankNum)) + '">';
       rank.forEach(function(id, idx) {
-        var staggerY = (isUnique) ? 0 : (hashString(id) % 150); // don't stagger in void
+        var staggerY = isUniqueTier ? 0 : (hashString(id) % 150); // don't stagger in void
         var s = dagNodes[id];
         var ns = namedIds[id];
         var isGhost = !ns;
@@ -220,7 +220,7 @@
           : '';
         var colorVar = isGhost ? 'var(--muted)' : 'var(--tier-' + (s.type || 'basic') + ', var(--muted))';
         if (!isGhost && s.level && String(s.level).indexOf('6') !== -1) {
-          colorVar = '#ffffff';
+          colorVar = 'var(--rank-6)';
         }
         // Label source: prefer slash-formatted named ID; fall back to generic ID for ghost nodes.
         var labelSource = (ns && ns.id) ? ns.id : id;
