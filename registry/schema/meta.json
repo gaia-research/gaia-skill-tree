@@ -91,6 +91,16 @@
       "minOriginContributions": 1
     }
   },
+  "metaEpochs": {
+    "order": [
+      "yggdrasil-i",
+      "yggdrasil-ii"
+    ],
+    "labels": {
+      "yggdrasil-i": "Yggdrasil I",
+      "yggdrasil-ii": "Yggdrasil II"
+    }
+  },
   "evidence": {
     "classes": [
       "A",
