@@ -10,14 +10,25 @@ EXIT CODES
   0  — clean (zero hard violations outside the documented allowlist)
   1  — one or more hard violations found in non-allowlisted files
 
-BANNED PATTERNS
-  \\bTranscendent\\b    — old 5★ rank name; now "Ultimate" (Suite) / "Unique Ultimate" (Unique)
-  \\bHardened\\b        — old 4★ rank name; now "Extra" (Suite) / "Unique" (Unique branch)
-  \\bFusion\\s+Skill\\b — type words stand bare; the "Skill" suffix is a rank-word convention. Use "Fusion".
-  \\bBasic\\s+Skill\\b  — type words stand bare; the "Skill" suffix is a rank-word convention. Use "Basic".
+BANNED PATTERNS  (applied to full scan scope — all case-sensitive unless noted)
+  \\bTranscendent\\b      — old 5★ rank name; now "Ultimate" (Suite) / "Unique Ultimate" (Unique)
+  \\bHardened\\b          — old 4★ rank name; now "Extra" (Suite) / "Unique" (Unique branch)
+  \\bFusion\\s+Skill\\b   — type words stand bare; use "Fusion"  (CONTEXT.md §Banned synonyms)
+  \\bBasic\\s+Skill\\b    — type words stand bare; use "Basic"   (CONTEXT.md §Banned synonyms)
+  \\bExtra skill\\b        — lowercase-s taxonomy form (Yggdrasil I type word); use "Fusion" / type=fusion
+                            CONTEXT.md §Banned synonyms; capital-S "Extra Skill" rank phrasing is VALID.
+  \\bUltimate skill\\b     — lowercase-s taxonomy form; "Ultimate" is now the 5★ rank name only;
+                            CONTEXT.md §Banned synonyms; capital-S "Ultimate Skill" rank phrasing is VALID.
+  type\\s*[=:]\\s*extra    — legacy Yggdrasil I taxonomy field value  (CONTEXT.md §Banned synonyms)
+  type\\s*[=:]\\s*ultimate — legacy Yggdrasil I taxonomy field value  (CONTEXT.md §Banned synonyms)
+
+DOCS-ONLY BANNED PATTERNS  (root *.md and docs/**/*.md only; added #999 Step 2)
+  \\bG7\\b  — internal engineering codename; use "TM Index (2026 Q2)" in public docs
+  \\bG8\\b  — internal engineering codename; use "TM Index (2026 Q3)" in public docs
+  founder/handovers/** and registry/** are exempt: internal specs where the G-series is primary.
 
   NOTE: The "Skill" suffix attaches to RANK words only — "Extra Skill", "Unique Skill",
-  "Ultimate Skill", "Apex Skill" are all VALID rank phrasings. TYPE words stand bare:
+  "Ultimate Skill", "Apex Skill" are all VALID rank phrasings (capital S). TYPE words stand bare:
   "Basic" and "Fusion" (never "Basic Skill" / "Fusion Skill"). Bare "Extra"/"Ultimate"
   as rank names are valid too (word-boundary matching).
 
@@ -26,6 +37,7 @@ ALLOWED (v2 vocabulary — never flagged)
   Suite: 4★ Extra · 5★ Ultimate · 6★ Apex
   Unique: 4★ Unique · 5★ Unique Ultimate · 6★ Unique Impossible
   Types (field value): basic · fusion
+  Rank phrasings with "Skill" suffix: Extra Skill · Ultimate Skill · Apex Skill · Unique Skill
 
 SCAN SCOPE  (content surface only)
   registry/**              — registry data files
@@ -68,10 +80,16 @@ if sys.stderr.encoding and sys.stderr.encoding.lower() not in ('utf-8', 'utf8'):
 
 BANNED_PATTERNS = [
     # Pattern,  human label,  rationale
-    (re.compile(r'\bTranscendent\b'),     'Transcendent',    'old 5★ rank name — use Ultimate / Unique Ultimate'),
-    (re.compile(r'\bHardened\b'),         'Hardened',        'old 4★ rank name — use Extra (Suite) / Unique (Unique branch)'),
-    (re.compile(r'\bFusion\s+Skill\b'), 'Fusion Skill',  'type words stand bare — the "Skill" suffix is reserved for rank words; use "Fusion"'),
-    (re.compile(r'\bBasic\s+Skill\b'),  'Basic Skill',   'type words stand bare — the "Skill" suffix is reserved for rank words; use "Basic"'),
+    (re.compile(r'\bTranscendent\b'),       'Transcendent',    'old 5★ rank name — use Ultimate / Unique Ultimate  (CONTEXT.md §Banned synonyms)'),
+    (re.compile(r'\bHardened\b'),           'Hardened',        'old 4★ rank name — use Extra (Suite) / Unique (Unique branch)  (CONTEXT.md §Banned synonyms)'),
+    (re.compile(r'\bFusion\s+Skill\b'),     'Fusion Skill',    'type words stand bare — "Skill" suffix is reserved for rank words; use "Fusion"  (CONTEXT.md §Banned synonyms)'),
+    (re.compile(r'\bBasic\s+Skill\b'),      'Basic Skill',     'type words stand bare — "Skill" suffix is reserved for rank words; use "Basic"  (CONTEXT.md §Banned synonyms)'),
+    # Case-sensitive patterns — lowercase-s taxonomy forms only (#999 Step 1)
+    # Capital-S "Extra Skill" / "Ultimate Skill" rank phrasings remain VALID and will NOT match.
+    (re.compile(r'\bExtra skill\b'),        'Extra skill',     'taxonomy-sense Yggdrasil I type word (CONTEXT.md §Banned synonyms); use "Fusion" / type=fusion. "Extra Skill" (capital S) rank phrasing is valid.'),
+    (re.compile(r'\bUltimate skill\b'),     'Ultimate skill',  'taxonomy-sense Yggdrasil I type word (CONTEXT.md §Banned synonyms); "Ultimate" is the 5★ rank name only; structural role → Fusion. "Ultimate Skill" (capital S) rank phrasing is valid.'),
+    (re.compile(r'type\s*[=:]\s*extra'),    'type=extra',      'legacy Yggdrasil I taxonomy field value (CONTEXT.md §Banned synonyms); use type=fusion'),
+    (re.compile(r'type\s*[=:]\s*ultimate'), 'type=ultimate',   'legacy Yggdrasil I taxonomy field value (CONTEXT.md §Banned synonyms); use type=fusion'),
 ]
 
 # ---------------------------------------------------------------------------
@@ -153,8 +171,37 @@ ALLOWLIST_PATHS = {
     'founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md',  # Ratification doc references both old and new terms
     'founder/handovers/design-v6.1.1-world-tree-semantic-topology.md',  # v2 topology; changelog names the dropped "Transcendent" term
     'founder/handovers/done/TRUST_METHODOLOGY_REPORT.md',         # Historical report
-    'founder/handovers/done/g7-mattpocock-audit/_workflow_notes.md',  # Historical workflow notes
+    'founder/handovers/done/G7_TRUST_TAXONOMY_RFC.md',            # G7 RFC; pre-Yggdrasil-II naming ("Ultimate skill") in engineering spec  # #994
+    'founder/handovers/done/g7-mattpocock-audit/_workflow_notes.md',   # Historical workflow notes
     'founder/handovers/phase-1.5/issues/I8.md',                   # Historical issue doc
+
+    # ── registry/named/** migration provenance notes (#997 Yggdrasil II migration) ────
+    # All contain "type: extra/ultimate → fusion" in evidence.details strings —
+    # legitimate provenance records of the taxonomy migration, not actual type=extra fields.
+    'registry/named-skills.json',                                       # Generated catalog; migration provenance notes  # #994
+    'registry/named/addy-osmani/agent-skills.md',                      # #994
+    'registry/named/firecrawl/firecrawl-build-scrape.md',              # #994
+    'registry/named/firecrawl/firecrawl-skills.md',                    # #994
+    'registry/named/garrytan/garrytan.md',                             # #994
+    'registry/named/garrytan/gstack.md',                               # #994
+    'registry/named/google-deepmind/alphafold_database_fetch_and_analyze.md',  # #994
+    'registry/named/google-deepmind/alphagenome_single_variant_analysis.md',   # #994
+    'registry/named/google-deepmind/workflow_skill_creator.md',        # #994
+    'registry/named/gsd-build/get-shit-done.md',                       # #994
+    'registry/named/mattpocock/engineering.md',                        # #994
+    'registry/named/mattpocock/productivity.md',                       # #994
+    'registry/named/mattpocock/skills.md',                             # #994
+    'registry/named/obra/subagent-driven-development.md',              # #994
+    'registry/named/obra/superpowers.md',                              # #994
+    'registry/named/obra/using-git-worktrees.md',                      # #994
+    'registry/named/obra/writing-plans.md',                            # #994
+    'registry/named/ruvnet/agentdb.md',                                # #994
+    'registry/named/ruvnet/dual-mode.md',                              # #994
+    'registry/named/ruvnet/reasoningbank.md',                          # #994
+    'registry/named/ruvnet/ruflo-v3.md',                               # #994
+    'registry/named/ruvnet/ruflo.md',                                  # #994
+    'registry/named/safishamsi/graphify.md',                           # #994
+    'registry/named/stanfordnlp/dspy.md',                              # #994
 }
 
 # Also allowlist entire docs/archive/ subtree (all are frozen pre-Yggdrasil snapshots)
@@ -261,8 +308,9 @@ def main():
 
     print('=== Yggdrasil II Rank Vocabulary Guard  (Refs #999) ===')
     print(f'Repo root : {repo_root}')
-    print(f'Banned    : Transcendent, Hardened, "Basic Skill", "Fusion Skill"')
-    print(f'Allowed   : Extra/Ultimate + rank+Skill phrasings ("Extra Skill" etc.); Basic, Fusion (bare types)')
+    print(f'Banned    : Transcendent, Hardened, "Basic Skill", "Fusion Skill", "Extra skill", "Ultimate skill", type=extra, type=ultimate')
+    print(f'Docs-only : G7, G8 (external/public docs only; founder/handovers/** and registry/** exempt)')
+    print(f'Allowed   : Extra Skill / Ultimate Skill (capital-S rank phrasings); Extra/Ultimate bare; Basic, Fusion (bare types)')
     print()
 
     hard, soft = scan(repo_root)
