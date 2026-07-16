@@ -60,6 +60,67 @@
     return window.rankBadge(level, opts || {});
   }
 
+  // ── Yggdrasil II read-time semantics ─────────────────────────────
+  // Branch is DERIVED, never read from ns.type. Delegates to the shared
+  // resolver (docs/js/skill-semantics.js). Rubric E1: no switching on
+  // type==='ultimate'|'unique'|'extra'. Fallback keeps plaques rendering
+  // if skill-semantics.js somehow failed to load (degrade to 'standard').
+  function branchOf(ns) {
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.computeBranch === 'function') {
+      return window.GaiaSemantics.computeBranch(ns, ns && ns.level);
+    }
+    return 'standard';
+  }
+
+  function rankWordOf(level, branch) {
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function') {
+      return window.GaiaSemantics.rankWord(level, branch);
+    }
+    return '';
+  }
+
+  // ── AOV4 medallion resolver ──────────────────────────────────────
+  // The rank medallion IS the Ascension-Overdrive v4 stamp. Suite/standard
+  // branches use the C family (c1..c6); the Unique branch uses the D family
+  // (d4..d6). Size tier (badge/card/hero) is picked by the render variant.
+  var AOV_SUITE_STEM = {
+    1: 'c1-suite-awakened', 2: 'c2-suite-named', 3: 'c3-suite-evolved',
+    4: 'c4-suite-extra', 5: 'c5-suite-ultimate', 6: 'c6-suite-apex',
+  };
+  var AOV_UNIQUE_STEM = {
+    4: 'd4-unique', 5: 'd5-unique-ultimate', 6: 'd6-unique-impossible',
+  };
+
+  // Base path prefix ('' at site root, '../../' on profile pages). Reuses the
+  // same derivation the icon sprite uses so relative asset URLs resolve on
+  // every page depth.
+  function _base() {
+    return (typeof window.gaiaIconBase === 'function')
+      ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
+      : '';
+  }
+
+  // Resolve an AOV4 stamp URL for a branch + rank at a given size tier.
+  function _aovStamp(branch, n, tier) {
+    tier = (tier === 'badge' || tier === 'card' || tier === 'hero') ? tier : 'card';
+    var stem;
+    if (branch === 'unique') {
+      stem = AOV_UNIQUE_STEM[Math.max(4, Math.min(6, n))];
+    } else {
+      stem = AOV_SUITE_STEM[Math.max(1, Math.min(6, n))];
+    }
+    return _base() + 'assets/ascension-overdrive/aov4-' + stem + '-' + tier + '.webp';
+  }
+
+  // Map the legacy CSS size modifier to an AOV size tier.
+  //   'sm' → badge · 'lg' → hero · (none) → card
+  function _sizeTier(sizeModifier) {
+    if (sizeModifier === 'sm') return 'badge';
+    if (sizeModifier === 'lg') return 'hero';
+    return 'card';
+  }
+
+
   function namedSlug(ns) {
     if (typeof window.namedSlug === 'function' && window.namedSlug !== namedSlug) return window.namedSlug(ns);
     if (!ns) return '';
@@ -88,11 +149,25 @@
   // chrome lives in CSS, never JS.
 
   function _fieldOrb(ns, sizeModifier) {
-    var type = (ns && ns.type) || 'basic';
+    var branch = branchOf(ns);
     var n = levelNum(ns && ns.level);
     var mod = sizeModifier ? ' plaque-orb--' + sizeModifier : '';
     var apex = n >= 6 ? ' plaque-orb--vi' : '';
-    return '<div class="plaque-orb plaque-orb--' + esc(type) + mod + apex + '" aria-hidden="true"></div>';
+    // The medallion IS the AOV4 stamp (rubric E3): no CSS-gradient orb
+    // stand-in on named skills. Branch (suite/unique) + rank pick the asset;
+    // the surface's size modifier picks badge/card/hero. Standard-branch
+    // named skills (rank 1..3) render the c1..c3 suite stamps.
+    var tier = _sizeTier(sizeModifier);
+    var src = _aovStamp(branch, n, tier);
+    var rankName = rankWordOf(ns && ns.level, branch);
+    var alt = rankName ? rankName + ' medallion' : 'rank medallion';
+    // Decorative but rank-bearing: keep an accessible label. onerror keeps the
+    // element in flow (no empty hole) — falls back to the tier orb styling.
+    return '<span class="plaque-orb plaque-orb--medallion plaque-orb--' + esc(branch) + mod + apex +
+      '" data-branch="' + esc(branch) + '" role="img" aria-label="' + esc(alt) + '">' +
+      '<img class="plaque-orb__stamp" src="' + esc(src) + '" alt="" decoding="async" loading="lazy" ' +
+      'onerror="this.style.display=\'none\';this.parentNode.setAttribute(\'data-stamp-fail\',\'true\')">' +
+      '</span>';
   }
 
   function _fieldSlug(ns) {

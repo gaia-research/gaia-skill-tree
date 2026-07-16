@@ -611,6 +611,41 @@ button.plaque__slug:focus-visible {
 .plaque-orb--sm { width: 24px; height: 24px; }
 .plaque-orb--lg { width: 52px; height: 52px; }
 
+/* ── AOV4 medallion (Yggdrasil II) ───────────────────────────────
+   The rank medallion IS the Ascension-Overdrive v4 stamp emitted by
+   plaque.js _fieldOrb as <span.plaque-orb--medallion><img></span>.
+   The image fills the orb; if the webp 404s, [data-stamp-fail] falls
+   back to a branch-tinted radial gradient so a rank medallion still
+   reads (never an empty hole). Rubric E3.
+   ============================================================ */
+.plaque-orb--medallion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.plaque-orb__stamp {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+/* Fallback tint keyed on derived branch (not type) when the stamp fails. */
+.plaque-orb--medallion[data-stamp-fail][data-branch="unique"] {
+  background: radial-gradient(circle at 50% 50%,
+    #000 55%, var(--tier-unique) 80%,
+    color-mix(in srgb, var(--tier-unique) 70%, #000) 100%);
+  box-shadow: 0 0 14px rgba(var(--tier-unique-rgb), 0.5), inset 0 0 6px rgba(var(--tier-unique-rgb), 0.3);
+}
+.plaque-orb--medallion[data-stamp-fail][data-branch="suite"],
+.plaque-orb--medallion[data-stamp-fail][data-branch="standard"] {
+  background: radial-gradient(circle at 35% 35%,
+    color-mix(in srgb, var(--tier-fusion) 35%, #fff) 0%,
+    var(--tier-fusion) 60%,
+    color-mix(in srgb, var(--tier-fusion) 70%, #000) 100%);
+  box-shadow: 0 0 12px rgba(var(--tier-fusion-rgb), 0.4);
+}
+
 /* Stage 4 — orb gradients reference tier tokens (--tier-<name>) for the
    dominant colour stop, then color-mix with white/black for the highlight
    and shadow stops. Acceptance: no hardcoded tier hex survives in plaque.css. */
