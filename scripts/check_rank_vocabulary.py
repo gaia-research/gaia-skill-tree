@@ -21,6 +21,12 @@ BANNED PATTERNS  (applied to full scan scope — all case-sensitive unless noted
                             CONTEXT.md §Banned synonyms; capital-S "Ultimate Skill" rank phrasing is VALID.
   type\\s*[=:]\\s*extra    — legacy Yggdrasil I taxonomy field value  (CONTEXT.md §Banned synonyms)
   type\\s*[=:]\\s*ultimate — legacy Yggdrasil I taxonomy field value  (CONTEXT.md §Banned synonyms)
+  \\bapex\\s+tier\\b       — CASE-INSENSITIVE taxonomy-Ultimate synonym; CONTEXT.md §Banned synonyms:
+                            "Ultimate is now the 5★ rank name; Apex is the 6★ Suite rank name.
+                            Never use 'apex tier' as a taxonomy synonym."
+                            scripts/** hard-excluded; generateBadges.py/generateOgCards.py use
+                            it as a legitimate 6★-rank descriptor — confirmed excluded.
+                            Stale positive assertions in other guards/tests should be removed.
 
 DOCS-ONLY BANNED PATTERNS  (root *.md and docs/**/*.md only; added #999 Step 2)
   \\bG7\\b  — internal engineering codename; use "TM Index (2026 Q2)" in public docs
@@ -90,6 +96,13 @@ BANNED_PATTERNS = [
     (re.compile(r'\bUltimate skill\b'),     'Ultimate skill',  'taxonomy-sense Yggdrasil I type word (CONTEXT.md §Banned synonyms); "Ultimate" is the 5★ rank name only; structural role → Fusion. "Ultimate Skill" (capital S) rank phrasing is valid.'),
     (re.compile(r'type\s*[=:]\s*extra'),    'type=extra',      'legacy Yggdrasil I taxonomy field value (CONTEXT.md §Banned synonyms); use type=fusion'),
     (re.compile(r'type\s*[=:]\s*ultimate'), 'type=ultimate',   'legacy Yggdrasil I taxonomy field value (CONTEXT.md §Banned synonyms); use type=fusion'),
+    # Case-insensitive pattern (#999 Step 3)
+    # CONTEXT.md §Banned synonyms: "apex tier" (as taxonomy-Ultimate synonym) is banned.
+    # "Ultimate is now the 5★ rank name; Apex is the 6★ Suite rank name.
+    #  Never use 'apex tier' as a taxonomy synonym."
+    # scripts/** hard-excluded: generateBadges.py + generateOgCards.py use 'apex tier' as
+    # a legitimate 6★-rank descriptor — confirmed excluded via HARD_EXCLUDE_GLOBS.
+    (re.compile(r'\bapex\s+tier\b', re.IGNORECASE), 'apex tier', 'taxonomy-Ultimate synonym — CONTEXT.md §Banned synonyms; Ultimate=5★ rank name, Apex=6★ Suite rank name; never use "apex tier" as a taxonomy synonym. scripts/** hard-excluded.'),
 ]
 
 # ---------------------------------------------------------------------------
@@ -380,7 +393,7 @@ def main():
 
     print('=== Yggdrasil II Rank Vocabulary Guard  (Refs #999) ===')
     print(f'Repo root : {repo_root}')
-    print(f'Banned    : Transcendent, Hardened, "Basic Skill", "Fusion Skill", "Extra skill", "Ultimate skill", type=extra, type=ultimate')
+    print(f'Banned    : Transcendent, Hardened, "Basic Skill", "Fusion Skill", "Extra skill", "Ultimate skill", type=extra, type=ultimate, "apex tier" (case-insensitive)')
     print(f'Docs-only : G7, G8 (external/public docs only; founder/handovers/** and registry/** exempt)')
     print(f'Allowed   : Extra Skill / Ultimate Skill (capital-S rank phrasings); Extra/Ultimate bare; Basic, Fusion (bare types)')
     print()
