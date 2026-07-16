@@ -86,7 +86,7 @@ pip install -e ".[docs]"
 |---|---|
 | `gaia dev validate` | Validate schema, identifiers, DAG cycles, and timelines (`gaia validate` is a deprecated shim) |
 | `gaia dev docs` | Regenerate documentation and assets locally (`gaia docs build` is a deprecated shim) |
-| `gaia dev docs --check` | Verify if generated documentation is up to date (runs in CI) |
+| `gaia dev docs --check` | Regenerate + compare generated docs; fails (exit 1) on drift. NOT read-only — rewrites Class P/S artifacts locally (runs in CI) |
 | `gaia init --user <username>` | Initialize your local Gaia user profile |
 | `gaia scan` | Scan configured paths for skill evidence and generate promotion candidates |
 | `gaia promote <skillId>` | Promote a skill in your tree after a scan |
@@ -249,6 +249,7 @@ Refer to [CLAUDE.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/CLAUD
 
 ### A. Stale Documentation Crash (`gaia dev docs --check` fails)
 * **Symptom:** Modifying `registry/named/` or `registry/nodes/` triggers a CI failure on the docs check.
+* **Heads-up — `--check` is not read-only:** despite the name, it *regenerates* the Class P (gitignored `registry/gaia.json`) and Class S (tracked `docs/graph/*`) artifacts, then fails if the committed Class S output drifts. So running it locally will leave modified files in your working tree — that is expected. Commit the Class S changes; leave Class P (gitignored) alone. See CLAUDE.md § "Class P vs Class S".
 * **Fix (Local):** Run the documentation build locally and commit the regenerated assets with a `[skip-gen]` commit tag so the auto-sync workflow does not double-regenerate:
   ```bash
   gaia dev docs

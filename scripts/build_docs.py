@@ -1456,7 +1456,7 @@ def build_docs_graph_assets(check: bool) -> bool:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build generated Gaia docs regions.")
-    parser.add_argument("--check", action="store_true", help="Fail if generated docs are stale")
+    parser.add_argument("--check", action="store_true", help="Fail (exit 1) if generated docs drift from source. Not read-only: regenerates Class P/S artifacts before comparing (commit any docs/graph/* Class S changes).")
     parser.add_argument("--auto-clean", action="store_true", help="(Opt-in) In write mode, remove left-only generated files in safe bundles (use cautiously)")
     parser.add_argument(
         "--cache-bust-only",
@@ -1620,9 +1620,9 @@ def main(argv: list[str] | None = None) -> int:
         if changed or warnings:
             if warnings:
                 print("\nError: Documentation build encountered errors in --check mode.", file=sys.stderr)
-            print("Generated documentation is stale. Run `gaia dev docs --check` locally.")
-            print("If it reports drift, run `gaia dev docs` and commit the updated files.")
-            print("Validation checks can be run with `gaia dev validate`.")
+            print("Generated documentation is stale (source changed but committed docs/graph/* did not).")
+            print("Note: --check is NOT read-only — it already regenerated the Class S artifacts locally.")
+            print("Run `gaia dev docs` and commit the updated docs/graph/* files (see CLAUDE.md § Class P vs Class S).")
             return 1
         print("Documentation is up to date.")
         return 0

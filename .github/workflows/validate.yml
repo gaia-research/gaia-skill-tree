@@ -72,8 +72,14 @@ jobs:
       #   run: gaia dev validate --intake
 
       - name: Check generated docs
+        # NOTE: `gaia dev docs --check` is NOT read-only. It regenerates the
+        # Class P (gitignored) + Class S (tracked docs/graph/*) artifacts, then
+        # fails (exit 1) if the tracked Class S output drifts from what's
+        # committed. On drift, run `gaia dev docs` locally and commit the
+        # regenerated docs/graph/* files. See CLAUDE.md § "Class P vs Class S".
         run: |
           echo "Equivalent python command for local use: python scripts/build_docs.py --check"
+          echo "(This regenerates + compares generated docs; it is not a read-only verify.)"
           gaia dev docs --check
 
       # NOTE: the full pytest suite (`gaia dev test all`) is owned exclusively by
