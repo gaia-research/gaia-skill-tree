@@ -245,7 +245,7 @@ A GitHub issue opens automatically. Don't worry, we thoroughly review every inta
 claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0
 ```
 
-Connects your AI agent to the public Gaia Skill Tree registry over stdio.
+Connects your AI agent to the public Gaia Skill Tree registry over stdio. Full configuration guidance and planned features are documented on the [Gaia MCP Page](https://research.gaiaskilltree.com/mcp).
 
 ---
 
