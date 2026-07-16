@@ -242,10 +242,10 @@ A GitHub issue opens automatically. Don't worry, we thoroughly review every inta
 **4. MCP Server**
 
 ```bash
-claude mcp add gaia -- npx @gaia-registry/mcp-server
+claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0
 ```
 
-If you wanna be fancy and do all sorts of agentic MCP goodness.
+Connects your AI agent to the public Gaia Skill Tree registry over stdio.
 
 ---
 
