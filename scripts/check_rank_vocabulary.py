@@ -108,7 +108,7 @@ ALLOWLIST_PATHS = {
 
     # ── Root canonical docs (pre-Yggdrasil-II prose still in flight) ────────
     'CONTEXT.md',           # Lexicon entries explicitly documenting deprecated terms
-    'DESIGN.md',            # Legacy rank colour/animation table; refs old rank names
+    # DESIGN.md — REMOVED from allowlist: cleaned to v2 by #994; guard now enforces it
     'GOVERNANCE.md',        # Old "4★ Hardened" threshold + Ultimate/Extra Skill tier names
     # META.md — REMOVED from allowlist: cleaned to v2 by #994 (PR #1170); guard now enforces it
     'PRODUCT.md',           # Product copy referencing old 6★ "Transcendent ★" label
@@ -118,7 +118,7 @@ ALLOWLIST_PATHS = {
     'registry/registry.md',       # Mirror of combinations.md
 
     # ── docs/** pre-Yggdrasil-II docs ────────────────────────────────────────
-    'docs/agent.md',                                         # Old taxonomy definitions
+    # docs/agent.md — REMOVED from allowlist: cleaned to v2 by #994; guard now enforces it
     'docs/agents/frontend-known-issues.md',                  # Historical "Transcendent ★" ref
     'docs/archive/CONTEXT.2026-05-16.md',                    # Frozen snapshot
     'docs/archive/DESIGN.2026-05-16.md',                     # Frozen snapshot
@@ -149,6 +149,7 @@ ALLOWLIST_PATHS = {
     'founder/handovers/design-v6.1.1-ascension-overdrive-shape.md',
     'founder/handovers/design-v6.1.1-ascension-overdrive-shape-v2.md',
     'founder/handovers/design-v6.1.1-ascension-overdrive-shape-v3.md',
+    'founder/handovers/design-v6.1.1-ascension-overdrive-shape-v4.md',  # Design handover; names old terms as banned negative examples
     'founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md',  # Ratification doc references both old and new terms
     'founder/handovers/design-v6.1.1-world-tree-semantic-topology.md',  # v2 topology; changelog names the dropped "Transcendent" term
     'founder/handovers/done/TRUST_METHODOLOGY_REPORT.md',         # Historical report
