@@ -9,6 +9,7 @@ guard for the silent-demotion bug (e.g. semantic-cache, ruvnet, openai).
 from __future__ import annotations
 
 import importlib.util
+import json
 import subprocess
 import sys
 from pathlib import Path
@@ -54,3 +55,84 @@ def test_repo_timelines_are_consistent():
     result = subprocess.run([sys.executable, str(REPO / "scripts" / "validate_timelines.py")],
                             cwd=str(REPO), capture_output=True, text=True)
     assert result.returncode == 0, result.stdout + result.stderr
+
+
+# ---------------------------------------------------------------------------
+# Migration-provenance invariant (#1189) — inline RED/GREEN pure-helper tests
+#
+# check_migration_provenance() reads the registry named-skill index from
+# vt.NAMED_JSON. We point it at a scratch index built inline so the invariant
+# is exercised in isolation, independent of live registry data.
+# ---------------------------------------------------------------------------
+
+_BATCH = "yggdrasil-ii@2026-07-16"
+
+
+def _run_provenance(monkeypatch, tmp_path, entries):
+    """Point check_migration_provenance at a scratch named-skills.json of `entries`."""
+    scratch = tmp_path / "named-skills.json"
+    index = {
+        "generatedAt": "2026-07-16T00:00:00Z",
+        "buckets": {"named": entries},
+        "awaitingClassification": [],
+    }
+    scratch.write_text(json.dumps(index), encoding="utf-8")
+    monkeypatch.setattr(vt, "NAMED_JSON", scratch)
+    return vt.check_migration_provenance()
+
+
+def test_provenance_green_paired_demote_and_type_change(monkeypatch, tmp_path):
+    """GREEN: a demote paired with a type_change sharing the same batch passes."""
+    entries = [{
+        "id": "alice/skill",
+        "timeline": [
+            {"timestamp": "2026-07-16T00:00:00Z", "action": "type_change",
+             "migrationBatch": _BATCH},
+            {"timestamp": "2026-07-16T00:01:00Z", "action": "demote",
+             "migrationBatch": _BATCH, "previousValue": "4★", "newValue": "3★"},
+        ],
+    }]
+    assert _run_provenance(monkeypatch, tmp_path, entries) == []
+
+
+def test_provenance_red_batched_demote_without_type_change(monkeypatch, tmp_path):
+    """RED: a batched demote with no matching type_change is flagged."""
+    entries = [{
+        "id": "bob/skill",
+        "timeline": [
+            {"timestamp": "2026-07-16T00:01:00Z", "action": "demote",
+             "migrationBatch": _BATCH, "previousValue": "4★", "newValue": "3★"},
+        ],
+    }]
+    violations = _run_provenance(monkeypatch, tmp_path, entries)
+    assert len(violations) == 1
+    assert "bob/skill" in violations[0]
+
+
+def test_provenance_red_type_change_different_batch(monkeypatch, tmp_path):
+    """RED: a batched demote whose type_change carries a DIFFERENT batch is flagged."""
+    entries = [{
+        "id": "carol/skill",
+        "timeline": [
+            {"timestamp": "2026-07-16T00:00:00Z", "action": "type_change",
+             "migrationBatch": "yggdrasil-ii@2026-01-01"},
+            {"timestamp": "2026-07-16T00:01:00Z", "action": "demote",
+             "migrationBatch": _BATCH, "previousValue": "4★", "newValue": "3★"},
+        ],
+    }]
+    violations = _run_provenance(monkeypatch, tmp_path, entries)
+    assert len(violations) == 1
+    assert "carol/skill" in violations[0]
+
+
+def test_provenance_control_unbatched_demote_not_flagged(monkeypatch, tmp_path):
+    """CONTROL: a demote with no migrationBatch (e.g. Yggdrasil I) is exempt by absence."""
+    entries = [{
+        "id": "dave/skill",
+        "timeline": [
+            {"timestamp": "2026-06-01T00:00:00Z", "action": "demote",
+             "previousValue": "3★", "newValue": "2★",
+             "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."},
+        ],
+    }]
+    assert _run_provenance(monkeypatch, tmp_path, entries) == []

@@ -255,5 +255,59 @@ class TestNamedSkillValidation(unittest.TestCase):
             shutil.rmtree(temp_named_dir)
 
 
+class TestMetaEpochsMetaSync(unittest.TestCase):
+    """Regression guard for the Yggdrasil II structured-provenance schema (#1189).
+
+    Ensures the metaEpochs enum and the optional metaEpoch/migrationBatch timeline
+    fields exist in lockstep across the canonical registry/schema/ tree and the
+    bundled src/gaia_cli/data/registry/schema/ mirror, and that the pre-existing
+    timeline action enum still admits type_change (which the invariant pairs against).
+    """
+
+    CANONICAL_META = os.path.join(REPO_ROOT, "registry", "schema", "meta.json")
+    BUNDLED_META = os.path.join(
+        REPO_ROOT, "src", "gaia_cli", "data", "registry", "schema", "meta.json")
+    CANONICAL_NAMED = os.path.join(REPO_ROOT, "registry", "schema", "namedSkill.schema.json")
+    BUNDLED_NAMED = os.path.join(
+        REPO_ROOT, "src", "gaia_cli", "data", "registry", "schema", "namedSkill.schema.json")
+    SYNC_SCRIPT = os.path.join(REPO_ROOT, "scripts", "sync_bundled_schemas.py")
+
+    @staticmethod
+    def _load(path):
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    def test_meta_epochs_present_in_both_meta_copies(self):
+        """metaEpochs.order exists and matches in canonical and bundled meta.json."""
+        canonical = self._load(self.CANONICAL_META).get("metaEpochs", {})
+        bundled = self._load(self.BUNDLED_META).get("metaEpochs", {})
+        self.assertIn("yggdrasil-ii", canonical.get("order", []))
+        self.assertIn("yggdrasil-i", canonical.get("order", []))
+        self.assertEqual(canonical.get("order"), bundled.get("order"))
+        self.assertEqual(canonical.get("labels"), bundled.get("labels"))
+
+    def test_bundle_is_byte_identical(self):
+        """sync_bundled_schemas.py --check exits 0 (bundle byte-identical to canonical)."""
+        result = subprocess.run(
+            [sys.executable, self.SYNC_SCRIPT, "--check"],
+            cwd=REPO_ROOT, capture_output=True, text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_named_schema_declares_provenance_fields_in_both_copies(self):
+        """Both namedSkill.schema.json copies declare metaEpoch and migrationBatch."""
+        for path in (self.CANONICAL_NAMED, self.BUNDLED_NAMED):
+            props = (self._load(path)["definitions"]["timelineEvent"]["properties"])
+            self.assertIn("metaEpoch", props, f"metaEpoch missing in {path}")
+            self.assertIn("migrationBatch", props, f"migrationBatch missing in {path}")
+            # migrationBatch must keep its <slug>@YYYY-MM-DD pattern
+            self.assertIn("@", props["migrationBatch"].get("pattern", ""))
+
+    def test_timeline_action_enum_still_contains_type_change(self):
+        """The timeline action enum still admits type_change (paired by the invariant)."""
+        props = self._load(self.CANONICAL_NAMED)["definitions"]["timelineEvent"]["properties"]
+        self.assertIn("type_change", props["action"]["enum"])
+
+
 if __name__ == "__main__":
     unittest.main()
